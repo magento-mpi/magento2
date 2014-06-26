@@ -33,4 +33,34 @@
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
     </route>
+    <route url="/V1/taxRules" method="POST">
+        <service class="Magento\Tax\Service\V1\TaxRuleServiceInterface" method="createTaxRule"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+    <route url="/V1/taxRules" method="PUT">
+        <service class="Magento\Tax\Service\V1\TaxRuleServiceInterface" method="updateTaxRule"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+    <route url="/V1/taxRules/:taxRuleId" method="DELETE">
+        <service class="Magento\Tax\Service\V1\TaxRuleServiceInterface" method="deleteTaxRule"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+    <route url="/V1/taxRules/:taxRuleId" method="GET">
+        <service class="Magento\Tax\Service\V1\TaxRuleServiceInterface" method="getTaxRule"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+    <route url="/V1/taxRules/search" method="PUT">
+        <service class="Magento\Tax\Service\V1\TaxRuleServiceInterface" method="searchTaxRules"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
 </routes>
