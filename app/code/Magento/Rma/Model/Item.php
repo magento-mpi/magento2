@@ -332,9 +332,15 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return float
      */
-    public function getReturnableQty()
+    public function getReturnableQty($orderId = null, $orderItemId = null)
     {
-        $returnableItems = $this->getResource()->getReturnableItems($this->getRma()->getOrderId());
-        return isset($returnableItems[$this->getId()]) ? $returnableItems[$this->getId()] : 0;
+        if (!$orderId) {
+            $orderId = $this->getRma()->getOrderId();
+        }
+        if (!$orderItemId) {
+            $orderItemId = $this->getOrderItemId();
+        }
+        $returnableItems = $this->getResource()->getReturnableItems($orderId);
+        return isset($returnableItems[$orderItemId]) ? $returnableItems[$orderItemId] : 0;
     }
 }

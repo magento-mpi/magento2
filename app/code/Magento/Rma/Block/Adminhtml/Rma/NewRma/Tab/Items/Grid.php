@@ -43,6 +43,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_collectionFactory;
 
     /**
+     * @var \Magento\Rma\Model\Item
+     */
+    protected $rmaItem;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory
@@ -56,11 +61,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Framework\Registry $coreRegistry,
+        \Magento\Rma\Model\Item $rmaItem,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
+        $this->rmaItem = $rmaItem;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -153,7 +160,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'qty_ordered',
             array(
                 'header' => __('Remaining'),
-                'getter' => array($this, 'getQtyOrdered'),
+                'getter' => array($this, 'getRemainingQty'),
                 'type' => 'text',
                 'index' => 'qty_ordered',
                 'sortable' => false,
@@ -252,27 +259,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * Get available for return item quantity
      *
      * @param \Magento\Framework\Object $row
-     * @return int
+     * @return float
      */
-    public function getQtyOrdered($row)
+    public function getRemainingQty($row)
     {
-        $orderItemsData = $this->getOrderItemsData();
-        if (is_array(
-            $orderItemsData
-        ) && isset(
-            $orderItemsData[$row->getOrderItemId()]
-        ) && isset(
-            $orderItemsData[$row->getOrderItemId()]['qty_shipped']
-        ) && isset(
-            $orderItemsData[$row->getOrderItemId()]['qty_returned']
-        )
-        ) {
-            $return = $orderItemsData[$row->getOrderItemId()]['qty_shipped'] -
-                $orderItemsData[$row->getOrderItemId()]['qty_returned'];
-        } else {
-            $return = 0;
-        }
-        return $return;
+        return $this->rmaItem->getReturnableQty($row->getOrderId(), $row->getId());
     }
 
     /**
