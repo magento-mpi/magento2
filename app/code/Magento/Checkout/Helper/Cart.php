@@ -142,9 +142,10 @@ class Cart extends \Magento\Core\Helper\Url
     {
         $url = $this->_getUrl(self::DELETE_URL);
 
-        $data = [
-            'id' => $item->getId()
-        ];
+        $data = ['id' => $item->getId()];
+        if (!$this->_request->isAjax()) {
+            $data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getCurrentBase64Url();
+        }
         return json_encode(array('action' => $url, 'data' => $data));
     }
 
