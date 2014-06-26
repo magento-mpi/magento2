@@ -20,9 +20,6 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\View\DesignInterface */
     protected $_viewDesign;
 
-    /** @var \Magento\Framework\Locale\Hierarchy\Config */
-    protected $_config;
-
     /** @var \Magento\Framework\Cache\FrontendInterface */
     protected $_cache;
 
@@ -56,13 +53,15 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\File\Csv */
     protected $_csvParser;
 
+    /** @var  \Magento\Framework\App\Language\Dictionary|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_packDictionary;
+
     /** @var \Magento\Framework\Filesystem\Directory\ReadInterface */
     protected $_directory;
 
     public function setUp()
     {
         $this->_viewDesign = $this->getMock('\Magento\Framework\View\DesignInterface', [], [], '', false);
-        $this->_config = $this->getMock('\Magento\Framework\Locale\Hierarchy\Config', [], [], '', false);
         $this->_cache = $this->getMock('\Magento\Framework\Cache\FrontendInterface', [], [], '', false);
         $this->_viewFileSystem = $this->getMock('\Magento\Framework\View\FileSystem', [], [], '', false);
         $this->_moduleList = $this->getMock('\Magento\Framework\Module\ModuleList', [], [], '', false);
@@ -73,16 +72,13 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->_appState = $this->getMock('\Magento\Framework\App\State', [], [], '', false);
         $this->_request = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
         $this->_csvParser = $this->getMock('\Magento\Framework\File\Csv', [], [], '', false);
-        $this->_config->expects($this->once())
-            ->method('getHierarchy')
-            ->will($this->returnValue(['en_US' => ['en_GB']]));
+        $this->_packDictionary = $this->getMock('\Magento\Framework\App\Language\Dictionary', [], [], '', false);
         $this->_directory = $this->getMock('\Magento\Framework\Filesystem\Directory\ReadInterface', [], [], '', false);
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())->method('getDirectoryRead')->will($this->returnValue($this->_directory));
 
         $this->_translate = new Translate(
             $this->_viewDesign,
-            $this->_config,
             $this->_cache,
             $this->_viewFileSystem,
             $this->_moduleList,
@@ -93,7 +89,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             $this->_appState,
             $filesystem,
             $this->_request,
-            $this->_csvParser
+            $this->_csvParser,
+            $this->_packDictionary
         );
     }
 
@@ -146,6 +143,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             ->method('getLocaleFileName')
             ->will($this->returnValue('/theme.csv'));
 
+        // _loadPackTranslation
+        $packData = ['pack original' => 'pack translated'];
+        $this->_packDictionary->expects($this->once())->method('getDictionary')->will($this->returnValue($packData));
+
         // _loadDbTranslation()
         $dbData = ['db original' => 'db translated'];
         $this->_resource->expects($this->any())->method('getTranslationArray')->will($this->returnValue($dbData));
@@ -155,11 +156,11 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
         $this->_translate->loadData($area, $forceReload);
 
-        $condition = ($area == 'adminhtml' && !$forceReload) ? true : false;
         $expected = [
             'module original' => 'module translated',
-            ($condition ? 'themethemeId::' : '') . 'theme original' => 'theme translated',
-            ($condition ? 'adminCode::' : '') . 'db original' => 'db translated'
+            'theme original' => 'theme translated',
+            'pack original' => 'pack translated',
+            'db original' => 'db translated'
         ];
         $this->assertEquals($expected, $this->_translate->getData());
     }
@@ -240,6 +241,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->_expectsSetConfig(null, null);
         $this->_moduleList->expects($this->once())->method('getModules')->will($this->returnValue([]));
         $this->_appState->expects($this->once())->method('getAreaCode')->will($this->returnValue('frontend'));
+        $this->_packDictionary->expects($this->once())->method('getDictionary')->will($this->returnValue([]));
         $this->_resource->expects($this->any())->method('getTranslationArray')->will($this->returnValue([]));
         $this->assertEquals($this->_translate, $this->_translate->loadData(null, $forceReload));
     }
