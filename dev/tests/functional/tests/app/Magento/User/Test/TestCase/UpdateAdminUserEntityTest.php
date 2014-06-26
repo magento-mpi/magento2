@@ -71,7 +71,7 @@ class UpdateAdminUserEntityTest extends Injectable
      * @param Dashboard $dashboard
      * @param AdminAuthLogin $adminAuth
      * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @return void
      */
     public function __inject(
         UserIndex $userIndex,
@@ -85,14 +85,6 @@ class UpdateAdminUserEntityTest extends Injectable
         $this->dashboard = $dashboard;
         $this->adminAuth = $adminAuth;
         $this->fixtureFactory = $fixtureFactory;
-
-        $initialUser = $this->fixtureFactory->createByCode(
-            'adminUserInjectable',
-            ['dataSet' => 'custom_admin_with_default_role']
-        );
-        $initialUser->persist();
-
-        return ['initialUser' => $initialUser];
     }
 
     /**
@@ -108,10 +100,11 @@ class UpdateAdminUserEntityTest extends Injectable
         AdminUserInjectable $initialUser,
         $loginAsDefaultAdmin
     ) {
-        // Prepare data
-        $filter = ['username' => $initialUser->getUsername()];
+        // Precondition
+        $initialUser->persist();
 
         // Steps
+        $filter = ['username' => $initialUser->getUsername()];
         if ($loginAsDefaultAdmin == '0') {
             $this->adminAuth->open();
             $this->adminAuth->getLoginBlock()->fill($initialUser);
@@ -121,9 +114,8 @@ class UpdateAdminUserEntityTest extends Injectable
         $this->userIndex->getUserGrid()->searchAndOpen($filter);
         $this->userEdit->getUserForm()->fill($user);
         $this->userEdit->getPageActions()->save();
-        $customAdmin = $this->mergeUsers($user, $initialUser);
 
-        return ['customAdmin' => $customAdmin];
+        return ['customAdmin' => $this->mergeUsers($user, $initialUser)];
     }
 
     /**
@@ -141,13 +133,12 @@ class UpdateAdminUserEntityTest extends Injectable
         if (isset($data['role_id'])) {
             $data['role_id'] = [
                 'role' => ($user->hasData('role_id'))
-                        ? $user->getDataFieldConfig('role_id')['source']->getRole()
-                        : $initialUser->getDataFieldConfig('role_id')['source']->getRole()
+                    ? $user->getDataFieldConfig('role_id')['source']->getRole()
+                    : $initialUser->getDataFieldConfig('role_id')['source']->getRole()
             ];
         }
-        $customAdmin = $this->fixtureFactory->createByCode('adminUserInjectable', ['data' => $data]);
 
-        return $customAdmin;
+        return $this->fixtureFactory->createByCode('adminUserInjectable', ['data' => $data]);
     }
 
     /**

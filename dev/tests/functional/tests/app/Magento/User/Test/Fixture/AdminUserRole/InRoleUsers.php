@@ -22,6 +22,13 @@ use Magento\User\Test\Fixture\AdminUserInjectable;
 class InRoleUsers implements FixtureInterface
 {
     /**
+     * Array with data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * Array with Admin Users
      *
      * @var array
@@ -47,7 +54,7 @@ class InRoleUsers implements FixtureInterface
         if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
             $dataSets = explode(',', $data['dataSet']);
             foreach ($dataSets as $dataSet) {
-                $adminUser = $fixtureFactory->createByCode('adminUserInjectable', ['dataSet' => ltrim($dataSet)]);
+                $adminUser = $fixtureFactory->createByCode('adminUserInjectable', ['dataSet' => trim($dataSet)]);
                 if (!$adminUser->hasData('user_id')) {
                     $adminUser->persist();
                 }

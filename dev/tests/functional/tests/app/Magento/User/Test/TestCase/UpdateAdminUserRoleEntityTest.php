@@ -106,8 +106,8 @@ class UpdateAdminUserRoleEntityTest extends Injectable
 
         return [
             'customAdmin' => $role->hasData('in_role_users')
-                    ? $role->getDataFieldConfig('in_role_users')['source']->getAdminUsers()[0]
-                    : $user,
+                ? $role->getDataFieldConfig('in_role_users')['source']->getAdminUsers()[0]
+                : $user,
         ];
     }
 
