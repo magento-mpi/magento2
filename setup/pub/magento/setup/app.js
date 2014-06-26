@@ -26,23 +26,29 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
             $state.go(navigationService.getNextState().id);
         };
     }])
-    .controller('mainController', ['$scope', function ($scope) {
-        console.log('mainController');
+    .controller('mainController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        $rootScope.$on('$stateChangeSuccess', function (event, state) {
+            $scope.class = 'col-lg-9';
+            if (state.main) {
+                $scope.class = 'col-lg-12';
+            }
+        });
+
     }])
     .service('navigationService', ['$location', '$state', '$http', function ($location, $state, $http) {
         return {
+            mainState: {},
             states: [],
             load: function () {
                 var self = this;
                 $http.get('data/states').success(function (data) {
                     var currentState = $location.path().replace('/', '');
-                    var mainState = {};
                     var isCurrentStateFound = false;
                     self.states = data.nav;
                     data.nav.forEach(function (item) {
                         app.stateProvider.state(item.id, item);
                         if (item.main) {
-                            mainState = item;
+                            self.mainState = item;
                         }
 
                         if (currentState == item.url) {
@@ -51,7 +57,7 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
                         }
                     });
                     if (!isCurrentStateFound) {
-                        $state.go(mainState.id);
+                        $state.go(self.mainState.id);
                     }
                 });
             },
@@ -63,6 +69,9 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
                     }
                 });
                 return nItem;
+            },
+            getMainState: function () {
+                return this.mainState;
             }
         }
     }])

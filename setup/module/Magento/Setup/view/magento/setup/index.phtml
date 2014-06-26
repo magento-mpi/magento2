@@ -1,11 +1,9 @@
 <div class="row">
     <div ng-include="'controls/menu'"></div>
 
-    <div class="container col-lg-9"
-         ng-controller="mainController" id="main">
+    <div class="container {{class}}" ng-controller="mainController" id="main">
         <div ui-view="root">
             <div ui-view></div>
         </div>
     </div>
 </div>
-
