@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
+use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
@@ -65,19 +66,12 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'Search' => 3,
             'Catalog, Search' => 4
         ],
-        'tax_class_id' => [
-            'None' => 0,
-            'Taxable Goods' => 2
-        ],
         'website_ids' => [
             'Main Website' => 1
         ],
         'status' => [
             'Product offline' => 2,
             'Product online' => 1
-        ],
-        'attribute_set_id' => [
-            'Default' => 4
         ]
     ];
 
@@ -261,28 +255,5 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         }
 
         return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/back/edit';
-    }
-
-    /**
-     * Replace mapping data in fixture data
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function replaceMappingData(array $data)
-    {
-        $mapping = $this->mappingData;
-        foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                $data[$key] = $this->replaceMappingData($value);
-            } else {
-                if (!isset($mapping[$key])) {
-                    continue;
-                }
-                $data[$key] = isset($mapping[$key][$value]) ? $mapping[$key][$value] : $value;
-            }
-        }
-
-        return $data;
     }
 }

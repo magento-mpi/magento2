@@ -10,12 +10,13 @@ namespace Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class GroupedProducts
+ * Class Associated
  * Grouped selections preset
  */
-class GroupedProducts implements FixtureInterface
+class Associated implements FixtureInterface
 {
     /**
      * Current preset
@@ -44,7 +45,19 @@ class GroupedProducts implements FixtureInterface
         if (!empty($this->data['products'])) {
             foreach ($this->data['products'] as $key => $product) {
                 list($fixture, $dataSet) = explode('::', $product);
-                $this->data['products'][$key] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                /** @var $productFixture InjectableFixture */
+                $productFixture = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                if (!$productFixture->hasData('id')) {
+                    $productFixture->persist();
+                }
+
+                $this->data['products'][$key] = $productFixture;
+            }
+
+            $assignedProducts = & $this->data['assigned_products'];
+            foreach (array_keys($assignedProducts) as $key) {
+                $assignedProducts[$key]['id'] = $this->data['products'][$key]->getId();
+                $assignedProducts[$key]['position'] = $key + 1;
             }
         }
 
@@ -55,30 +68,19 @@ class GroupedProducts implements FixtureInterface
     }
 
     /**
-     * Persist grouped selections products
+     * Persists prepared data into application
      *
      * @return void
      */
     public function persist()
     {
-        if (!empty($this->data['products'])) {
-            foreach ($this->data['products'] as $product) {
-                /** @var $product FixtureInterface */
-                $product->persist();
-            }
-
-            $assignedProducts = & $this->data['assigned_products'];
-            foreach (array_keys($assignedProducts) as $key) {
-                $assignedProducts[$key]['id'] = $this->data['products'][$key]->getId();
-                $assignedProducts[$key]['position'] = $key + 1;
-            }
-        }
+        //
     }
 
     /**
      * Return prepared data set
      *
-     * @param string $key [optional]
+     * @param string|null $key [optional]
      * @return mixed
      */
     public function getData($key = null)

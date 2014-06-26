@@ -83,7 +83,6 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_set_id' => ['dataSet' => 'default'],
         'price' => ['value' => 100.00],
         'weight' => 12.0000,
-        'qty' => 10,
         'quantity_and_stock_status' => [
             'qty' => 10.0000,
             'is_in_stock' => 'In Stock',

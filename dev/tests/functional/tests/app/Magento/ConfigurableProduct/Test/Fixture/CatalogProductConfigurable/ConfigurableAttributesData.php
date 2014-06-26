@@ -10,6 +10,7 @@ namespace Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class ConfigurableAttributesData
@@ -41,18 +42,34 @@ class ConfigurableAttributesData implements FixtureInterface
             $this->data = $this->getPreset($this->currentPreset);
         }
 
-        if (!empty($this->data['attributes'])) {
-            foreach ($this->data['attributes'] as $key => $attribute) {
-                list($fixture, $dataSet) = explode('::', $attribute);
-                $this->data['attributes'][$key] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-            }
-        }
-
         if (!empty($this->data['products'])) {
             foreach ($this->data['products'] as $key => $product) {
                 list($fixture, $dataSet) = explode('::', $product);
-                $this->data['products'][$key] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                /** @var $productFixture InjectableFixture */
+                $productFixture = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                if (!$productFixture->hasData('id')) {
+                    $productFixture->persist();
+                }
+                $this->data['products'][$key] = $productFixture;;
             }
+        }
+
+        if (!empty($this->data['attributes'])) {
+            foreach ($this->data['attributes'] as $key => $attribute) {
+                list($fixture, $dataSet) = explode('::', $attribute);
+                /** @var $attributeFixture InjectableFixture */
+                $attributeFixture = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                if (!$attributeFixture->hasData('id')) {
+                    $attributeFixture->persist();
+                }
+                $this->data['attributes'][$key] = $attributeFixture;
+            }
+            // Set options used.
+            $this->setOptions();
+            // Initialization data matrix
+            $this->matrixInit();
+            // Assigning products
+            $this->assigningProducts();
         }
 
         if ($persist) {
@@ -67,133 +84,162 @@ class ConfigurableAttributesData implements FixtureInterface
      */
     public function persist()
     {
-        if (!empty($this->data['products'])) {
-            foreach ($this->data['products'] as $product) {
-                /** @var $product FixtureInterface */
-                $product->persist();
+        //
+    }
+
+    /**
+     * Set options used
+     *
+     * @return void
+     */
+    protected function setOptions()
+    {
+        $fixtures = $this->data['attributes'];
+        foreach (array_keys($this->data['attributes_data']) as $key) {
+            $fixtureData = $fixtures[$key]->getData();
+            $this->data['attributes_data'][$key]['id'] = $fixtureData['attribute_id'];
+            $this->data['attributes_data'][$key]['title'] = $fixtureData['frontend_label'];
+            $this->data['attributes_data'][$key]['code'] = $fixtureData['frontend_label'];
+            foreach ($this->data['attributes_data'][$key]['options'] as $optionKey => &$value) {
+                $value['id'] = $fixtureData['options'][$optionKey + 1]['id'];
+                $value['name'] = $fixtureData['options'][$optionKey + 1]['view'];
             }
+            unset($value);
+        }
+    }
+
+    /**
+     * Prepare data for matrix
+     *
+     * @return array
+     */
+    protected function prepareDataMatrix()
+    {
+        $attributes = [];
+        foreach ($this->data['attributes_data'] as $attributeKey => $attribute) {
+            $options = [];
+            foreach ($attribute['options'] as $optionKey => $option) {
+                if ($option['include'] === 'Yes') {
+                    $option['key'] = $optionKey;
+                    $options[] = $option;
+                }
+            }
+            $attributes[] = [
+                'key' => $attributeKey,
+                'id' => $attribute['id'],
+                'code' => $attribute['code'],
+                'options' => $options
+            ];
         }
 
-        if (!empty($this->data['attributes'])) {
-            foreach ($this->data['attributes'] as $attribute) {
-                /** @var $attribute FixtureInterface */
-                $attribute->persist();
+        return $attributes;
+    }
+
+    /**
+     * Generation variants
+     *
+     * @return array
+     */
+    protected function generationVariants()
+    {
+        $attributes = array_reverse($this->prepareDataMatrix());
+        $variations = [];
+        $attributesCount = count($attributes);
+        $currentVariation = array_fill(0, $attributesCount, 0);
+        $lastAttribute = $attributesCount - 1;
+        do {
+            for ($attributeIndex = 0; $attributeIndex < $attributesCount - 1; ++$attributeIndex) {
+                if ($currentVariation[$attributeIndex] >= count($attributes[$attributeIndex]['options'])) {
+                    $currentVariation[$attributeIndex] = 0;
+                    ++$currentVariation[$attributeIndex + 1];
+                }
+            }
+            if ($currentVariation[$lastAttribute] >= count($attributes[$lastAttribute]['options'])) {
+                break;
             }
 
-            // Set options used
-            $fixtures = $this->data['attributes'];
-            foreach (array_keys($this->data['attributes_data']) as $key) {
-                $fixtureData = $fixtures[$key]->getData();
-                $this->data['attributes_data'][$key]['id'] = $fixtureData['attribute_id'];
-                $this->data['attributes_data'][$key]['title'] = $fixtureData['frontend_label'];
-                $this->data['attributes_data'][$key]['code'] = $fixtureData['frontend_label'];
-                foreach ($this->data['attributes_data'][$key]['options'] as $optionKey => &$value) {
-                    $value['id'] = $fixtureData['options'][$optionKey + 1]['id'];
-                    $value['name'] = $fixtureData['options'][$optionKey + 1]['view'];
-                }
-                unset($value);
+            $filledVariation = [];
+            for ($attributeIndex = $attributesCount; $attributeIndex--;) {
+                $currentAttribute = $attributes[$attributeIndex];
+                $currentVariationValue = $currentVariation[$attributeIndex];
+                $filledVariation[$currentAttribute['key']] = $currentAttribute['options'][$currentVariationValue];
+                $filledVariation[$currentAttribute['key']]['code'] = $currentAttribute['code'];
             }
 
-            // Prepare data for matrix
-            $attributes = [];
-            foreach ($this->data['attributes_data'] as $attributeKey => $attribute) {
-                $options = [];
-                foreach ($attribute['options'] as $optionKey => $option) {
-                    if ($option['include'] === 'Yes') {
-                        $option['key'] = $optionKey;
-                        $options[] = $option;
-                    }
-                }
-                $attributes[] = [
-                    'key' => $attributeKey,
-                    'id' => $attribute['id'],
-                    'code' => $attribute['code'],
-                    'options' => $options
+            $variationsKeys = [];
+            $placeholder = [];
+            $optionsNames = [];
+            foreach ($filledVariation as $key => $option) {
+                $variationKey = sprintf('%%attribute_%d-option_%d%%', $key, $option['key']);
+                $variationsKeys[] = $variationKey;
+                $keyName = sprintf('%%attribute_%d-option_%d_name%%', $key, $option['key']);
+                $keyId = sprintf('%%attribute_%d-option_%d_id%%', $key, $option['key']);
+                $attributeCode = sprintf('%%attribute_%d_code%%', $key);
+                $optionsNames[] = $option['name'];
+                $placeholder += [
+                    $keyName => $option['name'],
+                    $keyId => $option['id'],
+                    $variationKey => $option['id'],
+                    $attributeCode => $option['code']
                 ];
             }
 
-            // Generation variants
-            $variations = [];
-            $attributes = array_reverse($attributes);
-            $attributesCount = count($attributes);
-            $currentVariation = array_fill(0, $attributesCount, 0);
-            $lastAttribute = $attributesCount - 1;
-            do {
-                for ($attributeIndex = 0; $attributeIndex < $attributesCount - 1; ++$attributeIndex) {
-                    if ($currentVariation[$attributeIndex] >= count($attributes[$attributeIndex]['options'])) {
-                        $currentVariation[$attributeIndex] = 0;
-                        ++$currentVariation[$attributeIndex + 1];
-                    }
-                }
-                if ($currentVariation[$lastAttribute] >= count($attributes[$lastAttribute]['options'])) {
-                    break;
-                }
+            $variationsKey = implode('-', $variationsKeys);
+            $variations[$variationsKey]['placeholder'] = $placeholder;
+            $variations[$variationsKey]['options_names'] = $optionsNames;
+            $currentVariation[0]++;
+        } while (true);
 
-                $filledVariation = [];
-                for ($attributeIndex = $attributesCount; $attributeIndex--;) {
-                    $currentAttribute = $attributes[$attributeIndex];
-                    $currentVariationValue = $currentVariation[$attributeIndex];
-                    $filledVariation[$currentAttribute['key']] = $currentAttribute['options'][$currentVariationValue];
-                    $filledVariation[$currentAttribute['key']]['code'] = $currentAttribute['code'];
-                }
+        return $variations;
+    }
 
-                $variationsKeys = [];
-                $placeholder = [];
-                $optionsNames = [];
-                foreach ($filledVariation as $key => $option) {
-                    $variationKey = sprintf('%%attribute_%d-option_%d%%', $key, $option['key']);
-                    $variationsKeys[] = $variationKey;
-                    $keyName = sprintf('%%attribute_%d-option_%d_name%%', $key, $option['key']);
-                    $keyId = sprintf('%%attribute_%d-option_%d_id%%', $key, $option['key']);
-                    $attributeCode = sprintf('%%attribute_%d_code%%', $key);
-                    $optionsNames[] = $option['name'];
-                    $placeholder += [
-                        $keyName => $option['name'],
-                        $keyId => $option['id'],
-                        $variationKey => $option['id'],
-                        $attributeCode => $option['code']
-                    ];
-                }
+    /**
+     * Initialization data matrix
+     *
+     * @return void
+     */
+    protected function matrixInit()
+    {
+        // Generation variants
+        $variations = $this->generationVariants();
 
-                $variationsKey = implode('-', $variationsKeys);
-                $variations[$variationsKey]['placeholder'] = $placeholder;
-                $variations[$variationsKey]['options_names'] = $optionsNames;
-                $currentVariation[0]++;
-            } while (true);
-
-            // Initialization data matrix
-            foreach ($this->data['matrix'] as $key => $data) {
-                if (isset($variations[$key])) {
-                    foreach ($this->data['matrix'][$key] as $innerKey => &$value) {
-                        if ($innerKey === 'configurable_attribute') {
-                            $value = strtr(json_encode($value), $variations[$key]['placeholder']);
-                        } elseif (is_string($value)) {
-                            $value = strtr($value, $variations[$key]['placeholder']);
-                        }
-                    }
-                    unset($value);
-                    $newKey = strtr($key, $variations[$key]['placeholder']);
-                    $this->data['matrix'][$newKey] = $this->data['matrix'][$key];
-                    $this->data['matrix'][$newKey]['options_names'] = $variations[$key]['options_names'];
-                    unset($this->data['matrix'][$key]);
-                }
-            }
-
-            // Assigning products
-            foreach ($this->data['products'] as $key => $product) {
-                foreach ($this->data['matrix'] as &$value) {
-                    if (isset($value['associated_product_ids'][$key])) {
-                        unset($value['associated_product_ids'][$key]);
-                        /** @var $attribute FixtureInterface */
-                        $value['associated_product_ids'][] = $product->getId();
-                        $value['name'] = $product->getName();
-                        $value['sku'] = $product->getSku();
+        foreach ($this->data['matrix'] as $key => $data) {
+            if (isset($variations[$key])) {
+                foreach ($this->data['matrix'][$key] as $innerKey => &$value) {
+                    if ($innerKey === 'configurable_attribute') {
+                        $value = strtr(json_encode($value), $variations[$key]['placeholder']);
+                    } elseif (is_string($value)) {
+                        $value = strtr($value, $variations[$key]['placeholder']);
                     }
                 }
                 unset($value);
+                $newKey = strtr($key, $variations[$key]['placeholder']);
+                $this->data['matrix'][$newKey] = $this->data['matrix'][$key];
+                $this->data['matrix'][$newKey]['options_names'] = $variations[$key]['options_names'];
+                unset($this->data['matrix'][$key]);
             }
         }
-        sleep(1);
+    }
+
+    /**
+     * Assigning products
+     *
+     * @return void
+     */
+    protected function assigningProducts()
+    {
+        foreach ($this->data['products'] as $key => $product) {
+            foreach ($this->data['matrix'] as &$value) {
+                if (isset($value['associated_product_ids'][$key])) {
+                    unset($value['associated_product_ids'][$key]);
+                    /** @var $attribute InjectableFixture */
+                    $value['associated_product_ids'][] = $product->getId();
+                    $value['name'] = $product->getName();
+                    $value['sku'] = $product->getSku();
+                }
+            }
+            unset($value);
+        }
     }
 
     /**

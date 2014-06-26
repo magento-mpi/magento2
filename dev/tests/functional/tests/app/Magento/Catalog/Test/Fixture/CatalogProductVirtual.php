@@ -81,7 +81,10 @@ class CatalogProductVirtual extends InjectableFixture
         'name' => 'Test virtual product %isolation%',
         'sku' => 'sku_test_virtual_product_%isolation%',
         'price' => ['value' => 100.00],
-        'qty' => 10,
+        'quantity_and_stock_status' => [
+            'qty' => 10.0000,
+            'is_in_stock' => 'In Stock',
+        ],
         'is_virtual' => 'Yes'
     ];
 

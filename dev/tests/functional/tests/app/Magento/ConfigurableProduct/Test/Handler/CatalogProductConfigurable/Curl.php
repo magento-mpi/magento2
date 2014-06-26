@@ -57,11 +57,39 @@ class Curl extends ProductCurl implements CatalogProductConfigurableInterface
 
         // Preparing attribute data
         $attributesIds = [];
-        $data['configurable_attributes_data'] = [];
+        $data['configurable_attributes_data'] = $this->preparingAttributeData($attributesData, $attributesIds);
+        $matrix = $this->preparingMatrixData(
+            $matrix,
+            [
+                '%product_name%' => $data['name'],
+                '%product_sku%' => $data['sku'],
+            ]
+        );
+
+        // Add prefix data
+        $data = $prefix ? [$prefix => $data] : $data;
+        $data['attributes'] = $attributesIds;
+
+        $data = array_merge($data, $this->prepareVariationsMatrix($matrix));
+        $data['new-variations-attribute-set-id'] = $attributeSetId;
+
+        return $this->replaceMappingData($data);
+    }
+
+    /**
+     * Preparing attribute data
+     *
+     * @param array $attributesData
+     * @param array $attributesIds [link]
+     * @return array
+     */
+    protected function preparingAttributeData(array $attributesData, array &$attributesIds)
+    {
+        $data = [];
         foreach ($attributesData as $attribute) {
             $attributesIds[] = $attribute['id'];
-            $data['configurable_attributes_data'][$attribute['id']] = [];
-            $dataOption = & $data['configurable_attributes_data'][$attribute['id']];
+            $data[$attribute['id']] = [];
+            $dataOption = & $data[$attribute['id']];
             $dataOption['code'] = $attribute['title'];
             $dataOption['label'] = $attribute['title'];
             $dataOption['attribute_id'] = $attribute['id'];
@@ -72,20 +100,19 @@ class Curl extends ProductCurl implements CatalogProductConfigurableInterface
                 $dataOption['values'][$option['id']]['value_index'] = $option['id'];
             }
         }
-        unset($dataOption);
 
-        // Create placeholder
-        $placeholder = [
-            '%product_name%' => $data['name'],
-            '%product_sku%' => $data['sku'],
-        ];
+        return $data;
+    }
 
-        // Add prefix data
-        $data = $prefix ? [$prefix => $data] : $data;
-
-        $data['attributes'] = $attributesIds;
-
-        // Preparing matrix data
+    /**
+     * Preparing matrix data
+     *
+     * @param array $matrix
+     * @param array $placeholder
+     * @return array
+     */
+    protected function preparingMatrixData(array $matrix, array $placeholder)
+    {
         foreach (array_keys($matrix) as $key) {
             foreach ($matrix[$key] as &$value) {
                 if (is_string($value)) {
@@ -93,10 +120,22 @@ class Curl extends ProductCurl implements CatalogProductConfigurableInterface
                 }
             }
         }
-        unset($value);
 
-        $data['variations-matrix'] = [];
-        $data['associated_product_ids'] = [];
+        return $matrix;
+    }
+
+    /**
+     * Prepare variations matrix data
+     *
+     * @param array $matrix
+     * @return array
+     */
+    protected function prepareVariationsMatrix(array $matrix)
+    {
+        $data = [
+            'variations-matrix' => [],
+            'associated_product_ids' => []
+        ];
         foreach ($matrix as $key => $variation) {
             $data['associated_product_ids'] = array_merge(
                 $data['associated_product_ids'],
@@ -108,8 +147,7 @@ class Curl extends ProductCurl implements CatalogProductConfigurableInterface
             $data['variations-matrix'][$key]['quantity_and_stock_status']['qty'] = $variation['qty'];
             $data['variations-matrix'][$key]['weight'] = $variation['weight'];
         }
-        $data['new-variations-attribute-set-id'] = $attributeSetId;
 
-        return $this->replaceMappingData($data);
+        return $data;
     }
 }

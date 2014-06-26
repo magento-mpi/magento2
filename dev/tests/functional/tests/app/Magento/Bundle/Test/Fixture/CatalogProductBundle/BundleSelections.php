@@ -10,6 +10,7 @@ namespace Magento\Bundle\Test\Fixture\CatalogProductBundle;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class BundleSelections
@@ -21,12 +22,12 @@ class BundleSelections implements FixtureInterface
      * "Selections" source constructor
      *
      * @param FixtureFactory $fixtureFactory
-     * @param $data
+     * @param array $data
      * @param array $params [optional]
      * @param bool $persist [optional]
      * @throws \Exception
      */
-    public function __construct(FixtureFactory $fixtureFactory, $data, array $params = [], $persist = false)
+    public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [], $persist = false)
     {
         $this->params = $params;
 
@@ -46,9 +47,22 @@ class BundleSelections implements FixtureInterface
                 $productSelection = [];
                 foreach ($products as $product) {
                     list($fixture, $dataSet) = explode('::', $product);
-                    $productSelection[] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                    /** @var $productFixture InjectableFixture */
+                    $productFixture = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                    if (!$productFixture->hasData('id')) {
+                        $productFixture->persist();
+                    }
+                    $productSelection[] = $productFixture;
                 }
                 $this->data['products'][] = $productSelection;
+            }
+
+            foreach ($this->data['bundle_options'] as $optionKey => &$bundleOption) {
+                foreach ($bundleOption['assigned_products'] as $productKey => &$assignedProducts) {
+                    $assignedProducts['search_data']['name'] = $this->data['products'][$optionKey][$productKey]
+                        ->getName();
+                }
+                unset($bundleOption, $assignedProducts);
             }
         }
 
@@ -58,27 +72,13 @@ class BundleSelections implements FixtureInterface
     }
 
     /**
-     * Persist bundle selections products
+     * Persists prepared data into application
      *
      * @return void
      */
     public function persist()
     {
-        if (!empty($this->data['products'])) {
-            foreach ($this->data['products'] as $selections) {
-                foreach ($selections as $product) {
-                    /** @var $product FixtureInterface */
-                    $product->persist();
-                }
-            }
-
-            foreach ($this->data['bundle_options'] as $optionKey => &$bundleOption) {
-                foreach ($bundleOption['assigned_products'] as $productKey => &$assignedProducts) {
-                    $assignedProducts['search_data']['name'] = $this->data['products'][$optionKey][$productKey]
-                        ->getName();
-                }
-            }
-        }
+        //
     }
 
     /**
@@ -117,7 +117,7 @@ class BundleSelections implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string|null $key [optional]
      * @return mixed
      */
     public function getData($key = null)
@@ -138,7 +138,7 @@ class BundleSelections implements FixtureInterface
     /**
      * Getting preset data
      *
-     * @param $name
+     * @param string $name
      * @return mixed
      * @throws \InvalidArgumentException
      */

@@ -50,7 +50,6 @@ class GiftCardProduct extends AbstractRepository
             'use_config_allow_message' => 'Yes',
             'email_template' => 'Gift Card(s) Purchase (Default)',
             'use_config_email_template' => 'Yes',
-            'qty' => 25,
             'visibility' => 'Catalog, Search',
             'url_key' => 'test-product-giftcard-%isolation%',
             'news_from_date' => ['pattern' => 'm/d/Y -5 days'],
@@ -59,7 +58,7 @@ class GiftCardProduct extends AbstractRepository
             'use_config_gift_wrapping_available' => 'Yes',
             'gift_wrapping_price' => 100,
             'website_ids' => ['Main Website'],
-            'attribute_set_id' => 'Default',
+            'attribute_set_id' => ['dataSet' => 'default']
         ];
     }
 }

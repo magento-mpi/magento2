@@ -130,7 +130,7 @@ class CatalogProductGrouped extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '1',
         'group' => 'grouped',
-        'source' => 'Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped\GroupedProducts',
+        'source' => 'Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped\Associated',
     ];
 
     protected $custom_design_from = [
