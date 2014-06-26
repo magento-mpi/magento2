@@ -290,7 +290,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->productMock->expects($this->once())->method('reset');
         $this->productMock->expects($this->once())->method('load')->with(1);
-       $this->writeService->add(self::PRODUCT_SKU, $optionData);
+        $this->writeService->add(self::PRODUCT_SKU, $optionData);
     }
 
     /**
