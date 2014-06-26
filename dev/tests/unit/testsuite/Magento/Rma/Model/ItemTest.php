@@ -82,13 +82,13 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->with($this->equalTo(4))
             ->will($this->returnSelf());
-        $this->rmaMock->expects($this->exactly(2))
+        $this->rmaMock->expects($this->once())
             ->method('getOrderId')
             ->will($this->returnValue(3));
         $this->resourceMock->expects($this->once())
             ->method('getReturnableItems')
             ->with($this->equalTo(3))
-            ->will($this->returnValue([3 => 100.50]));
+            ->will($this->returnValue([3 => 50.50, 4 => 50.00]));
         $this->assertEquals(100.50, $this->model->getReturnableQty());
     }
 }

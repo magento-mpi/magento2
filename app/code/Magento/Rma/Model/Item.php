@@ -335,6 +335,6 @@ class Item extends \Magento\Framework\Model\AbstractModel
     public function getReturnableQty()
     {
         $returnableItems = $this->getResource()->getReturnableItems($this->getRma()->getOrderId());
-        return $returnableItems[$this->getRma()->getOrderId()];
+        return array_sum($returnableItems);
     }
 }
