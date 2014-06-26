@@ -475,7 +475,6 @@ Mixed,Mixed
 "A PDF object is not specified.","A PDF object is not specified."
 "A PDF page object is not specified.","A PDF page object is not specified."
 "Packing Slip # ","Packing Slip # "
-"The PDF total model %1 must be or extend \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal.","The PDF total model %1 must be or extend \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal."
 "We cannot register an existing shipment","We cannot register an existing shipment"
 "We cannot create an empty shipment.","We cannot create an empty shipment."
 "We found an invalid qty to ship for item ""%1"".","We found an invalid qty to ship for item ""%1""."
