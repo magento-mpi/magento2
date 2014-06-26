@@ -114,7 +114,7 @@ class WriteService implements WriteServiceInterface
         $option = $this->optionFactory->create();
         $option->load($optionId);
         if (!$option->getId() || !isset($options[$option->getId()])) {
-            throw NoSuchEntityException::singleField('option_id', $option->getOptions());
+            throw NoSuchEntityException::singleField('optionId', $optionId);
         }
 
         unset($options[$optionId]);
