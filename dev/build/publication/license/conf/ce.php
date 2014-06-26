@@ -28,6 +28,7 @@ $config = array(
     'app/code/Zend'         => $magentoOslAfl,
     'app/design'            => $magentoAfl,
     'app/etc'               => array('xml' => 'AFL'),
+    'app/i18n'              => array('xml' => 'AFL'),
     'dev'                   => array_merge($magentoOslAfl, array('sql' => 'OSL', 'html' => 'AFL')),
     'downloader'            => $magentoOslAfl,
     'lib/internal/flex'     => array('xml' => 'AFL', 'flex' => 'AFL'),

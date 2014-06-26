@@ -195,6 +195,7 @@ class MultiselectgrouplistElement extends MultiselectElement
      * Get value
      *
      * @return array
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getValue()
     {

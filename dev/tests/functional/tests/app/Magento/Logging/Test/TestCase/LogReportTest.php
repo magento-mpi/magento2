@@ -39,9 +39,6 @@ class LogReportTest extends Functional
         $systemConfigPage = Factory::getPageFactory()->getAdminSystemConfig();
         $logReportPage = Factory::getPageFactory()->getAdminLogging();
 
-        //Blocks
-        $configForm = $systemConfigPage->getForm();
-
         //Step: Login first user
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($configUser);

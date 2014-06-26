@@ -128,8 +128,9 @@ class CloseOrder extends Curl
         $response = $this->_executeCurl($url, $data);
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("URL: $url\n"
-            . "Submitting shipment by curl handler was not successful! Response: $response");
+            throw new \Exception(
+                "URL: $url\n" . "Submitting shipment by curl handler was not successful! Response: $response"
+            );
         }
 
         // Click Invoice button if the payment action is not 'Sale'
