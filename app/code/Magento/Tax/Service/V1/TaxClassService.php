@@ -159,6 +159,7 @@ class TaxClassService implements TaxClassServiceInterface
      * Validate TaxClass Data
      *
      * @param TaxClassDataObject $taxClass
+     * @return void
      * @throws InputException
      */
     protected function validateTaxClassData(TaxClassDataObject $taxClass)
