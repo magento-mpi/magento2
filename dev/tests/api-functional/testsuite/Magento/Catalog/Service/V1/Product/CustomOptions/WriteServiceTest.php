@@ -437,6 +437,7 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     * @magentoAppIsolation enabled
      */
     public function testOptionValueRemoval()
     {
@@ -487,6 +488,7 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     * @magentoAppIsolation enabled
      */
     public function testLastOptionValueRemoval()
     {
