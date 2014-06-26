@@ -88,7 +88,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->resourceMock->expects($this->once())
             ->method('getReturnableItems')
             ->with($this->equalTo(3))
-            ->will($this->returnValue([3 => 50.50, 4 => 50.00]));
+            ->will($this->returnValue([3 => 100.50, 4 => 50.00]));
         $this->assertEquals(100.50, $this->model->getReturnableQty());
     }
 }
