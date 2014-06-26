@@ -71,6 +71,7 @@ class Action extends \Magento\Framework\Model\AbstractModel
         $this->_indexIndexer = $indexIndexer;
         $this->categoryIndexer = $categoryIndexer;
         $this->_eavConfig = $eavConfig;
+        $this->_productEavIndexerProcessor = $productEavIndexerProcessor;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
