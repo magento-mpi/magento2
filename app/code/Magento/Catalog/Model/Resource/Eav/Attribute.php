@@ -237,15 +237,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      */
     protected function _isEnabledInFlat()
     {
-        return $this->getData(
-                'backend_type'
-            ) == 'static' || $this->_productFlatIndexerHelper->isAddFilterableAttributes() && $this->getData(
-                'is_filterable'
-            ) > 0 || $this->getData(
-                'used_in_product_listing'
-            ) == 1 || $this->getData(
-                'used_for_sort_by'
-            ) == 1;
+        return $this->getData('backend_type') == 'static'
+            || $this->_productFlatIndexerHelper->isAddFilterableAttributes()
+            && $this->getData('is_filterable') > 0
+            || $this->getData('used_in_product_listing') == 1
+            || $this->getData('used_for_sort_by') == 1;
     }
 
     /**
@@ -255,15 +251,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      */
     protected function _isOriginalEnabledInFlat()
     {
-        return $this->getOrigData(
-                'backend_type'
-            ) == 'static' || $this->_productFlatIndexerHelper->isAddFilterableAttributes() && $this->getOrigData(
-                'is_filterable'
-            ) > 0 || $this->getOrigData(
-                'used_in_product_listing'
-            ) == 1 || $this->getOrigData(
-                'used_for_sort_by'
-            ) == 1;
+        return $this->getOrigData('backend_type') == 'static'
+            || $this->_productFlatIndexerHelper->isAddFilterableAttributes()
+            && $this->getOrigData('is_filterable') > 0
+            || $this->getOrigData('used_in_product_listing') == 1
+            || $this->getOrigData('used_for_sort_by') == 1;
     }
 
     /**
