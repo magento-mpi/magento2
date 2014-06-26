@@ -19,7 +19,7 @@ Magento/GiftCard/Model/Attribute/Backend/Giftcard
 Magento/GiftCardAccount/Block/
 Magento/GiftWrapping/Block
 Magento/GiftWrapping/Model/Total/Quote/Tax
-Magento/ScheduledImportExport/Model/Import/Entity/Eav/Customer
+Magento/CustomerFinance/Model/ImportExport/Import/Eav/Customer
 Magento/ScheduledImportExport/Block/Adminhtml/Scheduled/Operation/Edit/Form
 Magento/WebsiteRestriction/Model/System/Config/Backend
 Magento/Invitation

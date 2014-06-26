@@ -37,6 +37,8 @@ class Login extends Form
      * Login to Paypal account
      *
      * @param Customer $fixture
+     *
+     * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      */
     public function login(Customer $fixture)
     {
