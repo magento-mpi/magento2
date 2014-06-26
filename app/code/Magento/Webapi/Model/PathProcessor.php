@@ -47,16 +47,17 @@ class PathProcessor
      */
     public function process($pathInfo)
     {
-        $path = '';
         $pathParts = $this->stripPathBeforeStorecode($pathInfo);
         $storeCode = $pathParts[0];
         $stores = $this->storeManager->getStores(false, true);
         if (isset($stores[$storeCode])) {
             $this->storeManager->setCurrentStore($storeCode);
             $path = '/' . (isset($pathParts[1]) ? $pathParts[1] : '');
+            return $path;
         } else {
             $this->storeManager->setCurrentStore(\Magento\Store\Model\Store::DEFAULT_CODE);
+            $path = '/' . implode('/', $pathParts);
+            return $path;
         }
-        return $path;
     }
 }

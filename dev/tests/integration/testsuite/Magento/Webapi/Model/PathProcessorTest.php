@@ -45,7 +45,8 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     public function testProcessWithoutStoreCode()
     {
         $path = 'rest/V1/customerAccounts/createCustomer';
-        $this->pathProcessor->process($path);
+        $result = $this->pathProcessor->process($path);
+        $this->assertEquals('/V1/customerAccounts/createCustomer', $result);
         $this->assertEquals('default', $this->storeManager->getStore()->getCode());
     }
 }
