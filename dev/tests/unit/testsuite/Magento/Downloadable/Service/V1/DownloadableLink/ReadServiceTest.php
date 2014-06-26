@@ -91,7 +91,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->productMock)
             ->will($this->returnValue([$linkMock]));
 
-        $this->setLinkAssertions($linkMock ,$inputData, $inputFileData);
+        $this->setLinkAssertions($linkMock, $inputData, $inputFileData);
 
         $links = $this->service->getLinks($productSku);
         $this->assertEquals(1, count($links));
@@ -126,14 +126,14 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->productMock)
             ->will($this->returnValue([$sampleMock]));
 
-        $this->setSampleAssertions($sampleMock ,$inputData, $inputFileData);
+        $this->setSampleAssertions($sampleMock, $inputData, $inputFileData);
 
         $samples = $this->service->getSamples($productSku);
         $this->assertEquals(1, count($samples));
         $this->assertEquals($expectationData, reset($samples)->__toArray());
     }
 
-    protected function setLinkAssertions($resource ,$inputData, $fileData)
+    protected function setLinkAssertions($resource, $inputData, $fileData)
     {
         $resource->expects($this->once())->method('getId')->will($this->returnValue($inputData['id']));
         $resource->expects($this->once())->method('getStoreTitle')
@@ -152,7 +152,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    protected function setSampleAssertions($resource ,$inputData, $fileData)
+    protected function setSampleAssertions($resource, $inputData, $fileData)
     {
         $resource->expects($this->once())->method('getId')->will($this->returnValue($inputData['id']));
         $resource->expects($this->once())->method('getStoreTitle')
