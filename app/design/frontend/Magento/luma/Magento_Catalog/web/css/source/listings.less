@@ -75,28 +75,12 @@
         }
         .product.reviews.summary {
             .rating.summary {
-                margin-left: 0;
+                margin: 0 4px 0 0;
             }
             .reviews.actions {
-                margin-top:3px;
-                color: @text-color-muted;
-                a { margin-right: 0 !important; }
-                span:after {
-                    content:"|";
-                    margin: 0 3px;
-                    display: inline-block;
-                }
-                .products-grid & span {
-                    display: none;
-                }
-                &:before {
-                    content: "(";
-                    margin-right: -3px;
-                }
-                &:after {
-                    content: ")";
-                    margin-left: -3px;
-                }
+                margin-top: 5px;
+                text-transform: lowercase;
+                font-size: @font-size-s;
             }
         }
 
