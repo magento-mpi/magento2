@@ -113,8 +113,8 @@ class GuestPaypalDirect extends Checkout
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
         $this->creditCard->switchData('visa_direct');
         $this->bindings = array(
-            $simple->getProductName() => $address1->getOneLineAddress(),
-            $configurable->getProductName() => $address2->getOneLineAddress()
+            $simple->getName() => $address1->getOneLineAddress(),
+            $configurable->getName() => $address2->getOneLineAddress()
         );
     }
 }
