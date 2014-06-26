@@ -73,6 +73,8 @@ class TaxClassService implements TaxClassServiceInterface
         $this->validateTaxClassData($taxClass);
         $taxModel = $this->converter->createTaxClassModel($taxClass);
         try {
+            //Ignore class_id for tax class creation
+            $taxModel->setId(null);
             $taxModel->save();
         } catch (ModelException $e) {
             if (strpos($e->getMessage(), \Magento\Tax\Model\Resource\TaxClass::UNIQUE_TAX_CLASS_MSG) !== false) {

@@ -60,12 +60,24 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateTaxClass()
     {
-        $taxClassDataObject = $this->taxClassBuilder->setClassName(self::SAMPLE_TAX_CLASS_NAME)
+        $taxClassDataObject = $this->taxClassBuilder
+            ->setClassName(self::SAMPLE_TAX_CLASS_NAME)
             ->setClassType(TaxClassDataObject::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
-
         $this->assertEquals(self::SAMPLE_TAX_CLASS_NAME, $this->taxClassModel->load($taxClassId)->getClassName());
+
+        //Create another one with created id. Make sure its not updating the existing Tax class
+        $taxClassDataObject = $this->taxClassBuilder
+            ->setClassId($taxClassId) //This should be ignored for createTaxClass
+            ->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
+            ->setClassType(TaxClassDataObject::TYPE_CUSTOMER)
+            ->create();
+        $this->assertNotEquals(
+            $taxClassId,
+            $this->taxClassService->createTaxClass($taxClassDataObject),
+            'New tax class creation failed.'
+        );
     }
 
     /**
