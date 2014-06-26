@@ -53,9 +53,9 @@ class TaxRuleService implements TaxRuleServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createTaxRule(TaxRule $taxRule)
+    public function createTaxRule(TaxRule $rule)
     {
-        $taxRuleModel = $this->saveTaxRule($taxRule);
+        $taxRuleModel = $this->saveTaxRule($rule);
         return $this->converter->createTaxRuleDataObjectFromModel($taxRuleModel);
     }
 
@@ -75,11 +75,11 @@ class TaxRuleService implements TaxRuleServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteTaxRule($ruleId)
+    public function deleteTaxRule($taxRuleId)
     {
-        $ruleModel = $this->taxRuleRegistry->retrieveTaxRule($ruleId);
+        $ruleModel = $this->taxRuleRegistry->retrieveTaxRule($taxRuleId);
         $ruleModel->delete();
-        $this->taxRuleRegistry->removeTaxRule($ruleId);
+        $this->taxRuleRegistry->removeTaxRule($taxRuleId);
         return true;
     }
 
