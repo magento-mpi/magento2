@@ -307,6 +307,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->service->delete($linkId));
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage There is no downloadable link with provided ID.
+     */
     public function testDeleteThrowsExceptionIfLinkIdIsNotValid()
     {
         $linkId = 1;
@@ -319,9 +323,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->linkFactoryMock->expects($this->once())->method('create')->will($this->returnValue($linkMock));
         $linkMock->expects($this->once())->method('load')->with($linkId)->will($this->returnSelf());
-        $linkMock->expects($this->any())->method('getId')->will($this->returnValue($linkId));
-        $linkMock->expects($this->once())->method('delete');
+        $linkMock->expects($this->once())->method('getId');
+        $linkMock->expects($this->never())->method('delete');
 
-        $this->assertTrue($this->service->delete($linkId));
+        $this->service->delete($linkId);
     }
 }
