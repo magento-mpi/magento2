@@ -70,6 +70,37 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->category->expects($this->once())->method('validate')->will($this->returnValue([]));
         $this->category->expects($this->once())->method('save');
 
+        $parentCategory = $this->getMockBuilder('Magento\Catalog\Model\Category')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $parentCategory->expects($this->any())->method('load')->will($this->returnSelf());
+        $parentCategory->expects($this->any())->method('__call')->with('getPath')->will($this->returnValue('1\2'));
+
+        $categoryFactory = $this->getMockBuilder('Magento\Catalog\Model\CategoryFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $categoryFactory->expects($this->any())->method('create')
+            ->will($this->returnValue($parentCategory));
+
+        $parentId = 1;
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
+        $store = $this->getMock(
+            'Magento\Store\Model\Store',
+            ['getRootCategoryId', '__sleep', '__wakeup'], [], '', false
+        );
+        $store->expects($this->any())->method('getRootCategoryId')->will($this->returnValue($parentId));
+        $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
+
+        $this->model = (new ObjectManager($this))->getObject(
+            'Magento\Catalog\Service\V1\Category\WriteService',
+            [
+                'categoryFactory' => $categoryFactory,
+                'categoryMapper' => $this->categoryMapper,
+                'storeManager' => $storeManager,
+            ]
+        );
+
         $this->model->create($categorySdo);
     }
 

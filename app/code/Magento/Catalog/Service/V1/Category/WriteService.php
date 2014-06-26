@@ -13,8 +13,7 @@ use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Category\Mapper as CategoryMapper;
-use Magento\Framework\Exception\InputException;
-use Magento\Eav\Model\Entity\Attribute\Exception;
+use Magento\Store\Model\StoreManagerInterface;
 
 class WriteService implements WriteServiceInterface
 {
@@ -29,6 +28,11 @@ class WriteService implements WriteServiceInterface
     private $categoryMapper;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * List of fields that can used config values in case when value does not defined directly
      *
      * @var array
@@ -38,13 +42,16 @@ class WriteService implements WriteServiceInterface
     /**
      * @param CategoryFactory $categoryFactory
      * @param CategoryMapper $categoryMapper
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         CategoryFactory $categoryFactory,
-        CategoryMapper $categoryMapper
+        CategoryMapper $categoryMapper,
+        StoreManagerInterface $storeManager
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryMapper = $categoryMapper;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -54,6 +61,10 @@ class WriteService implements WriteServiceInterface
     {
         try {
             $categoryModel = $this->categoryMapper->toModel($category);
+            $parentId = $category->getParentId() ?: $this->storeManager->getStore()->getRootCategoryId();
+            $parentCategory = $this->categoryFactory->create()->load($parentId);
+            $categoryModel->setPath($parentCategory->getPath());
+
             $this->validateCategory($categoryModel);
             $categoryModel->save();
         } catch (\Exception $e) {

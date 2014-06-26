@@ -20,7 +20,7 @@ $category->setId(
 )->setLevel(
     2
 )->setAvailableSortBy(
-    ['position']    
+    ['position', 'name']
 )->setDefaultSortBy(
     'name'
 )->setIsActive(

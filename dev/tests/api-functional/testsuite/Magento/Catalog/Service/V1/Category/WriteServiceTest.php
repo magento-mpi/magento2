@@ -92,9 +92,9 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
             'soap' => [
-                'service' => self::SERVICE_WRITE_NAME,
+                'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_WRITE_NAME . 'create'
+                'operation' => self::SERVICE_NAME . 'create'
             ],
         ];
         $requestData = ['category' => $category];
@@ -188,7 +188,7 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testUpdateMove($categoryId, $parentId, $afterId, $expectedPosition)
     {
-        $expectedPath = '1/2/3/' . $categoryId;
+        $expectedPath = '1/2/400/' . $categoryId;
         $categoryData = ['categoryId' => $categoryId, 'parentId' => $parentId, 'afterId' => $afterId];
         $serviceInfo = array_merge_recursive($this->serviceInfo,
             [
@@ -201,8 +201,8 @@ class WriteServiceTest extends WebapiAbstract
         );
         $this->assertTrue($this->_webApiCall($serviceInfo, $categoryData));
         /** @var \Magento\Catalog\Model\Category $model */
-        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
-        $model->load($categoryId);
+        $readService = Bootstrap::getObjectManager()->get('\Magento\Catalog\Service\V1\Category\ReadService');
+        $model = $readService->info($categoryId);
         $this->assertEquals($expectedPath, $model->getPath());
         $this->assertEquals($expectedPosition, $model->getPosition());
         $this->assertEquals($parentId, $model->getParentId());
@@ -211,10 +211,10 @@ class WriteServiceTest extends WebapiAbstract
     public function updateMoveDataProvider()
     {
         return array(
-            [5, 3, null, 2],
-            [5, 3, 4, 2],
-            [5, 3, 100, 2],
-            [5, 3, 0, 1]
+            [402, 400, null, 2],
+            [402, 400, 401, 2],
+            [402, 400, 100, 1],
+            [402, 400, 0, 1]
         );
     }
 

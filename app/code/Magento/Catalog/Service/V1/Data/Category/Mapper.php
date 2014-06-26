@@ -10,7 +10,6 @@ namespace Magento\Catalog\Service\V1\Data\Category;
 use Magento\Framework\Service\EavDataObjectConverter;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\catalog\Service\V1\Data\Category as CategoryDataObject;
-use Magento\Store\Model\StoreManagerInterface;
 
 class Mapper
 {
@@ -18,20 +17,12 @@ class Mapper
     protected $categoryFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param CategoryFactory $categoryFactory
-     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        CategoryFactory $categoryFactory,
-        StoreManagerInterface $storeManager
+        CategoryFactory $categoryFactory
     ) {
         $this->categoryFactory = $categoryFactory;
-        $this->storeManager = $storeManager;
     }
 
     /**
@@ -51,16 +42,11 @@ class Mapper
             $data['image_additional_data'] = $data['image'];
             unset($data['image']);
         }
-        $categoryModel->addData($data);
-
         // this fields should not be changed
         $data[CategoryDataObject::ID]   = $categoryModel->getId();
         $data[CategoryDataObject::PARENT_ID]   = $categoryModel->getParentId();
         $data[CategoryDataObject::PATH]   = $categoryModel->getPath();
-        
-        $parentId = $category->getParentId() ?: $this->storeManager->getStore()->getRootCategoryId();
-        $parentCategory = $this->categoryFactory->create()->load($parentId);
-        $categoryModel->setPath($parentCategory->getPath());
+        $categoryModel->addData($data);
 
         if (!is_numeric($categoryModel->getAttributeSetId())) {
             $categoryModel->setAttributeSetId($categoryModel->getDefaultAttributeSetId());
