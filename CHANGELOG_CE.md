@@ -13,6 +13,7 @@
   * Fixed: Filter works incorrect in Layered Navigation with price type attribute (MAGETWO-24282)
   * Fixed: Fatal Error in \Magento\Framework\ArchiveTest when bz2 extension is not installed (MAGETWO-25149)
   * Fixed: Store Admin cannot search product by attributes filled on [STORE VIEW] level (except default store view) (MAGETWO-3385)
+  * Fixed: Street address line number not honored (MAGETWO-17222)
 * GitHub requests:
   * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
   * [#544]  Performance tests not working (MAGETWO-23467)
