@@ -35,6 +35,8 @@ class AssertTargetRuleIsNotPresentedInGrid extends AbstractConstraint
      * @param TargetRule $targetRule
      * @param TargetRuleIndex $targetRuleIndex
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         TargetRule $targetRule,
