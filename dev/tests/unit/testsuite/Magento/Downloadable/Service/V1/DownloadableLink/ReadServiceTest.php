@@ -47,6 +47,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkInfoBuilder'
         );
 
+        $sampleBuilder = $this->objectHelper->getObject(
+            'Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableSampleInfoBuilder'
+        );
+
         $resourceBuilder = $this->objectHelper->getObject(
             '\Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableResourceInfoBuilder'
         );
@@ -56,6 +60,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 'productRepository' => $this->repositoryMock,
                 'downloadableType' => $this->productTypeMock,
                 'linkBuilder' => $linkBuilder,
+                'sampleBuilder' => $sampleBuilder,
                 'resourceBuilder' => $resourceBuilder,
             ]
         );
@@ -236,10 +241,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'id' => 324,
             'store_title' => 'rock melody sample',
             'title' => 'just melody sample',
-            'price' => null,
-            'number_of_downloads' => null,
             'sort_order' => 21,
-            'is_shareable' => null,
         ];
 
         $sampleDataGlobalTitle = $sampleData;
@@ -261,11 +263,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $sampleExpectation = [
             'id' => $sampleData['id'],
             'title' => $sampleData['store_title'],
-            'price' => $sampleData['price'],
-            'number_of_downloads' => $sampleData['number_of_downloads'],
             'sort_order' => $sampleData['sort_order'],
-            'shareable' => $sampleData['is_shareable'],
-            'link_resource' => null,
             'sample_resource' => $sampleFile,
         ];
 

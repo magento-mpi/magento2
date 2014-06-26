@@ -67,7 +67,7 @@ class ReadService implements ReadServiceInterface
         $links = $this->downloadableType->getLinks($product);
         /** @var \Magento\Downloadable\Model\Link $link */
         foreach ($links as $link) {
-            $linkList[] = $this->buildResource($link);
+            $linkList[] = $this->buildLink($link);
         }
         return $linkList;
     }
@@ -75,27 +75,50 @@ class ReadService implements ReadServiceInterface
     /**
      * Build a link data object
      *
-     * @param \Magento\Downloadable\Model\Link|\Magento\Downloadable\Model\Sample $resourceData
+     * @param \Magento\Downloadable\Model\Link $resourceData
      * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkInfo
      */
-    protected function buildResource($resourceData)
+    protected function buildLink($resourceData)
     {
-        $this->linkBuilder->populateWithArray([]);
-        $this->linkBuilder->setId($resourceData->getId());
+        $this->setBasicFields($resourceData, $this->linkBuilder);
+        $this->linkBuilder->setPrice($resourceData->getPrice());
+        $this->linkBuilder->setNumberOfDownloads($resourceData->getNumberOfDownloads());
+        $this->linkBuilder->setShareable($resourceData->getIsShareable());
+        $this->linkBuilder->setLinkResource($this->entityInfoGenerator('link', $resourceData));
+        return $this->linkBuilder->create();
+    }
+
+    /**
+     * Subroutine for buildLink and buildSample
+     *
+     * @param \Magento\Downloadable\Model\Link|\Magento\Downloadable\Model\Sample $resourceData
+     * @param Data\DownloadableLinkInfoBuilder|Data\DownloadableSampleInfoBuilder $builder
+     */
+    protected function setBasicFields($resourceData, $builder)
+    {
+        $builder->populateWithArray([]);
+        $builder->setId($resourceData->getId());
         $storeTitle = $resourceData->getStoreTitle();
         $title = $resourceData->getTitle();
         if (!empty($storeTitle)) {
-            $this->linkBuilder->setTitle($storeTitle);
+            $builder->setTitle($storeTitle);
         } else {
-            $this->linkBuilder->setTitle($title);
+            $builder->setTitle($title);
         }
-        $this->linkBuilder->setPrice($resourceData->getPrice());
-        $this->linkBuilder->setNumberOfDownloads($resourceData->getNumberOfDownloads());
-        $this->linkBuilder->setSortOrder($resourceData->getSortOrder());
-        $this->linkBuilder->setShareable($resourceData->getIsShareable());
-        $this->linkBuilder->setLinkResource($this->entityInfoGenerator('link', $resourceData));
-        $this->linkBuilder->setSampleResource($this->entityInfoGenerator('sample', $resourceData));
-        return $this->linkBuilder->create();
+        $builder->setSortOrder($resourceData->getSortOrder());
+        $builder->setSampleResource($this->entityInfoGenerator('sample', $resourceData));
+    }
+
+    /**
+     * Build a sample data object
+     *
+     * @param \Magento\Downloadable\Model\Sample $resourceData
+     * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableSampleInfo
+     */
+    protected function buildSample($resourceData)
+    {
+        $this->setBasicFields($resourceData, $this->sampleBuilder);
+        return $this->sampleBuilder->create();
     }
 
     /**
@@ -130,7 +153,7 @@ class ReadService implements ReadServiceInterface
         $samples = $this->downloadableType->getSamples($product);
         /** @var \Magento\Downloadable\Model\Sample $sample */
         foreach ($samples as $sample) {
-            $sampleList[] = $this->buildResource($sample);
+            $sampleList[] = $this->buildSample($sample);
         }
         return $sampleList;
     }
