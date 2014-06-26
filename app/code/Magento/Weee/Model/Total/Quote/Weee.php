@@ -367,14 +367,11 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        $weeeTotal = 0;
-
-        /** @var $items array of \Magento\Sales\Model\Order\Item */
+        /** @var $items \Magento\Sales\Model\Order\Item[] */
         $items = $this->_getAddressItems($address);
-        foreach ($items as $item) {
-            $weeeTotal += $item->getWeeeTaxAppliedRowAmount();
-        }
+        $store = $address->getQuote()->getStore();
 
+        $weeeTotal = $this->_weeeData->getTotalAmounts($items, $store);
         if ($weeeTotal) {
             $address->addTotal(
                 array(

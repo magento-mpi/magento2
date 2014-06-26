@@ -10,6 +10,29 @@ namespace Magento\Weee\Model\Sales\Pdf;
 class Weee extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
 {
     /**
+     * @var \Magento\Weee\Helper\Data
+     */
+    protected $_weeeData;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory
+     * @param \Magento\Weee\Helper\Data $_weeeData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxHelper,
+        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory,
+        \Magento\Weee\Helper\Data $_weeeData,
+        array $data = array()
+    ) {
+        $this->_weeeData = $_weeeData;
+        parent::__construct($taxHelper, $taxCalculation, $ordersFactory, $data);
+    }
+
+    /**
      * Check if weee total amount should be included
      * array(
      *  $index => array(
@@ -22,13 +45,11 @@ class Weee extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
      */
     public function getTotalsForDisplay()
     {
-        $weeeTotal = 0;
-
-        /** @var $items array of \Magento\Sales\Model\Order\Item */
+        /** @var $items \Magento\Sales\Model\Order\Item[] */
         $items = $this->getSource()->getAllItems();
-        foreach ($items as $item) {
-            $weeeTotal += $item->getWeeeTaxAppliedRowAmount();
-        }
+        $store = $this->getSource()->getStore();
+
+        $weeeTotal = $this->_weeeData->getTotalAmounts($items, $store);
 
         // If we have no Weee, check if we still need to display it
         if (!$weeeTotal && !filter_var($this->getDisplayZero(), FILTER_VALIDATE_BOOLEAN)) {

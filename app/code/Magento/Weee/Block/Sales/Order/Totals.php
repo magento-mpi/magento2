@@ -10,13 +10,21 @@ namespace Magento\Weee\Block\Sales\Order;
 class Totals extends \Magento\Framework\View\Element\Template
 {
     /**
+     * @var \Magento\Weee\Helper\Data
+     */
+    protected $_weeeData;
+
+    /**
+     * @param \Magento\Weee\Helper\Data $_weeeData
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Weee\Helper\Data $_weeeData,
         \Magento\Framework\View\Element\Template\Context $context,
         array $data = array()
     ) {
+        $this->_weeeData = $_weeeData;
         parent::__construct($context, $data);
     }
 
@@ -37,14 +45,11 @@ class Totals extends \Magento\Framework\View\Element\Template
      */
     public function initTotals()
     {
-        $weeeTotal = 0;
-
-        /** @var $items array of \Magento\Sales\Model\Order\Item */
+        /** @var $items \Magento\Sales\Model\Order\Item[] */
         $items = $this->getSource()->getAllItems();
-        foreach ($items as $item) {
-            $weeeTotal += $item->getWeeeTaxAppliedRowAmount();
-        }
+        $store = $this->getSource()->getStore();
 
+        $weeeTotal = $this->_weeeData->getTotalAmounts($items, $store);
         if ($weeeTotal) {
             // Add our total information to the set of other totals
             $total = new \Magento\Framework\Object(
