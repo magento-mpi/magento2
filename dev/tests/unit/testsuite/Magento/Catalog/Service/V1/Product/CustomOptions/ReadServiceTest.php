@@ -141,7 +141,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $optionData = $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false);
         $productMock
             ->expects($this->once())
-            ->method('getProductOptionsCollection')
+            ->method('getOptions')
             ->will($this->returnValue(array($optionMock)));
         $optionMock->expects($this->once())->method('getId')->will($this->returnValue(10));
         $optionMock->expects($this->once())->method('getTitle')->will($this->returnValue('Some title'));
