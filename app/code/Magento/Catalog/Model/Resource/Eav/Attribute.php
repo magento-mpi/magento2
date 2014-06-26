@@ -256,14 +256,14 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     protected function _isOriginalEnabledInFlat()
     {
         return $this->getOrigData(
-            'backend_type'
-        ) == 'static' || $this->_productFlatIndexerHelper->isAddFilterableAttributes() && $this->getOrigData(
-            'is_filterable'
-        ) > 0 || $this->getOrigData(
-            'used_in_product_listing'
-        ) == 1 || $this->getOrigData(
-            'used_for_sort_by'
-        ) == 1;
+                'backend_type'
+            ) == 'static' || $this->_productFlatIndexerHelper->isAddFilterableAttributes() && $this->getOrigData(
+                'is_filterable'
+            ) > 0 || $this->getOrigData(
+                'used_in_product_listing'
+            ) == 1 || $this->getOrigData(
+                'used_for_sort_by'
+            ) == 1;
     }
 
     /**

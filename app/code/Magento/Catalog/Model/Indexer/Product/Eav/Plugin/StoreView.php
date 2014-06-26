@@ -17,7 +17,7 @@ class StoreView
     protected $_indexerEavProcessor;
 
     /**
-     * @param \Magento\Catalog\Model\Indexer\Product\Eav\Processor
+     * @param \Magento\Catalog\Model\Indexer\Product\Eav\Processor $indexerEavProcessor
      */
     public function __construct(\Magento\Catalog\Model\Indexer\Product\Eav\Processor $indexerEavProcessor)
     {
