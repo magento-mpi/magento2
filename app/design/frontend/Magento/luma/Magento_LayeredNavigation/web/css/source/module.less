@@ -6,21 +6,6 @@
 //  * @license     {license_link}
 //  */
 
-.responsive-smaller(@break-point-0) {
-    body.filter-active {
-        .page-wrapper {
-            visibility: hidden;
-            height: 0;
-            margin-top: -999999em;
-        }
-        .columns {
-            z-index: 999;
-        }
-    }
-    .filter.active .filter-options-item:last-child {
-        margin-bottom: @indent-xl-base;
-    }
-}
 
 .filter {
     &.active {
@@ -92,11 +77,11 @@
         text-transform: uppercase;
         font-weight: @font-weight-semibold;
         margin-bottom: @indent-s-base;
+        background: @filter-title-bg;
+        padding: @indent-s-base;
+        line-height: 1em;
     }
     &-subtitle {
-        padding: @indent-s-base;
-        background: @filter-title-bg;
-        margin: 0 0 @indent-s-base;
             display: none;
             .filter.active & {
                 display: block;
@@ -111,9 +96,10 @@
             }
     }
     &-current {
-        padding: @indent-s-base @indent-s-base;
-        background: @filter-title-bg;
         margin: 0 0 0;
+        .items {
+            padding: @indent-s-base;
+        }
         .item {
             position: relative;
             margin: 0 0 7px;
@@ -129,6 +115,10 @@
             top: 0;
         }
     }
+    &-actions {
+        padding: 0 @indent-s-base;
+        margin-bottom: @indent-l-base;
+    }
     &-label {
         font-weight: @font-weight-bold;
         &:after {
@@ -138,13 +128,12 @@
     &-value {
         color: @filter-quantity;
     }
-    &-actions {
-        margin:0 0 @indent-m-base;
-        background: @filter-title-bg;
-        padding: 0 @indent-s-base @indent-s-base;
-    }
     &-options {
         display: none;
+        margin: 0;
+        &-item {
+            border-bottom: @border-width-base solid @border-color-base;
+        }
         .filter.active & {
             display: block;
             position: fixed;
@@ -158,17 +147,16 @@
             padding-left: @indent-s-base;
             padding-right: @indent-s-base;
         }
-        margin: 0;
         &-title {
             cursor: pointer;
             font-weight: @font-weight-semibold;
             margin: 0;
             overflow: hidden;
-            padding: 10px 15px 5px 0;
+            padding: 10px 15px+@indent-s-base 5px @indent-s-base;
             position: relative;
             z-index: 1;
             text-transform: uppercase;
-            border-bottom: @border-width-base solid @border-color-base;
+
             .icon-font(
                 @_icon-font-content: @icon-down,
                 @_icon-font-size: 10px,
@@ -192,7 +180,7 @@
         }
         &-content {
             margin: 0;
-            padding: @indent-s-base 0 @indent-s-base;
+            padding: @indent-s-base;
             .item {
                 margin-bottom: @indent-s-base;
                 line-height: 1.5em;
@@ -224,6 +212,26 @@
         }
     }
 }
+
+.responsive-smaller(@break-point-0) {
+    body.filter-active {
+        .page-wrapper {
+            visibility: hidden;
+            height: 0;
+            margin-top: -999999em;
+        }
+        .columns {
+            z-index: 999;
+        }
+    }
+    .filter.active .filter-options-item:last-child {
+        margin-bottom: @indent-xl-base;
+    }
+    .filter-actions {
+        margin-bottom: 0;
+    }
+}
+
 .responsive(@break) when (@break = @break-point-0) {
 
     .filter {
@@ -288,7 +296,6 @@
                     position: absolute;
                 }
             }
-            padding-bottom: @indent-m-base;
         }
         &-current {
             .layout-1 & {
@@ -307,49 +314,31 @@
             display: block;
             background: transparent;
         }
+        .layout-1 &-content {
+            padding: @indent-s-base;
+        }
         .layout-1 &-options {
             padding-top: @indent-m-base;
+            padding-bottom: @indent-m-base;
         }
         .layout-1 &-options-item {
-            width: 20%;
-            margin-left: 4%;
+            width: 22%;
+            margin-left: 3.6%;
             vertical-align: top;
             display: inline-block;
+            &:nth-child(4n + 1) {
+                margin-left: 0;
+            }
         }
         &-subtitle {
             position: static;
             display: block;
-            .filter-current ~ & {
-                display: none;
-            }
-        }
-        &-subtitle,
-        &-current,
-        &-actions {
-            padding-left: 5%;
-            padding-right: 5%;
-            margin-left: -5%;
-            margin-right: -5%
         }
         .layout-1 & .block-subtitle {
             display: none;
         }
-        .layout-1 &-subtitle,
-        .layout-1 &-current,
         .layout-1 &-actions {
-            padding-left: @indent-s-base;
-            padding-right: @indent-s-base;
-            margin-left: 0;
-            margin-right: 0;
-        }
-        .layout-1 &-actions {
-            padding-left: @indent-s-base;
-            padding-right: @indent-s-base;
-            padding-top: @indent-s-base;
-            margin-left: 0;
-            margin-right: 0;
-        }
-        .layout-1 &-actions {
+            margin-top: @indent-s-base;
             float: right;
             margin-bottom: 0;
         }

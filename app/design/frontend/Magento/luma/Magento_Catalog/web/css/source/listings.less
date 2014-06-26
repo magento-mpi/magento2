@@ -190,7 +190,6 @@
 .responsive-smaller (@break) when (@break = @break-point-0) {
     .products-list .product {
         &-item {
-
             table-layout: fixed;
             &-photo {
                 padding: 0 @indent-s-base @indent-s-base 0;
@@ -203,6 +202,9 @@
 .responsive(@break) when (@break = @break-point-0) {
     .product {
         &-item {
+            .products-grid & {
+                margin-bottom: -@indent-xl-base;
+            }
             &-info {
                 .products-grid &:hover {
                     margin: -10px;
