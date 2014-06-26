@@ -111,6 +111,71 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->model->assignProduct($categoryId, $this->productLink));
     }
 
+    public function testRemoveProduct()
+    {
+        $categoryId = 33;
+        $productId = 333;
+
+        $this->prepareMocksForRemove($categoryId, $productId);
+        $this->category->expects($this->once())->method('save');
+
+
+        $this->model->removeProduct($categoryId, 'sku333');
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testRemoveProductCouldNotSaveException()
+    {
+        $categoryId = 33;
+        $productId = 333;
+
+        $this->prepareMocksForRemove($categoryId, $productId);
+        $this->category->expects($this->once())->method('save')
+            ->will(
+                $this->returnCallback(
+                    function () {
+                        throw new \Exception();
+                    }
+                )
+            );
+
+        $this->model->removeProduct($categoryId, 'sku333');
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
+    public function testRemoveProductStateException()
+    {
+        $categoryId = 33;
+        $productId = 33;
+
+        $this->prepareMocksForRemove($categoryId, $productId);
+
+        $this->model->removeProduct($categoryId, 'sku333');
+    }
+
+    private function prepareMocksForRemove($categoryId, $productId)
+    {
+        $productSku = 'sku333';
+        $productsPosition = [105 => 16, 333 => 1];
+
+        $this->categoryLoader->expects($this->once())->method('load')
+            ->with($this->equalTo($categoryId))
+            ->will($this->returnValue($this->category));
+
+        $this->category->expects($this->once())->method('getProductsPosition')
+            ->will($this->returnValue($productsPosition));
+        unset($productsPosition[$productId]);
+        $this->category->expects($this->any())->method('setPostedProducts')
+            ->with($this->equalTo($productsPosition));
+
+        $this->product->expects($this->once())->method('getIdBySku')->with($this->equalTo($productSku))
+            ->will($this->returnValue($productId));
+    }
+
     private function prepareMocksForAssign($categoryId)
     {
         $productId = 333;
