@@ -12,7 +12,7 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Catalog\Service\V1\Data\CategoryMapper;
+use Magento\Catalog\Service\V1\Data\Category\Mapper as CategoryMapper;
 
 class WriteService implements WriteServiceInterface
 {
@@ -22,7 +22,7 @@ class WriteService implements WriteServiceInterface
     private $categoryFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\CategoryMapper
+     * @var CategoryMapper
      */
     private $categoryMapper;
 
@@ -40,8 +40,7 @@ class WriteService implements WriteServiceInterface
     public function __construct(
         CategoryFactory $categoryFactory,
         CategoryMapper $categoryMapper
-    )
-    {
+    ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryMapper = $categoryMapper;
     }
@@ -87,6 +86,7 @@ class WriteService implements WriteServiceInterface
      * Validate category process
      *
      * @param  Category $category
+     * @return array|bool
      * @throws \Magento\Framework\Model\Exception
      */
     protected function validateCategory(Category $category)
@@ -110,5 +110,6 @@ class WriteService implements WriteServiceInterface
             }
         }
         $category->unsetData('use_post_data_config');
+        return $validate;
     }
 }

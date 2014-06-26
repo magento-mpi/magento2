@@ -176,11 +176,64 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($productId));
     }
 
-    private function prepareMocksForAssign($categoryId)
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
+    public function testAssignStateException()
     {
-        $productId = 333;
+        $categoryId = 33;
+
+        $this->prepareMocksForAssign($categoryId, 334);
+
+        $this->assertTrue($this->model->assignProduct($categoryId, $this->productLink));
+    }
+
+    public function testUpdateProduct()
+    {
+        $categoryId = 33;
+
+        $this->prepareMocksForAssign($categoryId, 334);
+        $this->category->expects($this->once())->method('save');
+
+        $this->assertTrue($this->model->updateProduct($categoryId, $this->productLink));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testUpdateProductCouldNotSaveException()
+    {
+        $categoryId = 33;
+
+        $this->prepareMocksForAssign($categoryId, 334);
+        $this->category->expects($this->once())->method('save')
+            ->will(
+                $this->returnCallback(
+                    function () {
+                        throw new \Exception();
+                    }
+                )
+            );
+
+        $this->assertTrue($this->model->updateProduct($categoryId, $this->productLink));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
+    public function testUpdateStateException()
+    {
+        $categoryId = 33;
+
+        $this->prepareMocksForAssign($categoryId);
+
+        $this->assertTrue($this->model->updateProduct($categoryId, $this->productLink));
+    }
+
+    private function prepareMocksForAssign($categoryId, $productId = 333)
+    {
         $productSku = 'sku333';
-        $productsPosition = [105 => 16, 333 => 1];
+        $productsPosition = [105 => 16, 334 => 1];
 
         $this->productLink->expects($this->once())->method('getSku')->will($this->returnValue($productSku));
         $this->productLink->expects($this->any())->method('getPosition')->will($this->returnValue($categoryId));
@@ -192,7 +245,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->category->expects($this->once())->method('getProductsPosition')
             ->will($this->returnValue($productsPosition));
         $newProductPositions = [$productId => $categoryId] + $productsPosition;
-        $this->category->expects($this->once())->method('setPostedProducts')
+        $this->category->expects($this->any())->method('setPostedProducts')
             ->with($this->equalTo($newProductPositions));
 
         $this->product->expects($this->once())->method('getIdBySku')->with($this->equalTo($productSku))

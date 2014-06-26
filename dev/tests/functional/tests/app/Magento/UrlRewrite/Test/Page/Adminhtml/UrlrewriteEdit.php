@@ -20,25 +20,19 @@ class UrlrewriteEdit extends BackendPage
     protected $_blocks = [
         'treeBlock' => [
             'name' => 'treeBlock',
-            'class' => 'Magento\UrlRewrite\Test\Block\Catalog\Category\Tree',
-            'locator' => '[data-ui-id="category-selector"]',
+            'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Tree',
+            'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'formBlock' => [
             'name' => 'formBlock',
-            'class' => 'Magento\UrlRewrite\Test\Block\Catalog\Edit\Form',
+            'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit\Form',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
             'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
-            'locator' => '#messages .messages',
-            'strategy' => 'css selector',
-        ],
-        'buttonBlock' => [
-            'name' => 'buttonBlock',
-            'class' => 'Magento\Backend\Test\Block\Widget\Form',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
@@ -50,20 +44,26 @@ class UrlrewriteEdit extends BackendPage
         ],
         'productGridBlock' => [
             'name' => 'productGridBlock',
-            'class' => 'Magento\UrlRewrite\Test\Block\Catalog\Product\Grid',
+            'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Product\Grid',
             'locator' => '[id="productGrid"]',
             'strategy' => 'css selector',
         ],
         'urlRewriteTypeSelectorBlock' => [
             'name' => 'urlRewriteTypeSelectorBlock',
-            'class' => 'Magento\UrlRewrite\Test\Block\Selector',
+            'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Selector',
             'locator' => '[data-ui-id="urlrewrite-type-selector"]',
+            'strategy' => 'css selector',
+        ],
+        'cmsGridBlock' => [
+            'name' => 'gridBlock',
+            'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Cms\Page\Grid',
+            'locator' => '#cmsPageGrid',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\UrlRewrite\Test\Block\Catalog\Category\Tree
+     * @return \Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Tree
      */
     public function getTreeBlock()
     {
@@ -71,7 +71,7 @@ class UrlrewriteEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\UrlRewrite\Test\Block\Catalog\Edit\Form
+     * @return \Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit\Form
      */
     public function getFormBlock()
     {
@@ -87,14 +87,6 @@ class UrlrewriteEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\Widget\Form
-     */
-    public function getButtonBlock()
-    {
-        return $this->getBlockInstance('buttonBlock');
-    }
-
-    /**
      * @return \Magento\Backend\Test\Block\FormPageActions
      */
     public function getPageMainActions()
@@ -103,7 +95,7 @@ class UrlrewriteEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\UrlRewrite\Test\Block\Catalog\Product\Grid
+     * @return \Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Product\Grid
      */
     public function getProductGridBlock()
     {
@@ -111,10 +103,18 @@ class UrlrewriteEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\UrlRewrite\Test\Block\Selector
+     * @return \Magento\UrlRewrite\Test\Block\Adminhtml\Selector
      */
     public function getUrlRewriteTypeSelectorBlock()
     {
         return $this->getBlockInstance('urlRewriteTypeSelectorBlock');
+    }
+
+    /**
+     * @return \Magento\UrlRewrite\Test\Block\Adminhtml\Cms\Page\Grid
+     */
+    public function getCmsGridBlock()
+    {
+        return $this->getBlockInstance('cmsGridBlock');
     }
 }

@@ -22,7 +22,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     private $category;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\CategoryMapper
+     * @var \Magento\Catalog\Service\V1\Data\Category\Mapper|\PHPUnit_Framework_MockObject_MockObject
      */
     private $categoryMapper;
 
@@ -42,7 +42,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $categoryFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->category));
 
-        $this->categoryMapper = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\CategoryMapper')
+        $this->categoryMapper = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Category\Mapper')
             ->setMethods(['toModel'])
             ->disableOriginalConstructor()
             ->getMock();

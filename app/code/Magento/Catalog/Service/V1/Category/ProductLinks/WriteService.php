@@ -29,6 +29,10 @@ class WriteService implements WriteServiceInterface
      */
     private $productFactory;
 
+    /**
+     * @param CategoryLoaderFactory $categoryLoaderFactory
+     * @param ProductFactory $productFactory
+     */
     public function __construct(
         CategoryLoaderFactory $categoryLoaderFactory,
         ProductFactory $productFactory
@@ -42,11 +46,39 @@ class WriteService implements WriteServiceInterface
      */
     public function assignProduct($categoryId, ProductLink $productLink)
     {
+        return $this->setProductToCategory($categoryId, $productLink, true, 'Product already exists in this category');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateProduct($categoryId, ProductLink $productLink)
+    {
+        return $this->setProductToCategory($categoryId, $productLink, false, 'Product not found in this category');
+    }
+
+    /**
+     * @param int $categoryId
+     * @param ProductLink $productLink
+     * @param bool $isInPositions
+     * @param string $stateExceptionMessage
+     * @return bool
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function setProductToCategory($categoryId, ProductLink $productLink, $isInPositions, $stateExceptionMessage)
+    {
         /** @var CategoryModel $category */
         $category = $this->categoryLoaderFactory->create()->load($categoryId);
 
         $productId = $this->productFactory->create()->getIdBySku($productLink->getSku());
         $productPositions = $category->getProductsPosition();
+
+        if ($isInPositions === array_key_exists($productId, $productPositions)) {
+            throw new StateException($stateExceptionMessage);
+        }
+
         $newProductPositions = [$productId => $productLink->getPosition()] + $productPositions;
 
         $category->setPostedProducts($newProductPositions);

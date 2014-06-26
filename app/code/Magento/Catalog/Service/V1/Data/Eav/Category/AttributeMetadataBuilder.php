@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
-use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 class AttributeMetadataBuilder extends AbstractObjectBuilder
 {
