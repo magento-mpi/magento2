@@ -28,6 +28,7 @@
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Backend UI issues: grids (MAGETWO-24705)
   * Fixed: Backend UI issues: header & footer (MAGETWO-24706)
+  * Fixed: Filter values aren't trimmed before being used to filter results (MAGETWO-18370)
 * Added the following functional tests:
   * Create Product Url Rewrite (MTA-83)
   * Delete Catalog Price Rule (MTA-67)

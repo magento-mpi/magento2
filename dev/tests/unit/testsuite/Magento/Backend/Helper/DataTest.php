@@ -71,14 +71,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function getPrepareFilterStringValuesDataProvider()
     {
         return array(
-            'left_space_value' => array(
-                array('field' => ' value'),
-                array('field' => 'value')
-            ),
-            'right_space_value' => array(
-                array('field' => 'value '),
-                array('field' => 'value')
-            ),
             'both_spaces_value' => array(
                 array('field' => ' value '),
                 array('field' => 'value')
