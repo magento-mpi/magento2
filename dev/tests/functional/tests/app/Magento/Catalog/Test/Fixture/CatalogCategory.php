@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CatalogCategory
  * Category fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogCategory extends InjectableFixture
 {
