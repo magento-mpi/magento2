@@ -86,7 +86,7 @@ abstract class AbstractAction
      * Reindex entities
      *
      * @param null|array|int $ids
-     * @return $this
+     * @return void
      */
     public function reindex($ids = null)
     {
@@ -97,6 +97,5 @@ abstract class AbstractAction
                 $indexer->reindexEntities($ids);
             }
         }
-        return $this;
     }
 }
