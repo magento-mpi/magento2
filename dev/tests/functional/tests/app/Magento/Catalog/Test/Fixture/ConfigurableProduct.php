@@ -188,6 +188,8 @@ class ConfigurableProduct extends Product
      * Init Data
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _initData()
     {
