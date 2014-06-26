@@ -447,11 +447,7 @@ Design,Design
 "File extension not known or unsupported type.","File extension not known or unsupported type."
 "Cache Type","Cache Type"
 Tags,Tags
-"
-                    <h1 class=""page-heading"">404 Error</h1><p>Page not found.</p>
-                ","
-                    <h1 class=""page-heading"">404 Error</h1><p>Page not found.</p>
-                "
+"<h1 class=""page-heading"">404 Error</h1><p>Page not found.</p>","<h1 class=""page-heading"">404 Error</h1><p>Page not found.</p>"
 "Variable ID","Variable ID"
 Options,Options
 "Magento Admin","Magento Admin"
