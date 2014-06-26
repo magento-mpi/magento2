@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\CatalogImportExport\Model\Export\RowCustomizerInterface" type="Magento\CatalogImportExport\Model\Export\RowCustomizer\Composite" />
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="catalogProductFlatIndexerImport" type="\Magento\CatalogImportExport\Model\Indexer\Product\Flat\Plugin\Import" />
+        <plugin name="invalidatePriceIndexerOnImport" type="\Magento\CatalogImportExport\Model\Indexer\Product\Price\Plugin\Import" />
+    </type>
+    <type name="Magento\CatalogImportExport\Model\Export\RowCustomizer\Composite">
+        <arguments>
+            <argument name="customizers" xsi:type="array">
+                <item name="configurableProduct" xsi:type="string">Magento\CatalogImportExport\Model\Export\RowCustomizer</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

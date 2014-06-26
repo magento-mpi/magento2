@@ -71,15 +71,28 @@ class ApplyMapTest extends Functional
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $mapBlock = $categoryPage->getMapBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
-            'Product is invisible on Category page');
-        $this->assertContains($product->getProductMapPrice(), $productListBlock->getOldPriceCategoryPage(),
-            'Displayed on Category page MAP is incorrect');
-        $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
-        $this->assertContains($product->getProductMapPrice(), $mapBlock->getOldPrice(),
-        'Displayed on Category page MAP is incorrect');
-        $this->assertEquals($product->getProductPrice(), $mapBlock->getActualPrice(),
-            'Displayed on Category page price is incorrect');
+        $this->assertTrue(
+            $productListBlock->isProductVisible($product->getName()),
+            'Product is invisible on Category page'
+        );
+
+        $this->assertContains(
+            $product->getProductMapPrice(),
+            $productListBlock->getOldPriceCategoryPage(),
+            'Displayed on Category page MAP is incorrect'
+        );
+
+        $productListBlock->openMapBlockOnCategoryPage($product->getName());
+        $this->assertContains(
+            $product->getProductMapPrice(),
+            $mapBlock->getOldPrice(),
+            'Displayed on Category page MAP is incorrect'
+        );
+        $this->assertEquals(
+            $product->getProductPrice(),
+            $mapBlock->getActualPrice(),
+            'Displayed on Category page price is incorrect'
+        );
     }
 
     /**
@@ -95,15 +108,21 @@ class ApplyMapTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $productListBlock = $categoryPage->getListProductBlock();
-        $productListBlock->openProductViewPage($product->getProductName());
+        $productListBlock->openProductViewPage($product->getName());
         $productViewBlock = $productPage->getViewBlock();
         $productViewBlock->openMapBlockOnProductPage();
         $mapBlock = $productPage->getMapBlock();
         //Verification on Product View page
-        $this->assertContains($product->getProductMapPrice(), $mapBlock->getOldPrice(),
-            'Displayed on Product page MAP is incorrect');
-        $this->assertEquals($product->getProductPrice(), $mapBlock->getActualPrice(),
-            'Displayed on Product page price is incorrect');
+        $this->assertContains(
+            $product->getProductMapPrice(),
+            $mapBlock->getOldPrice(),
+            'Displayed on Product page MAP is incorrect'
+        );
+        $this->assertEquals(
+            $product->getProductPrice(),
+            $mapBlock->getActualPrice(),
+            'Displayed on Product page price is incorrect'
+        );
     }
 
     /**
@@ -123,7 +142,11 @@ class ApplyMapTest extends Functional
         $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         //Verification in Shopping Cart
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-        $this->assertEquals($product->getProductPrice(), $unitPrice, 'Incorrect unit price is displayed in Cart');
+        $this->assertEquals(
+            $product->getProductPrice(),
+            $unitPrice,
+            'Incorrect unit price is displayed in Cart'
+        );
     }
 
     /**

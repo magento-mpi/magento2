@@ -52,6 +52,8 @@ class CustomOptions implements FixtureInterface
      *
      * @param $key [optional]
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {
@@ -71,6 +73,8 @@ class CustomOptions implements FixtureInterface
     /**
      * @param string $name
      * @return array|null
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function getPreset($name)
     {
