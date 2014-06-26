@@ -7,14 +7,14 @@
  */
 
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
-use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader
+     * @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader
      */
     protected $reader;
 
@@ -36,12 +36,12 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->defaultReaderMock =
-            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
+            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface');
         $this->selectReaderMock =
-            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
+            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface');
         $this->optionMock =
             $this->getMock('Magento\Catalog\Model\Product\Option', ['getType', '__wakeup'], [], '', false);
-        $this->reader = new \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader(
+        $this->reader = new \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader(
             [
                 'default' => $this->defaultReaderMock,
                 'select' => $this->selectReaderMock

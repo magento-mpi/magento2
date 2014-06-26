@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Converter;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class DefaultConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +26,7 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $optionValue;
+    protected $optionMetadata;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -44,16 +44,16 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testConverter()
     {
-        $this->optionValue = $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue',
+        $this->optionMetadata = $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata',
             [], [], '', false);
         $this->optionMock
             ->expects($this->once())
-            ->method('getValue')
-            ->will($this->returnValue(array($this->optionValue)));
-        $this->optionValue->expects($this->once())->method('getPrice')->will($this->returnValue(100.12));
-        $this->optionValue->expects($this->once())->method('getPriceType')->will($this->returnValue('USD'));
-        $this->optionValue->expects($this->once())->method('getSku')->will($this->returnValue('product_sku'));
-        $this->optionValue
+            ->method('getMetadata')
+            ->will($this->returnValue(array($this->optionMetadata)));
+        $this->optionMetadata->expects($this->once())->method('getPrice')->will($this->returnValue(100.12));
+        $this->optionMetadata->expects($this->once())->method('getPriceType')->will($this->returnValue('USD'));
+        $this->optionMetadata->expects($this->once())->method('getSku')->will($this->returnValue('product_sku'));
+        $this->optionMetadata
             ->expects($this->once())
             ->method('getCustomAttributes')
             ->will($this->returnValue(array($this->attributeValueMock)));
@@ -66,9 +66,9 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue('value'));
         $expectedOutput = array(
-            OptionValue::PRICE => 100.12,
-            OptionValue::PRICE_TYPE => 'USD',
-            OptionValue::SKU => 'product_sku',
+            Metadata::PRICE => 100.12,
+            Metadata::PRICE_TYPE => 'USD',
+            Metadata::SKU => 'product_sku',
             'attribute' => 'value'
         );
         $this->assertEquals($expectedOutput, $this->model->convert($this->optionMock));

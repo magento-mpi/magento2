@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->valueBuilderMock = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValueBuilder', [], [], '', false
+            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataBuilder', [], [], '', false
         );
         $this->optionMock = $this->getMock(
             '\Magento\Catalog\Model\Product\Option', [], [], '', false
@@ -51,12 +51,12 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $valueMock->expects($this->once())->method('getSortOrder')->will($this->returnValue('0'));
         $valueMock->expects($this->once())->method('getId')->will($this->returnValue('12345678'));
         $fields = [
-            OptionValue::PRICE => '35',
-            OptionValue::PRICE_TYPE => 'USD' ,
-            OptionValue::SKU => 'product_sku',
-            OptionValue::TITLE => 'Some Title',
-            OptionValue::SORT_ORDER => '0',
-            OptionValue::ID => '12345678'
+            Metadata::PRICE => '35',
+            Metadata::PRICE_TYPE => 'USD' ,
+            Metadata::SKU => 'product_sku',
+            Metadata::TITLE => 'Some Title',
+            Metadata::SORT_ORDER => '0',
+            Metadata::ID => '12345678'
         ];
         $this->valueBuilderMock
             ->expects($this->any())->method('populateWithArray')

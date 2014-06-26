@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Converter
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter
 ;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $optionValueMock;
+    protected $optionMetadataMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -38,8 +38,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     {
         $this->optionMock =
             $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false);
-        $this->optionValueMock =
-            $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue', [], [], '', false);
+        $this->optionMetadataMock =
+            $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata', [], [], '', false);
         $this->attributeValueMock =
             $this->getMock('\Magento\Framework\Service\Data\Eav\AttributeValue', [], [], '', false);
         $this->model = new Select();
@@ -49,16 +49,16 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     {
         $this->optionMock
             ->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue(array('select' => $this->optionValueMock)));
-        $this->optionValueMock->expects($this->any())->method('getPrice')->will($this->returnValue(99.99));
-        $this->optionValueMock->expects($this->any())->method('getPriceType')->will($this->returnValue('USD'));
-        $this->optionValueMock->expects($this->any())->method('getSku')->will($this->returnValue('product_sku'));
-        $this->optionValueMock
+            ->method('getMetadata')
+            ->will($this->returnValue(array('select' => $this->optionMetadataMock)));
+        $this->optionMetadataMock->expects($this->any())->method('getPrice')->will($this->returnValue(99.99));
+        $this->optionMetadataMock->expects($this->any())->method('getPriceType')->will($this->returnValue('USD'));
+        $this->optionMetadataMock->expects($this->any())->method('getSku')->will($this->returnValue('product_sku'));
+        $this->optionMetadataMock
             ->expects($this->any())
             ->method('getOptionTypeId')
             ->will($this->returnValue('value option_type_id'));
-        $this->optionValueMock
+        $this->optionMetadataMock
             ->expects($this->any())
             ->method('getCustomAttributes')
             ->will($this->returnValue(array($this->attributeValueMock)));
@@ -73,10 +73,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $expectedValues= array(
             'values' => array(
                 '0' => array(
-                    OptionValue::PRICE => 99.99,
-                    OptionValue::PRICE_TYPE => 'USD',
-                    OptionValue::SKU => 'product_sku',
-                    OptionValue::ID => 'value option_type_id',
+                    Metadata::PRICE => 99.99,
+                    Metadata::PRICE_TYPE => 'USD',
+                    Metadata::SKU => 'product_sku',
+                    Metadata::ID => 'value option_type_id',
                     'attribute_code' => 'attribute_value'
                 )
         ));

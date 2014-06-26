@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
 
-class OptionValue extends \Magento\Framework\Service\Data\Eav\AbstractObject
+class Metadata extends \Magento\Framework\Service\Data\Eav\AbstractObject
 {
     const PRICE = 'price';
     const PRICE_TYPE = 'price_type';

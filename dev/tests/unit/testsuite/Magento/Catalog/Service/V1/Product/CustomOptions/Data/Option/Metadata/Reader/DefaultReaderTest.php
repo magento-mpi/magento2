@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class DefaultReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->valueBuilderMock = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValueBuilder', [], [], '', false
+            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataBuilder', [], [], '', false
         );
         $this->optionMock = $this->getMock(
             '\Magento\Catalog\Model\Product\Option', ['getPrice', 'getPriceType', 'getSku', '__wakeup'], [], '', false
@@ -44,9 +44,9 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
         $this->optionMock->expects($this->once())->method('getPriceType')->will($this->returnValue('USD'));
         $this->optionMock->expects($this->once())->method('getSku')->will($this->returnValue('product_sku'));
         $fields = [
-            OptionValue::PRICE => '10',
-            OptionValue::PRICE_TYPE => 'USD' ,
-            OptionValue::SKU => 'product_sku'
+            Metadata::PRICE => '10',
+            Metadata::PRICE_TYPE => 'USD' ,
+            Metadata::SKU => 'product_sku'
         ];
         $this->valueBuilderMock->expects($this->once())
             ->method('populateWithArray')

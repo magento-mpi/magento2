@@ -35,29 +35,29 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
     protected $productRepository;
 
     /**
-     * @var Data\OptionValue\ReaderInterface
+     * @var Data\Option\Metadata\ReaderInterface
      */
-    protected $optionValueReader;
+    protected $optionMetadataReader;
 
     /**
      * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      * @param Data\OptionTypeBuilder $optionTypeBuilder
      * @param Data\OptionBuilder $optionBuilder
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
-     * @param Data\OptionValue\ReaderInterface $optionValueReader
+     * @param Data\Option\Metadata\ReaderInterface $optionMetadataReader
      */
     public function __construct(
         \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         Data\OptionTypeBuilder $optionTypeBuilder,
         Data\OptionBuilder $optionBuilder,
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        Data\OptionValue\ReaderInterface $optionValueReader
+        Data\Option\Metadata\ReaderInterface $optionMetadataReader
     ) {
         $this->productOptionConfig = $productOptionConfig;
         $this->optionTypeBuilder = $optionTypeBuilder;
         $this->optionBuilder = $optionBuilder;
         $this->productRepository = $productRepository;
-        $this->optionValueReader = $optionValueReader;
+        $this->optionMetadataReader = $optionMetadataReader;
     }
 
     /**
@@ -123,7 +123,7 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
             Data\Option::TYPE => $option->getType(),
             Data\Option::IS_REQUIRE => $option->getIsRequire(),
             Data\Option::SORT_ORDER => $option->getSortOrder(),
-            Data\Option::VALUE => $this->optionValueReader->read($option)
+            Data\Option::METADATA => $this->optionMetadataReader->read($option)
         );
         return $this->optionBuilder->populateWithArray($data)->create();
     }

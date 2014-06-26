@@ -66,13 +66,13 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     }
 
     /**
-     * Set option value
+     * Set option metadata
      *
-     * @param \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue[] $value
+     * @param \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata[] $value
      * @return $this
      */
-    public function setValue($value)
+    public function setMetadata($value)
     {
-        return $this->_set(Option::VALUE, $value);
+        return $this->_set(Option::METADATA, $value);
     }
 }

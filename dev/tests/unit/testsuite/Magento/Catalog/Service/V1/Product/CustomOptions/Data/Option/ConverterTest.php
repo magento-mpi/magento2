@@ -19,7 +19,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $valueConverterMock;
+    protected $metadataConverterMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -29,15 +29,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->valueConverterMock = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ConverterInterface', [], [], '', false
+        $this->metadataConverterMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface', [], [], '', false
         );
         $this->optionMock = $this->getMock(
             '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false
         );
 
         $this->service =
-            new Converter($this->valueConverterMock);
+            new Converter($this->metadataConverterMock);
     }
 
     public function testConvert()
@@ -54,7 +54,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'sort_order' => '12',
             'is_require' => true
         ];
-        $this->valueConverterMock
+        $this->metadataConverterMock
             ->expects($this->once())
             ->method('convert')
             ->with($this->optionMock)

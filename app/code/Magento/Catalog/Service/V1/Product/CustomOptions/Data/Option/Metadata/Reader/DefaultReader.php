@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValueBuilder;
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataBuilder;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -18,14 +18,14 @@ use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInt
 class DefaultReader implements ReaderInterface
 {
     /**
-     * @var OptionValueBuilder
+     * @var MetadataBuilder
      */
     protected $valueBuilder;
 
     /**
-     * @param OptionValueBuilder $valueBuilder
+     * @param MetadataBuilder $valueBuilder
      */
-    public function __construct(OptionValueBuilder $valueBuilder)
+    public function __construct(MetadataBuilder $valueBuilder)
     {
         $this->valueBuilder = $valueBuilder;
     }
@@ -36,9 +36,9 @@ class DefaultReader implements ReaderInterface
     public function read(\Magento\Catalog\Model\Product\Option $option)
     {
         $fields = [
-            OptionValue::PRICE => $option->getPrice(),
-            OptionValue::PRICE_TYPE => $option->getPriceType(),
-            OptionValue::SKU => $option->getSku()
+            Metadata::PRICE => $option->getPrice(),
+            Metadata::PRICE_TYPE => $option->getPriceType(),
+            Metadata::SKU => $option->getSku()
         ];
         $fields = array_merge($fields, $this->getCustomAttributes($option));
         $value = $this->valueBuilder->populateWithArray($fields)->create();

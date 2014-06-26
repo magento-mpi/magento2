@@ -68,9 +68,9 @@ class WriteServiceTest extends WebapiAbstract
         /** @var \Magento\Catalog\Model\ProductRepository $repository */
         $repository = $this->objectManager->get('Magento\Catalog\Model\ProductRepository');
 
-        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface $reader */
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface $reader */
         $reader = $this->objectManager->get(
-            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface'
+            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface'
         );
 
         $product = $repository->get('simple');
@@ -85,7 +85,7 @@ class WriteServiceTest extends WebapiAbstract
             Data\Option::TYPE => $option->getType(),
             Data\Option::IS_REQUIRE => $option->getIsRequire(),
             Data\Option::SORT_ORDER => $option->getSortOrder(),
-            Data\Option::VALUE => $reader->read($option)
+            Data\Option::METADATA => $reader->read($option)
         );
         $optionObject = $this->optionBuilder->populateWithArray($data)->create();
         $format = function ($element) {
@@ -98,7 +98,7 @@ class WriteServiceTest extends WebapiAbstract
         };
 
         $actual = $optionObject->__toArray();
-        $actual['value'] = array_map($format, $actual['value']);
+        $actual['metadata'] = array_map($format, $actual['metadata']);
         $this->assertEquals($optionData, $actual);
     }
 
@@ -219,9 +219,9 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
 
-        $this->assertEquals(10, $optionDataPost['value'][0]['custom_attributes']['max_characters']['value']);
+        $this->assertEquals(10, $optionDataPost['metadata'][0]['custom_attributes']['max_characters']['value']);
         $optionDataPost['title'] = $optionDataPost['title'] . "_updated";
-        $optionDataPost['value'][0]['custom_attributes']['max_characters']['value'] = 500;
+        $optionDataPost['metadata'][0]['custom_attributes']['max_characters']['value'] = 500;
 
         $this->_webApiCall(
             $serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId, 'option' => $optionDataPost]
@@ -246,7 +246,7 @@ class WriteServiceTest extends WebapiAbstract
      * @magentoAppIsolation enabled
      * @dataProvider validOptionDataProvider
      */
-    public function testUpdateOptionAddingNewOptionValue($optionType)
+    public function testUpdateOptionAddingNewOptionMetadata($optionType)
     {
         $productId = 1;
         $fixtureOption = null;
@@ -272,9 +272,9 @@ class WriteServiceTest extends WebapiAbstract
             }
         }
 
-        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface $reader */
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface $reader */
         $reader = $this->objectManager->get(
-            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface'
+            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface'
         );
 
         $data = array(
@@ -282,11 +282,11 @@ class WriteServiceTest extends WebapiAbstract
             Data\Option::TYPE => $option->getType(),
             Data\Option::IS_REQUIRE => $option->getIsRequire(),
             Data\Option::SORT_ORDER => $option->getSortOrder(),
-            Data\Option::VALUE => $reader->read($fixtureOption)
+            Data\Option::METADATA => $reader->read($fixtureOption)
         );
         $optionObject = $this->optionBuilder->populateWithArray($data)->create();
         $optionDataPost = $optionObject->__toArray();
-        $optionDataPost['value'][] = $value;
+        $optionDataPost['metadata'][] = $value;
 
         $serviceInfo = [
             'rest' => [
@@ -333,9 +333,9 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
      * @magentoAppIsolation enabled
-     * @dataProvider optionValueUpdateDataProvider
+     * @dataProvider optionMetadataUpdateDataProvider
      */
-    public function testUpdateOptionValue($optionType)
+    public function testUpdateOptionMetadata($optionType)
     {
         $productId = 1;
         $fixtureOption = null;
@@ -352,27 +352,27 @@ class WriteServiceTest extends WebapiAbstract
             }
         }
 
-        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface $reader */
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface $reader */
         $reader = \Magento\TestFramework\ObjectManager::getInstance()
-            ->get('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
+            ->get('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface');
 
         $data = array(
             Data\Option::TITLE => $option->getTitle(),
             Data\Option::TYPE => $option->getType(),
             Data\Option::IS_REQUIRE => $option->getIsRequire(),
             Data\Option::SORT_ORDER => $option->getSortOrder(),
-            Data\Option::VALUE => $reader->read($fixtureOption)
+            Data\Option::METADATA => $reader->read($fixtureOption)
         );
         $optionObject = $this->optionBuilder->populateWithArray($data)->create();
         $optionDataPost = $optionObject->__toArray();
 
-        $updatedValues = $optionDataPost['value'];
+        $updatedValues = $optionDataPost['metadata'];
 
         foreach ($updatedValues as &$item) {
             $item['price'] = $item['price'] * 5;
             $item['sku'] = $item['sku'] . '_updated';
         }
-        $optionDataPost['value'] = $updatedValues;
+        $optionDataPost['metadata'] = $updatedValues;
 
         $serviceInfo = [
             'rest' => [
@@ -401,7 +401,7 @@ class WriteServiceTest extends WebapiAbstract
         }
     }
 
-    public function optionValueUpdateDataProvider()
+    public function optionMetadataUpdateDataProvider()
     {
         return [
             'drop_down' => ['drop_down'],
@@ -439,7 +439,7 @@ class WriteServiceTest extends WebapiAbstract
      * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
      * @magentoAppIsolation enabled
      */
-    public function testOptionValueRemoval()
+    public function testOptionMetadataRemoval()
     {
         $productSku = 'simple';
         $optionTitle = 'radio option';
@@ -451,12 +451,12 @@ class WriteServiceTest extends WebapiAbstract
 
         $options = $optionReadService->getList($productSku);
         $index = $this->getOptionIndexByTitle($optionTitle, $options);
-        $this->assertEquals(2, count($options[$index]->getValue()));
+        $this->assertEquals(2, count($options[$index]->getMetadata()));
 
         $optionId = $options[$index]->getOptionId();
         $optionDataPost = $options[$index]->__toArray();
         // remove one value
-        array_pop($optionDataPost['value']);
+        array_pop($optionDataPost['metadata']);
 
         $serviceInfo = [
             'rest' => [
@@ -483,14 +483,14 @@ class WriteServiceTest extends WebapiAbstract
             ]
         );
         $updatedOptions = $optionReadService->getList($productSku);
-        $this->assertEquals(1, count($updatedOptions[$index]->getValue()));
+        $this->assertEquals(1, count($updatedOptions[$index]->getMetadata()));
     }
 
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
      * @magentoAppIsolation enabled
      */
-    public function testLastOptionValueRemoval()
+    public function testLastOptionMetadataRemoval()
     {
         $productSku = 'simple';
         $optionTitle = 'radio option';
@@ -502,12 +502,12 @@ class WriteServiceTest extends WebapiAbstract
 
         $options = $optionReadService->getList($productSku);
         $index = $this->getOptionIndexByTitle($optionTitle, $options);
-        $this->assertEquals(2, count($options[$index]->getValue()));
+        $this->assertEquals(2, count($options[$index]->getMetadata()));
 
         $optionId = $options[$index]->getOptionId();
         $optionDataPost = $options[$index]->__toArray();
         // remove all values
-        $optionDataPost['value'] = [];
+        $optionDataPost['metadata'] = [];
 
         $serviceInfo = [
             'rest' => [

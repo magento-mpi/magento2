@@ -12,7 +12,7 @@ return [
         'type' => 'field',
         'sort_order' => 1,
         'is_require' => 1,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 10,
                 'price_type' => 'fixed',
@@ -31,7 +31,7 @@ return [
         'type' => 'area',
         'sort_order' => 2,
         'is_require' => 0,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 20,
                 'price_type' => 'percent',
@@ -51,7 +51,7 @@ return [
         'type' => 'file',
         'sort_order' => 3,
         'is_require' => 1,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 30,
                 'price_type' => 'percent',
@@ -78,7 +78,7 @@ return [
         'type' => 'drop_down',
         'sort_order' => 4,
         'is_require' => 1,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 10,
                 'price_type' => 'fixed',
@@ -116,7 +116,7 @@ return [
         'type' => 'radio',
         'sort_order' => 5,
         'is_require' => 1,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 10,
                 'price_type' => 'fixed',
@@ -154,7 +154,7 @@ return [
         'type' => 'checkbox',
         'sort_order' => 6,
         'is_require' => 1,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 10,
                 'price_type' => 'fixed',
@@ -192,7 +192,7 @@ return [
         'type' => 'multiple',
         'sort_order' => 7,
         'is_require' => 1,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 10,
                 'price_type' => 'fixed',
@@ -230,7 +230,7 @@ return [
         'type' => 'date',
         'is_require' => 1,
         'sort_order' => 8,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 80.0,
                 'price_type' => 'fixed',
@@ -243,7 +243,7 @@ return [
         'type' => 'date_time',
         'is_require' => 1,
         'sort_order' => 9,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 90.0,
                 'price_type' => 'fixed',
@@ -256,7 +256,7 @@ return [
         'type' => 'time',
         'is_require' => 1,
         'sort_order' => 10,
-        'value' => [
+        'metadata' => [
             [
                 'price' => 100.0,
                 'price_type' => 'fixed',

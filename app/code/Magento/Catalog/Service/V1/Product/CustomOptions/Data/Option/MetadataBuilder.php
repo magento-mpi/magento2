@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
 
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
-class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
+class MetadataBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**
      * @var string[]
@@ -46,7 +46,7 @@ class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      */
     public function setPrice($value)
     {
-        return $this->_set(OptionValue::PRICE, $value);
+        return $this->_set(Metadata::PRICE, $value);
     }
 
     /**
@@ -57,7 +57,7 @@ class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      */
     public function setPriceType($value)
     {
-        return $this->_set(OptionValue::PRICE_TYPE, $value);
+        return $this->_set(Metadata::PRICE_TYPE, $value);
     }
 
     /**
@@ -68,7 +68,7 @@ class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      */
     public function setSku($value)
     {
-        return $this->_set(OptionValue::SKU, $value);
+        return $this->_set(Metadata::SKU, $value);
     }
 
     /**
@@ -78,7 +78,7 @@ class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      */
     public function setOptionTypeId($value)
     {
-        return $this->_set(OptionValue::ID, $value);
+        return $this->_set(Metadata::ID, $value);
     }
 
     /**

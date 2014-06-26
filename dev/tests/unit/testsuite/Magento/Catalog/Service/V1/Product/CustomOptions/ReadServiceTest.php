@@ -38,7 +38,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $optionValueReaderMock;
+    protected $optionMetadataReaderMock;
 
     protected function setUp()
     {
@@ -57,8 +57,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->optionBuilderMock =
             $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder', [], [], '', false);
-        $this->optionValueReaderMock =
-            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
+        $this->optionMetadataReaderMock =
+            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface');
         $this->service = $helper->getObject(
             '\Magento\Catalog\Service\V1\Product\CustomOptions\ReadService',
             [
@@ -66,7 +66,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 'optionTypeBuilder' => $this->optionTypeBuilderMock,
                 'optionBuilder' => $this->optionBuilderMock,
                 'productRepository' => $this->productRepositoryMock,
-                'optionValueReader' => $this->optionValueReaderMock
+                'optionMetadataReader' => $this->optionMetadataReaderMock
             ]
         );
     }
@@ -134,7 +134,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             Data\Option::TYPE => 'text',
             Data\Option::IS_REQUIRE => true,
             Data\Option::SORT_ORDER => 10,
-            Data\Option::VALUE => $value
+            Data\Option::METADATA => $value
         ];
         $methods = array('getId', 'getTitle', 'getType', 'getIsRequire', 'getSortOrder', '__wakeup');
         $optionMock = $this->getMock('\Magento\Catalog\Model\Product\Option', $methods, [], '', false);
@@ -148,7 +148,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $optionMock->expects($this->once())->method('getType')->will($this->returnValue('text'));
         $optionMock->expects($this->once())->method('getIsRequire')->will($this->returnValue(true));
         $optionMock->expects($this->once())->method('getSortOrder')->will($this->returnValue(10));
-        $this->optionValueReaderMock
+        $this->optionMetadataReaderMock
             ->expects($this->once())
             ->method('read')
             ->with($optionMock)

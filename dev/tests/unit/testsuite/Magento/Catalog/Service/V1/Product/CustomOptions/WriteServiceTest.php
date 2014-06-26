@@ -41,7 +41,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $optionValueReaderMock;
+    protected $optionMetadataReaderMock;
 
     /**
      * @var \Magento\Catalog\Service\V1\Product\CustomOptions\WriteService
@@ -61,7 +61,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->optionTypeBuilderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader',
+            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader',
             [],
             [],
             '',
@@ -100,8 +100,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionBuilderMock =
             $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder', [], [], '', false);
 
-        $this->optionValueReaderMock = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface'
+        $this->optionMetadataReaderMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface'
         );
 
         $this->factoryMock = $this->getMock(
@@ -123,7 +123,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             $this->optionBuilderMock,
             $this->optionConverterMock,
             $this->repositoryMock,
-            $this->optionValueReaderMock,
+            $this->optionMetadataReaderMock,
             $this->factoryMock
         );
     }
@@ -235,7 +235,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionMock->expects($this->once())->method('getIsRequire')->will($this->returnValue(true));
         $this->optionMock->expects($this->once())->method('getSortOrder')->will($this->returnValue(10));
 
-        $this->optionValueReaderMock->expects($this->once())->method('read')->will($this->returnValue('some value'));
+        $this->optionMetadataReaderMock->expects($this->once())->method('read')->will($this->returnValue('some value'));
 
         $expectedData = [
             Data\Option::OPTION_ID => 10,
@@ -243,7 +243,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             Data\Option::TYPE => 'text',
             Data\Option::IS_REQUIRE => true,
             Data\Option::SORT_ORDER => 10,
-            'value' => 'some value'
+            'metadata' => 'some value'
         ];
 
         $this->optionBuilderMock->expects($this->once())

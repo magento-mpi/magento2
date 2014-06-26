@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class Reader implements ReaderInterface
 {
@@ -29,7 +29,7 @@ class Reader implements ReaderInterface
      * Load option value
      *
      * @param \Magento\Catalog\Model\Product\Option $option
-     * @return OptionValue[]
+     * @return Metadata[]
      */
     public function read(\Magento\Catalog\Model\Product\Option $option)
     {

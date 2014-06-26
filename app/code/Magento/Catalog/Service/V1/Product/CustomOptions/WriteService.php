@@ -25,9 +25,9 @@ class WriteService implements WriteServiceInterface
     protected $optionConverter;
 
     /**
-     * @var Data\OptionValue\ReaderInterface
+     * @var Data\Option\Metadata\ReaderInterface
      */
-    protected $optionValueReader;
+    protected $optionMetadataReader;
 
     /**
      * @var OptionBuilder
@@ -43,20 +43,20 @@ class WriteService implements WriteServiceInterface
      * @param OptionBuilder $optionBuilder
      * @param Data\Option\Converter $optionConverter
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
-     * @param Data\OptionValue\ReaderInterface $optionValueReader
+     * @param Data\Option\Metadata\ReaderInterface $optionMetadataReader
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      */
     public function __construct(
         OptionBuilder $optionBuilder,
         Data\Option\Converter $optionConverter,
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        Data\OptionValue\ReaderInterface $optionValueReader,
+        Data\Option\Metadata\ReaderInterface $optionMetadataReader,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory
     ) {
         $this->optionBuilder = $optionBuilder;
         $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
-        $this->optionValueReader = $optionValueReader;
+        $this->optionMetadataReader = $optionMetadataReader;
         $this->optionFactory = $optionFactory;
     }
 
@@ -97,7 +97,7 @@ class WriteService implements WriteServiceInterface
             Data\Option::TYPE => $newOption->getType(),
             Data\Option::IS_REQUIRE => $newOption->getIsRequire(),
             Data\Option::SORT_ORDER => $newOption->getSortOrder(),
-            Data\Option::VALUE => $this->optionValueReader->read($newOption)
+            Data\Option::METADATA => $this->optionMetadataReader->read($newOption)
         );
         $optionDataObject = $this->optionBuilder->populateWithArray($data)->create();
         return $optionDataObject;
@@ -131,11 +131,11 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
-     * @param \Magento\Catalog\Model\Product\Option\Value[] $allOptionValues
+     * @param \Magento\Catalog\Model\Product\Option\Value[] $allMetadatas
      * @param array $valuesToLeave
      * @return array
      */
-    protected function markValuesForRemoval($allOptionValues, $valuesToLeave)
+    protected function markValuesForRemoval($allMetadatas, $valuesToLeave)
     {
         $markedValues = $valuesToLeave;
         $idsToLeave = [];
@@ -143,12 +143,12 @@ class WriteService implements WriteServiceInterface
             $idsToLeave[] = $valueData['option_type_id'];
         }
 
-        /** @var $optionValue \Magento\Catalog\Model\Product\Option\Value */
-        foreach ($allOptionValues as $optionValue) {
-            if (!in_array($optionValue->getData('option_type_id'), $idsToLeave)) {
-                $optionValueData = $optionValue->getData();
-                $optionValueData['is_delete'] = 1;
-                $markedValues[] = $optionValueData;
+        /** @var $optionMetadata \Magento\Catalog\Model\Product\Option\Value */
+        foreach ($allMetadatas as $optionMetadata) {
+            if (!in_array($optionMetadata->getData('option_type_id'), $idsToLeave)) {
+                $optionMetadataData = $optionMetadata->getData();
+                $optionMetadataData['is_delete'] = 1;
+                $markedValues[] = $optionMetadataData;
             }
         }
         return $markedValues;

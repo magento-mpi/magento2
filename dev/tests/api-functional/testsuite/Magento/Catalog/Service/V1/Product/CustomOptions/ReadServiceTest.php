@@ -125,7 +125,7 @@ class ReadServiceTest extends WebapiAbstract
                 unset($element['option_type_id']);
                 return $element;
             };
-            $item['value'] = array_map($format, $item['value']);
+            $item['metadata'] = array_map($format, $item['metadata']);
             return $item;
         };
     }

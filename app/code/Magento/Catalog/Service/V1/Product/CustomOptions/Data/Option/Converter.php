@@ -8,21 +8,21 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ConverterInterface as ValueConverter;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface as MetadataConverter;
 
 class Converter
 {
     /**
-     * @var ValueConverter
+     * @var MetadataConverter
      */
-    protected $valueConverter;
+    protected $metadataConverter;
 
     /**
-     * @param ValueConverter $valueConverter
+     * @param MetadataConverter $valueConverter
      */
-    public function __construct(ValueConverter $valueConverter)
+    public function __construct(MetadataConverter $valueConverter)
     {
-        $this->valueConverter = $valueConverter;
+        $this->metadataConverter = $valueConverter;
     }
 
     /**
@@ -40,7 +40,7 @@ class Converter
             'sort_order' => $option->getSortOrder(),
             'is_require' => $option->getIsRequire()
         ];
-        $output = array_merge($output, $this->valueConverter->convert($option));
+        $output = array_merge($output, $this->metadataConverter->convert($option));
         return $output;
     }
 }

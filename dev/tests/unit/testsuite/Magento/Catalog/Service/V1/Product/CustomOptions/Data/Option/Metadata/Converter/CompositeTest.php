@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Converter;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ConverterInterface;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface;
 
 class CompositeTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,9 +36,9 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->converterMock =
-                $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ConverterInterface');
+                $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface');
         $this->converterSelectMock =
-            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Converter\Select',
+            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter\Select',
                 [], [], '', false);
         $this->model = new Composite(array('default' => $this->converterMock, 'select' => $this->converterSelectMock ));
     }

@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Converter;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ConverterInterface;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface;
 
 class DefaultConverter implements ConverterInterface
 {
@@ -21,12 +21,12 @@ class DefaultConverter implements ConverterInterface
      */
     public function convert(\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option)
     {
-        /** @var OptionValue $value */
-        $value = current($option->getValue());
+        /** @var Metadata $value */
+        $value = current($option->getMetadata());
         $output = [
-            OptionValue::PRICE => $value->getPrice(),
-            OptionValue::PRICE_TYPE => $value->getPriceType(),
-            OptionValue::SKU => $value->getSku(),
+            Metadata::PRICE => $value->getPrice(),
+            Metadata::PRICE_TYPE => $value->getPriceType(),
+            Metadata::SKU => $value->getSku(),
         ];
 
         foreach ($value->getCustomAttributes() as $attribute) {

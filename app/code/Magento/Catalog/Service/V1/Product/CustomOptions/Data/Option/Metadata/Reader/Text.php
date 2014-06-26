@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class Text extends DefaultReader
 {
@@ -17,6 +17,6 @@ class Text extends DefaultReader
      */
     protected function getCustomAttributes(\Magento\Catalog\Model\Product\Option $option)
     {
-        return [OptionValue::MAX_CHARACTERS => $option->getMaxCharacters()];
+        return [Metadata::MAX_CHARACTERS => $option->getMaxCharacters()];
     }
 }

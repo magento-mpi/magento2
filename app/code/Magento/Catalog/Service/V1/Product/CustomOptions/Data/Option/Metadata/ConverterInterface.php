@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 interface ConverterInterface
 {

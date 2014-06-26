@@ -15,7 +15,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     const TYPE = 'type';
     const SORT_ORDER = 'sort_order';
     const IS_REQUIRE = 'is_require';
-    const VALUE = 'value';
+    const METADATA = 'metadata';
 
     /**
      * Get option id
@@ -69,12 +69,12 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get option value
+     * Get option metadata
      *
-     * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue[]
+     * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata[]
      */
-    public function getValue()
+    public function getMetadata()
     {
-        return $this->_get(self::VALUE);
+        return $this->_get(self::METADATA);
     }
 }
