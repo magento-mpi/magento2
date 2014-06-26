@@ -1,12 +1,14 @@
-<div>
+<div class="text-center">
     <h1>Magento</h1>
     <p>Version x.x.x</p>
     <p>Welcome to Magento Admin, your online store headquarters.
-    Click 'Agree and Set Up Magento' or read <a href="#getting-start">Getting Start</a> to learn more.</p>
+    Click 'Agree and Set Up Magento' or read <a href="#/getting-start">Getting Start</a> to learn more.</p>
     <div id="localization">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                Action <span class="caret"></span>
+        <div class="btn-group" dropdown>
+            <button type="button" class="btn btn-default">Select language</button>
+            <button type="button" class="btn btn-default dropdown-toggle">
+                <span class="caret"></span>
+                <span class="sr-only">Split button!</span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li><a href="#">English</a></li>
@@ -15,9 +17,8 @@
                 <li><a href="#">Ukrainian</a></li>
             </ul>
         </div>
-    </div>
     <div>
-        <a href="#terms-and-agreement">Terms & Agreement</a>
+        <a href="#/terms-and-agreement">Terms & Agreement</a>
     </div>
-    <button type="button" class="btn-lg btn-default">Agree and Set Up Magento</button>
+    <button type="button" class="btn-lg btn-default" ng-click="next()">Agree and Set Up Magento</button>
 </div>

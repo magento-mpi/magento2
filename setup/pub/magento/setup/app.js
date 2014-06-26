@@ -1,33 +1,8 @@
 'use strict';
-var app = angular.module('magentoSetup', ['ui.router']);
-app.controller('navigationController',
-        ['$scope', '$location', '$state', 'navigationService',
-            function ($scope, $location, $state, navigationService) {
-                navigationService.load(function (data) {
-                    var currentState = $location.path().replace('/', '');
-                    var mainState = {};
-                    data.nav.forEach(function (item) {
-                        app.stateProvider.state(item.id, {
-                            url: item.url,
-                            templateUrl: item.templateUrl,
-                            controller: item.controller + 'Controller',
-                            title: item.title,
-                            step: item.step
-                        });
-                        if (item.main) {
-                            mainState = item;
-                        }
-                        if (currentState == item.id) {
-                            $state.go(currentState);
-                        }
-                    });
-                    if ($state.$current.abstract) {
-                        $state.go(mainState.id);
-                    }
-                });
-            }
-        ]
-    )
+var app = angular.module('magentoSetup', ['ui.router', 'ui.bootstrap']);
+app.controller('navigationController', ['$scope', 'navigationService', function ($scope, navigationService) {
+        navigationService.load();
+    }])
     .controller('readinessCheckController', ['$scope', function ($scope) {
         console.log('readinessCheckController');
     }])
@@ -46,20 +21,52 @@ app.controller('navigationController',
     .controller('installController', ['$scope', function ($scope) {
         console.log('installController');
     }])
-    .controller('landingController', ['$scope', function ($scope) {
-        console.log('landingController');
+    .controller('landingController', ['$scope', '$state', 'navigationService', function ($scope, $state, navigationService) {
+        $scope.next = function () {
+            $state.go(navigationService.getNextState().id);
+        };
     }])
     .controller('mainController', ['$scope', function ($scope) {
         console.log('mainController');
     }])
-    .service('navigationService', ['$http', function ($http) {
+    .service('navigationService', ['$location', '$state', '$http', function ($location, $state, $http) {
         return {
-            load: function (callback) {
-                $http.get('data/states').success(callback);
+            states: [],
+            load: function () {
+                var self = this;
+                $http.get('data/states').success(function (data) {
+                    var currentState = $location.path().replace('/', '');
+                    var mainState = {};
+                    var isCurrentStateFound = false;
+                    self.states = data.nav;
+                    data.nav.forEach(function (item) {
+                        app.stateProvider.state(item.id, item);
+                        if (item.main) {
+                            mainState = item;
+                        }
+
+                        if (currentState == item.url) {
+                            $state.go(item.id);
+                            isCurrentStateFound = true;
+                        }
+                    });
+                    if (!isCurrentStateFound) {
+                        $state.go(mainState.id);
+                    }
+                });
+            },
+            getNextState: function () {
+                var nItem = {};
+                this.states.forEach(function (item) {
+                    if (item.step == $state.$current.step + 1) {
+                        nItem = item;
+                    }
+                });
+                return nItem;
             }
         }
     }])
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider) {
         app.stateProvider = $stateProvider;
     }).run(function ($rootScope, $state) {
         $rootScope.$state = $state;

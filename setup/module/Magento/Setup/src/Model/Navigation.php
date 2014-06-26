@@ -49,4 +49,23 @@ class Navigation
             }
         );
     }
+
+
+    /**
+     * Retrieve array of menu items
+     *
+     * Returns only items with 'main' equal to TRUE
+     *
+     * @return array
+     */
+    public function getMainItem()
+    {
+        $result = array_filter(
+            $this->serviceLocator->get('config')['nav'],
+            function ($value) {
+                return isset($value['main']) && (bool)$value['main'];
+            }
+        );
+        return array_shift($result);
+    }
 }
