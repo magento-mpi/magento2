@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class TargetRule
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class TargetRule extends InjectableFixture
 {

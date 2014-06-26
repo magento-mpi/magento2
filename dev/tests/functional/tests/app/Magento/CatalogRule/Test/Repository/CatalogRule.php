@@ -12,9 +12,16 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CatalogRule
+ * Data for creation Catalog Price Rule
  */
 class CatalogRule extends AbstractRepository
 {
+    /**
+     * @param array $defaultConfig
+     * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['active_catalog_rule'] = [
@@ -63,6 +70,52 @@ class CatalogRule extends AbstractRepository
             ],
             'rule' => '[Category|is|2]',
             'simple_action' => 'By Percentage of the Original Price',
+            'discount_amount' => '10'
+        ];
+
+        $this->_data['catalog_price_rule_priority_0'] = [
+            'name' => 'catalog_price_rule_priority_0',
+            'description' => '-50% of price, Priority = 0',
+            'is_active' => 'Active',
+            'website_ids' => [
+                0 => 'Main Website'
+            ],
+            'customer_group_ids' => [
+                0 => 'NOT LOGGED IN'
+            ],
+            'sort_order' => '0',
+            'simple_action' => 'By Percentage of the Original Price',
+            'discount_amount' => '50',
+        ];
+
+        $this->_data['catalog_price_rule_priority_1_stop_further_rules'] = [
+            'name' => 'catalog_price_rule_priority_1_stop_further_rules',
+            'description' => 'Priority 1, -5 By fixed amount',
+            'is_active' => 'Active',
+            'website_ids' => [
+                0 => 'Main Website'
+            ],
+            'customer_group_ids' => [
+                0 => 'NOT LOGGED IN'
+            ],
+            'sort_order' => '1',
+            'simple_action' => 'By Fixed Amount',
+            'discount_amount' => '5',
+            'stop_rules_processing' => 'Yes'
+        ];
+
+        $this->_data['catalog_price_rule_priority_2'] = [
+            'name' => 'catalog_price_rule_priority_2',
+            'description' => 'Priority 2, -10 By fixed amount',
+            'is_active' => 'Active',
+            'website_ids' => [
+                0 => 'Main Website'
+            ],
+            'customer_group_ids' => [
+                0 => 'NOT LOGGED IN'
+            ],
+            'sort_order' => '2',
+            'simple_action' => 'By Fixed Amount',
             'discount_amount' => '10'
         ];
     }

@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CatalogRule
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogRule extends InjectableFixture
 {
@@ -127,7 +129,6 @@ class CatalogRule extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'conditions',
-        'source' => 'Magento\CatalogRule\Test\Fixture\Conditions'
     ];
 
     protected $rule = [
@@ -146,6 +147,20 @@ class CatalogRule extends InjectableFixture
     protected $id = [
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
+    ];
+
+    protected $sort_order = [
+        'attribute_code' => 'sort_order',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'rule_information',
+    ];
+
+    protected $stop_rules_processing = [
+        'attribute_code' => 'stop_rules_processing',
+        'default_value' => '',
+        'input' => 'select',
+        'group' => 'rule_information',
     ];
 
     public function getName()
@@ -216,5 +231,15 @@ class CatalogRule extends InjectableFixture
     public function getId()
     {
         return $this->getData('id');
+    }
+
+    public function getSortOrder()
+    {
+        return $this->getData('sort_order');
+    }
+
+    public function getStopRulesProcessing()
+    {
+        return $this->getData('stop_rules_processing');
     }
 }

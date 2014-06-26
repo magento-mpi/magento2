@@ -20,6 +20,8 @@ class SalesRuleInjectable extends AbstractRepository
      * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -58,8 +60,8 @@ class SalesRuleInjectable extends AbstractRepository
             'to_date' => ['pattern' => '6/29/2024'],
             'sort_order' => '1',
             'is_rss' => 'Yes',
-            'conditions_serialized' => '[Subtotal|is|300]{Conditions combination:
-                [[Shipping Country|is|United States][Shipping Postcode|is|123456789a]]}',
+            'conditions_serialized' => '[Subtotal|is|300]{Conditions combination:'
+                . '[[Shipping Country|is|United States][Shipping Postcode|is|123456789a]]}',
             'actions_serialized' => '[Category|is|2]',
             'simple_action' => 'Percent of product price discount',
             'discount_amount' => '50',

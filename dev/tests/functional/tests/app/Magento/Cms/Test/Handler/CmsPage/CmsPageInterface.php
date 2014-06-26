@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Handler\CmsPage; 
+namespace Magento\Cms\Test\Handler\CmsPage;
 
 use Mtf\Handler\HandlerInterface;
 
@@ -15,5 +15,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface CmsPageInterface extends HandlerInterface
 {
-   //
+    //
 }
