@@ -13,6 +13,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Magento\Review\Test\Page\Adminhtml\RatingIndex;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -38,21 +39,29 @@ use Mtf\TestCase\Injectable;
 class CreateFrontendProductRatingTest extends Injectable
 {
     /**
+     * Frontend product view page
+     *
      * @var CatalogProductView
      */
     protected $catalogProductView;
 
     /**
+     * Backend rating grid page
+     *
      * @var RatingIndex
      */
     protected $ratingIndex;
 
     /**
+     * Backend rating edit page
+     *
      * @var RatingEdit
      */
     protected $ratingEdit;
 
     /**
+     * Fixture review
+     *
      * @var ReviewInjectable
      */
     protected $review;
@@ -60,12 +69,14 @@ class CreateFrontendProductRatingTest extends Injectable
     /**
      * Prepare data
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(CatalogProductSimple $product)
+    public function __prepare(FixtureFactory $fixtureFactory)
     {
+        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'default']);
         $product->persist();
+
         return ['product' => $product];
     }
 
@@ -93,16 +104,17 @@ class CreateFrontendProductRatingTest extends Injectable
         CatalogProductSimple $product,
         ReviewInjectable $review
     ) {
+        // Prepare for tear down
+        $this->review = $review;
+
         // Steps
         $this->catalogProductView->init($product);
         $this->catalogProductView->open();
         $this->catalogProductView->getReviewSummaryBlock()->getAddReviewLink()->click();
 
-        $this->catalogProductView->getReviewFormBlock()->fill($review);
-        $this->catalogProductView->getReviewFormBlock()->submit();
-
-        // Prepare for tear down
-        $this->review = $review;
+        $reviewForm = $this->catalogProductView->getReviewFormBlock();
+        $reviewForm->fill($review);
+        $reviewForm->submit();
     }
 
     /**
@@ -112,15 +124,13 @@ class CreateFrontendProductRatingTest extends Injectable
      */
     public function tearDown()
     {
-        if (!$this->review) {
-            return;
-        }
-
+        $this->ratingIndex->open();
+        $ratingGrid = $this->ratingIndex->getRatingGrid();
+        $pageActions = $this->ratingEdit->getPageActions();
         foreach ($this->review->getRatings() as $rating) {
             $filter = ['rating_code' => $rating['title']];
-            $this->ratingIndex->open();
-            $this->ratingIndex->getRatingGrid()->searchAndOpen($filter);
-            $this->ratingEdit->getPageActions()->delete();
+            $ratingGrid->searchAndOpen($filter);
+            $pageActions->delete();
         }
     }
 }

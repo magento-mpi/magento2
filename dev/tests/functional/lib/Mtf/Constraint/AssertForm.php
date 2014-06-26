@@ -21,7 +21,7 @@ abstract class AssertForm extends AbstractConstraint
      * @param array $formData
      * @param bool $isStrict
      * @param bool $isPrepareError
-     * @return array|string|null
+     * @return mixed
      */
     protected function verifyData(array $fixtureData, array $formData, $isStrict = false, $isPrepareError = true)
     {
@@ -35,7 +35,7 @@ abstract class AssertForm extends AbstractConstraint
             }
 
             if (null === $formValue) {
-                $errors[] = "- field \"{$key}\" is absent in form";
+                $errors[] = '- field "' . $key . '" is absent in form';
             } elseif (is_array($value)) {
                 $valueErrors = $this->verifyData($value, $formValue, true, false);
                 if ($valueErrors) {
@@ -45,7 +45,7 @@ abstract class AssertForm extends AbstractConstraint
                 if (is_array($formValue)) {
                     $formValue = $this->arrayToString($formValue);
                 }
-                $errors[] = "- {$key}: \"{$formValue}\" instead of \"{$value}\"";
+                $errors[] = sprintf('- %s: "%s" instead of "%s"', $key, $formValue, $value);
             }
 
             $readyValues[] = $key;
@@ -56,10 +56,10 @@ abstract class AssertForm extends AbstractConstraint
             $errors[] = '- fields ' . implode(', ', $diffData) . ' is absent in fixture';
         }
 
-        if (empty($errors)) {
-            return null;
+        if ($isPrepareError) {
+            return empty($errors) ? null : $this->prepareErrors($errors);
         }
-        return $isPrepareError ? $this->prepareErrors($errors) : $errors;
+        return $errors;
     }
 
     /**

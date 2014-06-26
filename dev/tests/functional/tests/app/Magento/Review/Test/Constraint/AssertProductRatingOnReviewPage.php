@@ -53,7 +53,7 @@ class AssertProductRatingOnReviewPage extends AssertForm
         $this->sortData($reviewRatings, ['::title']);
         $this->sortData($formRatings, ['::title']);
         $error = $this->verifyData($reviewRatings, $formRatings);
-        \PHPUnit_Framework_Assert::assertTrue(null === $error, $error);
+        \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }
 
     /**

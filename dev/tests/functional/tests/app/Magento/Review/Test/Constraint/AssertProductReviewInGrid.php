@@ -36,10 +36,8 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * @param ReviewInjectable $review
      * @return void
      */
-    public function processAssert(
-        ReviewIndex $reviewIndex,
-        ReviewInjectable $review
-    ) {
+    public function processAssert(ReviewIndex $reviewIndex, ReviewInjectable $review)
+    {
         $filter = ['title' => $review->getTitle()];
 
         $reviewIndex->open();

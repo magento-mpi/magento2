@@ -31,8 +31,8 @@ class AssertProductRatingInProductPage extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductSimple $product
-     * @param ReviewInjectable|null $review
-     * @param Rating|null $productRating
+     * @param ReviewInjectable|null $review [optional]
+     * @param Rating|null $productRating [optional]
      * @return void
      */
     public function processAssert(
