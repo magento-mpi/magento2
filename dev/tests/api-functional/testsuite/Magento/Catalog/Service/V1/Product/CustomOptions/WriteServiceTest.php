@@ -437,12 +437,12 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     * @dataProvider selectTitlesProvider
      * @magentoAppIsolation enabled
      */
-    public function testOptionMetadataRemoval()
+    public function testOptionMetadataRemoval($optionTitle)
     {
         $productSku = 'simple';
-        $optionTitle = 'radio option';
 
         /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
         $optionReadService = $this->objectManager->create(
@@ -487,13 +487,28 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
+     * Select group option titles from fixture product(product_with_options.php)
+     *
+     * @return array
+     */
+    public function selectTitlesProvider()
+    {
+        return [
+            'radio' => ['radio option'],
+            'checkbox' => ['checkbox option'],
+            'multiple' => ['multiple option'],
+            'drop_down' => ['drop_down option'],
+        ];
+    }
+
+    /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     * @dataProvider selectTitlesProvider
      * @magentoAppIsolation enabled
      */
-    public function testLastOptionMetadataRemoval()
+    public function testLastOptionMetadataRemoval($optionTitle)
     {
         $productSku = 'simple';
-        $optionTitle = 'radio option';
 
         /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
         $optionReadService = $this->objectManager->create(
