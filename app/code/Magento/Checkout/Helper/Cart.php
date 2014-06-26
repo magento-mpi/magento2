@@ -14,6 +14,14 @@ namespace Magento\Checkout\Helper;
  */
 class Cart extends \Magento\Core\Helper\Url
 {
+    /**
+     * Path to controller to delete item from cart
+     */
+    const DELETE_URL = 'checkout/cart/delete';
+
+    /**
+     * Path for redirect to cart
+     */
     const XML_PATH_REDIRECT_TO_CART = 'checkout/cart/redirect_to_cart';
 
     /**
@@ -121,7 +129,23 @@ class Cart extends \Magento\Core\Helper\Url
             'id' => $item->getId(),
             \Magento\Framework\App\Action\Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
         );
-        return $this->_getUrl('checkout/cart/delete', $params);
+        return $this->_getUrl(self::DELETE_URL, $params);
+    }
+
+    /**
+     * Get post parameters for delete from cart
+     *
+     * @param   \Magento\Sales\Model\Quote\Item $item
+     * @return string
+     **/
+    public function getDeletePostJson($item)
+    {
+        $url = $this->_getUrl(self::DELETE_URL);
+
+        $data = [
+            'id' => $item->getId()
+        ];
+        return json_encode(array('action' => $url, 'data' => $data));
     }
 
     /**
