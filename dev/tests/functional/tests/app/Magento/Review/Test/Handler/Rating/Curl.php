@@ -31,10 +31,16 @@ class Curl extends AbstractCurl implements RatingInterface
         'is_active' => [
             'Yes' => 1,
             'No' => 0,
-        ],
-        'stores' => [
-            'Main Website/Main Website Store/Default Store View' => 1
         ]
+    ];
+
+    /**
+     * Mapping stores value
+     *
+     * @var array
+     */
+    protected $mappingStores = [
+        'Main Website/Main Website Store/Default Store View' => 1
     ];
 
     /**
@@ -48,7 +54,7 @@ class Curl extends AbstractCurl implements RatingInterface
     {
         $url = $_ENV['app_backend_url'] . 'review/rating/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $data = $this->replaceMappingData($rating->getData());
+        $data = $this->replaceMappingData($this->prepareData($rating->getData()));
 
         $data['stores'] = is_array($data['stores']) ? $data['stores'] : [$data['stores']];
         $data += $this->getAdditionalData();
@@ -62,6 +68,25 @@ class Curl extends AbstractCurl implements RatingInterface
         }
 
         return ['id' => $this->getProductRatingId()];
+    }
+
+    /**
+     * Prepare POST data for creating rating request
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepareData(array $data)
+    {
+        if (isset($data['stores'])) {
+            foreach ($data['stores'] as $key => $store) {
+                if (isset($this->mappingStores[$store])) {
+                    $data['stores'][$key] = $this->mappingStores[$store];
+                }
+            }
+        }
+
+        return $data;
     }
 
     /**
