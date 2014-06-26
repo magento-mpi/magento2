@@ -9,7 +9,8 @@ namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Catalog\Service\V1\ProductMetadataService;
+use Magento\Catalog\Service\V1\Product\MetadataService;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase

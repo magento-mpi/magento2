@@ -90,7 +90,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->metadataServiceMock = $this->getMockBuilder(
-            '\Magento\Catalog\Service\V1\ProductMetadataService'
+            '\Magento\Catalog\Service\V1\Product\MetadataService'
         )->disableOriginalConstructor()
             ->getMock();
 

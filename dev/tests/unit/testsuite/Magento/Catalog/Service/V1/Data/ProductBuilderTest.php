@@ -26,7 +26,7 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         
         $this->_productMetadataService = $this->getMockBuilder(
-            'Magento\Catalog\Service\V1\ProductMetadataService'
+            'Magento\Catalog\Service\V1\Product\MetadataService'
         )->setMethods(
             array('getCustomAttributesMetadata')
         )->disableOriginalConstructor()->getMock();

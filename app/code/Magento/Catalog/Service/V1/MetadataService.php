@@ -77,7 +77,7 @@ class MetadataService implements MetadataServiceInterface
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param Data\Product\SearchResultsBuilder $searchResultsBuilder
+     * @param \Magento\Framework\Service\V1\Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\Eav\AttributeMetadataBuilder $attributeBuilder
      */
     public function __construct(
@@ -85,7 +85,7 @@ class MetadataService implements MetadataServiceInterface
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder,
         \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
+        \Magento\Framework\Service\V1\Data\SearchResultsBuilder $searchResultsBuilder,
         \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder $attributeBuilder
     ) {
         $this->eavConfig = $eavConfig;
