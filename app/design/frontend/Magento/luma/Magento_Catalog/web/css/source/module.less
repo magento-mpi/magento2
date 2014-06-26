@@ -216,7 +216,7 @@
     }
 
     .box-tocart {
-        margin: @indent-base 0;
+        margin: 0 0 @indent-l-base;
         .field.qty {
         }
         .input-text.qty {
@@ -228,7 +228,9 @@
         .action.tocart {
             .button-l();
             &:extend(.button-responsive all);
-            margin-bottom: 10px;
+            &:not(:last-child) {
+                margin-bottom: 15px; 
+            }
             vertical-align: top;
         }
     }
@@ -240,6 +242,11 @@
     }
     .product.reviews.summary {
         float: left;
+    }
+    .product-options-bottom {
+        .box-tocart {
+            margin-top: @form-field-vertical-indent;
+        }
     }
 }
 
@@ -282,16 +289,15 @@
                 margin-bottom: @indent-s-base + @indent-xs-base;
             }
         }
-        .product {
-            &-add-form {
-                border-top: 1px #c1c1c1 solid;
-                padding-top: @indent-base;
-            }
+        .product-add-form {
+            border-top: 1px #c1c1c1 solid;
+            padding-top: @indent-base;
         }
         .box-tocart {
             .action.tocart {
                 width: 49%;
                 margin-right: 1%;
+                margin-bottom: 0;
             }
         }
 
