@@ -82,6 +82,7 @@ class TestCase extends AbstractGenerate
      *
      * @return array
      * @throws \Exception
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function getTicketData($jiraTicket)
     {
@@ -163,6 +164,8 @@ class TestCase extends AbstractGenerate
      *
      * @param \SimpleXMLElement $item
      * @return void
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     private function generateTestCaseClass(\SimpleXMLElement $item)
     {

@@ -17,6 +17,8 @@ class BundleFixed extends Bundle
 {
     /**
      * Initialize fixture data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _initData()
     {

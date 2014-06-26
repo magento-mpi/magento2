@@ -19,8 +19,11 @@ class CatalogProductSimple extends AbstractRepository
     /**
      * Constructor
      *
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * @param array $defaultConfig [optional]
+     * @param array $defaultData [optional]
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {

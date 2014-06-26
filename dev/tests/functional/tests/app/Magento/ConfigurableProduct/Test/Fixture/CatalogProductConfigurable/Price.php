@@ -56,6 +56,8 @@ class Price implements FixtureInterface
      *
      * @param string|null $key [optional]
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

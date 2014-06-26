@@ -18,6 +18,9 @@ use Mtf\System\Event\EventManagerInterface;
 /**
  * Class CatalogProductBundle
  * Fixture for Bundle product
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields) 
  */
 class CatalogProductBundle extends InjectableFixture
 {
@@ -54,6 +57,9 @@ class CatalogProductBundle extends InjectableFixture
         $dataSet = '',
         $persist = false
     ) {
+        if (!isset($data['url_key']) && isset($data['name'])) {
+            $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
+        }
         parent::__construct(
             $configuration,
             $repositoryFactory,
@@ -64,10 +70,6 @@ class CatalogProductBundle extends InjectableFixture
             $dataSet,
             $persist
         );
-
-        if (!isset($this->data['url_key']) && isset($this->data['name'])) {
-            $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
-        }
     }
 
     protected $dataConfig = [

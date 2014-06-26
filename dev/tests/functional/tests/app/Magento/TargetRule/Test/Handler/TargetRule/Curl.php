@@ -28,6 +28,11 @@ class Curl extends Conditions implements TargetRuleInterface
      * @var array
      */
     protected $mapTypeParams = [
+        'Conditions combination' => [
+            'type' => 'Magento\TargetRule\Model\Rule\Condition\Combine',
+            'aggregator' => 'all',
+            'value' => 1
+        ],
         'Attribute Set' => [
             'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
             'attribute' => 'attribute_set_id'
@@ -78,9 +83,10 @@ class Curl extends Conditions implements TargetRuleInterface
         $data = $this->replaceMappingData($targetRule->getData());
 
         if (!isset($data['conditions_serialized'])) {
-            $data['conditions_serialized'] = '';
+            $data['rule']['conditions'] = '';
+        } else {
+            $data['rule']['conditions'] = $this->prepareCondition($data['conditions_serialized']);
         }
-        $data['rule']['conditions'] = $this->prepareCondition($data['conditions_serialized']);
         unset($data['conditions_serialized']);
         if (!isset($data['actions_serialized'])) {
             $data['actions_serialized'] = '';

@@ -90,8 +90,10 @@ class RequiredFieldsTest extends Functional
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getName()),
-            'Product is absent on category page');
+        $this->assertTrue(
+            $productListBlock->isProductVisible($product->getName()),
+            'Product is absent on category page'
+        );
         $productListBlock->openProductViewPage($product->getName());
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();

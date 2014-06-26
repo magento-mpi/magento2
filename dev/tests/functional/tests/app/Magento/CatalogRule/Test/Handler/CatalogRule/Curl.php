@@ -28,6 +28,11 @@ class Curl extends Conditions implements CatalogRuleInterface
      * @var array
      */
     protected $mapTypeParams = [
+        'Conditions combination' => [
+            'type' => 'Magento\CatalogRule\Model\Rule\Condition\Combine',
+            'aggregator' => 'all',
+            'value' => 1
+        ],
         'Category' => [
             'type' => 'Magento\CatalogRule\Model\Rule\Condition\Product',
             'attribute' => 'category_ids',
