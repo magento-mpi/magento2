@@ -84,11 +84,18 @@ class TaxRateServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'CreateTaxRate'
             ]
         ];
-        $this->setExpectedException(
-            '\Exception',
-            'Code already exists.'
-        );
-        $this->_webApiCall($serviceInfo, $data);
+        try {
+            $this->_webApiCall($serviceInfo, $data);
+            $this->fail('Expected exception was not raised');
+        } catch (\Exception $e) {
+            $expectedMessage = 'Code already exists.';
+
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
     }
 
     public function testCreateTaxRate()
