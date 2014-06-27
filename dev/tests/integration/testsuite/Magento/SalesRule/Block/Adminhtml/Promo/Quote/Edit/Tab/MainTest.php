@@ -55,14 +55,5 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $groups = $customerGroupService->getGroups();
         $expected = $objectConverter->toOptionArray($groups, 'id', 'code');
         $this->assertEquals($expected, $customerGroupsField->getValues());
-
-        $usesPerCustomerField = $form->getElement('uses_per_customer');
-        $expectedNote = 'Usage limit enforced for logged in customers only.';
-        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\AbstractElement', $usesPerCustomerField);
-        $this->assertEquals(
-            $expectedNote,
-            $usesPerCustomerField->getNote(),
-            'Wrong \'rule_uses_per_customer\' field note'
-        );
     }
 }
