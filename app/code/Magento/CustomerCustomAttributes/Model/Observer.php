@@ -478,22 +478,23 @@ class Observer
      * @param int $convertType
      * @return $this
      */
-    protected function _copyFieldset(\Magento\Framework\Event\Observer $observer, $algoritm, $convertType)
-    {
+    protected function _copyFieldset(
+        \Magento\Framework\Event\Observer $observer,
+        $algoritm = self::CONVERT_ALGORITM_TARGET_WITHOUT_PREFIX,
+        $convertType = self::CONVERT_TYPE_CUSTOMER
+    ) {
         $source = $observer->getEvent()->getSource();
         $target = $observer->getEvent()->getTarget();
 
         if ($source instanceof \Magento\Framework\Model\AbstractModel &&
             $target instanceof \Magento\Framework\Model\AbstractModel
         ) {
-            if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
-                $attributes = $this->_customerData->getCustomerUserDefinedAttributeCodes();
-                $prefix = 'customer_';
-            } elseif ($convertType == self::CONVERT_TYPE_CUSTOMER_ADDRESS) {
+            if ($convertType == self::CONVERT_TYPE_CUSTOMER_ADDRESS) {
                 $attributes = $this->_customerData->getCustomerAddressUserDefinedAttributeCodes();
                 $prefix = '';
             } else {
-                return $this;
+                $attributes = $this->_customerData->getCustomerUserDefinedAttributeCodes();
+                $prefix = 'customer_';
             }
 
             foreach ($attributes as $attribute) {
@@ -507,11 +508,10 @@ class Observer
                         $targetAttribute = $prefix . $attribute;
                         break;
                     case self::CONVERT_ALGORITM_TARGET_WITHOUT_PREFIX:
+                    default:
                         $sourceAttribute = $prefix . $attribute;
                         $targetAttribute = $attribute;
                         break;
-                    default:
-                        return $this;
                 }
                 $target->setData($targetAttribute, $source->getData($sourceAttribute));
             }

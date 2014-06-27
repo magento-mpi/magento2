@@ -13,14 +13,18 @@ namespace Magento\Framework\Service\V1\Data;
  */
 class SearchResults extends \Magento\Framework\Service\Data\AbstractObject
 {
+    const KEY_ITEMS = 'items';
+    const KEY_SEARCH_CRITERIA = 'search_criteria';
+    const KEY_TOTAL_COUNT = 'total_count';
+
     /**
      * Get items
      *
-     * @return array
+     * @return \Magento\Framework\Service\Data\AbstractObject[]
      */
     public function getItems()
     {
-        return is_null($this->_get('items')) ? array() : $this->_get('items');
+        return is_null($this->_get(self::KEY_ITEMS)) ? [] : $this->_get(self::KEY_ITEMS);
     }
 
     /**
@@ -30,7 +34,7 @@ class SearchResults extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getSearchCriteria()
     {
-        return $this->_get('search_criteria');
+        return $this->_get(self::KEY_SEARCH_CRITERIA);
     }
 
     /**
@@ -40,6 +44,6 @@ class SearchResults extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getTotalCount()
     {
-        return $this->_get('total_count');
+        return $this->_get(self::KEY_TOTAL_COUNT);
     }
 }

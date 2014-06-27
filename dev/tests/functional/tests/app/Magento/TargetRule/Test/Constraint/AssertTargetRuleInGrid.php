@@ -36,6 +36,8 @@ class AssertTargetRuleInGrid extends AbstractConstraint
      * @param TargetRuleIndex $targetRuleIndex
      * @param TargetRule|null $initialTargetRule
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         TargetRule $targetRule,

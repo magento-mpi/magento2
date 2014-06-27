@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CatalogRule
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogRule extends InjectableFixture
 {

@@ -112,6 +112,8 @@ class Form extends FormInterface
      * @param FixtureInterface $fixture
      * @param Element $element
      * @return $this|void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
