@@ -4,6 +4,10 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
         navigationService.load();
     }])
     .controller('readinessCheckController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+
+        $scope.completed = false;
+        $scope.hasErrors = false;
+
         $scope.version = {
             visible: false,
             processed: false,
@@ -30,6 +34,8 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
                 process: function(data) {
                     $scope.version.processed = true;
                     angular.extend($scope.version, data);
+                    $scope.updateOnProcessed($scope.version.responseType);
+
                 }
             },
             {
@@ -41,6 +47,7 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
                 process: function(data) {
                     $scope.extensions.processed = true;
                     angular.extend($scope.extensions, data);
+                    $scope.updateOnProcessed($scope.extensions.responseType);
                 }
             },
             {
@@ -52,9 +59,20 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
                 process: function(data) {
                     $scope.permissions.processed = true;
                     angular.extend($scope.permissions, data);
+                    $scope.updateOnProcessed($scope.permissions.responseType);
                 }
             }
         ];
+
+        $scope.isCompleted = function() {
+            return $scope.version.processed
+                && $scope.extensions.processed
+                && $scope.permissions.processed;
+        }
+
+        $scope.updateOnProcessed = function(value) {
+            $scope.hasErrors = $scope.hasErrors || (value != 'success');
+        }
 
         $scope.updateOnError = function(obj) {
             obj.expanded = true;

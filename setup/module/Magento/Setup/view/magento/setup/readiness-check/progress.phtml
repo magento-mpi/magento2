@@ -18,9 +18,17 @@
 </style>
 
 <div class="rediness-check-items" ng-controller="readinessCheckController">
-    <div class="rediness-check-block bg-info">
-        We're making sure your server environment is ready for Magento to be installed.
+    <div class="rediness-check-block bg-info" ng-switch="isCompleted()">
+        <div ng-switch-when="true" ng-switch="hasErrors">
+            <span ng-switch-when="true">Completed! You need to resolve these issues to continue.</span>
+            <span ng-switch-default>Completed!</span>
+        </div>
+        <div ng-switch-default>
+            <img src="pub/images/ajax-loader.gif" />
+            <span>We're making sure your server environment is ready for Magento to be installed.</span>
+        </div>
     </div>
+
     <div id="php-version" ng-show="version.visible">
         <div ng-hide="version.processed">
             <span>Checking PHP Version...</span>
