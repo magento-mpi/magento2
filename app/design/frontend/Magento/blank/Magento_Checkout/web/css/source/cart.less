@@ -43,8 +43,8 @@
                 }
                 strong {
                     .column.main & {
-                        font-weight: @font-weight-bold;
-                        font-size: @font-size-base;
+                        font-weight: @font-weight-base;
+                        .font-size(18);
                     }
                 }
             }
@@ -75,7 +75,7 @@
         .actions-toolbar {
             > .primary {
                 button {
-                    .button-revert-secondary-color();
+                    &:extend(.abstract-revert-secondary-color all);
                 }
             }
         }
@@ -104,17 +104,6 @@
         }
     }
 
-    .checkout.methods {
-        &:extend(.reset-list all);
-        text-align: center;
-        margin-top: @indent-s-base;
-        .action.primary {
-            .button-l();
-            margin-bottom: 20px;
-            width: 100%;
-        }
-    }
-
     //  Products table
     &.table.wrapper {
         thead {
@@ -132,7 +121,7 @@
                     margin-left: 0;
                 }
                 &.help.map {
-                    .button-as-link();
+                    &:extend(.abstract-action-button-as-link all);
                     font-weight: @font-weight-base;
                 }
             }
@@ -250,6 +239,16 @@
                 }
             }
         }
+        .checkout.methods {
+            &:extend(.reset-list all);
+            text-align: center;
+            margin-top: @indent-s-base;
+            .action.primary {
+                .button-l();
+                margin-bottom: 20px;
+                width: 100%;
+            }
+        }
     }
 }
 
@@ -297,10 +296,12 @@
             position: relative;
             float: right;
             width: 23%;
-            .fieldset .actions-toolbar {
-                margin-left: 0;
-                > .secondary {
-                    float: none;
+            .actions-toolbar {
+                .column.main & {
+                    margin-left: 0;
+                    > .secondary {
+                        float: none;
+                    }
                 }
             }
             .block {
