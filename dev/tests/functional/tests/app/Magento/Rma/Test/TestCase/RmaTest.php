@@ -20,6 +20,7 @@ class RmaTest extends Functional
      */
     public function testRma()
     {
+        $this->markTestIncomplete('MAGETWO-23889');
         // Setup Preconditions:
         $this->configureRma();
 
@@ -65,7 +66,8 @@ class RmaTest extends Functional
         $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
         $rmaPage = Factory::getPageFactory()->getAdminRmaEdit();
         $rmaPage->getFormTabsBlock()->openTab('return_items');
-        $this->assertTrue($rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
+        $this->assertTrue(
+            $rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
             'Product lists does not match items returned list'
         );
 
@@ -139,14 +141,14 @@ class RmaTest extends Functional
         $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
         $returnItem->switchData('rma');
 
-        $returnItem->addProductName($payPalExpressOrder->getProduct(0)->getProductName());
+        $returnItem->addProductName($payPalExpressOrder->getProduct(0)->getName());
         $returnItemForm->fillRma('0', $returnItem);
 
         // Step 7: Click "Add Item to Return" for the configurable product.
         $returnItemForm->submitAddItemToReturn();
 
         // Step 8: Fill "Return Items Information" form (configurable product)
-        $returnItem->addProductName($payPalExpressOrder->getProduct(1)->getProductName());
+        $returnItem->addProductName($payPalExpressOrder->getProduct(1)->getName());
         $returnItemForm->fillRma('1', $returnItem);
 
         // Step 9: Submit the return.

@@ -36,6 +36,8 @@ class RemoveTaxRule extends Curl
      *
      * @param FixtureInterface $fixture [optional]
      * @return mixed|string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function persist(FixtureInterface $fixture = null)
     {

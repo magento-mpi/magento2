@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CmsPage
  * CMS Page fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CmsPage extends InjectableFixture
 {
@@ -58,7 +60,7 @@ class CmsPage extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '1',
         'default_value' => 'All Store Views',
-        'input' => 'select',
+        'input' => 'multiselectgrouplist',
         'group' => 'page_information',
         'selector' => '#page_store_id'
     ];
@@ -128,6 +130,7 @@ class CmsPage extends InjectableFixture
         'attribute_code' => 'content_heading',
         'backend_type' => 'varchar',
         'is_required' => '',
+        'group' => 'content',
         'default_value' => ''
     ];
 

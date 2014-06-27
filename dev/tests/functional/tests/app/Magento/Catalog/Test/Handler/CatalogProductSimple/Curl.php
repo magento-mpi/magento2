@@ -89,48 +89,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     {
         $config = $fixture->getDataConfig();
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
-        // @todo remove "if" when fixtures refactored
-        if ($fixture instanceof InjectableFixture) {
-            $fields = $this->replacePlaceholder($fixture->getData(), $this->placeholderData);
-            // Getting Tax class id
-            if ($fixture->hasData('tax_class_id')) {
-                $taxClassId = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
-                $fields['tax_class_id'] = ($taxClassId === null)
-                    ? $this->getTaxClassId($fields['tax_class_id'])
-                    : $taxClassId;
-            }
-            if (isset($fields['tier_price'])) {
-                $fields['tier_price'] = $this->preparePriceData($fields['tier_price']);
-            }
-            if (isset($fields['group_price'])) {
-                $fields['group_price'] = $this->preparePriceData($fields['group_price']);
-            }
-            if (!empty($fields['category_ids'])) {
-                $categoryIds = [];
-                foreach ($fields['category_ids'] as $categoryData) {
-                    $categoryIds[] = $categoryData['id'];
-                }
-                $fields['category_ids'] = $categoryIds;
-            }
+        $data = $this->prepareData($fixture, $prefix);
 
-            $data = $prefix ? [$prefix => $fields] : $fields;
-        } else {
-            $data = $this->_prepareData($fixture->getData('fields'), $prefix);
-        }
-
-        $url = $this->_getUrl($config);
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
-        $response = $curl->read();
-        $curl->close();
-
-        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Product creation by curl handler was not successful! Response: $response");
-        }
-        preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
-        $id = isset($matches[1]) ? $matches[1] : null;
-        return ['id' => $id];
+        return ['id' => $this->createProduct($data, $config)];
     }
 
     /**
@@ -197,6 +158,82 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     }
 
     /**
+     * Prepare POST data for creating product request
+     *
+     * @param FixtureInterface $fixture
+     * @param string|null $prefix
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    protected function prepareData(FixtureInterface $fixture, $prefix = null)
+    {
+        $fields = $this->replaceMappingData($fixture->getData());
+        // Getting Tax class id
+        if ($fixture->hasData('tax_class_id')) {
+            $taxClassId = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
+            $fields['tax_class_id'] = ($taxClassId === null)
+                ? $this->getTaxClassId($fields['tax_class_id'])
+                : $taxClassId;
+        }
+
+        if (!empty($fields['category_ids'])) {
+            $categoryIds = [];
+            foreach ($fields['category_ids'] as $categoryData) {
+                $categoryIds[] = $categoryData['id'];
+            }
+            $fields['category_ids'] = $categoryIds;
+        }
+        
+        if (isset($fields['tier_price'])) {
+            $fields['tier_price'] = $this->preparePriceData($fields['tier_price']);
+        }
+        if (isset($fields['group_price'])) {
+            $fields['group_price'] = $this->preparePriceData($fields['group_price']);
+        }
+        
+        if (!empty($fields['website_ids'])) {
+            foreach ($fields['website_ids'] as &$value) {
+                $value = isset($this->mappingData['website_ids'][$value])
+                    ? $this->mappingData['website_ids'][$value]
+                    : $value;
+            }
+        }
+
+        // Getting Attribute Set id
+        if ($fixture->hasData('attribute_set_id')) {
+            $attributeSetId = $fixture
+                ->getDataFieldConfig('attribute_set_id')['source']
+                ->getAttributeSet()
+                ->getAttributeSetId();
+            $fields['attribute_set_id'] = $attributeSetId;
+        }
+
+        $data = $prefix ? [$prefix => $fields] : $fields;
+
+        return $data;
+    }
+
+    /**
+     * Preparation of tier price data
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function preparePriceData(array $fields)
+    {
+        foreach ($fields as &$field) {
+            foreach ($this->priceData as $key => $data) {
+                $field[$data['name']] = $this->priceData[$key]['data'][$field[$key]];
+                unset($field[$key]);
+            }
+            $field['delete'] = '';
+        }
+        return $fields;
+    }
+
+    /**
      * Remove items from a null
      *
      * @param array $data
@@ -242,21 +279,27 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     }
 
     /**
-     * Preparation of tier price data
+     * Create product via curl
      *
-     * @param array $fields
-     * @return array
+     * @param array $data
+     * @param array $config
+     * @return int|null
+     * @throws \Exception
      */
-    protected function preparePriceData(array $fields)
+    protected function createProduct(array $data, array $config)
     {
-        foreach ($fields as &$field) {
-            foreach ($this->priceData as $key => $data) {
-                $field[$data['name']] = $this->priceData[$key]['data'][$field[$key]];
-                unset($field[$key]);
-            }
-            $field['delete'] = '';
+        $url = $this->getUrl($config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $response = $curl->read();
+        $curl->close();
+
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("Product creation by curl handler was not successful! Response: $response");
         }
-        return $fields;
+        preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
+        return isset($matches[1]) ? $matches[1] : null;
     }
 
     /**

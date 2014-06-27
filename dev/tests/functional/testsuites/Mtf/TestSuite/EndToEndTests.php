@@ -43,10 +43,6 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\RelatedProductTest');
 
-        // Shopping Cart
-        // Simple product with recurring payment
-        $suite->addTestSuite('Magento\RecurringPayment\Test\TestCase\RecurringPaymentTest');
-
         // Product search
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');
 

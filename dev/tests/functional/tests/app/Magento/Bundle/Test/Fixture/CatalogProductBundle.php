@@ -17,6 +17,9 @@ use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductBundle
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogProductBundle extends InjectableFixture
 {

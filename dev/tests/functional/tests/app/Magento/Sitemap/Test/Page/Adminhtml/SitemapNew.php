@@ -12,7 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class SitemapNew
- *
  */
 class SitemapNew extends BackendPage
 {
@@ -25,9 +24,9 @@ class SitemapNew extends BackendPage
             'locator' => '#add_sitemap_form',
             'strategy' => 'css selector',
         ],
-        'formPageActions' => [
-            'name' => 'formPageActions',
-            'class' => 'Magento\Backend\Test\Block\FormPageActions',
+        'sitemapPageActions' => [
+            'name' => 'sitemapPageActions',
+            'class' => 'Magento\Sitemap\Test\Block\Adminhtml\SitemapPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -42,10 +41,10 @@ class SitemapNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\FormPageActions
+     * @return \Magento\Sitemap\Test\Block\Adminhtml\SitemapPageActions
      */
-    public function getFormPageActions()
+    public function getSitemapPageActions()
     {
-        return $this->getBlockInstance('formPageActions');
+        return $this->getBlockInstance('sitemapPageActions');
     }
 }
