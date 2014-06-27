@@ -1,6 +1,8 @@
 <div ng-include="'controls/navbar'" ng-hide="$state.is('root.readiness-check')"></div>
 
-<div ng-include="'controls/header'"></div>
+<div class="page-header">
+    <h1>{{$state.current.header}}</h1>
+</div>
 
 <div ng-show="$state.is('root.readiness-check')" >
     <p>Let's check your environment for the corrent PHP version, PHP extensions, file permissions and compatibility.</p>

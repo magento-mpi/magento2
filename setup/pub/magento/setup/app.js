@@ -195,7 +195,7 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
             getNextState: function () {
                 var nItem = {};
                 this.states.forEach(function (item) {
-                    if (item.step == $state.$current.step + 1) {
+                    if (item.serial == $state.$current.serial + 1) {
                         nItem = item;
                     }
                 });
@@ -207,4 +207,16 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
         app.stateProvider = $stateProvider;
     }).run(function ($rootScope, $state) {
         $rootScope.$state = $state;
+    })
+    .config(function($provide) {
+        $provide.decorator('$state', function($delegate, $stateParams) {
+            $delegate.forceReload = function() {
+                return $delegate.go($delegate.current, $stateParams, {
+                    reload: true,
+                    inherit: false,
+                    notify: true
+                });
+            };
+            return $delegate;
+        });
     });
