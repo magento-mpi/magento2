@@ -8,8 +8,9 @@
 namespace Magento\Catalog\Service\V1\Category\ProductLinks;
 
 use Magento\Catalog\Model\Category;
-use Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverter;
 use Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverterFactory;
+use Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink;
+use Magento\Catalog\Service\V1\Data\Eav\Category\ProductLinkBuilder;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
@@ -25,14 +26,14 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     private $category;
 
     /**
-     * @var ProductConverterFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProductLink|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $productConverterFactory;
+    private $productLink;
 
     /**
-     * @var ProductConverter|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProductLinkBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $productConverter;
+    private $productLinkBuilder;
 
     protected function setUp()
     {
@@ -51,22 +52,23 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $categoryFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->category));
 
-        $this->productConverter = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverter')
-            ->setMethods(['createProductDataFromModel', 'setPosition'])
+        $this->productLink = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productConverterFactory = $this->getMockBuilder(
-            '\Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverterFactory'
-        )->setMethods(['create'])->disableOriginalConstructor()->getMock();
-        $this->productConverterFactory->expects($this->any())->method('create')
-            ->will($this->returnValue($this->productConverter));
+        $this->productLinkBuilder = $this->getMockBuilder(
+            'Magento\Catalog\Service\V1\Data\Eav\Category\ProductLinkBuilder'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->productLinkBuilder->expects($this->any())->method('create')
+            ->will($this->returnValue($this->productLink));
 
         $this->model = $objectManager->getObject(
             'Magento\Catalog\Service\V1\Category\ProductLinks\ReadService',
             [
                 'categoryFactory' => $categoryFactory,
-                'productConverterFactory' => $this->productConverterFactory
+                'productLinkBuilder' => $this->productLinkBuilder
             ]
         );
     }
@@ -76,15 +78,17 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $categoryId = 3;
         $productPosition = 1;
         $productId = $categoryId + 6;
+        $productSku = "sku{$productId}";
 
-        $productDto = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\Product')
+        $productDto = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink')
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var \Magento\Catalog\Model\Product $productObject */
+        /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $productObject */
         $productObject = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->getMock();
+        $productObject->expects($this->once())->method('getSku')->will($this->returnValue($productSku));
 
         /** @var \Magento\Framework\Data\Collection\Db|\PHPUnit_Framework_MockObject_MockObject $productCollection */
         $productCollection = $this->getMockBuilder('Magento\Framework\Data\Collection\Db')
@@ -100,10 +104,14 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->category->expects($this->once())->method('getProductCollection')
             ->will($this->returnValue($productCollection));
 
-        $this->productConverter->expects($this->once())->method('setPosition')->with($this->equalTo($productPosition));
-        $this->productConverter->expects($this->once())->method('createProductDataFromModel')
-            ->with($this->equalTo($productObject))
-            ->will($this->returnValue($productDto));
+        $this->productLinkBuilder->expects($this->any())->method('populateWithArray')->with(
+            $this->equalTo(
+                [
+                    ProductLink::SKU => $productSku,
+                    ProductLink::POSITION => $productPosition
+                ]
+            )
+        )->will($this->returnValue($this->productLinkBuilder));
 
         $this->assertEquals([$productDto], $this->model->assignedProducts($categoryId));
     }

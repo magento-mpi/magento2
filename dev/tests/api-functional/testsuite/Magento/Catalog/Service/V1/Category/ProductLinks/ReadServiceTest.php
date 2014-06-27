@@ -29,16 +29,10 @@ class ReadServiceTest extends WebapiAbstract
         $expected = [
             [
                 'sku' => 'simple333',
-                'status' => 1,
                 'position' => '1',
             ],
         ];
         $result = $this->getAssignedProducts($this->modelId);
-
-        $this->assertArrayHasKey(0, $result);
-        $this->assertArrayHasKey('updated_at', $result[0]);
-        $this->assertArrayHasKey('custom_attributes', $result[0]);
-        unset($result[0]['updated_at'], $result[0]['custom_attributes']);
 
         $this->assertEquals($expected, $result);
     }

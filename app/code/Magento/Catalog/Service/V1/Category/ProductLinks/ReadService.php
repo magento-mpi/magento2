@@ -11,7 +11,8 @@ use Magento\Catalog\Model\Category as CategoryModel;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverterFactory;
-use Magento\Catalog\Service\V1\Data\Eav\Category\ProductBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink;
+use Magento\Catalog\Service\V1\Data\Eav\Category\ProductLinkBuilder;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -23,27 +24,20 @@ class ReadService implements ReadServiceInterface
     private $categoryFactory;
 
     /**
-     * @var ProductBuilder
+     * @var ProductLinkBuilder
      */
-    private $productBuilder;
-    /**
-     * @var ProductConverterFactory
-     */
-    private $productConverterFactory;
+    private $productLinkBuilder;
 
     /**
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param ProductBuilder $productBuilder
-     * @param ProductConverterFactory $productConverterFactory
+     * @param CategoryFactory $categoryFactory
+     * @param ProductLinkBuilder $productLinkBuilder
      */
     public function __construct(
         CategoryFactory $categoryFactory,
-        ProductBuilder $productBuilder,
-        ProductConverterFactory $productConverterFactory
+        ProductLinkBuilder $productLinkBuilder
     ) {
         $this->categoryFactory = $categoryFactory;
-        $this->productBuilder = $productBuilder;
-        $this->productConverterFactory = $productConverterFactory;
+        $this->productLinkBuilder = $productLinkBuilder;
     }
 
     /**
@@ -57,16 +51,14 @@ class ReadService implements ReadServiceInterface
         /** @var \Magento\Framework\Data\Collection\Db $products */
         $products = $category->getProductCollection();
 
-        /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\Product $dtoProductList */
+        /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\Product[] $dtoProductList */
         $dtoProductList = [];
-
-        /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverter $productConverter */
-        $productConverter = $this->productConverterFactory->create(['productBuilder' => $this->productBuilder]);
 
         /** @var \Magento\Catalog\Model\Product $product */
         foreach ($products->getItems() as $productId => $product) {
-            $productConverter->setPosition($productsPosition[$productId]);
-            $dtoProductList[] = $productConverter->createProductDataFromModel($product);
+            $dtoProductList[] = $this->productLinkBuilder->populateWithArray(
+                [ProductLink::SKU => $product->getSku(), ProductLink::POSITION => $productsPosition[$productId]]
+            )->create();
         }
 
         return $dtoProductList;
