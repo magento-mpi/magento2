@@ -98,7 +98,7 @@ class Extensions
      * @param string $value
      * @return bool
      */
-    public function filter($value)
+    protected function filter($value)
     {
         return strpos($value, 'ext-') === 0;
     }
@@ -110,7 +110,7 @@ class Extensions
      *
      * @param string $value
      */
-    public function process(&$value)
+    protected function process(&$value)
     {
         $value = preg_replace('/^ext-/', '', $value);
     }
