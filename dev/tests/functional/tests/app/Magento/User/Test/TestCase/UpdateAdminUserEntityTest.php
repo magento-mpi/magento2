@@ -9,7 +9,7 @@
 namespace Magento\User\Test\TestCase;
 
 use Magento\Backend\Test\Page\AdminAuthLogin;
-use Magento\User\Test\Fixture\AdminUserInjectable;
+use Magento\User\Test\Fixture\User;
 use Magento\User\Test\Fixture\AdminUserRole;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
@@ -90,14 +90,14 @@ class UpdateAdminUserEntityTest extends Injectable
     /**
      * Runs Update Admin User test
      *
-     * @param AdminUserInjectable $user
-     * @param AdminUserInjectable $initialUser
+     * @param User $user
+     * @param User $initialUser
      * @param string $loginAsDefaultAdmin
      * @return array
      */
     public function testUpdateAdminUser(
-        AdminUserInjectable $user,
-        AdminUserInjectable $initialUser,
+        User $user,
+        User $initialUser,
         $loginAsDefaultAdmin
     ) {
         // Precondition
@@ -121,13 +121,13 @@ class UpdateAdminUserEntityTest extends Injectable
     /**
      * Merging user data and returns custom user
      *
-     * @param AdminUserInjectable $user
-     * @param AdminUserInjectable $initialUser
-     * @return AdminUserInjectable
+     * @param User $user
+     * @param User $initialUser
+     * @return User
      */
     protected function mergeUsers(
-        AdminUserInjectable $user,
-        AdminUserInjectable $initialUser
+        User $user,
+        User $initialUser
     ) {
         $data = array_merge($initialUser->getData(), $user->getData());
         if (isset($data['role_id'])) {
@@ -138,7 +138,7 @@ class UpdateAdminUserEntityTest extends Injectable
             ];
         }
 
-        return $this->fixtureFactory->createByCode('adminUserInjectable', ['data' => $data]);
+        return $this->fixtureFactory->createByCode('user', ['data' => $data]);
     }
 
     /**

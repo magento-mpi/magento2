@@ -11,7 +11,7 @@ namespace Magento\User\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Magento\Backend\Test\Page\Dashboard;
 use Magento\Backend\Test\Page\AdminAuthLogin;
-use Magento\User\Test\Fixture\AdminUserInjectable;
+use Magento\User\Test\Fixture\User;
 
 /**
  * Class LoginUserTest
@@ -54,10 +54,10 @@ class LoginUserTest extends Injectable
     /**
      * Test admin login to backend
      *
-     * @param AdminUserInjectable $user
+     * @param User $user
      * @return void
      */
-    public function test(AdminUserInjectable $user)
+    public function test(User $user)
     {
         // Steps
         $this->loginPage->open();

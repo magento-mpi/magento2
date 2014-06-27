@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Fixture\AdminUserInjectable;
+namespace Magento\User\Test\Fixture\User;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;

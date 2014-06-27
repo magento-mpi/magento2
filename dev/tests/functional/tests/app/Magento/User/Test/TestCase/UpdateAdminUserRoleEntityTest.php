@@ -12,7 +12,7 @@ use Magento\Backend\Test\Page\AdminAuthLogin;
 use Magento\Backend\Test\Page\Dashboard;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
-use Magento\User\Test\Fixture\AdminUserInjectable;
+use Magento\User\Test\Fixture\User;
 use Magento\User\Test\Fixture\AdminUserRole;
 use Mtf\TestCase\Injectable;
 
@@ -80,13 +80,13 @@ class UpdateAdminUserRoleEntityTest extends Injectable
      *
      * @param AdminUserRole $roleInit
      * @param AdminUserRole $role
-     * @param AdminUserInjectable $user
+     * @param User $user
      * @return array
      */
     public function testUpdateAdminUserRolesEntity(
         AdminUserRole $roleInit,
         AdminUserRole $role,
-        AdminUserInjectable $user
+        User $user
     ) {
         // Preconditions
         $roleInit->persist();

@@ -11,21 +11,21 @@ namespace Magento\User\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class AdminUserInjectable
+ * Class User
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class AdminUserInjectable extends InjectableFixture
+class User extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\User\Test\Repository\AdminUserInjectable';
+    protected $repositoryClass = 'Magento\User\Test\Repository\User';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\User\Test\Handler\AdminUserInjectable\AdminUserInterface';
+    protected $handlerInterface = 'Magento\User\Test\Handler\User\UserInterface';
 
     protected $defaultDataSet = [
         'username' => 'AdminUser%isolation%',
@@ -173,7 +173,7 @@ class AdminUserInjectable extends InjectableFixture
         'attribute_code' => 'role_id',
         'backend_type' => 'virtual',
         'group' => 'user-role',
-        'source' => 'Magento\User\Test\Fixture\AdminUserInjectable\RoleId'
+        'source' => 'Magento\User\Test\Fixture\User\RoleId'
     ];
 
     protected $password_confirmation = [
