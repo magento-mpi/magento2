@@ -111,20 +111,6 @@ class Ga extends \Magento\Framework\View\Element\Template
             } else {
                 $address = $order->getShippingAddress();
             }
-            $result[] = sprintf(
-                "ga('ec:setAction', 'purchase', {
-                    'id': '%s',
-                    'affiliation': '%s',
-                    'revenue': '%s',
-                    'shipping': '%s',
-                    'tax': '%s'
-                });",
-                $order->getIncrementId(),
-                $this->escapeJsQuote($this->_storeManager->getStore()->getFrontendName()),
-                $order->getBaseGrandTotal(),
-                $order->getBaseShippingAmount(),
-                $order->getBaseTaxAmount()
-            );
 
             foreach ($order->getAllVisibleItems() as $item) {
                 $result[] = sprintf(
@@ -132,7 +118,7 @@ class Ga extends \Magento\Framework\View\Element\Template
                         'id': '%s',
                         'name': '%s',
                         'price': '%s',
-                        'quantity': '%s'
+                        'quantity': %s
                     });",
                     $this->escapeJsQuote($item->getSku()),
                     $this->escapeJsQuote($item->getName()),
@@ -140,6 +126,22 @@ class Ga extends \Magento\Framework\View\Element\Template
                     $item->getQtyOrdered()
                 );
             }
+
+            $result[] = sprintf(
+                "ga('ec:setAction', 'purchase', {
+                    'id': '%s',
+                    'affiliation': '%s',
+                    'revenue': '%s',
+                    'tax': '%s',
+                    'shipping': '%s'
+                });",
+                $order->getIncrementId(),
+                $this->escapeJsQuote($this->_storeManager->getStore()->getFrontendName()),
+                $order->getBaseGrandTotal(),
+                $order->getBaseTaxAmount(),
+                $order->getBaseShippingAmount()
+            );
+
             $result[] = "ga('send', 'pageview');";
         }
         return implode("\n", $result);
