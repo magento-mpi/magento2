@@ -22,7 +22,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $import = new \stdClass();
 
-        $model = new \Magento\Catalog\Model\Indexer\Product\Eav\Plugin\Import($eavProcessorMock);
+        $model = new \Magento\CatalogImportExport\Model\Indexer\Product\Eav\Plugin\Import($eavProcessorMock);
 
         $this->assertEquals(
             $import,
