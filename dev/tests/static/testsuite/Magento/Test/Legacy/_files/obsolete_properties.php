@@ -193,7 +193,6 @@ return array(
     array('_dirs', 'Magento\Core\Block\Template'),
     array('_applicationDirs', 'Magento\Framework\App\Config\FileResolver'),
     array('_dir', 'Magento\Core\Model\File\Storage'),
-    array('_dir', 'Magento\Framework\Locale\Hierarchy\Config\FileResolver'),
     array('_dirs', 'Magento\Core\Block\Template\Context'),
     array('_dir', 'Magento\Core\Model\Page\Asset\MergeService'),
     array('_dir', 'Magento\Core\Model\Page\Asset\MinifyService'),
@@ -323,4 +322,5 @@ return array(
     ['_viewFileResolution', 'Magento\Framework\View\FileSystem', '_fileResolution, _localeFileResolution'],
     ['_inventoryModel', 'Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection'],
     ['_productInstance', 'Magento\CatalogInventory\Model\Stock\Item'],
+    ['_regionBuilder', 'Magento\Customer\Model\Address\Converter'],
 );

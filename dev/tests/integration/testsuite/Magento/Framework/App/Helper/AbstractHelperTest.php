@@ -1,0 +1,55 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Framework\App\Helper;
+
+class AbstractHelperTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Magento\Framework\App\Helper\AbstractHelper|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helper = null;
+
+    protected function setUp()
+    {
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\Helper\Context');
+        $this->_helper = $this->getMock(
+            'Magento\Framework\App\Helper\AbstractHelper',
+            array('_getModuleName'),
+            array($context)
+        );
+        $this->_helper->expects($this->any())->method('_getModuleName')->will($this->returnValue('Magento_Core'));
+    }
+
+    /**
+     * @covers \Magento\Framework\App\Helper\AbstractHelper::isModuleEnabled
+     * @covers \Magento\Framework\App\Helper\AbstractHelper::isModuleOutputEnabled
+     */
+    public function testIsModuleEnabled()
+    {
+        $this->assertTrue($this->_helper->isModuleEnabled());
+        $this->assertTrue($this->_helper->isModuleOutputEnabled());
+    }
+
+    public function testUrlEncodeDecode()
+    {
+        $data = uniqid();
+        $result = $this->_helper->urlEncode($data);
+        $this->assertNotContains('&', $result);
+        $this->assertNotContains('%', $result);
+        $this->assertNotContains('+', $result);
+        $this->assertNotContains('=', $result);
+        $this->assertEquals($data, $this->_helper->urlDecode($result));
+    }
+
+    public function testTranslateArray()
+    {
+        $data = array(uniqid(), array(uniqid(), array(uniqid())));
+        $this->assertEquals($data, $this->_helper->translateArray($data));
+    }
+}
