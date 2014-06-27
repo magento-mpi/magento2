@@ -51,6 +51,30 @@
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
+    <route url="/V1/products/attributes" method="GET">
+        <service class="Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface" method="search" />
+        <resources>
+            <resource ref="Magento_Catalog::attributes_attributes" />
+        </resources>
+    </route>
+    <route url="/V1/categories/attributes/:id/options" method="GET">
+        <service class="Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface" method="options" />
+        <resources>
+            <resource ref="Magento_Catalog::attributes_attributes" />
+        </resources>
+    </route>
+    <route url="/V1/categories/attributes/:id" method="GET">
+        <service class="Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface" method="info" />
+        <resources>
+            <resource ref="Magento_Catalog::attributes_attributes" />
+        </resources>
+    </route>
+    <route url="/V1/categories/attributes" method="GET">
+        <service class="Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface" method="search" />
+        <resources>
+            <resource ref="Magento_Catalog::attributes_attributes" />
+        </resources>
+    </route>
     <route url="/V1/products/attributes" method="POST">
         <service class="Magento\Catalog\Service\V1\Product\Attribute\WriteServiceInterface" method="create"/>
         <resources>
@@ -65,12 +89,6 @@
     </route>
     <route url="/V1/products/attributes/:attributeId" method="DELETE">
         <service class="Magento\Catalog\Service\V1\Product\Attribute\WriteServiceInterface" method="remove"/>
-        <resources>
-            <resource ref="Magento_Catalog::attributes_attributes" />
-        </resources>
-    </route>
-    <route url="/V1/products/attributes" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface" method="search"/>
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>

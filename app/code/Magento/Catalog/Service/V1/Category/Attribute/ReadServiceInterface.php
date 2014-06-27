@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Product\Attribute;
+namespace Magento\Catalog\Service\V1\Category\Attribute;
 
 /**
  * Class ReadServiceInterface
- * @package Magento\Catalog\Service\V1\Product\Attribute
  */
 interface ReadServiceInterface
 {
     /**
-     * Retrieve list of product attribute types
+     * Retrieve list of attribute options
      *
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\Type[]
+     * @param string $id
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Option[]
+     *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function types();
+    public function options($id);
 
     /**
      * Get full information about a required attribute with the list of options

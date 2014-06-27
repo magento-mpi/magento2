@@ -13,7 +13,6 @@ use Magento\Catalog\Service\V1\Product\MetadataServiceInterface;
 /**
  * Class ReadService
  *
- * @package Magento\Catalog\Service\V1\Product\Attribute
  */
 class ReadService implements ReadServiceInterface
 {

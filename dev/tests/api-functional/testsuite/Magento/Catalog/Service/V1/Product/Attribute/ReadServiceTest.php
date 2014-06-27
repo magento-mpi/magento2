@@ -90,7 +90,7 @@ class ReadServiceTest extends WebapiAbstract
     public function testSearch($filterGroups, $expectedAttributes, $sortData)
     {
         list($sortField, $sortValue) = $sortData;
-        if ($sortValue === SearchCriteria::SORT_DESC && TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
         }
         /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
@@ -124,7 +124,7 @@ class ReadServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'search'
+                'operation' => self::SERVICE_NAME . 'Search'
             ]
         ];
 
