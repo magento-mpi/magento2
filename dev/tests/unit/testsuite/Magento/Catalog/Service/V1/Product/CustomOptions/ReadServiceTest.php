@@ -161,6 +161,5 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionBuilderMock->expects($this->once())->method('create')->will($this->returnValue($optionData));
 
         $this->assertEquals(array($optionData), $this->service->getList('product_sku'));
-
     }
 }

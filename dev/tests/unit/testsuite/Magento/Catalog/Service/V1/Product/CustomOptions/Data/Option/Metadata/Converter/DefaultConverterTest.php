@@ -35,17 +35,32 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->optionMock = $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option',
-            [], [], '', false);
-        $this->attributeValueMock = $this->getMock('\Magento\Framework\Service\Data\Eav\AttributeValue',
-            [], [], '', false);
+        $this->optionMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->attributeValueMock = $this->getMock(
+            '\Magento\Framework\Service\Data\Eav\AttributeValue',
+            [],
+            [],
+            '',
+            false
+        );
         $this->model = new DefaultConverter();
     }
 
     public function testConverter()
     {
-        $this->optionMetadata = $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata',
-            [], [], '', false);
+        $this->optionMetadata = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata',
+            [],
+            [],
+            '',
+            false
+        );
         $this->optionMock
             ->expects($this->once())
             ->method('getMetadata')

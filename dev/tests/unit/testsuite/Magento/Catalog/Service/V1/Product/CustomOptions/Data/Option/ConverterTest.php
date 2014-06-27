@@ -30,14 +30,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->metadataConverterMock = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface', [], [], '', false
+            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface'
         );
         $this->optionMock = $this->getMock(
             '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false
         );
 
-        $this->service =
-            new Converter($this->metadataConverterMock);
+        $this->service = new Converter($this->metadataConverterMock);
     }
 
     public function testConvert()

@@ -35,19 +35,29 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->converterMock =
-                $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface');
-        $this->converterSelectMock =
-            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter\Select',
-                [], [], '', false);
-        $this->model = new Composite(array('default' => $this->converterMock, 'select' => $this->converterSelectMock ));
+        $this->converterMock = $this->getMock(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface'
+        );
+        $this->converterSelectMock = $this->getMock(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter\Select',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->model = new Composite(['default' => $this->converterMock, 'select' => $this->converterSelectMock]);
     }
 
     public function testConverterWithSelectType()
     {
         $this->optionMock =
-            $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option',
-            [], [], '', false);
+            $this->getMock(
+                '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option',
+                [],
+                [],
+                '',
+                false
+            );
         $this->optionMock->expects($this->once())->method('getType')->will($this->returnValue('select'));
         $this->converterSelectMock
             ->expects($this
@@ -61,8 +71,13 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     public function testConverterWithDefaultType()
     {
         $this->optionMock =
-            $this->getMock('\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option',
-                [], [], '', false);
+            $this->getMock(
+                '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option',
+                [],
+                [],
+                '',
+                false
+            );
         $this->optionMock->expects($this->once())->method('getType')->will($this->returnValue('other'));
         $this->converterMock
             ->expects($this

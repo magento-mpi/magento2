@@ -41,8 +41,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     public function testRead()
     {
-        $valueMock = $this->getMock('\Magento\Catalog\Model\Product\Option', ['getPrice', 'getPriceType', 'getSku',
-            'getTitle', 'getSortOrder', 'getId', '__wakeup'], [], '', false);
+        $valueMock = $this->getMock(
+            '\Magento\Catalog\Model\Product\Option',
+            ['getPrice', 'getPriceType', 'getSku', 'getTitle', 'getSortOrder', 'getId', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $this->optionMock->expects($this->any())->method('getValues')->will($this->returnValue(array($valueMock)));
         $valueMock->expects($this->once())->method('getPrice')->will($this->returnValue('35'));
         $valueMock->expects($this->once())->method('getPriceType')->will($this->returnValue('USD'));

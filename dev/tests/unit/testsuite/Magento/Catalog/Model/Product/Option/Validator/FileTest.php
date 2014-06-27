@@ -23,8 +23,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $configMock = $this->getMock('Magento\Catalog\Model\ProductOptions\ConfigInterface');
-        $priceConfigMock =
-            new \Magento\Catalog\Model\Config\Source\Product\Options\Price();
+        $priceConfigMock = new \Magento\Catalog\Model\Config\Source\Product\Options\Price();
         $config = [
             [
                 'label' => 'group label 1',
