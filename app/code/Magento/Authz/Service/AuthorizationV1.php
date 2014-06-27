@@ -180,7 +180,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
             throw $e;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new LocalizedException (
+            throw new LocalizedException(
                 'Error happened while getting a list of allowed resources. Check exception log for details.'
             );
         }
@@ -198,7 +198,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
             throw $e;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new LocalizedException (
+            throw new LocalizedException(
                 'Error happened while deleting role and permissions. Check exception log for details.'
             );
         }
@@ -226,17 +226,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 throw NoSuchEntityException::singleField('userType', $userType);
         }
         $role = $this->_roleFactory->create();
-        $role->setRoleName(
-            $roleName
-        )->setUserType(
-                $userType
-            )->setUserId(
-                $userId
-            )->setRoleType(
-                $roleType
-            )->setParentId(
-                $parentId
-            )->save();
+        $role->setRoleName($roleName)
+            ->setUserType($userType)
+            ->setUserId($userId)
+            ->setRoleType($roleType)
+            ->setParentId($parentId)
+            ->save();
         return $role;
     }
 
