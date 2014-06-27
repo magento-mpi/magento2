@@ -1,25 +1,21 @@
 <?php
 /**
- * Store actions block
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Backend\Test\Block\System\Store;
 
-use Mtf\Block\Block;
+use \Magento\Backend\Test\Block\GridPageActions as ParentGridPageActions;
 
-class Actions extends Block
+/**
+ * Class GridPageActions
+ * Grid page actions block in Cms Block grid page
+ */
+class GridPageActions extends ParentGridPageActions
 {
-    /**
-     * Save button
-     *
-     * @var string
-     */
-    protected $saveButton = '#save';
-
     /**
      * Add Store button
      *
@@ -28,18 +24,12 @@ class Actions extends Block
     protected $addStoreButton = '#add_store';
 
     /**
-     * Add store
+     * Click on Add Store Button
+     *
+     * @return void
      */
     public function addStoreView()
     {
         $this->_rootElement->find($this->addStoreButton)->click();
-    }
-
-    /**
-     * Click "Save" button
-     */
-    public function clickSave()
-    {
-        $this->_rootElement->find($this->saveButton)->click();
     }
 }

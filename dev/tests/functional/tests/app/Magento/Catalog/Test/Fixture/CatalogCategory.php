@@ -195,6 +195,18 @@ class CatalogCategory extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $landing_page = [
+        'attribute_code' => 'landing_page',
+        'backend_type' => 'virtual',
+        'input' => 'select',
+    ];
+
+    protected $display_mode = [
+        'attribute_code' => 'display_mode',
+        'backend_type' => 'virtual',
+        'input' => 'select',
+    ];
+
     public function getEntityId()
     {
         return $this->getData('entity_id');
@@ -298,5 +310,15 @@ class CatalogCategory extends InjectableFixture
     public function getIncludeInMenu()
     {
         return $this->getData('include_in_menu');
+    }
+
+    public function getLandingPage()
+    {
+        return $this->getData('landing_page');
+    }
+
+    public function getDisplayMode()
+    {
+        return $this->getData('display_mode');
     }
 }

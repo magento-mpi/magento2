@@ -35,12 +35,15 @@ class Curl extends AbstractCurl implements CatalogCategoryInterface
     /**
      * Post request for creating Subcategory
      *
-     * @param FixtureInterface $fixture [optional]
-     * @return mixed|string
+     * @param FixtureInterface|null $fixture [optional]
+     * @return array
      */
     public function persist(FixtureInterface $fixture = null)
     {
         $data['general'] = $fixture->getData();
+        if ($fixture->hasData('landing_page')) {
+            $data['general']['landing_page'] = $this->getBlockId($fixture->getLandingPage());
+        }
         foreach ($data['general'] as $key => $value) {
             if ($value == 'Yes') {
                 $data['general'][$key] = 1;
@@ -63,7 +66,27 @@ class Curl extends AbstractCurl implements CatalogCategoryInterface
         $curl->close();
 
         preg_match('#http://.+/id/(\d+).+store/#m', $response, $matches);
-        $id = isset($matches[1]) ? $matches[1] : null;
+        $id = isset($matches[1]) ? (int)$matches[1] : null;
+
         return ['id' => $id];
+    }
+
+    /**
+     * Getting block id by name
+     *
+     * @param string $landingName
+     * @return int|null
+     */
+    public function getBlockId($landingName)
+    {
+        $url = $_ENV['app_backend_url'] . 'catalog/category';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], []);
+        $response = $curl->read();
+        $curl->close();
+        preg_match('~<option.*value="(\d+)".*>' . preg_quote($landingName) . '</option>~', $response, $matches);
+        $id = isset($matches[1]) ? (int)$matches[1] : null;
+
+        return $id;
     }
 }
