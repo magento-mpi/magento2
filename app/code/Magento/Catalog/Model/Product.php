@@ -783,17 +783,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function eavReindexCallback()
     {
-        $reindexRequired = false;
-        foreach ($this->getTypeInstance()->getSetAttributes($this) as $code => $attribute) {
-            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            if ($attribute->isIndexable()) {
-                if ($this->dataHasChangedFor($code)) {
-                    $reindexRequired = true;
-                    break;
-                }
-            }
-        }
-        if ($reindexRequired) {
+        if ($this->isObjectNew() || $this->hasDataChanges()) {
             $this->_productEavIndexerProcessor->reindexRow($this->getEntityId());
         }
     }
