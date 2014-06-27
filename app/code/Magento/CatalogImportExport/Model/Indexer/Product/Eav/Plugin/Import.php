@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Product\Eav\Plugin;
+namespace Magento\CatalogImportExport\Model\Indexer\Product\Eav\Plugin;
 
 class Import
 {
