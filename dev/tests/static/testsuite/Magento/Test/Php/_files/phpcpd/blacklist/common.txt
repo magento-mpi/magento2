@@ -120,6 +120,7 @@ var/generation
 Magento/Newsletter/Block/Adminhtml/Template/Grid/Renderer
 Magento/Newsletter/Model/Template/Filter
 Magento/Newsletter/Model/Resource/Subscriber
+Magento/Tax/Service/V1/Data
 Magento/CatalogInventory/Model/Resource/Stock/Item
 lib/internal/Magento/Framework/Filesystem/Driver
 Magento/OfflineShipping/Model/Carrier

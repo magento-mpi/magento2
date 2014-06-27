@@ -67,8 +67,8 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             $serviceInfo,
             [],
             WebapiException::HTTP_UNAUTHORIZED,
-            'Consumer ID %consumer_id is not authorized to access %resources',
-            ['consumer_id' => '30', 'resources' => 'resourceN']
+            'Consumer is not authorized to access %resources',
+            ['resources' => 'resourceN']
         );
     }
 
@@ -81,15 +81,12 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             )
         );
 
-        $expectedMessages = array(
-            'Non service exception',
-            'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX'
-        );
+        $expectedMessage = 'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX';
         $this->_errorTest(
             $serviceInfo,
             [],
             WebapiException::HTTP_INTERNAL_ERROR,
-            $expectedMessages
+            $expectedMessage
         );
     }
 
@@ -118,6 +115,11 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             //Report ID was created dynamically, so we need to replace it with some static value in order to test
             if (preg_match('/.*Report\sID\:\s([a-zA-Z0-9\-]*)/', $actualMessage, $matches)) {
                 $actualMessage = str_replace($matches[1], 'webapi-XXX', $actualMessage);
+            }
+            //make sure that the match for a report with an id is found if Internal error was reported
+            //Refer : \Magento\Webapi\Controller\ErrorProcessor::INTERNAL_SERVER_ERROR_MSG
+            if (count($matches) > 1) {
+                $this->assertTrue(!empty($matches[1]), 'Report id missing for internal error.');
             }
             $this->assertContains(
                 $actualMessage,

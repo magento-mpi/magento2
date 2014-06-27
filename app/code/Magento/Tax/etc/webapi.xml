@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route url="/V1/taxClass" method="POST">
+        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="createTaxClass"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+    <route url="/V1/taxClass/:taxClassId" method="GET">
+        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="getTaxClass"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+    <route url="/V1/taxClass/:taxClassId" method="PUT">
+        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="updateTaxClass"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+    <route url="/V1/taxClass/:taxClassId" method="DELETE">
+        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="deleteTaxClass"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+    <route url="/V1/taxClass/search" method="PUT">
+        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="searchTaxClass"/>
+        <resources>
+            <resource ref="Magento_Tax::manage_tax"/>
+        </resources>
+    </route>
+</routes>
