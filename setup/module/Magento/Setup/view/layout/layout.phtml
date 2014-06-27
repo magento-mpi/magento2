@@ -1,31 +1,26 @@
 <?php echo $this->doctype(); ?>
-
 <html lang="en" ng-app="magentoSetup">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php echo $this->headTitle($this->translate('Magento Setup Tool'))->setSeparator(' - ')->setAutoEscape(false) ?>
-
-    <?php echo $this->headLink()
-        ->appendStylesheet($this->basePath() . '/pub/bootstrap/css/bootstrap.min.css')
-        ->appendStylesheet($this->basePath() . '/pub/bootstrap/css/bootstrap-theme.min.css');
-    ?>
-
-    <?php echo $this->headScript()
-        ->appendFile($this->basePath() . '/pub/angular/angular.min.js')
-        ->appendFile($this->basePath() . '/pub/angular-local-storage/angular-local-storage.js')
-        ->appendFile($this->basePath() . '/pub/angular-ui-router/angular-ui-router.min.js')
-        ->appendFile($this->basePath() . '/pub/angular-ui-bootstrap/angular-ui-bootstrap.min.js')
-        ->appendFile($this->basePath() . '/pub/magento/setup/app.js');
-    ?>
-
-    <?php echo $this->inlineScript() ?>
-
-</head>
-<body>
-<div class="container">
-    <?php echo $this->content; ?>
-
-</div>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?php echo $this->headTitle($this->translate('Magento Setup Tool'))->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php echo $this->headLink()
+            ->appendStylesheet($this->basePath() . '/pub/bootstrap/css/bootstrap.min.css')
+            ->appendStylesheet($this->basePath() . '/pub/bootstrap/css/bootstrap-theme.min.css');
+        ?>
+        <?php echo $this->headScript()
+            ->appendFile($this->basePath() . '/pub/angular/angular.min.js')
+            ->appendFile($this->basePath() . '/pub/angular-local-storage/angular-local-storage.js')
+            ->appendFile($this->basePath() . '/pub/angular-ui-router/angular-ui-router.min.js')
+            ->appendFile($this->basePath() . '/pub/angular-ui-bootstrap/angular-ui-bootstrap.min.js')
+            ->appendFile($this->basePath() . '/pub/magento/setup/app.js')
+            ->appendFile($this->basePath() . '/pub/magento/setup/readiness-check.js');
+        ?>
+        <?php echo $this->inlineScript() ?>
+    </head>
+    <body>
+        <div class="container">
+            <?php echo $this->content; ?>
+        </div>
+    </body>
 </html>
