@@ -91,9 +91,15 @@ class WriteServiceTest extends WebapiAbstract
         $format = function ($element) {
                 $element['price'] = intval($element['price']);
                 if (isset($element['custom_attributes'])) {
-                    $element['custom_attributes'] = array_values($element['custom_attributes']);
+                    $attributes = [];
+                    foreach ($element['custom_attributes'] as $attribute) {
+                        if ($attribute['attribute_code'] == 'option_type_id') {
+                            continue;
+                        }
+                        $attributes[] = $attribute;
+                    }
+                    $element['custom_attributes'] = $attributes;
                 }
-            unset($element['option_type_id']);
             return $element;
         };
 

@@ -17,14 +17,14 @@ class Select implements ReaderInterface
     /**
      * @var MetadataBuilder
      */
-    protected $valueBuilder;
+    protected $metadataBuilder;
 
     /**
-     * @param MetadataBuilder $valueBuilder
+     * @param MetadataBuilder $metadataBuilder
      */
-    public function __construct(MetadataBuilder $valueBuilder)
+    public function __construct(MetadataBuilder $metadataBuilder)
     {
-        $this->valueBuilder = $valueBuilder;
+        $this->metadataBuilder = $metadataBuilder;
     }
 
     /**
@@ -34,7 +34,7 @@ class Select implements ReaderInterface
     {
         $output = [];
         foreach ($option->getValues() as $value) {
-            $output[] = $this->valueBuilder->populateWithArray(
+            $output[] = $this->metadataBuilder->populateWithArray(
                 [
                     Metadata::PRICE => $value->getPrice(),
                     Metadata::PRICE_TYPE => $value->getPriceType(),

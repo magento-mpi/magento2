@@ -76,7 +76,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                     Metadata::PRICE => 99.99,
                     Metadata::PRICE_TYPE => 'USD',
                     Metadata::SKU => 'product_sku',
-                    Metadata::ID => 'value option_type_id',
                     'attribute_code' => 'attribute_value'
                 )
         ));

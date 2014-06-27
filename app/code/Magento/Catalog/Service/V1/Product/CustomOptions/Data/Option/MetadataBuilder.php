@@ -21,7 +21,8 @@ class MetadataBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObject
         'file_extension',
         'image_size_x',
         'image_size_y',
-        'max_characters'
+        'max_characters',
+        'option_type_id'
     ];
 
     /**
@@ -69,16 +70,6 @@ class MetadataBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObject
     public function setSku($value)
     {
         return $this->_set(Metadata::SKU, $value);
-    }
-
-    /**
-     * Set ID
-     * @param int|null $value
-     * @return $this
-     */
-    public function setOptionTypeId($value)
-    {
-        return $this->_set(Metadata::ID, $value);
     }
 
     /**

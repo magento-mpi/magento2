@@ -50,14 +50,4 @@ class Metadata extends \Magento\Framework\Service\Data\Eav\AbstractObject
     {
         return $this->_get(self::SKU);
     }
-
-    /**
-     * Get ID
-     *
-     * @return int|null
-     */
-    public function getOptionTypeId()
-    {
-        return $this->_get(self::ID);
-    }
 }

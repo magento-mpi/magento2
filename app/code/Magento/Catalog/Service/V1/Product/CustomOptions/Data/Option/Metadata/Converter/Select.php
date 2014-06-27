@@ -25,8 +25,7 @@ class Select implements ConverterInterface
             $valueItem = [
                 Metadata::PRICE => $value->getPrice(),
                 Metadata::PRICE_TYPE => $value->getPriceType(),
-                Metadata::SKU => $value->getSku(),
-                Metadata::ID => $value->getOptionTypeId(),
+                Metadata::SKU => $value->getSku()
             ];
             foreach ($attributes as $attribute) {
                 $valueItem[$attribute->getAttributeCode()] = $attribute->getValue();

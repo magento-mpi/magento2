@@ -16,7 +16,9 @@ class ReadServiceTest extends WebapiAbstract
     const SERVICE_NAME = 'catalogProductCustomOptionsReadServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/options/';
-
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testGetTypes()
     {
         $serviceInfo = [
@@ -62,7 +64,7 @@ class ReadServiceTest extends WebapiAbstract
 
         /** Unset dynamic data */
         $unset = $this->buildUnsetFunction();
-        
+
         $options = array_map($unset, $options);
 
         $excepted = include '_files/product_options.php';
@@ -118,11 +120,16 @@ class ReadServiceTest extends WebapiAbstract
 
             /** Format output data */
             $format = function ($element) {
-                if (isset($element['customAttributes'])) {
-                    $element['custom_attributes'] = $element['customAttributes'];
-                    unset($element['customAttributes']);
+                if (isset($element['custom_attributes'])) {
+                    $attributes = [];
+                    foreach ($element['custom_attributes'] as $attribute) {
+                        if ($attribute['attribute_code'] == 'option_type_id') {
+                            continue;
+                        }
+                        $attributes[] = $attribute;
+                    }
+                    $element['custom_attributes'] = $attributes;
                 }
-                unset($element['option_type_id']);
                 return $element;
             };
             $item['metadata'] = array_map($format, $item['metadata']);
