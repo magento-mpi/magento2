@@ -56,4 +56,24 @@ class Config extends ZendConfig
 
         return $default;
     }
+
+    /**
+     * Retrieve Magento base path
+     *
+     * @return string
+     */
+    public function getMagentoBasePath()
+    {
+        return $this->magento->basePath;
+    }
+
+    /**
+     * Retrieve path to Magento modules
+     *
+     * @return string
+     */
+    public function getMagentoModulePath()
+    {
+        return $this->magento->filesystem->module;
+    }
 }

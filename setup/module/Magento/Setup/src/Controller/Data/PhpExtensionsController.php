@@ -9,6 +9,7 @@ namespace Magento\Setup\Controller\Data;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Magento\Setup\Model\Extensions;
 
 class PhpExtensionsController extends AbstractActionController
 {
@@ -18,11 +19,20 @@ class PhpExtensionsController extends AbstractActionController
     protected $jsonModel;
 
     /**
-     * @param JsonModel $jsonModel
+     * @var \Magento\Setup\Model\Extensions
      */
-    public function __construct(JsonModel $jsonModel)
-    {
+    protected $extensions;
+
+    /**
+     * @param JsonModel $jsonModel
+     * @param \Magento\Setup\Model\Extensions $extensions
+     */
+    public function __construct(
+        JsonModel $jsonModel,
+        Extensions $extensions
+    ) {
         $this->jsonModel = $jsonModel;
+        $this->extensions = $extensions;
     }
 
     /**
@@ -30,18 +40,8 @@ class PhpExtensionsController extends AbstractActionController
      */
     public function indexAction()
     {
-        // TODO:
-
-        $required = [
-            'curl',
-            'dom',
-            'gd',
-        ];
-
-        $current = [
-            'curl',
-            'dom',
-        ];
+        $required = $this->extensions->getRequired();
+        $current = $this->extensions->getCurrent();
 
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
         if (array_diff($required, $current)) {

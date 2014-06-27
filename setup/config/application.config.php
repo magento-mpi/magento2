@@ -9,6 +9,7 @@
 return [
     'modules' => [
         'Magento\Install',
+        'Magento\Composer',
         'Magento\Config',
         'Magento\Module',
         'Magento\Setup',
