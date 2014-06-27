@@ -143,20 +143,24 @@ class ServiceArgsSerializer
      */
     protected function _convertValue($value, $type)
     {
+        $isArrayType = $this->_typeProcessor->isArrayType($type);
+        if ($isArrayType && isset($value['item'])) {
+            $value = $this->_removeSoapItemNode($value['item']);
+        }
         if ($this->_typeProcessor->isTypeSimple($type)) {
             $result = $this->_typeProcessor->processSimpleType($value, $type);
-        } elseif ($this->_typeProcessor->isArrayType($type)) {
-            if (isset($value['item'])) {
-                $value = $this->_removeSoapItemNode($value['item']);
-            }
-            // Initializing the result for array type else it will return null for empty array
-            $result = is_array($value) ? [] : null;
-            $itemType = $this->_typeProcessor->getArrayItemType($type);
-            foreach ($value as $key => $item) {
-                $result[$key] = $this->_createFromArray($itemType, $item);
-            }
         } else {
-            $result = $this->_createFromArray($type, $value);
+            /** Complex type or array of complex types */
+            if ($isArrayType) {
+                // Initializing the result for array type else it will return null for empty array
+                $result = is_array($value) ? [] : null;
+                $itemType = $this->_typeProcessor->getArrayItemType($type);
+                foreach ($value as $key => $item) {
+                    $result[$key] = $this->_createFromArray($itemType, $item);
+                }
+            } else {
+                $result = $this->_createFromArray($type, $value);
+            }
         }
         return $result;
     }
