@@ -43,6 +43,8 @@ class InjectableTests extends \PHPUnit_Framework_TestSuite
      * @param bool $processIsolation
      *
      * @return \PHPUnit_Framework_TestResult|void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function run(
         \PHPUnit_Framework_TestResult $result = null,

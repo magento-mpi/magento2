@@ -8,11 +8,33 @@
 
 namespace Magento\Catalog\Service\V1\Data\Product;
 
+use Magento\Framework\Service\Data\ObjectFactory;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
+use Magento\Catalog\Service\V1\Data\ProductBuilder;
+
 /**
  * Builder for the SearchResults Service Data Object
+ *
+ * @method \Magento\Catalog\Service\V1\Data\Product\SearchResults create()
  */
-class SearchResultsBuilder extends \Magento\Framework\Service\V1\Data\SearchResultsBuilder
+class SearchResultsBuilder extends AbstractSearchResultsBuilder
 {
+    /**
+     * Constructor
+     *
+     * @param ObjectFactory $objectFactory
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param ProductBuilder $productBuilder
+     */
+    public function __construct(
+        ObjectFactory $objectFactory,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        ProductBuilder $productBuilder
+    ) {
+        parent::__construct($objectFactory, $searchCriteriaBuilder, $productBuilder);
+    }
+
     /**
      * Set items
      *

@@ -15,6 +15,12 @@ use Mtf\Repository\AbstractRepository;
  */
 class TargetRule extends AbstractRepository
 {
+    /**
+     * @param array $defaultConfig
+     * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['target_rule_related_products'] = [
