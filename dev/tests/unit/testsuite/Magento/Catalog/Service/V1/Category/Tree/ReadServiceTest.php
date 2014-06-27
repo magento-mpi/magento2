@@ -24,11 +24,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     protected $categoryFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManagerMock;
-
-    /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
@@ -53,18 +48,12 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create', 'load'])
             ->getMock();
 
-        $this->storeManagerMock = $this->getMockBuilder(
-                '\Magento\Store\Model\StoreManagerInterface'
-            )->disableOriginalConstructor()
-            ->getMock();
-
         $this->categoryService = $this->objectManager
             ->getObject(
                 '\Magento\Catalog\Service\V1\Category\Tree\ReadService',
                 [
                     'categoryFactory' => $this->categoryFactoryMock,
                     'categoryTree' => $this->categoryTreeMock,
-                    'storeManager' => $this->storeManagerMock
                 ]
             );
 
@@ -88,17 +77,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
             $category->expects($this->once())->method('getId')->will($this->returnValue($rootCategoryId));
-            $category->expects($this->once())->method('getPathIds')->will($this->returnValue([$rootCategoryId]));
 
             $this->categoryFactoryMock->expects($this->once())->method('create')->will($this->returnSelf());
             $this->categoryFactoryMock->expects($this->once())->method('load')
                 ->with($this->equalTo($rootCategoryId))
                 ->will($this->returnValue($category));
-
-            $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
-            $store->expects($this->once())->method('getRootCategoryId')->will($this->returnValue(1));
-
-            $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         }
         $this->categoryTreeMock->expects($this->once())->method('getRootNode')
             ->with($this->equalTo($category))
@@ -138,31 +121,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(1))
             ->will($this->returnValue($category));
 
-        $this->categoryService->tree(1);
-    }
-
-    /**
-     * @expectedException \Magento\Framework\Exception\InputException
-     */
-    public function testTreeForbiddenCategory()
-    {
-        $category = $this->getMockBuilder(
-            '\Magento\Catalog\Model\Category'
-        )->disableOriginalConstructor()
-        ->getMock();
-
-        $category->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $category->expects($this->once())->method('getPathIds')->will($this->returnValue([2]));
-
-        $this->categoryFactoryMock->expects($this->once())->method('create')->will($this->returnSelf());
-        $this->categoryFactoryMock->expects($this->once())->method('load')
-            ->with($this->equalTo(1))
-            ->will($this->returnValue($category));
-
-        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
-        $store->expects($this->once())->method('getRootCategoryId')->will($this->returnValue(1));
-
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $this->categoryService->tree(1);
     }
 }

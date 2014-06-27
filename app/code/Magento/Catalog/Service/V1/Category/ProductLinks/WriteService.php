@@ -97,4 +97,38 @@ class WriteService implements WriteServiceInterface
         }
         return true;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeProduct($categoryId, $productSku)
+    {
+        /** @var CategoryModel $category */
+        $category = $this->categoryLoaderFactory->create()->load($categoryId);
+        $productId = $this->productFactory->create()->getIdBySku($productSku);
+
+        /**
+         * old category-product relationships
+         */
+        $productPositions = $category->getProductsPosition();
+        if (!array_key_exists($productId, $productPositions)) {
+            throw new StateException('Category does not contain specified product');
+        }
+        unset($productPositions[$productId]);
+        $category->setPostedProducts($productPositions);
+
+        try {
+            $category->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException(
+                'Could not remove product "%1" from category with ID "%2"',
+                [
+                    $productSku,
+                    $categoryId,
+                ],
+                $e
+            );
+        }
+        return true;
+    }
 }
