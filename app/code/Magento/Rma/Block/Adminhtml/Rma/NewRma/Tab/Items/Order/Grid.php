@@ -260,6 +260,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'available_qty',
             array(
                 'header' => __('Remaining'),
+                'type' => 'text',
                 'getter' => array($this, 'getRemainingQty'),
                 'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
                 'index' => 'available_qty',
