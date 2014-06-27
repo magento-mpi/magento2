@@ -189,6 +189,11 @@ class Payment extends \Magento\Payment\Model\Info
     protected $_storeManager;
 
     /**
+     * @var \Magento\Payment\Model\Method\Validator\Factory
+     */
+    protected $_paymentValidatorFactory;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -197,6 +202,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Payment\Model\Method\Validator\Factory $paymentValidatorFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -210,6 +216,7 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Payment\Model\Method\Validator\Factory $paymentValidatorFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -218,6 +225,7 @@ class Payment extends \Magento\Payment\Model\Info
         $this->_transactionFactory = $transactionFactory;
         $this->_transactionCollectionFactory = $transactionCollectionFactory;
         $this->_storeManager = $storeManager;
+        $this->_paymentValidatorFactory = $paymentValidatorFactory;
         parent::__construct($context, $registry, $paymentData, $encryptor, $resource, $resourceCollection, $data);
     }
 
@@ -326,6 +334,10 @@ class Payment extends \Magento\Payment\Model\Info
 
         // Do order payment validation on payment method level
         $methodInstance->validate();
+        $methodValidator = $this->_paymentValidatorFactory->create($methodInstance);
+        if (!is_null($methodValidator)) {
+            $methodValidator->validate($methodInstance);
+        }
         $action = $methodInstance->getConfigPaymentAction();
 
         if ($action) {

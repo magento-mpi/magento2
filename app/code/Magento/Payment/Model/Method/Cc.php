@@ -134,8 +134,6 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @return $this
      * @throws \Magento\Framework\Model\Exception
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function validate()
     {
@@ -157,11 +155,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         $ccType = '';
 
         if (in_array($info->getCcType(), $availableTypes)) {
-            if ($this->validateCcNum(
-                $ccNumber
-            ) || $this->otherCcType(
-                $info->getCcType()
-            ) && $this->validateCcNumOther(
+            if ($this->validateCcNum($ccNumber) || $this->otherCcType($info->getCcType()) && $this->validateCcNumOther(
                 // Other credit card type number validation
                 $ccNumber
             )

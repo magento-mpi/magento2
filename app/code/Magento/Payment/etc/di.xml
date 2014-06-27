@@ -26,4 +26,13 @@
             <argument name="dataStorage" xsi:type="object">Magento\Payment\Model\Config\Data</argument>
         </arguments>
     </type>
+    <preference for="Magento\Payment\Model\Payment\Method\Validator\Factory" type="Magento\Payment\Model\Payment\Method\Validator\Factory\Proxy" />
+
+    <type name="Magento\Payment\Model\Payment\Method\Validator\Factory">
+        <arguments>
+            <argument name="validatorsList" xsi:type="array">
+                <item name="free" xsi:type="string">Magento\Payment\Model\Method\Validator\Method</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
