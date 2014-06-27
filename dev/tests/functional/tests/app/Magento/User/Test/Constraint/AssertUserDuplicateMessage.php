@@ -16,7 +16,7 @@ use Magento\User\Test\Page\Adminhtml\UserEdit;
  */
 class AssertUserDuplicateMessage extends AbstractConstraint
 {
-    const FAILED_MESSAGE = 'A user with the same user name or email already exists.';
+    const ERROR_MESSAGE = 'A user with the same user name or email already exists.';
 
     /**
      * Constraint severeness
@@ -35,10 +35,10 @@ class AssertUserDuplicateMessage extends AbstractConstraint
     {
         $failedMessage = $userEdit->getMessagesBlock()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::FAILED_MESSAGE,
+            self::ERROR_MESSAGE,
             $failedMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::FAILED_MESSAGE
+            . "\nExpected: " . self::ERROR_MESSAGE
             . "\nActual: " . $failedMessage
         );
     }

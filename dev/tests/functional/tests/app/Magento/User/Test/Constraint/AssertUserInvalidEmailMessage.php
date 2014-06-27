@@ -17,7 +17,7 @@ use Magento\User\Test\Fixture\User;
  */
 class AssertUserInvalidEmailMessage extends AbstractConstraint
 {
-    const FAILED_MESSAGE = 'Please correct this email address: "%s".';
+    const ERROR_MESSAGE = 'Please correct this email address: "%s".';
 
     /**
      * Constraint severeness
@@ -35,7 +35,7 @@ class AssertUserInvalidEmailMessage extends AbstractConstraint
      */
     public function processAssert(UserEdit $userEdit, User $user)
     {
-        $expectedMessage = sprintf(self::FAILED_MESSAGE, $email = $user->getEmail());
+        $expectedMessage = sprintf(self::ERROR_MESSAGE, $email = $user->getEmail());
         $actualMessage = $userEdit->getMessagesBlock()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             $expectedMessage,
@@ -53,6 +53,6 @@ class AssertUserInvalidEmailMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Error message on creation user page is correct.';
+        return 'Error message about invalid email on creation user page is correct.';
     }
 }

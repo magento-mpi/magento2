@@ -107,5 +107,9 @@
     </assertUserDuplicateMessage>
     <assertUserInvalidEmailMessage module="Magento_User">
         <severeness>low</severeness>
+        <require>
+            <userEdit class="Magento\User\Test\Page\Adminhtml\UserEdit" />
+            <user class="Magento\User\Test\Fixture\User" />
+        </require>
     </assertUserInvalidEmailMessage>
 </constraint>
