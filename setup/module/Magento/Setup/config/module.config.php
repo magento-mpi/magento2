@@ -23,4 +23,14 @@ return [
         ],
         'strategies' => ['ViewJsonStrategy'],
     ],
+    'translator' => array(
+        'locale' => 'en_US',
+        'translation_file_patterns' => array(
+            array(
+                'type' => 'gettext',
+                'base_dir' => __DIR__ . '/../lang',
+                'pattern' => '%s.mo',
+            ),
+        ),
+    ),
 ];
