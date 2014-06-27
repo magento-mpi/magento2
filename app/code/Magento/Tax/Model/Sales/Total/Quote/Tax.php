@@ -189,7 +189,6 @@ class Tax extends AbstractTotal
                 $itemDataObject = $this->mapItem($itemBuilder, $item, $priceIncludesTax, $useBaseCurrency);
                 $itemDataObjects[] = $itemDataObject;
             }
-            $itemDataObjects[] = $this->mapItem($itemBuilder, $item, $priceIncludesTax, $useBaseCurrency);
         }
 
         if ($this->includeShipping()) {
