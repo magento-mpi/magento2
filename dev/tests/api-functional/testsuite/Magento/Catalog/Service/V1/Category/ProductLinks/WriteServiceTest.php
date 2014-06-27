@@ -23,7 +23,6 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @dataProvider assignProductProvider
      * @magentoApiDataFixture Magento/Catalog/_files/products_in_category.php
-     *
      * @param int $productId
      * @param string[] $productLink
      * @param int $productPosition
@@ -43,10 +42,14 @@ class WriteServiceTest extends WebapiAbstract
     {
         return [
             [
-                ['sku' => 'simple_with_cross', 'position' => 7], 334, 7
+                ['sku' => 'simple_with_cross', 'position' => 7],
+                334,
+                7
             ],
             [
-                ['sku' => 'simple_with_cross'], 334, 0
+                ['sku' => 'simple_with_cross'],
+                334,
+                0
             ],
         ];
     }
@@ -54,7 +57,6 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @dataProvider updateProductProvider
      * @magentoApiDataFixture Magento/Catalog/_files/products_in_category.php
-     *
      * @param int $productId
      * @param string[] $productLink
      * @param int $productPosition
@@ -74,12 +76,49 @@ class WriteServiceTest extends WebapiAbstract
     {
         return [
             [
-                ['sku' => 'simple_with_cross', 'position' => 7], 333, 4
+                ['sku' => 'simple_with_cross', 'position' => 7],
+                333,
+                4
             ],
             [
-                ['sku' => 'simple_with_cross'], 333, 0
+                ['sku' => 'simple_with_cross'],
+                333,
+                0
             ],
         ];
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/products_in_category.php
+     */
+    public function testRemoveProduct()
+    {
+        $result = $this->executeRequestRemove($this->categoryId, 'simple');
+        $this->assertTrue($result);
+        $this->assertFalse($this->isProductInCategory($this->categoryId, 333, 10));
+    }
+
+    /**
+     * @param int $categoryId
+     * @param string $productSku
+     * @return bool
+     * @throws \Exception
+     */
+    private function executeRequestRemove($categoryId, $productSku)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH_SUFFIX . '/' . $categoryId .
+                    '/' . self::RESOURCE_PATH_PREFIX . '/' . $productSku,
+                'httpMethod' => Config::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_WRITE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_WRITE_NAME . 'removeProduct'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['categoryId' => $categoryId, 'productSku' => $productSku]);
     }
 
     /**

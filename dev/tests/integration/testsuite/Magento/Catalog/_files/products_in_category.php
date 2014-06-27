@@ -77,4 +77,6 @@ $category->setId(
     1
 )->setAvailableSortBy(
     ['position']
+)->setPostedProducts(
+    [333 => 10]
 )->save();

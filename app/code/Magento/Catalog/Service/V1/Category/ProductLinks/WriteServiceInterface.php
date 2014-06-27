@@ -24,6 +24,16 @@ interface WriteServiceInterface
     public function assignProduct($categoryId, ProductLink $productLink);
 
     /**
+     * @param int $categoryId
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink $productLink
+     * @return bool Will returned True if updated
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    public function updateProduct($categoryId, ProductLink $productLink);
+
+    /**
      * Remove the product assignment from the category.
      *
      * @param int $categoryId
@@ -33,14 +43,4 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\StateException
      */
     public function removeProduct($categoryId, $productSku);
-
-    /**
-     * @param int $categoryId
-     * @param \Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink $productLink
-     * @return bool Will returned True if updated
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\StateException
-     */
-    public function updateProduct($categoryId, ProductLink $productLink);
 }
