@@ -41,8 +41,11 @@ class Billing extends Form
         if (isset($dataConfig['payment_form_class'])) {
             $paymentFormClass = $dataConfig['payment_form_class'];
             /** @var $formBlock \Mtf\Block\Form */
-            $formBlock = new $paymentFormClass($this->_rootElement->find('#payment_form_' . $paymentCode,
-                Locator::SELECTOR_CSS), $this->blockFactory, $this->mapper);
+            $formBlock = new $paymentFormClass(
+                $this->_rootElement->find('#payment_form_' . $paymentCode, Locator::SELECTOR_CSS),
+                $this->blockFactory,
+                $this->mapper
+            );
             $formBlock->fill($fixture);
         }
 

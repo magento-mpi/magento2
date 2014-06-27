@@ -82,12 +82,8 @@ class Operation extends \Magento\Backend\App\Action
         $operationType = $this->getRequest()->getParam('type');
         $this->_initAction();
         $this->_title->add(
-            $this->_objectManager->get(
-                'Magento\ScheduledImportExport\Helper\Data'
-            )->getOperationHeaderText(
-                $operationType,
-                'new'
-            )
+            $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
+                ->getOperationHeaderText($operationType, 'new')
         );
 
         $this->_view->renderLayout();
@@ -124,17 +120,8 @@ class Operation extends \Magento\Backend\App\Action
         if ($request->isPost()) {
             $data = $request->getPost();
 
-            if (isset(
-                $data['id']
-            ) && !is_numeric(
-                $data['id']
-            ) || !isset(
-                $data['id']
-            ) && (!isset(
-                $data['operation_type']
-            ) || empty($data['operation_type'])) || !is_array(
-                $data['start_time']
-            )
+            if (isset($data['id']) && !is_numeric($data['id']) || !isset($data['id'])
+                && (!isset($data['operation_type']) || empty($data['operation_type'])) || !is_array($data['start_time'])
             ) {
                 $this->messageManager->addError(__("We couldn't save the scheduled operation."));
                 $this->_redirect('adminhtml/*/*', array('_current' => true));
@@ -155,11 +142,8 @@ class Operation extends \Magento\Backend\App\Action
                 $operation->setData($data);
                 $operation->save();
                 $this->messageManager->addSuccess(
-                    $this->_objectManager->get(
-                        'Magento\ScheduledImportExport\Helper\Data'
-                    )->getSuccessSaveMessage(
-                        $operation->getOperationType()
-                    )
+                    $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
+                        ->getSuccessSaveMessage($operation->getOperationType())
                 );
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -182,17 +166,11 @@ class Operation extends \Magento\Backend\App\Action
         $id = (int)$request->getParam('id');
         if ($id) {
             try {
-                $this->_objectManager->create(
-                    'Magento\ScheduledImportExport\Model\Scheduled\Operation'
-                )->setId(
-                    $id
-                )->delete();
+                $this->_objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation')
+                    ->setId($id)->delete();
                 $this->messageManager->addSuccess(
-                    $this->_objectManager->get(
-                        'Magento\ScheduledImportExport\Helper\Data'
-                    )->getSuccessDeleteMessage(
-                        $request->getParam('type')
-                    )
+                    $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
+                        ->getSuccessDeleteMessage($request->getParam('type'))
                 );
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -338,14 +316,13 @@ class Operation extends \Magento\Backend\App\Action
             $design = $this->_objectManager->get('Magento\Framework\View\DesignInterface');
             $area = $design->getArea();
             $theme = $design->getDesignTheme();
-            $design->setDesignTheme($design->getConfigurationDesignTheme(\Magento\Framework\App\Area::AREA_FRONTEND));
-
-            $result = $this->_objectManager->get(
-                'Magento\ScheduledImportExport\Model\Observer'
-            )->processScheduledOperation(
-                $schedule,
-                true
+            $design->setDesignTheme(
+                $design->getConfigurationDesignTheme(\Magento\Framework\App\Area::AREA_FRONTEND),
+                \Magento\Framework\App\Area::AREA_FRONTEND
             );
+
+            $result = $this->_objectManager->get('Magento\ScheduledImportExport\Model\Observer')
+                ->processScheduledOperation($schedule, true);
 
             // restore current design area and theme
             $design->setDesignTheme($theme, $area);
@@ -370,12 +347,8 @@ class Operation extends \Magento\Backend\App\Action
     public function logCleanAction()
     {
         $schedule = new \Magento\Framework\Object();
-        $result = $this->_objectManager->get(
-            'Magento\ScheduledImportExport\Model\Observer'
-        )->scheduledLogClean(
-            $schedule,
-            true
-        );
+        $result = $this->_objectManager->get('Magento\ScheduledImportExport\Model\Observer')
+            ->scheduledLogClean($schedule, true);
         if ($result) {
             $this->messageManager->addSuccess(__('We deleted the history files.'));
         } else {
