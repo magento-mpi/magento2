@@ -524,7 +524,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param  null|string|bool|int|Store $store
      * @return float
      */
-    public function getTotalAmounts($items, $store = null) {
+    public function getTotalAmounts($items, $store = null)
+    {
         $weeeTotal = 0;
         $displayTotalsInclTax = $this->displayTotalsInclTax($store);
         foreach ($items as $item) {
