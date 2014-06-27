@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: rbates
- * Date: 6/25/14
- * Time: 11:34 AM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Framework\Locale;
