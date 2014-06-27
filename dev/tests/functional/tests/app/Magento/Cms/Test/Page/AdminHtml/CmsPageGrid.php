@@ -74,4 +74,3 @@ class CmsPageGrid extends Page
         );
     }
 }
-

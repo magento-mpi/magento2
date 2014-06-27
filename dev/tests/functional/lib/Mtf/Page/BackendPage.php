@@ -12,6 +12,7 @@ use Mtf\Factory\Factory;
 /**
  * Class BackendPage
  *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class BackendPage extends Page
 {
