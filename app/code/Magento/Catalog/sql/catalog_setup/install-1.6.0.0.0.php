@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-$installer = $this;
 /* @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = $this;
 
 $installer->startSetup();
 
@@ -3909,5 +3909,3 @@ $installer->getConnection()->addForeignKey(
 );
 
 $installer->endSetup();
-
-$installer->installEntities();

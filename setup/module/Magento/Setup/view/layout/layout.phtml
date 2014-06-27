@@ -13,6 +13,7 @@
 
     <?php echo $this->headScript()
         ->appendFile($this->basePath() . '/pub/angular/angular.min.js')
+        ->appendFile($this->basePath() . '/pub/angular-local-storage/angular-local-storage.js')
         ->appendFile($this->basePath() . '/pub/angular-ui-router/angular-ui-router.min.js')
         ->appendFile($this->basePath() . '/pub/angular-ui-bootstrap/angular-ui-bootstrap.min.js')
         ->appendFile($this->basePath() . '/pub/magento/setup/app.js');

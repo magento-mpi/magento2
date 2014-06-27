@@ -215,7 +215,11 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true),
     'Is Primary'
 )->addIndex(
-    $installer->getIdxName('salesrule_coupon', array('code'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName(
+        'salesrule_coupon',
+        array('code'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
     array('code'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(

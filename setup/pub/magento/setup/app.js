@@ -110,11 +110,17 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
     .controller('createAdminAccountController', ['$scope', function ($scope) {
         console.log('createAdminAccountController');
     }])
+    .controller('landingController', ['$scope', 'languageService', function ($scope, languageService) {
+        $scope.selectLanguage = function (data) {
+            console.log(data);
+        };
+        languageService.load(function (response) {
+            $scope.languages = response.data.languages;
+        });
+        $scope.currentLanguage = {code: 'en_US', title: 'United State'};
+    }])
     .controller('installController', ['$scope', function ($scope) {
         console.log('installController');
-    }])
-    .controller('landingController', ['$scope', function ($scope) {
-        console.log('landingController');
     }])
     .controller('mainController', [
         '$scope', '$rootScope', '$state', 'navigationService',
@@ -122,7 +128,7 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
             $rootScope.$on('$stateChangeSuccess', function (event, state) {
                 $scope.class = 'col-lg-9';
                 if (state.main) {
-                    $scope.class = 'col-lg-12';
+                    $scope.class = 'col-lg-offset-3 col-lg-6';
                 }
             });
 
@@ -131,6 +137,17 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
             }
         }
     ])
+    .service('languageService', ['$http', function ($http) {
+        return {
+            languages: [],
+            load: function (callback) {
+                var self = this;
+                $http.get('data/languages').success(function (data) {
+                    self.languages = data.languages;
+                }).then(callback);
+            }
+        }
+    }])
     .service('navigationService', ['$location', '$state', '$http', function ($location, $state, $http) {
         return {
             mainState: {},
@@ -165,9 +182,6 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
                     }
                 });
                 return nItem;
-            },
-            getMainState: function () {
-                return this.mainState;
             }
         }
     }])

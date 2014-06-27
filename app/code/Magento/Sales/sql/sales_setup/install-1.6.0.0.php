@@ -6641,10 +6641,4 @@ $table = $installer->getConnection()->newTable(
 );
 $installer->getConnection()->createTable($table);
 
-
-/**
- * Install eav entity types to the eav/entity_type table
- */
-$installer->installEntities();
-
 $installer->endSetup();
