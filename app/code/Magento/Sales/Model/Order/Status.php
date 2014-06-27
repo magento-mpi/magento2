@@ -75,7 +75,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $state
+     * @param string $state
      * @throws Exception
      */
     protected function validateBeforeUnassign($state)
@@ -84,7 +84,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
             throw new Exception(__('The last status can\'t be unassigned from its current state.'));
         }
         if ($this->getResource()->checkIsStatusUsed($this->getStatus())) {
-            throw new Exception(__('Status can\'t be unassign, because it is using by existing orders.'));
+            throw new Exception(__('Status can\'t be unassigned, because it is used by existing order(s).'));
         }
     }
 

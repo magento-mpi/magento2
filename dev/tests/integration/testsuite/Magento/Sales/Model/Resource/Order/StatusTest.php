@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: akaplya
- * Date: 20.06.14
- * Time: 18:40
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Sales\Model\Resource\Order;

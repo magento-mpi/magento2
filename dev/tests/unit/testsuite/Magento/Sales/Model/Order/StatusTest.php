@@ -125,7 +125,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
      * Test for method unassignState status in use
      *
      * @expectedException \Magento\Framework\Model\Exception
-     * @expectedExceptionMessage Status can't be unassign, because it is using by existing orders.
+     * @expectedExceptionMessage Status can't be unassigned, because it is used by existing order(s).
      */
     public function testUnassignStateStatusUsed()
     {
