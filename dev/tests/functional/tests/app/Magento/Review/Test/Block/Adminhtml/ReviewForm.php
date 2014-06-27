@@ -74,14 +74,13 @@ class ReviewForm extends Form
     }
 
     /**
-     * Approve review
+     * Set approve review
      *
      * @return void
      */
-    public function approveReview()
+    public function setApproveReview()
     {
         $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue('Approved');
-        $this->save();
     }
 
     /**

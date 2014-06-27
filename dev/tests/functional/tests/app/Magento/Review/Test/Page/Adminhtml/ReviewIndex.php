@@ -18,6 +18,12 @@ class ReviewIndex extends BackendPage
     const MCA = 'review/product/index';
 
     protected $_blocks = [
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages',
+            'strategy' => 'css selector',
+        ],
         'reviewGrid' => [
             'name' => 'reviewGrid',
             'class' => 'Magento\Review\Test\Block\Adminhtml\Grid',
@@ -25,6 +31,14 @@ class ReviewIndex extends BackendPage
             'strategy' => 'css selector',
         ],
     ];
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
+    }
 
     /**
      * @return \Magento\Review\Test\Block\Adminhtml\Grid

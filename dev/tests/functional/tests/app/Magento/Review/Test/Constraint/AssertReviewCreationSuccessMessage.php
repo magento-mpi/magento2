@@ -40,7 +40,7 @@ class AssertReviewCreationSuccessMessage extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,
-            'Wrong create message is displayed.'
+            'Wrong success message is displayed.'
             . "\nExpected: " . self::SUCCESS_MESSAGE
             . "\nActual: " . $actualMessage
         );
