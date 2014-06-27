@@ -1,15 +1,15 @@
 2.0.0.0-dev84
 =============
 * Fixed bugs:
-  * Fixed an issue where an invalidly filled option did not become in focus after saving attempt on the Create New Order" page in the backend
+  * Fixed an issue where an invalidly filled option did not become in focus after saving attempt on the Create New Order page in the backend
   * Fixed an issue with the default configuration not being applied properly in the CAPTCHA configuration section
   * Fixed an issue with optional State/Province fields on the Create New Order page being marked as required
-  * Fixed an issue with incorrect Customer model usage on session in CE modules
-  * Fixed an issue where FPC was not invalidated after applying catalog price rule
-  * Fixed an issue where an admin with custom restrictions could not create Cart/Catalog Price Rule
+  * Fixed an issue with incorrect Customer model usage on session in community modules
+  * Fixed an issue where cache was not invalidated after applying catalog price rule
+  * Fixed an issue where an admin with custom permissions could not create Shopping Cart Price Rule/Catalog Price Rule
   * Fixed an issue with REST request and response format being inconsistent
   * Fixed an issue where there was an error on a bundle product page if bundle items contained an out of stock product
-  * Fixed a JS issue which appeared when adding associated(grouped) products for a grouped product
+  * Fixed a JS issue which appeared when adding associated products for a grouped product
   * Fixed an issue where layered navigation was absent on the Advanced Search results page
   * Fixed an issue where the leading "0" in numbers were truncated when exporting using Excel XML
   * Fixed the price type attribute filter in Layered Navigation
@@ -51,13 +51,13 @@
       * `lib/internal/Magento/Framework/App/Resource/ConnectionFactory.php`
       * `lib/internal/Magento/Framework/App/Route/Config.php`
   * Implemented the ability for a mobile client to get a partial response
-  * Add authentication support for mobile
-  * Refactored the Oauth lib Exception not to reference module classes
+  * Added authentication support for mobile
+  * Refactored the Oauth lib exception not to reference module classes
   * Moved the authorization services according to the new directory format: was \Magento\Authz\Service\AuthorizationV1Interface, became \Magento\Authz\Service\V1\AuthorizationInterface
   * Moved the integration services according to the new directory format:
     * Was \Magento\Integration\Service\IntegrationV1, became \Magento\Integration\Service\V1\Integration
     * Was \Magento\Integration\Service\OauthV1, became \Magento\Integration\Service\V1\Oauth
-  * Updated the integration registration according to the security consultant feedback
+  * Improved security of the integration registration
   * Introduced language packages with ability to inherit dictionaries
 * Improved modularity of ImportExport
 * Created Service API for Magento_Catalog module:
@@ -71,7 +71,7 @@
   * Implemented Tax Calculation Data Objects
   * Implemented Tax Calculation Builders
   * Implemented Tax Calculation Service
-* Covered the part of magento the Catalog Module with Unit Tests
+* Covered the part of the Catalog Module with unit tests
 * Added PayPall Bill Me Later button
 * Streamlined checkout experience
 * Improved order review page for PayPal Express Checkout
