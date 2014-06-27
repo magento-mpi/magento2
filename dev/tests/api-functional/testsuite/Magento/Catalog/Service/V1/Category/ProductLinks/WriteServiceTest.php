@@ -52,6 +52,37 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
+     * @dataProvider updateProductProvider
+     * @magentoApiDataFixture Magento/Catalog/_files/products_in_category.php
+     *
+     * @param int $productId
+     * @param string[] $productLink
+     * @param int $productPosition
+     */
+    public function testUpdateProduct($productLink, $productId, $productPosition = 0)
+    {
+        $result = $this->executeRequest(
+            $this->categoryId,
+            'assignProduct',
+            $productLink
+        );
+        $this->assertTrue($result);
+        $this->assertFalse($this->isProductInCategory($this->categoryId, $productId, $productPosition));
+    }
+
+    public function updateProductProvider()
+    {
+        return [
+            [
+                ['sku' => 'simple_with_cross', 'position' => 7], 333, 4
+            ],
+            [
+                ['sku' => 'simple_with_cross'], 333, 0
+            ],
+        ];
+    }
+
+    /**
      * @param int $categoryId
      * @param string $operationName
      * @param string[] $productLink
