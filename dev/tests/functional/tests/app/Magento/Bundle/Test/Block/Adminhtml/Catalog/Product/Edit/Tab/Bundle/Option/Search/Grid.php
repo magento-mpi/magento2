@@ -32,6 +32,8 @@ class Grid extends GridInterface
 
     /**
      * Filters param for grid
+     *
+     * @var array
      */
     protected $filters = [
         'name' => [

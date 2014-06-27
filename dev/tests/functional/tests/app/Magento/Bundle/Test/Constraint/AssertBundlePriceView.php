@@ -14,7 +14,6 @@ use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 
 /**
  * Class AssertBundlePriceView
- * Assert that displayed price view for bundle product on product page equals passed from fixture.
  */
 class AssertBundlePriceView extends AbstractConstraint
 {
@@ -56,16 +55,23 @@ class AssertBundlePriceView extends AbstractConstraint
         $priceData = $product->getDataFieldConfig('price')['source']->getPreset();
         $priceBlock = $catalogProductView->getViewBlock()->getProductPriceBlock();
 
+        $priceLow = ($product->getPriceView() == 'Price Range')
+            ? $priceBlock->getPriceFrom()
+            : $priceBlock->getRegularPrice();
+
         \PHPUnit_Framework_Assert::assertEquals(
             $priceData['price_from'],
-            $priceBlock->getPriceFrom(),
+            $priceLow,
             'Bundle price From on product view page is not correct.'
         );
-        \PHPUnit_Framework_Assert::assertEquals(
-            $priceData['price_to'],
-            $priceBlock->getPriceTo(),
-            'Bundle price To on product view page is not correct.'
-        );
+
+        if ($product->getPriceView() == 'Price Range') {
+            \PHPUnit_Framework_Assert::assertEquals(
+                $priceData['price_to'],
+                $priceBlock->getPriceTo(),
+                'Bundle price To on product view page is not correct.'
+            );
+        }
     }
 
     /**

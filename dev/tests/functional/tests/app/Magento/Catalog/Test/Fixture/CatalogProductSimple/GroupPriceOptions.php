@@ -17,7 +17,6 @@ use Mtf\Fixture\FixtureInterface;
  * Data keys:
  *  - preset (Price options preset name)
  *  - products (comma separated sku identifiers)
- *
  */
 class GroupPriceOptions implements FixtureInterface
 {
@@ -99,13 +98,6 @@ class GroupPriceOptions implements FixtureInterface
                     'customer_group' => 'NOT LOGGED IN'
                 ]
             ],
-            'group_price_data' => [
-                [
-                    'price' => 25,
-                    'website' => 'All Websites [USD]',
-                    'customer_group' => 'NOT LOGGED IN'
-                ]
-            ]
         ];
         if (!isset($presets[$name])) {
             return null;

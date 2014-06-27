@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
- * Abstract class Options
+ * Abstract class OptionsAbstract
  * Parent class for all forms of product options
  */
-abstract class Options extends Tab
+abstract class OptionsAbstract extends Tab
 {
     /**
      * Fills in the form of an array of input data

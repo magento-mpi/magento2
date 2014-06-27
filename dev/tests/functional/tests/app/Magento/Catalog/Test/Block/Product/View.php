@@ -368,7 +368,7 @@ class View extends Block
     public function clickCustomize()
     {
         $this->_rootElement->find($this->customizeButton)->click();
-
+        $this->waitForElementVisible($this->addToCart);
     }
 
     /**

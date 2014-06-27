@@ -62,9 +62,6 @@
             <special_price>
                 <selector>#special_price</selector>
             </special_price>
-            <price_view>
-                <input>select</input>
-            </price_view>
         </fields>
     </advanced-pricing>
     <advanced-inventory>
@@ -125,7 +122,7 @@
         <strategy>css selector</strategy>
     </grouped-product>
     <customer-options>
-        <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab</class>
+        <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options</class>
         <selector>#product_info_tabs_customer_options</selector>
         <strategy>css selector</strategy>
         <fields>

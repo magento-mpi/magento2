@@ -62,13 +62,11 @@ class CreateBundleProductEntityTest extends Injectable
     /**
      * Filling objects of the class
      *
-     * @param CatalogCategory $category
      * @param CatalogProductIndex $catalogProductIndexNewPage
      * @param CatalogProductNew $catalogProductNewPage
      * @return void
      */
     public function __inject(
-        CatalogCategory $category,
         CatalogProductIndex $catalogProductIndexNewPage,
         CatalogProductNew $catalogProductNewPage
     ) {
@@ -83,10 +81,10 @@ class CreateBundleProductEntityTest extends Injectable
      * @param CatalogCategory $category
      * @return void
      */
-    public function testCreateBundleProduct(CatalogProductBundle $product, CatalogCategory $category)
+    public function test(CatalogProductBundle $product, CatalogCategory $category)
     {
         $this->catalogProductIndex->open();
-        $this->catalogProductIndex->getProductBlock()->addProduct('bundle');
+        $this->catalogProductIndex->getGridPageActionBlock()->addProduct('bundle');
         $productBlockForm = $this->catalogProductNew->getForm();
         $productBlockForm->fillProduct($product, $category);
         $this->catalogProductNew->getFormAction()->save();

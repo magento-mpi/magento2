@@ -82,6 +82,13 @@ class Bundle extends Block
     protected $typeCheckbox = '//input[contains(@class,"checkbox")]';
 
     /**
+     * Selector bundle option block for fill
+     *
+     * @var string
+     */
+    protected $bundleOptionBlock = '//div[label[span[contains(text(), "%s")]]]';
+
+    /**
      * Fill bundle options
      *
      * @param array $bundleOptions
@@ -89,12 +96,13 @@ class Bundle extends Block
      */
     public function fillBundleOptions($bundleOptions)
     {
-        $index = 1;
         foreach ($bundleOptions as $option) {
+            $selector = sprintf($this->bundleOptionBlock, $option['title']);
             /** @var Option $optionBlock */
             $optionBlock = $this->blockFactory->create(
-                'Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option\\' . $this->optionConvert($option['type']),
-                ['element' => $this->_rootElement->find('.field.option.required:nth-of-type(' . $index++ . ')')]
+                'Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option\\'
+                . $this->optionNameConvert($option['type']),
+                ['element' => $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)]
             );
             $optionBlock->fillOption($option['value']);
         }
@@ -103,19 +111,19 @@ class Bundle extends Block
     /**
      * Get bundle item option
      *
-     * @param Array $fields
-     * @param index
+     * @param array $fields
+     * @param int $index
      * @return bool|string
      */
     public function displayedBundleItemOption(array $fields, $index)
     {
         $bundleOptionBlock = $this->_rootElement->find(sprintf($this->bundleBlock, $index), Locator::SELECTOR_XPATH);
         $option = $bundleOptionBlock->find(
-            $this->{'type' . $this->optionConvert($fields['type'])},
+            $this->{'type' . $this->optionNameConvert($fields['type'])},
             Locator::SELECTOR_XPATH
         );
         if (!$option->isVisible()) {
-            return "This Option type does not equal to fixture option type.";
+            return "This" . $fields['title'] . " Option does not equal to fixture option type.";
         }
 
         $formatRequired = sprintf(
@@ -127,33 +135,32 @@ class Bundle extends Block
             return "This Option must be " . ($fields['required'] == 'Yes') ? '' : 'not' . " required.";
         }
 
-        $Increment = 1;
-        foreach ($fields['items'] as $item) {
-            $selectOptions = (($fields['type'] == 'Drop-down' || $fields['type'] == 'Multiple Select')
-                && count($fields['items']) > 1) ? $this->optionSelect : $this->optionLabel;
-            $formatOption = sprintf($selectOptions, $Increment, $item['name']);
+        foreach ($fields['assigned_products'] as $increment => $item) {
+            $isMultiAssigned = count($fields['assigned_products']) > 1;
+            $isSelectType = $fields['type'] == 'Drop-down' || $fields['type'] == 'Multiple Select';
+            $selectOptions = $isMultiAssigned && $isSelectType ? $this->optionSelect : $this->optionLabel;
+            $formatOption = sprintf($selectOptions, ++$increment, $item['name']);
             if (!$bundleOptionBlock->find($formatOption, Locator::SELECTOR_XPATH)->isVisible()) {
-                return 'SelectOption ' . $item['name'] .
-                ' with index ' . $Increment . ' data is not equals with fixture SelectOption data.';
+                return 'SelectOption ' . $item['name'] . ' with index '
+                . $increment . ' data is not equals with fixture SelectOption data.';
             }
-            $Increment++;
         }
         return true;
     }
 
     /**
-     * Convert string
+     * Convert option name
      *
-     * @param string $str
+     * @param string $optionName
      * @return string
      */
-    protected function optionConvert($str)
+    protected function optionNameConvert($optionName)
     {
-        if ($end = strpos($str, ' ')) {
-            $str = substr($str, 0, $end);
-        } elseif ($end = strpos($str, '-')) {
-            $str = substr($str, 0, $end) . ucfirst(substr($str, ($end + 1)));
+        if ($end = strpos($optionName, ' ')) {
+            $optionName = substr($optionName, 0, $end);
+        } elseif ($end = strpos($optionName, '-')) {
+            $optionName = substr($optionName, 0, $end) . ucfirst(substr($optionName, ($end + 1)));
         }
-        return $str;
+        return $optionName;
     }
 }

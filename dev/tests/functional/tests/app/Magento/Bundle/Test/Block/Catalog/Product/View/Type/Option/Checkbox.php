@@ -8,7 +8,7 @@
 
 namespace Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option;
 
-use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option;
+use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option\Radio as Option;
 
 /**
  * Class Checkbox

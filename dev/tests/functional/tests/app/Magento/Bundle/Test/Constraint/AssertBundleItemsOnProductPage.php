@@ -15,7 +15,6 @@ use Magento\Bundle\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertBundleItemsOnProductPage
- * Assert that displayed product bundle items data on product page equals passed from fixture preset
  */
 class AssertBundleItemsOnProductPage extends AbstractConstraint
 {
@@ -25,13 +24,6 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
      * @var string
      */
     protected $severeness = 'low';
-
-    /**
-     * Bundle options block
-     *
-     * @var string
-     */
-    protected $bundleBlock = '#product-options-wrapper';
 
     /**
      * Assert that displayed product bundle items data on product page equals passed from fixture preset
@@ -46,7 +38,7 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
         $catalogProductView->open();
         $catalogProductView->getViewBlock()->clickCustomize();
         $result = $this->displayedBundleBlock($catalogProductView, $product);
-        \PHPUnit_Framework_Assert::assertTrue($result, $result);
+        \PHPUnit_Framework_Assert::assertTrue($result['displayed'], $result['errorMessage']);
     }
 
     /**
@@ -54,43 +46,41 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $product
-     * @return bool|string
+     * @return array
      */
     protected function displayedBundleBlock(CatalogProductView $catalogProductView, CatalogProductBundle $product)
     {
         $fields = $product->getData();
-        $bundleSelections = $fields['bundle_selections'];
-        if (!isset($bundleSelections['preset'])) {
-            return 'Bundle items data on product page is not equals to fixture preset.';
+        $bundleOptions = $fields['bundle_selections']['bundle_options'];
+        if (!isset($bundleOptions)) {
+            return [
+                'displayed' => false,
+                'errorMessage' => 'Bundle options data on product page is not equals to fixture preset.'
+            ];
         }
-        $preset = $bundleSelections['preset'];
-        $products = $bundleSelections['products'];
-        $index = 1;
-        $catalogProductView->getViewBlock()->clickCustomize();
-        foreach ($preset as $item) {
-            $search_data['title'] = $item['title'];
-            $search_data['type'] = $item['type'];
-            $search_data['required'] = $item['required'];
-            foreach ($item['assigned_products'] as $productIncrement => $selection) {
-                if (!isset($products[$productIncrement])) {
-                    break;
-                }
-                /** @var InjectableFixture $fixture */
-                $fixture = $products[$productIncrement];
-                $search_data['items']['product_' . $productIncrement]['id'] = $fixture->getData('id');
-                $search_data['items']['product_' . $productIncrement]['name'] = $fixture->getData('name');
-                $search_data['items']['product_' . $productIncrement]['price'] = $fixture->getData('price');
-            }
 
+        $catalogProductView->getViewBlock()->clickCustomize();
+        foreach ($bundleOptions as $index => $item) {
+            foreach ($item['assigned_products'] as &$selection) {
+                $selection = $selection['search_data'];
+            }
             $result = $catalogProductView->getBundleViewBlock()->getBundleBlock()->displayedBundleItemOption(
-                $search_data,
-                $index++
+                $item,
+                ++$index
             );
+
             if ($result !== true) {
-                return $result;
+                return [
+                    'displayed' => false,
+                    'errorMessage' => 'Bundle item option "' . $item['assigned_products']['name']
+                        . '" data on product page is not equals to fixture preset.'
+                ];
             }
         }
-        return true;
+        return [
+            'displayed' => true,
+            'errorMessage' => ''
+        ];
     }
 
     /**
@@ -100,6 +90,6 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Bundle items data on product page equals to passed from fixture preset.';
+        return 'Bundle options data on product page equals to passed from fixture preset.';
     }
 }

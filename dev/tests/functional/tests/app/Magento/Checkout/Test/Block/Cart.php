@@ -77,7 +77,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $cartItem = '//tr[normalize-space(td)="%s"]';
+    protected $cartItem = '//tr[td//*[normalize-space(text()) = "%s"]]';
 
     /**
      * Get bundle options
@@ -328,13 +328,14 @@ class Cart extends Block
     /**
      * Get item Bundle options
      *
-     * @param $index
-     * @param $itemIndex
+     * @param int $index
+     * @param int $itemIndex
+     * @param string $currency
      * @return string
      */
-    public function getPriceBundleOptions($index, $itemIndex = 1)
+    public function getPriceBundleOptions($index, $itemIndex = 1, $currency = '$')
     {
         $formatPrice = sprintf($this->bundleOptions, $index, $itemIndex);
-        return $this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText();
+        return trim($this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText(), $currency);
     }
 }

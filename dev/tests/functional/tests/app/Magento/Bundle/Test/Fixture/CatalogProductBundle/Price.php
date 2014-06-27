@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Test\Fixture\Bundle;
+namespace Magento\Bundle\Test\Fixture\CatalogProductBundle;
 
 use Mtf\Fixture\FixtureInterface;
 
@@ -24,6 +24,8 @@ class Price implements FixtureInterface
     protected $fixtureFactory;
 
     /**
+     * Current preset
+     *
      * @var string
      */
     protected $currentPreset;
@@ -35,9 +37,7 @@ class Price implements FixtureInterface
     public function __construct(array $data = [], array $params)
     {
         $this->params = $params;
-        if (isset($data['value'])) {
-            $this->data = $data['value'];
-        }
+        $this->data = (isset($data['value']) && $data['value'] != '-') ? $data['value'] : null;
         if (isset($data['preset'])) {
             $this->currentPreset = $data['preset'];
         }
@@ -83,59 +83,67 @@ class Price implements FixtureInterface
     {
         $presets = [
             'MAGETWO-23066' => [
-                'price_from' => '$115.00',
-                'price_to' => '$120.00',
-                'cart_price' => '$145.00'
+                'price_from' => '115.00',
+                'price_to' => '120.00',
+                'cart_price' => '145.00'
             ],
             'MAGETWO-23069' => [
-                'price_from' => '$115.00',
-                'price_to' => '$120.00',
-                'cart_price' => '$126.00'
+                'price_from' => '115.00',
+                'price_to' => '120.00',
+                'cart_price' => '126.00'
             ],
             'MAGETWO-23070' => [
-                'price_from' => '$40.00',
-                'price_to' => '$100.00',
-                'cart_price' => '$100.00'
+                'price_from' => '40.00',
+                'price_to' => '100.00',
+                'cart_price' => '100.00'
             ],
             'MAGETWO-23061' => [
-                'price_from' => '$32.00',
-                'price_to' => '$80.00',
-                'cart_price' => '$80.00'
+                'price_from' => '32.00',
+                'price_to' => '80.00',
+                'cart_price' => '80.00'
             ],
             'dynamic-200' => [
-                'price_from' => '$200.00',
-                'price_to' => '$500.00',
-                'cart_price' => '$80.00'
+                'price_from' => '200.00',
+                'price_to' => '500.00',
+                'cart_price' => '400.00'
             ],
-            'fixed-50' => [
-                'price_from' => '$50.00',
-                'price_to' => '$100.00',
-                'cart_price' => '$80.00'
+            'fixed-24' => [
+                'price_from' => '96.00',
+                'cart_price' => '248.00'
             ],
             'fixed-1' => [
-                'price_from' => '$1.00',
-                'price_to' => '$10.00',
-                'cart_price' => '$80.00'
+                'price_from' => '1.00',
+                'price_to' => '10.00',
+                'cart_price' => '80.00'
             ],
             'dynamic-8' => [
-                'price_from' => '$8.00',
-                'price_to' => '$20.00',
-                'cart_price' => '$80.00'
+                'price_from' => '8.00',
+                'price_to' => '20.00',
+                'cart_price' => '80.00'
             ],
             'dynamic-32' => [
-                'price_from' => '$32.00',
-                'price_to' => '$80.00',
-                'cart_price' => '$80.00'
+                'price_from' => '32.00',
+                'price_to' => '80.00',
+                'cart_price' => '80.00'
             ],
             'dynamic-40' => [
-                'price_from' => '$40.00',
-                'price_to' => '$100.00',
-                'cart_price' => '$80.00'
+                'price_from' => '40.00',
+                'price_to' => '100.00',
+                'cart_price' => '100.00'
             ],
             'fixed-115' => [
-                'price_from' => '$115.00',
-                'price_to' => '$120.00',
-                'cart_price' => '$80.00'
+                'price_from' => '115.00',
+                'price_to' => '120.00',
+                'cart_price' => '145.00'
+            ],
+            'fixed-126' => [
+                'price_from' => '115.00',
+                'price_to' => '120.00',
+                'cart_price' => '126.00'
+            ],
+            'fixed-15' => [
+                'price_from' => '15.00',
+                'cart_price' => '80.00'
             ],
         ];
         if (!isset($presets[$this->currentPreset])) {
@@ -144,4 +152,3 @@ class Price implements FixtureInterface
         return $presets[$this->currentPreset];
     }
 }
-

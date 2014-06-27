@@ -16,7 +16,6 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertProductInCategory
- * Assert that product is visible in the assigned category and checks the price of the product
  */
 class AssertBundleInCategory extends AbstractConstraint
 {
@@ -46,7 +45,7 @@ class AssertBundleInCategory extends AbstractConstraint
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
 
-        //process asserts
+        //Process asserts
         $this->assertPrice($product, $catalogCategoryView);
     }
 
@@ -62,16 +61,23 @@ class AssertBundleInCategory extends AbstractConstraint
         $priceData = $bundle->getDataFieldConfig('price')['source']->getPreset();
         //Price from/to verification
         $priceBlock = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($bundle->getName());
+
+        $priceLow = ($bundle->getPriceView() == 'Price Range')
+            ? $priceBlock->getPriceFrom()
+            : $priceBlock->getRegularPrice();
+
         \PHPUnit_Framework_Assert::assertEquals(
             $priceData['price_from'],
-            $priceBlock->getPriceFrom(),
+            $priceLow,
             'Bundle price From on category page is not correct.'
         );
-        \PHPUnit_Framework_Assert::assertEquals(
-            $priceData['price_to'],
-            $priceBlock->getPriceTo(),
-            'Bundle price To on category page is not correct.'
-        );
+        if ($bundle->getPriceView() == 'Price Range') {
+            \PHPUnit_Framework_Assert::assertEquals(
+                $priceData['price_to'],
+                $priceBlock->getPriceTo(),
+                'Bundle price To on category page is not correct.'
+            );
+        }
     }
 
     /**

@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
 use Mtf\ObjectManager;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
- * Class CustomOptionsTab
+ * Class Options
  * Product custom options tab
  */
-class CustomOptionsTab extends Tab
+class Options extends Tab
 {
     /**
      * Custom option row CSS locator
@@ -41,7 +41,7 @@ class CustomOptionsTab extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $fields = reset($fields );
+        $fields = reset($fields);
         if (empty($fields['value']) || !is_array($fields['value'])) {
             return $this;
         }
@@ -60,9 +60,9 @@ class CustomOptionsTab extends Tab
 
             // Fill subform
             if (isset($field['type']) && !empty($options)) {
-                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\OptionsAbstract $optionsForm */
                 $optionsForm = $this->blockFactory->create(
-                    __NAMESPACE__ . '\CustomOptionsTab\Option' . $this->optionConvert($field['type']),
+                    __NAMESPACE__ . '\Options\Type\\' . $this->optionNameConvert($field['type']),
                     ['element' => $rootElement]
                 );
 
@@ -110,9 +110,9 @@ class CustomOptionsTab extends Tab
 
             // Data collection subform
             if (isset($field['type']) && !empty($options)) {
-                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\OptionsAbstract $optionsForm */
                 $optionsForm = $this->blockFactory->create(
-                    __NAMESPACE__ . '\CustomOptionsTab\Option' . $this->optionConvert($field['type']),
+                    __NAMESPACE__ . '\Options\Type\\' . $this->optionNameConvert($field['type']),
                     ['element' => $rootElement]
                 );
 
@@ -130,12 +130,12 @@ class CustomOptionsTab extends Tab
     }
 
     /**
-     * Convert string
+     * Convert option name
      *
      * @param string $str
      * @return string
      */
-    protected function optionConvert($str)
+    protected function optionNameConvert($str)
     {
         $str = str_replace([' ', '&'], "", $str);
         if ($end = strpos($str, '-')) {

@@ -27,7 +27,7 @@ class Bundle extends Tab
     protected $addNewOption = '#add_new_option';
 
     /**
-     * 'Open Option' button
+     * Open option section
      *
      * @var string
      */
@@ -43,7 +43,7 @@ class Bundle extends Tab
     {
         return $this->blockFactory->create(
             'Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option',
-            ['element' => $this->_rootElement->find('#' . $blockNumber)]
+            ['element' => $this->_rootElement->find('#bundle_option_' . $blockNumber)]
         );
     }
 
@@ -59,8 +59,7 @@ class Bundle extends Tab
         if (!isset($fields['bundle_selections'])) {
             return $this;
         }
-        $bundleOptions = $this->prepareBundleOptions($fields['bundle_selections']['value']);
-        foreach ($bundleOptions as $key => $bundleOption) {
+        foreach ($fields['bundle_selections']['value']['bundle_options'] as $key => $bundleOption) {
             $this->_rootElement->find($this->addNewOption)->click();
             $this->getBundleOptionBlock($key)->fillBundleOption($bundleOption);
         }
@@ -81,10 +80,12 @@ class Bundle extends Tab
             return $this;
         }
         $index = 0;
-        $bundleOptions = $this->prepareBundleOptions($fields['bundle_selections']['value'], true);
-        foreach ($bundleOptions as $key => $bundleOption) {
+        foreach ($fields['bundle_selections']['value']['bundle_options'] as $key => &$bundleOption) {
             $this->_rootElement->find(sprintf($this->openOption, $index))->click();
-            $newFields['bundle_selections']['bundle_option_' . $key] = $this->getBundleOptionBlock($key)
+            foreach ($bundleOption['assigned_products'] as &$product) {
+                $product['data']['getProductName'] = $product['search_data']['name'];
+            }
+            $newFields['bundle_selections'][$key] = $this->getBundleOptionBlock($key)
                 ->getBundleOptionData($bundleOption);
             $index++;
         }
@@ -104,52 +105,11 @@ class Bundle extends Tab
         if (!isset($fields['bundle_selections'])) {
             return;
         }
-        $bundleOptions = $this->prepareBundleOptions($fields['bundle_selections']['value']);
         $blocksNumber = 0;
-        foreach ($$bundleOptions as $bundleOption) {
+        foreach ($fields['bundle_selections']['value']['bundle_options'] as $bundleOption) {
             $bundleOptionsBlock = $this->getBundleOptionBlock($blocksNumber++, $element);
             $bundleOptionsBlock->expand();
             $bundleOptionsBlock->updateBundleOption($bundleOption, $element);
         }
-    }
-
-    /**
-     * Prepare Bundle Options array from preset
-     *
-     * @param array $bundleSelections
-     * @param bool $priceType
-     * @return array|null
-     */
-    protected function prepareBundleOptions(array $bundleSelections, $priceType = false)
-    {
-        if (!isset($bundleSelections['preset'])) {
-            return $bundleSelections;
-        }
-        $preset = $bundleSelections['preset'];
-        $products = $bundleSelections['products'];
-        foreach ($preset as & $item) {
-            foreach ($item['assigned_products'] as $productIncrement => & $selection) {
-                if (!isset($products[$productIncrement])) {
-                    break;
-                }
-                /** @var InjectableFixture $fixture */
-                $fixture = $products[$productIncrement];
-                if ($priceType !== false) {
-                    $newData = [];
-                    $newData['getProductName'] = $fixture->getData('name');
-                    $newData['selection_qty'] = $selection['data']['selection_qty'];
-                    if (isset ($selection['data']['selection_price_value'])) {
-                        $newData['selection_price_value'] = $selection['data']['selection_price_value'];
-                    }
-                    if (isset ($selection['data']['selection_price_type'])) {
-                        $newData['selection_price_type'] = $selection['data']['selection_price_type'];
-                    }
-                    $item['assigned_products'][$productIncrement] = $newData;
-                } else {
-                    $selection['search_data']['name'] = $fixture->getData('name');
-                }
-            }
-        }
-        return $preset;
     }
 }

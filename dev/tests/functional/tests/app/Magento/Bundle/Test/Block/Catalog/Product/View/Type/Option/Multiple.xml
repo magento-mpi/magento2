@@ -10,7 +10,8 @@
 <mapping strict="0">
     <fields>
         <name>
-            <selector>select</selector>
+            <selector>.//select</selector>
+            <strategy>xpath</strategy>
             <input>multiselect</input>
         </name>
     </fields>

@@ -53,7 +53,6 @@ class AssertTierPriceOnBundleProductPage extends AssertTierPriceOnProductPage
         $catalogProductView->open();
         $viewBlock = $catalogProductView->getViewBlock();
         $viewBlock->clickCustomize();
-        $viewBlock->waitForElementVisible($this->tierBlock);
 
         //Process assertions
         $this->assertTierPrice($product, $catalogProductView);

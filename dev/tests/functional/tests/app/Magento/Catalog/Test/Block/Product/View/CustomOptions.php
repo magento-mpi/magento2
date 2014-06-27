@@ -88,7 +88,7 @@ class CustomOptions extends Block
      *
      * @var string
      */
-    protected $selectByTitleLocator = '//*[*[@class="product options wrapper"]//span[text()="%s"]]//select';
+    protected $selectByTitleLocator = '//div[label[span[contains(text(),"%s")]]]';
 
     /**
      * Bundle field CSS locator
@@ -96,6 +96,50 @@ class CustomOptions extends Block
      * @var string
      */
     protected $bundleFieldLocator = '#product-options-wrapper > .fieldset > .field';
+
+    /**
+     * Array for mapping custom options
+     *
+     * @var array
+     */
+    protected $replaceMapping = [
+        'Drop-down' => [
+            'selector' => '//select',
+            'input' => 'select'
+        ],
+        'Multiple Select' => [
+            'selector' => '//select',
+            'input' => 'multiselect'
+        ],
+        'Checkbox' => [
+            'selector' => '//div[label[span[contains(text(), "%product_name%")]]]/input',
+            'input' => 'checkbox',
+            'value' => 'Yes'
+        ],
+        'Radio Buttons' => [
+            'selector' => '//div[label[span[contains(text(), "%product_name%")]]]/input',
+            'input' => 'checkbox',
+            'value' => 'Yes'
+        ],
+        'Date' => [
+            'input' => 'select',
+        ],
+        'Date & Time' => [
+            'input' => 'select',
+        ],
+        'Time' => [
+            'input' => 'select',
+        ],
+        'Area' => [
+            'selector' => '//textarea',
+        ],
+        'File' => [
+            'selector' => '//input',
+        ],
+        'Field' => [
+            'selector' => '//input',
+        ],
+    ];
 
     /**
      * Get product options
@@ -171,6 +215,55 @@ class CustomOptions extends Block
                 sprintf($this->selectByTitleLocator, $attributeLabel),
                 Locator::SELECTOR_XPATH,
                 'select'
+            );
+            $select->setValue($attributeValue);
+        }
+    }
+
+    /**
+     * Fill custom options
+     *
+     * @param array $customOptions
+     * @return void
+     */
+    public function fillCustomOptions(array $customOptions)
+    {
+        $type = $customOptions['type'];
+
+        $customOptions['input'] = isset($this->replaceMapping[$type]['input'])
+            ? $this->replaceMapping[$type]['input']
+            : null;
+
+        $customOptions['selector'] = isset($this->replaceMapping[$type]['selector'])
+            ? $this->replaceMapping[$type]['selector']
+            : '';
+
+        $isData = $type == 'Date' || $type == 'Time' || $type == 'Date & Time';
+        if ($isData) {
+            $parent = '';
+            $customOptions['value'] = explode('/', $customOptions['value'][0]);
+        }
+
+        $index = 1;
+        foreach ($customOptions['value'] as $attributeValue) {
+            $selector = str_replace('%product_name%', $attributeValue, $customOptions['selector']);
+            if ($isData) {
+                if ($index > 3) {
+                    $index = 1;
+                    $parent = '//span';
+                }
+                $selector .= $parent . '//select[' . $index . ']';
+                $index++;
+            }
+
+            $attributeValue = isset($this->replaceMapping[$type]['value'])
+                ? $this->replaceMapping[$type]['value']
+                : $attributeValue;
+
+            $select = $this->_rootElement->find(
+                sprintf($this->selectByTitleLocator, $customOptions['title']) . $selector,
+                Locator::SELECTOR_XPATH,
+                $customOptions['input']
             );
             $select->setValue($attributeValue);
         }

@@ -16,7 +16,6 @@ use Mtf\Fixture\FixtureInterface;
  * Data keys:
  *  - preset (Price options preset name)
  *  - products (comma separated sku identifiers)
- *
  */
 class TierPriceOptions implements FixtureInterface
 {
@@ -94,20 +93,6 @@ class TierPriceOptions implements FixtureInterface
                     'customer_group' => 'ALL GROUPS'
                 ]
             ],
-            'tier_price_data' => [
-                [
-                    'price' => 50,
-                    'website' => 'All Websites [USD]',
-                    'price_qty' => 3,
-                    'customer_group' => 'ALL GROUPS'
-                ],
-                [
-                    'price' => 24,
-                    'website' => 'All Websites [USD]',
-                    'price_qty' => 15,
-                    'customer_group' => 'ALL GROUPS'
-                ]
-            ]
         ];
 
         if (!isset($presets[$name])) {

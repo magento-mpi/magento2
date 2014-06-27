@@ -29,6 +29,11 @@ class AssertProductForm extends AbstractConstraint
             'dec_point' => '.',
             'thousands_sep' => ''
         ],
+        'special_price' => [
+            'decimals' => 2,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
         'qty' => [
             'decimals' => 4,
             'dec_point' => '.',

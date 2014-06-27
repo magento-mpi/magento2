@@ -6,23 +6,23 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\Type;
 
 use Mtf\Client\Element;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\OptionsAbstract;
 
 /**
- * Class OptionCheckbox
- * Form "Option checkbox" on tab product "Custom options"
+ * Class DropDown
+ * Form "Option dropdown" on tab product "Custom options"
  */
-class OptionCheckbox extends Options
+class DropDown extends OptionsAbstract
 {
     /**
      * Add button css selector
      *
      * @var string
      */
-    private $buttonAddLocator = '[id$="_add_select_row"]';
+    protected $buttonAddLocator = '[id$="_add_select_row"]';
 
     /**
      * Fill the form

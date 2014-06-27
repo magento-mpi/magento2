@@ -191,7 +191,7 @@ class CatalogProductBundle extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
     ];
 
     protected $has_options = [
@@ -337,7 +337,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'source' => 'Magento\Bundle\Test\Fixture\Bundle\Price',
+        'source' => 'Magento\Bundle\Test\Fixture\CatalogProductBundle\Price',
         'group' => 'product-details'
     ];
 
@@ -528,7 +528,7 @@ class CatalogProductBundle extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
     ];
 
     protected $updated_at = [
@@ -575,7 +575,14 @@ class CatalogProductBundle extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '1',
         'group' => 'bundle',
-        'fixture' => 'Magento\Bundle\Test\Fixture\Bundle\Selections',
+        'source' => 'Magento\Bundle\Test\Fixture\CatalogProductBundle\BundleSelections',
+    ];
+
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'is_required' => '1',
+        'source' => 'Magento\Bundle\Test\Fixture\CatalogProductBundle\CheckoutData',
     ];
 
     protected $custom_options = [
@@ -583,7 +590,7 @@ class CatalogProductBundle extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'customer-options',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
     public function getCategoryIds()

@@ -9,13 +9,13 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab;
 
 use Mtf\Client\Element;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\OptionsAbstract;
 
 /**
  * Class OptionTier
  * Form 'Tier prices' on the 'Advanced Pricing' tab
  */
-class OptionTier extends Options
+class OptionTier extends OptionsAbstract
 {
     /**
      * 'Add Tier' button selector

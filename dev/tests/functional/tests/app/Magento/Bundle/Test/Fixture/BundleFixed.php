@@ -83,63 +83,65 @@ class BundleFixed extends Bundle
                 ),
                 'bundle_selections' => array(
                     'value' => array(
-                        'bundle_option_0' => array(
-                            'title' => array(
-                                'value' => 'Drop-down Option'
-                            ),
-                            'type' => array(
-                                'value' => 'Drop-down',
-                                'input_value' => 'select'
-                            ),
-                            'required' => array(
-                                'value' => 'Yes',
-                                'input_value' => '1'
-                            ),
-                            'assigned_products' => array(
-                                [
-                                    'search_data' => array(
-                                        'name' => '%item1_simple1::getName%',
-                                    ),
-                                    'data' => array(
-                                        'selection_price_value' => array(
-                                            'value' => 10
+                        'bundle_options' => [
+                            [
+                                'title' => array(
+                                    'value' => 'Drop-down Option'
+                                ),
+                                'type' => array(
+                                    'value' => 'Drop-down',
+                                    'input_value' => 'select'
+                                ),
+                                'required' => array(
+                                    'value' => 'Yes',
+                                    'input_value' => '1'
+                                ),
+                                'assigned_products' => array(
+                                    [
+                                        'search_data' => array(
+                                            'name' => '%item1_simple1::getName%',
                                         ),
-                                        'selection_price_type' => array(
-                                            'value' => 'Fixed',
-                                            'input' => 'select',
-                                            'input_value' => 0
-                                        ),
-                                        'selection_qty' => array(
-                                            'value' => 1
-                                        ),
-                                        'product_id' => array(
-                                            'value' => '%item1_simple1::getProductId%'
+                                        'data' => array(
+                                            'selection_price_value' => array(
+                                                'value' => 10
+                                            ),
+                                            'selection_price_type' => array(
+                                                'value' => 'Fixed',
+                                                'input' => 'select',
+                                                'input_value' => 0
+                                            ),
+                                            'selection_qty' => array(
+                                                'value' => 1
+                                            ),
+                                            'product_id' => array(
+                                                'value' => '%item1_simple1::getProductId%'
+                                            )
                                         )
-                                    )
-                                ],
-                                [
-                                    'search_data' => array(
-                                        'name' => '%item1_virtual2::getName%',
-                                    ),
-                                    'data' => array(
-                                        'selection_price_value' => array(
-                                            'value' => 20
+                                    ],
+                                    [
+                                        'search_data' => array(
+                                            'name' => '%item1_virtual2::getName%',
                                         ),
-                                        'selection_price_type' => array(
-                                            'value' => 'Percent',
-                                            'input' => 'select',
-                                            'input_value' => 1
-                                        ),
-                                        'selection_qty' => array(
-                                            'value' => 1
-                                        ),
-                                        'product_id' => array(
-                                            'value' => '%item1_virtual2::getProductId%'
+                                        'data' => array(
+                                            'selection_price_value' => array(
+                                                'value' => 20
+                                            ),
+                                            'selection_price_type' => array(
+                                                'value' => 'Percent',
+                                                'input' => 'select',
+                                                'input_value' => 1
+                                            ),
+                                            'selection_qty' => array(
+                                                'value' => 1
+                                            ),
+                                            'product_id' => array(
+                                                'value' => '%item1_virtual2::getProductId%'
+                                            )
                                         )
-                                    )
-                                ]
-                            )
-                        )
+                                    ]
+                                )
+                            ]
+                        ]
                     ),
                     'group' => static::GROUP
                 )

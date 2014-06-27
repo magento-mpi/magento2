@@ -10,11 +10,13 @@
 <mapping strict="0">
     <fields>
         <name>
-            <selector>select</selector>
+            <selector>//select</selector>
+            <strategy>xpath</strategy>
             <input>select</input>
         </name>
         <qty>
-            <selector>input.qty</selector>
+            <selector>//input[@class = "qty"]</selector>
+            <strategy>xpath</strategy>
         </qty>
     </fields>
 </mapping>

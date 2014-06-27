@@ -290,7 +290,7 @@ class CustomOptions implements FixtureInterface
                 ],
                 [
                     'title' => 'custom option File',
-                    'is_require' => 'Yes',
+                    'is_require' => 'No',
                     'type' => 'File',
                     'options' => [
                         [

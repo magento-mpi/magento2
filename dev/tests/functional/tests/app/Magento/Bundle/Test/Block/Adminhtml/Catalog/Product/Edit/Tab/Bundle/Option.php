@@ -123,12 +123,10 @@ class Option extends Form
      */
     public function getBundleOptionData(array $fields)
     {
-        $mapping = $this->dataMapping(
-            ['title' => $fields['title'], 'type' => $fields['type'], 'required' => $fields['required']]
-        );
+        $mapping = $this->dataMapping($fields);
         $newField = $this->_getData($mapping);
         foreach ($fields['assigned_products'] as $key => $field) {
-            $newField['assigned_products'][$key] = $this->getSelectionBlock(++$key)->getProductRow($field);
+            $newField['assigned_products'][$key] = $this->getSelectionBlock($key + 1)->getProductRow($field['data']);
         }
         return $newField;
     }

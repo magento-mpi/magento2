@@ -77,7 +77,7 @@ class CreateBundle extends Curl
     protected function _getBundleData($params)
     {
         $data = [];
-        foreach ($params as $options) {
+        foreach ($params['bundle_options'] as $options) {
             if (isset($options['assigned_products'])) {
                 $data['bundle_selections'][] = $this->_getSelections($options['assigned_products']);
                 unset($options['assigned_products']);

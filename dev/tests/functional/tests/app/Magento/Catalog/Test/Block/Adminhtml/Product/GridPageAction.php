@@ -6,17 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Adminhtml;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Product
+ * Class GridPageAction
  * Catalog manage products block
- *
  */
-class Product extends Block
+class GridPageAction extends Block
 {
     /**
      * Product toggle button
@@ -36,6 +35,7 @@ class Product extends Block
      * Add product using split button
      *
      * @param string $productType
+     * @return void
      */
     public function addProduct($productType = 'simple')
     {

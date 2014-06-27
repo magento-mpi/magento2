@@ -71,7 +71,7 @@ class Bundle extends Product
     public function getBundleOptions()
     {
         $options = array();
-        $bundleOptions = $this->getData('fields/bundle_selections/value');
+        $bundleOptions = $this->getData('fields/bundle_selections/value/bundle_options');
         foreach ($bundleOptions as $optionData) {
             $optionName = $optionData['title']['value'];
             foreach ($optionData['assigned_products'] as $productData) {
@@ -102,13 +102,15 @@ class Bundle extends Product
         $options = $this->getData('checkout/selection');
         $selectionData = array();
         foreach ($options as $option => $selection) {
-            $selectionItem['type'] = $this->getData('fields/bundle_selections/value/' . $option . '/type/input_value');
+            $selectionItem['type'] = $this->getData('fields/bundle_selections/value/bundle_options/' .
+                $option . '/type/input_value');
             $selectionItem['qty'] = $this->getData(
-                'fields/bundle_selections/value/' . $option .
+                'fields/bundle_selections/value/bundle_options/' . $option .
                 '/assigned_products/' . $selection . '/data/selection_qty/value'
             );
             $selectionItem['value'] = $this->getData(
-                'fields/bundle_selections/value/' . $option . '/assigned_products/' . $selection . '/search_data/name'
+                'fields/bundle_selections/value/bundle_options/' . $option . '/assigned_products/' .
+                    $selection . '/search_data/name'
             );
             $selectionData[] = $selectionItem;
         }

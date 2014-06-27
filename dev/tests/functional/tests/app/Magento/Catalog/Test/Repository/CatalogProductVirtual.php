@@ -16,16 +16,18 @@ use Mtf\Repository\AbstractRepository;
  */
 class CatalogProductVirtual extends AbstractRepository
 {
+    /**
+     * @constructor
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['50_dollar_product'] = [
-            'sku' => '50_dollar_product%isolation%',
-            'name' => '50_dollar_product%isolation%',
-            'type_id' => 'virtual',
-            'attribute_set_id' => '4',
+            'sku' => 'virtual_50_dollar_product%isolation%',
+            'name' => 'virtual_50_dollar_product%isolation%',
+            'attribute_set_id' => ['dataSet' => 'default'],
             'price' => ['value' => 50, 'preset' => '-'],
-            'id' => '3',
-            'mtf_dataset_name' => '50_dollar_product'
         ];
     }
 }
