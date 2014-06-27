@@ -6,8 +6,8 @@
 //  * @license     {license_link}
 //  */
 
-.actions.bundle {
-    margin: @indent-s-base 0;
+.bundle-actions {
+    margin: 0 0 @indent-l-base;
     .action.primary.customize {
         &:extend(.abstract-button-l all);
     }
@@ -106,14 +106,12 @@
         .bundle.items {
             &:extend(.reset-list all);
             > li {
-                margin-bottom: @indent-s-base;
+                margin-bottom: @indent-base;
             }
         }
 
         .box-tocart {
-            .actions {
-                margin: @indent-s-base 0;
-            }
+            &:extend(.abstract-box-tocart all);
             .action.primary {
                 &:extend(.abstract-button-l all);
             }
