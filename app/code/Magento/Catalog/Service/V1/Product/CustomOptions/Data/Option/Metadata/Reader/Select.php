@@ -41,7 +41,7 @@ class Select implements ReaderInterface
                     Metadata::SKU => $value->getSku(),
                     Metadata::TITLE => $value->getTitle(),
                     Metadata::SORT_ORDER => $value->getSortOrder(),
-                    Metadata::ID => $value->getId()
+                    Metadata::OPTION_TYPE_ID => $value->getId()
                 ]
             )->create();
         }
