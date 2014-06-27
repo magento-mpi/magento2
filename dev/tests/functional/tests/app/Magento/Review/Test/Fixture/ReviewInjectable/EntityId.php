@@ -55,7 +55,7 @@ class EntityId extends InjectableFixture
             $fixture->persist();
 
             $this->entity = $fixture;
-            $this->data = $fixture->getData('id');
+            $this->data = $fixture->getId();
         }
     }
 
@@ -93,7 +93,7 @@ class EntityId extends InjectableFixture
     /**
      * Get entity
      *
-     * @return FixtureInterface
+     * @return FixtureInterface|null
      */
     public function getEntity()
     {

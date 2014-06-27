@@ -12,8 +12,6 @@ use Mtf\Handler\HandlerInterface;
 
 /**
  * Interface ReviewInjectableInterface
- *
- * @package Magento\Review\Test\Handler\ReviewInjectable
  */
 interface ReviewInjectableInterface extends HandlerInterface
 {

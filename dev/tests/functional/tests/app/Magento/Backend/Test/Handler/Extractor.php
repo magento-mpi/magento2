@@ -76,7 +76,8 @@ class Extractor
             preg_match($this->regExpPattern, $response, $matches);
         }
 
-        if (count($matches) == 0) {
+        $countMatches = $this->isAll ? count($matches[1]) : count($matches);
+        if ($countMatches == 0) {
             throw new \Exception('Matches array can\'t be empty.');
         }
         return $matches;

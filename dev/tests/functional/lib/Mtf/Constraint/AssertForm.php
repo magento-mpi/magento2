@@ -21,12 +21,11 @@ abstract class AssertForm extends AbstractConstraint
      * @param array $formData
      * @param bool $isStrict
      * @param bool $isPrepareError
-     * @return mixed
+     * @return array|string
      */
     protected function verifyData(array $fixtureData, array $formData, $isStrict = false, $isPrepareError = true)
     {
         $errors = [];
-        $readyValues = [];
 
         foreach ($fixtureData as $key => $value) {
             $formValue = isset($formData[$key]) ? $formData[$key] : null;
@@ -38,7 +37,7 @@ abstract class AssertForm extends AbstractConstraint
                 $errors[] = '- field "' . $key . '" is absent in form';
             } elseif (is_array($value) && is_array($formValue)) {
                 $valueErrors = $this->verifyData($value, $formValue, true, false);
-                if ($valueErrors) {
+                if (!empty($valueErrors)) {
                     $errors[$key] = $valueErrors;
                 }
             } elseif ($value != $formValue) {
@@ -60,7 +59,7 @@ abstract class AssertForm extends AbstractConstraint
         }
 
         if ($isPrepareError) {
-            return empty($errors) ? null : $this->prepareErrors($errors);
+            return $this->prepareErrors($errors);
         }
         return $errors;
     }
@@ -76,7 +75,7 @@ abstract class AssertForm extends AbstractConstraint
     {
         $paths = is_array($paths) ? $paths : [$paths];
         foreach ($paths as $path) {
-            $values = & $data;
+            $values = &$data;
             $keys = explode('/', $path);
 
             $key = array_shift($keys);
@@ -147,8 +146,11 @@ abstract class AssertForm extends AbstractConstraint
      */
     protected function prepareErrors(array $errors, $notice = null, $indent = '')
     {
-        $result = [];
+        if (empty($errors)) {
+            return '';
+        }
 
+        $result = [];
         foreach ($errors as $key => $error) {
             $result[] = is_array($error)
                 ? $this->prepareErrors($error, "{$indent}{$key}:\n", $indent . "\t")
