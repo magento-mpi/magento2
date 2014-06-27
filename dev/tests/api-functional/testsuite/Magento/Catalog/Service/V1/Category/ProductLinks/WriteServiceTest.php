@@ -110,7 +110,7 @@ class WriteServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_SUFFIX . '/' . $categoryId .
                     '/' . self::RESOURCE_PATH_PREFIX . '/' . $productSku,
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_DELETE
             ],
             'soap' => [
                 'service' => self::SERVICE_WRITE_NAME,
