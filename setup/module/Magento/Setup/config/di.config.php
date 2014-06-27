@@ -21,9 +21,14 @@ return [
             'Magento\Setup\Controller\EnvironmentController',
             'Magento\Setup\Controller\LicenseController',
             'Magento\Setup\Controller\UserController',
+
             'Magento\Setup\Controller\Controls\HeaderController',
             'Magento\Setup\Controller\Controls\MenuController',
             'Magento\Setup\Controller\Controls\NavbarController',
+
+            'Magento\Setup\Controller\Data\FilePermissionsController',
+            'Magento\Setup\Controller\Data\PhpExtensionsController',
+            'Magento\Setup\Controller\Data\PhpVersionController',
             'Magento\Setup\Controller\Data\StatesController',
         ],
         'instance' => [

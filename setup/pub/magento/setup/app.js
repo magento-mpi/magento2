@@ -3,8 +3,100 @@ var app = angular.module('magentoSetup', ['ui.router', 'ui.bootstrap']);
 app.controller('navigationController', ['$scope', 'navigationService', function ($scope, navigationService) {
         navigationService.load();
     }])
-    .controller('readinessCheckController', ['$scope', function ($scope) {
-        console.log('readinessCheckController');
+    .controller('readinessCheckController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+        $scope.version = {
+            visible: false,
+            processed: false,
+            expanded: false
+        };
+        $scope.extensions = {
+            visible: false,
+            processed: false,
+            expanded: false
+        };
+        $scope.permissions = {
+            visible: false,
+            processed: false,
+            expanded: false
+        };
+
+        $scope.items = [
+            {
+                id:'php-version',
+                url:'data/php-version',
+                show: function() {
+                    $scope.version.visible = true;
+                },
+                process: function(data) {
+                    $scope.version.processed = true;
+                    angular.extend($scope.version, data);
+                }
+            },
+            {
+                id:'php-extensions',
+                url:'data/php-extensions',
+                show: function() {
+                    $scope.extensions.visible = true;
+                },
+                process: function(data) {
+                    $scope.extensions.processed = true;
+                    angular.extend($scope.extensions, data);
+                }
+            },
+            {
+                id:'file-permissions',
+                url:'data/file-permissions',
+                show: function() {
+                    $scope.permissions.visible = true;
+                },
+                process: function(data) {
+                    $scope.permissions.processed = true;
+                    angular.extend($scope.permissions, data);
+                }
+            }
+        ];
+
+        $scope.updateOnError = function(obj) {
+            obj.expanded = true;
+        }
+
+        $scope.updateOnSuccess = function(obj) {
+            obj.expanded = false;
+        }
+
+        $scope.updateOnExpand = function(obj) {
+            obj.expanded = !obj.expanded;
+        }
+
+        $scope.hasItem = function(haystack, needle) {
+            if (haystack.indexOf(needle) > -1) {
+                return true;
+            }
+            return false;
+        }
+
+        $scope.query = function(item) {
+            return $http.get(item.url)
+                .success(function(data) { item.process(data) });
+        };
+
+        $scope.progress = function() {
+            var timeout = 0;
+            angular.forEach($scope.items, function(item) {
+                timeout += 1000;
+                $timeout(function() {
+                    item.show();
+                }, timeout);
+            });
+            angular.forEach($scope.items, function(item) {
+                timeout += 1000;
+                $timeout(function() {
+                    $scope.query(item);
+                }, timeout);
+            })
+        };
+
+        $scope.progress();
     }])
     .controller('addDatabaseController', ['$scope', function ($scope) {
         console.log('addDatabaseController');
