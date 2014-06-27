@@ -63,7 +63,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                 'resource' => $this->resourceMock,
                 'rmaFactory' => $this->rmaFactoryMock,
                 'data' => [
-                    'order_id' => 3,
+                    'order_item_id' => 3,
                     'rma_entity_id' => 4
                 ]
             ]
