@@ -194,6 +194,68 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->writeService->remove(self::PRODUCT_SKU, 10);
     }
 
+    public function testRemoveMetadata()
+    {
+        $optionId = 231;
+        $optionDataMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option',
+            ['getValues'],
+            [],
+            '',
+            false
+        );
+
+        $optionData = [
+            'option_id' => $optionId,
+            'values' => [
+                ['option_type_id' => 1],
+                ['option_type_id' => 2],
+            ],
+        ];
+        $updatedData = $optionData;
+        $updatedData['values'][] = ['is_delete' => 1];
+
+        $metaDataMock1 = $this->getMock('\Magento\Catalog\Model\Product\Option\Value', [], [], '', false);
+        $metaDataMock2 = $this->getMock('\Magento\Catalog\Model\Product\Option\Value', [], [], '', false);
+        $metaDataMock3 = $this->getMock('\Magento\Catalog\Model\Product\Option\Value', [], [], '', false);
+        $map1 = [
+            ['option_type_id', null, 1],
+            [null, null, ['option_type_id' => 1]],
+        ];
+        $map2 = [
+            ['option_type_id', null, 2],
+            [null, null, ['option_type_id' => 2]],
+        ];
+        $map3 = [
+            ['option_type_id', null, 939],
+            [null, null, ['option_type_id' => 939]],
+        ];
+
+        $originalValues = [$metaDataMock1, $metaDataMock2, $metaDataMock3];
+
+
+        $this->optionConverterMock->expects($this->once())
+            ->method('convert')
+            ->with($optionDataMock)
+            ->will($this->returnValue($optionData));
+        $this->productMock->expects($this->exactly(2))
+            ->method('getOptionById')
+            ->will($this->returnValue($optionDataMock));
+        $optionDataMock->expects($this->once())->method('getValues')->will($this->returnValue($originalValues));
+
+        // preparation for markValuesForRemoval()
+        $metaDataMock1->expects($this->any())->method('getData')->will($this->returnValueMap($map1));
+        $metaDataMock2->expects($this->any())->method('getData')->will($this->returnValueMap($map2));
+        $metaDataMock3->expects($this->any())->method('getData')->will($this->returnValueMap($map3));
+
+        // update()
+        $this->productMock->expects($this->once())->method('setCanSaveCustomOptions')->with(true);
+        $this->productMock->expects($this->once())->method('setProductOptions')->with([$updatedData]);
+        $this->productMock->expects($this->once())->method('save');
+
+        $this->assertTrue($this->writeService->update(self::PRODUCT_SKU, $optionId, $optionDataMock));
+    }
+
     public function testAdd()
     {
         $optionData = $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false);
