@@ -46,7 +46,7 @@ class ReadServiceTest extends WebapiAbstract
                     'value' => 'category-1.html',
                 ],
             ],
-            'available_sort_by' => ['position'],
+            'available_sort_by' => ['position', 'name'],
             'include_in_menu' => '1',
             'name' => 'Category 1',
             'url_key' => 'category-1',
@@ -60,7 +60,8 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertArrayHasKey('updated_at', $result);
 
         unset($result['created_at'], $result['updated_at']);
-
+        ksort ($expected);
+        ksort ($result);
         $this->assertEquals($expected, $result);
     }
 

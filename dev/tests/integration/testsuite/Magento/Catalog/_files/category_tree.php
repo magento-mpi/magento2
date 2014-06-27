@@ -12,10 +12,10 @@
 /** @var $category \Magento\Catalog\Model\Category */
 $categories = array(
     [
-        'id' => 3,
+        'id' => 400,
         'name' => 'Category 1',
         'parent_id' => 2,
-        'path' => '1/2/3',
+        'path' => '1/2/400',
         'level' => 2,
         'available_sort_by' => 'name',
         'default_sort_by' => 'name',
@@ -23,10 +23,10 @@ $categories = array(
         'position' => 1
     ],
     [
-        'id' => 4,
+        'id' => 401,
         'name' => 'Category 1.1',
-        'parent_id' => 3,
-        'path' => '1/2/3/4',
+        'parent_id' => 400,
+        'path' => '1/2/400/401',
         'level' => 3,
         'available_sort_by' => 'name',
         'default_sort_by' => 'name',
@@ -34,10 +34,10 @@ $categories = array(
         'position' => 1
     ],
     [
-        'id' => 5,
+        'id' => 402,
         'name' => 'Category 1.1.1',
-        'parent_id' => 4,
-        'path' => '1/2/3/4/5',
+        'parent_id' => 401,
+        'path' => '1/2/400/401/402',
         'level' => 4,
         'available_sort_by' => 'name',
         'default_sort_by' => 'name',

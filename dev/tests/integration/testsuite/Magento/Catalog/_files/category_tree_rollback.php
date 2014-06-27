@@ -13,7 +13,7 @@ $registry->register('isSecureArea', true);
 
 /** @var $category \Magento\Catalog\Model\Category */
 $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category');
-$category->load(3);
+$category->load(400);
 if ($category->getId()) {
     $category->delete();
 }

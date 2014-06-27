@@ -46,10 +46,10 @@ class ReadServiceTest extends WebapiAbstract
     public function treeDataProvider()
     {
         return array(
-            [2, 100, 3, 5],
-            [2, null, 3, 5],
-            [3, 1, 1, 4],
-            [4, 0, 0, 4],
+            [2, 100, 3, 402],
+            [2, null, 3, 402],
+            [400, 1, 1, 401],
+            [401, 0, 0, 401],
         );
     }
 }

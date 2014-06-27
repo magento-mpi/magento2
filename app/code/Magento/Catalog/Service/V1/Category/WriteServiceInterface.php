@@ -27,4 +27,27 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function delete($categoryId);
+
+    /**
+     * Update category
+     *
+     * @param int $categoryId category to be updated
+     * @param \Magento\Catalog\Service\V1\Data\Category $category
+     * @return bool
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    public function update($categoryId, \Magento\Catalog\Service\V1\Data\Category $category);
+
+    /**
+     * Move category
+     *
+     * @param int $categoryId
+     * @param int $parentId
+     * @param int $afterId
+     * @return bool
+     * @throws \Magento\Framework\Model\Exception
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function move($categoryId, $parentId, $afterId = null);
 }

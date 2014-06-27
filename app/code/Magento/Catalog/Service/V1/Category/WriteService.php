@@ -13,6 +13,7 @@ use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Category\Mapper as CategoryMapper;
+use Magento\Store\Model\StoreManagerInterface;
 
 class WriteService implements WriteServiceInterface
 {
@@ -27,6 +28,11 @@ class WriteService implements WriteServiceInterface
     private $categoryMapper;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * List of fields that can used config values in case when value does not defined directly
      *
      * @var array
@@ -36,13 +42,16 @@ class WriteService implements WriteServiceInterface
     /**
      * @param CategoryFactory $categoryFactory
      * @param CategoryMapper $categoryMapper
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         CategoryFactory $categoryFactory,
-        CategoryMapper $categoryMapper
+        CategoryMapper $categoryMapper,
+        StoreManagerInterface $storeManager
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryMapper = $categoryMapper;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -52,6 +61,10 @@ class WriteService implements WriteServiceInterface
     {
         try {
             $categoryModel = $this->categoryMapper->toModel($category);
+            $parentId = $category->getParentId() ?: $this->storeManager->getStore()->getRootCategoryId();
+            $parentCategory = $this->categoryFactory->create()->load($parentId);
+            $categoryModel->setPath($parentCategory->getPath());
+
             $this->validateCategory($categoryModel);
             $categoryModel->save();
         } catch (\Exception $e) {
@@ -66,12 +79,7 @@ class WriteService implements WriteServiceInterface
     public function delete($categoryId)
     {
         /** @var Category $category */
-        $category = $this->categoryFactory->create();
-        $category->load($categoryId);
-
-        if (!$category || !$category->getId()) {
-            throw NoSuchEntityException::singleField(CategoryDataObject::ID, $categoryId);
-        }
+        $category = $this->loadCategory($categoryId);
 
         try {
             $category->delete();
@@ -83,10 +91,53 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function update($categoryId, CategoryDataObject $category)
+    {
+        $model = $this->loadCategory($categoryId);
+        try {
+            $this->categoryMapper->toModel($category, $model);
+            $this->validateCategory($model);
+            $model->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not save category', [], $e);
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function move($categoryId, $parentId, $afterId = null)
+    {
+        $model = $this->loadCategory($categoryId);
+        $parentCategory = $this->loadCategory($parentId);
+
+        if (is_null($afterId) && $parentCategory->hasChildren()) {
+            $parentChildren = $parentCategory->getChildren();
+            $categoryIds = explode(',', $parentChildren);
+            $afterId = array_pop($categoryIds);
+        }
+
+        if (strpos($parentCategory->getPath(), $model->getPath()) === 0) {
+            throw new \Magento\Framework\Model\Exception(
+                "Operation do not allow to move a parent category to any of children category"
+            );
+        }
+        try {
+            $model->move($parentId, $afterId);
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Model\Exception('Could not move category');
+        }
+        return true;
+    }
+
+    /**
      * Validate category process
      *
      * @param  Category $category
-     * @return array|bool
      * @throws \Magento\Framework\Model\Exception
      */
     protected function validateCategory(Category $category)
@@ -110,6 +161,22 @@ class WriteService implements WriteServiceInterface
             }
         }
         $category->unsetData('use_post_data_config');
-        return $validate;
+    }
+
+    /**
+     * Load category
+     *
+     * @param $id
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return \Magento\Catalog\Model\Category
+     */
+    protected function loadCategory($id)
+    {
+        $model = $this->categoryFactory->create();
+        $model->load($id);
+        if (!$model->getId()) {
+            throw NoSuchEntityException::singleField(CategoryDataObject::ID, $id);
+        }
+        return $model;
     }
 }

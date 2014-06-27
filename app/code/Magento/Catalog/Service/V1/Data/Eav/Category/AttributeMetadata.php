@@ -274,7 +274,7 @@ class AttributeMetadata extends AbstractObject
      */
     public function getFilterPriceRange()
     {
-        return $this->_get(self::INCLUDE_IN_MENU);
+        return $this->_get(self::FILTER_PRICE_RANGE);
     }
 
     /**
@@ -284,6 +284,6 @@ class AttributeMetadata extends AbstractObject
      */
     public function getCustomUseParentSettings()
     {
-        return $this->_get(self::INCLUDE_IN_MENU);
+        return $this->_get(self::CUSTOM_USE_PARENT_SETTINGS);
     }
 }

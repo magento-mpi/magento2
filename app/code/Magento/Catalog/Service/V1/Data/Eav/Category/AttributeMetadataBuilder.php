@@ -50,7 +50,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $value
      * @return $this
      */
-    public function isActive($value)
+    public function setActive($value)
     {
         return $this->_set(AttributeMetadata::ACTIVE, $value);
     }
@@ -250,7 +250,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      */
     public function setFilterPriceRange($value)
     {
-        return $this->_set(AttributeMetadata::INCLUDE_IN_MENU, $value);
+        return $this->_set(AttributeMetadata::FILTER_PRICE_RANGE, $value);
     }
 
     /**
@@ -261,6 +261,6 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      */
     public function setCustomUseParentSettings($value)
     {
-        return $this->_set(AttributeMetadata::INCLUDE_IN_MENU, $value);
+        return $this->_set(AttributeMetadata::CUSTOM_USE_PARENT_SETTINGS, $value);
     }
 }
