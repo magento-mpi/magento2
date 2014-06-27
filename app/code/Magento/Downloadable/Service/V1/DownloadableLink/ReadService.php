@@ -93,6 +93,7 @@ class ReadService implements ReadServiceInterface
      *
      * @param \Magento\Downloadable\Model\Link|\Magento\Downloadable\Model\Sample $resourceData
      * @param Data\DownloadableLinkInfoBuilder|Data\DownloadableSampleInfoBuilder $builder
+     * @return null
      */
     protected function setBasicFields($resourceData, $builder)
     {

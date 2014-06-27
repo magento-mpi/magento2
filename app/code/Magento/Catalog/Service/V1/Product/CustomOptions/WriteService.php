@@ -131,6 +131,8 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
+     * Add 'is_delete' flag to values absent in $valuesToLeave
+     *
      * @param \Magento\Catalog\Model\Product\Option\Value[] $allMetadatas
      * @param array $valuesToLeave
      * @return array
