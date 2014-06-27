@@ -10,7 +10,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 /**
  * @codeCoverageIgnore
  */
-class ProductLink extends \Magento\Framework\Service\Data\Eav\AbstractObject
+class ProductLink extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
      * Constants defined for keys of array
