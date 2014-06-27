@@ -1,3 +1,5 @@
+2.0.0.0-dev84
+=============
 * Fixed bugs:
   * Fixed: Screen isn't moved automatically to invalidly filled field on "Create new Order" backend page (MAGETWO-19689)
   * Fixed: Several configuration fields possible to edit on website scope is checkboxes "Use Default" are checked (CAPTCHA section) (MAGETWO-15247)
