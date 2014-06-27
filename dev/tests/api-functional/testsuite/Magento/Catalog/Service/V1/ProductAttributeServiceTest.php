@@ -19,7 +19,7 @@ use Magento\TestFramework\Helper\Bootstrap;
  */
 class ProductAttributeServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductAttributeServiceV1';
+    const SERVICE_NAME = 'catalogProductAttributeOptionServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/attributes';
 
