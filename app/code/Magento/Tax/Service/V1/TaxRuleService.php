@@ -103,15 +103,15 @@ class TaxRuleService implements TaxRuleServiceInterface
     /**
      * Save Tax Rule
      *
-     * @param TaxRule $taxRule
+     * @param TaxRule $rule
      * @return TaxRuleModel
      * @throws InputException
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function saveTaxRule(TaxRule $taxRule)
+    protected function saveTaxRule(TaxRule $rule)
     {
-        $this->validate($taxRule);
-        $taxRuleModel = $this->converter->createTaxRuleModel($taxRule);
+        $this->validate($rule);
+        $taxRuleModel = $this->converter->createTaxRuleModel($rule);
         $taxRuleModel->save();
         $this->taxRuleRegistry->registerTaxRule($taxRuleModel);
         return $taxRuleModel;
@@ -120,53 +120,53 @@ class TaxRuleService implements TaxRuleServiceInterface
     /**
      * Validate tax rule
      *
-     * @param TaxRule $taxRule
+     * @param TaxRule $rule
      * @return void
      * @throws InputException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    private function validate(TaxRule $taxRule)
+    private function validate(TaxRule $rule)
     {
         $exception = new InputException();
 
         // SortOrder is required and must be 0 or greater
-        if (!\Zend_Validate::is(trim($taxRule->getSortOrder()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($rule->getSortOrder()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::SORT_ORDER]);
         }
-        if (!\Zend_Validate::is(trim($taxRule->getSortOrder()), 'GreaterThan', [-1])) {
+        if (!\Zend_Validate::is(trim($rule->getSortOrder()), 'GreaterThan', [-1])) {
             $exception->addError(
                 InputException::INVALID_FIELD_MIN_VALUE,
-                ['fieldName' => TaxRule::SORT_ORDER, 'value' => $taxRule->getSortOrder(), 'minValue' => 0]
+                ['fieldName' => TaxRule::SORT_ORDER, 'value' => $rule->getSortOrder(), 'minValue' => 0]
             );
         }
 
         // Priority is required and must be 0 or greater
-        if (!\Zend_Validate::is(trim($taxRule->getPriority()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($rule->getPriority()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::PRIORITY]);
         }
-        if (!\Zend_Validate::is(trim($taxRule->getPriority()), 'GreaterThan', [-1])) {
+        if (!\Zend_Validate::is(trim($rule->getPriority()), 'GreaterThan', [-1])) {
             $exception->addError(
                 InputException::INVALID_FIELD_MIN_VALUE,
-                ['fieldName' => TaxRule::PRIORITY, 'value' => $taxRule->getPriority(), 'minValue' => 0]
+                ['fieldName' => TaxRule::PRIORITY, 'value' => $rule->getPriority(), 'minValue' => 0]
             );
         }
 
         // Code is required
-        if (!\Zend_Validate::is(trim($taxRule->getCode()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($rule->getCode()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::CODE]);
         }
         // customer tax class ids is required
-        if (($taxRule->getCustomerTaxClassIds() === null) || !$taxRule->getCustomerTaxClassIds()) {
+        if (($rule->getCustomerTaxClassIds() === null) || !$rule->getCustomerTaxClassIds()) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::CUSTOMER_TAX_CLASS_IDS]);
         }
         // product tax class ids is required
-        if (($taxRule->getProductTaxClassIds() === null) || !$taxRule->getProductTaxClassIds()) {
+        if (($rule->getProductTaxClassIds() === null) || !$rule->getProductTaxClassIds()) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::PRODUCT_TAX_CLASS_IDS]);
         }
         // tax rate ids is required
-        if (($taxRule->getTaxRateIds() === null) || !$taxRule->getTaxRateIds()) {
+        if (($rule->getTaxRateIds() === null) || !$rule->getTaxRateIds()) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::TAX_RATE_IDS]);
         }
 

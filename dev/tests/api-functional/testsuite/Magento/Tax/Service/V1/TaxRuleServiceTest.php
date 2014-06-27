@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Tax\Service\V1;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -123,11 +124,17 @@ class TaxRuleServiceTest extends WebapiAbstract
             ]
         ];
         $this->_webApiCall($serviceInfo, $requestData);
-        $this->setExpectedException(
-            '\Exception',
-            '{"message":"Code already exists."}'
-        );
-        $this->_webApiCall($serviceInfo, $requestData);
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Expected exception was not raised');
+        } catch (\Exception $e) {
+            $expectedMessage = 'Code already exists.';
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
     }
 
     /**
@@ -155,9 +162,9 @@ class TaxRuleServiceTest extends WebapiAbstract
             'code' => 'Test Rule Duplicate',
             'priority' => '0',
             'sort_order' => '0',
-            'customer_tax_class_ids' => array_unique($fixtureRule->getCustomerTaxClasses()),
-            'product_tax_class_ids' => array_unique($fixtureRule->getProductTaxClasses()),
-            'tax_rate_ids' => array_unique($fixtureRule->getRates())
+            'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
+            'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
+            'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
         ];
         $requestData = ['taxRuleId' => $taxRuleId];
         $result = $this->_webApiCall($serviceInfo, $requestData);
@@ -251,17 +258,17 @@ class TaxRuleServiceTest extends WebapiAbstract
         );
         $this->assertEquals(
             $expectedRuleData['customer_tax_class_ids'],
-            array_unique($taxRuleModel->getCustomerTaxClasses()),
+            array_values(array_unique($taxRuleModel->getCustomerTaxClasses())),
             'Customer Tax classes were updated incorrectly'
         );
         $this->assertEquals(
             $expectedRuleData['product_tax_class_ids'],
-            array_unique($taxRuleModel->getProductTaxClasses()),
+            array_values(array_unique($taxRuleModel->getProductTaxClasses())),
             'Product Tax classes were updated incorrectly.'
         );
         $this->assertEquals(
             $expectedRuleData['tax_rate_ids'],
-            array_unique($taxRuleModel->getRates()),
+            array_values(array_unique($taxRuleModel->getRates())),
             'Tax rates were updated incorrectly.'
         );
     }
@@ -308,7 +315,7 @@ class TaxRuleServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
      */
-    public function testDeleteTaxRate()
+    public function testDeleteTaxRule()
     {
         $fixtureRule = $this->getFixtureTaxRules()[0];
         $taxRuleId = $fixtureRule->getId();
