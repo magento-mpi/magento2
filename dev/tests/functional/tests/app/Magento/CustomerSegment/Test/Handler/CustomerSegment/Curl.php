@@ -58,8 +58,9 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("CustomerSegment entity creating by curl handler was not successful!" .
-                " Response: $response");
+            throw new \Exception(
+                "CustomerSegment entity creating by curl handler was not successful!" . " Response: $response"
+            );
         }
 
         return ['id' => $this->getCustomerSegmentId($response)];

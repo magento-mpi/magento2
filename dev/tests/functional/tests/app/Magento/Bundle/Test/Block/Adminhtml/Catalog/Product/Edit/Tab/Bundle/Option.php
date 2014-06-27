@@ -99,6 +99,8 @@ class Option extends Form
      *
      * @param array $fields
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function fillBundleOption(array $fields)
     {

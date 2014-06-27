@@ -74,6 +74,8 @@ class Role implements FixtureInterface
      *
      * @param string $key [optional]
      * @return string|null
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

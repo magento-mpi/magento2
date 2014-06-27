@@ -20,6 +20,8 @@ class UrlRewriteCategory extends AbstractRepository
     /**
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {

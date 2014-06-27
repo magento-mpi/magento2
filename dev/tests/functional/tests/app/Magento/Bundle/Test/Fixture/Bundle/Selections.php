@@ -86,6 +86,8 @@ class Selections implements FixtureInterface
      *
      * @param string $key [optional]
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {
@@ -139,6 +141,7 @@ class Selections implements FixtureInterface
      * @param string $name
      * @return mixed
      * @throws \InvalidArgumentException
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function getPreset($name)
     {

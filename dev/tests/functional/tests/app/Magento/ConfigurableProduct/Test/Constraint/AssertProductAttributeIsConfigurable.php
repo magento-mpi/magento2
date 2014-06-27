@@ -51,7 +51,9 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
         CatalogProductNew $newProductPage,
         CatalogProductAttribute $productAttribute = null
     ) {
-        $this->attributeFrontendLabel = ($productAttribute) ? $productAttribute->getFrontendLabel() : $attribute->getFrontendLabel();
+        $this->attributeFrontendLabel = ($productAttribute)
+            ? $productAttribute->getFrontendLabel()
+            : $attribute->getFrontendLabel();
         $productGrid->open();
         $productGrid->getProductBlock()->addProduct('configurable');
 
