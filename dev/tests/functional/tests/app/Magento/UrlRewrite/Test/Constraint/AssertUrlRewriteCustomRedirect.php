@@ -56,6 +56,6 @@ class AssertUrlRewriteCustomRedirect extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer available by new URL on the front.';
+        return 'URL rewrite custom redirect success.';
     }
 }

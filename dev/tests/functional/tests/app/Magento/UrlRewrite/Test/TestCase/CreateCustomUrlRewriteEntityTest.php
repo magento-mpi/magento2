@@ -22,7 +22,6 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
  * 1. Create CMS Page
  * 2. Create subcategory
  * 3. Create simple product
- * 4. Create custom storeView
  *
  * Steps:
  * 1. Login to backend as Admin
@@ -53,7 +52,7 @@ class CreateCustomUrlRewriteEntityTest extends Injectable
     protected $urlRewriteEdit;
 
     /**
-     * Inject  pages
+     * Inject pages
      *
      * @param UrlrewriteIndex $urlRewriteIndex
      * @param UrlrewriteEdit $urlRewriteEdit

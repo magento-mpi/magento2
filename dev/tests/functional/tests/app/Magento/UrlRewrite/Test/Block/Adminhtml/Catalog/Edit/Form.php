@@ -29,12 +29,13 @@ class Form extends FormWidget
     {
         $data = $fixture->getData();
         $getData = $this->getData();
-        if (!isset($getData['target_path'])) {
+        if (!$getData['target_path']) {
             $entity = $fixture->getDataFieldConfig('id_path')['source']->getEntity();
             $data['target_path'] = $entity->hasData('identifier')
                 ? $entity->getIdentifier()
                 : $entity->getUrlKey() . '.html';
         }
+        // TODO: delete line after removing old fixture
         $fields = isset($data['fields']) ? $data['fields'] : $data;
         $mapping = $this->dataMapping($fields);
         $this->_fill($mapping, $element);

@@ -32,6 +32,13 @@ class IdPath implements FixtureInterface
     protected $entity;
 
     /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
