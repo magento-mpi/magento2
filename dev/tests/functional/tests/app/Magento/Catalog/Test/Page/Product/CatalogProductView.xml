@@ -70,7 +70,7 @@
     </block>
     <block>
         <name>reviewFormBlock</name>
-        <class>Magento\Review\Test\Block\ReviewForm</class>
+        <class>Magento\Review\Test\Block\Form</class>
         <locator>#review-form</locator>
         <strategy>css selector</strategy>
     </block>

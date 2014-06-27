@@ -68,7 +68,7 @@ class CatalogProductView extends FrontendPage
         ],
         'reviewFormBlock' => [
             'name' => 'reviewFormBlock',
-            'class' => 'Magento\Review\Test\Block\ReviewForm',
+            'class' => 'Magento\Review\Test\Block\Form',
             'locator' => '#review-form',
             'strategy' => 'css selector',
         ],
@@ -140,7 +140,7 @@ class CatalogProductView extends FrontendPage
     }
 
     /**
-     * @return \Magento\Review\Test\Block\ReviewForm
+     * @return \Magento\Review\Test\Block\Form
      */
     public function getReviewFormBlock()
     {

@@ -20,14 +20,14 @@ class ReviewEdit extends BackendPage
     protected $_blocks = [
         'reviewForm' => [
             'name' => 'reviewForm',
-            'class' => 'Magento\Review\Test\Block\Adminhtml\Edit',
+            'class' => 'Magento\Review\Test\Block\Adminhtml\ReviewForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\Review\Test\Block\Adminhtml\Edit
+     * @return \Magento\Review\Test\Block\Adminhtml\ReviewForm
      */
     public function getReviewForm()
     {

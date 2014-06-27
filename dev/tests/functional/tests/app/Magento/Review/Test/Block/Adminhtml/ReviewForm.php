@@ -16,7 +16,7 @@ use Magento\Backend\Test\Block\Widget\Form;
  * Class Edit
  * Review edit form
  */
-class Edit extends Form
+class ReviewForm extends Form
 {
     /**
      * Posted by field

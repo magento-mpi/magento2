@@ -9,14 +9,14 @@
 namespace Magento\Review\Test\Fixture\ReviewInjectable;
 
 use Mtf\Fixture\FixtureFactory;
-use Mtf\Fixture\FixtureInterfac;
-use Magento\Review\Test\Fixture\Rating as FixtureRating;
+use Mtf\Fixture\FixtureInterface;
+use Magento\Review\Test\Fixture\Rating;
 
 /**
  * Class Ratings
  * Source for product ratings fixture
  */
-class Ratings implements  FixtureInterface
+class Ratings implements FixtureInterface
 {
     /**
      * Configuration settings of fixture
@@ -51,7 +51,7 @@ class Ratings implements  FixtureInterface
 
         foreach ($data as $rating) {
             if (isset($rating['dataSet'])) {
-                /** @var FixtureRating $fixtureRating */
+                /** @var Rating $fixtureRating */
                 $fixtureRating = $fixtureFactory->createByCode('rating', ['dataSet' => $rating['dataSet']]);
                 if (!$fixtureRating->hasData('id')) {
                     $fixtureRating->persist();
