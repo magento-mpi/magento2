@@ -10,7 +10,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 /**
  * @codeCoverageIgnore
  */
-class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
+class ProductLinkBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param string $value
