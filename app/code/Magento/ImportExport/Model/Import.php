@@ -112,11 +112,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_filesystem;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Processor
-     */
-    protected $_stockIndexerProcessor;
-
-    /**
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\Logger\AdapterFactory $adapterFactory
@@ -130,7 +125,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor
      * @param array $data
      */
     public function __construct(
@@ -147,7 +141,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory,
         \Magento\Index\Model\Indexer $indexer,
-        \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
@@ -161,7 +154,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         $this->_indexer = $indexer;
         $this->_behaviorFactory = $behaviorFactory;
         $this->_filesystem = $filesystem;
-        $this->_stockIndexerProcessor = $stockIndexerProcessor;
         parent::__construct($logger, $filesystem, $adapterFactory, $data);
     }
 
@@ -439,8 +431,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
                 __('Import has been done successfuly.')
             )
         );
-
-        $this->_stockIndexerProcessor->markIndexerAsInvalid();
 
         return $result;
     }
