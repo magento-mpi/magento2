@@ -135,9 +135,9 @@ class Cart extends \Magento\Core\Helper\Url
     /**
      * Get post parameters for delete from cart
      *
-     * @param   \Magento\Sales\Model\Quote\Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return string
-     **/
+     */
     public function getDeletePostJson($item)
     {
         $url = $this->_getUrl(self::DELETE_URL);

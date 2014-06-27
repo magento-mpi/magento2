@@ -1738,5 +1738,5 @@ return array(
     ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
     ['prepareValueForDuplicate', 'Magento\Catalog\Model\Product\Option\Value'],
     ['prepareOptionForDuplicate', '\Magento\Catalog\Model\Product\Option'],
-    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item'],
+    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
 );
