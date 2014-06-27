@@ -16,7 +16,7 @@
                 var hostName = win.location.hostname,
                     iFrameHostName = $('<a>').prop('href', el.prop('src')).prop('hostname');
                 if (hostName != iFrameHostName) {
-                    return false;
+                    return elements;
                 }
             }
             el.contents().each(function (i, el) {
