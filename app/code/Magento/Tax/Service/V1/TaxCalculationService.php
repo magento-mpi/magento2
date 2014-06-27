@@ -339,7 +339,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
             //save applied taxes
             $appliedTaxes = $this->getAppliedTaxes($appliedTaxBuilder, $rowTax, $rate, $appliedRates);
-        } else {
+        } else { //catalog price does not include tax
             $taxable = $price;
             $appliedRates = $this->calculator->getAppliedRates($taxRateRequest);
             $unitTaxes = [];
@@ -358,7 +358,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                     $taxableAmount = max($priceInclTax - $unitDiscountAmount, 0);
                     $unitTaxAfterDiscount = $this->calculator->calcTaxAmount(
                         $taxableAmount,
-                        $rate,
+                        $taxRate,
                         false,
                         true
                     );
@@ -523,6 +523,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $storeRate = $this->calculator->getStoreRate($taxRateRequest, $storeId);
                 $priceInclTax = $this->calculatePriceInclTax($price, $storeRate, $rate);
                 $rowTotalInclTax = $priceInclTax * $quantity;
+                $taxableAmount = $rowTotalInclTax;
                 $rowTax =
                     $this->round(
                         $this->calculator->calcTaxAmount($rowTotalInclTax, $rate, true, false),
@@ -565,8 +566,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $rate,
                 $appliedRates
             );
-        } else {
-            $taxableAmount = $rowTotal;
+        } else { //catalog price does not include tax
             $appliedRates = $this->calculator->getAppliedRates($taxRateRequest);
             $rowTaxes = [];
             $rowTaxesBeforeDiscount = [];
@@ -575,7 +575,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $taxId = $appliedRate['id'];
                 $taxRate = $appliedRate['percent'];
                 $rowTaxPerRate = $this->round(
-                    $this->calculator->calcTaxAmount($taxableAmount, $taxRate, false, false),
+                    $this->calculator->calcTaxAmount($rowTotal, $taxRate, false, false),
                     $useDeltaRounding,
                     $taxId,
                     false
@@ -584,9 +584,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 //Handle discount
                 if ($discountAmount && $applyTaxAfterDiscount) {
                     //TODO: handle originalDiscountAmount
-                    $taxableAmount = max($rowTotal - $discountAmount, 0);
                     $rowTaxAfterDiscount = $this->calculator->calcTaxAmount(
-                        $taxableAmount,
+                        max($rowTotal - $discountAmount, 0),
                         $taxRate,
                         false,
                         false

@@ -32,18 +32,18 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
      * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
+     * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Weee\Helper\Data $weeeData
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
         \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
+        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Weee\Helper\Data $weeeData
     ) {
         $this->_weeeData = $weeeData;

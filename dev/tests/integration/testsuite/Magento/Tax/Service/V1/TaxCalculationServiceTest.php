@@ -758,6 +758,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function calculateTaxRoundingDataProvider()
     {
         $prodRoundingNoTaxInclBase = [
@@ -1412,6 +1415,343 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+
+    /**
+     * Create quote details for use with multi rules tests
+     *
+     * @return array
+     */
+    protected function setupMultiRuleQuote()
+    {
+        $baseQuote = $this->getBaseQuoteData();
+
+        $baseQuote['items'][] = [
+            'code' => 'sku_1',
+            'type' => 'product',
+            'quantity' => 10,
+            'unit_price' => 1.89,
+            'tax_class_id' => 'MultipleRulesProductClass',
+            'tax_included' => true,
+            'discount_amount' => 5,
+        ];
+        $baseQuote['items'][] = [
+            'code' => 'sku_2',
+            'type' => 'product',
+            'quantity' => 5,
+            'unit_price' => 14.99,
+            'tax_class_id' => 'MultipleRulesProductClass',
+            'tax_included' => true,
+            'discount_amount' => 10,
+        ];
+        $baseQuote['items'][] = [
+            'code' => 'sku_3',
+            'type' => 'product',
+            'quantity' => 1,
+            'unit_price' => 99.99,
+            'tax_class_id' => 'MultipleRulesProductClass',
+            'tax_included' => false,
+            'discount_amount' => 5,
+        ];
+
+        return $baseQuote;
+    }
+
+    /**
+     * Create the base results for the the multi rules test
+     *
+     * @return array
+     */
+    protected function getBaseQuoteResult()
+    {
+        $result = [
+            'subtotal' => 183.75,
+            'tax_amount' => 42.88,
+            'discount_tax_compensation_amount' => 3.08,
+            'applied_taxes' => [
+                [
+                    'amount' => 22.1,
+                    'percent' => 13.25,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 8.25',
+                            'title' => 'US - 42 - 8.25',
+                            'percent' => 8.25,
+                        ],
+                        [
+                            'code' => 'US - 42 - 5 - 55555',
+                            'title' => 'US - 42 - 5 - 55555',
+                            'percent' => 5,
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 8.25US - 42 - 5 - 55555',
+                ],
+                [
+                    'amount' => 20.78,
+                    'percent' => 12.4575,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 11 - 55555',
+                            'title' => 'US - 42 - 11 - 55555',
+                            'percent' => 11,
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 11 - 55555',
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
+                    'row_tax' => 3.31,
+                    'price' => 1.69,
+                    'price_incl_tax' => 2.12,
+                    'row_total' => 16.86,
+                    'row_total_incl_tax' => 21.2,
+                    'type' => 'product',
+                    'tax_percent' => 25.7075,
+                    'discount_tax_compensation_amount' => 1.03,
+                    'applied_taxes' => [
+                        'US - 42 - 8.25US - 42 - 5 - 55555' => [
+                            'amount' => 1.71,
+                            'percent' => 13.25,
+                            'tax_rate_key' => 'US - 42 - 8.25US - 42 - 5 - 55555',
+                            'rates' => [
+                                'US - 42 - 8.25' => [
+                                    'percent' => 8.25,
+                                    'code' => 'US - 42 - 8.25',
+                                    'title' => 'US - 42 - 8.25',
+                                ],
+                                'US - 42 - 5 - 55555' => [
+                                    'percent' => 5,
+                                    'code' => 'US - 42 - 5 - 55555',
+                                    'title' => 'US - 42 - 5 - 55555',
+                                ],
+                            ],
+                        ],
+                        'US - 42 - 11 - 55555' => [
+                            'amount' => 1.6,
+                            'percent' => 12.4575,
+                            'tax_rate_key' => 'US - 42 - 11 - 55555',
+                            'rates' => [
+                                'US - 42 - 11 - 55555' => [
+                                    'percent' => 11,
+                                    'code' => 'US - 42 - 11 - 55555',
+                                    'title' => 'US - 42 - 11 - 55555',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'sku_2' => [
+                    'code' => 'sku_2',
+                    'row_tax' => 15.15,
+                    'price' => 13.38,
+                    'price_incl_tax' => 16.82,
+                    'row_total' => 66.9,
+                    'row_total_incl_tax' => 84.1,
+                    'type' => 'product',
+                    'tax_percent' => 25.7075,
+                    'discount_tax_compensation_amount' => 2.05,
+                    'applied_taxes' => [
+                        'US - 42 - 8.25US - 42 - 5 - 55555' => [
+                            'amount' => 7.8,
+                            'percent' => 13.25,
+                            'tax_rate_key' => 'US - 42 - 8.25US - 42 - 5 - 55555',
+                            'rates' => [
+                                'US - 42 - 8.25' => [
+                                    'percent' => 8.25,
+                                    'code' => 'US - 42 - 8.25',
+                                    'title' => 'US - 42 - 8.25',
+                                ],
+                                'US - 42 - 5 - 55555' => [
+                                    'percent' => 5,
+                                    'code' => 'US - 42 - 5 - 55555',
+                                    'title' => 'US - 42 - 5 - 55555',
+                                ],
+                            ],
+                        ],
+                        'US - 42 - 11 - 55555' => [
+                            'amount' => 7.35,
+                            'percent' => 12.4575,
+                            'tax_rate_key' => 'US - 42 - 11 - 55555',
+                            'rates' => [
+                                'US - 42 - 11 - 55555' => [
+                                    'percent' => 11,
+                                    'code' => 'US - 42 - 11 - 55555',
+                                    'title' => 'US - 42 - 11 - 55555',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'sku_3' => [
+                    'code' => 'sku_3',
+                    'row_tax' => 24.42,
+                    'price' => 99.99,
+                    'price_incl_tax' => 125.7,
+                    'row_total' => 99.99,
+                    'row_total_incl_tax' => 125.7,
+                    'type' => 'product',
+                    'tax_percent' => 25.7075,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 8.25US - 42 - 5 - 55555' => [
+                            'amount' => 12.59,
+                            'percent' => 13.25,
+                            'tax_rate_key' => 'US - 42 - 8.25US - 42 - 5 - 55555',
+                            'rates' => [
+                                'US - 42 - 8.25' => [
+                                    'percent' => 8.25,
+                                    'code' => 'US - 42 - 8.25',
+                                    'title' => 'US - 42 - 8.25',
+                                ],
+                                'US - 42 - 5 - 55555' => [
+                                    'percent' => 5,
+                                    'code' => 'US - 42 - 5 - 55555',
+                                    'title' => 'US - 42 - 5 - 55555',
+                                ],
+                            ],
+                        ],
+                        'US - 42 - 11 - 55555' => [
+                            'amount' => 11.83,
+                            'percent' => 12.4575,
+                            'tax_rate_key' => 'US - 42 - 11 - 55555',
+                            'rates' => [
+                                'US - 42 - 11 - 55555' => [
+                                    'percent' => 11,
+                                    'code' => 'US - 42 - 11 - 55555',
+                                    'title' => 'US - 42 - 11 - 55555',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        return $result;
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @dataProvider multiRulesRowBasedDataProvider
+     * @magentoConfigFixture default_store tax/calculation/algorithm ROW_BASE_CALCULATION
+     */
+    public function testMultiRulesRowBased($quoteDetailsData, $expectedTaxDetails)
+    {
+        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
+
+        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
+
+        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails);
+
+        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function multiRulesRowBasedDataProvider()
+    {
+        $quoteDetails = $this->setupMultiRuleQuote();
+
+        $results = $this->getBaseQuoteResult();
+
+        return [
+            'multi rules, multi rows' => [
+                'quote_details' => $quoteDetails,
+                'expected_tax_details' => $results,
+            ],
+        ];
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @dataProvider multiRulesTotalBasedDataProvider
+     * @magentoConfigFixture default_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
+     */
+    public function testMultiRulesTotalBased($quoteDetailsData, $expectedTaxDetails)
+    {
+        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
+
+        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
+
+        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails);
+
+        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function multiRulesTotalBasedDataProvider()
+    {
+        $quoteDetails = $this->setupMultiRuleQuote();
+
+        $results = $this->getBaseQuoteResult();
+
+        //Differences from the row base result
+        $results['subtotal'] = 183.76;
+        $results['tax_amount'] = 42.89;
+        $results['discount_tax_compensation_amount'] = 3.06;
+        $results['applied_taxes'][0]['amount'] = 22.11;
+        $results['items']['sku_2']['row_tax'] = 15.16;
+        $results['items']['sku_2']['row_total'] = 66.91;
+        $results['items']['sku_2']['discount_tax_compensation_amount'] = 2.03;
+        $results['items']['sku_2']['applied_taxes']['US - 42 - 8.25US - 42 - 5 - 55555']['amount'] = 7.81;
+
+        return [
+            'multi rules, multi rows' => [
+                'quote_details' => $quoteDetails,
+                'expected_tax_details' => $results,
+            ],
+        ];
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @dataProvider multiRulesUnitBasedDataProvider
+     * @magentoConfigFixture default_store tax/calculation/algorithm UNIT_BASE_CALCULATION
+     */
+    public function testMultiRulesUnitBased($quoteDetailsData, $expectedTaxDetails)
+    {
+        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
+
+        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
+
+        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails);
+
+        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    public function multiRulesUnitBasedDataProvider()
+    {
+        $quoteDetails = $this->setupMultiRuleQuote();
+
+        $results = $this->getBaseQuoteResult();
+
+        //Differences from the row base result
+        $results['subtotal'] = 183.79;
+        $results['tax_amount'] = 42.87;
+        $results['discount_tax_compensation_amount'] = 3.05;
+        $results['applied_taxes'][1]['amount'] = 20.77;
+        $results['items']['sku_1']['row_tax'] = 3.3;
+        $results['items']['sku_1']['row_total'] = 16.9;
+        $results['items']['sku_1']['discount_tax_compensation_amount'] = 1;
+        $results['items']['sku_1']['applied_taxes']['US - 42 - 8.25US - 42 - 5 - 55555']['amount'] = 1.7;
+        $results['items']['sku_2']['applied_taxes']['US - 42 - 8.25US - 42 - 5 - 55555']['amount'] = 7.81;
+        $results['items']['sku_2']['applied_taxes']['US - 42 - 11 - 55555']['amount'] = 7.34;
+
+        return [
+            'multi rules, multi rows' => [
+                'quote_details' => $quoteDetails,
+                'expected_tax_details' => $results,
+            ],
+        ];
+    }
+
     /**
      * Substitutes an ID for the name of a tax class in a tax class ID field.
      *
@@ -1443,11 +1783,25 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             ['name' => 'DefaultCustomerClass', 'type' => ClassModel::TAX_CLASS_TYPE_CUSTOMER],
             ['name' => 'DefaultProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
             ['name' => 'HigherProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
+            ['name' => 'MultipleRulesProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
         ]);
 
         $this->taxRates = $this->taxRuleFixtureFactory->createTaxRates([
             ['percentage' => 7.5, 'country' => 'US', 'region' => 42],
             ['percentage' => 7.5, 'country' => 'US', 'region' => 12], // Default store rate
+        ]);
+
+        $multiTaxRates1 = $this->taxRuleFixtureFactory->createTaxRates([
+            ['percentage' => 8.25, 'country' => 'US', 'region' => 42],
+            ['percentage' => 12, 'country' => 'US', 'region' => 12], // Default store rate
+        ]);
+
+        $multiTaxRatesSamePriority = $this->taxRuleFixtureFactory->createTaxRates([
+            ['percentage' => 5, 'country' => 'US', 'region' => 42, 'postcode' => '55555'],
+        ]);
+
+        $multiTaxRatesDifferentPriority = $this->taxRuleFixtureFactory->createTaxRates([
+            ['percentage' => 11, 'country' => 'US', 'region' => 42, 'postcode' => '55555'],
         ]);
 
         $higherRates = $this->taxRuleFixtureFactory->createTaxRates([
@@ -1472,10 +1826,37 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'sort_order' => 0,
                 'priority' => 0,
             ],
+            [
+                'code' => 'MultiRule-1',
+                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
+                'product_tax_class_ids' => [$this->taxClasses['MultipleRulesProductClass']],
+                'tax_rate_ids' => array_values($multiTaxRates1),
+                'sort_order' => 0,
+                'priority' => 0,
+            ],
+            [
+                'code' => 'MultiRule-2',
+                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
+                'product_tax_class_ids' => [$this->taxClasses['MultipleRulesProductClass']],
+                'tax_rate_ids' => array_values($multiTaxRatesSamePriority),
+                'sort_order' => 0,
+                'priority' => 0,
+            ],
+            [
+                'code' => 'MultiRule-3',
+                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
+                'product_tax_class_ids' => [$this->taxClasses['MultipleRulesProductClass']],
+                'tax_rate_ids' => array_values($multiTaxRatesDifferentPriority),
+                'sort_order' => 0,
+                'priority' => 1,
+            ],
         ]);
 
         // For cleanup
         $this->taxRates = array_merge($this->taxRates, $higherRates);
+        $this->taxRates = array_merge($this->taxRates, $multiTaxRates1);
+        $this->taxRates = array_merge($this->taxRates, $multiTaxRatesSamePriority);
+        $this->taxRates = array_merge($this->taxRates, $multiTaxRatesDifferentPriority);
     }
 
     /**
