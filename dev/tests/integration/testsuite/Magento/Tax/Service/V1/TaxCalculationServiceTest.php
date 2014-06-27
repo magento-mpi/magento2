@@ -1871,6 +1871,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     private function getBaseQuoteData()
     {
