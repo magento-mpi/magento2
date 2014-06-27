@@ -11,24 +11,19 @@ namespace Magento\Review\Test\Constraint;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
 use Magento\Review\Test\Fixture\ReviewInjectable;
-use Mtf\Constraint\AssertForm;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertProductRatingOnReviewPage
  */
-class AssertProductRatingOnReviewPage extends AssertForm
+class AssertProductRatingOnReviewPage extends AbstractAssertForm
 {
-    /**
-     * Name of reviews tab on product edit page
-     */
-    const TAB_REVIEWS = 'product-reviews';
-
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'low';
+    protected $severeness = 'middle';
 
     /**
      * Assert that product rating is displayed on product review(backend)
@@ -49,9 +44,9 @@ class AssertProductRatingOnReviewPage extends AssertForm
         $reviewIndex->getReviewGrid()->searchAndOpen($filter);
 
         $reviewRatings = $review->getRatings();
+        $reviewRatings = $this->sortData($reviewRatings, ['::title']);
         $formRatings = $reviewEdit->getReviewForm()->getRatings();
-        $this->sortData($reviewRatings, ['::title']);
-        $this->sortData($formRatings, ['::title']);
+        $formRatings = $this->sortData($formRatings, ['::title']);
         $error = $this->verifyData($reviewRatings, $formRatings);
         \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }

@@ -21,7 +21,7 @@ class ReviewIndex extends BackendPage
         'reviewGrid' => [
             'name' => 'reviewGrid',
             'class' => 'Magento\Review\Test\Block\Adminhtml\Grid',
-            'locator' => '[id="page:main-container"]',
+            'locator' => '#reviwGrid',
             'strategy' => 'css selector',
         ],
     ];

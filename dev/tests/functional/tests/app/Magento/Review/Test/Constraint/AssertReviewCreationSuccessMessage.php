@@ -53,6 +53,6 @@ class AssertReviewCreationSuccessMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Rating success save message is present.';
+        return 'Review success save message is present.';
     }
 }

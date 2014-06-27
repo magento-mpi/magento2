@@ -10,16 +10,16 @@ namespace Magento\Review\Test\Block;
 
 use Magento\Review\Test\Fixture\Rating;
 use Magento\Review\Test\Fixture\ReviewInjectable;
-use Mtf\Block\Form as BlockForm;
+use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Form
- * Review form
+ * Review form on frontend
  */
-class Form extends BlockForm
+class ReviewForm extends Form
 {
     /**
      * Legend selector
