@@ -19,7 +19,7 @@ class Metadata extends \Magento\Framework\Service\Data\Eav\AbstractObject
     const IMAGE_SIZE_Y = 'image_size_y';
     const MAX_CHARACTERS = 'max_characters';
     const TITLE = 'title';
-    const ID = 'option_type_id';
+    const OPTION_TYPE_ID = 'option_type_id';
 
     /**
      * Get price

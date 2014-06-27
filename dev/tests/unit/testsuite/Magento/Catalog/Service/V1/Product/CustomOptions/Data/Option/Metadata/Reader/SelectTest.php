@@ -61,7 +61,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             Metadata::SKU => 'product_sku',
             Metadata::TITLE => 'Some Title',
             Metadata::SORT_ORDER => '0',
-            Metadata::ID => '12345678'
+            Metadata::OPTION_TYPE_ID => '12345678'
         ];
         $this->valueBuilderMock
             ->expects($this->any())->method('populateWithArray')

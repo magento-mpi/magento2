@@ -16,13 +16,13 @@ class MetadataBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObject
      * @var string[]
      */
     protected $customAttributeCodes = [
-        'sort_order',
-        'title',
-        'file_extension',
-        'image_size_x',
-        'image_size_y',
-        'max_characters',
-        'option_type_id'
+        Metadata::SORT_ORDER,
+        Metadata::TITLE,
+        Metadata::FILE_EXTENSION,
+        Metadata::IMAGE_SIZE_X,
+        Metadata::IMAGE_SIZE_Y,
+        Metadata::MAX_CHARACTERS,
+        Metadata::OPTION_TYPE_ID
     ];
 
     /**
