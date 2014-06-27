@@ -36,6 +36,7 @@ class Converter
     {
         $builder = $this->builder->populateWithArray($category->getData())
             ->setCategoryId($category->getId())
+            ->setActive($category->getIsActive())
             ->setChildren($category->getAllChildren(true));
 
         return $builder->create();

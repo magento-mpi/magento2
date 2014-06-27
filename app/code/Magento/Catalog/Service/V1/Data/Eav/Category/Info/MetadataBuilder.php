@@ -174,4 +174,14 @@ class MetadataBuilder extends AbstractObjectBuilder
         $this->_set(Metadata::INCLUDE_IN_MENU, $value);
         return $this;
     }
+
+    /**
+     * @param bool $value
+     * @return $this
+     */
+    public function setActive($value)
+    {
+        $this->_set(Metadata::ACTIVE, $value);
+        return $this;
+    }
 }

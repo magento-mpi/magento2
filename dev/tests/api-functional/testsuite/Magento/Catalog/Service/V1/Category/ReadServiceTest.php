@@ -51,6 +51,7 @@ class ReadServiceTest extends WebapiAbstract
             'name' => 'Category 1',
             'url_key' => 'category-1',
             'category_id' => '333',
+            'active' => '1',
             'children' => ['333']
         ];
 

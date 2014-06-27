@@ -41,6 +41,8 @@ class Metadata extends AbstractObject
 
     const INCLUDE_IN_MENU = 'include_in_menu';
 
+    const ACTIVE = 'active';
+
     /**
      * @return \Magento\Framework\Service\Data\Eav\AttributeValue[]|null
      */
@@ -151,5 +153,13 @@ class Metadata extends AbstractObject
     public function isIncludeInMenu()
     {
         return (bool)$this->_get(self::INCLUDE_IN_MENU);
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isActive()
+    {
+        return (bool)$this->_get(self::ACTIVE);
     }
 }
