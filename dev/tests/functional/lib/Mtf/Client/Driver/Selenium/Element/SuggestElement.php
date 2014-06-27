@@ -8,15 +8,14 @@
 
 namespace Mtf\Client\Driver\Selenium\Element;
 
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Mtf\Client\Driver\Selenium\Element as AbstractElement;
+use Mtf\Client\Driver\Selenium\Element;
 
 /**
  * Class SuggestElement
  * General class for suggest elements.
  */
-class SuggestElement extends AbstractElement
+class SuggestElement extends Element
 {
     /**
      * Selector suggest input

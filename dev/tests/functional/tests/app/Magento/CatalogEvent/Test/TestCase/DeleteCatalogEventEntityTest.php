@@ -61,7 +61,7 @@ class DeleteCatalogEventEntityTest extends Injectable
 
         /** @var CatalogProductSimple $product */
         $product = $fixtureFactory->createByCode(
-        'catalogProductSimple',
+            'catalogProductSimple',
             ['dataSet' => 'product_with_category']
         );
         $product->persist();

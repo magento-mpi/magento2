@@ -14,6 +14,8 @@ use Mtf\Factory\Factory;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Mtf\Fixture\InjectableFixture;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
 /**
  * Class ProductForm
@@ -27,6 +29,62 @@ class ProductForm extends FormTabs
      * @var string
      */
     protected $newVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
+
+    /**
+     * Category name selector
+     *
+     * @var string
+     */
+    protected $categoryName = '//*[contains(@class, "mage-suggest-choice")]/*[text()="%categoryName%"]';
+
+    /**
+     * 'Advanced Settings' tab
+     *
+     * @var string
+     */
+    protected $advancedSettings = '#ui-accordion-product_info_tabs-advanced-header-0[aria-selected="false"]';
+
+    /**
+     * Advanced tab list
+     *
+     * @var string
+     */
+    protected $advancedTabList = '#product_info_tabs-advanced[role="tablist"]';
+
+    /**
+     * Advanced tab panel
+     *
+     * @var string
+     */
+    protected $advancedTabPanel = './/*[role="tablist"]//ul[!contains(@style,"overflow")]';
+
+    /**
+     * CSS locator button status of the product
+     *
+     * @var string
+     */
+    protected $onlineSwitcher = '#product-online-switcher%s + [for="product-online-switcher"]';
+
+    /**
+     * Category fixture
+     *
+     * @var CatalogCategory
+     */
+    protected $category;
+
+    /**
+     * Attribute on the Product page
+     *
+     * @var string
+     */
+    protected $attribute = './/*[contains(@class,"label")]/span[text()="%s"]';
+
+    /**
+     * Attribute Search locator the Product page
+     *
+     * @var string
+     */
+    protected $attributeSearch = '#product-attribute-search-container';
 
     /**
      * Fill the product form
@@ -66,5 +124,94 @@ class ProductForm extends FormTabs
         $variationsBlock->fillAttributeOptions($variations->getConfigurableAttributes());
         $variationsBlock->generateVariations();
         $variationsBlock->fillVariationsMatrix($variations->getVariationsMatrix());
+    }
+
+    /**
+     * Save new category
+     *
+     * @param Product $fixture
+     * @return void
+     */
+    public function addNewCategory(Product $fixture)
+    {
+        $this->openNewCategoryDialog();
+        $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
+            ->setValue($fixture->getNewCategoryName());
+
+        $this->clearCategorySelect();
+        $this->selectParentCategory();
+
+        $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
+        $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
+    }
+
+    /**
+     * Select parent category for new one
+     *
+     * @return void
+     */
+    protected function selectParentCategory()
+    {
+        // TODO should be removed after suggest widget implementation as typified element
+        $this->fillCategoryField(
+            'Default Category',
+            'new_category_parent-suggest',
+            '//*[@id="new_category_form_fieldset"]'
+        );
+    }
+
+    /**
+     * Clear category field
+     *
+     * @return void
+     */
+    public function clearCategorySelect()
+    {
+        $selectedCategory = 'li.mage-suggest-choice span.mage-suggest-choice-close';
+        if ($this->_rootElement->find($selectedCategory)->isVisible()) {
+            $this->_rootElement->find($selectedCategory)->click();
+        }
+    }
+
+    /**
+     * Open new category dialog
+     *
+     * @return void
+     */
+    protected function openNewCategoryDialog()
+    {
+        $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
+        $this->waitForElementVisible('input#new_category_name');
+    }
+
+    /**
+     * Check visibility of the attribute on the product page
+     *
+     * @param mixed $productAttribute
+     * @return bool
+     */
+    public function checkAttributeLabel($productAttribute)
+    {
+        $frontendLabel = (is_array($productAttribute))
+            ? $productAttribute['frontend_label']
+            : $productAttribute->getFrontendLabel();
+        $attributeLabelLocator = sprintf($this->attribute, $frontendLabel);
+
+        return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Call method that checking present attribute in search result
+     *
+     * @param CatalogProductAttribute $productAttribute
+     * @return bool
+     */
+    public function checkAttributeInSearchAttributeForm($productAttribute)
+    {
+        return $this->_rootElement->find(
+            $this->attributeSearch,
+            Locator::SELECTOR_CSS,
+            'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Attributes\Search'
+        )->isExistAttributeInSearchResult($productAttribute);
     }
 }

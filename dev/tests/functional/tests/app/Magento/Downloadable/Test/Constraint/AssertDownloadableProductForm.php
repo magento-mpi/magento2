@@ -15,6 +15,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertDownloadableProductForm
+ * Assert that downloadable product data on edit page equals to passed from fixture
  */
 class AssertDownloadableProductForm extends AssertProductForm
 {
@@ -28,7 +29,7 @@ class AssertDownloadableProductForm extends AssertProductForm
     protected $severeness = 'low';
 
     /**
-     * Assert that downloadable product data on edit page equals to passed from fixture
+     * Assert form data equals fixture data
      *
      * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
@@ -46,7 +47,7 @@ class AssertDownloadableProductForm extends AssertProductForm
         $fieldsFixture = $this->prepareFixtureData($product->getData(), $this->sortFields);
         $fieldsForm = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
         $error = $this->verifyData($fieldsFixture, $fieldsForm);
-        \PHPUnit_Framework_Assert::assertTrue(null === $error, $error);
+        \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }
 
     /**

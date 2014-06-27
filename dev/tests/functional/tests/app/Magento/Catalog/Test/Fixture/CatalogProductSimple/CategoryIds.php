@@ -81,6 +81,8 @@ class CategoryIds implements FixtureInterface
      *
      * @param string|null $key
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

@@ -121,6 +121,8 @@ class CreateSalesRuleEntityTest extends Injectable
      * @param array $shipping
      * @param int $isLoggedIn
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function testCreateSalesRule(
         SalesRuleInjectable $salesRule,

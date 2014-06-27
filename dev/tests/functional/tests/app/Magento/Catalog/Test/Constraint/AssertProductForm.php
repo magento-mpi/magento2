@@ -76,6 +76,8 @@ class AssertProductForm extends AssertForm
      * @param array $data
      * @param $sortFields
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function prepareFormData(array $data, $sortFields)
     {

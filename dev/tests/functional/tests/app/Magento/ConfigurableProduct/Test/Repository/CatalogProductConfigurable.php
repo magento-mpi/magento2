@@ -11,11 +11,17 @@ namespace Magento\ConfigurableProduct\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogProductSimple
+ * Class CatalogProductConfigurable
  * Data for creation Catalog Product Configurable
  */
 class CatalogProductConfigurable extends AbstractRepository
 {
+    /**
+     * @param array $defaultConfig
+     * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [

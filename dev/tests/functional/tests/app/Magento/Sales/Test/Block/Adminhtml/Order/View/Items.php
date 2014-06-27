@@ -34,7 +34,7 @@ class Items extends Block
      */
     public function getPrice(Product $product)
     {
-        $productName = $product->getProductName();
+        $productName = $product->getName();
 
         if ($product instanceof ConfigurableProduct) {
             // Find the price for the specific configurable product that was purchased

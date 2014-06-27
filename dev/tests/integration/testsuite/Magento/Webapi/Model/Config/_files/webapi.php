@@ -10,13 +10,17 @@ return [
         'Magento\TestModule1\Service\V1\AllSoapAndRestInterface' => [
             'item' => [
                 'resources' => [
-                    'Magento_Test1::resource1' => true,
+                    0 => [
+                        'Magento_Test1::resource1'
+                    ]
                 ],
                 'secure' => false,
             ],
             'create' => [
                 'resources' => [
-                    'Magento_Test1::resource1' => true,
+                    0 => [
+                        'Magento_Test1::resource1'
+                    ]
                 ],
                 'secure' => false,
             ],
@@ -24,29 +28,37 @@ return [
         'Magento\TestModule1\Service\V2\AllSoapAndRestInterface' => [
             'item' => [
                 'resources' => [
-                    'Magento_Test1::resource1' => true,
-                    'Magento_Test1::resource2' => true,
+                    0 => [
+                        'Magento_Test1::resource1',
+                        'Magento_Test1::resource2'
+                    ]
                 ],
                 'secure' => false,
             ],
             'create' => [
                 'resources' => [
-                    'Magento_Test1::resource1' => true,
-                    'Magento_Test1::resource2' => true,
+                    0 => [
+                        'Magento_Test1::resource1',
+                        'Magento_Test1::resource2'
+                    ]
                 ],
                 'secure' => false,
             ],
             'delete' => [
                 'resources' => [
-                    'Magento_Test1::resource1' => true,
-                    'Magento_Test1::resource2' => true,
+                    0 => [
+                        'Magento_Test1::resource1',
+                        'Magento_Test1::resource2'
+                    ]
                 ],
                 'secure' => false,
             ],
             'update' => [
                 'resources' => [
-                    'Magento_Test1::resource1' => true,
-                    'Magento_Test1::resource2' => true,
+                    0 => [
+                        'Magento_Test1::resource1',
+                        'Magento_Test1::resource2'
+                    ]
                 ],
                 'secure' => false,
             ],

@@ -196,7 +196,7 @@ class Price extends Block
     /**
      * Get Minimum Advertised Price value
      *
-     * @return string
+     * @return array|string
      */
     public function getOldPrice()
     {
@@ -214,7 +214,7 @@ class Price extends Block
     {
         //@TODO it have to rewrite when will be possibility to divide it to different blocks(by product type)
         $prices = explode("\n", trim($this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->getText()));
-        if (count($prices) === 1) {
+        if (count($prices) == 1) {
             return floatval(trim($prices[0], $currency));
         }
         return $this->formatPricesData($prices, $currency);
@@ -244,7 +244,7 @@ class Price extends Block
     /**
      * Get price from
      *
-     * @return string
+     * @return array|string
      */
     public function getPriceFrom()
     {
@@ -254,7 +254,7 @@ class Price extends Block
     /**
      * Get price to
      *
-     * @return string
+     * @return array|string
      */
     public function getPriceTo()
     {

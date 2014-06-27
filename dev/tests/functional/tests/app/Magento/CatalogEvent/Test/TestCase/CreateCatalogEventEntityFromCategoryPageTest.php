@@ -86,21 +86,16 @@ class CreateCatalogEventEntityFromCategoryPageTest extends Injectable
      *
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $product
-     * @param CatalogCategory $catalogCategory
-     *
      * @return void
      */
     public function testCreateCatalogEvent(
         CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $product,
-        CatalogCategory $catalogCategory
+        CatalogProductSimple $product
     ) {
         //Steps
         $this->catalogCategoryIndex->open();
         $this->catalogCategoryIndex->getTreeCategories()
-            ->selectCategory(
-                $catalogCategory->getPath() . '/' . $product->getCategoryIds()[0]
-            );
+            ->selectCategory($product->getDataFieldConfig('category_ids')['source']->getCategories()[0]);
         $this->catalogCategoryIndex->getPageActionsEvent()->addCatalogEvent();
         $this->catalogEventNew->getEventForm()->fill($catalogEvent);
         $this->catalogEventNew->getPageActions()->save();
