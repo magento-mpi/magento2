@@ -20,20 +20,20 @@ class ReviewEdit extends BackendPage
     protected $_blocks = [
         'pageActions' => [
             'name' => 'pageActions',
-            'class' => 'Magento\Review\Test\Block\Adminhtml\GridPageActions',
+            'class' => 'Magento\Review\Test\Block\Adminhtml\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'reviewForm' => [
             'name' => 'reviewForm',
-            'class' => 'Magento\Review\Test\Block\Adminhtml\Edit',
+            'class' => 'Magento\Review\Test\Block\Adminhtml\ReviewForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\Review\Test\Block\Adminhtml\GridPageActions
+     * @return \Magento\Review\Test\Block\Adminhtml\FormPageActions
      */
     public function getPageActions()
     {
@@ -41,7 +41,7 @@ class ReviewEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Review\Test\Block\Adminhtml\Edit
+     * @return \Magento\Review\Test\Block\Adminhtml\ReviewForm
      */
     public function getReviewForm()
     {

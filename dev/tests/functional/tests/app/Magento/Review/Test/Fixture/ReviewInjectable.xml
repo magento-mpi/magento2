@@ -97,7 +97,7 @@
         <ratings>
             <attribute_code>ratings</attribute_code>
             <backend_type>virtual</backend_type>
-            <source>Magento\Review\Test\Fixture\ReviewInjectable\Rating</source>
+            <source>Magento\Review\Test\Fixture\ReviewInjectable\Ratings</source>
         </ratings>
     </fields>
     <repository_class>Magento\Review\Test\Repository\ReviewInjectable</repository_class>

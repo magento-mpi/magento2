@@ -12,7 +12,7 @@ namespace Mtf\Constraint;
  * Class AssertForm
  * Abstract class AssertForm
  */
-abstract class AssertForm extends AbstractConstraint
+abstract class AbstractAssertForm extends AbstractConstraint
 {
     /**
      * Verify fixture and form data
@@ -69,9 +69,9 @@ abstract class AssertForm extends AbstractConstraint
      *
      * @param array $data
      * @param array|string $paths
-     * @return void
+     * @return array
      */
-    protected function sortData(array &$data, $paths)
+    protected function sortData(array $data, $paths)
     {
         $paths = is_array($paths) ? $paths : [$paths];
         foreach ($paths as $path) {
@@ -90,7 +90,7 @@ abstract class AssertForm extends AbstractConstraint
                 }
 
                 if ($key) {
-                    $values = & $values[$key];
+                    $values = &$values[$key];
                 }
                 if ($order) {
                     $values = $this->sortMultidimensionalArray($values, $order);
@@ -99,20 +99,22 @@ abstract class AssertForm extends AbstractConstraint
                 $key = array_shift($keys);
             }
         }
+
+        return $data;
     }
 
     /**
      * Sort multidimensional array by key
      *
      * @param array $data
-     * @param string $pk
+     * @param string $key
      * @return array
      */
-    private function sortMultidimensionalArray(array &$data, $pk)
+    protected function sortMultidimensionalArray(array $data, $key)
     {
         $result = [];
         foreach ($data as $value) {
-            $result[$value[$pk]] = $value;
+            $result[$value[$key]] = $value;
         }
 
         ksort($result);
@@ -125,7 +127,7 @@ abstract class AssertForm extends AbstractConstraint
      * @param array $array
      * @return string
      */
-    private function arrayToString(array $array)
+    protected function arrayToString(array $array)
     {
         $result = [];
         foreach ($array as $key => $value) {

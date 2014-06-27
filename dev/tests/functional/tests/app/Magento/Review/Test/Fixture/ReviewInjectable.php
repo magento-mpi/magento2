@@ -32,9 +32,17 @@ class ReviewInjectable extends InjectableFixture
      * @var array
      */
     protected $defaultDataSet = [
+        'status_id' => 'Approved',
+        'select_stores' => ['Main Website/Main Website Store/Default Store View'],
         'nickname' =>  'Guest customer %isolation%',
         'title' => 'Summary review %isolation%',
-        'detail' => 'Text review %isolation%'
+        'detail' => 'Text review %isolation%',
+        'ratings' => [
+            1 => [
+                'dataSet' => 'visibleOnDefaultWebsite',
+                'rating' => 4
+            ]
+        ]
     ];
 
     protected $review_id = [
@@ -129,7 +137,7 @@ class ReviewInjectable extends InjectableFixture
     protected $ratings = [
         'attribute_code' => 'ratings',
         'backend_type' => 'virtual',
-        'source' => 'Magento\Review\Test\Fixture\ReviewInjectable\Rating',
+        'source' => 'Magento\Review\Test\Fixture\ReviewInjectable\Ratings',
     ];
 
     public function getReviewId()

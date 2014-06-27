@@ -18,11 +18,6 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertProductReviewInGrid extends AbstractConstraint
 {
     /**
-     * Name of reviews tab on product edit page
-     */
-    const TAB_REVIEWS = 'product-reviews';
-
-    /**
      * Constraint severeness
      *
      * @var string
@@ -30,7 +25,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that review is displayed in grid on product reviews tab
+     * Assert that review is displayed in grid
      *
      * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review

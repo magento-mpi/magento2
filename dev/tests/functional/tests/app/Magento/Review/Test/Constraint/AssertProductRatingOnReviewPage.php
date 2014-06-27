@@ -11,24 +11,19 @@ namespace Magento\Review\Test\Constraint;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
 use Magento\Review\Test\Fixture\ReviewInjectable;
-use Mtf\Constraint\AssertForm;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertProductRatingOnReviewPage
  */
-class AssertProductRatingOnReviewPage extends AssertForm
+class AssertProductRatingOnReviewPage extends AbstractAssertForm
 {
-    /**
-     * Name of reviews tab on product edit page
-     */
-    const TAB_REVIEWS = 'product-reviews';
-
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'low';
+    protected $severeness = 'middle';
 
     /**
      * Assert that product rating is displayed on product review(backend)

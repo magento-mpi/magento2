@@ -36,7 +36,7 @@ use Mtf\TestCase\Injectable;
  * @group Reviews_and_Ratings_(MX)
  * @ZephyrId MAGETWO-25519
  */
-class CreateFrontendProductRatingTest extends Injectable
+class CreateFrontendProductReviewEntityTest extends Injectable
 {
     /**
      * Frontend product view page
