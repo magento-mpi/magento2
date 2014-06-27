@@ -49,20 +49,20 @@ class AssertProductRatingOnReviewPage extends AbstractAssertForm
             ($reviewInitial && $reviewInitial->hasData('ratings')) ? $reviewInitial->getRatings() : [],
             $review->hasData('ratings') ? $review->getRatings() : []
         );
+        $ratingReview = $this->sortData($ratingReview, ['::title']);
         $ratingForm = $reviewEdit->getReviewForm()->getRatings();
-        $this->sortData($ratingReview, ['::title']);
-        $this->sortData($ratingForm, ['::title']);
+        $ratingForm = $this->sortData($ratingForm, ['::title']);
         $error = $this->verifyData($ratingReview, $ratingForm);
         \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }
 
     /**
-     * Text success product rating is displayed
+     * Text success product rating is displayed on edit review page(backend)
      *
      * @return string
      */
     public function toString()
     {
-        return 'Product rating is displayed.';
+        return 'Product rating is displayed on edit review page(backend).';
     }
 }

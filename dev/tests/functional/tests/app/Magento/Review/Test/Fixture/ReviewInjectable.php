@@ -42,7 +42,8 @@ class ReviewInjectable extends InjectableFixture
                 'dataSet' => 'visibleOnDefaultWebsite',
                 'rating' => 4
             ]
-        ]
+        ],
+        'entity_id' => ['dataSet' => 'catalogProductSimple::default']
     ];
 
     protected $review_id = [

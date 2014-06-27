@@ -17,7 +17,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for Update Frontend Product Rating
+ * Test Creation for Update Frontend Product Review
  *
  * Test Flow:
  *
@@ -37,7 +37,7 @@ use Mtf\TestCase\Injectable;
  * @group Reviews_and_Ratings_(MX)
  * @ZephyrId MAGETWO-25604
  */
-class UpdateFrontendProductRatingTest extends Injectable
+class UpdateProductReviewEntityTest extends Injectable
 {
     /**
      * Backend review grid page

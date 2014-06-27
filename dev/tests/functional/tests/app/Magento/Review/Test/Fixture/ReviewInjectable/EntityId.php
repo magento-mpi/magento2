@@ -52,7 +52,9 @@ class EntityId extends InjectableFixture
         if (isset($data['dataSet'])) {
             list($typeFixture, $dataSet) = explode('::', $data['dataSet']);
             $fixture = $fixtureFactory->createByCode($typeFixture, ['dataSet' => $dataSet]);
-            $fixture->persist();
+            if (!$fixture->hasData('id')) {
+                $fixture->persist();
+            }
 
             $this->entity = $fixture;
             $this->data = $fixture->getId();

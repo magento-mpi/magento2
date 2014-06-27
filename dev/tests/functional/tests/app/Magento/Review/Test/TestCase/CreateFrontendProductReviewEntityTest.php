@@ -17,7 +17,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for Create Frontend Product Rating
+ * Test Creation for Create Frontend Product Review
  *
  * Test Flow:
  *
@@ -82,6 +82,11 @@ class CreateFrontendProductReviewEntityTest extends Injectable
 
     /**
      * Injection data
+     *
+     * @param CatalogProductView $catalogProductView
+     * @param RatingIndex $ratingIndex
+     * @param RatingEdit $ratingEdit
+     * @return void
      */
     public function __inject(
         CatalogProductView $catalogProductView,

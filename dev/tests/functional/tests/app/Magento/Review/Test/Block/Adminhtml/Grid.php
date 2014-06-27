@@ -12,13 +12,15 @@ use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridAbstract;
 
 /**
+ * Class Grid
  * Reviews grid
- *
  */
 class Grid extends GridAbstract
 {
     /**
-     * {@inheritdoc}
+     * Filters array mapping
+     *
+     * @var array
      */
     protected $filters = array(
         'review_id' => array(
