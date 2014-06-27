@@ -60,7 +60,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
         foreach ($productCollection as $product) {
             $this->assertEquals('Simple Product', $product->getName());
             $this->assertEquals('Short description', $product->getShortDescription());
-            $this->assertEquals(0, $product->getWeight());
+            $this->assertEquals(1, $product->getWeight());
         }
     }
 }
