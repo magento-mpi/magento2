@@ -67,7 +67,7 @@ class Extensions
             $extensions = array_unique($extensions);
             array_walk($extensions, [$this, 'process']);
 
-            $this->required = $extensions;
+            $this->required = array_values($extensions);
             unset($extensions);
         }
         return $this->required;
