@@ -215,7 +215,6 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId($taxClassId)
             ->setClassType(TaxClass::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
@@ -257,7 +256,6 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId($taxClassId)
             ->setClassType(TaxClass::TYPE_PRODUCT)
             ->create();
 
@@ -273,7 +271,6 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId($taxClassId)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -289,7 +286,6 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId($taxClassId)
             ->setClassType('Invalid Class Type')
             ->setClassName('Wholesale product')
             ->create();
@@ -297,54 +293,16 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
     }
 
-    public function testUpdateTaxClassMissingClassId()
-    {
-        $taxClassId = 1;
-
-        $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
-            ->setClassName('Wholesale product')
-            ->create();
-
-        $this->taxClassModelMock
-            ->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($taxClassId));
-
-        $this->taxClassModelMock->expects($this->once())
-            ->method('load')
-            ->with($taxClassId)
-            ->will($this->returnValue($this->taxClassModelMock));
-
-        $this->taxClassModelMock
-            ->expects($this->exactly(2))
-            ->method('getClassType')
-            ->will($this->returnValue(TaxClass::TYPE_PRODUCT));
-
-        $this->taxClassModelMock
-            ->expects($this->once())
-            ->method('save');
-
-        $this->converterMock
-            ->expects($this->once())
-            ->method('createTaxClassModel')
-            ->with($taxClassSample)
-            ->will($this->returnValue($this->taxClassModelMock));
-
-        $this->assertTrue($this->taxClassService->updateTaxClass($taxClassId, $taxClassSample));
-    }
-
     /**
      * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage Invalid value of "2" provided for the classId field.
+     * @expectedExceptionMessage class_id is not expected for this request.
      */
-    public function testUpdateTaxClassNotEqualId()
+    public function testUpdateTaxClassWithClassIdInDataObject()
     {
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId(2)
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassId($taxClassId)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -375,7 +333,6 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId($taxClassId)
             ->setClassType(TaxClass::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
@@ -402,7 +359,6 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId($taxClassId)
             ->setClassType(TaxClass::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
@@ -446,7 +402,6 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId($taxClassId)
             ->setClassType(TaxClass::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();

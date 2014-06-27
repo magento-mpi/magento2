@@ -45,6 +45,8 @@ class TaxClassService implements TaxClassServiceInterface
      */
     protected $taxClassModelFactory;
 
+    const CLASS_ID_NOT_ALLOWED = 'class_id is not expected for this request.';
+
     /**
      * Initialize dependencies.
      *
@@ -70,11 +72,13 @@ class TaxClassService implements TaxClassServiceInterface
      */
     public function createTaxClass(TaxClassDataObject $taxClass)
     {
+        if ($taxClass->getClassId()) {
+            throw new InputException(self::CLASS_ID_NOT_ALLOWED);
+        }
+
         $this->validateTaxClassData($taxClass);
         $taxModel = $this->converter->createTaxClassModel($taxClass);
         try {
-            //Ignore class_id for tax class creation
-            $taxModel->setId(null);
             $taxModel->save();
         } catch (ModelException $e) {
             if (strpos($e->getMessage(), \Magento\Tax\Model\Resource\TaxClass::UNIQUE_TAX_CLASS_MSG) !== false) {
@@ -106,14 +110,14 @@ class TaxClassService implements TaxClassServiceInterface
      */
     public function updateTaxClass($taxClassId, TaxClassDataObject $taxClass)
     {
+        if ($taxClass->getClassId()) {
+            throw new InputException(self::CLASS_ID_NOT_ALLOWED);
+        }
+
         $this->validateTaxClassData($taxClass);
 
         if (!$taxClassId) {
             throw InputException::invalidFieldValue('taxClassId', $taxClassId);
-        }
-
-        if ($taxClass->getClassId() && ($taxClassId != $taxClass->getClassId())) {
-            throw InputException::invalidFieldValue('classId', $taxClass->getClassId());
         }
 
         $originalTaxClassModel = $this->taxClassModelFactory->create()->load($taxClassId);

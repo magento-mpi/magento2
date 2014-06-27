@@ -9,10 +9,10 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Tax\Service\V1\Data\TaxClassBuilder;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
+use Magento\Tax\Service\V1\Data\TaxClassBuilder;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,6 +57,8 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDbIsolation enabled
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage class_id is not expected for this request.
      */
     public function testCreateTaxClass()
     {
@@ -69,15 +71,12 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 
         //Create another one with created id. Make sure its not updating the existing Tax class
         $taxClassDataObject = $this->taxClassBuilder
-            ->setClassId($taxClassId) //This should be ignored for createTaxClass
+            ->setClassId($taxClassId)
             ->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
             ->setClassType(TaxClassDataObject::TYPE_CUSTOMER)
             ->create();
-        $this->assertNotEquals(
-            $taxClassId,
-            $this->taxClassService->createTaxClass($taxClassDataObject),
-            'New tax class creation failed.'
-        );
+        //Should not be allowed to set the classId. Will throw InputException
+        $this->taxClassService->createTaxClass($taxClassDataObject);
     }
 
     /**
@@ -106,7 +105,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             ->create();
         try {
             $this->taxClassService->createTaxClass($taxClassDataObject);
-        } catch(InputException $e) {
+        } catch (InputException $e) {
             $errors = $e->getErrors();
             $this->assertEquals('class_name is a required field.', $errors[0]->getMessage());
             $this->assertEquals('class_type is a required field.', $errors[1]->getMessage());
