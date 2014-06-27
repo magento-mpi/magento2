@@ -10,15 +10,28 @@
     .table-bordered(
         @_type: horizontal
     );
+    > td {
+        white-space: normal;
+    }
     .row-tier-price {
         > td {
             border-top: 0;
         }
     }
+    .col.item {
+        width: 90%;
+    }
+    .col.qty {
+        width: 10%;
+    }
     .product.name {
         font-weight: @font-weight-base;
+        margin-bottom: @indent-xs-base;
     }
-    .col.price {
+    .price-box {
+        p {
+            margin: 0; 
+        }
         .price {
             font-weight: @font-weight-bold;
         }
@@ -27,11 +40,6 @@
             .price {
                 font-weight: normal;
             }
-        }
-    }
-    .price-box {
-        p {
-            margin: 0; 
         }
     }
     .col.qty {

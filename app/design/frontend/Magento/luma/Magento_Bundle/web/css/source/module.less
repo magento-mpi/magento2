@@ -58,13 +58,6 @@
         margin-bottom: @indent-l-base;
     }
 
-    .price-box {
-        .price {
-            font-weight: @font-weight-bold;
-            font-size: @font-size-l;
-        }
-    }
-
     .block-bundle-summary {
         > .title {
             margin-bottom: 15px;
@@ -81,8 +74,10 @@
                 display: block;
             }
             .price {
-                font-size: 36px;
-                color: #575757;
+                font-size: @price-size;
+                line-height: @price-size;
+                font-weight: @font-weight-semibold;
+                color: @price-color;
             }
         }
         .field.qty {
@@ -176,6 +171,12 @@
                 border-bottom: 1px #e4e4e4 solid;
                 padding-bottom: 25px;
                 margin-bottom: 25px;
+            }
+            .price-box {
+                .price {
+                    font-size: @price-size-desktop;
+                    line-height: @price-size-desktop;
+                }
             }
         }
         .product-options-wrapper,
