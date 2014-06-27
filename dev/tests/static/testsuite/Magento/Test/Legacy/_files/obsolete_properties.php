@@ -193,7 +193,6 @@ return array(
     array('_dirs', 'Magento\Core\Block\Template'),
     array('_applicationDirs', 'Magento\Framework\App\Config\FileResolver'),
     array('_dir', 'Magento\Core\Model\File\Storage'),
-    array('_dir', 'Magento\Framework\Locale\Hierarchy\Config\FileResolver'),
     array('_dirs', 'Magento\Core\Block\Template\Context'),
     array('_dir', 'Magento\Core\Model\Page\Asset\MergeService'),
     array('_dir', 'Magento\Core\Model\Page\Asset\MinifyService'),

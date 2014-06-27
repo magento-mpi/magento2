@@ -102,6 +102,8 @@ class AssertTargetRuleForm extends AbstractConstraint
      * @param array $dataFixture
      * @param array $dataForm
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function verify(array $dataFixture, array $dataForm)
     {
