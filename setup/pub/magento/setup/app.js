@@ -21,20 +21,24 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
     .controller('installController', ['$scope', function ($scope) {
         console.log('installController');
     }])
-    .controller('landingController', ['$scope', '$state', 'navigationService', function ($scope, $state, navigationService) {
-        $scope.next = function () {
-            $state.go(navigationService.getNextState().id);
-        };
+    .controller('landingController', ['$scope', function ($scope) {
+        console.log('landingController');
     }])
-    .controller('mainController', ['$scope', '$rootScope', function ($scope, $rootScope) {
-        $rootScope.$on('$stateChangeSuccess', function (event, state) {
-            $scope.class = 'col-lg-9';
-            if (state.main) {
-                $scope.class = 'col-lg-12';
-            }
-        });
+    .controller('mainController', [
+        '$scope', '$rootScope', '$state', 'navigationService',
+        function ($scope, $rootScope, $state, navigationService) {
+            $rootScope.$on('$stateChangeSuccess', function (event, state) {
+                $scope.class = 'col-lg-9';
+                if (state.main) {
+                    $scope.class = 'col-lg-12';
+                }
+            });
 
-    }])
+            $scope.nextState = function () {
+                $state.go(navigationService.getNextState().id);
+            }
+        }
+    ])
     .service('navigationService', ['$location', '$state', '$http', function ($location, $state, $http) {
         return {
             mainState: {},
