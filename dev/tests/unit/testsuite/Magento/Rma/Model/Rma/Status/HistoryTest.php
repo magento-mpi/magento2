@@ -7,6 +7,9 @@
  */
 namespace Magento\Rma\Model\Rma\Status;
 
+use Magento\Rma\Model\Rma\Source\Status;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+
 /**
  * Class HistoryTest
  * @package Magento\Rma\Model\Rma\Status
@@ -44,14 +47,24 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     protected $resource;
 
     /**
+     * @var \Magento\Framework\Stdlib\DateTime | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $dateTime;
+
+    /**
      * @var \Magento\Framework\Stdlib\DateTime\DateTime | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $date;
+    protected $dateTimeDateTime;
 
     /**
      * @var \Magento\Framework\Event\Manager | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
+
+    /**
+     * @var TimezoneInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $localeDate;
 
     protected function setUp()
     {
@@ -73,7 +86,9 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $this->transportBuilder = $this->getMock('Magento\Framework\Mail\Template\TransportBuilder', [], [], '', false);
         $this->rmaHelper = $this->getMock('Magento\Rma\Helper\Data', [], [], '', false);
         $this->resource = $this->getMock('Magento\Rma\Model\Resource\Rma\Status\History', [], [], '', false);
-        $this->date = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', [], [], '', false);
+        $this->dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime', [], [], '', false);
+        $this->dateTimeDateTime = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', [], [], '', false);
+        $this->localeDate = $this->getMock('Magento\Framework\Stdlib\DateTime\Timezone', [], [], '', false);
 
         $this->history = $objectManagerHelper->getObject(
             'Magento\Rma\Model\Rma\Status\History',
@@ -83,7 +98,9 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
                 'inlineTranslation' => $this->inlineTranslation,
                 'rmaHelper' => $this->rmaHelper,
                 'resource' => $this->resource,
-                'date' => $this->date,
+                'dateTime' => $this->dateTime,
+                'dateTimeDateTime' => $this->dateTimeDateTime,
+                'localeDate' => $this->localeDate,
                 'context' => $context
             ]
         );
@@ -113,7 +130,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ->method('getStatus')
             ->will($this->returnValue($status));
 
-        $this->date->expects($this->once())
+        $this->dateTimeDateTime->expects($this->once())
             ->method('gmtDate')
             ->will($this->returnValue($date));
 
@@ -248,5 +265,48 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->history->getEmailSent());
         $this->history->sendAuthorizeEmail();
         $this->assertTrue($this->history->getEmailSent());
+    }
+
+    public function testGetCreatedAtDate()
+    {
+        $date = '42';
+        $timestamp = 43;
+        $expected = new \Magento\Framework\Stdlib\DateTime\Date();
+        $this->dateTime->expects($this->once())
+            ->method('toTimestamp')
+            ->with($date)
+            ->will($this->returnValue($timestamp));
+        $this->localeDate->expects($this->once())
+            ->method('date')
+            ->with($timestamp, null, null, true)
+            ->will($this->returnValue($expected));
+
+        $this->history->setCreatedAt($date);
+        $this->assertEquals($expected, $this->history->getCreatedAtDate());
+    }
+
+    /**
+     * @dataProvider statusProvider
+     * @param string $status
+     * @param string $expected
+     */
+    public function testGetSystemCommentByStatus($status, $expected)
+    {
+        $this->assertEquals($expected, History::getSystemCommentByStatus($status));
+    }
+
+    public function statusProvider()
+    {
+        return [
+            [Status::STATE_PENDING, __('We placed your Return request.')],
+            [Status::STATE_AUTHORIZED, __('We have authorized your Return request.')],
+            [Status::STATE_PARTIAL_AUTHORIZED, __('We partially authorized your Return request.')],
+            [Status::STATE_RECEIVED, __('We received your Return request.')],
+            [Status::STATE_RECEIVED_ON_ITEM, __('We partially received your Return request.')],
+            [Status::STATE_APPROVED_ON_ITEM, __('We partially approved your Return request.')],
+            [Status::STATE_REJECTED_ON_ITEM, __('We partially rejected your Return request.')],
+            [Status::STATE_CLOSED, __('We closed your Return request.')],
+            [Status::STATE_PROCESSED_CLOSED, __('We processed and closed your Return request.')]
+        ];
     }
 }
