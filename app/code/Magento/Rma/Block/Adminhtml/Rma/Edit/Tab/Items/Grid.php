@@ -184,7 +184,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'qty_ordered',
             array(
                 'header' => __('Remaining'),
-                'getter' => array($this, 'getQtyOrdered'),
+                'getter' => array($this, 'getRemainingQty'),
                 'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
                 'index' => 'qty_ordered',
                 'order_data' => $this->getOrderItemsData(),
@@ -348,27 +348,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * Get available for return item quantity
      *
      * @param \Magento\Framework\Object $row
-     * @return int
+     * @return float
      */
-    public function getQtyOrdered($row)
+    public function getRemainingQty($row)
     {
-        $orderItemsData = $this->getOrderItemsData();
-        if (is_array(
-            $orderItemsData
-        ) && isset(
-            $orderItemsData[$row->getOrderItemId()]
-        ) && isset(
-            $orderItemsData[$row->getOrderItemId()]['qty_shipped']
-        ) && isset(
-            $orderItemsData[$row->getOrderItemId()]['qty_returned']
-        )
-        ) {
-            $return = $orderItemsData[$row->getOrderItemId()]['qty_shipped'] -
-                $orderItemsData[$row->getOrderItemId()]['qty_returned'];
-        } else {
-            $return = 0;
-        }
-        return $return;
+        return $row->getReturnableQty();
     }
 
     /**
