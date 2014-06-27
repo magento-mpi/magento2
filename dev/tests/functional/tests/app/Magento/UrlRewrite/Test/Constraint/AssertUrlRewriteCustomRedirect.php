@@ -50,12 +50,12 @@ class AssertUrlRewriteCustomRedirect extends AbstractConstraint
     }
 
     /**
-     * URL rewrite custom redirect success
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'URL rewrite custom redirect success.';
+        return 'Custom URL rewrite redirect was success.';
     }
 }
