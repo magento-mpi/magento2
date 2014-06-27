@@ -12,7 +12,7 @@ use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class Banners
- * Banners grid tab
+ * 'Related Banners' tab on Catalog Price Rule form
  */
 class Banners extends Tab
 {
@@ -21,9 +21,11 @@ class Banners extends Tab
      *
      * @var string
      */
-    protected $bannersGrid = '#edit_form';
+    protected $bannersGrid = '#related_salesrule_banners_grid';
 
     /**
+     * Get banners grid on Cart Price Rules form
+     *
      * @return \Magento\Banner\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\BannersGrid
      */
     public function getBannersGrid()

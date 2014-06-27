@@ -45,18 +45,18 @@ class AssertBannerNotInCartRule extends AbstractConstraint
         $form->openTab('related_banners');
         $filter = ['banner_name' => $banner->getName()];
         \PHPUnit_Framework_Assert::assertFalse(
-            $form->getTabElement('related_banners')->getBannersGrid()->isRowVisible($filter, false),
+            $form->getTabElement('related_banners')->getBannersGrid()->isRowVisible($filter),
             'Banner is present in Cart Price Rule grid.'
         );
     }
 
     /**
-     * Banner not in Cart Price Rule grid
+     * Banner is absent in Cart Price Rule grid
      *
      * @return string
      */
     public function toString()
     {
-        return 'Banner not in Cart Price Rule grid.';
+        return 'Banner is absent in Cart Price Rule grid.';
     }
 }

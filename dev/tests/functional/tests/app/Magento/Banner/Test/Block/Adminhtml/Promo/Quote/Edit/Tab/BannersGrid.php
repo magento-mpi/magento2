@@ -12,7 +12,7 @@ use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
  * Class BannersGrid
- * Banners grid
+ * Banners grid on Cart Price Rules page
  */
 class BannersGrid extends Grid
 {

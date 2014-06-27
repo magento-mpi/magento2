@@ -1,2 +1,2 @@
 "banner/dataSet";"constraint"
-"default";"assertBannerDeleteMessage,  assertBannerNotInGrid, assertBannerNotInCatalogRule, assertBannerNotInCartRule"
+"default";"assertBannerDeleteMessage, assertBannerNotInGrid, assertBannerNotInCatalogRule, assertBannerNotInCartRule"

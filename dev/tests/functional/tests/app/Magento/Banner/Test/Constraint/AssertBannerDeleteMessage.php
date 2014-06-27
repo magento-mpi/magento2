@@ -13,11 +13,11 @@ use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 
 /**
  * Class AssertBannerDeleteMessage
- * Assert that after banner delete "The banner has been deleted." successful message appears
+ * Assert that success delete message is appeared after banner has been deleted
  */
 class AssertBannerDeleteMessage extends AbstractConstraint
 {
-    const DELETE_MESSAGE = 'The banner has been deleted.';
+    const SUCCESS_DELETE_MESSAGE = 'The banner has been deleted.';
 
     /**
      * Constraint severeness
@@ -27,7 +27,7 @@ class AssertBannerDeleteMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that after banner delete "The banner has been deleted." successful message appears
+     * Assert that success delete message is appeared after banner has been deleted
      *
      * @param BannerIndex $bannerIndex
      * @return void
@@ -36,16 +36,16 @@ class AssertBannerDeleteMessage extends AbstractConstraint
     {
         $actualMessage = $bannerIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::DELETE_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong delete message is displayed.'
-            . "\nExpected: " . self::DELETE_MESSAGE
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }
 
     /**
-     * Delete message is displayed
+     * Returns a string representation of the object
      *
      * @return string
      */

@@ -35,36 +35,20 @@ class AssertBannerNotInGrid extends AbstractConstraint
     public function processAssert(BannerInjectable $banner, BannerIndex $bannerIndex)
     {
         $bannerIndex->open();
-        $filter = [
-            'banner' => $banner->getName(),
-            'active' => $banner->getIsEnabled(),
-        ];
-
-        $storeContent = $banner->getStoreContentsNotUse();
-        if (isset($storeContent['value_1']) && $storeContent['value_1'] === 'No') {
-            $filter['visibility'] = 'Main Website/Main Website Store/Default Store View';
-        }
-
-        $bannerIndex->getGrid()->search($filter);
-        if ($banner->hasData('types')) {
-            $types = implode(', ', $banner->getTypes());
-            $filter['types'] = $types;
-        }
-        unset($filter['visibility']);
 
         \PHPUnit_Framework_Assert::assertFalse(
-            $bannerIndex->getGrid()->isRowVisible($filter, false),
+            $bannerIndex->getGrid()->isRowVisible(['banner' => $banner->getName()]),
             'Banner is present in banner grid.'
         );
     }
 
     /**
-     * Banner not in the Banner grid
+     * Banner is absent in Banners grid
      *
      * @return string
      */
     public function toString()
     {
-        return 'Banner not in banner grid.';
+        return 'Banner is absent in Banners grid.';
     }
 }
