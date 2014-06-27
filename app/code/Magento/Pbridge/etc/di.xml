@@ -11,4 +11,20 @@
     <type name="Magento\Framework\App\ActionInterface">
         <plugin name="privacy_header" type="Magento\Pbridge\App\Action\Plugin\PrivacyHeader" sortOrder="1" />
     </type>
+    <type name="Magento\Payment\Model\Payment\Method\Validator\Factory">
+        <arguments>
+            <argument name="validatorsList" xsi:type="array">
+                <item name="pbridge" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Pbridge</item>
+                <item name="authorizenet" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+                <item name="pbridge_payone_debit" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+                <item name="pbridge_ogone_direct" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+                <item name="eway_direct" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+                <item name="paybox_direct" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+                <item name="psigate_basic" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+                <item name="sagepay_direct" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+                <item name="worldpay_direct" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+                <item name="pbridge_ogone_direct_debit" xsi:type="string">Magento\Pbridge\Model\Payment\Method\Validator\Method</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

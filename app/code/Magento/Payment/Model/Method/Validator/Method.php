@@ -43,7 +43,7 @@ class Method implements ValidatorInterface
     {
         $contextAdapter = $this->_adapterFactory->create($paymentMethod);
 
-        if (!$this->canUseForCountry($contextAdapter->getCountryId())) {
+        if (!$paymentMethod->canUseForCountry($contextAdapter->getCountryId())) {
             throw new \Magento\Framework\Model\Exception(
                 __('You can\'t use the payment type you selected to make payments to the billing country.')
             );

@@ -32,6 +32,7 @@
         <arguments>
             <argument name="validatorsList" xsi:type="array">
                 <item name="free" xsi:type="string">Magento\Payment\Model\Method\Validator\Method</item>
+                <item name="substitution" xsi:type="string">Magento\Payment\Model\Method\Validator\Method</item>
             </argument>
         </arguments>
     </type>
