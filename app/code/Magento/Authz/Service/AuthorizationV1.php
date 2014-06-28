@@ -202,6 +202,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * @param UserIdentifier $userIdentifier
      * @return Role
      * @throws NoSuchEntityException
+     * @throws \LogicException
      */
     protected function _createRole($userIdentifier)
     {
@@ -236,6 +237,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * @param UserIdentifier $userIdentifier
      * @return Role
      * @throws NoSuchEntityException
+     * @throws \LogicException
      */
     protected function _deleteRole($userIdentifier)
     {
@@ -338,12 +340,11 @@ class AuthorizationV1 implements AuthorizationV1Interface
         try {
             $role = $this->_getUserRole($userIdentifier);
             if (!$role) {
-                throw new ServiceResourceNotFoundException(
-                    __(
-                        'Role for user with ID "%1" and user type "%2" cannot be found.',
-                        $userIdentifier->getUserId(),
-                        $userIdentifier->getUserType()
-                    )
+                throw NoSuchEntityException::doubleField(
+                    'userId',
+                    $userIdentifier->getUserId(),
+                    'userType',
+                    $userIdentifier->getUserType()
                 );
             }
             foreach ($resources as $resource) {
