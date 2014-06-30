@@ -14,6 +14,9 @@ use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\Calculation\RateFactory;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** Sample values for testing */
