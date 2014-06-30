@@ -20,6 +20,7 @@ class RmaTest extends Functional
      */
     public function testRma()
     {
+        $this->markTestIncomplete('MAGETWO-23889');
         // Setup Preconditions:
         $this->configureRma();
 
@@ -65,7 +66,8 @@ class RmaTest extends Functional
         $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
         $rmaPage = Factory::getPageFactory()->getAdminRmaEdit();
         $rmaPage->getFormTabsBlock()->openTab('return_items');
-        $this->assertTrue($rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
+        $this->assertTrue(
+            $rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
             'Product lists does not match items returned list'
         );
 

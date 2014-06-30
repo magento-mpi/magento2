@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Logging\Test\Constraint; 
+namespace Magento\Logging\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Logging\Test\Page\Adminhtml\Details;

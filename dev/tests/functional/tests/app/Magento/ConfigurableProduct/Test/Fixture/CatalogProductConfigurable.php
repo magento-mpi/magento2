@@ -18,6 +18,8 @@ use Mtf\System\Event\EventManagerInterface;
 /**
  * Class CatalogProductConfigurable
  *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogProductConfigurable extends InjectableFixture
 {
@@ -29,7 +31,9 @@ class CatalogProductConfigurable extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurable\CatalogProductConfigurableInterface';
+    protected $handlerInterface =
+        'Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurable\CatalogProductConfigurableInterface';
+
     /**
      * Constructor
      *

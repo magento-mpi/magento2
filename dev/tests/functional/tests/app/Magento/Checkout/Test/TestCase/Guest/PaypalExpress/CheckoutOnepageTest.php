@@ -37,7 +37,6 @@ class CheckoutOnepageTest extends Functional
         $this->_addProducts($fixture);
         $this->_magentoCheckoutProcess($fixture);
         $this->_processPaypal($fixture);
-        $this->_reviewOrder();
 
         //Verifying
         $this->_verifyOrder($fixture);
@@ -107,15 +106,6 @@ class CheckoutOnepageTest extends Functional
     }
 
     /**
-     * Review order on checkout Magento page and place it
-     */
-    protected function _reviewOrder()
-    {
-        $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
-        $checkoutReviewPage->getReviewBlock()->placeOrder();
-    }
-
-    /**
      * Verify created order on backend
      *
      * @param Checkout $fixture
@@ -127,7 +117,8 @@ class CheckoutOnepageTest extends Functional
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.');
+            'Order success page was not opened.'
+        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
 
         Factory::getApp()->magentoBackendLoginUser();
@@ -138,11 +129,13 @@ class CheckoutOnepageTest extends Functional
         $this->assertContains(
             $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
-            'Incorrect grand total value for the order #' . $orderId);
+            'Incorrect grand total value for the order #' . $orderId
+        );
         $this->assertContains(
             $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
-            'Incorrect authorized amount value for the order #' . $orderId);
+            'Incorrect authorized amount value for the order #' . $orderId
+        );
     }
 
     /**

@@ -58,9 +58,9 @@ class CreatePageTest extends Functional
         $cmsPage->selectWindow();
         $cmsPageBlock = $cmsPage->getCmsPageBlock();
         // Verify the Cms Page content
-        $this->assertEquals(
-            $cmsPageBlock->getPageContent(),
+        $this->assertContains(
             $cmsPageFixture->getPageContent(),
+            $cmsPageBlock->getPageContent(),
             'Matched CMS Page Content "' . $cmsPageFixture->getPageContent() . '" not found on the page'
         );
     }

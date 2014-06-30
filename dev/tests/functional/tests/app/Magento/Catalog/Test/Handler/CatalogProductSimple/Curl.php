@@ -67,6 +67,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param FixtureInterface $fixture [optional]
      * @return array
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function persist(FixtureInterface $fixture = null)
     {
@@ -85,7 +88,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             $fields = $this->prepareStockData($fields);
             if (!empty($fields['category_ids'])) {
                 $categoryIds = [];
-                foreach ($fields['category_ids'] as $categoryData ) {
+                foreach ($fields['category_ids'] as $categoryData) {
                     $categoryIds[] = $categoryData['id'];
                 }
                 $fields['category_ids'] = $categoryIds;

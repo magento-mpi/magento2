@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class SalesRuleInjectable
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class SalesRuleInjectable extends InjectableFixture
 {
@@ -23,7 +25,7 @@ class SalesRuleInjectable extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\SalesRule\Test\Handler\SalesRule\SalesRuleInterface';
+    protected $handlerInterface = 'Magento\SalesRule\Test\Handler\SalesRuleInjectable\SalesRuleInjectableInterface';
 
     protected $defaultDataSet = [
         'name' => 'Default price rule %isolation%',
@@ -39,210 +41,154 @@ class SalesRuleInjectable extends InjectableFixture
         'attribute_code' => 'rule_id',
         'backend_type' => 'int',
         'is_required' => '1',
-        'default_value' => '',
-        'input' => '',
     ];
 
     protected $name = [
         'attribute_code' => 'name',
         'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'rule_information',
     ];
 
     protected $description = [
         'attribute_code' => 'description',
         'backend_type' => 'text',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'rule_information',
     ];
 
     protected $from_date = [
         'attribute_code' => 'from_date',
         'backend_type' => 'date',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'rule_information',
+        'source' => 'Magento\Backend\Test\Fixture\Date'
     ];
 
     protected $to_date = [
         'attribute_code' => 'to_date',
         'backend_type' => 'date',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'rule_information',
+        'source' => 'Magento\Backend\Test\Fixture\Date'
     ];
 
     protected $uses_per_customer = [
         'attribute_code' => 'uses_per_customer',
         'backend_type' => 'int',
-        'is_required' => '',
         'default_value' => '0',
-        'input' => '',
         'group' => 'rule_information',
     ];
 
     protected $is_active = [
         'attribute_code' => 'is_active',
         'backend_type' => 'smallint',
-        'is_required' => '',
         'default_value' => '0',
-        'input' => '',
         'group' => 'rule_information',
     ];
 
     protected $conditions_serialized = [
         'attribute_code' => 'conditions_serialized',
         'backend_type' => 'mediumtext',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'conditions',
     ];
 
     protected $actions_serialized = [
         'attribute_code' => 'actions_serialized',
         'backend_type' => 'mediumtext',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'actions',
     ];
 
     protected $stop_rules_processing = [
         'attribute_code' => 'stop_rules_processing',
         'backend_type' => 'smallint',
-        'is_required' => '',
         'default_value' => '1',
-        'input' => '',
         'group' => 'actions',
     ];
 
     protected $is_advanced = [
         'attribute_code' => 'is_advanced',
         'backend_type' => 'smallint',
-        'is_required' => '',
         'default_value' => '1',
-        'input' => '',
     ];
 
     protected $product_ids = [
         'attribute_code' => 'product_ids',
         'backend_type' => 'text',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
     ];
 
     protected $sort_order = [
         'attribute_code' => 'sort_order',
         'backend_type' => 'int',
-        'is_required' => '',
         'default_value' => '0',
-        'input' => '',
+        'group' => 'rule_information',
     ];
 
     protected $simple_action = [
         'attribute_code' => 'simple_action',
         'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'actions',
     ];
 
     protected $discount_amount = [
         'attribute_code' => 'discount_amount',
         'backend_type' => 'decimal',
-        'is_required' => '',
         'default_value' => '0.0000',
-        'input' => '',
         'group' => 'actions',
     ];
 
     protected $discount_qty = [
         'attribute_code' => 'discount_qty',
         'backend_type' => 'decimal',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'actions',
     ];
 
     protected $discount_step = [
         'attribute_code' => 'discount_step',
         'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'actions',
     ];
 
     protected $apply_to_shipping = [
         'attribute_code' => 'apply_to_shipping',
         'backend_type' => 'smallint',
-        'is_required' => '',
         'default_value' => '0',
-        'input' => '',
         'group' => 'actions',
     ];
 
     protected $times_used = [
         'attribute_code' => 'times_used',
         'backend_type' => 'int',
-        'is_required' => '',
         'default_value' => '0',
-        'input' => '',
     ];
 
     protected $is_rss = [
         'attribute_code' => 'is_rss',
         'backend_type' => 'smallint',
-        'is_required' => '',
         'default_value' => '0',
-        'input' => '',
         'group' => 'rule_information',
     ];
 
     protected $coupon_type = [
         'attribute_code' => 'coupon_type',
         'backend_type' => 'smallint',
-        'is_required' => '',
         'default_value' => '1',
-        'input' => '',
         'group' => 'rule_information',
     ];
 
     protected $use_auto_generation = [
         'attribute_code' => 'use_auto_generation',
         'backend_type' => 'smallint',
-        'is_required' => '',
         'default_value' => '0',
-        'input' => '',
         'group' => 'rule_information',
     ];
 
     protected $uses_per_coupon = [
         'attribute_code' => 'uses_per_coupon',
         'backend_type' => 'int',
-        'is_required' => '',
         'default_value' => '0',
-        'input' => '',
         'group' => 'rule_information',
     ];
 
     protected $simple_free_shipping = [
         'attribute_code' => 'simple_free_shipping',
         'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
         'group' => 'actions',
     ];
 
@@ -273,6 +219,17 @@ class SalesRuleInjectable extends InjectableFixture
         'attribute_code' => 'coupon_code',
         'backend_type' => 'virtual',
         'group' => 'rule_information',
+    ];
+
+    protected $reward_points_delta = [
+        'attribute_code' => 'reward_points_delta',
+        'backend_type' => 'virtual',
+        'group' => 'actions',
+    ];
+
+    protected $rule = [
+        'attribute_code' => 'rule',
+        'backend_type' => 'virtual',
     ];
 
     public function getRuleId()
@@ -418,5 +375,15 @@ class SalesRuleInjectable extends InjectableFixture
     public function getCouponCode()
     {
         return $this->getData('coupon_code');
+    }
+
+    public function getRewardPointsDelta()
+    {
+        return $this->getData('reward_points_delta');
+    }
+
+    public function getRule()
+    {
+        return $this->getData('rule');
     }
 }
