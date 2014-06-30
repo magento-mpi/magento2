@@ -166,7 +166,7 @@ class TaxRuleServiceTest extends WebapiAbstract
             'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
             'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
         ];
-        $requestData = ['taxRuleId' => $taxRuleId];
+        $requestData = ['ruleId' => $taxRuleId];
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($expectedRuleData, $result);
     }
@@ -185,7 +185,7 @@ class TaxRuleServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetTaxRule'
             ]
         ];
-        $requestData = ['taxRuleId' => $taxRuleId];
+        $requestData = ['ruleId' => $taxRuleId];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Expected exception was not raised');
@@ -330,7 +330,7 @@ class TaxRuleServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'DeleteTaxRule'
             ]
         ];
-        $requestData = ['taxRuleId' => $taxRuleId];
+        $requestData = ['ruleId' => $taxRuleId];
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($result);
         /** Ensure that tax rule was actually removed from DB */

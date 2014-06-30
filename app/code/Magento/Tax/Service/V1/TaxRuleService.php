@@ -8,13 +8,14 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
+use Magento\Tax\Model\Calculation\TaxRuleRegistry;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
-use Magento\Tax\Model\Calculation\TaxRuleRegistry;
-use Magento\Framework\Exception\InputException;
-use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
+use Magento\Framework\Model\Exception as ModelException;
 
 class TaxRuleService implements TaxRuleServiceInterface
 {
@@ -106,13 +107,21 @@ class TaxRuleService implements TaxRuleServiceInterface
      * @param TaxRule $rule
      * @return TaxRuleModel
      * @throws InputException
-     * @throws \Magento\Framework\Model\Exception
+     * @throws ModelException
      */
     protected function saveTaxRule(TaxRule $rule)
     {
         $this->validate($rule);
         $taxRuleModel = $this->converter->createTaxRuleModel($rule);
-        $taxRuleModel->save();
+        try {
+            $taxRuleModel->save();
+        } catch (ModelException $e) {
+            if ($e->getCode() == ModelException::ERROR_CODE_ENTITY_ALREADY_EXISTS) {
+                throw new InputException($e->getMessage());
+            } else {
+                throw $e;
+            }
+        }
         $this->taxRuleRegistry->registerTaxRule($taxRuleModel);
         return $taxRuleModel;
     }
