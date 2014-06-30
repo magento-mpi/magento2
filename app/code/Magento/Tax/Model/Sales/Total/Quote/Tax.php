@@ -285,13 +285,13 @@ class Tax extends AbstractTotal
                 $item->setBaseTaxCalculationPrice($item->getBaseCalculationPriceOriginal());
             }
             $itemBuilder->setUnitPrice($item->getBaseTaxCalculationPrice());
-            $itemBuilder->setDiscountAmount($item->getDiscountAmount());
+            $itemBuilder->setDiscountAmount($item->getBaseDiscountAmount());
         } else {
             if (!$item->getTaxCalculationPrice()) {
                 $item->setTaxCalculationPrice($item->getCalculationPriceOriginal());
             }
             $itemBuilder->setUnitPrice($item->getTaxCalculationPrice());
-            $itemBuilder->setDiscountAmount($item->getBaseDiscountAmount());
+            $itemBuilder->setDiscountAmount($item->getDiscountAmount());
         }
 
         $itemBuilder->setParentCode($parentCode);
