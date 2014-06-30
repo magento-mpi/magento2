@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function ($,win) {
+(function ($, win) {
     "use strict";
     $.fn.comments = function () {
         var elements = [];
@@ -30,4 +30,4 @@
         lookup(this);
         return elements;
     };
-})(jQuery,window);
+})(jQuery, window);
