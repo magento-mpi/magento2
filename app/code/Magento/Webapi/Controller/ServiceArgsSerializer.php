@@ -15,6 +15,7 @@ use Zend\Code\Reflection\ParameterReflection;
 use Magento\Framework\ObjectManager;
 use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
+use \Magento\Webapi\DeserializationException;
 
 class ServiceArgsSerializer
 {
@@ -145,7 +146,7 @@ class ServiceArgsSerializer
     {
         $isArrayType = $this->_typeProcessor->isArrayType($type);
         if ($isArrayType && isset($value['item'])) {
-            $value = $this->_removeSoapItemNode($value['item']);
+            $value = $this->_removeSoapItemNode($value);
         }
         if ($this->_typeProcessor->isTypeSimple($type)) {
             $result = $this->_typeProcessor->processSimpleType($value, $type);
@@ -198,9 +199,15 @@ class ServiceArgsSerializer
      *
      * @param array|mixed $value
      * @return array
+     * @throws DeserializationException
      */
     protected function _removeSoapItemNode($value)
     {
+        if (isset($value['item']) && is_array($value['item'])) {
+            $value = $value['item'];
+        } else {
+            throw new DeserializationException('Indexed array is expected, object with "item" field is given.');
+        }
         /**
          * In case when only one Data object value is passed, it will not be wrapped into a subarray
          * within item node. If several Data object values are passed, they will be wrapped into
