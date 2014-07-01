@@ -15,6 +15,16 @@ use Mtf\Fixture\InjectableFixture;
  */
 class CmsBlock extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\Cms\Test\Repository\CmsBlock';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\Cms\Test\Handler\CmsBlock\CmsBlockInterface';
+
     protected $defaultDataSet = [
         'is_active' => null,
     ];
