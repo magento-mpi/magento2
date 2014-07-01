@@ -131,3 +131,15 @@ is,é
 "Condition type is unexpected","Condition type is unexpected"
 "Please specify a valid number of minute.","Please specify a valid number of minute."
 "Unable to save Cron expression","Unable to save Cron expression"
+Interval,Interval
+"Start Time","Start Time"
+Frequency,Frequency
+"Automated Email Reminder Rules","Automated Email Reminder Rules"
+"Enable Reminder Emails","Enable Reminder Emails"
+"Set this value equal or greater to your cron.php launch period.","Set this value equal or greater to your cron.php launch period."
+"Minute of the Hour","Minute of the Hour"
+"Valid range: 0-59 (default 0).","Valid range: 0-59 (default 0)."
+"Maximum Emails per One Run","Maximum Emails per One Run"
+"Email Send Failure Threshold","Email Send Failure Threshold"
+"Make sure to enter a limit value, or reminder emails will be re-issued to customers in a loop.","Make sure to enter a limit value, or reminder emails will be re-issued to customers in a loop."
+"Reminder Email Sender","Reminder Email Sender"

@@ -9,6 +9,7 @@ Edit,编辑
 "Remove item",删除项目
 "Add to Cart",添加到购物车
 Delete,Delete
+Enabled,Enabled
 "We cannot add this item to your shopping cart.","We cannot add this item to your shopping cart."
 "* Required Fields",*必要字段
 Availability,Availability
@@ -29,8 +30,10 @@ Comment,评论
 "Add Locale",已添加，来自
 "Add Date",添加日期
 "Days in Wish List","Days in Wish List"
+Wishlist,Wishlist
 "Wish List","Wish List"
 Message,信息
+"Email Template","Email Template"
 "Remove Item",删除项目
 "Sharing Information",分享信息
 "This product(s) is out of stock.","This product(s) is out of stock."
@@ -88,6 +91,13 @@ Message,信息
 "Go to Wish List","Go to Wish List"
 "You have no items in your wish list.","You have no items in your wish list."
 "Are you sure you want to remove this product from your wishlist?",您是否确认要从愿望清单中删除该产品？
+"Email Sender","Email Sender"
+"General Options","General Options"
+"Share Options","Share Options"
+"Max Emails Allowed to be Sent","Max Emails Allowed to be Sent"
+"Email Text Length Limit","Email Text Length Limit"
+"My Wish List Link","My Wish List Link"
+"Display Wish List Summary","Display Wish List Summary"
 "No Items Found","No Items Found"
 "User description",用户描述
 "Product Details and Comment",产品详情与评论

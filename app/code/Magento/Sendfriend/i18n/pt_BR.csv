@@ -1,9 +1,11 @@
 Back,Voltar
 Name,Nome
+Enabled,Enabled
 "* Required Fields","* Required Fields"
 Message:,Mensagem:
 "Email to a Friend","Enviar por e-mail a um amigo"
 "Email Address","Endereço de e-mail"
+"Email Templates","Email Templates"
 Name:,Nome:
 "Email Address:","Endereço de e-mail:"
 Sender:,Remetente:
@@ -28,3 +30,8 @@ Recipient:,Destinatário:
 "Please define the correct Sender information.","Defina as informações corretas do Remetente."
 "Remove Email","Remover Email"
 "Maximum %1 email addresses allowed.","Maximum %1 email addresses allowed."
+"Select Email Template","Select Email Template"
+"Allow for Guests","Allow for Guests"
+"Max Recipients","Max Recipients"
+"Max Products Sent in 1 Hour","Max Products Sent in 1 Hour"
+"Limit Sending By","Limit Sending By"

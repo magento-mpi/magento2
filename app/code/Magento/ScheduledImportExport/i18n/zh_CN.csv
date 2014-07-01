@@ -18,14 +18,12 @@ Password,密码
 Daily,每天
 Weekly,每周
 Monthly,每月
-"Store Credit","Store Credit"
 Pending,挂起
 "Export Settings",导出设置
 "Entity Type",实体类型
 "Import Settings",导入设置
 "Import Behavior",导入行为
 "Entity Attributes",编辑属性
-"Reward Points","Reward Points"
 "Add Scheduled Export",添加计划导出
 "Add Scheduled Import",添加计划导入
 "Scheduled Import/Export",计划导入/导出
@@ -72,10 +70,6 @@ Frequency,频率
 "We deleted the scheduled export.","We deleted the scheduled export."
 "Are you sure you want to delete this scheduled import?",您确认要删除此计划导入吗？
 "Are you sure you want to delete this scheduled export?",您确认要删除此计划导出吗？
-"Finance information website is not specified","Finance information website is not specified"
-"Invalid value in Finance information website column","Invalid value in Finance information website column"
-"Row with such email, website, finance website combination was already found.","Row with such email, website, finance website combination was already found."
-"Data was imported by %1","Data was imported by %1"
 """We couldn't create directory "" '""%1""'","""We couldn't create directory "" '""%1""'"
 "The directory ""%1"" is not writable.","The directory ""%1"" is not writable."
 "We couldn't delete ""%1"" because the directory is not writable.","We couldn't delete ""%1"" because the directory is not writable."
@@ -102,7 +96,13 @@ Binary,二进制
 ASCII,ASCII
 "Stop Import",停止导入
 "Continue Processing",继续处理
+"Error Email Recipient","Error Email Recipient"
+"Error Email Sender","Error Email Sender"
+"Error Email Template","Error Email Template"
 Run,运行
+"Scheduled Import/Export File History Cleaning","Scheduled Import/Export File History Cleaning"
+"Save Files, Days","Save Files, Days"
+"Enable Scheduled File History Cleaning","Enable Scheduled File History Cleaning"
 "Are you sure you want to delete the selected scheduled imports/exports?",您确认要删除已选定的计划导入/导出吗？
 Operation,操作
 "Last Run",最近的运行日期

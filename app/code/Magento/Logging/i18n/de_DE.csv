@@ -78,6 +78,12 @@ Fetch,"Holen (fetch)"
 "Tax Rules",Steuervorschriften
 "CMS Pages","CMS Seiten"
 Rollback,Rollback
+"Google Shopping","Google Shopping"
+"Admin Actions Log Archiving","Admin Actions Log Archiving"
+"Log Entry Lifetime, Days","Log Entry Lifetime, Days"
+"Log Archiving Frequency","Log Archiving Frequency"
+"Admin Actions Logging","Admin Actions Logging"
+"Enabled Actions","Enabled Actions"
 1,1
 "Mass Delete","Massen Löschung (Massen Delete)"
 "Mass Update","Massen Akutalisierung (Massen Update)"
@@ -116,7 +122,6 @@ Create,Anlegen
 "Customer Tax Classes","Kunde Steuerklassen"
 "Catalog Product Tax Classes","Katalog Produkt Steuerklassen"
 "Tax Rates",Steuersätze
-"Google Shopping","Google Shopping"
 "Frontend App Instance","Frontend App Instance"
 "Archive File",Archivdatei
 "Action Group","Aktion Gruppe"

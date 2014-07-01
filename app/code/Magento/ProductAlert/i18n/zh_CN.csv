@@ -1,3 +1,4 @@
+"Product Alerts","Product Alerts"
 "We can't find the product.","We can't find the product."
 "There are not enough parameters.","There are not enough parameters."
 "You saved the alert subscription.","You saved the alert subscription."
@@ -15,5 +16,16 @@ Price:,价格：
 "Unsubscribe from all price alerts",退订所有价格提醒
 "You are receiving this notification because you subscribed to receive alerts when the following products are back in stock:",您收到该通知的原因是您订阅了当下列产品有库存时接收提醒：
 "Unsubscribe from all stock alerts",退订所有库存提醒
+"Start Time","Start Time"
+Frequency,Frequency
+"Error Email Recipient","Error Email Recipient"
+"Error Email Sender","Error Email Sender"
+"Error Email Template","Error Email Template"
+"Allow Alert When Product Price Changes","Allow Alert When Product Price Changes"
+"Allow Alert When Product Comes Back in Stock","Allow Alert When Product Comes Back in Stock"
+"Price Alert Email Template","Price Alert Email Template"
+"Stock Alert Email Template","Stock Alert Email Template"
+"Alert Email Sender","Alert Email Sender"
+"Product Alerts Run Settings","Product Alerts Run Settings"
 "Sign up for price alert",注册价格提醒
 "Sign up to be notified when this product is back in stock.","Sign up to be notified when this product is back in stock."

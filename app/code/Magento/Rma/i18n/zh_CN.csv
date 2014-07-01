@@ -20,6 +20,7 @@ Delete,删除
 Save,保存
 Yes,是
 Status,状态
+Enabled,Enabled
 "Sort Order",排序顺序
 "Save and Continue Edit",保存并继续编辑
 Title,Title
@@ -44,9 +45,13 @@ Properties,属性
 Dropdown,下拉菜单
 Closed,已关闭
 "Product Name","Product Name"
+Country,Country
+State/Province,State/Province
 "Shipping Information",运送信息
 "Shipping Method",运送方式
+City,City
 "Email Address",编辑电子邮件地址
+"Street Address","Street Address"
 "Shipping Address",送货地址
 Condition,条件
 Weight,高度
@@ -299,3 +304,29 @@ Comments,评论
 Questions,问题
 Answers,答案
 "Leave Comment",留下评注
+"ZIP/Postal Code","ZIP/Postal Code"
+"RMA Settings","RMA Settings"
+"Enable RMA on Frontend","Enable RMA on Frontend"
+"Enable RMA on Product Level","Enable RMA on Product Level"
+"Use Store Address","Use Store Address"
+"Contact Name","Contact Name"
+"RMA Email Sender","RMA Email Sender"
+"RMA Email Template","RMA Email Template"
+"RMA Email Template for Guest","RMA Email Template for Guest"
+"Send RMA Email Copy To","Send RMA Email Copy To"
+Comma-separated,Comma-separated
+"Send RMA Email Copy Method","Send RMA Email Copy Method"
+"RMA Authorization","RMA Authorization"
+"RMA Authorization Email Sender","RMA Authorization Email Sender"
+"RMA Authorization Email Template","RMA Authorization Email Template"
+"RMA Authorization Email Template for Guest","RMA Authorization Email Template for Guest"
+"Send RMA Authorization Email Copy To","Send RMA Authorization Email Copy To"
+"Send RMA Authorization Email Copy Method","Send RMA Authorization Email Copy Method"
+"RMA Admin Comments","RMA Admin Comments"
+"RMA Comment Email Sender","RMA Comment Email Sender"
+"RMA Comment Email Template","RMA Comment Email Template"
+"RMA Comment Email Template for Guest","RMA Comment Email Template for Guest"
+"Send RMA Comment Email Copy To","Send RMA Comment Email Copy To"
+"RMA Customer Comments","RMA Customer Comments"
+"RMA Comment Email Recipient","RMA Comment Email Recipient"
+"Enabled for RMA","Enabled for RMA"

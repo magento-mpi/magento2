@@ -184,7 +184,12 @@ Version:,Versão:
 Page:,Página:
 "CMS Page Link Block Template","Modelo de bloco de link da página de SGC"
 "CMS Page Link Inline Template","Modelo Em Linha de Link de Página CMS"
-"CMS Hierarchy","Hierarquia de SGC"
+"CMS Page Hierarchy","CMS Page Hierarchy"
+"Enable Hierarchy Functionality","Enable Hierarchy Functionality"
+"Enable Hierarchy Metadata","Enable Hierarchy Metadata"
+"Default Layout for Hierarchy Menu","Default Layout for Hierarchy Menu"
 "CMS Versioning","Versionamento CMS"
+"CMS Page Default Versioning","CMS Page Default Versioning"
+"CMS Hierarchy","Hierarquia de SGC"
 "CMS Hierarchy Node Link","Link de permissão de Hierarquia de SGC"
 "Link to Specified CMS Hierarchy Node","Link para o ponto de hierarquia especificada de SGC"

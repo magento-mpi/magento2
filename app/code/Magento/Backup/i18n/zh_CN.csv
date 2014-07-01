@@ -70,6 +70,12 @@ OK,OK
 "Magento root directory","Magento root directory"
 "Create Backup",创建备份
 Download,下载
+"Start Time","Start Time"
+Frequency,Frequency
+"Scheduled Backup Settings","Scheduled Backup Settings"
+"Enable Scheduled Backup","Enable Scheduled Backup"
+"Backup Type","Backup Type"
+"Maintenance Mode","Maintenance Mode"
 "Are you sure you want to delete the selected backup(s)?",你是否确定要删除所选备份？
 Size(bytes),Size(bytes)
 Rollback,回滚

@@ -18,8 +18,11 @@ N/A,Nvt
 Percent,Procent
 "Close Window","Venster Sluiten"
 "Product Name","Product Name"
+Country,Country
 "Payment Information","Payment Information"
 "Shipping Information","Shipping Information"
+City,City
+"Street Address","Street Address"
 Weight,Weight
 Contents,Contents
 Package,Package
@@ -29,7 +32,9 @@ cm,cm
 Height,Height
 Width,Width
 "No packages for request","No packages for request"
+Region/State,Region/State
 Location,Locatie
+"Shipping Methods","Shipping Methods"
 "Per Order","Per Bestelling"
 "All Allowed Countries","All Allowed Countries"
 "Specific Countries","Specific Countries"
@@ -149,3 +154,7 @@ Weight:,Gewicht:
 "Local Time","Lokale Tijd"
 "There is no tracking available for this shipment.","Er is geen tracking beschikbaar voor deze verzending."
 "There is no tracking available.","Er is geen tracking beschikbaar."
+"ZIP/Postal Code","ZIP/Postal Code"
+"Street Address Line 2","Street Address Line 2"
+"Shipping Settings","Shipping Settings"
+Origin,Origin

@@ -32,3 +32,11 @@ Failed,已失败
 "To ensure the security of your transactions",要确保您的交易安全
 "Verified by Visa","Visa 已验证"
 "MasterCard SecureCode","MasterCard 安全代码"
+Password,Password
+"Test Mode","Test Mode"
+"Payment Services","Payment Services"
+"3D Secure Credit Card Validation","3D Secure Credit Card Validation"
+"Processor ID","Processor ID"
+"Merchant ID","Merchant ID"
+"This overrides any API URL that may be specified by a payment method.","This overrides any API URL that may be specified by a payment method."
+"Debug Mode","Debug Mode"

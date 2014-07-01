@@ -69,4 +69,33 @@ void,ongeldig
 "You'll be asked for your payment details before placing an order.","You'll be asked for your payment details before placing an order."
 "To cancel pending authorizations and release amounts that have already been processed during this payment, click Cancel.","To cancel pending authorizations and release amounts that have already been processed during this payment, click Cancel."
 Processing...,Processing...
+Enabled,Enabled
+"Sort Order","Sort Order"
+Title,Title
+"3D Secure Card Validation","3D Secure Card Validation"
+"New Order Status","New Order Status"
 "No confirmation","No confirmation"
+Authorize.net,Authorize.net
+"Credit Card Types","Credit Card Types"
+"Credit Card Verification","Credit Card Verification"
+"Email Customer","Email Customer"
+"API Login ID","API Login ID"
+"Merchant's Email","Merchant's Email"
+"Test Mode","Test Mode"
+Debug,Debug
+"Transaction Key","Transaction Key"
+"Payment Action","Payment Action"
+"Accepted Currency","Accepted Currency"
+"Payment from Applicable Countries","Payment from Applicable Countries"
+"Payment from Specific Countries","Payment from Specific Countries"
+"Minimum Order Total","Minimum Order Total"
+"Maximum Order Total","Maximum Order Total"
+"Allow Partial Authorization","Allow Partial Authorization"
+"3D Secure","3D Secure"
+"Severe 3D Secure Card Validation","Severe 3D Secure Card Validation"
+"Severe Validation Removes Chargeback Liability on Merchant","Severe Validation Removes Chargeback Liability on Merchant"
+"Centinel API URL","Centinel API URL"
+"If you leave this empty, we'll use a default value. The custom URL may be provided by CardinalCommerce agreement.","If you leave this empty, we'll use a default value. The custom URL may be provided by CardinalCommerce agreement."
+"Authorize.net Direct Post","Authorize.net Direct Post"
+"Merchant MD5","Merchant MD5"
+"Gateway URL","Gateway URL"

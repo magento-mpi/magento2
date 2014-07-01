@@ -32,3 +32,11 @@ Failed,Falha
 "To ensure the security of your transactions","Para garantir a segurança da sua transação"
 "Verified by Visa","Verificado pela Visa"
 "MasterCard SecureCode","MasterCard SecureCode"
+Password,Password
+"Test Mode","Test Mode"
+"Payment Services","Payment Services"
+"3D Secure Credit Card Validation","3D Secure Credit Card Validation"
+"Processor ID","Processor ID"
+"Merchant ID","Merchant ID"
+"This overrides any API URL that may be specified by a payment method.","This overrides any API URL that may be specified by a payment method."
+"Debug Mode","Debug Mode"

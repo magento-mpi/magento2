@@ -147,6 +147,7 @@ Group,Grupo
 Phone,Teléfono
 ZIP,"Código postal"
 "Customer Since","Cliente desde"
+"Enable Customer Segment Functionality","Enable Customer Segment Functionality"
 "Refresh Data","Actualizar datos"
 "Manage Segments","Administrar segmentos"
 "View Combined Report","Ver informe combinado"

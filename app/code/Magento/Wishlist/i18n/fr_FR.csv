@@ -9,6 +9,7 @@ Edit,Éditer
 "Remove item","Supprimer l'objet"
 "Add to Cart","Ajouter au caddy"
 Delete,Delete
+Enabled,Enabled
 "We cannot add this item to your shopping cart.","We cannot add this item to your shopping cart."
 "* Required Fields","* Champs requis"
 Availability,Availability
@@ -29,8 +30,10 @@ Comment,Commentaires
 "Add Locale","Formulaire ajouté"
 "Add Date","Date ajoutée"
 "Days in Wish List","Days in Wish List"
+Wishlist,Wishlist
 "Wish List","Wish List"
 Message,Message
+"Email Template","Email Template"
 "Remove Item","Enlever article"
 "Sharing Information","Partager infos"
 "This product(s) is out of stock.","This product(s) is out of stock."
@@ -88,6 +91,13 @@ Message,Message
 "Go to Wish List","Go to Wish List"
 "You have no items in your wish list.","You have no items in your wish list."
 "Are you sure you want to remove this product from your wishlist?","Êtes-vous sûr(e) de vouloir enlever ce produit de votre liste de vœux?"
+"Email Sender","Email Sender"
+"General Options","General Options"
+"Share Options","Share Options"
+"Max Emails Allowed to be Sent","Max Emails Allowed to be Sent"
+"Email Text Length Limit","Email Text Length Limit"
+"My Wish List Link","My Wish List Link"
+"Display Wish List Summary","Display Wish List Summary"
 "No Items Found","No Items Found"
 "User description","Description utilisateur"
 "Product Details and Comment","Détails et commentaires sur le produit"

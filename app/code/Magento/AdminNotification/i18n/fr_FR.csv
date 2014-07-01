@@ -44,5 +44,8 @@ Acknowledge,Acknowledge
 "See All (%1 unread)","See All (%1 unread)"
 Actions,Action
 Message,Message
+"Use HTTPS to Get Feed","Use HTTPS to Get Feed"
+"Update Frequency","Update Frequency"
+"Last Update","Last Update"
 Severity,Gravité
 "Date Added","Date ajoutée"

@@ -18,8 +18,11 @@ N/A,N/A
 Percent,百分之
 "Close Window",关闭窗口
 "Product Name","Product Name"
+Country,Country
 "Payment Information","Payment Information"
 "Shipping Information","Shipping Information"
+City,City
+"Street Address","Street Address"
 Weight,Weight
 Contents,Contents
 Package,Package
@@ -29,7 +32,9 @@ cm,cm
 Height,Height
 Width,Width
 "No packages for request","No packages for request"
+Region/State,Region/State
 Location,位置
+"Shipping Methods","Shipping Methods"
 "Per Order",每订单
 "All Allowed Countries","All Allowed Countries"
 "Specific Countries","Specific Countries"
@@ -149,3 +154,7 @@ Weight:,重量：
 "Local Time",本地时间
 "There is no tracking available for this shipment.",此运送项目无可用的状态追踪。
 "There is no tracking available.",没有可用的追踪。
+"ZIP/Postal Code","ZIP/Postal Code"
+"Street Address Line 2","Street Address Line 2"
+"Shipping Settings","Shipping Settings"
+Origin,Origin

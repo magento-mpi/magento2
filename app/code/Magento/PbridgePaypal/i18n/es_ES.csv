@@ -31,3 +31,5 @@
 "no reason","no reason"
 "merchant refunded payment","merchant refunded payment"
 "Explanation: %1.","Explanation: %1."
+"Use via Payment Bridge","Use via Payment Bridge"
+"Gives effect only when payment bridge is active.","Gives effect only when payment bridge is active."

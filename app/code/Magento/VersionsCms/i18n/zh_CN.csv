@@ -184,7 +184,12 @@ Version:,版本：
 Page:,页面：
 "CMS Page Link Block Template",CMS页面链接块模板
 "CMS Page Link Inline Template",CMS页面链接内联摸板
-"CMS Hierarchy",CMS层次结构
+"CMS Page Hierarchy","CMS Page Hierarchy"
+"Enable Hierarchy Functionality","Enable Hierarchy Functionality"
+"Enable Hierarchy Metadata","Enable Hierarchy Metadata"
+"Default Layout for Hierarchy Menu","Default Layout for Hierarchy Menu"
 "CMS Versioning",CMS版本控制
+"CMS Page Default Versioning","CMS Page Default Versioning"
+"CMS Hierarchy",CMS层次结构
 "CMS Hierarchy Node Link",CMS层次结构节点链接
 "Link to Specified CMS Hierarchy Node",到指定CMS层次结构节点的链接

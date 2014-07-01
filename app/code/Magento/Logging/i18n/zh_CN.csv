@@ -78,6 +78,12 @@ Fetch,获取
 "Tax Rules",税务规则
 "CMS Pages",CMS页面
 Rollback,回滚
+"Google Shopping","Google Shopping"
+"Admin Actions Log Archiving","Admin Actions Log Archiving"
+"Log Entry Lifetime, Days","Log Entry Lifetime, Days"
+"Log Archiving Frequency","Log Archiving Frequency"
+"Admin Actions Logging","Admin Actions Logging"
+"Enabled Actions","Enabled Actions"
 1,1
 "Mass Delete",批量删除
 "Mass Update",批量更新
@@ -116,7 +122,6 @@ Create,创建
 "Customer Tax Classes",客户税率
 "Catalog Product Tax Classes",分类产品税率
 "Tax Rates",税率
-"Google Shopping","Google Shopping"
 "Frontend App Instance","Frontend App Instance"
 "Archive File",存档文件
 "Action Group",操作组

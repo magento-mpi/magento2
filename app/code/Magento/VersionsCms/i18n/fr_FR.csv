@@ -184,7 +184,12 @@ Version:,Version:
 Page:,Page:
 "CMS Page Link Block Template","Modèle de page CMS de bloc de lien"
 "CMS Page Link Inline Template","Modèle de page CMS de conformité de lien"
-"CMS Hierarchy","Hiérarchie CMS"
+"CMS Page Hierarchy","CMS Page Hierarchy"
+"Enable Hierarchy Functionality","Enable Hierarchy Functionality"
+"Enable Hierarchy Metadata","Enable Hierarchy Metadata"
+"Default Layout for Hierarchy Menu","Default Layout for Hierarchy Menu"
 "CMS Versioning","Gestion des versions CMS"
+"CMS Page Default Versioning","CMS Page Default Versioning"
+"CMS Hierarchy","Hiérarchie CMS"
 "CMS Hierarchy Node Link","Lien nœud de hiérarchie CMS"
 "Link to Specified CMS Hierarchy Node","Lien vers nœud spécifié de hiérarchie CMS"

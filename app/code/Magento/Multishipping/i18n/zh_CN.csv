@@ -72,4 +72,8 @@ Change,Change
 "Thanks for your order. We'll send you emails with order details and tracking information.","Thanks for your order. We'll send you emails with order details and tracking information."
 "Your order number is ","Your order number is "
 "Review Order","Review Order"
+Options,Options
 "Your order has been received.","Your order has been received."
+"Multishipping Settings","Multishipping Settings"
+"Allow Shipping to Multiple Addresses","Allow Shipping to Multiple Addresses"
+"Maximum Qty Allowed for Shipping to Multiple Addresses","Maximum Qty Allowed for Shipping to Multiple Addresses"

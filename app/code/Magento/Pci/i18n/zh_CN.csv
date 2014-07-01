@@ -25,6 +25,12 @@ Username,用户名
 "File %1 is not writeable.","File %1 is not writeable."
 Recommended,推荐
 Forced,强制
+"Maximum Login Failures to Lockout Account","Maximum Login Failures to Lockout Account"
+"We will disable this feature if the value is empty.","We will disable this feature if the value is empty."
+"Lockout Time (minutes)","Lockout Time (minutes)"
+"Password Lifetime (days)","Password Lifetime (days)"
+"We will disable this feature if the value is empty. ","We will disable this feature if the value is empty. "
+"Password Change","Password Change"
 "Encryption Key Change",加密密钥已更改
 "Admin Accounts Locks",管理帐户锁定
 Unlock,解锁

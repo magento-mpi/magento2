@@ -25,6 +25,12 @@ Username,"Nom d'utilisateur"
 "File %1 is not writeable.","File %1 is not writeable."
 Recommended,Recommandé
 Forced,Forcé
+"Maximum Login Failures to Lockout Account","Maximum Login Failures to Lockout Account"
+"We will disable this feature if the value is empty.","We will disable this feature if the value is empty."
+"Lockout Time (minutes)","Lockout Time (minutes)"
+"Password Lifetime (days)","Password Lifetime (days)"
+"We will disable this feature if the value is empty. ","We will disable this feature if the value is empty. "
+"Password Change","Password Change"
 "Encryption Key Change","Modification Clé de Chiffrement"
 "Admin Accounts Locks","Verrous Comptes Administrateurs"
 Unlock,Déverrouiller

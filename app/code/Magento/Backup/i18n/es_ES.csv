@@ -70,6 +70,12 @@ OK,OK
 "Magento root directory","Magento root directory"
 "Create Backup","Crear Copia de seguridad"
 Download,Descargar
+"Start Time","Start Time"
+Frequency,Frequency
+"Scheduled Backup Settings","Scheduled Backup Settings"
+"Enable Scheduled Backup","Enable Scheduled Backup"
+"Backup Type","Backup Type"
+"Maintenance Mode","Maintenance Mode"
 "Are you sure you want to delete the selected backup(s)?","¿Seguro que desea eliminar las copias de seguridad seleccionadas?"
 Size(bytes),Size(bytes)
 Rollback,Revertir

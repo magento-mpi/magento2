@@ -101,6 +101,7 @@ Labels,Etiquetas
 "If you select and save the rule you will be able to generate multiple coupon codes.","Se você selecionar e salvar a regra, será capaz de gerar múltiplos códigos de cupom."
 "Uses per Coupon","Uso por cupom"
 "Uses per Customer","Uso por cliente"
+"Usage limit enforced for logged in customers only.","Usage limit enforced for logged in customers only."
 "Public In RSS Feed","Público No Feed RSS"
 "Cart Price Rules","Cart Price Rules"
 "New Cart Price Rule","New Cart Price Rule"
@@ -137,3 +138,4 @@ FOUND,ENCONTRADO
 "total amount","quantia total"
 "If %1 %2 %3 for a subselection of items in cart matching %4 of these conditions:","If %1 %2 %3 for a subselection of items in cart matching %4 of these conditions:"
 "Item totals are not set for the rule.","Item totals are not set for the rule."
+"Auto Generated Specific Coupon Codes","Auto Generated Specific Coupon Codes"

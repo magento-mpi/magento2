@@ -15,7 +15,6 @@ Configure,Configurer
 "Shopping Cart",Panier
 "Quote item id is not received.","L'identifiant de l'article évalué n'a pas été reçu."
 "Quote item is not loaded.","L'article évalué n'a pas été chargé."
-"We couldn't find this wish list.","We couldn't find this wish list."
 No,Non
 "Apply Coupon Code","Appliquer code coupon"
 "Remove Coupon Code","Retirer le code de promotion"
@@ -49,15 +48,19 @@ Shipping,Envoi
 "Last Name","Nom du client"
 Email,"Email du client"
 Refresh,Rafraîchir
+Enable,Enable
+General,General
 Yes,oui
 Name,Nom
 Status,Statut
+Enabled,Enabled
 Title,Titre
 Home,Home
 Any,Any
 From,De
 To,A
 " [deleted]"," [deleted]"
+Dashboard,Dashboard
 title,title
 Specified,Specified
 Order,Commande
@@ -92,6 +95,7 @@ City,Ville
 "Zip/Postal Code","Code postal"
 "Email Address","Adresse email"
 Company,Société
+Address,Address
 "Street Address","Adresse de la rue"
 Telephone,Téléphone
 "Save in address book","Sauvegarder dans le carnet d'adresses"
@@ -394,6 +398,7 @@ Unassign,"Modifier l'attribution"
 "Orders and Returns","Commandes et Retours"
 "This item price or quantity is not valid for checkout.","This item price or quantity is not valid for checkout."
 "You entered incorrect data. Please try again.","You entered incorrect data. Please try again."
+"We couldn't find this wish list.","We couldn't find this wish list."
 "We could not add a product to cart by the ID ""%1"".","We could not add a product to cart by the ID ""%1""."
 "There is an error in one of the option rows.","There is an error in one of the option rows."
 "Shipping Address: ","Shipping Address: "
@@ -475,7 +480,6 @@ Mixed,Mélangé
 "A PDF object is not specified.","A PDF object is not specified."
 "A PDF page object is not specified.","A PDF page object is not specified."
 "Packing Slip # ","Bon de livraison #"
-"The PDF total model %1 must be or extend \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal.","The PDF total model %1 must be or extend \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal."
 "We cannot register an existing shipment","We cannot register an existing shipment"
 "We cannot create an empty shipment.","We cannot create an empty shipment."
 "We found an invalid qty to ship for item ""%1"".","We found an invalid qty to ship for item ""%1""."
@@ -607,11 +611,86 @@ Complete,Terminer
 "View All","Voir tout"
 "Gift Message for This Order","Message cadeau pour cette commande"
 "About Your Order","A propos de votre commande"
+"Shipment Comments","Shipment Comments"
 "Gift Options for ","Gift Options for "
 Ok,Ok
 "Anchor Custom Title","Titre personnalisé"
 Phone,Phone
 "Default Template","Modèle par défaut"
+"Minimum Order Amount","Minimum Order Amount"
+Comma-separated,Comma-separated
+"Hide Customer IP","Hide Customer IP"
+"Choose whether a customer IP is shown in orders, invoices, shipments, and credit memos.","Choose whether a customer IP is shown in orders, invoices, shipments, and credit memos."
+"Checkout Totals Sort Order","Checkout Totals Sort Order"
+"Allow Reorder","Allow Reorder"
+"Invoice and Packing Slip Design","Invoice and Packing Slip Design"
+"Logo for PDF Print-outs (200x50)","Logo for PDF Print-outs (200x50)"
+"
+                        Your default logo will be used in PDF and HTML documents.<br />(jpeg, tiff, png) If your pdf image is distorted, try to use larger file-size image.
+                    ","
+                        Your default logo will be used in PDF and HTML documents.<br />(jpeg, tiff, png) If your pdf image is distorted, try to use larger file-size image.
+                    "
+"Logo for HTML Print View","Logo for HTML Print View"
+"
+                        Logo for HTML documents only. If empty, default will be used.<br />(jpeg, gif, png)
+                    ","
+                        Logo for HTML documents only. If empty, default will be used.<br />(jpeg, gif, png)
+                    "
+"Minimum Amount","Minimum Amount"
+"Subtotal after discount","Subtotal after discount"
+"Description Message","Description Message"
+"This message will be shown in the shopping cart when the subtotal (after discount) is lower than the minimum allowed amount.","This message will be shown in the shopping cart when the subtotal (after discount) is lower than the minimum allowed amount."
+"Error to Show in Shopping Cart","Error to Show in Shopping Cart"
+"Validate Each Address Separately in Multi-address Checkout","Validate Each Address Separately in Multi-address Checkout"
+"Multi-address Description Message","Multi-address Description Message"
+"We'll use the default description above if you leave this empty.","We'll use the default description above if you leave this empty."
+"Multi-address Error to Show in Shopping Cart","Multi-address Error to Show in Shopping Cart"
+"We'll use the default error above if you leave this empty.","We'll use the default error above if you leave this empty."
+"Use Aggregated Data (beta)","Use Aggregated Data (beta)"
+"Sales Emails","Sales Emails"
+"New Order Confirmation Email Sender","New Order Confirmation Email Sender"
+"New Order Confirmation Template","New Order Confirmation Template"
+"New Order Confirmation Template for Guest","New Order Confirmation Template for Guest"
+"Send Order Email Copy To","Send Order Email Copy To"
+"Send Order Email Copy Method","Send Order Email Copy Method"
+"Order Comment Email Sender","Order Comment Email Sender"
+"Order Comment Email Template","Order Comment Email Template"
+"Order Comment Email Template for Guest","Order Comment Email Template for Guest"
+"Send Order Comment Email Copy To","Send Order Comment Email Copy To"
+"Send Order Comments Email Copy Method","Send Order Comments Email Copy Method"
+"Invoice Email Sender","Invoice Email Sender"
+"Invoice Email Template","Invoice Email Template"
+"Invoice Email Template for Guest","Invoice Email Template for Guest"
+"Send Invoice Email Copy To","Send Invoice Email Copy To"
+"Send Invoice Email Copy Method","Send Invoice Email Copy Method"
+"Invoice Comment Email Sender","Invoice Comment Email Sender"
+"Invoice Comment Email Template","Invoice Comment Email Template"
+"Invoice Comment Email Template for Guest","Invoice Comment Email Template for Guest"
+"Send Invoice Comment Email Copy To","Send Invoice Comment Email Copy To"
+"Send Invoice Comments Email Copy Method","Send Invoice Comments Email Copy Method"
+Shipment,Expédition
+"Shipment Email Sender","Shipment Email Sender"
+"Shipment Email Template","Shipment Email Template"
+"Shipment Email Template for Guest","Shipment Email Template for Guest"
+"Send Shipment Email Copy To","Send Shipment Email Copy To"
+"Send Shipment Email Copy Method","Send Shipment Email Copy Method"
+"Shipment Comment Email Sender","Shipment Comment Email Sender"
+"Shipment Comment Email Template","Shipment Comment Email Template"
+"Shipment Comment Email Template for Guest","Shipment Comment Email Template for Guest"
+"Send Shipment Comment Email Copy To","Send Shipment Comment Email Copy To"
+"Send Shipment Comments Email Copy Method","Send Shipment Comments Email Copy Method"
+"Credit Memo Email Sender","Credit Memo Email Sender"
+"Credit Memo Email Template","Credit Memo Email Template"
+"Credit Memo Email Template for Guest","Credit Memo Email Template for Guest"
+"Send Credit Memo Email Copy To","Send Credit Memo Email Copy To"
+"Send Credit Memo Email Copy Method","Send Credit Memo Email Copy Method"
+"Credit Memo Comment Email Sender","Credit Memo Comment Email Sender"
+"Credit Memo Comment Email Template","Credit Memo Comment Email Template"
+"Credit Memo Comment Email Template for Guest","Credit Memo Comment Email Template for Guest"
+"Send Credit Memo Comment Email Copy To","Send Credit Memo Comment Email Copy To"
+"Send Credit Memo Comments Email Copy Method","Send Credit Memo Comments Email Copy Method"
+"PDF Print-outs","PDF Print-outs"
+"Display Order ID in Header","Display Order ID in Header"
 "Orders and Returns Search Form","Formulaire de recherche des Commandes et Retours"
 "PDF Credit Memos","Notes de crédit PDF"
 "PDF Invoices","Factures PDF"
@@ -625,7 +704,6 @@ order-header,order-header
 "Print Credit Memos","Imprimer les notes de crédit"
 "Print All","Tout imprimer"
 "Print Shipping Labels","Labels d'expédition"
-Shipment,Expédition
 "Ship Date","Date d'envoi"
 "Total Quantity","Quantité totale"
 "Default Status","État pas défaut"

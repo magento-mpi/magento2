@@ -1,9 +1,11 @@
 Back,返回
 Name,姓名
+Enabled,Enabled
 "* Required Fields","* Required Fields"
 Message:,信息：
 "Email to a Friend",给朋友发邮件
 "Email Address",编辑电子邮件地址
+"Email Templates","Email Templates"
 Name:,姓名：
 "Email Address:",电子邮件地址：
 Sender:,发送人：
@@ -28,3 +30,8 @@ Recipient:,收件人：
 "Please define the correct Sender information.",请定义正确的发送者信息。
 "Remove Email",删除邮件
 "Maximum %1 email addresses allowed.","Maximum %1 email addresses allowed."
+"Select Email Template","Select Email Template"
+"Allow for Guests","Allow for Guests"
+"Max Recipients","Max Recipients"
+"Max Products Sent in 1 Hour","Max Products Sent in 1 Hour"
+"Limit Sending By","Limit Sending By"

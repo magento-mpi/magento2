@@ -51,6 +51,12 @@ Sec,Sec
 "Go To Sale","ga naar verkoop"
 "View Sale","zie verkoop in"
 "Catalog Events",Catalogus-gebeurtenissen
+"Enable Catalog Events Functionality","Enable Catalog Events Functionality"
+"Enable Catalog Event Widget on the Frontend","Enable Catalog Event Widget on the Frontend"
+"Number of Events to be Displayed in Event Slider Widget","Number of Events to be Displayed in Event Slider Widget"
+"You can override this default value in CMS using the limit=""x"" variable. Leave empty for no limitation.","You can override this default value in CMS using the limit=""x"" variable. Leave empty for no limitation."
+"Events to Scroll per Click in Event Slider Widget","Events to Scroll per Click in Event Slider Widget"
+"You can override this default value in CMS using the limit=""x"" variable.","You can override this default value in CMS using the limit=""x"" variable."
 "Catalog Events Carousel","Carousel van catalogus-gebeurtenissen"
 "List all open Catalog Events as a Paginated Carousel","lijst-weergave open catalogus als een geïndexeerde carousel"
 "Frame Size","frame grootte"

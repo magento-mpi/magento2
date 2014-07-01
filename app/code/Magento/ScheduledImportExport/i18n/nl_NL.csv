@@ -18,14 +18,12 @@ Password,Wachtwoord
 Daily,Dagelijks
 Weekly,Wekelijks
 Monthly,Maandelijks
-"Store Credit","Store Credit"
 Pending,"In afwachting"
 "Export Settings","Export Instellingen"
 "Entity Type","Eenheid Type"
 "Import Settings","Import Instellingen"
 "Import Behavior","Import Gedrag"
 "Entity Attributes",Eenheidattributen
-"Reward Points","Reward Points"
 "Add Scheduled Export","Voeg geplande export toe"
 "Add Scheduled Import","Voeg geplande import toe"
 "Scheduled Import/Export","Geplande Import/Export"
@@ -72,10 +70,6 @@ Frequency,Frequentie
 "We deleted the scheduled export.","We deleted the scheduled export."
 "Are you sure you want to delete this scheduled import?","Weet u zeker dat u de geplande import wilt verwijderen?"
 "Are you sure you want to delete this scheduled export?","Weet u zeker datu de geplande export wilt verwijderen?"
-"Finance information website is not specified","Finance information website is not specified"
-"Invalid value in Finance information website column","Invalid value in Finance information website column"
-"Row with such email, website, finance website combination was already found.","Row with such email, website, finance website combination was already found."
-"Data was imported by %1","Data was imported by %1"
 """We couldn't create directory "" '""%1""'","""We couldn't create directory "" '""%1""'"
 "The directory ""%1"" is not writable.","The directory ""%1"" is not writable."
 "We couldn't delete ""%1"" because the directory is not writable.","We couldn't delete ""%1"" because the directory is not writable."
@@ -102,7 +96,13 @@ Binary,Binair
 ASCII,ASCII
 "Stop Import","Stop Import"
 "Continue Processing","Doorgaan met het verwerken"
+"Error Email Recipient","Error Email Recipient"
+"Error Email Sender","Error Email Sender"
+"Error Email Template","Error Email Template"
 Run,Run
+"Scheduled Import/Export File History Cleaning","Scheduled Import/Export File History Cleaning"
+"Save Files, Days","Save Files, Days"
+"Enable Scheduled File History Cleaning","Enable Scheduled File History Cleaning"
 "Are you sure you want to delete the selected scheduled imports/exports?","Weet u zeker dat u de geselecteerde geplande invoer/uitvoer wilt verwijderen?"
 Operation,Operatie
 "Last Run","Laatste Run Datum"

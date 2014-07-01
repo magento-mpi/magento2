@@ -18,14 +18,12 @@ Password,Senha
 Daily,Diário
 Weekly,Semanalmente
 Monthly,Mensal
-"Store Credit","Store Credit"
 Pending,Pendente
 "Export Settings","Exportar configurações"
 "Entity Type","Tipo de entidade"
 "Import Settings","Importar configurações"
 "Import Behavior","Comportamento da importação"
 "Entity Attributes","Atributos da entidade"
-"Reward Points","Reward Points"
 "Add Scheduled Export","Adicionar exportação agendada"
 "Add Scheduled Import","Adicionar importação agendada"
 "Scheduled Import/Export","Importação/exportação agendada"
@@ -72,10 +70,6 @@ Frequency,Freqüência
 "We deleted the scheduled export.","We deleted the scheduled export."
 "Are you sure you want to delete this scheduled import?","Tem certeza que deseja excluir essa importação agendada?"
 "Are you sure you want to delete this scheduled export?","Tem certeza que deseja excluir essa exportação agendada?"
-"Finance information website is not specified","Finance information website is not specified"
-"Invalid value in Finance information website column","Invalid value in Finance information website column"
-"Row with such email, website, finance website combination was already found.","Row with such email, website, finance website combination was already found."
-"Data was imported by %1","Data was imported by %1"
 """We couldn't create directory "" '""%1""'","""We couldn't create directory "" '""%1""'"
 "The directory ""%1"" is not writable.","The directory ""%1"" is not writable."
 "We couldn't delete ""%1"" because the directory is not writable.","We couldn't delete ""%1"" because the directory is not writable."
@@ -102,7 +96,13 @@ Binary,Binário
 ASCII,ASCII
 "Stop Import","Parar importação"
 "Continue Processing","Continuar processando"
+"Error Email Recipient","Error Email Recipient"
+"Error Email Sender","Error Email Sender"
+"Error Email Template","Error Email Template"
 Run,Executar
+"Scheduled Import/Export File History Cleaning","Scheduled Import/Export File History Cleaning"
+"Save Files, Days","Save Files, Days"
+"Enable Scheduled File History Cleaning","Enable Scheduled File History Cleaning"
 "Are you sure you want to delete the selected scheduled imports/exports?","Tem certeza que deseja excluir as importações/exportações agendadas selecionadas?"
 Operation,Operação
 "Last Run","Última data de execução"

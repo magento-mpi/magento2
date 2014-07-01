@@ -18,8 +18,11 @@ N/A,"non applicable"
 Percent,"pour cent"
 "Close Window","Fermer la fenêtre"
 "Product Name","Product Name"
+Country,Country
 "Payment Information","Payment Information"
 "Shipping Information","Shipping Information"
+City,City
+"Street Address","Street Address"
 Weight,Weight
 Contents,Contents
 Package,Package
@@ -29,7 +32,9 @@ cm,cm
 Height,Height
 Width,Width
 "No packages for request","No packages for request"
+Region/State,Region/State
 Location,Emplacement
+"Shipping Methods","Shipping Methods"
 "Per Order","Par commande"
 "All Allowed Countries","All Allowed Countries"
 "Specific Countries","Specific Countries"
@@ -149,3 +154,7 @@ Weight:,Poids
 "Local Time","Heure locale"
 "There is no tracking available for this shipment.","Il n'y pas de service de suivi pour cet envoi."
 "There is no tracking available.","Il n'y a pas de service de suivi."
+"ZIP/Postal Code","ZIP/Postal Code"
+"Street Address Line 2","Street Address Line 2"
+"Shipping Settings","Shipping Settings"
+Origin,Origin

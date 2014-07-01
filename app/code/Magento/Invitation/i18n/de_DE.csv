@@ -99,6 +99,13 @@ Link,Link
 "You cannot send more invitations","Sie können keine weiteren Einladungen versenden"
 "There are no sent invitations.","There are no sent invitations."
 Group,Gruppe
+"Customer Invitation Email Sender","Customer Invitation Email Sender"
+"Customer Invitation Email Template","Customer Invitation Email Template"
+"Enable Invitations Functionality","Enable Invitations Functionality"
+"Enable Invitations on Frontend","Enable Invitations on Frontend"
+"Referred Customer Group","Referred Customer Group"
+"New Accounts Registration","New Accounts Registration"
+"Allow Customers to Add Custom Message to Invitation Email","Allow Customers to Add Custom Message to Invitation Email"
 "Customer Invitations",Kunden-Einladungen
 "Discard Selected","Ausgewähltes verwerfen"
 "Send Selected","Ausgewählte senden"

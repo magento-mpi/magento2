@@ -5,3 +5,10 @@
 "Private Sales: Login and Register",私密销售：登录并注册
 "To login form (302 Found)",到登录表单（302找到）
 "To landing page (302 Found)",到加载页面（302找到）
+"Startup Page","Startup Page"
+"Landing Page","Landing Page"
+"Access Restriction","Access Restriction"
+"Restriction Mode","Restriction Mode"
+"Applicable only if restriction mode is set to ""Private Sales"".","Applicable only if restriction mode is set to ""Private Sales""."
+"HTTP Response","HTTP Response"
+"Applicable only if restriction mode is set to ""Website Closed"". The landing page is rendered as raw HTML.","Applicable only if restriction mode is set to ""Website Closed"". The landing page is rendered as raw HTML."

@@ -1,9 +1,11 @@
 Back,Terug
 Name,Naam
+Enabled,Enabled
 "* Required Fields","* Required Fields"
 Message:,Bericht:
 "Email to a Friend","E-mail Vriend"
 "Email Address",e-mailadres
+"Email Templates","Email Templates"
 Name:,Naam:
 "Email Address:",E-mailadres:
 Sender:,Verzender:
@@ -28,3 +30,8 @@ Recipient:,Ontvanger:
 "Please define the correct Sender information.","Gelieve een correct Verzender Informatie voorbeeld te definiëren."
 "Remove Email","Verwijder E-mail"
 "Maximum %1 email addresses allowed.","Maximum %1 email addresses allowed."
+"Select Email Template","Select Email Template"
+"Allow for Guests","Allow for Guests"
+"Max Recipients","Max Recipients"
+"Max Products Sent in 1 Hour","Max Products Sent in 1 Hour"
+"Limit Sending By","Limit Sending By"

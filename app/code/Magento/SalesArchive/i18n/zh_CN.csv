@@ -25,6 +25,10 @@ Shipments,发货
 "There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled.","There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled."
 "Print Shipping Labels","Print Shipping Labels"
 "PDF Packing Slips","PDF Packing Slips"
+"Orders, Invoices, Shipments, Credit Memos Archiving","Orders, Invoices, Shipments, Credit Memos Archiving"
+"Enable Archiving","Enable Archiving"
+"Archive Orders Purchased","Archive Orders Purchased"
+"Order Statuses to be Archived","Order Statuses to be Archived"
 "Mass Add",批量添加
 "Sales Archive",销售存档
 "Move to Orders Management",移动到订单管理

@@ -36,6 +36,7 @@ Title,Titel
 Description,Beschreibung
 From,Von
 To,An
+Dashboard,Dashboard
 "IP Address","IP Adresse"
 "All Websites","All Websites"
 "Tax Amount","Tax Amount"
@@ -72,6 +73,7 @@ Added,Added
 Period,Period
 "Empty Rows","Leere Reihe"
 "Invalid date specified","Invalid date specified"
+"We couldn't find records for this period.","We couldn't find records for this period."
 "Show Reviews","Show Reviews"
 "Products Report",Artikelmeldung
 Downloads,Downloads
@@ -179,6 +181,13 @@ Statistics,Statistik
 "Recently Compared Products","zuletzt verglichene Artikel"
 "Recently Viewed Products","Kürzlich angesehene Produkte"
 "Recently Compared","zuletzt verglichen"
+"Recently Viewed/Compared Products","Recently Viewed/Compared Products"
+"Show for Current","Show for Current"
+"Default Recently Viewed Products Count","Default Recently Viewed Products Count"
+"Default Recently Compared Products Count","Default Recently Compared Products Count"
+"Year-To-Date Starts","Year-To-Date Starts"
+"Current Month Starts","Current Month Starts"
+"Select day of the month.","Select day of the month."
 "List of Products Recently Viewed by Visitor","Liste der kürzlich angesehenen Produkte des Besuchers"
 "Number of Products to display","Anzahl der darzustellenden Artikel"
 "Viewed Products Grid Template","Tabellarische Vorlage für angesehene Produkte"
@@ -193,7 +202,6 @@ Statistics,Statistik
 "Compared Product Names Only Template","Compared Product Names Only Template"
 "Compared Product Images Only Template","Compared Product Images Only Template"
 Hits,Treffer
-"We couldn't find records for this period.","We couldn't find records for this period."
 "Stock Quantity","Anzahl auf Lager"
 "Ordered Quantity","Ordered Quantity"
 "This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone.","This report uses timezone configuration data. Be sure to refresh lifetime statistics any time you change store timezone."

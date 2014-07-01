@@ -77,3 +77,12 @@ U,U
 "Start Download","Download starten"
 "You have not purchased any downloadable products yet.","Sie haben noch keine herunterladbaren Produkte gekauft."
 download,Download
+"Downloadable Product Options","Downloadable Product Options"
+"Order Item Status to Enable Downloads","Order Item Status to Enable Downloads"
+"Default Maximum Number of Downloads","Default Maximum Number of Downloads"
+"Default Sample Title","Default Sample Title"
+"Default Link Title","Default Link Title"
+"Open Links in New Window","Open Links in New Window"
+"Use Content-Disposition","Use Content-Disposition"
+"Disable Guest Checkout if Cart Contains Downloadable Items","Disable Guest Checkout if Cart Contains Downloadable Items"
+"Guest checkout will only work with shareable.","Guest checkout will only work with shareable."

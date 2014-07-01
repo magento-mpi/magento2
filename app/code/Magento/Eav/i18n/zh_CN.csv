@@ -109,3 +109,5 @@ Letters,字母
 "Form Fieldset with the same code",使用相同代码的表单字段集
 "Form Type with the same code",使用相同代码的表单类型
 "The value of attribute ""%1"" is invalid","The value of attribute ""%1"" is invalid"
+"EAV types and attributes","EAV types and attributes"
+"Entity types declaration cache.","Entity types declaration cache."

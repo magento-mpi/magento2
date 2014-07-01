@@ -1,16 +1,26 @@
 None,None
 No,No
 Yes,Yes
+"Sort Order","Sort Order"
 Variable,Variable
+Title,Title
 Required,Required
+Password,Password
+Height,Height
+Width,Width
 Regular,Regular
 Documents,Documents
 "Unable to retrieve tracking","Unable to retrieve tracking"
 Sample,Sample
 "Not Required","Not Required"
 "Empty response","Empty response"
+Mode,Mode
 Return,Return
+Size,Size
+Girth,Girth
+Length,Length
 "Sorry, something went wrong. Please try again or contact us and we'll try to help.","Sorry, something went wrong. Please try again or contact us and we'll try to help."
+"User ID","User ID"
 "First-Class Mail Large Envelope","First-Class Mail Large Envelope"
 "First-Class Mail Letter","First-Class Mail Letter"
 "First-Class Mail Parcel","First-Class Mail Parcel"
@@ -101,3 +111,22 @@ track_summary,track_summary
 Merchandise,Merchandise
 Gift,Gift
 Other,Other
+Container,Container
+Debug,Debug
+"Gateway URL","Gateway URL"
+"Enabled for Checkout","Enabled for Checkout"
+"Calculate Handling Fee","Calculate Handling Fee"
+"Handling Applied","Handling Applied"
+"Handling Fee","Handling Fee"
+"Allowed Methods","Allowed Methods"
+"Displayed Error Message","Displayed Error Message"
+"Free Method","Free Method"
+"Free Shipping Amount Threshold","Free Shipping Amount Threshold"
+"Ship to Applicable Countries","Ship to Applicable Countries"
+"Ship to Specific Countries","Ship to Specific Countries"
+"Show Method if Not Applicable","Show Method if Not Applicable"
+"Packages Request Type","Packages Request Type"
+"Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)","Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)"
+USPS,USPS
+"Secure Gateway URL","Secure Gateway URL"
+Machinable,Machinable

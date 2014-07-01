@@ -57,3 +57,12 @@ Message,Mensagem
 "Delete Amount","Excluir valor"
 "Minimum: %1","Minimum: %1"
 "Maximum: %1","Maximum: %1"
+Redeemable,Redeemable
+"Gift Card Email Settings","Gift Card Email Settings"
+"Gift Card Notification Email Sender","Gift Card Notification Email Sender"
+"Gift Card Notification Email Template","Gift Card Notification Email Template"
+"Gift Card General Settings","Gift Card General Settings"
+"If empty no expiration.","If empty no expiration."
+"Allow Gift Message","Allow Gift Message"
+"Gift Message Maximum Length","Gift Message Maximum Length"
+"Generate Gift Card Account when Order Item is","Generate Gift Card Account when Order Item is"

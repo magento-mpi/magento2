@@ -3,6 +3,7 @@
 No,Non
 Action,Action
 "Add to Cart","Ajouter au caddy"
+Enable,Enable
 "-- Please Select --","-- Please Select --"
 Website,Website
 "All Websites","All Websites"
@@ -24,6 +25,16 @@ Website,Website
 Allow,Allow
 Deny,Deny
 "Use parent","Use parent"
+"Customer Groups","Customer Groups"
+"
+                        <strong style=""color:red"">Warning!</strong> By default this feature restricts all categories.
+                    ","
+                        <strong style=""color:red"">Warning!</strong> By default this feature restricts all categories.
+                    "
+"Allow Browsing Category","Allow Browsing Category"
+"Allow Adding to Cart","Allow Adding to Cart"
+"Landing Page","Landing Page"
+"Disallow Catalog Search By","Disallow Catalog Search By"
 "Catalog Category Permissions","Catalog Category Permissions"
 "Indexed permissions for categories","Indexed permissions for categories"
 "Catalog Product Permissions","Catalog Product Permissions"

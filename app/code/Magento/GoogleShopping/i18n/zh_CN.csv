@@ -105,6 +105,18 @@ Germany,Germany
 Netherlands,Netherlands
 Size,Size
 Labels,Labels
+Debug,Debug
+"Account ID","Account ID"
+"Google Shopping","Google Shopping"
+"Account Login","Account Login"
+"Account Password","Account Password"
+"Account Type","Account Type"
+"Update Google Shopping Item when Product is Updated","Update Google Shopping Item when Product is Updated"
+"Verifying Meta Tag","Verifying Meta Tag"
+Destinations,Destinations
+"Google Product Search","Google Product Search"
+"Product Ads","Product Ads"
+"Commerce Search","Commerce Search"
 Australia,Australia
 "Australian Dollar","Australian Dollar"
 Brazil,Brazil

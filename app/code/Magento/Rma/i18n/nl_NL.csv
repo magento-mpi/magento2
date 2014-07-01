@@ -20,6 +20,7 @@ Delete,Verwijder
 Save,Bewaar
 Yes,ja
 Status,Status
+Enabled,Enabled
 "Sort Order","Sorteer Bestelling"
 "Save and Continue Edit","Bewaar en Ga Door met Bewerking"
 Title,Title
@@ -44,9 +45,13 @@ Properties,Kenmerken
 Dropdown,Dropdown
 Closed,gesloten
 "Product Name","Product Name"
+Country,Country
+State/Province,State/Province
 "Shipping Information","Bezorg Informatie"
 "Shipping Method",Bezorgmethode
+City,City
 "Email Address","email adres"
+"Street Address","Street Address"
 "Shipping Address",Bezorgadres
 Condition,conditie
 Weight,Gewicht
@@ -299,3 +304,29 @@ Comments,commentaren
 Questions,Vragen
 Answers,Antwoorden
 "Leave Comment","Geef Opmerking"
+"ZIP/Postal Code","ZIP/Postal Code"
+"RMA Settings","RMA Settings"
+"Enable RMA on Frontend","Enable RMA on Frontend"
+"Enable RMA on Product Level","Enable RMA on Product Level"
+"Use Store Address","Use Store Address"
+"Contact Name","Contact Name"
+"RMA Email Sender","RMA Email Sender"
+"RMA Email Template","RMA Email Template"
+"RMA Email Template for Guest","RMA Email Template for Guest"
+"Send RMA Email Copy To","Send RMA Email Copy To"
+Comma-separated,Comma-separated
+"Send RMA Email Copy Method","Send RMA Email Copy Method"
+"RMA Authorization","RMA Authorization"
+"RMA Authorization Email Sender","RMA Authorization Email Sender"
+"RMA Authorization Email Template","RMA Authorization Email Template"
+"RMA Authorization Email Template for Guest","RMA Authorization Email Template for Guest"
+"Send RMA Authorization Email Copy To","Send RMA Authorization Email Copy To"
+"Send RMA Authorization Email Copy Method","Send RMA Authorization Email Copy Method"
+"RMA Admin Comments","RMA Admin Comments"
+"RMA Comment Email Sender","RMA Comment Email Sender"
+"RMA Comment Email Template","RMA Comment Email Template"
+"RMA Comment Email Template for Guest","RMA Comment Email Template for Guest"
+"Send RMA Comment Email Copy To","Send RMA Comment Email Copy To"
+"RMA Customer Comments","RMA Customer Comments"
+"RMA Comment Email Recipient","RMA Comment Email Recipient"
+"Enabled for RMA","Enabled for RMA"

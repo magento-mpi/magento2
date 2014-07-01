@@ -18,8 +18,11 @@ N/A,"Nicht verfügbar"
 Percent,Prozent
 "Close Window","Fenster Schließen"
 "Product Name","Product Name"
+Country,Country
 "Payment Information","Payment Information"
 "Shipping Information","Shipping Information"
+City,City
+"Street Address","Street Address"
 Weight,Weight
 Contents,Contents
 Package,Package
@@ -29,7 +32,9 @@ cm,cm
 Height,Height
 Width,Width
 "No packages for request","No packages for request"
+Region/State,Region/State
 Location,Ort
+"Shipping Methods","Shipping Methods"
 "Per Order","Auf Bestellung"
 "All Allowed Countries","All Allowed Countries"
 "Specific Countries","Specific Countries"
@@ -149,3 +154,7 @@ Weight:,Gewicht:
 "Local Time",Ortszeit
 "There is no tracking available for this shipment.","Für diese Lieferung ist kein Tracking verfügbar."
 "There is no tracking available.","Tracking ist nicht verfügbar."
+"ZIP/Postal Code","ZIP/Postal Code"
+"Street Address Line 2","Street Address Line 2"
+"Shipping Settings","Shipping Settings"
+Origin,Origin

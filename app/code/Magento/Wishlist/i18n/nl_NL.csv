@@ -9,6 +9,7 @@ Edit,Bewerken
 "Remove item","Verwijder artikel"
 "Add to Cart","Aan mandje toevoegen"
 Delete,Delete
+Enabled,Enabled
 "We cannot add this item to your shopping cart.","We cannot add this item to your shopping cart."
 "* Required Fields","* Vereiste velden"
 Availability,Availability
@@ -29,8 +30,10 @@ Comment,Commentaar
 "Add Locale","Toegevoegd Vanuit"
 "Add Date","Datum Toegevoegd"
 "Days in Wish List","Days in Wish List"
+Wishlist,Wishlist
 "Wish List","Wish List"
 Message,Boodschap
+"Email Template","Email Template"
 "Remove Item","Artikel verwijderen"
 "Sharing Information","Informatie over Delen"
 "This product(s) is out of stock.","This product(s) is out of stock."
@@ -88,6 +91,13 @@ Message,Boodschap
 "Go to Wish List","Go to Wish List"
 "You have no items in your wish list.","You have no items in your wish list."
 "Are you sure you want to remove this product from your wishlist?","Weet u zeker dat u dit product wilt verwijderen van uw verlanglijstje?"
+"Email Sender","Email Sender"
+"General Options","General Options"
+"Share Options","Share Options"
+"Max Emails Allowed to be Sent","Max Emails Allowed to be Sent"
+"Email Text Length Limit","Email Text Length Limit"
+"My Wish List Link","My Wish List Link"
+"Display Wish List Summary","Display Wish List Summary"
 "No Items Found","No Items Found"
 "User description","Gebruikers beschrijving"
 "Product Details and Comment","Product Details en het Commentaar"

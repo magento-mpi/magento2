@@ -2,9 +2,11 @@ All,All
 None,None
 ID,ID
 Action,Action
+Enabled,Enabled
 "Store View","Vue du magasin"
 Catalog,Catalog
 Always,Toujours
+Priority,Priority
 Path,Chemin
 Daily,"Tous les jours"
 Weekly,"Toutes les semaines"
@@ -12,6 +14,8 @@ Monthly,"Tous les mois"
 Never,Jamais
 Generate,Générer
 Hourly,"Toutes les heures"
+"Start Time","Start Time"
+Frequency,Frequency
 "Save & Generate","Save & Generate"
 "Edit Sitemap","Éditer la sitemap"
 "New Sitemap","Nouvelle sitemap"
@@ -39,5 +43,20 @@ Yearly,"Tous les ans"
 "Please make sure that ""%1"" is writable by the web-server.","Please make sure that ""%1"" is writable by the web-server."
 "Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.","Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed."
 "Base Only","Base Only"
+"Error Email Recipient","Error Email Recipient"
+"Error Email Sender","Error Email Sender"
+"Error Email Template","Error Email Template"
+"Categories Options","Categories Options"
+"Valid values range from 0.0 to 1.0.","Valid values range from 0.0 to 1.0."
+"Products Options","Products Options"
+"Add Images into Sitemap","Add Images into Sitemap"
+"CMS Pages Options","CMS Pages Options"
+"Generation Settings","Generation Settings"
+"Sitemap File Limits","Sitemap File Limits"
+"Maximum No of URLs Per File","Maximum No of URLs Per File"
+"Maximum File Size","Maximum File Size"
+"File size in bytes.","File size in bytes."
+"Search Engine Submission Settings","Search Engine Submission Settings"
+"Enable Submission to Robots.txt","Enable Submission to Robots.txt"
 "Link for Google","Lien pour Google"
 "Last Generated","Généré pour la dernière fois"

@@ -113,6 +113,15 @@ Cancelled,Cancelado
 Subscribe,Suscribirse
 CSV,CSV
 "Excel XML","Excel XML"
+"Subscription Options","Subscription Options"
+"Allow Guest Subscription","Allow Guest Subscription"
+"Need to Confirm","Need to Confirm"
+"Confirmation Email Sender","Confirmation Email Sender"
+"Confirmation Email Template","Confirmation Email Template"
+"Success Email Sender","Success Email Sender"
+"Success Email Template","Success Email Template"
+"Unsubscription Email Sender","Unsubscription Email Sender"
+"Unsubscription Email Template","Unsubscription Email Template"
 "We found no problems.","We found no problems."
 Subscriber,Suscriptor
 "Queue Start Date","Fecha de Inicio de la Cola"
