@@ -21,6 +21,7 @@
 * GitHub requests:
   * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
   * [#544]  Performance tests not working (MAGETWO-23467)
+  * [#257]  JSON loading should follow OWASP reccomendation (MAGETWO-23729)
 * Framework improvements:
   * Covered the following Magento application components with unit tests:
       * `Customer/Model/Address.php`
