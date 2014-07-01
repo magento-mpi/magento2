@@ -74,6 +74,7 @@ class Generator
      * @param string $directory
      * @param string $outputFilename
      * @param bool $withContext
+     * @throws \UnexpectedValueException
      * @return void
      */
     public function generate($directory, $outputFilename, $withContext = false)
