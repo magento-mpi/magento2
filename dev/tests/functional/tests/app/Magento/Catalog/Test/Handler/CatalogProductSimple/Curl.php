@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
-use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
