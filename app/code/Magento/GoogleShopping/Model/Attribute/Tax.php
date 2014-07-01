@@ -32,6 +32,41 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_config;
 
     /**
+     * Tax Calculation Service
+     *
+     * @var \Magento\Tax\Service\V1\TaxCalculationService
+     */
+    protected $_taxCalculationService;
+
+    /**
+     * Quote Details Builder
+     *
+     * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder
+     */
+    protected $_quoteDetailsBuilder;
+
+    /**
+     * Quote Details Item Builder
+     *
+     * @var \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder
+     */
+    protected $_quoteDetailsItemBuilder;
+
+    /**
+     * Group Service Interface
+     *
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     */
+    protected $_groupService;
+
+    /**
+     * Default customer tax class
+     *
+     * @var int
+     */
+    protected $_defaultCustomerTaxClass;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -41,6 +76,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
+     * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
+     * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -54,11 +93,19 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
+        \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
+        \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
+        $this->_taxCalculationService = $taxCalculationService;
+        $this->_quoteDetailsBuilder = $quoteDetailsBuilder;
+        $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
+        $this->_groupService = $groupServiceInterface;
         parent::__construct(
             $context,
             $registry,
@@ -87,13 +134,17 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         }
 
         $calc = $this->_taxData->getCalculator();
-        $customerTaxClass = $calc->getDefaultCustomerTaxClass($product->getStoreId());
+
+        $customerTaxClass = $this->getDefaultCustomerTaxClass($product->getStoreId());
         $rates = $calc->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
+
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
+
         foreach ($rates as $rate) {
             if ($targetCountry == $rate['country']) {
-                $regions = $this->_parseRegions($rate['state'], $rate['postcode']);
+                //TODO: Retrieve the regions from a region_id, i.e. write getRegionsFromRegionId()
+                $regions = getRegionsFromRegionId($rate->getRegionId());
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
                     throw new \Magento\Framework\Model\Exception(
@@ -101,12 +152,61 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                     );
                 }
                 foreach ($regions as $region) {
+                    try {
+                        $product->getPriceInfo()->getAdjustment('tax');
+                        $taxIncluded = True;
+                    } catch(InvalidArgumentException $e) {
+                        $taxIncluded = False;
+                    }
+
+                    $quoteDetailsItemDataArray = [
+                        'code' => $product->getSku(),
+                        'type' => 'product',
+                        'tax_class_id' => $product->getTaxClassId(),
+                        'unit_price' => $product->getPrice(),
+                        'quantity' => $product->getQty(),
+                        'tax_included' => $taxIncluded,
+                        'short_description' => $product->getName(),
+                    ];
+
+                    $billingAddressDataArray = [
+                        'country_id' => $rate->getTaxCountryId(),
+                        'customer_id' => $customerTaxClass,
+                        'region' => $region,
+                        'postcode' => $rate->getTaxPostcode(),
+                    ];
+
+                    $shippingAddressDataArray = [
+                        'country_id' => $rate->getTaxCountryId(),
+                        'customer_id' => $customerTaxClass,
+                        'region' => $region,
+                        'postcode' => $rate->getTaxPostcode(),
+                    ];
+
+                    $quoteDetailsDataArray = [
+                        'billing_address' => $billingAddressDataArray,
+                        'shipping_address' => $shippingAddressDataArray,
+                        'customer_tax_class_id' => $customerTaxClass,
+                        'items' => [
+                            $quoteDetailsItemDataArray,
+                        ],
+                    ];
+
+                    $quoteDetailsItem = $this->_quoteDetailsBuilder
+                        ->populateWithArray($quoteDetailsDataArray)
+                        ->create();
+
+                    $priceWithTax = $this->_taxCalculationService
+                        ->calculateTax($quoteDetailsItem, $product->getStoreId());
+
+                    $taxRate = ($priceWithTax->getTaxAmount() / $priceWithTax->getSubtotal()) * 100;
+
                     $entry->addTax(
-                        array(
-                            'tax_rate' => $rate['value'] * 100,
-                            'tax_country' => empty($rate['country']) ? '*' : $rate['country'],
-                            'tax_region' => $region
-                        )
+                        [
+                            'tax_rate' => $taxRate,
+                            'tax_country' => $rate->getTaxCountryId(),
+                            'tax_region' => $region,
+                        ]
                     );
                 }
             }
@@ -248,5 +348,21 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         }
 
         return $zipPattern;
+    }
+
+    /**
+     * Fetch default customer tax class
+     *
+     * @param null|Store|string|int $store
+     * @return int
+     */
+    private function getDefaultCustomerTaxClass($store = null)
+    {
+        if (is_null($this->_defaultCustomerTaxClass)) {
+            //Not catching the exception here since default group is expected
+            $defaultCustomerGroup = $this->_groupService->getDefaultGroup($store);
+            $this->_defaultCustomerTaxClass = $defaultCustomerGroup->getTaxClassId();
+        }
+        return $this->_defaultCustomerTaxClass;
     }
 }
