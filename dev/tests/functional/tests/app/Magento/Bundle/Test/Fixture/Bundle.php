@@ -14,7 +14,6 @@ use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class Bundle
- *
  */
 class Bundle extends Product
 {
@@ -72,10 +71,10 @@ class Bundle extends Product
     {
         $options = array();
         $bundleOptions = $this->getData('fields/bundle_selections/value');
-        foreach ($bundleOptions as $optionData) {
-            $optionName = $optionData['title']['value'];
+        foreach ($bundleOptions['bundle_options'] as $optionData) {
+            $optionName = $optionData['title'];
             foreach ($optionData['assigned_products'] as $productData) {
-                $options[$optionName] = $productData['search_data']['name'];
+                $options[$optionName][] = $productData['search_data']['name'];
             }
         }
         return $options;
