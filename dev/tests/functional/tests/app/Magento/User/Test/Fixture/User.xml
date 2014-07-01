@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\User\Test\Fixture\AdminUserInjectable">
+<fixture class="Magento\User\Test\Fixture\User">
     <module>Magento_User</module>
     <type>flat</type>
     <entity_type>admin_user</entity_type>
@@ -129,13 +129,13 @@
             <attribute_code>role_id</attribute_code>
             <backend_type>virtual</backend_type>
             <group>user-role</group>
-            <source>Magento\User\Test\Fixture\AdminUserInjectable\RoleId</source>
+            <source>Magento\User\Test\Fixture\User\RoleId</source>
         </role_id>
         <password_confirmation>
             <attribute_code>password_confirmation</attribute_code>
             <backend_type>virtual</backend_type>
         </password_confirmation>
     </fields>
-    <repository_class>Magento\User\Test\Repository\AdminUserInjectable</repository_class>
-    <handler_interface>Magento\User\Test\Handler\AdminUser\AdminUserInterface</handler_interface>
+    <repository_class>Magento\User\Test\Repository\User</repository_class>
+    <handler_interface>Magento\User\Test\Handler\User\UserInterface</handler_interface>
 </fixture>

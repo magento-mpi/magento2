@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Handler\AdminUserInjectable;
+namespace Magento\User\Test\Handler\User;
 
 use Mtf\Handler\HandlerInterface;
 
 /**
- * Interface AdminUserInterface
+ * Interface UserInterface
  */
-interface AdminUserInterface extends HandlerInterface
+interface UserInterface extends HandlerInterface
 {
     //
 }

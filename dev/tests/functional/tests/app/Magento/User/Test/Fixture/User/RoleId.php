@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Fixture\AdminUserInjectable;
+namespace Magento\User\Test\Fixture\User;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
@@ -52,9 +52,7 @@ class RoleId implements FixtureInterface
             }
             $this->data = $this->role->getRoleName();
         }
-        if (isset($data['role'])
-            && $data['role'] instanceof \Magento\User\Test\Fixture\AdminUserRole
-        ) {
+        if (isset($data['role']) && $data['role'] instanceof AdminUserRole) {
             $this->role = $data['role'];
             $this->data = $data['role']->getRoleName();
         }

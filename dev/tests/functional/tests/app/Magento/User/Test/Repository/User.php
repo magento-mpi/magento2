@@ -11,10 +11,10 @@ namespace Magento\User\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class AdminUserInjectable
- * Admin User Repository
+ * Class User
+ * User Repository
  */
-class AdminUserInjectable extends AbstractRepository
+class User extends AbstractRepository
 {
     /**
      * @constructor

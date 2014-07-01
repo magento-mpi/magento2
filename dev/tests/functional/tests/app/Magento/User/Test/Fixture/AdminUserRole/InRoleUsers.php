@@ -11,7 +11,7 @@ namespace Magento\User\Test\Fixture\AdminUserRole;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Magento\User\Test\Fixture\AdminUserInjectable;
+use Magento\User\Test\Fixture\User;
 
 /**
  * Class InRoleUsers
@@ -54,7 +54,7 @@ class InRoleUsers implements FixtureInterface
         if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
             $dataSets = explode(',', $data['dataSet']);
             foreach ($dataSets as $dataSet) {
-                $adminUser = $fixtureFactory->createByCode('adminUserInjectable', ['dataSet' => trim($dataSet)]);
+                $adminUser = $fixtureFactory->createByCode('user', ['dataSet' => trim($dataSet)]);
                 if (!$adminUser->hasData('user_id')) {
                     $adminUser->persist();
                 }

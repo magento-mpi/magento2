@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Handler\AdminUserInjectable;
+namespace Magento\User\Test\Handler\User;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
@@ -20,7 +20,7 @@ use Magento\Backend\Test\Handler\Extractor;
  * Class Curl
  * Creates Admin User Entity
  */
-class Curl extends AbstractCurl implements AdminUserInterface
+class Curl extends AbstractCurl implements UserInterface
 {
     /**
      * Curl creation of Admin User
@@ -31,7 +31,7 @@ class Curl extends AbstractCurl implements AdminUserInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        /** @var \Magento\User\Test\Fixture\AdminUserInjectable $fixture */
+        /** @var \Magento\User\Test\Fixture\User $fixture */
         $data = $fixture->getData();
         if ($fixture->hasData('role_id')) {
             $data['roles[]'] = $fixture->getDataFieldConfig('role_id')['source']->getRole()->getRoleId();
