@@ -27,30 +27,14 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         if ('category_ids' == $attrCode) {
             return $this->validateAttribute($object->getAvailableInCategories());
         }
-        if ('attribute_set_id' == $attrCode) {
-            return (bool)$object->hasData($attrCode);
-        }
 
         $oldAttrValue = $object->hasData($attrCode) ? $object->getData($attrCode) : null;
-        if (!empty($this->_entityAttributeValues[$object->getId()])) {
-            $object->setData($attrCode, $this->_getAttributeValue($object));
-        }
+        $this->_setAttributeValue($object);
 
-        $result = $this->_validateProduct($object);
+        $result = $this->validateAttribute($object->getData($this->getAttribute()));
         $this->_restoreOldAttrValue($object, $oldAttrValue);
 
         return (bool)$result;
-    }
-
-    /**
-     * Validate product
-     *
-     * @param \Magento\Framework\Object $object
-     * @return bool
-     */
-    protected function _validateProduct($object)
-    {
-        return $this->validateAttribute($object->getData($this->getAttribute()));
     }
 
     /**
@@ -70,22 +54,33 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     }
 
     /**
-     * Get attribute value
+     * Set attribute value
      *
      * @param \Magento\Framework\Object $object
-     * @return mixed
+     * @return $this
      */
-    protected function _getAttributeValue($object)
+    protected function _setAttributeValue($object)
     {
         $storeId = $object->getStoreId();
         $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+
+        if (!isset($this->_entityAttributeValues[$object->getId()])) {
+            return $this;
+        }
+
         $productValues  = $this->_entityAttributeValues[$object->getId()];
+
+        if (!isset($productValues[$storeId]) && !isset($productValues[$defaultStoreId])) {
+            return $this;
+        }
+
         $value = isset($productValues[$storeId]) ? $productValues[$storeId] : $productValues[$defaultStoreId];
 
         $value = $this->_prepareDatetimeValue($value, $object);
         $value = $this->_prepareMultiselectValue($value, $object);
 
-        return $value;
+        $object->setData($this->getAttribute(), $value);
+        return $this;
     }
 
     /**

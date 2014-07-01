@@ -18,14 +18,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Rule\Model\Condition\Context|\PHPUnit_Framework_MockObject_MockObject */
-    protected $contextModel;
-
-    /** @var \Magento\Backend\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
-    protected $backendHelper;
-
     /** @var \Magento\Eav\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
-    protected $configModel;
+    protected $config;
 
     /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject */
     protected $productModel;
@@ -33,24 +27,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Catalog\Model\Resource\Product|\PHPUnit_Framework_MockObject_MockObject */
     protected $productResource;
 
-    /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection|\PHPUnit_Framework_MockObject_MockObject */
-    protected $collectionModel;
-
-    /** @var \Magento\Framework\Locale\FormatInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $formatInterface;
-
-    /** @var \Magento\Framework\Object|\PHPUnit_Framework_MockObject_MockObject */
-    protected $objectModel;
-
     /** @var \Magento\Catalog\Model\Resource\Eav\Attribute|\PHPUnit_Framework_MockObject_MockObject */
     protected $eavAttributeResource;
 
     protected function setUp()
     {
-        $this->contextModel = $this->getMock('Magento\Rule\Model\Condition\Context', array(), array(), '', false);
-        $this->backendHelper = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $this->config = $this->getMock('Magento\Eav\Model\Config', array('getAttribute'),  array(), '', false);
-        $this->formatInterface = $this->getMock('Magento\Framework\Locale\FormatInterface');
         $this->productModel = $this->getMock(
             'Magento\Catalog\Model\Product',
             array(
@@ -72,13 +54,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'getAttributesByCode',
                 'getAttribute'
             ],
-            array(),
-            '',
-            false
-        );
-        $this->collectionModel = $this->getMock(
-            'Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection',
-            array(),
             array(),
             '',
             false
@@ -117,13 +92,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->product = $this->objectManagerHelper->getObject(
             'Magento\CatalogRule\Model\Rule\Condition\Product',
             array(
-                'context' => $this->contextModel,
-                'backendData' => $this->backendHelper,
                 'config' => $this->config,
                 'product' => $this->productModel,
-                'productResource' => $this->productResource,
-                'attrSetCollection' => $this->collectionModel,
-                'localeFormat' => $this->formatInterface,
+                'productResource' => $this->productResource
             )
         );
     }
@@ -136,15 +107,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->productModel->expects($this->once())->method('getAvailableInCategories')
             ->will($this->returnValue('2'));
-        $this->assertTrue($this->product->validate($this->productModel));
-    }
-
-    public function testValidateMeetsAttributeSet()
-    {
-        $this->product->setData('attribute', 'attribute_set_id');
-        $this->productModel->expects($this->once())->method('hasData')->with('attribute_set_id')
-            ->will($this->returnValue(true));
-
         $this->assertTrue($this->product->validate($this->productModel));
     }
 
