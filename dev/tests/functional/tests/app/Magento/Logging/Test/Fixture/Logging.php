@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Logging
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Logging extends InjectableFixture
 {

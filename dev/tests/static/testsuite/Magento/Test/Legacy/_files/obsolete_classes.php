@@ -2108,19 +2108,11 @@ return array(
         'Magento\Framework\Locale\Resolver, Magento\Framework\Locale\Currency, Magento\Framework\Locale\Format, ' .
         'Magento\Framework\Stdlib\DateTime\Timezone, Magento\Framework\Locale\Lists'
     ),
-    array(
-        'Magento\Core\Model\Locale\Hierarchy\Config\Converter',
-        'Magento\Framework\Locale\Hierarchy\Config\Converter'
-    ),
-    array(
-        'Magento\Core\Model\Locale\Hierarchy\Config\FileResolver',
-        'Magento\Framework\Locale\Hierarchy\Config\FileResolver'
-    ),
-    array('Magento\Core\Model\Locale\Hierarchy\Config\Reader', 'Magento\Framework\Locale\Hierarchy\Config\Reader'),
-    array(
-        'Magento\Core\Model\Locale\Hierarchy\Config\SchemaLocator',
-        'Magento\Framework\Locale\Hierarchy\Config\SchemaLocator'
-    ),
+    array('Magento\Framework\Locale\Hierarchy\Config\Converter', 'Magento\Framework\App\Language\Dictionary'),
+    array('Magento\Framework\Locale\Hierarchy\Config\FileResolver', 'Magento\Framework\App\Language\Dictionary'),
+    array('Magento\Framework\Locale\Hierarchy\Config\Reader', 'Magento\Framework\App\Language\Dictionary'),
+    array('Magento\Framework\Locale\Hierarchy\Config\SchemaLocator', 'Magento\Framework\App\Language\Dictionary'),
+    array('Magento\Framework\Locale\Hierarchy\Config', 'Magento\Framework\App\Language\Dictionary'),
     array('Magento\Core\Model\Locale\Config', 'Magento\Framework\Locale\Config'),
     array('Magento\Core\Model\Locale\Validator', 'Magento\Framework\Locale\Validator'),
     array('Magento\Core\Model\Date', 'Magento\Framework\Stdlib\DateTime\DateTime'),

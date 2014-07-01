@@ -523,5 +523,9 @@
             <word>{license_notice}</word>
             <path>dev/tests/functional/lib/Mtf/Util/Generate/TestCase.php</path>
         </item>
+        <item>
+            <word>Enterprise</word>
+            <path>dev/tools/Magento/Tools/Composer</path>
+        </item>
     </whitelist>
 </config>
