@@ -1,4 +1,10 @@
+* Service layer updates:
+  * Implemented API for CatalogInventory module (MAGETWO-24954)
+  * Refactored external usages of CatalogInventory module to service (MAGETWO-24933, MAGETWO-24934)
 * Fixed bugs:
+  * Fixed: Screen isn't moved automatically to invalidly filled field on "Create new Order" backend page (MAGETWO-19689)
+  * Fixed: Several configuration fields possible to edit on website scope is checkboxes "Use Default" are checked (CAPTCHA section) (MAGETWO-15247)
+  * Fixed: Not required "State/Province" fields on "Create new Order" page are marked as required (MAGETWO-17829)
   * Fixed: Incorrect Customer Model usage on session in CE modules (MAGETWO-23805)
   * Fixed: FPC is not invalidated after applying catalog price rule  (MAGETWO-24311)
   * Fixed: Admin with custom restrictions cannot create Cart/Catalog Price Rule  (MAGETWO-24420)
@@ -8,6 +14,10 @@
   * Fixed: No Layered Navigation on Advanced Search results page (MAGETWO-24864)
   * Fixed: CLONE - Export through Excel XML truncates leading zeros (MAGETWO-22699)
   * Fixed: Filter works incorrect in Layered Navigation with price type attribute (MAGETWO-24282)
+  * Fixed: Fatal Error in \Magento\Framework\ArchiveTest when bz2 extension is not installed (MAGETWO-25149)
+  * Fixed: Store Admin cannot search product by attributes filled on [STORE VIEW] level (except default store view) (MAGETWO-3385)
+  * Fixed: Filter values aren't trimmed before being used to filter results (MAGETWO-18370)
+  * Fixed: Add label for Uses per customer option (MAGETWO-24695)
 * GitHub requests:
   * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
   * [#544]  Performance tests not working (MAGETWO-23467)
@@ -48,6 +58,7 @@
   * Move authorization services using new directory format (MAGETWO-23856)
   * Move integration services using new directory format (MAGETWO-24555)
   * Update integration registration based on security consultant feedback (MAGETWO-18253)
+  * Introduced language packages with ability to inherit dictionaries (MAGETWO-24610)
 * Improve ImportExport modularity (MAGETWO-23723)
 * Created Service API for Magento_Catalog Module:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    * Created Service API for Magento_Catalog Module:
    * Implemented Product Attribute Media API(MAGETWO-23308)
