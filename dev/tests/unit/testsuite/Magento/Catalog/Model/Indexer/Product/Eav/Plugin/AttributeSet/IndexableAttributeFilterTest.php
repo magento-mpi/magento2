@@ -13,18 +13,15 @@ class IndexableAttributeFilterTest extends \PHPUnit_Framework_TestCase
     {
         $catalogResourceMock = $this->getMockBuilder('Magento\Catalog\Model\Resource\Eav\Attribute')
             ->disableOriginalConstructor()
-            ->setMethods(array('clearInstance', 'load', 'isIndexable', '__wakeup'))
+            ->setMethods(array('load', 'isIndexable', '__wakeup'))
             ->getMock();
-        $catalogResourceMock->expects($this->any())
-            ->method('clearInstance')
-            ->will($this->returnSelf());
         $catalogResourceMock->expects($this->any())
             ->method('load')
             ->will($this->returnSelf());
-        $catalogResourceMock->expects($this->at(2))
+        $catalogResourceMock->expects($this->at(1))
             ->method('isIndexable')
             ->will($this->returnValue(true));
-        $catalogResourceMock->expects($this->at(3))
+        $catalogResourceMock->expects($this->at(2))
             ->method('isIndexable')
             ->will($this->returnValue(false));
 

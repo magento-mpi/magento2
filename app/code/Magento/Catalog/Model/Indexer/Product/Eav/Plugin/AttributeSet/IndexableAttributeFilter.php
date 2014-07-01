@@ -39,10 +39,13 @@ class IndexableAttributeFilter
             /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
             foreach ($group->getAttributes() as $attribute) {
                 /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
-                $catalogResource->clearInstance()->load($attribute->getId());
+                $catalogResource->load($attribute->getId());
                 if ($catalogResource->isIndexable()) {
-                    $attribute->load($attribute->getAttributeId());
-                    $codes[] = $attribute->getAttributeCode();
+                    // Attribute requires to be cloned for new dataset to maintain attribute set changes
+                    $attributeClone = clone $attribute;
+                    $attributeClone->load($attribute->getAttributeId());
+                    $codes[] = $attributeClone->getAttributeCode();
+                    unset($attributeClone);
                 }
             }
         }

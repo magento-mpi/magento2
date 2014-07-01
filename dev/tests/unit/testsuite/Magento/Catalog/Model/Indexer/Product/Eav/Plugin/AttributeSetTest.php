@@ -41,8 +41,8 @@ class AttributeSetTest extends \PHPUnit_Framework_TestCase
             $filter
         );
 
-        $closure  = function () {
-            return null;
+        $closure  = function () use ($subjectMock) {
+            return $subjectMock;
         };
 
         $this->assertEquals(

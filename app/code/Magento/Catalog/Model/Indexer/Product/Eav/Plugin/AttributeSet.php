@@ -32,7 +32,7 @@ class AttributeSet
     }
 
     /**
-     * Reindex price for affected product
+     * Invalidate EAV indexer if attribute set has indexable attributes changes
      *
      * @param \Magento\Eav\Model\Entity\Attribute\Set $subject
      * @param callable $proceed
@@ -43,16 +43,22 @@ class AttributeSet
      */
     public function aroundSave(\Magento\Eav\Model\Entity\Attribute\Set $subject, \Closure $proceed)
     {
+        $requiresReindex = false;
         if ($subject->getId()) {
+            /** @var \Magento\Eav\Model\Entity\Attribute\Set $originalSet */
             $originalSet = clone $subject;
             $originalSet->initFromSkeleton($subject->getId());
-            $originalAttributeCodes = $this->_attributeFilter->filter($originalSet);
-            $subjectAttributeCodes = $this->_attributeFilter->filter($subject);
-            if (count(array_diff($originalAttributeCodes, $subjectAttributeCodes))) {
-                $this->_indexerEavProcessor->markIndexerAsInvalid();
-            }
+            $originalAttributeCodes = array_flip($this->_attributeFilter->filter($originalSet));
+            $subjectAttributeCodes = array_flip($this->_attributeFilter->filter($subject));
+            $requiresReindex = (bool)count(array_merge(
+                array_diff_key($subjectAttributeCodes, $originalAttributeCodes),
+                array_diff_key($originalAttributeCodes, $subjectAttributeCodes)
+            ));
         }
-        $proceed();
-        return $subject;
+        $result = $proceed();
+        if ($requiresReindex) {
+            $this->_indexerEavProcessor->markIndexerAsInvalid();
+        }
+        return $result;
     }
 }
