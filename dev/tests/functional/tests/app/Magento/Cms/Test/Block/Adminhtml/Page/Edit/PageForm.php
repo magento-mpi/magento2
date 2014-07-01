@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Block\Adminhtml\Page;
+namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
@@ -60,5 +60,23 @@ class PageForm extends FormTabs
         if (!$content->isVisible() && $toggleButton->isVisible()) {
             $toggleButton->click();
         }
+    }
+
+    /**
+     * Returns array with System Variables
+     *
+     * @return array
+     */
+    public function getSystemVariables()
+    {
+        $this->toggleEditor();
+        $this->openTab('content');
+        /** @var \Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\Content $contentTab */
+        $contentTab = $this->getTabElement('content');
+        /** @var \Magento\Cms\Test\Block\Adminhtml\Wysiwyg\Config $config */
+        $contentTab->clickInsertVariable();
+        $config = $contentTab->getWysiwygConfig();
+
+        return $config->getAllVariables();
     }
 }

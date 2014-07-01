@@ -28,7 +28,7 @@
         </fields>
     </page_information>
     <content>
-        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <class>\Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\Content</class>
         <selector>#page_tabs_content_section</selector>
         <strategy>css selector</strategy>
         <fields>
