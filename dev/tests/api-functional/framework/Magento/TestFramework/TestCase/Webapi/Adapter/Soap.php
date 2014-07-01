@@ -146,7 +146,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     {
         if (isset($serviceInfo['soap']['operation'])) {
             $soapOperation = $serviceInfo['soap']['operation'];
-        } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
+        } elseif (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
             $soapOperation = $this->_soapConfig->getSoapOperation(
                 $serviceInfo['serviceInterface'],
                 $serviceInfo['method']

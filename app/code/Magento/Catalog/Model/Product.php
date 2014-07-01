@@ -1424,9 +1424,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function getAttributeText($attributeCode)
     {
-        return $this->getResource()->getAttribute(
-            $attributeCode
-        )->getSource()->getOptionText(
+        return $this->getResource()->getAttribute($attributeCode)->getSource()->getOptionText(
             $this->getData($attributeCode)
         );
     }
