@@ -21,7 +21,7 @@ class View extends ParentView
      *
      * @var string
      */
-    protected $blockGroupedProduct = '.wrapper.table.grouped';
+    protected $groupedProductBlock = '.wrapper.table.grouped';
 
     /**
      * This member holds the class name of the tier price block.
@@ -47,7 +47,7 @@ class View extends ParentView
         return $this->blockFactory->create(
             'Magento\GroupedProduct\Test\Block\Catalog\Product\View\Type\Grouped',
             [
-                'element' => $this->_rootElement->find($this->blockGroupedProduct)
+                'element' => $this->_rootElement->find($this->groupedProductBlock)
             ]
         );
     }

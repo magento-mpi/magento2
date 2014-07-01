@@ -19,20 +19,6 @@ use Mtf\Fixture\InjectableFixture;
 class Associated implements FixtureInterface
 {
     /**
-     * Prepared dataSet data
-     *
-     * @var array
-     */
-    protected $data;
-
-    /**
-     * Data set configuration settings
-     *
-     * @var array
-     */
-    protected $params;
-
-    /**
      * Current preset
      *
      * @var string
@@ -40,14 +26,18 @@ class Associated implements FixtureInterface
     protected $currentPreset;
 
     /**
-     * Constructor
-     *
+     * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $data
-     * @param array $params [optional]
+     * @param array $params
+     * @param bool $persist
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
-    {
+    public function __construct(
+        FixtureFactory $fixtureFactory,
+        $data,
+        array $params = [],
+        $persist = false
+    ) {
         $this->params = $params;
 
         if ($data['preset']) {
@@ -55,8 +45,9 @@ class Associated implements FixtureInterface
             $this->data = $this->getPreset($this->currentPreset);
         }
 
-        if (!empty($this->data['products'])) {
-            foreach ($this->data['products'] as $key => $product) {
+        $data['products'] = explode(',', $data['products']);
+        if (!empty($data['products'])) {
+            foreach ($data['products'] as $key => $product) {
                 list($fixture, $dataSet) = explode('::', $product);
                 /** @var $productFixture InjectableFixture */
                 $productFixture = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
@@ -69,6 +60,7 @@ class Associated implements FixtureInterface
 
             $assignedProducts = & $this->data['assigned_products'];
             foreach (array_keys($assignedProducts) as $key) {
+                $assignedProducts[$key]['name'] = $this->data['products'][$key]->getName();
                 $assignedProducts[$key]['id'] = $this->data['products'][$key]->getId();
                 $assignedProducts[$key]['position'] = $key + 1;
             }
@@ -76,19 +68,24 @@ class Associated implements FixtureInterface
     }
 
     /**
-     * Persists prepared data into application
+     * Persist grouped selections products
      *
      * @return void
      */
     public function persist()
     {
-        //
+        if (isset($this->data['products'])) {
+            foreach ($this->data['products'] as $product) {
+                /** @var FixtureInterface $product */
+                $product->persist();
+            }
+        }
     }
 
     /**
      * Return prepared data set
      *
-     * @param string|null $key [optional]
+     * @param string $key [optional]
      * @return mixed
      */
     public function getData($key = null)
@@ -119,14 +116,16 @@ class Associated implements FixtureInterface
                 'assigned_products' => [
                     [
                         'id' => '%id%',
+                        'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 5
+                        'qty' => 5,
                     ],
                     [
                         'id' => '%id%',
+                        'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 6
-                    ]
+                        'qty' => 33,
+                    ],
                 ],
                 'products' => [
                     'catalogProductSimple::default',
@@ -137,26 +136,26 @@ class Associated implements FixtureInterface
                 'assigned_products' => [
                     [
                         'id' => '%id%',
+                        'name' => '%item1_virtual::getProductName%',
                         'position' => '%position%',
-                        'qty' => 5
+                        'qty' => 5,
                     ],
                     [
                         'id' => '%id%',
+                        'name' => '%item1_virtual::getProductName%',
                         'position' => '%position%',
-                        'qty' => 6
-                    ]
+                        'qty' => 3,
+                    ],
                 ],
                 'products' => [
-                    'catalogProductVirtual::default',
-                    'catalogProductVirtual::default'
+                    'catalogProductSimple::default',
+                    'catalogProductSimple::default'
                 ],
             ]
         ];
-
         if (!isset($presets[$name])) {
             return null;
         }
-
         return $presets[$name];
     }
 }

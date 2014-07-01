@@ -11,40 +11,53 @@ namespace Magento\Catalog\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogProductVirtual
- * Data for creation Catalog Product Virtual
+ * Class CatalogVirtualProduct
+ * Virtual product for precondition
  */
 class CatalogProductVirtual extends AbstractRepository
 {
     /**
-     * Constructor
+     * @param array $defaultConfig
+     * @param array $defaultData
      *
-     * @param array $defaultConfig [optional]
-     * @param array $defaultData [optional]
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
-            'status' => 'Product online',
-            'website_ids' => ['Main Website'],
-            'is_virtual' => 'Yes',
-            'url_key' => 'virtual-product%isolation%',
-            'visibility' => 'Catalog, Search',
-            'attribute_set_id' => ['dataSet' => 'default'],
-            'name' => 'Virtual product %isolation%',
-            'sku' => 'sku_virtual_product_%isolation%',
+            'sku' => 'virtual_product%isolation%',
+            'name' => 'virtual_product%isolation%',
+            'type_id' => 'virtual',
+            'attribute_set_id' => '4',
+            'price' => ['value' => 100, 'preset' => '-'],
             'quantity_and_stock_status' => [
-                'qty' => 666.0000,
+                'qty' => '1111',
                 'is_in_stock' => 'In Stock',
             ],
+        ];
+
+        $this->_data['50_dollar_product'] = [
+            'name' => 'virtual_product',
+            'sku' => 'virtual_product%isolation%',
+            'price' => ['value' => 50, 'preset' => '-'],
+            'tax_class_id' => 'Taxable Goods',
+            'quantity_and_stock_status' => [
+                'qty' => '1111',
+                'is_in_stock' => 'In Stock',
+            ],
+            'status' => 'Enabled',
+            'website_ids' =>
+                [
+                    0 => 'Main Website',
+                ],
             'stock_data' => [
                 'manage_stock' => 'Yes',
-                'original_inventory_qty' => 666.0000,
-                'qty' => 666.0000,
+                'qty' => '1111',
                 'is_in_stock' => 'In Stock',
             ],
-            'price' => ['value' => 10.00, 'preset' => '-']
+            'url_key' => 'virtual-product%isolation%',
+            'visibility' => 'Catalog, Search',
         ];
     }
 }

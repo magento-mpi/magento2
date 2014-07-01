@@ -27,7 +27,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
  * 2. Navigate to Products > Catalog.
  * 3. Start to create Grouped Product.
  * 4. Fill in data according to data set.
- * 5. Click "Add Products to Group" button and add product from "product/dataSet" column.
+ * 5. Click "Add Products to Group" button and select products'.
  * 6. Click "Add Selected Product" button
  * 7. Save the Product.
  * 8. Perform assertions.
@@ -66,7 +66,7 @@ class CreateGroupedProductEntityTest extends Injectable
     }
 
     /**
-     * Filling objects of the class
+     * Injection pages
      *
      * @param CatalogProductIndex $catalogProductIndexNewPage
      * @param CatalogProductNew $catalogProductNewPage

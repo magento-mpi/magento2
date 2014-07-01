@@ -12,13 +12,13 @@ use Mtf\Fixture\InjectableFixture;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
 use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Constraint\ConstrainPriceOnProductPageInterface;
+use Magento\Catalog\Test\Constraint\AssertPriceOnProductPageInterface;
 
 /**
- * Class AssertPriceOnGroupedProductPageAbstract
+ * Class AbstractAssertPriceOnGroupedProductPage
  * Assert that displayed price on grouped product page equals passed from fixture
  */
-abstract class AssertPriceOnGroupedProductPageAbstract extends AbstractConstraint
+abstract class AbstractAssertPriceOnGroupedProductPage extends AbstractConstraint
 {
     /**
      * Format error message
@@ -46,14 +46,14 @@ abstract class AssertPriceOnGroupedProductPageAbstract extends AbstractConstrain
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductGrouped $product
-     * @param ConstrainPriceOnProductPageInterface $object
+     * @param AssertPriceOnProductPageInterface $object
      * @param string $typePrice
      * @return bool|string
      */
-    public function processAssertPrice(
+    protected function processAssertPrice(
         CatalogProductGrouped $product,
         CatalogProductView $catalogProductView,
-        ConstrainPriceOnProductPageInterface $object,
+        AssertPriceOnProductPageInterface $object,
         $typePrice = ''
     ) {
         $catalogProductView->init($product);
@@ -61,15 +61,11 @@ abstract class AssertPriceOnGroupedProductPageAbstract extends AbstractConstrain
 
         $groupedData = $product->getGroupedData();
         /** @var InjectableFixture $subProduct */
-        foreach ($groupedData['products'] as $productIncrement => $subProduct) {
+        foreach ($groupedData['products'] as $key => $subProduct) {
             //Process assertions
             $catalogProductView->getGroupedViewBlock()
-                ->{'item' . $typePrice . 'PriceProductBlock'}(++$productIncrement);
+                ->{'item' . $typePrice . 'PriceProductBlock'}(++$key);
             $object->setErrorMessage(sprintf($this->errorMessage, $subProduct->getData('name')));
-            if($typePrice == 'Tier')
-            {
-                $object->setTierBlock($this->tierBlock);
-            }
             $object->assertPrice($subProduct, $catalogProductView, 'Grouped');
         }
     }

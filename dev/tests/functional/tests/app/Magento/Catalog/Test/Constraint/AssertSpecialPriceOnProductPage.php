@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 /**
  * Class AssertSpecialPriceOnProductPage
  */
-class AssertSpecialPriceOnProductPage extends AbstractConstraint implements ConstrainPriceOnProductPageInterface
+class AssertSpecialPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -29,7 +29,7 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint implements Cons
      *
      * @var string
      */
-    protected $errorMessage = 'Assert that displayed special price on product page NOT equals passed from fixture.';
+    protected $errorMessage = 'Assert that displayed special price on product page NOT equals to passed from fixture.';
 
     /**
      * Assert that displayed special price on product page equals passed from fixture

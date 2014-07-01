@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Constraint\AssertSpecialPriceOnProductPage;
 /**
  * Class AssertSpecialPriceOnGroupedProductPage
  */
-class AssertSpecialPriceOnGroupedProductPage extends AssertPriceOnGroupedProductPageAbstract
+class AssertSpecialPriceOnGroupedProductPage extends AbstractAssertPriceOnGroupedProductPage
 {
     /**
      * Constraint severeness
@@ -36,7 +36,7 @@ class AssertSpecialPriceOnGroupedProductPage extends AssertPriceOnGroupedProduct
      *
      * @var string
      */
-    protected $successfulMessage = 'That displayed special price on grouped product page equals passed from fixture.';
+    protected $successfulMessage = 'Special price on grouped product page equals passed from fixture.';
 
     /**
      * Assert that displayed grouped price on grouped product page equals passed from fixture

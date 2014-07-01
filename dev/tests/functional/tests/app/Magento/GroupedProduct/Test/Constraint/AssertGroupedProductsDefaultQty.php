@@ -39,18 +39,11 @@ class AssertGroupedProductsDefaultQty extends AbstractConstraint
         $groupedBlock = $groupedProductView->getGroupedViewBlock()->getGroupedProductBlock();
         $groupedProduct = $product->getData();
 
-        $preset = $groupedProduct['grouped_products']['preset'];
-        $products = $groupedProduct['grouped_products']['products'];
-        foreach ($preset['assigned_products'] as $productIncrement => $item) {
-            if (!isset($products[$productIncrement])) {
-                break;
-            }
-            /** @var InjectableFixture $fixture */
-            $fixture = $products[$productIncrement];
+        foreach ($groupedProduct['associated']['assigned_products'] as $item) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $groupedBlock->getQty($fixture->getData('id')),
+                $groupedBlock->getQty($item['id']),
                 $item['qty'],
-                'Default qty for sub product "' . $fixture->getData('name')
+                'Default qty for sub product "' . $item['name']
                 . '" in grouped product according to dataset.'
             );
         }
@@ -63,6 +56,6 @@ class AssertGroupedProductsDefaultQty extends AbstractConstraint
      */
     public function toString()
     {
-        return 'That default qty for sub products in grouped product displays accroding to dataset on product page.';
+        return 'Default qty for sub products in grouped product displays according to dataset on product page.';
     }
 }

@@ -39,13 +39,17 @@ class AssertGroupedProductForm extends AssertProductForm
         CatalogProductIndex $productGrid,
         CatalogProductEdit $productPage
     ) {
-        $filter = ['sku' => $product->getData('sku')];
+        $filter = ['sku' => $product->getSku()];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
         $fieldsForm = $productPage->getForm()->getData($product);
         $fieldsFixture = $this->prepareFixtureData($product);
-        $fieldsFixture['grouped_products'] = $this->prepareGroupedOptions($fieldsFixture['grouped_products']);
+        $fieldsFixture['associated'] = $this->prepareGroupedOptions($fieldsFixture['associated']);
 
-        \PHPUnit_Framework_Assert::assertEquals($fieldsFixture, $fieldsForm, 'Form data not equals fixture data');
+        $errors = $this->compareArray($fieldsFixture, $fieldsForm);
+        \PHPUnit_Framework_Assert::assertTrue(
+            empty($errors),
+            "These data must be equal to each other:\n" . implode("\n", $errors)
+        );
     }
 
     /**
@@ -56,20 +60,12 @@ class AssertGroupedProductForm extends AssertProductForm
      */
     protected function prepareGroupedOptions(array $fields)
     {
-        if (!isset($fields['preset'])) {
-            return $fields;
-        }
-        $preset = $fields['preset']['assigned_products'];
-        $products = $fields['products'];
-        foreach ($preset as $productIncrement => & $item) {
-            if (!isset($products[$productIncrement])) {
-                break;
-            }
-            /** @var InjectableFixture $fixture */
-            $fixture = $products[$productIncrement];
-            $item['search_data']['sku'] = $fixture->getData('sku');
+        $result = [];
+        foreach ($fields['assigned_products'] as $key => $item) {
+            $result['assigned_products'][$key]['name'] = $item['name'];
+            $result['assigned_products'][$key]['qty'] = $item['qty'];
         }
 
-        return $preset;
+        return $result;
     }
 }

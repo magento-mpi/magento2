@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Test\Block\Product\Grouped\AssociatedProducts\Search;
+namespace Magento\GroupedProduct\Test\Block\Adminhtml\Product\Grouped\AssociatedProducts\Search;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
@@ -30,8 +30,8 @@ class Grid extends GridInterface
      * @var array
      */
     protected $filters = [
-        'sku' => [
-            'selector' => '#grouped_grid_popup_filter_sku'
+        'name' => [
+            'selector' => '#grouped_grid_popup_filter_name'
         ]
     ];
 

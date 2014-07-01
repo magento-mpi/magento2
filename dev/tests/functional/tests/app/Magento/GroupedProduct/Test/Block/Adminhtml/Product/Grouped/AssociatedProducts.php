@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Test\Block\Product\Grouped;
+namespace Magento\GroupedProduct\Test\Block\Adminhtml\Product\Grouped;
 
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
@@ -22,7 +22,7 @@ class AssociatedProducts extends Tab
     /**
      * 'Create New Option' button
      *
-     * @var Element
+     * @var string
      */
     protected $addNewOption = '#grouped-product-container>button';
 
@@ -48,7 +48,7 @@ class AssociatedProducts extends Tab
     protected function getSearchGridBlock()
     {
         return $this->blockFactory->create(
-            'Magento\GroupedProduct\Test\Block\Product\Grouped\AssociatedProducts\Search\Grid',
+            'Magento\GroupedProduct\Test\Block\Adminhtml\Product\Grouped\AssociatedProducts\Search\Grid',
             ['element' => $this->_rootElement->find($this->productSearchGrid, Locator::SELECTOR_XPATH)]
         );
     }
@@ -61,7 +61,7 @@ class AssociatedProducts extends Tab
     protected function getListAssociatedProductsBlock()
     {
         return $this->blockFactory->create(
-            'Magento\GroupedProduct\Test\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts',
+            'Magento\GroupedProduct\Test\Block\Adminhtml\Product\Grouped\AssociatedProducts\ListAssociatedProducts',
             ['element' => $this->_rootElement->find($this->associatedProductsBlock)]
         );
     }
@@ -75,15 +75,15 @@ class AssociatedProducts extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $groupedProducts = $this->prepareGroupedData($fields['grouped_products']['value']);
-        foreach ($groupedProducts as $key => $groupedProduct) {
-            $element->find($this->addNewOption)->click();
-            $searchBlock = $this->getSearchGridBlock();
-            $searchBlock->searchAndSelect(['sku' => $groupedProduct['search_data']['sku']]);
-            $searchBlock->addProducts();
-            $this->getListAssociatedProductsBlock()->fillProductOptions(['qty' => $groupedProduct['qty']], ++$key);
+        if (isset($fields['associated'])) {
+            foreach ($fields['associated']['value']['assigned_products'] as $key => $groupedProduct) {
+                $element->find($this->addNewOption)->click();
+                $searchBlock = $this->getSearchGridBlock();
+                $searchBlock->searchAndSelect(['name' => $groupedProduct['name']]);
+                $searchBlock->addProducts();
+                $this->getListAssociatedProductsBlock()->fillProductOptions($groupedProduct, ($key + 1));
+            }
         }
-
         return $this;
     }
 
@@ -97,37 +97,12 @@ class AssociatedProducts extends Tab
     public function getDataFormTab($fields = null, Element $element = null)
     {
         $newFields = [];
-        $groupedProducts = $this->prepareGroupedData($fields['grouped_products']['value']);
-        foreach ($groupedProducts as $key => $groupedProduct) {
-            $newFields['grouped_products'][$key] = $this->getListAssociatedProductsBlock()
-                ->getProductOptions($groupedProduct, ($key + 1));
-        }
-
-        return $newFields;
-    }
-
-    /**
-     * Prepare array grouped products
-     *
-     * @param array $fields
-     * @return array|null
-     */
-    protected function prepareGroupedData(array $fields)
-    {
-        if (!isset($fields['preset'])) {
-            return $fields;
-        }
-        $preset = $fields['preset']['assigned_products'];
-        $products = $fields['products'];
-        foreach ($preset as $productIncrement => & $item) {
-            if (!isset($products[$productIncrement])) {
-                break;
+        if (isset($fields['associated'])) {
+            foreach ($fields['associated']['value']['assigned_products'] as $key => $groupedProduct) {
+                $newFields['associated']['assigned_products'][$key] = $this->getListAssociatedProductsBlock()
+                    ->getProductOptions($groupedProduct, ($key + 1));
             }
-            /** @var InjectableFixture $fixture */
-            $fixture = $products[$productIncrement];
-            $item['search_data']['sku'] = $fixture->getSku();
         }
-
-        return $preset;
+        return $newFields;
     }
 }

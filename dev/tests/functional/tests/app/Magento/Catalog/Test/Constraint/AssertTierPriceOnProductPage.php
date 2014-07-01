@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Block\Product\View;
 /**
  * Class AssertTierPriceOnProductPage
  */
-class AssertTierPriceOnProductPage extends AbstractConstraint implements ConstrainPriceOnProductPageInterface
+class AssertTierPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -24,13 +24,6 @@ class AssertTierPriceOnProductPage extends AbstractConstraint implements Constra
      * @var string
      */
     protected $severeness = 'low';
-
-    /**
-     * Tier price block
-     *
-     * @var string
-     */
-    protected $tierBlock = '.prices.tier.items';
 
     /**
      * Error message
@@ -75,17 +68,6 @@ class AssertTierPriceOnProductPage extends AbstractConstraint implements Constra
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
-    }
-
-    /**
-     * Set $tierBlock selector
-     *
-     * @param string $tierBlock
-     * @return void
-     */
-    public function setTierBlock($tierBlock)
-    {
-        $this->tierBlock = $tierBlock;
     }
 
     /**

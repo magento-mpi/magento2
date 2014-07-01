@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Constraint\AssertTierPriceOnProductPage;
 /**
  * Class AssertTierPriceOnGroupedProductPage
  */
-class AssertTierPriceOnGroupedProductPage extends AssertPriceOnGroupedProductPageAbstract
+class AssertTierPriceOnGroupedProductPage extends AbstractAssertPriceOnGroupedProductPage
 {
     /**
      * Constraint severeness
@@ -29,7 +29,7 @@ class AssertTierPriceOnGroupedProductPage extends AssertPriceOnGroupedProductPag
      *
      * @var string
      */
-    protected $tierBlock = '#super-product-table tr:nth-child(%d) .prices.tier.items';
+    //protected $tierBlock = '#super-product-table tr:nth-child(%d) .prices.tier.items';
 
     /**
      * Format error message
@@ -50,14 +50,14 @@ class AssertTierPriceOnGroupedProductPage extends AssertPriceOnGroupedProductPag
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductGrouped $product
-     * @param AssertTierPriceOnProductPage $specialPrice
+     * @param AssertTierPriceOnProductPage $tierPrice
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CatalogProductGrouped $product,
-        AssertTierPriceOnProductPage $specialPrice
+        AssertTierPriceOnProductPage $tierPrice
     ) {
-        $this->processAssertPrice($product, $catalogProductView, $specialPrice, 'Tier');
+        $this->processAssertPrice($product, $catalogProductView, $tierPrice, 'Tier');
     }
 }

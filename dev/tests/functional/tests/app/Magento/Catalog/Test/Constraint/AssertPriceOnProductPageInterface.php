@@ -12,10 +12,10 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * interface ConstrainPriceOnProductPageInterface
+ * Interface AssertPriceOnProductPageInterface
  * Interface for Constraints price on product page classes
  */
-interface ConstrainPriceOnProductPageInterface
+interface AssertPriceOnProductPageInterface
 {
     /**
      * Verify product price on product view page

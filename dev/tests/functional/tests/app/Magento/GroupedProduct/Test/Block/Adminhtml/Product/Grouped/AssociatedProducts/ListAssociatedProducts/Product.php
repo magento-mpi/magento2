@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Test\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts;
+namespace Magento\GroupedProduct\Test\Block\Adminhtml\Product\Grouped\AssociatedProducts\ListAssociatedProducts;
 
 use Mtf\Block\Form;
 
@@ -36,9 +36,9 @@ class Product extends Form
      */
     public function getOption(array $fields)
     {
-        $mapping = $this->dataMapping(['qty' => $fields['qty'], 'sku' => $fields['search_data']['sku']]);
-        $newFields = $this->_getData(['qty' => $mapping['qty']]);
-        $newFields['search_data']['sku'] = $this->_rootElement->find($mapping['sku']['selector'])->getText();
+        $mapping = $this->dataMapping($fields);
+        $newFields = $this->_getData($mapping);
+        $newFields['name'] = $this->_rootElement->find('td.col-name')->getText();
         return $newFields;
     }
 }

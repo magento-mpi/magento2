@@ -12,12 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
-=======
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
-use Mtf\Fixture\FixtureFactory;
-use Mtf\Fixture\InjectableFixture;
->>>>>>> 56b78c3768a99f1f66992c2d7b8abfd74764f4f0
 use Mtf\Repository\RepositoryFactory;
 use Mtf\System\Event\EventManagerInterface;
 
@@ -89,7 +83,6 @@ class CatalogProductGrouped extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'GroupedProduct_%isolation%',
         'sku' => 'GroupedProduct_%isolation%',
-        'price' => '100',
         'tax_class' => 'Taxable Goods',
         'description' => 'This is description for grouped product',
         'short_description' => 'This is short description for grouped product',
@@ -105,6 +98,7 @@ class CatalogProductGrouped extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $country_of_manufacture = [
@@ -610,11 +604,6 @@ class CatalogProductGrouped extends InjectableFixture
         return $this->getData('short_description');
     }
 
-    public function getPrice()
-    {
-        return $this->getData('price');
-    }
-
     public function getSpecialPrice()
     {
         return $this->getData('special_price');
@@ -635,7 +624,7 @@ class CatalogProductGrouped extends InjectableFixture
         return $this->getData('sku');
     }
 
-    public function getAssociated()
+    public function getGroupedData()
     {
         return $this->getData('associated');
     }

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Test\Block\Product\Grouped\AssociatedProducts;
+namespace Magento\GroupedProduct\Test\Block\Adminhtml\Product\Grouped\AssociatedProducts;
 
 use Mtf\Block\Form;
 use Mtf\Client\Element;
@@ -19,7 +19,7 @@ use Mtf\Client\Element\Locator;
 class ListAssociatedProducts extends Form
 {
     /**
-     *Selector with item product
+     * Selector with item product
      *
      * @var string
      */
@@ -33,8 +33,10 @@ class ListAssociatedProducts extends Form
      */
     private function getProductBlock($index)
     {
+        $className = 'Magento\GroupedProduct\Test\Block\Adminhtml\Product\\' .
+            'Grouped\AssociatedProducts\ListAssociatedProducts\Product';
         return $this->blockFactory->create(
-            'Magento\GroupedProduct\Test\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts\Product',
+            $className,
             ['element' => $this->_rootElement->find(sprintf($this->itemProduct, $index), Locator::SELECTOR_XPATH)]
         );
     }
