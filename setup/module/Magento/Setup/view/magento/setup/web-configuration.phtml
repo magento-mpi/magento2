@@ -1,8 +1,115 @@
+<style>
+    .step-controls {
+        padding: 10px;
+        margin: 20px;
+        text-align: right;
+    }
+    .advanced-opt > div {
+        padding: 20px;
+    }
+    .advanced-opt-label {
+        float: left;
+        width: 20%;
+    }
+    .advanced-opt-content {
+        display: inline-block;
+        width: 80%;
+    }
+    .web-conf-control {
+        width: 200px;
+        display: inline;
+        margin-left: 20px;
+    }
+    .web-conf-label {
+        width: 200px;
+    }
+</style>
+
+<div class="step-controls">
+    <a href="#" class="btn btn-default" ng-click="$state.forceReload()">Try Again</a>
+    <a href="#" class="btn btn-default" ng-click="nextState()">Next</a>
+</div>
+
 <div class="page-header">
     <h1>{{$state.current.header}}</h1>
 </div>
 
-<div class="bs-callout bs-callout-danger">
-    <h4>This step doesn't work</h4>
-    <p>More information about that here. Some bad code <code>new ServiceLayer()</code>. Yeah it's sadly</p>
+<div ng-controller="webConfigurationController">
+    <form role="form">
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label class="control-label web-conf-label" for="">Your Store Address *</label>
+                    <input type="text" class="form-control web-conf-control" ng-model="webAddress.value" ng-focus="showHint(webAddress)" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label web-conf-label" for="">Magento Admin Address *</label>
+                    <span>{{webAddress.value}}</span><input type="text" class="form-control web-conf-control" ng-model="adminAddress" />
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div ng-show="webAddress.hint">
+                    <p>Enter the base URL that brings shoppers to your store (Ex. http://example.com/).</p>
+                    <p>We recommend not using your actual IP address when your store goes live, otherwise all your shoppers will see it.</p>
+                    <p><a href="#">Detect IP Address</a></p>
+                </div>
+                <div ng-show="encryptionKey.hint">
+                    <p>Key to encrypt sensitive data such as passwords and personally identifiable customer informaton in the Magento database. The encryption key is stored in [your Magento install dir]/app/etc/local.xml/</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div>
+            <a href="#" ng-click="updateOnExpand()">Advanced Options</a>
+            <span class="caret"></span>
+            <div ng-show="expanded">
+
+                <div class="advanced-opt-label">HTTPS Options</div>
+                <div class="advanced-opt-content">
+                    <div class="checkbox">
+                        <label for="">Use HTTPS for Magento Storefront</label>
+                        <input type="checkbox" ng-model="httpsOptions.storefront" />
+                    </div>
+                    <div class="checkbox">
+                        <label for="">Use HTTPS for Magento Admin</label>
+                        <input type="checkbox" ng-model="httpsOptions.admin" />
+                    </div>
+                </div>
+
+                <div class="advanced-opt-label">Apache Rewrites</div>
+                <div class="advanced-opt-content">
+                    <div class="checkbox">
+                        <label for="">Use Web Server Apache Rewrites</label>
+                        <input type="checkbox" ng-model="rewrites.allowed" />
+                    </div>
+                </div>
+
+                <div class="advanced-opt-label">Encryption Key*</div>
+                {{encryptionKey.type}}
+                <div class="advanced-opt-content">
+                    <div class="radio">
+                        <label for="">I want to use a Magento generated key.</label>
+                        <input type="radio" id="encryptionKeyMagento" value="magento" ng-model="encryptionKey.type" value="magento" />
+                    </div>
+                    <div class="radio">
+                        <label for="">I want to use my own encryption key.</label>
+                        <input type="radio" id="encryptionKeyOwn" ng-model="encryptionKey.type" value="customer" />
+                    </div>
+                    <div ng-show="showEncryptionKey()">
+                        <input type="text" class="form-control web-conf-control" ng-model="encryptionKey.value" ng-focus="showHint(encryptionKey)" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<div class="step-controls">
+    <a href="#" class="btn btn-default" ng-click="$state.forceReload()">Try Again</a>
+    <a href="#" class="btn btn-default" ng-click="nextState()">Next</a>
 </div>

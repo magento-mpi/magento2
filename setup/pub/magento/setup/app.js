@@ -7,7 +7,42 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
         console.log('addDatabaseController');
     }])
     .controller('webConfigurationController', ['$scope', function ($scope) {
-        console.log('webConfigurationController');
+
+        $scope.webAddress = {
+            value: 'http://www.example.com/',
+            hint: false
+        };
+
+        $scope.adminAddress = '';
+
+        $scope.httpsOptions = {
+            storefront: true,
+            admin: true
+        };
+
+        $scope.rewrites = {
+            allowed: true
+        };
+
+        $scope.encryptionKey = {
+            value: '',
+            type: 'magento',
+            hint: false
+        };
+
+        $scope.expanded = false;
+
+        $scope.updateOnExpand = function() {
+            $scope.expanded = !$scope.expanded;
+        }
+
+        $scope.showHint = function(element) {
+            element.hint = true;
+        }
+
+        $scope.showEncryptionKey = function() {
+            return angular.equals($scope.encryptionKey.type, 'customer');
+        }
     }])
     .controller('customizeYourStoreController', ['$scope', function ($scope) {
         console.log('customizeYourStoreController');
