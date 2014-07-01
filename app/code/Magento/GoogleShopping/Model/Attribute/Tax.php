@@ -179,7 +179,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
-            if ($targetCountry == $rate->getTaxCountryId()) {
+            $countryId = $rate->getCountryId();
+            $postcode = $rate->getPostcode();
+            if ($targetCountry == $countryId) {
                 $regions = $this->getRegionsByRegionId($rate->getRegionId());
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
@@ -206,17 +208,17 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                     ];
 
                     $billingAddressDataArray = [
-                        'country_id' => $rate->getTaxCountryId(),
+                        'country_id' => $countryId,
                         'customer_id' => $customerTaxClass,
                         'region' => $region,
-                        'postcode' => $rate->getTaxPostcode(),
+                        'postcode' => $postcode,
                     ];
 
                     $shippingAddressDataArray = [
-                        'country_id' => $rate->getTaxCountryId(),
+                        'country_id' => $countryId,
                         'customer_id' => $customerTaxClass,
                         'region' => $region,
-                        'postcode' => $rate->getTaxPostcode(),
+                        'postcode' => $postcode,
                     ];
 
                     $quoteDetailsDataArray = [
@@ -240,7 +242,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                     $entry->addTax(
                         [
                             'tax_rate' => $taxRate,
-                            'tax_country' => $rate->getTaxCountryId(),
+                            'tax_country' => $countryId,
                             'tax_region' => $region,
                         ]
                     );
