@@ -199,14 +199,18 @@ class ServiceArgsSerializer
      *
      * @param array|mixed $value
      * @return array
-     * @throws DeserializationException
+     * @throws \InvalidArgumentException
      */
     protected function _removeSoapItemNode($value)
     {
-        if (isset($value['item']) && is_array($value['item'])) {
-            $value = $value['item'];
+        if (isset($value['item'])) {
+            if (is_array($value['item'])) {
+                $value = $value['item'];
+            } else {
+                return [$value['item']];
+            }
         } else {
-            throw new DeserializationException('Indexed array is expected, object with "item" field is given.');
+            throw new \InvalidArgumentException('Value must be an array and must contain "item" field.');
         }
         /**
          * In case when only one Data object value is passed, it will not be wrapped into a subarray
