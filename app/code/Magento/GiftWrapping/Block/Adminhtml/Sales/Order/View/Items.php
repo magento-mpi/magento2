@@ -6,14 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\View;
 
 /**
  * Gift wrapping adminhtml block for view order items
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\View;
-
 class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {
     /**
@@ -33,8 +30,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     protected function _toHtml()
     {
-        $_item = $this->getItem();
-        if ($_item && $_item->getGwId()) {
+        if ($this->getItem() && $this->getItem()->getGwId()) {
             return parent::_toHtml();
         } else {
             return false;

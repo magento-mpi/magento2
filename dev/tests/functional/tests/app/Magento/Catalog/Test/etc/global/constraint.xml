@@ -264,6 +264,15 @@
     <assertCategoryPage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryPage>
+    <assertCategoryForAssignedProducts module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategoryForAssignedProducts>
+    <assertCategoryIsNotActive module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategoryIsNotActive>
+    <assertCategoryIsNotIncludeInMenu module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategoryIsNotIncludeInMenu>
     <assertCategorySuccessDeleteMessage module="Magento_Catalog">
         <severeness>low</severeness>
         <require>

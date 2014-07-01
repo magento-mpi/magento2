@@ -59,4 +59,7 @@
             <browser class="Mtf\Client\Browser"/>
         </require>
     </assertUrlRewriteCmsPageRedirect>
+    <assertUrlRewriteCustomRedirect module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+    </assertUrlRewriteCustomRedirect>
 </constraint>

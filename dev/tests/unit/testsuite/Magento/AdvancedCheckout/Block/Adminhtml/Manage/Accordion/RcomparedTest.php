@@ -102,7 +102,7 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
         $this->productListFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->productCollection));
 
-        $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItem')
+        $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItemService')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();

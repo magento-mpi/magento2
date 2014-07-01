@@ -33,5 +33,5 @@ class Grid extends GridInterface
      *
      * @var string
      */
-    protected $editLink = '.col-role_name';
+    protected $selectItem = '.col-assigned_user_role > input';
 }

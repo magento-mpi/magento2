@@ -121,7 +121,7 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     protected $reviewRenderer;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
