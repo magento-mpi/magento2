@@ -104,43 +104,43 @@
             }
         }
 
-        //  Customer login
-        .login-wrapper {
-            .mix-flex();
-            .block {
-                > .title {
-                    strong {
-                        .font-size(22);
-                        font-weight: @font-weight-light;
-                        margin: 0;
-                    }
-                    margin-bottom: 30px;
-                }
-                .fieldset.guest {
-                    margin-top: 20px;
-                }
-                .field {
-                    &.choice {
-                        margin-bottom: 10px;
-                    }
-                    &.note {
-                        margin-bottom: 30px;
-                    }
-                }
-                &.guest {
-                    flex-basis: 100%;
-                    .mix-flex-order(0);
-                    margin-bottom: 50px;
-                }
-                &.customer.login {
-                    flex-basis: 100%;
-                    .mix-flex-order(1);
-                }
-            }
-        }
-
         .fieldset > .field:last-of-type {
             margin-bottom: 0;
+        }
+    }
+    //  Customer login
+    .login-wrapper {
+        .mix-flex();
+        .block {
+            > .title {
+                strong {
+                    .font-size(22);
+                    font-weight: @font-weight-light;
+                    margin: 0;
+                }
+                margin-bottom: 30px;
+            }
+            .fieldset.guest {
+                margin-top: 20px;
+            }
+            .field {
+                &.choice {
+                    margin-bottom: 10px;
+                }
+                &.note {
+                    margin-bottom: 30px;
+                }
+            }
+            &.guest {
+                flex-basis: 100%;
+                .mix-flex-order(0);
+                margin-bottom: 50px;
+            }
+            &.customer.login {
+                flex-basis: 100%;
+                .mix-flex-order(1);
+                margin-bottom: 0;
+            }
         }
     }
 
@@ -336,7 +336,7 @@
 
 .opc-block-progress {
     display: none;
-    &.active {
+    &.order-review-step {
         display: block;
     }
     &:extend(.add-box-sizing all);
@@ -460,28 +460,6 @@
                 }
             }
 
-            //  Login or register
-            .login-wrapper {
-                display: block;
-                &:extend(.add-clearfix-desktop all);
-                .block {
-                    &:extend(.blocks-2columns-reverse all);
-                    margin-bottom: 0;
-                }
-                .fieldset {
-                    .field {
-                        padding: 0;
-                        width: 100%;
-                    }
-                    &.login:after {
-                        text-align: left;
-                    }
-                }
-                .field.choice:not(.persistent):before {
-                    display: none;
-                }
-            }
-
             .field {
                 &.street,
                 &.choice {
@@ -495,6 +473,28 @@
 
             .payments .field {
                 &:extend(.form-field-revert-column-1 all);
+            }
+        }
+
+        //  Login or register
+        .login-wrapper {
+            display: block;
+            &:extend(.add-clearfix-desktop all);
+            .block {
+                &:extend(.blocks-2columns-reverse all);
+                margin-bottom: 0;
+            }
+            .fieldset {
+                .field {
+                    padding: 0;
+                    width: 100%;
+                }
+                &.login:after {
+                    text-align: left;
+                }
+            }
+            .field.choice:not(.persistent):before {
+                display: none;
             }
         }
 
@@ -545,8 +545,11 @@
 
     .opc-block-progress {
         .layout-column(2, 1, @layout-column-checkout-left-width);
-        padding-right: @layout-column-main-sidebar-offset;
         &:extend(.add-box-sizing-desktop all);
+        padding-right: @layout-column-main-sidebar-offset;
         margin-top: 0;
+        &.active {
+            display: block;
+        }
     }
 }
