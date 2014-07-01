@@ -23,14 +23,14 @@ try {
         array(
             'verbose|v' => 'Detailed console logs',
             'output|o=s' => 'Generation dir. Default value ' . $generationDir,
-            'working|w=s' => 'Working directory. Default value ' . BP,
+            'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
         )
     );
     $opt->parse();
 
     $workingDir = $opt->getOption('w') ?: realpath(BP);
     if (!$workingDir || !is_dir($workingDir)) {
-        throw new Exception($opt->getOption('w') . "must be a Magento installation.");
+        throw new Exception($opt->getOption('w') . " must be a Magento code base.");
     }
 
     $generationDir = $opt->getOption('o') ?: $generationDir;
