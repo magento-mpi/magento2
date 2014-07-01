@@ -7,6 +7,8 @@
  */
 namespace Magento\GoogleShopping\Model\Attribute;
 
+use Magento\Tax\Service\V1\Data\TaxRate;
+use Magento\Tax\Service\V1\Data\TaxRule;
 /**
  * Tax attribute model
  *
@@ -67,6 +69,32 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_defaultCustomerTaxClass;
 
     /**
+     * filterBuilder
+     *
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     */
+    protected $_filterBuilder;
+
+    /**
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     */
+    protected  $_searchCriteriaBuilder;
+
+    /**
+     * TaxRuleService
+     *
+     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     */
+    protected $_taxRuleService;
+
+    /**
+     * TaxRateService
+     *
+     * @var \Magento\Tax\Service\V1\TaxRateServiceInterface
+     */
+    protected $_taxRateService;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -80,6 +108,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService
+     * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -97,6 +129,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
         \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService,
+        \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -106,6 +142,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $this->_quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->_groupService = $groupServiceInterface;
+        $this->_filterBuilder = $filterBuilder;
+        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->_taxRuleService = $taxRuleService;
+        $this->_taxRateService = $taxRateService;
         parent::__construct(
             $context,
             $registry,
@@ -125,6 +165,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Framework\Gdata\Gshopping\Entry $entry
      * @return \Magento\Framework\Gdata\Gshopping\Entry
+     * @throws \Magento\Framework\Model\Exception
      */
     public function convertAttribute($product, $entry)
     {
@@ -133,18 +174,13 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             return $entry;
         }
 
-        $calc = $this->_taxData->getCalculator();
-
         $customerTaxClass = $this->getDefaultCustomerTaxClass($product->getStoreId());
-        $rates = $calc->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
-
+        $rates = $this->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
-
         foreach ($rates as $rate) {
             if ($targetCountry == $rate['country']) {
-                //TODO: Retrieve the regions from a region_id, i.e. write getRegionsFromRegionId()
-                $regions = getRegionsFromRegionId($rate->getRegionId());
+                $regions = $this->getRegionsByRegionId($rate->getRegionId());
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
                     throw new \Magento\Framework\Model\Exception(
@@ -364,5 +400,47 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             $this->_defaultCustomerTaxClass = $defaultCustomerGroup->getTaxClassId();
         }
         return $this->_defaultCustomerTaxClass;
+    }
+
+    /**
+     * Get rates by customer and product classes
+     *
+     * @param int $customerTaxClass
+     * @param int $productTaxClass
+     * @return TaxRate[]
+     */
+    private function getRatesByCustomerAndProductTaxClasses($customerTaxClass, $productTaxClass)
+    {
+        $filters = [
+            $this->_filterBuilder->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)->setValue([$customerTaxClass])->create(),
+            $this->_filterBuilder->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)->setValue([$productTaxClass])->create(),
+
+        ];
+        $searchResults = $this->_taxRuleService->searchTaxRules(
+            $this->_searchCriteriaBuilder->addFilter($filters)->create()
+        );
+        $taxRules = $searchResults->getItems();
+        $rates = [];
+        foreach ($taxRules as $taxRule) {
+            $rateIds = $taxRule->getTaxRateIds();
+            if (!empty($rateIds)) {
+                foreach ($rateIds as $ratId) {
+                    $rates[] = $this->_taxRateService->getTaxRate($ratId);
+                }
+            }
+        }
+        return $rates;
+    }
+
+    /**
+     * Get regions by region ID
+     *
+     * @param int $regionId
+     * @return String[]
+     */
+    private function getRegionsByRegionId($regionId)
+    {
+        //TODO: Implement this function.
+        return [];
     }
 }
