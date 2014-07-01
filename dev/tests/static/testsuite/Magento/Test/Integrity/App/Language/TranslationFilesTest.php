@@ -5,155 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Integrity\Magento\I18n;
+namespace Magento\Test\Integrity\App\Language;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class TranslationFilesTest extends \PHPUnit_Framework_TestCase
+class TranslationFilesTest extends TranslationFiles
 {
-    /**
-     * @var \Magento\Framework\File\Csv
-     */
-    protected $csvParser;
-
-    /**
-     * @var string
-     */
-    protected $defaultLocale = \Magento\Tools\I18n\Code\Locale::DEFAULT_SYSTEM_LOCALE;
-
     /**
      * Context
      *
      * @var \Magento\Tools\I18n\Code\Context
      */
     protected $context;
-
-    protected function setUp()
-    {
-        $this->csvParser = new \Magento\Framework\File\Csv();
-        $this->csvParser->setDelimiter(',');
-    }
-
-    /**
-     * Checked whether all the phrases from en_US.csv file is present in all other locale csv files,
-     * and whether there is obsolete
-     *
-     * @param string $placePath
-     * @dataProvider getLocalePlacePath
-     */
-    public function testCoincidenceNonEnglishFiles($placePath)
-    {
-        $files = $this->getCsvFiles($placePath);
-
-        $failures = array();
-        if (!empty($files)) {
-            $failures = $this->checkModuleFiles($files);
-        }
-
-        $this->assertEmpty(
-            $failures,
-            $this->printMessage(
-                $failures,
-                'Found discrepancy between default locale and other locale'
-            )
-        );
-    }
-
-    /**
-     * @param string $modulePath
-     * @return string[] Array csv files array[$locale]$pathToCsvFile]
-     */
-    protected function getCsvFiles($modulePath)
-    {
-        $files = [];
-        foreach (glob("{$modulePath}/i18n/*.csv") as $file) {
-            $locale = str_replace('.csv', '', basename($file));
-            $files[$locale] = $file;
-        }
-        return $files;
-    }
-
-    /**
-     * @param string[][][] $failures Array errors in format $failures[$locale][$errorType][$message]
-     * @param string $message
-     * @return string
-     */
-    protected function printMessage($failures, $message = '')
-    {
-        $message .= "\n";
-        foreach ($failures as $locale => $localeErrors) {
-            $message .= $locale . "\n";
-            foreach ($localeErrors as $typeError => $error) {
-                $message .= "\t" . $typeError . "\n";
-                foreach ($error as $phrase) {
-                    $message .= "\t\t" . $phrase . "\n";
-                }
-            }
-        }
-        return $message;
-    }
-
-    /**
-     * DataProvider
-     *
-     * @return array
-     */
-    public function getLocalePlacePath()
-    {
-        $pathToSource = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
-        $places = array();
-        foreach (glob("{$pathToSource}/app/code/*/*", GLOB_ONLYDIR) as $modulePath) {
-            $places[basename($modulePath)] = ['placePath' => $modulePath];
-        }
-        foreach (glob("{$pathToSource}/app/design/*/*/*", GLOB_ONLYDIR) as $themePath) {
-            $placeName = basename(dirname(dirname($themePath))) . '_' . basename($themePath);
-            $places[$placeName] = ['placePath' => $themePath];
-        }
-        $places['lib_web'] = ['placePath' => "{$pathToSource}/lib/web"];
-        return $places;
-    }
-
-    /**
-     * @param string[][] $files Array csv files in format $files[$locale][$filesPath]
-     * @return array
-     */
-    protected function checkModuleFiles($files)
-    {
-        $failures = [];
-        if (!isset($files[$this->defaultLocale])) {
-            $failures[$this->defaultLocale]['missing'] = ["{$this->defaultLocale}.csv file is not found"];
-            return $failures;
-        }
-        $baseLocaleData = $this->csvParser->getDataPairs($files[$this->defaultLocale]);
-        foreach (array_keys($files) as $locale) {
-            $localeFailures = $this->comparePhrase($baseLocaleData, $this->csvParser->getDataPairs($files[$locale]));
-            if (!empty($localeFailures)) {
-                $failures[$locale] = $localeFailures;
-            }
-        }
-        return $failures;
-    }
-
-    /**
-     * @param array $baseLocaleData
-     * @param array $localeData
-     * @return array
-     */
-    protected function comparePhrase($baseLocaleData, $localeData)
-    {
-        $missing = array_diff_key($baseLocaleData, $localeData);
-        $extra = array_diff_key($localeData, $baseLocaleData);
-
-        $failures = array();
-        if (!empty($missing)) {
-            $failures['missing'] = array_keys($missing);
-        }
-        if (!empty($extra)) {
-            $failures['extra'] =  array_keys($extra);
-        }
-        return $failures;
-    }
 
     /**
      * Test default locale
