@@ -68,12 +68,12 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
         $response = $curl->read();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Product creation by curl handler was not successful! Response: $response");
+            throw new \Exception("Banner creation by curl handler was not successful! Response: $response");
         }
         $curl->close();
         preg_match("~\/id\/(\d*?)\/~", $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
-        return ['page_id' => $id];
+        return ['banner_id' => $id];
     }
 
     /**

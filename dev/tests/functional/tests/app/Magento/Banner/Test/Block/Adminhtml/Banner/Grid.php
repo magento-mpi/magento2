@@ -25,7 +25,7 @@ class Grid extends AbstractGrid
     protected $typesPath = '//td[contains(@class,"col-banner_types") and contains(.,"%s")]';
 
     /**
-     * Locator value for link in action column
+     * Locator value for banner name
      *
      * @var string
      */

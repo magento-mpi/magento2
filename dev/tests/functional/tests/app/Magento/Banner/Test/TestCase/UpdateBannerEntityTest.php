@@ -19,7 +19,7 @@ use Mtf\TestCase\Injectable;
  * Test Flow:
  *
  * Preconditions:
- * 1.Create banner
+ * 1. Banner is created
  *
  * Steps:
  * 1. Open Backend
@@ -29,7 +29,7 @@ use Mtf\TestCase\Injectable;
  * 5. Save banner
  * 6. Perform all assertions
  *
- * @group CMS_Content_(PS)
+ * @group Banner_(PS)
  * @ZephyrId MAGETWO-25639
  */
 class UpdateBannerEntityTest extends Injectable
