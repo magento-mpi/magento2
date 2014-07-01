@@ -9,6 +9,7 @@ namespace Magento\Setup\Controller\Data;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Magento\Setup\Model\FilePermissions;
 
 class FilePermissionsController extends AbstractActionController
 {
@@ -18,11 +19,20 @@ class FilePermissionsController extends AbstractActionController
     protected $jsonModel;
 
     /**
-     * @param JsonModel $jsonModel
+     * @var FilePermissions
      */
-    public function __construct(JsonModel $jsonModel)
-    {
+    protected $permissions;
+
+    /**
+     * @param JsonModel $jsonModel
+     * @param FilePermissions $permissions
+     */
+    public function __construct(
+        JsonModel $jsonModel,
+        FilePermissions $permissions
+    ) {
         $this->jsonModel = $jsonModel;
+        $this->permissions = $permissions;
     }
 
     /**
@@ -30,18 +40,8 @@ class FilePermissionsController extends AbstractActionController
      */
     public function indexAction()
     {
-        // TODO:
-
-        $required = [
-            'app/etc',
-            'pub/media',
-            'pub/media/customer',
-        ];
-
-        $current = [
-            'app/etc',
-            'pub/media',
-        ];
+        $required = $this->permissions->getRequired();
+        $current = $this->permissions->getCurrent();
 
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
         if (array_diff($required, $current)) {

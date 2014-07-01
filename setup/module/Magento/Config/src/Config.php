@@ -76,4 +76,14 @@ class Config extends ZendConfig
     {
         return $this->magento->filesystem->module;
     }
+
+    /**
+     * Retrieve the list of Magento file permissions
+     *
+     * @return mixed
+     */
+    public function getMagentoFilePermissions()
+    {
+        return $this->magento->filesystem->permissions;
+    }
 }
