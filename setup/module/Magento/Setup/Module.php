@@ -41,12 +41,22 @@ class Module implements
         // Override Zend\Mvc\View\Http\InjectTemplateListener
         // to process templates by Vendor/Module
         $injectTemplateListener = new InjectTemplateListener();
+        $translator = $application->getServiceManager()->get('translator');
+        $sharedEvents->attach(
+            'Zend\Stdlib\DispatchableInterface',
+            MvcEvent::EVENT_DISPATCH,
+            [
+                new \Magento\Setup\Model\Location($translator),
+                'onChangeLocation'
+            ]
+        );
         $sharedEvents->attach(
             'Zend\Stdlib\DispatchableInterface',
             MvcEvent::EVENT_DISPATCH,
             [$injectTemplateListener, 'injectTemplate'],
             -89
         );
+
     }
 
     /**

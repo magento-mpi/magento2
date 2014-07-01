@@ -7,6 +7,11 @@
  */
 
 return [
+    'service_manager' => [
+        'aliases' => [
+            'translator' => 'MvcTranslator',
+        ],
+    ],
     'di' => [
         'allowed_controllers' => [
             'Magento\Setup\Controller\ReadinessCheckController',
@@ -36,16 +41,7 @@ return [
             'preference' => [
                 'Zend\EventManager\EventManagerInterface' => 'EventManager',
                 'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
-            ],
-            'Magento\Setup\Controller\TestController' => [
-                'parameters' => [
-                    'resolver' => new \Magento\Config\Resolver\ByPattern(
-                            new \Magento\Config\GlobWrapper(),
-                            realpath(__DIR__ . '/../../../../../app/code'),
-                            '/*/*/sql/*/install-*.xml'
-                        ),
-                ],
-            ],
+            ]
         ],
     ],
 ];

@@ -17,7 +17,7 @@ return [
             'setup' => [
                 'type' => 'setup',
                 'options' => [
-                    'regex'    => '\b(?<controller>[\w-]+)$',
+                    'regex'    => '\b(?<lang>[\w]+).*\/(?<controller>[\w-\/]+)$',
                     'defaults' => [
                         '__NAMESPACE__' => 'Magento\Setup\Controller',
                         'action' => 'index',
