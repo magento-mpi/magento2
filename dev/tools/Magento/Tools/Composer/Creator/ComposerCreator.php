@@ -68,7 +68,7 @@ class ComposerCreator
             exec($command, $output);
             if (sizeof($output) > 0) {
                 //Failed
-                $this->_logger->error(implode(". ", $output));
+                $this->_logger->err(implode(". ", $output));
             } else {
                 //Success
                 $this->addAdditionalInfo($component);

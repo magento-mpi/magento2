@@ -19,7 +19,7 @@ Help
 Usage: archiver.php [ options ]
 --verbose|-v         Detailed console logs
 --output|-o <string> Generation dir. Default value _packages
---dir|-d <string> Working directory of build. Default current code base.
+--dir|-d <string>    Working directory of build. Default current code base.
 
 ```
 
@@ -28,6 +28,6 @@ Usage: archiver.php [ options ]
 Usage: create-skeleton.php [ options ]
 --edition|-e <string> Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]
 --verbose|-v          Detailed console logs
---dir|-d <string> Working directory of build. Default current code base.
+--dir|-d <string>     Working directory of build. Default current code base.
 
 ```

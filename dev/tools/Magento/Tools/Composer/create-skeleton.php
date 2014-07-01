@@ -27,9 +27,9 @@ try {
     );
     $opt->parse();
 
-    $workingDir = $opt->getOption('w') ?: realpath(BP);
+    $workingDir = $opt->getOption('d') ?: realpath(BP);
     if (!$workingDir || !is_dir($workingDir)) {
-        throw new Exception($opt->getOption('w') . " must be a Magento code base.");
+        throw new Exception($opt->getOption('d') . " must be a Magento code base.");
     }
 
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
