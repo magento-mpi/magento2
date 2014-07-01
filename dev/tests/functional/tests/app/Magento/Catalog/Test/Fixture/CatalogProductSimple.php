@@ -86,8 +86,10 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_set_id' => ['dataSet' => 'default'],
         'price' => ['value' => 100.00],
         'weight' => 12.0000,
-        'qty' => 10,
-        'quantity_and_stock_status' => 'In Stock',
+        'quantity_and_stock_status' => [
+            'qty' => 10.0000,
+            'is_in_stock' => 'In Stock',
+        ],
     ];
 
     protected $category_ids = [
@@ -832,11 +834,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
-    }
-
-    public function getQty()
-    {
-        return $this->getData('qty');
     }
 
     public function getCustomOptions()

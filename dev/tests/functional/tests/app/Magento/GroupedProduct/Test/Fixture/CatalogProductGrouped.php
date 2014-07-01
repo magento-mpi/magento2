@@ -12,6 +12,12 @@ use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
+=======
+use Mtf\System\Config;
+use Mtf\Handler\HandlerFactory;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
+>>>>>>> 56b78c3768a99f1f66992c2d7b8abfd74764f4f0
 use Mtf\Repository\RepositoryFactory;
 use Mtf\System\Event\EventManagerInterface;
 
@@ -125,12 +131,12 @@ class CatalogProductGrouped extends InjectableFixture
         'input' => 'select',
     ];
 
-    protected $grouped_products = [
-        'attribute_code' => 'grouped_products',
+    protected $associated = [
+        'attribute_code' => 'associated',
         'backend_type' => 'virtual',
         'is_required' => '1',
         'group' => 'grouped',
-        'source' => 'Magento\GroupedProduct\Test\Fixture\Grouped\ProductList',
+        'source' => 'Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped\Associated',
     ];
 
     protected $custom_design_from = [
@@ -449,6 +455,14 @@ class CatalogProductGrouped extends InjectableFixture
     protected $attribute_set_id = [
         'attribute_code' => 'attribute_set_id',
         'backend_type' => 'virtual',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
+    ];
+
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => 'Main Website',
     ];
 
     public function getCategoryIds()
@@ -621,9 +635,9 @@ class CatalogProductGrouped extends InjectableFixture
         return $this->getData('sku');
     }
 
-    public function getGroupedData()
+    public function getAssociated()
     {
-        return $this->getData('grouped_products');
+        return $this->getData('associated');
     }
 
     public function getSmallImage()
@@ -694,5 +708,10 @@ class CatalogProductGrouped extends InjectableFixture
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
+    }
+
+    public function getWebsiteIds()
+    {
+        return $this->getData('website_ids');
     }
 }

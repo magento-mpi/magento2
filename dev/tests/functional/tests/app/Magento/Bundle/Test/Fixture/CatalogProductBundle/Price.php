@@ -6,9 +6,8 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Test\Fixture\Bundle;
+namespace Magento\Bundle\Test\Fixture\CatalogProductBundle;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -88,27 +87,29 @@ class Price implements FixtureInterface
             'MAGETWO-23066' => [
                 'price_from' => '$115.00',
                 'price_to' => '$120.00',
-                'cart_price' => '$145.00'
+                'cart_price' => '145.00'
             ],
             'MAGETWO-23069' => [
                 'price_from' => '$115.00',
                 'price_to' => '$120.00',
-                'cart_price' => '$126.00'
+                'cart_price' => '126.00'
             ],
             'MAGETWO-23070' => [
                 'price_from' => '$40.00',
                 'price_to' => '$100.00',
-                'cart_price' => '$100.00'
+                'cart_price' => '100.00'
             ],
             'MAGETWO-23061' => [
                 'price_from' => '$32.00',
                 'price_to' => '$80.00',
-                'cart_price' => '$80.00'
+                'cart_price' => '80.00'
             ]
         ];
+
         if (!isset($presets[$this->currentPreset])) {
             return null;
         }
+
         return $presets[$this->currentPreset];
     }
 }

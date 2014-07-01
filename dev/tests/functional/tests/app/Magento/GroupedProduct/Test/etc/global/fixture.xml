@@ -12,7 +12,7 @@
         <type>eav</type>
         <entity_type>catalog_product</entity_type>
         <product_type>grouped</product_type>
-        <collection>Magento\Catalog\Model\Resource\Product\Collection</collection>
+        <collection>Magento\GroupedProduct\Model\Resource\Product\Collection</collection>
         <identifier>sku</identifier>
         <fields>
             <id>

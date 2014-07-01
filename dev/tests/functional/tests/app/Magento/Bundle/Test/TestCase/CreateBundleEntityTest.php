@@ -9,8 +9,8 @@
 namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 

@@ -10,7 +10,6 @@ namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
@@ -23,17 +22,38 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 class Curl extends AbstractCurl implements CatalogProductSimpleInterface
 {
     /**
-     * Placeholder for data sent Curl
+     * Mapping values for data.
      *
      * @var array
      */
-    protected $placeholderData = [
+    protected $mappingData = [
+        'links_purchased_separately' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
+        'is_shareable' => [
+            'Yes' => 1,
+            'No' => 0,
+            'Use config' => 2
+        ],
+        'required' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
         'manage_stock' => [
             'Yes' => 1,
             'No' => 0
         ],
         'is_virtual' => [
             'Yes' => 1
+        ],
+        'use_config_enable_qty_increments' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
+        'use_config_qty_increments' => [
+            'Yes' => 1,
+            'No' => 0
         ],
         'is_in_stock' => [
             'In Stock' => 1,
@@ -51,10 +71,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'status' => [
             'Product offline' => 2,
             'Product online' => 1
-        ],
-        'attribute_set_id' => [
-            'Default' => 4
-        ],
+        ]
     ];
 
     /**
@@ -81,9 +98,12 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     /**
      * Post request for creating simple product
      *
-     * @param FixtureInterface $fixture [optional]
+     * @param FixtureInterface|null $fixture [optional]
      * @return array
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function persist(FixtureInterface $fixture = null)
     {
@@ -119,53 +139,11 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     }
 
     /**
-     * Replace placeholder data in fixture data
-     *
-     * @param array $data
-     * @param array $placeholders
-     * @return array
-     */
-    private function replacePlaceholder(array $data, array $placeholders)
-    {
-        foreach ($data as $key => $value) {
-            if (!isset($placeholders[$key])) {
-                continue;
-            }
-            if (is_array($value)) {
-                $data[$key] = $this->replacePlaceholderValues($value, $placeholders[$key]);
-            } else {
-                $data[$key] = isset($placeholders[$key][$value]) ? $placeholders[$key][$value] : $value;
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * Replace placeholder data in fixture values
-     *
-     * @param array $data
-     * @param array $placeholders
-     * @return array
-     */
-    private function replacePlaceholderValues(array $data, array $placeholders)
-    {
-        foreach ($data as $key => $value) {
-            if (isset($placeholders[$value])) {
-                $data[$key] = $placeholders[$value];
-            }
-        }
-        return $data;
-    }
-
-    /**
      * Prepare POST data for creating product request
      *
      * @param FixtureInterface $fixture
-     * @param string|null $prefix
+     * @param string|null $prefix [optional]
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
@@ -210,9 +188,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             $fields['attribute_set_id'] = $attributeSetId;
         }
 
-        $data = $prefix ? [$prefix => $fields] : $fields;
-
-        return $data;
+        return $prefix ? [$prefix => $fields] : $fields;
     }
 
     /**
@@ -252,33 +228,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     }
 
     /**
-     * Prepare POST data for creating product request
-     *
-     * @param array $params
-     * @param string|null $prefix
-     * @return array
-     */
-    protected function _prepareData($params, $prefix = null)
-    {
-        $data = array();
-        foreach ($params as $key => $values) {
-            $value = $this->_getValue($values);
-            //do not add this data if value does not exist
-            if (null === $value) {
-                continue;
-            }
-            if (isset($values['input_name'])) {
-                $data[$values['input_name']] = $value;
-            } elseif ($prefix) {
-                $data[$prefix][$key] = $value;
-            } else {
-                $data[$key] = $value;
-            }
-        }
-        return $data;
-    }
-
-    /**
      * Create product via curl
      *
      * @param array $data
@@ -299,21 +248,8 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             throw new \Exception("Product creation by curl handler was not successful! Response: $response");
         }
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
-        return isset($matches[1]) ? $matches[1] : null;
-    }
 
-    /**
-     * Retrieve field value or return null if value does not exist
-     *
-     * @param array $values
-     * @return null|mixed
-     */
-    protected function _getValue($values)
-    {
-        if (!isset($values['value'])) {
-            return null;
-        }
-        return isset($values['input_value']) ? $values['input_value'] : $values['value'];
+        return isset($matches[1]) ? $matches[1] : null;
     }
 
     /**
@@ -322,13 +258,14 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param array $config
      * @return string
      */
-    protected function _getUrl(array $config)
+    protected function getUrl(array $config)
     {
         $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
         $params = '';
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
+
         return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/back/edit';
     }
 }
