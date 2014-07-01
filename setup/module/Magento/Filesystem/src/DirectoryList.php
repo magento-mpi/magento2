@@ -88,12 +88,12 @@ class DirectoryList
      *
      * @param string $code
      * @return array
-     * @throws \Magento\Framework\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function getConfig($code)
     {
         if (!isset($this->directories[$code])) {
-            throw new \Magento\Framework\Filesystem\FilesystemException(
+            throw new FilesystemException(
                 sprintf('The "%s" directory is not specified in configuration', $code)
             );
         }

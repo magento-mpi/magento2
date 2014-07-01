@@ -21,7 +21,7 @@ class Read implements ReadInterface
     /**
      * Filesystem driver
      *
-     * @var \Magento\Filesystem\DriverInterface
+     * @var \Magento\Filesystem\Driver\DriverInterface
      */
     protected $driver;
 

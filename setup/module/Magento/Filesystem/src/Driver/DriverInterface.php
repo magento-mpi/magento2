@@ -17,7 +17,7 @@ interface DriverInterface
     /**
      * @param string $path
      * @return bool
-     * @throws FilesystemException
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function isExists($path);
 
