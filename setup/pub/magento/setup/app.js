@@ -50,14 +50,22 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
     .controller('createAdminAccountController', ['$scope', function ($scope) {
         console.log('createAdminAccountController');
     }])
-    .controller('landingController', ['$scope', 'languageService', function ($scope, languageService) {
-        $scope.selectLanguage = function (data) {
-            console.log(data);
+    .controller('landingController', ['$scope', '$location', 'languageService', function ($scope, $location, languageService) {
+        $scope.selectLanguage = function () {
+            window.location = '/setup/' + $scope.modelLanguage.code + '/index';
         };
         languageService.load(function (response) {
             $scope.languages = response.data.languages;
+            var indexOf = $location.absUrl().search('setup/') + 6;
+            var value = $location.absUrl().slice(indexOf, indexOf + 5);
+            $scope.languages.forEach(function (lang, index) {
+                if (lang.code == value) {
+                    $scope.modelLanguage = $scope.languages[index];
+                }
+            });
+
         });
-        $scope.currentLanguage = {code: 'en_US', title: 'United State'};
+
     }])
     .controller('installController', ['$scope', function ($scope) {
         console.log('installController');

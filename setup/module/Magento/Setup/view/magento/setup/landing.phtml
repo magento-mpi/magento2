@@ -11,8 +11,8 @@
     <br/>
     <br/>
     <label><?php echo $this->translate('Choose a language:'); ?></label>
-    <select style="width: 250px; margin: 0 auto;" class="form-control"
-            ng-model="language" ng-options="language.title for language in languages">
+    <select ng-change="selectLanguage()" style="width: 250px; margin: 0 auto;" class="form-control"
+            ng-model="modelLanguage" ng-options="language.title for language in languages track by language.code">
     </select>
     <br/>
     <br/>
