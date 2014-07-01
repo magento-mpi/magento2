@@ -5,9 +5,9 @@
 </div>
 
 <div ng-show="$state.is('root.readiness-check')" >
-    <p>Let's check your environment for the corrent PHP version, PHP extensions, file permissions and compatibility.</p>
+    <p><?php echo $this->translate('Let\'s check your environment for the corrent PHP version, PHP extensions, file permissions and compatibility.'); ?></p>
     <div>
-        <a href="#" ng-click="$state.go('.progress')" class="btn btn-default">Start Readiness Check</a>
+        <a href="#" ng-click="$state.go('.progress')" class="btn btn-default"><?php echo $this->translate('Start Readiness Check'); ?></a>
     </div>
 </div>
 

@@ -31,6 +31,10 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
+        if (!$this->params()->fromRoute('lang')) {
+            $this->redirect()->toUrl('en_US/index');
+        }
+
         return $this->view;
     }
 }
