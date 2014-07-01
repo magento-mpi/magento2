@@ -1,4 +1,3 @@
-<<<<<<< Temporary merge branch 1
 * i18n Improvements:
   * Improved verbosity of i18n CLI Tools (MAGETWO-15484)
   * Remove Unused Helpers After i18n Improvements (MAGETWO-14865)
