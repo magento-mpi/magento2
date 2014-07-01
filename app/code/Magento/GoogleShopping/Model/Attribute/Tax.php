@@ -7,6 +7,8 @@
  */
 namespace Magento\GoogleShopping\Model\Attribute;
 
+use Magento\Tax\Service\V1\Data\TaxRate;
+use Magento\Tax\Service\V1\Data\TaxRule;
 /**
  * Tax attribute model
  *
@@ -32,6 +34,32 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_config;
 
     /**
+     * filterBuilder
+     *
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     */
+    protected $_filterBuilder;
+
+   /**
+    * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+    */
+    protected  $_searchCriteriaBuilder;
+
+    /**
+     * TaxRuleService
+     *
+     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     */
+    protected $_taxRuleService;
+
+    /**
+     * TaxRateService
+     *
+     * @var \Magento\Tax\Service\V1\TaxRateServiceInterface
+     */
+    protected $_taxRateService;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -41,6 +69,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService
+     * @param    \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -54,11 +86,19 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService,
+        \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
+        $this->_filterBuilder = $filterBuilder;
+        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->_taxRuleService = $taxRuleService;
+        $this->_taxRateService = $taxRateService;
         parent::__construct(
             $context,
             $registry,
@@ -78,6 +118,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Framework\Gdata\Gshopping\Entry $entry
      * @return \Magento\Framework\Gdata\Gshopping\Entry
+     * @throws \Magento\Framework\Model\Exception
      */
     public function convertAttribute($product, $entry)
     {
@@ -248,5 +289,35 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         }
 
         return $zipPattern;
+    }
+
+    /**
+     * Get rates by customer and product classes
+     *
+     * @param int $customerTaxClass
+     * @param int $productTaxClass
+     * @return TaxRate[]
+     */
+    private function getRatesByCustomerAndProductTaxClasses($customerTaxClass, $productTaxClass)
+    {
+        $filters = [
+            $this->_filterBuilder->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)->setValue([$customerTaxClass])->create(),
+            $this->_filterBuilder->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)->setValue([$productTaxClass])->create(),
+
+        ];
+        $searchResults = $this->_taxRuleService->searchTaxRules(
+            $this->_searchCriteriaBuilder->addFilter($filters)->create()
+        );
+        $taxRules = $searchResults->getItems();
+        $rates = [];
+        foreach ($taxRules as $taxRule) {
+            $rateIds = $taxRule->getTaxRateIds();
+            if (!empty($rateIds)) {
+                foreach ($rateIds as $ratId) {
+                    $rates[] = $this->_taxRateService->getTaxRate($ratId);
+                }
+            }
+        }
+        return $rates;
     }
 }
