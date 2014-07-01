@@ -89,19 +89,19 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
         return [
             $this->getCase(
                 [
-                    ['id' => 42,'is_customer_notified' => true]
+                    ['id' => 42, 'is_customer_notified' => true]
                 ]
             ),
             $this->getCase(
                 [
-                    ['id' => 1,'is_customer_notified' => false],
-                    ['id' => 42,'is_customer_notified' => true]
+                    ['id' => 1, 'is_customer_notified' => false],
+                    ['id' => 42, 'is_customer_notified' => true]
                 ]
             ),
             $this->getCase(
                 [
-                    ['id' => 1,'is_customer_notified' => false],
-                    ['id' => 42,'is_customer_notified' => true]
+                    ['id' => 1, 'is_customer_notified' => false],
+                    ['id' => 42, 'is_customer_notified' => true]
                 ],
                 [
                     [

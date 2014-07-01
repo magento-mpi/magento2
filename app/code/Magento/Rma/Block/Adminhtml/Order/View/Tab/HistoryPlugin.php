@@ -71,4 +71,4 @@ class HistoryPlugin
         usort($history, [get_class($subject), 'sortHistoryByTimestamp']);
         return $history;
     }
-} 
+}

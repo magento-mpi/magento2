@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items;
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab;
 
 /**
  * Class GridTest

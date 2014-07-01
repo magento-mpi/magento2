@@ -13,6 +13,8 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 /**
  * Class HistoryTest
  * @package Magento\Rma\Model\Rma\Status
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class HistoryTest extends \PHPUnit_Framework_TestCase
 {

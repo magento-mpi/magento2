@@ -74,6 +74,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
+     * @param \Magento\Rma\Model\Item $rmaItem
      * @param array $data
      */
     public function __construct(

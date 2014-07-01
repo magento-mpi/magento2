@@ -76,6 +76,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param string $state
+     * @return void
      * @throws Exception
      */
     protected function validateBeforeUnassign($state)
@@ -99,7 +100,8 @@ class Status extends \Magento\Framework\Model\AbstractModel
     {
         $this->validateBeforeUnassign($state);
         $this->getResource()->unassignState($this->getStatus(), $state);
-        $this->_eventManager->dispatch('sales_order_status_unassign',
+        $this->_eventManager->dispatch(
+            'sales_order_status_unassign',
             [
                 'status' => $this->getStatus(),
                 'state' => $state

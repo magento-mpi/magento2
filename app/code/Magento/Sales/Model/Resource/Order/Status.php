@@ -41,6 +41,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Class constructor
      *
      * @param \Magento\Framework\App\Resource $resource
+     * @param Logger $logger
      */
     public function __construct(
         Resource $resource,
@@ -246,6 +247,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Check is this pair of state and status default
      *
+     * @param string $state
      * @param string $status
      * @return bool
      */
@@ -270,11 +272,11 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function getStatusByState($state)
     {
         return (string)$this->_getWriteAdapter()->fetchOne(
-        $select = $this->_getWriteAdapter()->select()
-            ->from(['sss' => $this->stateTable, []])
-            ->where('state = ?', $state)
-            ->limit(1)
-            ->columns(['status'])
+            $select = $this->_getWriteAdapter()->select()
+                ->from(['sss' => $this->stateTable, []])
+                ->where('state = ?', $state)
+                ->limit(1)
+                ->columns(['status'])
         );
     }
 }

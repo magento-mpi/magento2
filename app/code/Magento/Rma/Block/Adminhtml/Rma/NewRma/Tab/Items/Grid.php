@@ -53,6 +53,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Rma\Model\Item $rmaItem
      * @param array $data
      */
     public function __construct(

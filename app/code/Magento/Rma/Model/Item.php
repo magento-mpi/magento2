@@ -330,6 +330,8 @@ class Item extends \Magento\Framework\Model\AbstractModel
     /**
      * Returns remaining qty of shipped items
      *
+     * @param null $orderId
+     * @param null $orderItemId
      * @return float
      */
     public function getReturnableQty($orderId = null, $orderItemId = null)
