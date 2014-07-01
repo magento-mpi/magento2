@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Convert;
+
 /**
  * Quote data convert model
  */
-namespace Magento\Sales\Model\Convert;
-
 class Quote extends \Magento\Framework\Object
 {
     /**
@@ -18,7 +18,7 @@ class Quote extends \Magento\Framework\Object
      *
      * @var \Magento\Framework\Event\ManagerInterface
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -85,18 +85,11 @@ class Quote extends \Magento\Framework\Object
             $order = $this->_orderFactory->create();
         }
         /* @var $order \Magento\Sales\Model\Order */
-
-        $order->setIncrementId(
-            $quote->getReservedOrderId()
-        )->setStoreId(
-            $quote->getStoreId()
-        )->setQuoteId(
-            $quote->getId()
-        )->setQuote(
-            $quote
-        )->setCustomer(
-            $quote->getCustomer()
-        );
+        $order->setIncrementId($quote->getReservedOrderId())
+            ->setStoreId($quote->getStoreId())
+            ->setQuoteId($quote->getId())
+            ->setQuote($quote)
+            ->setCustomer($quote->getCustomer());
 
         $this->_objectCopyService->copyFieldsetToTarget('sales_convert_quote', 'to_order', $quote, $order);
         $this->_eventManager->dispatch('sales_convert_quote_to_order', array('order' => $order, 'quote' => $quote));
@@ -133,15 +126,11 @@ class Quote extends \Magento\Framework\Object
      */
     public function addressToOrderAddress(\Magento\Sales\Model\Quote\Address $address)
     {
-        $orderAddress = $this->_orderAddressFactory->create()->setStoreId(
-            $address->getStoreId()
-        )->setAddressType(
-            $address->getAddressType()
-        )->setCustomerId(
-            $address->getCustomerId()
-        )->setCustomerAddressId(
-            $address->getCustomerAddressId()
-        );
+        $orderAddress = $this->_orderAddressFactory->create()
+            ->setStoreId($address->getStoreId())
+            ->setAddressType($address->getAddressType())
+            ->setCustomerId($address->getCustomerId())
+            ->setCustomerAddressId($address->getCustomerAddressId());
 
         $this->_objectCopyService->copyFieldsetToTarget(
             'sales_convert_quote_address',
@@ -192,23 +181,15 @@ class Quote extends \Magento\Framework\Object
      */
     public function itemToOrderItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
-        $orderItem = $this->_orderItemFactory->create()->setStoreId(
-            $item->getStoreId()
-        )->setQuoteItemId(
-            $item->getId()
-        )->setQuoteParentItemId(
-            $item->getParentItemId()
-        )->setProductId(
-            $item->getProductId()
-        )->setProductType(
-            $item->getProductType()
-        )->setQtyBackordered(
-            $item->getBackorders()
-        )->setProduct(
-            $item->getProduct()
-        )->setBaseOriginalPrice(
-            $item->getBaseOriginalPrice()
-        );
+        $orderItem = $this->_orderItemFactory->create()
+            ->setStoreId($item->getStoreId())
+            ->setQuoteItemId($item->getId())
+            ->setQuoteParentItemId($item->getParentItemId())
+            ->setProductId($item->getProductId())
+            ->setProductType($item->getProductType())
+            ->setQtyBackordered($item->getBackorders())
+            ->setProduct($item->getProduct())
+            ->setBaseOriginalPrice($item->getBaseOriginalPrice());
 
         $options = $item->getProductOrderOptions();
         if (!$options) {

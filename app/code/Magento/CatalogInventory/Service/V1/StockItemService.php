@@ -7,10 +7,13 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
+use Magento\Catalog\Service\V1\Product\ProductLoader;
+use Magento\Framework\Exception\NoSuchEntityException;
+
 /**
  * Stock item service
  */
-class StockItem implements StockItemInterface
+class StockItemService implements StockItemServiceInterface
 {
     /**
      * @var \Magento\CatalogInventory\Model\Stock\ItemRegistry
@@ -35,18 +38,26 @@ class StockItem implements StockItemInterface
     protected $stockItemBuilder;
 
     /**
+     * @var ProductLoader
+     */
+    protected $productLoader;
+
+    /**
      * @param \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      * @param Data\StockItemBuilder $stockItemBuilder
+     * @param ProductLoader $productLoader
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
-        Data\StockItemBuilder $stockItemBuilder
+        Data\StockItemBuilder $stockItemBuilder,
+        ProductLoader $productLoader
     ) {
         $this->stockItemRegistry = $stockItemRegistry;
         $this->config = $config;
         $this->stockItemBuilder = $stockItemBuilder;
+        $this->productLoader = $productLoader;
     }
 
     /**
@@ -61,6 +72,22 @@ class StockItem implements StockItemInterface
     }
 
     /**
+     * @param string $productSku
+     * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getStockItemBySku($productSku)
+    {
+        $product = $this->productLoader->load($productSku);
+        if (!$product->getId()) {
+            throw new NoSuchEntityException("Product with SKU \"{$productSku}\" does not exist");
+        }
+        $stockItem = $this->stockItemRegistry->retrieve($product->getId());
+        $this->stockItemBuilder->populateWithArray($stockItem->getData());
+        return $this->stockItemBuilder->create();
+    }
+
+    /**
      * @param \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo
      * @return $this
      */
@@ -69,51 +96,30 @@ class StockItem implements StockItemInterface
         $stockItem = $this->stockItemRegistry->retrieve($stockItemDo->getProductId());
         $stockItem->setData($stockItemDo->__toArray());
         $stockItem->save();
+        $this->stockItemRegistry->erase($stockItemDo->getProductId());
         return $this;
     }
 
     /**
-     * @param int $productId
-     * @param int $qty
-     * @return $this
+     * @param string $productSku
+     * @param \Magento\CatalogInventory\Service\V1\Data\StockItemDetails $stockItemDetailsDo
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function subtractQty($productId, $qty)
+    public function saveStockItemBySku($productSku, Data\StockItemDetails $stockItemDetailsDo)
     {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        $stockItem->subtractQty($qty);
-        return $this;
-    }
+        $product = $this->productLoader->load($productSku);
+        if (!$product->getId()) {
+            throw new NoSuchEntityException("Product with SKU \"{$productSku}\" does not exist");
+        }
 
-    /**
-     * @param int $productId
-     * @return bool
-     */
-    public function canSubtractQty($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->canSubtractQty();
-    }
-
-    /**
-     * @param int $productId
-     * @param int $qty
-     * @return $this
-     */
-    public function addQty($productId, $qty)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        $stockItem->addQty($qty);
-        return $this;
-    }
-
-    /**
-     * @param int $productId
-     * @return int
-     */
-    public function getMinQty($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getMinQty();
+        $stockItem = $this->stockItemRegistry->retrieve($product->getId());
+        $stockItemDo = $this->stockItemBuilder->populateWithArray($stockItem->getData())->create();
+        $dataToSave = $this->stockItemBuilder->mergeDataObjectWithArray(
+            $stockItemDo,
+            $stockItemDetailsDo->__toArray()
+        )->__toArray();
+        return $stockItem->setData($dataToSave)->save()->getId();
     }
 
     /**
@@ -134,16 +140,6 @@ class StockItem implements StockItemInterface
     {
         $stockItem = $this->stockItemRegistry->retrieve($productId);
         return $stockItem->getMaxSaleQty();
-    }
-
-    /**
-     * @param int $productId
-     * @return float
-     */
-    public function getNotifyStockQty($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getNotifyStockQty();
     }
 
     /**
@@ -170,41 +166,10 @@ class StockItem implements StockItemInterface
      * @param int $productId
      * @return int
      */
-    public function getBackorders($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getBackorders();
-    }
-
-    /**
-     * @param int $productId
-     * @return int
-     */
     public function getManageStock($productId)
     {
         $stockItem = $this->stockItemRegistry->retrieve($productId);
         return $stockItem->getManageStock();
-    }
-
-    /**
-     * @param int $productId
-     * @return bool
-     */
-    public function getCanBackInStock($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getCanBackInStock();
-    }
-
-    /**
-     * @param int $productId
-     * @param int $qty
-     * @return bool
-     */
-    public function checkQty($productId, $qty)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->checkQty($qty);
     }
 
     /**
@@ -274,17 +239,6 @@ class StockItem implements StockItemInterface
     }
 
     /**
-     * @param int $productId
-     * @param int $qty
-     * @return \Magento\Framework\Object
-     */
-    public function checkQtyIncrements($productId, $qty)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->checkQtyIncrements($qty);
-    }
-
-    /**
      * @param int $productTypeId
      * @return bool
      */
@@ -299,7 +253,7 @@ class StockItem implements StockItemInterface
 
     /**
      * @param int|null $filter
-     * @return bool
+     * @return bool|array
      */
     public function getIsQtyTypeIds($filter = null)
     {

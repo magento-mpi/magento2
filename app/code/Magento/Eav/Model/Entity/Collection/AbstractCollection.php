@@ -331,7 +331,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
 
         if (is_numeric($attribute)) {
             $attribute = $this->getEntity()->getAttribute($attribute)->getAttributeCode();
-        } else if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AttributeInterface) {
+        } elseif ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AttributeInterface) {
             $attribute = $attribute->getAttributeCode();
         }
 
@@ -341,7 +341,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
                 $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition, $joinType);
             }
             $conditionSql = '(' . implode(') OR (', $sqlArr) . ')';
-        } else if (is_string($attribute)) {
+        } elseif (is_string($attribute)) {
             if ($condition === null) {
                 $condition = '';
             }
