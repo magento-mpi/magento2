@@ -69,6 +69,7 @@ app/design/frontend/Magento/blank/Magento_GiftRegistry
 app/design/frontend/Magento/blank/Magento_GroupedProduct
 app/design/frontend/Magento/blank/Magento_MultipleWishlist
 app/design/frontend/Magento/blank/Magento_VersionsCms
+app/design/frontend/Magento/blank/Magento_GiftWrapping
 app/design/frontend/Magento/luma
 app/design/install/Magento/enterprise
 
