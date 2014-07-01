@@ -38,13 +38,10 @@ class WriteServiceTest extends WebapiAbstract
         return [
             'path' => '2',
             'parent_id' => '2',
+            'name' => isset($categoryData[AttributeMetadata::NAME])
+                ? $categoryData[AttributeMetadata::NAME] : uniqid('Category-', true),
+            'active' => '0',
             'custom_attributes' => [
-                [
-                    'attribute_code' => 'name',
-                    'value' => isset($categoryData[AttributeMetadata::NAME])
-                        ? $categoryData[AttributeMetadata::NAME] : uniqid('Category-', true)
-                ],
-                ['attribute_code' => 'is_active', 'value' => '0'],
                 ['attribute_code' => 'url_key', 'value' => ''],
                 ['attribute_code' => 'description', 'value' => ''],
                 ['attribute_code' => 'meta_title', 'value' => ''],

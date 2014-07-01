@@ -68,7 +68,7 @@ class WriteService implements WriteServiceInterface
             $this->validateCategory($categoryModel);
             $categoryModel->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not save category', [], $e);
+            throw new CouldNotSaveException('Could not save category: %1', [$e->getMessage()], $e);
         }
         return $categoryModel->getId();
     }

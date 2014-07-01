@@ -113,4 +113,26 @@ class CategoryBuilder extends AbstractObjectBuilder
     {
         return $this->_set(Category::CHILDREN_COUNT, $value);
     }
+
+    /**
+     * Name of the created category
+     *
+     * @param  string $value
+     * @return $this
+     */
+    public function setName($value)
+    {
+        return $this->_set(Category::NAME, $value);
+    }
+
+    /**
+     * Set whether the category will be visible in the frontend
+     *
+     * @param  bool $value
+     * @return $this
+     */
+    public function setActive($value)
+    {
+        return $this->_set(Category::ACTIVE, $value);
+    }
 }

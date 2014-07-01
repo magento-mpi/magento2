@@ -27,6 +27,10 @@ class Category extends AbstractObject
 
     const UPDATED_AT = 'updated_at';
 
+    const NAME = 'name';
+
+    const ACTIVE = 'active';
+
     /**
      * Category id
      *
@@ -105,5 +109,25 @@ class Category extends AbstractObject
     public function getUpdatedAt()
     {
         return $this->_get(self::UPDATED_AT);
+    }
+
+    /**
+     * Name of the created category
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->_get(self::NAME);
+    }
+
+    /**
+     * Defines whether the category will be visible in the frontend
+     *
+     * @return bool|null
+     */
+    public function isActive()
+    {
+        return $this->_get(self::ACTIVE);
     }
 }

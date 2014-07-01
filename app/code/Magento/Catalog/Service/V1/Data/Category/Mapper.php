@@ -46,6 +46,11 @@ class Mapper
         $data[CategoryDataObject::ID]   = $categoryModel->getId();
         $data[CategoryDataObject::PARENT_ID]   = $categoryModel->getParentId();
         $data[CategoryDataObject::PATH]   = $categoryModel->getPath();
+
+        /** fill required fields */
+        $data['is_active'] = $category->isActive();
+        $data['include_in_menu'] = isset($data['include_in_menu']) ? $data['include_in_menu'] : false;
+
         $categoryModel->addData($data);
 
         if (!is_numeric($categoryModel->getAttributeSetId())) {
