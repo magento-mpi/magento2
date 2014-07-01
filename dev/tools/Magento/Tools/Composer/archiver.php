@@ -23,9 +23,15 @@ try {
         array(
             'verbose|v' => 'Detailed console logs',
             'output|o=s' => 'Generation dir. Default value ' . $generationDir,
+            'working|w=s' => 'Working directory. Default value ' . BP,
         )
     );
     $opt->parse();
+
+    $workingDir = $opt->getOption('w') ?: realpath(BP);
+    if (!$workingDir || !is_dir($workingDir)) {
+        throw new Exception($opt->getOption('w') . "must be a Magento installation.");
+    }
 
     $generationDir = $opt->getOption('o') ?: $generationDir;
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
@@ -39,7 +45,7 @@ try {
     $logger->addFilter($filter);
 
     $logger->info(sprintf("Your archives output directory: %s. ", $generationDir));
-    $logger->info(sprintf("Your Magento Installation Directory: %s ", BP));
+    $logger->info(sprintf("Your Magento Installation Directory: %s ", $workingDir));
 
     try {
         if (!file_exists($generationDir)) {
@@ -55,7 +61,7 @@ try {
     $noOfZips = 0;
 
     //Creating zipped folders for all components
-    $components = Helper::getComponentsList();
+    $components = Helper::getComponentsList($workingDir);
     $excludes = array();
     $name = '';
     foreach ($components as $component) {
@@ -111,27 +117,27 @@ try {
     $excludes = array_merge(
         $components,
         array(
-            str_replace('\\', '/', realpath(BP)) . '/.git',
-            str_replace('\\', '/', realpath(BP)) . '/.idea',
-            str_replace('\\', '/', realpath(BP)) . '/dev/tools/Magento/Tools/Composer',
-            str_replace('\\', '/', realpath(BP)) . '/dev/tests/unit/testsuite/Magento/Test/Tools/Composer'
+            str_replace('\\', '/', realpath($workingDir)) . '/.git',
+            str_replace('\\', '/', realpath($workingDir)) . '/.idea',
+            str_replace('\\', '/', realpath($workingDir)) . '/dev/tools/Magento/Tools/Composer',
+            str_replace('\\', '/', realpath($workingDir)) . '/dev/tests/unit/testsuite/Magento/Test/Tools/Composer'
         )
     );
     $name = '';
-    if (file_exists(str_replace('\\', '/', realpath(BP)) . '/composer.json')) {
-        $json = json_decode(file_get_contents(str_replace('\\', '/', realpath(BP)) . '/composer.json'));
+    if (file_exists(str_replace('\\', '/', realpath($workingDir)) . '/composer.json')) {
+        $json = json_decode(file_get_contents(str_replace('\\', '/', realpath($workingDir)) . '/composer.json'));
         $name = Helper::vendorPackageToName($json->name);
         if ($name == '') {
             throw new \Exception('Not a valid vendorPackage name', '1');
         }
         $noOfZips += Zipper::Zip(
-            str_replace('\\', '/', realpath(BP)),
+            str_replace('\\', '/', realpath($workingDir)),
             $generationDir . '/' . $name . '-'. $json->version . '.zip',
             $excludes
         );
         $logger->info(sprintf("Created zip archive for %-40s [%9s]", $name, $json->version));
     } else {
-        throw new \Exception('Did not find the composer.json file in '. str_replace('\\', '/', realpath(BP)), '1');
+        throw new \Exception('Did not find the composer.json file in '. str_replace('\\', '/', realpath($workingDir)), '1');
     }
 
     $logger->info(

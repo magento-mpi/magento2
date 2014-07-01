@@ -37,14 +37,14 @@ class Helper
      *
      * @return array
      */
-    public static function getComponentsList()
+    public static function getComponentsList($workingDir)
     {
         return array(
-            str_replace('\\', '/', realpath(BP)) . '/app/code/Magento',
-            str_replace('\\', '/', realpath(BP)) . '/app/design/adminhtml/Magento',
-            str_replace('\\', '/', realpath(BP)) . '/app/design/frontend/Magento',
-            str_replace('\\', '/', realpath(BP)) . '/app/i18n/Magento',
-            str_replace('\\', '/', realpath(BP)) . '/lib/internal/Magento'
+            str_replace('\\', '/', realpath($workingDir)) . '/app/code/Magento',
+            str_replace('\\', '/', realpath($workingDir)) . '/app/design/adminhtml/Magento',
+            str_replace('\\', '/', realpath($workingDir)) . '/app/design/frontend/Magento',
+            str_replace('\\', '/', realpath($workingDir)) . '/app/i18n/Magento',
+            str_replace('\\', '/', realpath($workingDir)) . '/lib/internal/Magento'
         );
     }
 }

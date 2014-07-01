@@ -21,10 +21,16 @@ try {
     $opt = new \Zend_Console_Getopt(
         array(
             'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]',
-            'verbose|v' => 'Detailed console logs'
+            'verbose|v' => 'Detailed console logs',
+            'working|w=s' => 'Working directory. Default value ' . realpath(BP),
         )
     );
     $opt->parse();
+
+    $workingDir = $opt->getOption('w') ?: realpath(BP);
+    if (!$workingDir || !is_dir($workingDir)) {
+        throw new Exception($opt->getOption('w') . "must be a Magento installation.");
+    }
 
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
@@ -58,10 +64,10 @@ try {
             exit(100);
     }
 
-    $logger->info(sprintf("Your Magento Installation Directory: %s ", BP));
+    $logger->info(sprintf("Your Magento Installation Directory: %s ", $workingDir));
 
     //Locations to look for components
-    $components = Helper::getComponentsList();
+    $components = Helper::getComponentsList($workingDir);
 
     $dependencies = array();
     foreach ($components as $component) {
@@ -82,7 +88,7 @@ try {
         }
     }
     $logger->debug(sprintf("Total Dependencies on Skeleton: %s", sizeof($product->getDependencies())));
-    $creator = new ComposerCreator(BP, $logger);
+    $creator = new ComposerCreator($workingDir, $logger);
     $creator->create(array($product));
 
     $logger->info(sprintf("SUCCESS: Created composer.json for %s edition", $edition));
