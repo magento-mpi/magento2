@@ -7,47 +7,32 @@
  */
 namespace Magento\Catalog\Service\V1\Category;
 
-use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 
+/**
+ * Class Category MetadataServiceInterface
+ */
 interface MetadataServiceInterface
 {
     /**#@+
      * Predefined constants
      */
-    const ATTRIBUTE_SET_ID_CATEGORY = 3;
+    const ENTITY_TYPE = 'catalog_category';
+
+    const DEFAULT_ATTRIBUTE_SET_ID = 3;
     /**#@-*/
 
     /**
      * Retrieve custom EAV attribute metadata of category
      *
-     * @return array<Data\Eav\Category\AttributeMetadata>
+     * @return AttributeMetadata[]
      */
-    public function getCustomAttributesMetadata();
+    public function getCustomAttributesMetadata($attributeSetIds);
 
     /**
      * Retrieve EAV attribute metadata of category
      *
      * @return AttributeMetadata[]
      */
-    public function getCategoryAttributesMetadata();
-
-    /**
-     * Returns all known attributes metadata for a given entity type
-     *
-     * @param  string $entityType
-     * @param  int $attributeSetId
-     * @param  int $storeId
-     * @return AttributeMetadata[]
-     */
-    public function getAllAttributeSetMetadata($entityType, $attributeSetId = 0, $storeId = null);
-
-    /**
-     * Retrieve Attribute Metadata
-     *
-     * @param  string $entityType
-     * @param  string $attributeCode
-     * @return AttributeMetadata
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function getAttributeMetadata($entityType, $attributeCode);
+    public function getCategoryAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID);
 }

@@ -49,7 +49,7 @@ class Mapper
 
         /** fill required fields */
         $data['is_active'] = $category->isActive();
-        $data['include_in_menu'] = isset($data['include_in_menu']) ? $data['include_in_menu'] : false;
+        $data['include_in_menu'] = isset($data['include_in_menu']) ? (bool)$data['include_in_menu'] : false;
 
         $categoryModel->addData($data);
 

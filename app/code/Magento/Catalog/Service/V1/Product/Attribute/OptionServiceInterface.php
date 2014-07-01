@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Service\V1\Data\ProductAttributeType;
 
 /**
- * Class ProductAttributeServiceInterface
+ * Class Product Attribute Option Service Interface
  */
-interface ProductAttributeServiceInterface
+interface OptionServiceInterface
 {
     /**
      * Retrieve list of attribute options

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Category;
+namespace Magento\Catalog\Service\V1\Product;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 
@@ -43,26 +43,27 @@ class MetadataService implements MetadataServiceInterface
     }
 
     /**
-     * Retrieve custom EAV attribute metadata of category
+     * Retrieve custom EAV attribute metadata of product
      *
      * @return AttributeMetadata[]
      */
-    public function getCustomAttributesMetadata($attributeSetId = MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID)
+    public function getCustomAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID)
     {
         $customAttributes = [];
-        foreach ($this->getCategoryAttributesMetadata($attributeSetId) as $attributeMetadata) {
+        foreach ($this->getProductAttributesMetadata($attributeSetId) as $attributeMetadata) {
             $customAttributes[] = $attributeMetadata;
         }
         return $customAttributes;
     }
 
     /**
-     * Retrieve EAV attribute metadata of category
+     * Retrieve EAV attribute metadata of product
      *
      * @return AttributeMetadata[]
      */
-    public function getCategoryAttributesMetadata($attributeSetId = MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID)
+    public function getProductAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID)
     {
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteria */
         $this->searchCriteriaBuilder->addFilter([
             $this->filterBuilder
                 ->setField('attribute_set_id')

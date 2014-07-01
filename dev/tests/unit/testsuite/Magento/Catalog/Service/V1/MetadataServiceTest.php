@@ -7,11 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Catalog\Service\V1\Data\Eav\OptionBuilder;
-use Magento\Catalog\Service\V1\Data\Eav\ValidationRuleBuilder;
-
-class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
+class MetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test getAttributeMetadata
@@ -48,6 +44,7 @@ class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $optionBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\OptionBuilder');
         $frontendLabelBuilder = $helper
             ->getObject('\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabelBuilder');
+        /** @var \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder $attrMetadataBuilder */
         $attrMetadataBuilder = $objectManager->getObject(
             'Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder',
             [
@@ -58,7 +55,8 @@ class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         // create service
-        $service = $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService',
+        /** @var \Magento\Catalog\Service\V1\MetadataService $service */
+        $service = $objectManager->getObject('Magento\Catalog\Service\V1\MetadataService',
             array(
                 'eavConfig' => $eavConfigMock,
                 'attributeMetadataBuilder'

@@ -161,25 +161,6 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @param $categoryData
-     * @dataProvider updateValidateInputDataProvider
-     * @magentoApiDataFixture Magento/Catalog/_files/category.php
-     * @expectedException \Exception
-     */
-    public function testUpdateValidateInput($categoryData)
-    {
-        $categoryId = 333;
-        $this->updateCategory($categoryId, $categoryData);
-    }
-
-    public function updateValidateInputDataProvider()
-    {
-        return array(
-            [['custom_attributes' => [['attribute_code' => AttributeMetadata::INCLUDE_IN_MENU,'value' => null]]]],
-        );
-    }
-
-    /**
      * @magentoApiDataFixture Magento/Catalog/_files/category_tree.php
      * @dataProvider updateMoveDataProvider
      */

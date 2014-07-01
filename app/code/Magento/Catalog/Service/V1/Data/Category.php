@@ -128,6 +128,6 @@ class Category extends AbstractObject
      */
     public function isActive()
     {
-        return $this->_get(self::ACTIVE);
+        return (bool)$this->_get(self::ACTIVE);
     }
 }
