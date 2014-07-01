@@ -179,7 +179,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
-            if ($targetCountry == $rate['country']) {
+            if ($targetCountry == $rate->getTaxCountryId()) {
                 $regions = $this->getRegionsByRegionId($rate->getRegionId());
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
@@ -190,9 +190,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                 foreach ($regions as $region) {
                     try {
                         $product->getPriceInfo()->getAdjustment('tax');
-                        $taxIncluded = True;
+                        $taxIncluded = true;
                     } catch(InvalidArgumentException $e) {
-                        $taxIncluded = False;
+                        $taxIncluded = false;
                     }
 
                     $quoteDetailsItemDataArray = [
