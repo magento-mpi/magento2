@@ -11,6 +11,7 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class WriteService implements WriteServiceInterface
 {
@@ -131,29 +132,31 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
-     * Add 'is_delete' flag to values absent in $valuesToLeave
+     * Mark original values for removal if they are absent among new values
      *
-     * @param \Magento\Catalog\Model\Product\Option\Value[] $allMetadatas
-     * @param array $valuesToLeave
+     * @param $newValues array
+     * @param $originalValues \Magento\Catalog\Model\Product\Option\Value[]
      * @return array
      */
-    protected function markValuesForRemoval($allMetadatas, $valuesToLeave)
+    protected function markRemovedValues($newValues, $originalValues)
     {
-        $markedValues = $valuesToLeave;
         $idsToLeave = [];
-        foreach ($valuesToLeave as $valueData) {
-            $idsToLeave[] = $valueData['option_type_id'];
-        }
 
-        /** @var $optionMetadata \Magento\Catalog\Model\Product\Option\Value */
-        foreach ($allMetadatas as $optionMetadata) {
-            if (!in_array($optionMetadata->getData('option_type_id'), $idsToLeave)) {
-                $optionMetadataData = $optionMetadata->getData();
-                $optionMetadataData['is_delete'] = 1;
-                $markedValues[] = $optionMetadataData;
+        foreach ($newValues as $newValue) {
+            if (array_key_exists(Metadata::OPTION_TYPE_ID, $newValue)) {
+                $idsToLeave[] = $newValue[Metadata::OPTION_TYPE_ID];
             }
         }
-        return $markedValues;
+
+        /** @var $originalValue \Magento\Catalog\Model\Product\Option\Value */
+        foreach ($originalValues as $originalValue) {
+            if (!in_array($originalValue->getData(Metadata::OPTION_TYPE_ID), $idsToLeave)) {
+                $originalValue->setData('is_delete', 1);
+                $newValues[] = $originalValue->getData();
+            }
+        }
+
+        return $newValues;
     }
 
     /**
@@ -171,9 +174,7 @@ class WriteService implements WriteServiceInterface
         }
         $optionData['option_id'] = $optionId;
         $originalValues = $product->getOptionById($optionId)->getValues();
-        if (!empty($originalValues) && count($optionData['values']) < count($originalValues)) {
-            $optionData['values'] = $this->markValuesForRemoval($originalValues, $optionData['values']);
-        }
+        $optionData['values'] = $this->markRemovedValues($optionData['values'], $originalValues);
 
         $product->setCanSaveCustomOptions(true);
         $product->setProductOptions([$optionData]);
