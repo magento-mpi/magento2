@@ -53,7 +53,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Backend\Model\Session\Proxy|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Session|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendSession;
 
@@ -109,7 +109,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_backendSession = $this->getMock(
-            'Magento\Backend\Model\Session\Proxy',
+            'Magento\Backend\Model\Session',
             array('setData', 'getData', 'unsetData'),
             array(),
             '',

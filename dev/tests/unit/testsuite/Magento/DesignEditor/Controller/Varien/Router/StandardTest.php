@@ -232,8 +232,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getBackendSessionMock($isVde, $isLoggedIn)
     {
-        $backendSession = $this->getMock('Magento\Backend\Model\Auth\Session\Proxy', array('isLoggedIn'), array(),
-            '', false);
+        $backendSession = $this->getMock('Magento\Backend\Model\Auth\Session', array(), array(), '', false);
         $backendSession->expects($isVde ? $this->any() : $this->never())
             ->method('isLoggedIn')
             ->will($this->returnValue($isLoggedIn));
