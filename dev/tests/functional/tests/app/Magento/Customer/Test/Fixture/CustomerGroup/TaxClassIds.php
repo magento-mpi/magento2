@@ -70,8 +70,10 @@ class TaxClassIds implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param string|null $key
-     * @return mixed|string
+     * @param $key [optional]
+     * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

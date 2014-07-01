@@ -23,12 +23,12 @@ class Import extends \Magento\ImportExport\Model\Import implements
      */
     public function reindexAll()
     {
-        if (!isset(self::$_entityInvalidatedIndexes[$this->getEntity()])) {
+        $relatedIndexers = $this->_importConfig->getRelatedIndexers($this->getEntity());
+        if (empty($relatedIndexers)) {
             return $this;
         }
 
-        $indexers = self::$_entityInvalidatedIndexes[$this->getEntity()];
-        foreach ($indexers as $indexer) {
+        foreach ($relatedIndexers as $indexer) {
             $indexProcess = $this->_indexer->getProcessByCode($indexer);
             if ($indexProcess) {
                 $indexProcess->reindexEverything();
