@@ -11,6 +11,7 @@ return [
         'Magento\Install',
         'Magento\Composer',
         'Magento\Config',
+        'Magento\Filesystem',
         'Magento\Module',
         'Magento\Setup',
     ],
