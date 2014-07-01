@@ -7,13 +7,13 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
 class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**
-     * @var ProductMetadataServiceInterface
+     * @var MetadataServiceInterface
      */
     protected $metadataService;
 
@@ -22,12 +22,12 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
      *
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
-     * @param ProductMetadataServiceInterface $metadataService
+     * @param MetadataServiceInterface $metadataService
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
-        ProductMetadataServiceInterface $metadataService
+        MetadataServiceInterface $metadataService
     ) {
         parent::__construct($objectFactory, $valueBuilder);
         $this->metadataService = $metadataService;

@@ -5,17 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
-
+use Magento\Catalog\Service\V1\MetadataServiceInterface;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 /**
  * Class ProductAttributeService
  */
-class ProductAttributeService implements ProductAttributeServiceInterface
+class OptionService implements OptionServiceInterface
 {
     /**
-     * @var ProductMetadataServiceInterface
+     * @var MetadataServiceInterface
      */
     private $metadataService;
 
@@ -28,12 +29,12 @@ class ProductAttributeService implements ProductAttributeServiceInterface
     private $optionCollectionFactory;
 
     /**
-     * @param ProductMetadataServiceInterface $metadataService
+     * @param MetadataServiceInterface $metadataService
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $optionCollectionFactory
      */
     public function __construct(
-        ProductMetadataServiceInterface $metadataService,
+        MetadataServiceInterface $metadataService,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $optionCollectionFactory
     ) {
@@ -48,7 +49,7 @@ class ProductAttributeService implements ProductAttributeServiceInterface
     public function options($id)
     {
         return $this->metadataService->getAttributeMetadata(
-            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            ProductMetadataServiceInterface::ENTITY_TYPE,
             $id
         )->getOptions();
     }
@@ -59,7 +60,7 @@ class ProductAttributeService implements ProductAttributeServiceInterface
     public function addOption($id, \Magento\Catalog\Service\V1\Data\Eav\Option $option)
     {
         $model = $this->eavConfig->getAttribute(
-            \Magento\Catalog\Service\V1\ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            ProductMetadataServiceInterface::ENTITY_TYPE,
             $id
         );
         if (!$model) {
