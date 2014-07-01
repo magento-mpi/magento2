@@ -82,7 +82,7 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
             getNextState: function () {
                 var nItem = {};
                 this.states.forEach(function (item) {
-                    if (item.serial == $state.$current.serial + 1) {
+                    if (item.order == $state.$current.order + 1) {
                         nItem = item;
                     }
                 });

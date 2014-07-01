@@ -22,7 +22,7 @@ return [
             'controller'  => 'landingController',
             'main'        => true,
             'nav-bar'     => false,
-            'serial'       => 0,
+            'order'       => 0,
         ],
         [
             'id'          => 'root.readiness-check',
@@ -32,7 +32,7 @@ return [
             'header'      => 'Step 1: Readiness Check',
             'controller'  => 'readinessCheckController',
             'nav-bar'     => true,
-            'serial'       => 1,
+            'order'       => 1,
         ],
         [
             'id'          => 'root.readiness-check.progress',
@@ -42,7 +42,7 @@ return [
             'header'      => 'Step 1: Readiness Check',
             'controller'  => 'readinessCheckController',
             'nav-bar'     => false,
-            'serial'       => 2,
+            'order'       => 2,
         ],
         [
             'id'          => 'root.add-database',
@@ -52,7 +52,7 @@ return [
             'header'      => 'Step 2: Add Database',
             'controller'  => 'addDatabaseController',
             'nav-bar'     => true,
-            'serial'       => 3,
+            'order'       => 3,
         ],
         [
             'id'          => 'root.web-configuration',
@@ -62,7 +62,7 @@ return [
             'header'      => 'Step 3: Web Configuration',
             'controller'  => 'webConfigurationController',
             'nav-bar'     => true,
-            'serial'       => 4,
+            'order'       => 4,
         ],
         [
             'id'          => 'root.customize-your-store',
@@ -72,7 +72,7 @@ return [
             'header'      => 'Step 4: Customize Your Store',
             'controller'  => 'customizeYourStoreController',
             'nav-bar'     => true,
-            'serial'       => 5,
+            'order'       => 5,
         ],
         [
             'id'          => 'root.create-admin-account',
@@ -82,7 +82,7 @@ return [
             'header'      => 'Step 5: Create Admin Account',
             'controller'  => 'createAdminAccountController',
             'nav-bar'     => true,
-            'serial'       => 6,
+            'order'       => 6,
         ],
         [
             'id'          => 'root.install',
@@ -92,7 +92,7 @@ return [
             'header'      => 'Step 6: Install',
             'controller'  => 'installController',
             'nav-bar'     => true,
-            'serial'       => 7,
+            'order'       => 7,
         ],
     ]
 ];

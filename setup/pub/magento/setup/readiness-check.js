@@ -104,7 +104,7 @@ readinessCheck.controller('readinessCheckController', ['$scope', '$http', '$time
             }, timeout);
         });
         angular.forEach($scope.items, function(item) {
-            timeout += 1000;
+            timeout += 500;
             $timeout(function() {
                 $scope.query(item);
             }, timeout);
