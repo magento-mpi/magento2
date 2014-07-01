@@ -1,3 +1,6 @@
+* Service layer updates:
+  * Implemented API for CatalogInventory module (MAGETWO-24954)
+  * Refactored external usages of CatalogInventory module to service (MAGETWO-24933, MAGETWO-24934)
 * Fixed bugs:
   * Fixed: Screen isn't moved automatically to invalidly filled field on "Create new Order" backend page (MAGETWO-19689)
   * Fixed: Several configuration fields possible to edit on website scope is checkboxes "Use Default" are checked (CAPTCHA section) (MAGETWO-15247)
@@ -294,7 +297,7 @@
   * Fixed price inconsistencies between catalog and shopping cart
   * Added support for maintaining consistent price including tax for customers with different tax rates
   * Added support for applying tax rules with different priorities to subtotal only
-
+  
 * Fixed bugs:
   * Removed the extra '%' sign in the error\notice message on Gift Card Accounts page on the backend
   * Fixed an issue with image uploading functionality in the Catalog configuration
