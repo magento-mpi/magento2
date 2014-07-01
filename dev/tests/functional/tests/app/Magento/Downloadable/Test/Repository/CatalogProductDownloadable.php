@@ -29,6 +29,7 @@ class CatalogProductDownloadable extends AbstractRepository
             'sku' => 'sku_test_downloadable_product_%isolation%',
             'price' => 280.00,
             'type_id' => 'downloadable',
+            'category_ids' => ['presets' => 'default'],
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'quantity_and_stock_status' => [
                 'qty' => 90.0000,

@@ -69,8 +69,11 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
             $errors[] = '- successful product search.';
         }
 
+        $categoryName = ($product->hasData('category_ids'))
+            ? $product->getCategoryIds()[0]['name']
+            : $category->getName();
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
+        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         while (!$isProductVisible && $catalogCategoryView->getToolbar()->nextPage()) {
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());

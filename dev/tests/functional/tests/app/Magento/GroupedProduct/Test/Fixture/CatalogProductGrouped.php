@@ -99,6 +99,7 @@ class CatalogProductGrouped extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds'
     ];
 
     protected $country_of_manufacture = [

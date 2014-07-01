@@ -73,6 +73,7 @@ class GiftCardProduct extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds'
     ];
 
     protected $created_at = [
