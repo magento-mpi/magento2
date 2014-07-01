@@ -25,7 +25,7 @@ class AdminUserInjectable extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\User\Test\Handler\AdminUser\AdminUserInterface';
+    protected $handlerInterface = 'Magento\User\Test\Handler\AdminUserInjectable\AdminUserInterface';
 
     protected $defaultDataSet = [
         'username' => 'AdminUser%isolation%',
@@ -172,12 +172,8 @@ class AdminUserInjectable extends InjectableFixture
     protected $role_id = [
         'attribute_code' => 'role_id',
         'backend_type' => 'virtual',
-    ];
-
-    protected $role = [
-        'attribute_code' => 'role',
-        'backend_type' => 'virtual',
-        'source' => 'Magento\User\Test\Fixture\User\Role'
+        'group' => 'user-role',
+        'source' => 'Magento\User\Test\Fixture\AdminUserInjectable\RoleId'
     ];
 
     protected $password_confirmation = [
@@ -269,11 +265,6 @@ class AdminUserInjectable extends InjectableFixture
     public function getRoleId()
     {
         return $this->getData('role_id');
-    }
-
-    public function getRole()
-    {
-        return $this->getData('role');
     }
 
     public function getPasswordConfirmation()

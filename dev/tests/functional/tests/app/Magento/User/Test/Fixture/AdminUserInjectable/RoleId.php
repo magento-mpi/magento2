@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Fixture\User;
+namespace Magento\User\Test\Fixture\AdminUserInjectable;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
@@ -14,12 +14,13 @@ use Mtf\Util\Protocol\CurlTransport;
 use Magento\User\Test\Fixture\AdminUserRole;
 
 /**
- * Class Role
+ * Class RoleId
  *
  * Data keys:
  *  - dataSet
+ *  - role
  */
-class Role implements FixtureInterface
+class RoleId implements FixtureInterface
 {
     /**
      * Admin User Role
@@ -51,11 +52,11 @@ class Role implements FixtureInterface
             }
             $this->data = $this->role->getRoleName();
         }
-        if (isset($data['role_fixture'])
-            && $data['role_fixture'] instanceof \Magento\User\Test\Fixture\AdminUserRole
+        if (isset($data['role'])
+            && $data['role'] instanceof \Magento\User\Test\Fixture\AdminUserRole
         ) {
-            $this->role = $data['role_fixture'];
-            $this->data = $data['role_fixture']->getRoleName();
+            $this->role = $data['role'];
+            $this->data = $data['role']->getRoleName();
         }
     }
 
@@ -85,7 +86,7 @@ class Role implements FixtureInterface
     /**
      * Return data set configuration settings
      *
-     * @return string
+     * @return array
      */
     public function getDataConfig()
     {

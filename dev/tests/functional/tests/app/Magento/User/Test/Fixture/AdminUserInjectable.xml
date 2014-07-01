@@ -128,6 +128,8 @@
         <role_id>
             <attribute_code>role_id</attribute_code>
             <backend_type>virtual</backend_type>
+            <group>user-role</group>
+            <source>Magento\User\Test\Fixture\AdminUserInjectable\RoleId</source>
         </role_id>
         <password_confirmation>
             <attribute_code>password_confirmation</attribute_code>

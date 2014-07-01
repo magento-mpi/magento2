@@ -19,21 +19,5 @@ use Mtf\Client\Element;
  */
 class UserForm extends FormTabs
 {
-    /**
-     * Method for filling different fixtures' data on different tabs
-     *
-     * @param AdminUserInjectable $user
-     * @param null|AdminUserRole $role
-     */
-    public function fillUser(AdminUserInjectable $user, AdminUserRole $role = null)
-    {
-        if ($user->hasData()) {
-            parent::fill($user);
-        }
-        if ($role != null) {
-            $this->openTab('user-role');
-            $tabElement = $this->getTabElement('user-role');
-            $tabElement->fillFormTab(['rolename' => $role->getRoleName()]);
-        }
-    }
+    //
 }

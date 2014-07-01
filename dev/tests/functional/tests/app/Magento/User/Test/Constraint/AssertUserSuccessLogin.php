@@ -28,19 +28,20 @@ class AssertUserSuccessLogin extends AbstractConstraint
     /**
      * Verify whether customer has logged in to the Backend
      *
-     * @param Dashboard $dashboard
      * @param AdminUserInjectable $user
      * @param AdminAuthLogin $adminAuth
+     * @param Dashboard $dashboard
      * @param AdminUserInjectable $customAdmin
+     * @internal param null|string $userToLoginInAssert
      * @return void
      */
     public function processAssert(
-        Dashboard $dashboard,
         AdminUserInjectable $user,
         AdminAuthLogin $adminAuth,
+        Dashboard $dashboard,
         AdminUserInjectable $customAdmin = null
     ) {
-        $adminUser = ($user->hasData('password') || $user->hasData('username')) ? $user : $customAdmin;
+        $adminUser = $customAdmin === null ? $user : $customAdmin;
         if ($dashboard->getAdminPanelHeader()->isVisible()) {
             $dashboard->getAdminPanelHeader()->logOut();
         }

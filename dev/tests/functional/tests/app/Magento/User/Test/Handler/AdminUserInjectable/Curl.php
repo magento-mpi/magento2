@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Handler\AdminUser;
+namespace Magento\User\Test\Handler\AdminUserInjectable;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
@@ -33,9 +33,9 @@ class Curl extends AbstractCurl implements AdminUserInterface
     {
         /** @var \Magento\User\Test\Fixture\AdminUserInjectable $fixture */
         $data = $fixture->getData();
-        $role = $fixture->getDataFieldConfig('role')['source']->getRole();
-        $data['roles[]'] = $role->getRoleId();
-
+        if ($fixture->hasData('role_id')) {
+            $data['roles[]'] = $fixture->getDataFieldConfig('role_id')['source']->getRole()->getRoleId();
+        }
         $url = $_ENV['app_backend_url'] . 'admin/user/save/active_tab/main_section/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
