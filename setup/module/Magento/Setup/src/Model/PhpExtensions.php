@@ -10,7 +10,7 @@ namespace Magento\Setup\Model;
 
 use Magento\Composer\Reader\Json;
 
-class Extensions
+class PhpExtensions
 {
     /**
      * File reader for composer.json files

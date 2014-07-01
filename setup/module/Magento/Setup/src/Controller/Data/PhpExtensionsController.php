@@ -9,7 +9,7 @@ namespace Magento\Setup\Controller\Data;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\Extensions;
+use Magento\Setup\Model\PhpExtensions;
 
 class PhpExtensionsController extends AbstractActionController
 {
@@ -19,17 +19,17 @@ class PhpExtensionsController extends AbstractActionController
     protected $jsonModel;
 
     /**
-     * @var \Magento\Setup\Model\Extensions
+     * @var \Magento\Setup\Model\PhpExtensions
      */
     protected $extensions;
 
     /**
      * @param JsonModel $jsonModel
-     * @param \Magento\Setup\Model\Extensions $extensions
+     * @param PhpExtensions $extensions
      */
     public function __construct(
         JsonModel $jsonModel,
-        Extensions $extensions
+        PhpExtensions $extensions
     ) {
         $this->jsonModel = $jsonModel;
         $this->extensions = $extensions;
