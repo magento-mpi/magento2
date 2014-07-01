@@ -38,6 +38,7 @@ class PathProcessor
         $path = '/' . implode('/', $pathParts);
         return explode('/', ltrim($path, '/'), 2);
     }
+
     /**
      * Process path info
      *

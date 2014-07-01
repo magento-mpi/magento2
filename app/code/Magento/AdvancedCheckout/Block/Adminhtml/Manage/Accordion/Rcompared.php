@@ -45,7 +45,7 @@ class Rcompared extends AbstractAccordion
     protected $_reportsEventResource;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -59,7 +59,7 @@ class Rcompared extends AbstractAccordion
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -74,7 +74,7 @@ class Rcompared extends AbstractAccordion
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
