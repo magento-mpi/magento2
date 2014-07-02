@@ -316,4 +316,13 @@
             <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
         </require>
     </assertAbsenceDeleteAttributeButton>
+    <assertProductTemplateSuccessDeleteMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateSuccessDeleteMessage>
+    <assertProductTemplateNotInGrid module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateNotInGrid>
+    <assertProductNotInGrid module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductNotInGrid>
 </constraint>

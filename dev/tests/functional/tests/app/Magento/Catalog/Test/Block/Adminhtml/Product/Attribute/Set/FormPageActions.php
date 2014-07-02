@@ -22,4 +22,11 @@ class FormPageActions extends AbstractFormPageActions
      * @var string
      */
     protected $saveButton = '.save-attribute-set';
+
+    /**
+     * "Delete" button
+     *
+     * @var string
+     */
+    protected $deleteButton = '.delete';
 }
