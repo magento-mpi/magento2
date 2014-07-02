@@ -41,14 +41,14 @@ class DeleteProductEntityTest extends Injectable
     protected $catalogProductIndex;
 
     /**
-     * Filling page catalog product index
+     * Injection data
      *
-     * @param CatalogProductIndex $catalogProductIndexNewPage
+     * @param CatalogProductIndex $catalogProductIndexPage
      * @return void
      */
-    public function __inject(CatalogProductIndex $catalogProductIndexNewPage)
+    public function __inject(CatalogProductIndex $catalogProductIndexPage)
     {
-        $this->catalogProductIndex = $catalogProductIndexNewPage;
+        $this->catalogProductIndex = $catalogProductIndexPage;
     }
 
     /**

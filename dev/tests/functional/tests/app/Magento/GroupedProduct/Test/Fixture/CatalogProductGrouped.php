@@ -17,6 +17,7 @@ use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductGrouped
+ * Fixture for Grouped product
  */
 class CatalogProductGrouped extends InjectableFixture
 {

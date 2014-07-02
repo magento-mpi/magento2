@@ -33,13 +33,11 @@ class AssertProductNotInGrid extends AbstractConstraint
      */
     public function processAssert(FixtureInterface $product, CatalogProductIndex $productGrid)
     {
-        $name = $product->getName();
-        $sku = $product->getSku();
-        $filter = ['sku' => $sku, 'name' => $name];
+        $filter = ['sku' => $product->getSku(), 'name' => $product->getName()];
         $productGrid->open();
         \PHPUnit_Framework_Assert::assertFalse(
             $productGrid->getProductGrid()->isRowVisible($filter),
-            'Product with sku "' . $sku . '" and name "' . $name . '" is attend in Products grid.'
+            'Product with sku "' . $filter['sku'] . '" and name "' . $filter['name'] . '" is attend in Products grid.'
         );
     }
 
