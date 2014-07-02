@@ -18,6 +18,12 @@
   * Fixed: Store Admin cannot search product by attributes filled on [STORE VIEW] level (except default store view) (MAGETWO-3385)
   * Fixed: Filter values aren't trimmed before being used to filter results (MAGETWO-18370)
   * Fixed: Add label for Uses per customer option (MAGETWO-24695)
+  * Fixed: Previously selected products in 'Add Product to Bundle Option' grid aren't checked if page has been changed (MAGETWO-10614)
+  * Fixed: Google Content not sending correct attribute 'description' (wisebadger) (MAGETWO-18321)
+  * Fixed: Custom Attribute not listed on layered navigation after import (MAGETWO-18333)
+  * Fixed: Category URL keys do not work correctly after saving (MAGETWO-19490)
+  * Fixed: User has no possibility to create Target rule with special Products to Display condition (MAGETWO-23654)
+  * Fixed: jQuery error on product page in admin when switching between product tabs (MAGETWO-24846)
 * GitHub requests:
   * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
   * [#544]  Performance tests not working (MAGETWO-23467)
@@ -298,7 +304,7 @@
   * Fixed price inconsistencies between catalog and shopping cart
   * Added support for maintaining consistent price including tax for customers with different tax rates
   * Added support for applying tax rules with different priorities to subtotal only
-  
+
 * Fixed bugs:
   * Removed the extra '%' sign in the error\notice message on Gift Card Accounts page on the backend
   * Fixed an issue with image uploading functionality in the Catalog configuration
