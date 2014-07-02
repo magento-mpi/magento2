@@ -27,9 +27,9 @@
     <div class="form-group">
         <label for="dbHost" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Host*'); ?></label>
         <div class="col-sm-9">
-            <input popover-placement="right"
-                popover="<?php echo $this->translate('Name and location of the server that hosts your store\'s database.'); ?>"
-                popover-trigger="focus"
+            <input tooltip-placement="right"
+                tooltip="<?php echo $this->translate('Name and location of the server that hosts your store\'s database.'); ?>"
+                tooltip-trigger="focus"
                 class="form-control"
                 style="width: 60%;"
                 type="text"
@@ -43,9 +43,9 @@
         <label for="dbUser" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Username*'); ?></label>
         <div class="col-sm-9" ng-switch="useExistingDb">
             <input ng-switch-when="1"
-                   popover-placement="right"
-                   popover="<?php echo $this->translate('Sign-in credentials for your store\'s database on the database server (does not need to be admin-level credentials).'); ?>"
-                   popover-trigger="focus"
+                   tooltip-placement="right"
+                   tooltip="<?php echo $this->translate('Sign-in credentials for your store\'s database on the database server (does not need to be admin-level credentials).'); ?>"
+                   tooltip-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
                    type="text"
@@ -53,9 +53,9 @@
                    ng-model="dbUser"
                    required>
             <input ng-switch-when="0"
-                   popover-placement="right"
-                   popover="<?php echo $this->translate('Administrator credentials to sign in to the server that will host your store\'s database.'); ?>"
-                   popover-trigger="focus"
+                   tooltip-placement="right"
+                   tooltip="<?php echo $this->translate('Administrator credentials to sign in to the server that will host your store\'s database.'); ?>"
+                   tooltip-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
                    type="text"
@@ -69,9 +69,9 @@
         <label for="dbPassword" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Password'); ?></label>
         <div class="col-sm-9" ng-switch="useExistingDb">
             <input ng-switch-when="1"
-                   popover-placement="right"
-                   popover="<?php echo $this->translate('Sign-in credentials for your store\'s database on the database server (does not need to be admin-level credentials).'); ?>"
-                   popover-trigger="focus"
+                   tooltip-placement="right"
+                   tooltip="<?php echo $this->translate('Sign-in credentials for your store\'s database on the database server (does not need to be admin-level credentials).'); ?>"
+                   tooltip-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
                    type="text"
@@ -79,9 +79,9 @@
                    ng-model="dbPassword"
                    placeholder="<?php echo $this->translate('(not always necessary)'); ?>">
             <input ng-switch-when="0"
-                   popover-placement="right"
-                   popover="<?php echo $this->translate('Administrator credentials to sign in to the server that will host your store\'s database.'); ?>"
-                   popover-trigger="focus"
+                   tooltip-placement="right"
+                   tooltip="<?php echo $this->translate('Administrator credentials to sign in to the server that will host your store\'s database.'); ?>"
+                   tooltip-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
                    type="text"
@@ -94,9 +94,9 @@
     <div class="form-group" ng-if="useExistingDb">
         <label for="dbName" class="col-sm-3 control-label"><?php echo $this->translate('Database Name*'); ?></label>
         <div class="col-sm-9">
-            <input popover-placement="right"
-                   popover="<?php echo $this->translate('Enter the name of your store\'s database.'); ?>"
-                   popover-trigger="focus"
+            <input tooltip-placement="right"
+                   tooltip="<?php echo $this->translate('Enter the name of your store\'s database.'); ?>"
+                   tooltip-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
                    type="text"
@@ -118,9 +118,9 @@
     <div class="form-group" ng-if="useExistingDb==0">
         <label for="dbNewName" class="col-sm-3 control-label"><?php echo $this->translate('New Database Name*'); ?></label>
         <div class="col-sm-9">
-            <input popover-placement="right"
-                   popover="<?php echo $this->translate('Create sign-in credentials for your store\'s database.'); ?>"
-                   popover-trigger="focus"
+            <input tooltip-placement="right"
+                   tooltip="<?php echo $this->translate('Create sign-in credentials for your store\'s database.'); ?>"
+                   tooltip-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
                    type="text"
@@ -133,9 +133,9 @@
     <div class="form-group">
         <label for="dbTablePrefix" class="col-sm-3 control-label"><?php echo $this->translate('Table prefix'); ?></label>
         <div class="col-sm-9">
-            <input popover-placement="right"
-                   popover="<?php echo $this->translate('Enter a tracking prefix to be used for database tables created for this Magento installation. (ex: \'mg1_\' )'); ?>"
-                   popover-trigger="focus"
+            <input tooltip-placement="right"
+                   tooltip="<?php echo $this->translate('Enter a tracking prefix to be used for database tables created for this Magento installation. (ex: \'mg1_\' )'); ?>"
+                   tooltip-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
                    type="text"
