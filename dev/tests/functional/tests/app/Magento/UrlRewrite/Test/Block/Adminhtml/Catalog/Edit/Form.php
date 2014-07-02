@@ -22,18 +22,24 @@ class Form extends FormWidget
      * Fill the root form
      *
      * @param FixtureInterface $fixture
+     * @param FixtureInterface|null $params
      * @param Element|null $element
+     * @param string $replace
      * @return $this
      */
-    public function fill(FixtureInterface $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Element $element = null, $replace = null, $params = null)
     {
         $data = $fixture->getData();
         $getData = $this->getData();
-        if (!$getData['target_path']) {
+        if (!$getData['target_path'] && !isset($data['target_path'])) {
             $entity = $fixture->getDataFieldConfig('id_path')['source']->getEntity();
             $data['target_path'] = $entity->hasData('identifier')
                 ? $entity->getIdentifier()
                 : $entity->getUrlKey() . '.html';
+        }
+        if ($params != null && $params->getDataFieldConfig('id_path')['source']->getEntity() != null) {
+            $name = $params->getDataFieldConfig('id_path')['source']->getEntity()->getName();
+            $data[$replace] = str_replace('%name%', $name, $data[$replace]);
         }
         // TODO: delete line after removing old fixture
         $fields = isset($data['fields']) ? $data['fields'] : $data;

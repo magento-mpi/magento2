@@ -62,4 +62,10 @@
     <assertUrlRewriteCustomRedirect module="Magento_UrlRewrite">
         <severeness>low</severeness>
     </assertUrlRewriteCustomRedirect>
+    <assertUrlRewriteSuccessOutsideRedirect module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+    </assertUrlRewriteSuccessOutsideRedirect>
+    <assertUrlRewriteCustomSearchRedirect module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+    </assertUrlRewriteCustomSearchRedirect>
 </constraint>

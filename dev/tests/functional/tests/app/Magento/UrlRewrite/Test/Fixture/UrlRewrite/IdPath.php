@@ -29,7 +29,7 @@ class IdPath implements FixtureInterface
      *
      * @var FixtureInterface
      */
-    protected $entity;
+    protected $entity = null;
 
     /**
      * Data set configuration settings
@@ -46,7 +46,7 @@ class IdPath implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if (!isset($data['entity'])) {
+        if (!isset($data['entity']) || $data['entity'] === '-') {
             $this->data = array_shift($data);
             return;
         }
