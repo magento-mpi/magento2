@@ -6,7 +6,8 @@
         <?php echo $this->headTitle($this->translate('Magento Setup Tool'))->setSeparator(' - ')->setAutoEscape(false) ?>
         <?php echo $this->headLink()
             ->appendStylesheet($this->basePath() . '/pub/bootstrap/css/bootstrap.min.css')
-            ->appendStylesheet($this->basePath() . '/pub/bootstrap/css/bootstrap-theme.min.css');
+            ->appendStylesheet($this->basePath() . '/pub/bootstrap/css/bootstrap-theme.min.css')
+            ->appendStylesheet($this->basePath() . '/pub/magento/setup/css/app.css');
         ?>
         <?php echo $this->headScript()
             ->appendFile($this->basePath() . '/pub/angular/angular.min.js')
