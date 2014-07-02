@@ -83,6 +83,9 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
             $scope.nextState = function () {
                 $state.go(navigationService.getNextState().id);
             }
+            $scope.previousState = function () {
+                $state.go(navigationService.getPreviousState().id);
+            }
         }
     ])
     .service('languageService', ['$http', function ($http) {
@@ -126,6 +129,15 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
                 var nItem = {};
                 this.states.forEach(function (item) {
                     if (item.order == $state.$current.order + 1) {
+                        nItem = item;
+                    }
+                });
+                return nItem;
+            },
+            getPreviousState: function () {
+                var nItem = {};
+                this.states.forEach(function (item) {
+                    if (item.order == $state.$current.order - 1) {
                         nItem = item;
                     }
                 });

@@ -1,3 +1,9 @@
+.step-controls {
+    padding: 10px;
+    margin: 20px;
+    text-align: right;
+}
+
 .bs-callout {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
