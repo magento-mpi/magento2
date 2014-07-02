@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder;
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
 class WriteService implements WriteServiceInterface
 {

@@ -213,22 +213,22 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ],
         ];
         $updatedData = $optionData;
-        $updatedData['values'][] = ['is_delete' => 1];
+        $updatedData['values'][] = ['option_type_id' => 939, 'is_delete' => 1];
 
         $metaDataMock1 = $this->getMock('\Magento\Catalog\Model\Product\Option\Value', [], [], '', false);
         $metaDataMock2 = $this->getMock('\Magento\Catalog\Model\Product\Option\Value', [], [], '', false);
         $metaDataMock3 = $this->getMock('\Magento\Catalog\Model\Product\Option\Value', [], [], '', false);
         $map1 = [
             ['option_type_id', null, 1],
-            [null, null, ['option_type_id' => 1]],
+            ['', null, ['option_type_id' => 1]],
         ];
         $map2 = [
             ['option_type_id', null, 2],
-            [null, null, ['option_type_id' => 2]],
+            ['', null, ['option_type_id' => 2]],
         ];
         $map3 = [
             ['option_type_id', null, 939],
-            [null, null, ['option_type_id' => 939]],
+            ['', null, ['option_type_id' => 939, 'is_delete' => 1]],
         ];
 
         $originalValues = [$metaDataMock1, $metaDataMock2, $metaDataMock3];
@@ -247,6 +247,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $metaDataMock1->expects($this->any())->method('getData')->will($this->returnValueMap($map1));
         $metaDataMock2->expects($this->any())->method('getData')->will($this->returnValueMap($map2));
         $metaDataMock3->expects($this->any())->method('getData')->will($this->returnValueMap($map3));
+        $metaDataMock3->expects($this->once())->method('setData')->with('is_delete', 1);
 
         // update()
         $this->productMock->expects($this->once())->method('setCanSaveCustomOptions')->with(true);
