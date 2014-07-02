@@ -29,7 +29,15 @@
 .web-conf-label {
     width: 200px;
 }
-
+.readiness-check-landing {
+    text-align: center;
+    width: 550px;
+    margin-top: 50px;
+}
+.readiness-check-landing > * {
+    padding: 20px;
+    margin: 20px;
+}
 
 .bs-callout {
     -moz-border-bottom-colors: none;
