@@ -15,8 +15,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>editForm</name>
-        <class>Magento\Backend\Test\Block\System\Store\Edit\Form</class>
+        <name>storeForm</name>
+        <class>Magento\Backend\Test\Block\System\Store\Edit\StoreForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

@@ -37,6 +37,7 @@
         <severeness>high</severeness>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
+            <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
             <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
         </require>
@@ -45,6 +46,7 @@
         <severeness>high</severeness>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
+            <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
             <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
         </require>

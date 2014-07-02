@@ -36,7 +36,7 @@ class StoreTest extends Functional
         $storeListPage->getGridPageActions()->addStoreView();
 
         $newStorePage = Factory::getPageFactory()->getAdminSystemStoreNewStore();
-        $newStorePage->getEditForm()->fill($storeFixture);
+        $newStorePage->getStoreForm()->fill($storeFixture);
         $newStorePage->getFormPageActions()->save();
         $storeListPage->getMessagesBlock()->assertSuccessMessage();
         $this->assertContains(

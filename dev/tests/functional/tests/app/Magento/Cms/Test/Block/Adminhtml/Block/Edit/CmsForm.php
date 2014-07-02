@@ -14,10 +14,10 @@ use Mtf\Block\Form as ParentForm;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Form
+ * Class CmsForm
  * Form for Cms Block creation
  */
-class Form extends ParentForm
+class CmsForm extends ParentForm
 {
     /**
      * Content Editor toggle button id

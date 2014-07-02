@@ -14,6 +14,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
 
 /**
  * Class AssertCmsBlockInGrid
+ * Assert that created CMS block can be found in grid
  */
 class AssertCmsBlockInGrid extends AbstractConstraint
 {
@@ -46,14 +47,23 @@ class AssertCmsBlockInGrid extends AbstractConstraint
         ];
 
         // add from_date & to_date to filter if there are ones
-        if (isset($data['creation_time']) && isset($data['update_time'])) {
+        if (isset($data['creation_time'])) {
             $filter['creation_time'] = date("M j, Y", strtotime($cmsBlock->getCreationTime()));
+        }
+        if (isset($data['update_time'])) {
             $filter['update_time'] = date("M j, Y", strtotime($cmsBlock->getUpdateTime()));
         }
 
         \PHPUnit_Framework_Assert::assertTrue(
             $cmsBlockIndex->getCmsBlockGrid()->isRowVisible($filter, true, false),
-            'CMS Block \'' . $filter['title'] . '\' is absent in CMS Block grid.'
+            'CMS Block with '
+            . 'title \'' . $filter['title'] . '\', '
+            . 'identifier \'' . $filter['identifier'] . '\', '
+            . 'store view \'' . $filter['store_id'] . '\', '
+            . 'status \'' . $filter['is_active'] . '\', '
+            . (isset($filter['creation_time']) ? ('creation_time \'' . $filter['creation_time'] . '\', ') : '')
+            . (isset($filter['update_time']) ? ('update_time \'' . $filter['update_time'] . '\', ') : '')
+            . 'is absent in CMS Block grid.'
         );
     }
 

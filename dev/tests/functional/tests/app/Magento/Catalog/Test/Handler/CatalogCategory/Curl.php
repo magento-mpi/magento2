@@ -33,6 +33,27 @@ class Curl extends AbstractCurl implements CatalogCategoryInterface
     ];
 
     /**
+     * Mapping values for data.
+     *
+     * @var array
+     */
+    protected $mappingData = [
+        'is_active' => [
+            'Yes' => 1,
+            'No' => 0,
+        ],
+        'include_in_menu' => [
+            'Yes' => 1,
+            'No' => 0,
+        ],
+        'display_mode' => [
+            'Static block and products' => 'PRODUCTS_AND_PAGE',
+            'Static block only' => 'PAGE',
+            'Products only' => 'PRODUCTS',
+        ],
+    ];
+
+    /**
      * Post request for creating Subcategory
      *
      * @param FixtureInterface|null $fixture [optional]
@@ -40,17 +61,9 @@ class Curl extends AbstractCurl implements CatalogCategoryInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data['general'] = $fixture->getData();
+        $data['general'] = $this->replaceMappingData($fixture->getData());
         if ($fixture->hasData('landing_page')) {
             $data['general']['landing_page'] = $this->getBlockId($fixture->getLandingPage());
-        }
-        foreach ($data['general'] as $key => $value) {
-            if ($value == 'Yes') {
-                $data['general'][$key] = 1;
-            }
-            if ($value == 'No') {
-                $data['general'][$key] = 0;
-            }
         }
 
         $diff = array_diff($this->dataUseConfig, array_keys($data['general']));

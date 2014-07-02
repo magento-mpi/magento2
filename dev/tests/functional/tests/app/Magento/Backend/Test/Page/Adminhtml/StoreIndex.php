@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class SystemStoreIndex
+ * Backend Store index page
  */
 class StoreIndex extends BackendPage
 {
@@ -32,7 +33,7 @@ class StoreIndex extends BackendPage
         ],
         'storeGrid' => [
             'name' => 'storeGrid',
-            'class' => 'Magento\Backend\Test\Block\System\Store\Grid',
+            'class' => 'Magento\Backend\Test\Block\System\Store\StoreGrid',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -55,7 +56,7 @@ class StoreIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\System\Store\Grid
+     * @return \Magento\Backend\Test\Block\System\Store\StoreGrid
      */
     public function getStoreGrid()
     {

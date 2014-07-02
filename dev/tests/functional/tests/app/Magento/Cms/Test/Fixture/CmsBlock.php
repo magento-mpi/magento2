@@ -12,11 +12,16 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CmsBlock
+ * CMS Block fixture
  */
 class CmsBlock extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'is_active' => null,
+        'title' => 'block_%isolation%',
+        'identifier' => 'identifier_%isolation%',
+        'store_id' => 'All Store Views',
+        'is_active' => 'Enabled',
+        'content' => 'description_%isolation%'
     ];
 
     protected $block_id = [

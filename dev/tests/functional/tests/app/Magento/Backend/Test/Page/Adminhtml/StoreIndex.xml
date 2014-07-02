@@ -22,7 +22,7 @@
     </block>
     <block>
         <name>storeGrid</name>
-        <class>Magento\Backend\Test\Block\System\Store\Grid</class>
+        <class>Magento\Backend\Test\Block\System\Store\StoreGrid</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

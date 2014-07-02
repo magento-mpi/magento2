@@ -68,7 +68,7 @@ abstract class CmsBlockEntityTest extends Injectable
     /**
      * Store Name
      *
-     * @var
+     * @var string
      */
     protected static $storeName;
 
@@ -105,14 +105,14 @@ abstract class CmsBlockEntityTest extends Injectable
     {
         $storeName = reset(self::$storeName);
         $tmp = explode("/", $storeName);
-        $filter['name'] = end($tmp);
+        $filter['store_title'] = end($tmp);
         $storeIndex = Factory::getPageFactory()->getAdminSystemStore();
         $storeIndex->open();
         $storeIndex->getStoreGrid()->searchAndOpen($filter);
         $storeNew = Factory::getPageFactory()->getAdminSystemStoreNewStore();
         $storeNew->getFormPageActions()->delete();
         $storeDelete = Factory::getPageFactory()->getAdminSystemStoreDeleteStore();
-        $storeDelete->getForm()->fillDeleteForm('No');
+        $storeDelete->getStoreForm()->fillForm('No');
         $storeDelete->getFormPageActions()->delete();
     }
 }

@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsBlockNew
+ * Backend new CMS Block page
  */
 class CmsBlockNew extends BackendPage
 {
@@ -20,13 +21,13 @@ class CmsBlockNew extends BackendPage
     protected $_blocks = [
         'formPageActions' => [
             'name' => 'formPageActions',
-            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\Edit\FormPageActions',
+            'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'editForm' => [
+        'cmsForm' => [
             'name' => 'editForm',
-            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\Edit\Form',
+            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\Edit\CmsForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -39,7 +40,7 @@ class CmsBlockNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\Cms\Test\Block\Adminhtml\Block\Edit\FormPageActions
+     * @return \Magento\Backend\Test\Block\FormPageActions
      */
     public function getFormPageActions()
     {
@@ -47,11 +48,11 @@ class CmsBlockNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Cms\Test\Block\Adminhtml\Block\Edit\Form
+     * @return \Magento\Cms\Test\Block\Adminhtml\Block\Edit\CmsForm
      */
-    public function getEditForm()
+    public function getCmsForm()
     {
-        return $this->getBlockInstance('editForm');
+        return $this->getBlockInstance('cmsForm');
     }
 
     /**
