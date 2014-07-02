@@ -71,7 +71,7 @@ class FilePermissions
                 }
             }
         }
-        return $this->required;
+        return array_values($this->required);
     }
 
     /**
@@ -89,7 +89,7 @@ class FilePermissions
                 $this->current[$code] = $path;
             }
         }
-        return $this->current;
+        return array_values($this->current);
     }
 
     /**
