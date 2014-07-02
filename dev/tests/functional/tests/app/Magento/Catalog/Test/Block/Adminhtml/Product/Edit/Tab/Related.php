@@ -14,8 +14,8 @@ use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
+ * Class Related
  * Related Tab
- *
  */
 class Related extends Tab
 {
