@@ -12,6 +12,7 @@ use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Resource\Sales\Order\Tax;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
+use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
@@ -134,8 +135,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $storeRequest = $this->getStoreTaxRequest($storeId);
             $classIds = [];
             foreach ($items as $item) {
-                if ($item->getTaxClassId()) {
-                    $classIds[] = $item->getTaxClassId();
+                if ($item->getTaxClassKey()) {
+                    $classIds[] = $this->getTaxClassId($item->getTaxClassKey());
                 }
             }
             $classIds = array_unique($classIds);
@@ -205,7 +206,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         return $this->calculator->getRateRequest(
             $quoteDetails->getShippingAddress(),
             $quoteDetails->getBillingAddress(),
-            $quoteDetails->getCustomerTaxClassId(),
+            $this->getTaxClassId($quoteDetails->getCustomerTaxClassKey(), 'customer'),
             $storeId
         );
     }
@@ -259,7 +260,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
-        $taxRequest->setProductClassId($item->getTaxClassId());
+        $taxRequest->setProductClassId($this->getTaxClassId($item->getTaxClassKey()));
         $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
         $rate = $this->calculator->getRate($taxRequest);
         $quantity = $this->getTotalQuantity($item);
@@ -317,7 +318,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
-        $taxRequest->setProductClassId($item->getTaxClassId());
+        $taxRequest->setProductClassId($this->getTaxClassId($item->getTaxClassKey()));
         $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
         $rate = $this->calculator->getRate($taxRequest);
         $quantity = $this->getTotalQuantity($item);
@@ -379,7 +380,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
-        $taxRequest->setProductClassId($item->getTaxClassId());
+        $taxRequest->setProductClassId($this->getTaxClassId($item->getTaxClassKey()));
         $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
         $rate = $this->calculator->getRate($taxRequest);
         $quantity = $this->getTotalQuantity($item);
@@ -563,5 +564,26 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $total = $this->calculator->round($item->getUnitPrice()) * $qty;
 
         return $this->calculator->round($total);
+    }
+
+    /**
+     * Get tax class id
+     *
+     * @param TaxClassKey|null $taxClassKey
+     * @param string $taxClassType
+     * @return int|null
+     */
+    protected function getTaxClassId($taxClassKey, $taxClassType = 'product' )
+    {
+        if (!empty($taxClassKey)) {
+            switch ($taxClassKey->getType()) {
+                case TaxClassKey::TYPE_ID:
+                    return $taxClassKey->getValue();
+                case TaxClassKey::TYPE_NAME:
+                    return null;
+                default:
+            }
+        }
+        return null;
     }
 }
