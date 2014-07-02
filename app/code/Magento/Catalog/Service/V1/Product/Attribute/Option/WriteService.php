@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 use Magento\Eav\Model\Config;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -35,7 +35,7 @@ class WriteService implements WriteServiceInterface
      */
     public function addOption($id, EavOption $option)
     {
-        $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $id);
+        $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE, $id);
         if (!$model || !$model->getId()) {
             throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_ID, $id);
         }
@@ -70,7 +70,7 @@ class WriteService implements WriteServiceInterface
      */
     public function removeOption($id, $optionId)
     {
-        $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $id);
+        $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE, $id);
         if (!$model || !$model->getId()) {
             throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_ID, $id);
         }

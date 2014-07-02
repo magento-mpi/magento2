@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
 use Magento\Catalog\Service\V1\Data\Eav\Option\Label;
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
@@ -101,7 +101,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->eavConfig->expects($this->any())
             ->method('getAttribute')
             ->with(
-                ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+                ProductMetadataServiceInterface::ENTITY_TYPE,
                 $attributeCode
             )->will($this->returnValue($this->attribute));
 
@@ -139,7 +139,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->eavConfig
             ->expects($this->once())
             ->method('getAttribute')
-            ->with(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $this->attributeId)
+            ->with(ProductMetadataServiceInterface::ENTITY_TYPE, $this->attributeId)
             ->will($this->returnValue($this->attribute));
         $this->attribute->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->attribute->expects($this->once())->method('usesSource')->will($this->returnValue(true));
