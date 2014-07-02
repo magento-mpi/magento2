@@ -13,10 +13,10 @@ use Mtf\Block\Form as ParentForm;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Form
- * Form for Cms Block creation
+ * Class StoreForm
+ * Form for Store View deletion
  */
-class Form extends ParentForm
+class StoreForm extends ParentForm
 {
     /**
      * Fill Backup Option in Delete Store View
@@ -24,7 +24,7 @@ class Form extends ParentForm
      * @param string $performBackup
      * @return void
      */
-    public function fillDeleteForm($performBackup = "No")
+    public function fillForm($performBackup = "No")
     {
         $this->_rootElement->find("#store_create_backup", Locator::SELECTOR_CSS, "select")->setValue($performBackup);
     }

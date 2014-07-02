@@ -52,7 +52,7 @@ class StoreId implements FixtureInterface
     {
         $this->params = $params;
         if (isset($data['dataSet'])) {
-            $dataSets = $data['dataSet'];
+            $dataSets = is_array($data['dataSet']) ? $data['dataSet'] : [$data['dataSet']];
             foreach ($dataSets as $dataSet) {
                 if ($dataSet !== '-') {
                     /** @var \Magento\Store\Test\Fixture\Store $store */
@@ -61,8 +61,9 @@ class StoreId implements FixtureInterface
                         $store->persist();
                     }
                     $this->stores[] = $store;
-                    $this->data[] = $store->getName() == 'All Store Views' ? $store->getName() :
-                        'Main Website' . '/' . $store->getGroupId() . '/' . $store->getName();
+                    $this->data[] = $store->getName() == 'All Store Views'
+                        ? $store->getName()
+                        : 'Main Website' . '/' . $store->getGroupId() . '/' . $store->getName();
                 }
             }
         }
@@ -87,6 +88,16 @@ class StoreId implements FixtureInterface
     public function getData($key = null)
     {
         return $this->data;
+    }
+
+    /**
+     * Return stores
+     *
+     * @return array
+     */
+    public function getStores()
+    {
+        return $this->stores;
     }
 
     /**

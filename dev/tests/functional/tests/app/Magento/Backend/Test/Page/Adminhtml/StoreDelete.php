@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class StoreDelete
+ * Backend Store delete page
  */
 class StoreDelete extends BackendPage
 {
@@ -24,9 +25,9 @@ class StoreDelete extends BackendPage
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'form' => [
+        'storeForm' => [
             'name' => 'form',
-            'class' => 'Magento\Backend\Test\Block\System\Store\Delete\Form',
+            'class' => 'Magento\Backend\Test\Block\System\Store\Delete\StoreForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
@@ -47,11 +48,11 @@ class StoreDelete extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\System\Store\Delete\Form
+     * @return \Magento\Backend\Test\Block\System\Store\Delete\StoreForm
      */
-    public function getForm()
+    public function getStoreForm()
     {
-        return $this->getBlockInstance('form');
+        return $this->getBlockInstance('storeForm');
     }
 
     /**

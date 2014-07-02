@@ -17,12 +17,9 @@ use Mtf\Repository\AbstractRepository;
 class CatalogCategory extends AbstractRepository
 {
     /**
-     * Constructor
-     *
+     * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -55,20 +52,6 @@ class CatalogCategory extends AbstractRepository
             'parent_id' => ['dataSet' => 'root_category'],
             'is_active' => 'Yes',
             'include_in_menu' => 'Yes'
-        ];
-
-        $this->_data['subcategory_with_block'] = [
-            'name' => 'Subcategory%isolation%',
-            'url_key' => 'Subcategory%isolation%',
-            'parent_id' => [
-                'dataSet' => 'default_category'
-            ],
-            'is_active' => 'Yes',
-            'include_in_menu' => 'Yes',
-            'display_mode' => 'PRODUCTS_AND_PAGE',
-            'landing_page' => [
-                'data' => 'default'
-            ],
         ];
     }
 }

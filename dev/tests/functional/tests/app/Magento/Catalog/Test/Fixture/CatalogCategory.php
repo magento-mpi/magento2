@@ -198,13 +198,6 @@ class CatalogCategory extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $category_products = [
-        'attribute_code' => 'category_products',
-        'backend_type' => 'virtual',
-        'group' => 'category_products',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogCategory\CategoryProducts',
-    ];
-
     protected $landing_page = [
         'attribute_code' => 'landing_page',
         'backend_type' => 'virtual',
@@ -215,6 +208,13 @@ class CatalogCategory extends InjectableFixture
         'attribute_code' => 'display_mode',
         'backend_type' => 'virtual',
         'input' => 'select',
+    ];
+
+    protected $category_products = [
+        'attribute_code' => 'category_products',
+        'backend_type' => 'virtual',
+        'group' => 'category_products',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogCategory\CategoryProducts',
     ];
 
     public function getEntityId()
@@ -322,11 +322,6 @@ class CatalogCategory extends InjectableFixture
         return $this->getData('include_in_menu');
     }
 
-    public function getCategoryProducts()
-    {
-        return $this->getData('category_products');
-    }
-
     public function getLandingPage()
     {
         return $this->getData('landing_page');
@@ -335,5 +330,10 @@ class CatalogCategory extends InjectableFixture
     public function getDisplayMode()
     {
         return $this->getData('display_mode');
+    }
+
+    public function getCategoryProducts()
+    {
+        return $this->getData('category_products');
     }
 }

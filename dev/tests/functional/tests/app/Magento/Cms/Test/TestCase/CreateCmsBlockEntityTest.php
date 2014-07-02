@@ -44,7 +44,7 @@ class CreateCmsBlockEntityTest extends CmsBlockEntityTest
         // Steps
         $this->cmsBlockIndex->open();
         $this->cmsBlockIndex->getGridPageActions()->addNew();
-        $this->cmsBlockNew->getEditForm()->fill($cmsBlock);
+        $this->cmsBlockNew->getCmsForm()->fill($cmsBlock);
         $this->cmsBlockNew->getFormPageActions()->save();
     }
 }

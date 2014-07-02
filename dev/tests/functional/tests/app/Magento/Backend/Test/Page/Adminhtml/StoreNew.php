@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class StoreNew
+ * Backend new Store page
  */
 class StoreNew extends BackendPage
 {
@@ -24,9 +25,9 @@ class StoreNew extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'editForm' => [
-            'name' => 'editForm',
-            'class' => 'Magento\Backend\Test\Block\System\Store\Edit\Form',
+        'storeForm' => [
+            'name' => 'storeForm',
+            'class' => 'Magento\Backend\Test\Block\System\Store\Edit\StoreForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -47,11 +48,11 @@ class StoreNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\System\Store\Edit\Form
+     * @return \Magento\Backend\Test\Block\System\Store\Edit\StoreForm
      */
-    public function getEditForm()
+    public function getStoreForm()
     {
-        return $this->getBlockInstance('editForm');
+        return $this->getBlockInstance('storeForm');
     }
 
     /**

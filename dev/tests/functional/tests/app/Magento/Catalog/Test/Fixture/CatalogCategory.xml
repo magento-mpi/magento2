@@ -146,11 +146,6 @@
             <attribute_code>include_in_menu</attribute_code>
             <backend_type>virtual</backend_type>
         </include_in_menu>
-        <category_products>
-            <attribute_code>category_products</attribute_code>
-            <backend_type>virtual</backend_type>
-            <source>Magento\Catalog\Test\Fixture\CatalogCategory\CategoryProducts</source>
-        </category_products>
         <landing_page>
             <attribute_code>landing_page</attribute_code>
             <backend_type>virtual</backend_type>
@@ -161,6 +156,11 @@
             <backend_type>virtual</backend_type>
             <input>select</input>
         </display_mode>
+        <category_products>
+            <attribute_code>category_products</attribute_code>
+            <backend_type>virtual</backend_type>
+            <source>Magento\Catalog\Test\Fixture\CatalogCategory\CategoryProducts</source>
+        </category_products>
     </fields>
     <repository_class>Magento\Catalog\Test\Repository\CatalogCategory</repository_class>
     <handler_interface>Magento\Catalog\Test\Handler\CatalogCategory\CatalogCategoryInterface</handler_interface>

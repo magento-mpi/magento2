@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsBlockIndex
+ * Backend CMS Block index page
  */
 class CmsBlockIndex extends BackendPage
 {
@@ -26,13 +27,13 @@ class CmsBlockIndex extends BackendPage
         ],
         'gridPageActions' => [
             'name' => 'gridPageActions',
-            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\GridPageActions',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'cmsBlockGrid' => [
             'name' => 'cmsBlockGrid',
-            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\Grid',
+            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\CmsGrid',
             'locator' => '#cmsBlockGrid',
             'strategy' => 'css selector',
         ],
@@ -47,7 +48,7 @@ class CmsBlockIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Cms\Test\Block\Adminhtml\Block\GridPageActions
+     * @return \Magento\Backend\Test\Block\GridPageActions
      */
     public function getGridPageActions()
     {
@@ -55,7 +56,7 @@ class CmsBlockIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Cms\Test\Block\Adminhtml\Block\Grid
+     * @return \Magento\Cms\Test\Block\Adminhtml\Block\CmsGrid
      */
     public function getCmsBlockGrid()
     {

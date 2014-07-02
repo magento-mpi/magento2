@@ -12,10 +12,10 @@ use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
- * Class Grid
- * Adminhtml Cms Block management grid
+ * Class StoreGrid
+ * Adminhtml Store View management grid
  */
-class Grid extends GridInterface
+class StoreGrid extends GridInterface
 {
     /**
      * Locator value for opening needed row
@@ -30,7 +30,7 @@ class Grid extends GridInterface
      * @var array
      */
     protected $filters = [
-        'name' => [
+        'store_title' => [
             'selector' => '#storeGrid_filter_store_title',
         ],
     ];

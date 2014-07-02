@@ -16,6 +16,7 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertCmsBlockNotOnCategoryPage
+ * Assert that created CMS block non visible on frontend category page
  */
 class AssertCmsBlockNotOnCategoryPage extends AbstractConstraint
 {
@@ -45,8 +46,9 @@ class AssertCmsBlockNotOnCategoryPage extends AbstractConstraint
         $category = $fixtureFactory->createByCode(
             'catalogCategory',
             [
-                'dataSet' => 'subcategory_with_block',
+                'dataSet' => 'default_subcategory',
                 'data' => [
+                    'display_mode' => 'Static block and products',
                     'landing_page' => $cmsBlock->getTitle()
                 ]
             ]

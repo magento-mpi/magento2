@@ -15,8 +15,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>form</name>
-        <class>Magento\Backend\Test\Block\System\Store\Delete\Form</class>
+        <name>storeForm</name>
+        <class>Magento\Backend\Test\Block\System\Store\Delete\StoreForm</class>
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>

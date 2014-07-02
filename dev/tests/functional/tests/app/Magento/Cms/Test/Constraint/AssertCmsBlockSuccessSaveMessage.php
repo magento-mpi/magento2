@@ -13,6 +13,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
 
 /**
  * Class AssertCmsBlockSuccessSaveMessage
+ * Assert that after save block successful message appears
  */
 class AssertCmsBlockSuccessSaveMessage extends AbstractConstraint
 {
@@ -26,7 +27,7 @@ class AssertCmsBlockSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after save block  "The block has been saved." successful message appears
+     * Assert that after save block successful message appears
      *
      * @param CmsBlockIndex $cmsBlockIndex
      * @return void

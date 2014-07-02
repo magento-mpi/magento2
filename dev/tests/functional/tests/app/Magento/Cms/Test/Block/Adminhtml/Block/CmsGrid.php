@@ -12,10 +12,10 @@ use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
- * Class Grid
+ * Class CmsGrid
  * Adminhtml Cms Block management grid
  */
-class Grid extends GridInterface
+class CmsGrid extends GridInterface
 {
     /**
      * Filters array mapping
@@ -37,10 +37,10 @@ class Grid extends GridInterface
             'selector' => '#cmsBlockGrid_filter_is_active',
             'input' => 'select',
         ],
-        'creation_time' => [
+        'creation_time_from' => [
             'selector' => '[data-ui-id="widget-grid-column-filter-datetime-filter-creation-time-from"]',
         ],
-        'update_time' => [
+        'update_time_from' => [
             'selector' => '[data-ui-id="widget-grid-column-filter-datetime-1-filter-update-time-from"]',
         ],
     ];
