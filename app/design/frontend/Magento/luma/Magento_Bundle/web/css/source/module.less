@@ -82,6 +82,12 @@
                 .heading(h2);
             }
         }
+        > .title,
+        .bundle-summary .subtitle {
+            border-bottom: 1px #e4e4e4 solid;
+            padding-bottom: 16px;
+            margin-bottom: 25px;
+        }
         .product-details {
         }
         .price-box {
@@ -126,6 +132,7 @@
             }
         }
         .product-addto-links {
+            text-align: center;
             > .action {
                 &:extend(.abstract-add-to-actions all);
                 margin-right: 5%;
@@ -194,9 +201,6 @@
             position: relative;
             > .title,
             .bundle-summary .subtitle {
-                border-bottom: 1px #e4e4e4 solid;
-                padding-bottom: 16px;
-                margin-bottom: 25px;
             }
             .price-box {
                 .price {
@@ -209,6 +213,9 @@
                     width: 49%;
                     margin-right: 1%;
                 }
+            }
+            .product-addto-links {
+                text-align: left;
             }
         }
         .product-options-wrapper,
