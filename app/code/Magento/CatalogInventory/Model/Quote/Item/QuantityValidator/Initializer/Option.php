@@ -17,11 +17,50 @@ class Option
     protected $quoteItemQtyList;
 
     /**
-     * @param QuoteItemQtyList $quoteItemQtyList
+     * @var \Magento\CatalogInventory\Model\Stock\ItemRegistry
      */
-    public function __construct(QuoteItemQtyList $quoteItemQtyList)
-    {
+    protected $stockItemRegistry;
+
+    /**
+     * @param QuoteItemQtyList $quoteItemQtyList
+     * @param \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
+     */
+    public function __construct(
+        QuoteItemQtyList $quoteItemQtyList,
+        \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
+    ) {
         $this->quoteItemQtyList = $quoteItemQtyList;
+        $this->stockItemRegistry = $stockItemRegistry;
+    }
+
+    /**
+     * Init stock item
+     *
+     * @param \Magento\Sales\Model\Quote\Item\Option $option
+     * @param \Magento\Sales\Model\Quote\Item $quoteItem
+     *
+     * @return \Magento\CatalogInventory\Model\Stock\Item
+     * @throws \Magento\Framework\Model\Exception
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function getStockItem(
+        \Magento\Sales\Model\Quote\Item\Option $option,
+        \Magento\Sales\Model\Quote\Item $quoteItem
+    ) {
+        $stockItem = $this->stockItemRegistry->retrieve($option->getProduct()->getId());
+        if (!$stockItem->getId()) {
+            throw new \Magento\Framework\Model\Exception(__('The stock item for Product in option is not valid.'));
+        }
+        /**
+         * define that stock item is child for composite product
+         */
+        $stockItem->setIsChildItem(true);
+        /**
+         * don't check qty increments value for option product
+         */
+        $stockItem->setSuppressCheckQtyIncrements(true);
+
+        return $stockItem;
     }
 
     /**
@@ -32,7 +71,6 @@ class Option
      * @param int $qty
      *
      * @return \Magento\Framework\Object
-     *
      * @throws \Magento\Framework\Model\Exception
      */
     public function initialize(
@@ -43,23 +81,6 @@ class Option
         $optionValue = $option->getValue();
         $optionQty = $qty * $optionValue;
         $increaseOptionQty = ($quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty) * $optionValue;
-
-        /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-        $stockItem = $option->getProduct()->getStockItem();
-
-        if (!$stockItem instanceof \Magento\CatalogInventory\Model\Stock\Item) {
-            throw new \Magento\Framework\Model\Exception(__('The stock item for Product in option is not valid.'));
-        }
-
-        /**
-         * define that stock item is child for composite product
-         */
-        $stockItem->setIsChildItem(true);
-        /**
-         * don't check qty increments value for option product
-         */
-        $stockItem->setSuppressCheckQtyIncrements(true);
-
         $qtyForCheck = $this->quoteItemQtyList->getQty(
             $option->getProduct()->getId(),
             $quoteItem->getId(),
@@ -67,6 +88,7 @@ class Option
             $increaseOptionQty
         );
 
+        $stockItem = $this->getStockItem($option, $quoteItem);
         $result = $stockItem->checkQuoteItemQty($optionQty, $qtyForCheck, $optionValue);
 
         if (!is_null($result->getItemIsQtyDecimal())) {

@@ -250,7 +250,7 @@ class Integration extends Action
                 }
                 if ($this->getRequest()->isXmlHttpRequest()) {
                     $isTokenExchange = $integration->getEndpoint() && $integration->getIdentityLinkUrl() ? '1' : '0';
-                    $this->getResponse()->setBody(
+                    $this->getResponse()->representJson(
                         $this->_coreHelper->jsonEncode(
                             array('integrationId' => $integration->getId(), 'isTokenExchange' => $isTokenExchange)
                         )
@@ -430,7 +430,7 @@ class Integration extends Action
                 IntegrationModel::CONSUMER_ID => $integration->getConsumerId(),
                 'popup_content' => $popupContent
             );
-            $this->getResponse()->setBody($this->_coreHelper->jsonEncode($result));
+            $this->getResponse()->representJson($this->_coreHelper->jsonEncode($result));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*');
@@ -478,7 +478,7 @@ class Integration extends Action
     protected function _redirect($path, $arguments = array())
     {
         if ($this->getRequest()->isXmlHttpRequest()) {
-            $this->getResponse()->setBody(
+            $this->getResponse()->representJson(
                 $this->_coreHelper->jsonEncode(array('_redirect' => $this->getUrl($path, $arguments)))
             );
             return $this;
