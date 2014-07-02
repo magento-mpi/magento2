@@ -4,6 +4,27 @@
     text-align: right;
 }
 
+.advanced-opt > div {
+    padding: 20px;
+}
+.advanced-opt-label {
+    float: left;
+    width: 20%;
+}
+.advanced-opt-content {
+    display: inline-block;
+    width: 80%;
+}
+.web-conf-control {
+    width: 200px;
+    display: inline;
+    margin-left: 20px;
+}
+.web-conf-label {
+    width: 200px;
+}
+
+
 .bs-callout {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
