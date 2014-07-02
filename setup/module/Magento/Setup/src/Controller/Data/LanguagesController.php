@@ -9,9 +9,14 @@ namespace Magento\Setup\Controller\Data;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class LanguagesController extends AbstractActionController
 {
+    /**
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
 
     /**
      * @var JsonModel
@@ -19,11 +24,13 @@ class LanguagesController extends AbstractActionController
     protected $jsonModel;
 
     /**
+     * @param ServiceLocatorInterface $serviceLocator
      * @param JsonModel $jsonModel
      */
-    public function __construct(JsonModel $jsonModel)
+    public function __construct(ServiceLocatorInterface $serviceLocator, JsonModel $jsonModel)
     {
         $this->jsonModel = $jsonModel;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -31,18 +38,6 @@ class LanguagesController extends AbstractActionController
      */
     public function indexAction()
     {
-        return $this->jsonModel->setVariable(
-            'languages',
-            [
-                [
-                    'code'  => 'en_US',
-                    'title' => 'United State',
-                ],
-                [
-                    'code'  => 'ua_UK',
-                    'title' => 'Ukrainian',
-                ],
-            ]
-        );
+        return $this->jsonModel->setVariable('languages', $this->serviceLocator->get('config')['languages']);
     }
 }
