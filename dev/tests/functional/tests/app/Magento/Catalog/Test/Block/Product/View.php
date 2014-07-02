@@ -54,7 +54,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productName = '.page.title.product span';
+    protected $productName = '.page-title.product span';
 
     /**
      * Product sku element
@@ -333,7 +333,7 @@ class View extends Block
     public function fillOptions(FixtureInterface $product)
     {
         $configureButton = $this->_rootElement->find($this->customizeButton);
-        $configureSection = $this->_rootElement->find('.product.options.wrapper');
+        $configureSection = $this->_rootElement->find('.product-options-wrapper');
 
         if ($configureButton->isVisible()) {
             $configureButton->click();
