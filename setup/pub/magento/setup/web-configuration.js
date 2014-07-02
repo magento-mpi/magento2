@@ -3,7 +3,7 @@ var webConfiguration = angular.module('web-configuration', []);
 webConfiguration.controller('webConfigurationController', ['$scope', function ($scope) {
     $scope.address = {
         web: 'http://www.example.com/',
-        admin: ''
+        admin: 'admin'
     };
 
     $scope.https = {

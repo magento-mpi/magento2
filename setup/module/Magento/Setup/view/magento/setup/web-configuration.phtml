@@ -17,6 +17,21 @@
     }
 </style>
 
+<?php
+$hints = [
+    'address_web' => sprintf(
+        '<div><p>%s</p><p>%s</p><p><a href=\'#\'>%s</a></p></div>',
+        $this->translate('Enter the base URL that brings shoppers to your store (Ex. http://example.com/).'),
+        $this->translate('We recommend not using your actual IP address when your store goes live, otherwise all your shoppers will see it.'),
+        $this->translate('Detect IP Address')
+    ),
+    'encrypt_key' => sprintf(
+        '<p>%s</p>',
+        $this->translate('Key to encrypt sensitive data such as passwords and personally identifiable customer informaton in the Magento database. The encryption key is stored in [your Magento install dir]/app/etc/local.xml/')
+    ),
+];
+?>
+
 <div class="step-controls">
     <a href="#" class="btn btn-default" ng-click="$state.forceReload()">Try Again</a>
     <a href="#" class="btn btn-default" ng-click="nextState()">Next</a>
@@ -32,13 +47,23 @@
         <div class="row">
             <div class="col-md-3">Your Store Address<span class="required">*</span></div>
             <div class="col-md-9">
-                <input type="text" class="form-control web-conf-control" ng-model="address.web" />
+                <input type="text"
+                       ng-model="address.web"
+                       class="form-control web-conf-control"
+                       tooltip-placement="right"
+                       tooltip-html-unsafe="<?php echo $hints['address_web']; ?>"
+                       tooltip-trigger="focus"
+                       required />
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">Magento Admin Address<span class="required">*</span></div>
             <div class="col-md-9">
-                <span>{{address.web}}</span><input type="text" class="form-control web-conf-control" ng-model="address.admin" />
+                <span>{{address.web}}</span>
+                <input type="text"
+                       class="form-control web-conf-control"
+                       ng-model="address.admin"
+                       required />
             </div>
         </div>
 
@@ -83,7 +108,13 @@
                                 <input type="radio" id="enc-key-user" ng-model="encrypt.type" value="user" />
                             </div>
                             <div ng-show="showEncryptKey()">
-                                <input type="text" class="form-control web-conf-control" ng-model="encrypt.key" />
+                                <input type="text"
+                                       class="form-control web-conf-control"
+                                       ng-model="encrypt.key"
+                                       tooltip-placement="right"
+                                       tooltip-html-unsafe="<?php echo $hints['encrypt_key']; ?>"
+                                       tooltip-trigger="focus"
+                                       required />
                             </div>
                         </div>
                     </div>
