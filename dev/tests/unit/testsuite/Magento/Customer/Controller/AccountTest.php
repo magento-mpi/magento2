@@ -11,6 +11,9 @@
  */
 namespace Magento\Customer\Controller;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class AccountTest extends \PHPUnit_Framework_TestCase
 {
     /**
