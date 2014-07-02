@@ -9,7 +9,6 @@
 namespace Magento\GroupedProduct\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Constraint\AssertProductForm;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
@@ -46,8 +45,8 @@ class AssertGroupedProductForm extends AssertProductForm
         $fieldsFixture['associated'] = $this->prepareGroupedOptions($fieldsFixture['associated']);
 
         $errors = $this->compareArray($fieldsFixture, $fieldsForm);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($errors),
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $errors,
             "These data must be equal to each other:\n" . implode("\n", $errors)
         );
     }
@@ -56,7 +55,7 @@ class AssertGroupedProductForm extends AssertProductForm
      * Prepare Grouped Options array from preset
      *
      * @param array $fields
-     * @return array|null
+     * @return array
      */
     protected function prepareGroupedOptions(array $fields)
     {

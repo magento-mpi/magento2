@@ -61,9 +61,9 @@ class AssertGroupedPriceOnProductPage extends AbstractConstraint implements Asse
     /**
      * Verify product special price on product view page
      *
-     * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
-     * @param string $block
+     * @param CatalogProductView $catalogProductView
+     * @param string $block [optional]
      * @return void
      */
     public function assertPrice(

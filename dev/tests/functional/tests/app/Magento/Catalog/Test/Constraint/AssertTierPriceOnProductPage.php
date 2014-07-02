@@ -75,7 +75,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint implements AssertP
      *
      * @param FixtureInterface $product
      * @param CatalogProductView $catalogProductView
-     * @param string $block
+     * @param string $block [optional]
      * @return void
      */
     public function assertPrice(FixtureInterface $product, CatalogProductView $catalogProductView, $block = '')

@@ -10,7 +10,6 @@ namespace Magento\GroupedProduct\Test\Block\Adminhtml\Product\Grouped;
 
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Mtf\Fixture\InjectableFixture;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**

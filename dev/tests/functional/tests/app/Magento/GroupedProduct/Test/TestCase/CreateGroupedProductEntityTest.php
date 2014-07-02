@@ -18,9 +18,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
  * Test Creation for CreateGroupedProductEntity
  *
  * Preconditions:
- * Products from "product/dataSet" column is created
- * For simple product: https://wiki.corp.x.com/download/attachments/82015445/CatalogProductSimple.php
- * For virtual product: https://wiki.corp.x.com/download/attachments/82015445/CatalogProductVirtual.php
+ * 1. Simple product is created.
+ * 2. Virtual product is created.
  *
  * Test Flow:
  * 1. Login to the backend.
@@ -60,9 +59,7 @@ class CreateGroupedProductEntityTest extends Injectable
     public function __prepare(CatalogCategory $category)
     {
         $category->persist();
-        return [
-            'category' => $category
-        ];
+        return ['category' => $category];
     }
 
     /**

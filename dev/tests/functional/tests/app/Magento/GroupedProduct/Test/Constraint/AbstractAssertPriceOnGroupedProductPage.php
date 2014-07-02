@@ -44,10 +44,10 @@ abstract class AbstractAssertPriceOnGroupedProductPage extends AbstractConstrain
     /**
      * Verify product price on grouped product view page
      *
-     * @param CatalogProductView $catalogProductView
      * @param CatalogProductGrouped $product
+     * @param CatalogProductView $catalogProductView
      * @param AssertPriceOnProductPageInterface $object
-     * @param string $typePrice
+     * @param string $typePrice [optional]
      * @return bool|string
      */
     protected function processAssertPrice(

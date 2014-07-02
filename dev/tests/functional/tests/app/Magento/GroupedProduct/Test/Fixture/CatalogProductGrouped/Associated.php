@@ -19,6 +19,20 @@ use Mtf\Fixture\InjectableFixture;
 class Associated implements FixtureInterface
 {
     /**
+     * Prepared dataSet data
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * Current preset
      *
      * @var string
@@ -34,7 +48,7 @@ class Associated implements FixtureInterface
      */
     public function __construct(
         FixtureFactory $fixtureFactory,
-        $data,
+        array $data,
         array $params = [],
         $persist = false
     ) {
@@ -86,7 +100,7 @@ class Associated implements FixtureInterface
      * Return prepared data set
      *
      * @param string $key [optional]
-     * @return mixed
+     * @return array
      */
     public function getData($key = null)
     {
@@ -96,7 +110,7 @@ class Associated implements FixtureInterface
     /**
      * Return data set configuration settings
      *
-     * @return string
+     * @return array
      */
     public function getDataConfig()
     {
@@ -107,7 +121,7 @@ class Associated implements FixtureInterface
      * Preset array
      *
      * @param string $name
-     * @return mixed|null
+     * @return array|null
      */
     protected function getPreset($name)
     {

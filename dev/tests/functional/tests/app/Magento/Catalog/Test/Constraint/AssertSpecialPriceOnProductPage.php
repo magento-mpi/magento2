@@ -63,7 +63,7 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint implements Asse
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
-     * @param string $block
+     * @param string $block [optional]
      * @return void
      */
     public function assertPrice(

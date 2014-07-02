@@ -9,7 +9,6 @@
 namespace Magento\GroupedProduct\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Fixture\InjectableFixture;
 use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
 use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
 
@@ -43,8 +42,7 @@ class AssertGroupedProductsDefaultQty extends AbstractConstraint
             \PHPUnit_Framework_Assert::assertEquals(
                 $groupedBlock->getQty($item['id']),
                 $item['qty'],
-                'Default qty for sub product "' . $item['name']
-                . '" in grouped product according to dataset.'
+                'Default qty for sub product "' . $item['name'] . '" in grouped product according to dataset.'
             );
         }
     }

@@ -17,6 +17,7 @@ use Mtf\Repository\AbstractRepository;
 class CatalogProductVirtual extends AbstractRepository
 {
     /**
+     * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
      *

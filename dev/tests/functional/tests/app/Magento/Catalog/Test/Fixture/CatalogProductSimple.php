@@ -359,12 +359,12 @@ class CatalogProductSimple extends InjectableFixture
     ];
 
     protected $quantity_and_stock_status = [
-            'attribute_code' => 'quantity_and_stock_status',
-            'backend_type' => 'array',
-            'is_required' => '0',
-            'default_value' => '',
-            'input' => '',
-            'group' => 'product-details',
+        'attribute_code' => 'quantity_and_stock_status',
+        'backend_type' => 'array',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => '',
+        'group' => 'product-details',
     ];
 
     protected $recurring_profile = [

@@ -25,13 +25,6 @@ class AssertTierPriceOnGroupedProductPage extends AbstractAssertPriceOnGroupedPr
     protected $severeness = 'low';
 
     /**
-     * Tier price block
-     *
-     * @var string
-     */
-    //protected $tierBlock = '#super-product-table tr:nth-child(%d) .prices.tier.items';
-
-    /**
      * Format error message
      *
      * @var string
