@@ -101,6 +101,8 @@ class ItemBuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @param array $dataArray
      * @return Item
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     private function generateItemWithSetters($dataArray)
     {

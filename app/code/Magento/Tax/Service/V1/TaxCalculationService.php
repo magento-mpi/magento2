@@ -573,7 +573,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param string $taxClassType
      * @return int|null
      */
-    protected function getTaxClassId($taxClassKey, $taxClassType = 'product' )
+    protected function getTaxClassId($taxClassKey, $taxClassType = 'product')
     {
         if (!empty($taxClassKey)) {
             switch ($taxClassKey->getType()) {
