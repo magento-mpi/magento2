@@ -24,9 +24,8 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
     /**
      * Post request for creating Attribute Set
      *
-     * @param FixtureInterface $fixture
+     * @param FixtureInterface|null $fixture
      * @return array
-     * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
     {
@@ -73,7 +72,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param array $attributes
      * @return array
      */
-    public function prepareDataAttribute($attributes)
+    public function prepareDataAttribute(array $attributes)
     {
         $index = 0;
         $dataAttribute = [];

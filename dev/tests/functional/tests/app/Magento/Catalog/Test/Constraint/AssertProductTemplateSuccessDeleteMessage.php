@@ -13,15 +13,14 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 
 /**
  * Class AssertProductTemplateSuccessDeleteMessage
- *
- * @package Magento\Catalog\Test\Constraint
+ * Check Product Templates success delete message
  */
 class AssertProductTemplateSuccessDeleteMessage extends AbstractConstraint
 {
     /**
      * Text value to be checked
      */
-    const DELETE_MESSAGE = 'The attribute set has been removed.';
+    const SUCCESS_DELETE_MESSAGE = 'The attribute set has been removed.';
 
     /**
      * Constraint severeness
@@ -31,7 +30,7 @@ class AssertProductTemplateSuccessDeleteMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after deleting product template success message "The attribute set has been removed." appears
+     * Assert that after deleting product template success delete message appears
      *
      * @param CatalogProductSetIndex $productSetIndex
      * @return void
@@ -40,10 +39,10 @@ class AssertProductTemplateSuccessDeleteMessage extends AbstractConstraint
     {
         $actualMessage = $productSetIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::DELETE_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::DELETE_MESSAGE
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }

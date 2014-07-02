@@ -329,9 +329,9 @@
         <severeness>high</severeness>
     </assertProductTemplateSuccessDeleteMessage>
     <assertProductTemplateNotInGrid module="Magento_Catalog">
-        <severeness>high</severeness>
+        <severeness>low</severeness>
     </assertProductTemplateNotInGrid>
     <assertProductNotInGrid module="Magento_Catalog">
-        <severeness>high</severeness>
+        <severeness>low</severeness>
     </assertProductNotInGrid>
 </constraint>

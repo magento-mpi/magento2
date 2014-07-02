@@ -14,8 +14,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Class AssertProductNotInGrid
- *
- * @package Magento\Catalog\Test\Constraint
+ * Check Product absence on grid
  */
 class AssertProductNotInGrid extends AbstractConstraint
 {
@@ -24,7 +23,7 @@ class AssertProductNotInGrid extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
 
     /**
      * Assert that deleted product cannot be found by name and sku.

@@ -46,6 +46,8 @@ class DeleteAttributeSetTest extends Injectable
     protected $productSetEdit;
 
     /**
+     * Inject data
+     *
      * @param CatalogProductSetIndex $productSetIndex
      * @param CatalogProductSetEdit $productSetEdit
      * @return void
@@ -75,7 +77,7 @@ class DeleteAttributeSetTest extends Injectable
         //Precondition
         $productAttribute->persist();
         $productTemplate->persist();
-        /**@var CatalogProductSimple $catalogProductSimple */
+        /** @var CatalogProductSimple $catalogProductSimple */
         $product = $fixtureFactory->createByCode(
             'catalogProductSimple',
             [
@@ -86,11 +88,11 @@ class DeleteAttributeSetTest extends Injectable
             ]
         );
         $product->persist();
+
+        //Steps
         $filter = [
             'set_name' => $productTemplate->getAttributeSetName(),
         ];
-
-        //Steps
         $this->productSetIndex->open();
         $this->productSetIndex->getGrid()->searchAndOpen($filter);
         $this->productSetEdit->getPageActions()->delete();

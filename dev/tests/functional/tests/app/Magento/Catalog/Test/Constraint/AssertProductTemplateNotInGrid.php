@@ -14,8 +14,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 
 /**
  * Class AssertProductTemplateNotInGrid
- *
- * @package Magento\Catalog\Test\Constraint
+ * Check Product Template absence on grid
  */
 class AssertProductTemplateNotInGrid extends AbstractConstraint
 {
@@ -24,7 +23,7 @@ class AssertProductTemplateNotInGrid extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
 
     /**
      * Assert that new product template displays in Product Templates grid
