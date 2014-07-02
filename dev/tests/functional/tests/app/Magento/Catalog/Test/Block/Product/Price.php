@@ -96,7 +96,7 @@ class Price extends Block
     {
         //@TODO it have to rewrite when will be possibility to divide it to different blocks(by product type)
         $prices = explode("\n", trim($this->_rootElement->getText()));
-        if (count($prices) === 1 || count($prices) === 2) {
+        if (count($prices) === 1) {
             return ['price_regular_price' => trim($prices[0], $currency)];
         }
         return $this->formatPricesData($prices, $currency);
@@ -112,15 +112,10 @@ class Price extends Block
     private function formatPricesData(array $prices, $currency = '$')
     {
         $formatted = [];
-        $name = '';
         foreach ($prices as $price) {
-            if (!strstr($price, $currency)) {
-                $name = str_replace(' ', '_', trim(preg_replace('#[^0-9a-z]+#i', ' ', strtolower($price)), ' '));
-                $name = 'price_' . $name;
-                continue;
-            }
-            list(, $price) = explode($currency, $price);
-            $formatted[$name] = $price;
+            list($name, $price) = explode($currency, $price);
+            $name = str_replace(' ', '_', trim(preg_replace('#[^0-9a-z]+#i', ' ', strtolower($name)), ' '));
+            $formatted['price_' . $name] = $price;
         }
         return $formatted;
     }
