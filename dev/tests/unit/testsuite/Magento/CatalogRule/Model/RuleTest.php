@@ -36,13 +36,27 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->combineFactory = $this->getMock('Magento\CatalogRule\Model\Rule\Condition\CombineFactory', ['create']);
         $this->storeModel = $this->getMock('Magento\Store\Model\Store', array('__wakeup', 'getId'), array(), '', false);
-        $this->productModel = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->combineFactory = $this->getMock(
+            'Magento\CatalogRule\Model\Rule\Condition\CombineFactory',
+            array(
+                'create'
+            )
+        );
+        $this->productModel = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array(
+                '__wakeup', 'getId'
+            ),
+            array(),
+            '',
+            false
+        );
         $this->condition = $this->getMock(
             'Magento\Rule\Model\Condition\Combine',
             array(
-                'setRule'
+                'setRule',
+                'validate'
             ),
             array(),
             '',
@@ -72,8 +86,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers _getWebsitesMap
+     * @dataProvider dataProviderCallbackValidateProduct
+     * @param bool $validate
      */
-    public function testCallbackValidateProduct()
+    public function testCallbackValidateProduct($validate)
     {
         $args['product'] = $this->productModel;
         $args['attributes'] = array();
@@ -90,17 +106,39 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             'updated_at' => '2014-06-25 14:37:15'
         );
         $this->storeManager->expects($this->any())->method('getWebsites')->with(true)
-            ->will($this->returnValue(array($this->websiteModel)));
-        $this->websiteModel->expects($this->any())->method('getId')
+            ->will($this->returnValue(array($this->websiteModel, $this->websiteModel)));
+        $this->websiteModel->expects($this->at(0))->method('getId')
             ->will($this->returnValue('1'));
+        $this->websiteModel->expects($this->at(2))->method('getId')
+            ->will($this->returnValue('2'));
         $this->websiteModel->expects($this->any())->method('getDefaultStore')
             ->will($this->returnValue($this->storeModel));
-        $this->storeModel->expects($this->any())->method('getId')
+        $this->storeModel->expects($this->at(0))->method('getId')
             ->will($this->returnValue('1'));
+        $this->storeModel->expects($this->at(1))->method('getId')
+            ->will($this->returnValue('2'));
         $this->combineFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->condition));
+        $this->condition->expects($this->any())->method('validate')
+            ->will($this->returnValue($validate));
         $this->condition->expects($this->any())->method('setRule')
             ->will($this->returnSelf());
+        $this->productModel->expects($this->any())->method('getId')
+            ->will($this->returnValue(1));
+
         $this->rule->callbackValidateProduct($args);
+
+        $matchingProducts = $this->rule->getMatchingProductIds();
+        foreach ($matchingProducts['1'] as $id => $matchingRules) {
+            $this->assertEquals($validate, $matchingRules);
+        }
+    }
+
+    public function dataProviderCallbackValidateProduct()
+    {
+        return array(
+            array(false),
+            array(true),
+        );
     }
 }

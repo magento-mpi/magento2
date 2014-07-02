@@ -325,7 +325,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
         foreach ($websites as $websiteId => $defaultStoreId) {
             $product->setStoreId($defaultStoreId);
-            $results[$websiteId] = (int)$this->getConditions()->validate($product);
+            $results[$websiteId] = $this->getConditions()->validate($product);
         }
         $this->_productIds[$product->getId()] = $results;
     }
