@@ -10,6 +10,7 @@
     margin: 0 0 @indent-l-base;
     .action.primary.customize {
         &:extend(.abstract-button-l all);
+        &:extend(.button-responsive all);
     }
 }
 
@@ -29,7 +30,6 @@
 
     .input-text.qty {
         &:extend(.input-qty all);
-        font-weight: @font-weight-bold;
     }
 
     .product-options-wrapper {
@@ -43,8 +43,25 @@
             } 
         }
         .field.choice {
+            input {
+                float: left;
+            }
+            .label {
+                margin-left: 24px;
+                display: block;
+            }
+            .product-name {
+                display: block;
+            }
+            .label {
+                &:extend(.add-clearfix all);
+            }
             .price-notice {
-                float: right;
+                float: left;
+                text-align: right;
+            }
+            .price-excluding-tax {
+                display: inline-block;
             }
         }
     }
@@ -66,12 +83,12 @@
             }
         }
         .product-details {
-            position: relative;
         }
         .price-box {
-            padding-right: 60px;
+            margin-bottom: @indent-base;
             .price-label {
                 display: block;
+                margin-bottom: @indent-xs-base;
             }
             .price {
                 font-size: @price-size;
@@ -81,10 +98,6 @@
             }
         }
         .field.qty {
-            position: absolute;
-            right: 0;
-            top: 0;
-            text-align: center;
         }
 
         .bundle-summary {
@@ -109,6 +122,7 @@
             &:extend(.abstract-box-tocart all);
             .action.primary {
                 &:extend(.abstract-button-l all);
+                &:extend(.button-responsive all);
             }
         }
         .product-addto-links {
@@ -137,11 +151,17 @@
     .nested {
         .field.qty {
             .form-field-type(@_type: block);
+            .label {
+                font-weight: @form-field-label-font-weight;
+            }
             &:last-child {
                 margin-bottom: 0;
             }
             margin-top: @form-field-vertical-indent;
         }
+    }
+    .price {
+        font-weight: @font-weight-semibold;
     }
 }
 
@@ -149,6 +169,11 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
+    .bundle-actions {
+        .action.primary.customize {
+            width: auto;
+        }
+    }
     .bundle-options-container {
         .legend.title {
             font-size: @h1-font-size-desktop;
@@ -167,15 +192,22 @@
             float: right;
             width: 40%;
             position: relative;
-            > .title {
+            > .title,
+            .bundle-summary .subtitle {
                 border-bottom: 1px #e4e4e4 solid;
-                padding-bottom: 25px;
+                padding-bottom: 16px;
                 margin-bottom: 25px;
             }
             .price-box {
                 .price {
                     font-size: @price-size-desktop;
                     line-height: @price-size-desktop;
+                }
+            }
+            .box-tocart {
+                .action.primary {
+                    width: 49%;
+                    margin-right: 1%;
                 }
             }
         }
