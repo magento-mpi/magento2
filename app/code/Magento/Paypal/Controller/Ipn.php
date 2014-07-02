@@ -53,6 +53,7 @@ class Ipn extends \Magento\Framework\App\Action\Action
             $this->_ipnFactory->create(array('data' => $data))->processIpnRequest();
         } catch (\Exception $e) {
             $this->_logger->logException($e);
+            $this->getResponse()->setHttpResponseCode(500);
         }
     }
 }
