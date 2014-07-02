@@ -3,17 +3,17 @@
 </div>
 
 <form class="form-horizontal" role="form">
-    <div class="bs-callout bs-callout-warning col-sm-12">
+    <div class="bs-callout bs-callout-warning col-sm-12" ng-init="useExistingDb=1">
         <h4><?php echo $this->translate('Did you want to use an existing or create a new database?'); ?></h4>
         <div class="radio col-sm-6">
-            <label for="useExisting">
-                <input type="radio" name="useExistingDb" value="0" checked>
+            <label for="useExistingDb">
+                <input type="radio" name="useExistingDb" ng-model="useExistingDb" value="1">
                 <?php echo $this->translate('Use my existing database'); ?>
             </label>
         </div>
         <div class="radio col-sm-6">
-            <label for="useExisting">
-                <input type="radio" name="useExistingDb" value="1">
+            <label for="useExistingDb">
+                <input type="radio" name="useExistingDb" ng-model="useExistingDb" value="0">
                 <?php echo $this->translate('Create a database for me'); ?>
             </label>
         </div>
@@ -36,9 +36,20 @@
 
     <div class="form-group">
         <label for="dbUser" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Username*'); ?></label>
-        <div class="col-sm-9">
-            <input popover-placement="right"
+        <div class="col-sm-9" ng-switch="useExistingDb">
+            <input ng-switch-when="1"
+                   popover-placement="right"
                    popover="<?php echo $this->translate('Sign-in credentials for your store\'s database on the database server (does not need to be admin-level credentials).'); ?>"
+                   popover-trigger="focus"
+                   class="form-control"
+                   style="width: 60%;"
+                   type="text"
+                   name="dbUser"
+                   ng-model="dbUser"
+                   required>
+            <input ng-switch-when="0"
+                   popover-placement="right"
+                   popover="<?php echo $this->translate('Administrator credentials to sign in to the server that will host your store\'s database.'); ?>"
                    popover-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
@@ -51,9 +62,20 @@
 
     <div class="form-group">
         <label for="dbPassword" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Password'); ?></label>
-        <div class="col-sm-9">
-            <input popover-placement="right"
+        <div class="col-sm-9" ng-switch="useExistingDb">
+            <input ng-switch-when="1"
+                   popover-placement="right"
                    popover="<?php echo $this->translate('Sign-in credentials for your store\'s database on the database server (does not need to be admin-level credentials).'); ?>"
+                   popover-trigger="focus"
+                   class="form-control"
+                   style="width: 60%;"
+                   type="text"
+                   name="dbPassword"
+                   ng-model="dbPassword"
+                   placeholder="<?php echo $this->translate('(not always necessary)'); ?>">
+            <input ng-switch-when="0"
+                   popover-placement="right"
+                   popover="<?php echo $this->translate('Administrator credentials to sign in to the server that will host your store\'s database.'); ?>"
                    popover-trigger="focus"
                    class="form-control"
                    style="width: 60%;"
@@ -64,7 +86,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-if="useExistingDb">
         <label for="dbName" class="col-sm-3 control-label"><?php echo $this->translate('Database Name*'); ?></label>
         <div class="col-sm-9">
             <input popover-placement="right"
@@ -88,6 +110,21 @@
         <div class="col-sm-4">{{testConnection.result}}</div>
     </div>
 
+    <div class="form-group" ng-if="useExistingDb==0">
+        <label for="dbNewName" class="col-sm-3 control-label"><?php echo $this->translate('New Database Name*'); ?></label>
+        <div class="col-sm-9">
+            <input popover-placement="right"
+                   popover="<?php echo $this->translate('Create sign-in credentials for your store\'s database.'); ?>"
+                   popover-trigger="focus"
+                   class="form-control"
+                   style="width: 60%;"
+                   type="text"
+                   name="dbNewName"
+                   ng-model="dbNewName"
+                   required>
+        </div>
+    </div>
+
     <div class="form-group">
         <label for="dbTablePrefix" class="col-sm-3 control-label"><?php echo $this->translate('Table prefix'); ?></label>
         <div class="col-sm-9">
@@ -99,8 +136,79 @@
                    type="text"
                    name="dbTablePrefix"
                    ng-model="dbTablePrefix"
-                   placeholder="<?php echo $this->translate('(optional)'); ?>"
-                   >
+                   placeholder="<?php echo $this->translate('(optional)'); ?>">
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="useExistingDb==0" ng-init="useAccess=1">
+        <label class="col-sm-3 control-label"><?php echo $this->translate('Data Access*'); ?></label>
+        <div class="col-sm-9">
+            <div class="radio">
+                <label for="useAccess">
+                    <input type="radio" name="useAccess" ng-model="useAccess" value="0">
+                    <?php echo $this->translate('Enter existing credentials to create the Magento database'); ?>
+                </label>
+                <div class="form-group" style="margin-top: 20px;" ng-if="useAccess==0">
+                    <label for="dbGrandUsername" class="col-sm-3 control-label"><?php echo $this->translate('Username*'); ?></label>
+                    <div class="col-sm-6">
+                        <input class="form-control"
+                               style="width: 80%;"
+                               type="text"
+                               name="dbGrandUsername"
+                               ng-model="dbGrandUsername"
+                               required>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="useAccess==0">
+                    <label for="dbGrandPassword" class="col-sm-3 control-label"><?php echo $this->translate('Password'); ?></label>
+                    <div class="col-sm-6">
+                        <input class="form-control"
+                               style="width: 80%;"
+                               type="password"
+                               name="dbGrandPassword"
+                               ng-model="dbGrandPassword"
+                               placeholder="<?php echo $this->translate('(optional)'); ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="radio">
+                <label for="useAccess">
+                    <input type="radio" name="useAccess" ng-model="useAccess" value="1">
+                    <?php echo $this->translate('Enter new credentials to create the Magento database'); ?>
+                </label>
+                <div class="form-group" style="margin-top: 20px;" ng-if="useAccess">
+                    <label for="dbNewUsername" class="col-sm-3 control-label"><?php echo $this->translate('New Username*'); ?></label>
+                    <div class="col-sm-6">
+                        <input class="form-control"
+                               style="width: 80%;"
+                               type="text"
+                               name="dbNewUsername"
+                               ng-model="dbNewUsername"
+                               required>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="useAccess">
+                    <label for="dbNewPassword" class="col-sm-3 control-label"><?php echo $this->translate('New Password'); ?></label>
+                    <div class="col-sm-6">
+                        <input class="form-control"
+                               style="width: 80%;"
+                               type="password"
+                               name="dbNewPassword"
+                               ng-model="dbNewPassword"
+                               placeholder="<?php echo $this->translate('(optional)'); ?>">
+                    </div>
+                </div>
+                <div class="form-group" ng-if="useAccess">
+                    <label for="dbConfirmPassword" class="col-sm-3 control-label"><?php echo $this->translate('Confirm Password'); ?></label>
+                    <div class="col-sm-6">
+                        <input class="form-control"
+                               style="width: 80%;"
+                               type="password"
+                               name="dbConfirmPassword"
+                               ng-model="dbConfirmPassword">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </form>
