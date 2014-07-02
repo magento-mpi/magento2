@@ -14,7 +14,8 @@
             ->appendFile($this->basePath() . '/pub/angular-ui-router/angular-ui-router.min.js')
             ->appendFile($this->basePath() . '/pub/angular-ui-bootstrap/angular-ui-bootstrap.min.js')
             ->appendFile($this->basePath() . '/pub/magento/setup/app.js')
-            ->appendFile($this->basePath() . '/pub/magento/setup/readiness-check.js');
+            ->appendFile($this->basePath() . '/pub/magento/setup/readiness-check.js')
+            ->appendFile($this->basePath() . '/pub/magento/setup/web-configuration.js');
         ?>
         <?php echo $this->inlineScript() ?>
     </head>
