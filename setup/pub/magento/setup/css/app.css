@@ -4,6 +4,12 @@
     text-align: right;
 }
 
+.required {
+    color: red;
+}
+.web-config > div.row > div {
+    padding: 10px;
+}
 .advanced-opt > div {
     padding: 20px;
 }
