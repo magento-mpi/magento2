@@ -183,7 +183,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             $countryId = $rate->getCountryId();
             $postcode = $rate->getPostcode();
             if ($targetCountry == $countryId) {
-                $regions = $this->getRegionsByRegionId($rate->getRegionId());
+                $regions = $this->getRegionsByRegionId($rate->getRegionId(), $postcode);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
                     throw new \Magento\Framework\Model\Exception(
@@ -439,11 +439,25 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * Get regions by region ID
      *
      * @param int $regionId
+     * @param string $postalCode
      * @return String[]
      */
-    private function getRegionsByRegionId($regionId)
+    private function getRegionsByRegionId($regionId, $postalCode)
     {
-        //TODO: Implement this function.
-        return [];
+        $regions = [];
+        $resource = $this->_getResource();
+        $adapter = $resource->getReadConnection();
+        $selectCSP = $adapter->select();
+        $selectCSP->from(
+            ['main_table' => $resource->getTable('directory_country_region')],
+            ['state' => 'main_table.code']
+        )->where("main_table.tax_region_id = $regionId");
+
+        $dbResult = $adapter->fetchAssoc($selectCSP);
+        if (!empty($dbResult)) {
+            $state = $dbResult['state'];
+            $regions = $this->_parseRegions($state, $postalCode);
+        }
+        return $regions;
     }
 }
