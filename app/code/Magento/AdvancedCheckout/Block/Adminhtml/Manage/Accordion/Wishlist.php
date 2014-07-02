@@ -41,7 +41,7 @@ class Wishlist extends AbstractAccordion
     protected $_itemFactory;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -51,7 +51,7 @@ class Wishlist extends AbstractAccordion
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Wishlist extends AbstractAccordion
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;

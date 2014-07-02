@@ -51,6 +51,8 @@ class ApplySeveralCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
      * @param array $catalogRulesOriginal
      * @param array $price
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function testApplySeveralCatalogPriceRules(
         FixtureFactory $fixtureFactory,

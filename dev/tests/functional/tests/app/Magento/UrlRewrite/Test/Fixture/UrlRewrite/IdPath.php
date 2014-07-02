@@ -32,6 +32,13 @@ class IdPath implements FixtureInterface
     protected $entity;
 
     /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
@@ -49,7 +56,8 @@ class IdPath implements FixtureInterface
             /** @var FixtureInterface $fixture */
             $this->entity = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
             $this->entity->persist();
-            $this->data = preg_replace('`(%.*?%)`', $this->entity->getId(), $data['entity']);
+            $id = $this->entity->hasData('id') ? $this->entity->getId() : $this->entity->getPageId();
+            $this->data = preg_replace('`(%.*?%)`', $id, $data['entity']);
         } else {
             $this->data = strval($data['entity']);
         }

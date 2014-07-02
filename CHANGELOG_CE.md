@@ -1,3 +1,6 @@
+* Service layer updates:
+  * Implemented API for CatalogInventory module (MAGETWO-24954)
+  * Refactored external usages of CatalogInventory module to service (MAGETWO-24933, MAGETWO-24934)
 * Fixed bugs:
   * Fixed: Screen isn't moved automatically to invalidly filled field on "Create new Order" backend page (MAGETWO-19689)
   * Fixed: Several configuration fields possible to edit on website scope is checkboxes "Use Default" are checked (CAPTCHA section) (MAGETWO-15247)
@@ -13,6 +16,8 @@
   * Fixed: Filter works incorrect in Layered Navigation with price type attribute (MAGETWO-24282)
   * Fixed: Fatal Error in \Magento\Framework\ArchiveTest when bz2 extension is not installed (MAGETWO-25149)
   * Fixed: Store Admin cannot search product by attributes filled on [STORE VIEW] level (except default store view) (MAGETWO-3385)
+  * Fixed: Filter values aren't trimmed before being used to filter results (MAGETWO-18370)
+  * Fixed: Add label for Uses per customer option (MAGETWO-24695)
 * GitHub requests:
   * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
   * [#544]  Performance tests not working (MAGETWO-23467)

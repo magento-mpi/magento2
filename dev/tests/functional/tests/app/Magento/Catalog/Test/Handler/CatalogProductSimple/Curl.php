@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
-use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
@@ -124,6 +123,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param FixtureInterface $fixture
      * @param string|null $prefix [optional]
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {

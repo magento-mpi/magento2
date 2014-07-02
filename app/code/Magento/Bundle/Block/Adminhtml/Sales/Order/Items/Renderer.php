@@ -7,6 +7,8 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Sales\Order\Items;
 
+use Magento\Catalog\Model\Product\Type\AbstractType;
+
 /**
  * Adminhtml sales order item renderer
  */
@@ -40,11 +42,12 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
     {
         $itemsArray = array();
 
+        $items = false;
         if ($item instanceof \Magento\Sales\Model\Order\Invoice\Item) {
             $items = $item->getInvoice()->getAllItems();
-        } else if ($item instanceof \Magento\Sales\Model\Order\Shipment\Item) {
+        } elseif ($item instanceof \Magento\Sales\Model\Order\Shipment\Item) {
             $items = $item->getShipment()->getAllItems();
-        } else if ($item instanceof \Magento\Sales\Model\Order\Creditmemo\Item) {
+        } elseif ($item instanceof \Magento\Sales\Model\Order\Creditmemo\Item) {
             $items = $item->getCreditmemo()->getAllItems();
         }
 
@@ -80,11 +83,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
             if ($parentItem) {
                 $options = $parentItem->getProductOptions();
                 if ($options) {
-                    if (isset(
-                        $options['shipment_type']
-                    ) &&
-                        $options['shipment_type'] ==
-                        \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
+                    if (isset($options['shipment_type'])
+                        && $options['shipment_type'] == AbstractType::SHIPMENT_SEPARATELY
                     ) {
                         return true;
                     } else {
@@ -94,11 +94,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
             } else {
                 $options = $item->getProductOptions();
                 if ($options) {
-                    if (isset(
-                        $options['shipment_type']
-                    ) &&
-                        $options['shipment_type'] ==
-                        \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
+                    if (isset($options['shipment_type'])
+                        && $options['shipment_type'] == AbstractType::SHIPMENT_SEPARATELY
                     ) {
                         return false;
                     } else {
@@ -110,9 +107,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
 
         $options = $this->getOrderItem()->getProductOptions();
         if ($options) {
-            if (isset(
-                $options['shipment_type']
-            ) && $options['shipment_type'] == \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
+            if (isset($options['shipment_type'])
+                && $options['shipment_type'] == AbstractType::SHIPMENT_SEPARATELY
             ) {
                 return true;
             }
@@ -134,11 +130,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
             if ($parentItem) {
                 $options = $parentItem->getProductOptions();
                 if ($options) {
-                    if (isset(
-                        $options['product_calculations']
-                    ) &&
-                        $options['product_calculations'] ==
-                        \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
+                    if (isset($options['product_calculations'])
+                        && $options['product_calculations'] == AbstractType::CALCULATE_CHILD
                     ) {
                         return true;
                     } else {
@@ -148,11 +141,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
             } else {
                 $options = $item->getProductOptions();
                 if ($options) {
-                    if (isset(
-                        $options['product_calculations']
-                    ) &&
-                        $options['product_calculations'] ==
-                        \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
+                    if (isset($options['product_calculations'])
+                        && $options['product_calculations'] == AbstractType::CALCULATE_CHILD
                     ) {
                         return false;
                     } else {
@@ -164,9 +154,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
 
         $options = $this->getOrderItem()->getProductOptions();
         if ($options) {
-            if (isset(
-                $options['product_calculations']
-            ) && $options['product_calculations'] == \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
+            if (isset($options['product_calculations'])
+                && $options['product_calculations'] == AbstractType::CALCULATE_CHILD
             ) {
                 return true;
             }
@@ -192,10 +181,9 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
     }
 
     /**
-     * @param mixed $item
      * @return array
      */
-    public function getOrderOptions($item = null)
+    public function getOrderOptions()
     {
         $result = array();
         $options = $this->getOrderItem()->getProductOptions();
@@ -253,8 +241,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
      */
     public function canShowPriceInfo($item)
     {
-        if ($item->getOrderItem()->getParentItem() && $this->isChildCalculated() ||
-            !$item->getOrderItem()->getParentItem() && !$this->isChildCalculated()
+        if ($item->getOrderItem()->getParentItem() && $this->isChildCalculated()
+            || !$item->getOrderItem()->getParentItem() && !$this->isChildCalculated()
         ) {
             return true;
         }

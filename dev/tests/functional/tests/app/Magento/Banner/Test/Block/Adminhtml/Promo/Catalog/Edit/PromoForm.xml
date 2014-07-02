@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <related_banners>
+        <class>\Magento\Banner\Test\Block\Adminhtml\Promo\Catalog\Edit\Tab\Banners</class>
+        <selector>#promo_catalog_edit_tabs_banners_section</selector>
+        <strategy>css selector</strategy>
+    </related_banners>
+</tabs>
