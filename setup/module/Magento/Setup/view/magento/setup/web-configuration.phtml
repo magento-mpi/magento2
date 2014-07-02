@@ -26,7 +26,7 @@ $hints = [
     <form role="form" class="web-config">
 
         <div class="row">
-            <div class="col-md-3">Your Store Address<span class="required">*</span></div>
+            <div class="col-md-3"><?php echo $this->translate('Your Store Address'); ?><span class="required">*</span></div>
             <div class="col-md-9">
                 <input type="text"
                        ng-model="address.web"
@@ -38,7 +38,7 @@ $hints = [
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">Magento Admin Address<span class="required">*</span></div>
+            <div class="col-md-3"><?php echo $this->translate('Magento Admin Address'); ?><span class="required">*</span></div>
             <div class="col-md-9">
                 <span>{{address.web}}</span>
                 <input type="text"
@@ -51,41 +51,41 @@ $hints = [
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    <a href="#" ng-click="updateOnExpand(advanced)">Advanced Options</a>
+                    <a href="#" ng-click="updateOnExpand(advanced)"><?php echo $this->translate('Advanced Options'); ?></a>
                     <span class="caret"></span>
                 </div>
                 <div ng-show="advanced.expanded">
                     <div class="row">
-                        <div class="col-md-3">HTTPS Options</div>
+                        <div class="col-md-3"><?php echo $this->translate('HTTPS Options'); ?></div>
                         <div class="col-md-9">
                             <div class="checkbox">
-                                <label for="https-options-front">Use HTTPS for Magento Storefront</label>
+                                <label for="https-options-front"><?php echo $this->translate('Use HTTPS for Magento Storefront'); ?></label>
                                 <input type="checkbox" ng-model="https.front" id="https-options-front" />
                             </div>
                             <div class="checkbox">
-                                <label for="https-options-admin">Use HTTPS for Magento Admin</label>
+                                <label for="https-options-admin"><?php echo $this->translate('Use HTTPS for Magento Admin'); ?></label>
                                 <input type="checkbox" ng-model="https.admin" id="https-options-admin" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">Apache Rewrites</div>
+                        <div class="col-md-3"><?php echo $this->translate('Apache Rewrites'); ?></div>
                         <div class="col-md-9">
                             <div class="checkbox">
-                                <label for="rewrites-allowed">Use Web Server Apache Rewrites</label>
+                                <label for="rewrites-allowed"><?php echo $this->translate('Use Web Server Apache Rewrites'); ?></label>
                                 <input type="checkbox" ng-model="rewrites.allowed" id="rewrites-allowed" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">Encryption Key<span class="required">*</span></div>
+                        <div class="col-md-3"><?php echo $this->translate('Encryption Key'); ?><span class="required">*</span></div>
                         <div class="col-md-9">
                             <div class="radio">
-                                <label for="enc-key-magento">I want to use a Magento generated key.</label>
+                                <label for="enc-key-magento"><?php echo $this->translate('I want to use a Magento generated key'); ?></label>
                                 <input type="radio" id="enc-key-magento" value="magento" ng-model="encrypt.type" value="magento" />
                             </div>
                             <div class="radio">
-                                <label for="enc-key-user">I want to use my own encryption key.</label>
+                                <label for="enc-key-user"><?php echo $this->translate('I want to use my own encryption key'); ?></label>
                                 <input type="radio" id="enc-key-user" ng-model="encrypt.type" value="user" />
                             </div>
                             <div ng-show="showEncryptKey()">
