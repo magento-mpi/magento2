@@ -174,7 +174,9 @@ class WriteService implements WriteServiceInterface
         }
         $optionData['option_id'] = $optionId;
         $originalValues = $product->getOptionById($optionId)->getValues();
-        $optionData['values'] = $this->markRemovedValues($optionData['values'], $originalValues);
+        if (array_key_exists('values', $optionData)) {
+            $optionData['values'] = $this->markRemovedValues($optionData['values'], $originalValues);
+        }
 
         $product->setCanSaveCustomOptions(true);
         $product->setProductOptions([$optionData]);
