@@ -8,20 +8,18 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertProductSuccessDeleteMessage
- * Assert that after deleting product success message "A total of 1 record(s) have been deleted."
  */
 class AssertProductSuccessDeleteMessage extends AbstractConstraint
 {
     /**
      * Text value to be checked
      */
-    const SUCCESS_MESSAGE = 'A total of %d record(s) have been deleted.';
+    const SUCCESS_MESSAGE = 'A total of 1 record(s) have been deleted.';
 
     /**
      * Constraint severeness
@@ -31,18 +29,16 @@ class AssertProductSuccessDeleteMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that after deleting product success message "A total of 1 record(s) have been deleted."
+     * Assert that after deleting product success message.
      *
-     * @param FixtureInterface $product
      * @param CatalogProductEdit $productPage
      * @return void
      */
-    public function processAssert(FixtureInterface $product, CatalogProductEdit $productPage)
+    public function processAssert(CatalogProductEdit $productPage)
     {
-        $countProducts = count($product);
         $actualMessage = $productPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::SUCCESS_MESSAGE, $countProducts),
+            self::SUCCESS_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
             . "\nExpected: " . self::SUCCESS_MESSAGE
@@ -57,6 +53,6 @@ class AssertProductSuccessDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'A total of 1 record(s) have been deleted.';
+        return 'Product success delete message is present.';
     }
 }

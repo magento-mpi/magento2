@@ -14,7 +14,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Class AssertProductNotInGrid
- * Assert that deleted product cannot be found by name and sku.
  */
 class AssertProductNotInGrid extends AbstractConstraint
 {
@@ -23,10 +22,10 @@ class AssertProductNotInGrid extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
 
     /**
-     * Assert that deleted product cannot be found by name and sku.
+     * Assert that product cannot be found by name and sku.
      *
      * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
@@ -34,11 +33,13 @@ class AssertProductNotInGrid extends AbstractConstraint
      */
     public function processAssert(FixtureInterface $product, CatalogProductIndex $productGrid)
     {
-        $filter = ['sku' => $product->getSku()];
+        $name = $product->getName();
+        $sku = $product->getSku();
+        $filter = ['sku' => $sku, 'name' => $name];
         $productGrid->open();
         \PHPUnit_Framework_Assert::assertFalse(
             $productGrid->getProductGrid()->isRowVisible($filter),
-            'Product with sku \'' . $product->getSku() . '\' is attend in Products grid.'
+            'Product with sku "' . $sku . '" and name "' . $name . '" is attend in Products grid.'
         );
     }
 

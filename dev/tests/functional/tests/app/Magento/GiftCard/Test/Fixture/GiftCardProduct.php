@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class GiftCardProduct
+ * Fixture for GiftCard product
  */
 class GiftCardProduct extends InjectableFixture
 {
@@ -34,13 +35,26 @@ class GiftCardProduct extends InjectableFixture
     ];
 
     protected $defaultDataSet = [
-        'is_returnable' => null,
-        'options_container' => null,
-        'quantity_and_stock_status' => null,
-        'status' => null,
-        'visibility' => null,
+        'name' => 'Test product giftcard %isolation%',
+        'sku' => 'sku_test_product_giftcard_%isolation%',
+        'giftcard_type' => 'Virtual',
+        'category_ids' => ['presets' => 'default'],
+        'giftcard_amounts' => [
+            [
+                'website_id' => 'All Websites [USD]',
+                'price' => 120,
+            ],
+            [
+                'website_id' => 'All Websites [USD]',
+                'price' => 150,
+            ]
+        ],
+        'quantity_and_stock_status' => [
+            'qty' => 666.0000,
+            'is_in_stock' => 'In Stock',
+        ],
+        'status' => 'Product online',
     ];
-
 
     protected $website_ids = [
         'attribute_code' => 'website_ids',
@@ -122,9 +136,7 @@ class GiftCardProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'textarea',
-    ];
-
-    protected $group = [
+        'group' => 'product-details'
     ];
 
     protected $email_template = [
@@ -528,6 +540,13 @@ class GiftCardProduct extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
+    protected $attribute_set_id = [
+        'attribute_code' => 'attribute_set_id',
+        'backend_type' => 'virtual',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
+    ];
+
     public function getAllowMessage()
     {
         return $this->getData('allow_message');
@@ -571,11 +590,6 @@ class GiftCardProduct extends InjectableFixture
     public function getDescription()
     {
         return $this->getData('description');
-    }
-
-    public function getGroup()
-    {
-        return $this->getData('group');
     }
 
     public function getEmailTemplate()

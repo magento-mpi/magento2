@@ -31,7 +31,7 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'low';
+    protected $severeness = 'high';
 
     /**
      * Assert that product with current configurations is not displayed on front-end

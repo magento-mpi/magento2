@@ -118,7 +118,7 @@
         <severeness>low</severeness>
     </assertAddToCartButtonPresent>
     <assertProductIsNotDisplayingOnFrontend module="Magento_Catalog">
-        <severeness>low</severeness>
+        <severeness>high</severeness>
         <require>
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
