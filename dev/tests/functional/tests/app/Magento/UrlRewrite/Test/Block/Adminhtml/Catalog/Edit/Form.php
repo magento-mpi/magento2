@@ -22,13 +22,17 @@ class Form extends FormWidget
      * Fill the root form
      *
      * @param FixtureInterface $fixture
-     * @param FixtureInterface|null $params
      * @param Element|null $element
      * @param string $replace
+     * @param FixtureInterface|null $params
      * @return $this
      */
-    public function fill(FixtureInterface $fixture, Element $element = null, $replace = null, $params = null)
-    {
+    public function fill(
+        FixtureInterface $fixture,
+        Element $element = null,
+        $replace = null,
+        FixtureInterface $params = null
+    ) {
         $data = $fixture->getData();
         $getData = $this->getData();
         if (!$getData['target_path'] && !isset($data['target_path'])) {

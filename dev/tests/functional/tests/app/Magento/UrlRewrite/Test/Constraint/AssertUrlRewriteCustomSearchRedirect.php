@@ -46,7 +46,7 @@ class AssertUrlRewriteCustomSearchRedirect extends AbstractConstraint
 
         \PHPUnit_Framework_Assert::assertTrue(
             $categoryView->getListProductBlock()->isProductVisible($product),
-            "Products '{$product}' not find."
+            "Product '{$product}' isn't found."
         );
     }
 
@@ -57,6 +57,6 @@ class AssertUrlRewriteCustomSearchRedirect extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product find on search page.';
+        return 'Product is found on search page.';
     }
 }

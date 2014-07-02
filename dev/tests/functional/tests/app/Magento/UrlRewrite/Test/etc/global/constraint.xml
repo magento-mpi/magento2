@@ -64,8 +64,17 @@
     </assertUrlRewriteCustomRedirect>
     <assertUrlRewriteSuccessOutsideRedirect module="Magento_UrlRewrite">
         <severeness>low</severeness>
+        <require>
+            <urlRewrite class="Magento\UrlRewrite\Test\Fixture\UrlRewrite"/>
+            <browser class="Mtf\Client\Browser"/>
+        </require>
     </assertUrlRewriteSuccessOutsideRedirect>
     <assertUrlRewriteCustomSearchRedirect module="Magento_UrlRewrite">
         <severeness>low</severeness>
+        <require>
+            <urlRewrite class="Magento\UrlRewrite\Test\Fixture\UrlRewrite"/>
+            <browser class="Mtf\Client\Browser"/>
+            <categoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
+        </require>
     </assertUrlRewriteCustomSearchRedirect>
 </constraint>
