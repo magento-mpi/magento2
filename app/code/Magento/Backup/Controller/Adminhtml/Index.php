@@ -157,7 +157,7 @@ class Index extends \Magento\Backend\App\Action
                         . 'putting your store into maintenance mode."
                         )
                     );
-                    return $this->getResponse()->setBody($response->toJson());
+                    return $this->getResponse()->representJson($response->toJson());
                 }
             }
 
@@ -195,7 +195,7 @@ class Index extends \Magento\Backend\App\Action
             $this->maintenanceMode->turnOff();
         }
 
-        $this->getResponse()->setBody($response->toJson());
+        $this->getResponse()->representJson($response->toJson());
     }
 
     /**
@@ -292,7 +292,7 @@ class Index extends \Magento\Backend\App\Action
             if (!$passwordValid) {
                 $response->setError(__('Please correct the password.'));
                 $backupManager->setErrorMessage(__('Please correct the password.'));
-                return $this->getResponse()->setBody($response->toJson());
+                $this->getResponse()->representJson($response->toJson());
             }
 
             if ($this->getRequest()->getParam('maintenance_mode')) {
@@ -311,7 +311,7 @@ class Index extends \Magento\Backend\App\Action
                         . 'putting your store into maintenance mode."
                         )
                     );
-                    return $this->getResponse()->setBody($response->toJson());
+                    return $this->getResponse()->representJson($response->toJson());
                 }
             }
 
@@ -364,7 +364,7 @@ class Index extends \Magento\Backend\App\Action
             $this->maintenanceMode->turnOff();
         }
 
-        $this->getResponse()->setBody($response->toJson());
+        $this->getResponse()->representJson($response->toJson());
     }
 
     /**

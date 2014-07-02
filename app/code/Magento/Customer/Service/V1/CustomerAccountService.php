@@ -483,7 +483,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * (@inheritdoc)
+     * {@inheritdoc}
      */
     public function searchCustomers(SearchCriteria $searchCriteria)
     {
@@ -603,7 +603,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel->save();
         // FIXME: Are we using the proper template here?
         $customerModel->sendPasswordResetNotificationEmail();
-        
+
         return true;
     }
 

@@ -8,13 +8,14 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Model\Exception as ModelException;
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Model\Calculation\RateFactory;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Model\Calculation\Rate as RateModel;
-use Magento\Tax\Service\V1\Data\TaxRateBuilder;
-use Magento\Framework\Exception\InputException;
 use Magento\Tax\Model\Calculation\RateRegistry;
+use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\Resource\Calculation\Rate\Collection;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
@@ -161,14 +162,22 @@ class TaxRateService implements TaxRateServiceInterface
      *
      * @param TaxRateDataObject $taxRate
      * @throws InputException
-     * @throws \Magento\Framework\Model\Exception
+     * @throws ModelException
      * @return RateModel
      */
     protected function saveTaxRate(TaxRateDataObject $taxRate)
     {
         $this->validate($taxRate);
         $taxRateModel = $this->converter->createTaxRateModel($taxRate);
-        $taxRateModel->save();
+        try {
+            $taxRateModel->save();
+        } catch (ModelException $e) {
+            if ($e->getCode() == ModelException::ERROR_CODE_ENTITY_ALREADY_EXISTS) {
+                throw new InputException($e->getMessage());
+            } else {
+                throw $e;
+            }
+        }
         $this->rateRegistry->registerTaxRate($taxRateModel);
         return $taxRateModel;
     }
