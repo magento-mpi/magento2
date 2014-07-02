@@ -9,6 +9,7 @@ namespace Magento\GoogleShopping\Model\Attribute;
 
 use Magento\Tax\Service\V1\Data\TaxRate;
 use Magento\Tax\Service\V1\Data\TaxRule;
+
 /**
  * Tax attribute model
  *
@@ -78,7 +79,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
      */
-    protected  $_searchCriteriaBuilder;
+    protected $_searchCriteriaBuilder;
 
     /**
      * TaxRuleService
@@ -193,7 +194,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                     try {
                         $product->getPriceInfo()->getAdjustment('tax');
                         $taxIncluded = true;
-                    } catch(InvalidArgumentException $e) {
+                    } catch (InvalidArgumentException $e) {
                         $taxIncluded = false;
                     }
 
