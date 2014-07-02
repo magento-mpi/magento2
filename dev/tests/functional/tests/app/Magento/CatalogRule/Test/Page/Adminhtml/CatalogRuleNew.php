@@ -12,7 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogRuleNew
- *
  */
 class CatalogRuleNew extends BackendPage
 {
@@ -21,7 +20,7 @@ class CatalogRuleNew extends BackendPage
     protected $_blocks = [
         'formPageActions' => [
             'name' => 'formPageActions',
-            'class' => 'Magento\Backend\Test\Block\FormPageActions',
+            'class' => 'Magento\CatalogRule\Test\Block\Adminhtml\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -34,7 +33,7 @@ class CatalogRuleNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\Backend\Test\Block\FormPageActions
+     * @return \Magento\CatalogRule\Test\Block\Adminhtml\FormPageActions
      */
     public function getFormPageActions()
     {
