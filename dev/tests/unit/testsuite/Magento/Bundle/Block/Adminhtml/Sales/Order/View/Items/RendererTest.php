@@ -5,90 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
+namespace Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items;
 
-class AbstractItemsTest extends \PHPUnit_Framework_TestCase
+class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Sales\Model\Order\Item|\PHPUnit_Framework_MockObject_MockObject */
     protected $orderItem;
-    /** @var \Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment $model */
+    /** @var \Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items\Renderer $model */
     protected $model;
 
     protected function setUp()
     {
         $this->orderItem = $this->getMock(
             'Magento\Sales\Model\Order\Item',
-            ['getProductOptions', '__wakeup', 'getParentItem', 'getOrderItem', 'getOrderItemId', 'getId'],
+            ['getProductOptions', '__wakeup', 'getParentItem', 'getOrderItem'],
             [],
             '',
             false
         );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment');
-    }
-
-    /**
-     * @dataProvider getChildrenEmptyItemsDataProvider
-     */
-    public function testGetChildrenEmptyItems($class, $method, $returnClass)
-    {
-        $salesModel = $this->getMock($returnClass, ['getAllItems', '__wakeup'], [], '', false);
-        $salesModel->expects($this->once())->method('getAllItems')->will($this->returnValue([]));
-
-        $item = $this->getMock($class, [$method, 'getOrderItem', '__wakeup'], [], '', false);
-        $item->expects($this->once())->method($method)->will($this->returnValue($salesModel));
-        $item->expects($this->once())->method('getOrderItem')->will($this->returnValue($this->orderItem));
-        $this->orderItem->expects($this->any())->method('getId')->will($this->returnValue(1));
-
-        $this->assertSame(null, $this->model->getChilds($item));
-    }
-
-    public function getChildrenEmptyItemsDataProvider()
-    {
-        return [
-            ['Magento\Sales\Model\Order\Invoice\Item', 'getInvoice', 'Magento\Sales\Model\Order\Invoice'],
-            ['Magento\Sales\Model\Order\Shipment\Item', 'getShipment', 'Magento\Sales\Model\Order\Shipment'],
-            ['Magento\Sales\Model\Order\Creditmemo\Item', 'getCreditmemo', 'Magento\Sales\Model\Order\Creditmemo']
-        ];
-    }
-
-    /**
-     * @dataProvider getChildrenDataProvider
-     */
-    public function testGetChildren($parentItem)
-    {
-        if ($parentItem) {
-            $parentItem = $this->getMock('Magento\Sales\Model\Order\Item', ['getId', '__wakeup'], [], '', false);
-            $parentItem->expects($this->any())->method('getId')->will($this->returnValue(1));
-        }
-        $this->orderItem->expects($this->any())->method('getOrderItem')->will($this->returnSelf());
-        $this->orderItem->expects($this->any())->method('getParentItem')->will($this->returnValue($parentItem));
-        $this->orderItem->expects($this->any())->method('getOrderItemId')->will($this->returnValue(2));
-        $this->orderItem->expects($this->any())->method('getId')->will($this->returnValue(1));
-
-        $salesModel = $this->getMock('Magento\Sales\Model\Order\Invoice', ['getAllItems', '__wakeup'], [], '', false);
-        $salesModel->expects($this->once())->method('getAllItems')->will($this->returnValue([$this->orderItem]));
-
-        $item = $this->getMock(
-            'Magento\Sales\Model\Order\Invoice\Item',
-            ['getInvoice', 'getOrderItem', '__wakeup'],
-            [],
-            '',
-            false
-        );
-        $item->expects($this->once())->method('getInvoice')->will($this->returnValue($salesModel));
-        $item->expects($this->any())->method('getOrderItem')->will($this->returnValue($this->orderItem));
-
-        $this->assertSame([2 => $this->orderItem], $this->model->getChilds($item));
-    }
-
-    public function getChildrenDataProvider()
-    {
-        return [
-            [true],
-            [false],
-        ];
+        $this->model = $objectManager->getObject('Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items\Renderer');
     }
 
     /**
@@ -190,24 +127,6 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getBundleOptionsDataProvider
-     */
-    public function testGetBundleOptions($productOptions, $result)
-    {
-        $this->model->setItem($this->orderItem);
-        $this->orderItem->expects($this->any())->method('getProductOptions')->will($this->returnValue($productOptions));
-        $this->assertSame($result, $this->model->getBundleOptions());
-    }
-
-    public function getBundleOptionsDataProvider()
-    {
-        return [
-            [['bundle_options' => 'result'], 'result'],
-            [[], []],
-        ];
-    }
-
-    /**
      * @dataProvider getSelectionAttributesDataProvider
      */
     public function testGetSelectionAttributes($productOptions, $result)
@@ -234,12 +153,6 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
         $this->model->setItem($this->orderItem);
         $this->orderItem->expects($this->any())->method('getProductOptions')->will($this->returnValue($productOptions));
         $this->assertEquals(['attributes_info', 'options', 'additional_options'], $this->model->getOrderOptions());
-    }
-
-    public function testGetOrderItem()
-    {
-        $this->model->setItem($this->orderItem);
-        $this->assertSame($this->orderItem, $this->model->getOrderItem());
     }
 
     /**

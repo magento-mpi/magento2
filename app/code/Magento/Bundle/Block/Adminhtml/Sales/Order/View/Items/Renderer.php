@@ -7,6 +7,8 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items;
 
+use \Magento\Catalog\Model\Product\Type\AbstractType;
+
 /**
  * Adminhtml sales order item renderer
  */
@@ -41,40 +43,21 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\
             if ($parentItem) {
                 $options = $parentItem->getProductOptions();
                 if ($options) {
-                    if (isset(
-                        $options['shipment_type']
-                    ) &&
-                        $options['shipment_type'] ==
-                        \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
-                    ) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return (isset($options['shipment_type'])
+                        && $options['shipment_type'] == AbstractType::SHIPMENT_SEPARATELY);
                 }
             } else {
                 $options = $item->getProductOptions();
                 if ($options) {
-                    if (isset(
-                        $options['shipment_type']
-                    ) &&
-                        $options['shipment_type'] ==
-                        \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
-                    ) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return !(isset($options['shipment_type'])
+                        && $options['shipment_type'] == AbstractType::SHIPMENT_SEPARATELY);
                 }
             }
         }
 
-        $options = $this->getOrderItem()->getProductOptions();
+        $options = $this->getItem()->getProductOptions();
         if ($options) {
-            if (isset(
-                $options['shipment_type']
-            ) && $options['shipment_type'] == \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
-            ) {
+            if (isset($options['shipment_type']) && $options['shipment_type'] == AbstractType::SHIPMENT_SEPARATELY) {
                 return true;
             }
         }
@@ -92,39 +75,22 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\
             if ($parentItem) {
                 $options = $parentItem->getProductOptions();
                 if ($options) {
-                    if (isset(
-                        $options['product_calculations']
-                    ) &&
-                        $options['product_calculations'] ==
-                        \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
-                    ) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return (isset($options['product_calculations'])
+                        && $options['product_calculations'] == AbstractType::CALCULATE_CHILD);
                 }
             } else {
                 $options = $item->getProductOptions();
                 if ($options) {
-                    if (isset(
-                        $options['product_calculations']
-                    ) &&
-                        $options['product_calculations'] ==
-                        \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
-                    ) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return !(isset($options['product_calculations'])
+                        && $options['product_calculations'] == AbstractType::CALCULATE_CHILD);
                 }
             }
         }
 
         $options = $this->getItem()->getProductOptions();
         if ($options) {
-            if (isset(
-                $options['product_calculations']
-            ) && $options['product_calculations'] == \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
+            if (isset($options['product_calculations'])
+                && $options['product_calculations'] == AbstractType::CALCULATE_CHILD
             ) {
                 return true;
             }

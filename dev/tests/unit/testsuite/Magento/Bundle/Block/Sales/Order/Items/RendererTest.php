@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
+namespace Magento\Bundle\Block\Sales\Order\Items;
 
-class AbstractItemsTest extends \PHPUnit_Framework_TestCase
+class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Sales\Model\Order\Item|\PHPUnit_Framework_MockObject_MockObject */
     protected $orderItem;
-    /** @var \Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment $model */
+    /** @var \Magento\Bundle\Block\Sales\Order\Items\Renderer $model */
     protected $model;
 
     protected function setUp()
@@ -25,7 +25,7 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
         );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment');
+        $this->model = $objectManager->getObject('Magento\Bundle\Block\Sales\Order\Items\Renderer');
     }
 
     /**
@@ -190,24 +190,6 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getBundleOptionsDataProvider
-     */
-    public function testGetBundleOptions($productOptions, $result)
-    {
-        $this->model->setItem($this->orderItem);
-        $this->orderItem->expects($this->any())->method('getProductOptions')->will($this->returnValue($productOptions));
-        $this->assertSame($result, $this->model->getBundleOptions());
-    }
-
-    public function getBundleOptionsDataProvider()
-    {
-        return [
-            [['bundle_options' => 'result'], 'result'],
-            [[], []],
-        ];
-    }
-
-    /**
      * @dataProvider getSelectionAttributesDataProvider
      */
     public function testGetSelectionAttributes($productOptions, $result)
@@ -222,24 +204,6 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
             [[], null],
             [['bundle_selection_attributes' => 'a:1:{i:0;i:1;}'], [0 => 1]],
         ];
-    }
-
-    public function testGetOrderOptions()
-    {
-        $productOptions = [
-            'options' => ['options'],
-            'additional_options' => ['additional_options'],
-            'attributes_info' => ['attributes_info']
-        ];
-        $this->model->setItem($this->orderItem);
-        $this->orderItem->expects($this->any())->method('getProductOptions')->will($this->returnValue($productOptions));
-        $this->assertEquals(['attributes_info', 'options', 'additional_options'], $this->model->getOrderOptions());
-    }
-
-    public function testGetOrderItem()
-    {
-        $this->model->setItem($this->orderItem);
-        $this->assertSame($this->orderItem, $this->model->getOrderItem());
     }
 
     /**
