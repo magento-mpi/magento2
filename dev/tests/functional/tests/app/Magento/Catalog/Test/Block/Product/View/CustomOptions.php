@@ -80,7 +80,7 @@ class CustomOptions extends Block
      *
      * @var string
      */
-    protected $optionByValueLocator = '//*[@class="product options wrapper"]//option[text()="%s"]/..';
+    protected $optionByValueLocator = '//*[@class="product options wrapper"]//option[contains(text(),"%s")]/..';
 
     /**
      * Select XPath locator by title

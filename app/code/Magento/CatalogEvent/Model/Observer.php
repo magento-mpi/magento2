@@ -6,9 +6,6 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog Event model
- */
 namespace Magento\CatalogEvent\Model;
 
 use Magento\Catalog\Model\Category;
@@ -20,6 +17,9 @@ use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Sales\Model\Quote;
 
+/**
+ * Catalog Event model
+ */
 class Observer
 {
     /**
@@ -135,11 +135,9 @@ class Observer
      */
     protected function _applyEventToProduct($product)
     {
-        if ($product) {
-            if (!$product->hasEvent()) {
-                $event = $this->_getProductEvent($product);
-                $product->setEvent($event);
-            }
+        if ($product && !$product->hasEvent()) {
+            $event = $this->_getProductEvent($product);
+            $product->setEvent($event);
         }
         return $this;
     }
@@ -284,10 +282,8 @@ class Observer
                 $collection = $this->categoryEventList->getEventCollection();
                 $collection->addFieldToFilter('event_id', array('in' => $eventIds));
                 foreach ($collection as $event) {
-                    foreach ($quote->getItemsCollection()->getItemsByColumnValue(
-                        'event_id',
-                        $event->getId()
-                    ) as $quoteItem) {
+                    $items = $quote->getItemsCollection()->getItemsByColumnValue('event_id', $event->getId());
+                    foreach ($items as $quoteItem) {
                         $quoteItem->setEvent($event);
                     }
                 }

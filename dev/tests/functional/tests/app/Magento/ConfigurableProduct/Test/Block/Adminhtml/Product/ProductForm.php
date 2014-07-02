@@ -12,10 +12,10 @@ use Mtf\Block\Mapper;
 use Mtf\Client\Element;
 use Mtf\Client\Browser;
 use Mtf\Factory\Factory;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\XmlConverter;
 use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm as ParentForm;
 
@@ -176,6 +176,7 @@ class ProductForm extends ParentForm
      * Fill product variations
      *
      * @param array $variations
+     * @return void
      */
     public function variationsFill(array $variations)
     {
@@ -186,6 +187,8 @@ class ProductForm extends ParentForm
 
     /**
      * Open variations tab
+     *
+     * @return void
      */
     public function openVariationsTab()
     {
@@ -194,6 +197,8 @@ class ProductForm extends ParentForm
 
     /**
      * Click on 'Create New Variation Set' button
+     *
+     * @return void
      */
     public function clickCreateNewVariationSet()
     {

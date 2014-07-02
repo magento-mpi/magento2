@@ -8,7 +8,7 @@
 
 namespace Magento\User\Test\Constraint;
 
-use Magento\User\Test\Fixture\AdminUserInjectable;
+use Magento\User\Test\Fixture\User;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\User\Test\Page\Adminhtml\UserIndex;
 
@@ -28,14 +28,14 @@ class AssertUserInGrid extends AbstractConstraint
      * Asserts that user is present in User Grid.
      *
      * @param UserIndex $userIndex
-     * @param AdminUserInjectable $user
-     * @param AdminUserInjectable $customAdmin
+     * @param User $user
+     * @param User $customAdmin
      * @return void
      */
     public function processAssert(
         UserIndex $userIndex,
-        AdminUserInjectable $user,
-        AdminUserInjectable $customAdmin = null
+        User $user,
+        User $customAdmin = null
     ) {
         $adminUser = ($user->hasData('password') || $user->hasData('username')) ? $user : $customAdmin;
         $filter = ['username' => $adminUser->getUsername()];

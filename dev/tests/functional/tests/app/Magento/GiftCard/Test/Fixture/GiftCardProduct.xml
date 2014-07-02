@@ -91,7 +91,6 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>price</input>
-            <group>product-details</group>
         </open_amount_max>
         <open_amount_min>
             <attribute_code>open_amount_min</attribute_code>

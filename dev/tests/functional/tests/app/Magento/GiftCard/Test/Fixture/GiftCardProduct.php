@@ -33,7 +33,6 @@ class GiftCardProduct extends CatalogProductSimple
         ],
         'input_prefix' => 'product',
     ];
-
     protected $allow_message = [
         'attribute_code' => 'allow_message',
         'backend_type' => 'int',
@@ -128,7 +127,6 @@ class GiftCardProduct extends CatalogProductSimple
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product-details',
     ];
 
     protected $related_tgtr_position_behavior = [

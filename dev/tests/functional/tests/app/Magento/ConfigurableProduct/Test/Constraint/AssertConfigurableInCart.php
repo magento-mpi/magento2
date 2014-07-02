@@ -41,12 +41,12 @@ class AssertConfigurableInCart extends AbstractConstraint
         //Add product to cart
         $catalogProductView->init($configurable);
         $catalogProductView->open();
-        $productOptions = $configurable->getConfigurableOptions();
-        if ($productOptions) {
+        $configurableData = $configurable->getConfigurableAttributesData();
+        if (!empty($configurableData)) {
             $configurableOption = $catalogProductView->getCustomOptionsBlock();
-            $options = $configurableOption->getOptions();
-            $key = $productOptions['value']['label']['value'];
-            $configurableOption->selectProductCustomOption($options[$key]['title']);
+            foreach ($configurableData['attributes_data'] as $attribute) {
+                $configurableOption->selectProductCustomOption(reset($attribute['options'])['title']);
+            }
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 

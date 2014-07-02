@@ -9,9 +9,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
-use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
 use Magento\Customer\Service\V1\CustomerGroupService;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
