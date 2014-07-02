@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Downloadable\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;
@@ -16,10 +17,11 @@ use Mtf\Repository\AbstractRepository;
 class CatalogProductDownloadable extends AbstractRepository
 {
     /**
-     * @constructor
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * Constructor
      *
+     * @param array $defaultConfig [optional]
+     * @param array $defaultData [optional]
+     * 
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
@@ -29,15 +31,19 @@ class CatalogProductDownloadable extends AbstractRepository
             'sku' => 'sku_test_downloadable_product_%isolation%',
             'price' => 280.00,
             'type_id' => 'downloadable',
-            'tax_class' => ['Taxable Goods'],
+            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'quantity_and_stock_status' => [
                 'qty' => 90.0000,
                 'is_in_stock' => 'In Stock',
             ],
             'status' => 'Product online',
-            'category_ids' => ['presets' => 'default_subcategory'],
             'visibility' => 'Catalog, Search',
             'url_key' => 'test-downloadable-product-%isolation%',
+            'stock_data' => [
+                'manage_stock' => 'Yes',
+                'qty' => 90.0000,
+                'is_in_stock' => 'Yes'
+            ],
             'is_virtual' => 'Yes',
             'links_title' => 'Links',
             'links_purchased_separately' => 'Yes',
@@ -46,7 +52,7 @@ class CatalogProductDownloadable extends AbstractRepository
                     [
                         'title' => 'Link title',
                         'price' => '1',
-                        'number_of_downloads' => '1',
+                        'number_of_downloads' => 1,
                         'is_shareable' => 'Use config',
                         'sample' => [
                             'type' => 'url',

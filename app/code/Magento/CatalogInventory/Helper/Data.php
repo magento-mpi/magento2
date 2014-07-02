@@ -48,7 +48,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -92,7 +91,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Check if creditmemo items auto return option is enabled
+     * Check if credit memo items auto return option is enabled
      *
      * @return bool
      */
