@@ -7,8 +7,8 @@
     <h1>{{$state.current.header}}</h1>
 </div>
 
-<form class="form-horizontal" role="form">
-    <div class="bs-callout bs-callout-warning col-sm-12" ng-init="useExistingDb=1">
+<form class="form-horizontal" role="form" ng-submit="testConnection()">
+    <div class="bs-callout bs-callout-warning col-sm-12">
         <h4><?php echo $this->translate('Did you want to use an existing or create a new database?'); ?></h4>
         <div class="radio col-sm-6">
             <label for="useExistingDb">
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-group">
-        <label for="dbHost" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Host*'); ?></label>
+        <label for="dbHost" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Host'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <input tooltip-placement="right"
                 tooltip="<?php echo $this->translate('Name and location of the server that hosts your store\'s database.'); ?>"
@@ -35,12 +35,13 @@
                 type="text"
                 name="dbHost"
                 ng-model="dbHost"
+                value="{{dbHost}}"
                 required>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="dbUser" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Username*'); ?></label>
+        <label for="dbUser" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Username'); ?><span class="required">*</span></label>
         <div class="col-sm-9" ng-switch="useExistingDb">
             <input ng-switch-when="1"
                    tooltip-placement="right"
@@ -92,7 +93,7 @@
     </div>
 
     <div class="form-group" ng-if="useExistingDb">
-        <label for="dbName" class="col-sm-3 control-label"><?php echo $this->translate('Database Name*'); ?></label>
+        <label for="dbName" class="col-sm-3 control-label"><?php echo $this->translate('Database Name'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <input tooltip-placement="right"
                    tooltip="<?php echo $this->translate('Enter the name of your store\'s database.'); ?>"
@@ -108,7 +109,7 @@
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5">
-            <button class="btn btn-default btn-sm">
+            <button type="submit" class="btn btn-default btn-sm">
                 <?php echo $this->translate('Test Connection and Authentication'); ?>
             </button>
         </div>
@@ -116,7 +117,7 @@
     </div>
 
     <div class="form-group" ng-if="useExistingDb==0">
-        <label for="dbNewName" class="col-sm-3 control-label"><?php echo $this->translate('New Database Name*'); ?></label>
+        <label for="dbNewName" class="col-sm-3 control-label"><?php echo $this->translate('New Database Name'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <input tooltip-placement="right"
                    tooltip="<?php echo $this->translate('Create sign-in credentials for your store\'s database.'); ?>"
@@ -146,7 +147,7 @@
     </div>
 
     <div class="form-group" ng-if="useExistingDb==0" ng-init="useAccess=1">
-        <label class="col-sm-3 control-label"><?php echo $this->translate('Data Access*'); ?></label>
+        <label class="col-sm-3 control-label"><?php echo $this->translate('Data Access'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <div class="radio">
                 <label for="useAccess">
@@ -154,7 +155,7 @@
                     <?php echo $this->translate('Enter existing credentials to create the Magento database'); ?>
                 </label>
                 <div class="form-group" style="margin-top: 20px;" ng-if="useAccess==0">
-                    <label for="dbGrandUsername" class="col-sm-3 control-label"><?php echo $this->translate('Username*'); ?></label>
+                    <label for="dbGrandUsername" class="col-sm-3 control-label"><?php echo $this->translate('Username'); ?><span class="required">*</span></label>
                     <div class="col-sm-6">
                         <input class="form-control"
                                style="width: 80%;"
@@ -182,7 +183,7 @@
                     <?php echo $this->translate('Enter new credentials to create the Magento database'); ?>
                 </label>
                 <div class="form-group" style="margin-top: 20px;" ng-if="useAccess">
-                    <label for="dbNewUsername" class="col-sm-3 control-label"><?php echo $this->translate('New Username*'); ?></label>
+                    <label for="dbNewUsername" class="col-sm-3 control-label"><?php echo $this->translate('New Username'); ?><span class="required">*</span></label>
                     <div class="col-sm-6">
                         <input class="form-control"
                                style="width: 80%;"

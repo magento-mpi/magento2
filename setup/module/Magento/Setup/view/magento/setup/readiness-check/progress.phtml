@@ -17,7 +17,7 @@
     }
 </style>
 
-<div class="rediness-check-items" ng-controller="readinessCheckController">
+<div class="rediness-check-items">
     <div class="rediness-check-block bg-info" ng-switch="isCompleted()">
         <div ng-switch-when="true" ng-switch="hasErrors">
             <span ng-switch-when="true"><?php echo $this->translate('Completed! You need to resolve these issues to continue.'); ?></span>

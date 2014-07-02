@@ -21,9 +21,8 @@ readinessCheck.controller('readinessCheckController', ['$scope', '$http', '$time
         expanded: false
     };
 
-    $scope.items = [
-        {
-            id:'php-version',
+    $scope.items = {
+        'php-version': {
             url:'data/php-version',
             show: function() {
                 $scope.version.visible = true;
@@ -35,8 +34,7 @@ readinessCheck.controller('readinessCheckController', ['$scope', '$http', '$time
 
             }
         },
-        {
-            id:'php-extensions',
+        'php-extensions': {
             url:'data/php-extensions',
             show: function() {
                 $scope.extensions.visible = true;
@@ -47,8 +45,7 @@ readinessCheck.controller('readinessCheckController', ['$scope', '$http', '$time
                 $scope.updateOnProcessed($scope.extensions.responseType);
             }
         },
-        {
-            id:'file-permissions',
+        'file-permissions': {
             url:'data/file-permissions',
             show: function() {
                 $scope.permissions.visible = true;
@@ -59,36 +56,33 @@ readinessCheck.controller('readinessCheckController', ['$scope', '$http', '$time
                 $scope.updateOnProcessed($scope.permissions.responseType);
             }
         }
-    ];
+    };
 
     $scope.isCompleted = function() {
         return $scope.version.processed
             && $scope.extensions.processed
             && $scope.permissions.processed;
-    }
+    };
 
     $scope.updateOnProcessed = function(value) {
         $scope.hasErrors = $scope.hasErrors || (value != 'success');
-    }
+    };
 
     $scope.updateOnError = function(obj) {
         obj.expanded = true;
-    }
+    };
 
     $scope.updateOnSuccess = function(obj) {
         obj.expanded = false;
-    }
+    };
 
     $scope.updateOnExpand = function(obj) {
         obj.expanded = !obj.expanded;
-    }
+    };
 
     $scope.hasItem = function(haystack, needle) {
-        if (haystack.indexOf(needle) > -1) {
-            return true;
-        }
-        return false;
-    }
+        return haystack.indexOf(needle) > -1;
+    };
 
     $scope.query = function(item) {
         return $http.get(item.url)
@@ -111,5 +105,9 @@ readinessCheck.controller('readinessCheckController', ['$scope', '$http', '$time
         })
     };
 
-    $scope.progress();
+    $scope.$on('$stateChangeSuccess', function (event, nextState) {
+        if (nextState.id == 'root.readiness-check.progress') {
+            $scope.progress();
+        }
+    });
 }]);

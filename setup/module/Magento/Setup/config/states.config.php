@@ -30,7 +30,6 @@ return [
             'templateUrl' => 'readiness-check',
             'title'       => 'Readiness Check',
             'header'      => 'Step 1: Readiness Check',
-            'controller'  => 'readinessCheckController',
             'nav-bar'     => true,
             'order'       => 1,
         ],
