@@ -45,6 +45,7 @@ class MetadataService implements MetadataServiceInterface
     /**
      * Retrieve custom EAV attribute metadata of product
      *
+     * @param int $attributeSetId
      * @return AttributeMetadata[]
      */
     public function getCustomAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID)
@@ -59,6 +60,7 @@ class MetadataService implements MetadataServiceInterface
     /**
      * Retrieve EAV attribute metadata of product
      *
+     * @param int $attributeSetId
      * @return AttributeMetadata[]
      */
     public function getProductAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID)

@@ -7,20 +7,20 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
-use \Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
+use \Magento\Catalog\Service\V1\MetadataServiceInterface as MetadataServiceInterface;
 
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var ProductMetadataServiceInterface
+     * @var MetadataServiceInterface
      */
     private $metadataService;
 
     /**
-     * @param ProductMetadataServiceInterface $metadataService
+     * @param MetadataServiceInterface $metadataService
      */
     public function __construct(
-        ProductMetadataServiceInterface $metadataService
+        MetadataServiceInterface $metadataService
     ) {
         $this->metadataService = $metadataService;
     }
@@ -31,7 +31,7 @@ class ReadService implements ReadServiceInterface
     public function options($id)
     {
         return $this->metadataService->getAttributeMetadata(
-            ProductMetadataServiceInterface::ENTITY_TYPE,
+            \Magento\Catalog\Service\V1\Product\MetadataServiceInterface::ENTITY_TYPE,
             $id
         )->getOptions();
     }

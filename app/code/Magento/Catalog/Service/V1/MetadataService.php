@@ -36,16 +36,15 @@ class MetadataService implements MetadataServiceInterface
      */
     private $attributeMetadataBuilder;
 
-    /** @var  \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory */
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory
+     */
     private $attributeCollectionFactory;
+
     /**
      * @var Data\Product\SearchResultsBuilder
      */
     private $searchResultsBuilder;
-    /**
-     * @var Data\Eav\AttributeMetadataBuilder
-     */
-    private $attributeBuilder;
 
     /**
      * Attribute DTO Field Mapping
@@ -78,22 +77,19 @@ class MetadataService implements MetadataServiceInterface
      * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Framework\Service\V1\Data\SearchResultsBuilder $searchResultsBuilder
-     * @param Data\Eav\AttributeMetadataBuilder $attributeBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder,
+        \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder,
         \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Framework\Service\V1\Data\SearchResultsBuilder $searchResultsBuilder,
-        \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder $attributeBuilder
+        \Magento\Framework\Service\V1\Data\SearchResultsBuilder $searchResultsBuilder
     ) {
         $this->eavConfig = $eavConfig;
         $this->scopeResolver = $scopeResolver;
         $this->attributeMetadataBuilder = $attributeMetadataBuilder;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
         $this->searchResultsBuilder = $searchResultsBuilder;
-        $this->attributeBuilder = $attributeBuilder;
     }
 
     /**
