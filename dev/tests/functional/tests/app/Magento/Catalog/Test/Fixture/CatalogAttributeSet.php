@@ -72,6 +72,12 @@ class CatalogAttributeSet extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogAttributeSet\SkeletonSet',
     ];
 
+    protected $assigned_attributes = [
+        'attribute_code' => 'assigned_attributes',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogAttributeSet\AssignedAttributes',
+    ];
+
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
@@ -95,5 +101,10 @@ class CatalogAttributeSet extends InjectableFixture
     public function getSkeletonSet()
     {
         return $this->getData('skeleton_set');
+    }
+
+    public function getAssignedAttributes()
+    {
+        return $this->getData('assigned_attributes');
     }
 }

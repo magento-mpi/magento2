@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 
 /**
  * Class AssertProductTemplateNotInGrid
- * Check Product Template absence on grid
+ * Assert that Product Template absence on grid
  */
 class AssertProductTemplateNotInGrid extends AbstractConstraint
 {
@@ -26,7 +26,7 @@ class AssertProductTemplateNotInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that new product template displays in Product Templates grid
+     * Assert that product template is not displayed in Product Templates grid
      *
      * @param CatalogProductSetIndex $productSetPage
      * @param CatalogAttributeSet $productTemplate
@@ -41,7 +41,7 @@ class AssertProductTemplateNotInGrid extends AbstractConstraint
         $productSetPage->open();
         \PHPUnit_Framework_Assert::assertFalse(
             $productSetPage->getGrid()->isRowVisible($filterAttributeSet),
-            'Attribute Set \'' . $filterAttributeSet['set_name'] . '\' is present in Product Template grid.'
+            'Attribute Set with name "' . $filterAttributeSet['set_name'] . '" is present in Product Template grid.'
         );
     }
 
