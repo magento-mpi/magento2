@@ -192,6 +192,12 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
         return $this;
     }
 
+    public function setAssociatedItemCode($code)
+    {
+        $this->_set(Item::KEY_ASSOCIATED_ITEM_CODE, $code);
+        return $this;
+    }
+
     /**
      * {@inheritdoc}
      */
