@@ -22,89 +22,93 @@ $hints = [
     <h1>{{$state.current.header}}</h1>
 </div>
 
-<div ng-controller="webConfigurationController">
-    <form role="form" class="web-config">
+<form class="form-horizontal" role="form">
+    <div class="form-group">
+        <label class="col-md-3 control-label"><?php echo $this->translate('Your Store Address'); ?><span class="required">*</span></label>
+        <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
+            <input type="text"
+                   ng-model="address.web"
+                   class="form-control"
+                   tooltip-placement="right"
+                   tooltip-html-unsafe="<?php echo $hints['address_web']; ?>"
+                   tooltip-trigger="focus"
+                   required />
+        </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-3"><?php echo $this->translate('Your Store Address'); ?><span class="required">*</span></div>
-            <div class="col-md-9">
+    <div class="form-group">
+        <label class="col-md-3 control-label"><?php echo $this->translate('Magento Admin Address'); ?><span class="required">*</span></label>
+        <div class="col-md-4 input-group">
+            <span class="input-group-addon">{{address.web}}</span>
+            <input type="text"
+                   class="form-control"
+                   ng-model="address.admin"
+                   required />
+        </div>
+    </div>
+
+    <div class="collapsed-options">
+        <a href="#" class="collapsed-options" ng-click="updateOnExpand(advanced)"><?php echo $this->translate('Advanced Options'); ?></a>
+        <span class="caret"></span>
+    </div>
+
+    <div ng-show="advanced.expanded">
+        <div class="form-group">
+            <label class="col-md-3 control-label"><?php echo $this->translate('HTTPS Options'); ?></label>
+            <div class="col-md-5">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="https.front">&nbsp;<?php echo $this->translate('Use HTTPS for Magento Storefront'); ?>
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="https.admin">&nbsp;<?php echo $this->translate('Use HTTPS for Magento Admin'); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label"><?php echo $this->translate('Apache Rewrites'); ?></label>
+            <div class="col-md-5">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="rewrites.allowed">&nbsp;<?php echo $this->translate('Use Web Server Apache Rewrites'); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label"><?php echo $this->translate('Encryption Key'); ?><span class="required">*</span></label>
+            <div class="col-md-5">
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-model="encrypt.type" value="magento">&nbsp;<?php echo $this->translate('I want to use a Magento generated key'); ?>
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-model="encrypt.type" value="user">&nbsp;<?php echo $this->translate('I want to use my own encryption key'); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="showEncryptKey()">
+            <div class="col-md-5 col-md-offset-3">
                 <input type="text"
-                       ng-model="address.web"
-                       class="form-control web-conf-control"
+                       class="form-control"
+                       ng-model="encrypt.key"
                        tooltip-placement="right"
-                       tooltip-html-unsafe="<?php echo $hints['address_web']; ?>"
+                       tooltip-html-unsafe="<?php echo $hints['encrypt_key']; ?>"
                        tooltip-trigger="focus"
                        required />
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3"><?php echo $this->translate('Magento Admin Address'); ?><span class="required">*</span></div>
-            <div class="col-md-9">
-                <span>{{address.web}}</span>
-                <input type="text"
-                       class="form-control web-conf-control"
-                       ng-model="address.admin"
-                       required />
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <a href="#" ng-click="updateOnExpand(advanced)"><?php echo $this->translate('Advanced Options'); ?></a>
-                    <span class="caret"></span>
-                </div>
-                <div ng-show="advanced.expanded">
-                    <div class="row">
-                        <div class="col-md-3"><?php echo $this->translate('HTTPS Options'); ?></div>
-                        <div class="col-md-9">
-                            <div class="checkbox">
-                                <label for="https-options-front"><?php echo $this->translate('Use HTTPS for Magento Storefront'); ?></label>
-                                <input type="checkbox" ng-model="https.front" id="https-options-front" />
-                            </div>
-                            <div class="checkbox">
-                                <label for="https-options-admin"><?php echo $this->translate('Use HTTPS for Magento Admin'); ?></label>
-                                <input type="checkbox" ng-model="https.admin" id="https-options-admin" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3"><?php echo $this->translate('Apache Rewrites'); ?></div>
-                        <div class="col-md-9">
-                            <div class="checkbox">
-                                <label for="rewrites-allowed"><?php echo $this->translate('Use Web Server Apache Rewrites'); ?></label>
-                                <input type="checkbox" ng-model="rewrites.allowed" id="rewrites-allowed" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3"><?php echo $this->translate('Encryption Key'); ?><span class="required">*</span></div>
-                        <div class="col-md-9">
-                            <div class="radio">
-                                <label for="enc-key-magento"><?php echo $this->translate('I want to use a Magento generated key'); ?></label>
-                                <input type="radio" id="enc-key-magento" value="magento" ng-model="encrypt.type" value="magento" />
-                            </div>
-                            <div class="radio">
-                                <label for="enc-key-user"><?php echo $this->translate('I want to use my own encryption key'); ?></label>
-                                <input type="radio" id="enc-key-user" ng-model="encrypt.type" value="user" />
-                            </div>
-                            <div ng-show="showEncryptKey()">
-                                <input type="text"
-                                       class="form-control web-conf-control"
-                                       ng-model="encrypt.key"
-                                       tooltip-placement="right"
-                                       tooltip-html-unsafe="<?php echo $hints['encrypt_key']; ?>"
-                                       tooltip-trigger="focus"
-                                       required />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </form>
-</div>
+    </div>
+</form>
 
 <div class="step-controls">
     <a href="#" class="btn btn-primary" ng-click="previousState()"><?php echo $this->translate('Previous'); ?></a>

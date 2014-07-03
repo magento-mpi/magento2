@@ -7,27 +7,15 @@
 .required {
     color: red;
 }
-.web-config > div.row > div {
-    padding: 10px;
+.collapsed-options {
+    margin-top:20px;
+    margin-bottom:20px;
 }
-.advanced-opt > div {
-    padding: 20px;
-}
-.advanced-opt-label {
-    float: left;
-    width: 20%;
-}
-.advanced-opt-content {
-    display: inline-block;
-    width: 80%;
-}
-.web-conf-control {
-    width: 200px;
-    display: inline;
-    margin-left: 20px;
-}
-.web-conf-label {
-    width: 200px;
+a.collapsed-options {
+    padding-top: 7px;
+    color: #000;
+    font-weight: bold;
+    white-space: nowrap;
 }
 .readiness-check-landing {
     text-align: center;
