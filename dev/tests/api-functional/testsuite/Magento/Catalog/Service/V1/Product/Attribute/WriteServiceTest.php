@@ -131,7 +131,7 @@ class WriteServiceTest extends WebapiAbstract
                 "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
-            $errorObj = $this->_processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(['fieldName' => 'attribute_id', 'fieldValue' => $invalidId], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
@@ -229,7 +229,7 @@ class WriteServiceTest extends WebapiAbstract
      * ]
      * </pre>
      */
-    protected function _processRestExceptionResult(\Exception $e)
+    protected function processRestExceptionResult(\Exception $e)
     {
         $error = json_decode($e->getMessage(), true);
         //Remove line breaks and replace with space
