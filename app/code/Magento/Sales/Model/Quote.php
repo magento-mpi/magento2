@@ -284,6 +284,16 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_addressConverter;
 
     /**
+     * @var \Magento\Sales\Model\Quote\Item\Processor
+     */
+    protected $itemProcessor;
+
+    /**
+     * @var \Magento\Framework\Object\Factory
+     */
+    protected $objectFactory;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
@@ -291,20 +301,22 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
+     * @param Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param CustomerGroupServiceInterface $customerGroupService
-     * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
-     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
+     * @param Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Framework\Message\Factory $messageFactory
-     * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
+     * @param Status\ListFactory $statusListFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
-     * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
+     * @param Quote\PaymentFactory $quotePaymentFactory
+     * @param Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
+     * @param Quote\Item\Processor $itemProcessor
+     * @param \Magento\Framework\Object\Factory $objectFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -331,6 +343,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Converter $addressConverter,
+        \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
+        \Magento\Framework\Object\Factory $objectFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -354,6 +368,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_converter = $converter;
         $this->_addressService = $addressService;
         $this->_addressConverter = $addressConverter;
+        $this->itemProcessor = $itemProcessor;
+        $this->objectFactory = $objectFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -1254,13 +1270,16 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @return \Magento\Sales\Model\Quote\Item|string
      * @throws \Magento\Framework\Model\Exception
      */
-    public function addProductAdvanced(\Magento\Catalog\Model\Product $product, $request = null, $processMode = null)
+    public function addProduct(
+        \Magento\Catalog\Model\Product $product,
+        $request = null,
+        $processMode = \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL)
     {
         if ($request === null) {
             $request = 1;
         }
         if (is_numeric($request)) {
-            $request = new \Magento\Framework\Object(array('qty' => $request));
+            $request = $this->objectFactory->create(['qty' => $request]);
         }
         if (!$request instanceof \Magento\Framework\Object) {
             throw new \Magento\Framework\Model\Exception(__('We found an invalid request for adding product to quote.'));
@@ -1284,14 +1303,18 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
         $parentItem = null;
         $errors = array();
+        $item = null;
         $items = array();
         foreach ($cartCandidates as $candidate) {
             // Child items can be sticked together only within their parent
             $stickWithinParent = $candidate->getParentProductId() ? $parentItem : null;
             $candidate->setStickWithinParent($stickWithinParent);
-            $item = $this->_addCatalogProduct($candidate, $candidate->getCartQty());
-            if ($request->getResetCount() && !$stickWithinParent && $item->getId() === $request->getId()) {
-                $item->setData('qty', 0);
+
+            $item = $this->getItemByProduct($candidate);
+            if (!$item) {
+                $item = $this->itemProcessor->init($candidate, $request);
+                // Add only item that is not in quote already
+                $this->addItem($item);
             }
             $items[] = $item;
 
@@ -1305,10 +1328,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
                 $item->setParentItem($parentItem);
             }
 
-            /**
-             * We specify qty after we know about parent (for stock)
-             */
-            $item->addQty($candidate->getCartQty());
+            $this->itemProcessor->prepare($item, $request, $candidate);
 
             // collect errors instead of throwing first one
             if ($item->getHasError()) {
@@ -1323,27 +1343,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             throw new \Magento\Framework\Model\Exception(implode("\n", $errors));
         }
 
-        $this->_eventManager->dispatch('sales_quote_product_add_after', array('items' => $items));
+        $this->_eventManager->dispatch('sales_quote_product_add_after', ['items' => $items]);
 
         return $item;
-    }
-
-    /**
-     * Add product to quote
-     *
-     * return error message if product type instance can't prepare product
-     *
-     * @param mixed $product
-     * @param null|float|\Magento\Framework\Object $request
-     * @return \Magento\Sales\Model\Quote\Item|string
-     */
-    public function addProduct(\Magento\Catalog\Model\Product $product, $request = null)
-    {
-        return $this->addProductAdvanced(
-            $product,
-            $request,
-            \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL
-        );
     }
 
     /**

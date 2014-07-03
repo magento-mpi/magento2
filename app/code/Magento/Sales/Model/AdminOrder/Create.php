@@ -172,6 +172,11 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_scopeConfig;
 
     /**
+     * @var \Magento\Sales\Model\Quote\Item\Updater
+     */
+    protected $quoteItemUpdater;
+
+    /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Registry $coreRegistry
@@ -189,6 +194,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater
      * @param array $data
      */
     public function __construct(
@@ -209,6 +215,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\Customer\Helper\Data $customerHelper,
         CustomerGroupServiceInterface $customerGroupService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -228,6 +235,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->_customerHelper = $customerHelper;
         $this->_customerGroupService = $customerGroupService;
         $this->_scopeConfig = $scopeConfig;
+        $this->quoteItemUpdater = $quoteItemUpdater;
         parent::__construct($data);
     }
 
@@ -945,11 +953,45 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     /**
      * Update quantity of order quote items
      *
-     * @param array $data
-     * @return $this
+     * @param array $items
+     * @return Create
      * @throws \Exception|\Magento\Framework\Model\Exception
      */
-    public function updateQuoteItems($data)
+    public function updateQuoteItems($items)
+    {
+        if (!is_array($items)) {
+            return $this;
+        }
+
+        try {
+            foreach ($items as $itemId => $info) {
+                if (!empty($info['configured'])) {
+                    $item = $this->getQuote()->updateItem($itemId, $this->_objectManager->create($info));
+                    $info['qty'] = (double)$item->getQty();
+                } else {
+                    $item = $this->getQuote()->getItemById($itemId);
+                    if (!$item) {
+                        continue;
+                    }
+                    $info['qty'] = (double)$info['qty'];
+                }
+                $item = $this->quoteItemUpdater->update($item, $info);
+                if ($item && !empty($info['action'])) {
+                    $this->moveQuoteItem($item, $info['action'], $item->getQty());
+                }
+            }
+        } catch (\Magento\Framework\Model\Exception $e) {
+            $this->recollectCart();
+            throw $e;
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+        }
+        $this->recollectCart();
+
+        return $this;
+    }
+
+    public function updateQuoteItems2($data)
     {
         if (is_array($data)) {
             try {
