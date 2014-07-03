@@ -316,11 +316,11 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
-     * @depends testCreate
+     * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
      */
     public function testGet()
     {
-        $productData = $this->createProduct($this->getSimpleProductData());
+        $productData = $this->productData[0];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::SKU],
@@ -335,7 +335,7 @@ class ProductServiceTest extends WebapiAbstract
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
             $this->_webApiCall($serviceInfo, ['id' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
-        foreach ([Product::SKU, Product::NAME, Product::PRICE, Product::STATUS, Product::VISIBILITY] as $key) {
+        foreach ([Product::SKU, Product::NAME, Product::PRICE] as $key) {
             $this->assertEquals($productData[$key], $response[$key]);
         }
     }
