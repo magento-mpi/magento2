@@ -12,6 +12,7 @@ use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Magento\Backend\Test\Handler\Extractor;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\Handler\Curl as AbstractCurl;
 
@@ -62,7 +63,11 @@ class Curl extends AbstractCurl implements CmsBlockInterface
             throw new \Exception("CMS Block entity creating  by curl handler was not successful!");
         }
 
-        return ['block_id' => $this->getBlockId($fixture->getTitle())];
+        $url = 'cms/block/index/sort/creation_time/dir/desc';
+        $regExpPattern = '@^.*block_id\/(\d+)\/.*' . $fixture->getTitle() . '@ms';
+        $extractor = new Extractor($url, $regExpPattern);
+
+        return ['block_id' => $extractor->getData()[1]];
     }
 
     /**
@@ -79,25 +84,5 @@ class Curl extends AbstractCurl implements CmsBlockInterface
         }
 
         return $data;
-    }
-
-    /**
-     * Get Block id by title
-     *
-     * @param string $title
-     * @return null/int
-     */
-    protected function getBlockId($title)
-    {
-        // Sort data in grid to define CMS block id if more than 20 items in grid
-        $url = $_ENV['app_backend_url'] . 'cms/block/index/sort/title/dir/asc';
-        $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::GET, $url, '1.0');
-        $response = $curl->read();
-        $curl->close();
-        $pattern = '/.*\/block_id\/(\d+).*' . $title . '/siu';
-        preg_match($pattern, $response, $match);
-
-        return empty($match[1]) ? null : $match[1];
     }
 }

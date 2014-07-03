@@ -64,7 +64,7 @@ class AssertCmsBlockNotInGrid extends AbstractConstraint
             . 'status \'' . $filter['is_active'] . '\', '
             . (isset($filter['creation_time']) ? ('creation_time \'' . $filter['creation_time'] . '\', ') : '')
             . (isset($filter['update_time']) ? ('update_time \'' . $filter['update_time'] . '\', ') : '')
-            . 'is absent in CMS Block grid.'
+            . 'exists in CMS Block grid.'
         );
     }
 

@@ -9,6 +9,7 @@
 namespace Magento\Cms\Test\Block\Adminhtml\Block;
 
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
@@ -44,4 +45,28 @@ class CmsGrid extends GridInterface
             'selector' => '[data-ui-id="widget-grid-column-filter-datetime-1-filter-update-time-from"]',
         ],
     ];
+
+    /**
+     * An element locator which allows to select first entity in grid
+     *
+     * @var string
+     */
+    protected $firstGrid = '#cmsBlockGrid_table tbody tr:first-child td';
+
+    /**
+     * Sort and open first entity in grid
+     *
+     * @throws \Exception
+     */
+    public function sortAndOpen()
+    {
+        $this->sortGridByField('creation_time', 'asc');
+        $this->sortGridByField('creation_time');
+        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
+        if ($rowItem->isVisible()) {
+            $rowItem->find($this->firstGrid, Locator::SELECTOR_CSS)->click();
+        } else {
+            throw new \Exception('Searched item was not found.');
+        }
+    }
 }

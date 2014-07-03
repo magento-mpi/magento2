@@ -1,2 +1,2 @@
 "cmsBlock/dataSet";"constraint"
-"default";"assertCmsBlockDeleteMessage, assertCmsBlockNotInGrid"
+"default";"assertCmsBlockDeleteMessage, assertCmsBlockNotInGrid, assertCmsBlockNotOnCategoryPage"

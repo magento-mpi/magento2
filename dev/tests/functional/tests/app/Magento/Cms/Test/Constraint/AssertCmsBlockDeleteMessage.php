@@ -13,7 +13,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
 
 /**
  * Class AssertCmsBlockDeleteMessage
- * Assert that after delete CMS block "The block has been deleted." successful message appears
+ * Assert that after delete CMS block successful message appears
  */
 class AssertCmsBlockDeleteMessage extends AbstractConstraint
 {
@@ -27,7 +27,7 @@ class AssertCmsBlockDeleteMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after delete CMS block "The block has been deleted." successful message appears
+     * Assert that after delete CMS block successful message appears
      *
      * @param CmsBlockIndex $cmsBlockIndex
      * @return void
