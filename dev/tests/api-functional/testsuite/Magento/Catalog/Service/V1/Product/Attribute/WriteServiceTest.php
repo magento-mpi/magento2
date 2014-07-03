@@ -42,10 +42,12 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * Test update product attribute
+     *
+     * @magentoApiDataFixture Magento/Catalog/_files/product_attribute.php
      */
     public function testUpdate()
     {
-        $attributeCode = 'color';
+        $attributeCode = 'test_attribute_code_333';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attributeCode,
