@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Helper\Data;
+namespace Magento\Bundle\Helper;
 
 /**
  * Bundle helper
