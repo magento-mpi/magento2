@@ -1506,12 +1506,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
             return $this;
         }
 
-        $emailSentAttributeValue = $this->load($this->getId())->getData('email_sent');
-        $this->setEmailSent((bool)$emailSentAttributeValue);
-        if ($this->getEmailSent()) {
-            return $this;
-        }
-
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
         $copyMethod = $this->_scopeConfig->getValue(
