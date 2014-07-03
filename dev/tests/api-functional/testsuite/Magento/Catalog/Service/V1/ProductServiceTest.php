@@ -287,10 +287,12 @@ class ProductServiceTest extends WebapiAbstract
         );
     }
 
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     */
     public function testUpdate()
     {
-        $response = $this->createProduct($this->getSimpleProductData());
-        $productSku = $response[Product::SKU];
+        $productSku = 'simple';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku,
