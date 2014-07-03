@@ -11,21 +11,21 @@
     <div class="bs-callout bs-callout-warning col-sm-12">
         <h4><?php echo $this->translate('Did you want to use an existing or create a new database?'); ?></h4>
         <div class="radio col-sm-6">
-            <label for="useExistingDb">
-                <input type="radio" name="useExistingDb" ng-model="useExistingDb" value="1">
+            <label>
+                <input type="radio" name="useExistingDb" ng-model="db.useExistingDb" value="1">
                 <?php echo $this->translate('Use my existing database'); ?>
             </label>
         </div>
         <div class="radio col-sm-6">
-            <label for="useExistingDb">
-                <input type="radio" name="useExistingDb" ng-model="useExistingDb" value="0">
+            <label>
+                <input type="radio" name="useExistingDb" ng-model="db.useExistingDb" value="0">
                 <?php echo $this->translate('Create a database for me'); ?>
             </label>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="dbHost" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Host'); ?><span class="required">*</span></label>
+        <label class="col-sm-3 control-label"><?php echo $this->translate('Database Server Host'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <input tooltip-placement="right"
                 tooltip="<?php echo $this->translate('Name and location of the server that hosts your store\'s database.'); ?>"
@@ -34,15 +34,14 @@
                 style="width: 60%;"
                 type="text"
                 name="dbHost"
-                ng-model="dbHost"
-                value="{{dbHost}}"
+                ng-model="db.host"
                 required>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="dbUser" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Username'); ?><span class="required">*</span></label>
-        <div class="col-sm-9" ng-switch="useExistingDb">
+        <label class="col-sm-3 control-label"><?php echo $this->translate('Database Server Username'); ?><span class="required">*</span></label>
+        <div class="col-sm-9" ng-switch="db.useExistingDb">
             <input ng-switch-when="1"
                    tooltip-placement="right"
                    tooltip="<?php echo $this->translate('Sign-in credentials for your store\'s database on the database server (does not need to be admin-level credentials).'); ?>"
@@ -51,7 +50,7 @@
                    style="width: 60%;"
                    type="text"
                    name="dbUser"
-                   ng-model="dbUser"
+                   ng-model="db.user"
                    required>
             <input ng-switch-when="0"
                    tooltip-placement="right"
@@ -61,14 +60,14 @@
                    style="width: 60%;"
                    type="text"
                    name="dbUser"
-                   ng-model="dbUser"
+                   ng-model="db.user"
                    required>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="dbPassword" class="col-sm-3 control-label"><?php echo $this->translate('Database Server Password'); ?></label>
-        <div class="col-sm-9" ng-switch="useExistingDb">
+        <label class="col-sm-3 control-label"><?php echo $this->translate('Database Server Password'); ?></label>
+        <div class="col-sm-9" ng-switch="db.useExistingDb">
             <input ng-switch-when="1"
                    tooltip-placement="right"
                    tooltip="<?php echo $this->translate('Sign-in credentials for your store\'s database on the database server (does not need to be admin-level credentials).'); ?>"
@@ -77,7 +76,7 @@
                    style="width: 60%;"
                    type="text"
                    name="dbPassword"
-                   ng-model="dbPassword"
+                   ng-model="db.password"
                    placeholder="<?php echo $this->translate('(not always necessary)'); ?>">
             <input ng-switch-when="0"
                    tooltip-placement="right"
@@ -87,13 +86,13 @@
                    style="width: 60%;"
                    type="text"
                    name="dbPassword"
-                   ng-model="dbPassword"
+                   ng-model="db.password"
                    placeholder="<?php echo $this->translate('(not always necessary)'); ?>">
         </div>
     </div>
 
     <div class="form-group" ng-if="useExistingDb">
-        <label for="dbName" class="col-sm-3 control-label"><?php echo $this->translate('Database Name'); ?><span class="required">*</span></label>
+        <label class="col-sm-3 control-label"><?php echo $this->translate('Database Name'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <input tooltip-placement="right"
                    tooltip="<?php echo $this->translate('Enter the name of your store\'s database.'); ?>"
@@ -102,7 +101,7 @@
                    style="width: 60%;"
                    type="text"
                    name="dbName"
-                   ng-model="dbName"
+                   ng-model="db.name"
                    required>
         </div>
     </div>
@@ -116,8 +115,8 @@
         <div class="col-sm-4">{{testConnection.result}}</div>
     </div>
 
-    <div class="form-group" ng-if="useExistingDb==0">
-        <label for="dbNewName" class="col-sm-3 control-label"><?php echo $this->translate('New Database Name'); ?><span class="required">*</span></label>
+    <div class="form-group" ng-if="db.useExistingDb==0">
+        <label class="col-sm-3 control-label"><?php echo $this->translate('New Database Name'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <input tooltip-placement="right"
                    tooltip="<?php echo $this->translate('Create sign-in credentials for your store\'s database.'); ?>"
@@ -126,13 +125,13 @@
                    style="width: 60%;"
                    type="text"
                    name="dbNewName"
-                   ng-model="dbNewName"
+                   ng-model="db.newName"
                    required>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="dbTablePrefix" class="col-sm-3 control-label"><?php echo $this->translate('Table prefix'); ?></label>
+        <label class="col-sm-3 control-label"><?php echo $this->translate('Table prefix'); ?></label>
         <div class="col-sm-9">
             <input tooltip-placement="right"
                    tooltip="<?php echo $this->translate('Enter a tracking prefix to be used for database tables created for this Magento installation. (ex: \'mg1_\' )'); ?>"
@@ -141,21 +140,21 @@
                    style="width: 60%;"
                    type="text"
                    name="dbTablePrefix"
-                   ng-model="dbTablePrefix"
+                   ng-model="db.tablePrefix"
                    placeholder="<?php echo $this->translate('(optional)'); ?>">
         </div>
     </div>
 
-    <div class="form-group" ng-if="useExistingDb==0" ng-init="useAccess=1">
+    <div class="form-group" ng-if="db.useExistingDb==0" ng-init="db.useAccess=1">
         <label class="col-sm-3 control-label"><?php echo $this->translate('Data Access'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <div class="radio">
-                <label for="useAccess">
-                    <input type="radio" name="useAccess" ng-model="useAccess" value="0">
+                <label>
+                    <input type="radio" name="useAccess" ng-model="db.useAccess" value="0">
                     <?php echo $this->translate('Enter existing credentials to create the Magento database'); ?>
                 </label>
                 <div class="form-group" style="margin-top: 20px;" ng-if="useAccess==0">
-                    <label for="dbGrandUsername" class="col-sm-3 control-label"><?php echo $this->translate('Username'); ?><span class="required">*</span></label>
+                    <label class="col-sm-3 control-label"><?php echo $this->translate('Username'); ?><span class="required">*</span></label>
                     <div class="col-sm-6">
                         <input class="form-control"
                                style="width: 80%;"
@@ -166,52 +165,52 @@
                     </div>
                 </div>
                 <div class="form-group" ng-if="useAccess==0">
-                    <label for="dbGrandPassword" class="col-sm-3 control-label"><?php echo $this->translate('Password'); ?></label>
+                    <label class="col-sm-3 control-label"><?php echo $this->translate('Password'); ?></label>
                     <div class="col-sm-6">
                         <input class="form-control"
                                style="width: 80%;"
                                type="password"
                                name="dbGrandPassword"
-                               ng-model="dbGrandPassword"
+                               ng-model="db.grandPassword"
                                placeholder="<?php echo $this->translate('(optional)'); ?>">
                     </div>
                 </div>
             </div>
             <div class="radio">
-                <label for="useAccess">
-                    <input type="radio" name="useAccess" ng-model="useAccess" value="1">
+                <label>
+                    <input type="radio" name="useAccess" ng-model="db.useAccess" value="1">
                     <?php echo $this->translate('Enter new credentials to create the Magento database'); ?>
                 </label>
-                <div class="form-group" style="margin-top: 20px;" ng-if="useAccess">
-                    <label for="dbNewUsername" class="col-sm-3 control-label"><?php echo $this->translate('New Username'); ?><span class="required">*</span></label>
+                <div class="form-group" style="margin-top: 20px;" ng-if="db.useAccess">
+                    <label class="col-sm-3 control-label"><?php echo $this->translate('New Username'); ?><span class="required">*</span></label>
                     <div class="col-sm-6">
                         <input class="form-control"
                                style="width: 80%;"
                                type="text"
                                name="dbNewUsername"
-                               ng-model="dbNewUsername"
+                               ng-model="db.newUsername"
                                required>
                     </div>
                 </div>
-                <div class="form-group" ng-if="useAccess">
-                    <label for="dbNewPassword" class="col-sm-3 control-label"><?php echo $this->translate('New Password'); ?></label>
+                <div class="form-group" ng-if="db.useAccess">
+                    <label class="col-sm-3 control-label"><?php echo $this->translate('New Password'); ?></label>
                     <div class="col-sm-6">
                         <input class="form-control"
                                style="width: 80%;"
                                type="password"
                                name="dbNewPassword"
-                               ng-model="dbNewPassword"
+                               ng-model="db.newPassword"
                                placeholder="<?php echo $this->translate('(optional)'); ?>">
                     </div>
                 </div>
-                <div class="form-group" ng-if="useAccess">
-                    <label for="dbConfirmPassword" class="col-sm-3 control-label"><?php echo $this->translate('Confirm Password'); ?></label>
+                <div class="form-group" ng-if="db.useAccess">
+                    <label class="col-sm-3 control-label"><?php echo $this->translate('Confirm Password'); ?></label>
                     <div class="col-sm-6">
                         <input class="form-control"
                                style="width: 80%;"
                                type="password"
                                name="dbConfirmPassword"
-                               ng-model="dbConfirmPassword">
+                               ng-model="db.confirmPassword">
                     </div>
                 </div>
             </div>

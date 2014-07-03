@@ -1,10 +1,18 @@
 'use strict';
-var addDatabase = angular.module('add-database', []);
-addDatabase.controller('addDatabaseController', function ($scope) {
-    $scope.useExistingDb = 1;
+var addDatabase = angular.module('add-database', ['ngStorage']);
+addDatabase.controller('addDatabaseController', ['$scope', '$localStorage', function ($scope, $localStorage) {
+    $scope.db = {};
+    $scope.db.useExistingDb = 1;
+    if ($localStorage.db) {
+        $scope.db = $localStorage.db;
+    }
     $scope.testConnection = function () {
-        console.log('test');
-        console.log($scope.$parent);
-        console.log($scope.dbHost);
+        //@todo implemented this action
     };
-});
+
+    $scope.$on('nextState', function (state) {
+        if (state.id == 'root.add-database') {
+            $localStorage.db = $scope.db;
+        }
+    });
+}]);
