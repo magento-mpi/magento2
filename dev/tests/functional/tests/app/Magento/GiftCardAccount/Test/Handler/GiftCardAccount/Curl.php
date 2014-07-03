@@ -8,13 +8,12 @@
 
 namespace Magento\GiftCardAccount\Test\Handler\GiftCardAccount;
 
-use Magento\GiftCardAccount\Test\Handler\GiftCardAccount\GiftCardAccountInterface;
+use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
+use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -27,7 +26,19 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
      *
      * @var array
      */
-    protected $dataMapping = ['website_id ' => ['Main Website' => 1]];
+    protected $mappingData = [
+        'website_id' => [
+            'Main Website' => 1,
+        ],
+        'status' => [
+            'Yes' => 1,
+            'No' => 1,
+        ],
+        'is_redeemable' => [
+            'Yes' => 1,
+            'No' => 1,
+        ]
+    ];
 
     /**
      * Active tab info link
@@ -46,12 +57,13 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
     /**
      * Create gift card account
      *
-     * @param FixtureInterface $fixture
-     * @return array|mixed
+     * @param FixtureInterface|null $fixture [optional]
+     * @return array
+     * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $this->prepareData($fixture->getData());
+        $data = $this->replaceMappingData($fixture->getData());
 
         $url = $_ENV['app_backend_url'] . $this->activeTabInfo;
         $generateCode = $_ENV['app_backend_url'] . $this->generate;
@@ -69,25 +81,5 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
         preg_match('`<td data-column=\"code\".*?>(.*?)<`mis', $content, $res);
         $curl->close();
         return ['code' => trim($res[1])];
-    }
-
-    /**
-     * Prepare data
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function prepareData(array $data)
-    {
-        foreach ($data as $key => $value) {
-            if (isset($this->dataMapping[$key])) {
-                $data[$key] = $this->dataMapping[$key][$value];
-            } elseif ($value === 'Yes') {
-                $data[$key] = 1;
-            } elseif ($value === 'No') {
-                $data[$key] = 0;
-            }
-        }
-        return $data;
     }
 }
