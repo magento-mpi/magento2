@@ -27,7 +27,7 @@ class AssertProductNotInGrid extends AbstractConstraint
     /**
      * Assert that product cannot be found by name and sku.
      *
-     * @param FixtureInterface , array $product
+     * @param FixtureInterface|FixtureInterface[] $product
      * @param CatalogProductIndex $productGrid
      * @return void
      */
@@ -39,7 +39,7 @@ class AssertProductNotInGrid extends AbstractConstraint
             $productGrid->open();
             \PHPUnit_Framework_Assert::assertFalse(
                 $productGrid->getProductGrid()->isRowVisible($filter),
-                'Product with sku "' . $filter['sku'] . '" and name "' . $filter['name'] . '" is attend in Products grid.'
+                "Product with sku \"{$filter['sku']}\" and name \"{$filter['name']}\" is attend in Products grid."
             );
         }
     }
@@ -51,6 +51,6 @@ class AssertProductNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product is absent in products grid.';
+        return 'Assertion that product is absent in products grid.';
     }
 }

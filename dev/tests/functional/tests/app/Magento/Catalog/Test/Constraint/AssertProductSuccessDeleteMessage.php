@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
@@ -31,7 +32,7 @@ class AssertProductSuccessDeleteMessage extends AbstractConstraint
     /**
      * Assert that after deleting product success message.
      *
-     * @param FixtureInterface , array $product
+     * @param FixtureInterface|FixtureInterface[] $product
      * @param CatalogProductIndex $productPage
      * @return void
      */
@@ -56,6 +57,6 @@ class AssertProductSuccessDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product success delete message is present.';
+        return 'Assertion that products success delete message is present.';
     }
 }

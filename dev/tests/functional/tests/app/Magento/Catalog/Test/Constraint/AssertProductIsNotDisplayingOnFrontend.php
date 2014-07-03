@@ -75,7 +75,7 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
      * @param CatalogsearchResult $catalogSearchResult
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
-     * @param FixtureInterface , array $product
+     * @param FixtureInterface|FixtureInterface[] $product
      * @param CatalogCategory $category
      */
     public function processAssert(
@@ -94,7 +94,7 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
         $products = is_array($product) ? $product : [$product];
         $errors = [];
         foreach ($products as $product) {
-            $errors = $this->isNotDisplayingOnFrontendAssert($product);
+            $errors[] = $this->isNotDisplayingOnFrontendAssert($product);
         }
         \PHPUnit_Framework_Assert::assertTrue(
             empty($errors),
@@ -142,7 +142,7 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
         }
 
         if ($isProductVisible) {
-            $errors[] = '- product found in this category.';
+            $errors[] = '- product with name "{$product->getName()}" is found in this category.';
         }
 
         return $errors;
