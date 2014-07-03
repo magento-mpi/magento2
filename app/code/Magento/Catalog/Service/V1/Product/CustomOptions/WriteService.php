@@ -13,6 +13,9 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder;
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class WriteService implements WriteServiceInterface
 {
     /**
