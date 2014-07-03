@@ -73,12 +73,12 @@
     dt {
         float: left;
         clear: left;
-        margin: 0 10px 5px 0;
+        margin: 0 10px 2px 0;
     }
     dd {
         float: left;
         display: inline-block;
-        margin: 0 0 5px;
+        margin: 0 0 2px;
     }
 }
 
@@ -147,7 +147,7 @@
 //
 //    Input quantity
 //--------------------------------------
-.input-qty {
+.abstract-input-qty {
     .form-element-size(@_width: 54px);
     text-align: center;
 }
@@ -434,4 +434,68 @@
 //--------------------------------------
 .abstract-box-tocart {
     margin: 0 0 @indent-l-base;
+}
+
+//
+//    Revert side paddings
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .abstract-revert-side-paddings {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+//
+//    Cart discount block
+//--------------------------------------
+.abstract-cart-block {
+    margin: 0;
+    > .title {
+        border-top: @border-width-base solid @border-color-base;
+        cursor: pointer;
+        margin-bottom: 0;
+        padding: 10px 20px 10px @mobile-cart-padding;
+        position: relative;
+        .icon-font(
+            @icon-down,
+            @_icon-font-size: 12px,
+            @_icon-font-line-height: 12px,
+            @_icon-font-text-hide: true,
+            @_icon-font-margin: 3px 0 0 0,
+            @_icon-font-position: after,
+            @_icon-font-display: block
+        );
+        &:after {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+        .column.main & {
+            strong {
+                .font-size(14);
+                font-weight: @font-weight-semibold;
+            }
+        }
+    }
+    .content {
+        display: none;
+        padding: 5px @mobile-cart-padding 23px;
+        position: relative;
+    }
+    &.active {
+        > .title {
+            .icon-font-symbol(
+                @_icon-font-content: @icon-up,
+                @_icon-font-position: after
+            );
+        }
+        .content {
+            display: block;
+        }
+    }
+}
+
+.abstract-cart-block-content {
+    margin: 0;
 }

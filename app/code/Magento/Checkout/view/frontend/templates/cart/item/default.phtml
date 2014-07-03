@@ -13,16 +13,16 @@ $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_item->getProduct(), \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM);
 ?>
 <tbody class="cart item">
-<tr class="item info">
+<tr class="item info item-info">
     <td class="col item">
-        <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product photo">
+        <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product photo product-item-photo">
         <?php else:?>
-            <span class="product photo">
+            <span class="product photo product-item-photo">
         <?php endif;?>
         <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($this->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
         <?php if ($this->hasProductUrl()):?></a><?php else: ?></span><?php endif; ?>
-        <div class="product details">
-            <strong class="product name">
+        <div class="product details product-item-details">
+            <strong class="product name product-item-name">
             <?php if ($this->hasProductUrl()):?>
                 <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
             <?php else: ?>
@@ -30,7 +30,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
             <?php endif; ?>
             </strong>
             <?php if ($_options = $this->getOptionList()):?>
-            <dl class="cart item options">
+            <dl class="cart-item-options">
                 <?php foreach ($_options as $_option) : ?>
                 <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
                 <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
@@ -269,7 +269,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
     </td>
     <?php endif; ?>
 </tr>
-<tr class="item actions">
+<tr class="item actions item-actions">
     <td colspan="<?php echo $cols;?>">
         <div class="actions">
 
