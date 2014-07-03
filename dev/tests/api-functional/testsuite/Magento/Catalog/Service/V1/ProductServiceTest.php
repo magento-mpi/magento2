@@ -24,8 +24,18 @@ class ProductServiceTest extends WebapiAbstract
     const RESOURCE_PATH = '/V1/products';
 
     private $productData = [
-        [Product::SKU => 'sku1', Product::NAME => 'name1', Product::TYPE_ID => 'simple', Product::PRICE => 3.62],
-        [Product::SKU => 'sku2', Product::NAME => 'name2', Product::TYPE_ID => 'simple', Product::PRICE => 3.62],
+        [
+            Product::SKU => 'simple',
+            Product::NAME => 'Simple Related Product',
+            Product::TYPE_ID => 'simple',
+            Product::PRICE => 10
+        ],
+        [
+            Product::SKU => 'simple_with_cross',
+            Product::NAME => 'Simple Product With Related Product',
+            Product::TYPE_ID => 'simple',
+            Product::PRICE => 10
+        ],
     ];
 
     /**
@@ -119,12 +129,11 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
+     * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
      * @dataProvider searchDataProvider
      */
     public function testSearch($filterGroups, $expected, $sortData)
     {
-        $this->createProduct($this->getSimpleProductData($this->productData[0]));
-        $this->createProduct($this->getSimpleProductData($this->productData[1]));
         list($sortField, $sortValue) = $sortData;
         if ($sortValue === SearchCriteria::SORT_DESC && TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
@@ -172,8 +181,6 @@ class ProductServiceTest extends WebapiAbstract
         foreach ($expected as $key => $productSku) {
             $this->assertEquals($productSku, $searchResults['items'][$key][Product::SKU]);
         }
-        $this->deleteProduct($this->productData[0][Product::SKU]);
-        $this->deleteProduct($this->productData[1][Product::SKU]);
     }
 
     /**
