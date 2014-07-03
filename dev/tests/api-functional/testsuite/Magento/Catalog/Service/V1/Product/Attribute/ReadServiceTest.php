@@ -25,7 +25,7 @@ class ReadServiceTest extends WebapiAbstract
     const RESOURCE_PATH = '/V1/products/attributes';
 
     /**
-     * Checks retrieving product attribute types
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testTypes()
     {
