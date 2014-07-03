@@ -74,6 +74,4 @@
     </fields>
     <data_set></data_set>
     <data_config></data_config>
-    <repository_class>Magento\Cms\Test\Repository\CmsBlock</repository_class>
-    <handler_interface>Magento\Cms\Test\Handler\CmsBlock\CmsBlockInterface</handler_interface>
 </fixture>
