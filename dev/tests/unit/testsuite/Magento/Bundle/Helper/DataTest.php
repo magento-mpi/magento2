@@ -24,9 +24,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
-        $this->helper = (new ObjectManager($this))->getObject('Magento\Bundle\Helper\Data', [
-            'config' => $this->config,
-        ]);
+        $this->helper = (new ObjectManager($this))->getObject(
+            'Magento\Bundle\Helper\Data',
+            ['config' => $this->config]
+        );
     }
 
     public function testGetAllowedSelectionTypes()
@@ -40,7 +41,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetAllowedSelectionTypesIfTypesIsNotSet()
     {
         $configData = [];
-        $this->config->expects($this->once())->method('getType')->with(Data::PRODUCT_TYPE_BUNDLE)
+        $this->config->expects($this->once())->method('getType')
+            ->with(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
             ->will($this->returnValue($configData));
 
         $this->assertEquals([], $this->helper->getAllowedSelectionTypes());
