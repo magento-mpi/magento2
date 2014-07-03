@@ -55,4 +55,14 @@ class Edit extends Form
         $this->_rootElement->find($this->vatFieldId, Locator::SELECTOR_ID)->setValue($vat);
         $this->_rootElement->find($this->saveAddress, Locator::SELECTOR_CSS)->click();
     }
+
+    /**
+     * Click on save address button
+     *
+     * @return void
+     */
+    public function saveAddress()
+    {
+        $this->_rootElement->find('[data-action="save-address"]')->click();
+    }
 }
