@@ -7,15 +7,16 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
  * Class WriteServiceTest
+ *
  * @package Magento\Catalog\Service\V1\Product\Attribute
  */
 class WriteServiceTest extends WebapiAbstract
@@ -68,8 +69,8 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertArrayHasKey(FrontendLabel::STORE_ID, current($attribute[AttributeMetadata::FRONTEND_LABEL]));
         $this->assertArrayHasKey(FrontendLabel::LABEL, current($attribute[AttributeMetadata::FRONTEND_LABEL]));
 
-        $storeId  = current($attribute[AttributeMetadata::FRONTEND_LABEL])[FrontendLabel::STORE_ID];
-        $label    = current($attribute[AttributeMetadata::FRONTEND_LABEL])[FrontendLabel::LABEL];
+        $storeId = current($attribute[AttributeMetadata::FRONTEND_LABEL])[FrontendLabel::STORE_ID];
+        $label = current($attribute[AttributeMetadata::FRONTEND_LABEL])[FrontendLabel::LABEL];
         $newLabel = uniqid('Color-');
 
         $this->assertNotEquals($label, $newLabel);
@@ -82,7 +83,7 @@ class WriteServiceTest extends WebapiAbstract
                 AttributeMetadata::FRONTEND_LABEL => [
                     [
                         'store_id' => $storeId,
-                        'label'    => $newLabel
+                        'label' => $newLabel
                     ],
                 ]
             ]
@@ -96,7 +97,7 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @dataProvider createValidateDataProvider
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testCreateValidate($data)
     {
@@ -145,19 +146,6 @@ class WriteServiceTest extends WebapiAbstract
         );
     }
 
-    protected function getAttributeData()
-    {
-        return array(
-            AttributeMetadata::ATTRIBUTE_CODE => uniqid('code_'),
-            AttributeMetadata::FRONTEND_LABEL => [
-                ['store_id' => 0, 'label' => uniqid('label_default_')]
-            ],
-            AttributeMetadata::DEFAULT_VALUE => 'default value',
-            AttributeMetadata::REQUIRED => true,
-            AttributeMetadata::FRONTEND_INPUT => 'text',
-        );
-    }
-
     /**
      * @return array
      */
@@ -184,6 +172,19 @@ class WriteServiceTest extends WebapiAbstract
             [$builder([AttributeMetadata::FRONTEND_LABEL => ''])],
             [$builder([AttributeMetadata::FRONTEND_INPUT => 'my_input_type'])],
         ];
+    }
+
+    protected function getAttributeData()
+    {
+        return array(
+            AttributeMetadata::ATTRIBUTE_CODE => uniqid('code_'),
+            AttributeMetadata::FRONTEND_LABEL => [
+                ['store_id' => 0, 'label' => uniqid('label_default_')]
+            ],
+            AttributeMetadata::DEFAULT_VALUE => 'default value',
+            AttributeMetadata::REQUIRED => true,
+            AttributeMetadata::FRONTEND_INPUT => 'text',
+        );
     }
 
     protected function createAttribute(array $data)
@@ -226,7 +227,6 @@ class WriteServiceTest extends WebapiAbstract
      *      "fieldName2" => "websiteId",
      *      "value2" => 0
      * ]
-     *
      * </pre>
      */
     protected function _processRestExceptionResult(\Exception $e)
