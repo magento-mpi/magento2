@@ -145,15 +145,15 @@
         </div>
     </div>
 
-    <div class="form-group" ng-if="db.useExistingDb==0" ng-init="db.useAccess=1">
+    <div class="form-group" ng-if="db.useExistingDb==0">
         <label class="col-sm-3 control-label"><?php echo $this->translate('Data Access'); ?><span class="required">*</span></label>
         <div class="col-sm-9">
             <div class="radio">
                 <label>
-                    <input type="radio" name="useAccess" ng-model="db.useAccess" value="0">
+                    <input type="radio" name="db.useAccess" ng-model="db.useAccess" value="0">
                     <?php echo $this->translate('Enter existing credentials to create the Magento database'); ?>
                 </label>
-                <div class="form-group" style="margin-top: 20px;" ng-if="useAccess==0">
+                <div class="form-group" style="margin-top: 20px;" ng-if="db.useAccess==0">
                     <label class="col-sm-3 control-label"><?php echo $this->translate('Username'); ?><span class="required">*</span></label>
                     <div class="col-sm-6">
                         <input class="form-control"
@@ -164,7 +164,7 @@
                                required>
                     </div>
                 </div>
-                <div class="form-group" ng-if="useAccess==0">
+                <div class="form-group" ng-if="db.useAccess==0">
                     <label class="col-sm-3 control-label"><?php echo $this->translate('Password'); ?></label>
                     <div class="col-sm-6">
                         <input class="form-control"
