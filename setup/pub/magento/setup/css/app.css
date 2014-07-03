@@ -62,3 +62,13 @@ a.collapsed-options {
 .bs-callout-info h4 {
     color: #5bc0de;
 }
+
+.tooltip-inner {
+    padding: 9px 14px;
+    color: #000;
+    background-color: #eee;
+    border: 1px solid #ccc;
+}
+.tooltip.right .tooltip-arrow {
+    border-right-color: #ccc;
+}
