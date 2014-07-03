@@ -11,5 +11,6 @@
     <code>en_GB</code>
     <vendor>Magento</vendor>
     <sort_order>100</sort_order>
+    <use vendor="OxfordUniversity" code="en_US"/>
     <use vendor="OxfordUniversity" code="en_GB"/>
 </language>

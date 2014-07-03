@@ -8,7 +8,13 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="language" type="languageDeclarationType"/>
+    <xs:element name="language" type="languageDeclarationType">
+        <xs:unique name="vendorCode">
+            <xs:selector xpath="use"/>
+            <xs:field xpath="@vendor"/>
+            <xs:field xpath="@code"/>
+        </xs:unique>
+    </xs:element>
 
     <xs:complexType name="languageDeclarationType">
         <xs:annotation>
@@ -18,7 +24,7 @@
             <xs:element minOccurs="1" maxOccurs="1" name="code" type="codeType"/>
             <xs:element minOccurs="1" maxOccurs="1" name="vendor" type="vendorType"/>
             <xs:element minOccurs="0" maxOccurs="1" name="sort_order" type="xs:integer"/>
-            <xs:element minOccurs="0" maxOccurs="1" name="use" type="useType"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="use" type="useType"/>
         </xs:sequence>
     </xs:complexType>
 
