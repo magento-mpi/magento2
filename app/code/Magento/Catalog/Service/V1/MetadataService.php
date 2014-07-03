@@ -17,7 +17,9 @@ use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * Class MetadataService
+ *
  * @package Magento\Catalog\Service\V1
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class MetadataService implements MetadataServiceInterface
 {
