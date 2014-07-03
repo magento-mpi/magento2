@@ -30,19 +30,19 @@ class AssertUrlRewriteCustomSearchRedirect extends AbstractConstraint
      * Assert that product was found on search page
      *
      * @param UrlRewrite $urlRewrite
-     * @param UrlRewrite $rewrite
+     * @param UrlRewrite $initialRewrite
      * @param Browser $browser
      * @param CatalogCategoryView $categoryView
      * @return void
      */
     public function processAssert(
         UrlRewrite $urlRewrite,
-        UrlRewrite $rewrite,
+        UrlRewrite $initialRewrite,
         Browser $browser,
         CatalogCategoryView $categoryView
     ) {
         $browser->open($_ENV['app_frontend_url'] . $urlRewrite->getRequestPath());
-        $product = $rewrite->getDataFieldConfig('id_path')['source']->getEntity()->getName();
+        $product = $initialRewrite->getDataFieldConfig('id_path')['source']->getEntity()->getName();
 
         \PHPUnit_Framework_Assert::assertTrue(
             $categoryView->getListProductBlock()->isProductVisible($product),

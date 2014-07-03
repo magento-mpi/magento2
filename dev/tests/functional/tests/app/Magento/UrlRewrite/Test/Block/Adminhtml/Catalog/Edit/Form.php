@@ -23,28 +23,28 @@ class Form extends FormWidget
      *
      * @param FixtureInterface $fixture
      * @param Element|null $element
-     * @param string $replace
-     * @param FixtureInterface|null $params
+     * @param array $replace [optional]
      * @return $this
      */
     public function fill(
         FixtureInterface $fixture,
         Element $element = null,
-        $replace = null,
-        FixtureInterface $params = null
+        array $replace = []
     ) {
         $data = $fixture->getData();
-        $getData = $this->getData();
-        if (!$getData['target_path'] && !isset($data['target_path'])) {
+        if (!$this->getData()['target_path'] && !isset($data['target_path'])) {
             $entity = $fixture->getDataFieldConfig('id_path')['source']->getEntity();
             $data['target_path'] = $entity->hasData('identifier')
                 ? $entity->getIdentifier()
                 : $entity->getUrlKey() . '.html';
         }
-        if ($params != null && $params->getDataFieldConfig('id_path')['source']->getEntity() != null) {
-            $name = $params->getDataFieldConfig('id_path')['source']->getEntity()->getName();
-            $data[$replace] = str_replace('%name%', $name, $data[$replace]);
+
+        foreach ($replace as $key => $pairs) {
+            if (isset($data[$key])) {
+                $data[$key] = str_replace(array_keys($pairs), $pairs, $data[$key]);
+            }
         }
+
         // TODO: delete line after removing old fixture
         $fields = isset($data['fields']) ? $data['fields'] : $data;
         $mapping = $this->dataMapping($fields);

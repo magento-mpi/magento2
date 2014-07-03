@@ -65,18 +65,39 @@ class UpdateCustomUrlRewriteEntityTest extends Injectable
     /**
      * Update custom URL Rewrite
      *
-     * @param UrlRewrite $rewrite
+     * @param UrlRewrite $initialRewrite
      * @param UrlRewrite $urlRewrite
      * @return void
      */
-    public function test(UrlRewrite $rewrite, UrlRewrite $urlRewrite)
+    public function test(UrlRewrite $initialRewrite, UrlRewrite $urlRewrite)
     {
-        $rewrite->persist();
+        //Precondition
+        $initialRewrite->persist();
+
         //Steps
         $this->urlRewriteIndex->open();
-        $filter = ['request_path' => $rewrite->getRequestPath()];
+        $filter = ['request_path' => $initialRewrite->getRequestPath()];
+        $replaceData = $this->getReplaceData($initialRewrite);
         $this->urlRewriteIndex->getUrlRedirectGrid()->searchAndOpen($filter);
-        $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite, null, 'target_path', $rewrite);
+        $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite, null, $replaceData);
         $this->urlRewriteEdit->getPageMainActions()->save();
+    }
+
+    /**
+     * Prepare data for replace
+     *
+     * @param UrlRewrite $initialRewrite
+     * @return array
+     */
+    protected function getReplaceData(UrlRewrite $initialRewrite)
+    {
+        $replaceData = [];
+        $entity = $initialRewrite->getDataFieldConfig('id_path')['source']->getEntity();
+
+        if ($entity) {
+            $replaceData['target_path'] = ['%name%' => $entity->getName()];
+        }
+
+        return $replaceData;
     }
 }
