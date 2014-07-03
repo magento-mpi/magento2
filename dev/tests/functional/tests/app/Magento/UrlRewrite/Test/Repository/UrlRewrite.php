@@ -26,6 +26,7 @@ class UrlRewrite extends AbstractRepository
     {
         $this->_data['default'] = [
             'request_path' => 'test-test-test%isolation%.html',
+            'target_path' => 'http://www.ebayinc.com/',
             'options' => 'Temporary (302)',
             'store_id' => 'Default Store View',
             'id_path' =>  ["test%isolation%"]
