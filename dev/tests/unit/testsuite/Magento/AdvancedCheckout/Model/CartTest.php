@@ -41,11 +41,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     protected $stockItemFactoryMock;
 
-    /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $itemServiceMock;
-
     protected function setUp()
     {
         $cartMock = $this->getMock('Magento\Checkout\Model\Cart', array(), array(), '', false);
@@ -61,17 +56,16 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $this->prodFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
         $optionFactoryMock = $this->getMock('Magento\Catalog\Model\Product\OptionFactory', [], [], '', false);
-        $this->stockItemFactoryMock = $this->getMock(
-            'Magento\CatalogInventory\Model\Stock\ItemFactory',
-            array('create'),
-            array(),
-            '',
-            false
-        );
         $prodTypesConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface', [], [], '', false);
         $cartConfigMock =  $this->getMock('Magento\Catalog\Model\Product\CartConfiguration', [], [], '', false);
 
-        $this->itemServiceMock = $this->getMock('Magento\CatalogInventory\Service\V1\StockItem', [], [], '', false);
+        $this->itemServiceMock = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            [],
+            [],
+            '',
+            false
+        );
 
         $this->model = new \Magento\AdvancedCheckout\Model\Cart(
             $cartMock,
@@ -79,7 +73,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $eventManagerMock,
             $this->helperMock,
             $optionFactoryMock,
-            $this->stockItemFactoryMock,
             $wishListFactoryMock,
             $this->prodFactoryMock,
             $quoteFactoryMock,
@@ -210,10 +203,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $productMock->expects($this->any())->method('getWebsiteIds')->will($this->returnValue(array(1)));
         $productMock->expects($this->any())->method('isComposite')->will($this->returnValue(false));
-
-        $stockItemMock = $this->getMock('Magento\CatalogInventory\Model\Stock\Item', array(), array(), '', false);
-
-        $this->stockItemFactoryMock->expects($this->any())->method('create')->will($this->returnValue($stockItemMock));
         $this->prodFactoryMock->expects($this->any())->method('create')->will($this->returnValue($productMock));
         $this->helperMock->expects($this->any())->method('getSession')->will($this->returnValue($sessionMock));
         $this->localeFormatMock->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
