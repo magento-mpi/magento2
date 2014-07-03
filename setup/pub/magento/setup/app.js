@@ -8,13 +8,11 @@ var app = angular.module(
         'landing',
         'readiness-check',
         'add-database',
-        'web-configuration'
+        'web-configuration',
+        'customize-your-store'
     ]);
 
-app.controller('customizeYourStoreController', ['$scope', function ($scope) {
-        console.log('customizeYourStoreController');
-    }])
-    .controller('createAdminAccountController', ['$scope', function ($scope) {
+app.controller('createAdminAccountController', ['$scope', function ($scope) {
         console.log('createAdminAccountController');
     }])
     .controller('installController', ['$scope', function ($scope) {
