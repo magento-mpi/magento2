@@ -45,6 +45,7 @@ class MetadataService implements MetadataServiceInterface
     /**
      * Retrieve custom EAV attribute metadata of category
      *
+     * @param int $attributeSetId
      * @return AttributeMetadata[]
      */
     public function getCustomAttributesMetadata($attributeSetId = MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID)
@@ -59,6 +60,7 @@ class MetadataService implements MetadataServiceInterface
     /**
      * Retrieve EAV attribute metadata of category
      *
+     * @param int $attributeSetId
      * @return AttributeMetadata[]
      */
     public function getCategoryAttributesMetadata($attributeSetId = MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID)

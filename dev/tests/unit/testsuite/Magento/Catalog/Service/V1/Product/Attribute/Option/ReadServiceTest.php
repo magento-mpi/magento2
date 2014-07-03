@@ -21,7 +21,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $attributeCode = 'attr_code';
         $metadataServiceMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\MetadataService',
+            'Magento\Catalog\Service\V1\MetadataService',
             array('getAttributeMetadata'),
             array(),
             '',
