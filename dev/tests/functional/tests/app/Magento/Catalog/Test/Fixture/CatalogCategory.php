@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CatalogCategory
  * Category fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogCategory extends InjectableFixture
 {
@@ -73,6 +75,7 @@ class CatalogCategory extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'group' => null,
         'source' => 'Magento\Catalog\Test\Fixture\CatalogCategory\ParentId',
     ];
 
@@ -97,6 +100,7 @@ class CatalogCategory extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
+        'group' => null,
         'input' => '',
     ];
 
@@ -171,6 +175,7 @@ class CatalogCategory extends InjectableFixture
     protected $id = [
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
+        'group' => null,
     ];
 
     protected $name = [
@@ -191,6 +196,13 @@ class CatalogCategory extends InjectableFixture
     protected $include_in_menu = [
         'attribute_code' => 'include_in_menu',
         'backend_type' => 'virtual',
+    ];
+
+    protected $category_products = [
+        'attribute_code' => 'category_products',
+        'backend_type' => 'virtual',
+        'group' => 'category_products',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogCategory\CategoryProducts',
     ];
 
     public function getEntityId()
@@ -296,5 +308,10 @@ class CatalogCategory extends InjectableFixture
     public function getIncludeInMenu()
     {
         return $this->getData('include_in_menu');
+    }
+
+    public function getCategoryProducts()
+    {
+        return $this->getData('category_products');
     }
 }

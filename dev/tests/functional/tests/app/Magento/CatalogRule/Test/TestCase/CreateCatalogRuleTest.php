@@ -41,6 +41,8 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
      * @param CatalogProductSimple $product
      * @param array $price
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function testCreate(
         CatalogRule $catalogPriceRule,

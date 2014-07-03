@@ -69,6 +69,8 @@ class AttributeSetId implements FixtureInterface
      *
      * @param string|null $key
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

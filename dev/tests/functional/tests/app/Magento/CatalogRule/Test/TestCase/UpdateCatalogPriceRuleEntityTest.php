@@ -56,6 +56,8 @@ class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
      * @param string $saveAction
      * @param array $price
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function testUpdateCatalogPriceRule(
         CatalogRule $catalogPriceRule,

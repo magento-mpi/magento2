@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CatalogAttributeEntity
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogProductAttribute extends InjectableFixture
 {

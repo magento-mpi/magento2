@@ -18,6 +18,9 @@ use Mtf\System\Event\EventManagerInterface;
 /**
  * Class CatalogProductSimple
  * Product Simple fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class CatalogProductSimple extends InjectableFixture
 {
@@ -83,8 +86,10 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_set_id' => ['dataSet' => 'default'],
         'price' => ['value' => 100.00],
         'weight' => 12.0000,
-        'qty' => 10,
-        'quantity_and_stock_status' => 'In Stock',
+        'quantity_and_stock_status' => [
+            'qty' => 10.0000,
+            'is_in_stock' => 'In Stock',
+        ],
     ];
 
     protected $category_ids = [
@@ -542,12 +547,6 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
-    protected $qty = [
-        'attribute_code' => 'qty',
-        'input' => 'input',
-        'group' => 'product-details',
-    ];
-
     protected $custom_options = [
         'attribute_code' => 'custom_options',
         'backend_type' => 'virtual',
@@ -835,11 +834,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
-    }
-
-    public function getQty()
-    {
-        return $this->getData('qty');
     }
 
     public function getCustomOptions()

@@ -20,12 +20,20 @@ class AdminUserRole extends AbstractRepository
      * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
             'rolename' => 'RoleName%isolation%',
             'resource_access' => 'All'
+        ];
+
+        $this->_data['Administrators'] = [
+            'rolename' => 'Administrators',
+            'resource_access' => 'All',
+            'role_id' => 1,
         ];
 
         $this->_data['role_sales'] = [
