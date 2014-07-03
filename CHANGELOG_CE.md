@@ -1,5 +1,4 @@
 * Fixed bugs:
-  * Fixed: Order disappears on frontend after unassign its order status (MAGETWO-25091)
   * Fixed: Screen isn't moved automatically to invalidly filled field on "Create new Order" backend page (MAGETWO-19689)
   * Fixed: Several configuration fields possible to edit on website scope is checkboxes "Use Default" are checked (CAPTCHA section) (MAGETWO-15247)
   * Fixed: Not required "State/Province" fields on "Create new Order" page are marked as required (MAGETWO-17829)
