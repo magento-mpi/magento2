@@ -23,20 +23,46 @@ class Config extends AbstractConfig
     protected $_storeManager;
 
     /**
+     * @var \Magento\Backend\Model\Config
+     */
+    protected $_backendConfig;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Config $backendConfig
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Model\Config $backendConfig
     ) {
+        parent::__construct($context, $configStructure);
         $this->_storeManager = $storeManager;
         $this->_fileFactory = $fileFactory;
-        parent::__construct($context, $configStructure);
+        $this->_backendConfig = $backendConfig;
+    }
+
+    /**
+     * Set scope to backend config
+     *
+     * @param string $sectionId
+     * @return bool
+     */
+    protected function _isSectionAllowed($sectionId)
+    {
+        $website = $this->getRequest()->getParam('website');
+        $store = $this->getRequest()->getParam('store');
+        if ($store) {
+            $this->_backendConfig->setStore($store);
+        } elseif ($website) {
+            $this->_backendConfig->setWebsite($website);
+        }
+        return parent::_isSectionAllowed($sectionId);
     }
 
     /**
