@@ -26,7 +26,6 @@
 
                 var listElements = containerElement.find('li');
                 containerElement = listElements.length ? listElements.eq(0) : containerElement;
-
                 $.each(jsonParams, function(i, param) {
                     var paramId = '#pbridge_' + jsonParams.original_payment_method + '_' + i,
                         field = $(paramId);
@@ -37,7 +36,7 @@
                             'id':    paramId,
                             'type':  'hidden',
                             'name':  'payment[pbridge_data][' + i + ']',
-                            'value': param
+                            'value': param ? param : ''
                         }).appendTo(containerElement);
                     }
                 });
