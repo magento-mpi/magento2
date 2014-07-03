@@ -78,10 +78,10 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function infoDataProvider()
     {
-        return array(
-            array('price'),
-            array(95),
-        );
+        return [
+            ['price'],
+            [95],
+        ];
     }
 
     /**
