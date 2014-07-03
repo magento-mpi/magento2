@@ -42,16 +42,16 @@ class CmsForm extends ParentForm
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $this->showEditor();
+        $this->hideEditor();
         return parent::fill($fixture);
     }
 
     /**
-     * Block Content Show/Hide Editor toggle button
+     * Hide WYSIWYG editor
      *
      * @return void
      */
-    protected function showEditor()
+    protected function hideEditor()
     {
         $content = $this->_rootElement->find($this->contentForm);
         $toggleButton = $this->_rootElement->find($this->toggleButton);

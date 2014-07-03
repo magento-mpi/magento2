@@ -10,7 +10,6 @@ namespace Magento\Cms\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Injectable;
-use Magento\Store\Test\Fixture\Store;
 use Magento\Cms\Test\Page\Adminhtml\CmsBlockNew;
 use Magento\Backend\Test\Page\Adminhtml\StoreNew;
 use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
