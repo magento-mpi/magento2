@@ -64,6 +64,12 @@ class ProductServiceTest extends WebapiAbstract
     {
         $response = $this->createProduct($product);
         $this->assertArrayHasKey(Product::SKU, $response);
+
+        /** @var \Magento\Catalog\Model\Product $productModel */
+        $productModel = Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Product');
+        $productModel->setId($productModel->getIdBySku($response[Product::SKU]));
+
+        self::setFixture('testCreate.remove.product', $productModel);
     }
 
     /**
