@@ -30,7 +30,7 @@ class AssertUrlRewriteSuccessOutsideRedirect extends AbstractConstraint
      *
      * @param UrlRewrite $urlRewrite
      * @param Browser $browser
-     * @param UrlRewrite $initialRewrite
+     * @param UrlRewrite|null $initialRewrite [optional]
      * @return void
      */
     public function processAssert(UrlRewrite $urlRewrite, Browser $browser, UrlRewrite $initialRewrite = null)
@@ -39,15 +39,14 @@ class AssertUrlRewriteSuccessOutsideRedirect extends AbstractConstraint
             ? array_merge($initialRewrite->getData(), $urlRewrite->getData())
             : $urlRewrite->getData();
 
-        $url = $data['target_path'];
         $browser->open($_ENV['app_frontend_url'] . $data['request_path']);
         $browserUrl = $browser->getUrl();
 
         \PHPUnit_Framework_Assert::assertEquals(
             $browserUrl,
-            $url,
+            $data['target_path'],
             'URL rewrite redirect false.'
-            . "\nExpected: " . $url
+            . "\nExpected: " . $data['target_path']
             . "\nActual: " . $browserUrl
         );
     }

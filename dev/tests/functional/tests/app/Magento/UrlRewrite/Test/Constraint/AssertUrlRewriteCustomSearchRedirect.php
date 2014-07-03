@@ -41,7 +41,8 @@ class AssertUrlRewriteCustomSearchRedirect extends AbstractConstraint
         Browser $browser,
         CatalogCategoryView $categoryView
     ) {
-        $browser->open($_ENV['app_frontend_url'] . $urlRewrite->getRequestPath());
+        $data = array_merge($initialRewrite->getData(), $urlRewrite->getData());
+        $browser->open($_ENV['app_frontend_url'] . $data['request_path']);
         $product = $initialRewrite->getDataFieldConfig('id_path')['source']->getEntity()->getName();
 
         \PHPUnit_Framework_Assert::assertTrue(
