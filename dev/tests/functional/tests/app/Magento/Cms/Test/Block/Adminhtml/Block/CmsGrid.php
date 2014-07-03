@@ -51,7 +51,7 @@ class CmsGrid extends GridInterface
      *
      * @var string
      */
-    protected $firstGrid = '#cmsBlockGrid_table tbody tr:first-child td';
+    protected $editLink = '#cmsBlockGrid_table tbody tr:first-child td';
 
     /**
      * Sort and open first entity in grid
@@ -64,7 +64,7 @@ class CmsGrid extends GridInterface
         $this->sortGridByField('creation_time');
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
-            $rowItem->find($this->firstGrid, Locator::SELECTOR_CSS)->click();
+            $rowItem->find($this->editLink, Locator::SELECTOR_CSS)->click();
         } else {
             throw new \Exception('Searched item was not found.');
         }

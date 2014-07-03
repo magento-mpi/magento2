@@ -56,7 +56,7 @@ class Curl extends AbstractCurl implements CmsBlockInterface
         $data = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . $this->saveUrl;
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {

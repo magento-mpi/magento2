@@ -82,7 +82,6 @@ class DeleteCmsBlockEntityTest extends Injectable
         /**
          * TODO: MAGETWO-25640
          * Search doesn't work for CMS Blocks grid bug
-         *
          */
         // $this->cmsBlockIndex->getCmsBlockGrid()->searchAndOpen($filter);
         // $this->cmsBlockNew->getFormPageActions()->delete();
