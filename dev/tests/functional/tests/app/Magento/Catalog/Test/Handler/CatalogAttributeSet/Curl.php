@@ -73,7 +73,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param CatalogAttributeSet $fixture
      * @return string
      */
-    protected function createAttributeSet($fixture)
+    protected function createAttributeSet(CatalogAttributeSet $fixture)
     {
         $data = $fixture->getData();
         if (!isset($data['gotoEdit'])) {
@@ -100,7 +100,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param array $dataAttribute
      * @return void
      */
-    protected function updateAttributeSet($attributeSetId, $dataAttribute)
+    protected function updateAttributeSet($attributeSetId, array $dataAttribute)
     {
         $data = ['data' => json_encode($dataAttribute)];
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/id/' . $attributeSetId . '/';

@@ -71,11 +71,8 @@ class DeleteAttributeSetTest extends Injectable
      * @param CatalogAttributeSet $productTemplate
      * @return array
      */
-    public function test
-    (
-        FixtureFactory $fixtureFactory,
-        CatalogAttributeSet $productTemplate
-    ) {
+    public function test(FixtureFactory $fixtureFactory, CatalogAttributeSet $productTemplate)
+    {
         // Precondition
         $productTemplate->persist();
         $product = $fixtureFactory->createByCode(

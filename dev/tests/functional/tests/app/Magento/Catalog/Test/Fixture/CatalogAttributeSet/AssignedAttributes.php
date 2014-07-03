@@ -43,7 +43,7 @@ class AssignedAttributes implements FixtureInterface
     protected $attributes = [];
 
     /**
-     * @constrictor
+     * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data [optional]
