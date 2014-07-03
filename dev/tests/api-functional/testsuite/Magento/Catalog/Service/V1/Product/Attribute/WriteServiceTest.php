@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
@@ -29,7 +30,14 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreate($data)
     {
-        $this->assertRegExp('$[a-z]+_[a-z0-9]+$', $this->createAttribute($data));
+        $attribute = $this->createAttribute($data);
+        $expected = $data['attribute_code'] ? $data['attribute_code'] : $data['frontend_label'][0]['label'];
+        $this->assertEquals($expected, $attribute);
+
+        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
+        $attribute = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Resource\Eav\Attribute');
+        $attribute->loadByCode(4, $expected);
+        $this->setFixture('testCreate.remove.product.attribute', $attribute);
     }
 
     /**
