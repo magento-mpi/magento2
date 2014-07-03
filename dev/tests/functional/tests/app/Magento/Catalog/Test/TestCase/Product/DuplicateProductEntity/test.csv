@@ -1,0 +1,5 @@
+"productType";"constraint"
+"catalogProductSimple::default";"assertProductSaveMessage, assertProductDuplicateMessage, assertDuplicatedProductInGrid, assertDuplicatedProductInGrid, assertProductDuplicateIsNotDisplayingOnFrontend"
+"catalogProductConfigurable::default";"assertProductSaveMessage, assertProductDuplicateMessage, assertDuplicatedProductInGrid, assertDuplicatedProductInGrid, assertProductDuplicateIsNotDisplayingOnFrontend"
+"catalogProductDownloadable::default";"assertProductSaveMessage, assertProductDuplicateMessage,assertDuplicatedProductInGrid, assertDuplicatedProductInGrid, assertProductDuplicateIsNotDisplayingOnFrontend"
+"giftCardProduct::default";"assertProductSaveMessage, assertProductDuplicateMessage, assertDuplicatedProductInGrid, assertDuplicatedProductInGrid, assertProductDuplicateIsNotDisplayingOnFrontend"

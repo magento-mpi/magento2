@@ -296,28 +296,36 @@
     </assertCategoryAbsenceOnBackend>
     <assertProductTemplateSuccessSaveMessage module="Magento_Catalog">
         <severeness>high</severeness>
-        <productSetIndex class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+        <require>
+            <productSetIndex class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+        </require>
     </assertProductTemplateSuccessSaveMessage>
     <assertProductTemplateForm module="Magento_Catalog">
         <severeness>high</severeness>
-        <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
-        <productSetEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit" />
-        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
-        <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
+        <require>
+            <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+            <productSetEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit" />
+            <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+            <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
+        </require>
     </assertProductTemplateForm>
     <assertProductTemplateInGrid module="Magento_Catalog">
         <severeness>high</severeness>
-        <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
-        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+        <require>
+            <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+            <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+        </require>
     </assertProductTemplateInGrid>
     <assertProductTemplateOnProductForm module="Magento_Catalog">
         <severeness>high</severeness>
-        <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
-        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
-        <productEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
-        <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
-        <newProductPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew" />
-        <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
+        <require>
+            <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
+            <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+            <productEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
+            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
+            <newProductPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew" />
+            <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
+        </require>
     </assertProductTemplateOnProductForm>
     <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
         <severeness>high</severeness>
@@ -325,4 +333,20 @@
             <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
         </require>
     </assertAbsenceDeleteAttributeButton>
+    <assertProductDuplicateMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <productPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
+        </require>
+    </assertProductDuplicateMessage>
+    <assertDuplicatedProductInGrid module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <product class="Mtf\Fixture\FixtureInterface" />
+            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
+        </require>
+    </assertDuplicatedProductInGrid>
+    <assertProductDuplicateIsNotDisplayingOnFrontend module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductDuplicateIsNotDisplayingOnFrontend>
 </constraint>

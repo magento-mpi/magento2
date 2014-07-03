@@ -12,24 +12,24 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
- * Class AssertProductSaveMessage
+ * Class AssertProductDuplicateMessage
  */
-class AssertProductSaveMessage extends AbstractConstraint
+class AssertProductDuplicateMessage extends AbstractConstraint
 {
     /**
      * Text value to be checked
      */
-    const SUCCESS_MESSAGE = 'You saved the product.';
+    const DUPLICATE_MESSAGE = 'You duplicated the product.';
 
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'low';
+    protected $severeness = 'high';
 
     /**
-     * Assert that success message is displayed after product save
+     * Checking the output message "You duplicated the product." successful product duplication
      *
      * @param CatalogProductEdit $productPage
      * @return void
@@ -39,10 +39,10 @@ class AssertProductSaveMessage extends AbstractConstraint
         $actualMessages = $productPage->getMessagesBlock()->getSuccessMessages();
         $actualMessages = is_array($actualMessages) ? $actualMessages : [$actualMessages];
         \PHPUnit_Framework_Assert::assertContains(
-            self::SUCCESS_MESSAGE,
+            self::DUPLICATE_MESSAGE,
             $actualMessages,
-            'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            'Wrong duplicated message is displayed.'
+            . "\nExpected: " . self::DUPLICATE_MESSAGE
             . "\nActual:\n" . implode("\n - ", $actualMessages)
         );
     }
@@ -54,6 +54,6 @@ class AssertProductSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product success save message is present.';
+        return 'Product duplicated message is present.';
     }
 }
