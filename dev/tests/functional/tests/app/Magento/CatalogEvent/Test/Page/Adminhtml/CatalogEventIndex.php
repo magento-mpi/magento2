@@ -26,13 +26,13 @@ class CatalogEventIndex extends BackendPage
             'strategy' => 'css selector',
         ],
         'grid' => [
-            'name' => 'blockEventGrid',
+            'name' => 'grid',
             'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid',
             'locator' => '#catalogEventGrid',
             'strategy' => 'css selector',
         ],
         'pageActionsBlock' => [
-            'name' => 'blockPageActionsEvent',
+            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',

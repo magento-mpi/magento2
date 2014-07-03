@@ -11,8 +11,6 @@ use Magento\Backend\App\Action;
 
 /**
  * Adminhtml catalog product action attribute update controller
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Attribute extends Action
 {
@@ -31,7 +29,12 @@ class Attribute extends Action
      *
      * @var \Magento\Catalog\Helper\Product
      */
-    protected $_catalogProduct = null;
+    protected $_catalogProduct;
+
+    /**
+     * @var \Magento\CatalogInventory\Service\V1\Data\StockItemBuilder
+     */
+    protected $stockItemBuilder;
 
     /**
      * @param Action\Context $context
@@ -39,19 +42,22 @@ class Attribute extends Action
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\CatalogInventory\Service\V1\Data\StockItemBuilder $stockItemBuilder
      */
     public function __construct(
         Action\Context $context,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
-        \Magento\Catalog\Helper\Product $catalogProduct
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\CatalogInventory\Service\V1\Data\StockItemBuilder $stockItemBuilder
     ) {
         parent::__construct($context);
         $this->_helper = $helper;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         $this->_catalogProduct = $catalogProduct;
+        $this->stockItemBuilder = $stockItemBuilder;
     }
 
     /**
@@ -94,20 +100,13 @@ class Attribute extends Action
 
         try {
             if ($attributesData) {
-                $dateFormat = $this->_objectManager->get(
-                    'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
-                )->getDateFormat(
-                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
-                );
+                $dateFormat = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\TimezoneInterface')
+                    ->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
                 $storeId = $this->_helper->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = $this->_objectManager->get(
-                        'Magento\Eav\Model\Config'
-                    )->getAttribute(
-                        \Magento\Catalog\Model\Product::ENTITY,
-                        $attributeCode
-                    );
+                    $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
+                        ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
                         continue;
@@ -125,7 +124,7 @@ class Attribute extends Action
                         $attributesData[$attributeCode] = $value;
                     } elseif ($attribute->getFrontendInput() == 'multiselect') {
                         // Check if 'Change' checkbox has been checked by admin for this attribute
-                        $isChanged = (bool)$this->getRequest()->getPost($attributeCode . '_checkbox');
+                        $isChanged = (bool) $this->getRequest()->getPost($attributeCode . '_checkbox');
                         if (!$isChanged) {
                             unset($attributesData[$attributeCode]);
                             continue;
@@ -137,42 +136,22 @@ class Attribute extends Action
                     }
                 }
 
-                $this->_objectManager->get(
-                    'Magento\Catalog\Model\Product\Action'
-                )->updateAttributes(
-                    $this->_helper->getProductIds(),
-                    $attributesData,
-                    $storeId
-                );
+                $this->_objectManager->get('Magento\Catalog\Model\Product\Action')
+                    ->updateAttributes($this->_helper->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
-                $stockItem = $this->_objectManager->create('Magento\CatalogInventory\Model\Stock\Item');
-                $stockItem->setProcessIndexEvents(false);
-                $stockItemSaved = false;
+                /** @var \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService */
+                $stockItemService = $this->_objectManager
+                    ->create('Magento\CatalogInventory\Service\V1\StockItemService');
 
                 foreach ($this->_helper->getProductIds() as $productId) {
-                    $stockItem->setData(array());
-                    $stockItem->loadByProduct($productId)->setProductId($productId);
-
-                    $stockDataChanged = false;
-                    foreach ($inventoryData as $k => $v) {
-                        $stockItem->setDataUsingMethod($k, $v);
-                        if ($stockItem->dataHasChangedFor($k)) {
-                            $stockDataChanged = true;
-                        }
+                    $stockItemDo = $stockItemService->getStockItem($productId);
+                    if (!$stockItemDo->getProductId()) {
+                        $inventoryData[] = $productId;
                     }
-                    if ($stockDataChanged) {
-                        $stockItem->save();
-                        $stockItemSaved = true;
-                    }
-                }
 
-                if ($stockItemSaved) {
-                    $this->_objectManager->get(
-                        'Magento\Index\Model\Indexer'
-                    )->indexEvents(
-                        \Magento\CatalogInventory\Model\Stock\Item::ENTITY,
-                        \Magento\Index\Model\Event::TYPE_SAVE
+                    $stockItemService->saveStockItem(
+                        $this->stockItemBuilder->mergeDataObjectWithArray($stockItemDo, $inventoryData)
                     );
                 }
             }
@@ -206,9 +185,9 @@ class Attribute extends Action
 
             $this->_productFlatIndexerProcessor->reindexList($this->_helper->getProductIds());
 
-            if ($this->_catalogProduct->isDataForPriceIndexerWasChanged(
-                $attributesData
-            ) || !empty($websiteRemoveData) || !empty($websiteAddData)
+            if ($this->_catalogProduct->isDataForPriceIndexerWasChanged($attributesData)
+                || !empty($websiteRemoveData)
+                || !empty($websiteAddData)
             ) {
                 $this->_productPriceIndexerProcessor->reindexList($this->_helper->getProductIds());
             }
@@ -235,7 +214,7 @@ class Attribute extends Action
         $productIds = $this->_helper->getProductIds();
         if (!is_array($productIds)) {
             $error = __('Please select products for attributes update.');
-        } else if (!$this->_objectManager->create('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
+        } elseif (!$this->_objectManager->create('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
             $error = __('Please make sure to define SKU values for all processed products.');
         }
 
@@ -270,12 +249,8 @@ class Attribute extends Action
         try {
             if ($attributesData) {
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = $this->_objectManager->get(
-                        'Magento\Eav\Model\Config'
-                    )->getAttribute(
-                        'catalog_product',
-                        $attributeCode
-                    );
+                    $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
+                        ->getAttribute('catalog_product', $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
                         continue;
@@ -301,6 +276,6 @@ class Attribute extends Action
             $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
-        $this->getResponse()->setBody($response->toJson());
+        $this->getResponse()->representJson($response->toJson());
     }
 }

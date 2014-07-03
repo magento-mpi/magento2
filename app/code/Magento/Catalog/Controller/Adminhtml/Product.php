@@ -180,7 +180,11 @@ class Product extends \Magento\Backend\App\Action
         $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
         if ($this->getRequest()->getParam('popup')) {
-            $this->_view->loadLayout('popup');
+            $this->_view->loadLayout(array(
+                'popup',
+                strtolower($this->_request->getFullActionName()),
+                'catalog_product_' . $product->getTypeId()
+            ));
         } else {
             $this->_view->loadLayout(
                 array(
@@ -501,7 +505,7 @@ class Product extends \Magento\Backend\App\Action
             $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
-        $this->getResponse()->setBody($response->toJson());
+        $this->getResponse()->representJson($response->toJson());
     }
 
     /**
@@ -766,7 +770,7 @@ class Product extends \Magento\Backend\App\Action
     public function suggestProductTemplatesAction()
     {
         $this->productBuilder->build($this->getRequest());
-        $this->getResponse()->setBody(
+        $this->getResponse()->representJson(
             $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
                 $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Product\TemplateSelector')
                     ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
@@ -781,7 +785,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function suggestAttributesAction()
     {
-        $this->getResponse()->setBody(
+        $this->getResponse()->srepresentJson(
             $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
                 $this->_view->getLayout()->createBlock(
                     'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Search'
@@ -826,12 +830,12 @@ class Product extends \Magento\Backend\App\Action
                 ->setSortOrder('0')
                 ->save();
 
-            $this->getResponse()->setBody($attribute->toJson());
+            $this->getResponse()->representJson($attribute->toJson());
         } catch (\Exception $e) {
             $response = new \Magento\Framework\Object();
             $response->setError(false);
             $response->setMessage($e->getMessage());
-            $this->getResponse()->setBody($response->toJson());
+            $this->getResponse()->representJson($response->toJson());
         }
     }
 }

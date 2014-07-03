@@ -7,6 +7,8 @@
  */
 namespace Magento\AdvancedCheckout\Model;
 
+use Magento\AdvancedCheckout\Helper\Data;
+
 class CartTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -41,31 +43,28 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $cartMock = $this->getMock('\Magento\Checkout\Model\Cart', array(), array(), '', false);
-        $messageFactoryMock = $this->getMock('\Magento\Framework\Message\Factory', array(), array(), '', false);
-        $eventManagerMock = $this->getMock('\Magento\Framework\Event\ManagerInterface');
-        $this->helperMock = $this->getMock('\Magento\AdvancedCheckout\Helper\Data', array(), array(), '', false);
-        $wishListFactoryMock = $this->getMock('\Magento\Wishlist\Model\WishlistFactory', array(), array(), '', false);
-        $quoteFactoryMock =  $this->getMock('\Magento\Sales\Model\QuoteFactory', array(), array(), '', false);
-        $this->storeManagerMock =  $this->getMock('\Magento\Store\Model\StoreManagerInterface');
-        $this->localeFormatMock =  $this->getMock('\Magento\Framework\Locale\FormatInterface');
-        $messageManagerMock =  $this->getMock('\Magento\Framework\Message\ManagerInterface');
-        $customerSessionMock =  $this->getMock('\Magento\Customer\Model\Session', array(), array(), '', false);
+        $cartMock = $this->getMock('Magento\Checkout\Model\Cart', array(), array(), '', false);
+        $messageFactoryMock = $this->getMock('Magento\Framework\Message\Factory', array(), array(), '', false);
+        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
+        $this->helperMock = $this->getMock('Magento\AdvancedCheckout\Helper\Data', array(), array(), '', false);
+        $wishListFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', array(), array(), '', false);
+        $quoteFactoryMock =  $this->getMock('Magento\Sales\Model\QuoteFactory', array(), array(), '', false);
+        $this->storeManagerMock =  $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->localeFormatMock =  $this->getMock('Magento\Framework\Locale\FormatInterface');
+        $messageManagerMock =  $this->getMock('Magento\Framework\Message\ManagerInterface');
+        $customerSessionMock =  $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
-        $this->prodFactoryMock = $this->getMock(
-            '\Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false
-        );
-        $optionFactoryMock = $this->getMock(
-            '\Magento\Catalog\Model\Product\OptionFactory', array(), array(), '', false
-        );
-        $this->stockItemFactoryMock = $this->getMock(
-            '\Magento\CatalogInventory\Model\Stock\ItemFactory', array('create'), array(), '', false
-        );
-        $prodTypesConfigMock =  $this->getMock(
-            '\Magento\Catalog\Model\ProductTypes\ConfigInterface', array(), array(), '', false
-        );
-        $cartConfigMock =  $this->getMock(
-            '\Magento\Catalog\Model\Product\CartConfiguration', array(), array(), '', false
+        $this->prodFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
+        $optionFactoryMock = $this->getMock('Magento\Catalog\Model\Product\OptionFactory', [], [], '', false);
+        $prodTypesConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface', [], [], '', false);
+        $cartConfigMock =  $this->getMock('Magento\Catalog\Model\Product\CartConfiguration', [], [], '', false);
+
+        $this->itemServiceMock = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            [],
+            [],
+            '',
+            false
         );
 
         $this->model = new \Magento\AdvancedCheckout\Model\Cart(
@@ -74,7 +73,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $eventManagerMock,
             $this->helperMock,
             $optionFactoryMock,
-            $this->stockItemFactoryMock,
             $wishListFactoryMock,
             $this->prodFactoryMock,
             $quoteFactoryMock,
@@ -83,7 +81,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $messageManagerMock,
             $prodTypesConfigMock,
             $cartConfigMock,
-            $customerSessionMock
+            $customerSessionMock,
+            $this->itemServiceMock
         );
     }
 
@@ -184,25 +183,26 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $storeMock->expects($this->any())->method('getWebsiteId')->will($this->returnValue(1));
 
         $sessionMock = $this->getMock(
-            '\Magento\Framework\Session\SessionManager', array('getAffectedItems', 'setAffectedItems'),
-            array(), '', false
+            'Magento\Framework\Session\SessionManager',
+            array('getAffectedItems', 'setAffectedItems'),
+            array(),
+            '',
+            false
         );
         $sessionMock->expects($this->any())->method('getAffectedItems')->will($this->returnValue(array()));
 
         $productMock = $this->getMock(
-            '\Magento\Catalog\Model\Product',
+            'Magento\Catalog\Model\Product',
             array('setStore', 'loadByAttribute', 'getId', 'getWebsiteIds', 'isComposite', '__wakeup', '__sleep'),
-            array(), '', false
+            array(),
+            '',
+            false
         );
         $productMock->expects($this->any())->method('setStore')->will($this->returnValue($productMock));
         $productMock->expects($this->any())->method('loadByAttribute')->will($this->returnValue($productMock));
         $productMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $productMock->expects($this->any())->method('getWebsiteIds')->will($this->returnValue(array(1)));
         $productMock->expects($this->any())->method('isComposite')->will($this->returnValue(false));
-
-        $stockItemMock = $this->getMock('\Magento\CatalogInventory\Model\Stock\Item', array(), array(), '', false);
-
-        $this->stockItemFactoryMock->expects($this->any())->method('create')->will($this->returnValue($stockItemMock));
         $this->prodFactoryMock->expects($this->any())->method('create')->will($this->returnValue($productMock));
         $this->helperMock->expects($this->any())->method('getSession')->will($this->returnValue($sessionMock));
         $this->localeFormatMock->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
@@ -212,6 +212,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($item['code'] == $expectedCode);
     }
 
+    /**
+     * @return array
+     */
     public function prepareAddProductsBySkuDataProvider()
     {
         return array(
@@ -262,5 +265,140 @@ class CartTest extends \PHPUnit_Framework_TestCase
                 'expectedCode' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_EMPTY,
             )
         );
+    }
+
+    /**
+     * @param array $config
+     * @param array $result
+     * @dataProvider getQtyStatusDataProvider
+     */
+    public function testGetQtyStatus($config, $result)
+    {
+        $productId = $config['product_id'];
+        $requestQty = $config['request_qty'];
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $product->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($productId));
+        $resultObject = new \Magento\Framework\Object($config['result']);
+        $this->itemServiceMock->expects($this->once())
+            ->method('checkQuoteItemQty')
+            ->with($this->equalTo($productId), $this->equalTo($requestQty), $this->equalTo($requestQty))
+            ->will($this->returnValue($resultObject));
+
+        if ($config['result']['has_error']) {
+            switch ($resultObject->getErrorCode()) {
+                case 'qty_increments':
+                    $this->itemServiceMock->expects($this->once())
+                        ->method('getQtyIncrements')
+                        ->with($this->equalTo($productId))
+                        ->will($this->returnValue($config['result']['qty_increments']));
+                    break;
+                case 'qty_min':
+                    $this->itemServiceMock->expects($this->once())
+                        ->method('getMinSaleQty')
+                        ->with($this->equalTo($productId))
+                        ->will($this->returnValue($config['result']['qty_min_allowed']));
+                    break;
+                case 'qty_max':
+                    $this->itemServiceMock->expects($this->once())
+                        ->method('getMaxSaleQty')
+                        ->with($this->equalTo($productId))
+                        ->will($this->returnValue($config['result']['qty_max_allowed']));
+                    break;
+                default:
+                    $this->itemServiceMock->expects($this->once())
+                        ->method('getStockQty')
+                        ->with($this->equalTo($productId))
+                        ->will($this->returnValue($config['result']['qty_max_allowed']));
+                    break;
+            }
+        }
+        $this->assertSame($result, $this->model->getQtyStatus($product, $requestQty));
+    }
+
+    /**
+     * @return array
+     */
+    public function getQtyStatusDataProvider()
+    {
+        return [
+            'error qty_increments' => [
+                [
+                    'product_id' => 11,
+                    'request_qty' => 6,
+                    'result' => [
+                        'has_error' => true,
+                        'error_code' => 'qty_increments',
+                        'qty_increments' => 1,
+                        'message' => 'hello qty_increments'
+                    ]
+                ],
+                [
+                    'qty_increments' => 1,
+                    'status' => Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS,
+                    'error' => 'hello qty_increments'
+                ]
+            ],
+            'error qty_min' => [
+                [
+                    'product_id' => 14,
+                    'request_qty' => 5,
+                    'result' => [
+                        'has_error' => true,
+                        'error_code' => 'qty_min',
+                        'qty_min_allowed' => 2,
+                        'message' => 'hello qty_min_allowed'
+                    ]
+                ],
+                [
+                    'qty_min_allowed' => 2,
+                    'status' => Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART,
+                    'error' => 'hello qty_min_allowed'
+                ]
+            ],
+            'error qty_max' => [
+                [
+                    'product_id' => 13,
+                    'request_qty' => 4,
+                    'result' => [
+                        'has_error' => true,
+                        'error_code' => 'qty_max',
+                        'qty_max_allowed' => 3,
+                        'message' => 'hello qty_max_allowed'
+                    ]
+                ],
+                [
+                    'qty_max_allowed' => 3,
+                    'status' => Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART,
+                    'error' => 'hello qty_max_allowed'
+                ]
+            ],
+            'error default' => [
+                [
+                    'product_id' => 12,
+                    'request_qty' => 3,
+                    'result' => [
+                        'has_error' => true,
+                        'error_code' => 'default',
+                        'qty_max_allowed' => 4,
+                        'message' => 'hello default'
+                    ]
+                ],
+                [
+                    'qty_max_allowed' => 4,
+                    'status' => Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED,
+                    'error' => 'hello default'
+                ]
+            ],
+            'no error' => [
+                [
+                    'product_id' => 18,
+                    'request_qty' => 22,
+                    'result' => ['has_error' => false]
+                ],
+                true
+            ],
+        ];
     }
 }

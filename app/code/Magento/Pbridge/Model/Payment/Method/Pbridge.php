@@ -11,11 +11,6 @@ use Magento\Framework\Model\Exception;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Sales\Model\Order\Payment;
 
-/**
- * Pbridge payment method model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Pbridge extends AbstractMethod
 {
     /**
@@ -69,6 +64,13 @@ class Pbridge extends AbstractMethod
         'fax',
         'postcode'
     );
+
+    /**
+     * Array of additional parameters, which need to be included in Pbridge request
+     *
+     * @var array
+     */
+    protected $_additionalRequestParameters = array();
 
     /**
      * Pbridge data
@@ -147,6 +149,17 @@ class Pbridge extends AbstractMethod
         $this->_pbridgeApiFactory = $pbridgeApiFactory;
         $this->_requestHttp = $requestHttp;
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
+    }
+
+    /**
+     * Ability to add additional parameters to request
+     *
+     * @param array $params
+     * @return void
+     */
+    public function setAdditionalRequestParameters(array $params)
+    {
+        $this->_additionalRequestParameters = $params;
     }
 
     /**
@@ -277,13 +290,6 @@ class Pbridge extends AbstractMethod
      */
     public function getOriginalMethodInstance()
     {
-        if (null === $this->_originalMethodInstance) {
-            $this->_originalMethodCode = $this->getPbridgeResponse('original_payment_method');
-            if (null === $this->_originalMethodCode) {
-                return null;
-            }
-            $this->_originalMethodInstance = $this->_paymentData->getMethodInstance($this->_originalMethodCode);
-        }
         return $this->_originalMethodInstance;
     }
 
@@ -311,8 +317,8 @@ class Pbridge extends AbstractMethod
     /**
      * Validate response
      *
-     * @return $this
      * @throws \Magento\Framework\Model\Exception
+     * @return $this
      */
     public function validate()
     {
@@ -332,46 +338,29 @@ class Pbridge extends AbstractMethod
      */
     public function authorize(\Magento\Framework\Object $payment, $amount)
     {
-        //        parent::authorize($payment, $amount);
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
         $request = $this->_getApiRequest();
-
-        $request->setData(
-            'magento_payment_action',
-            $this->getOriginalMethodInstance()->getConfigPaymentAction()
-        )->setData(
-            'client_ip',
-            $this->_requestHttp->getClientIp(false)
-        )->setData(
-            'amount',
-            (string)$amount
-        )->setData(
-            'currency_code',
-            $order->getBaseCurrencyCode()
-        )->setData(
-            'order_id',
-            $order->getIncrementId()
-        )->setData(
-            'customer_email',
-            $order->getCustomerEmail()
-        )->setData(
-            'is_virtual',
-            $order->getIsVirtual()
-        )->setData(
-            'notify_url',
-            $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' => $order->getStore()->getStoreId()))
-        )->setData(
-            'is_first_capture',
-            $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true
-        );
+        $request->setData('magento_payment_action', $this->getOriginalMethodInstance()->getConfigPaymentAction())
+            ->setData('client_ip', $this->_requestHttp->getClientIp(false))
+            ->setData('amount', (string)$amount)
+            ->setData('currency_code', $order->getBaseCurrencyCode())
+            ->setData('order_id', $order->getIncrementId())
+            ->setData('customer_email', $order->getCustomerEmail())
+            ->setData('is_virtual', $order->getIsVirtual())
+            ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true)
+            ->setData(
+                'notify_url',
+                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' => $order->getStore()->getStoreId()))
+            );
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
         if ($order->getCustomerId()) {
-            $id = $order->getCustomerId();
             $request->setData(
                 'customer_id',
-                $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
+                $this->_pbridgeData->getCustomerIdentifierByEmail($order->getCustomerId(), $order->getStore()->getId())
             );
+            $request->setData('numeric_customer_id', $order->getCustomerId());
         }
 
         if (!$order->getIsVirtual()) {
@@ -389,6 +378,7 @@ class Pbridge extends AbstractMethod
         $this->_importResultToPayment($payment, $apiResponse);
 
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
+            $payment->setIsTransactionPending(true);
             $message = __('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
                 \Magento\Sales\Model\Order::STATE_PROCESSING,
@@ -420,8 +410,6 @@ class Pbridge extends AbstractMethod
      */
     public function capture(\Magento\Framework\Object $payment, $amount)
     {
-        //parent::capture($payment, $amount);
-
         $authTransactionId = $payment->getParentTransactionId();
 
         if (!$authTransactionId) {
@@ -429,22 +417,17 @@ class Pbridge extends AbstractMethod
         }
 
         $request = $this->_getApiRequest();
-        $request->setData(
-            'transaction_id',
-            $authTransactionId
-        )->setData(
-            'is_capture_complete',
-            (int)$payment->getShouldCloseParentTransaction()
-        )->setData(
-            'amount',
-            $amount
-        )->setData(
-            'currency_code',
-            $payment->getOrder()->getBaseCurrencyCode()
-        )->setData(
-            'order_id',
-            $payment->getOrder()->getIncrementId()
-        );
+        $order = $payment->getOrder();
+        $request->setData('transaction_id', $authTransactionId)
+            ->setData('is_capture_complete', (int)$payment->getShouldCloseParentTransaction())
+            ->setData('amount', $amount)
+            ->setData('currency_code', $order->getBaseCurrencyCode())
+            ->setData('order_id', $order->getIncrementId())
+            ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true)
+            ->setData(
+                'notify_url',
+                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' => $order->getStore()->getStoreId()))
+            );
 
         $api = $this->_getApi()->doCapture($request);
         $this->_importResultToPayment($payment, $api->getResponse());
@@ -471,37 +454,27 @@ class Pbridge extends AbstractMethod
      */
     public function refund(\Magento\Framework\Object $payment, $amount)
     {
-        //parent::refund($payment, $amount);
-
         $captureTxnId = $payment->getParentTransactionId();
         if ($captureTxnId) {
             $order = $payment->getOrder();
 
             $request = $this->_getApiRequest();
-            $request->setData(
-                'transaction_id',
-                $captureTxnId
-            )->setData(
-                'amount',
-                $amount
-            )->setData(
-                'currency_code',
-                $order->getBaseCurrencyCode()
-            )->setData(
-                'cc_number',
-                $payment->getCcLast4()
-            );
+            $request->setData('transaction_id', $captureTxnId)
+                ->setData('amount', $amount)
+                ->setData('currency_code', $order->getBaseCurrencyCode())
+                ->setData('cc_number', $payment->getCcLast4())
+                ->setData('order_id', $payment->getOrder()->getIncrementId());
 
             $canRefundMore = $order->canCreditmemo();
-            $allRefunds = (double)$amount +
-                (double)$order->getBaseTotalOnlineRefunded() +
-                (double)$order->getBaseTotalOfflineRefunded();
-            $isFullRefund = !$canRefundMore && 0.0001 > (double)$order->getBaseGrandTotal() - $allRefunds;
+            $allRefunds = (float)$amount
+                + (float)$order->getBaseTotalOnlineRefunded()
+                + (float)$order->getBaseTotalOfflineRefunded();
+            $isFullRefund = !$canRefundMore && (0.0001 > (float)$order->getBaseGrandTotal() - $allRefunds);
             $request->setData('is_full_refund', (int)$isFullRefund);
 
             // whether to close capture transaction
             $invoiceCanRefundMore = $payment->getCreditmemo()->getInvoice()->canRefund();
-            $payment->setShouldCloseParentTransaction($invoiceCanRefundMore ? 0 : 1);
+            $payment->setShouldCloseParentTransaction((int)$invoiceCanRefundMore);
             $payment->setIsTransactionClosed(1);
 
             $api = $this->_getApi()->doRefund($request);
@@ -535,6 +508,83 @@ class Pbridge extends AbstractMethod
             throw new Exception(__('You need an authorization transaction to void.'));
         }
         return $this->_getApi()->getResponse();
+    }
+
+    /**
+     * Accept payment
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @return array
+     */
+    public function acceptPayment(\Magento\Payment\Model\Info $payment)
+    {
+        $transactionId = $payment->getLastTransId();
+
+        if (!$transactionId) {
+            return false;
+        }
+
+        $request = $this->_getApiRequest();
+        $request
+            ->setData('transaction_id', $transactionId)
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
+
+        $api = $this->_getApi()->doAccept($request);
+        $this->_importResultToPayment($payment, $api->getResponse());
+        $apiResponse = $api->getResponse();
+
+        return $apiResponse;
+    }
+
+    /**
+     * Deny payment
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @return array
+     */
+    public function denyPayment(\Magento\Payment\Model\Info $payment)
+    {
+        $transactionId = $payment->getLastTransId();
+
+        if (!$transactionId) {
+            return false;
+        }
+
+        $request = $this->_getApiRequest();
+        $request
+            ->setData('transaction_id', $transactionId)
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
+
+        $api = $this->_getApi()->doDeny($request);
+        $this->_importResultToPayment($payment, $api->getResponse());
+        $apiResponse = $api->getResponse();
+
+        return $apiResponse;
+    }
+
+    /**
+     * Retrieve transaction info details
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @param int $transactionId
+     * @return bool|array
+     */
+    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
+    {
+        if (!$transactionId) {
+            return false;
+        }
+
+        $request = $this->_getApiRequest();
+        $request
+            ->setData('transaction_id', $transactionId)
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
+
+        $api = $this->_getApi()->doFetchTransactionInfo($request);
+        $this->_importResultToPayment($payment, $api->getResponse());
+        $apiResponse = $api->getResponse();
+
+        return $apiResponse;
     }
 
     /**
@@ -609,8 +659,14 @@ class Pbridge extends AbstractMethod
     protected function _getApiRequest()
     {
         $request = new \Magento\Framework\Object();
-        $request->setCountryCode($this->_scopeConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setCountryCode(
+            $this->_scopeConfig->getValue(
+                self::XML_CONFIG_PATH_DEFAULT_COUNTRY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
         $request->setClientIdentifier($this->_getCustomerIdentifier());
+        $request->setData('additional_params', $this->_additionalRequestParameters);
 
         return $request;
     }

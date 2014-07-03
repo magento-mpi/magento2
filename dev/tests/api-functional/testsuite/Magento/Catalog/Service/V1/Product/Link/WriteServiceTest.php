@@ -9,7 +9,6 @@
 namespace Magento\Catalog\Service\V1\Product\Link;
 
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Catalog\Model\Product\Link;
 
 class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -75,7 +74,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             ['productSku' => $this->productSku, 'assignedProducts' => [$this->productData], 'type' => $this->linkType]
         );
         $actual = $service->getLinkedProducts($this->productSku, 'related');
-        array_walk($actual, function (&$item){
+        array_walk($actual, function (&$item) {
             $item = $item->__toArray();
         });
         $this->assertEquals([$this->productData], $actual);
@@ -176,14 +175,12 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->assertEmpty($actual);
     }
 
-
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
      */
     public function testUpdate()
     {
         $productSku = 'simple_with_cross';
-        $linkedSku = 'simple';
         $linkType = 'related';
 
         $serviceInfo = [
@@ -209,9 +206,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         /** @var \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkBuilder $builder */
         $builder = $objectManager->get('Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkBuilder');
-        $builder->populate(
-            $actual[0]
-        )->setPosition(2);
+        $builder->populate($actual[0])->setPosition(2);
 
         $updatedLink = $builder->create();
 

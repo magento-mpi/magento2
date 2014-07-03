@@ -50,8 +50,11 @@ class Addresses extends Block
     {
         $products = $fixture->getBindings();
         foreach ($products as $key => $value) {
-            $this->_rootElement->find('//tr[//a[text()="' . $key . '"]]/following-sibling::*//select',
-                Locator::SELECTOR_XPATH, 'select')->setValue($value);
+            $this->_rootElement->find(
+                '//tr[//a[text()="' . $key . '"]]/following-sibling::*//select',
+                Locator::SELECTOR_XPATH,
+                'select'
+            )->setValue($value);
         }
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
     }

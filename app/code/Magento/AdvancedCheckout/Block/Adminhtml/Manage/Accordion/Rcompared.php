@@ -9,8 +9,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * Accordion grid for Recently compared products
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Rcompared extends AbstractAccordion
 {
@@ -27,14 +25,14 @@ class Rcompared extends AbstractAccordion
     protected $_adminhtmlSales;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory
      */
     protected $_compareListFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
-    protected $_productFactory;
+    protected $productListFactory;
 
     /**
      * @var \Magento\Catalog\Model\Config
@@ -47,6 +45,11 @@ class Rcompared extends AbstractAccordion
     protected $_reportsEventResource;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     */
+    protected $stockItemService;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
@@ -54,8 +57,9 @@ class Rcompared extends AbstractAccordion
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Reports\Model\Resource\Event $reportsEventResource
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -68,15 +72,17 @@ class Rcompared extends AbstractAccordion
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Reports\Model\Resource\Event $reportsEventResource,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
+        \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
         $this->_reportsEventResource = $reportsEventResource;
         $this->_adminhtmlSales = $adminhtmlSales;
-        $this->_productFactory = $productFactory;
+        $this->productListFactory = $productListFactory;
         $this->_compareListFactory = $compareListFactory;
+        $this->stockItemService = $stockItemService;
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
@@ -103,17 +109,14 @@ class Rcompared extends AbstractAccordion
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = $this->_compareListFactory->create()->getItemCollection()->useProductItem(
-                true
-            )->setStoreId(
-                $this->_getStore()->getId()
-            )->addStoreFilter(
-                $this->_getStore()->getId()
-            )->setCustomerId(
-                $this->_getCustomer()->getId()
-            );
-            foreach ($collection as $_item) {
-                $skipProducts[] = $_item->getProductId();
+            $collection = $this->_compareListFactory->create();
+            $collection->useProductItem(true)
+                ->setStoreId($this->_getStore()->getId())
+                ->addStoreFilter($this->_getStore()->getId())
+                ->setCustomerId($this->_getCustomer()->getId());
+
+            foreach ($collection as $item) {
+                $skipProducts[] = $item->getProductId();
             }
 
             // prepare products collection and apply visitors log to it
@@ -122,13 +125,11 @@ class Rcompared extends AbstractAccordion
                 // Status attribute is required even if it is not used in product listings
                 $attributes[] = 'status';
             }
-            $productCollection = $this->_productFactory->create()->getCollection()->setStoreId(
-                $this->_getStore()->getId()
-            )->addStoreFilter(
-                $this->_getStore()->getId()
-            )->addAttributeToSelect(
-                $attributes
-            );
+            $productCollection = $this->productListFactory->create()
+                ->setStoreId($this->_getStore()->getId())
+                ->addStoreFilter($this->_getStore()->getId())
+                ->addAttributeToSelect($attributes);
+
             $this->_reportsEventResource->applyLogToCollection(
                 $productCollection,
                 \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
@@ -139,7 +140,7 @@ class Rcompared extends AbstractAccordion
             $productCollection = $this->_adminhtmlSales->applySalableProductTypesFilter($productCollection);
             // Remove disabled and out of stock products from the grid
             foreach ($productCollection as $product) {
-                if (!$product->getStockItem()->getIsInStock() || !$product->isInStock()) {
+                if (!$this->stockItemService->getIsInStock($product->getId()) || !$product->isInStock()) {
                     $productCollection->removeItemByKey($product->getId());
                 }
             }

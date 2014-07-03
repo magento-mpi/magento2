@@ -9,8 +9,6 @@ namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
 
 /**
  * Accordion grid for products in wishlist
- *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
 {
@@ -26,7 +24,8 @@ class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordio
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\MultipleWishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param array $data
      */
@@ -35,12 +34,21 @@ class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordio
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Wishlist\Model\ItemFactory $itemFactory,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\MultipleWishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         array $data = array()
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
-        parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $itemFactory, $data);
+        parent::__construct(
+            $context,
+            $backendHelper,
+            $collectionFactory,
+            $coreRegistry,
+            $itemFactory,
+            $stockItemService,
+            $data
+        );
     }
 
     /**

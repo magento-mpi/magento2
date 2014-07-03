@@ -28,6 +28,11 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_cart;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     */
+    protected $stockItemService;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -38,6 +43,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -53,11 +59,13 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->_cart = $cart;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
+        $this->stockItemService = $stockItemService;
         parent::__construct(
             $context,
             $catalogData,
@@ -130,9 +138,9 @@ class Products extends \Magento\Checkout\Block\Cart
                 $product = $option->getProduct();
             }
 
-            if ($item->getStoreId() != $this->_storeManager->getStore()->getId() &&
-                !$item->getRedirectUrl() &&
-                !$product->isVisibleInSiteVisibility()
+            if ($item->getStoreId() != $this->_storeManager->getStore()->getId()
+                && !$item->getRedirectUrl()
+                && !$product->isVisibleInSiteVisibility()
             ) {
                 $products[$product->getId()] = $item->getStoreId();
             }
@@ -194,9 +202,9 @@ class Products extends \Magento\Checkout\Block\Cart
             $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
-                    if ($childProduct->hasStockItem() &&
-                        $childProduct->getStockItem()->getIsInStock() &&
-                        !$childProduct->isDisabled()
+                    if ($childProduct->hasStockItem()
+                        && $this->stockItemService->getIsInStock($childProduct->getId())
+                        && !$childProduct->isDisabled()
                     ) {
                         return true;
                     }

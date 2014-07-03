@@ -11,8 +11,6 @@ use Magento\Catalog\Model\Product;
 
 /**
  * Shopping cart model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
@@ -35,7 +33,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      *
      * @var \Magento\Framework\Event\ManagerInterface
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core store config
@@ -75,6 +73,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $messageManager;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     */
+    protected $stockItemService;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -83,6 +86,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      */
     public function __construct(
@@ -94,6 +98,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -104,6 +109,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->messageManager = $messageManager;
+        $this->stockItemService = $stockItemService;
         parent::__construct($data);
     }
 
@@ -225,11 +231,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     {
         /* @var $orderItem \Magento\Sales\Model\Order\Item */
         if (is_null($orderItem->getParentItem())) {
-            $product = $this->_productFactory->create()->setStoreId(
-                $this->_storeManager->getStore()->getId()
-            )->load(
-                $orderItem->getProductId()
-            );
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
+                ->load($orderItem->getProductId());
             if (!$product->getId()) {
                 return $this;
             }
@@ -260,19 +264,15 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         if ($productInfo instanceof Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
-            $product = $this->_productFactory->create()->setStoreId(
-                $this->_storeManager->getStore()->getId()
-            )->load(
-                $productInfo
-            );
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
+                ->load($productInfo);
         }
         $currentWebsiteId = $this->_storeManager->getStore()->getWebsiteId();
-        if (!$product || !$product->getId() || !is_array(
-            $product->getWebsiteIds()
-        ) || !in_array(
-            $currentWebsiteId,
-            $product->getWebsiteIds()
-        )
+        if (!$product
+            || !$product->getId()
+            || !is_array($product->getWebsiteIds())
+            || !in_array($currentWebsiteId, $product->getWebsiteIds())
         ) {
             throw new \Magento\Framework\Model\Exception(__('We can\'t find the product.'));
         }
@@ -314,15 +314,15 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     {
         $product = $this->_getProduct($productInfo);
         $request = $this->_getProductRequest($requestInfo);
-
         $productId = $product->getId();
 
-        if ($product->getStockItem()) {
-            $minimumQty = $product->getStockItem()->getMinSaleQty();
+        if ($productId) {
+            $minimumQty = $this->stockItemService->getMinSaleQty($productId);
             //If product was not found in cart and there is set minimal qty for it
-            if ($minimumQty && $minimumQty > 0 && $request->getQty() < $minimumQty && !$this->getQuote()->hasProductId(
-                $productId
-            )
+            if ($minimumQty
+                && $minimumQty > 0
+                && $request->getQty() < $minimumQty
+                && !$this->getQuote()->hasProductId($productId)
             ) {
                 $request->setQty($minimumQty);
             }
@@ -339,10 +339,14 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
              * String we can get if prepare process has error
              */
             if (is_string($result)) {
-                $redirectUrl = $product->hasOptionsValidationFail() ? $product->getUrlModel()->getUrl(
-                    $product,
-                    array('_query' => array('startcustomization' => 1))
-                ) : $product->getProductUrl();
+                if ($product->hasOptionsValidationFail()) {
+                    $redirectUrl = $product->getUrlModel()->getUrl(
+                        $product,
+                        array('_query' => array('startcustomization' => 1))
+                    );
+                } else {
+                    $redirectUrl = $product->getProductUrl();
+                }
                 $this->_checkoutSession->setRedirectUrl($redirectUrl);
                 if ($this->_checkoutSession->getUseNotice() === null) {
                     $this->_checkoutSession->setUseNotice(true);
@@ -374,7 +378,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
         if (!empty($productIds)) {
             foreach ($productIds as $productId) {
-                $productId = (int)$productId;
+                $productId = (int) $productId;
                 if (!$productId) {
                     continue;
                 }
@@ -416,7 +420,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             if (!isset($itemInfo['qty'])) {
                 continue;
             }
-            $qty = (double)$itemInfo['qty'];
+            $qty = (float) $itemInfo['qty'];
             if ($qty <= 0) {
                 continue;
             }
@@ -431,16 +435,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
                 continue;
             }
 
-            /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-            $stockItem = $product->getStockItem();
-            if (!$stockItem) {
-                continue;
-            }
-
             $data[$itemId]['before_suggest_qty'] = $qty;
-            $data[$itemId]['qty'] = $stockItem->suggestQty($qty);
+            $data[$itemId]['qty'] = $this->stockItemService->suggestQty($product->getId(), $qty);
         }
-
         return $data;
     }
 
@@ -581,16 +578,16 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         //and get new quote id. This is done for cases when quote was created
         //not by customer (from backend for example).
         if (!$quoteId && $this->_customerSession->isLoggedIn()) {
-            $quote = $this->_checkoutSession->getQuote();
+            $this->_checkoutSession->getQuote();
             $quoteId = $this->_checkoutSession->getQuoteId();
         }
 
         if ($quoteId && $this->_summaryQty === null) {
-            if ($this->_scopeConfig->getValue('checkout/cart_link/use_qty', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-                $this->_summaryQty = $this->getItemsQty();
-            } else {
-                $this->_summaryQty = $this->getItemsCount();
-            }
+            $useQty = $this->_scopeConfig->getValue(
+                'checkout/cart_link/use_qty',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+            $this->_summaryQty = $useQty ? $this->getItemsQty() : $this->getItemsCount();
         }
         return $this->_summaryQty;
     }
@@ -639,13 +636,13 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             $product = $this->_getProduct($productId);
             $request = $this->_getProductRequest($requestInfo);
 
-            if ($product->getStockItem()) {
-                $minimumQty = $product->getStockItem()->getMinSaleQty();
+            if ($productId) {
+                $minimumQty = $this->stockItemService->getMinSaleQty($productId);
                 // If product was not found in cart and there is set minimal qty for it
-                if ($minimumQty &&
-                    $minimumQty > 0 &&
-                    $request->getQty() < $minimumQty &&
-                    !$this->getQuote()->hasProductId($productId)
+                if ($minimumQty
+                    && $minimumQty > 0
+                    && $request->getQty() < $minimumQty
+                    && !$this->getQuote()->hasProductId($productId)
                 ) {
                     $request->setQty($minimumQty);
                 }

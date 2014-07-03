@@ -13,9 +13,13 @@ use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductBundle
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogProductBundle extends InjectableFixture
 {
@@ -37,6 +41,7 @@ class CatalogProductBundle extends InjectableFixture
      * @param RepositoryFactory $repositoryFactory
      * @param FixtureFactory $fixtureFactory
      * @param HandlerFactory $handlerFactory
+     * @param EventManagerInterface $eventManager
      * @param array $data
      * @param string $dataSet
      * @param bool $persist
@@ -46,6 +51,7 @@ class CatalogProductBundle extends InjectableFixture
         RepositoryFactory $repositoryFactory,
         FixtureFactory $fixtureFactory,
         HandlerFactory $handlerFactory,
+        EventManagerInterface $eventManager,
         array $data = [],
         $dataSet = '',
         $persist = false
@@ -58,6 +64,7 @@ class CatalogProductBundle extends InjectableFixture
             $repositoryFactory,
             $fixtureFactory,
             $handlerFactory,
+            $eventManager,
             $data,
             $dataSet,
             $persist
@@ -450,6 +457,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '2',
         'input' => 'select',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [

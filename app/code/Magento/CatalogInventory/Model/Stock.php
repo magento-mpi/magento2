@@ -12,8 +12,6 @@ use Magento\CatalogInventory\Model\Stock\Item;
 /**
  * Stock model
  *
- * @method \Magento\CatalogInventory\Model\Resource\Stock _getResource()
- * @method \Magento\CatalogInventory\Model\Resource\Stock getResource()
  * @method string getStockName()
  * @method \Magento\CatalogInventory\Model\Stock setStockName(string $value)
  */
@@ -29,14 +27,20 @@ class Stock extends \Magento\Framework\Model\AbstractModel
 
     const STOCK_IN_STOCK = 1;
 
+    /**
+     * Default stock id
+     */
     const DEFAULT_STOCK_ID = 1;
 
     /**
-     * Catalog inventory data
-     *
-     * @var \Magento\CatalogInventory\Helper\Data
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
-    protected $_catalogInventoryData;
+    protected $stockItemService;
+
+    /**
+     * @var Stock\Status
+     */
+    protected $stockStatus;
 
     /**
      * Store model manager
@@ -58,12 +62,19 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     protected $_collectionFactory;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $productFactory;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\CatalogInventory\Model\Resource\Stock\Item\CollectionFactory $collectionFactory
-     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param Resource\Stock\Item\CollectionFactory $collectionFactory
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param Stock\Status $stockStatus
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param Stock\ItemFactory $stockItemFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -72,9 +83,11 @@ class Stock extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Model\Resource\Stock\Item\CollectionFactory $collectionFactory,
-        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -82,9 +95,11 @@ class Stock extends \Magento\Framework\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->_collectionFactory = $collectionFactory;
-        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->stockItemService = $stockItemService;
+        $this->stockStatus = $stockStatus;
         $this->_storeManager = $storeManager;
         $this->_stockItemFactory = $stockItemFactory;
+        $this->productFactory = $productFactory;
     }
 
     /**
@@ -113,18 +128,20 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      */
     public function addItemsToProducts($productCollection)
     {
-        $items = $this->getItemCollection()->addProductsFilter(
-            $productCollection
-        )->joinStockStatus(
-            $productCollection->getStoreId()
-        )->load();
+        $items = $this->getItemCollection()->addProductsFilter($productCollection)
+            ->joinStockStatus($productCollection->getStoreId())
+            ->load();
         $stockItems = array();
         foreach ($items as $item) {
             $stockItems[$item->getProductId()] = $item;
         }
         foreach ($productCollection as $product) {
             if (isset($stockItems[$product->getId()])) {
-                $stockItems[$product->getId()]->assignProduct($product);
+                $this->stockStatus->assignProduct(
+                    $product,
+                    $stockItems[$product->getId()]->getStockId(),
+                    $product->getStockStatus()
+                );
             }
         }
         return $this;
@@ -138,6 +155,19 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     public function getItemCollection()
     {
         return $this->_collectionFactory->create()->addStockFilter($this->getId());
+    }
+
+    /**
+     * Get Product type
+     *
+     * @param int $productId
+     * @return string
+     */
+    protected function getProductType($productId)
+    {
+        $product = $this->productFactory->create();
+        $product->load($productId);
+        return $product->getTypeId();
     }
 
     /**
@@ -156,7 +186,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
                 $stockItem = $item['item'];
             }
             $canSubtractQty = $stockItem->getId() && $stockItem->canSubtractQty();
-            if ($canSubtractQty && $this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
+            if ($canSubtractQty && $this->stockItemService->isQty($this->getProductType($productId))) {
                 $qtys[$productId] = $item['qty'];
             }
         }
@@ -218,20 +248,21 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     public function registerItemSale(\Magento\Framework\Object $item)
     {
         $productId = $item->getProductId();
-        if ($productId) {
-            /** @var Item $stockItem */
-            $stockItem = $this->_stockItemFactory->create()->loadByProduct($productId);
-            if ($this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
-                if ($item->getStoreId()) {
-                    $stockItem->setStoreId($item->getStoreId());
-                }
-                if ($stockItem->checkQty($item->getQtyOrdered())) {
-                    $stockItem->subtractQty($item->getQtyOrdered());
-                    $stockItem->save();
-                }
+        if (!$productId) {
+            throw new \Magento\Framework\Model\Exception(
+                __('We cannot specify a product identifier for the order item.')
+            );
+        }
+        /** @var Item $stockItem */
+        $stockItem = $this->_stockItemFactory->create()->loadByProduct($productId);
+        if ($this->stockItemService->isQty($this->getProductType($productId))) {
+            if ($item->getStoreId()) {
+                $stockItem->setStoreId($item->getStoreId());
             }
-        } else {
-            throw new \Magento\Framework\Model\Exception(__('We cannot specify a product identifier for the order item.'));
+            if ($stockItem->checkQty($item->getQtyOrdered())) {
+                $stockItem->subtractQty($item->getQtyOrdered());
+                $stockItem->save();
+            }
         }
         return $this;
     }
@@ -247,7 +278,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     {
         /** @var Item $stockItem */
         $stockItem = $this->_stockItemFactory->create()->loadByProduct($productId);
-        if ($stockItem->getId() && $this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
+        if ($stockItem->getId() && $this->stockItemService->isQty($this->getProductType($productId))) {
             $stockItem->addQty($qty);
             if ($stockItem->getCanBackInStock() && $stockItem->getQty() > $stockItem->getMinQty()) {
                 $stockItem->setIsInStock(true)->setStockStatusChangedAutomaticallyFlag(true);

@@ -10,7 +10,7 @@
 <?php /** @var \Magento\GiftCard\Pricing\Render\FinalPriceBox $this */ ?>
 <?php $productId = $this->getSaleableItem()->getId(); ?>
 
-<?php if ($this->getCanShowPrice() !== false):?>
+<?php if ($this->getCanShowPrice() !== false && !$this->getRenderForm()):?>
     <div class="price-box">
         <?php if ($this->isMinEqualToMax()): ?>
             <span class="price" id="product-price-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">

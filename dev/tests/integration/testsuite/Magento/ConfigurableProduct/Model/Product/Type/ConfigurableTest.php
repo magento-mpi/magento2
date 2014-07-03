@@ -442,20 +442,20 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $productsData
-     * @dataProvider generateSimpleProductsWithoutQtyDataProvider
+     * @dataProvider generateSimpleProductsWithPartialDataDataProvider
      * @magentoDbIsolation enabled
      */
-    public function testGenerateSimpleProductsWithoutQty($productsData)
+    public function testGenerateSimpleProductsWithPartialData($productsData)
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService */
+        $stockItemService = $objectManager->get('Magento\CatalogInventory\Service\V1\StockItemService');
         $this->_product->setNewVariationsAttributeSetId(4);
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
         foreach ($generatedProducts as $productId) {
-            /** @var $product \Magento\Catalog\Model\Product */
-            $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                'Magento\Catalog\Model\Product'
-            );
-            $product->load($productId);
-            $this->assertEquals('0', $product->getStockItem()->getData('manage_stock'));
+            $stockItemData = $stockItemService->getStockItem($productId);
+            $this->assertEquals('0', $stockItemData->isManageStock());
+            $this->assertEquals('1', $stockItemData->getIsInStock());
         }
     }
 
@@ -499,7 +499,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public static function generateSimpleProductsWithoutQtyDataProvider()
+    public static function generateSimpleProductsWithPartialDataDataProvider()
     {
         return array(
             array(

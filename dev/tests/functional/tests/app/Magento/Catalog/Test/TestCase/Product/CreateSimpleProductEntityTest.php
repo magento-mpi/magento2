@@ -10,7 +10,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
@@ -33,7 +33,7 @@ class CreateSimpleProductEntityTest extends Injectable
     /**
      * Category fixture
      *
-     * @var CatalogCategoryEntity
+     * @var CatalogCategory
      */
     protected $category;
 
@@ -54,10 +54,10 @@ class CreateSimpleProductEntityTest extends Injectable
     /**
      * Prepare data
      *
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return array
      */
-    public function __prepare(CatalogCategoryEntity $category)
+    public function __prepare(CatalogCategory $category)
     {
         $category->persist();
 
@@ -69,13 +69,16 @@ class CreateSimpleProductEntityTest extends Injectable
     /**
      * Injection data
      *
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductNew $newProductPage
      * @return void
      */
-    public function __inject(CatalogCategoryEntity $category, CatalogProductIndex $productGrid, CatalogProductNew $newProductPage)
-    {
+    public function __inject(
+        CatalogCategory $category,
+        CatalogProductIndex $productGrid,
+        CatalogProductNew $newProductPage
+    ) {
         $this->category = $category;
         $this->productGrid = $productGrid;
         $this->newProductPage = $newProductPage;
@@ -85,10 +88,10 @@ class CreateSimpleProductEntityTest extends Injectable
      * Run create product simple entity test
      *
      * @param CatalogProductSimple $product
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return void
      */
-    public function testCreate(CatalogProductSimple $product, CatalogCategoryEntity $category)
+    public function testCreate(CatalogProductSimple $product, CatalogCategory $category)
     {
         // Steps
         $this->productGrid->open();

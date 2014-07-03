@@ -43,23 +43,51 @@ class Observer
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
+     * @var \Magento\Framework\App\ViewInterface
+     */
+    protected $_view;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\App\ViewInterface $view
      */
     public function __construct(
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\App\ViewInterface $view
     ) {
         $this->_configWriter = $configWriter;
         $this->_configCacheType = $configCacheType;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
+        $this->_coreRegistry = $registry;
+        $this->_coreData = $coreData;
+        $this->_view = $view;
     }
 
     /**
@@ -141,5 +169,60 @@ class Observer
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
+    }
+
+    /**
+     * Save order into registry to use it in the overloaded controller.
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return $this
+     */
+    public function saveOrderAfterSubmit(\Magento\Framework\Event\Observer $observer)
+    {
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $observer->getEvent()->getData('order');
+        $this->_coreRegistry->register('pbridge_order', $order, true);
+        return $this;
+    }
+
+    /**
+     * Set data for response of frontend saveOrder action
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return $this
+     */
+    public function setResponseAfterSaveOrder(\Magento\Framework\Event\Observer $observer)
+    {
+        /* @var $order \Magento\Sales\Model\Order */
+        $order = $this->_coreRegistry->registry('pbridge_order');
+        if ($order && $order->getId()) {
+            $payment = $order->getPayment();
+            if ($payment && $payment->getMethodInstance()->getIsPendingOrderRequired()) {
+                /* @var $controller \Magento\Framework\App\Action\Action */
+                $controller = $observer->getEvent()->getData('controller_action');
+                $result = $this->_coreData->jsonDecode($controller->getResponse()->getBody('default'));
+                if (empty($result['error'])) {
+                    $this->_view->loadLayout('checkout_onepage_review');
+                    /** @var \Magento\Pbridge\Block\Checkout\Payment\Review\Iframe $block */
+                    $block = $this->_view->getLayout()->createBlock(
+                        'Magento\Pbridge\Block\Checkout\Payment\Review\Iframe'
+                    );
+                    $block->setMethod($payment->getMethodInstance())
+                        ->setRedirectUrlSuccess($payment->getMethodInstance()->getRedirectUrlSuccess())
+                        ->setRedirectUrlError($payment->getMethodInstance()->getRedirectUrlError());
+                    $html = $block->getIframeBlock()->toHtml();
+                    $result['update_section'] = array(
+                        'name' => 'pbridgeiframe',
+                        'html' => $html
+                    );
+                    $result['redirect'] = false;
+                    $result['success'] = false;
+                    $controller->getResponse()->clearHeader('Location');
+                    $controller->getResponse()->representJson($this->_coreData->jsonEncode($result));
+                }
+            }
+        }
+
+        return $this;
     }
 }

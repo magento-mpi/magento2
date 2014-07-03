@@ -146,7 +146,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     {
         if (isset($serviceInfo['soap']['operation'])) {
             $soapOperation = $serviceInfo['soap']['operation'];
-        } else if (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
+        } elseif (isset($serviceInfo['serviceInterface']) && isset($serviceInfo['method'])) {
             $soapOperation = $this->_soapConfig->getSoapOperation(
                 $serviceInfo['serviceInterface'],
                 $serviceInfo['method']
@@ -224,10 +224,11 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     {
         $data = [];
         foreach ($objectData as $key => $value) {
+            $key = strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key));
             if (is_array($value)) {
                 $data[$key] = $this->toSnakeCase($value);
             } else {
-                $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
+                $data[$key] = $value;
             }
         }
         return $data;
