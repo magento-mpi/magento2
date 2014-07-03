@@ -105,12 +105,11 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @depends testCreate
+     * @magentoApiDataFixture Magento/Catalog/_files/product_attribute.php
      */
     public function testRemove()
     {
-        $attributeId = $this->createAttribute($this->getAttributeData());
-        $this->assertTrue($this->deleteAttribute($attributeId));
+        $this->assertTrue($this->deleteAttribute('test_attribute_code_333'));
     }
 
     /**
