@@ -15,7 +15,7 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\TestFramework\Helper\ObjectManager */
     protected $_objectManager;
 
-    /** @var \Magento\Catalog\Service\V1\ProductMetadataService */
+    /** @var \Magento\Catalog\Service\V1\MetadataService */
     private $_productMetadataService;
 
     /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder */
@@ -26,7 +26,7 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         
         $this->_productMetadataService = $this->getMockBuilder(
-            'Magento\Catalog\Service\V1\ProductMetadataService'
+            'Magento\Catalog\Service\V1\Product\MetadataService'
         )->setMethods(
             array('getCustomAttributesMetadata')
         )->disableOriginalConstructor()->getMock();
@@ -71,7 +71,6 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
     public function setValueDataProvider()
     {
         return [
-            ['setId', 100, 'getId'],
             ['setSku', 'product_sku', 'getSku'],
             ['setName', 'buhanka hleba', 'getName'],
             ['setStoreId', 0, 'getStoreId'],
