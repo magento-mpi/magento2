@@ -29,5 +29,29 @@ class UrlRewrite extends AbstractRepository
             'options' => 'Temporary (302)',
             'store_id' => 'Default Store View'
         ];
+
+        $this->_data['default_no_redirect'] = [
+            'store_id' => 'Default Store View',
+            'request_path' => 'test_request%isolation%',
+            'options' => 'No',
+            'description' => 'test description',
+            'id_path' => ['entity' => "cms_page/%cmsPage::default%"]
+        ];
+
+        $this->_data['default_temporary_redirect'] = [
+            'store_id' => 'Default Store View',
+            'request_path' => 'test_request%isolation%',
+            'options' => 'Temporary (302)',
+            'description' => 'test description',
+            'id_path' => ['entity' => "cms_page/%cmsPage::default%"]
+        ];
+
+        $this->_data['default_permanent_redirect'] = [
+            'store_id' => 'Default Store View',
+            'request_path' => 'test_request%isolation%',
+            'options' => 'Permanent (301)',
+            'description' => 'test description',
+            'id_path' => ['entity' => "cms_page/%cmsPage::default%"]
+        ];
     }
 }
