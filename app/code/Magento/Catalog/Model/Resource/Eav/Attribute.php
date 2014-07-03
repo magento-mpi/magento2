@@ -223,7 +223,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         if ($this->_isOriginalEnabledInFlat() != $this->_isEnabledInFlat()) {
             $this->_productFlatIndexerProcessor->markIndexerAsInvalid();
         }
-        if ($this->_isOriginalIndexable() !== $this->isIndexable()) {
+        if ($this->_isOriginalIndexable() !== $this->isIndexable()
+            || ($this->isIndexable() && $this->dataHasChangedFor('is_global'))
+        ) {
             $this->_indexerEavProcessor->markIndexerAsInvalid();
         }
 

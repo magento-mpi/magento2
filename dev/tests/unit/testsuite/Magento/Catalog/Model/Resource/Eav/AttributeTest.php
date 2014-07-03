@@ -105,6 +105,17 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->_model->save();
     }
 
+    public function testIndexerAfterSaveScopeChangeAttribute()
+    {
+        $this->_processor->expects($this->once())->method('markIndexerAsInvalid');
+
+        $this->_model->setOrigData('is_global', \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE);
+        $this->_model->setOrigData('used_in_product_listing', 1);
+        $this->_model->setIsGlobal(\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL);
+        $this->_model->save();
+
+    }
+
     public function testIndexerAfterDeleteAttribute()
     {
         $this->_processor->expects($this->once())->method('markIndexerAsInvalid');
