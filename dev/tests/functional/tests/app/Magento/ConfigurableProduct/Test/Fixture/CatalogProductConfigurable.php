@@ -448,8 +448,9 @@ class CatalogProductConfigurable extends InjectableFixture
         'attribute_code' => 'status',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '',
-        'input' => 'select',
+        'default_value' => 'Product online',
+        'input' => 'checkbox',
+        'group' => 'product-details',
     ];
 
     protected $tax_class_id = [
