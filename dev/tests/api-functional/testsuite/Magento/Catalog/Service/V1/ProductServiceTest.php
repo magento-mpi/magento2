@@ -73,12 +73,11 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
-     * @depends testCreate
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testDelete()
     {
-        $productData = $this->createProduct($this->getSimpleProductData());
-        $response = $this->deleteProduct($productData[Product::SKU]);
+        $response = $this->deleteProduct('simple');
         $this->assertTrue($response);
     }
 
