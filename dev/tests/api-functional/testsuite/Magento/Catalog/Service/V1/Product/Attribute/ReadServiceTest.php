@@ -7,15 +7,15 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
  * Class ReadServiceTest
+ *
  * @package Magento\Catalog\Service\V1\Product\Attribute
  */
 class ReadServiceTest extends WebapiAbstract
@@ -142,8 +142,18 @@ class ReadServiceTest extends WebapiAbstract
             unset($attribute['id']);
         }
         $this->assertEquals(
-            array_map(function($i) { return $i['code'];}, $expectedAttributes),
-            array_map(function($i) { return $i['attribute_code'];}, $searchResults['items'])
+            array_map(
+                function ($i) {
+                    return $i['code'];
+                },
+                $expectedAttributes
+            ),
+            array_map(
+                function ($i) {
+                    return $i['attribute_code'];
+                },
+                $searchResults['items']
+            )
         );
     }
 
