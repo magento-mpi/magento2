@@ -30,7 +30,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $itemCollectionMock;
 
-    /** @var \Magento\CatalogInventory\Service\V1\StockItem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemMock;
 
     protected function setUp()
@@ -67,7 +67,13 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->itemCollectionMock));
 
-        $this->stockItemMock = $this->getMock('Magento\CatalogInventory\Service\V1\StockItem', [], [], '', false);
+        $this->stockItemMock = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            [],
+            [],
+            '',
+            false
+        );
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->wishlist = $this->objectManagerHelper->getObject(
