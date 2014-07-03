@@ -8,10 +8,10 @@
 
 namespace Magento\UrlRewrite\Test\Constraint;
 
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertUrlRewriteCustomSearchRedirect
@@ -29,15 +29,15 @@ class AssertUrlRewriteCustomSearchRedirect extends AbstractConstraint
     /**
      * Assert that product was found on search page
      *
-     * @param UrlRewrite $urlRewrite
      * @param UrlRewrite $initialRewrite
+     * @param UrlRewrite $urlRewrite
      * @param Browser $browser
      * @param CatalogCategoryView $categoryView
      * @return void
      */
     public function processAssert(
-        UrlRewrite $urlRewrite,
         UrlRewrite $initialRewrite,
+        UrlRewrite $urlRewrite,
         Browser $browser,
         CatalogCategoryView $categoryView
     ) {

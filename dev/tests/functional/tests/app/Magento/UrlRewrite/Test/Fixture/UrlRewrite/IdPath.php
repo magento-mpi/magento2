@@ -25,7 +25,7 @@ class IdPath implements FixtureInterface
     protected $data;
 
     /**
-     * Return category
+     * Return entity
      *
      * @var FixtureInterface
      */
@@ -41,7 +41,7 @@ class IdPath implements FixtureInterface
     /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
-     * @param array $data
+     * @param array $data [optional]
      */
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
