@@ -27,6 +27,13 @@ class CmsForm extends ParentForm
     protected $toggleButton = "#toggleblock_content";
 
     /**
+     * CMS Block Content area
+     *
+     * @var string
+     */
+    protected $contentForm = "#block_content";
+
+    /**
      * Fill the page form
      *
      * @param FixtureInterface $fixture
@@ -35,19 +42,20 @@ class CmsForm extends ParentForm
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $this->toggleEditor();
+        $this->showEditor();
         return parent::fill($fixture);
     }
 
     /**
-     * Block content Show/Hide Editor toggle button
+     * Block Content Show/Hide Editor toggle button
      *
      * @return void
      */
-    protected function toggleEditor()
+    protected function showEditor()
     {
-        $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
-        if ($toggleButton->isVisible()) {
+        $content = $this->_rootElement->find($this->contentForm);
+        $toggleButton = $this->_rootElement->find($this->toggleButton);
+        if (!$content->isVisible() && $toggleButton->isVisible()) {
             $toggleButton->click();
         }
     }

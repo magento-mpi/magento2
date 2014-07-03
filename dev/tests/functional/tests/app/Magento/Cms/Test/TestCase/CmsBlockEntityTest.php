@@ -59,13 +59,6 @@ abstract class CmsBlockEntityTest extends Injectable
     protected $storeDelete;
 
     /**
-     * Fixture Store
-     *
-     * @var Store
-     */
-    protected $store;
-
-    /**
      * Store Name
      *
      * @var string

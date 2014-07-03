@@ -38,10 +38,10 @@ class CmsGrid extends GridInterface
             'input' => 'select',
         ],
         'creation_time_from' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-datetime-filter-creation-time-from"]',
+            'selector' => '[name="creation_time[from]"]',
         ],
         'update_time_from' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-datetime-1-filter-update-time-from"]',
+            'selector' => '[name="update_time[from]"]',
         ],
     ];
 }
