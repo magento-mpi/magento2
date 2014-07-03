@@ -20,6 +20,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        require_once __DIR__ . '/../_files/gmdate_mock.php';
         $this->date = new \Magento\Framework\Stdlib\DateTime\Date(1403832149);
 
         $this->localeDate = $this->getMock(
@@ -73,16 +74,20 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1403857349, $this->dateTime->gmtTimestamp($time));
         $this->assertSame(1403857349, $this->dateTime->gmtTimestamp("10 September 2000"));
         $this->assertSame(false, $this->dateTime->gmtTimestamp("la-la-la"));
+        $this->assertSame(1404377188, $this->dateTime->gmtTimestamp());
     }
 
     public function testTimestamp()
     {
         $time = time();
-        $this->localeDate->expects($this->at(0))->method('date')->with($time)
+        $this->localeDate->expects($this->at(0))->method('date')->with(1404377188)
             ->will($this->returnValue($this->date));
-        $this->localeDate->expects($this->at(1))->method('date')->with(strtotime("10 September 2000"))
+        $this->localeDate->expects($this->at(1))->method('date')->with($time)
+            ->will($this->returnValue($this->date));
+        $this->localeDate->expects($this->at(2))->method('date')->with(strtotime("10 September 2000"))
             ->will($this->returnValue($this->date));
 
+        $this->assertSame(1403806949, $this->dateTime->timestamp());
         $this->assertSame(1403806949, $this->dateTime->timestamp($time));
         $this->assertSame(1403806949, $this->dateTime->timestamp("10 September 2000"));
     }

@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Sales\Order\Items;
 
-use \Magento\Catalog\Model\Product\Type\AbstractType;
+use Magento\Catalog\Model\Product\Type\AbstractType;
 
 /**
  * Adminhtml sales order item renderer
@@ -36,7 +36,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
      * Getting all available children for Invoice, Shipment or CreditMemo item
      *
      * @param \Magento\Framework\Object $item
-     * @return array
+     * @return array|null
      */
     public function getChilds($item)
     {

@@ -11,6 +11,7 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Sales\Model\Order\Item|\PHPUnit_Framework_MockObject_MockObject */
     protected $orderItem;
+
     /** @var \Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment $model */
     protected $model;
 

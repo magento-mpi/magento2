@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Helper;
+namespace Magento\Bundle\Helper\Data;
 
 /**
  * Bundle helper
@@ -14,11 +14,6 @@ namespace Magento\Bundle\Helper;
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    /**
-     * 'bundle' product type
-     */
-    const PRODUCT_TYPE_BUNDLE = 'bundle';
-
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
@@ -43,7 +38,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAllowedSelectionTypes()
     {
-        $configData = $this->config->getType(self::PRODUCT_TYPE_BUNDLE);
+        $configData = $this->config->getType(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
 
         return isset($configData['allowed_selection_types']) ? $configData['allowed_selection_types'] : [];
     }

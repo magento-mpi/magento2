@@ -7,8 +7,6 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute\Source;
 
-use Magento\Framework\DB\Ddl\Table;
-
 class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
@@ -103,7 +101,7 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
                 'unsigned' => false,
                 'default' => null,
                 'extra' => null,
-                'type' => Table::TYPE_SMALLINT,
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
                 'length' => 1,
                 'nullable' => true,
                 'comment' => $attributeCode . ' column',

@@ -11,6 +11,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Sales\Model\Order\Item|\PHPUnit_Framework_MockObject_MockObject */
     protected $orderItem;
+
     /** @var \Magento\Bundle\Block\Sales\Order\Items\Renderer $model */
     protected $model;
 

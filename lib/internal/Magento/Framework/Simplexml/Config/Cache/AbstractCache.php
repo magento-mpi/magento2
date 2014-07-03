@@ -13,8 +13,6 @@ namespace Magento\Framework\Simplexml\Config\Cache;
  * @method void setComponents(array $components)
  * @method void setIsAllowedToSave(bool $isAllowedToSave)
  * @method array getComponents()
- * @method bool load()
- * @method bool save()
  */
 abstract class AbstractCache extends \Magento\Framework\Object
 {
@@ -82,4 +80,14 @@ abstract class AbstractCache extends \Magento\Framework\Object
         $hash = md5($sum);
         return $hash;
     }
+
+    /**
+     * @return bool
+     */
+    abstract public function load();
+
+    /**
+     * @return bool
+     */
+    abstract public function save();
 }
