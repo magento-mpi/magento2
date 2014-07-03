@@ -54,20 +54,23 @@ class DeleteProductEntityTest extends Injectable
     /**
      * Run delete product test
      *
-     * @param string $product
+     * @param string $products
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function test($product, FixtureFactory $fixtureFactory)
+    public function test($products, FixtureFactory $fixtureFactory)
     {
         //Steps
-        list($fixture, $dataSet) = explode('::', $product);
-        $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-        $product->persist();
-
+        $products = explode(',', $products);
+        $deleteProducts = [];
+        foreach ($products as &$product) {
+            list($fixture, $dataSet) = explode('::', $product);
+            $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            $product->persist();
+            $deleteProducts[] = ['sku' => $product->getSku()];
+        }
         $this->catalogProductIndex->open();
-        $this->catalogProductIndex->getProductGrid()->delete([['sku' => $product->getSku()]]);
-
-        return ['product' => $product];
+        $this->catalogProductIndex->getProductGrid()->delete($deleteProducts);
+        return ['product' => $products];
     }
 }

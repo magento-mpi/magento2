@@ -27,18 +27,21 @@ class AssertProductNotInGrid extends AbstractConstraint
     /**
      * Assert that product cannot be found by name and sku.
      *
-     * @param FixtureInterface $product
+     * @param FixtureInterface , array $product
      * @param CatalogProductIndex $productGrid
      * @return void
      */
-    public function processAssert(FixtureInterface $product, CatalogProductIndex $productGrid)
+    public function processAssert($product, CatalogProductIndex $productGrid)
     {
-        $filter = ['sku' => $product->getSku(), 'name' => $product->getName()];
-        $productGrid->open();
-        \PHPUnit_Framework_Assert::assertFalse(
-            $productGrid->getProductGrid()->isRowVisible($filter),
-            'Product with sku "' . $filter['sku'] . '" and name "' . $filter['name'] . '" is attend in Products grid.'
-        );
+        $products = is_array($product) ? $product : [$product];
+        foreach ($products as $product) {
+            $filter = ['sku' => $product->getSku(), 'name' => $product->getName()];
+            $productGrid->open();
+            \PHPUnit_Framework_Assert::assertFalse(
+                $productGrid->getProductGrid()->isRowVisible($filter),
+                'Product with sku "' . $filter['sku'] . '" and name "' . $filter['name'] . '" is attend in Products grid.'
+            );
+        }
     }
 
     /**

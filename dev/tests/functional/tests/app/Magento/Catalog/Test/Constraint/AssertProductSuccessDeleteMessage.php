@@ -19,7 +19,7 @@ class AssertProductSuccessDeleteMessage extends AbstractConstraint
     /**
      * Text value to be checked
      */
-    const SUCCESS_DELETE_MESSAGE = 'A total of 1 record(s) have been deleted.';
+    const SUCCESS_DELETE_MESSAGE = 'A total of %d record(s) have been deleted.';
 
     /**
      * Constraint severeness
@@ -31,17 +31,20 @@ class AssertProductSuccessDeleteMessage extends AbstractConstraint
     /**
      * Assert that after deleting product success message.
      *
+     * @param FixtureInterface , array $product
      * @param CatalogProductIndex $productPage
      * @return void
      */
-    public function processAssert(CatalogProductIndex $productPage)
+    public function processAssert($product, CatalogProductIndex $productPage)
     {
+        $products = is_array($product) ? $product : [$product];
+        $deleteMessage = sprintf(self::SUCCESS_DELETE_MESSAGE, count($products));
         $actualMessage = $productPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_DELETE_MESSAGE,
+            $deleteMessage,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
+            . "\nExpected: " . $deleteMessage
             . "\nActual: " . $actualMessage
         );
     }

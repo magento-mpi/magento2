@@ -1,4 +1,4 @@
-"product";"isRequired";"constraint"
+"products";"isRequired";"constraint"
 "catalogProductSimple::default";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
 "catalogProductVirtual::default";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
 "catalogProductConfigurable::default";"Yes";"assertProductSuccessDeleteMessage, assertProductNotInGrid, assertProductIsNotDisplayingOnFrontend"
