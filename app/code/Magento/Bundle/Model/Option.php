@@ -11,13 +11,14 @@ namespace Magento\Bundle\Model;
  * Bundle Option Model
  *
  * @method int getParentId()
- * @method \Magento\Bundle\Model\Option setParentId(int $value)
- * @method int getRequired()
- * @method \Magento\Bundle\Model\Option setRequired(int $value)
  * @method int getPosition()
- * @method \Magento\Bundle\Model\Option setPosition(int $value)
+ * @method int getRequired()
+ * @method null|\Magento\Catalog\Model\Product[] getSelections()
  * @method string getType()
- * @method \Magento\Bundle\Model\Option setType(string $value)
+ * @method Option setParentId(int $value)
+ * @method Option setPosition(int $value)
+ * @method Option setRequired(int $value)
+ * @method Option setType(string $value)
  */
 class Option extends \Magento\Framework\Model\AbstractModel
 {
@@ -43,6 +44,7 @@ class Option extends \Magento\Framework\Model\AbstractModel
      * Add selection to option
      *
      * @param \Magento\Catalog\Model\Product $selection
+     * @return void
      */
     public function addSelection(\Magento\Catalog\Model\Product $selection)
     {
