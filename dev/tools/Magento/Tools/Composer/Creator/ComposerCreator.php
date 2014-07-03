@@ -51,11 +51,11 @@ class ComposerCreator
         $counter = 0;
         foreach ($components as $component) {
             /** @var Package $component */
-            $command = 'cd ' . $this->_rootDir . $component->getLocation() . ' && php ' .
-                __DIR__ . '/../composer.phar init '.
+            $command = 'cd ' . $this->_rootDir . $component->getLocation() . ' && composer init '.
                 '--name "' . strtolower($component->getName()) .
                 '" --description="N/A" ' .
                 '-n';
+
             //Command to include package installer.
             $dependencies = $component->getDependencies();
 
@@ -66,10 +66,13 @@ class ComposerCreator
             $command .= ' --require="magento/framework:0.1.0"';
             $output = array();
             exec($command, $output);
-            if (sizeof($output) > 0) {
+            if (sizeof($output) > sizeof(preg_grep("/Warning/", $output))){
                 //Failed
                 $this->_logger->err(implode(". ", $output));
             } else {
+                if (sizeof($output) > 0 && preg_grep("/Warning/", $output)) {
+                    $this->_logger->warn(implode(". ", $output));
+                }
                 //Success
                 $this->addAdditionalInfo($component);
                 $counter++;
