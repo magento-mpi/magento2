@@ -9,7 +9,6 @@ namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -27,6 +26,7 @@ class WriteServiceTest extends WebapiAbstract
     const RESOURCE_PATH = '/V1/products/attributes';
 
     /**
+     * @magentoApiDataFixture Magento/Catalog/Model/Product/Attribute/_files/create_attribute_service.php
      * @dataProvider createDataProvider
      */
     public function testCreate($data)
@@ -34,11 +34,6 @@ class WriteServiceTest extends WebapiAbstract
         $attribute = $this->createAttribute($data);
         $expected = $data['attribute_code'] ? $data['attribute_code'] : $data['frontend_label'][0]['label'];
         $this->assertEquals($expected, $attribute);
-
-        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
-        $attribute = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Resource\Eav\Attribute');
-        $attribute->loadByCode(4, $expected);
-        $this->setFixture('testCreate.remove.product.attribute', $attribute);
     }
 
     /**
@@ -154,7 +149,16 @@ class WriteServiceTest extends WebapiAbstract
             return array_replace_recursive($this->getAttributeData(), $data);
         };
         return [
-            [$builder([AttributeMetadata::ATTRIBUTE_CODE => ''])],
+            [
+                $builder(
+                    [
+                        AttributeMetadata::ATTRIBUTE_CODE => '',
+                        AttributeMetadata::FRONTEND_LABEL => [
+                            ['store_id' => 0, 'label' => 'label_attr_code3df4tr3']
+                        ]
+                    ]
+                )
+            ],
             [$builder([AttributeMetadata::FRONTEND_INPUT => 'boolean', AttributeMetadata::DEFAULT_VALUE => true])],
         ];
     }
@@ -176,7 +180,7 @@ class WriteServiceTest extends WebapiAbstract
     protected function getAttributeData()
     {
         return array(
-            AttributeMetadata::ATTRIBUTE_CODE => uniqid('code_'),
+            AttributeMetadata::ATTRIBUTE_CODE => 'test_attribute_code_l',
             AttributeMetadata::FRONTEND_LABEL => [
                 ['store_id' => 0, 'label' => uniqid('label_default_')]
             ],
