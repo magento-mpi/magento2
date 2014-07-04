@@ -269,17 +269,22 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
         $payment = $this->_order->getPayment();
         $payment->setTransactionId(
             $this->getRequestData('txn_id')
-        )->setCurrencyCode(
+        );
+        $payment->setCurrencyCode(
             $this->getRequestData('mc_currency')
-        )->setPreparedMessage(
+        );
+        $payment->setPreparedMessage(
             $this->_createIpnComment('')
-        )->setParentTransactionId(
+        );
+        $payment->setParentTransactionId(
             $this->getRequestData('parent_txn_id')
-        )->setShouldCloseParentTransaction(
+        );
+        $payment->setShouldCloseParentTransaction(
             'Completed' === $this->getRequestData('auth_status')
-        )->setIsTransactionClosed(
+        );$payment->setIsTransactionClosed(
             0
-        )->registerCaptureNotification(
+        );
+        $payment->registerCaptureNotification(
             $this->getRequestData('mc_gross')
         );
         $this->_order->save();
@@ -344,7 +349,9 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
             throw new Exception('The "order" authorizations are not implemented.');
         }
         // case when was placed using PayPal standard
-        if (\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT == $this->_order->getState()) {
+        if (\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT == $this->_order->getState()
+            && !$this->getRequestData('transaction_entity')
+        ) {
             $this->_registerPaymentCapture();
             return;
         }

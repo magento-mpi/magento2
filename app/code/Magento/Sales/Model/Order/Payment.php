@@ -1073,9 +1073,16 @@ class Payment extends \Magento\Payment\Model\Info
         }
 
         // process payment in case of positive or negative result, or add a comment
-        if (-1 === $result) {
-            // switch won't work with such $result!
-            $order->addStatusHistoryComment($message);
+        if (-1 === $result) { // switch won't work with such $result!
+            if ($order->getState() != \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW) {
+                $status = $this->getIsFraudDetected() ? \Magento\Sales\Model\Order::STATUS_FRAUD : false;
+                $order->setState(\Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW, $status, $message);
+                if ($transactionId) {
+                    $this->setLastTransId($transactionId);
+                }
+            } else {
+                $order->addStatusHistoryComment($message);
+            }
         } elseif (true === $result) {
             if ($invoice) {
                 $invoice->pay();
