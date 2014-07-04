@@ -176,9 +176,10 @@ class Matrix extends \Magento\Backend\Block\Template
             $productData = (array)$this->getRequest()->getParam('product');
             if (isset($productData['configurable_attributes_data'])) {
                 $configurableData = $productData['configurable_attributes_data'];
-                foreach ($attributes as $key => &$attribute) {
+                foreach ($attributes as $key => $attribute) {
                     if (isset($configurableData[$key])) {
-                        $attribute['values'] = array_merge(
+                        $attributes[$key] = array_replace_recursive($attribute, $configurableData[$key]);
+                        $attributes[$key]['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
                             isset(
                                 $configurableData[$key]['values']
