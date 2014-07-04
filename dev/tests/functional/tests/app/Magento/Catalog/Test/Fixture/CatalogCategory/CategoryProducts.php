@@ -19,6 +19,13 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 class CategoryProducts implements FixtureInterface
 {
     /**
+     * Prepared dataSet data
+     *
+     * @var array|null
+     */
+    protected $data;
+
+    /**
      * Return products
      *
      * @var array
@@ -41,9 +48,7 @@ class CategoryProducts implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
     {
         $this->params = $params;
-        if ($data['dataSet'] == '-') {
-            return;
-        } else if ($data['dataSet']) {
+        if (!empty($data['dataSet']) && $data['dataSet'] !== '-') {
             $dataSet = explode(',', $data['dataSet']);
             foreach ($dataSet as $value) {
                 $explodeValue = explode('::', $value);
@@ -54,8 +59,6 @@ class CategoryProducts implements FixtureInterface
                 $this->data[] = $product->getName();
                 $this->products[] = $product;
             }
-        } else {
-            $this->data = $data;
         }
     }
 
@@ -73,7 +76,7 @@ class CategoryProducts implements FixtureInterface
      * Return prepared data set
      *
      * @param string|null $key
-     * @return array
+     * @return array|null
      */
     public function getData($key = null)
     {
