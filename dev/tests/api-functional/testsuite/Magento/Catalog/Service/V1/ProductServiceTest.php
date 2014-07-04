@@ -62,24 +62,19 @@ class ProductServiceTest extends WebapiAbstract
             );
         };
         return [
-            [$productBuilder([Product::TYPE_ID => 'simple'])],
-            [$productBuilder([Product::TYPE_ID => 'virtual'])],
+            [$productBuilder([Product::TYPE_ID => 'simple', Product::SKU => 'psku-test-1'])],
+            [$productBuilder([Product::TYPE_ID => 'virtual', Product::SKU => 'psku-test-2'])],
         ];
     }
 
     /**
+     * @magentoApiDataFixture Magento/Catalog/Model/Category/_files/service_category_create.php
      * @dataProvider productCreationProvider
      */
     public function testCreate($product)
     {
         $response = $this->createProduct($product);
         $this->assertArrayHasKey(Product::SKU, $response);
-
-        /** @var \Magento\Catalog\Model\Product $productModel */
-        $productModel = Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Product');
-        $productModel->setId($productModel->getIdBySku($response[Product::SKU]));
-
-        self::setFixture('testCreate.remove.product', $productModel);
     }
 
     /**
