@@ -94,7 +94,7 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
         $products = is_array($product) ? $product : [$product];
         $errors = [];
         foreach ($products as $product) {
-            $errors[] = $this->isNotDisplayingOnFrontendAssert($product);
+            $errors = array_merge($errors, $this->isNotDisplayingOnFrontendAssert($product));
         }
         \PHPUnit_Framework_Assert::assertTrue(
             empty($errors),
