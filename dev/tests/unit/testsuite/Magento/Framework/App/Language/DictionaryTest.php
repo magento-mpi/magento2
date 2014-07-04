@@ -137,4 +137,62 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
         $file->expects($this->at($i))->method('readCsv')->will($this->returnValue(false));
         return $file;
     }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testCircularDependency()
+    {
+        $dir = [
+            'Vendor1/uk_UA/language.xml',
+            'Vendor2/uk_UB/language.xml',
+            'Vendor3/uk_UC/language.xml',
+        ];
+        $xmlMap = [
+            [
+                $dir[0],
+                null,
+                null,
+                '<?xml version="1.0"?>
+                <language>
+                    <code>uk_UA</code>
+                    <vendor>Vendor1</vendor>
+                    <use vendor="Vendor2" code="uk_UB"/>
+                    <use vendor="Vendor3" code="uk_UC"/>
+                </language>'
+            ],
+            [
+                $dir[1],
+                null,
+                null,
+                '<?xml version="1.0"?>
+                <language>
+                    <code>uk_UB</code>
+                    <vendor>Vendor2</vendor>
+                    <use vendor="Vendor3" code="uk_UC"/>
+                </language>'
+            ],
+            [
+                $dir[2],
+                null,
+                null,
+                '<?xml version="1.0"?>
+                <language>
+                    <code>uk_UC</code>
+                    <vendor>Vendor3</vendor>
+                    <use vendor="Vendor1" code="uk_UA"/>
+                </language>'
+            ],
+        ];
+        $csvMap = [
+            ['Vendor1/uk_UA/*.csv', null, ['Vendor1/uk_UA/1.csv']],
+            ['Vendor2/uk_UB/*.csv', null, ['Vendor2/uk_UB/2.csv']],
+            ['Vendor3/uk_UC/*.csv', null, ['Vendor3/uk_UC/3.csv']],
+        ];
+        $this->dir->expects($this->any())->method('search')->will($this->returnValueMap(
+            array_merge([['*/*/language.xml', null, $dir]], $csvMap)
+        ));
+        $this->dir->expects($this->any())->method('readFile')->will($this->returnValueMap($xmlMap));
+        $this->model->getDictionary('uk_UA');
+    }
 }

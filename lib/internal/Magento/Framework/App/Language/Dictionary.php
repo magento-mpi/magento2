@@ -173,19 +173,31 @@ class Dictionary
      * @param string $code
      * @param array $result
      * @param int $level
-     * @return void
+     * @param array $pathway
+     *
+     * @throws \LogicException
      */
-    private function collectInheritedPacks($code, array &$result, $level = 0)
+    private function collectInheritedPacks($code, array &$result, $level = 0, &$pathway = [])
     {
         if (isset($this->packs[$code])) {
             foreach ($this->packs[$code] as $vendor => $info) {
+                $languageKey = "{$code}|{$vendor}";
+
+                if (in_array($languageKey, $pathway)) {
+                    throw new \LogicException(
+                        sprintf('Circular dependency detected between "%s" and "%s"', $languageKey, array_pop($pathway))
+                    );
+                }
+
+                array_push($pathway, $languageKey);
                 $info['inheritance_level'] = $level;
                 $result["{$code}|{$vendor}"] = $info;
                 if (isset($info['use'])) {
                     foreach ($info['use'] as $reuse) {
-                        $this->collectInheritedPacks($reuse['code'], $result, $level + 1);
+                        $this->collectInheritedPacks($reuse['code'], $result, $level + 1, $pathway);
                     }
                 }
+                array_pop($pathway);
             }
         }
     }
