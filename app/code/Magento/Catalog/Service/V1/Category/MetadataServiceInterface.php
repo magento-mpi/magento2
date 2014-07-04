@@ -28,7 +28,7 @@ interface MetadataServiceInterface
      * @param int $attributeSetId
      * @return AttributeMetadata[]
      */
-    public function getCustomAttributesMetadata($attributeSetId);
+    public function getCustomAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID);
 
     /**
      * Retrieve EAV attribute metadata of category
