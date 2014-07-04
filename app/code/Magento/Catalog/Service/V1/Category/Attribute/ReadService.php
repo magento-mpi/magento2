@@ -12,7 +12,6 @@ use Magento\Catalog\Service\V1\Product\MetadataServiceInterface;
 
 /**
  * Class ReadService
- *
  */
 class ReadService implements ReadServiceInterface
 {
@@ -23,7 +22,6 @@ class ReadService implements ReadServiceInterface
 
     /**
      * @param \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService
-
      */
     public function __construct(
         \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService

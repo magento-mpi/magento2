@@ -138,6 +138,7 @@ class WriteService implements WriteServiceInterface
      * Validate category process
      *
      * @param  Category $category
+     * @return void
      * @throws \Magento\Framework\Model\Exception
      */
     protected function validateCategory(Category $category)
@@ -166,7 +167,7 @@ class WriteService implements WriteServiceInterface
     /**
      * Load category
      *
-     * @param $id
+     * @param int $id
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return \Magento\Catalog\Model\Category
      */

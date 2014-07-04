@@ -21,8 +21,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testToModel()
     {
-        $path = '1/2/3';
-
         $categoryFactory = $this->getMock('Magento\Catalog\Model\CategoryFactory', ['create'], [], '', false);
         $categoryMapper = $this->objectManagerHelper->getObject('Magento\Catalog\Service\V1\Data\Category\Mapper',
             [
