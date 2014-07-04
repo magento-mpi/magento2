@@ -325,4 +325,16 @@
             <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
         </require>
     </assertAbsenceDeleteAttributeButton>
+    <assertProductCompareItemsLink module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareItemsLink>
+    <assertProductComparePage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductComparePage>
+    <assertProductCompareOnCMSPage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareOnCMSPage>
+    <assertProductCompareSuccessAddedMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductCompareSuccessAddedMessage>
 </constraint>

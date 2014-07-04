@@ -122,7 +122,10 @@ class Price implements FixtureInterface
                 'product_price' => '100.00',
                 'product_special_price' => '90.00',
                 'cart_price' => '90.00'
-            ]
+            ],
+            'one_product_simple' => ['100.00'],
+            'all_products' => ['100.00', '10.00', '120.00', '280.00', '560.00', '120.00', '560.00', '755.00'],
+            'one_product_configurable' => ['120.00'],
         ];
         if (!isset($presets[$this->currentPreset])) {
             return null;
