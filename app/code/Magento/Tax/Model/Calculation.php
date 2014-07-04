@@ -441,13 +441,14 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      * Return the default rate request. It can be either based on store address or customer address
      *
      * @param null|int|string|Store $store
+     * @param CustomerDataObject $customer
      * @return \Magento\Framework\Object
      */
-    public function getDefaultRateRequest($store = null)
+    public function getDefaultRateRequest($store = null, $customer = null)
     {
         if ($this->_isCrossBorderTradeEnabled($store)) {
             //If cross border trade is enabled, we will use customer tax rate as store tax rate
-            return $this->getRateRequest(null, null, null, $store);
+            return $this->getRateRequest(null, null, null, $store, $customer);
         } else {
             return $this->getRateOriginRequest($store);
         }
@@ -474,23 +475,25 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      *  customer_class_id (->getCustomerClassId())
      *  store (->getStore())
      *
-     * @param   null|bool|\Magento\Framework\Object|\Magento\Customer\Service\V1\Data\Address $shippingAddress
-     * @param   null|bool|\Magento\Framework\Object|\Magento\Customer\Service\V1\Data\Address $billingAddress
-     * @param   null|int $customerTaxClass
-     * @param   null|int|\Magento\Store\Model\Store $store
+     * @param null|bool|\Magento\Framework\Object|\Magento\Customer\Service\V1\Data\Address $shippingAddress
+     * @param null|bool|\Magento\Framework\Object|\Magento\Customer\Service\V1\Data\Address $billingAddress
+     * @param null|int $customerTaxClass
+     * @param null|int|\Magento\Store\Model\Store $store
+     * @param CustomerDataObject $customerData
      * @return  \Magento\Framework\Object
      */
     public function getRateRequest(
         $shippingAddress = null,
         $billingAddress = null,
         $customerTaxClass = null,
-        $store = null
+        $store = null,
+        $customerData = null
     ) {
         if ($shippingAddress === false && $billingAddress === false && $customerTaxClass === false) {
             return $this->getRateOriginRequest($store);
         }
         $address = new \Magento\Framework\Object();
-        $customerData = $this->getCustomerData();
+        $customerData = $customerData ? $customerData : $this->getCustomerData();
         $basedOn = $this->_scopeConfig->getValue(
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
