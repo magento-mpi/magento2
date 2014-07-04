@@ -18,8 +18,8 @@
     <?php foreach ($filterItems as $filterItem): ?>
         <li class="item">
             <?php if ($filterItem->getCount() > 0): ?>
-                <a href="<?php echo $this->escapeUrl($filterItem->getUrl()) ?>"><?php echo $this->escapeHtml($filterItem->getLabel()); ?></a>
-            <?php else: echo $this->stripTags($filterItem->getLabel()); ?>
+                <a href="<?php echo $this->escapeUrl($filterItem->getUrl()) ?>"><?php echo $filterItem->getLabel() ?></a>
+            <?php else: echo $filterItem->getLabel() ?>
             <?php endif; ?>
             <?php if ($this->helper('\Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>
                 <span class="count"><?php echo $filterItem->getCount() ?></span>
