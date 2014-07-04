@@ -64,7 +64,7 @@
         <var name="product_page_main_image:height">700</var>
 
         <var name="product_page_main_image_default:type">image</var>
-        <var name="product_page_main_image_default:width">560</var>90*1
+        <var name="product_page_main_image_default:width">560</var>
         <var name="product_page_main_image_default:ratio">0.8</var>
         <var name="product_page_main_image_default:height">700</var>
 
