@@ -164,6 +164,7 @@ class RmaTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Response\Http',
             [
                 'setBody',
+                'representJson',
                 'setRedirect',
                 '__wakeup'
             ],
@@ -441,8 +442,8 @@ class RmaTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($commentText));
 
         $this->responseMock->expects($this->once())
-            ->method('setBody')
-            ->with($commentText, null);
+            ->method('representJson')
+            ->with($commentText);
 
         $this->assertNull($this->controller->addCommentAction());
     }
