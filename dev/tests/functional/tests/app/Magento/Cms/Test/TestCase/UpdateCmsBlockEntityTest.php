@@ -32,7 +32,7 @@ use Magento\Cms\Test\Fixture\CmsBlock;
 class UpdateCmsBlockEntityTest extends CmsBlockEntityTest
 {
     /**
-     * Update CMS Block
+     * Run Update CMS Block test
      *
      * @param CmsBlock $initialCmsBlock
      * @param CmsBlock $cmsBlock
@@ -42,14 +42,14 @@ class UpdateCmsBlockEntityTest extends CmsBlockEntityTest
     {
         // Precondition
         $initialCmsBlock->persist();
-        $filter = [
-            'identifier' => $initialCmsBlock->getIdentifier(),
-        ];
 
         // Prepare data for tearDownAfterClass
         self::$storeName = $cmsBlock->getStoreId();
 
         // Steps
+        $filter = [
+            'identifier' => $initialCmsBlock->getIdentifier(),
+        ];
         $this->cmsBlockIndex->open();
 
         /**
