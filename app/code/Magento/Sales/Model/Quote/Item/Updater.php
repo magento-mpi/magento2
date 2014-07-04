@@ -73,7 +73,9 @@ class Updater
         }
         $itemQty = $itemQty > 0 ? $itemQty : 1;
         if (isset($info['custom_price'])) {
-            $this->prepareCustomPrice($info, $item);
+            $this->setCustomPrice($info, $item);
+        } elseif ($item->hasData('custom_price')) {
+            $this->unsetCustomPrice($item);
         }
 
         if (empty($info['action']) || !empty($info['configured'])) {
@@ -95,9 +97,10 @@ class Updater
      * @param Item $item
      * @return array
      */
-    protected function prepareCustomPrice(array $info, Item $item)
+    protected function setCustomPrice(array $info, Item $item)
     {
         $itemPrice = $this->parseCustomPrice($info['custom_price']);
+        /** @var \Magento\Framework\Object $infoBuyRequest */
         $infoBuyRequest = $item->getBuyRequest();
         if ($infoBuyRequest) {
             $infoBuyRequest->setCustomPrice($itemPrice);
@@ -111,6 +114,28 @@ class Updater
 
         $item->setCustomPrice($itemPrice);
         $item->setOriginalCustomPrice($itemPrice);
+    }
+
+    /**
+     * Unset custom_price data for quote item
+     *
+     * @param Item $item
+     */
+    protected function unsetCustomPrice(Item $item)
+    {
+        /** @var \Magento\Framework\Object $infoBuyRequest */
+        $infoBuyRequest = $item->getBuyRequest();
+        if ($infoBuyRequest->hasData('custom_price')) {
+            $infoBuyRequest->unsetData('custom_price');
+
+            $infoBuyRequest->setValue(serialize($infoBuyRequest->getData()));
+            $infoBuyRequest->setCode('info_buyRequest');
+            $infoBuyRequest->setProduct($item->getProduct());
+            $item->addOption($infoBuyRequest);
+        }
+
+        $item->unsetData('custom_price');
+        $item->unsetData('original_custom_price');
     }
 
     /**

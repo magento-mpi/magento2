@@ -76,7 +76,11 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
                 'checkData',
                 '__wakeup',
                 'getBuyRequest',
-                'addOption'
+                'addOption',
+                'setCustomPrice',
+                'setOriginalCustomPrice',
+                'unsetData',
+                'hasData'
             ],
             [],
             '',
@@ -171,8 +175,6 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateQtyDecimal($qty, $expectedQty)
     {
-
-
         $this->itemMock->expects($this->any())
             ->method('setNoDiscount')
             ->will($this->returnValue(true));
@@ -285,10 +287,92 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $this->itemMock->expects($this->any())
             ->method('addOption')
             ->will($this->returnValue($buyRequestMock));
+        $this->itemMock->expects($this->any())
+            ->method('setQty')
+            ->with($this->equalTo($qty));
+
         $this->localeFormat->expects($this->any())
             ->method('getNumber')
             ->will($this->returnArgument(0));
 
         $this->object->update($this->itemMock, ['qty' => $qty, 'custom_price' => $customPrice]);
+    }
+
+    public function testUpdateUnsetCustomPrice()
+    {
+        $qty = 3;
+        $buyRequestMock = $this->getMock(
+            'Magento\Framework\Object',
+            [
+                'setCustomPrice',
+                'setValue',
+                'setCode',
+                'setProduct',
+                'getData',
+                'unsetData',
+                'hasData'
+            ],
+            [],
+            '',
+            false
+        );
+        $buyRequestMock->expects($this->never())->method('setCustomPrice');
+        $buyRequestMock->expects($this->once())->method('getData')->will($this->returnValue([]));
+        $buyRequestMock->expects($this->once())->method('unsetData')->with($this->equalTo('custom_price'));
+        $buyRequestMock->expects($this->once())
+            ->method('hasData')
+            ->with($this->equalTo('custom_price'))
+            ->will($this->returnValue(true));
+
+        $buyRequestMock->expects($this->any())
+            ->method('setValue')
+            ->with($this->equalTo(serialize([])));
+        $buyRequestMock->expects($this->any())
+            ->method('setCode')
+            ->with($this->equalTo('info_buyRequest'));
+
+        $buyRequestMock->expects($this->any())
+            ->method('setProduct')
+            ->with($this->equalTo($this->productMock));
+
+        $this->itemMock->expects($this->any())
+            ->method('setIsQtyDecimal')
+            ->with($this->equalTo(1));
+        $this->itemMock->expects($this->any())
+            ->method('getBuyRequest')
+            ->will($this->returnValue($buyRequestMock));
+
+        $this->stockItemMock->expects($this->any())
+            ->method('getIsQtyDecimal')
+            ->will($this->returnValue(true));
+
+
+        $this->productMock->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($this->stockItemMock));
+
+        $this->itemMock->expects($this->any())
+            ->method('getProduct')
+            ->will($this->returnValue($this->productMock));
+        $this->itemMock->expects($this->any())
+            ->method('addOption')
+            ->will($this->returnValue($buyRequestMock));
+
+        $this->itemMock->expects($this->exactly(2))
+            ->method('unsetData');
+
+        $this->itemMock->expects($this->once())
+            ->method('hasData')
+            ->with($this->equalTo('custom_price'))
+            ->will($this->returnValue(true));
+
+        $this->itemMock->expects($this->never())->method('setCustomPrice');
+        $this->itemMock->expects($this->never())->method('setOriginalCustomPrice');
+
+        $this->localeFormat->expects($this->any())
+            ->method('getNumber')
+            ->will($this->returnArgument(0));
+
+        $this->object->update($this->itemMock, ['qty' => $qty]);
     }
 }
