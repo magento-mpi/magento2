@@ -2686,5 +2686,7 @@ return array(
         'Magento\Catalog\Pricing\Price\BasePrice'
     ],
     ['\Magento\Bundle\Pricing\Price\BasePriceInterface'],
-    ['\Magento\Paypal\Block\PayflowExpress\Shortcut']
+    ['\Magento\Paypal\Block\PayflowExpress\Shortcut'],
+    ['Magento\Framework\System\Args'],
+    ['Magento\Framework\Autoload\Simple'],
 );
