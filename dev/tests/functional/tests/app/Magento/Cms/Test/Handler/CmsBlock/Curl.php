@@ -35,13 +35,19 @@ class Curl extends AbstractCurl implements CmsBlockInterface
      * @var array
      */
     protected $mappingData = [
-        'store_id' => [
-            'All Store Views' => 0,
-        ],
         'is_active' => [
             'Enabled' => 1,
             'Disabled' => 0,
         ],
+    ];
+
+    /**
+     * Mapping values for Store Views
+     *
+     * @var array
+     */
+    protected $storeIds = [
+        'All Store Views' => 0
     ];
 
     /**
@@ -80,6 +86,11 @@ class Curl extends AbstractCurl implements CmsBlockInterface
     {
         $data = $this->replaceMappingData($fixture->getData());
         if (isset($data['store_id'])) {
+            $storeIds = [];
+            foreach ($data['store_id'] as $storeId) {
+                $storeIds[] = isset($this->storeIds[$storeId]) ? $this->storeIds[$storeId] : $storeId;
+            }
+            $data['store_id'] = $storeIds;
             $data['stores'] = $data['store_id'];
         }
 
