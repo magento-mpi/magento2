@@ -1,5 +1,5 @@
 'use strict';
-var landing = angular.module('landing', ['$localStorage']);
+var landing = angular.module('landing', ['ngStorage']);
 landing.controller('landingController', [
         '$scope',
         '$location',
