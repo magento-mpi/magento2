@@ -1,3 +1,17 @@
+* Service layer updates:
+  * Implemented API for CatalogInventory module (MAGETWO-24954)
+  * Refactored external usages of CatalogInventory module to service (MAGETWO-24933, MAGETWO-24934)
+* Fixed bugs:
+  * Fixed: Add label for Uses per customer option (MAGETWO-24695)
+  * Fixed: Previously selected products in 'Add Product to Bundle Option' grid aren't checked if page has been changed (MAGETWO-10614)
+  * Fixed: Google Content not sending correct attribute 'description' (wisebadger) (MAGETWO-18321)
+  * Fixed: Custom Attribute not listed on layered navigation after import (MAGETWO-18333)
+  * Fixed: Category URL keys do not work correctly after saving (MAGETWO-19490)
+  * Fixed: User has no possibility to create Target rule with special Products to Display condition (MAGETWO-23654)
+  * Fixed: jQuery error on product page in admin when switching between product tabs (MAGETWO-24846)
+* GitHub requests:
+  * [#257]  JSON loading should follow OWASP reccomendation (MAGETWO-23729)
+
 2.0.0.0-dev84
 =============
 * Fixed bugs:
