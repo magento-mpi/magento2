@@ -177,6 +177,11 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $stockItemService;
 
     /**
+     * @var \Magento\Sales\Model\AdminOrder\EmailSender
+     */
+    protected $emailSender;
+
+    /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Registry $coreRegistry
@@ -194,6 +199,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater
+     * @param \Magento\Sales\Model\AdminOrder\EmailSender $emailSender
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      */
@@ -215,6 +222,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\Customer\Helper\Data $customerHelper,
         CustomerGroupServiceInterface $customerGroupService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
+        \Magento\Sales\Model\AdminOrder\EmailSender $emailSender,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
@@ -235,6 +244,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->_customerHelper = $customerHelper;
         $this->_customerGroupService = $customerGroupService;
         $this->_scopeConfig = $scopeConfig;
+        $this->quoteItemUpdater = $quoteItemUpdater;
+        $this->emailSender = $emailSender;
         $this->stockItemService = $stockItemService;
         parent::__construct($data);
     }
@@ -1787,7 +1798,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $order->save();
         }
         if ($this->getSendConfirmation()) {
-            $order->sendNewOrderEmail();
+            $this->emailSender->send($order);
         }
 
         $this->_eventManager->dispatch('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
