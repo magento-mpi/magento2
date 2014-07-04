@@ -46,8 +46,9 @@ class ReadServiceTest extends WebapiAbstract
     }
 
     /**
+     * @param string $attributeCode
      * @dataProvider infoDataProvider
-     * @param $attributeCode
+     * @magentoApiDataFixture Magento/Catalog/_files/product_attribute.php
      */
     public function testInfo($attributeCode)
     {
@@ -79,7 +80,7 @@ class ReadServiceTest extends WebapiAbstract
     public function infoDataProvider()
     {
         return [
-            ['price'],
+            ['test_attribute_code_333'],
             [95],
         ];
     }
