@@ -68,7 +68,7 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Catalog/Model/Category/_files/service_category_create.php
+     * @magentoApiDataFixture Magento/Catalog/Model/Product/_files/service_product_create.php
      * @dataProvider productCreationProvider
      */
     public function testCreate($product)
