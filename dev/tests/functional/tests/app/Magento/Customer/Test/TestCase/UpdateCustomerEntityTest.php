@@ -126,7 +126,10 @@ class UpdateCustomerEntityTest extends Injectable
         $this->customerAccountEdit->getAccountInfoForm()->fill($customerInit);
         $this->customerAccountEdit->getAccountInfoForm()->submit();
 
-        $assertCustomerInfoSuccessSavedMessage->configure($this, ['customerAccountIndex' => $this->customerAccountIndex]);
+        $assertCustomerInfoSuccessSavedMessage->configure(
+            $this,
+            ['customerAccountIndex' => $this->customerAccountIndex]
+        );
         \PHPUnit_Framework_Assert::assertThat($this->getName(), $assertCustomerInfoSuccessSavedMessage);
 
         $this->customerAccountIndex->getDashboardAddress()->editBillingAddress();
