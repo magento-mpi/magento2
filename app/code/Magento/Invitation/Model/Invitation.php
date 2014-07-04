@@ -250,7 +250,8 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
 
             if (!(int)$this->getStoreId()) {
                 throw new \Magento\Framework\Model\Exception(
-                    __('The wrong store is specified.'), self::ERROR_INVALID_DATA
+                    __('The wrong store is specified.'),
+                    self::ERROR_INVALID_DATA
                 );
             }
             $this->makeSureCustomerNotExists();
