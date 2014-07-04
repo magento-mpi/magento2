@@ -26,7 +26,7 @@ class AssertCustomerInfoSuccessSavedMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Asserts that success message equals to expected message.
+     * Asserts that success message equals to expected message
      *
      * @param CustomerAccountIndex $customerAccountIndex
      * @return void
@@ -44,7 +44,7 @@ class AssertCustomerInfoSuccessSavedMessage extends AbstractConstraint
     }
 
     /**
-     * Returns success message if equals to expected message.
+     * Returns success message if equals to expected message
      *
      * @return string
      */

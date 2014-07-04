@@ -54,7 +54,7 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
     }
 
     /**
-     * String representation of success assert.
+     * String representation of success assert
      *
      * @return string
      */
@@ -70,7 +70,7 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
      * @param array $address
      * @return array
      */
-    protected function verifyForm($pattern, $address)
+    protected function verifyForm(array $pattern, array $address)
     {
         $errorMessages = [];
         foreach ($pattern as $key => $value) {
