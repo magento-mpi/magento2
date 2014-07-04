@@ -9,7 +9,6 @@ Magento/Catalog/Model/Category/Indexer
 Magento/Catalog/Model/Product
 Magento/Core/Model/Resource/Design
 Zend
-downloader
 dev
 Mysql
 lib/internal/Magento/Framework/DB

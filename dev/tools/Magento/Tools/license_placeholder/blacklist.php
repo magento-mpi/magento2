@@ -39,7 +39,6 @@ return array(
     'dev/tools/PHP-Parser',
     'dev/tools/performance_toolkit/README.txt',
     'dev/tools/performance_toolkit/benchmark.jmx',
-    'downloader/js/prototype.js',
     'lib/internal/Apache',
     'lib/internal/PEAR',
     'lib/internal/phpseclib',

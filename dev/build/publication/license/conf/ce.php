@@ -30,7 +30,6 @@ $config = array(
     'app/etc'               => array('xml' => 'AFL'),
     'app/i18n'              => array('xml' => 'AFL'),
     'dev'                   => array_merge($magentoOslAfl, array('sql' => 'OSL', 'html' => 'AFL')),
-    'downloader'            => $magentoOslAfl,
     'lib/internal/flex'     => array('xml' => 'AFL', 'flex' => 'AFL'),
     'lib/internal/Magento'  => $magentoOslAfl,
     'lib/web'               => $magentoOslAfl,
