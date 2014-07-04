@@ -28,18 +28,28 @@
 //    Link as a button
 //--------------------------------------
 .action-link-button {
-  .button();
-  .link-as-button();
-  border-radius: @button-border-radius;
+    .button();
+    .link-as-button();
+    border-radius: @button-border-radius;
+    .css(box-shadow, @button-shadow);
+    &:active,
+    &:focus {
+        .css(box-shadow, @button-shadow-active);
+    }
 }
 
 //
 //   Button as a link
 //--------------------------------------
 .abstract-action-button-as-link {
-  .button-as-link();
-  border-radius: 0;
-  font-weight: @font-weight-base;
+    .button-as-link();
+    border-radius: 0;
+    font-weight: @font-weight-base;
+    .css(box-shadow, none);
+    &:active,
+    &:focus {
+        .css(box-shadow, none);
+    }
 }
 
 //
@@ -47,6 +57,11 @@
 //--------------------------------------
 .abstract-revert-secondary-color {
     .button-revert-secondary-color();
+    .css(box-shadow, @button-shadow);
+    &:active,
+    &:focus {
+        .css(box-shadow, @button-shadow-active);
+    }
 }
 
 //
@@ -455,7 +470,7 @@
         border-top: @border-width-base solid @border-color-base;
         cursor: pointer;
         margin-bottom: 0;
-        padding: 10px 20px 10px @mobile-cart-padding;
+        padding: 10px 20px 10px @mobile-summary-padding;
         position: relative;
         .icon-font(
             @icon-down,

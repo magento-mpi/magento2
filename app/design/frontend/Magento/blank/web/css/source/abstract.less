@@ -28,9 +28,13 @@
 //    Link as a button
 //--------------------------------------
 .action-link-button {
-  .button();
-  .link-as-button();
-  border-radius: @button-border-radius;
+    .button();
+    .link-as-button();
+    border-radius: @button-border-radius;
+    &:active,
+    &:focus {
+        box-shadow: none;
+    }
 }
 
 //
