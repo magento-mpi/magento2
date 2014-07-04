@@ -57,10 +57,8 @@ class UpdateCmsBlockEntityTest extends CmsBlockEntityTest
          * Search doesn't work for CMS Blocks grid bug
          */
         // $this->cmsBlockIndex->getCmsBlockGrid()->searchAndOpen($filter);
-        // $this->cmsBlockNew->getCmsForm()->fill($cmsBlock);
-        // $this->cmsBlockNew->getFormPageActions()->save();
-
         $this->cmsBlockIndex->getCmsBlockGrid()->sortAndOpen();
+
         $this->cmsBlockNew->getCmsForm()->fill($cmsBlock);
         $this->cmsBlockNew->getFormPageActions()->save();
     }
