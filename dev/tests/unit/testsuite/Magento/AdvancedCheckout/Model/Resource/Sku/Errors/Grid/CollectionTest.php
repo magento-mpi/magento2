@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
