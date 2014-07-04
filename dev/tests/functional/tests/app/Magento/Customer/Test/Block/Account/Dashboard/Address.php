@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,6 +25,8 @@ class Address extends Block
 
     /**
      * Edit Default Billing Address
+     *
+     * @return void
      */
     public function editBillingAddress()
     {

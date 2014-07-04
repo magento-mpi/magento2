@@ -12,6 +12,7 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CustomerAccountEdit
+ * Customer account info edit page
  */
 class CustomerAccountEdit extends FrontendPage
 {
@@ -20,14 +21,14 @@ class CustomerAccountEdit extends FrontendPage
     protected $_blocks = [
         'accountInfoForm' => [
             'name' => 'accountInfoForm',
-            'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Info\Edit',
+            'class' => 'Magento\Customer\Test\Block\Form\CustomerForm',
             'locator' => '#form-validate',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\Customer\Test\Block\Account\Dashboard\Info\Edit
+     * @return \Magento\Customer\Test\Block\Form\CustomerForm
      */
     public function getAccountInfoForm()
     {

@@ -46,9 +46,9 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
         $shippingDataDiff = $this->verifyForm($pattern, $defaultShippingAddress);
         $dataDiff = array_merge($billingDataDiff, $shippingDataDiff);
 
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($dataDiff),
-            'Tax Rate form was filled incorrectly.'
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $dataDiff,
+            'Billing or shipping form was filled incorrectly.'
             . "\nLog:\n" . implode(";\n", $dataDiff)
         );
     }
@@ -60,7 +60,7 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Default billing address form is correct.';
+        return 'Default billing and shipping address form is correct.';
     }
 
     /**
@@ -75,7 +75,7 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
         $errorMessages = [];
         foreach ($pattern as $key => $value) {
             if ($value !== $address[$key]) {
-                $errorMessages[] = "Data in " . $key . " field is not equal."
+                $errorMessages[] = "Data in fields is not equal."
                     . "\nExpected: " . $value
                     . "\nActual: " . $pattern[$key];
             }
@@ -91,7 +91,10 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
      */
     protected function makeAddressPattern(AddressInjectable $address)
     {
-        $region = ($address->getRegionId() == null) ? $address->getRegion() : $address->getRegionId();
+        $pattern = [];
+        $regionId = $address->getRegionId();
+        $region = $regionId ? $regionId: $address->getRegion();
+
         $pattern[] = $address->getFirstname() . " " . $address->getLastname();
         $pattern[] = $address->getCompany();
         $pattern[] = $address->getStreet();

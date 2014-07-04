@@ -8,7 +8,6 @@
 
 namespace Magento\Customer\Test\TestCase;
 
-use Magento\Backend\Test\Page\Dashboard;
 use Magento\Customer\Test\Constraint\AssertCustomerInfoSuccessSavedMessage;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
@@ -102,28 +101,29 @@ class UpdateCustomerEntityTest extends Injectable
     /**
      * Runs Update Customer Entity test
      *
-     * @param CustomerInjectable $customerInit
+     * @param CustomerInjectable $initialCustomer
+     * @param CustomerInjectable $customer
      * @param AddressInjectable $address
      * @param AssertCustomerInfoSuccessSavedMessage $assertCustomerInfoSuccessSavedMessage
      * @return void
      */
     public function test(
-        CustomerInjectable $customerInit,
+        CustomerInjectable $initialCustomer,
+        CustomerInjectable $customer,
         AddressInjectable $address,
         AssertCustomerInfoSuccessSavedMessage $assertCustomerInfoSuccessSavedMessage
     ) {
         // Preconditions
-        $customer = $this->fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
-        $customer->persist();
+        $initialCustomer->persist();
 
         // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink('Log In');
-        $this->customerAccountLogin->getLoginBlock()->fill($customer);
+        $this->customerAccountLogin->getLoginBlock()->fill($initialCustomer);
         $this->customerAccountLogin->getLoginBlock()->submit();
 
         $this->customerAccountIndex->getInfoBlock()->openEditContactInfo();
-        $this->customerAccountEdit->getAccountInfoForm()->fill($customerInit);
+        $this->customerAccountEdit->getAccountInfoForm()->fill($customer);
         $this->customerAccountEdit->getAccountInfoForm()->submit();
 
         $assertCustomerInfoSuccessSavedMessage->configure(

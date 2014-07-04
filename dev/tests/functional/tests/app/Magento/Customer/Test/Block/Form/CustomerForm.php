@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Block\Account\Dashboard\Info;
+namespace Magento\Customer\Test\Block\Form;
 
 use Mtf\Block\Form;
 
 /**
- * Class Edit
+ * Class CustomerForm
  * Customer account edit form
  */
-class Edit extends Form
+class CustomerForm extends Form
 {
     /**
      * Save button button css selector

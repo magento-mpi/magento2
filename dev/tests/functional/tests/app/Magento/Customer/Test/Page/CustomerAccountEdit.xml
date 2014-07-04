@@ -10,7 +10,7 @@
 <page mca="customer/account/edit" >
     <block>
         <name>accountInfoForm</name>
-        <class>Magento\Customer\Test\Block\Account\Dashboard\Info\Edit</class>
+        <class>Magento\Customer\Test\Block\Form\CustomerForm</class>
         <locator>#form-validate</locator>
         <strategy>css selector</strategy>
     </block>
