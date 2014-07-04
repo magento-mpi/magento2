@@ -58,7 +58,7 @@ onepage_checkout:
                             billing_zip_code: //input[@id='billing:postcode']
                             billing_telephone: //input[@id='billing:telephone']
                             billing_fax: //input[@id='billing:fax']
-                            billing_password: //input[@id='billing_customer_password']
+                            billing_password: //input[@id='billing:customer_password']
                             billing_confirm_password: //input[@id='billing:confirm_password']
                             captcha_guest_checkout: //*[@id='captcha_guest_checkout']
                             captcha_register_during_checkout: //*[@id='captcha_register_during_checkout']
