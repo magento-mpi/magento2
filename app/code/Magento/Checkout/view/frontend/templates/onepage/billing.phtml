@@ -143,15 +143,15 @@
             <?php echo $customerAttributes->setExcludeFileAttributes(true)->toHtml()?>
         <?php endif;?>
         <div class="field password required">
-            <label class="label" for="billing_customer_password"><span><?php echo __('Password') ?></span></label>
+            <label class="label" for="billing:customer_password"><span><?php echo __('Password') ?></span></label>
             <div class="control">
-                <input type="password" name="billing[customer_password]" id="billing_customer_password" title="<?php echo __('Password') ?>" class="input-text" data-validate="{required:true, 'validate-password':true}"/>
+                <input type="password" name="billing[customer_password]" id="billing:customer_password" title="<?php echo __('Password') ?>" class="input-text" data-validate="{required:true, 'validate-password':true}"/>
             </div>
         </div>
         <div class="field confirm required">
             <label class="label" for="billing:confirm_password"><span><?php echo __('Confirm Password') ?></span></label>
             <div class="control">
-                <input type="password" name="billing[confirm_password]" title="<?php echo __('Confirm Password') ?>" id="billing:confirm_password" class="input-text" data-validate="{required:true, 'validate-cpassword':true, equalTo: '#billing_customer_password'}"/>
+                <input type="password" name="billing[confirm_password]" title="<?php echo __('Confirm Password') ?>" id="billing:confirm_password" class="input-text" data-validate="{required:true, 'validate-cpassword':true, equalTo: '#billing\\:customer_password'}"/>
             </div>
         </div>
         <?php endif; ?>
