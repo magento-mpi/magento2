@@ -95,7 +95,6 @@ class UpdateCustomerEntityTest extends Injectable
         $this->customerAccountIndex = $customerAccountIndex;
         $this->customerAccountEdit = $customerAccountEdit;
         $this->customerAddressEdit = $customerAddressEdit;
-
     }
 
     /**
