@@ -419,7 +419,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @var array
      */
     protected $_requiredResponseParams = array(
-        self::DO_DIRECT_PAYMENT => array('RESULT', 'PNREF')
+        self::DO_DIRECT_PAYMENT => array('RESULT', 'PNREF', 'PAYMENTINFO_0_TRANSACTIONID')
     );
 
     /**
