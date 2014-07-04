@@ -841,10 +841,10 @@ class Payment extends \Magento\Payment\Model\Info
             $amount = $amountRefundLeft;
         }
 
-        if ($amount <= 0) {
+        if ($amount != $baseGrandTotal) {
             $order->addStatusHistoryComment(
                 __(
-                    'IPN "Refunded". Refund issued by merchant. Registered notification about refunded amount of %1. Transaction ID: "%2"',
+                    'IPN "Refunded". Refund issued by merchant. Registered notification about refunded amount of %1. Transaction ID: "%2". Credit Memo has not been created. Please create offline Credit Memo.',
                     $this->_formatPrice($notificationAmount),
                     $this->getTransactionId()
                 ),
