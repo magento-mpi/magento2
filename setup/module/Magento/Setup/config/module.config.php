@@ -32,4 +32,9 @@ return [
             ],
         ],
     ],
+    'service_manager' => [
+        'aliases' => [
+            'translator' => 'MvcTranslator',
+        ],
+    ],
 ];

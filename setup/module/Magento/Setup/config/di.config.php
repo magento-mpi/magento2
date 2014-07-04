@@ -7,11 +7,6 @@
  */
 
 return [
-    'service_manager' => [
-        'aliases' => [
-            'translator' => 'MvcTranslator',
-        ],
-    ],
     'di' => [
         'allowed_controllers' => [
             'Magento\Setup\Controller\ReadinessCheckController',
