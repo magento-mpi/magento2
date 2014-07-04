@@ -186,7 +186,7 @@ class Multishipping extends \Magento\Framework\Object
                         $quote->getBillingAddress()->addItem($item);
                     }
                 }
-            }
+                }
             $this->save();
         }
         return $this;
