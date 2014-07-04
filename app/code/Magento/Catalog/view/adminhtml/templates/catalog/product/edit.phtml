@@ -305,7 +305,7 @@ jQuery(function($) {
                         }
                         var $elementToMove = $('.fieldset>.field[data-attribute-code="' + elementId + '"]');
                         if ($elementToMove.length === 0) {
-                            $elementToMove = $element;
+                            $elementToMove = $element.clone();
                         }
                         if (index === 0) {
                             $elementToMove.prependTo(fieldSet);
@@ -328,6 +328,7 @@ jQuery(function($) {
                         .addClass(removedElementClass);
                     $(fieldsetContainer).addClass(removedElementClass);
                 } else {
+                    $(newFieldsetContainer).find('fieldset').each(updateFieldsetElements);
                     $(fieldsetContainer).removeClass(removedElementClass);
                 }
             });
