@@ -88,9 +88,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $itemModel;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\Item
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
-    protected $inventoryStockItem;
+    protected $stockItemService;
 
     /**
      * Store instance
@@ -197,7 +197,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param Item $itemModel
-     * @param \Magento\CatalogInventory\Model\Stock\Item $inventoryStockItem
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -225,7 +225,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         Item $itemModel,
-        \Magento\CatalogInventory\Model\Stock\Item $inventoryStockItem,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -250,7 +250,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $this->_type = $type;
         $this->attributeConfig = $attributeConfig;
         $this->itemModel = $itemModel;
-        $this->inventoryStockItem = $inventoryStockItem;
+        $this->stockItemService = $stockItemService;
         $this->customerSession = $customerSession;
         $this->quoteFactory = $quoteFactory;
         $this->customerFactory = $customerFactory;
@@ -1109,11 +1109,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
             $model = $this->itemModel->load($id);
             if ($model->getId() && $model->getEntityId() == $this->getId()) {
                 if (!isset($item['delete'])) {
-                    /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-                    $stockItem = $this->inventoryStockItem;
-                    $stockItem->loadByProduct($model->getProductId());
+                    $stockItemDo = $this->stockItemService->getStockItem($model->getProductId());
                     // not \Magento\Framework\Model\Exception intentionally
-                    if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
+                    if ($stockItemDo->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
                         throw new \Magento\Framework\Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }

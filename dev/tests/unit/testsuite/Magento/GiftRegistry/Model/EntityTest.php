@@ -44,11 +44,10 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
 
         $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMockBuilder(
-            'Magento\Store\Model\StoreManagerInterface'
-        )->disableOriginalConstructor()->setMethods(
-            array('getStore')
-        )->getMockForAbstractClass();
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStore'))
+            ->getMockForAbstractClass();
         $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $this->_transportBuilderMock = $this->getMock(
@@ -63,23 +62,11 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->_transportBuilderMock->expects($this->any())->method('setTemplateVars')->will($this->returnSelf());
         $this->_transportBuilderMock->expects($this->any())->method('addTo')->will($this->returnSelf());
         $this->_transportBuilderMock->expects($this->any())->method('setFrom')->will($this->returnSelf());
-        $this->_transportBuilderMock->expects(
-            $this->any()
-        )->method(
-            'setTemplateIdentifier'
-        )->will(
-            $this->returnSelf()
-        );
-        $this->_transportBuilderMock->expects(
-            $this->any()
-        )->method(
-            'getTransport'
-        )->will(
-            $this->returnValue($this->getMock('Magento\Framework\Mail\TransportInterface'))
-        );
+        $this->_transportBuilderMock->expects($this->any())->method('setTemplateIdentifier')->will($this->returnSelf());
+        $this->_transportBuilderMock->expects($this->any())->method('getTransport')
+            ->will($this->returnValue($this->getMock('Magento\Framework\Mail\TransportInterface')));
 
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue(1));
-
 
         $appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
 
@@ -121,7 +108,13 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
         $item = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);
         $type = $this->getMock('Magento\GiftRegistry\Model\Type', array(), array(), '', false);
-        $inventoryStockItem = $this->getMock('Magento\CatalogInventory\Model\Stock\Item', array(), array(), '', false);
+        $stockItemService = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            array(),
+            array(),
+            '',
+            false
+        );
         $session = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
         $quoteFactory = $this->getMock('Magento\Sales\Model\QuoteFactory', array(), array(), '', false);
@@ -161,7 +154,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $type,
             $attributeConfig,
             $item,
-            $inventoryStockItem,
+            $stockItemService,
             $session,
             $quoteFactory,
             $customerFactory,

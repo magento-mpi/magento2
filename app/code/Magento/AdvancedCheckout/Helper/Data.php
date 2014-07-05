@@ -171,11 +171,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_productFactory = null;
 
     /**
-     * Catalog inventory stock item factory
+     * Catalog inventory stock item service
      *
-     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
-    protected $_stockItemFactory = null;
+    protected $stockItemService = null;
+
+    /**
+     * Catalog inventory stock status service
+     *
+     * @var \Magento\CatalogInventory\Service\V1\StockStatusService
+     */
+    protected $stockStatusService;
 
     /**
      * Advanced checkout import factory
@@ -207,7 +214,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -226,7 +234,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
-        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -244,7 +253,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
         $this->_importFactory = $importFactory;
-        $this->_stockItemFactory = $stockItemFactory;
+        $this->stockItemService = $stockItemService;
+        $this->stockStatusService = $stockStatusService;
         $this->_productFactory = $productFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->_storeManager = $storeManager;
@@ -451,17 +461,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         }
                         // Create a new quote item and import data to it
                         $quoteItem = clone $emptyQuoteItem;
-                        $quoteItem->addData(
-                            $itemProduct->getData()
-                        )->setQuote(
-                            $quote
-                        )->setProduct(
-                            $itemProduct
-                        )->setOptions(
-                            $itemProduct->getOptions()
-                        )->setRedirectUrl(
-                            $itemProduct->getUrlModel()->getUrl($itemProduct)
-                        );
+                        $quoteItem->addData($itemProduct->getData())
+                            ->setQuote($quote)
+                            ->setProduct($itemProduct)
+                            ->setOptions($itemProduct->getOptions())
+                            ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
@@ -478,10 +482,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             $quoteItem->setCanApplyMsrp(false);
                         }
 
-                        /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-                        $stockItem = $this->_stockItemFactory->create();
-                        $stockItem->assignProduct($itemProduct);
-                        $quoteItem->setStockItem($stockItem);
+                        $stockItemDo = $this->stockItemService->getStockItem($itemProduct->getId());
+                        $this->stockStatusService->assignProduct($itemProduct, $stockItemDo->getStockId());
+                        $quoteItem->setStockItem($stockItemDo);
 
                         $quoteItemsCollection[] = $quoteItem;
                     }
