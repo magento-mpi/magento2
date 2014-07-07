@@ -62,6 +62,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $adminOrderItem;
 
     /**
+     * @var \Magento\Rma\Model\Item
+     */
+    protected $rmaItem;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
@@ -69,6 +74,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
+     * @param \Magento\Rma\Model\Item $rmaItem
      * @param array $data
      */
     public function __construct(
@@ -79,6 +85,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
+        \Magento\Rma\Model\Item $rmaItem,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
@@ -86,6 +93,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_rmaData = $rmaData;
         $this->registry = $registry;
         $this->adminOrderItem = $adminOrderItem;
+        $this->rmaItem = $rmaItem;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -254,16 +262,28 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             array(
                 'header' => __('Remaining'),
                 'type' => 'text',
-                'index' => 'available_qty',
+                'getter' => array($this, 'getRemainingQty'),
                 'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+                'index' => 'available_qty',
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty',
                 'filter' => false,
                 'sortable' => false,
-                'header_css_class' => 'col-qty',
-                'column_css_class' => 'col-qty'
             )
         );
 
         return parent::_prepareColumns();
+    }
+
+    /**
+     * Get available for return item quantity
+     *
+     * @param \Magento\Framework\Object $row
+     * @return float
+     */
+    public function getRemainingQty($row)
+    {
+        return $this->rmaItem->getReturnableQty($row->getOrderId(), $row->getId());
     }
 
     /**
