@@ -17,7 +17,7 @@ use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionFactory;
-use Magento\Tax\Service\V1\Data\SearchResultsBuilder;
+use Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder;
 use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
 
 /**
@@ -31,7 +31,7 @@ class TaxClassService implements TaxClassServiceInterface
     protected $taxClassCollectionFactory;
 
     /**
-     * @var SearchResultsBuilder
+     * @var TaxClassSearchResultsBuilder
      */
     protected $searchResultsBuilder;
 
@@ -52,13 +52,13 @@ class TaxClassService implements TaxClassServiceInterface
      *
      * @param TaxClassCollectionFactory $taxClassCollectionFactory
      * @param TaxClassModelFactory $taxClassModelFactory
-     * @param SearchResultsBuilder $searchResultsBuilder
+     * @param TaxClassSearchResultsBuilder $searchResultsBuilder
      * @param Converter $converter
      */
     public function __construct(
         TaxClassCollectionFactory $taxClassCollectionFactory,
         TaxClassModelFactory $taxClassModelFactory,
-        SearchResultsBuilder $searchResultsBuilder,
+        TaxClassSearchResultsBuilder $searchResultsBuilder,
         Converter $converter
     ) {
         $this->taxClassCollectionFactory = $taxClassCollectionFactory;
@@ -197,7 +197,7 @@ class TaxClassService implements TaxClassServiceInterface
      * Retrieve tax classes which match a specific criteria.
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Tax\Service\V1\Data\SearchResults containing Data\TaxClass
+     * @return \Magento\Tax\Service\V1\Data\TaxClassSearchResults containing Data\TaxClass
      * @throws \Magento\Framework\Exception\InputException
      */
     public function searchTaxClass(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
