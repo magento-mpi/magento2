@@ -12,9 +12,9 @@ use Magento\Tax\Service\V1\Data\TaxClass;
 class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
-     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     * @var \Magento\Tax\Service\V1\taxClassServiceInterface
      */
-    protected $_taxRuleService;
+    protected $_taxClassService;
 
     /**
      * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
@@ -41,7 +41,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $optionFactory
-     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService
+     * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
      * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      */
@@ -49,7 +49,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         \Magento\Core\Helper\Data $coreData,
         \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $optionFactory,
-        \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService,
+        \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
         \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
 
@@ -57,7 +57,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         $this->_coreData = $coreData;
         $this->_classesFactory = $classesFactory;
         $this->_optionFactory = $optionFactory;
-        $this->_taxRuleService = $taxRuleService;
+        $this->_taxClassService = $taxClassService;
         $this->_filterBuilder = $filterBuilder;
         $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
     }
@@ -69,12 +69,18 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getAllOptions($withDefaultValue = true)
     {
         if (!$this->_options) {
-            $filter = $this->_filterBuilder->setField(TaxClass::KEY_TYPE)->setValue('TYPE_PRODUCT')->create();
+            $filter = $this->_filterBuilder->setField(TaxClass::KEY_TYPE)->setValue(\Magento\Tax\Service\V1\Data\TaxClass::TYPE_PRODUCT)->create();
             $searchCriteria = $this->_searchCriteriaBuilder->addFilter([$filter])->create();
-            $this->_options = $this->_taxRuleService->searchTaxRules($searchCriteria);
+            $searchResults = $this->_taxClassService->searchTaxClass($searchCriteria);
+            foreach ($searchResults->getItems() as $taxClass) {
+                $this->_options[] = array(
+                    'value' => $taxClass->getClassId(),
+                    'label' => $taxClass->getClassName()
+                );
+            }
         }
         if ($withDefaultValue) {
-            return array_merge($this->_options, array('value' => '0', 'label' => __('None')));
+            return array_merge(array(array('value' => '0', 'label' => __('None'))), $this->_options);
         }
         return $this->_options;
     }

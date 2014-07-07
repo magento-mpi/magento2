@@ -13,9 +13,9 @@ use Magento\Tax\Service\V1\Data\TaxClass;
 class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
-     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     * @var \Magento\Tax\Service\V1\TaxClassServiceInterface
      */
-    protected $taxRuleService;
+    protected $taxClassService;
 
     /**
      * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
@@ -28,16 +28,16 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $filterBuilder;
 
     /**
-     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService
+     * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
      * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      */
     public function __construct(
-        \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService,
+        \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
         \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
     ) {
-        $this->taxRuleService = $taxRuleService;
+        $this->taxClassService = $taxClassService;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filterBuilder = $filterBuilder;
     }
@@ -48,9 +48,15 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $filter = $this->filterBuilder->setField(TaxClass::KEY_TYPE)->setValue('TYPE_CUSTOMER')->create();
+            $filter = $this->filterBuilder->setField(TaxClass::KEY_TYPE)->setValue(\Magento\Tax\Service\V1\Data\TaxClass::TYPE_CUSTOMER)->create();
             $searchCriteria = $this->searchCriteriaBuilder->addFilter([$filter])->create();
-            $this->_options = $this->taxRuleService->searchTaxRules($searchCriteria);
+            $searchResults = $this->taxClassService->searchTaxClass($searchCriteria);
+            foreach ($searchResults->getItems() as $taxClass) {
+                $this->_options[] = array(
+                    'value' => $taxClass->getClassId(),
+                    'label' => $taxClass->getClassName()
+                );
+            }
         }
         return $this->_options;
     }
