@@ -166,6 +166,9 @@ class TaxRuleService implements TaxRuleServiceInterface
             $conditions[] = [$condition => $filter->getValue()];
         }
         if ($fields) {
+            if (in_array('cd.customer_tax_class_id', $fields) || in_array('cd.product_tax_class_id', $fields) ) {
+                $collection->joinCalculationData('cd');
+            }
             $collection->addFieldToFilter($fields, $conditions);
         }
     }
@@ -181,6 +184,12 @@ class TaxRuleService implements TaxRuleServiceInterface
         switch ($field) {
             case TaxRule::ID:
                 return 'tax_calculation_rule_id';
+            case TaxRule::TAX_RATE_IDS:
+                return 'tax_calculation_rate_id';
+            case TaxRule::CUSTOMER_TAX_CLASS_IDS:
+                return 'cd.customer_tax_class_id';
+            case TaxRule::PRODUCT_TAX_CLASS_IDS:
+                return 'cd.product_tax_class_id';
             case TaxRule::SORT_ORDER:
                 return 'position';
             default:

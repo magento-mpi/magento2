@@ -210,7 +210,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 
                     $billingAddressDataArray = [
                         'country_id' => $countryId,
-                        'customer_id' => $customerTaxClass,
+                        'customer_id' => $customerTaxClass->,
                         'region' => $region,
                         'postcode' => $postcode,
                     ];
