@@ -1,3 +1,6 @@
+* i18n Improvements:
+  * Improved verbosity of i18n CLI Tools (MAGETWO-15484)
+  * Remove Unused Helpers After i18n Improvements (MAGETWO-14865)
 * Service layer updates:
   * Implemented API for CatalogInventory module (MAGETWO-24954)
   * Refactored external usages of CatalogInventory module to service (MAGETWO-24933, MAGETWO-24934)
