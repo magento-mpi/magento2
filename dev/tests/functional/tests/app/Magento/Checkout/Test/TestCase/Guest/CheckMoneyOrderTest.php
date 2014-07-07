@@ -96,7 +96,7 @@ class CheckMoneyOrderTest extends Functional
     protected function checkProductPrice(CheckMoneyOrder $fixture, Fixture\Product $product, Block\Cart $block)
     {
         $expected = $fixture->getProductPriceWithTax($product);
-        $this->assertEquals($expected, $block->getProductPriceByName($product->getProductName()));
+        $this->assertEquals($expected, $block->getProductPriceByName($product->getName()));
     }
 
     /**

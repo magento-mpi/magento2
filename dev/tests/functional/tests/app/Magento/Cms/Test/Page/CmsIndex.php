@@ -33,7 +33,7 @@ class CmsIndex extends FrontendPage
         'titleBlock' => [
             'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
-            'locator' => '.page-title',
+            'locator' => '[data-ui-id="page-title"]',
             'strategy' => 'css selector',
         ],
         'footerBlock' => [
