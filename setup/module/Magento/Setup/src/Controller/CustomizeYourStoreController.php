@@ -46,6 +46,7 @@ class CustomizeYourStoreController extends AbstractActionController
             'language' => $this->list->getLocaleList()
         ]);
 
+        $this->view->setTerminal(true);
         return $this->view;
     }
 }
