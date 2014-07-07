@@ -7,8 +7,25 @@
  */
 namespace Magento\Tax\Model\TaxClass\Source;
 
+use Magento\Tax\Service\V1\Data\TaxClass;
+
 class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
+    /**
+     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     */
+    protected $_taxRuleService;
+
+    /**
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     */
+    protected $_searchCriteriaBuilder;
+
+    /**
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     */
+    protected $_filterBuilder;
+
     /**
      * Core data
      *
@@ -17,50 +34,45 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $_coreData;
 
     /**
-     * @var \Magento\Tax\Model\Resource\TaxClass\CollectionFactory
-     */
-    protected $_classesFactory;
-
-    /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory
      */
     protected $_optionFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $optionFactory
+     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
-        \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $optionFactory
+        \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $optionFactory,
+        \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+
     ) {
         $this->_coreData = $coreData;
         $this->_classesFactory = $classesFactory;
         $this->_optionFactory = $optionFactory;
+        $this->_taxRuleService = $taxRuleService;
+        $this->_filterBuilder = $filterBuilder;
+        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
-     * Get all options
-     *
      * @return array
      */
     public function getAllOptions()
     {
-        if (is_null($this->_options)) {
-            /** @var $classCollection \Magento\Tax\Model\Resource\TaxClass\Collection */
-            $classCollection = $this->_classesFactory->create();
-            $classCollection->addFieldToFilter(
-                'class_type',
-                \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT
-            )->load();
-            $this->_options = $classCollection->toOptionArray();
+        if (!$this->_options) {
+            $filter = $this->_filterBuilder->setField(TaxClass::KEY_TYPE)->setValue('TYPE_PRODUCT')->create();
+            $searchCriteria = $this->_searchCriteriaBuilder->addFilter([$filter])->create();
+            $this->_options = $this->_taxRuleService->searchTaxRules($searchCriteria);
         }
-
-        $options = $this->_options;
-        array_unshift($options, array('value' => '0', 'label' => __('None')));
-        return $options;
+        return $this->_options;
     }
 
     /**
