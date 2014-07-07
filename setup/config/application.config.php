@@ -12,6 +12,7 @@ return [
         'Magento\Composer',
         'Magento\Config',
         'Magento\Filesystem',
+        'Magento\Locale',
         'Magento\Module',
         'Magento\Setup',
     ],
