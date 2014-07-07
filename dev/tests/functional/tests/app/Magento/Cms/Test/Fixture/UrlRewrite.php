@@ -19,9 +19,4 @@ class UrlRewrite extends ParentUrlRewrite
      * @var string
      */
     protected $repositoryClass = 'Magento\Cms\Test\Repository\UrlRewrite';
-
-    /**
-     * @var string
-     */
-    protected $handlerInterface = 'Magento\UrlRewrite\Test\Handler\UrlRewrite\UrlRewriteInterface';
 }
