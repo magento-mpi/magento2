@@ -62,18 +62,4 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             10
         );
     }
-
-    /**
-     * Get Header text
-     *
-     * @return string
-     */
-    public function getHeaderText()
-    {
-        if ($this->_coreRegistry->registry('tax_rule')->getId()) {
-            return __("Edit Rule");
-        } else {
-            return __('New Rule');
-        }
-    }
 }

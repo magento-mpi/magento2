@@ -1303,6 +1303,8 @@ return array(
     array('shouldEscapeMessage', 'Magento\Framework\View\Block\Messages'),
     array('isPathInDirectory', 'Magento\Framework\Filesystem\Directory\ReadInterface'),
     array('isSuper', '\Magento\Catalog\Model\Product'),
+    array('getCustomerTaxClassWithDefault', '\Magento\Tax\Model\Calculation\Rule'),
+    array('getProductTaxClassWithDefault', '\Magento\Tax\Model\Calculation\Rule'),
     array('isSuperGroup', '\Magento\Catalog\Model\Product'),
     array('isGrouped', '\Magento\Catalog\Model\Product'),
     array('isSuperConfig', '\Magento\Catalog\Model\Product'),
