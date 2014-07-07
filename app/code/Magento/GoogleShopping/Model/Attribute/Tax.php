@@ -211,14 +211,14 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                     $billingAddressDataArray = [
                         'country_id' => $countryId,
                         'customer_id' => $customerTaxClassId,
-                        'region' => $region,
+                        'region' => ['region_id' => $rate->getRegionId()],
                         'postcode' => $postcode,
                     ];
 
                     $shippingAddressDataArray = [
                         'country_id' => $countryId,
                         'customer_id' => $customerTaxClassId,
-                        'region' => $region,
+                        'region' => ['region_id' => $rate->getRegionId()],
                         'postcode' => $postcode,
                     ];
 
@@ -231,14 +231,14 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                         ],
                     ];
 
-                    $quoteDetailsItem = $this->_quoteDetailsBuilder
+                    $quoteDetailsObject = $this->_quoteDetailsBuilder
                         ->populateWithArray($quoteDetailsDataArray)
                         ->create();
 
-                    $priceWithTax = $this->_taxCalculationService
-                        ->calculateTax($quoteDetailsItem, $product->getStoreId());
+                    $taxDetails = $this->_taxCalculationService
+                        ->calculateTax($quoteDetailsObject, $product->getStoreId());
 
-                    $taxRate = ($priceWithTax->getTaxAmount() / $priceWithTax->getSubtotal()) * 100;
+                    $taxRate = ($taxDetails->getTaxAmount() / $taxDetails->getSubtotal()) * 100;
 
                     $entry->addTax(
                         [
