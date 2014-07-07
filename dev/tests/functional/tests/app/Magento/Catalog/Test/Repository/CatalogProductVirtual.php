@@ -28,6 +28,7 @@ class CatalogProductVirtual extends AbstractRepository
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'status' => 'Product online',
             'website_ids' => ['Main Website'],
+            'category_ids' => ['presets' => 'default'],
             'is_virtual' => 'Yes',
             'url_key' => 'virtual-product%isolation%',
             'visibility' => 'Catalog, Search',
@@ -35,12 +36,6 @@ class CatalogProductVirtual extends AbstractRepository
             'name' => 'Virtual product %isolation%',
             'sku' => 'sku_virtual_product_%isolation%',
             'quantity_and_stock_status' => [
-                'qty' => 666.0000,
-                'is_in_stock' => 'In Stock',
-            ],
-            'stock_data' => [
-                'manage_stock' => 'Yes',
-                'original_inventory_qty' => 666.0000,
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
