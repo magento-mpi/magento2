@@ -1,0 +1,3 @@
+"cms/data/title";"cms/data/identifier";"cms/data/is_active";"cms/data/content_heading";"cms/data/content";"constraint"
+"CmsPageEdited%isolation%";"-";"Disabled";"-";"cms_page_text_content_after_edit";"assertCmsPageSuccessSaveMessage, assertCmsPageDisabledOnFrontend"
+"CmsPageEdited%isolation%";"cms_page_url_edited_%isolation%";"Published";"Content Heading TexEdited";"cms_page_text_content_after_edit";"assertCmsPageSuccessSaveMessage, assertCmsPageForm, assertCmsPagePreview"
