@@ -8,11 +8,14 @@
  
 namespace Magento\Pbridge\Model\Payment\Method\Validator;
 
+use Magento\Payment\Model\Method\ValidatorInterface;
+use Magento\Payment\Model\Method\AbstractMethod;
+
 /**
  * Class Method
  * @package Magento\Pbridge\Model\Payment\Method\Validator
  */
-class Method
+class Method implements ValidatorInterface
 {
     /**
      * @var Pbridge

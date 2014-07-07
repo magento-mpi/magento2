@@ -36,4 +36,15 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Payment\Model\Payment\Method\Validator\CcValidator">
+        <arguments>
+            <argument name="validatorsList" xsi:type="array">
+                <item name="NumberValidator" xsi:type="string">Magento\Payment\Model\Method\Validator\Cc\NumberValidator</item>
+                <item name="TypeValidator" xsi:type="string">Magento\Payment\Model\Method\Validator\Cc\TypeValidator</item>
+                <item name="NumberTypeValidator" xsi:type="string">Magento\Payment\Model\Method\Validator\Cc\NumberTypeValidator</item>
+                <item name="CvvValidator" xsi:type="string">Magento\Payment\Model\Method\Validator\Cc\CvvValidator</item>
+                <item name="ExpirationDateValidator" xsi:type="string">Magento\Payment\Model\Method\Validator\Cc\ExpirationDateValidator</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
