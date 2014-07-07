@@ -3,7 +3,16 @@
     "description": "German (Germany) language",
     "version": "0.1.0",
     "require": {
-        "magento/framework": "0.1.0"
+        "magento/framework": "0.1.0",
+        "magento/magento-composer-installer": "*"
     },
-    "type": "magento2-language"
+    "type": "magento2-language",
+    "extra": {
+        "map": [
+            [
+                "*",
+                "Magento/de_DE"
+            ]
+        ]
+    }
 }
