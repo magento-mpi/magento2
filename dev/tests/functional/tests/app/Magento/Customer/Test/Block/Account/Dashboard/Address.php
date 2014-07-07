@@ -17,11 +17,25 @@ use Mtf\Block\Block;
 class Address extends Block
 {
     /**
-     *  Default Billing Address Edit link
+     * Default Billing Address Edit link
      *
      * @var string
      */
     protected $defaultBillingAddressEdit = '[data-ui-id=default-billing-edit-link]';
+
+    /**
+     * Shipping address block selector
+     *
+     * @var string
+     */
+    protected $shippingAddressBlock = '.shipping address';
+
+    /**
+     * Billing address block selector
+     *
+     * @var string
+     */
+    protected $billingAddressBlock = '.billing address';
 
     /**
      * Edit Default Billing Address
@@ -40,7 +54,7 @@ class Address extends Block
      */
     public function getDefaultBillingAddressText()
     {
-        return $this->_rootElement->find('.billing address')->getText();
+        return $this->_rootElement->find($this->billingAddressBlock)->getText();
     }
 
     /**
@@ -50,6 +64,6 @@ class Address extends Block
      */
     public function getDefaultShippingAddressText()
     {
-        return $this->_rootElement->find('.shipping address')->getText();
+        return $this->_rootElement->find($this->shippingAddressBlock)->getText();
     }
 }
