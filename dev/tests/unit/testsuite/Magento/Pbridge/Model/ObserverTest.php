@@ -179,7 +179,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->coreHelperMock->expects($this->once())->method('jsonEncode')->with($expectedResult)->will(
             $this->returnValue($expectedResultJson)
         );
-        $responseMock->expects($this->once())->method('setBody')->with($expectedResultJson);
+        $responseMock->expects($this->once())->method('representJson')->with($expectedResultJson);
 
         $this->observer->setResponseAfterSaveOrder($this->_observerEvent);
     }
