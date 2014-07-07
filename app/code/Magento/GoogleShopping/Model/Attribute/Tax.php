@@ -175,8 +175,8 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             return $entry;
         }
 
-        $customerTaxClass = $this->_getDefaultCustomerTaxClass($product->getStoreId());
-        $rates = $this->_getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
+        $customerTaxClassId = $this->_getDefaultCustomerTaxClassId($product->getStoreId());
+        $rates = $this->_getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $product->getTaxClassId());
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
@@ -225,7 +225,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                     $quoteDetailsDataArray = [
                         'billing_address' => $billingAddressDataArray,
                         'shipping_address' => $shippingAddressDataArray,
-                        'customer_tax_class_id' => $customerTaxClass,
+                        'customer_tax_class_id' => $customerTaxClassId,
                         'items' => [
                             $quoteDetailsItemDataArray,
                         ],
@@ -395,7 +395,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param null|Store|string|int $store
      * @return int
      */
-    private function _getDefaultCustomerTaxClass($store = null)
+    private function _getDefaultCustomerTaxClassId($store = null)
     {
         if (is_null($this->_defaultCustomerTaxClass)) {
             //Not catching the exception here since default group is expected
@@ -412,11 +412,11 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param int $productTaxClass
      * @return TaxRate[]
      */
-    private function _getRatesByCustomerAndProductTaxClasses($customerTaxClass, $productTaxClass)
+    private function _getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $productTaxClassId)
     {
         $filters = [
-            $this->_filterBuilder->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)->setValue([$customerTaxClass])->create(),
-            $this->_filterBuilder->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)->setValue([$productTaxClass])->create(),
+            $this->_filterBuilder->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)->setValue([$customerTaxClassId])->create(),
+            $this->_filterBuilder->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)->setValue([$productTaxClassId])->create(),
 
         ];
         $searchResults = $this->_taxRuleService->searchTaxRules(
