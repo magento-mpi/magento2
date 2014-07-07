@@ -42,6 +42,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      *
      * @param \Magento\Framework\Object $object
      * @param mixed $oldAttrValue
+     * @return void
      */
     protected function _restoreOldAttrValue($object, $oldAttrValue)
     {

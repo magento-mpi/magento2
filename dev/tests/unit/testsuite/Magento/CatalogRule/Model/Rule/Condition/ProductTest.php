@@ -32,7 +32,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->config = $this->getMock('Magento\Eav\Model\Config', array('getAttribute'),  array(), '', false);
+        $this->config = $this->getMock('Magento\Eav\Model\Config', array('getAttribute'), array(), '', false);
         $this->productModel = $this->getMock(
             'Magento\Catalog\Model\Product',
             array(

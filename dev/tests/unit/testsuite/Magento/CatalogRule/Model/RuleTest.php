@@ -129,7 +129,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->rule->callbackValidateProduct($args);
 
         $matchingProducts = $this->rule->getMatchingProductIds();
-        foreach ($matchingProducts['1'] as $id => $matchingRules) {
+        foreach ($matchingProducts['1'] as $matchingRules) {
             $this->assertEquals($validate, $matchingRules);
         }
     }
