@@ -12,9 +12,9 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 
 /**
- * Class AssertCustomerAddressSuccessSavedMessage
+ * Class AssertCustomerAddressSuccessSaveMessage
  */
-class AssertCustomerAddressSuccessSavedMessage extends AbstractConstraint
+class AssertCustomerAddressSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The address has been saved.';
 

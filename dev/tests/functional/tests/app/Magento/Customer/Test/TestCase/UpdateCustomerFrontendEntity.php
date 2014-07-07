@@ -20,7 +20,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 
 /**
- * Test Creation for Update CustomerEntity
+ * Test Creation for UpdateCustomerFrontendEntity
  *
  * Test Flow:
  * Preconditions:
@@ -38,34 +38,46 @@ use Magento\Customer\Test\Page\CustomerAccountLogin;
  * @group Customer_Account_(CS)
  * @ZephyrId MAGETWO-25925
  */
-class UpdateCustomerEntityTest extends Injectable
+class UpdateCustomerFrontendEntity extends Injectable
 {
     /**
+     * Factory for Fixtures
+     *
      * @var FixtureFactory
      */
     protected $fixtureFactory;
 
     /**
+     * CmsIndex page
+     *
      * @var CmsIndex
      */
     protected $cmsIndex;
 
     /**
+     * CustomerAccountLogin page
+     *
      * @var CustomerAccountLogin
      */
     protected $customerAccountLogin;
 
     /**
+     * CustomerAccountIndex page
+     *
      * @var CustomerAccountIndex
      */
     protected $customerAccountIndex;
 
     /**
+     * CustomerAccountEdit page
+     *
      * @var CustomerAccountEdit
      */
     protected $customerAccountEdit;
 
     /**
+     * CustomerAddressEdit page
+     *
      * @var CustomerAddressEdit
      */
     protected $customerAddressEdit;
@@ -125,10 +137,6 @@ class UpdateCustomerEntityTest extends Injectable
         $this->customerAccountEdit->getAccountInfoForm()->fill($customer);
         $this->customerAccountEdit->getAccountInfoForm()->submit();
 
-        $assertCustomerInfoSuccessSavedMessage->configure(
-            $this,
-            ['customerAccountIndex' => $this->customerAccountIndex]
-        );
         \PHPUnit_Framework_Assert::assertThat($this->getName(), $assertCustomerInfoSuccessSavedMessage);
 
         $this->customerAccountIndex->getDashboardAddress()->editBillingAddress();

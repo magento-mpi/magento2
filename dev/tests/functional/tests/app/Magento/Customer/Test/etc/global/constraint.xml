@@ -92,12 +92,12 @@
             <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
         </require>
     </assertCustomerInfoSuccessSavedMessage>
-    <assertCustomerAddressSuccessSavedMessage module="Magento_Customer">
+    <assertCustomerAddressSuccessSaveMessage module="Magento_Customer">
         <severeness>low</severeness>
         <require>
             <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
         </require>
-    </assertCustomerAddressSuccessSavedMessage>
+    </assertCustomerAddressSuccessSaveMessage>
     <assertCustomerDefaultAddresses module="Magento_Customer">
         <severeness>low</severeness>
         <require>

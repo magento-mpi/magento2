@@ -25,7 +25,7 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Asserts that Default Billing Address and Default Shipping Address equals data from fixture
+     * Asserts that Default Billing Address and Default Shipping Address equal to data from fixture
      *
      * @param CustomerAccountIndex $customerAccountIndex
      * @param AddressInjectable $address
