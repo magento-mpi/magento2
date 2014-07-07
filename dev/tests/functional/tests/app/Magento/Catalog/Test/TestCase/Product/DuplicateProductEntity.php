@@ -85,8 +85,8 @@ class DuplicateProductEntity extends Injectable
      */
     public function test($productType, FixtureFactory $fixtureFactory)
     {
+        // Precondition
         list($fixture, $dataSet) = explode('::', $productType);
-
         $product = $fixtureFactory->createByCode(
             $fixture,
             [
@@ -100,9 +100,15 @@ class DuplicateProductEntity extends Injectable
         );
         $product->persist();
 
+        // Steps
         $filter = ['sku' => $product->getSku()];
-        $this->productGrid->open()->getProductGrid()->searchAndOpen($filter);
-        $this->editProductPage->getFormAction()->clickSaveAction(FormPageActions::SAVE_DUPLICATE);
+        $this->productGrid->open()
+            ->getProductGrid()
+            ->searchAndOpen($filter);
+
+        $this->editProductPage
+            ->getFormAction()
+            ->clickSaveAction(FormPageActions::SAVE_DUPLICATE);
 
         return ['product' => $product];
     }

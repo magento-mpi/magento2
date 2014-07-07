@@ -9,15 +9,14 @@
 namespace Magento\Downloadable\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Constraint\AssertProductForm;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Catalog\Test\Constraint\AssertDuplicateProductForm;
+use Magento\Downloadable\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
- * Class AssertDownloadableProductForm
- * Assert that downloadable product data on edit page equals to passed from fixture
+ * Class AssertDuplicateProductDownloadableForm
  */
-class AssertDownloadableProductForm extends AssertProductForm
+class AssertDuplicateProductDownloadableForm extends AssertDuplicateProductForm
 {
     /**
      * Constraint severeness
@@ -27,7 +26,7 @@ class AssertDownloadableProductForm extends AssertProductForm
     protected $severeness = 'low';
 
     /**
-     * Assert form data equals fixture data
+     * Assert form data equals duplicate product downloadable data
      *
      * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
@@ -39,13 +38,17 @@ class AssertDownloadableProductForm extends AssertProductForm
         CatalogProductIndex $productGrid,
         CatalogProductEdit $productPage
     ) {
-        $filter = ['sku' => $product->getData('sku')];
+        $filter = ['sku' => $product->getSku() . '-1'];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $fields = $this->convertDownloadableArray($this->prepareFixtureData($product));
+        $formData = $productPage->getForm()->getData($product);
+        $fixtureData = $this->convertDownloadableArray($this->prepareFixtureData($product));
+        $errors = $this->compareArray($fixtureData, $formData);
 
-        $fieldsForm = $productPage->getForm()->getData($product);
-        \PHPUnit_Framework_Assert::assertEquals($fields, $fieldsForm, 'Form data not equals fixture data.');
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $errors,
+            "These data must be equal to each other:\n" . implode("\n", $errors)
+        );
     }
 
     /**
@@ -62,6 +65,7 @@ class AssertDownloadableProductForm extends AssertProductForm
                 if ($row1['sort_order'] == $row2['sort_order']) {
                     return 0;
                 }
+
                 return ($row1['sort_order'] < $row2['sort_order']) ? -1 : 1;
             }
         );
@@ -87,15 +91,5 @@ class AssertDownloadableProductForm extends AssertProductForm
         }
 
         return $fields;
-    }
-
-    /**
-     * Text of Visible in product form assert
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Form data equal the fixture data.';
     }
 }

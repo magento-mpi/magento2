@@ -23,7 +23,20 @@ class AssertDuplicatedProductInGrid extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
+
+    /**
+     * Mapping types of products
+     *
+     * @var array
+     */
+    protected $productTypeMapping = [
+        'CatalogProductSimple' => 'Simple Product',
+        'CatalogProductDownloadable' => 'Downloadable Product',
+        'CatalogProductConfigurable' => 'Configurable Product',
+        'GiftCardProduct' => 'Gift Card',
+
+    ];
 
     /**
      * Assert that duplicated product is found by sku and has correct product type, product template,
@@ -39,10 +52,14 @@ class AssertDuplicatedProductInGrid extends AbstractConstraint
             'name' => $product->getName(),
             'visibility' => $product->getVisibility(),
             'status' => 'Disabled',
-            'sku' => $product->getSku() . '-1'
+            'sku' => $product->getSku() . '-1',
+            'type' => $this->productTypeMapping[basename(get_class($product))]
         ];
 
-        $productGrid->open()->getProductGrid()->search($filter);
+        $productGrid->open()
+            ->getProductGrid()
+            ->search($filter);
+
         if (!($product instanceof GiftCardProduct)) {
             $filter['price_to'] = '$' . number_format($product->getPrice(), 2);
         }
@@ -60,6 +77,6 @@ class AssertDuplicatedProductInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'The product of these parameters found.';
+        return 'The product has been successfully found, according to the filters.';
     }
 }

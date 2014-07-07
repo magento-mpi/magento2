@@ -224,6 +224,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>date</input>
+            <source>Magento\Backend\Test\Fixture\Date</source>
         </news_from_date>
         <news_to_date>
             <attribute_code>news_to_date</attribute_code>
@@ -231,6 +232,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>date</input>
+            <source>Magento\Backend\Test\Fixture\Date</source>
         </news_to_date>
         <old_id>
             <attribute_code>old_id</attribute_code>

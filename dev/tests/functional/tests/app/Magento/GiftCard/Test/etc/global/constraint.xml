@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertDuplicateProductGiftCardForm module="Magento_GiftCard">
+        <severeness>high</severeness>
+        <require>
+            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex"/>
+            <productPage class="Magento\GiftCard\Test\Page\Adminhtml\CatalogProductEdit"/>
+            <product class="Mtf\Fixture\FixtureInterface"/>
+        </require>
+    </assertDuplicateProductGiftCardForm>
+</constraint>

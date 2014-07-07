@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/product_downloadable/edit">
+    <block>
+        <name>form</name>
+        <class>Magento\Downloadable\Test\Block\Adminhtml\Product\ProductForm</class>
+        <locator>[id="page:main-container"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

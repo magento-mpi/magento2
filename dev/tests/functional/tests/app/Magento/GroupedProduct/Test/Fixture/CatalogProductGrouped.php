@@ -456,7 +456,8 @@ class CatalogProductGrouped extends InjectableFixture
     protected $website_ids = [
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
-        'default_value' => 'Main Website',
+        'default_value' => ['Main Website'],
+        'group' => 'websites',
     ];
 
     public function getCategoryIds()

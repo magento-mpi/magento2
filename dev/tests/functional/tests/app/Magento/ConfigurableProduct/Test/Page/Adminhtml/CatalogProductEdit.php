@@ -8,15 +8,14 @@
 
 namespace Magento\ConfigurableProduct\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew as ParentCatalogProductNew;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit as ParentCatalogProductEdit;
 
 /**
- * Class CatalogProductNew
+ * Class CatalogProductEdit
  */
-class CatalogProductNew extends ParentCatalogProductNew
+class CatalogProductEdit extends ParentCatalogProductEdit
 {
-    const MCA = 'catalog/product_configurable/new';
+    const MCA = 'catalog/product_configurable/edit';
 
     /**
      * Custom constructor

@@ -28,7 +28,8 @@
             <is_required>0</is_required>
             <input>variations</input>
             <group>variations</group>
-            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableAttributesData</source>
+            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableAttributesData
+            </source>
         </configurable_attributes_data>
         <color>
             <attribute_code>color</attribute_code>
@@ -436,6 +437,7 @@
             <attribute_code>website_ids</attribute_code>
             <backend_type>virtual</backend_type>
             <default_value>Main Website</default_value>
+            <group>websites</group>
         </website_ids>
     </fields>
     <data_set>

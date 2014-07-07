@@ -29,7 +29,7 @@ class AssertProductDuplicateMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Checking the output message "You duplicated the product." successful product duplication
+     * Checking the output message successful product duplication
      *
      * @param CatalogProductEdit $productPage
      * @return void

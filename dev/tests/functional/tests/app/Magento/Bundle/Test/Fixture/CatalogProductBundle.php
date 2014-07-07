@@ -20,7 +20,7 @@ use Mtf\System\Event\EventManagerInterface;
  * Fixture for Bundle product
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.TooManyFields) 
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogProductBundle extends InjectableFixture
 {
@@ -620,12 +620,11 @@ class CatalogProductBundle extends InjectableFixture
         'attribute_code' => 'stock_data'
     ];
 
-    protected $category_id = [
-        'attribute_code' => 'category_id'
-    ];
-
     protected $website_ids = [
-        'attribute_code' => 'website_ids'
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => ['Main Website'],
+        'group' => 'websites',
     ];
 
     public function getCategoryIds()

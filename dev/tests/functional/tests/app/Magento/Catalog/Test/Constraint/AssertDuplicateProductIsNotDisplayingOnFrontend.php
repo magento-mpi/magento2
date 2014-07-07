@@ -11,9 +11,9 @@ namespace Magento\Catalog\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductDuplicateIsNotDisplayingOnFrontend
+ * Class AssertDuplicateProductIsNotDisplayingOnFrontend
  */
-class AssertProductDuplicateIsNotDisplayingOnFrontend extends AbstractConstraint
+class AssertDuplicateProductIsNotDisplayingOnFrontend extends AbstractConstraint
 {
     /**
      * Constraint severeness

@@ -426,6 +426,12 @@
             <group>customer-options</group>
             <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</fixture>
         </custom_options>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+            <default_value>Main Website</default_value>
+            <group>websites</group>
+        </website_ids>
     </fields>
     <data_set>
         <sku></sku>
@@ -442,5 +448,6 @@
         <input_prefix>product</input_prefix>
     </data_config>
     <repository_class>Magento\Catalog\Test\Repository\CatalogProductVirtual</repository_class>
-    <handler_interface>Magento\Catalog\Test\Handler\CatalogProductVirtual\CatalogProductVirtualInterface</handler_interface>
+    <handler_interface>Magento\Catalog\Test\Handler\CatalogProductVirtual\CatalogProductVirtualInterface
+    </handler_interface>
 </fixture>
