@@ -37,7 +37,7 @@
                 <td class="col item">
                     <strong class="product name"><?php echo $this->escapeHtml($_item->getName()) ?></strong>
                     <?php if ($this->getCanShowProductPrice($_product)): ?>
-                          <?php if ($this->getCanShowProductPrice($_item)): ?>
+                        <?php if ($this->getCanShowProductPrice($_item)): ?>
                             <?php echo $this->getProductPrice($_item) ?>
                         <?php endif; ?>
                      <?php endif; ?>
