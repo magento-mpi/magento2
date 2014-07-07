@@ -63,14 +63,18 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     }
 
     /**
+     * @param bool $withDefaultValue
      * @return array
      */
-    public function getAllOptions()
+    public function getAllOptions($withDefaultValue = true)
     {
         if (!$this->_options) {
             $filter = $this->_filterBuilder->setField(TaxClass::KEY_TYPE)->setValue('TYPE_PRODUCT')->create();
             $searchCriteria = $this->_searchCriteriaBuilder->addFilter([$filter])->create();
             $this->_options = $this->_taxRuleService->searchTaxRules($searchCriteria);
+        }
+        if ($withDefaultValue) {
+            return array_merge($this->_options, array('value' => '0', 'label' => __('None')));
         }
         return $this->_options;
     }
