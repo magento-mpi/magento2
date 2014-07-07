@@ -30,7 +30,7 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
         'store_id' => ['Default Store View' => 1],
         'options' => [
             'Temporary (302)' => 'R',
-            'Temporary (301)' => 'RP',
+            'Permanent (301)' => 'RP',
             'No' => ''
         ]
     ];

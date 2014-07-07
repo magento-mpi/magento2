@@ -2,4 +2,3 @@
 "default_no_redirect";"assertUrlRewriteDeletedMessage, assertUrlRewriteNotInGrid, assertPageByUrlRewriteIsNotFound"
 "default_permanent_redirect";"assertUrlRewriteDeletedMessage, assertUrlRewriteNotInGrid, assertPageByUrlRewriteIsNotFound"
 "default_temporary_redirect";"assertUrlRewriteDeletedMessage, assertUrlRewriteNotInGrid, assertPageByUrlRewriteIsNotFound"
-"default_custom_storeview";"assertUrlRewriteDeletedMessage, assertUrlRewriteNotInGrid, assertPageByUrlRewriteIsNotFound"

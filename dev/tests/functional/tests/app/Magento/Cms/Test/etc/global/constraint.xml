@@ -53,4 +53,40 @@
     <assertCmsPageNotInGrid module="Magento_Cms">
         <severeness>low</severeness>
     </assertCmsPageNotInGrid>
+    <assertUrlRewriteDeletedMessage module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+        <require>
+            <index class="Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex"/>
+        </require>
+    </assertUrlRewriteDeletedMessage>
+    <assertUrlRewriteNotInGrid module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+        <require>
+            <urlRewriteIndex class="Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex"/>
+            <productRedirect class="Magento\UrlRewrite\Test\Fixture\UrlRewrite"/>
+        </require>
+    </assertUrlRewriteNotInGrid>
+    <assertPageByUrlRewriteIsNotFound module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
+            <productRedirect class="Magento\UrlRewrite\Test\Fixture\UrlRewrite"/>
+            <browser class="Mtf\Client\Browser"/>
+        </require>
+    </assertPageByUrlRewriteIsNotFound>
+    <assertUrlRewriteCmsPageRedirect module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsPage class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <urlRewrite class="Magento\Cms\Test\Fixture\UrlRewrite"/>
+            <browser class="Mtf\Client\Browser"/>
+        </require>
+    </assertUrlRewriteCmsPageRedirect>
+    <assertUrlRewriteInGrid module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+        <require>
+            <urlRewriteIndex class="Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory"/>
+            <urlRewriteCategory class="Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex"/>
+        </require>
+    </assertUrlRewriteInGrid>
 </constraint>

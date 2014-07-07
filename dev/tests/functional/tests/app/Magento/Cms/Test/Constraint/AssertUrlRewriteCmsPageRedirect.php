@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Constraint;
+namespace Magento\Cms\Test\Constraint;
 
 use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Magento\Cms\Test\Fixture\CmsPage;
+use Mtf\Constraint\AbstractConstraint;
+use Magento\Cms\Test\Fixture\UrlRewrite;
 
 /**
  * Class AssertUrlRewriteCmsPageRedirect
