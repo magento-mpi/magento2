@@ -62,9 +62,15 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-    * @dataProvider getCountTotalsDataProvider
-    * @magentoDataFixture Magento/Reports/_files/orders.php
-    */
+     * Check that grid does not contains unnecessary totals row
+     *
+     * @param $from string
+     * @param $to string
+     * @param $expectedResult bool
+     *
+     * @dataProvider getCountTotalsDataProvider
+     * @magentoDataFixture Magento/Reports/_files/orders.php
+     */
     public function testGetCountTotals($from, $to, $expectedResult)
     {
         $block = $this->_createBlock();
@@ -81,6 +87,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Data provider for testGetCountTotals
+     *
      * @return array
      */
     public function getCountTotalsDataProvider()
@@ -91,5 +99,4 @@ class GridTest extends \PHPUnit_Framework_TestCase
             [null, null, false],
         ];
     }
-
 }
