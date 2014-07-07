@@ -72,3 +72,22 @@ a.collapsed-options {
 .tooltip.right .tooltip-arrow {
     border-right-color: #ccc;
 }
+
+.password-strength > div {
+    background-color: #ffffff;
+    margin: 2px;
+    min-height: 5px;
+}
+.password-strength-none > div {}
+.password-strength-to-short > div:first-child {
+    background-color: #d9534f;
+}
+.password-strength-weak > div:first-child, .password-strength-weak > div:nth-child(2) {
+    background-color: #ffcc33;
+}
+.password-strength-good > div:first-child, .password-strength-good > div:nth-child(2), .password-strength-good > div:nth-child(3) {
+    background-color: #3c763d;
+}
+.password-strength-strong > div {
+    background-color: #3c763d;
+}
