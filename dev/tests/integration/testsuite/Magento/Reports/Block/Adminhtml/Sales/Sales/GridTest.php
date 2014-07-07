@@ -62,7 +62,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * Check that grid does not contains unnecessary totals row
+     * Check that grid does not contain unnecessary totals row
      *
      * @param $from string
      * @param $to string
