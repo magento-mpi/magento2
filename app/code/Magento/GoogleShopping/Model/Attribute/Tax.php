@@ -210,7 +210,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 
                     $billingAddressDataArray = [
                         'country_id' => $countryId,
-                        'customer_id' => $customerTaxClass->,
+                        'customer_id' => $customerTaxClass,
                         'region' => $region,
                         'postcode' => $postcode,
                     ];
@@ -451,11 +451,11 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $selectCSP->from(
             ['main_table' => $resource->getTable('directory_country_region')],
             ['state' => 'main_table.code']
-        )->where("main_table.tax_region_id = $regionId");
+        )->where("main_table.region_id = $regionId");
 
-        $dbResult = $adapter->fetchAssoc($selectCSP);
+        $dbResult = $adapter->fetchAll($selectCSP);
         if (!empty($dbResult)) {
-            $state = $dbResult['state'];
+            $state = $dbResult[0]['state'];
             $regions = $this->_parseRegions($state, $postalCode);
         }
         return $regions;
