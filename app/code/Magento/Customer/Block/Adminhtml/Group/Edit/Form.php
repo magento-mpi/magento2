@@ -8,6 +8,10 @@
 namespace Magento\Customer\Block\Adminhtml\Group\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Tax\Service\V1\Data\TaxClass;
+use Magento\Tax\Service\V1\TaxClassServiceInterface;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
 
 /**
  * Adminhtml customer groups edit form
@@ -15,9 +19,24 @@ use Magento\Customer\Controller\RegistryConstants;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Tax\Model\TaxClass\Source\Customer
+     * @var TaxClassServiceInterface
      */
-    protected $_taxCustomer;
+    protected $_taxClassService;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $_searchCriteriaBuilder;
+
+    /**
+     * @var FilterBuilder
+     */
+    protected $_filterBuilder;
+
+    /**
+     * @var \Magento\Framework\Convert\Object
+     */
+    protected $_converter;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
@@ -33,7 +52,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
+     * @param TaxClassServiceInterface $taxClassService
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Convert\Object $_converter
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $groupBuilder
      * @param array $data
@@ -42,12 +64,18 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
+        TaxClassServiceInterface $taxClassService,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        FilterBuilder $filterBuilder,
+        \Magento\Framework\Convert\Object $_converter,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $groupBuilder,
         array $data = array()
     ) {
-        $this->_taxCustomer = $taxCustomer;
+        $this->_taxClassService = $taxClassService;
+        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->_filterBuilder = $filterBuilder;
+        $this->_converter = $_converter;
         $this->_groupService = $groupService;
         $this->_groupBuilder = $groupBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -99,6 +127,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $name->setDisabled(true);
         }
 
+        $filters[] = $this->_filterBuilder
+            ->setField('class_type')
+            ->setValue(TaxClass::TYPE_CUSTOMER)
+            ->create();
+        $this->_searchCriteriaBuilder->addFilter($filters);
+        $searchCriteria = $this->_searchCriteriaBuilder->create();
+
         $fieldset->addField(
             'tax_class_id',
             'select',
@@ -108,7 +143,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'title' => __('Tax Class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'values' => $this->_taxCustomer->toOptionArray()
+                'values' => $this->_converter->toOptionArray(
+                        $this->_taxClassService
+                            ->searchTaxClass($searchCriteria)
+                            ->getItems(),
+                        'classid',
+                        'classname'
+                    )
             )
         );
 
