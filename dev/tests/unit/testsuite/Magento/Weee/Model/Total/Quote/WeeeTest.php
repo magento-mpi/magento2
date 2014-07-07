@@ -184,7 +184,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'taxData' => $taxHelper,
             'calculation' => $calculator,
-            '_weeeData' => $weeeHelper,
+            'weeeData' => $weeeHelper,
         ];
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -248,8 +248,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'address_data' => [
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
-                'subtotal' => 18.48,
-                'base_subtotal' => 18.48,
+                'weee' => 18.48,
+                'base_weee' => 18.48,
                 'extra_tax_amount' => 0,
                 'base_extra_tax_amount' => 0,
             ]
@@ -384,10 +384,10 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'address_data' => [
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
-                'subtotal' => 18.48,
-                'base_subtotal' => 18.48,
-                'extra_tax_amount' => 0,
-                'base_extra_tax_amount' => 0,
+                'extra_subtotal_amount' => 18.48,
+                'base_extra_subtotal_amount' => 18.48,
+                'extra_tax_amount' => 1.52,
+                'base_extra_tax_amount' => 1.52,
             ]
         ];
 

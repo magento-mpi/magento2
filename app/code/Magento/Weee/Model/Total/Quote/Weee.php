@@ -23,19 +23,28 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     protected $_store;
 
     /**
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $_calculator;
+    /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Tax\Model\Config $taxConfig
-     * @param \Magento\Weee\Helper\Data $_weeeData
+     * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
+     * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
+     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param \Magento\Weee\Helper\Data $weeeData
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Tax\Model\Config $taxConfig,
-        \Magento\Weee\Helper\Data $_weeeData
+        \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
+        \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
+        \Magento\Tax\Model\Calculation $calculation,
+        \Magento\Weee\Helper\Data $weeeData
     ) {
-        $this->_weeeData = $_weeeData;
-        parent::__construct($taxData, $calculation, $taxConfig);
+        $this->_weeeData = $weeeData;
+        $this->_calculator = $calculation;
+        parent::__construct($taxData, $taxConfig, $taxCalculationService, $quoteDetailsBuilder);
         $this->setCode('weee');
     }
 
@@ -312,13 +321,17 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _processTotalAmount($address, $rowValueExclTax, $baseRowValueExclTax, $rowValueInclTax, $baseRowValueInclTax)
     {
+        //TODO: use tax service to calculate tax
         if ($this->_weeeData->includeInSubtotal($this->_store)) {
-            $address->addTotalAmount('subtotal', $this->_store->roundPrice($rowValueExclTax));
-            $address->addBaseTotalAmount('subtotal', $this->_store->roundPrice($baseRowValueExclTax));
+            $address->setExtraSubtotalAmount($this->_store->roundPrice($rowValueExclTax));
+            $address->setBaseExtraSubtotalAmount($this->_store->roundPrice($baseRowValueExclTax));
         } else {
             $address->addTotalAmount('weee', $rowValueExclTax);
             $address->addBaseTotalAmount('weee', $baseRowValueExclTax);
         }
+        $address->setExtraTaxAmount($rowValueInclTax - $rowValueExclTax);
+        $address->setBaseExtraTaxAmount($baseRowValueInclTax - $baseRowValueExclTax);
+
         $address->setSubtotalInclTax($address->getSubtotalInclTax() + $this->_store->roundPrice($rowValueInclTax));
         $address->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax() + $this->_store->roundPrice($baseRowValueInclTax));
         return $this;
