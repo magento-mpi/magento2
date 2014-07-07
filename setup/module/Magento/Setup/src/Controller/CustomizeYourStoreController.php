@@ -9,6 +9,7 @@ namespace Magento\Setup\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Magento\Locale\Lists;
 
 class CustomizeYourStoreController extends AbstractActionController
 {
@@ -18,12 +19,20 @@ class CustomizeYourStoreController extends AbstractActionController
     protected $view;
 
     /**
+     * @var \Magento\Locale\Lists
+     */
+    protected $list;
+
+    /**
      * @param ViewModel $view
+     * @param \Magento\Locale\Lists $list
      */
     public function __construct(
-        ViewModel $view
+        ViewModel $view,
+        Lists $list
     ) {
         $this->view = $view;
+        $this->list = $list;
     }
 
     /**
@@ -31,7 +40,12 @@ class CustomizeYourStoreController extends AbstractActionController
      */
     public function indexAction()
     {
-        $this->view->setTerminal(true);
+        $this->view->setVariables([
+            'timezone' => $this->list->getTimezoneList(),
+            'currency' => $this->list->getCurrencyList(),
+            'language' => $this->list->getLocaleList()
+        ]);
+
         return $this->view;
     }
 }

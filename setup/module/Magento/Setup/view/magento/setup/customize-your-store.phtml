@@ -10,15 +10,15 @@
 <form class="form-horizontal" role="form">
     <div class="form-group">
         <label class="col-md-3 control-label"><?php echo $this->translate('Sample Data'); ?></label>
-        <div class="col-md-7">
+        <div class="col-md-5">
             <p class="form-control-static"><?php echo $this->translate('Using sample of "fake" data can be helpful, letting you automatically build your store with fictious products, tax, and payment settings. But it also creates a lot of extra data you need to remove later. Learn the pros and cons in out <a href="#">Guide to Using Sample Data</a>.'); ?></p>
         </div>
     </div>
 
     <div class="form-group">
-        <div class="checkbox col-md-7 col-md-offset-3">
+        <div class="checkbox col-md-4 col-md-offset-3">
             <label>
-                <input type="checkbox" ng-model="sampledata">&nbsp;<?php echo $this->translate('Use Sample Data'); ?>
+                <input type="checkbox" ng-model="useSampledata">&nbsp;<?php echo $this->translate('Use Sample Data'); ?>
             </label>
         </div>
     </div>
@@ -28,35 +28,46 @@
         <div class="col-md-4">
             <select class="form-control"
                     ng-model="timezone"
-                    ng-options="opt for opt in options.timezone"
                     tooltip-placement="right"
                     tooltip-html-unsafe="<?php echo $this->translate('The time zone in which your online store operates. You can change this later in Magento Admin.'); ?>"
                     tooltip-trigger="focus"
-                    tooltip-append-to-body="true"></select>
+                    tooltip-append-to-body="true">
+            <?php foreach ($this->timezone as $value => $label): ?>
+                <?php echo "<option value=\"" . $value . "\">" . $label . "</option>"; ?>
+            <?php endforeach; ?>
+            </select>
         </div>
     </div>
+
     <div class="form-group">
         <label class="col-md-3 control-label"><?php echo $this->translate('Store Default Currency'); ?><span class="required">*</span></label>
         <div class="col-md-4">
             <select class="form-control"
                     ng-model="currency"
-                    ng-options="opt for opt in options.currency"
                     tooltip-placement="right"
                     tooltip-html-unsafe="<?php echo $this->translate('The currency your store uses for price labeling, checkout, returns, credit and gift cards. You can change this later in Magento Admin.'); ?>"
                     tooltip-trigger="focus"
-                    tooltip-append-to-body="true"></select>
+                    tooltip-append-to-body="true">
+            <?php foreach ($this->currency as $value => $label): ?>
+                <?php echo "<option value=\"" . $value . "\">" . $label . "</option>"; ?>
+            <?php endforeach; ?>
+            </select>
         </div>
     </div>
+
     <div class="form-group">
         <label class="col-md-3 control-label"><?php echo $this->translate('Store Default Language'); ?><span class="required">*</span></label>
         <div class="col-md-4">
             <select class="form-control"
                     ng-model="language"
-                    ng-options="opt for opt in options.language"
                     tooltip-placement="right"
                     tooltip-html-unsafe="<?php echo $this->translate('The language customers will see in your store. You can change this later in Magento Set Up Tool.'); ?>"
                     tooltip-trigger="focus"
-                    tooltip-append-to-body="true"></select>
+                    tooltip-append-to-body="true">
+            <?php foreach ($this->language as $value => $label): ?>
+                <?php echo "<option value=\"" . $value . "\">" . $label . "</option>"; ?>
+            <?php endforeach; ?>
+            </select>
         </div>
     </div>
 </form>
