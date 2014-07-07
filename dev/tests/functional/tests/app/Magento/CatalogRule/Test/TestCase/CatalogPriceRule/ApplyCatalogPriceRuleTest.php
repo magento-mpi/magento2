@@ -184,7 +184,7 @@ class ApplyCatalogPriceRuleTest extends Functional
             $this->assertEquals(
                 $appliedRulePrice,
                 $unitPrice,
-                'Incorrect price for ' . $product->getProductName()
+                'Incorrect price for ' . $product->getName()
             );
         }
     }
@@ -252,8 +252,8 @@ class ApplyCatalogPriceRuleTest extends Functional
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $productListBlock = $categoryPage->getListProductBlock();
         foreach ($products as $product) {
-            $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
-            $productPriceBlock = $productListBlock->getProductPriceBlock($product->getProductName());
+            $this->assertTrue($productListBlock->isProductVisible($product->getName()));
+            $productPriceBlock = $productListBlock->getProductPriceBlock($product->getName());
             $this->assertContains(
                 (string)($product->getProductPrice() * $this->discountRate),
                 $productPriceBlock->getEffectivePrice(),

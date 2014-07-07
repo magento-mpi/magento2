@@ -46,7 +46,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
             'attribute' => 'postcode'
         ],
         'Category' => [
-            'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
+            'type' => 'Magento\SalesRule\Model\Rule\Condition\Product',
             'attribute' => 'category_ids'
         ]
     ];
@@ -117,6 +117,8 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
             unset($data['conditions_serialized']);
         }
         if (isset($data['actions_serialized'])) {
+            $this->mapTypeParams['Conditions combination']['type'] =
+                'Magento\SalesRule\Model\Rule\Condition\Product\Combine';
             $data['rule']['actions'] = $this->prepareCondition($data['actions_serialized']);
             unset($data['actions_serialized']);
         }
