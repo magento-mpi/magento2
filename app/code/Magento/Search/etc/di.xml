@@ -56,6 +56,11 @@
             <argument name="context" xsi:type="object">Magento\Search\Model\Layer\Search\Context</argument>
         </arguments>
     </type>
+    <type name="Magento\CatalogSearch\Model\Layer\Advanced">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\Context</argument>
+        </arguments>
+    </type>
     <virtualType name="categoryFilterList" type="Magento\Search\Model\Layer\Category\FilterList"/>
     <virtualType name="categorySearchList" type="Magento\Search\Model\Layer\Search\FilterList">
         <arguments>

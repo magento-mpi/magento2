@@ -335,6 +335,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 continue;
             }
             $item->setName($this->getProductName($item));
+            $item->setAvailableQty($returnableItems[$item->getId()]);
         }
         return $orderItemsCollection;
     }

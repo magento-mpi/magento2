@@ -22,15 +22,23 @@ class QuantityValidator
     protected $stockItemInitializer;
 
     /**
+     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
+     */
+    protected $stockItemFactory;
+
+    /**
      * @param QuantityValidator\Initializer\Option $optionInitializer
      * @param QuantityValidator\Initializer\StockItem $stockItemInitializer
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      */
     public function __construct(
         QuantityValidator\Initializer\Option $optionInitializer,
-        QuantityValidator\Initializer\StockItem $stockItemInitializer
+        QuantityValidator\Initializer\StockItem $stockItemInitializer,
+        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
     ) {
         $this->optionInitializer = $optionInitializer;
         $this->stockItemInitializer = $stockItemInitializer;
+        $this->stockItemFactory = $stockItemFactory;
     }
 
     /**
@@ -57,15 +65,16 @@ class QuantityValidator
         $qty = $quoteItem->getQty();
 
         /** @var \Magento\CatalogInventory\Model\Stock\Item $stockItem */
-        $stockItem = $quoteItem->getProduct()->getStockItem();
+        $stockItem = $this->stockItemFactory->create()->loadByProduct($quoteItem->getProduct());
 
         $parentStockItem = false;
 
         /**
-         * Check if product in stock. For composite products check base (parent) item stosk status
+         * Check if product in stock. For composite products check base (parent) item stock status
          */
         if ($quoteItem->getParentItem()) {
-            $parentStockItem = $quoteItem->getParentItem()->getProduct()->getStockItem();
+            $parentStockItem = $this->stockItemFactory->create()
+                ->loadByProduct($quoteItem->getParentItem()->getProduct());
         }
 
         if ($stockItem) {
@@ -120,6 +129,7 @@ class QuantityValidator
             }
 
             foreach ($options as $option) {
+
                 $result = $this->optionInitializer->initialize($option, $quoteItem, $qty);
                 if ($result->getHasError()) {
                     $option->setHasError(true);

@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items;
 
-use \Magento\Catalog\Model\Product\Type\AbstractType;
+use Magento\Catalog\Model\Product\Type\AbstractType;
 
 /**
  * Adminhtml sales order item renderer
@@ -164,8 +164,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\
      */
     public function canShowPriceInfo($item)
     {
-        if ($item->getParentItem() && $this->isChildCalculated() ||
-            !$item->getParentItem() && !$this->isChildCalculated()
+        if ($item->getParentItem() && $this->isChildCalculated()
+            || !$item->getParentItem() && !$this->isChildCalculated()
         ) {
             return true;
         }

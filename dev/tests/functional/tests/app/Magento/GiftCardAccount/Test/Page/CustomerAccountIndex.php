@@ -69,4 +69,4 @@ class CustomerAccountIndex extends AbstractCustomerAccountIndex
     {
         return $this->getBlockInstance('accountMenuBlock');
     }
-} 
+}

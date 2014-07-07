@@ -159,10 +159,9 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
     }
 
     /**
-     * @param mixed $item
      * @return array
      */
-    public function getOrderOptions($item = null)
+    public function getOrderOptions()
     {
         $result = array();
         $options = $this->getOrderItem()->getProductOptions();
@@ -220,8 +219,8 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
      */
     public function canShowPriceInfo($item)
     {
-        if ($item->getOrderItem()->getParentItem() && $this->isChildCalculated() ||
-            !$item->getOrderItem()->getParentItem() && !$this->isChildCalculated()
+        if ($item->getOrderItem()->getParentItem() && $this->isChildCalculated()
+            || !$item->getOrderItem()->getParentItem() && !$this->isChildCalculated()
         ) {
             return true;
         }
