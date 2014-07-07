@@ -74,14 +74,16 @@ class Images extends \Magento\Backend\App\Action
     {
         try {
             $this->_initAction();
-            $this->getResponse()->setBody(
+            $this->getResponse()->representJson(
                 $this->_view->getLayout()->createBlock(
                     'Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree'
                 )->getTreeJson()
             );
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+            );
         }
     }
 
@@ -98,7 +100,9 @@ class Images extends \Magento\Backend\App\Action
             $this->_view->renderLayout();
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+            );
         }
     }
 
@@ -117,7 +121,9 @@ class Images extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->representJson(
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+        );
     }
 
     /**
@@ -132,7 +138,9 @@ class Images extends \Magento\Backend\App\Action
             $this->getStorage()->deleteDirectory($path);
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+            );
         }
     }
 
@@ -164,7 +172,9 @@ class Images extends \Magento\Backend\App\Action
             }
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+            );
         }
     }
 
@@ -182,7 +192,9 @@ class Images extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->representJson(
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+        );
     }
 
     /**

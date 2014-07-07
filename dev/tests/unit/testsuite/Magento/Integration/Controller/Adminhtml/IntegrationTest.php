@@ -792,7 +792,7 @@ HANDLE;
         $this->_viewMock->expects($this->once())->method('renderLayout');
 
         $this->_responseMock->expects($this->once())->method('getBody');
-        $this->_responseMock->expects($this->once())->method('setBody');
+        $this->_responseMock->expects($this->once())->method('representJson');
 
         $controller->tokensExchangeAction();
     }
@@ -848,10 +848,10 @@ HANDLE;
 
         $integrationCollection = $this->getMockBuilder('\Magento\Integration\Model\Resource\Integration\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(['addUnsecureEndpointFilter', 'getSize'])
+            ->setMethods(['addUnsecureUrlsFilter', 'getSize'])
             ->getMock();
         $integrationCollection->expects($this->any())
-            ->method('addUnsecureEndpointFilter')
+            ->method('addUnsecureUrlsFilter')
             ->will($this->returnValue($integrationCollection));
         $integrationCollection->expects($this->any())
             ->method('getSize')

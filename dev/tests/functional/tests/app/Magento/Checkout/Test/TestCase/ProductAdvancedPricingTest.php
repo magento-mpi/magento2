@@ -98,7 +98,7 @@ class ProductAdvancedPricingTest extends Functional
      */
     private function verifyCartItem(Product $product)
     {
-        $productName = $product->getProductName();
+        $productName = $product->getName();
         $specialPrice = $product->getProductSpecialPrice();
 
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
@@ -136,7 +136,7 @@ class ProductAdvancedPricingTest extends Functional
             $this->assertContains(
                 $specialPrice,
                 Factory::getPageFactory()->getSalesOrderView()->getItemsOrderedBlock()->getPrice($product),
-                'Incorrect price for item ' . $product->getProductName()
+                'Incorrect price for item ' . $product->getName()
             );
         }
     }
