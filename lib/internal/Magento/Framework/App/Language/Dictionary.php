@@ -174,6 +174,7 @@ class Dictionary
      * @param array $result
      * @param int $level
      * @param array $pathway
+     * @return void
      *
      * @throws \LogicException
      */
