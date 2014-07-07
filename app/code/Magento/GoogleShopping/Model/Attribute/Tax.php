@@ -203,21 +203,21 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                         'type' => 'product',
                         'tax_class_id' => $product->getTaxClassId(),
                         'unit_price' => $product->getPrice(),
-                        'quantity' => $product->getQty(),
+                        'quantity' => 1,
                         'tax_included' => $taxIncluded,
                         'short_description' => $product->getName(),
                     ];
 
                     $billingAddressDataArray = [
                         'country_id' => $countryId,
-                        'customer_id' => $customerTaxClass,
+                        'customer_id' => $customerTaxClassId,
                         'region' => $region,
                         'postcode' => $postcode,
                     ];
 
                     $shippingAddressDataArray = [
                         'country_id' => $countryId,
-                        'customer_id' => $customerTaxClass,
+                        'customer_id' => $customerTaxClassId,
                         'region' => $region,
                         'postcode' => $postcode,
                     ];
@@ -408,8 +408,8 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Get rates by customer and product classes
      *
-     * @param int $customerTaxClass
-     * @param int $productTaxClass
+     * @param int $customerTaxClassId
+     * @param int $productTaxClassId
      * @return TaxRate[]
      */
     private function _getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $productTaxClassId)
