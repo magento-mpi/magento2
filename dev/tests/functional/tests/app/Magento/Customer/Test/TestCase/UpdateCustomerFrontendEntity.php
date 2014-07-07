@@ -110,7 +110,7 @@ class UpdateCustomerFrontendEntity extends Injectable
     }
 
     /**
-     * Runs Update Customer Entity test
+     * Run Update Customer Entity test
      *
      * @param CustomerInjectable $initialCustomer
      * @param CustomerInjectable $customer
