@@ -303,7 +303,7 @@ class Types extends \Magento\Backend\App\Action
      *
      * @return void
      */
-    protected function loadAttributeSetsAction()
+    public function loadAttributeSetsAction()
     {
         try {
             $this->getResponse()->setBody(
