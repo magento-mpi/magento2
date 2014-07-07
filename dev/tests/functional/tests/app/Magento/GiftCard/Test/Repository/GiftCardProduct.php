@@ -28,6 +28,7 @@ class GiftCardProduct extends AbstractRepository
             'name' => 'Test product giftcard %isolation%',
             'sku' => 'sku_test_product_giftcard_%isolation%',
             'giftcard_type' => 'Virtual',
+            'category_ids' => ['presets' => 'default'],
             'giftcard_amounts' => [
                 [
                     'website_id' => 'All Websites [USD]',
@@ -39,7 +40,7 @@ class GiftCardProduct extends AbstractRepository
                 ]
             ],
             'quantity_and_stock_status' => [
-                'qty' => 666.0000,
+                'qty' => 123.0000,
                 'is_in_stock' => 'In Stock',
             ],
             'status' => 'Product online',
