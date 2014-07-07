@@ -97,6 +97,7 @@
 }
 
 .form.search.advanced {
+    &:extend(.abstract-forms-general-desktop all);
     .fields.range {
         .field {
             &:first-child {
@@ -136,6 +137,15 @@
             }
         }
     }
+}
+
+.search-terms {
+   &:extend(.reset-list all);
+   line-height: 2em;
+   > li {
+        display: inline-block;
+        margin-right: @indent-s-base;
+   }
 }
 
 //

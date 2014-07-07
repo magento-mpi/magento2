@@ -435,3 +435,18 @@
 .abstract-box-tocart {
     margin: 0 0 @indent-l-base;
 }
+
+//
+//    General pages forms
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .abstract-forms-general-desktop {
+        max-width: 500px;
+        .legend {
+            .visually-hidden();
+        }
+        .legend + br {
+            display: none;
+        }
+    }
+}

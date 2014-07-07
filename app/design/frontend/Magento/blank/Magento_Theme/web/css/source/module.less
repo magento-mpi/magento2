@@ -115,7 +115,8 @@ body {
         padding-bottom: 25px;
         border-top: 1px solid @border-color-base;
         ul {
-            .list-reset-styles(0, 0 50px 0 0);
+            &:extend(.reset-list all);
+            padding: 0 50px 0 0;
         }
         .links {
             display: inline-block;
