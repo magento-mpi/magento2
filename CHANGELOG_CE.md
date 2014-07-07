@@ -11,20 +11,6 @@
   * Fixed: jQuery error on product page in admin when switching between product tabs (MAGETWO-24846)
 * GitHub requests:
   * [#257]  JSON loading should follow OWASP reccomendation (MAGETWO-23729)
-* Added the following functional tests:
-  * Applying Several Catalog Price Rules (MTA-68)
-  * Attribute Set Creation(MTA-44)
-  * Category Deletion (MTA-109)
-  * Customer Group Deletion (MTA-233)
-  * Generating Sitemap (MTA-148)
-  * Product Attribute Deletion (MTA-151)
-  * Update Admin User (MTA-53)
-  * Update Cms Page (MTA-94)
-  * Update Customer Group (MTA-143)
-  * Update Downloadable Product (MTA-322)
-  * Update Product Attribute (MTA-29)
-  * Update Sales Rule (MTA-74)
-  * Update Sitemap (MTA-149)
 
 2.0.0.0-dev84
 =============
