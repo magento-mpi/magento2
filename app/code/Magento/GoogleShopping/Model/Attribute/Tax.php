@@ -175,15 +175,15 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             return $entry;
         }
 
-        $customerTaxClass = $this->getDefaultCustomerTaxClass($product->getStoreId());
-        $rates = $this->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
+        $customerTaxClass = $this->_getDefaultCustomerTaxClass($product->getStoreId());
+        $rates = $this->_getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
             $countryId = $rate->getCountryId();
             $postcode = $rate->getPostcode();
             if ($targetCountry == $countryId) {
-                $regions = $this->getRegionsByRegionId($rate->getRegionId(), $postcode);
+                $regions = $this->_getRegionsByRegionId($rate->getRegionId(), $postcode);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
                     throw new \Magento\Framework\Model\Exception(
@@ -277,7 +277,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         if (strpos($zip, '-') == -1) {
             return array($zip);
         } else {
-            return $this->zipRangeToZipPattern($zip);
+            return $this->_zipRangeToZipPattern($zip);
         }
     }
 
@@ -288,7 +288,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param  string $zipRange
      * @return array
      */
-    private function zipRangeToZipPattern($zipRange)
+    private function _zipRangeToZipPattern($zipRange)
     {
         $zipLength = 5;
         $zipPattern = array();
@@ -395,7 +395,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param null|Store|string|int $store
      * @return int
      */
-    private function getDefaultCustomerTaxClass($store = null)
+    private function _getDefaultCustomerTaxClass($store = null)
     {
         if (is_null($this->_defaultCustomerTaxClass)) {
             //Not catching the exception here since default group is expected
@@ -412,7 +412,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param int $productTaxClass
      * @return TaxRate[]
      */
-    private function getRatesByCustomerAndProductTaxClasses($customerTaxClass, $productTaxClass)
+    private function _getRatesByCustomerAndProductTaxClasses($customerTaxClass, $productTaxClass)
     {
         $filters = [
             $this->_filterBuilder->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)->setValue([$customerTaxClass])->create(),
@@ -442,7 +442,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param string $postalCode
      * @return String[]
      */
-    private function getRegionsByRegionId($regionId, $postalCode)
+    private function _getRegionsByRegionId($regionId, $postalCode)
     {
         $regions = [];
         $resource = $this->_getResource();
