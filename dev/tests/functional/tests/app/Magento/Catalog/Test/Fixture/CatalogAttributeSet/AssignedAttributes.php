@@ -11,7 +11,6 @@ namespace Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
-use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
 /**
  * Class AssignedAttributes
@@ -26,7 +25,7 @@ class AssignedAttributes implements FixtureInterface
      *
      * @var array
      */
-    protected $params;
+    protected $params = [];
 
     /**
      * Names of assigned attributes
@@ -91,6 +90,8 @@ class AssignedAttributes implements FixtureInterface
      *
      * @param string|null $key
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

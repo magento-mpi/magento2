@@ -11,8 +11,8 @@ namespace Magento\Catalog\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class CatalogProductTemplate
- * Product Template fixture
+ * Class CatalogAttributeSet
+ * Catalog Attribute Set fixture
  */
 class CatalogAttributeSet extends InjectableFixture
 {

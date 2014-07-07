@@ -27,7 +27,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      *
      * @var string
      */
-    protected $attributeSetId = '`http.*?id\/(\d*?)\/.*?data-ui-id=\"page-actions-toolbar-delete-button\".*`';
+    protected $attributeSetId = '`http.*?product_set\/delete\/id\/(\d*?)\/`';
 
     /**
      * Regex for finding attributes
