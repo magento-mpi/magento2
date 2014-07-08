@@ -601,7 +601,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $storeId = $store->getId();
             }
             $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
-            $taxDetailsItem = $taxDetails->getItems()[self::TAXABLE_ITEM_CODE];
+            $taxDetailsItems = $taxDetails->getItems();
+            $taxDetailsItem = array_pop($taxDetailsItems);
             return $taxDetailsItem->getPriceInclTax();
         }
         return $store->roundPrice($price);
