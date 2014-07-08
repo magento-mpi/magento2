@@ -10,16 +10,16 @@ namespace Magento\Catalog\Model\Plugin;
 class ShowOutOfStockConfig
 {
     /**
-     * @var \Magento\Index\Model\Indexer
+     * @var \Magento\Catalog\Model\Indexer\Product\Eav\Processor
      */
-    protected $_indexer;
+    protected $_eavIndexerProcessor;
 
     /**
-     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Catalog\Model\Indexer\Product\Eav\Processor $eavIndexerProcessor
      */
-    public function __construct(\Magento\Index\Model\Indexer $indexer)
+    public function __construct(\Magento\Catalog\Model\Indexer\Product\Eav\Processor $eavIndexerProcessor)
     {
-        $this->_indexer = $indexer;
+        $this->_eavIndexerProcessor = $eavIndexerProcessor;
     }
 
     /**
@@ -33,8 +33,7 @@ class ShowOutOfStockConfig
     public function afterSave(\Magento\Framework\App\Config\Value $subject, $result)
     {
         if ($subject->isValueChanged()) {
-            $this->_indexer->getProcessByCode('catalog_product_attribute')
-                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
+            $this->_eavIndexerProcessor->markIndexerAsInvalid();
         }
         return $result;
     }

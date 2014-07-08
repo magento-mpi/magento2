@@ -18,7 +18,6 @@ class Managestock extends AbstractValue
 {
     /**
      * After change Catalog Inventory Manage Stock value process
-     *
      * @return $this
      */
     protected function _afterSave()
