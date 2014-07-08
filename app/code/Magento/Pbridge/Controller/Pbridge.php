@@ -231,6 +231,8 @@ class Pbridge extends \Magento\Framework\App\Action\Action
                 'Please agree to all the terms and conditions before placing the order.'
             );
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->representJson(
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+        );
     }
 }

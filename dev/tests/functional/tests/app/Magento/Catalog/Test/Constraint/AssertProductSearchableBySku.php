@@ -55,10 +55,7 @@ class AssertProductSearchableBySku extends AbstractConstraint
         $cmsIndex->open();
         $cmsIndex->getSearchBlock()->search($product->getSku());
 
-        $isInStock = $product->getQuantityAndStockStatus();
-        if ($product->getVisibility() === 'Catalog'
-            || (isset($isInStock['is_in_stock']) && $isInStock['is_in_stock'] === 'Out of Stock')
-        ) {
+        if ($product->getVisibility() === 'Catalog') {
             $isVisible = !($catalogSearchResult->getListProductBlock()->isProductVisible($product->getName()));
             $this->errorMessage = 'Product successfully found by SKU.';
             $this->successfulMessage = 'The product has not been found by SKU.';

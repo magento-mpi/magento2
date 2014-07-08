@@ -21,7 +21,7 @@ class CatalogProductSimple extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
-     * 
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
@@ -33,12 +33,6 @@ class CatalogProductSimple extends AbstractRepository
             'sku' => 'sku_simple_product_%isolation%',
             'weight' => 1,
             'quantity_and_stock_status' => [
-                'qty' => 25.0000,
-                'is_in_stock' => 'In Stock',
-            ],
-            'stock_data' => [
-                'manage_stock' => 'Yes',
-                'original_inventory_qty' => 25.0000,
                 'qty' => 25.0000,
                 'is_in_stock' => 'In Stock',
             ],
