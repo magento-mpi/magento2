@@ -75,8 +75,6 @@ use \Magento\Catalog\Model\Product\ProductList\Toolbar;
             <?php if ($this->getLastPageNum() > 1): ?>
                 <?php echo __('Items %1-%2 of %3', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
             <?php elseif ($this->getLastPageNum() == 1): ?>
-                <?php echo __('%1 Item', $this->getTotalNum()) ?>
-            <?php else: ?>
                 <?php echo __('%1 Item(s)', $this->getTotalNum()) ?>
             <?php endif; ?>
         </p>
