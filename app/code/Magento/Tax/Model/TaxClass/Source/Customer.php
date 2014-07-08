@@ -5,11 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Tax\Model\TaxClass\Source;
 
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory;
 use Magento\Tax\Service\V1\Data\TaxClass;
 
+/**
+ * Customer tax class source model.
+ */
 class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
@@ -28,6 +32,8 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $filterBuilder;
 
     /**
+     * Initialize dependencies.
+     *
      * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
      * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
@@ -43,12 +49,17 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     }
 
     /**
+     * Retrieve all customer tax classes as an options array.
+     *
      * @return array
      */
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $filter = $this->filterBuilder->setField(TaxClass::KEY_TYPE)->setValue(\Magento\Tax\Service\V1\Data\TaxClass::TYPE_CUSTOMER)->create();
+            $filter = $this->filterBuilder
+                ->setField(TaxClass::KEY_TYPE)
+                ->setValue(\Magento\Tax\Service\V1\Data\TaxClass::TYPE_CUSTOMER)
+                ->create();
             $searchCriteria = $this->searchCriteriaBuilder->addFilter([$filter])->create();
             $searchResults = $this->taxClassService->searchTaxClass($searchCriteria);
             foreach ($searchResults->getItems() as $taxClass) {

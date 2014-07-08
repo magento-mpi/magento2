@@ -150,19 +150,6 @@ class Rule extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Get all possible options for specified class name (customer|product)
-     *
-     * @param string $classFilter
-     * @return array
-     */
-    public function getAllOptionsForClass($classFilter)
-    {
-        $classes = $this->_taxClass->getCollection()->setClassTypeFilter($classFilter)->toOptionArray();
-
-        return $classes;
-    }
-
-    /**
      * Fetches rules by rate, customer tax class and product tax class
      * and product tax class combination
      *

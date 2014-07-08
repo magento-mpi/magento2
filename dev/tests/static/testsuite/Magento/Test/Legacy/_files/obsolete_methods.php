@@ -1622,6 +1622,7 @@ return array(
     array('getLimitVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('validatePHPVersion', 'Magento\Framework\Connect\Validator'),
     array('getOrderUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getAllOptionsForClass', 'Magento\Tax\Model\Calculation\Rule'),
     array('getModeUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),

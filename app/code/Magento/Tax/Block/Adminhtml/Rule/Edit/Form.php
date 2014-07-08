@@ -252,7 +252,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @return int|null
      */
-    protected function getDefaultCustomerTaxClass()
+    public function getDefaultCustomerTaxClass()
     {
         $configValue = $this->taxHelper->getDefaultCustomerTaxClass();
         if (!empty($configValue)) {
@@ -272,7 +272,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @return int|null
      */
-    protected function getDefaultProductTaxClass()
+    public function getDefaultProductTaxClass()
     {
         $configValue = $this->taxHelper->getDefaultProductTaxClass();
         if (!empty($configValue)) {
