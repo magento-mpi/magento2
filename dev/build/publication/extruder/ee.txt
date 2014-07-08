@@ -60,6 +60,7 @@ LICENSE_EE.txt
 
 app/design/adminhtml/Magento/backend/Magento_Enterprise/
 app/design/adminhtml/Magento/backend/Magento_GiftRegistry/
+app/design/adminhtml/Magento/backend/Magento_Rma/
 app/design/frontend/Magento/blank/Magento_AdvancedCheckout
 app/design/frontend/Magento/blank/Magento_Banner
 app/design/frontend/Magento/blank/Magento_CatalogEvent
@@ -133,7 +134,7 @@ dev/tests/functional/tests/app/Magento/Cms/Test/Block
 dev/tests/functional/tests/app/Magento/Cms/Test/Constraint
 dev/tests/functional/tests/app/Magento/Cms/Test/etc
 dev/tests/functional/tests/app/Magento/Cms/Test/Fixture
-dev/tests/functional/tests/app/Magento/Cms/Test/Page/AdminHtml
+dev/tests/functional/tests/app/Magento/Cms/Test/Page/Adminhtml
 dev/tests/functional/tests/app/Magento/Cms/Test/Page/CmsPage.php
 dev/tests/functional/tests/app/Magento/Cms/Test/Repository
 dev/tests/functional/tests/app/Magento/Cms/Test/TestCase
