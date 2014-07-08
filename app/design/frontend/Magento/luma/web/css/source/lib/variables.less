@@ -256,12 +256,12 @@
 @table-th-line-height: false;
 @table-th-font-style: false;
 
-@table-cell-bg-stripped: lighten(@table-cell-bg-hover, 15%);
+@table-cell-bg-stripped: @table-cell-bg-hover;
 @table-cell-bg-hover: @panel-bg;
 @table-cell-color-stripped: @table-td-color;
 
 @table-bg-responsive: @table-bg;
-@table-th-bg-responsive: false;
+@table-th-bg-responsive: @table-cell-bg-stripped;
 
 //
 //    Page layout variables
