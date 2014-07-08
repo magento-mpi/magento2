@@ -57,7 +57,7 @@ class Product extends \Magento\Core\Helper\Url
      *
      * @var \Magento\Framework\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var string
@@ -80,11 +80,6 @@ class Product extends \Magento\Core\Helper\Url
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
-
-    /**
-     * @var \Magento\Framework\Logger
-     */
-    protected $_logger;
 
     /**
      * Catalog session
@@ -151,7 +146,6 @@ class Product extends \Magento\Core\Helper\Url
         $this->_scopeConfig = $scopeConfig;
         $this->_assetRepo = $assetRepo;
         $this->_coreConfig = $coreConfig;
-        $this->_logger = $context->getLogger();
         $this->_reindexPriceIndexerData = $reindexPriceIndexerData;
         parent::__construct($context, $storeManager);
     }
