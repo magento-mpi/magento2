@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Test\Handler\CatalogProductVirtual;
 
 use Mtf\Handler\HandlerInterface;

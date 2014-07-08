@@ -38,4 +38,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Tab\History">
+        <plugin name="sales-order-history-rma-plugin" type="Magento\Rma\Block\Adminhtml\Order\View\Tab\HistoryPlugin"/>
+    </type>
 </config>

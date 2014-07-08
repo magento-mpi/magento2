@@ -91,6 +91,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $country_of_manufacture = [
@@ -391,6 +392,13 @@ class CatalogProductBundle extends InjectableFixture
         'group' => 'advanced-inventory'
     ];
 
+    protected $manage_stock = [
+        'attribute_code' => 'manage_stock',
+        'input' => 'select',
+        'group' => 'advanced-inventory',
+    ];
+
+
     protected $inventory_manage_stock = [
         'attribute_code' => 'inventory_manage_stock',
         'input' => 'select',
@@ -500,9 +508,10 @@ class CatalogProductBundle extends InjectableFixture
         'attribute_code' => 'tax_class_id',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '2',
+        'default_value' => 'Taxable Goods',
         'input' => 'select',
-        'group' => 'product-details'
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
@@ -591,6 +600,26 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'group' => 'customer-options',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+    ];
+
+    protected $new_variations_attribute_set_id = [
+        'attribute_code' => 'new_variations_attribute_set_id'
+    ];
+
+    protected $affect_bundle_product_selection = [
+        'attribute_code' => 'affect_bundle_product_selection'
+    ];
+
+    protected $stock_data = [
+        'attribute_code' => 'stock_data'
+    ];
+
+    protected $category_id = [
+        'attribute_code' => 'category_id'
+    ];
+
+    protected $website_ids = [
+        'attribute_code' => 'website_ids'
     ];
 
     public function getCategoryIds()

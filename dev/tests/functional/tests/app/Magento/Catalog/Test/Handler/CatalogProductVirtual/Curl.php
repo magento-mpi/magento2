@@ -2,24 +2,19 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Catalog\Test\Handler\CatalogProductVirtual;
 
-use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as AbstractCurl;
-use Mtf\Util\Protocol\CurlTransport;
+use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
 
 /**
- * Class CreateProduct
- * Curl for Virtual product
+ * Class Curl
+ * Create new virtual product via curl
  */
-class Curl extends AbstractCurl implements CatalogProductVirtualInterface
+class Curl extends ProductCurl implements CatalogProductVirtualInterface
 {
     //
 }
