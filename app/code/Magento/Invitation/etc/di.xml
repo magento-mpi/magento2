@@ -18,4 +18,9 @@
             <argument name="context" xsi:type="object">Magento\Invitation\Helper\DataContext</argument>
         </arguments>
     </type>
+    <type name="Magento\Invitation\Model\Invitation\Status">
+        <arguments>
+            <argument name="isAdmin" xsi:type="boolean">false</argument>
+        </arguments>
+    </type>
 </config>

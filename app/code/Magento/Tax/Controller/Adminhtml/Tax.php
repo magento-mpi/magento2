@@ -58,7 +58,7 @@ class Tax extends \Magento\Backend\App\Action
                 )
             );
         }
-        $this->getResponse()->setBody($responseContent);
+        $this->getResponse()->representJson($responseContent);
     }
 
     /**
@@ -72,7 +72,6 @@ class Tax extends \Magento\Backend\App\Action
         try {
             /** @var $classModel \Magento\Tax\Model\ClassModel */
             $classModel = $this->_objectManager->create('Magento\Tax\Model\ClassModel')->load($classId);
-            $classModel->checkClassCanBeDeleted();
             $classModel->delete();
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
@@ -92,7 +91,7 @@ class Tax extends \Magento\Backend\App\Action
                 array('success' => false, 'error_message' => __('Something went wrong deleting this tax class.'))
             );
         }
-        $this->getResponse()->setBody($responseContent);
+        $this->getResponse()->representJson($responseContent);
     }
 
     /**

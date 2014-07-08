@@ -382,13 +382,23 @@ class Account extends \Magento\Framework\App\Action\Action
     }
 
     /**
+     * Check whether registration is allowed
+     *
+     * @return bool
+     */
+    protected function isRegistrationAllowed()
+    {
+        return $this->_customerHelperData->isRegistrationAllowed();
+    }
+
+    /**
      * Customer register form page
      *
      * @return void
      */
     public function createAction()
     {
-        if ($this->_getSession()->isLoggedIn()) {
+        if ($this->_getSession()->isLoggedIn() || !$this->isRegistrationAllowed()) {
             $this->_redirect('*/*');
             return;
         }
@@ -406,7 +416,7 @@ class Account extends \Magento\Framework\App\Action\Action
      */
     public function createPostAction()
     {
-        if ($this->_getSession()->isLoggedIn()) {
+        if ($this->_getSession()->isLoggedIn() || !$this->isRegistrationAllowed()) {
             $this->_redirect('*/*/');
             return;
         }

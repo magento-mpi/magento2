@@ -13,7 +13,6 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 
 /**
  * Class AssertSitemapSuccessSaveMessage
- *
  */
 class AssertSitemapSuccessSaveMessage extends AbstractConstraint
 {

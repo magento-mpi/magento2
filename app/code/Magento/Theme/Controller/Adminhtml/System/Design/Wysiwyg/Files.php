@@ -59,7 +59,7 @@ class Files extends \Magento\Backend\App\Action
     public function treeJsonAction()
     {
         try {
-            $this->getResponse()->setBody(
+            $this->getResponse()->representJson(
                 $this->_view->getLayout()->createBlock(
                     'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree'
                 )->getTreeJson(
@@ -68,7 +68,9 @@ class Files extends \Magento\Backend\App\Action
             );
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array()));
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array())
+            );
         }
     }
 
@@ -89,7 +91,9 @@ class Files extends \Magento\Backend\App\Action
             $result = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->representJson(
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+        );
     }
 
     /**
@@ -104,7 +108,9 @@ class Files extends \Magento\Backend\App\Action
             $this->_getStorage()->deleteDirectory($path);
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+            );
         }
     }
 
@@ -123,7 +129,9 @@ class Files extends \Magento\Backend\App\Action
             $this->_getSession()->setStoragePath($this->storage->getCurrentPath());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+            );
         }
     }
 
@@ -140,7 +148,9 @@ class Files extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->representJson(
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+        );
     }
 
     /**
@@ -187,7 +197,9 @@ class Files extends \Magento\Backend\App\Action
             }
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+            );
         }
     }
 

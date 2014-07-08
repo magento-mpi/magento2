@@ -5,25 +5,37 @@
   * Implemented API for CatalogInventory module (MAGETWO-24954)
   * Refactored external usages of CatalogInventory module to service (MAGETWO-24933, MAGETWO-24934)
 * Fixed bugs:
-  * Fixed: Screen isn't moved automatically to invalidly filled field on "Create new Order" backend page (MAGETWO-19689)
-  * Fixed: Several configuration fields possible to edit on website scope is checkboxes "Use Default" are checked (CAPTCHA section) (MAGETWO-15247)
-  * Fixed: Not required "State/Province" fields on "Create new Order" page are marked as required (MAGETWO-17829)
-  * Fixed: Incorrect Customer Model usage on session in CE modules (MAGETWO-23805)
-  * Fixed: FPC is not invalidated after applying catalog price rule  (MAGETWO-24311)
-  * Fixed: Admin with custom restrictions cannot create Cart/Catalog Price Rule  (MAGETWO-24420)
-  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
-  * Fixed: Warning in Bundle Product page if bundle items contain out of stock product (MAGETWO-24276)
-  * Fixed: Js error if add associated(grouped) products for grouped (MAGETWO-23955)
-  * Fixed: No Layered Navigation on Advanced Search results page (MAGETWO-24864)
-  * Fixed: CLONE - Export through Excel XML truncates leading zeros (MAGETWO-22699)
-  * Fixed: Filter works incorrect in Layered Navigation with price type attribute (MAGETWO-24282)
-  * Fixed: Fatal Error in \Magento\Framework\ArchiveTest when bz2 extension is not installed (MAGETWO-25149)
-  * Fixed: Store Admin cannot search product by attributes filled on [STORE VIEW] level (except default store view) (MAGETWO-3385)
-  * Fixed: Filter values aren't trimmed before being used to filter results (MAGETWO-18370)
   * Fixed: Add label for Uses per customer option (MAGETWO-24695)
+  * Fixed: Previously selected products in 'Add Product to Bundle Option' grid aren't checked if page has been changed (MAGETWO-10614)
+  * Fixed: Google Content not sending correct attribute 'description' (wisebadger) (MAGETWO-18321)
+  * Fixed: Custom Attribute not listed on layered navigation after import (MAGETWO-18333)
+  * Fixed: Category URL keys do not work correctly after saving (MAGETWO-19490)
+  * Fixed: User has no possibility to create Target rule with special Products to Display condition (MAGETWO-23654)
+  * Fixed: jQuery error on product page in admin when switching between product tabs (MAGETWO-24846)
 * GitHub requests:
-  * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
-  * [#544]  Performance tests not working (MAGETWO-23467)
+  * [#257]  JSON loading should follow OWASP reccomendation (MAGETWO-23729)
+
+2.0.0.0-dev84
+=============
+* Fixed bugs:
+  * Fixed an issue where an invalidly filled option did not become in focus after saving attempt on the Create New Order page in the backend
+  * Fixed an issue with the default configuration not being applied properly in the CAPTCHA configuration section
+  * Fixed an issue with optional State/Province fields on the Create New Order page being marked as required
+  * Fixed an issue with incorrect Customer model usage on session in community modules
+  * Fixed an issue where cache was not invalidated after applying catalog price rule
+  * Fixed an issue where an admin with custom permissions could not create Shopping Cart Price Rule/Catalog Price Rule
+  * Fixed an issue with REST request and response format being inconsistent
+  * Fixed an issue where there was an error on a bundle product page if bundle items contained an out of stock product
+  * Fixed a JS issue which appeared when adding associated products for a grouped product
+  * Fixed an issue where layered navigation was absent on the Advanced Search results page
+  * Fixed an issue where the leading "0" in numbers were truncated when exporting using Excel XML
+  * Fixed the price type attribute filter in Layered Navigation
+  * Fixed an issue with a fatal error in \Magento\Framework\ArchiveTest when bz2 extension was not installed
+  * Fixed an issue where an admin could search product by attributes set on the Store View level (except default store view)
+  * Fixed an issue where extra spaces in search values were not ignored during search and thus wrong search results were given
+* GitHub requests:
+  * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity
+  * [#544]  Performance tests not working
 * Framework improvements:
   * Covered the following Magento application components with unit tests:
       * `Customer/Model/Address.php`
@@ -55,27 +67,31 @@
       * `lib/internal/Magento/Framework/App/Helper/AbstractHelper.php`
       * `lib/internal/Magento/Framework/App/Resource/ConnectionFactory.php`
       * `lib/internal/Magento/Framework/App/Route/Config.php`
-  * Allow client to get partial response for mobile (MAGETWO-22974)
-  * Authentication support for mobile (MAGETWO-23744)
-  * Refactor the Oauth lib exception based on exception framework design (MAGETWO-16778)
-  * Move authorization services using new directory format (MAGETWO-23856)
-  * Move integration services using new directory format (MAGETWO-24555)
-  * Update integration registration based on security consultant feedback (MAGETWO-18253)
-  * Introduced language packages with ability to inherit dictionaries (MAGETWO-24610)
-* Improve ImportExport modularity (MAGETWO-23723)
-* Created Service API for Magento_Catalog Module:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    * Created Service API for Magento_Catalog Module:
-   * Implemented Product Attribute Media API(MAGETWO-23308)
-   * Implemented Product Group Price API(MAGETWO-23311)
-   * Implemented Product Attribute Write API (MAGETWO-23314)
-   * Implemented Product Attribute Options Read and Write API (MAGETWO-23312)
-* Created Service for Magento Tax
-  * Implemented Tax Rule Service (MAGETWO-21408)
-  * Implemented Tax Rate Service (MAGETWO-21409)
-  * Implemented Tax Calculation Data Objects (MAGETWO-24872)
-  * Implemented Tax Calculation Builders (MAGETWO-24873)
-  * Implemented Tax Calculation Service (MAGETWO-24874)
-* Covered the part of Magento Catalog Module with Unit Tests (MAGETWO-24245)
-* Ported payment related stories from M1.x (MAGETWO-20848)
+  * Implemented the ability for a mobile client to get a partial response
+  * Added authentication support for mobile
+  * Refactored the Oauth lib exception not to reference module classes
+  * Moved the authorization services according to the new directory format: was \Magento\Authz\Service\AuthorizationV1Interface, became \Magento\Authz\Service\V1\AuthorizationInterface
+  * Moved the integration services according to the new directory format:
+    * Was \Magento\Integration\Service\IntegrationV1, became \Magento\Integration\Service\V1\Integration
+    * Was \Magento\Integration\Service\OauthV1, became \Magento\Integration\Service\V1\Oauth
+  * Improved security of the integration registration
+  * Introduced language packages with ability to inherit dictionaries
+* Improved modularity of ImportExport
+* Created Service API for Magento_Catalog module:
+   * Implemented Product Attribute Media API
+   * Implemented Product Group Price API
+   * Implemented Product Attribute Write API
+   * Implemented Product Attribute Options Read and Write API
+* Created Service for the Magento Tax module:
+  * Implemented Tax Rule Service
+  * Implemented Tax Rate Service
+  * Implemented Tax Calculation Data Objects
+  * Implemented Tax Calculation Builders
+  * Implemented Tax Calculation Service
+* Covered the part of the Catalog Module with unit tests
+* Added PayPall Bill Me Later button
+* Streamlined checkout experience
+* Improved order review page for PayPal Express Checkout
 
 2.0.0.0-dev83
 =============
