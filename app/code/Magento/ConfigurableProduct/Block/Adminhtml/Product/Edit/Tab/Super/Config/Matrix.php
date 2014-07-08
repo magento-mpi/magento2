@@ -43,6 +43,11 @@ class Matrix extends \Magento\Backend\Block\Template
     protected $_localeCurrency;
 
     /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix
+     */
+    protected $variationMatrix;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Catalog\Model\Config $config
@@ -58,14 +63,16 @@ class Matrix extends \Magento\Backend\Block\Template
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix,
         array $data = array()
     ) {
+        parent::__construct($context, $data);
         $this->_configurableType = $configurableType;
         $this->_productFactory = $productFactory;
         $this->_config = $config;
         $this->_coreRegistry = $coreRegistry;
         $this->_localeCurrency = $localeCurrency;
-        parent::__construct($context, $data);
+        $this->variationMatrix = $variationMatrix;
     }
 
     /**
@@ -97,60 +104,10 @@ class Matrix extends \Magento\Backend\Block\Template
      * Retrieve all possible attribute values combinations
      *
      * @return array
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getVariations()
     {
-        $variationalAttributes = array();
-        $usedProductAttributes = $this->getAttributes();
-        foreach ($usedProductAttributes as $attribute) {
-            $options = array();
-            foreach ($attribute['options'] as $valueInfo) {
-                foreach ($attribute['values'] as $priceData) {
-                    if ($priceData['value_index'] == $valueInfo['value'] && (!isset(
-                        $priceData['include']
-                    ) || $priceData['include'])
-                    ) {
-                        $valueInfo['price'] = $priceData;
-                        $options[] = $valueInfo;
-                    }
-                }
-            }
-            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $variationalAttributes[] = array('id' => $attribute['attribute_id'], 'values' => $options);
-        }
-
-        $attributesCount = count($variationalAttributes);
-        if ($attributesCount === 0) {
-            return array();
-        }
-
-        $variations = array();
-        $currentVariation = array_fill(0, $attributesCount, 0);
-        $variationalAttributes = array_reverse($variationalAttributes);
-        $lastAttribute = $attributesCount - 1;
-        do {
-            for ($attributeIndex = 0; $attributeIndex < $attributesCount - 1; ++$attributeIndex) {
-                if ($currentVariation[$attributeIndex] >= count($variationalAttributes[$attributeIndex]['values'])) {
-                    $currentVariation[$attributeIndex] = 0;
-                    ++$currentVariation[$attributeIndex + 1];
-                }
-            }
-            if ($currentVariation[$lastAttribute] >= count($variationalAttributes[$lastAttribute]['values'])) {
-                break;
-            }
-
-            $filledVariation = array();
-            for ($attributeIndex = $attributesCount; $attributeIndex--;) {
-                $currentAttribute = $variationalAttributes[$attributeIndex];
-                $currentVariationValue = $currentVariation[$attributeIndex];
-                $filledVariation[$currentAttribute['id']] = $currentAttribute['values'][$currentVariationValue];
-            }
-
-            $variations[] = $filledVariation;
-            $currentVariation[0]++;
-        } while (1);
-        return $variations;
+        return $this->variationMatrix->getVariations($this->getAttributes());
     }
 
     /**
