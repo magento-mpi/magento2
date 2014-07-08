@@ -10,13 +10,13 @@ namespace Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit;
 
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\Form as FormWidget;
+use Magento\Backend\Test\Block\Widget\Form;
 
 /**
- * Class Form
+ * Class UrlRewriteForm
  * Catalog URL rewrite edit form
  */
-class Form extends FormWidget
+class UrlRewriteForm extends Form
 {
     /**
      * Fill the root form
@@ -32,7 +32,7 @@ class Form extends FormWidget
         array $replace = []
     ) {
         $data = $fixture->getData();
-        if (!$this->getData()['target_path'] && !isset($data['target_path'])) {
+        if (!empty($this->getData()['target_path']) && !isset($data['target_path'])) {
             $entity = $fixture->getDataFieldConfig('id_path')['source']->getEntity();
             $data['target_path'] = $entity->hasData('identifier')
                 ? $entity->getIdentifier()

@@ -27,7 +27,7 @@ class AssertUrlRewriteCustomSearchRedirect extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that product was found on search page
+     * Assert that created entity was found on search page
      *
      * @param UrlRewrite $initialRewrite
      * @param UrlRewrite $urlRewrite
@@ -41,8 +41,10 @@ class AssertUrlRewriteCustomSearchRedirect extends AbstractConstraint
         Browser $browser,
         CatalogCategoryView $categoryView
     ) {
-        $data = array_merge($initialRewrite->getData(), $urlRewrite->getData());
-        $browser->open($_ENV['app_frontend_url'] . $data['request_path']);
+        $urlRequestPath = $urlRewrite->hasData('request_path')
+            ? $urlRewrite->getRequestPath()
+            : $initialRewrite->getRequestPath();
+        $browser->open($_ENV['app_frontend_url'] . $urlRequestPath);
         $product = $initialRewrite->getDataFieldConfig('id_path')['source']->getEntity()->getName();
 
         \PHPUnit_Framework_Assert::assertTrue(

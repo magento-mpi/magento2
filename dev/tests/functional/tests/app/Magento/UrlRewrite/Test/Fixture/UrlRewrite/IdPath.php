@@ -51,13 +51,15 @@ class IdPath implements FixtureInterface
             return;
         }
         preg_match('`%(.*?)%`', $data['entity'], $dataSet);
-        $entityConfig = explode('::', $dataSet[1]);
-        if (count($entityConfig) > 1) {
-            /** @var FixtureInterface $fixture */
-            $this->entity = $fixtureFactory->createByCode($entityConfig[0], ['dataSet' => $entityConfig[1]]);
-            $this->entity->persist();
-            $id = $this->entity->hasData('id') ? $this->entity->getId() : $this->entity->getPageId();
-            $this->data = preg_replace('`(%.*?%)`', $id, $data['entity']);
+        if (isset($dataSet[1])) {
+            $entityConfig = explode('::', $dataSet[1]);
+            if (count($entityConfig) > 1) {
+                /** @var FixtureInterface $fixture */
+                $this->entity = $fixtureFactory->createByCode($entityConfig[0], ['dataSet' => $entityConfig[1]]);
+                $this->entity->persist();
+                $id = $this->entity->hasData('id') ? $this->entity->getId() : $this->entity->getPageId();
+                $this->data = preg_replace('`(%.*?%)`', $id, $data['entity']);
+            }
         } else {
             $this->data = strval($data['entity']);
         }
@@ -99,7 +101,7 @@ class IdPath implements FixtureInterface
     /**
      * Return entity
      *
-     * @return FixtureInterface
+     * @return FixtureInterface|null
      */
     public function getEntity()
     {
