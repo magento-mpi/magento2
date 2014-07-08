@@ -42,21 +42,21 @@
             <group id="cart_display">
                 <field id="gift_wrapping" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Gift Wrapping Prices</label>
-                    <source_model>Magento\Tax\Model\System\Config\Source\Tax\Display\Type</source_model>
+                    <source_model>Magento\GiftWrapping\Model\System\Config\Source\Display\Type</source_model>
                 </field>
                 <field id="printed_card" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Printed Card Prices</label>
-                    <source_model>Magento\Tax\Model\System\Config\Source\Tax\Display\Type</source_model>
+                    <source_model>Magento\GiftWrapping\Model\System\Config\Source\Display\Type</source_model>
                 </field>
             </group>
             <group id="sales_display">
                 <field id="gift_wrapping" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Gift Wrapping Prices</label>
-                    <source_model>Magento\Tax\Model\System\Config\Source\Tax\Display\Type</source_model>
+                    <source_model>Magento\GiftWrapping\Model\System\Config\Source\Display\Type</source_model>
                 </field>
                 <field id="printed_card" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Printed Card Prices</label>
-                    <source_model>Magento\Tax\Model\System\Config\Source\Tax\Display\Type</source_model>
+                    <source_model>Magento\GiftWrapping\Model\System\Config\Source\Display\Type</source_model>
                 </field>
             </group>
         </section>
