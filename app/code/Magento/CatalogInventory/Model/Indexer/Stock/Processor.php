@@ -2,15 +2,18 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Product\Price;
+
+namespace Magento\CatalogInventory\Model\Indexer\Stock;
 
 class Processor extends \Magento\Indexer\Model\Indexer\AbstractProcessor
 {
     /**
      * Indexer ID
      */
-    const INDEXER_ID = 'catalog_product_price';
+    const INDEXER_ID = 'cataloginventory_stock';
 }

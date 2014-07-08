@@ -2,86 +2,93 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Indexer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
-class Processor extends \Magento\Indexer\Model\Indexer\AbstractProcessor
+namespace Magento\Indexer\Model\Indexer;
+
+abstract class AbstractProcessor
 {
     /**
      * Indexer ID
      */
-    const INDEXER_ID = 'catalog_product_flat';
+    const INDEXER_ID = '';
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Flat\State
+     * @var \Magento\Indexer\Model\IndexerInterface
      */
-    protected $_state;
+    protected $_indexer;
 
     /**
      * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
-     * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $state
      */
     public function __construct(
-        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
-        \Magento\Catalog\Model\Indexer\Product\Flat\State $state
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory
     ) {
         $this->_indexer = $indexerFactory->create();
-        $this->_state = $state;
     }
 
     /**
-     * Reindex single row by id
+     * Get indexer
+     *
+     * @return \Magento\Indexer\Model\IndexerInterface
+     */
+    public function getIndexer()
+    {
+        if (!$this->_indexer->getId()) {
+            $this->_indexer->load(static::INDEXER_ID);
+        }
+        return $this->_indexer;
+    }
+
+    /**
+     * Run Row reindex
      *
      * @param int $id
      * @return void
      */
     public function reindexRow($id)
     {
-        if (!$this->_state->isFlatEnabled() || $this->getIndexer()->isScheduled()) {
+        if ($this->getIndexer()->isScheduled()) {
             return;
         }
         $this->getIndexer()->reindexRow($id);
     }
 
     /**
-     * Reindex multiple rows by ids
+     * Run List reindex
      *
      * @param int[] $ids
      * @return void
      */
     public function reindexList($ids)
     {
-        if (!$this->_state->isFlatEnabled() || $this->getIndexer()->isScheduled()) {
+        if ($this->getIndexer()->isScheduled()) {
             return;
         }
         $this->getIndexer()->reindexList($ids);
     }
 
     /**
-     * Run full reindex
+     * Run Full reindex
      *
      * @return void
      */
     public function reindexAll()
     {
-        if (!$this->_state->isFlatEnabled()) {
-            return;
-        }
         $this->getIndexer()->reindexAll();
     }
 
     /**
-     * Mark Product flat indexer as invalid
+     * Mark Product price indexer as invalid
      *
      * @return void
      */
     public function markIndexerAsInvalid()
     {
-        if (!$this->_state->isFlatEnabled()) {
-            return;
-        }
         $this->getIndexer()->invalidate();
     }
 }

@@ -8,22 +8,26 @@
 
 
 /**
- * Catalog Inventory Manage Stock Config Backend Model
+ * Catalog Inventory Backorders Config Backend Model
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Model\Config\Backend;
 
-class Managestock extends AbstractValue
+class Backorders extends AbstractValue
 {
     /**
-     * After change Catalog Inventory Manage Stock value process
+     * After change Catalog Inventory Backorders value process
      *
      * @return $this
      */
     protected function _afterSave()
     {
-        if ($this->isValueChanged()) {
+        if ($this->isValueChanged() && (
+                $this->getOldValue() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
+                || $this->getValue() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
+            )
+        ) {
             $this->_stockStatus->rebuild();
             $this->_stockIndexerProcessor->markIndexerAsInvalid();
         }

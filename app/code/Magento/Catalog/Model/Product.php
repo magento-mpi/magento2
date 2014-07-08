@@ -715,6 +715,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
 
+        if ($this->getStockData()) {
+            $this->setForceReindexEavRequired(true);
+        }
+
         $this->_getResource()->addCommitCallback(array($this, 'priceReindexCallback'));
 
         /**
