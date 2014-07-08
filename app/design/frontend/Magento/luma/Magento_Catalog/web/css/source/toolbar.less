@@ -35,21 +35,23 @@
     }
 
     padding: @indent-s-base;
-    background: @toolbar-background;
     &:extend(.add-clearfix all);
     &-amount {
         display: none;
     }
     margin-bottom: @indent-l-base;
-    .pages {
-        display: none;
-        .products.wrapper ~ & {
-            display: block;
-            margin-bottom: @indent-m-base;
+    &-products {
+        background-color: @toolbar-background;
+        .pages {
+            display: none;
+            .products.wrapper ~ & {
+                display: block;
+                margin-bottom: @indent-m-base;
+            }
         }
-    }
-    .products.wrapper ~ & {
-        text-align: center;
+        .products.wrapper ~ & {
+            text-align: center;
+        }
     }
 }
 

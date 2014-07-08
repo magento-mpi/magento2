@@ -353,7 +353,6 @@ class Product extends \Magento\Framework\App\Action\Action
         $product = $this->_initProduct();
         if ($product) {
             $this->_coreRegistry->register('productId', $product->getId());
-
             $design = $this->_catalogDesign;
             $settings = $design->getDesignSettings($product);
             if ($settings->getCustomDesign()) {
@@ -375,6 +374,18 @@ class Product extends \Magento\Framework\App\Action\Action
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noroute');
         }
+    }
+
+    /**
+     * Show list of product's reviews
+     *
+     * @return void
+     */
+    public function listAjaxAction()
+    {
+        $this->_initProduct();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**

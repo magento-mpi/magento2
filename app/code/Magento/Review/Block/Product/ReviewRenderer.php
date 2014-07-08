@@ -106,9 +106,6 @@ class ReviewRenderer extends \Magento\Framework\View\Element\Template implements
      */
     public function getReviewsUrl()
     {
-        return $this->getUrl(
-            'review/product/list',
-            array('id' => $this->getProduct()->getId(), 'category' => $this->getProduct()->getCategoryId())
-        );
+        return $this->getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
     }
 }

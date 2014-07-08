@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<div id="product-review-container"></div>
+<?php echo $this->getChildHtml(); ?>
+
+<script type="text/javascript">
+//<![CDATA[
+function processReviews(url) {
+(function($) {
+    $.ajax({
+        url: url,
+        dataType: 'html'
+    }).done(function(data) {
+        $('#product-review-container').html(data);
+        $('.pages a').each(function(index, element) {
+            $(element).click(function(event) {
+                processReviews($(element).attr('href'));
+                event.preventDefault();
+            });
+        });
+    });
+})(jQuery);
+}
+processReviews('<?php echo $this->getProductReviewUrl();?>');
+//]]>
+</script>
