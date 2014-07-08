@@ -9,6 +9,7 @@
 namespace Magento\Tax\Model\Rate;
 
 use Magento\Tax\Service\V1\TaxRateServiceInterface;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * Tax rate source model.
@@ -21,36 +22,39 @@ class Source implements \Magento\Framework\Data\OptionSourceInterface
     /** @var TaxRateServiceInterface */
     protected $taxRateService;
 
-    /**
-     * TODO: Rate factory usage is temporary and rate service should be used as soon as search method is implemented
-     *
-     * @var \Magento\Tax\Model\Calculation\RateFactory
-     */
-    protected $rateFactory;
+    /** @var SearchCriteriaBuilder */
+    protected $searchCriteriaBuilder;
 
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
      * @param TaxRateServiceInterface $taxRateService
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
-        TaxRateServiceInterface $taxRateService
+        TaxRateServiceInterface $taxRateService,
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->taxRateService = $taxRateService;
-        $this->rateFactory = $rateFactory;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
-     * Retrieve all customer tax rates as an options array.
+     * Retrieve all tax rates as an options array.
      *
      * @return array
      */
     public function toOptionArray()
     {
         if (!$this->options) {
-            $this->options = $this->rateFactory->create()->getCollection()->toOptionArray();
+            $searchCriteria = $this->searchCriteriaBuilder->create();
+            $searchResults = $this->taxRateService->searchTaxRates($searchCriteria);
+            foreach ($searchResults->getItems() as $taxRate) {
+                $this->options[] = array(
+                    'value' => $taxRate->getId(),
+                    'label' => $taxRate->getCode()
+                );
+            }
         }
         return $this->options;
     }
