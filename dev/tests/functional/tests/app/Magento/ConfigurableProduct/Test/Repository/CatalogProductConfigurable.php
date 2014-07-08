@@ -30,6 +30,7 @@ class CatalogProductConfigurable extends AbstractRepository
             'name' => 'Test configurable product %isolation%',
             'sku' => 'sku_test_configurable_product_%isolation%',
             'price' => ['value' => 120.00],
+            'category_ids' => ['presets' => 'default'],
             'weight' => 30.0000,
             'status' => 'Product online',
             'visibility' => 'Catalog, Search',
@@ -37,10 +38,6 @@ class CatalogProductConfigurable extends AbstractRepository
             'url_key' => 'test-configurable-product-%isolation%',
             'configurable_attributes_data' => ['preset' => 'default'],
             'quantity_and_stock_status' => [
-                'is_in_stock' => 'In Stock',
-            ],
-            'stock_data' => [
-                'manage_stock' => 'Yes',
                 'is_in_stock' => 'In Stock',
             ],
             'website_ids' => ['Main Website'],
