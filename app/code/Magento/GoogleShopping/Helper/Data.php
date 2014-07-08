@@ -188,7 +188,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             [
                 $this->_filterBuilder
                     ->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)
-                    //->setField(TaxRule::PRIORITY)
                     ->setValue([$productTaxClassId])
                     ->create(),
             ],
