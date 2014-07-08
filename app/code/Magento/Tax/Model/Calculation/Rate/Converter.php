@@ -96,8 +96,8 @@ class Converter
 
         $titlesData = $rateModel->getTitles();
         $titles = [];
-        foreach ($titlesData as $store => $value) {
-            $titles[] = $this->taxRateTitleDataObjectBuilder->setStoreId($store)->setValue($value)->create();
+        foreach ($titlesData as $title) {
+            $titles[] = $this->taxRateTitleDataObjectBuilder->setStoreId($title->getStoreId())->setValue($title->getValue())->create();
         }
         $this->taxRateDataObjectBuilder->setTitles($titles);
 
