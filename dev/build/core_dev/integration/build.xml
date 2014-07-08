@@ -23,7 +23,7 @@
             <not><isset property="app_mode"/></not>
         </condition>
 
-        <copy file="${product_root_dir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
+        <copy file="${basedir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
               tofile="${product_root_dir}/.htaccess"/>
 
         <script language="javascript"><![CDATA[
