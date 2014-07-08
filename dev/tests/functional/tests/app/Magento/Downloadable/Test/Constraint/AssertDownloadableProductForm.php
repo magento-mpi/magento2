@@ -15,6 +15,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertDownloadableProductForm
+ * Assert that downloadable product data on edit page equals to passed from fixture
  */
 class AssertDownloadableProductForm extends AssertProductForm
 {
@@ -26,7 +27,7 @@ class AssertDownloadableProductForm extends AssertProductForm
     protected $severeness = 'low';
 
     /**
-     * Assert that downloadable product data on edit page equals to passed from fixture
+     * Assert form data equals fixture data
      *
      * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
@@ -41,8 +42,7 @@ class AssertDownloadableProductForm extends AssertProductForm
         $filter = ['sku' => $product->getData('sku')];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $fields = $this->prepareFixtureData($product);
-        $fields = $this->convertDownloadableArray($fields);
+        $fields = $this->convertDownloadableArray($this->prepareFixtureData($product));
 
         $fieldsForm = $productPage->getForm()->getData($product);
         \PHPUnit_Framework_Assert::assertEquals($fields, $fieldsForm, 'Form data not equals fixture data.');
@@ -58,8 +58,11 @@ class AssertDownloadableProductForm extends AssertProductForm
     {
         usort(
             $fields,
-            function ($a, $b) {
-                return $a['sort_order'] - $b['sort_order'];
+            function ($row1, $row2) {
+                if ($row1['sort_order'] == $row2['sort_order']) {
+                    return 0;
+                }
+                return ($row1['sort_order'] < $row2['sort_order']) ? -1 : 1;
             }
         );
     }
@@ -83,15 +86,6 @@ class AssertDownloadableProductForm extends AssertProductForm
             );
         }
 
-        foreach ($fields as $key => $value) {
-            if (is_array($value)) {
-                $fields[$key] = $this->convertDownloadableArray($value);
-            } else {
-                if ($key == "special_price") {
-                    $fields[$key] = [$key => $fields[$key]];
-                }
-            }
-        }
         return $fields;
     }
 

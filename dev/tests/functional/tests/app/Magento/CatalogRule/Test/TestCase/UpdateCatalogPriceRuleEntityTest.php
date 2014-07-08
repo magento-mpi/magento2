@@ -54,18 +54,22 @@ class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
      * @param CatalogRule $catalogPriceRuleOriginal
      * @param CatalogProductSimple $product
      * @param string $saveAction
+     * @param array $price
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function testUpdateCatalogPriceRule(
         CatalogRule $catalogPriceRule,
         CatalogRule $catalogPriceRuleOriginal,
         CatalogProductSimple $product,
-        $saveAction
+        $saveAction,
+        array $price
     ) {
         // Preconditions
         $catalogPriceRuleOriginal->persist();
 
-        //Prepare data
+        // Prepare data
         $replace = $saveAction == 'saveAndApply'
             ? ['conditions' => ['conditions' => ['%category_1%' => $product->getCategoryIds()[0]['id']]]]
             : [];
@@ -81,6 +85,6 @@ class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
         $this->catalogRuleNew->getFormPageActions()->$saveAction();
 
         // Prepare data for tear down
-        $this->prepareTearDown($catalogPriceRule);
+        $this->catalogRules = $catalogPriceRule;
     }
 }

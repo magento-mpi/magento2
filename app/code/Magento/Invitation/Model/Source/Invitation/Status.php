@@ -22,10 +22,10 @@ class Status
     public function getOptions()
     {
         return array(
-            \Magento\Invitation\Model\Invitation::STATUS_NEW => __('Not Sent'),
-            \Magento\Invitation\Model\Invitation::STATUS_SENT => __('Sent'),
-            \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED => __('Accepted'),
-            \Magento\Invitation\Model\Invitation::STATUS_CANCELED => __('Discarded')
+            \Magento\Invitation\Model\Invitation\Status::STATUS_NEW => __('Not Sent'),
+            \Magento\Invitation\Model\Invitation\Status::STATUS_SENT => __('Sent'),
+            \Magento\Invitation\Model\Invitation\Status::STATUS_ACCEPTED => __('Accepted'),
+            \Magento\Invitation\Model\Invitation\Status::STATUS_CANCELED => __('Discarded')
         );
     }
 
