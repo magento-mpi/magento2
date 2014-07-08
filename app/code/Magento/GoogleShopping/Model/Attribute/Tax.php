@@ -77,7 +77,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_googleShoppingHelper;
 
     /**
-     * Region  model
+     * Region  factory
      *
      * @var \Magento\Directory\Model\RegionFactory
      */
@@ -98,7 +98,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface
      * @param \Magento\GoogleShopping\Helper\Data $googleShoppingHelper
-     * @param \Magento\Directory\Model\Region $regionFactory
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
