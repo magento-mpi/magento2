@@ -16,9 +16,9 @@ use Magento\Tax\Service\V1\Data\TaxClass;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Tax\Model\Calculation\RateFactory
+     * @var \Magento\Tax\Model\Rate\Source
      */
-    protected $_rateFactory;
+    protected $rateSource;
 
     /**
      * @var \Magento\Framework\Data\Form\FormKey
@@ -54,7 +54,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
+     * @param \Magento\Tax\Model\Rate\Source $rateSource
      * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService
      * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource
@@ -66,7 +66,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
+        \Magento\Tax\Model\Rate\Source $rateSource,
         \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService,
         \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
         \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource,
@@ -74,7 +74,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Tax\Helper\Data $taxHelper,
         array $data = array()
     ) {
-        $this->_rateFactory = $rateFactory;
+        $this->rateSource = $rateSource;
         $this->formKey = $context->getFormKey();
         $this->ruleService = $ruleService;
         $this->taxClassService = $taxClassService;
@@ -118,8 +118,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $formValues = array_merge($taxRuleData, $sessionFormValues);
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Tax Rule Information')));
-
-        $rates = $this->_rateFactory->create()->getCollection()->toOptionArray();
 
         $fieldset->addField(
             'code',
@@ -182,7 +180,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'tax_rate',
                 'label' => __('Tax Rate'),
                 'class' => 'required-entry',
-                'values' => $rates,
+                'values' => $this->rateSource->toOptionArray(),
                 'value' => isset($formValues['tax_rate']) ? $formValues['tax_rate'] : [],
                 'required' => true,
                 'element_js_class' => 'TaxRateEditableMultiselect',
