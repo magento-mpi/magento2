@@ -709,3 +709,4 @@ order-header,order-header
 "Default Status","Status Padrão"
 "State Code and Title","State Code and Title"
 "PDF Packing Slips","Guias de remessas em PDF"
+"Status can't be unassigned, because it is used by existing order(s).","Status can't be unassigned, because it is used by existing order(s)."
