@@ -240,9 +240,6 @@ class TaxRateService implements TaxRateServiceInterface
         if (!\Zend_Validate::is(trim($taxRate->getCountryId()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'country_id']);
         }
-        if (!\Zend_Validate::is(trim($taxRate->getRegionId()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'region_id']);
-        }
         if (!\Zend_Validate::is(trim($taxRate->getPercentageRate()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'percentage_rate']);
         }
