@@ -614,7 +614,16 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
             $request->setCurrency($order->getBaseCurrencyCode());
 
             $orderIncrementId = $order->getIncrementId();
-            $request->setCustref($orderIncrementId)->setComment1($orderIncrementId);
+
+            $request->setCurrency($order->getBaseCurrencyCode())
+                ->setInvnum($orderIncrementId)
+                ->setPonum($order->getId())
+                ->setComment1($orderIncrementId);
+
+            $customerId = $order->getCustomerId();
+            if ($customerId) {
+                $request->setCustref($customerId);
+            }
 
             $billing = $order->getBillingAddress();
             if (!empty($billing)) {
