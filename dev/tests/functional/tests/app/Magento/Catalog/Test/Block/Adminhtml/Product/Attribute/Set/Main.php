@@ -72,7 +72,23 @@ class Main extends Block
     public function checkProductAttribute($attributeLabel)
     {
         $attributeLabelLocator = sprintf(
-            ".//*[contains(@class,'x-tree-root-node')]//li[@class='x-tree-node']/div/a/span[text()='%s']",
+            ".//*[contains(@id,'tree-div1')]//li[@class='x-tree-node']/div/a/span[text()='%s']",
+            $attributeLabel
+        );
+
+        return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Checks present Unassigned Product Attribute
+     *
+     * @param $attributeLabel
+     * @return bool
+     */
+    public function checkUnassignedProductAttribute($attributeLabel)
+    {
+        $attributeLabelLocator = sprintf(
+            ".//*[contains(@id,'tree-div2')]//li[@class='x-tree-node']/div/a/span[text()='%s']",
             $attributeLabel
         );
 

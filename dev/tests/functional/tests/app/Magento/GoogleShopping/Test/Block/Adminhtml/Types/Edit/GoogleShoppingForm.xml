@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <wrapper>catalogevent</wrapper>
+    <fields>
+        <target_country>
+            <selector>#select_target_country</selector>
+            <input>select</input>
+        </target_country>
+        <attribute_set_id>
+            <selector>#select_attribute_set</selector>
+            <input>select</input>
+        </attribute_set_id>
+        <category>
+            <selector>#category</selector>
+            <input>select</input>
+        </category>
+    </fields>
+</mapping>

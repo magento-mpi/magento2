@@ -79,10 +79,14 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
         if (!isset($data['gotoEdit'])) {
             $data['gotoEdit'] = 1;
         }
-        $data['skeleton_set'] = $fixture
-            ->getDataFieldConfig('skeleton_set')['source']
-            ->getAttributeSet()
-            ->getAttributeSetId();
+        if (!isset($data['attribute_set_id'])) {
+            $data['skeleton_set'] = $fixture
+                ->getDataFieldConfig('skeleton_set')['source']
+                ->getAttributeSet()
+                ->getAttributeSetId();
+        } else {
+            $data['skeleton_set'] = $data['attribute_set_id'];
+        }
 
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);

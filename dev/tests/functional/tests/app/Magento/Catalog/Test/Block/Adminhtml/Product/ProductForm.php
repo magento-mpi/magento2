@@ -89,6 +89,8 @@ class ProductForm extends FormTabs
      */
     protected $attributeSearch = '#product-attribute-search-container';
 
+    protected $variationsAttributeSearch = '#variations-search-field';
+
     /**
      * Fill the product form
      *
@@ -339,5 +341,31 @@ class ProductForm extends FormTabs
             Locator::SELECTOR_CSS,
             'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Attributes\Search'
         )->isExistAttributeInSearchResult($productAttribute);
+    }
+
+    /**
+     * Call method that checking present attribute in search result
+     *
+     * @param CatalogProductAttribute $productAttribute
+     * @return bool
+     */
+    public function checkAttributeInVariationsSearchAttributeForm($productAttribute)
+    {
+        return $this->_rootElement->find(
+            $this->variationsAttributeSearch,
+            Locator::SELECTOR_CSS,
+            'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Variations\Search'
+        )->isExistAttributeInSearchResult($productAttribute);
+    }
+
+
+    /**
+     * Open Variations tab on Product form
+     *
+     * @return void
+     */
+    public function openVariationsTab()
+    {
+        $this->_rootElement->find('#product_info_tabs_super_config_content .title', Locator::SELECTOR_CSS)->click();
     }
 }
