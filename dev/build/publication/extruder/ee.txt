@@ -120,9 +120,13 @@ dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ValidateOrd
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CrosssellTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/RelatedProductTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/UpsellTest.php
+dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteProductEntityTest
+dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteProductEntityTest.php
 dev/tests/functional/tests/app/Magento/CatalogEvent
 dev/tests/functional/tests/app/Magento/CatalogRule
 dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchTest.php
+dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchEntityResultsTest
+dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchEntityResultsTest.php
 dev/tests/functional/tests/app/Magento/Centinel
 dev/tests/functional/tests/app/Magento/Checkout/Test/Block/Onepage
 dev/tests/functional/tests/app/Magento/Checkout/Test/Fixture
