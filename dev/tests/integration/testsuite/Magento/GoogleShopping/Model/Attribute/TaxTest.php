@@ -1,0 +1,321 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Tax\Service\V1;
+
+use Magento\Tax\Model\ClassModel;
+
+/**
+ * @magentoDataFixture Magento/GoogleShopping/_files/product_simple.php
+ * @magentoDataFixture Magento/GoogleShopping/_files/product_group_prices.php
+ * @magentoDataFixture Magento/GoogleShopping/_files/multiple_products.php
+ * @magentoDataFixture Magento/Tax/_files/tax_classes.php
+ */
+class TaxTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Magento\GoogleShopping\Model\Attribute\Tax
+     */
+    protected $googleShoppingTaxAttribute;
+
+    /**
+     * @var \Magento\Framework\ObjectManager
+     */
+    protected $objectManager;
+
+    /**
+     * TaxRule builder
+     *
+     * @var TaxRuleBuilder
+     */
+    private $taxRuleBuilder;
+
+    /**
+     * TaxRate builder
+     *
+     * @var TaxRateBuilder
+     */
+    private $taxRateBuilder;
+
+    /**
+     * TaxRuleService
+     *
+     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     */
+    private $taxRuleService;
+
+    /**
+     * Helps in creating required tax rules.
+     *
+     * @var TaxRuleFixtureFactory
+     */
+    private $taxRuleFixtureFactory;
+
+    /**
+     * Array of default tax classes ids
+     *
+     * Key is class name
+     *
+     * @var int[]
+     */
+    private $taxClasses;
+
+    /**
+     * Array of default tax rates ids.
+     *
+     * Key is rate percentage as string.
+     *
+     * @var int[]
+     */
+    private $taxRates;
+
+    /**
+     * Array of default tax rules ids.
+     *
+     * Key is rule code.
+     *
+     * @var int[]
+     */
+    private $taxRules;
+
+    protected function setUp()
+    {
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->googleShoppingTaxAttribute = $this->objectManager
+            ->create('Magento\GoogleShopping\Model\Attribute\Tax');
+        $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $this->taxRuleService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRuleServiceInterface');
+        $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
+    }
+
+    public function testSimpleProduct()
+    {
+        $this->setUpDefaultRules();
+
+        $defaultProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $defaultProductTaxClassProduct->load(20);
+        $defaultProductTaxClassProduct->setTaxClassId($this->taxClasses['DefaultProductClass']);
+
+        $defaultGoogleShoppingEntry = $this->objectManager
+            ->create('Magento\Framework\Gdata\Gshopping\Entry');
+        $defaultEntry = $this->googleShoppingTaxAttribute
+            ->convertAttribute($defaultProductTaxClassProduct, $defaultGoogleShoppingEntry);
+
+        $this->assertEquals(2, count($defaultEntry->getTaxes()));
+
+        foreach ($defaultEntry->getTaxes() as $tax) {
+            $this->assertEquals('US', $tax->__get('tax_country'));
+            $this->assertEquals(7.5, round($tax->__get('tax_rate'), 1));
+            $this->assertTrue($tax->__get('tax_region') == 'NM' || $tax->__get('tax_region') == 'CA');
+        }
+
+        $higherProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $higherProductTaxClassProduct->load(20);
+        $higherProductTaxClassProduct->setTaxClassId($this->taxClasses['HigherProductClass']);
+
+        $higherGoogleShoppingEntry = $this->objectManager
+            ->create('Magento\Framework\Gdata\Gshopping\Entry');
+        $higherEntry = $this->googleShoppingTaxAttribute
+            ->convertAttribute($higherProductTaxClassProduct, $higherGoogleShoppingEntry);
+
+        $this->assertEquals(2, count($higherEntry->getTaxes()));
+
+        foreach ($higherEntry->getTaxes() as $tax) {
+            $this->assertEquals('US', $tax->__get('tax_country'));
+            if ($tax->__get('tax_region') == 'NM') {
+                $this->assertEquals(22.0, round($tax->__get('tax_rate'), 1));
+            } elseif ($tax->__get('tax_region') == 'CA') {
+                $this->assertEquals(10.0, round($tax->__get('tax_rate'), 1));
+            } else {
+                $this->assertFalse();
+            }
+        }
+
+        $this->tearDownDefaultRules();
+    }
+
+    public function testProductGroup()
+    {
+        $this->setUpDefaultRules();
+
+        $defaultProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $defaultProductTaxClassProduct->load(21);
+        $defaultProductTaxClassProduct->setTaxClassId($this->taxClasses['DefaultProductClass']);
+
+        $defaultGoogleShoppingEntry = $this->objectManager
+            ->create('Magento\Framework\Gdata\Gshopping\Entry');
+        $defaultEntry = $this->googleShoppingTaxAttribute
+            ->convertAttribute($defaultProductTaxClassProduct, $defaultGoogleShoppingEntry);
+
+        $this->assertEquals(2, count($defaultEntry->getTaxes()));
+
+        foreach ($defaultEntry->getTaxes() as $tax) {
+            $this->assertEquals('US', $tax->__get('tax_country'));
+            $this->assertEquals(7.5, round($tax->__get('tax_rate'), 1));
+            $this->assertTrue($tax->__get('tax_region') == 'NM' || $tax->__get('tax_region') == 'CA');
+        }
+
+        $higherProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $higherProductTaxClassProduct->load(21);
+        $higherProductTaxClassProduct->setTaxClassId($this->taxClasses['HigherProductClass']);
+
+        $higherGoogleShoppingEntry = $this->objectManager
+            ->create('Magento\Framework\Gdata\Gshopping\Entry');
+        $higherEntry = $this->googleShoppingTaxAttribute
+            ->convertAttribute($higherProductTaxClassProduct, $higherGoogleShoppingEntry);
+
+        $this->assertEquals(2, count($higherEntry->getTaxes()));
+
+        foreach ($higherEntry->getTaxes() as $tax) {
+            $this->assertEquals('US', $tax->__get('tax_country'));
+            if ($tax->__get('tax_region') == 'NM') {
+                $this->assertEquals(22.0, round($tax->__get('tax_rate'), 1));
+            } elseif ($tax->__get('tax_region') == 'CA') {
+                $this->assertEquals(10.0, round($tax->__get('tax_rate'), 1));
+            } else {
+                $this->assertFalse();
+            }
+        }
+
+        $this->tearDownDefaultRules();
+    }
+
+    public function testMultipleProducts()
+    {
+        $this->setUpDefaultRules();
+
+        $productA = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $productA->load(22);
+        $productA->setTaxClassId($this->taxClasses['DefaultProductClass']);
+        $productAGoogleShoppingEntry = $this->objectManager
+            ->create('Magento\Framework\Gdata\Gshopping\Entry');
+        $productAEntry = $this->googleShoppingTaxAttribute
+            ->convertAttribute($productA, $productAGoogleShoppingEntry);
+
+        $this->assertEquals(2, count($productAEntry->getTaxes()));
+        foreach ($productAEntry->getTaxes() as $tax) {
+            $this->assertEquals('US', $tax->__get('tax_country'));
+            $this->assertEquals(7.5, round($tax->__get('tax_rate'), 1));
+            $this->assertTrue($tax->__get('tax_region') == 'NM' || $tax->__get('tax_region') == 'CA');
+        }
+
+        $productB = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $productB->load(23);
+        $productB->setTaxClassId($this->taxClasses['HigherProductClass']);
+        $productBGoogleShoppingEntry = $this->objectManager
+            ->create('Magento\Framework\Gdata\Gshopping\Entry');
+        $productBEntry = $this->googleShoppingTaxAttribute
+            ->convertAttribute($productB, $productBGoogleShoppingEntry);
+
+        $this->assertEquals(2, count($productBEntry->getTaxes()));
+        foreach ($productBEntry->getTaxes() as $tax) {
+            $this->assertEquals('US', $tax->__get('tax_country'));
+            if ($tax->__get('tax_region') == 'NM') {
+                $this->assertEquals(22.0, round($tax->__get('tax_rate'), 1));
+            } elseif ($tax->__get('tax_region') == 'CA') {
+                $this->assertEquals(10.0, round($tax->__get('tax_rate'), 1));
+            } else {
+                $this->assertFalse();
+            }
+        }
+
+        $productC = $this->objectManager->create('Magento\Catalog\Model\Product');
+        $productC->load(24);
+        $productC->setTaxClassId($this->taxClasses['HighestProductClass']);
+        $productCGoogleShoppingEntry = $this->objectManager
+            ->create('Magento\Framework\Gdata\Gshopping\Entry');
+        $productCEntry = $this->googleShoppingTaxAttribute
+            ->convertAttribute($productC, $productCGoogleShoppingEntry);
+
+        $this->assertEquals(2, count($productCEntry->getTaxes()));
+        foreach ($productCEntry->getTaxes() as $tax) {
+            $this->assertEquals('US', $tax->__get('tax_country'));
+            if ($tax->__get('tax_region') == 'NM') {
+                $this->assertEquals(22.5, round($tax->__get('tax_rate'), 1));
+            } elseif ($tax->__get('tax_region') == 'CA') {
+                $this->assertEquals(15.0, round($tax->__get('tax_rate'), 1));
+            } else {
+                $this->assertFalse();
+            }
+        }
+
+        $this->tearDownDefaultRules();
+    }
+
+    /**
+     * Helper function that sets up some default rules
+     */
+    private function setUpDefaultRules()
+    {
+        $this->taxClasses = $this->taxRuleFixtureFactory->createTaxClasses([
+            ['name' => 'DefaultCustomerClass', 'type' => ClassModel::TAX_CLASS_TYPE_CUSTOMER],
+            ['name' => 'DefaultProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
+            ['name' => 'HigherProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
+            ['name' => 'HighestProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
+        ]);
+
+        $this->taxRates = $this->taxRuleFixtureFactory->createTaxRates([
+            ['percentage' => 7.5, 'country' => 'US', 'region' => 42],
+            ['percentage' => 7.5, 'country' => 'US', 'region' => 12], // Default store rate
+            ['percentage' => 10, 'country' => 'MX', 'region' => 99],
+        ]);
+
+        $higherRates = $this->taxRuleFixtureFactory->createTaxRates([
+            ['percentage' => 22, 'country' => 'US', 'region' => 42],
+            ['percentage' => 10, 'country' => 'US', 'region' => 12], // Default store rate
+            ['percentage' => 15, 'country' => 'MX', 'region' => 99],
+        ]);
+
+        $highestRates = $this->taxRuleFixtureFactory->createTaxRates([
+            ['percentage' => 22.5, 'country' => 'US', 'region' => 42],
+            ['percentage' => 15, 'country' => 'US', 'region' => 12], // Default store rate
+            ['percentage' => 20, 'country' => 'MX', 'region' => 99],
+        ]);
+
+        $this->taxRules = $this->taxRuleFixtureFactory->createTaxRules([
+            [
+                'code' => 'Default Rule',
+                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
+                'product_tax_class_ids' => [$this->taxClasses['DefaultProductClass']],
+                'tax_rate_ids' => array_values($this->taxRates),
+                'sort_order' => 0,
+                'priority' => 0,
+            ],
+            [
+                'code' => 'Higher Rate Rule',
+                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
+                'product_tax_class_ids' => [$this->taxClasses['HigherProductClass']],
+                'tax_rate_ids' => array_values($higherRates),
+                'sort_order' => 0,
+                'priority' => 0,
+            ],
+            [
+                'code' => 'Highest Rate Rule',
+                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
+                'product_tax_class_ids' => [$this->taxClasses['HighestProductClass']],
+                'tax_rate_ids' => array_values($highestRates),
+                'sort_order' => 1,
+                'priority' => 1,
+            ],
+        ]);
+
+        // For cleanup
+        $this->taxRates = array_merge($this->taxRates, $higherRates, $highestRates);
+    }
+
+    /**
+     * Helper function that tears down some default rules
+     */
+    private function tearDownDefaultRules()
+    {
+        $this->taxRuleFixtureFactory->deleteTaxRules(array_values($this->taxRules));
+        $this->taxRuleFixtureFactory->deleteTaxRates(array_values($this->taxRates));
+        $this->taxRuleFixtureFactory->deleteTaxClasses(array_values($this->taxClasses));
+    }
+}
