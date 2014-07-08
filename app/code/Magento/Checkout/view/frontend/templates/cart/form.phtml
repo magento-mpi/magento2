@@ -29,14 +29,6 @@
                     <th class="col qty"><span><?php echo __('Qty') ?></span></th>
                     <th class="col subtotal"><span><?php echo __('Subtotal') ?></span></th>
                 </tr>
-                <?php /* if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
-                <tr>
-                    <th class="col price excl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                    <th class="col price incl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
-                    <th class="col subtotal excl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                    <th class="col subtotal incl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
-                </tr>
-                <?php endif; */ ?>
             </thead>
             <?php foreach($this->getItems() as $_item): ?>
                 <?php echo $this->getItemHtml($_item) ?>

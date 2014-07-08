@@ -17,14 +17,6 @@
 }
 
 //
-//    Primary button
-//--------------------------------------
-.action-primary {
-    .button-primary();
-    border-radius: @button-border-radius;
-}
-
-//
 //    Link as a button
 //--------------------------------------
 .action-link-button {
@@ -425,12 +417,13 @@
 //    Add to Actions
 //--------------------------------------
 .abstract-add-to-actions {
+    .css(box-shadow, none);
     color: @addto-color;
     display: inline-block;
-    line-height: 26px;
-    text-transform: uppercase;
     font-weight: @font-weight-semibold;
+    line-height: 26px;
     letter-spacing: .05em;
+    text-transform: uppercase;
     .icon-font(
         @_icon-font-content: '',
         @_icon-font-size: 16px,
