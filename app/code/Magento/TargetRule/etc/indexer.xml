@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Indexer/etc/indexer.xsd">
+    <indexer id="targetrule_product_rule" view_id="targetrule_product_rule" class="Magento\TargetRule\Model\Indexer\Product\Rule">
+        <title translate="true">Product Rule</title>
+        <description translate="true">Indexed product/rule association</description>
+    </indexer>
+</config>
