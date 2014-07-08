@@ -58,14 +58,6 @@ class AbstractFormTest extends \PHPUnit_Framework_TestCase
         );
         $this->allElementsMock =
             $this->getMock('Magento\Framework\Data\Form\Element\Collection', [], [], '', false);
-        $this->formKeyMock = $this->getMock(
-            'Magento\Framework\Data\Form\FormKey',
-            array('getFormKey'),
-            array(),
-            '',
-            false
-        );
-        $methods = ['getId', 'setValue', 'setName', 'getName', '_wakeup'];
         $this->elementMock =
             $this->getMock('Magento\Framework\Data\Form\Element\AbstractElement', [], [], '', false);
 
