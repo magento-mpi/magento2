@@ -43,7 +43,7 @@ class FilterProductListTest extends Functional
         ]);
         $simple->switchData('simple');
         $simple->persist();
-        $simpleName = $simple->getProductName();
+        $simpleName = $simple->getName();
 
         //Create configurable product
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct([
@@ -51,7 +51,7 @@ class FilterProductListTest extends Functional
         ]);
         $configurable->switchData('configurable');
         $configurable->persist();
-        $configurableName = $configurable->getProductName();
+        $configurableName = $configurable->getName();
         $option = $configurable->getData('fields/configurable_attributes_data/value/0/0/option_label/value');
 
         //Steps
