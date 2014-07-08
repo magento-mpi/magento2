@@ -65,7 +65,9 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
     protected function _beforeSave()
     {
         $balance = $this->getBalanceModel();
-        if ((int)$balance->getHistoryAction() == self::ACTION_UPDATED && !$balance->getUpdatedActionAdditionalInfo()) {
+        if (in_array((int)$balance->getHistoryAction(), array(self::ACTION_CREATED, self::ACTION_UPDATED))
+            && !$balance->getUpdatedActionAdditionalInfo()
+        ) {
             $user = $this->_authSession->getUser();
             if ($user && $user->getUsername()) {
                 if (!trim($balance->getComment())) {
