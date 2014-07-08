@@ -574,7 +574,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
         $mediaDirectory->create('import');
         $dirPath = $mediaDirectory->getAbsolutePath('import');
-        copy(__DIR__ . '/../../../../../Magento/Catalog/_files/magento_image.jpg', "{$dirPath}/magento_image.jpg");
+        copy(__DIR__ . '/../../../../Magento/Catalog/_files/magento_image.jpg', "{$dirPath}/magento_image.jpg");
     }
 
     /**
