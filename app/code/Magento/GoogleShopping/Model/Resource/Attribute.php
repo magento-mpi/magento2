@@ -13,7 +13,7 @@
  */
 namespace Magento\GoogleShopping\Model\Resource;
 
-use Magento\Framework\Gdata\Gshopping\Zip;
+use Magento\Framework\Parse\Zip;
 
 class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {

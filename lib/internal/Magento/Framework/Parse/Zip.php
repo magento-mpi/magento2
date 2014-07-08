@@ -10,7 +10,7 @@
  * Zip methods for the GoogleShopping Module
  *
  */
-namespace Magento\Framework\Gdata\Gshopping;
+namespace Magento\Framework\Parse;
 
 class Zip
 {

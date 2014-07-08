@@ -7,6 +7,7 @@
  */
 namespace Magento\GoogleShopping\Helper;
 
+use Magento\Framework\Gdata\Gshopping\Extension\Tax;
 use Magento\Tax\Service\V1\Data\TaxRate;
 use Magento\Tax\Service\V1\Data\TaxRule;
 
@@ -177,14 +178,30 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $productTaxClassId)
     {
-        $filters = [
-            $this->_filterBuilder->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)->setValue([$customerTaxClassId])->create(),
-            $this->_filterBuilder->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)->setValue([$productTaxClassId])->create(),
-
+        $filterGroups = [
+            [
+                $this->_filterBuilder
+                    ->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)
+                    ->setValue([$customerTaxClassId])
+                    ->create(),
+            ],
+            [
+                $this->_filterBuilder
+                    ->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)
+                    //->setField(TaxRule::PRIORITY)
+                    ->setValue([$productTaxClassId])
+                    ->create(),
+            ],
         ];
+
+        foreach ($filterGroups as $filterGroup) {
+            $this->_searchCriteriaBuilder->addFilter($filterGroup);
+        }
+
         $searchResults = $this->_taxRuleService->searchTaxRules(
-            $this->_searchCriteriaBuilder->addFilter($filters)->create()
+            $this->_searchCriteriaBuilder->create()
         );
+
         $taxRules = $searchResults->getItems();
         $rates = [];
         foreach ($taxRules as $taxRule) {
