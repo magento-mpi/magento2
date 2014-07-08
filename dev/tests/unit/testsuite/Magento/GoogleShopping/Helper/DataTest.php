@@ -98,9 +98,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($filterTwo));
 
-        $this->mockSearchCriteriaBuilder->expects($this->once())
+        $this->mockSearchCriteriaBuilder->expects($this->exactly(2))
             ->method('addFilter')
-            ->with([$filterOne, $filterTwo])
+            ->with($this->logicalOr([$filterOne], [$filterTwo]))
             ->will($this->returnSelf());
 
         $searchCriteria = $this->getMockBuilder('\Magento\Framework\Service\V1\Data\SearchCriteria')
