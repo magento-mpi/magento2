@@ -28,7 +28,6 @@ class CatalogProductVirtual extends AbstractRepository
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'status' => 'Product online',
             'website_ids' => ['Main Website'],
-            'category_ids' => ['presets' => 'default'],
             'is_virtual' => 'Yes',
             'url_key' => 'virtual-product%isolation%',
             'visibility' => 'Catalog, Search',

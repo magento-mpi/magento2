@@ -21,7 +21,7 @@ class CatalogProductSimple extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
-     * 
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
@@ -31,7 +31,6 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => ['dataSet' => 'default'],
             'name' => 'Simple Product %isolation%',
             'sku' => 'sku_simple_product_%isolation%',
-            'category_ids' => ['presets' => 'default'],
             'weight' => 1,
             'quantity_and_stock_status' => [
                 'qty' => 25.0000,
