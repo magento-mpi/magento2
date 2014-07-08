@@ -122,7 +122,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 2,
             'unit_price' => 10,
-            'tax_class_key' => 'DefaultProductClass',
+            'tax_class_key' => [
+                TaxClassKey::KEY_TYPE => TaxClassKey::TYPE_NAME,
+                TaxClassKey::KEY_VALUE => 'DefaultProductClass',
+            ],
         ];
         $oneProductResults = [
             'subtotal' => 20,
@@ -467,7 +470,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                         'tax_included' => true,
                     ],
                 ],
-                'customer_tax_class_key' => 'DefaultCustomerClass'
+                'customer_tax_class_key' => [
+                    TaxClassKey::KEY_TYPE => TaxClassKey::TYPE_NAME,
+                    TaxClassKey::KEY_VALUE => 'DefaultCustomerClass',
+                ],
             ],
             'expected_tax_details' => [
                 'subtotal' => 10.0,
@@ -733,7 +739,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 9,
             'unit_price' => 0.33, // this is including the store tax of 10%. Pre tax is 0.3
-            'tax_class_key' => 'HigherProductClass',
+            'tax_class_key' => [
+                TaxClassKey::KEY_TYPE => TaxClassKey::TYPE_NAME,
+                TaxClassKey::KEY_VALUE => 'HigherProductClass',
+            ],
             'tax_included' => true,
         ];
         $oneProductInclTaxDiffRateResults = [
