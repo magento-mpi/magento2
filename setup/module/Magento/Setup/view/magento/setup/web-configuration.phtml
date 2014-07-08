@@ -27,7 +27,7 @@ $hints = [
         <label class="col-md-3 control-label"><?php echo $this->translate('Your Store Address'); ?><span class="required">*</span></label>
         <div class="col-md-4" style="padding-left:0px; padding-right:0px;">
             <input type="text"
-                   ng-model="wc.address.web"
+                   ng-model="config.address.web"
                    class="form-control"
                    tooltip-placement="right"
                    tooltip-html-unsafe="<?php echo $hints['address_web']; ?>"
@@ -40,31 +40,31 @@ $hints = [
     <div class="form-group">
         <label class="col-md-3 control-label"><?php echo $this->translate('Magento Admin Address'); ?><span class="required">*</span></label>
         <div class="col-md-4 input-group">
-            <span class="input-group-addon">{{wc.address.web}}</span>
+            <span class="input-group-addon">{{config.address.web}}</span>
             <input type="text"
                    class="form-control"
-                   ng-model="wc.address.admin"
+                   ng-model="config.address.admin"
                    required />
         </div>
     </div>
 
     <div class="collapsed-options">
-        <a href="#" class="collapsed-options" ng-click="updateOnExpand(wc.advanced)"><?php echo $this->translate('Advanced Options'); ?></a>
+        <a href="#" class="collapsed-options" ng-click="updateOnExpand(config.advanced)"><?php echo $this->translate('Advanced Options'); ?></a>
         <span class="caret"></span>
     </div>
 
-    <div ng-show="wc.advanced.expanded">
+    <div ng-show="config.advanced.expanded">
         <div class="form-group">
             <label class="col-md-3 control-label"><?php echo $this->translate('HTTPS Options'); ?></label>
             <div class="col-md-5">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" ng-model="wc.https.front">&nbsp;<?php echo $this->translate('Use HTTPS for Magento Storefront'); ?>
+                        <input type="checkbox" ng-model="config.https.front">&nbsp;<?php echo $this->translate('Use HTTPS for Magento Storefront'); ?>
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" ng-model="wc.https.admin">&nbsp;<?php echo $this->translate('Use HTTPS for Magento Admin'); ?>
+                        <input type="checkbox" ng-model="config.https.admin">&nbsp;<?php echo $this->translate('Use HTTPS for Magento Admin'); ?>
                     </label>
                 </div>
             </div>
@@ -75,7 +75,7 @@ $hints = [
             <div class="col-md-5">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" ng-model="wc.rewrites.allowed">&nbsp;<?php echo $this->translate('Use Web Server Apache Rewrites'); ?>
+                        <input type="checkbox" ng-model="config.rewrites.allowed">&nbsp;<?php echo $this->translate('Use Web Server Apache Rewrites'); ?>
                     </label>
                 </div>
             </div>
@@ -86,12 +86,12 @@ $hints = [
             <div class="col-md-5">
                 <div class="radio">
                     <label>
-                        <input type="radio" ng-model="wc.encrypt.type" value="magento">&nbsp;<?php echo $this->translate('I want to use a Magento generated key'); ?>
+                        <input type="radio" ng-model="config.encrypt.type" value="magento">&nbsp;<?php echo $this->translate('I want to use a Magento generated key'); ?>
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" ng-model="wc.encrypt.type" value="user">&nbsp;<?php echo $this->translate('I want to use my own encryption key'); ?>
+                        <input type="radio" ng-model="config.encrypt.type" value="user">&nbsp;<?php echo $this->translate('I want to use my own encryption key'); ?>
                     </label>
                 </div>
             </div>
@@ -101,7 +101,7 @@ $hints = [
             <div class="col-md-4 col-md-offset-3">
                 <input type="text"
                        class="form-control"
-                       ng-model="wc.encrypt.key"
+                       ng-model="config.encrypt.key"
                        tooltip-placement="right"
                        tooltip-html-unsafe="<?php echo $hints['encrypt_key']; ?>"
                        tooltip-trigger="focus"

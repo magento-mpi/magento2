@@ -18,7 +18,7 @@
     <div class="form-group">
         <div class="checkbox col-md-4 col-md-offset-3">
             <label>
-                <input type="checkbox" ng-model="cys.useSampledata">&nbsp;<?php echo $this->translate('Use Sample Data'); ?>
+                <input type="checkbox" ng-model="store.useSampleData">&nbsp;<?php echo $this->translate('Use Sample Data'); ?>
             </label>
         </div>
     </div>
@@ -27,7 +27,7 @@
         <label class="col-md-3 control-label"><?php echo $this->translate('Store Default Time Zone'); ?><span class="required">*</span></label>
         <div class="col-md-6">
             <select class="form-control"
-                    ng-model="cys.timezone"
+                    ng-model="store.timezone"
                     tooltip-placement="right"
                     tooltip-html-unsafe="<?php echo $this->translate('The time zone in which your online store operates. You can change this later in Magento Admin.'); ?>"
                     tooltip-trigger="focus"
@@ -43,7 +43,7 @@
         <label class="col-md-3 control-label"><?php echo $this->translate('Store Default Currency'); ?><span class="required">*</span></label>
         <div class="col-md-5">
             <select class="form-control"
-                    ng-model="cys.currency"
+                    ng-model="store.currency"
                     tooltip-placement="right"
                     tooltip-html-unsafe="<?php echo $this->translate('The currency your store uses for price labeling, checkout, returns, credit and gift cards. You can change this later in Magento Admin.'); ?>"
                     tooltip-trigger="focus"
@@ -59,7 +59,7 @@
         <label class="col-md-3 control-label"><?php echo $this->translate('Store Default Language'); ?><span class="required">*</span></label>
         <div class="col-md-4">
             <select class="form-control"
-                    ng-model="cys.language"
+                    ng-model="store.language"
                     tooltip-placement="right"
                     tooltip-html-unsafe="<?php echo $this->translate('The language customers will see in your store. You can change this later in Magento Set Up Tool.'); ?>"
                     tooltip-trigger="focus"

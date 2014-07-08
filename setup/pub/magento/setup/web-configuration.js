@@ -1,37 +1,33 @@
 'use strict';
 var webConfiguration = angular.module('web-configuration', ['ngStorage']);
 webConfiguration.controller('webConfigurationController', ['$scope', '$localStorage', function ($scope, $localStorage) {
-    $scope.wc = {};
-
-    $scope.wc.address = {
-        web: 'http://www.example.com/',
-        admin: 'admin'
+    $scope.config = {
+        address: {
+            web: 'http://www.example.com/',
+            admin: 'admin'
+        },
+        https: {
+            front: true,
+            admin: true
+        },
+        rewrites: {
+            allowed: true
+        },
+        encrypt: {
+            key: '',
+            type: 'magento'
+        },
+        advanced: {
+            expanded: false
+        }
     };
 
-    $scope.wc.https = {
-        front: true,
-        admin: true
-    };
-
-    $scope.wc.rewrites = {
-        allowed: true
-    };
-
-    $scope.wc.encrypt = {
-        key: '',
-        type: 'magento'
-    };
-
-    $scope.wc.advanced = {
-        expanded: false
-    };
-
-    if ($localStorage.wc) {
-        $scope.wc = $localStorage.wc;
+    if ($localStorage.config) {
+        $scope.config = $localStorage.config;
     }
 
     $scope.$on('nextState', function () {
-        $localStorage.wc = $scope.wc;
+        $localStorage.config = $scope.config;
     });
 
     $scope.updateOnExpand = function(obj) {
@@ -39,6 +35,6 @@ webConfiguration.controller('webConfigurationController', ['$scope', '$localStor
     };
 
     $scope.showEncryptKey = function() {
-        return angular.equals($scope.wc.encrypt.type, 'user');
+        return angular.equals($scope.config.encrypt.type, 'user');
     }
 }]);

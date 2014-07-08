@@ -1,10 +1,11 @@
 'use strict';
 var createAdminAccount = angular.module('create-admin-account', ['ngStorage']);
 createAdminAccount.controller('createAdminAccountController', ['$scope', '$localStorage', function ($scope, $localStorage) {
-    $scope.admin = {};
-    $scope.admin.passwordStatus = {
-        class: 'none',
-        label: 'None'
+    $scope.admin = {
+        'passwordStatus': {
+            class: 'none',
+            label: 'None'
+        }
     };
 
     $scope.passwordStatusChange = function () {
