@@ -45,12 +45,18 @@ class Rate extends \Magento\Backend\App\Action
     protected $_zipRangeBuilder;
 
     /**
+     * @var \Magento\Tax\Service\V1\Data\TaxRateTitleBuilder
+     */
+    protected $_taxRateTitleBuilder;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
      * @param \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder
      * @param \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
+     * @param \Magento\Tax\Service\V1\Data\TaxRateTitleBuilder $zipRangeBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -58,13 +64,15 @@ class Rate extends \Magento\Backend\App\Action
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
         \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder,
-        \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
+        \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder,
+        \Magento\Tax\Service\V1\Data\TaxRateTitleBuilder $taxRateTitleBuilder
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_taxRateService = $taxRateService;
         $this->_taxRateBuilder = $taxRateBuilder;
         $this->_zipRangeBuilder = $zipRangeBuilder;
+        $this->_taxRateTitleBuilder = $taxRateTitleBuilder;
         parent::__construct($context);
     }
 
@@ -556,6 +564,14 @@ class Rate extends \Magento\Backend\App\Action
                 ->setTo($this->extractFormData($formData, 'zip_to'));
             $zipRange = $this->_zipRangeBuilder->create();
             $this->_taxRateBuilder->setZipRange($zipRange);
+        }
+
+        if (isset($formData['title'])) {
+            $titles = [];
+            foreach($formData['title'] as $storeId => $value) {
+                $titles[] = $this->_taxRateTitleBuilder->setStoreId($storeId)->setValue($value)->create();
+            }
+            $this->_taxRateBuilder->setTitles($titles);
         }
 
         return $this->_taxRateBuilder->create();

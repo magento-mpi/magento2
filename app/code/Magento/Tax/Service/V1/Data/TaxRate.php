@@ -25,6 +25,8 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
     const KEY_PERCENTAGE_RATE = 'percentage_rate';
 
     const KEY_CODE = 'code';
+
+    const KEY_TITLES = 'titles';
     /**#@-*/
 
     /**
@@ -95,5 +97,15 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
     public function getCode()
     {
         return $this->_get(self::KEY_CODE);
+    }
+
+    /**
+     * Get tax rate titles
+     *
+     * @return \Magento\Tax\Service\V1\Data\TaxRateTitle[]|null
+     */
+    public function getTitles()
+    {
+        return $this->_get(self::KEY_TITLES);
     }
 }

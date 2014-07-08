@@ -11,6 +11,7 @@ use Magento\Tax\Model\Calculation\Rate as TaxRateModel;
 use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder as TaxRateDataObjectBuilder;
+use Magento\Tax\Service\V1\Data\TaxRateTitleBuilder as TaxRateTitleDataObjectBuilder;
 use Magento\Tax\Service\V1\Data\ZipRangeBuilder as ZipRangeDataObjectBuilder;
 
 /**
@@ -36,18 +37,26 @@ class Converter
     protected $zipRangeDataObjectBuilder;
 
     /**
+     * @var TaxRateTitleDataObjectBuilder
+     */
+    protected $taxRateTitleDataObjectBuilder;
+
+    /**
      * @param TaxRateDataObjectBuilder $taxRateDataObjectBuilder
      * @param TaxRateModelFactory $taxRateModelFactory
      * @param ZipRangeDataObjectBuilder $zipRangeDataObjectBuilder
+     * @param TaxRateTitleDataObjectBuilder $taxRateTitleDataObjectBuilder
      */
     public function __construct(
         TaxRateDataObjectBuilder $taxRateDataObjectBuilder,
         TaxRateModelFactory $taxRateModelFactory,
-        ZipRangeDataObjectBuilder $zipRangeDataObjectBuilder
+        ZipRangeDataObjectBuilder $zipRangeDataObjectBuilder,
+        TaxRateTitleDataObjectBuilder $taxRateTitleDataObjectBuilder
     ) {
         $this->taxRateDataObjectBuilder = $taxRateDataObjectBuilder;
         $this->taxRateModelFactory = $taxRateModelFactory;
         $this->zipRangeDataObjectBuilder = $zipRangeDataObjectBuilder;
+        $this->taxRateTitleDataObjectBuilder = $taxRateTitleDataObjectBuilder;
     }
 
     /**
@@ -84,6 +93,14 @@ class Converter
                 ->create();
             $this->taxRateDataObjectBuilder->setZipRange($zipRange);
         }
+
+        $titlesData = $rateModel->getTitles();
+        $titles = [];
+        foreach ($titlesData as $store => $value) {
+            $titles[] = $this->taxRateTitleDataObjectBuilder->setStoreId($store)->setValue($value)->create();
+        }
+        $this->taxRateDataObjectBuilder->setTitles($titles);
+
         return $this->taxRateDataObjectBuilder->create();
     }
 
@@ -116,5 +133,23 @@ class Converter
             $rateModel->setZipTo($zipTo);
         }
         return $rateModel;
+    }
+
+    /**
+     * Convert a TaxRate data object to an array of associated titles
+     *
+     * @param TaxRateDataObject $taxRate
+     * @return array
+     */
+    public function createTaxRateTitleArray(TaxRateDataObject $taxRate)
+    {
+        $titles = $taxRate->getTitles();
+        $titleData = [];
+        if ($titles) {
+            foreach ($titles as $title) {
+                $titleData[$title->getStoreId()] = $title->getValue();
+            }
+        }
+        return $titleData;
     }
 }

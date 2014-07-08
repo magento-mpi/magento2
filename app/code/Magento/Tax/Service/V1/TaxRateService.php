@@ -169,8 +169,10 @@ class TaxRateService implements TaxRateServiceInterface
     {
         $this->validate($taxRate);
         $taxRateModel = $this->converter->createTaxRateModel($taxRate);
+        $taxRateTitles = $this->converter->createTaxRateTitleArray($taxRate);
         try {
             $taxRateModel->save();
+            $taxRateModel->saveTitles($taxRateTitles);
         } catch (ModelException $e) {
             if ($e->getCode() == ModelException::ERROR_CODE_ENTITY_ALREADY_EXISTS) {
                 throw new InputException($e->getMessage());

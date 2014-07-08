@@ -332,6 +332,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $formData['zip_to'] = $zipRange->getTo();
         }
 
+        if ($taxRate->getTitles()) {
+            $titleData = [];
+            foreach ($taxRate->getTitles() as $title) {
+                $titleData[] = [$title->getStoreId() => $title->getValue()];
+            }
+            $formData['title'] = $titleData;
+        }
+
         return $formData;
     }
 }
