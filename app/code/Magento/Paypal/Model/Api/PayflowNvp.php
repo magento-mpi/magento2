@@ -85,6 +85,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'PWD' => 'password',
         'BUTTONSOURCE' => 'build_notation_code',
         'TENDER' => 'tender',
+
         // commands
         'RETURNURL' => 'return_url',
         'CANCELURL' => 'cancel_url',
@@ -94,6 +95,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'CUSTIP' => 'ip_address',
         'NOTIFYURL' => 'notify_url',
         'NOTE' => 'note',
+
         // style settings
         'PAGESTYLE' => 'page_style',
         'HDRIMG' => 'hdrimg',
@@ -102,18 +104,20 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'PAYFLOWCOLOR' => 'payflowcolor',
         'LOCALECODE' => 'locale_code',
 
+        // transaction info
+        //We need to store paypal trx id for correct IPN working
+        'PPREF' => 'paypal_transaction_id',
         'PAYMENTINFO_0_TRANSACTIONID' => 'paypal_transaction_id',
         'TRANSACTIONID' => 'paypal_transaction_id',
         'REFUNDTRANSACTIONID' => 'paypal_transaction_id',
 
-        // transaction info
-        //We need to store paypal trx id for correct IPN working
         'PNREF' => 'transaction_id',
         'ORIGID' => 'authorization_id',
         'CAPTURECOMPLETE' => 'complete_type',
         'AMT' => 'amount',
         'AVSADDR' => 'address_verification',
         'AVSZIP' => 'postcode_verification',
+
         // payment/billing info
         'CURRENCY' => 'currency_code',
         'PAYMENTSTATUS' => 'payment_status',
@@ -121,9 +125,11 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'PAYERID' => 'payer_id',
         'PAYERSTATUS' => 'payer_status',
         'EMAIL' => 'email',
+
         // backwards compatibility
         'FIRSTNAME' => 'firstname',
         'LASTNAME' => 'lastname',
+
         // paypal direct credit card information
         'ACCT' => 'credit_card_number',
         'EXPDATE' => 'credit_card_expiration_date',
@@ -131,6 +137,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'CARDSTART' => 'maestro_solo_issue_date',
         'CARDISSUE' => 'maestro_solo_issue_number',
         'CVV2MATCH' => 'cvv2_check_result',
+
         // cardinal centinel
         'AUTHSTATUS3DS' => 'centinel_authstatus',
         'MPIVENDOR3DS' => 'centinel_mpivendor',
@@ -420,7 +427,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @var array
      */
     protected $_requiredResponseParams = array(
-        self::DO_DIRECT_PAYMENT => array('RESULT', 'PNREF')
+        self::DO_DIRECT_PAYMENT => array('RESULT', 'PNREF', 'PPREF')
     );
 
     /**
