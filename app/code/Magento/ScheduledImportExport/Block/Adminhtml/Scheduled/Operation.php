@@ -25,7 +25,7 @@ class Operation extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_addButtonLabel = __('Add Scheduled Export');
         parent::_construct();
 
-        $this->_addButton(
+        $this->buttonList->add(
             'add_new_import',
             array(
                 'label' => __('Add Scheduled Import'),

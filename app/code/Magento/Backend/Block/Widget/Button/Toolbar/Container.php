@@ -1,0 +1,52 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Backend\Block\Widget\Button\Toolbar;
+
+use \Magento\Backend\Block\Widget\Button\ContextInterface;
+
+/**
+ * @method \Magento\Backend\Block\Widget\Button\Item getButtonItem
+ * @method ContextInterface getContext
+ * @method ContextInterface setContext(ContextInterface $context)
+ */
+class Container extends \Magento\Framework\View\Element\AbstractBlock
+{
+    /**
+     * Create button renderer
+     *
+     * @param string $blockName
+     * @param string $blockClassName
+     * @return \Magento\Backend\Block\Widget\Button
+     */
+    protected function createButton($blockName, $blockClassName = null)
+    {
+        if (null === $blockClassName) {
+            $blockClassName = 'Magento\Backend\Block\Widget\Button';
+        }
+        return $this->getLayout()->createBlock($blockClassName, $blockName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _toHtml()
+    {
+        $item = $this->getButtonItem();
+        $context = $this->getContext();
+
+        if ($item && $context && $context->canRender($item)) {
+            $data = $item->getData();
+            $blockClassName = isset($data['class_name']) ? $data['class_name'] : null;
+            $block = $this->createButton($this->getNameInLayout() . '-' . $item->getId() . '-button', $blockClassName);
+            $block->setData($data);
+            return $block->toHtml();
+        }
+        return parent::_toHtml();
+    }
+}

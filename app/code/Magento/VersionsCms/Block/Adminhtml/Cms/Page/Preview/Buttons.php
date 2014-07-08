@@ -18,12 +18,12 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
     protected $_cmsConfig;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
@@ -40,7 +40,7 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
     {
         parent::_construct();
 
-        $this->_addButton(
+        $this->buttonList->add(
             'preview',
             array(
                 'id' => 'preview-buttons-preview',
@@ -51,7 +51,7 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
         );
 
         if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'publish',
                 array(
                     'id' => 'preview-buttons-publish',

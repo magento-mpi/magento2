@@ -27,12 +27,12 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -50,20 +50,29 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
+        $region = 'toolbar';
+
         if ($this->getRequest()->getParam('popup')) {
-            $this->_removeButton('back');
+            $region = 'header';
+        }
+
+        if ($this->getRequest()->getParam('popup')) {
+            $this->buttonList->remove('back');
             if ($this->getRequest()->getParam('product_tab') != 'variations') {
-                $this->_addButton(
+                $this->buttonList->add(
                     'save_in_new_set',
                     array(
                         'label' => __('Save in New Attribute Set'),
                         'class' => 'save',
                         'onclick' => 'saveAttributeInNewSet(\'' . __('Enter Name for New Attribute Set') . '\')'
-                    )
+                    ),
+                    0,
+                    0,
+                    $region
                 );
             }
         } else {
-            $this->_addButton(
+            $this->buttonList->add(
                 'save_and_edit_button',
                 array(
                     'label' => __('Save and Continue Edit'),
@@ -74,13 +83,15 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                         )
                     )
                 ),
-                100
+                100,
+                0,
+                $region
             );
         }
 
-        $this->_updateButton('save', 'label', __('Save Attribute'));
-        $this->_updateButton('save', 'class', 'save primary');
-        $this->_updateButton(
+        $this->buttonList->update('save', 'label', __('Save Attribute'));
+        $this->buttonList->update('save', 'class', 'save primary');
+        $this->buttonList->update(
             'save',
             'data_attribute',
             array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
@@ -88,21 +99,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $entityAttribute = $this->_coreRegistry->registry('entity_attribute');
         if (!$entityAttribute || !$entityAttribute->getIsUserDefined()) {
-            $this->_removeButton('delete');
+            $this->buttonList->remove('delete');
         } else {
-            $this->_updateButton('delete', 'label', __('Delete Attribute'));
+            $this->buttonList->update('delete', 'label', __('Delete Attribute'));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
-    {
-        if ($this->getRequest()->getParam('popup')) {
-            $region = 'header';
-        }
-        parent::_addButton($buttonId, $data, $level, $sortOrder, $region);
     }
 
     /**
