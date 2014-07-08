@@ -86,4 +86,15 @@ class RendererListTest extends \PHPUnit_Framework_TestCase
             $this->renderList->getRenderer('type', null, 'renderer_template')
         );
     }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testGetRendererWithException()
+    {
+        $this->assertInstanceOf(
+            '\Magento\Framework\View\Element\BlockInterface',
+            $this->renderList->getRenderer(null)
+        );
+    }
 }
