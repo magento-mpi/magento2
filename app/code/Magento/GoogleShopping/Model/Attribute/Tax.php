@@ -7,6 +7,8 @@
  */
 namespace Magento\GoogleShopping\Model\Attribute;
 
+use Magento\Store\Model\Store;
+
 /**
  * Tax attribute model
  *
