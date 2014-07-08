@@ -333,9 +333,9 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                 null,
                 ['Default Rule']
             ],
-            'sort_order eq 0 AND priority eq 0' => [
+            'customer_tax_class_ids eq 3 AND priority eq 0' => [
                 [
-                    $filterBuilder->setField(TaxRule::SORT_ORDER)->setValue('0')->create(),
+                    $filterBuilder->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)->setValue(3)->create(),
                     $filterBuilder->setField(TaxRule::PRIORITY)->setValue('0')->create(),
                 ],
                 [],
