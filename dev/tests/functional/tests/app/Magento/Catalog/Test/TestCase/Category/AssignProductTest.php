@@ -9,12 +9,11 @@ namespace Magento\Catalog\Test\TestCase\Category;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Category;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class AssignProducts
- *
  */
 class AssignProductTest extends Functional
 {
@@ -35,8 +34,7 @@ class AssignProductTest extends Functional
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
         $bundle->switchData('bundle_fixed_required');
         $bundle->persist();
-        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-        $category->switchData('default');
+        $category = Factory::getFixtureFactory()->getMagentoCatalogCatalogCategory();
         $category->persist();
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getCatalogCategory();
@@ -48,7 +46,7 @@ class AssignProductTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
-        $treeBlock->selectCategory($category->getCategoryPath() . '/' . $category->getCategoryName());
+        $treeBlock->selectCategory($category);
         $formBlock->openTab('category_products');
         $categoryProductsGrid = $formBlock->getCategoryProductsGrid();
         $products = [$simple, $configurable, $bundle];
@@ -75,23 +73,23 @@ class AssignProductTest extends Functional
     /**
      * Verifying that category present in Frontend with products
      *
-     * @param Category $category
+     * @param CatalogCategory $category
      * @param array $products
      */
-    protected function assertProductsOnCategory(Category $category, array $products)
+    protected function assertProductsOnCategory(CatalogCategory $category, array $products)
     {
         //Open created category on frontend
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $frontendHomePage->open();
         $navigationMenu = $frontendHomePage->getTopmenu();
-        $navigationMenu->selectCategoryByName($category->getCategoryName());
-        $this->assertEquals($category->getCategoryName(), $frontendHomePage->getTitleBlock()->getTitle());
+        $navigationMenu->selectCategoryByName($category->getName());
+        $this->assertEquals($category->getName(), $frontendHomePage->getTitleBlock()->getTitle());
         $productListBlock = $categoryPage->getListProductBlock();
         /** @var Product $product */
         foreach ($products as $product) {
             $this->assertTrue(
-                $productListBlock->isProductVisible($product->getProductName()),
+                $productListBlock->isProductVisible($product->getName()),
                 'Product is absent on category page.'
             );
         }

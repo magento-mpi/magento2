@@ -82,21 +82,21 @@ class UpsellTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->init($product);
         $productPage->open();
-        $this->assertEquals($product->getProductName(), $productPage->getViewBlock()->getProductName());
+        $this->assertEquals($product->getName(), $productPage->getViewBlock()->getProductName());
 
         /** @var \Magento\Catalog\Test\Block\Product\ProductList\Upsell $upsellBlock */
         $upsellBlock = $productPage->getUpsellBlock();
         //Verify upsell simple2 and configurable on Simple1 product page
-        $this->assertTrue($upsellBlock->isUpsellProductVisible($simple2->getProductName()));
-        $this->assertTrue($upsellBlock->isUpsellProductVisible($configurable->getProductName()));
+        $this->assertTrue($upsellBlock->isUpsellProductVisible($simple2->getName()));
+        $this->assertTrue($upsellBlock->isUpsellProductVisible($configurable->getName()));
         //Open and verify configurable page
-        $upsellBlock->openUpsellProduct($configurable->getProductName());
-        $this->assertEquals($configurable->getProductName(), $productPage->getViewBlock()->getProductName());
+        $upsellBlock->openUpsellProduct($configurable->getName());
+        $this->assertEquals($configurable->getName(), $productPage->getViewBlock()->getProductName());
         //Verify upsell simple2 on Configurable product page and open it
         $upsellBlock = $productPage->getUpsellBlock();
-        $this->assertTrue($upsellBlock->isUpsellProductVisible($simple2->getProductName()));
-        $upsellBlock->openUpsellProduct($simple2->getProductName());
-        $this->assertEquals($simple2->getProductName(), $productPage->getViewBlock()->getProductName());
+        $this->assertTrue($upsellBlock->isUpsellProductVisible($simple2->getName()));
+        $upsellBlock->openUpsellProduct($simple2->getName());
+        $this->assertEquals($simple2->getName(), $productPage->getViewBlock()->getProductName());
         $this->assertFalse($productPage->getUpsellBlock()->isVisible());
     }
 }

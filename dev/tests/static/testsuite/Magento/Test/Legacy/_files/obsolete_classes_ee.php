@@ -125,5 +125,6 @@ return array(
     ['Magento\PbridgePaypal\Block\Checkout\Payment\PayflowDirect'],
     ['Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect'],
     ['Magento\PbridgePaypal\Model\Payment\Method\Payflow'],
-    array('Magento\SalesRule\Helper\Data')
+    array('Magento\SalesRule\Helper\Data'),
+    array('Magento\CustomerCustomAttributes\Block\Account\RegisterLink'),
 );
