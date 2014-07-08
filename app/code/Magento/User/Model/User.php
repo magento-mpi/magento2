@@ -496,6 +496,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         )->getTransport();
 
         $transport->sendMessage();
+        return $this;
     }
 
     /**
