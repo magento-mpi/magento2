@@ -28,7 +28,7 @@ class Giftwrapping extends CommonTaxCollector
     /**
      * Constant for item print card item type
      */
-    const PRINTED_CARD_TYPE = 'printed_card';
+    const PRINTED_CARD_TYPE = 'printed_card_gw';
 
     /**
      * Constant for item gift wrapping code prefix
@@ -43,7 +43,7 @@ class Giftwrapping extends CommonTaxCollector
     /**
      * Constant for printed card code
      */
-    const CODE_PRINTED_CARD = 'printed_card';
+    const CODE_PRINTED_CARD = 'printed_card_gw';
 
     /**
      * @var \Magento\Sales\Model\Quote

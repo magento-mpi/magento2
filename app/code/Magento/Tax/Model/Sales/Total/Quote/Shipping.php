@@ -28,7 +28,7 @@ class Shipping extends CommonTaxCollector
 
         //Add shipping
         $shippingDataObject = $this->getShippingDataObject($address, false);
-        $baseShippingDataObject = $this->getShippingDataObject($address, false);
+        $baseShippingDataObject = $this->getShippingDataObject($address, true);
         if ($shippingDataObject == null || $baseShippingDataObject == null) {
             return $this;
         }
