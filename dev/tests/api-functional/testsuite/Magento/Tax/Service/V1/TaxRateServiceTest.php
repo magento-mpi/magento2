@@ -8,6 +8,10 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Tax\Service\V1\Data\TaxRate;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
@@ -31,6 +35,19 @@ class TaxRateServiceTest extends WebapiAbstract
      */
     private $taxRateService;
 
+    /** @var FilterBuilder */
+    private $filterBuilder;
+
+    /** @var SearchCriteriaBuilder */
+    private $searchCriteriaBuilder;
+
+    /**
+     * Other rates created during tests, to be deleted in tearDown()
+     *
+     * @var \Magento\Tax\Model\Calculation\Rate[]
+     */
+    private $otherRates = [];
+
     /**
      * Execute per test initialization.
      */
@@ -38,6 +55,12 @@ class TaxRateServiceTest extends WebapiAbstract
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->taxRateService = $objectManager->get('Magento\Tax\Service\V1\TaxRateService');
+        $this->searchCriteriaBuilder = $objectManager->create(
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+        );
+        $this->filterBuilder = $objectManager->create(
+            'Magento\Framework\Service\V1\Data\FilterBuilder'
+        );
         /** Initialize tax classes, tax rates and tax rules defined in fixture Magento/Tax/_files/tax_classes.php */
         $this->getFixtureTaxRates();
         $this->getFixtureTaxClasses();
@@ -58,6 +81,11 @@ class TaxRateServiceTest extends WebapiAbstract
             }
             foreach ($taxClasses as $taxClass) {
                 $taxClass->delete();
+            }
+        }
+        if (count($this->otherRates)) {
+            foreach ($this->otherRates as $taxRate) {
+                $taxRate->delete();
             }
         }
     }
@@ -353,6 +381,100 @@ class TaxRateServiceTest extends WebapiAbstract
         }
     }
 
+    public function testSearchTaxRates()
+    {
+        $rates = $this->setupTaxRatesForSearch();
+
+        // Find rates whose code is 'codeUs12'
+        $filter = $this->filterBuilder->setField(TaxRate::KEY_CODE)
+            ->setValue('codeUs12')
+            ->create();
+
+        $this->searchCriteriaBuilder->addFilter([$filter]);
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchTaxRates'
+            ]
+        ];
+        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+
+        /** @var \Magento\Framework\Service\V1\Data\SearchResults $searchResults */
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+
+        $this->assertEquals(1, $searchResults['total_count']);
+
+        $expectedRuleData = [
+            [
+                'id' => $rates['codeUs12']->getId(),
+                'country_id' => $rates['codeUs12']->getTaxCountryId(),
+                'region_id' => $rates['codeUs12']->getTaxRegionId(),
+                'postcode' => $rates['codeUs12']->getTaxPostcode(),
+                'code' =>  $rates['codeUs12']->getCode(),
+                'percentage_rate' =>  $rates['codeUs12']->getRate(),
+            ]
+        ];
+        $this->assertEquals($expectedRuleData, $searchResults['items']);
+    }
+
+    public function testSearchTaxRatesCz()
+    {
+        $rates = $this->setupTaxRatesForSearch();
+
+        // Find rates which country id 'CZ'
+        $filter = $this->filterBuilder->setField(TaxRate::KEY_COUNTRY_ID)
+            ->setValue('CZ')
+            ->create();
+
+        // Order them by descending postcode (not the default order)
+        $this->searchCriteriaBuilder->addFilter([$filter])
+            ->addSortOrder(TaxRate::KEY_POSTCODE, SearchCriteria::SORT_DESC);
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchTaxRates'
+            ]
+        ];
+        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+
+        /** @var \Magento\Framework\Service\V1\Data\SearchResults $searchResults */
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+
+        $this->assertEquals(2, $searchResults['total_count']);
+
+        $expectedRuleData = [
+            [
+                'id' => $rates['codeCz2']->getId(),
+                'country_id' => $rates['codeCz2']->getTaxCountryId(),
+                'postcode' => $rates['codeCz2']->getTaxPostcode(),
+                'code' =>  $rates['codeCz2']->getCode(),
+                'percentage_rate' =>  $rates['codeCz2']->getRate(),
+            ],
+            [
+                'id' => $rates['codeCz1']->getId(),
+                'country_id' => $rates['codeCz1']->getTaxCountryId(),
+                'postcode' => $rates['codeCz1']->getTaxPostcode(),
+                'code' =>  $rates['codeCz1']->getCode(),
+                'percentage_rate' =>  $rates['codeCz1']->getRate(),
+            ]
+        ];
+        $this->assertEquals($expectedRuleData, $searchResults['items']);
+    }
+
     /**
      * Get tax rates created in Magento\Tax\_files\tax_classes.php
      *
@@ -418,5 +540,70 @@ class TaxRateServiceTest extends WebapiAbstract
             }
         }
         return $this->fixtureTaxRules;
+    }
+
+    /**
+     * Creates rates for search tests.
+     *
+     * @return \Magento\Tax\Model\Calculation\Rate[]
+     */
+    private function setupTaxRatesForSearch()
+    {
+        $objectManager = Bootstrap::getObjectManager();
+
+        $taxRateUs12 = array(
+            'tax_country_id' => 'US',
+            'tax_region_id' => '12',
+            'tax_postcode' => '*',
+            'code' => 'codeUs12',
+            'rate' => '22'
+        );
+        $rates['codeUs12'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
+            ->setData($taxRateUs12)
+            ->save();
+
+        $taxRateUs14 = array(
+            'tax_country_id' => 'US',
+            'tax_region_id' => '14',
+            'tax_postcode' => '*',
+            'code' => 'codeUs14',
+            'rate' => '22'
+        );
+        $rates['codeUs14'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
+            ->setData($taxRateUs14)
+            ->save();
+        $taxRateBr13 = array(
+            'tax_country_id' => 'BR',
+            'tax_region_id' => '13',
+            'tax_postcode' => '*',
+            'code' => 'codeBr13',
+            'rate' => '7.5'
+        );
+        $rates['codeBr13'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
+            ->setData($taxRateBr13)
+            ->save();
+
+        $taxRateCz1 = array(
+            'tax_country_id' => 'CZ',
+            'tax_postcode' => '110 00',
+            'code' => 'codeCz1',
+            'rate' => '1.1'
+        );
+        $rates['codeCz1'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
+            ->setData($taxRateCz1)
+            ->save();
+        $taxRateCz2 = array(
+            'tax_country_id' => 'CZ',
+            'tax_postcode' => '250 00',
+            'code' => 'codeCz2',
+            'rate' => '2.2'
+        );
+        $rates['codeCz2'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
+            ->setData($taxRateCz2)
+            ->save();
+
+        // Set class variable so rates will be deleted on tearDown()
+        $this->otherRates = $rates;
+        return $rates;
     }
 }

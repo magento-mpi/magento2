@@ -137,7 +137,10 @@ class TaxRateService implements TaxRateServiceInterface
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($sortOrders as $field => $direction) {
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+                $collection->addOrder(
+                    $this->translateField($field),
+                    $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                );
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
