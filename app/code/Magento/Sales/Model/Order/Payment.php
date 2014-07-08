@@ -1158,6 +1158,13 @@ class Payment extends \Magento\Payment\Model\Info
      */
     protected function _authorize($isOnline, $amount)
     {
+        // check for authorization amount to be equal to grand total
+        $this->setShouldCloseParentTransaction(false);
+        $isSameCurrency = $this->_isSameCurrency();
+        if (!$isSameCurrency || !$this->_isCaptureFinal($amount)) {
+            $this->setIsFraudDetected(true);
+        }
+
         // update totals
         $amount = $this->_formatAmount($amount, true);
         $this->setBaseAmountAuthorized($amount);
@@ -1178,11 +1185,19 @@ class Payment extends \Magento\Payment\Model\Info
                 $this->_formatPrice($amount)
             );
             $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
-            if ($this->getIsFraudDetected()) {
-                $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
-            }
         } else {
-            $message = __('Authorized amount of %1', $this->_formatPrice($amount));
+            if ($this->getIsFraudDetected()) {
+                $message = __(
+                    'Order is suspended as its authorizing amount %s is suspected to be fraudulent.',
+                    $this->_formatPrice($amount, $this->getCurrencyCode())
+                );
+            } else {
+                $message = __('Authorized amount of %1', $this->_formatPrice($amount));
+            }
+        }
+        if ($this->getIsFraudDetected()) {
+            $state = \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW;
+            $status = \Magento\Sales\Model\Order::STATUS_FRAUD;
         }
 
         // update transactions, order state and add comments

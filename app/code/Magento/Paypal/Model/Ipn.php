@@ -390,6 +390,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
                 $this->getRequestData('txn_id')
             )->setParentTransactionId(
                 $this->getRequestData('parent_txn_id')
+            )->setCurrencyCode(
+                $this->getRequestData('mc_currency')
             )->setIsTransactionClosed(
                 0
             )->registerAuthorizationNotification(
