@@ -8,6 +8,8 @@
 namespace Magento\Rma\Model\Rma\Status;
 
 use Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Rma\Source\Status;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * RMA model
@@ -15,6 +17,9 @@ use Magento\Rma\Model\Rma;
  * @method \Magento\Rma\Model\Rma\Status\History setIsCustomerNotified(bool $value)
  * @method \Magento\Rma\Model\Rma\Status\History setComment(string $comment)
  * @method \Magento\Rma\Model\Rma\Status\History setStoreId(int $storeId)
+ * @method \Magento\Rma\Model\Rma\Status\History setEmailSent(bool $value)
+ * @method bool getEmailSent()
+ * @method string getCreatedAt()
  */
 class History extends \Magento\Framework\Model\AbstractModel
 {
@@ -49,9 +54,16 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * Core date model
      *
+     * @var \Magento\Framework\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * Core date model 2.0
+     *
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
-    protected $_date;
+    protected $dateTimeDateTime;
 
     /**
      * @var \Magento\Framework\Translate\Inline\StateInterface
@@ -64,15 +76,22 @@ class History extends \Magento\Framework\Model\AbstractModel
     protected $rmaHelper;
 
     /**
+     * @var TimezoneInterface
+     */
+    protected $localeDate;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTimeDateTime
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Rma\Helper\Data $rmaHelper
+     * @param TimezoneInterface $localeDate
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -84,9 +103,11 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateTimeDateTime,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Rma\Helper\Data $rmaHelper,
+        TimezoneInterface $localeDate,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -95,9 +116,11 @@ class History extends \Magento\Framework\Model\AbstractModel
         $this->_rmaFactory = $rmaFactory;
         $this->_rmaConfig = $rmaConfig;
         $this->_transportBuilder = $transportBuilder;
-        $this->_date = $date;
+        $this->dateTime = $dateTime;
+        $this->dateTimeDateTime = $dateTimeDateTime;
         $this->inlineTranslation = $inlineTranslation;
         $this->rmaHelper = $rmaHelper;
+        $this->localeDate = $localeDate;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -245,35 +268,35 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function saveSystemComment()
     {
-        $systemComments = array(
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING => __('We placed your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED => __('We have authorized your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PARTIAL_AUTHORIZED => __(
-                'We partially authorized your Return request.'
-            ),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED => __('We received your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED_ON_ITEM => __(
-                'We partially received your Return request.'
-            ),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED_ON_ITEM => __(
-                'We partially approved your Return request.'
-            ),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED_ON_ITEM => __(
-                'We partially rejected your Return request.'
-            ),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED => __('We closed your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED => __(
-                'We processed and closed your Return request.'
-            )
-        );
-
         $status = $this->getRma()->getStatus();
-
-        if ($status === $this->getRma()->getOrigData('status') && !isset($systemComments[$status])) {
+        $comment = self::getSystemCommentByStatus($status);
+        if ($status === $this->getRma()->getOrigData('status') && $comment) {
             return;
         }
+        $this->saveComment($comment, true, true);
+    }
 
-        $this->saveComment($systemComments[$status], true, true);
+    /**
+     * Get system comment by state
+     * Returns null if state is not known
+     *
+     * @param string $status
+     * @return string|null
+     */
+    public static function getSystemCommentByStatus($status)
+    {
+        $comments = [
+            Status::STATE_PENDING => __('We placed your Return request.'),
+            Status::STATE_AUTHORIZED => __('We have authorized your Return request.'),
+            Status::STATE_PARTIAL_AUTHORIZED => __('We partially authorized your Return request.'),
+            Status::STATE_RECEIVED => __('We received your Return request.'),
+            Status::STATE_RECEIVED_ON_ITEM => __('We partially received your Return request.'),
+            Status::STATE_APPROVED_ON_ITEM => __('We partially approved your Return request.'),
+            Status::STATE_REJECTED_ON_ITEM => __('We partially rejected your Return request.'),
+            Status::STATE_CLOSED => __('We closed your Return request.'),
+            Status::STATE_PROCESSED_CLOSED => __('We processed and closed your Return request.')
+        ];
+        return isset($comments[$status]) ? $comments[$status] : null;
     }
 
     /**
@@ -289,7 +312,7 @@ class History extends \Magento\Framework\Model\AbstractModel
             ->setComment($comment)
             ->setIsVisibleOnFront($visibleOnFrontend)
             ->setStatus($rma->getStatus())
-            ->setCreatedAt($this->_date->gmtDate())
+            ->setCreatedAt($this->dateTimeDateTime->gmtDate())
             ->setIsCustomerNotified($this->getEmailSent())
             ->setIsAdmin($isAdmin)
             ->save();
@@ -390,5 +413,15 @@ class History extends \Magento\Framework\Model\AbstractModel
         $this->inlineTranslation->resume();
 
         return $this;
+    }
+
+    /**
+     * Get object created at date affected current active store timezone
+     *
+     * @return \Magento\Framework\Stdlib\DateTime\Date
+     */
+    public function getCreatedAtDate()
+    {
+        return $this->localeDate->date($this->dateTime->toTimestamp($this->getCreatedAt()), null, null, true);
     }
 }

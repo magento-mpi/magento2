@@ -1,0 +1,3 @@
+"banner/data/name";"banner/data/is_enabled";"banner/data/type";"banner/data/types[]";"banner/data/use_customer_segment";"banner/data/customer_segment/dataSet";"banner/data/store_contents_not_use/value_0";"banner/data/store_contents/value_0";"banner/data/store_contents_not_use/value_1";"banner/data/store_contents/value_1";"constraint"
+"banner_%isolation%";"Yes";"Any Banner Type";"-";"All";"-";"No";"banner_content_%isolation%";"Yes";"-";"assertBannerSuccessSaveMessage, assertBannerInGrid"
+"banner_%isolation%";"No";"Specified Banner Types";"Footer";"Specified";"active_customer_segment";"Yes";"-";"No";"banner_store_content_%isolation%";"assertBannerSuccessSaveMessage, assertBannerInGrid"
