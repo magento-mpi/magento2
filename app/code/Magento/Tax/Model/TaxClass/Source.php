@@ -64,7 +64,7 @@ class Source implements \Magento\Framework\Data\OptionSourceInterface
     /**
      * Return all existing Tax Classes as an option array
      *
-     * @return array|void
+     * @return array
      */
     public function toOptionArray()
     {
