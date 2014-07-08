@@ -173,34 +173,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Remove product attribute add button
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removeCatalogProductAttributeAddButton($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('add');
-    }
-
-    /**
-     * Remove product attribute save buttons
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removeCatalogProductAttributeButtons($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton(
-            'save'
-        )->removeButton(
-            'save_and_edit_button'
-        )->removeButton(
-            'delete'
-        );
-    }
-
-    /**
      * Disable fields in tab "Main" of edit product attribute form
      *
      * @param EventObserver $observer
@@ -285,38 +257,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $block = $observer->getEvent()->getBlock();
 
         $block->unsetChild('addButton');
-    }
-
-    /**
-     * Remove customer attribute creation button from grid container
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removeAddNewCustomerAttributeButton($observer)
-    {
-        if ($this->_role->getIsAll()) {
-            // because observer is passed through directly
-            return;
-        }
-        $block = $observer->getEvent()->getBlock();
-        $block->removeButton('add');
-    }
-
-    /**
-     * Remove customer attribute deletion button from form container
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removeDeleteCustomerAttributeButton($observer)
-    {
-        if ($this->_role->getIsAll()) {
-            // because observer is passed through directly
-            return;
-        }
-        $block = $observer->getEvent()->getBlock();
-        $block->removeButton('delete');
     }
 
     /**
@@ -574,19 +514,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Remove buttons for save and reindex on process edit page.
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeProcessEditButtons($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('save')->removeButton('reindex');
-
-        return $this;
-    }
-
-    /**
      * Removing not allowed massactions for user with store level permissions.
      *
      * @param EventObserver $observer
@@ -644,40 +571,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Remove control buttons for website-level roles on Manage Gift Card Accounts page
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removeGiftCardAccountAddButton($observer)
-    {
-        if (!$this->_role->getIsWebsiteLevel()) {
-            $block = $observer->getEvent()->getBlock();
-            if ($block) {
-                $block->removeButton('add');
-            }
-        }
-    }
-
-    /**
-     * Remove control buttons for website-level roles on Gift Card Account Edit page
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removeGiftCardAccountControlButtons($observer)
-    {
-        if (!$this->_role->getIsWebsiteLevel()) {
-            $block = $observer->getEvent()->getBlock();
-            if ($block) {
-                $block->removeButton('delete');
-                $block->removeButton('save');
-                $block->removeButton('send');
-            }
-        }
-    }
-
-    /**
      * Remove control buttons for limited user on Manage Currency Rates
      *
      * @param EventObserver $observer
@@ -718,40 +611,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $block->unsetChild('add_button');
         }
 
-        return $this;
-    }
-
-    /**
-     * Remove buttons from TargetRule grid for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeTargetRuleGridButtons($observer)
-    {
-        /* @var $block \Magento\TargetRule\Block\Adminhtml\Targetrule */
-        $block = $observer->getEvent()->getBlock();
-        if ($block) {
-            $block->removeButton('add');
-        }
-        return $this;
-    }
-
-    /**
-     * Remove buttons from TargetRule Edit/View for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeTargetRuleEditButtons($observer)
-    {
-        /* @var $block \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit */
-        $block = $observer->getEvent()->getBlock();
-        if ($block) {
-            $block->removeButton('save');
-            $block->removeButton('save_and_continue_edit');
-            $block->removeButton('delete');
-        }
         return $this;
     }
 
@@ -924,31 +783,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Remove add button for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeCustomerGroupAddButton($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('add');
-        return $this;
-    }
-
-    /**
-     * Remove control buttons for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeCustomerGroupControlButtons($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('save');
-        $observer->getEvent()->getBlock()->removeButton('delete');
-        return $this;
-    }
-
-    /**
      * Remove control buttons for all GWS limited users with no exclusive rights
      *
      * @param EventObserver $observer
@@ -964,60 +798,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $block->removeButton('save_and_continue');
             $block->removeButton('delete');
         }
-        return $this;
-    }
-
-    /**
-     * Remove add button for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeTaxRuleAddButton($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('add');
-        return $this;
-    }
-
-    /**
-     * Remove control buttons for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeTaxRuleControlButtons($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton(
-            'save'
-        )->removeButton(
-            'save_and_continue'
-        )->removeButton(
-            'delete'
-        );
-        return $this;
-    }
-
-    /**
-     * Remove add button for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeTaxRateAddButton($observer)
-    {
-        $observer->getEvent()->getBlock()->unsetChild('addButton');
-        return $this;
-    }
-
-    /**
-     * Remove control buttons for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeTaxRateControlButtons($observer)
-    {
-        $observer->getEvent()->getBlock()->unsetChild('saveButton')->unsetChild('deleteButton');
         return $this;
     }
 
@@ -1110,18 +890,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             }
         }
 
-        return $this;
-    }
-
-    /**
-     * Remove button "Add RMA Attribute" for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeRmaAddAttributeButton($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('add');
         return $this;
     }
 

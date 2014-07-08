@@ -263,21 +263,21 @@
         <callback class="magento_adminhtml_block_system_email_template" method="removeEmailTemplateGridButtons" />
         <callback class="magento_adminhtml_block_system_email_template_edit" method="removeTransactionalEmailsEditButtons" />
         <callback class="magento_targetRule_block_adminhtml_product" method="readonlyTargetRuleProductAttribute" />
-        <callback class="magento_targetRule_block_adminhtml_product_targetrule" method="removeTargetRuleGridButtons" />
-        <callback class="magento_targetRule_block_adminhtml_product_targetrule_edit" method="removeTargetRuleEditButtons" />
+        <callback class="magento_targetRule_block_adminhtml_targetrule" method="removeTargetRuleGridButtons" />
+        <callback class="magento_targetRule_block_adminhtml_targetrule_edit" method="removeTargetRuleEditButtons" />
         <callback class="magento_catalogPermissions_block_adminhtml_catalog_category_tab_permissions" method="validateCatalogPermissions" />
         <callback class="magento_widget_block_adminhtml_widget_instance_edit" method="removeWidgetInstanceButtons" />
         <callback class="magento_banner_block_adminhtml_banner_edit" method="validateBannerPermissions" />
         <callback class="magento_versionsCms_block_adminhtml_cms_hierarchy_edit" method="removeCmsHierarchyFormButtons" />
         <callback class="magento_versionsCms_block_adminhtml_cms_page_edit_tab_hierarchy" method="prepareCmsHierarchyNodes" />
-        <callback class="magento_adminhtml_block_customer_group" method="removeCustomerGroupAddButton" />
-        <callback class="magento_adminhtml_block_customer_group_edit" method="removeCustomerGroupControlButtons" />
+        <callback class="magento_customer_block_adminhtml_group" method="removeCustomerGroupAddButton" />
+        <callback class="magento_customer_block_adminhtml_group_edit" method="removeCustomerGroupControlButtons" />
         <callback class="magento_adminhtml_block_sales_transactions_detail" method="removeSalesTransactionControlButtons" />
-        <callback class="magento_adminhtml_block_tax_rule" method="removeTaxRuleAddButton" />
-        <callback class="magento_adminhtml_block_tax_rule_edit" method="removeTaxRuleControlButtons" />
+        <callback class="magento_tax_block_adminhtml_rule" method="removeTaxRuleAddButton" />
+        <callback class="magento_tax_block_adminhtml_rule_edit" method="removeTaxRuleControlButtons" />
         <callback class="magento_adminhtml_block_tax_rule_edit_form" method="disableTaxRelatedMultiselects" />
-        <callback class="magento_adminhtml_block_tax_rate_toolbar_add" method="removeTaxRateAddButton" />
-        <callback class="magento_adminhtml_block_tax_rate_toolbar_save" method="removeTaxRateControlButtons" />
+        <callback class="magento_tax_block_adminhtml_rate_toolbar_add" method="removeTaxRateAddButton" />
+        <callback class="magento_tax_block_adminhtml_rate_toolbar_save" method="removeTaxRateControlButtons" />
         <callback class="magento_adminhtml_block_tax_rate_ImportExport" method="removeTaxRateImport" />
         <callback class="magento_customerCustomAttributes_block_adminhtml_customer_attribute" method="removeAddNewCustomerAttributeButton" />
         <callback class="magento_customerCustomAttributes_block_adminhtml_customer_address_attribute" method="removeAddNewCustomerAttributeButton" />
@@ -292,6 +292,7 @@
         <callback class="magento_adminhtml_block_rating_edit" method="removeRatingEditButtons" />
         <callback class="magento_customerSegment_block_adminhtml_customersegment_edit" method="removeRuleEntityEditButtons" />
         <callback class="magento_reminder_block_adminhtml_reminder_edit" method="removeRuleEntityEditButtons" />
+        <callback class="magento_rma_block_adminhtml_rma" method="removeRmaAddAttributeButton" />
         <callback class="magento_rma_block_adminhtml_rma_item_attribute_edit" method="removeRmaDeleteAttributeButton" />
         <callback class="magento_rma_block_adminhtml_rma_item_attribute_edit_tab_options" method="disableRmaAttributeDeleteOptionButton" />
     </group>

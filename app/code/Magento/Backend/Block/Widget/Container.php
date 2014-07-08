@@ -12,7 +12,7 @@ namespace Magento\Backend\Block\Widget;
 
 use Magento\Framework\View\Element\Template;
 
-class Container extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Button\ContextInterface
+class Container extends \Magento\Backend\Block\Template implements ContainerInterface
 {
     /**#@+
      * Initialization parameters in pseudo-constructor
