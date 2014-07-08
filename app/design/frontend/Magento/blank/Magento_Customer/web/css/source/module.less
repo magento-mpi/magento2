@@ -284,3 +284,19 @@
         clear: both;
     }
 }
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .account {
+        .data.table {
+            &:extend(.table-vertical-mobile all);
+            .col.actions {
+                &:before {
+                    &:extend(.visually-hidden-mobile all);
+                }
+            }
+        }
+    }
+}
