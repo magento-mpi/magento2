@@ -14,6 +14,8 @@
 namespace Magento\Tax\Controller\Adminhtml;
 
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Tax\Controller\RegistryConstants;
 
 class Rate extends \Magento\Backend\App\Action
 {
@@ -23,14 +25,46 @@ class Rate extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Tax\Service\V1\TaxRateServiceInterface
+     */
+    protected $_taxRateService;
+
+    /**
+     * @var \Magento\Tax\Service\V1\Data\TaxRateBuilder
+     */
+    protected $_taxRateBuilder;
+
+    /**
+     * @var \Magento\Tax\Service\V1\Data\ZipRangeBuilder
+     */
+    protected $_zipRangeBuilder;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
+     * @param \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder
+     * @param \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
+        \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder,
+        \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
     ) {
         $this->_fileFactory = $fileFactory;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_taxRateService = $taxRateService;
+        $this->_taxRateBuilder = $taxRateBuilder;
+        $this->_zipRangeBuilder = $zipRangeBuilder;
         parent::__construct($context);
     }
 
@@ -54,17 +88,11 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function addAction()
     {
-        $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load(null);
-
         $this->_title->add(__('Tax Zones and Rates'));
 
         $this->_title->add(__('New Tax Rate'));
 
-        $rateModel->setData($this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true));
-
-        if ($rateModel->getZipIsRange() && !$rateModel->hasTaxPostcode()) {
-            $rateModel->setTaxPostcode($rateModel->getZipFrom() . '-' . $rateModel->getZipTo());
-        }
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_TAX_RATE_FORM_DATA, $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true));
 
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),
@@ -98,16 +126,20 @@ class Rate extends \Magento\Backend\App\Action
         if ($ratePost) {
             $rateId = $this->getRequest()->getParam('tax_calculation_rate_id');
             if ($rateId) {
-                $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load($rateId);
-                if (!$rateModel->getId()) {
+                try {
+                    $this->_taxRateService->getTaxRate($rateId);
+                } catch (NoSuchEntityException $e) {
                     unset($ratePost['tax_calculation_rate_id']);
                 }
             }
 
-            $rateModel = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->setData($ratePost);
-
             try {
-                $rateModel->save();
+                $taxData = $this->populateTaxRateData($ratePost);
+                if (isset($ratePost['tax_calculation_rate_id'])) {
+                    $this->_taxRateService->updateTaxRate($taxData);
+                } else {
+                    $this->_taxRateService->createTaxRate($taxData);
+                }
 
                 $this->messageManager->addSuccess(__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
@@ -135,15 +167,22 @@ class Rate extends \Magento\Backend\App\Action
         $responseContent = '';
         try {
             $rateData = $this->_processRateData($this->getRequest()->getPost());
-            $rate = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->setData($rateData)->save();
+            $taxRate = $this->populateTaxRateData($rateData);
+            $taxRateId = $taxRate->getId();
+            if ($taxRateId) {
+                $this->_taxRateService->updateTaxRate($taxRate);
+            } else {
+                $taxRate = $this->_taxRateService->createTaxRate($taxRate);
+                $taxRateId = $taxRate->getId();
+            }
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
                 array(
                     'success' => true,
                     'error_message' => '',
-                    'tax_calculation_rate_id' => $rate->getId(),
-                    'code' => $rate->getCode()
+                    'tax_calculation_rate_id' => $taxRate->getId(),
+                    'code' => $taxRate->getCode()
                 )
             );
         } catch (\Magento\Framework\Model\Exception $e) {
@@ -201,17 +240,15 @@ class Rate extends \Magento\Backend\App\Action
         $this->_title->add(__('Tax Zones and Rates'));
 
         $rateId = (int)$this->getRequest()->getParam('rate');
-        $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load($rateId);
-        if (!$rateModel->getId()) {
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_TAX_RATE_ID, $rateId);
+        try {
+            $taxRateDataObject = $this->_taxRateService->getTaxRate($rateId);
+        } catch (NoSuchEntityException $e) {
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             return;
         }
 
-        if ($rateModel->getZipIsRange() && !$rateModel->hasTaxPostcode()) {
-            $rateModel->setTaxPostcode($rateModel->getZipFrom() . '-' . $rateModel->getZipTo());
-        }
-
-        $this->_title->add(sprintf("%s", $rateModel->getCode()));
+        $this->_title->add(sprintf("%s", $taxRateDataObject->getCode()));
 
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),
@@ -247,29 +284,27 @@ class Rate extends \Magento\Backend\App\Action
     public function deleteAction()
     {
         if ($rateId = $this->getRequest()->getParam('rate')) {
-            $rateModel = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->load($rateId);
-            if ($rateModel->getId()) {
-                try {
-                    $rateModel->delete();
+            try {
+                $this->_taxRateService->deleteTaxRate($rateId);
 
-                    $this->messageManager->addSuccess(__('The tax rate has been deleted.'));
-                    $this->getResponse()->setRedirect($this->getUrl("*/*/"));
-                    return true;
-                } catch (\Magento\Framework\Model\Exception $e) {
-                    $this->messageManager->addError($e->getMessage());
-                } catch (\Exception $e) {
-                    $this->messageManager->addError(__('Something went wrong deleting this rate.'));
-                }
-                if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
-                    $this->getResponse()->setRedirect($referer);
-                } else {
-                    $this->getResponse()->setRedirect($this->getUrl("*/*/"));
-                }
-            } else {
+                $this->messageManager->addSuccess(__('The tax rate has been deleted.'));
+                $this->getResponse()->setRedirect($this->getUrl("*/*/"));
+                return true;
+            } catch (NoSuchEntityException $e) {
                 $this->messageManager->addError(
                     __('Something went wrong deleting this rate because of an incorrect rate ID.')
                 );
                 $this->getResponse()->setRedirect($this->getUrl('tax/*/'));
+            } catch (\Magento\Framework\Model\Exception $e) {
+                $this->messageManager->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->messageManager->addError(__('Something went wrong deleting this rate.'));
+            }
+
+            if ($referer = $this->getRequest()->getServer('HTTP_REFERER')) {
+                $this->getResponse()->setRedirect($referer);
+            } else {
+                $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             }
         }
     }
@@ -281,12 +316,10 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function ajaxDeleteAction()
     {
-
         $responseContent = '';
         $rateId = (int)$this->getRequest()->getParam('tax_calculation_rate_id');
         try {
-            $rate = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->load($rateId);
-            $rate->delete();
+            $this->_taxRateService->deleteTaxRate($rateId);
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
@@ -501,5 +534,42 @@ class Rate extends \Magento\Backend\App\Action
                 return $this->_authorization->isAllowed('Magento_Tax::manage_tax');
                 break;
         }
+    }
+
+    /**
+     * Populate a tax rate data object
+     *
+     * @param array $taxRate
+     * @return \Magento\Tax\Service\V1\Data\TaxRate $taxRate
+     */
+    protected function populateTaxRateData($formData)
+    {
+        $this->_taxRateBuilder->setId($this->extractFormData($formData, 'tax_calculation_rate_id'))
+            ->setCountryId($this->extractFormData($formData, 'tax_country_id'))
+            ->setRegionId($this->extractFormData($formData, 'tax_region_id'))
+            ->setPostcode($this->extractFormData($formData, 'tax_postcode'))
+            ->setCode($this->extractFormData($formData, 'code'))
+            ->setPercentageRate($this->extractFormData($formData, 'rate'));
+
+        if (isset($formData['zip_is_range']) && $formData['zip_is_range']) {
+            $this->_zipRangeBuilder->setFrom($this->extractFormData($formData, 'zip_from'))
+                ->setTo($this->extractFormData($formData, 'zip_to'));
+            $zipRange = $this->_zipRangeBuilder->create();
+            $this->_taxRateBuilder->setZipRange($zipRange);
+        }
+
+        return $this->_taxRateBuilder->create();
+    }
+
+    /**
+     * @param array $formData the form to get data from
+     * @param string $fieldName the key
+     * @return null|string
+     */
+    protected function extractFormData($formData, $fieldName) {
+        if (isset($formData[$fieldName])) {
+            return $formData[$fieldName];
+        }
+        return null;
     }
 }
