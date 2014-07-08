@@ -216,7 +216,7 @@ class TaxRuleServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'SearchTaxRule'
+                'operation' => self::SERVICE_NAME . 'SearchTaxRules'
             ]
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
@@ -265,7 +265,7 @@ class TaxRuleServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'SearchTaxRule'
+                'operation' => self::SERVICE_NAME . 'SearchTaxRules'
             ]
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
