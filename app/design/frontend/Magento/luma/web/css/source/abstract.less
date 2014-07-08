@@ -302,6 +302,12 @@
     .visually-hidden();
 }
 
+.responsive-smaller(@break-point-0) {
+    .visually-hidden-mobile {
+        .visually-hidden();
+    } 
+}
+
 //
 //    Clearfix
 //--------------------------------------
@@ -447,6 +453,26 @@
         }
         .legend + br {
             display: none;
+        }
+    }
+}
+
+//
+//    Vertical Table
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .table-vertical {
+        .table-responsive();
+        tbody > tr {
+            > td {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            &:not(:last-child) {
+                td:last-child {
+                    padding-bottom: @indent-base;
+                }
+            }
         }
     }
 }

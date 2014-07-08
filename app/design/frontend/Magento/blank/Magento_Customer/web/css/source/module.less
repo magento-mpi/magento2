@@ -144,18 +144,12 @@
             }
         }
     }
-
-    .wrapper.table {
+    .table-wrapper {
         margin-bottom: @indent-base;
         &:last-child {
             margin-bottom: 0;
         }
         .data.table {
-            .table-bordered(
-                @_type: light,
-                @_border-width: 1px
-            );
-            margin-bottom: 0;
             .col.actions {
                 .action {
                     margin-right: 15px;
@@ -164,7 +158,7 @@
                     }
                 }
             }
-        }
+        } 
     }
 }
 
@@ -259,6 +253,15 @@
                         &:extend(.blocks-2columns all);
                     }
                 }
+            }
+        }
+        .table-wrapper {
+            .data.table {
+                .table-bordered(
+                    @_type: light,
+                    @_border-width: 1px
+                );
+                margin-bottom: 0;
             }
         }
     }
