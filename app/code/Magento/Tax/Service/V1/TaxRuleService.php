@@ -10,6 +10,7 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Model\Calculation\TaxRuleRegistry;
 use Magento\Tax\Service\V1\Data\TaxRule;
