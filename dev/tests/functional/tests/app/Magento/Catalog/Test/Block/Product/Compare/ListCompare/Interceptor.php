@@ -61,6 +61,20 @@ class Interceptor extends Block
     protected $removeButton = 'a.action.delete';
 
     /**
+     * Selector for  "Clear All" button
+     *
+     * @var string
+     */
+    protected $clearAll = 'a.action.clear';
+
+    /**
+     * Selector for empty message
+     *
+     * @var string
+     */
+    protected $isEmpty = 'p.empty';
+
+    /**
      * Get product name
      *
      * @param int $index
@@ -165,5 +179,26 @@ class Interceptor extends Block
     public function removeProduct()
     {
         $this->_rootElement->find($this->removeButton)->click();
+    }
+
+    /**
+     * Click " Clear All" on "My Account" page
+     *
+     * @return void
+     */
+    public function clickClearAll()
+    {
+        $this->_rootElement->find($this->clearAll)->click();
+        $this->_rootElement->acceptAlert();
+    }
+
+    /**
+     * Get empty message on compare product block
+     *
+     * @return string
+     */
+    public function getEmptyMessage()
+    {
+        return $this->_rootElement->find($this->isEmpty)->getText();
     }
 }

@@ -58,17 +58,16 @@ class Links extends Block
     /**
      * Get count products adds to compare
      *
-     * @return string
+     * @return string|bool
      */
     public function getQtyCompareProducts()
     {
-        return trim(
-            str_replace(
-                ['items', 'item'],
-                '',
-                $this->_rootElement->find($this->qtyCompareProducts, Locator::SELECTOR_XPATH)->getText()
-            )
-        );
+        $compareProductLink = $this->_rootElement->find($this->qtyCompareProducts, Locator::SELECTOR_XPATH);
+        if ($compareProductLink->isVisible()) {
+            return trim(str_replace(['items', 'item'], '', $compareProductLink->getText()));
+        } else {
+            return false;
+        }
     }
 
     /**
