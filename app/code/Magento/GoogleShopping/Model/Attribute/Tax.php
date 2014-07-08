@@ -8,6 +8,7 @@
 namespace Magento\GoogleShopping\Model\Attribute;
 
 use Magento\Store\Model\Store;
+use Magento\Framework\Parse\Zip;
 
 /**
  * Tax attribute model
@@ -76,6 +77,13 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_googleShoppingHelper;
 
     /**
+     * Region  model
+     *
+     * @var \Magento\Directory\Model\RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -90,6 +98,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface
      * @param \Magento\GoogleShopping\Helper\Data $googleShoppingHelper
+     * @param \Magento\Directory\Model\Region $regionFactory
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -108,6 +117,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface,
         \Magento\GoogleShopping\Helper\Data $googleShoppingHelper,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -118,6 +128,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->_googleShoppingHelper = $googleShoppingHelper;
         $this->_groupService = $groupServiceInterface;
+        $this->_regionFactory = $regionFactory;
         parent::__construct(
             $context,
             $registry,
@@ -146,17 +157,16 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             return $entry;
         }
 
-        $customerTaxClassId = $this->_getDefaultCustomerTaxClassId($product->getStoreId());
+        $defaultCustomerTaxClassId = $this->_getDefaultCustomerTaxClassId($product->getStoreId());
         $rates = $this->_googleShoppingHelper
-            ->getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $product->getTaxClassId());
+            ->getRatesByCustomerAndProductTaxClassId($defaultCustomerTaxClassId, $product->getTaxClassId());
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
             $countryId = $rate->getCountryId();
             $postcode = $rate->getPostcode();
             if ($targetCountry == $countryId) {
-                $regions = $this->_getResource()
-                    ->getRegionsByRegionId($rate->getRegionId(), $postcode);
+                $regions = $this->_getRegionsByRegionId($rate->getRegionId(), $postcode);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
                     throw new \Magento\Framework\Model\Exception(
@@ -183,14 +193,14 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 
                     $billingAddressDataArray = [
                         'country_id' => $countryId,
-                        'customer_id' => $customerTaxClassId,
+                        'customer_id' => $defaultCustomerTaxClassId,
                         'region' => ['region_id' => $rate->getRegionId()],
                         'postcode' => $postcode,
                     ];
 
                     $shippingAddressDataArray = [
                         'country_id' => $countryId,
-                        'customer_id' => $customerTaxClassId,
+                        'customer_id' => $defaultCustomerTaxClassId,
                         'region' => ['region_id' => $rate->getRegionId()],
                         'postcode' => $postcode,
                     ];
@@ -198,7 +208,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                     $quoteDetailsDataArray = [
                         'billing_address' => $billingAddressDataArray,
                         'shipping_address' => $shippingAddressDataArray,
-                        'customer_tax_class_id' => $customerTaxClassId,
+                        'customer_tax_class_id' => $defaultCustomerTaxClassId,
                         'items' => [
                             $quoteDetailsItemDataArray,
                         ],
@@ -241,5 +251,23 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             $this->_defaultCustomerTaxClass = $defaultCustomerGroup->getTaxClassId();
         }
         return $this->_defaultCustomerTaxClass;
+    }
+
+    /**
+     * Get regions by region ID
+     *
+     * @param int $regionId
+     * @param string $postalCode
+     * @return String[]
+     */
+    private function _getRegionsByRegionId($regionId, $postalCode)
+    {
+        $regions = [];
+        $regionModel = $this->_regionFactory->create();
+        $regionData = $regionModel->load($regionId);
+        if (!empty($regionData)) {
+            $regions = Zip::parseRegions($regionData['code'], $postalCode);
+        }
+        return $regions;
     }
 }
