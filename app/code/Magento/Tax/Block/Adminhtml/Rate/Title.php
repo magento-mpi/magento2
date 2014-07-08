@@ -78,12 +78,8 @@ class Title extends \Magento\Framework\View\Element\Template
             $taxRateId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_TAX_RATE_ID);
             $titles = array();
             if ($taxRateId) {
-                // TODO: Need to finish refactor in MAGETWO-25871
                 $rate = $this->_taxRateService->getTaxRate($taxRateId);
-                $rateModel = $this->_taxRateConverter->createTaxRateModel($rate);
-                $rateModel->load($rateModel->getId());
-
-                $titles = $rateModel->getTitles();
+                $titles = $rate->getTitles();
             }
 
             foreach ($titles as $title) {
