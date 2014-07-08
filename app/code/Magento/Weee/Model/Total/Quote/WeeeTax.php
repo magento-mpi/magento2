@@ -59,7 +59,7 @@ class WeeeTax extends Weee
                     $weeeCode = $weeeTaxDetails[self::KEY_TAX_DETAILS_CODE];
                     $attributeCode = explode('-', $weeeCode)[1];
 
-                    $valueExclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_BASE_PRICE_EXCL_TAX];
+                    $valueExclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_PRICE_EXCL_TAX];
                     $baseValueExclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_BASE_PRICE_EXCL_TAX];
                     $valueInclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_PRICE_INCL_TAX];
                     $baseValueInclTax = $weeeTaxDetails[self::KEY_TAX_DETAILS_BASE_PRICE_INCL_TAX];
