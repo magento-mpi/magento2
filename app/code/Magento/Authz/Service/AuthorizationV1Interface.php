@@ -8,7 +8,9 @@
 namespace Magento\Authz\Service;
 
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Webapi\ServiceException as ServiceException;
+use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Authorization service interface.
@@ -21,7 +23,8 @@ interface AuthorizationV1Interface
      * @param UserIdentifier $userIdentifier
      * @param string[] $resources List of resources which should be available to the specified user.
      * @return void
-     * @throws ServiceException
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function grantPermissions(UserIdentifier $userIdentifier, array $resources);
 
@@ -30,7 +33,8 @@ interface AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return void
-     * @throws ServiceException
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function grantAllPermissions(UserIdentifier $userIdentifier);
 
@@ -42,7 +46,7 @@ interface AuthorizationV1Interface
      * @param string|string[] $resources Single resource or a list of resources
      * @param UserIdentifier|null $userIdentifier Context of current user is used by default
      * @return bool
-     * @throws ServiceException
+     * @throws NoSuchEntityException
      */
     public function isAllowed($resources, UserIdentifier $userIdentifier = null);
 
@@ -51,7 +55,8 @@ interface AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return string[]
-     * @throws ServiceException
+     * @throws AuthorizationException
+     * @throws LocalizedException
      */
     public function getAllowedResources(UserIdentifier $userIdentifier);
 
@@ -60,7 +65,8 @@ interface AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return void
-     * @throws ServiceException
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
      */
     public function removePermissions(UserIdentifier $userIdentifier);
 }

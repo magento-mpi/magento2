@@ -55,7 +55,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Core\Helper\Data $coreHelperData,
+     * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\App\State $appState
      * @param CustomerGroupServiceInterface $customerGroupService
@@ -154,9 +154,7 @@ class Account extends \Magento\Customer\Controller\Account
         if (!$this->_coreRegistry->registry('current_invitation')) {
             $invitation = $this->_invitationFactory->create();
             $invitation->loadByInvitationCode(
-                $this->_objectManager->get(
-                    'Magento\Core\Helper\Data'
-                )->urlDecode(
+                $this->coreHelperData->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
                 )
             )->makeSureCanBeAccepted();
@@ -205,6 +203,17 @@ class Account extends \Magento\Customer\Controller\Account
     }
 
     /**
+     * Check whether registration is allowed
+     *
+     * @return bool
+     */
+    protected function isRegistrationAllowed()
+    {
+        return true;
+    }
+
+
+    /**
      * Create customer account action
      *
      * @return void
@@ -231,7 +240,7 @@ class Account extends \Magento\Customer\Controller\Account
             if (in_array($e->getCode(), $_definedErrorCodes)) {
                 $this->messageManager->addError($e->getMessage())->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if ($this->_objectManager->get('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
+                if ($this->_customerHelperData->isRegistrationAllowed()) {
                     $this->messageManager->addError(__('Your invitation is not valid. Please create an account.'));
                     $this->_redirect('customer/account/create');
                     return;
@@ -239,9 +248,7 @@ class Account extends \Magento\Customer\Controller\Account
                     $this->messageManager->addError(
                         __(
                             'Your invitation is not valid. Please contact us at %1.',
-                            $this->_objectManager->get(
-                                'Magento\Framework\App\Config\ScopeConfigInterface'
-                            )->getValue(
+                            $this->_scopeConfig->getValue(
                                 'trans_email/ident_support/email',
                                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                             )
