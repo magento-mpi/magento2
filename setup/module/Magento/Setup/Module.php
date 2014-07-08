@@ -48,7 +48,8 @@ class Module implements
             [
                 new \Magento\Setup\Model\Location($translator),
                 'onChangeLocation'
-            ]
+            ],
+            10
         );
         $sharedEvents->attach(
             'Zend\Stdlib\DispatchableInterface',

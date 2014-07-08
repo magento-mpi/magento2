@@ -20,7 +20,8 @@
             ->appendFile($this->basePath() . '/pub/magento/setup/readiness-check.js')
             ->appendFile($this->basePath() . '/pub/magento/setup/add-database.js')
             ->appendFile($this->basePath() . '/pub/magento/setup/web-configuration.js')
-            ->appendFile($this->basePath() . '/pub/magento/setup/customize-your-store.js');
+            ->appendFile($this->basePath() . '/pub/magento/setup/customize-your-store.js')
+            ->appendFile($this->basePath() . '/pub/magento/setup/create-admin-account.js');
         ?>
         <?php echo $this->inlineScript() ?>
     </head>

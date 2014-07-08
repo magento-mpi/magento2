@@ -10,19 +10,34 @@ namespace Magento\Setup\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use \Magento\Setup\Model\Location;
 
 class LandingController extends AbstractActionController
 {
     /**
-     * @var \Zend\View\Model\ViewModel
+     * @var ServiceLocatorInterface
+     */
+    protected $serviceLocator;
+
+    /**
+     * @var ViewModel
      */
     protected $view;
 
     /**
+     * @var Location
+     */
+    protected $location;
+
+    /**
+     * @param Location $location
+     * @param ServiceLocatorInterface $serviceLocator
      * @param ViewModel $view
      */
-    public function __construct(ViewModel $view)
+    public function __construct(Location $location, ServiceLocatorInterface $serviceLocator, ViewModel $view)
     {
+        $this->location =$location;
         $this->view = $view;
     }
 
@@ -32,6 +47,8 @@ class LandingController extends AbstractActionController
     public function indexAction()
     {
         $this->view->setTerminal(true);
+        $this->view->setVariable('languages', $this->serviceLocator->get('config')['languages']);
+        $this->view->setVariable('location', $this->location->getLocationCode());
         return $this->view;
     }
 }

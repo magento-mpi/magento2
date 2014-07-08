@@ -11,8 +11,10 @@
     <br/>
     <br/>
     <label><?php echo $this->translate('Choose a language:'); ?></label>
-    <select ng-change="selectLanguage()" style="width: 250px; margin: 0 auto;" class="form-control"
-            ng-model="modelLanguage" ng-options="language.title for language in languages track by language.code">
+    <select ng-change="selectLanguage()" style="width: 250px; margin: 0 auto;" class="form-control" ng-model="modelLanguage" ng-init="modelLanguage='<?php echo $this->location ?>'">
+        <?php foreach ($this->languages as $code => $title): ?>
+            <option value="<?php echo $code; ?>"><?php echo $title; ?></option>
+        <?php endforeach; ?>
     </select>
     <br/>
     <br/>

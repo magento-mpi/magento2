@@ -8,13 +8,7 @@
 
 return [
     'languages' => [
-        [
-            'code'  => 'en_US',
-            'title' => 'United State',
-        ],
-        [
-            'code'  => 'ua_UK',
-            'title' => 'Ukrainian',
-        ],
+        'en_US' => 'United State',
+        'ua_UK' => 'Ukrainian',
     ]
 ];

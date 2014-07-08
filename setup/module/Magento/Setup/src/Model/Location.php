@@ -29,4 +29,9 @@ class Location
         $this->translator->setLocale($e->getRouteMatch()->getParam('lang'));
         $this->translator->setFallbackLocale($locale);
     }
+
+    public function getLocationCode()
+    {
+        return substr($this->translator->getLocale(), 0, 5);
+    }
 }

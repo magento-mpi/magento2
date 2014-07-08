@@ -12,6 +12,11 @@ $passwordWizard = sprintf(
     $this->translate('Must be a mix of at least 7 alpha and numeric characters.(Ex.: BuyIt54).')
 );
 ?>
+<div class="step-controls">
+    <a href="#" class="btn btn-primary" ng-click="previousState()"><?php echo $this->translate('Previous'); ?></a>
+    <a href="#" class="btn btn-primary" ng-click="nextState()"><?php echo $this->translate('Next'); ?></a>
+</div>
+
 <div class="page-header">
     <h1>{{$state.current.header}}</h1>
 </div>
@@ -64,3 +69,9 @@ $passwordWizard = sprintf(
         </div>
     </div>
 </form>
+
+
+<div class="step-controls">
+    <a href="#" class="btn btn-primary" ng-click="previousState()"><?php echo $this->translate('Previous'); ?></a>
+    <a href="#" class="btn btn-primary" ng-click="nextState()"><?php echo $this->translate('Next'); ?></a>
+</div>

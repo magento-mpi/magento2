@@ -12,9 +12,7 @@ addDatabase.controller('addDatabaseController', ['$scope', '$localStorage', func
         $http.get('')
     };
 
-    $scope.$on('nextState', function (state) {
-        if (state.id == 'root.add-database') {
-            $localStorage.db = $scope.db;
-        }
+    $scope.$on('nextState', function () {
+        $localStorage.db = $scope.db;
     });
 }]);
