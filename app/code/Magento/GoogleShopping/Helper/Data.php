@@ -7,6 +7,9 @@
  */
 namespace Magento\GoogleShopping\Helper;
 
+use Magento\Tax\Service\V1\Data\TaxRate;
+use Magento\Tax\Service\V1\Data\TaxRule;
+
 /**
  * Google Content Data Helper
  *
@@ -29,17 +32,55 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
+     * filterBuilder
+     *
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     */
+    protected $_filterBuilder;
+
+    /**
+     * TaxRuleService
+     *
+     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     */
+    protected $_taxRuleService;
+
+    /**
+     * TaxRateService
+     *
+     * @var \Magento\Tax\Service\V1\TaxRateServiceInterface
+     */
+    protected $_taxRateService;
+
+    /**
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     */
+    protected $_searchCriteriaBuilder;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService
+     * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\Stdlib\String $string,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService,
+        \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
     ) {
         $this->string = $string;
         $this->_storeManager = $storeManager;
+        $this->_filterBuilder = $filterBuilder;
+        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->_taxRuleService = $taxRuleService;
+        $this->_taxRateService = $taxRateService;
         parent::__construct($context);
     }
 
@@ -125,5 +166,35 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
         return implode(". ", $result);
+    }
+
+    /**
+     * Get rates by customer and product classes
+     *
+     * @param int $customerTaxClassId
+     * @param int $productTaxClassId
+     * @return TaxRate[]
+     */
+    public function getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $productTaxClassId)
+    {
+        $filters = [
+            $this->_filterBuilder->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)->setValue([$customerTaxClassId])->create(),
+            $this->_filterBuilder->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)->setValue([$productTaxClassId])->create(),
+
+        ];
+        $searchResults = $this->_taxRuleService->searchTaxRules(
+            $this->_searchCriteriaBuilder->addFilter($filters)->create()
+        );
+        $taxRules = $searchResults->getItems();
+        $rates = [];
+        foreach ($taxRules as $taxRule) {
+            $rateIds = $taxRule->getTaxRateIds();
+            if (!empty($rateIds)) {
+                foreach ($rateIds as $rateId) {
+                    $rates[] = $this->_taxRateService->getTaxRate($rateId);
+                }
+            }
+        }
+        return $rates;
     }
 }
