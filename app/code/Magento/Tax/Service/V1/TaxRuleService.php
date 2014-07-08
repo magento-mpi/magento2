@@ -122,10 +122,21 @@ class TaxRuleService implements TaxRuleServiceInterface
         $this->taxRuleSearchResultsBuilder->setSearchCriteria($searchCriteria);
         $collection = $this->taxRuleModelFactory->create()->getCollection();
 
+        $fields = [];
+
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
+            foreach ($group->getFilters() as $filter) {
+                $fields[] = $this->translateField($filter->getField());
+            }
         }
+        if ($fields) {
+            if (in_array('cd.customer_tax_class_id', $fields) || in_array('cd.product_tax_class_id', $fields) ) {
+                $collection->joinCalculationData('cd');
+            }
+        }
+
         $this->taxRuleSearchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
@@ -166,9 +177,6 @@ class TaxRuleService implements TaxRuleServiceInterface
             $conditions[] = [$condition => $filter->getValue()];
         }
         if ($fields) {
-            if (in_array('cd.customer_tax_class_id', $fields) || in_array('cd.product_tax_class_id', $fields) ) {
-                $collection->joinCalculationData('cd');
-            }
             $collection->addFieldToFilter($fields, $conditions);
         }
     }
