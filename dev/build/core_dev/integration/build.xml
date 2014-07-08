@@ -139,12 +139,13 @@
         <script language="javascript"><![CDATA[
             importClass(java.io.File);
             var maxInstances = project.getProperty('max_instances');
+            var productRootDir = project.getProperty('product_root_dir');
             var baseDir = project.getProperty('basedir');
 
             if (maxInstances > 1) {
                 var parallel_run_exec = project.createTask('exec');
                 parallel_run_exec.setExecutable('php');
-                parallel_run_exec.setDir(new File(baseDir + '/dev/tests/integration'));
+                parallel_run_exec.setDir(new File(productRootDir + '/dev/tests/integration'));
                 parallel_run_exec.setFailonerror(false);
                 var arg = parallel_run_exec.createArg();
                 var command = '-f parallel-run.php testsuite/Magento/ -- --log-junit '
@@ -154,7 +155,7 @@
             } else {
                 var phpunit_exec = project.createTask('exec');
                 phpunit_exec.setExecutable('phpunit');
-                phpunit_exec.setDir(new File(baseDir + '/dev/tests/integration'));
+                phpunit_exec.setDir(new File(productRootDir + '/dev/tests/integration'));
                 var arg = phpunit_exec.createArg();
                 var command = '-c phpunit-0.xml --stderr --log-junit ' + baseDir + '/integration_tests_magento.xml';
                 arg.setLine(command);
