@@ -612,7 +612,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $storeId = $store->getId();
             }
             $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
-            $taxDetailsItem = $taxDetails->getItems()[0];
+            $taxDetailsItem = array_shift($taxDetails->getItems());
 
             if (!is_null($includingTax)) {
                 if ($includingTax) {
