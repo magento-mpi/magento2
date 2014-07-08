@@ -121,8 +121,8 @@ class Tax extends CommonTaxCollector
             $this->processShippingTaxInfo($address, $shippingTaxDetails, $baseShippingTaxDetails);
         }
 
-        //Process taxable items that are not product
-        $this->processItemExtraTaxables($address, $itemsByType);
+        //Process taxable items that are not product or shipping
+        $this->processExtraTaxables($address, $itemsByType);
 
         //Save applied taxes for each item and the quote in aggregation
         $this->processAppliedTaxes($address, $itemsByType);
@@ -146,12 +146,22 @@ class Tax extends CommonTaxCollector
     {
         //Setup taxable items
         $priceIncludesTax = $this->_config->priceIncludesTax($this->_store);
-        $itemDataObjects = $this->getItems($address, $priceIncludesTax, $useBaseCurrency);
+        $itemDataObjects = $this->mapItems($address, $priceIncludesTax, $useBaseCurrency);
 
         //Add shipping
         $shippingDataObject = $this->getShippingDataObject($address, $useBaseCurrency);
         if ($shippingDataObject != null) {
             $itemDataObjects[] = $shippingDataObject;
+        }
+
+        //process extra taxable items associated only with quote
+        $quoteExtraTaxables = $this->mapQuoteExtraTaxables(
+            $this->quoteDetailsBuilder->getItemBuilder(),
+            $address,
+            $useBaseCurrency
+        );
+        if (!empty($quoteExtraTaxables)) {
+            $itemDataObjects = array_merge($itemDataObjects, $quoteExtraTaxables);
         }
 
         //Preparation for calling taxCalculationService
@@ -161,6 +171,97 @@ class Tax extends CommonTaxCollector
             ->calculateTax($quoteDetails, $address->getQuote()->getStore()->getStoreId());
 
         return $taxDetails;
+    }
+
+
+    /**
+     * Map extra taxables associated with quote
+     *
+     * @param ItemBuilder $itemBuilder
+     * @param Address $address
+     * @param bool $useBaseCurrency
+     * @return ItemDataObject[]
+     */
+    public function mapQuoteExtraTaxables(
+        ItemBuilder $itemBuilder,
+        Address $address,
+        $useBaseCurrency
+    ) {
+        $itemDataObjects = [];
+        $extraTaxables = $address->getAssociatedTaxables();
+        if (!$extraTaxables) {
+            return [];
+        }
+
+        foreach ($extraTaxables as $extraTaxable) {
+            $itemBuilder->setCode($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_CODE]);
+            $itemBuilder->setType($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TYPE]);
+            $itemBuilder->setQuantity($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_QUANTITY]);
+            $itemBuilder->setTaxClassId($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID]);
+            if ($useBaseCurrency) {
+                $unitPrice = $extraTaxable[self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE];
+            } else {
+                $unitPrice = $extraTaxable[self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE];
+            }
+            $itemBuilder->setUnitPrice($unitPrice);
+            $itemBuilder->setTaxIncluded($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX]);
+            $itemBuilder->setAssociatedItemCode($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE]);
+            $itemDataObjects[] = $itemBuilder->create();
+        }
+
+        return $itemDataObjects;
+    }
+
+    /**
+     * Process everything other than product or shipping, save the result in quote
+     *
+     * @param Address $address
+     * @param array $itemsByType
+     * @return $this
+     */
+    protected function processExtraTaxables(Address $address, Array $itemsByType)
+    {
+        $extraTaxableDetails = [];
+        foreach ($itemsByType as $itemType => $itemTaxDetails) {
+            if ($itemType != self::ITEM_TYPE_PRODUCT and $itemType != self::ITEM_TYPE_SHIPPING) {
+                foreach ($itemTaxDetails as $itemCode => $itemTaxDetail) {
+                    /** @var ItemTaxDetails $taxDetails */
+                    $taxDetails = $itemTaxDetail[self::KEY_ITEM];
+                    /** @var ItemTaxDetails $baseTaxDetails */
+                    $baseTaxDetails = $itemTaxDetail[self::KEY_BASE_ITEM];
+
+                    $appliedTaxes = $taxDetails->getAppliedTaxes();
+                    $baseAppliedTaxes = $baseTaxDetails->getAppliedTaxes();
+
+                    $associatedItemCode = $taxDetails->getAssociatedItemCode();
+
+                    $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
+                    $extraTaxableDetails[$itemType][$associatedItemCode][] = [
+                        self::KEY_TAX_DETAILS_TYPE => $taxDetails->getType(),
+                        self::KEY_TAX_DETAILS_CODE => $taxDetails->getCode(),
+                        self::KEY_TAX_DETAILS_PRICE_EXCL_TAX => $taxDetails->getPrice(),
+                        self::KEY_TAX_DETAILS_PRICE_INCL_TAX => $taxDetails->getPriceInclTax(),
+                        self::KEY_TAX_DETAILS_BASE_PRICE_EXCL_TAX => $baseTaxDetails->getPrice(),
+                        self::KEY_TAX_DETAILS_BASE_PRICE_INCL_TAX => $baseTaxDetails->getPriceInclTax(),
+                        self::KEY_TAX_DETAILS_ROW_TOTAL => $taxDetails->getRowTotal(),
+                        self::KEY_TAX_DETAILS_ROW_TOTAL_INCL_TAX => $taxDetails->getRowTotalInclTax(),
+                        self::KEY_TAX_DETAILS_BASE_ROW_TOTAL => $baseTaxDetails->getRowTotal(),
+                        self::KEY_TAX_DETAILS_BASE_ROW_TOTAL_INCL_TAX => $baseTaxDetails->getRowTotalInclTax(),
+                        self::KEY_TAX_DETAILS_TAX_PERCENT => $taxDetails->getTaxPercent(),
+                        self::KEY_TAX_DETAILS_ROW_TAX => $taxDetails->getRowTax(),
+                        self::KEY_TAX_DETAILS_BASE_ROW_TAX => $baseTaxDetails->getRowTax(),
+                        self::KEY_TAX_DETAILS_APPLIED_TAXES => $appliedTaxesArray,
+                    ];
+
+                    $address->addTotalAmount('tax', $taxDetails->getRowTax());
+                    $address->addBaseTotalAmount('tax', $baseTaxDetails->getRowTax());
+                    //TODO: save applied taxes for the item
+                }
+            }
+        }
+
+        $address->setExtraTaxableDetails($extraTaxableDetails);
+        return $this;
     }
 
     /**

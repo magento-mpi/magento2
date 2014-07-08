@@ -54,11 +54,20 @@ class CommonTaxCollector extends AbstractTotal
     const KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE = 'base_unit_price';
     const KEY_ASSOCIATED_TAXABLE_QUANTITY = 'quantity';
     const KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID = 'tax_class_id';
+    const KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX = 'price_includes_tax';
+    const KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE = 'associated_item_code';
     /**#@-*/
+
+    /**
+     * When an extra taxable item is associated with quote and not with an item, this value
+     * is used as associated item code
+     */
+    const ASSOCIATION_ITEM_CODE_FOR_QUOTE = 'quote';
 
     /**#@+
      * Constants for fields in tax details for associated taxable items
      */
+    const KEY_TAX_DETAILS_TYPE = 'type';
     const KEY_TAX_DETAILS_CODE = 'code';
     const KEY_TAX_DETAILS_PRICE_EXCL_TAX = 'price_excl_tax';
     const KEY_TAX_DETAILS_BASE_PRICE_EXCL_TAX = 'base_price_excl_tax';
@@ -68,6 +77,10 @@ class CommonTaxCollector extends AbstractTotal
     const KEY_TAX_DETAILS_BASE_ROW_TOTAL = 'base_row_total_excl_tax';
     const KEY_TAX_DETAILS_ROW_TOTAL_INCL_TAX = 'row_total_incl_tax';
     const KEY_TAX_DETAILS_BASE_ROW_TOTAL_INCL_TAX = 'base_row_total_incl_tax';
+    const KEY_TAX_DETAILS_TAX_PERCENT = 'tax_percent';
+    const KEY_TAX_DETAILS_ROW_TAX = 'row_tax';
+    const KEY_TAX_DETAILS_BASE_ROW_TAX = 'base_row_tax';
+    const KEY_TAX_DETAILS_APPLIED_TAXES = 'applied_taxes';
     /**#@-*/
 
     /**
@@ -222,14 +235,21 @@ class CommonTaxCollector extends AbstractTotal
         }
 
         foreach ($extraTaxables as $extraTaxable) {
-            $itemBuilder->setCode($extraTaxable['code']);
-            $itemBuilder->setType($extraTaxable['type']);
-            $itemBuilder->setQuantity($extraTaxable['quantity']);
-            $itemBuilder->setTaxClassId($extraTaxable['tax_class_id']);
-            $unitPrice = $useBaseCurrency ? $extraTaxable['base_unit_price'] : $extraTaxable['unit_price'];
+            $extraTaxableIncludesTax =
+                isset($extraTaxable['price_includes_tax']) ? $extraTaxable['price_includes_tax'] : $priceIncludesTax;
+
+            $itemBuilder->setCode($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_CODE]);
+            $itemBuilder->setType($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TYPE]);
+            $itemBuilder->setQuantity($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_QUANTITY]);
+            $itemBuilder->setTaxClassId($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID]);
+            if ($useBaseCurrency) {
+                $unitPrice = $extraTaxable[self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE];
+            } else {
+                $unitPrice = $extraTaxable[self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE];
+            }
             $itemBuilder->setUnitPrice($unitPrice);
-            $itemBuilder->setTaxIncluded($priceIncludesTax);
-            $itemBuilder->setAssociatedItemCode($item->getTaxCalculationId());
+            $itemBuilder->setTaxIncluded($extraTaxableIncludesTax);
+            $itemBuilder->setAssociatedItemCode($item->getTaxCalculationItemId());
             $itemDataObjects[] = $itemBuilder->create();
         }
 
@@ -244,7 +264,7 @@ class CommonTaxCollector extends AbstractTotal
      * @param bool $priceIncludesTax
      * @return ItemDataObject[]
      */
-    public function getItems(
+    public function mapItems(
         Address $address,
         $priceIncludesTax,
         $useBaseCurrency
@@ -469,58 +489,6 @@ class CommonTaxCollector extends AbstractTotal
         $address->setSubtotalInclTax($subtotalInclTax);
         $address->setBaseSubtotalInclTax($baseSubtotalInclTax);
 
-        return $this;
-    }
-
-    /**
-     * Process everything other than product or shipping, save the result in quote
-     *
-     * @param Address $address
-     * @param array $itemsByType
-     * @return $this
-     */
-    protected function processItemExtraTaxables(Address $address, Array $itemsByType)
-    {
-        $extraTaxableDetails = [];
-        foreach ($itemsByType as $itemType => $itemTaxDetails) {
-            if ($itemType != self::ITEM_TYPE_PRODUCT and $itemType != self::ITEM_TYPE_SHIPPING) {
-                foreach ($itemTaxDetails as $itemCode => $itemTaxDetail) {
-                    /** @var ItemTaxDetails $taxDetails */
-                    $taxDetails = $itemTaxDetail[self::KEY_ITEM];
-                    /** @var ItemTaxDetails $baseTaxDetails */
-                    $baseTaxDetails = $itemTaxDetail[self::KEY_BASE_ITEM];
-
-                    $appliedTaxes = $taxDetails->getAppliedTaxes();
-                    $baseAppliedTaxes = $baseTaxDetails->getAppliedTaxes();
-
-                    $associatedItemCode = $taxDetails->getAssociatedItemCode();
-
-                    $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
-                    $extraTaxableDetails[$itemType][$associatedItemCode][] = [
-                        'type' => $taxDetails->getType(),
-                        'code' => $taxDetails->getCode(),
-                        'price_excl_tax' => $taxDetails->getPrice(),
-                        'price_incl_tax' => $taxDetails->getPriceInclTax(),
-                        'base_price_excl_tax' => $baseTaxDetails->getPrice(),
-                        'base_price_incl_tax' => $baseTaxDetails->getPriceInclTax(),
-                        'row_total_excl_tax' => $taxDetails->getRowTotal(),
-                        'row_total_incl_tax' => $taxDetails->getRowTotalInclTax(),
-                        'base_row_total_excl_tax' => $baseTaxDetails->getRowTotal(),
-                        'base_row_total_incl_tax' => $baseTaxDetails->getRowTotalInclTax(),
-                        'tax_percent' => $taxDetails->getTaxPercent(),
-                        'row_tax' => $taxDetails->getRowTax(),
-                        'base_row_tax' => $baseTaxDetails->getRowTax(),
-                        'applied_taxes' => $appliedTaxesArray,
-                    ];
-
-                    $address->addTotalAmount('tax', $taxDetails->getRowTax());
-                    $address->addBaseTotalAmount('tax', $baseTaxDetails->getRowTax());
-                    //TODO: save applied taxes for the item
-                }
-            }
-        }
-
-        $address->setExtraTaxableDetails($extraTaxableDetails);
         return $this;
     }
 
