@@ -19,7 +19,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $expectedResult = [];
         /** @var \Magento\Tax\Model\ClassModel $taxClass */
         foreach ($collection as $taxClass) {
-            if ($taxClass->getClassType() == \Magento\Tax\Service\V1\Data\TaxClass::TYPE_CUSTOMER){
+            if ($taxClass->getClassType() == \Magento\Tax\Service\V1\Data\TaxClass::TYPE_CUSTOMER) {
                 $expectedResult[] = ['value' => $taxClass->getId(), 'label' => $taxClass->getClassName()];
             }
         }
