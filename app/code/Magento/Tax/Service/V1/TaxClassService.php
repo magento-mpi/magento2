@@ -179,8 +179,8 @@ class TaxClassService implements TaxClassServiceInterface
         $classType = $taxClass->getClassType();
         if (!\Zend_Validate::is(trim($classType), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassDataObject::KEY_TYPE]);
-        } else if ($classType !== TaxClassDataObject::TYPE_CUSTOMER
-            && $classType !== TaxClassDataObject::TYPE_PRODUCT
+        } else if ($classType !== TaxClassServiceInterface::TYPE_CUSTOMER
+            && $classType !== TaxClassServiceInterface::TYPE_PRODUCT
         ) {
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE,

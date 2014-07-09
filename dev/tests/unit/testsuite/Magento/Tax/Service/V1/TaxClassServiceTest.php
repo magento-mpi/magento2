@@ -85,7 +85,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -114,7 +114,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateTaxClassException()
     {
         $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -215,7 +215,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -232,7 +232,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxClassModelMock
             ->expects($this->exactly(2))
             ->method('getClassType')
-            ->will($this->returnValue(TaxClass::TYPE_PRODUCT));
+            ->will($this->returnValue(TaxClassServiceInterface::TYPE_PRODUCT));
 
         $this->taxClassModelMock
             ->expects($this->once())
@@ -256,7 +256,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
             ->create();
 
         $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
@@ -318,7 +318,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = null;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -333,7 +333,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -359,7 +359,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -376,7 +376,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxClassModelMock
             ->expects($this->once())
             ->method('getClassType')
-            ->will($this->returnValue(TaxClass::TYPE_PRODUCT));
+            ->will($this->returnValue(TaxClassServiceInterface::TYPE_PRODUCT));
 
         $convertedTaxClassModelMock = $this->getMockBuilder('Magento\Tax\Model\ClassModel')
             ->disableOriginalConstructor()
@@ -386,7 +386,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $convertedTaxClassModelMock
             ->expects($this->once())
             ->method('getClassType')
-            ->will($this->returnValue(TaxClass::TYPE_CUSTOMER));
+            ->will($this->returnValue(TaxClassServiceInterface::TYPE_CUSTOMER));
 
         $this->converterMock
             ->expects($this->once())
@@ -402,7 +402,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
 
@@ -419,7 +419,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxClassModelMock
             ->expects($this->exactly(2))
             ->method('getClassType')
-            ->will($this->returnValue(TaxClass::TYPE_PRODUCT));
+            ->will($this->returnValue(TaxClassServiceInterface::TYPE_PRODUCT));
 
         $this->converterMock
             ->expects($this->once())

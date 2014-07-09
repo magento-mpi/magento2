@@ -80,7 +80,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         if (!$this->_options) {
             $filter = $this->_filterBuilder
                 ->setField(TaxClass::KEY_TYPE)
-                ->setValue(\Magento\Tax\Service\V1\Data\TaxClass::TYPE_PRODUCT)
+                ->setValue(\Magento\Tax\Service\V1\TaxClassServiceInterface::TYPE_PRODUCT)
                 ->create();
             $searchCriteria = $this->_searchCriteriaBuilder->addFilter([$filter])->create();
             $searchResults = $this->_taxClassService->searchTaxClass($searchCriteria);

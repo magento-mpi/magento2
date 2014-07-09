@@ -11,7 +11,7 @@
  */
 namespace Magento\Tax\Block\Adminhtml\Rule\Edit;
 
-use Magento\Tax\Service\V1\Data\TaxClass;
+use Magento\Tax\Service\V1\TaxClassServiceInterface;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -132,7 +132,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         // Editable multiselect for customer tax class
-        $selectConfig = $this->getTaxClassSelectConfig(TaxClass::TYPE_CUSTOMER);
+        $selectConfig = $this->getTaxClassSelectConfig(TaxClassServiceInterface::TYPE_CUSTOMER);
         $selectedCustomerTax = isset($formValues['tax_customer_class'])
             ? $formValues['tax_customer_class']
             : $this->getDefaultCustomerTaxClass();
@@ -153,7 +153,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         // Editable multiselect for product tax class
-        $selectConfig = $this->getTaxClassSelectConfig(TaxClass::TYPE_PRODUCT);
+        $selectConfig = $this->getTaxClassSelectConfig(TaxClassServiceInterface::TYPE_PRODUCT);
         $selectedProductTax = isset($formValues['tax_product_class'])
             ? $formValues['tax_product_class']
             : $this->getDefaultProductTaxClass();

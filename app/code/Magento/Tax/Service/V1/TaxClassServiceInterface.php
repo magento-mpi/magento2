@@ -13,6 +13,13 @@ namespace Magento\Tax\Service\V1;
  */
 interface TaxClassServiceInterface
 {
+    /**#@+
+     * Tax class type.
+     */
+    const TYPE_CUSTOMER = 'CUSTOMER';
+    const TYPE_PRODUCT = 'PRODUCT';
+    /**#@-*/
+
     /**
      * Create a Tax Class
      *

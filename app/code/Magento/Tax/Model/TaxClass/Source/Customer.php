@@ -58,7 +58,7 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         if (!$this->_options) {
             $filter = $this->filterBuilder
                 ->setField(TaxClass::KEY_TYPE)
-                ->setValue(\Magento\Tax\Service\V1\Data\TaxClass::TYPE_CUSTOMER)
+                ->setValue(\Magento\Tax\Service\V1\TaxClassServiceInterface::TYPE_CUSTOMER)
                 ->create();
             $searchCriteria = $this->searchCriteriaBuilder->addFilter([$filter])->create();
             $searchResults = $this->taxClassService->searchTaxClass($searchCriteria);

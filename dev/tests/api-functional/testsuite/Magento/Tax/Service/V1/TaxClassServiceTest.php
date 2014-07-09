@@ -66,7 +66,7 @@ class TaxClassServiceTest extends WebapiAbstract
     {
         $taxClassName = self::SAMPLE_TAX_CLASS_NAME . uniqid();
         $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
-            ->setClassType(TaxClass::TYPE_CUSTOMER)
+            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
             ->create();
         $serviceInfo = [
             'rest' => [
@@ -87,7 +87,7 @@ class TaxClassServiceTest extends WebapiAbstract
         //Verify by getting the TaxClass
         $taxClassData = $this->taxClassService->getTaxClass($taxClassId);
         $this->assertEquals($taxClassData->getClassName(), $taxClassName);
-        $this->assertEquals($taxClassData->getClassType(), TaxClass::TYPE_CUSTOMER);
+        $this->assertEquals($taxClassData->getClassType(), TaxClassServiceInterface::TYPE_CUSTOMER);
     }
 
     /**
@@ -97,7 +97,7 @@ class TaxClassServiceTest extends WebapiAbstract
     {
         //Create Tax Class
         $taxClassDataObject = $this->taxClassBuilder->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
-            ->setClassType(TaxClass::TYPE_CUSTOMER)
+            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
         $this->assertNotNull($taxClassId);
@@ -135,7 +135,7 @@ class TaxClassServiceTest extends WebapiAbstract
         //Create Tax Class
         $taxClassName = self::SAMPLE_TAX_CLASS_NAME . uniqid();
         $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
-            ->setClassType(TaxClass::TYPE_CUSTOMER)
+            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
         $this->assertNotNull($taxClassId);
@@ -155,7 +155,7 @@ class TaxClassServiceTest extends WebapiAbstract
         $requestData = ['taxClassId' => $taxClassId];
         $taxClassData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($taxClassData[TaxClass::KEY_NAME], $taxClassName);
-        $this->assertEquals($taxClassData[TaxClass::KEY_TYPE], TaxClass::TYPE_CUSTOMER);
+        $this->assertEquals($taxClassData[TaxClass::KEY_TYPE], TaxClassServiceInterface::TYPE_CUSTOMER);
     }
 
     /**
@@ -164,7 +164,7 @@ class TaxClassServiceTest extends WebapiAbstract
     public function testDeleteTaxClass()
     {
         $taxClassDataObject = $this->taxClassBuilder->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
-            ->setClassType(TaxClass::TYPE_CUSTOMER)
+            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
         $this->assertNotNull($taxClassId);
