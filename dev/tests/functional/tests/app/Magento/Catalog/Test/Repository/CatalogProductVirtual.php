@@ -38,12 +38,6 @@ class CatalogProductVirtual extends AbstractRepository
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
-            'stock_data' => [
-                'manage_stock' => 'Yes',
-                'original_inventory_qty' => 666.0000,
-                'qty' => 666.0000,
-                'is_in_stock' => 'In Stock',
-            ],
             'price' => ['value' => 10.00, 'preset' => '-']
         ];
     }
