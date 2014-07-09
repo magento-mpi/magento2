@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
-use Magento\Catalog\Service\V1\Data\ProductBuilder;
 use Magento\Catalog\Service\V1\Data\Product as ProductDataObject;
 
 /**
@@ -55,9 +54,7 @@ class Converter
             $value = $productModel->getDataUsingMethod($attrCode);
             $value = $value ? $value : $productModel->getData($attrCode);
             if (null !== $value) {
-                if ($attrCode == 'entity_id') {
-                    $attributes[ProductDataObject::ID] = $value;
-                } else {
+                if ($attrCode != 'entity_id') {
                     $attributes[$attrCode] = $value;
                 }
             }

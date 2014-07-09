@@ -20,6 +20,8 @@ class Rating extends AbstractRepository
      * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -27,6 +29,12 @@ class Rating extends AbstractRepository
             'rating_code' => 'Rating %isolation%',
             'stores' => ['Main Website/Main Website Store/Default Store View'],
             'is_active' => 'Yes',
+        ];
+
+        $this->_data['visibleOnDefaultWebsite'] = [
+            'rating_code' => 'productRating_%isolation%',
+            'stores' => ['Main Website/Main Website Store/Default Store View'],
+            'is_active' => 'Yes'
         ];
     }
 }

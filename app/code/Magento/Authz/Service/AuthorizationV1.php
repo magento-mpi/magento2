@@ -7,18 +7,19 @@
  */
 namespace Magento\Authz\Service;
 
-use Magento\Framework\Acl\Builder as AclBuilder;
-use Magento\Framework\Acl;
 use Magento\Authz\Model\UserIdentifier;
+use Magento\Framework\Acl;
+use Magento\Framework\Acl\Builder as AclBuilder;
+use Magento\Framework\Acl\RootResource as RootAclResource;
+use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Logger;
-use Magento\Webapi\ServiceException as ServiceException;
-use Magento\Webapi\ServiceResourceNotFoundException;
 use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
 use Magento\User\Model\Role;
 use Magento\User\Model\RoleFactory;
 use Magento\User\Model\RulesFactory;
-use Magento\Framework\Acl\RootResource as RootAclResource;
 
 /**
  * Authorization service.
@@ -28,6 +29,9 @@ use Magento\Framework\Acl\RootResource as RootAclResource;
  */
 class AuthorizationV1 implements AuthorizationV1Interface
 {
+    const PERMISSION_ANONYMOUS = 'anonymous';
+    const PERMISSION_SELF = 'self';
+
     /**
      * @var AclBuilder
      */
@@ -105,29 +109,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
      */
     public function isAllowed($resources, UserIdentifier $userIdentifier = null)
     {
-        $resources = is_array($resources) ? $resources : array($resources);
+        $resources = is_array($resources) ? $resources : [$resources];
         $userIdentifier = $userIdentifier ? $userIdentifier : $this->_userIdentifier;
-        try {
-            $role = $this->_getUserRole($userIdentifier);
-            if (!$role) {
-                throw new ServiceResourceNotFoundException(
-                    __(
-                        'Role for user with ID "%1" and user type "%2" cannot be found.',
-                        $userIdentifier->getUserId(),
-                        $userIdentifier->getUserType()
-                    )
-                );
-            }
-            foreach ($resources as $resource) {
-                if (!$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)) {
-                    return false;
-                }
-            }
+        if ($this->_isAnonymousOrSelfAllowed($resources, $userIdentifier)) {
             return true;
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            return false;
         }
+        return $this->_isUserWithRoleAllowed($resources, $userIdentifier);
     }
 
     /**
@@ -141,13 +128,9 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 $role = $this->_createRole($userIdentifier);
             }
             $this->_associateResourcesWithRole($role, $resources);
-        } catch (ServiceException $e) {
-            throw $e;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new ServiceException(
-                __('Error happened while granting permissions. Check exception log for details.')
-            );
+            throw new LocalizedException('Error happened while granting permissions. Check exception log for details.');
         }
     }
 
@@ -164,11 +147,16 @@ class AuthorizationV1 implements AuthorizationV1Interface
      */
     public function getAllowedResources(UserIdentifier $userIdentifier)
     {
-        $allowedResources = array();
+        if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_GUEST) {
+            return [self::PERMISSION_ANONYMOUS];
+        } elseif ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_CUSTOMER) {
+            return [self::PERMISSION_SELF];
+        }
+        $allowedResources = [];
         try {
             $role = $this->_getUserRole($userIdentifier);
             if (!$role) {
-                throw new ServiceException(__('The role associated with the specified user cannot be found.'));
+                throw new AuthorizationException('The role associated with the specified user cannot be found.');
             }
             $rulesCollection = $this->_rulesCollectionFactory->create();
             $rulesCollection->getByRoles($role->getId())->load();
@@ -180,12 +168,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
                     $allowedResources[] = $resourceId;
                 }
             }
-        } catch (ServiceException $e) {
+        } catch (AuthorizationException $e) {
             throw $e;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new ServiceException(
-                __('Error happened while getting a list of allowed resources. Check exception log for details.')
+            throw new LocalizedException(
+                'Error happened while getting a list of allowed resources. Check exception log for details.'
             );
         }
         return $allowedResources;
@@ -198,12 +186,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
     {
         try {
             $this->_deleteRole($userIdentifier);
-        } catch (ServiceException $e) {
+        } catch (NoSuchEntityException $e) {
             throw $e;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new ServiceException(
-                __('Error happened while deleting role and permissions. Check exception log for details.')
+            throw new LocalizedException(
+                'Error happened while deleting role and permissions. Check exception log for details.'
             );
         }
     }
@@ -213,11 +201,15 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return Role
+     * @throws NoSuchEntityException
      * @throws \LogicException
      */
     protected function _createRole($userIdentifier)
     {
         $userType = $userIdentifier->getUserType();
+        if (!$this->_canRoleBeCreatedForUserType($userType)) {
+            throw new \LogicException("The role with user type '{$userType}' cannot be created");
+        }
         $userId = $userIdentifier->getUserId();
         switch ($userType) {
             case UserIdentifier::USER_TYPE_INTEGRATION:
@@ -227,20 +219,15 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 $userId = $userIdentifier->getUserId();
                 break;
             default:
-                throw new \LogicException("Unknown user type: '{$userType}'.");
+                throw NoSuchEntityException::singleField('userType', $userType);
         }
         $role = $this->_roleFactory->create();
-        $role->setRoleName(
-            $roleName
-        )->setUserType(
-            $userType
-        )->setUserId(
-            $userId
-        )->setRoleType(
-            $roleType
-        )->setParentId(
-            $parentId
-        )->save();
+        $role->setRoleName($roleName)
+            ->setUserType($userType)
+            ->setUserId($userId)
+            ->setRoleType($roleType)
+            ->setParentId($parentId)
+            ->save();
         return $role;
     }
 
@@ -249,18 +236,22 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return Role
+     * @throws NoSuchEntityException
      * @throws \LogicException
      */
     protected function _deleteRole($userIdentifier)
     {
         $userType = $userIdentifier->getUserType();
+        if (!$this->_canRoleBeCreatedForUserType($userType)) {
+            throw new \LogicException("The role with user type '{$userType}' cannot be created or deleted.");
+        }
         $userId = $userIdentifier->getUserId();
         switch ($userType) {
             case UserIdentifier::USER_TYPE_INTEGRATION:
                 $roleName = $userType . $userId;
                 break;
             default:
-                throw new \LogicException("Unknown user type: '{$userType}'.");
+                throw NoSuchEntityException::singleField('userType', $userType);
         }
         $role = $this->_roleFactory->create()->load($roleName, 'role_name');
         return $role->delete();
@@ -271,13 +262,19 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return Role|false Return false in case when no role associated with provided user was found.
+     * @throws \LogicException
      */
     protected function _getUserRole($userIdentifier)
     {
+        if (!$this->_canRoleBeCreatedForUserType($userIdentifier)) {
+            throw new \LogicException(
+                "The role with user type '{$userIdentifier->getUserType()}' does not exist and cannot be created"
+            );
+        }
         $roleCollection = $this->_roleCollectionFactory->create();
         $userType = $userIdentifier->getUserType();
-        $userId = $userIdentifier->getUserId();
         /** @var Role $role */
+        $userId = $userIdentifier->getUserId();
         $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
         return $role->getId() ? $role : false;
     }
@@ -288,11 +285,77 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * @param Role $role
      * @param string[] $resources
      * @return void
+     * @throws \LogicException
      */
     protected function _associateResourcesWithRole($role, array $resources)
     {
         /** @var \Magento\User\Model\Rules $rules */
         $rules = $this->_rulesFactory->create();
         $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
+    }
+
+    /**
+     * Check if there role can be associated with user having provided user type.
+     *
+     * Roles cannot be created for guests and customers.
+     *
+     * @param string $userType
+     * @return bool
+     */
+    protected function _canRoleBeCreatedForUserType($userType)
+    {
+        return ($userType != UserIdentifier::USER_TYPE_CUSTOMER) && ($userType != UserIdentifier::USER_TYPE_GUEST);
+    }
+
+    /**
+     * Check if the user has permission to access the requested resources.
+     *
+     * @param string[] $resources
+     * @param UserIdentifier $userIdentifier
+     * @return bool
+     */
+    protected function _isAnonymousOrSelfAllowed($resources, UserIdentifier $userIdentifier)
+    {
+        if (count($resources) == 1) {
+            $resource = reset($resources);
+            $isAnonymousAccess = ($resource == self::PERMISSION_ANONYMOUS);
+            $isSelfAccess = ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_CUSTOMER)
+                && ($resource == self::PERMISSION_SELF);
+            if ($isAnonymousAccess || $isSelfAccess) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if user who has role is allowed to access requested resources.
+     *
+     * @param string[] $resources
+     * @param UserIdentifier $userIdentifier
+     * @return bool
+     */
+    protected function _isUserWithRoleAllowed($resources, UserIdentifier $userIdentifier)
+    {
+        try {
+            $role = $this->_getUserRole($userIdentifier);
+            if (!$role) {
+                throw NoSuchEntityException::doubleField(
+                    'userId',
+                    $userIdentifier->getUserId(),
+                    'userType',
+                    $userIdentifier->getUserType()
+                );
+            }
+            foreach ($resources as $resource) {
+                if (!$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            return false;
+        }
     }
 }

@@ -37,12 +37,12 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Service\V1\Data\SearchResultsBuilder
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder
      */
     protected $searchResultsBuilderMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Service\V1\ProductMetadataServiceInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Service\V1\ProductMetadataService
      */
     protected $metadataServiceMock;
 
@@ -84,12 +84,13 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->getMock();
 
-        $this->searchResultsBuilderMock = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\SearchResultsBuilder')
-            ->disableOriginalConstructor()
+        $this->searchResultsBuilderMock = $this->getMockBuilder(
+                'Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder'
+            )->disableOriginalConstructor()
             ->getMock();
 
         $this->metadataServiceMock = $this->getMockBuilder(
-            '\Magento\Catalog\Service\V1\ProductMetadataServiceInterface'
+            '\Magento\Catalog\Service\V1\Product\MetadataService'
         )->disableOriginalConstructor()
             ->getMock();
 
@@ -193,7 +194,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productDataBuilder = $this->getMockBuilder('\Magento\Catalog\Service\V1\Data\ProductBuilder')
             ->disableOriginalConstructor()
             ->getMock();
-        $productDataBuilder->setId(1);
         $productDataBuilder->setPrice('10.000');
         $productDataBuilder->setSku('test');
         $productDataBuilder->setStoreId(10);

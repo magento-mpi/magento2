@@ -606,7 +606,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @param int  $groupId   Retrieve attributes of the specified group
      * @param bool $skipSuper Not used
-     * @return array
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute[]
      */
     public function getAttributes($groupId = null, $skipSuper = false)
     {
@@ -1424,9 +1424,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function getAttributeText($attributeCode)
     {
-        return $this->getResource()->getAttribute(
-            $attributeCode
-        )->getSource()->getOptionText(
+        return $this->getResource()->getAttribute($attributeCode)->getSource()->getOptionText(
             $this->getData($attributeCode)
         );
     }

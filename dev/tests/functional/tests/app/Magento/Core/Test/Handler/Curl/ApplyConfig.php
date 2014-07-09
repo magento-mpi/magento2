@@ -36,7 +36,7 @@ class ApplyConfig extends Curl
             $url = $_ENV['app_backend_url'] . 'admin/system_config_save/index/section/' . $section . '/';
             $curl = new BackendDecorator(new CurlTransport(), new Config());
             $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
-            $response = $curl->read();
+            $curl->read();
             $curl->close();
         }
     }

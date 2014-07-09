@@ -102,7 +102,7 @@ class Index extends \Magento\Backend\App\Action
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                    $this->getResponse()->setBody(
+                    $this->getResponse()->representJson(
                         $this->_objectManager->get(
                             'Magento\Core\Helper\Data'
                         )->jsonEncode(
@@ -656,7 +656,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $result = array('error' => __('An error has occurred. See error log for details.'));
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->representJson($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**

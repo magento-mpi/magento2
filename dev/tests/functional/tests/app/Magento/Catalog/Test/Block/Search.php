@@ -64,6 +64,8 @@ class Search extends Block
      *
      * @param string $keyword
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ConstructorWithNameAsEnclosingClass)
      */
     public function search($keyword)
     {

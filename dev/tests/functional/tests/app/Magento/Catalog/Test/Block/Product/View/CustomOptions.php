@@ -15,6 +15,8 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Custom Options
  * Block of custom options product
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 class CustomOptions extends Block
 {
@@ -79,7 +81,7 @@ class CustomOptions extends Block
      *
      * @var string
      */
-    protected $optionByValueLocator = '//*[@class="product options wrapper"]//option[text()="%s"]/..';
+    protected $optionByValueLocator = '//*[@class="product options wrapper"]//option[contains(text(),"%s")]/..';
 
     /**
      * Select XPath locator by title
@@ -127,11 +129,8 @@ class CustomOptions extends Block
                     $option['value'][] = $value;
                     $option['price'][] = $matches[1];
                 }
-            } elseif (($prices = $fieldElement->find(
-                $this->selectLocator,
-                Locator::SELECTOR_XPATH
-            )
-                ) && $prices->isVisible()
+            } elseif (($prices = $fieldElement->find($this->selectLocator, Locator::SELECTOR_XPATH))
+                && $prices->isVisible()
             ) {
                 $priceIndex = 0;
                 while (($price = $prices->find(sprintf($this->optionLocator, ++$priceIndex), Locator::SELECTOR_XPATH))

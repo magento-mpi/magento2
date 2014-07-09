@@ -247,7 +247,7 @@ abstract class AbstractType
      * Get array of product set attributes
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return array
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute[]
      */
     public function getSetAttributes($product)
     {
@@ -281,7 +281,7 @@ abstract class AbstractType
      * Retrieve product type attributes
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return array
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute[]
      */
     public function getEditableAttributes($product)
     {
@@ -490,7 +490,7 @@ abstract class AbstractType
                             $rootDir->create($rootDir->getRelativePath($path));
                         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
                             throw new \Magento\Framework\Model\Exception(
-                                __("We can't create writeable directory \"%1\".", $path)
+                                __('We can\'t create writeable directory "%1".', $path)
                             );
                         }
 

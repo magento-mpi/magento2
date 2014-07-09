@@ -20,14 +20,19 @@ class CmsPage extends AbstractRepository
      * @construct
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'title' => 'test_%isolation%',
+            'title' => 'test-%isolation%',
+            'identifier' => 'test-%isolation%',
             'store_id' => 'All Store Views',
             'is_active' => 'Published',
+            'under_version_control' => 'No',
             'content' => 'text content',
+            'root_template' => '1 column'
         ];
 
         $this->_data['cms-page-duplicated'] = [

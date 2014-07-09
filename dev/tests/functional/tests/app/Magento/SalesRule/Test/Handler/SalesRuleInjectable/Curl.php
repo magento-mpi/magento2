@@ -46,7 +46,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
             'attribute' => 'postcode'
         ],
         'Category' => [
-            'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
+            'type' => 'Magento\SalesRule\Model\Rule\Condition\Product',
             'attribute' => 'category_ids'
         ]
     ];
@@ -88,16 +88,28 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
             'No' => 0,
             'For matching items only' => 1,
             'For shipment with matching items' => 2
-        ],
-        'customer_group_ids' => [
-            'NOT LOGGED IN' => 0,
-            'General' => 1,
-            'Wholesale' => 2,
-            'Retailer' => 3
-        ],
-        'website_ids' => [
-            'Main Website' => 1
         ]
+    ];
+
+    /**
+     * Mapping values for Websites
+     *
+     * @var array
+     */
+    protected $websiteIds = [
+        'Main Website' => 1
+    ];
+
+    /**
+     * Mapping values for customer group
+     *
+     * @var array
+     */
+    protected $customerIds = [
+        'NOT LOGGED IN' => 0,
+        'General' => 1,
+        'Wholesale' => 2,
+        'Retailer' => 3
     ];
 
     /**
@@ -116,7 +128,13 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
             $data['rule']['conditions'] = $this->prepareCondition($data['conditions_serialized']);
             unset($data['conditions_serialized']);
         }
+
+        $data['website_ids'] = $this->prepareWebsites($data);
+        $data['customer_group_ids'] = $this->prepareCustomerGroup($data);
+
         if (isset($data['actions_serialized'])) {
+            $this->mapTypeParams['Conditions combination']['type'] =
+                'Magento\SalesRule\Model\Rule\Condition\Product\Combine';
             $data['rule']['actions'] = $this->prepareCondition($data['actions_serialized']);
             unset($data['actions_serialized']);
         }
@@ -127,5 +145,41 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Sales rule entity creating by curl handler was not successful! Response: $response");
         }
+    }
+
+    /**
+     * Prepare website data for curl
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepareWebsites(array $data)
+    {
+        $websiteIds = [];
+        if (!empty($data['website_ids'])) {
+            foreach ($data['website_ids'] as $name) {
+                $websiteIds[] = isset($this->websiteIds[$name]) ? $this->websiteIds[$name] : $name;
+            }
+        }
+
+        return $websiteIds;
+    }
+
+    /**
+     * Prepare customer group data for curl
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepareCustomerGroup(array $data)
+    {
+        $groupIds = [];
+        if (!empty($data['customer_group_ids'])) {
+            foreach ($data['customer_group_ids'] as $name) {
+                $groupIds[] = isset($this->customerIds[$name]) ? $this->customerIds[$name] : $name;
+            }
+        }
+
+        return $groupIds;
     }
 }

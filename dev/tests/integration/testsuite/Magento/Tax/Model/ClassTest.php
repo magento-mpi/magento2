@@ -20,6 +20,9 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testCheckClassCanBeDeletedCustomerClassAssertException()
     {
         /** @var $model \Magento\Tax\Model\ClassModel */
@@ -30,7 +33,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         )->getFirstItem();
 
         $this->setExpectedException('Magento\Framework\Model\Exception');
-        $model->checkClassCanBeDeleted();
+        $model->delete();
     }
 
     /**
@@ -72,10 +75,11 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         )->save();
 
         $this->setExpectedException('Magento\Framework\Model\Exception');
-        $model->checkClassCanBeDeleted();
+        $model->delete();
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @dataProvider classesDataProvider
      */
     public function testCheckClassCanBeDeletedPositiveResult($classType)
@@ -85,7 +89,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         $model->setClassName('TaxClass' . uniqid())->setClassType($classType)->isObjectNew(true);
         $model->save();
 
-        $this->assertTrue($model->checkClassCanBeDeleted());
+        $model->delete();
     }
 
     public function classesDataProvider()
@@ -115,7 +119,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
             'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.'
         );
-        $model->checkClassCanBeDeleted();
+        $model->delete();
     }
 
     /**
@@ -137,6 +141,6 @@ class ClassTest extends \PHPUnit_Framework_TestCase
             'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.'
         );
-        $model->checkClassCanBeDeleted();
+        $model->delete();
     }
 }

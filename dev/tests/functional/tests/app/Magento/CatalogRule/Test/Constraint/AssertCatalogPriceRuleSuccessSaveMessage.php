@@ -33,13 +33,16 @@ class AssertCatalogPriceRuleSuccessSaveMessage extends AbstractConstraint
      */
     public function processAssert(CatalogRuleIndex $pageCatalogRuleIndex)
     {
-        $actualMessage = $pageCatalogRuleIndex->getMessagesBlock()->getSuccessMessages();
-        \PHPUnit_Framework_Assert::assertEquals(
+        $actualMessages = $pageCatalogRuleIndex->getMessagesBlock()->getSuccessMessages();
+        if (!is_array($actualMessages)) {
+            $actualMessages = [$actualMessages];
+        }
+        \PHPUnit_Framework_Assert::assertContains(
             self::SUCCESS_MESSAGE,
-            $actualMessage,
+            $actualMessages,
             'Wrong success message is displayed.'
             . "\nExpected: " . self::SUCCESS_MESSAGE
-            . "\nActual: " . $actualMessage
+            . "\nActual: " . implode(',', $actualMessages)
         );
     }
 

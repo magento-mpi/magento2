@@ -9,9 +9,9 @@
 
 namespace Magento\Core\Test\Handler\Direct;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Direct;
-use Mtf\Factory\Factory;
+use Mtf\Fixture\FixtureInterface;
+use Magento\Framework\App\ObjectManagerFactory;
 
 /**
  * Class ApplyConfig
@@ -27,7 +27,7 @@ class ApplyConfig extends Direct
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $factory = new \Magento\Framework\App\ObjectManagerFactory();
+        $factory = new ObjectManagerFactory();
         $objectManager = $factory->create(BP, $_SERVER);
 
         $objectManager->get('Magento\Framework\Config\Scope')->setCurrentScope('adminhtml');
@@ -35,7 +35,7 @@ class ApplyConfig extends Direct
         $objectManager->configure(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('adminhtml')
         );
-
+        // @codingStandardsIgnoreStart
         $objectManager->configure(
             [
                 'preferences' => [
@@ -44,7 +44,7 @@ class ApplyConfig extends Direct
                 ]
             ]
         );
-
+        // @codingStandardsIgnoreEnd
         $configFactory = $objectManager->get('Magento\Backend\Model\Config\Factory');
 
         $sections = $fixture->getData()['sections'];
