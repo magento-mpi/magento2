@@ -1,26 +1,29 @@
-"Alpha Only","Alpha Only"
-"Alphanumeric","Alphanumeric"
-"Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.","Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter."
-"Current module XML block name is undefined","Current module XML block name is undefined"
-"Current module form model pathname is undefined","Current module form model pathname is undefined"
-"Date","Date"
+No,No
+Email,Email
+[GLOBAL],[GLOBAL]
+[WEBSITE],[WEBSITE]
+"[STORE VIEW]","[STORE VIEW]"
+Yes,Yes
+"Multiple Select","Multiple Select"
+Dropdown,Dropdown
+"The current module XML block name is undefined.","The current module XML block name is undefined."
+"The current module form model pathname is undefined.","The current module form model pathname is undefined."
+"Use helper with defined EAV entity.","Use helper with defined EAV entity."
 "Default EAV Form","Default EAV Form"
-"Dropdown","Dropdown"
-"Email","Email"
-"Escape HTML Entities","Escape HTML Entities"
+"Please correct the values for minimum and maximum text length validation rules.","Please correct the values for minimum and maximum text length validation rules."
+"Please correct the values for minimum and maximum date validation rules.","Please correct the values for minimum and maximum date validation rules."
+"Text Field","Text Field"
+"Text Area","Text Area"
+"Multiple Line","Multiple Line"
+Date,Date
+Yes/No,Yes/No
 "File (attachment)","File (attachment)"
 "Image File","Image File"
-"Multiple Line","Multiple Line"
-"Multiple Select","Multiple Select"
-"No","No"
-"Normalize Date","Normalize Date"
+Alphanumeric,Alphanumeric
 "Numeric Only","Numeric Only"
+"Alpha Only","Alpha Only"
+URL,URL
 "Strip HTML Tags","Strip HTML Tags"
-"Text Area","Text Area"
-"Text Field","Text Field"
-"URL","URL"
-"Use helper with defined EAV entity","Use helper with defined EAV entity"
-"Wrong values for minimum and maximum date validation rules.","Wrong values for minimum and maximum date validation rules."
-"Wrong values for minimum and maximum text length validation rules.","Wrong values for minimum and maximum text length validation rules."
-"Yes","Yes"
-"Yes/No","Yes/No"
+"Escape HTML Entities","Escape HTML Entities"
+"Normalize Date","Normalize Date"
+"The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.","The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter."

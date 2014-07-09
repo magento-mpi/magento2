@@ -171,6 +171,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      *
      * @param array $fields
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function prepareStockData(array $fields)
     {

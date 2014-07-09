@@ -21,6 +21,8 @@ class GiftCardProduct extends AbstractRepository
      *
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -28,7 +30,6 @@ class GiftCardProduct extends AbstractRepository
             'name' => 'Test product giftcard %isolation%',
             'sku' => 'sku_test_product_giftcard_%isolation%',
             'giftcard_type' => 'Virtual',
-            'category_ids' => ['presets' => 'default'],
             'giftcard_amounts' => [
                 [
                     'website_id' => 'All Websites [USD]',

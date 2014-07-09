@@ -129,8 +129,7 @@ class CustomOptions extends Form
                     $option['value'][] = $value;
                     $option['price'][] = $matches[1];
                 }
-            } elseif (
-                ($prices = $fieldElement->find($this->selectLocator, Locator::SELECTOR_XPATH))
+            } elseif (($prices = $fieldElement->find($this->selectLocator, Locator::SELECTOR_XPATH))
                 && $prices->isVisible()
             ) {
                 $priceIndex = 0;
