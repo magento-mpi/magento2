@@ -253,10 +253,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     private function _getRegionsByRegionId($regionId, $postalCode)
     {
         $regions = [];
-        $regionModel = $this->_regionFactory->create();
-        $regionData = $regionModel->load($regionId);
-        if (!empty($regionData)) {
-            $regions = Zip::parseRegions($regionData['code'], $postalCode);
+        $regionCode = $this->_regionFactory->create()->load($regionId)->getCode();
+        if (!is_null($regionCode)) {
+            $regions = Zip::parseRegions($regionCode, $postalCode);
         }
         return $regions;
     }
