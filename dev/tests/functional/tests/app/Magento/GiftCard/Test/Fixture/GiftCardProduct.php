@@ -11,8 +11,11 @@ namespace Magento\GiftCard\Test\Fixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class GiftCartProduct
- * GiftCard product fixture
+ * Class GiftCardProduct
+ * Fixture for GiftCard product
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class GiftCardProduct extends CatalogProductSimple
 {

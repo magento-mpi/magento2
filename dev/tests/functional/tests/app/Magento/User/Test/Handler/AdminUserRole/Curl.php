@@ -28,6 +28,8 @@ class Curl extends AbstractCurl implements AdminUserRoleInterface
      * @param FixtureInterface $fixture
      * @return array|mixed
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function persist(FixtureInterface $fixture = null)
     {

@@ -21,7 +21,7 @@ class CatalogProductConfigurable extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
-     * 
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
@@ -37,10 +37,6 @@ class CatalogProductConfigurable extends AbstractRepository
             'url_key' => 'test-configurable-product-%isolation%',
             'configurable_attributes_data' => ['preset' => 'default'],
             'quantity_and_stock_status' => [
-                'is_in_stock' => 'In Stock',
-            ],
-            'stock_data' => [
-                'manage_stock' => 'Yes',
                 'is_in_stock' => 'In Stock',
             ],
             'website_ids' => ['Main Website'],

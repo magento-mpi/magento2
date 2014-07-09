@@ -89,7 +89,7 @@ class Phrase
     public function setPhrase($phrase)
     {
         if (!$phrase) {
-            throw new \DomainException('Missed phrase.');
+            throw new \DomainException('Missed phrase');
         }
         $this->_phrase = $phrase;
     }
@@ -137,7 +137,7 @@ class Phrase
     public function setTranslation($translation)
     {
         if (!$translation) {
-            throw new \DomainException('Missed translation.');
+            throw new \DomainException('Missed translation');
         }
         $this->_translation = $translation;
     }
@@ -183,7 +183,7 @@ class Phrase
     public function addContextValue($contextValue)
     {
         if (empty($contextValue)) {
-            throw new \DomainException('Context value is empty.');
+            throw new \DomainException('Context value is empty');
         }
         if (!in_array($contextValue, $this->_contextValue)) {
             $this->_contextValue[] = $contextValue;
@@ -201,10 +201,10 @@ class Phrase
     {
         if (is_string($contextValue)) {
             $contextValue = explode(',', $contextValue);
-        } else if (null == $contextValue) {
+        } elseif (null == $contextValue) {
             $contextValue = array();
-        } else if (!is_array($contextValue)) {
-            throw new \DomainException('Wrong context type.');
+        } elseif (!is_array($contextValue)) {
+            throw new \DomainException('Wrong context type');
         }
         $this->_contextValue = $contextValue;
     }

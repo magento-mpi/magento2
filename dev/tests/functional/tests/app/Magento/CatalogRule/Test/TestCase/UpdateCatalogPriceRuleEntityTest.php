@@ -39,9 +39,8 @@ class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(
-        FixtureFactory $fixtureFactory
-    ) {
+    public function __prepare(FixtureFactory $fixtureFactory)
+    {
         $productSimple = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'product_with_category']);
         $productSimple->persist();
 

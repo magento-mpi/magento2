@@ -21,6 +21,8 @@ class CatalogProductGrouped extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -29,6 +31,7 @@ class CatalogProductGrouped extends AbstractRepository
             'sku' => 'sku_test_grouped_product_%isolation%',
             'price' => ['value' => 120.00],
             'weight' => 30.0000,
+            'category_ids' => ['presets' => 'default'],
             'associated' => ['preset' => 'defaultSimpleProduct'],
             'status' => 'Product online',
             'visibility' => 'Catalog, Search',

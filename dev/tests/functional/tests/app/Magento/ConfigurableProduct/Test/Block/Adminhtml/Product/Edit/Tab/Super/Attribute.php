@@ -76,7 +76,7 @@ class Attribute extends Block
     {
         $row = 0;
         foreach ($fields['options'] as $option) {
-            if (isset($option['name'])) {
+            if (!empty($option['name'])) {
                 $optionRow = $this->getOptionRow($option['name']);
                 if (!$optionRow->isVisible()) {
                     $this->_rootElement->find($this->addOption)->click();
