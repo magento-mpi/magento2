@@ -1774,5 +1774,6 @@ return array(
         'getFlatColums',
         'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource',
         'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource::getFlatColumns'
-    ]
+    ],
+    ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
 );
