@@ -187,7 +187,9 @@ class Instance extends \Magento\Backend\App\Action
             $response->setError(true);
             $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
-        $this->setBody($response->toJson());
+        $responseJson = $response->toJson();
+        $this->_translateInline->processResponseBody($responseJson, true);
+        $this->getResponse()->representJson($responseJson);
     }
 
     /**
