@@ -45,11 +45,11 @@
 <?php endif;?>
 
 <?php if ($this->displayFullSummary() && $_fullInfo && !$this->getIsPlaneMode()): ?>
-<tr class="totals tax summary">
+<tr class="totals-tax-summary">
 <?php elseif ($this->displayFullSummary() && $_fullInfo && $this->getIsPlaneMode()): ?>
-<tr class="totals tax summary plane">
+<tr class="totals-tax-summary plane">
 <?php else: ?>
-<tr class="totals tax">
+<tr class="totals-tax">
 <?php endif; ?>
     <td class="mark" <?php echo $this->getLabelProperties()?>>
         <?php if ($this->displayFullSummary()): ?>

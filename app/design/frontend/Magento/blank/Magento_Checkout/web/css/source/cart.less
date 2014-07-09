@@ -106,26 +106,8 @@
 
     //  Products table
     &.table-wrapper {
-        thead {
-            .col.price,
-            .col.subtotal {
-                display: none;
-            }
-        }
-        .cart.items {
-            .action {
-                &:extend(button all);
-                .link-as-button();
-                margin-left: 10px;
-                &:first-child {
-                    margin-left: 0;
-                }
-                &.help.map {
-                    &:extend(.abstract-action-button-as-link all);
-                    font-weight: @font-weight-base;
-                }
-            }
-            thead + .cart.item {
+        .items {
+            thead + .item {
                 border-top: @border-width-base solid @border-color-base;
             }
             > .item.cart {
@@ -315,23 +297,10 @@
         }
 
         &.table-wrapper {
-            thead {
-                .col.price,
-                .col.subtotal {
-                    display: table-cell;
-                }
-            }
-            .cart.items > .item.cart {
-                display: table-row-group;
-            }
-            .col {
-                &.price,
-                &.subtotal {
-                    display: table-cell;
-                    text-align: center;
-                    padding-top: 27px;
-                    &:before {
-                        display: none;
+            .item {
+                .col {
+                    &.item {
+                        padding: 27px 8px 10px;
                     }
                 }
                 &.qty {

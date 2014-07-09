@@ -543,13 +543,15 @@
         }
     }
 
-    .opc-block-progress {
+    .opc-block-progress-wrapper {
         .layout-column(2, 1, @layout-column-checkout-left-width);
         &:extend(.add-box-sizing-desktop all);
         padding-right: @layout-column-main-sidebar-offset;
         margin-top: 0;
-        &.active {
-            display: block;
-        }
+
+    }
+
+    .opc-block-progress.active {
+        display: block;
     }
 }

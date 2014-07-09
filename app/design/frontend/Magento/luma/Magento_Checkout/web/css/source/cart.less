@@ -142,7 +142,7 @@
     }
 
     //  Products table
-    &.table-wrapper {
+    &.table.wrapper {
         thead {
             .col.price,
             .col.subtotal {
@@ -369,12 +369,15 @@
             }
         }
 
+        //  Totals block
+        &-totals {
+            &:extend(.abstract-revert-side-paddings all);
+        }
+
+        //  Products table
         &.table-wrapper {
-            thead {
-                .col.price,
-                .col.subtotal {
-                    display: table-cell;
-                }
+            tbody td {
+                padding-top: @cart-item-cell-padding-top;
             }
             .cart.items > .item.cart {
                 display: table-row-group;
