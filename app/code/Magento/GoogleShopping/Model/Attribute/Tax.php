@@ -165,7 +165,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                 }
                 foreach ($regions as $region) {
                     $adjustments = $product->getPriceInfo()->getAdjustments();
-                    if (in_array('tax', $adjustments)) {
+                    if (array_key_exists('tax', $adjustments)) {
                         $taxIncluded = true;
                     } else {
                         $taxIncluded = false;

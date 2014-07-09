@@ -7,7 +7,7 @@
  */
 
 /**
- * Zip methods for the GoogleShopping Module
+ * Various methods for parsing Zip codes
  *
  */
 namespace Magento\Framework\Parse;
@@ -42,7 +42,7 @@ class Zip
     }
 
     /**
-     * Convert Magento zip range to array of Google Shopping zip-patterns
+     * Convert a Magento zip range to an array of zip patterns
      * (e.g., 12000-13999 -> [12*, 13*])
      *
      * @param  string $zipRange

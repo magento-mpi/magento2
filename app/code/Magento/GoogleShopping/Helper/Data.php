@@ -170,7 +170,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Get rates by customer and product classes
+     * Get rates by customer tax class id and product tax class id
      *
      * @param int $customerTaxClassId
      * @param int $productTaxClassId
