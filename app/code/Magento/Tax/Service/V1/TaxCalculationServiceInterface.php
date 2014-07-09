@@ -27,11 +27,7 @@ interface TaxCalculationServiceInterface
      * @param string $storeId
      * @return float
      */
-    public function getDefaultCalculatedRate(
-        $productTaxClassID,
-        $customerId = null,
-        $storeId = null
-    );
+    public function getDefaultCalculatedRate($productTaxClassID, $customerId = null, $storeId = null);
 
     /**
      * Get rate request
@@ -41,9 +37,5 @@ interface TaxCalculationServiceInterface
      * @param string $storeId
      * @return float
      */
-    public function getCalculatedRate(
-        $productTaxClassID,
-        $customerId = null,
-        $storeId = null
-    );
+    public function getCalculatedRate($productTaxClassID, $customerId = null, $storeId = null);
 }

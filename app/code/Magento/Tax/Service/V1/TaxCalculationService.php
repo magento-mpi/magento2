@@ -512,10 +512,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $type = $type . $direction;
             // initialize the delta to a small number to avoid non-deterministic behavior with rounding of 0.5
             $delta = isset($this->roundingDeltas[$type][$rate])
-                ?
-                $this->roundingDeltas[$type][$rate]
-                :
-                0.000001;
+                ? $this->roundingDeltas[$type][$rate]
+                : 0.000001;
             $price += $delta;
             $roundPrice = $this->calculator->round($price);
             $this->roundingDeltas[$type][$rate] = $price - $roundPrice;
