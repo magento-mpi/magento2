@@ -9,6 +9,8 @@ namespace Magento\AdminGws\Model\Block\Container;
 
 class Plugin
 {
+    const GROUP_NAME = 'widget_container_buttons_rendering';
+
     protected $role;
 
     /**
@@ -22,18 +24,26 @@ class Plugin
     protected $callbackInvoker;
 
     /**
+     * @var \Magento\AdminGws\Model\ConfigInterface
+     */
+    protected $config;
+
+    /**
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Model\CallbackList $callbackList
      * @param \Magento\AdminGws\Model\CallbackInvoker $callbackInvoker
+     * @param \Magento\AdminGws\Model\ConfigInterface $config
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Model\CallbackList $callbackList,
-        \Magento\AdminGws\Model\CallbackInvoker $callbackInvoker
+        \Magento\AdminGws\Model\CallbackInvoker $callbackInvoker,
+        \Magento\AdminGws\Model\ConfigInterface $config
     ) {
         $this->role = $role;
         $this->callbackInvoker = $callbackInvoker;
         $this->callbackList = $callbackList;
+        $this->config = $config;
     }
 
     /**
@@ -53,11 +63,11 @@ class Plugin
             return $proceed($item);
         }
 
-        if (!($callback = $this->callbackList->pickCallback('block_html_before', $subject))) {
+        if (!($callback = $this->callbackList->pickCallback(self::GROUP_NAME, $subject))) {
             return $proceed($item);
         }
-        /* the $observer is used intentionally */
-        $this->callbackInvoker->invoke($callback, 'Magento\AdminGws\Model\Container', $subject);
+
+        $this->callbackInvoker->invoke($callback, $this->config->getGroupProcessor(self::GROUP_NAME), $subject);
 
         return $proceed($item);
     }

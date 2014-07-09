@@ -440,10 +440,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $collection = $observer->getEvent()->getCollection();
-        if (!($callback = $this->_pickCallback('collection_load_before', $collection))) {
+        if (!($callback = $this->callbackList->pickCallback('collection_load_before', $collection))) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Collections', $collection);
+        $this->callbackInvoker->invoke($callback, $this->_config->getGroupProcessor('collection_load_before'), $collection);
     }
 
     /**
@@ -458,10 +458,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $model = $observer->getEvent()->getObject();
-        if (!($callback = $this->_pickCallback('model_save_before', $model))) {
+        if (!($callback = $this->callbackList->pickCallback('model_save_before', $model))) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
+        $this->callbackInvoker->invoke($callback, $this->_config->getGroupProcessor('model_save_before'), $model);
     }
 
     /**
@@ -476,10 +476,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $model = $observer->getEvent()->getObject();
-        if (!($callback = $this->_pickCallback('model_load_after', $model))) {
+        if (!($callback = $this->callbackList->pickCallback('model_load_after', $model))) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
+        $this->callbackInvoker->invoke($callback, $this->_config->getGroupProcessor('model_load_after'), $model);
     }
 
     /**
@@ -495,10 +495,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         $model = $observer->getEvent()->getObject();
-        if (!($callback = $this->_pickCallback('model_delete_before', $model))) {
+        if (!($callback = $this->callbackList->pickCallback('model_delete_before', $model))) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
+        $this->callbackInvoker->invoke($callback, $this->_config->getGroupProcessor('model_delete_before'), $model);
     }
 
     /**
@@ -520,12 +520,11 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $this->_controllersMap = array('full' => array(), 'partial' => array());
             foreach ($this->_config->getCallbacks('controller_predispatch') as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
+                $callbackItem = $this->callbackBuilder->build($method);
                 if ($action) {
-                    $this->_controllersMap['full'][$module][$controller][$action] = $this->_recognizeCallbackString(
-                        $method
-                    );
+                    $this->_controllersMap['full'][$module][$controller][$action] = $callbackItem;
                 } else {
-                    $this->_controllersMap['partial'][$module][$controller] = $this->_recognizeCallbackString($method);
+                    $this->_controllersMap['partial'][$module][$controller] = $callbackItem;
                 }
             }
         }
@@ -554,9 +553,9 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         if ($callback) {
-            $this->_invokeCallback(
+            $this->callbackInvoker->invoke(
                 $callback,
-                'Magento\AdminGws\Model\Controllers',
+                $this->_config->getGroupProcessor('controller_predispatch'),
                 $observer->getEvent()->getControllerAction()
             );
         }
@@ -576,47 +575,11 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!($block = $observer->getEvent()->getBlock())) {
             return;
         }
-        if (!($callback = $this->_pickCallback('block_html_before', $block))) {
+        if (!($callback = $this->callbackList->pickCallback('block_html_before', $block))) {
             return;
         }
         /* the $observer is used intentionally */
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Blocks', $observer);
-    }
-
-    /**
-     * Get a limiter callback for an instance from mappers configuration
-     *
-     * @param string $callbackGroup (collection, model)
-     * @param object $instance
-     * @return void|string|bool
-     */
-    protected function _pickCallback($callbackGroup, $instance)
-    {
-        return $this->callbackList->pickCallback($callbackGroup, $instance);
-    }
-
-    /**
-     * Seek for factory class name in specified callback string
-     *
-     * @param string $callbackString
-     * @return string|array
-     */
-    protected function _recognizeCallbackString($callbackString)
-    {
-        return $this->callbackBuilder->build($callbackString);
-    }
-
-    /**
-     * Invoke specified callback depending on whether it is a string or array
-     *
-     * @param string|array $callback
-     * @param string $defaultFactoryClassName
-     * @param object $passThroughObject
-     * @return void
-     */
-    protected function _invokeCallback($callback, $defaultFactoryClassName, $passThroughObject)
-    {
-        $this->callbackInvoker->invoke($callback, $defaultFactoryClassName, $passThroughObject);
+        $this->callbackInvoker->invoke($callback, $this->_config->getGroupProcessor('block_html_before'), $observer);
     }
 
     /**

@@ -13,40 +13,22 @@ use Magento\Framework\Event\Observer as EventObserver;
  * Blocks limiter
  *
  */
-class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
+class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver implements CallbackProcessorInterface
 {
-    /**
-     * Core registry
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $_coreRegistry = null;
-
     /**
      * @var \Magento\Catalog\Model\Resource\Category
      */
-    protected $_categoryResource;
-
-    /**
-     * @var \Magento\Cms\Model\Resource\Page
-     */
-    protected $_cmsPageResource;
+    protected $categoryResource;
 
     /**
      * @param \Magento\AdminGws\Model\Role $role
-     * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
-     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
-        \Magento\Cms\Model\Resource\Page $cmsPageResource,
-        \Magento\Catalog\Model\Resource\Category $categoryResource,
-        \Magento\Framework\Registry $coreRegistry
+        \Magento\Catalog\Model\Resource\Category $categoryResource
     ) {
-        $this->_cmsPageResource = $cmsPageResource;
-        $this->_categoryResource = $categoryResource;
-        $this->_coreRegistry = $coreRegistry;
+        $this->categoryResource = $categoryResource;
         parent::__construct($role);
     }
 
@@ -246,7 +228,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $setDisabled = true;
         } else {
             $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
-            $path = $this->_categoryResource->getCategoryPathById($categoryId);
+            $path = $this->categoryResource->getCategoryPathById($categoryId);
             if (!$this->_role->hasExclusiveCategoryAccess($path)) {
                 $setDisabled = true;
             }
@@ -376,36 +358,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if ($block) {
             $block->unsetChild('save_button')->unsetChild('import_button')->unsetChild('import_services');
         }
-    }
-
-    /**
-     * Remove Transactional Emails edit page control buttons for limited user
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removeTransactionalEmailsEditButtons($observer)
-    {
-        $block = $observer->getEvent()->getBlock();
-        if ($block) {
-            $block->unsetChild('save_button')->unsetChild('delete_button');
-        }
-    }
-
-    /**
-     * Remove buttons from transactional email template grid for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeEmailTemplateGridButtons($observer)
-    {
-        $block = $observer->getEvent()->getBlock();
-        if ($block) {
-            $block->unsetChild('add_button');
-        }
-
-        return $this;
     }
 
     /**

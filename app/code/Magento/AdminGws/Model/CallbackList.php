@@ -62,24 +62,7 @@ class CallbackList
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
             foreach ($this->config->getCallbacks($callbackGroup) as $className => $callback) {
-                $className = $this->string->upperCaseWords($className);
-
-                /*
-                 * Second parameter passed as FALSE to prevent usage of __autoload function
-                 * which will result in not including new class file and search only by already included
-                 *
-                 * Note: Commented bc in case of Models this will result in not working
-                 * observers for those models. In first call of this function observers for models will be not
-                 * added into _callbacks bc their class are not loaded (included) yet.
-                 *
-                 * So in result there will be garbage (non existing classes) in _callbacks
-                 * but it will be initialized faster without __autoload calls.
-                 */
-                //if (class_exists($className, false)) {
-                if ($className) {
-                    $className = str_replace('_', '\\', $className);
-                    $this->_callbacks[$callbackGroup][$className] = $this->callbackBuilder->build($callback);
-                }
+                $this->_callbacks[$callbackGroup][$className] = $this->callbackBuilder->build($callback);
             }
         }
 

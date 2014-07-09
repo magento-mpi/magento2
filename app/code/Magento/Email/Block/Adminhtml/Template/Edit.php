@@ -13,7 +13,7 @@ namespace Magento\Email\Block\Adminhtml\Template;
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method array getTemplateOptions()
  */
-class Edit extends \Magento\Backend\Block\Widget
+class Edit extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\ContainerInterface
 {
     /**
      * @var \Magento\Framework\Registry
@@ -53,6 +53,16 @@ class Edit extends \Magento\Backend\Block\Widget
     protected $_coreHelper;
 
     /**
+     * @var \Magento\Backend\Block\Widget\Button\ButtonList
+     */
+    protected $buttonList;
+
+    /**
+     * @var \Magento\Backend\Block\Widget\Button\ToolbarInterface
+     */
+    protected $toolbar;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Registry $registry
@@ -60,6 +70,8 @@ class Edit extends \Magento\Backend\Block\Widget
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Email\Model\Template\Config $emailConfig
      * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Backend\Block\Widget\Button\ButtonList $buttonList
+     * @param \Magento\Backend\Block\Widget\Button\ToolbarInterface $toolbar
      * @param array $data
      */
     public function __construct(
@@ -70,6 +82,8 @@ class Edit extends \Magento\Backend\Block\Widget
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Email\Model\Template\Config $emailConfig,
         \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Backend\Block\Widget\Button\ButtonList $buttonList,
+        \Magento\Backend\Block\Widget\Button\ToolbarInterface $toolbar,
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
@@ -78,6 +92,8 @@ class Edit extends \Magento\Backend\Block\Widget
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
         $this->_emailConfig = $emailConfig;
+        $this->buttonList = $buttonList;
+        $this->toolbar = $toolbar;
         parent::__construct($context, $data);
     }
 
@@ -89,100 +105,73 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     protected function _prepareLayout()
     {
-        $this->getToolbar()->setChild(
-            'back_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
-                array(
-                    'label' => __('Back'),
-                    'onclick' => "window.location.href = '" . $this->getUrl('adminhtml/*') . "'",
-                    'class' => 'back'
-                )
+        $this->buttonList->add(
+            'back',
+            array(
+                'label' => __('Back'),
+                'onclick' => "window.location.href = '" . $this->getUrl('adminhtml/*') . "'",
+                'class' => 'back'
             )
         );
-        $this->getToolbar()->setChild(
-            'reset_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
-                array('label' => __('Reset'), 'onclick' => 'window.location.href = window.location.href')
-            )
+        $this->buttonList->add(
+            'reset',
+            array('label' => __('Reset'), 'onclick' => 'window.location.href = window.location.href')
         );
+
         if ($this->getEditMode()) {
-            $this->getToolbar()->setChild(
-                'delete_button',
-                $this->getLayout()->createBlock(
-                    'Magento\Backend\Block\Widget\Button'
-                )->setData(
-                    array(
-                        'label' => __('Delete Template'),
-                        'onclick' => 'templateControl.deleteTemplate();',
-                        'class' => 'delete'
-                    )
+            $this->buttonList->add(
+                'delete',
+                array(
+                    'label' => __('Delete Template'),
+                    'onclick' => 'templateControl.deleteTemplate();',
+                    'class' => 'delete'
                 )
             );
         }
         if (!$this->isTextType()) {
-            $this->getToolbar()->setChild(
-                'to_plain_button',
-                $this->getLayout()->createBlock(
-                    'Magento\Backend\Block\Widget\Button'
-                )->setData(
-                    array(
-                        'label' => __('Convert to Plain Text'),
-                        'onclick' => 'templateControl.stripTags();',
-                        'id' => 'convert_button'
-                    )
+            $this->buttonList->add(
+                'to_plain',
+                array(
+                    'label' => __('Convert to Plain Text'),
+                    'onclick' => 'templateControl.stripTags();',
+                    'id' => 'convert_button'
                 )
             );
-            $this->getToolbar()->setChild(
-                'to_html_button',
-                $this->getLayout()->createBlock(
-                    'Magento\Backend\Block\Widget\Button'
-                )->setData(
-                    array(
-                        'label' => __('Return Html Version'),
-                        'onclick' => 'templateControl.unStripTags();',
-                        'id' => 'convert_button_back',
-                        'style' => 'display:none'
-                    )
+            $this->buttonList->add(
+                'to_html',
+                array(
+                    'label' => __('Return Html Version'),
+                    'onclick' => 'templateControl.unStripTags();',
+                    'id' => 'convert_button_back',
+                    'style' => 'display:none'
                 )
             );
         }
-        $this->getToolbar()->setChild(
-            'preview_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
-                array('label' => __('Preview Template'), 'onclick' => 'templateControl.preview();')
+        $this->buttonList->add(
+            'preview',
+            array('label' => __('Preview Template'), 'onclick' => 'templateControl.preview();')
+        );
+        $this->buttonList->add(
+            'save',
+            array(
+                'label' => __('Save Template'),
+                'onclick' => 'templateControl.save();',
+                'class' => 'save primary save-template'
             )
         );
-        $this->getToolbar()->setChild(
-            'save_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
-                array(
-                    'label' => __('Save Template'),
-                    'onclick' => 'templateControl.save();',
-                    'class' => 'save primary save-template'
-                )
-            )
+        $this->buttonList->add(
+            'load',
+            array(
+                'label' => __('Load Template'),
+                'onclick' => 'templateControl.load();',
+                'type' => 'button',
+                'class' => 'save'
+            ),
+            0,
+            0,
+            null
         );
-        $this->setChild(
-            'load_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
-                array(
-                    'label' => __('Load Template'),
-                    'onclick' => 'templateControl.load();',
-                    'type' => 'button',
-                    'class' => 'save'
-                )
-            )
-        );
+        $this->toolbar->pushButtons($this, $this->buttonList);
         $this->addChild('form', 'Magento\Email\Block\Adminhtml\Template\Edit\Form');
         return parent::_prepareLayout();
     }
@@ -448,5 +437,58 @@ class Edit extends \Magento\Backend\Block\Widget
     public function getOrigTemplateCode()
     {
         return $this->getEmailTemplate()->getOrigTemplateCode();
+    }
+
+    /**
+     * Public wrapper for the button list
+     *
+     * @param string $buttonId
+     * @param array $data
+     * @param integer $level
+     * @param integer $sortOrder
+     * @param string|null $region That button should be displayed in ('toolbar', 'header', 'footer', null)
+     * @return $this
+     */
+    public function addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
+    {
+        $this->buttonList->add($buttonId, $data, $level, $sortOrder, $region);
+        return $this;
+    }
+
+    /**
+     * Public wrapper for the button list
+     *
+     * @param string $buttonId
+     * @return $this
+     */
+    public function removeButton($buttonId)
+    {
+        $this->buttonList->remove($buttonId);
+        return $this;
+    }
+
+    /**
+     * Public wrapper for protected _updateButton method
+     *
+     * @param string $buttonId
+     * @param string|null $key
+     * @param string $data
+     * @return $this
+     */
+    public function updateButton($buttonId, $key, $data)
+    {
+        $this->buttonList->update($buttonId, $key, $data);
+        return $this;
+    }
+
+    /**
+     * Check whether button rendering is allowed in current context
+     *
+     * @param \Magento\Backend\Block\Widget\Button\Item $item
+     * @return bool
+     */
+    public function canRender(\Magento\Backend\Block\Widget\Button\Item $item)
+    {
+        return !$item->isDeleted();
     }
 }

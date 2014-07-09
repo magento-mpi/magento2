@@ -10,7 +10,7 @@ namespace Magento\AdminGws\Model;
 use Magento\AdminGws\Model\Role;
 use \Magento\Backend\Block\Widget\ContainerInterface;
 
-class Container
+class Containers implements CallbackProcessorInterface
 {
     /**
      * @var Role
@@ -30,18 +30,26 @@ class Container
     protected $cmsPageResource;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Category
+     */
+    protected $categoryResource;
+
+    /**
      * @param Role $role
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
+     * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      */
     public function __construct(
         Role $role,
         \Magento\Framework\Registry $registry,
-        \Magento\Cms\Model\Resource\Page $cmsPageResource)
-    {
+        \Magento\Cms\Model\Resource\Page $cmsPageResource,
+        \Magento\Catalog\Model\Resource\Category $categoryResource
+    ) {
         $this->_role = $role;
         $this->registry = $registry;
         $this->cmsPageResource = $cmsPageResource;
+        $this->categoryResource = $categoryResource;
     }
 
     /**
@@ -329,19 +337,6 @@ class Container
     }
 
     /**
-     * Restrict event grid container
-     *
-     * @param ContainerInterface $container
-     * @return void
-     */
-    public function widgetCatalogEventGridContainer(ContainerInterface $container)
-    {
-        if (!$this->_role->getWebsiteIds()) {
-            $container->removeButton('add');
-        }
-    }
-
-    /**
      * Remove buttons from gift wrapping edit form for all GWS limited users
      *
      * @param ContainerInterface $container
@@ -352,7 +347,6 @@ class Container
         // Remove delete button
         $container->removeButton('delete');
     }
-
 
     /**
      * Remove buttons from rating edit form (in Manage Ratings) for all GWS limited users
@@ -389,7 +383,6 @@ class Container
     {
         $this->removeButtonsStoreAccess($container, 'cms_page', array('save', 'saveandcontinue', 'delete'));
     }
-
 
     /**
      * Remove control buttons if user does not have exclusive access to current block
@@ -543,7 +536,6 @@ class Container
         }
     }
 
-
     /**
      * Removing buttons from revision edit page which can't be used
      * by users with limited permissions
@@ -579,6 +571,42 @@ class Container
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $container->removeButton('publish');
             }
+        }
+    }
+
+    /**
+     * Remove buttons from transactional email template grid for all GWS limited users
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeEmailTemplateGridButtons(ContainerInterface $container)
+    {
+        $container->removeButton('add');
+    }
+
+    /**
+     * Remove Transactional Emails edit page control buttons for limited user
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeTransactionalEmailsEditButtons(ContainerInterface $container)
+    {
+        $container->removeButton('save');
+        $container->removeButton('delete');
+    }
+
+    /**
+     * Restrict event grid container
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function widgetCatalogEventGridContainer(ContainerInterface $container)
+    {
+        if (!$this->_role->getWebsiteIds()) {
+            $container->removeButton('add');
         }
     }
 }
