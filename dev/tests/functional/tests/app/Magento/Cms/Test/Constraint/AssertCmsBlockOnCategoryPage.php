@@ -76,6 +76,6 @@ class AssertCmsBlockOnCategoryPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Displayed CMS block description on Category page (frontend) equals to passed from fixture.';
+        return 'CMS block description is present on Category page (frontend).';
     }
 }

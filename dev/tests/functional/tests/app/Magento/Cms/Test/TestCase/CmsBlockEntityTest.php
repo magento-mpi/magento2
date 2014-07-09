@@ -8,7 +8,6 @@
 
 namespace Magento\Cms\Test\TestCase;
 
-use Mtf\Factory\Factory;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Page\Adminhtml\CmsBlockNew;
 use Magento\Backend\Test\Page\Adminhtml\StoreNew;
@@ -60,7 +59,7 @@ abstract class CmsBlockEntityTest extends Injectable
     /**
      * Store Name
      *
-     * @var string
+     * @var array
      */
     protected static $storeName;
 
@@ -93,18 +92,20 @@ abstract class CmsBlockEntityTest extends Injectable
      *
      * @return void
      */
-    public static function tearDownAfterClass()
+    public function tearDown()
     {
-        $storeName = reset(self::$storeName);
-        $tmp = explode("/", $storeName);
-        $filter['store_title'] = end($tmp);
-        $storeIndex = Factory::getPageFactory()->getAdminSystemStore();
-        $storeIndex->open();
-        $storeIndex->getStoreGrid()->searchAndOpen($filter);
-        $storeNew = Factory::getPageFactory()->getAdminSystemStoreNewStore();
-        $storeNew->getFormPageActions()->delete();
-        $storeDelete = Factory::getPageFactory()->getAdminSystemStoreDeleteStore();
-        $storeDelete->getStoreForm()->fillForm('No');
-        $storeDelete->getFormPageActions()->delete();
+        $storeName = self::$storeName;
+        foreach ($storeName as $store) {
+            if ($store == 'All Store Views') {
+                continue;
+            }
+            $tmp = explode("/", $store);
+            $filter['store_title'] = end($tmp);
+            $this->storeIndex->open();
+            $this->storeIndex->getStoreGrid()->searchAndOpen($filter);
+            $this->storeNew->getFormPageActions()->delete();
+            $this->storeDelete->getStoreForm()->fillForm(['create_backup' => 'No']);
+            $this->storeDelete->getFormPageActions()->delete();
+        }
     }
 }

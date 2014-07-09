@@ -88,7 +88,7 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
             array('backend/admin/user_role/editrole/rid/2', 'view'),
             array('backend/admin/user_role/saverole', 'save', array('rolename' => 'newrole2', 'gws_is_all' => '1')),
             array('backend/admin/user_role/delete/rid/2', 'delete'),
-            array('backend/tax/tax/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
+            array('backend/tax/tax/ajaxDelete', 'delete', array('class_id' => 2, 'isAjax' => true)),
             array(
                 'backend/tax/tax/ajaxSave',
                 'save',

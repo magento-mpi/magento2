@@ -8,16 +8,15 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Block\Edit;
 
+use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Block\Form as ParentForm;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class CmsForm
  * Form for Cms Block creation
  */
-class CmsForm extends ParentForm
+class CmsForm extends Form
 {
     /**
      * Content Editor toggle button id
@@ -31,7 +30,7 @@ class CmsForm extends ParentForm
      *
      * @var string
      */
-    protected $contentForm = "#block_content";
+    protected $contentForm = '[name="content"]';
 
     /**
      * Fill the page form

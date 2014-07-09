@@ -27,7 +27,7 @@ class StoreId implements FixtureInterface
     protected $data = [];
 
     /**
-     * Array with store fixture
+     * Array with store fixtures
      *
      * @var array
      */
@@ -41,7 +41,7 @@ class StoreId implements FixtureInterface
     protected $params;
 
     /**
-     * Create Store if
+     * Create custom Store if we have block with custom store view
      *
      * @constructor
      * @param FixtureFactory $fixtureFactory
@@ -54,17 +54,15 @@ class StoreId implements FixtureInterface
         if (isset($data['dataSet'])) {
             $dataSets = is_array($data['dataSet']) ? $data['dataSet'] : [$data['dataSet']];
             foreach ($dataSets as $dataSet) {
-                if ($dataSet !== '-') {
-                    /** @var \Magento\Store\Test\Fixture\Store $store */
-                    $store = $fixtureFactory->createByCode('store', ['dataSet' => $dataSet]);
-                    if (!$store->hasData('store_id')) {
-                        $store->persist();
-                    }
-                    $this->stores[] = $store;
-                    $this->data[] = $store->getName() == 'All Store Views'
-                        ? $store->getName()
-                        : 'Main Website' . '/' . $store->getGroupId() . '/' . $store->getName();
+                /** @var \Magento\Store\Test\Fixture\Store $store */
+                $store = $fixtureFactory->createByCode('store', ['dataSet' => $dataSet]);
+                if (!$store->hasData('store_id')) {
+                    $store->persist();
                 }
+                $this->stores[] = $store;
+                $this->data[] = $store->getName() == 'All Store Views'
+                    ? $store->getName()
+                    : 'Main Website' . '/' . $store->getGroupId() . '/' . $store->getName();
             }
         }
     }

@@ -15,6 +15,24 @@ namespace Magento\Cron\Model;
  */
 class ScheduleTest extends \PHPUnit_Framework_TestCase
 {
+    protected $helper;
+
+    protected $resourceJobMock;
+
+    public function setUp()
+    {
+        $this->helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $this->resourceJobMock = $this->getMockBuilder('Magento\Cron\Model\Resource\Schedule')
+            ->disableOriginalConstructor()
+            ->setMethods(['trySetJobStatusAtomic', '__wakeup', 'getIdFieldName'])
+            ->getMockForAbstractClass();
+
+        $this->resourceJobMock->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('id'));
+    }
+
     /**
      * @param string $cronExpression
      * @param array $expected
@@ -22,11 +40,9 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetCronExpr($cronExpression, $expected)
     {
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         // 1. Create mocks
         /** @var \Magento\Cron\Model\Schedule $model */
-        $model = $helper->getObject('Magento\Cron\Model\Schedule');
+        $model = $this->helper->getObject('Magento\Cron\Model\Schedule');
 
         // 2. Run tested method
         $model->setCronExpr($cronExpression);
@@ -110,11 +126,9 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetCronExprException($cronExpression)
     {
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         // 1. Create mocks
         /** @var \Magento\Cron\Model\Schedule $model */
-        $model = $helper->getObject('Magento\Cron\Model\Schedule');
+        $model = $this->helper->getObject('Magento\Cron\Model\Schedule');
 
         // 2. Run tested method
         $model->setCronExpr($cronExpression);
@@ -145,15 +159,13 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function testTrySchedule($scheduledAt, $cronExprArr, $expected)
     {
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         // 1. Create mocks
         $date = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\DateTime')
             ->disableOriginalConstructor()
             ->getMock();
 
         /** @var \Magento\Cron\Model\Schedule $model */
-        $model = $helper->getObject(
+        $model = $this->helper->getObject(
             'Magento\Cron\Model\Schedule',
             [
                 'date' => $date
@@ -203,11 +215,9 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchCronExpression($cronExpressionPart, $dateTimePart, $expectedResult)
     {
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         // 1. Create mocks
         /** @var \Magento\Cron\Model\Schedule $model */
-        $model = $helper->getObject('Magento\Cron\Model\Schedule');
+        $model = $this->helper->getObject('Magento\Cron\Model\Schedule');
 
         // 2. Run tested method
         $result = $model->matchCronExpression($cronExpressionPart, $dateTimePart);
@@ -264,11 +274,9 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
     {
         $dateTimePart = 10;
 
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         // 1 Create mocks
         /** @var \Magento\Cron\Model\Schedule $model */
-        $model = $helper->getObject('Magento\Cron\Model\Schedule');
+        $model = $this->helper->getObject('Magento\Cron\Model\Schedule');
 
         // 2. Run tested method
         $model->matchCronExpression($cronExpressionPart, $dateTimePart);
@@ -295,11 +303,9 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetNumeric($param, $expectedResult)
     {
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         // 1. Create mocks
         /** @var \Magento\Cron\Model\Schedule $model */
-        $model = $helper->getObject('Magento\Cron\Model\Schedule');
+        $model = $this->helper->getObject('Magento\Cron\Model\Schedule');
 
         // 2. Run tested method
         $result = $model->getNumeric($param);
@@ -334,5 +340,53 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
             ['Wednesday', 3],
             ['wedXXX', 3],
         ];
+    }
+
+    public function testTryLockJobSuccess()
+    {
+        $scheduleId = 1;
+
+        $this->resourceJobMock->expects($this->once())
+            ->method('trySetJobStatusAtomic')
+            ->with($scheduleId, Schedule::STATUS_RUNNING, Schedule::STATUS_PENDING)
+            ->will($this->returnValue(true));
+
+        /** @var \Magento\Cron\Model\Schedule $model */
+        $model = $this->helper->getObject(
+            'Magento\Cron\Model\Schedule',
+            [
+                'resource' => $this->resourceJobMock
+            ]
+        );
+        $model->setId($scheduleId);
+        $this->assertEquals(0, $model->getStatus());
+
+        $model->tryLockJob();
+
+        $this->assertEquals(Schedule::STATUS_RUNNING, $model->getStatus());
+    }
+
+    public function testTryLockJobFailure()
+    {
+        $scheduleId = 1;
+
+        $this->resourceJobMock->expects($this->once())
+            ->method('trySetJobStatusAtomic')
+            ->with($scheduleId, Schedule::STATUS_RUNNING, Schedule::STATUS_PENDING)
+            ->will($this->returnValue(false));
+
+        /** @var \Magento\Cron\Model\Schedule $model */
+        $model = $this->helper->getObject(
+            'Magento\Cron\Model\Schedule',
+            [
+                'resource' => $this->resourceJobMock
+            ]
+        );
+        $model->setId($scheduleId);
+        $this->assertEquals(0, $model->getStatus());
+
+        $model->tryLockJob();
+
+        $this->assertEquals(0, $model->getStatus());
     }
 }

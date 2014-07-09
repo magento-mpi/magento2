@@ -31,7 +31,7 @@ class CmsGrid extends GridInterface
             'selector' => '#cmsBlockGrid_filter_identifier',
         ],
         'store_id' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-store-filter-store-id"]',
+            'selector' => '[name="store_id"]',
             'input' => 'select',
         ],
         'is_active' => [
@@ -52,21 +52,4 @@ class CmsGrid extends GridInterface
      * @var string
      */
     protected $editLink = '#cmsBlockGrid_table tbody tr:first-child td';
-
-    /**
-     * Sort and open first entity in grid
-     *
-     * @throws \Exception
-     */
-    public function sortAndOpen()
-    {
-        $this->sortGridByField('creation_time', 'asc');
-        $this->sortGridByField('creation_time');
-        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
-        if ($rowItem->isVisible()) {
-            $rowItem->find($this->editLink, Locator::SELECTOR_CSS)->click();
-        } else {
-            throw new \Exception('Searched item was not found.');
-        }
-    }
 }

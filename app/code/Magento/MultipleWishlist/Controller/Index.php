@@ -257,14 +257,12 @@ class Index extends \Magento\Wishlist\Controller\Index
         }
 
         if ($this->getRequest()->isAjax()) {
-            $this->getResponse()->setHeader('Content-Type', 'application/json');
-            $params = array();
             if (!$wishlist->getId()) {
                 $params = array('redirect' => $this->_url->getUrl('*/*'));
             } else {
                 $params = array('wishlist_id' => $wishlist->getId());
             }
-            return $this->getResponse()->setBody(
+            return $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($params)
             );
         } else {

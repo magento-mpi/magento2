@@ -36,6 +36,13 @@ class StoreGrid extends GridInterface
     ];
 
     /**
+     * Store title format for XPATH
+     *
+     * @var string
+     */
+    protected $titleFormat = '//td[a[.="%s"]]';
+
+    /**
      * Check if store exists
      *
      * @param string $title
@@ -43,7 +50,7 @@ class StoreGrid extends GridInterface
      */
     public function isStoreExists($title)
     {
-        $element = $this->_rootElement->find($title, Locator::SELECTOR_LINK_TEXT);
+        $element = $this->_rootElement->find(sprintf($this->titleFormat, $title), Locator::SELECTOR_XPATH);
         return $element->isVisible();
     }
 }

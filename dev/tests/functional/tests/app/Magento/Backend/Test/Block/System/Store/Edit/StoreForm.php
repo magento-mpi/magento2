@@ -8,13 +8,13 @@
 
 namespace Magento\Backend\Test\Block\System\Store\Edit;
 
-use Mtf\Block\Form as ParentForm;
+use Mtf\Block\Form;
 
 /**
  * Class StoreForm
  * Form for Store View creation
  */
-class StoreForm extends ParentForm
+class StoreForm extends Form
 {
     //
 }
