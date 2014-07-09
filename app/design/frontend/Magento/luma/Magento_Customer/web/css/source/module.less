@@ -6,6 +6,15 @@
 //  * @license     {license_link}
 //  */
 
+@account-title-border-color: #c6c6c6;
+@account-table-border-bottom-color: #e4e4e4;
+@account-nav-background: #e8e8e8;
+@account-nav-color: #575757;
+@account-nav-current-color: #000;
+@account-nav-current-font-weight: @font-weight-semibold;
+@account-nav-current-border: 3px solid transparent;
+@account-nav-current-border-color: #ff5501;
+
 .login.container {
     .block {
         &.new {
@@ -59,9 +68,6 @@
     }
 }
 
-@account-title-border-color: #c6c6c6;
-@account-table-border-bottom-color: e4e4e4;
-
 // My account
 .account {
     .page-title {
@@ -84,12 +90,7 @@
         }
         .block:not(.widget) {
             .title {
-                > strong {
-                    .heading(h3);
-                }
-                margin-bottom: @indent-base;
-                padding-bottom: 15px;
-                border-bottom: 1px solid @account-title-border-color;
+                &:extend(.abstract-account-title all);
                 > .action {
                     margin-left: 15px;
                 }
@@ -115,8 +116,8 @@
             }
         }
     }
-    .block.account.nav {
-        background: @sidebar-background;
+    .block.account-nav {
+        .css(background, @sidebar-background);
         padding: 15px 0;
         .title {
             padding: 0 18px;
@@ -138,18 +139,20 @@
                     display: block;
                     padding: 0 18px 0 15px;
                     line-height: 30px;
-                    border-left: 3px solid transparent;
+                    .css(border-left, @account-nav-current-border);
                 }
                 a {
+                    .css(color, @account-nav-color);
                     text-decoration: none;
                     &:hover {
-                        background: #e8e8e8;
+                        .css(background, @account-nav-background);
                     }
                 }
                 &.current {
                     strong {
-                        border-color: #ff5501;
-                        font-weight: normal;
+                        .css(color, @account-nav-current-color);
+                        .css(border-color, @account-nav-current-border-color);
+                        .css(font-weight, @account-nav-current-font-weight);
                     }
                 }
             }
@@ -173,6 +176,9 @@
             }
         } 
     }
+    .legend {
+        &:extend(.abstract-account-title all);
+    }
 }
 
 //
@@ -187,7 +193,6 @@
         strong {
             .heading(h4);
             .column.main & {
-                font-size: @h3-font-size;
             }
         }
         margin-bottom: @indent-s-base;
@@ -282,6 +287,11 @@
                 margin-bottom: 0;
             }
         }
+        .account-nav {
+            .title {
+                &:extend(.visually-hidden-desktop all); 
+            }
+        }
     }
 
     .block.addresses.list {
@@ -300,6 +310,16 @@
 
     .widget {
         clear: both;
+    }
+
+    .block {
+        &:extend(.abstract-margin-for-blocks-and-widgets-desktop all);
+    }
+
+    .form.edit-account {
+        fieldset {
+            &:extend(.blocks-2columns all);
+        }
     }
 }
 

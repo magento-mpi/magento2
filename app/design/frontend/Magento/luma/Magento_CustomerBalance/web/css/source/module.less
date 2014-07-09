@@ -1,0 +1,33 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.block.balance {
+    .balance-price-label {
+        &:extend(.visually-hidden all);
+    }
+    .price {
+        font-size: 32px;
+        line-height: 32px;
+        display: inline-block;
+        .css(margin-top, -@indent-s-base);
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .storecredit {
+        .block {
+            &:extend(.blocks-2columns all);
+        }
+        .block.balance-history {
+            width: 100%;
+        }
+    }
+}

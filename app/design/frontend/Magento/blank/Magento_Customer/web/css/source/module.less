@@ -6,6 +6,13 @@
 //  * @license     {license_link}
 //  */
 
+@account-nav-background: #e8e8e8;
+@account-nav-color: false;
+@account-nav-current-color: false;
+@account-nav-current-font-weight: @font-weight-base;
+@account-nav-current-border: 3px solid transparent;
+@account-nav-current-border-color: #ff5501;
+
 .login.container {
     .block {
         &.new {
@@ -104,8 +111,8 @@
             }
         }
     }
-    .block.account.nav {
-        background: @sidebar-background;
+    .block.account-nav {
+        .css(background, @sidebar-background);
         padding: 15px 0;
         .title {
             padding: 0 18px;
@@ -130,14 +137,16 @@
                     border-left: 3px solid transparent;
                 }
                 a {
+                    .css(color, @account-nav-color);
                     text-decoration: none;
                     &:hover {
-                        background: #e8e8e8;
+                        .css(background, @account-nav-background);
                     }
                 }
                 &.current {
                     strong {
-                        border-color: #ff5501;
+                        .css(color, @account-nav-current-color);
+                        .css(border-color, @account-nav-current-border-color);
                         font-weight: normal;
                     }
                 }

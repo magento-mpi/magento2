@@ -17,15 +17,15 @@ $maxBalance = $this->getMaxBalance();
 $minBalance = $this->getMinBalance();
 $expireIn = $this->getExpireIn();
 ?>
-<div class="block reward info">
+<div class="block reward-info">
     <div class="title">
         <strong><?php echo __('Reward points balance Information'); ?></strong>
         <a class="action more" href="<?php echo $helper->getLandingPageUrl()?>"><?php echo __('Learn more')?></a>
     </div>
     <div class="content">
-        <p><?php echo __('Your balance is %1.', $helper->formatReward($this->getPointsBalance(), $this->getCurrencyBalance()))?></p>
+        <p class="reward-balance"><?php echo __('Your balance is %1.', $helper->formatReward($this->getPointsBalance(), $this->getCurrencyBalance()))?></p>
 
-        <p class="reward rates">
+        <p class="reward-rates">
             <?php echo __('Current exchange rates:')?>
         <?php if ($this->getPtsToAmountRateAmount() || $this->getAmountToPtsRatePts()): ?>
             <?php if ($this->getPtsToAmountRateAmount()): ?>

@@ -105,22 +105,25 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .blocks-2columns {
-        width: 48.8%;
-        &:nth-child(odd) {
+        width: 48%;
+        &:nth-child(1) {
             float: left;
             clear: left;
         }
-        &:nth-child(even) {
+        &:nth-child(2) {
             float: right;
+            & + * {
+                clear: both;
+            }
         }
     }
     .blocks-2columns-reverse {
         width: 48.8%;
-        &:nth-child(odd) {
+        &:nth-child(1) {
             float: right;
             clear: right;
         }
-        &:nth-child(even) {
+        &:nth-child(2) {
             float: left;
         }
     }
@@ -162,6 +165,12 @@
 //--------------------------------------
 .margin-for-blocks-and-widgets {
     margin-bottom: @indent-xl-base;
+}
+
+.responsive(@break) when (@break = @break-point-1) {
+    .abstract-margin-for-blocks-and-widgets-desktop {
+        margin-bottom: @indent-xl-base + @indent-s-base;
+    }
 }
 
 //
@@ -305,6 +314,17 @@
 //--------------------------------------
 .visually-hidden {
     .visually-hidden();
+}
+
+.responsive-smaller(@break-point-0) {
+    .visually-hidden-mobile {
+        .visually-hidden();
+    } 
+}
+.responsive(@break) when (@break = @break-point-1) {
+    .visually-hidden-desktop {
+        .visually-hidden();
+    } 
 }
 
 //
@@ -535,4 +555,19 @@
 
 .abstract-cart-block-content {
     margin: 0;
+}
+
+//
+//    Account title
+//--------------------------------------
+.abstract-account-title {
+    > strong,
+    > span {
+        //.heading(h3);
+        font-size: 22px;
+        .css(font-weight, @font-weight-light);
+    }
+    .css(margin-bottom, @indent-m-base);
+    .css(padding-bottom, @indent-s-base);
+    border-bottom: 1px solid @account-title-border-color;
 }
