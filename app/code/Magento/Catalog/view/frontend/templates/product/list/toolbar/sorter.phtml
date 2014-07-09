@@ -23,7 +23,7 @@ use \Magento\Catalog\Model\Product\ProductList\Toolbar;
                     selected="selected"
                 <?php endif; ?>
                 >
-                <?php echo __($_order) ?>
+                <?php echo $this->escapeHtml(__($_order)) ?>
             </option>
         <?php endforeach; ?>
     </select>
