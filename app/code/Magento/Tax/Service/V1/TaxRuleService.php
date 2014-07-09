@@ -140,9 +140,9 @@ class TaxRuleService implements TaxRuleServiceInterface
         $this->taxRuleSearchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
-            foreach ($sortOrders as $field => $direction) {
-                $field = $this->translateField($field);
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            foreach ($sortOrders as $sortField => $direction) {
+                $sortField = $this->translateField($sortField);
+                $collection->addOrder($sortField, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
