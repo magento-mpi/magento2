@@ -49,9 +49,8 @@ class PayflowlinkTest extends \PHPUnit_Framework_TestCase
         $this->infoInstance = $this->getMock('Magento\Sales\Model\Order\Payment', [], [], '', false);
 
         $client = $this->getMock(
-            'Magento\Framework\HTTP\ZendClientFactory',
+            'Magento\Framework\HTTP\ZendClient',
             [
-                'create',
                 'setUri',
                 'setConfig',
                 'setMethod',
@@ -74,6 +73,8 @@ class PayflowlinkTest extends \PHPUnit_Framework_TestCase
         $client->expects($this->any())->method('setUrlEncodeBody')->will($this->returnSelf());
         $client->expects($this->any())->method('request')->will($this->returnSelf());
         $client->expects($this->any())->method('getBody')->will($this->returnValue('RESULT name=value&name2=value2'));
+        $clientFactory = $this->getMock('Magento\Framework\HTTP\ZendClientFactory', ['create'], [], '', false);
+        $clientFactory->expects($this->any())->method('create')->will($this->returnValue($client));
 
         $helper = new ObjectManagerHelper($this);
         $this->model = $helper->getObject(
@@ -82,7 +83,7 @@ class PayflowlinkTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $storeManager,
                 'configFactory' => $configFactory,
                 'requestFactory' => $requestFactory,
-                'httpClientFactory' => $client
+                'httpClientFactory' => $clientFactory
             ]
         );
         $this->model->setInfoInstance($this->infoInstance);

@@ -38,9 +38,8 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
             false
         );
         $client = $this->getMock(
-            'Magento\Framework\HTTP\ZendClientFactory',
+            'Magento\Framework\HTTP\ZendClient',
             [
-                'create',
                 'setUri',
                 'setConfig',
                 'setMethod',
@@ -63,12 +62,15 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
         $client->expects($this->any())->method('setUrlEncodeBody')->will($this->returnSelf());
         $client->expects($this->any())->method('request')->will($this->returnSelf());
         $client->expects($this->any())->method('getBody')->will($this->returnValue('RESULT name=value&name2=value2'));
+        $clientFactory = $this->getMock('Magento\Framework\HTTP\ZendClientFactory', ['create'], [], '', false);
+        $clientFactory->expects($this->any())->method('create')->will($this->returnValue($client));
+
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $this->_helper->getObject(
             'Magento\Paypal\Model\Payflowpro',
             [
                 'configFactory' => $this->_configFactory,
-                'httpClientFactory' => $client
+                'httpClientFactory' => $clientFactory
             ]
         );
     }
