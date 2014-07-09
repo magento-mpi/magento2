@@ -582,7 +582,8 @@ class Rate extends \Magento\Backend\App\Action
      * @param string $fieldName the key
      * @return null|string
      */
-    protected function extractFormData($formData, $fieldName) {
+    protected function extractFormData($formData, $fieldName)
+    {
         if (isset($formData[$fieldName])) {
             return $formData[$fieldName];
         }
