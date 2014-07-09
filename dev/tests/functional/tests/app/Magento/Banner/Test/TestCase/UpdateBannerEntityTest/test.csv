@@ -1,0 +1,2 @@
+"bannerOrigin/dataSet";"banner/data/name";"banner/data/is_enabled";"banner/data/use_customer_segment";"banner/data/store_contents_not_use/value_0";"banner/data/store_contents/value_0";"constraint"
+"default";"banner_update_%isolation%";"No";"All";"No";"banner_content_updated_%isolation%";"assertBannerSuccessSaveMessage, assertBannerInGrid"

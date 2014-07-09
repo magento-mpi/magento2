@@ -17,7 +17,7 @@
         </testsuite>
     </testsuites>
 
-     <!-- Code coverage filters -->
+    <!-- Code coverage filters -->
     <filter>
         <whitelist>
             <!-- All CE modules -->

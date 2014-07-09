@@ -83,8 +83,8 @@ class Collection extends \Magento\Framework\Data\Collection
                     $item->setProductId($productId);
                     $this->_productModel->load($productId);
                     $status = $this->stockStatus->getProductStockStatus($productId, $this->getWebsiteId());
-                    if (!empty($status[$productId])) {
-                        $this->_productModel->setIsSalable($status[$productId]);
+                    if ($status !== null) {
+                        $this->_productModel->setIsSalable($status);
                     }
                     $item->setPrice($this->_coreHelper->formatPrice($this->_productModel->getPrice()));
                 }

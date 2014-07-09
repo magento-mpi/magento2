@@ -11,7 +11,6 @@ use Magento\Invitation\Model\Invitation;
 
 /**
  * Invitation data helper
- *
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -40,13 +39,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Invitation\Model\Source\Invitation\Status
      */
     protected $_invitationStatus;
-
-    /**
-     * Url builder
-     *
-     * @var \Magento\Framework\UrlInterface
-     */
-    protected $_urlBuilder;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context

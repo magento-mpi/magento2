@@ -11,31 +11,36 @@ namespace Magento\Catalog\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogVirtualProduct
- * Virtual product for precondition
+ * Class CatalogProductVirtual
+ * Data for creation Catalog Product Virtual
  */
 class CatalogProductVirtual extends AbstractRepository
 {
     /**
-     * @constructor
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * Constructor
+     *
+     * @param array $defaultConfig [optional]
+     * @param array $defaultData [optional]
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'sku' => 'virtual_product%isolation%',
-            'name' => 'virtual_product%isolation%',
-            'type_id' => 'virtual',
-            'attribute_set_id' => '4',
-            'price' => ['value' => 100, 'preset' => '-'],
+            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
+            'status' => 'Product online',
+            'website_ids' => ['Main Website'],
+            'is_virtual' => 'Yes',
+            'url_key' => 'virtual-product%isolation%',
+            'visibility' => 'Catalog, Search',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'name' => 'Virtual product %isolation%',
+            'sku' => 'sku_virtual_product_%isolation%',
             'quantity_and_stock_status' => [
-                'qty' => '1111',
+                'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
+            'price' => ['value' => 10.00, 'preset' => '-']
         ];
 
         $this->_data['50_dollar_product'] = [

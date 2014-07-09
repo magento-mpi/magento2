@@ -40,18 +40,14 @@ class Associated implements FixtureInterface
     protected $currentPreset;
 
     /**
-     * @constructor
+     * Constructor
+     *
      * @param FixtureFactory $fixtureFactory
      * @param array $data
-     * @param array $params
-     * @param bool $persist
+     * @param array $params [optional]
      */
-    public function __construct(
-        FixtureFactory $fixtureFactory,
-        array $data,
-        array $params = [],
-        $persist = false
-    ) {
+    public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
+    {
         $this->params = $params;
 
         if ($data['preset']) {
@@ -82,25 +78,22 @@ class Associated implements FixtureInterface
     }
 
     /**
-     * Persist grouped selections products
+     * Persists prepared data into application
      *
      * @return void
      */
     public function persist()
     {
-        if (isset($this->data['products'])) {
-            foreach ($this->data['products'] as $product) {
-                /** @var FixtureInterface $product */
-                $product->persist();
-            }
-        }
+        //
     }
 
     /**
      * Return prepared data set
      *
-     * @param string $key [optional]
-     * @return array
+     * @param string|null $key [optional]
+     * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {
@@ -110,7 +103,7 @@ class Associated implements FixtureInterface
     /**
      * Return data set configuration settings
      *
-     * @return array
+     * @return string
      */
     public function getDataConfig()
     {
@@ -121,7 +114,7 @@ class Associated implements FixtureInterface
      * Preset array
      *
      * @param string $name
-     * @return array|null
+     * @return mixed|null
      */
     protected function getPreset($name)
     {
@@ -162,8 +155,8 @@ class Associated implements FixtureInterface
                     ],
                 ],
                 'products' => [
-                    'catalogProductSimple::default',
-                    'catalogProductSimple::default'
+                    'catalogProductVirtual::default',
+                    'catalogProductVirtual::default'
                 ],
             ]
         ];

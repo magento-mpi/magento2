@@ -9,14 +9,13 @@
 
 namespace Magento\Core\Test\Handler\Direct;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Direct;
-use Mtf\Factory\Factory;
+use Mtf\Fixture\FixtureInterface;
+use Magento\Framework\App\ObjectManagerFactory;
 
 /**
  * Class ApplyConfig
  * Apply system configuration to application under test
- *
  */
 class ApplyConfig extends Direct
 {
@@ -28,7 +27,7 @@ class ApplyConfig extends Direct
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $factory = new \Magento\Framework\App\ObjectManagerFactory();
+        $factory = new ObjectManagerFactory();
         $objectManager = $factory->create(BP, $_SERVER);
 
         $objectManager->get('Magento\Framework\Config\Scope')->setCurrentScope('adminhtml');
@@ -36,22 +35,22 @@ class ApplyConfig extends Direct
         $objectManager->configure(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('adminhtml')
         );
-
+        // @codingStandardsIgnoreStart
         $objectManager->configure(
-            array(
-                'preferences' => array(
+            [
+                'preferences' => [
                     'Magento\Framework\Authorization\Policy' => 'Magento\Framework\Authorization\Policy\DefaultPolicy',
-                    'Magento\Framework\Authorization\RoleLocator' =>
-                        'Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator'
-                ))
+                    'Magento\Framework\Authorization\RoleLocator' => 'Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator'
+                ]
+            ]
         );
-
+        // @codingStandardsIgnoreEnd
         $configFactory = $objectManager->get('Magento\Backend\Model\Config\Factory');
 
         $sections = $fixture->getData()['sections'];
         foreach ($sections as $section) {
             /** @var \Magento\Backend\Model\Config $configModel */
-            $configModel = $configFactory->create(array('data' => $section));
+            $configModel = $configFactory->create(['data' => $section]);
             $configModel->save();
         }
     }

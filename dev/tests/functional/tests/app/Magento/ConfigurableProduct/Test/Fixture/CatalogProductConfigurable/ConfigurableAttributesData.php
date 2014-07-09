@@ -23,7 +23,10 @@ class ConfigurableAttributesData implements FixtureInterface
      *
      * @var array
      */
-    protected $data;
+    protected $data = [
+        'products' => [],
+        'attributes' => []
+    ];
 
     /**
      * Data set configuration settings
@@ -40,50 +43,43 @@ class ConfigurableAttributesData implements FixtureInterface
     protected $currentPreset;
 
     /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * Source constructor
      *
      * @param FixtureFactory $fixtureFactory
      * @param array $data
      * @param array $params [optional]
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function __construct(FixtureFactory $fixtureFactory, $data, array $params = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
     {
+        $this->fixtureFactory = $fixtureFactory;
         $this->params = $params;
+        $data['products'] = empty($data['products']) ? [] : $data['products'];
+        $data['attributes'] = empty($data['attributes']) ? [] : $data['attributes'];
 
         if (isset($data['preset']) && $data['preset'] !== '-') {
             $this->currentPreset = $data['preset'];
             $this->data = $this->getPreset($this->currentPreset);
+            unset($data['preset']);
         }
 
-        if (!empty($this->data['products'])) {
-            foreach ($this->data['products'] as $key => $product) {
-                list($fixture, $dataSet) = explode('::', $product);
-                /** @var $productFixture InjectableFixture */
-                $productFixture = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-                if (!$productFixture->hasData('id')) {
-                    $productFixture->persist();
-                }
-                $this->data['products'][$key] = $productFixture;;
-            }
+        foreach ($data['products'] as $key => $product) {
+            $this->data['products'][$key] = $product;
+        }
+        foreach ($data['attributes'] as $key => $attribute) {
+            $this->data['attributes'][$key] = $attribute;
         }
 
-        if (!empty($this->data['attributes'])) {
-            foreach ($this->data['attributes'] as $key => $attribute) {
-                list($fixture, $dataSet) = explode('::', $attribute);
-                /** @var $attributeFixture InjectableFixture */
-                $attributeFixture = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-                if (!$attributeFixture->hasData('id')) {
-                    $attributeFixture->persist();
-                }
-                $this->data['attributes'][$key] = $attributeFixture;
-            }
-            // Set options used.
-            $this->setOptions();
-            // Initialization data matrix
-            $this->matrixInit();
-            // Assigning products
-            $this->assigningProducts();
-        }
+        $this->prepareProducts();
+        $this->prepareAttributes();
     }
 
     /**
@@ -97,21 +93,83 @@ class ConfigurableAttributesData implements FixtureInterface
     }
 
     /**
+     * Preparation of products fixture
+     *
+     * @return void
+     */
+    protected function prepareProducts()
+    {
+        if (!empty($this->data['products'])) {
+            foreach ($this->data['products'] as $key => $product) {
+                if (is_string($product)) {
+                    list($fixture, $dataSet) = explode('::', $product);
+                    /** @var $product InjectableFixture */
+                    $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                    if (!$product->hasData('id')) {
+                        $product->persist();
+                    }
+                }
+                $this->data['products'][$key] = $product;
+            }
+        }
+    }
+
+    /**
+     * Preparation of attributes fixture
+     *
+     * @return void
+     */
+    protected function prepareAttributes()
+    {
+        if (!empty($this->data['attributes'])) {
+            foreach ($this->data['attributes'] as $key => $attribute) {
+                if (is_string($attribute)) {
+                    list($fixture, $dataSet) = explode('::', $attribute);
+                    /** @var $attribute InjectableFixture */
+                    $attribute = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                    if (!$attribute->hasData('id')) {
+                        $attribute->persist();
+                    }
+                }
+                $this->data['attributes'][$key] = $attribute;
+            }
+            // Set options used.
+            $this->setOptions();
+            // Initialization data matrix
+            $this->matrixInit();
+            // Assigning products
+            $this->assigningProducts();
+        }
+    }
+
+    /**
      * Set options used
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function setOptions()
     {
         $fixtures = $this->data['attributes'];
         foreach (array_keys($this->data['attributes_data']) as $key) {
             $fixtureData = $fixtures[$key]->getData();
-            $this->data['attributes_data'][$key]['id'] = $fixtureData['attribute_id'];
+            $this->data['attributes_data'][$key]['id'] = isset($fixtureData['attribute_id'])
+                ? $fixtureData['attribute_id']
+                : $key;
             $this->data['attributes_data'][$key]['title'] = $fixtureData['frontend_label'];
             $this->data['attributes_data'][$key]['code'] = $fixtureData['frontend_label'];
             foreach ($this->data['attributes_data'][$key]['options'] as $optionKey => &$value) {
-                $value['id'] = $fixtureData['options'][$optionKey + 1]['id'];
-                $value['name'] = $fixtureData['options'][$optionKey + 1]['view'];
+                if (!isset($fixtureData['options'][$optionKey])) {
+                    unset($this->data['attributes_data'][$key]['options'][$optionKey]);
+                    continue;
+                }
+                $value['id'] = isset($fixtureData['options'][$optionKey]['id'])
+                    ? $fixtureData['options'][$optionKey]['id']
+                    : $optionKey;
+                $value['name'] = empty($fixtureData['options'][$optionKey]['view'])
+                    ? $fixtureData['options'][$optionKey]['admin']
+                    : $fixtureData['options'][$optionKey]['view'];
             }
             unset($value);
         }
@@ -212,7 +270,7 @@ class ConfigurableAttributesData implements FixtureInterface
         // Generation variants
         $variations = $this->generationVariants();
 
-        foreach ($this->data['matrix'] as $key => $data) {
+        foreach (array_keys($this->data['matrix']) as $key) {
             if (isset($variations[$key])) {
                 foreach ($this->data['matrix'][$key] as $innerKey => &$value) {
                     if ($innerKey === 'configurable_attribute') {
@@ -277,6 +335,8 @@ class ConfigurableAttributesData implements FixtureInterface
      *
      * @param string $name
      * @return mixed|null
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function getPreset($name)
     {
@@ -444,6 +504,42 @@ class ConfigurableAttributesData implements FixtureInterface
                         'associated_product_ids' => [],
                         'name' => 'In configurable %isolation% %attribute_0-option_2_name% %attribute_1-option_2_name%',
                         'sku' => 'sku_configurable_%isolation%_%attribute_0-option_2_id%_%attribute_1-option_2_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ]
+                ]
+            ],
+            'one_variations' => [
+                'attributes_data' => [
+                    [
+                        'id' => '%id%',
+                        'title' => '%title%',
+                        'label' => 'Test variation1 label',
+                        'options' => [
+                            [
+                                'id' => '%id%',
+                                'name' => '%name%',
+                                'pricing_value' => 12.00,
+                                'include' => 'Yes',
+                                'is_percent' => 'No'
+                            ]
+                        ]
+                    ]
+                ],
+                'products' => [
+
+                ],
+                'attributes' => [
+                    'catalogProductAttribute::attribute_type_dropdown'
+                ],
+                'matrix' => [
+                    '%attribute_0-option_0%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_0%',
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_0_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_0_id%',
                         'qty' => 10,
                         'weight' => 1
                     ]

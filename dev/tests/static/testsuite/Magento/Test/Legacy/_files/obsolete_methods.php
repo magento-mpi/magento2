@@ -43,6 +43,7 @@ return array(
         'Magento\Store\Model\StorageFactory::_checkRequestStore'),
     array('_checkUrlSettings', 'Magento\Backend\Controller\Adminhtml\Action'),
     array('_collectOrigData', 'Magento\Catalog\Model\Resource\AbstractResource'),
+    array('_decodeFilter', 'Magento\Backend\Block\Widget\Grid'),
     array('_decodeInput', 'Magento\Catalog\Controller\Adminhtml\Product'),
     array('_emailOrderConfirmation', 'Magento\Checkout\Model\Type\AbstractType'),
     array('_escapeValue', 'Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter'),
@@ -314,6 +315,7 @@ return array(
     array('createEntityTables', 'Magento\Eav\Model\Entity\Setup'),
     array('createOrderItem', 'Magento\CatalogInventory\Model\Observer'),
     array('debugRequest', 'Magento\Paypal\Model\Api\Standard'),
+    array('decodeFilter', 'Magento\Backend\Helper\Data'),
     array('decorateArray', 'Magento\Core\Helper\Data', 'Magento\Framework\Stdlib\ArrayUtils::decorateArray'),
     array('deleteAction', 'Magento\Catalog\Controller\Adminhtml\Product'),
     array('deleteConfig', 'Magento\Core\Model\Config'),
@@ -1726,6 +1728,36 @@ return array(
         'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
     ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
+    [
+        '_unserializeValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::unserializeValue'
+    ],
+    [
+        '_isEncodedArrayFieldValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::isEncodedArrayFieldValue'
+    ],
+    [
+        '_serializeValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::serializeValue'
+    ],
+    [
+        '_fixQty',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::fixQty'
+    ],
+    [
+        '_encodeArrayFieldValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::encodeArrayFieldValue'
+    ],
+    [
+        '_decodeArrayFieldValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::decodeArrayFieldValue'
+    ],
     ['updateOrderAction', 'Magento\Paypal\Controller\Express\AbstractExpress'],
     ['updateOrder', 'Magento\Paypal\Model\Express\Checkout'],
     ['_matchBnCountryCode', 'Magento\Paypal\Model\Config'],
@@ -1738,4 +1770,5 @@ return array(
     ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
     ['prepareValueForDuplicate', 'Magento\Catalog\Model\Product\Option\Value'],
     ['prepareOptionForDuplicate', '\Magento\Catalog\Model\Product\Option'],
+    ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
 );

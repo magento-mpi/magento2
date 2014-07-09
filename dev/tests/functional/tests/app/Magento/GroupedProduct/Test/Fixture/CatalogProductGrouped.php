@@ -8,16 +8,19 @@
 
 namespace Magento\GroupedProduct\Test\Fixture;
 
-use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
 use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductGrouped
- * Fixture for grouped product
+ * Fixture for Grouped product
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class CatalogProductGrouped extends InjectableFixture
 {
@@ -624,7 +627,7 @@ class CatalogProductGrouped extends InjectableFixture
         return $this->getData('sku');
     }
 
-    public function getGroupedData()
+    public function getAssociated()
     {
         return $this->getData('associated');
     }
