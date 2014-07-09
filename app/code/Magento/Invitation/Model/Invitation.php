@@ -36,14 +36,6 @@ namespace Magento\Invitation\Model;
  */
 class Invitation extends \Magento\Framework\Model\AbstractModel
 {
-    const STATUS_NEW = 'new';
-
-    const STATUS_SENT = 'sent';
-
-    const STATUS_ACCEPTED = 'accepted';
-
-    const STATUS_CANCELED = 'canceled';
-
     const XML_PATH_EMAIL_IDENTITY = 'magento_invitation/email/identity';
 
     const XML_PATH_EMAIL_TEMPLATE = 'magento_invitation/email/template';
@@ -125,6 +117,11 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
+     * @var Invitation\Status
+     */
+    protected $status;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Invitation\Helper\Data $invitationData
@@ -137,6 +134,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param Invitation\Status $status
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -153,6 +151,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        Invitation\Status $status,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -166,6 +165,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
         $this->_scopeConfig = $scopeConfig;
+        $this->status = $status;
     }
 
     /**
@@ -225,7 +225,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
             $this->addData(
                 array(
                     'protection_code' => $this->mathRandom->getUniqueHash(),
-                    'status' => self::STATUS_NEW,
+                    'status' => Invitation\Status::STATUS_NEW,
                     'invitation_date' => $this->dateTime->formatDate(time()),
                     'store_id' => $this->getStoreId()
                 )
@@ -249,7 +249,10 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
             }
 
             if (!(int)$this->getStoreId()) {
-                throw new \Magento\Framework\Model\Exception(__('The wrong store is specified.'), self::ERROR_INVALID_DATA);
+                throw new \Magento\Framework\Model\Exception(
+                    __('The wrong store is specified.'),
+                    self::ERROR_INVALID_DATA
+                );
             }
             $this->makeSureCustomerNotExists();
         } else {
@@ -269,7 +272,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
     {
         $this->_historyFactory->create()->setInvitationId($this->getId())->setStatus($this->getStatus())->save();
         $parent = parent::_afterSave();
-        if ($this->getStatus() === self::STATUS_NEW) {
+        if ($this->getStatus() === Invitation\Status::STATUS_NEW) {
             $this->setOrigData();
         }
         return $parent;
@@ -319,7 +322,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         } catch (\Magento\Framework\Mail\Exception $e) {
             return false;
         }
-        $this->setStatus(self::STATUS_SENT)->setUpdateDate(true)->save();
+        $this->setStatus(Invitation\Status::STATUS_SENT)->setUpdateDate(true)->save();
         return true;
     }
 
@@ -365,7 +368,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
                 self::ERROR_INVALID_DATA
             );
         }
-        if ($this->getStatus() !== self::STATUS_NEW) {
+        if (!in_array($this->getStatus(), $this->status->getCanBeSentStatuses())) {
             throw new \Magento\Framework\Model\Exception(
                 __('We cannot send an invitation with status "%1".', $this->getStatus()),
                 self::ERROR_STATUS
@@ -394,7 +397,10 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
             $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
         }
         if (!$websiteId) {
-            throw new \Magento\Framework\Model\Exception(__("We can't identify the proper website."), self::ERROR_INVALID_DATA);
+            throw new \Magento\Framework\Model\Exception(
+                __("We can't identify the proper website."),
+                self::ERROR_INVALID_DATA
+            );
         }
         if (null === $email) {
             $email = $this->getEmail();
@@ -430,7 +436,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         if (!$this->getId()) {
             throw new \Magento\Framework\Model\Exception($messageInvalid, self::ERROR_STATUS);
         }
-        if (!in_array($this->getStatus(), array(self::STATUS_NEW, self::STATUS_SENT))) {
+        if (!in_array($this->getStatus(), $this->status->getCanBeAcceptedStatuses())) {
             throw new \Magento\Framework\Model\Exception($messageInvalid, self::ERROR_STATUS);
         }
         if (null === $websiteId) {
@@ -448,7 +454,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
      */
     public function canMessageBeUpdated()
     {
-        return (bool)(int)$this->getId() && $this->getStatus() === self::STATUS_NEW;
+        return (bool)(int)$this->getId() && $this->getStatus() === Invitation\Status::STATUS_NEW;
     }
 
     /**
@@ -458,10 +464,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
      */
     public function canBeCanceled()
     {
-        return (bool)(int)$this->getId() && !in_array(
-            $this->getStatus(),
-            array(self::STATUS_CANCELED, self::STATUS_ACCEPTED)
-        );
+        return (bool)(int)$this->getId() && in_array($this->getStatus(), $this->status->getCanBeCancelledStatuses());
     }
 
     /**
@@ -491,7 +494,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
     public function cancel()
     {
         if ($this->canBeCanceled()) {
-            $this->setStatus(self::STATUS_CANCELED)->save();
+            $this->setStatus(Invitation\Status::STATUS_CANCELED)->save();
         }
         return $this;
     }
@@ -509,7 +512,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         $this->setReferralId(
             $referralId
         )->setStatus(
-            self::STATUS_ACCEPTED
+            Invitation\Status::STATUS_ACCEPTED
         )->setSignupDate(
             $this->dateTime->formatDate(time())
         )->save();
