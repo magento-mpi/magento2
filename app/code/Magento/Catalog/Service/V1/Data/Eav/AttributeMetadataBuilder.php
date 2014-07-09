@@ -213,7 +213,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     /**
      * Set default value for the element
      *
-     * @param  mixed $value
+     * @param  string $value
      * @return $this
      */
     public function setDefaultValue($value)

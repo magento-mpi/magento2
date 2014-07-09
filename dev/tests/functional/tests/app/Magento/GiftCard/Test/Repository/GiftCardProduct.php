@@ -21,6 +21,8 @@ class GiftCardProduct extends AbstractRepository
      *
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -39,7 +41,7 @@ class GiftCardProduct extends AbstractRepository
                 ]
             ],
             'quantity_and_stock_status' => [
-                'qty' => 666.0000,
+                'qty' => 123.0000,
                 'is_in_stock' => 'In Stock',
             ],
             'status' => 'Product online',

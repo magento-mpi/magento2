@@ -85,8 +85,8 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>textarea</input>
+            <group>product-details</group>
         </description>
-        <group>product-details</group>
         <email_template>
             <attribute_code>email_template</attribute_code>
             <backend_type>varchar</backend_type>

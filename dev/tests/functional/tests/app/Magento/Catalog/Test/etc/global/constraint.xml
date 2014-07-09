@@ -118,7 +118,7 @@
         <severeness>low</severeness>
     </assertAddToCartButtonPresent>
     <assertProductIsNotDisplayingOnFrontend module="Magento_Catalog">
-        <severeness>low</severeness>
+        <severeness>high</severeness>
         <require>
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
@@ -333,6 +333,12 @@
             <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew"/>
         </require>
     </assertAbsenceDeleteAttributeButton>
+    <assertProductSuccessDeleteMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductSuccessDeleteMessage>
+    <assertProductNotInGrid module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductNotInGrid>
     <assertProductDuplicateMessage module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
