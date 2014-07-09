@@ -52,6 +52,15 @@ class BlockPoolTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($block, $this->blockPool->get($blockName));
         $this->assertNull($this->blockPool->get('someWrongName'));
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid Block class name: NotExistingBlockClass
+     */
+    public function testAddWithException()
+    {
+        $this->blockPool->add('testBlock', 'NotExistingBlockClass');
+    }
 }
 
 /**
