@@ -18,13 +18,6 @@ namespace Magento\TargetRule\Model\Indexer\Product\Rule;
 abstract class AbstractAction
 {
     /**
-     * Logger instance
-     *
-     * @var  \Magento\Framework\Logger
-     */
-    protected $_logger;
-
-    /**
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
@@ -42,21 +35,15 @@ abstract class AbstractAction
     protected $_resource;
 
     /**
-     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Resource\Index $resource
      */
     public function __construct(
-        \Magento\Framework\Logger $logger,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
         \Magento\TargetRule\Model\Resource\Index $resource
     ) {
-        /**
-         * @TODO delete logger after finishing indexer implementation
-         */
-        $this->_logger = $logger;
         $this->_productFactory = $productFactory;
         $this->_ruleCollectionFactory = $ruleFactory;
         $this->_resource = $resource;
@@ -65,11 +52,11 @@ abstract class AbstractAction
     /**
      * Execute action for given ids
      *
-     * @param array|int $ids
+     * @param array|int $productIds
      *
      * @return void
      */
-    abstract public function execute($ids);
+    abstract public function execute($productIds);
 
     /**
      * Refresh entities index
@@ -79,10 +66,6 @@ abstract class AbstractAction
      */
     protected function _reindexRows($productIds = array())
     {
-        /**
-         * @TODO delete logger after finishing indexer implementation
-         */
-        $this->_logger->log('Rows reindex for products - ' . implode(",", $productIds) . '');
         foreach ($productIds as $productId) {
             $this->_reindex($productId);
         }
@@ -95,16 +78,12 @@ abstract class AbstractAction
      */
     public function reindexAll()
     {
-        /**
-         * @TODO delete logger after finishing indexer implementation
-         */
-        $this->_logger->log('Full reindex');
-
         $indexResource = $this->_resource;
 
         // remove old cache index data
         $this->_cleanIndex();
         $indexResource->removeProductIndex(array());
+
         $ruleCollection = $this->_ruleCollectionFactory->create();
 
         foreach ($ruleCollection as $rule) {

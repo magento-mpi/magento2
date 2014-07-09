@@ -20,12 +20,12 @@ class Full extends \Magento\TargetRule\Model\Indexer\Product\Rule\AbstractAction
     /**
      * Execute Full reindex
      *
-     * @param null|array $ids
+     * @param null|array $productIds
      * @throws \Magento\TargetRule\Exception
      *
      * @return void
      */
-    public function execute($ids = null)
+    public function execute($productIds = null)
     {
         try {
             $this->reindexAll();

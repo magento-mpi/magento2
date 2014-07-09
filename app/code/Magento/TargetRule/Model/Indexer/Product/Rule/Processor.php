@@ -10,7 +10,7 @@
 
 namespace Magento\TargetRule\Model\Indexer\Product\Rule;
 
-class Processor extends \Magento\Indexer\Model\Indexer\AbstractProcessor
+class Processor
 {
     /**
      * Indexer ID

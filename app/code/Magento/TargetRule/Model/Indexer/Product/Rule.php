@@ -45,13 +45,13 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
     /**
      * Execute materialization on ids entities
      *
-     * @param int[] $ids
+     * @param int[] $productIds
      *
      * @return void
      */
-    public function execute($ids)
+    public function execute($productIds)
     {
-        $this->_productRuleIndexerRows->execute($ids);
+        $this->_productRuleIndexerRows->execute($productIds);
     }
 
     /**
@@ -67,24 +67,24 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
     /**
      * Execute partial indexation by ID list
      *
-     * @param int[] $ids
+     * @param int[] $productIds
      *
      * @return void
      */
-    public function executeList($ids)
+    public function executeList($productIds)
     {
-        $this->_productRuleIndexerRows->execute($ids);
+        $this->_productRuleIndexerRows->execute($productIds);
     }
 
     /**
      * Execute partial indexation by ID
      *
-     * @param int $id
+     * @param int $productId
      *
      * @return void
      */
-    public function executeRow($id)
+    public function executeRow($productId)
     {
-        $this->_productRuleIndexerRow->execute($id);
+        $this->_productRuleIndexerRow->execute($productId);
     }
 }

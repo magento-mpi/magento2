@@ -20,18 +20,18 @@ class Rows extends \Magento\TargetRule\Model\Indexer\Product\Rule\AbstractAction
     /**
      * Execute Rows reindex
      *
-     * @param array $ids
+     * @param array $productIds
      * @throws \Magento\TargetRule\Exception
      *
      * @return void
      */
-    public function execute($ids)
+    public function execute($productIds)
     {
-        if (empty($ids)) {
+        if (empty($productIds)) {
             throw new \Magento\TargetRule\Exception(__('Could not rebuild index for empty products array'));
         }
         try {
-            $this->_reindexRows($ids);
+            $this->_reindexRows($productIds);
         } catch (\Exception $e) {
             throw new \Magento\TargetRule\Exception($e->getMessage(), $e->getCode(), $e);
         }
