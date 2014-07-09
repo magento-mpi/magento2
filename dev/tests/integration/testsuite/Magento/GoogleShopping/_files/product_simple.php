@@ -13,33 +13,33 @@ $product->isObjectNew(true);
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(20)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(1))
+    ->setWebsiteIds([1])
     ->setName('Simple Product')
     ->setSku('simple')
     ->setPrice(10)
     ->setWeight(1)
     ->setShortDescription("Short description")
     ->setTierPrice(
-        array(
-            array(
+        [
+            [
                 'website_id' => 0,
                 'cust_group' => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL,
                 'price_qty'  => 2,
                 'price'      => 8,
-            ),
-            array(
+            ],
+            [
                 'website_id' => 0,
                 'cust_group' => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL,
                 'price_qty'  => 5,
                 'price'      => 5,
-            ),
-            array(
+            ],
+            [
                 'website_id' => 0,
                 'cust_group' => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
                 'price_qty'  => 3,
                 'price'      => 5,
-            ),
-        )
+            ],
+        ]
     )
     ->setDescription('Description with <b>html tag</b>')
     ->setMetaTitle('meta title')
@@ -47,19 +47,19 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setMetaDescription('meta description')
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-    ->setCategoryIds(array(2))
+    ->setCategoryIds([2])
     ->setStockData(
-        array(
+        [
             'use_config_manage_stock'   => 1,
             'qty'                       => 100,
             'is_qty_decimal'            => 0,
             'is_in_stock'               => 1,
-        )
+        ]
     )
     ->setCanSaveCustomOptions(true)
     ->setProductOptions(
-        array(
-            array(
+        [
+            [
                 'id'        => 1,
                 'option_id' => 0,
                 'previous_group' => 'text',
@@ -71,8 +71,8 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
                 'price_type'=> 'fixed',
                 'sku'       => '1-text',
                 'max_characters' => 100
-            ),
-            array(
+            ],
+            [
                 'id'        => 2,
                 'option_id' => 0,
                 'previous_group' => 'date',
@@ -83,8 +83,8 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
                 'price'     => 2,
                 'price_type'=> 'fixed',
                 'sku'       => '2-date',
-            ),
-            array(
+            ],
+            [
                 'id'        => 3,
                 'option_id' => 0,
                 'previous_group' => 'select',
@@ -92,24 +92,24 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
                 'type'      => 'drop_down',
                 'is_require'=> 1,
                 'sort_order'=> 0,
-                'values'    => array(
-                    array(
+                'values'    => [
+                    [
                         'option_type_id'=> -1,
                         'title'         => 'Option 1',
                         'price'         => 3,
                         'price_type'    => 'fixed',
                         'sku'           => '3-1-select',
-                    ),
-                    array(
+                    ],
+                    [
                         'option_type_id'=> -1,
                         'title'         => 'Option 2',
                         'price'         => 3,
                         'price_type'    => 'fixed',
                         'sku'           => '3-2-select',
-                    ),
-                )
-            ),
-            array(
+                    ],
+                ]
+            ],
+            [
                 'id'        => 4,
                 'option_id' => 0,
                 'previous_group' => 'select',
@@ -117,24 +117,24 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
                 'type'      => 'radio',
                 'is_require'=> 1,
                 'sort_order'=> 0,
-                'values'    => array(
-                    array(
+                'values'    => [
+                    [
                         'option_type_id'=> -1,
                         'title'         => 'Option 1',
                         'price'         => 3,
                         'price_type'    => 'fixed',
                         'sku'           => '4-1-radio',
-                    ),
-                    array(
+                    ],
+                    [
                         'option_type_id'=> -1,
                         'title'         => 'Option 2',
                         'price'         => 3,
                         'price_type'    => 'fixed',
                         'sku'           => '4-2-radio',
-                    ),
-                )
-            ),
-        )
+                    ],
+                ]
+            ],
+        ]
     )
     ->setHasOptions(true)
     ->save();

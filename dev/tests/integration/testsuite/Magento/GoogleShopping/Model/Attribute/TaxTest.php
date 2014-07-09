@@ -94,7 +94,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
     }
 
-    public function testSimpleProduct()
+    public function testConvertAttributeWithSimpleProduct()
     {
         $this->setUpDefaultRules();
 
@@ -140,7 +140,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->tearDownDefaultRules();
     }
 
-    public function testProductGroup()
+    public function testConvertAttributeWithProductGroup()
     {
         $this->setUpDefaultRules();
 
@@ -186,7 +186,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->tearDownDefaultRules();
     }
 
-    public function testMultipleProducts()
+    public function testConvertAttributeWithMultipleProducts()
     {
         $this->setUpDefaultRules();
 
