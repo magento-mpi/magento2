@@ -72,21 +72,13 @@ class DeleteCmsBlockEntityTest extends Injectable
     {
         // Precondition
         $cmsBlock->persist();
+
+        // Steps
         $filter = [
             'identifier' => $cmsBlock->getIdentifier(),
         ];
-
-        // Steps
         $this->cmsBlockIndex->open();
-
-        /**
-         * TODO: MAGETWO-25640
-         * Search doesn't work for CMS Blocks grid bug
-         */
-        // $this->cmsBlockIndex->getCmsBlockGrid()->searchAndOpen($filter);
-        // $this->cmsBlockNew->getFormPageActions()->delete();
-
-        $this->cmsBlockIndex->getCmsBlockGrid()->sortAndOpen();
+        $this->cmsBlockIndex->getCmsBlockGrid()->searchAndOpen($filter);
         $this->cmsBlockNew->getFormPageActions()->delete();
     }
 }
