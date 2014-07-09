@@ -6,31 +6,31 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Product\Compare\ListCompare;
+namespace Magento\Catalog\Test\Block\Product\Compare;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Interceptor
- * Compare product block
+ * Class ListCompare
+ * Compare list product block
  */
-class Interceptor extends Block
+class ListCompare extends Block
 {
     /**
-     * Selector by product info block
+     * Selector by product info
      *
      * @var string
      */
-    protected $productBlockInfo = '//td[contains(@class, "cell product info")][%d]';
+    protected $productInfo = '//td[contains(@class, "cell product info")][%d]';
 
     /**
-     * Selector by product attribute block
+     * Selector by product attribute
      *
      * @var string
      */
-    protected $productBlockAttribute = '//tr[td[contains(@class,"attribute")]][%d]';
+    protected $productAttribute = '//tr[th//*[normalize-space(text()) = "%s"]]';
 
     /**
      * Selector by name product
@@ -68,7 +68,7 @@ class Interceptor extends Block
      */
     public function getProductName($index)
     {
-        return $this->getCompareProductInfoBlock($index)->find($this->nameSelector, Locator::SELECTOR_XPATH)->getText();
+        return $this->getCompareProductInfo($index)->find($this->nameSelector, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
@@ -80,7 +80,7 @@ class Interceptor extends Block
      */
     public function getProductPrice($index, $currency = '$')
     {
-        $infoBlock = $this->getCompareProductInfoBlock($index);
+        $infoBlock = $this->getCompareProductInfo($index);
         if (!$infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->isVisible()) {
             $this->priceSelector = './/span[@class="price"]';
         }
@@ -95,7 +95,7 @@ class Interceptor extends Block
      */
     public function getProductSku($index)
     {
-        return $this->getAttribute(1, $index);
+        return $this->getAttribute("SKU", $index);
     }
 
     /**
@@ -106,7 +106,7 @@ class Interceptor extends Block
      */
     public function getProductDescription($index)
     {
-        return $this->getAttribute(2, $index);
+        return $this->getAttribute("Description", $index);
     }
 
     /**
@@ -117,42 +117,42 @@ class Interceptor extends Block
      */
     public function getProductShortDescription($index)
     {
-        return $this->getAttribute(3, $index);
+        return $this->getAttribute("Short Description", $index);
     }
 
     /**
-     * Get item compare product info block
+     * Get item compare product info
      *
      * @param int $index
      * @return Element
      */
-    protected function getCompareProductInfoBlock($index)
+    protected function getCompareProductInfo($index)
     {
-        return $this->_rootElement->find(sprintf($this->productBlockInfo, $index), Locator::SELECTOR_XPATH);
+        return $this->_rootElement->find(sprintf($this->productInfo, $index), Locator::SELECTOR_XPATH);
     }
 
     /**
-     * Get item compare product attribute block
+     * Get item compare product attribute
      *
-     * @param int $index
+     * @param string $key
      * @return Element
      */
-    protected function getCompareProductAttributeBlock($index)
+    protected function getCompareProductAttribute($key)
     {
-        return $this->_rootElement->find(sprintf($this->productBlockAttribute, $index), Locator::SELECTOR_XPATH);
+        return $this->_rootElement->find(sprintf($this->productAttribute, $key), Locator::SELECTOR_XPATH);
     }
 
     /**
      * Get item attribute
      *
-     * @param int $indexAttribute
+     * @param string $attributeKey
      * @param int $indexProduct
      * @return string
      */
-    protected function getAttribute($indexAttribute, $indexProduct)
+    protected function getAttribute($attributeKey, $indexProduct)
     {
         return trim(
-            $this->getCompareProductAttributeBlock($indexAttribute)
+            $this->getCompareProductAttribute($attributeKey)
                 ->find(sprintf($this->attributeSelector, $indexProduct), Locator::SELECTOR_XPATH)->getText()
         );
     }
