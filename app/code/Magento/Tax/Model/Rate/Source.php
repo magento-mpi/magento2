@@ -10,6 +10,8 @@ namespace Magento\Tax\Model\Rate;
 
 use Magento\Tax\Service\V1\TaxRateServiceInterface;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Convert\Object as Converter;
+use Magento\Tax\Service\V1\Data\TaxRate;
 
 /**
  * Tax rate source model.
@@ -25,18 +27,24 @@ class Source implements \Magento\Framework\Data\OptionSourceInterface
     /** @var SearchCriteriaBuilder */
     protected $searchCriteriaBuilder;
 
+    /** @var Converter */
+    protected $converter;
+
     /**
      * Initialize dependencies.
      *
      * @param TaxRateServiceInterface $taxRateService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param Converter $converter
      */
     public function __construct(
         TaxRateServiceInterface $taxRateService,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        Converter $converter
     ) {
         $this->taxRateService = $taxRateService;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->converter = $converter;
     }
 
     /**
@@ -49,12 +57,11 @@ class Source implements \Magento\Framework\Data\OptionSourceInterface
         if (!$this->options) {
             $searchCriteria = $this->searchCriteriaBuilder->create();
             $searchResults = $this->taxRateService->searchTaxRates($searchCriteria);
-            foreach ($searchResults->getItems() as $taxRate) {
-                $this->options[] = array(
-                    'value' => $taxRate->getId(),
-                    'label' => $taxRate->getCode()
-                );
-            }
+            $this->options = $this->converter->toOptionArray(
+                $searchResults->getItems(),
+                TaxRate::KEY_ID,
+                TaxRate::KEY_CODE
+            );
         }
         return $this->options;
     }
