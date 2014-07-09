@@ -246,10 +246,10 @@ class Attribute extends Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Framework\Object();
+        $response = $this->_objectManager->create('Magento\Framework\Object');
         $response->setError(false);
         $attributesData = $this->getRequest()->getParam('attributes', array());
-        $data = new \Magento\Framework\Object();
+        $data = $this->_objectManager->create('Magento\Catalog\Model\Product');
 
         try {
             if ($attributesData) {
