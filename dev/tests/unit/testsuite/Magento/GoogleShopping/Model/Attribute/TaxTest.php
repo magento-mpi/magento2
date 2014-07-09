@@ -278,7 +278,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $mockProduct->expects($this->once())
             ->method('getAdjustments')
-            ->will($this->returnValue(['tax']));
+            ->will($this->returnValue(['tax' => 'something']));
         $mockProduct->expects($this->any())
             ->method('getStoreId')
             ->will($this->returnValue($productStoreId));
