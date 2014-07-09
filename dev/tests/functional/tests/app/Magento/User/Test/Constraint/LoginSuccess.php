@@ -10,7 +10,6 @@ namespace Magento\User\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Dashboard;
-use Magento\User\Test\Fixture\AdminUserInjectable;
 
 /**
  * Class LoginSuccess
@@ -27,10 +26,9 @@ class LoginSuccess extends AbstractConstraint
     /**
      * Verify whether customer has logged in to the Backend
      *
-     * @param AdminUserInjectable $fixture
      * @param Dashboard $dashboard
      */
-    public function processAssert(AdminUserInjectable $fixture, Dashboard $dashboard)
+    public function processAssert(Dashboard $dashboard)
     {
         \PHPUnit_Framework_Assert::assertTrue(
             $dashboard->getAdminPanelHeader()->isLoggedIn(),

@@ -122,7 +122,7 @@
             parallel.execute();
         ]]></script>
 
-        <exec executable="phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
+        <exec executable="vendor/phpunit/phpunit/phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
                 --bootstrap config/bootstrap-with-cleanup-enabled.php
                  ${env.bamboo_executer_options}
@@ -241,7 +241,7 @@
 
         ]]></script>
 
-        <exec executable="phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
+        <exec executable="vendor/phpunit/phpunit/phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
                 --bootstrap config/bootstrap-with-cleanup-enabled.php
                  ${env.bamboo_executer_options}
@@ -269,6 +269,8 @@
         <chmod perm="a+w">
             <dirset file="${dir.build_directory}/instance-${instanceIndex}"/>
         </chmod>
+
+        <chmod perm="755" file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/vendor/phpunit/phpunit/phpunit"/>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install.php">
             <replacefilter token="{{db_model}}" value="${env.db_model}"/>

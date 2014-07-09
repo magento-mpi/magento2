@@ -25,14 +25,14 @@ class Collection extends \Magento\Invitation\Model\Resource\Report\Invitation\Co
     {
         $acceptedExpr = 'SUM(' . $this->getConnection()->getCheckSql(
             'main_table.status = ' . $this->getConnection()->quote(
-                \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED
+                \Magento\Invitation\Model\Invitation\Status::STATUS_ACCEPTED
             ) . 'AND main_table.referral_id IS NOT NULL',
             '1',
             '0'
         ) . ')';
         $canceledExpr = 'SUM(' . $this->getConnection()->getCheckSql(
             'main_table.status = ' . $this->getConnection()->quote(
-                \Magento\Invitation\Model\Invitation::STATUS_CANCELED
+                \Magento\Invitation\Model\Invitation\Status::STATUS_CANCELED
             ),
             '1',
             '0'

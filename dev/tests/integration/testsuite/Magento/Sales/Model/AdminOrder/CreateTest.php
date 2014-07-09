@@ -34,7 +34,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Downloadable/_files/product.php
+     * @magentoDataFixture Magento/Downloadable/_files/product_downloadable.php
      * @magentoDataFixture Magento/Downloadable/_files/order_with_downloadable_product.php
      */
     public function testInitFromOrderShippingAddressSameAsBillingWhenEmpty()
@@ -53,7 +53,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Downloadable/_files/product.php
+     * @magentoDataFixture Magento/Downloadable/_files/product_downloadable.php
      * @magentoDataFixture Magento/Downloadable/_files/order_with_downloadable_product.php
      * @magentoDataFixture Magento/Sales/_files/order_shipping_address_same_as_billing.php
      */
@@ -74,7 +74,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Downloadable/_files/product.php
+     * @magentoDataFixture Magento/Downloadable/_files/product_downloadable.php
      * @magentoDataFixture Magento/Downloadable/_files/order_with_downloadable_product.php
      * @magentoDataFixture Magento/Sales/_files/order_shipping_address_different_to_billing.php
      */

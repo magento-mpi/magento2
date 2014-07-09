@@ -94,13 +94,12 @@ class EditSimpleProductTest extends Functional
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $frontendHomePage->open();
         $frontendHomePage->getTopmenu()->selectCategoryByName($categoryName);
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $this->assertTrue($productListBlock->isProductVisible($product->getName()));
     }
 
     /**
@@ -117,7 +116,7 @@ class EditSimpleProductTest extends Functional
         $productPage->open();
 
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($productEdited->getProductName(), $productViewBlock->getProductName());
+        $this->assertEquals($productEdited->getName(), $productViewBlock->getProductName());
         $price = $productViewBlock->getProductPrice();
         $this->assertEquals(number_format($productEdited->getProductPrice(), 2), $price['price_regular_price']);
     }

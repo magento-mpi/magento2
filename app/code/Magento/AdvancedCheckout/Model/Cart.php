@@ -130,13 +130,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $_wishlistFactory;
 
     /**
-     * Catalog inventory stock item factory
-     *
-     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
-     */
-    protected $_stockItemFactory;
-
-    /**
      * Catalog product option factory
      *
      * @var \Magento\Catalog\Model\Product\OptionFactory
@@ -179,7 +172,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $customerSession;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -189,7 +182,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -199,7 +191,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param string $itemFailedStatus
      * @param array $data
      */
@@ -209,7 +201,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\Framework\Event\ManagerInterface $eventManager,
         Data $checkoutData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
-        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -219,7 +210,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         $itemFailedStatus = Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -228,7 +219,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
         $this->_optionFactory = $optionFactory;
-        $this->_stockItemFactory = $stockItemFactory;
         $this->_wishlistFactory = $wishlistFactory;
         $this->_productFactory = $productFactory;
         $this->_quoteFactory = $quoteFactory;
@@ -460,8 +450,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             }
         }
 
-        if ($product->getStockItem()) {
-            if (!$product->getStockItem()->getIsQtyDecimal()) {
+        $stockItemDo = $this->stockItemService->getStockItem($product->getId());
+        if ($stockItemDo->getStockId()) {
+            if (!$stockItemDo->getIsQtyDecimal()) {
                 $qty = (int) $qty;
             } else {
                 $product->setIsQtyDecimal(1);
@@ -581,8 +572,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
                 $itemQty = (float) $info['qty'];
             }
 
-            if ($item && $item->getProduct()->getStockItem()) {
-                if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
+            if ($item) {
+                $stockItemDo = $this->stockItemService->getStockItem($item->getProduct()->getId());
+                if ($stockItemDo->getStockId() && !$stockItemDo->getIsQtyDecimal()) {
                     $itemQty = (int) $itemQty;
                 } else {
                     $item->setIsQtyDecimal(1);
@@ -850,10 +842,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     {
         /** @var $product Product */
         $product = $this->_productFactory->create()->setStore($this->getCurrentStore())->loadByAttribute('sku', $sku);
-        if ($product && $product->getId()) {
-            $this->_stockItemFactory->create()->assignProduct($product);
-        }
-
         return $product;
     }
 
@@ -1195,11 +1183,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             return true;
         }
 
-        /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-        $stockItem = $this->_stockItemFactory->create();
-        $stockItem->loadByProduct($product);
-        $stockItem->setProduct($product);
-        return !$stockItem->getIsInStock();
+        return !$this->stockItemService->getIsInStock($product->getId());
     }
 
     /**

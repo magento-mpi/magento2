@@ -18,7 +18,7 @@
                     <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Items Before" htmlTag="div" htmlClass="rewards"/>
                     <container name="checkout.cart.widget" as="checkout_cart_widget" label="Shopping Cart Items After"/>
                 </block>
-                <block class="Magento\Checkout\Block\Cart\Shipping" name="checkout.cart.shipping" as="shipping" after="checkout.cart.summary.title" template="cart/shipping.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Shipping" name="checkout.cart.shipping" as="shipping" template="cart/shipping.phtml"/>
                 <block class="Magento\Checkout\Block\Cart\Coupon" name="checkout.cart.coupon" as="coupon" after="checkout.cart.shipping" template="cart/coupon.phtml"/>
                 <block class="Magento\Checkout\Block\Cart\Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
                 <block class="Magento\Checkout\Block\Cart" name="checkout.cart.methods.bottom" template="cart/methods.phtml">

@@ -15,10 +15,5 @@
                 <error_email_template>system_magento_scheduled_import_export_log_error_email_template</error_email_template>
             </magento_scheduled_import_export_log>
         </system>
-        <export>
-            <customer_page_size>
-                <finance>10000</finance>
-            </customer_page_size>
-        </export>
     </default>
 </config>

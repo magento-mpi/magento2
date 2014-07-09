@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CatalogCategory
  * Category fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogCategory extends InjectableFixture
 {
@@ -73,6 +75,7 @@ class CatalogCategory extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogCategory\ParentId',
     ];
 
     protected $created_at = [

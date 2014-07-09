@@ -10,7 +10,7 @@
 <?php $_returns = $this->getReturns(); ?>
 <?php echo $this->getChildHtml('info');?>
 <?php if($_returns->getSize()): ?>
-    <div class="toolbar">
+    <div class="order products toolbar">
         <?php echo $this->getPagerHtml(); ?>
     </div>
     <table class="data table returns" id="my-returns-table">
@@ -38,7 +38,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="toolbar">
+    <div class="order products toolbar">
         <?php echo $this->getPagerHtml(); ?>
     </div>
 <?php else: ?>

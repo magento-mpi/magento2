@@ -28,7 +28,7 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_cart;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -43,7 +43,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -59,7 +59,7 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->_cart = $cart;
