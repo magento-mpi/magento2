@@ -64,6 +64,7 @@ class Converter
      *
      * @param TaxRateModel $rateModel
      * @return TaxRateDataObject
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function createTaxRateDataObjectFromModel(TaxRateModel $rateModel)
     {
@@ -76,6 +77,9 @@ class Converter
         }
         if ($rateModel->getTaxRegionId()) {
             $this->taxRateDataObjectBuilder->setRegionId($rateModel->getTaxRegionId());
+        }
+        if ($rateModel->getRegionName()) {
+            $this->taxRateDataObjectBuilder->setRegionName($rateModel->getRegionName());
         }
         if ($rateModel->getTaxPostcode()) {
             $this->taxRateDataObjectBuilder->setPostcode($rateModel->getTaxPostcode());
@@ -93,14 +97,7 @@ class Converter
                 ->create();
             $this->taxRateDataObjectBuilder->setZipRange($zipRange);
         }
-
-        $titlesData = $rateModel->getTitles();
-        $titles = [];
-        foreach ($titlesData as $title) {
-            $titles[] = $this->taxRateTitleDataObjectBuilder->setStoreId($title->getStoreId())->setValue($title->getValue())->create();
-        }
-        $this->taxRateDataObjectBuilder->setTitles($titles);
-
+        $this->taxRateDataObjectBuilder->setTitles($this->createTitleFromModel($rateModel));
         return $this->taxRateDataObjectBuilder->create();
     }
 
@@ -122,6 +119,7 @@ class Converter
         $rateModel->setRate($taxRate->getPercentageRate());
         $rateModel->setCode($taxRate->getCode());
         $rateModel->setTaxPostcode($taxRate->getPostCode());
+        $rateModel->setRegionName($taxRate->getRegionName());
         $zipRange = $taxRate->getZipRange();
         if ($zipRange) {
             $zipFrom = $zipRange->getFrom();
@@ -141,7 +139,7 @@ class Converter
      * @param TaxRateDataObject $taxRate
      * @return array
      */
-    public function createTaxRateTitleArray(TaxRateDataObject $taxRate)
+    public function createTitlesFromServiceObject(TaxRateDataObject $taxRate)
     {
         $titles = $taxRate->getTitles();
         $titleData = [];
@@ -151,5 +149,24 @@ class Converter
             }
         }
         return $titleData;
+    }
+
+    /**
+     * Create an array with tax rate titles having tax rate model.
+     *
+     * @param TaxRateModel $rateModel
+     * @return array
+     */
+    public function createTitleFromModel(TaxRateModel $rateModel)
+    {
+        $titlesData = $rateModel->getTitles();
+        $titles = [];
+        foreach ($titlesData as $title) {
+            $titles[] = $this->taxRateTitleDataObjectBuilder
+                ->setStoreId($title->getStoreId())
+                ->setValue($title->getValue())
+                ->create();
+        }
+        return $titles;
     }
 }

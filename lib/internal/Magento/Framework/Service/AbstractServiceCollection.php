@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Model\Resource;
+
+namespace Magento\Framework\Service;
 
 use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Service\V1\Data\Filter;
@@ -15,7 +16,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception;
 
 /**
- * Base for customer service collections
+ * Base for service collections
  */
 abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collection
 {

@@ -127,7 +127,9 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function searchTaxRates(SearchCriteria $searchCriteria)
     {
+        /** @var \Magento\Tax\Model\Resource\Calculation\Rate\Collection $collection */
         $collection = $this->rateFactory->create()->getCollection();
+        $collection->joinRegionTable();
 
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
@@ -169,7 +171,7 @@ class TaxRateService implements TaxRateServiceInterface
     {
         $this->validate($taxRate);
         $taxRateModel = $this->converter->createTaxRateModel($taxRate);
-        $taxRateTitles = $this->converter->createTaxRateTitleArray($taxRate);
+        $taxRateTitles = $this->converter->createTitlesFromServiceObject($taxRate);
         try {
             $taxRateModel->save();
             $taxRateModel->saveTitles($taxRateTitles);

@@ -1,0 +1,79 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Tax\Service\V1\Data;
+
+use Magento\Core\Model\EntityFactory;
+use Magento\Framework\Service\AbstractServiceCollection;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Tax\Service\V1\TaxRateServiceInterface;
+
+/**
+ * Tax rate collection for a grid backed by Services
+ */
+class TaxRateCollection extends AbstractServiceCollection
+{
+    /**
+     * @var TaxRateServiceInterface
+     */
+    protected $rateService;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param EntityFactory $entityFactory
+     * @param FilterBuilder $filterBuilder
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param TaxRateServiceInterface $rateService
+     */
+    public function __construct(
+        EntityFactory $entityFactory,
+        FilterBuilder $filterBuilder,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        TaxRateServiceInterface $rateService
+    ) {
+        parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder);
+        $this->rateService = $rateService;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadData($printQuery = false, $logQuery = false)
+    {
+        if (!$this->isLoaded()) {
+            $searchCriteria = $this->getSearchCriteria();
+            $searchResults = $this->rateService->searchTaxRates($searchCriteria);
+            $this->_totalRecords = $searchResults->getTotalCount();
+            foreach ($searchResults->getItems() as $taxRate) {
+                $this->_addItem($this->createTaxRateCollectionItem($taxRate));
+            }
+            $this->_setIsLoaded();
+        }
+        return $this;
+    }
+
+    /**
+     * Creates a collection item that represents a tax rate for the tax rates grid.
+     *
+     * @param TaxRate $taxRate Input data for creating the item.
+     * @return \Magento\Framework\Object Collection item that represents a tax rate
+     */
+    protected function createTaxRateCollectionItem(TaxRate $taxRate)
+    {
+        $collectionItem = new \Magento\Framework\Object();
+        $collectionItem->setId($taxRate->getId());
+        $collectionItem->setCode($taxRate->getCode());
+        $collectionItem->setTaxCountryId($taxRate->getCountryId());
+        $collectionItem->setRegionName($taxRate->getRegionName());
+        $collectionItem->setTaxPostcode($taxRate->getPostcode());
+        $collectionItem->setRate($taxRate->getPercentageRate());
+        return $collectionItem;
+    }
+}

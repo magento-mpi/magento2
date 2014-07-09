@@ -13,19 +13,13 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
      * Constants defined for keys of array, makes typos less likely
      */
     const KEY_ID = 'id';
-
     const KEY_COUNTRY_ID = 'country_id';
-
     const KEY_REGION_ID = 'region_id';
-
+    const KEY_REGION_NAME = 'region_name';
     const KEY_POSTCODE = 'postcode';
-
     const KEY_ZIP_RANGE = 'zip_range';
-
     const KEY_PERCENTAGE_RATE = 'percentage_rate';
-
     const KEY_CODE = 'code';
-
     const KEY_TITLES = 'titles';
     /**#@-*/
 
@@ -57,6 +51,16 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
     public function getRegionId()
     {
         return $this->_get(self::KEY_REGION_ID);
+    }
+
+    /**
+     * Get region name
+     *
+     * @return string|null
+     */
+    public function getRegionName()
+    {
+        return $this->_get(self::KEY_REGION_NAME);
     }
 
     /**

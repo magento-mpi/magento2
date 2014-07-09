@@ -84,6 +84,18 @@ class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set region name
+     *
+     * @param string $regionName
+     * @return $this
+     */
+    public function setRegionName($regionName)
+    {
+        $this->_set(TaxRate::KEY_REGION_NAME, $regionName);
+        return $this;
+    }
+
+    /**
      * Set postcode
      *
      * @param string $postcode
