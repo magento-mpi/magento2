@@ -35,13 +35,6 @@ abstract class AbstractAssertPriceOnGroupedProductPage extends AbstractConstrain
     protected $successfulMessage;
 
     /**
-     * Tier price block
-     *
-     * @var string
-     */
-    protected $tierBlock;
-
-    /**
      * Verify product price on grouped product view page
      *
      * @param CatalogProductGrouped $product
@@ -59,7 +52,7 @@ abstract class AbstractAssertPriceOnGroupedProductPage extends AbstractConstrain
         $catalogProductView->init($product);
         $catalogProductView->open();
 
-        $groupedData = $product->getGroupedData();
+        $groupedData = $product->getAssociated();
         /** @var InjectableFixture $subProduct */
         foreach ($groupedData['products'] as $key => $subProduct) {
             //Process assertions

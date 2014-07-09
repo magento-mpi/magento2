@@ -131,7 +131,7 @@ class Associated implements FixtureInterface
                         'id' => '%id%',
                         'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 33,
+                        'qty' => 6,
                     ],
                 ],
                 'products' => [
