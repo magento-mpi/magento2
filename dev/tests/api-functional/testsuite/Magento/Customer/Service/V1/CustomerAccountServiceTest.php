@@ -785,7 +785,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomers()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData = $this->customerHelper->createSampleCustomer();
         $filter = $builder
             ->setField(Customer::EMAIL)
@@ -815,7 +815,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomersMultipleFiltersWithSort()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData1 = $this->customerHelper->createSampleCustomer();
         $customerData2 = $this->customerHelper->createSampleCustomer();
         $filter1 = $builder->setField(Customer::EMAIL)
@@ -858,7 +858,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData1 = $this->customerHelper->createSampleCustomer();
         $customerData2 = $this->customerHelper->createSampleCustomer();
-        $filter1 = $builder->setField(Customer::EMAIL)
+        $filter1 = $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();
         $filter2 = $builder->setField(Customer::EMAIL)

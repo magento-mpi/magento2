@@ -35,9 +35,12 @@ class AssertCmsBlockInGrid extends AbstractConstraint
      */
     public function processAssert(CmsBlock $cmsBlock, CmsBlockIndex $cmsBlockIndex)
     {
+        $cmsBlockIndex->open();
         $data = $cmsBlock->getData();
-        $storeId = is_array($data['store_id']) ? reset($data['store_id']) : $data['store_id'];
-        $parts = explode("/", $storeId);
+        if (isset($data['store_id'])) {
+            $storeId = is_array($data['store_id']) ? reset($data['store_id']) : $data['store_id'];
+            $parts = explode("/", $storeId);
+        }
 
         $filter = [
             'title' => $data['title'],
@@ -55,12 +58,7 @@ class AssertCmsBlockInGrid extends AbstractConstraint
         }
 
         \PHPUnit_Framework_Assert::assertTrue(
-            /**
-             * TODO: MAGETWO-25640
-             * Search doesn't work for CMS Blocks grid bug
-             */
-            //$cmsBlockIndex->getCmsBlockGrid()->isRowVisible($filter, true, false),
-            true,
+            $cmsBlockIndex->getCmsBlockGrid()->isRowVisible($filter, true, false),
             'CMS Block with '
             . 'title \'' . $filter['title'] . '\', '
             . 'identifier \'' . $filter['identifier'] . '\', '

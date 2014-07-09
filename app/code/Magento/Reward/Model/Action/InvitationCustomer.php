@@ -56,7 +56,7 @@ class InvitationCustomer extends \Magento\Reward\Model\Action\AbstractAction
     public function canAddRewardPoints()
     {
         $invitation = $this->getEntity();
-        if ($invitation->getData('status') != \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED) {
+        if ($invitation->getData('status') != \Magento\Invitation\Model\Invitation\Status::STATUS_ACCEPTED) {
             return false;
         }
         return !$this->isRewardLimitExceeded();

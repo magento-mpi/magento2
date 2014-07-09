@@ -276,6 +276,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                             $sampleModel->setSampleFile($sampleFileName);
                         }
                         $sampleModel->save();
+                        $product->setLastAddedSampleId($sampleModel->getId());
                     }
                 }
                 if ($_deleteItems) {
@@ -350,6 +351,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
                             $linkModel->setSampleFile($linkSampleFileName);
                         }
                         $linkModel->save();
+                        $product->setLastAddedLinkId($linkModel->getId());
                     }
                 }
                 if ($_deleteItems) {

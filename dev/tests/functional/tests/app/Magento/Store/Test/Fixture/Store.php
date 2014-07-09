@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Store
+ * Store View fixture
  */
 class Store extends InjectableFixture
 {

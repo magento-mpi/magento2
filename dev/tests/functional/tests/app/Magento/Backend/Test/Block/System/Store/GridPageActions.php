@@ -8,7 +8,7 @@
 
 namespace Magento\Backend\Test\Block\System\Store;
 
-use \Magento\Backend\Test\Block\GridPageActions as ParentGridPageActions;
+use Magento\Backend\Test\Block\GridPageActions as ParentGridPageActions;
 
 /**
  * Class GridPageActions

@@ -11,6 +11,7 @@ namespace Magento\TestModule3\Service\V1;
 
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
@@ -51,7 +52,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function serviceException()
     {
-        throw new \Magento\Webapi\ServiceException('Generic service exception', 3456);
+        throw new LocalizedException('Generic service exception %param', ['param' => 3456]);
     }
 
     /**
@@ -63,7 +64,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
         foreach ($parameters as $parameter) {
             $details[$parameter->getName()] = $parameter->getValue();
         }
-        throw new \Magento\Webapi\ServiceException('Parameterized service exception', 1234, null, $details);
+        throw new LocalizedException('Parameterized service exception', $details);
     }
 
     /**
@@ -71,8 +72,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function authorizationException()
     {
-        throw new AuthorizationException('Consumer ID %consumer_id is not authorized to access %resources', [
-            'consumer_id' => '30',
+        throw new AuthorizationException('Consumer is not authorized to access %resources', [
             'resources'   => 'resourceN'
         ]);
     }

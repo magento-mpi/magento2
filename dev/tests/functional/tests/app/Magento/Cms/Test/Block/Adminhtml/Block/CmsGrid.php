@@ -31,7 +31,7 @@ class CmsGrid extends GridInterface
             'selector' => '#cmsBlockGrid_filter_identifier',
         ],
         'store_id' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-store-filter-store-id"]',
+            'selector' => '[name="store_id"]',
             'input' => 'select',
         ],
         'is_active' => [
