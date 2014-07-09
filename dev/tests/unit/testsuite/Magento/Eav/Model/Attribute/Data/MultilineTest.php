@@ -14,14 +14,19 @@ class MultilineTest extends \PHPUnit_Framework_TestCase
      */
     protected $model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stringMock;
+
     protected function setUp()
     {
         $timezoneMock = $this->getMock('\Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $loggerMock = $this->getMock('\Magento\Framework\Logger', [], [], '', false);
         $localeResolverMock = $this->getMock('\Magento\Framework\Locale\ResolverInterface');
-        $stringMock = $this->getMock('\Magento\Framework\Stdlib\String', [], [], '', false);
+        $this->stringMock = $this->getMock('\Magento\Framework\Stdlib\String', [], [], '', false);
 
-        $this->model = new Multiline($timezoneMock, $loggerMock, $localeResolverMock, $stringMock);
+        $this->model = new Multiline($timezoneMock, $loggerMock, $localeResolverMock, $this->stringMock);
     }
 
     /**
@@ -108,19 +113,25 @@ class MultilineTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\Eav\Model\Attribute\Data\Multiline::validateValue
      *
      * @param mixed $value
+     * @param array $rules
      * @param array $expectedResult
      * @dataProvider validateValueDataProvider
      */
-    public function validateValueTest($value, $expectedResult)
+    public function testValidateValue($value, $rules, $expectedResult)
     {
         $entityMock = $this->getMock('\Magento\Framework\Model\AbstractModel', [], [], '', false);
-        $entityMock->expects($this->once())->method('getData')->will($this->returnValue("value1\nvalue2"));
+        $entityMock->expects($this->any())->method('getDataUsingMethod')->will($this->returnValue("value1\nvalue2"));
 
         $attributeMock = $this->getMock('\Magento\Eav\Model\Attribute', [], [], '', false);
+        $attributeMock->expects($this->any())->method('getMultilineCount')->will($this->returnValue(2));
+        $attributeMock->expects($this->any())->method('getValidateRules')->will($this->returnValue($rules));
+        $attributeMock->expects($this->any())->method('getStoreLabel')->will($this->returnValue('Label'));
+
+        $this->stringMock->expects($this->any())->method('strlen')->will($this->returnValue(5));
 
         $this->model->setEntity($entityMock);
         $this->model->setAttribute($attributeMock);
-        $this->model->validateValue($value);
+        $this->assertEquals($expectedResult, $this->model->validateValue($value));
     }
 
     /**
@@ -128,6 +139,32 @@ class MultilineTest extends \PHPUnit_Framework_TestCase
      */
     public function validateValueDataProvider()
     {
-        return [];
+        return [
+            [
+                'value' => false,
+                'rules' => [],
+                'expectedResult' => true,
+            ],
+            [
+                'value' => 'value',
+                'rules' => [],
+                'expectedResult' => true,
+            ],
+            [
+                'value' => ['value1',  'value2'],
+                'rules' => [],
+                'expectedResult' => true,
+            ],
+            [
+                'value' => 'value',
+                'rules' => ['max_text_length' => 3],
+                'expectedResult' => ['"Label" length must be equal or less than 3 characters.'],
+            ],
+            [
+                'value' => 'value',
+                'rules' => ['min_text_length' => 10],
+                'expectedResult' => ['"Label" length must be equal or greater than 10 characters.'],
+            ]
+        ];
     }
 }
