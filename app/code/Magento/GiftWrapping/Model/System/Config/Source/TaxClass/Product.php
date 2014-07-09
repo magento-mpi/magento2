@@ -70,7 +70,7 @@ class Product implements \Magento\Framework\Option\ArrayInterface
                     'value' => $taxClass->getClassId(),
                     'label' => $taxClass->getClassName(),
                 ];
-             }
+            }
             array_unshift($this->options, ['value' => '0', 'label' => __('None')]);
         }
         return $this->options;
