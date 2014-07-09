@@ -99,9 +99,16 @@ abstract class AbstractAction
          * @TODO delete logger after finishing indexer implementation
          */
         $this->_logger->log('Full reindex');
-        $productIds = $this->getProductIds();
-        foreach ($productIds as $productId) {
-            $this->_reindex($productId);
+
+        $indexResource = $this->_resource;
+
+        // remove old cache index data
+        $this->_cleanIndex();
+        $indexResource->removeProductIndex(array());
+        $ruleCollection = $this->_ruleCollectionFactory->create();
+
+        foreach ($ruleCollection as $rule) {
+            $indexResource->saveProductIndex($rule);
         }
     }
 
@@ -144,22 +151,6 @@ abstract class AbstractAction
     {
         $this->_resource->cleanIndex($typeId, $store);
         return $this;
-    }
-
-    /**
-     * Retrieve related product Ids
-     *
-     * @return array
-     */
-    public function getProductIds()
-    {
-        $productIds = array();
-        $ruleCollection = $this->_ruleCollectionFactory->create();
-        foreach ($ruleCollection as $rule) {
-            /** @var $rule \Magento\TargetRule\Model\Rule */
-            $productIds = array_merge($productIds, $rule->getMatchingProductIds());
-        }
-        return $productIds;
     }
 
 }
