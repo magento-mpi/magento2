@@ -97,8 +97,6 @@ downloader/app/Magento/Downloader/Model/Config/Enterprise.php
 downloader/skin/install/images/enterprise.gif
 downloader/template/enterprise
 
-dev/tools/xml/logging.xslt
-dev/tools/xml/transform_logging.php
 lib/internal/Apache
 pub/errors/enterprise
 dev/tools/performance_toolkit
@@ -134,7 +132,7 @@ dev/tests/functional/tests/app/Magento/Cms/Test/Block
 dev/tests/functional/tests/app/Magento/Cms/Test/Constraint
 dev/tests/functional/tests/app/Magento/Cms/Test/etc
 dev/tests/functional/tests/app/Magento/Cms/Test/Fixture
-dev/tests/functional/tests/app/Magento/Cms/Test/Page/AdminHtml
+dev/tests/functional/tests/app/Magento/Cms/Test/Page/Adminhtml
 dev/tests/functional/tests/app/Magento/Cms/Test/Page/CmsPage.php
 dev/tests/functional/tests/app/Magento/Cms/Test/Repository
 dev/tests/functional/tests/app/Magento/Cms/Test/TestCase

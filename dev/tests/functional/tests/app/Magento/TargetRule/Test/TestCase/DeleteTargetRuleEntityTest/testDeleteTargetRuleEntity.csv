@@ -1,0 +1,4 @@
+"targetRule/dataSet";"constraint"
+"target_rule_related_products_with_placeholders";"assertTargetRuleSuccessDeleteMessage, assertTargetRuleIsNotPresentedInGrid, assertNoRelatedProductsSection"
+"target_rule_up_sells_with_placeholders";"assertTargetRuleSuccessDeleteMessage, assertTargetRuleIsNotPresentedInGrid, assertNoUpSellsProductsSection"
+"target_rule_cross_sells_with_placeholders";"assertTargetRuleSuccessDeleteMessage, assertTargetRuleIsNotPresentedInGrid, assertNoCrossSellsProductsSection"
