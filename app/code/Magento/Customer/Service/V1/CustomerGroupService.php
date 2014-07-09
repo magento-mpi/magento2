@@ -296,16 +296,16 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      * Verifies that the tax class model exists and is a customer tax class type.
      *
      * @param int $taxClassId The id of the tax class model to check
-     * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group The original group parameters
+     * @param CustomerGroup $group The original group parameters
      * @return void
      * @throws InputException Thrown if the tax class model is invalid
      */
     protected function _verifyTaxClassModel($taxClassId, $group)
     {
         try {
-            /* @var \Magento\Tax\Service\V1\Data\TaxClass $taxClassData */
+            /* @var TaxClass $taxClassData */
             $taxClassData = $this->_taxClassService->getTaxClass($taxClassId);
-        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
         if ($taxClassData->getClassType() !== TaxClass::TYPE_CUSTOMER) {

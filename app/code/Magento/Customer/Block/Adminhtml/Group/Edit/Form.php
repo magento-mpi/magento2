@@ -15,9 +15,9 @@ use Magento\Customer\Controller\RegistryConstants;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Tax\Model\TaxClass\Source
+     * @var \Magento\Tax\Model\TaxClass\Source\Customer
      */
-    protected $_taxClassSource;
+    protected $_taxCustomer;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
@@ -33,7 +33,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Tax\Model\TaxClass\Source $taxClassSource
+     * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $groupBuilder
      * @param array $data
@@ -42,12 +42,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Tax\Model\TaxClass\Source $taxClassSource,
+        \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $groupBuilder,
         array $data = array()
     ) {
-        $this->_taxClassSource = $taxClassSource;
+        $this->_taxCustomer = $taxCustomer;
         $this->_groupService = $groupService;
         $this->_groupBuilder = $groupBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -108,7 +108,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'title' => __('Tax Class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'values' => $this->_taxClassSource->toOptionArray()
+                'values' => $this->_taxCustomer->toOptionArray()
             )
         );
 

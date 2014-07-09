@@ -79,9 +79,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($idElement);
         $this->assertEquals('1', $idElement->getValue());
         $this->assertEquals('3', $taxClassIdElement->getValue());
-        /** @var \Magento\Tax\Model\TaxClass\Source $source */
-        $source = Bootstrap::getObjectManager()->get('\Magento\Tax\Model\TaxClass\Source');
-        $this->assertEquals($source->toOptionArray(), $taxClassIdElement->getData('values'));
+        /** @var \Magento\Tax\Model\TaxClass\Source\Customer $taxClassCustomer */
+        $taxClassCustomer = Bootstrap::getObjectManager()->get('\Magento\Tax\Model\TaxClass\Source\Customer');
+        $this->assertEquals($taxClassCustomer->toOptionArray(), $taxClassIdElement->getData('values'));
         $this->assertEquals('General', $groupCodeElement->getValue());
     }
 
@@ -114,9 +114,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($idElement);
         $this->assertEquals($customerGroup->getId(), $idElement->getValue());
         $this->assertEquals($customerGroup->getTaxClassId(), $taxClassIdElement->getValue());
-        /** @var \Magento\Tax\Model\TaxClass\Source $source */
-        $source = Bootstrap::getObjectManager()->get('\Magento\Tax\Model\TaxClass\Source');
-        $this->assertEquals($source->toOptionArray(), $taxClassIdElement->getData('values'));
+        /** @var \Magento\Tax\Model\TaxClass\Source\Customer $taxClassCustomer */
+        $taxClassCustomer = Bootstrap::getObjectManager()->get('\Magento\Tax\Model\TaxClass\Source\Customer');
+        $this->assertEquals($taxClassCustomer->toOptionArray(), $taxClassIdElement->getData('values'));
         $this->assertEquals($customerGroup->getCode(), $groupCodeElement->getValue());
     }
 }
