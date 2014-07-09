@@ -13,6 +13,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Catalog\Service\V1\Data\Product as ProductData;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 
 /**
  * Class ProductService
@@ -192,16 +193,12 @@ class ProductService implements ProductServiceInterface
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
         }
-        $sortOrders = $searchCriteria->getSortOrders();
-        if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $field = $this->translateField($field);
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
-            }
+        foreach ((array)$searchCriteria->getSortOrders() as $field => $direction) {
+            $field = $this->translateField($field);
+            $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
-        $this->searchResultsBuilder->setTotalCount($collection->getSize());
 
         $products = array();
         /** @var \Magento\Catalog\Model\Product $productModel */
@@ -210,6 +207,7 @@ class ProductService implements ProductServiceInterface
         }
 
         $this->searchResultsBuilder->setItems($products);
+        $this->searchResultsBuilder->setTotalCount($collection->getSize());
         return $this->searchResultsBuilder->create();
     }
 
@@ -242,11 +240,6 @@ class ProductService implements ProductServiceInterface
      */
     protected function translateField($field)
     {
-        switch ($field) {
-            case ProductData::ID:
-                return 'entity_id';
-            default:
-                return $field;
-        }
+        return $field;
     }
 }
