@@ -12,6 +12,7 @@ use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Service\AbstractServiceCollection;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Service\V1\TaxRateServiceInterface;
 
 /**
@@ -25,21 +26,29 @@ class TaxRateCollection extends AbstractServiceCollection
     protected $rateService;
 
     /**
+     * @var Converter
+     */
+    protected $rateConverter;
+
+    /**
      * Initialize dependencies.
      *
      * @param EntityFactory $entityFactory
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param TaxRateServiceInterface $rateService
+     * @param Converter $rateConverter
      */
     public function __construct(
         EntityFactory $entityFactory,
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        TaxRateServiceInterface $rateService
+        TaxRateServiceInterface $rateService,
+        Converter $rateConverter
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder);
         $this->rateService = $rateService;
+        $this->rateConverter = $rateConverter;
     }
 
     /**
@@ -68,12 +77,28 @@ class TaxRateCollection extends AbstractServiceCollection
     protected function createTaxRateCollectionItem(TaxRate $taxRate)
     {
         $collectionItem = new \Magento\Framework\Object();
-        $collectionItem->setId($taxRate->getId());
+        $collectionItem->setTaxCalculationRateId($taxRate->getId());
         $collectionItem->setCode($taxRate->getCode());
         $collectionItem->setTaxCountryId($taxRate->getCountryId());
+        $collectionItem->setTaxRegionId($taxRate->getRegionId());
         $collectionItem->setRegionName($taxRate->getRegionName());
         $collectionItem->setTaxPostcode($taxRate->getPostcode());
         $collectionItem->setRate($taxRate->getPercentageRate());
+        $collectionItem->setTitles($this->rateConverter->createTitlesFromServiceObject($taxRate));
+
+        if ($taxRate->getZipRange() != null) {
+            $zipRange = $taxRate->getZipRange();
+
+            /* must be a "1" for existing code (e.g. JavaScript) to work */
+            $collectionItem->setZipIsRange("1");
+            $collectionItem->setZipFrom($zipRange->getFrom());
+            $collectionItem->setZipTo($zipRange->getTo());
+        } else {
+            $collectionItem->setZipIsRange(null);
+            $collectionItem->setZipFrom(null);
+            $collectionItem->setZipTo(null);
+        }
+
         return $collectionItem;
     }
 }

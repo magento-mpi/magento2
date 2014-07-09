@@ -63,6 +63,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_taxRateService;
 
     /**
+     * @var \Magento\Tax\Service\V1\Data\TaxRateCollection
+     */
+    protected $_taxRateCollection;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -72,6 +77,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
+     * @param \Magento\Tax\Service\V1\Data\TaxRateCollection $taxRateCollection
      * @param array $data
      */
     public function __construct(
@@ -84,6 +90,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
+        \Magento\Tax\Service\V1\Data\TaxRateCollection $taxRateCollection,
         array $data = array()
     ) {
         $this->_regionFactory = $regionFactory;
@@ -92,6 +99,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_rateFactory = $rateFactory;
         $this->_taxData = $taxData;
         $this->_taxRateService = $taxRateService;
+        $this->_taxRateCollection = $taxRateCollection;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -290,15 +298,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function getRateCollection()
     {
         if ($this->getData('rate_collection') == null) {
-            $rateCollection = $this->_rateFactory->create()->getCollection()->joinRegionTable();
+            $items = $this->_taxRateCollection->getItems();
             $rates = array();
-
-            foreach ($rateCollection as $rate) {
-                $item = $rate->getData();
-                foreach ($rate->getTitles() as $title) {
-                    $item['title[' . $title->getStoreId() . ']'] = $title->getValue();
+            foreach ($items as $rate) {
+                $rateData = $rate->getData();
+                if (isset($rateData['titles'])) {
+                    foreach ($rateData['titles'] as $storeId => $value) {
+                        $rateData['title[' . $storeId . ']'] = $value;
+                    }
                 }
-                $rates[] = $item;
+                unset($rateData['titles']);
+                $rates[] = $rateData;
             }
 
             $this->setRateCollection($rates);

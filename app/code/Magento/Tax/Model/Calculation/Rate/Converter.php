@@ -75,7 +75,8 @@ class Converter
         if ($rateModel->getTaxCountryId()) {
             $this->taxRateDataObjectBuilder->setCountryId($rateModel->getTaxCountryId());
         }
-        if ($rateModel->getTaxRegionId()) {
+        /* tax region id may be 0 which is "*" which would fail an if check */
+        if ($rateModel->getTaxRegionId() !== null) {
             $this->taxRateDataObjectBuilder->setRegionId($rateModel->getTaxRegionId());
         }
         if ($rateModel->getRegionName()) {
@@ -161,11 +162,13 @@ class Converter
     {
         $titlesData = $rateModel->getTitles();
         $titles = [];
-        foreach ($titlesData as $title) {
-            $titles[] = $this->taxRateTitleDataObjectBuilder
-                ->setStoreId($title->getStoreId())
-                ->setValue($title->getValue())
-                ->create();
+        if ($titlesData) {
+            foreach ($titlesData as $title) {
+                $titles[] = $this->taxRateTitleDataObjectBuilder
+                    ->setStoreId($title->getStoreId())
+                    ->setValue($title->getValue())
+                    ->create();
+            }
         }
         return $titles;
     }

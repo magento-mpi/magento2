@@ -30,14 +30,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->setMethods(
             [
                 'getId',
-                'getCountryId',
-                'getRegionId',
+                'getTaxCountryId',
+                'getTaxRegionId',
                 'getTaxPostcode',
                 'getCode',
                 'getRate',
                 'getZipIsRange',
                 'getZipFrom',
                 'getZipTo',
+                'getTitles',
                 '__wakeup',
             ]
         )->getMock();
@@ -45,18 +46,22 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $taxRateDataOjectBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
         $zipRangeDataObjectBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+        $taxRateTitleDataObjectBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateTitleBuilder');
         /** @var  $converter \Magento\Tax\Model\Calculation\Rate\Converter */
         $converter = $this->objectManager->getObject(
             'Magento\Tax\Model\Calculation\Rate\Converter',
             [
                 'taxRateDataObjectBuilder' => $taxRateDataOjectBuilder,
                 'zipRangeDataObjectBuilder' => $zipRangeDataObjectBuilder,
+                'taxRateTitleDataObjectBuilder' => $taxRateTitleDataObjectBuilder,
             ]
         );
         $taxRateDataObject = $converter->createTaxRateDataObjectFromModel($taxRateModelMock);
         $this->assertEquals($this->getExpectedValue($valueMap, 'getId'), $taxRateDataObject->getId());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getTaxCountryId'), $taxRateDataObject->getCountryId());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getTaxRegionId'), $taxRateDataObject->getRegionId());
+        ///* make sure that 0 is an acceptable value and is converted */
+        $this->assertTrue($this->getExpectedValue($valueMap, 'getTaxRegionId') === $taxRateDataObject->getRegionId());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getTaxPostcode'), $taxRateDataObject->getPostcode());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getCode'), $taxRateDataObject->getcode());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getRate'), $taxRateDataObject->getPercentageRate());
@@ -81,8 +86,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'getId' => '1',
-                    'getCountryId' => 'US',
-                    'getRegionId' => '34',
+                    'getTaxCountryId' => 'US',
+                    'getTaxRegionId' => '34',
                     'getCode' => 'US-CA-*-Rate 1',
                     'getRate' => '8.25',
                     'getZipIsRange' => '1',
@@ -93,7 +98,17 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'getId' => '1',
-                    'getCountryId' => 'US',
+                    'getTaxCountryId' => 'US',
+                    'getCode' => 'US-CA-*-Rate 1',
+                    'getRate' => '8.25',
+                ],
+            ],
+            [
+                [
+                    'getId' => '1',
+                    'getTaxCountryId' => 'US',
+                    // explicitly 0 to make sure region id is set
+                    'getTaxRegionId' => 0,
                     'getCode' => 'US-CA-*-Rate 1',
                     'getRate' => '8.25',
                 ],
