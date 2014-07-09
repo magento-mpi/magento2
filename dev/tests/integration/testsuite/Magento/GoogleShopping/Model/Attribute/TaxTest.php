@@ -241,7 +241,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             } elseif ($tax->__get('tax_region') == 'CA') {
                 $this->assertEquals(15.0, round($tax->__get('tax_rate'), 1));
             } else {
-                $this->assertFalse();
+                $this->fail('Invalid tax_region');
             }
         }
 
