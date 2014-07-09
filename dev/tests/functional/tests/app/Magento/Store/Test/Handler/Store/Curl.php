@@ -81,7 +81,7 @@ class Curl extends AbstractCurl implements StoreInterface
     }
 
     /**
-     * Get Store id by name
+     * Get Store id by name after creating Store
      *
      * @param string $name
      * @return int|null

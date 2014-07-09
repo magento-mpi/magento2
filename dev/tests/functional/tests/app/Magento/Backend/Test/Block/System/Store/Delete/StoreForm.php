@@ -9,23 +9,25 @@
 namespace Magento\Backend\Test\Block\System\Store\Delete;
 
 use Mtf\Client\Element;
-use Mtf\Block\Form as ParentForm;
+use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class StoreForm
  * Form for Store View deletion
  */
-class StoreForm extends ParentForm
+class StoreForm extends Form
 {
     /**
      * Fill Backup Option in Delete Store View
      *
-     * @param string $performBackup
+     * @param array $data
+     * @param Element $element
      * @return void
      */
-    public function fillForm($performBackup = "No")
+    public function fillForm(array $data, Element $element = null)
     {
-        $this->_rootElement->find("#store_create_backup", Locator::SELECTOR_CSS, "select")->setValue($performBackup);
+        $mapping = $this->dataMapping($data);
+        $this->_fill($mapping, $element);
     }
 }

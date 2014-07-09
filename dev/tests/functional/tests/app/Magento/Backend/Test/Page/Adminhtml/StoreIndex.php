@@ -11,7 +11,7 @@ namespace Magento\Backend\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class SystemStoreIndex
+ * Class StoreIndex
  * Backend Store index page
  */
 class StoreIndex extends BackendPage
