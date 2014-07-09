@@ -159,15 +159,24 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
-        $fields = [];
-        $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = $this->translateField($filter->getField());
-            $conditions[] = [$condition => $filter->getValue()];
-        }
-        if ($fields) {
-            $collection->addFieldToFilter($fields, $conditions);
+            $field = $this->translateField($filter->getField());
+            $condition = [$condition => $filter->getValue()];
+            switch ($field) {
+                case 'rate.tax_calculation_rate_id':
+                    $collection->joinCalculationData('rate');
+                    break;
+
+                case 'ctc.customer_tax_class_id':
+                    $collection->joinCalculationData('ctc');
+                    break;
+
+                case 'ptc.product_tax_class_id':
+                    $collection->joinCalculationData('ptc');
+                    break;
+            }
+            $collection->addFieldToFilter($field, $condition);
         }
     }
 

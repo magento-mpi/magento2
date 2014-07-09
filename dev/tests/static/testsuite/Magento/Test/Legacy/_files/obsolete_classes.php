@@ -2698,4 +2698,6 @@ return array(
     ['Magento\Rule\Helper\Data'],
     ['Magento\Theme\Helper\Data'],
     ['Magento\Widget\Helper\Data'],
+    ['Magento\Tax\Model\Resource\Calculation\Grid\Collection'],
+    ['Magento\Tax\Model\Resource\Rule\Grid\Collection'],
 );

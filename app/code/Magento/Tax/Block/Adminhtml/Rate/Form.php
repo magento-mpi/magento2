@@ -63,7 +63,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_taxRateService;
 
     /**
-     * @var \Magento\Tax\Service\V1\Data\TaxRateCollection
+     * @var \Magento\Tax\Service\V1\Collection\TaxRateCollection
      */
     protected $_taxRateCollection;
 
@@ -77,7 +77,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
-     * @param \Magento\Tax\Service\V1\Data\TaxRateCollection $taxRateCollection
+     * @param \Magento\Tax\Service\V1\Collection\TaxRateCollection $taxRateCollection
      * @param array $data
      */
     public function __construct(
@@ -90,7 +90,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
-        \Magento\Tax\Service\V1\Data\TaxRateCollection $taxRateCollection,
+        \Magento\Tax\Service\V1\Collection\TaxRateCollection $taxRateCollection,
         array $data = array()
     ) {
         $this->_regionFactory = $regionFactory;
