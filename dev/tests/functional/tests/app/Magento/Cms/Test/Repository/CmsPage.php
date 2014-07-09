@@ -26,10 +26,13 @@ class CmsPage extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'title' => 'test_%isolation%',
+            'title' => 'test-%isolation%',
+            'identifier' => 'test-%isolation%',
             'store_id' => 'All Store Views',
             'is_active' => 'Published',
+            'under_version_control' => 'No',
             'content' => 'text content',
+            'root_template' => '1 column'
         ];
 
         $this->_data['cms-page-duplicated'] = [
@@ -48,6 +51,7 @@ class CmsPage extends AbstractRepository
         $this->_data['cms-page-test'] = [
             'store_id' => 'All Store Views',
             'title' => 'CMS Page Test%isolation%',
+            'content_heading' => 'CMS Page Test%isolation%',
             'meta_keywords' => 'Meta,Keys',
             'meta_description' => 'Meta Description',
             'identifier' => 'cms-page-test%isolation%',
