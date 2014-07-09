@@ -139,7 +139,7 @@ class CustomOptions extends Block
      *
      * @return array
      */
-    private function getListCustomOptions()
+    protected function getListCustomOptions()
     {
         $customOptions = [];
         $context = $this->_rootElement->find($this->optionsContext);
@@ -191,11 +191,10 @@ class CustomOptions extends Block
         $count = 2;
         $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
         while ($selectOption->isVisible()) {
-            $optionText = $selectOption->getText();
-            list($title, $price) = explode('+', $optionText);
+            $optionData = explode('+', $selectOption->getText());
             $listSelectOptions[] = [
-                'title' => trim($title),
-                'price' => preg_replace('/[^0-9\.]/', '', $price),
+                'title' => trim($optionData[0]),
+                'price' => isset($optionData[1]) ? preg_replace('/[^0-9\.]/', '', $optionData[1]) : '',
             ];
 
             ++$count;
@@ -213,7 +212,7 @@ class CustomOptions extends Block
      * @param array $productOptions
      * @return void
      */
-    public function fillProductOptions($productOptions)
+    public function fillProductOptions(array $productOptions)
     {
         foreach ($productOptions as $attributeLabel => $attributeValue) {
             $select = $this->_rootElement->find(
@@ -229,7 +228,7 @@ class CustomOptions extends Block
      * Choose custom option in a drop down
      *
      * @param string $title
-     * @param string|null $value
+     * @param string|null $value [optional]
      * @return void
      */
     public function selectProductCustomOption($title, $value = null)

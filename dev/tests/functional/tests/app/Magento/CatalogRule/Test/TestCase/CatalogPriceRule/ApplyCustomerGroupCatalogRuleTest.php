@@ -89,6 +89,8 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
                 'group_id' => $groupId
             ]
         );
+        // prepare data for tear down
+        $this->catalogRule = $catalogRuleFixture;
         // convert the discount amount to a decimal form
         $this->_discountDecimal = $catalogRuleFixture->getDiscountAmount() * .01;
         $newCatalogRuleForm->fill($catalogRuleFixture);
@@ -111,9 +113,6 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 
         $this->verifyGuestPrice($simpleProductFixture);
         $this->verifyCustomerPrice($simpleProductFixture, $customerFixture);
-
-        // Prepare data for tear down
-        $this->catalogRule = $catalogRuleFixture;
     }
 
     /**
@@ -230,9 +229,6 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         if (!$this->catalogRule) {
             return;
         }
-
-        // Admin login
-        Factory::getApp()->magentoBackendLoginUser();
 
         // Open Catalog Price Rule page
         $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();

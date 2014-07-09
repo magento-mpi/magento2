@@ -76,6 +76,9 @@ class ApplyCatalogPriceRuleTest extends Functional
         $categoryIds = $configurable->getCategoryIds();
         $catalogPriceRuleId = $this->createNewCatalogPriceRule($categoryIds[0]);
 
+        // Prepare data for tear down
+        $this->catalogPriceRuleId = $catalogPriceRuleId;
+
         // Update Banner with related Catalog Price Rule
         $banner->relateCatalogPriceRule($catalogPriceRuleId);
         $banner->persist();
@@ -88,9 +91,6 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Verify applied catalog price rules
         $this->verifyPriceRules($products);
-
-        // Prepare data for tear down
-        $this->catalogPriceRuleId = $catalogPriceRuleId;
     }
 
     /**
@@ -291,9 +291,6 @@ class ApplyCatalogPriceRuleTest extends Functional
         if (!$this->catalogPriceRuleId) {
             return;
         }
-
-        // Admin login
-        Factory::getApp()->magentoBackendLoginUser();
 
         // Open Catalog Price Rule page
         $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();

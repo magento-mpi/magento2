@@ -75,7 +75,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
     {
         $paths = is_array($paths) ? $paths : [$paths];
         foreach ($paths as $path) {
-            $values = &$data;
+            $values = & $data;
             $keys = explode('/', $path);
 
             $key = array_shift($keys);
@@ -90,7 +90,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
                 }
 
                 if ($key) {
-                    $values = &$values[$key];
+                    $values = & $values[$key];
                 }
                 if ($order) {
                     $values = $this->sortMultidimensionalArray($values, $order);
@@ -114,7 +114,8 @@ abstract class AbstractAssertForm extends AbstractConstraint
     {
         $result = [];
         foreach ($data as $value) {
-            $result[$value[$key]] = $value;
+            $sortKey = is_numeric($value[$key]) ? floatval($value[$key]) : $value[$key];
+            $result[$sortKey] = $value;
         }
 
         ksort($result);
@@ -143,7 +144,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
      *
      * @param array $errors
      * @param string|null $notice
-     * @param string $indent
+     * @param string $indent [optional]
      * @return string
      */
     protected function prepareErrors(array $errors, $notice = null, $indent = '')

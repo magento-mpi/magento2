@@ -19,7 +19,7 @@
             </giftcard_type>
             <giftcard_amounts>
                 <selector>#attribute-giftcard_amounts-container</selector>
-                <class>Magento\GiftCard\Test\Block\Adminhtml\Renderer\Amount</class>
+                <class>Magento\GiftCard\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\Amount</class>
             </giftcard_amounts>
             <allow_open_amount>
                 <selector>#allow_open_amount</selector>

@@ -8,7 +8,6 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\GiftCard\Test\Fixture\GiftCardProduct;

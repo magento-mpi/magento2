@@ -53,7 +53,7 @@ class CategoryIds implements FixtureInterface
             $category = $data['category'];
             $this->data[] = $category->getName();
             $this->categories[] = $category;
-        } elseif (isset($data['presets']) && $data['presets'] !== '-') {
+        } elseif (isset($data['presets'])) {
             $presets = explode(',', $data['presets']);
             foreach ($presets as $preset) {
                 $category = $fixtureFactory->createByCode('catalogCategory', ['dataSet' => $preset]);

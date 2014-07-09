@@ -59,7 +59,9 @@ class AssertProductPage extends AbstractConstraint
     protected function assertOnProductView(CatalogProductView $catalogProductView)
     {
         $viewBlock = $catalogProductView->getViewBlock();
-        $price = $viewBlock->getProductPriceBlock()->getPrice();
+        $price = $this->product->hasData('price')
+            ? $viewBlock->getProductPriceBlock()->getPrice()
+            : [];
         $errorsMessages = [
             'name'              => '- product name on product view page is not correct.',
             'sku'               => '- product sku on product view page is not correct.',
@@ -70,14 +72,16 @@ class AssertProductPage extends AbstractConstraint
         $dataOnPage = [
             'name'          => $viewBlock->getProductName(),
             'sku'           => $viewBlock->getProductSku(),
-            'regular_price' => $price['price_regular_price']
         ];
         $compareData = [
             'name'          => $this->product->getName(),
             'sku'           => $this->product->getSku(),
-            'regular_price' => number_format($this->product->getPrice(), 2),
-
         ];
+
+        if (isset($price['price_regular_price'])) {
+            $compareData['regular_price'] = number_format($this->product->getPrice(), 2);
+            $dataOnPage['regular_price'] = $price['price_regular_price'];
+        }
 
         if ($productShortDescription = $this->product->getShortDescription()) {
             $compareData['short_description'] = $productShortDescription;

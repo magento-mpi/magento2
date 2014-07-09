@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AssertForm;
+use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
@@ -16,11 +16,14 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 /**
  * Class AssertProductForm
  */
-class AssertProductForm extends AssertForm
+class AssertProductForm extends AbstractAssertForm
 {
-    protected $sortFields = [
-        'giftcard_amounts::price'
-    ];
+    /**
+     * Sort fields for fixture and form data
+     *
+     * @var array
+     */
+    protected $sortFields = [];
 
     /**
      * Constraint severeness
@@ -48,24 +51,24 @@ class AssertProductForm extends AssertForm
         $fixtureData = $this->prepareFixtureData($product->getData(), $this->sortFields);
         $formData = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
         $error = $this->verifyData($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertTrue(null === $error, $error);
+        \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }
 
     /**
      * Prepares fixture data for comparison
      *
      * @param array $data
-     * @param $sortFields
+     * @param array|null $sortFields [optional]
      * @return array
      */
-    protected function prepareFixtureData(array $data, $sortFields = null)
+    protected function prepareFixtureData(array $data, array $sortFields = null)
     {
         if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
             $data['website_ids'] = [$data['website_ids']];
         }
 
         if ($sortFields) {
-            $this->sortData($data, $sortFields);
+            $data = $this->sortData($data, $sortFields);
         }
         return $data;
     }
@@ -74,15 +77,15 @@ class AssertProductForm extends AssertForm
      * Prepares form data for comparison
      *
      * @param array $data
-     * @param $sortFields
+     * @param array|null $sortFields [optional]
      * @return array
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function prepareFormData(array $data, $sortFields)
+    protected function prepareFormData(array $data, array $sortFields = null)
     {
         if ($sortFields) {
-            $this->sortData($data, $sortFields);
+            $data = $this->sortData($data, $sortFields);
         }
         return $data;
     }

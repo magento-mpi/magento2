@@ -42,14 +42,14 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
         $catalogProductView->open();
 
         $giftcardAmounts = $product->hasData('giftcard_amounts') ? $product->getGiftcardAmounts() : [];
-        $amounForm = $catalogProductView->getGiftCardBlock()->getAmountValues();
+        $amountForm = $catalogProductView->getGiftCardBlock()->getAmountValues();
         $amountFixture = [];
         foreach ($giftcardAmounts as $amount) {
             $amountFixture[] = $amount['price'];
         }
-        $amountDiff = array_diff($amountFixture, $amounForm);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($amountDiff),
+        $amountDiff = array_diff($amountFixture, $amountForm);
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $amountDiff,
             'Amount data on product page(frontend) not equals to passed from fixture.'
             . "\nFailed values: " . implode(', ', $amountDiff) . '.'
         );
@@ -58,16 +58,17 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
             && $product->hasData('allow_open_amount')
             && 'Yes' == $product->getAllowOpenAmount()
         ) {
-            \PHPUnit_Framework_Assert::assertTrue(
-                in_array(self::CUSTOM_OPTION, $amounForm),
+            \PHPUnit_Framework_Assert::assertContains(
+                self::CUSTOM_OPTION,
+                $amountForm,
                 'Amount data on product page(frontend) not equals to passed from fixture.'
                 . 'On product page(frontend) cannot choose custom amount.'
             );
         }
 
         $errors = $this->verifyFields($catalogProductView, $product);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($errors),
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $errors,
             "\nErrors fields: \n" . implode("\n", $errors)
         );
     }

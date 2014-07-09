@@ -23,21 +23,21 @@ class GiftCard extends Block
      *
      * @var string
      */
-    protected $price = '.price-box > .price';
+    protected $price = '.price-box .regular-price > .price';
 
     /**
      * Gift Card Amount field
      *
      * @var string
      */
-    protected $amountInput = '#giftcard-amount-input';
+    protected $amountInput = '[name="custom_giftcard_amount"]';
 
     /**
      * Selector for giftcard amount
      *
      * @var string
      */
-    protected $amountSelect = '#giftcard-amount';
+    protected $amountSelect = '[name="giftcard_amount"]';
 
     /**
      * Selector for "Custom amount" option of select
@@ -51,35 +51,35 @@ class GiftCard extends Block
      *
      * @var string
      */
-    protected $senderName = '#giftcard_sender_name';
+    protected $senderName = '[name="giftcard_sender_name"]';
 
     /**
      * Gift Card Sender Email field
      *
      * @var string
      */
-    protected $senderEmail = '#giftcard_sender_email';
+    protected $senderEmail = '[name="giftcard_sender_email"]';
 
     /**
      * Gift Card Recipient Name field
      *
      * @var string
      */
-    protected $recipientName = '#giftcard_recipient_name';
+    protected $recipientName = '[name="giftcard_recipient_name"]';
 
     /**
      * Gift Card Recipient Email field
      *
      * @var string
      */
-    protected $recipientEmail = '#giftcard_recipient_email';
+    protected $recipientEmail = '[name="giftcard_recipient_email"]';
 
     /**
      * Selector for Gift card message
      *
      * @var string
      */
-    protected $message = '#giftcard-message';
+    protected $message = '[name="giftcard_message"]';
 
     /**
      * Get amount values
@@ -90,11 +90,16 @@ class GiftCard extends Block
     {
         $values = [];
         $giftcardAmount = $this->_rootElement->find($this->amountSelect, Locator::SELECTOR_CSS);
+        $priceElement = $this->_rootElement->find($this->price);
         $optionSelector = './/option[%d]';
+
+        if (!$giftcardAmount->isVisible() && !$priceElement->isVisible()) {
+            return $values;
+        }
 
         // Return price if product has one amount
         if (!$giftcardAmount->isVisible()) {
-            $price = $this->_rootElement->find($this->price)->getText();
+            $price = $priceElement->getText();
             $values[] = floatval(preg_replace('/[^0-9.]/', '', $price));
             return $values;
         }

@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AssertForm;
+use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 /**
  * Class AssertCustomOptionsOnProductPage
  */
-class AssertCustomOptionsOnProductPage extends AssertForm
+class AssertCustomOptionsOnProductPage extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -62,7 +62,7 @@ class AssertCustomOptionsOnProductPage extends AssertForm
             : $prices['price_regular_price'];
         $fixtureCustomOptions = $this->prepareOptions($product, $actualPrice);
         $error = $this->verifyData($fixtureCustomOptions, $formCustomOptions);
-        \PHPUnit_Framework_Assert::assertTrue(null === $error, $error);
+        \PHPUnit_Framework_Assert::assertEmpty($error, $error);
     }
 
     /**

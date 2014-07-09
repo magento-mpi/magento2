@@ -87,6 +87,20 @@ class ProductForm extends FormTabs
     protected $attributeSearch = '#product-attribute-search-container';
 
     /**
+     * Selector for trigger(show/hide) of advanced setting content
+     *
+     * @var string
+     */
+    protected $advancedSettingTrigger = '#product_info_tabs-advanced [data-role="trigger"]';
+
+    /**
+     * Selector for advanced setting content
+     *
+     * @var string
+     */
+    protected $advancedSettingContent = '#product_info_tabs-advanced [data-role="content"]';
+
+    /**
      * Fill the product form
      *
      * @param FixtureInterface $fixture
@@ -107,7 +121,47 @@ class ProductForm extends FormTabs
             $tabs['product-details']['category_ids']['value'] = $categoryName;
         }
 
+        $this->showAdvancedSettings();
         return parent::fillTabs($tabs, $element);
+    }
+
+    /**
+     * Fill the product form
+     *
+     * @param FixtureInterface $product
+     * @param Element|null $element
+     * @return FormTabs
+     */
+    public function fill(FixtureInterface $product, Element $element = null)
+    {
+        $this->showAdvancedSettings();
+        return parent::fill($product, $element);
+    }
+
+    /**
+     * Get data of the tabs
+     *
+     * @param FixtureInterface|null $fixture
+     * @param Element|null $element
+     * @return array
+     */
+    public function getData(FixtureInterface $fixture = null, Element $element = null)
+    {
+        $this->showAdvancedSettings();
+        return parent::getData($fixture, $element);
+    }
+
+    /**
+     * Show Advanced Setting
+     *
+     * @return void
+     */
+    protected function showAdvancedSettings()
+    {
+        if (!$this->_rootElement->find($this->advancedSettingContent)->isVisible()) {
+            $this->_rootElement->find($this->advancedSettingTrigger)->click();
+            $this->waitForElementVisible($this->advancedSettingContent);
+        }
     }
 
     /**
