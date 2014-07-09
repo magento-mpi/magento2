@@ -23,10 +23,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_block = $this->_objectManager->create(
-            'Magento\Tax\Block\Adminhtml\Rate\Form',
-            [
-                'registry' => $this->_objectManager->get('Magento\Framework\Registry'),
-            ]
+            'Magento\Tax\Block\Adminhtml\Rate\Form'
         );
     }
 
