@@ -25,6 +25,13 @@ class Footer extends Block
     protected $linkSelector = '//*[contains(@class, "links")]//a[contains(text(), "%s")]';
 
     /**
+     * New Variable selector
+     *
+     * @var string
+     */
+    protected $newVariableSelector = '//div[contains(@class, "links")]/*[.="%s"]';
+
+    /**
      * Click on link by name
      *
      * @param string $linkName
@@ -38,5 +45,19 @@ class Footer extends Block
             throw new \Exception(sprintf('"%s" link is not visible', $linkName));
         }
         $link->click();
+    }
+
+    /**
+     * Check Variable visibility by name
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function checkVariable($name)
+    {
+        return $this
+            ->_rootElement
+            ->find(sprintf($this->newVariableSelector, $name), Locator::SELECTOR_XPATH)
+            ->isVisible();
     }
 }

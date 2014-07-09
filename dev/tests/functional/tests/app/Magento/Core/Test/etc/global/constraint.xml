@@ -17,4 +17,16 @@
     <assertSystemVariableNotInCmsPageForm module="Magento_Core">
         <severeness>low</severeness>
     </assertSystemVariableNotInCmsPageForm>
+    <assertSystemVariableSuccessSaveMessage module="Magento_Core">
+        <severeness>low</severeness>
+    </assertSystemVariableSuccessSaveMessage>
+    <assertSystemVariableInGrid module="Magento_Core">
+        <severeness>low</severeness>
+    </assertSystemVariableInGrid>
+    <assertSystemVariableInPage module="Magento_Core">
+        <severeness>low</severeness>
+    </assertSystemVariableInPage>
+    <assertSystemVariableNotInCmsPageForm module="Magento_Core">
+        <severeness>low</severeness>
+    </assertSystemVariableNotInCmsPageForm>
 </constraint>
