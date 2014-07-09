@@ -84,6 +84,58 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Store/_files/store.php
+     */
+    public function testCreateTaxRateWithTitles()
+    {
+        $store = $this->objectManager->get('\Magento\Store\Model\Store');
+        $store->load('test', 'code');
+
+        $taxData = [
+            'country_id' => 'US',
+            'region_id' => '8',
+            'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate' . rand(),
+            'zip_range' => ['from' => 78765, 'to' => 78780],
+            'titles' => [
+                [
+                    'store_id' => $store->getId(),
+                    'value' => 'random store title',
+                ]
+            ]
+        ];
+        // Tax rate data object created
+        $taxRate = $this->taxRateBuilder->populateWithArray($taxData)->create();
+        //Tax rate service call
+        $taxRateServiceData = $this->taxRateService->createTaxRate($taxRate);
+
+        //Assertions
+        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
+        $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
+        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
+        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
+        $this->assertEquals($taxData['code'], $taxRateServiceData->getCode());
+        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
+        $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
+        $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
+        $this->assertEquals('78765-78780', $taxRateServiceData->getPostcode());
+        $this->assertNotNull($taxRateServiceData->getId());
+
+        $titles = $taxRateServiceData->getTitles();
+        $this->assertEquals(1, count($titles));
+        $this->assertEquals($store->getId(), $titles[0]->getStoreId());
+        $this->assertEquals($taxData['titles'][0]['value'], $titles[0]->getValue());
+
+        $taxRateServiceData = $this->taxRateService->getTaxRate($taxRateServiceData->getId());
+
+        $titles = $taxRateServiceData->getTitles();
+        $this->assertEquals(1, count($titles));
+        $this->assertEquals($store->getId(), $titles[0]->getStoreId());
+        $this->assertEquals($taxData['titles'][0]['value'], $titles[0]->getValue());
+    }
+
+    /**
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Code already exists.
      * @magentoDbIsolation enabled

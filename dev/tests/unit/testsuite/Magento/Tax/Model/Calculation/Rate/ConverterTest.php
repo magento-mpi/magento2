@@ -63,7 +63,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         ///* make sure that 0 is an acceptable value and is converted */
         $this->assertTrue($this->getExpectedValue($valueMap, 'getTaxRegionId') === $taxRateDataObject->getRegionId());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getTaxPostcode'), $taxRateDataObject->getPostcode());
-        $this->assertEquals($this->getExpectedValue($valueMap, 'getCode'), $taxRateDataObject->getcode());
+        $this->assertEquals($this->getExpectedValue($valueMap, 'getCode'), $taxRateDataObject->getCode());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getRate'), $taxRateDataObject->getPercentageRate());
         $zipIsRange = $this->getExpectedValue($valueMap, 'getZipIsRange');
         if ($zipIsRange) {
@@ -78,10 +78,36 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         } else {
             $this->assertNull($taxRateDataObject->getZipRange());
         }
+
+        $titles = $this->getExpectedValue($valueMap, 'getTitles');
+        if ($titles) {
+            $dataObjectTitles = $taxRateDataObject->getTitles();
+            foreach ($titles as $title) {
+                $found = false;
+                foreach ($dataObjectTitles as $dataObjectTitle) {
+                    if (($dataObjectTitle->getValue() === $title->getValue())
+                        && $dataObjectTitle->getStoreId() === $title->getStoreId()) {
+                        $found = true;
+                    }
+                }
+                $this->assertTrue($found, "Did not find title for " . $title->getValue());
+            }
+        }
+        $this->assertEquals(count($titles), count($taxRateDataObject->getTitles()));
     }
 
     public function createTaxRateDataObjectFromModelDataProvider()
     {
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $titleModel1 = $this->objectManager->getObject('Magento\Tax\Model\Calculation\Rate\Title');
+        $titleModel1->setValue('tax title');
+        $titleModel1->setStoreId(5);
+
+        $titleModel2 = $this->objectManager->getObject('Magento\Tax\Model\Calculation\Rate\Title');
+        $titleModel2->setValue('tax title 2');
+        $titleModel2->setStoreId(1);
+
         return [
             [
                 [
@@ -111,6 +137,18 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                     'getTaxRegionId' => 0,
                     'getCode' => 'US-CA-*-Rate 1',
                     'getRate' => '8.25',
+                ],
+            ],
+            [
+                [
+                    'getId' => '1',
+                    'getTaxCountryId' => 'US',
+                    'getTaxRegionId' => '34',
+                    'getCode' => 'US-CA-*-Rate 1',
+                    'getRate' => '8.25',
+                    'getTitles' => [
+                        $titleModel1
+                    ]
                 ],
             ],
         ];
@@ -249,5 +287,63 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         foreach ($valueMap as $method => $value) {
             $mock->expects($this->any())->method($method)->will($this->returnValue($value));
         }
+    }
+
+    /**
+     * @param array $data
+     * @dataProvider createTaxRateTitleDataProvider
+     */
+    public function testCreateTitlesFromServiceObject($data)
+    {
+        $taxRateBuilder = $this->objectManager->getObject(
+            'Magento\Tax\Service\V1\Data\TaxRateBuilder'
+        );
+
+        $taxRate = $taxRateBuilder->setTitles($data)->create();
+
+        /** @var  $converter \Magento\Tax\Model\Calculation\Rate\Converter */
+        $converter = $this->objectManager->getObject(
+            'Magento\Tax\Model\Calculation\Rate\Converter'
+        );
+
+        $titles = $converter->createTitlesFromServiceObject($taxRate);
+        foreach ($data as $expectedTitle) {
+            $storeId = $expectedTitle->getStoreId();
+            $this->assertTrue(isset($titles[$storeId]), "Title for store id {$storeId} was not set.");
+            $this->assertEquals($expectedTitle->getValue(), $titles[$storeId]);
+        }
+    }
+
+    public function createTaxRateTitleDataProvider()
+    {
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $titleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateTitleBuilder');
+        $titleBuilder->setValue('tax title');
+        $titleBuilder->setStoreId(5);
+
+        $title1 = $titleBuilder->create();
+
+        $titleBuilder->setValue('tax title 2');
+        $titleBuilder->setStoreId(1);
+
+        $title2 = $titleBuilder->create();
+
+        return [
+            'no titles' => [
+                []
+            ],
+            '1 title' => [
+                [
+                    $title1
+                ]
+            ],
+            '2 title2' => [
+                [
+                  $title1,
+                  $title2,
+                ]
+            ]
+        ];
     }
 }
