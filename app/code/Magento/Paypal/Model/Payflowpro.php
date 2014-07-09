@@ -198,6 +198,11 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     protected $mathRandom;
 
     /**
+     * @var \Magento\Framework\HTTP\ZendClientFactory
+     */
+    protected $_httpClientFactory;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -209,6 +214,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -225,11 +231,13 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_configFactory = $configFactory;
         $this->mathRandom = $mathRandom;
+        $this->_httpClientFactory = $httpClientFactory;
         parent::__construct(
             $eventManager,
             $paymentData,
@@ -521,7 +529,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     {
         $debugData = array('request' => $request->getData());
 
-        $client = new \Magento\Framework\HTTP\ZendClient();
+        $client = $this->_httpClientFactory->create();
         $result = new \Magento\Framework\Object();
 
         $_config = array('maxredirects' => 5, 'timeout' => 30, 'verifypeer' => $this->getConfigData('verify_peer'));

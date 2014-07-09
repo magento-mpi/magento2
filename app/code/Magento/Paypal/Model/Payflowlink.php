@@ -145,6 +145,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -166,6 +167,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         array $data = array()
     ) {
         $this->_requestFactory = $requestFactory;
@@ -185,6 +187,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $storeManager,
             $configFactory,
             $mathRandom,
+            $httpClientFactory,
             $data
         );
     }
