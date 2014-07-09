@@ -5,14 +5,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Tax\Service\V1\Data;
+namespace Magento\Tax\Block\Adminhtml\Rule\Edit;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
-class TaxRateCollectionTest extends \PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateTaxRateCollectionItem()
+    /**
+     * @var \Magento\Framework\ObjectManager
+     */
+    protected $_objectManager;
+
+    /** @var \Magento\Tax\Block\Adminhtml\Rate\Form */
+    protected $_block;
+
+    protected function setUp()
+    {
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_block = $this->_objectManager->create(
+            'Magento\Tax\Block\Adminhtml\Rate\Form',
+            [
+                'registry' => $this->_objectManager->get('Magento\Framework\Registry'),
+            ]
+        );
+    }
+
+    public function testGetRateCollection()
     {
         /** @var \Magento\Tax\Model\Resource\Calculation\Rate\Collection $collection */
         $collection = Bootstrap::getObjectManager()->get('Magento\Tax\Model\Resource\Calculation\Rate\Collection');
@@ -20,11 +38,12 @@ class TaxRateCollectionTest extends \PHPUnit_Framework_TestCase
         if (($dbTaxRatesQty == 0) || ($collection->getFirstItem()->getId() != 1)) {
             $this->fail("Preconditions failed.");
         }
-        /** @var \Magento\Tax\Service\V1\Data\TaxRateCollection $taxRatesCollection */
-        $taxRatesCollection = Bootstrap::getObjectManager()->create('\Magento\Tax\Service\V1\Data\TaxRateCollection');
-        $collectionTaxRatesQty = $taxRatesCollection->count();
+
+        $ratesCollection = $this->_block->getRateCollection();
+
+        $collectionTaxRatesQty = count($ratesCollection);
         $this->assertEquals($dbTaxRatesQty, $collectionTaxRatesQty, 'Tax rates quantity is invalid.');
-        $taxRate = $taxRatesCollection->getFirstItem()->getData();
+        $taxRate = $ratesCollection[0];
         $expectedTaxRateData = [
             'tax_calculation_rate_id' => '1',
             'code' => 'US-CA-*-Rate 1',
@@ -32,8 +51,7 @@ class TaxRateCollectionTest extends \PHPUnit_Framework_TestCase
             'tax_region_id' => '12',
             'region_name' => 'CA',
             'tax_postcode' => '*',
-            'rate' => 8.25,
-            'titles' => [],
+            'rate' => '8.25',
             'zip_is_range' => null,
             'zip_from' => null,
             'zip_to' => null,
@@ -41,4 +59,5 @@ class TaxRateCollectionTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($taxRate, $expectedTaxRateData, 'Tax rate data is invalid.');
     }
+
 }
