@@ -70,13 +70,6 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_defaultCustomerTaxClass;
 
     /**
-     * GoogleShopping Helper
-     *
-     * @var \Magento\GoogleShopping\Helper\Data
-     */
-    protected $_googleShoppingHelper;
-
-    /**
      * Region  factory
      *
      * @var \Magento\Directory\Model\RegionFactory
@@ -87,7 +80,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Data $googleShoppingHelper
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
@@ -97,7 +90,6 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface
-     * @param \Magento\GoogleShopping\Helper\Data $googleShoppingHelper
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -106,7 +98,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Data $googleShoppingHelper,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
@@ -116,7 +108,6 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
         \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface,
-        \Magento\GoogleShopping\Helper\Data $googleShoppingHelper,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -126,14 +117,13 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $this->_taxCalculationService = $taxCalculationService;
         $this->_quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
-        $this->_googleShoppingHelper = $googleShoppingHelper;
         $this->_groupService = $groupServiceInterface;
         $this->_regionFactory = $regionFactory;
         parent::__construct(
             $context,
             $registry,
             $productFactory,
-            $gsData,
+            $googleShoppingHelper,
             $gsProduct,
             $catalogPrice,
             $resource,
@@ -174,10 +164,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                     );
                 }
                 foreach ($regions as $region) {
-                    try {
-                        $product->getPriceInfo()->getAdjustment('tax');
+                    $adjustments = $product->getPriceInfo()->getAdjustments();
+                    if (in_array('tax', $adjustments)) {
                         $taxIncluded = true;
-                    } catch (InvalidArgumentException $e) {
+                    } else {
                         $taxIncluded = false;
                     }
 
