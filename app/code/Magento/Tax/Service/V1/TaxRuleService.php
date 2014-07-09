@@ -18,6 +18,8 @@ use Magento\Framework\Exception\InputException;
 use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 use Magento\Tax\Model\Resource\Calculation\Rule\Collection;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * TaxRuleService implementation.
@@ -52,24 +54,48 @@ class TaxRuleService implements TaxRuleServiceInterface
     protected $taxRuleModelFactory;
 
     /**
+     * @var FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
+     * @var TaxRateServiceInterface
+     */
+    protected $taxRateService;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
      * @param TaxRuleBuilder $taxRuleBuilder
      * @param TaxRuleConverter $converter
      * @param TaxRuleRegistry $taxRuleRegistry
      * @param Data\TaxRuleSearchResultsBuilder $taxRuleSearchResultsBuilder
      * @param TaxRuleModelFactory $taxRuleModelFactory
+     * @param FilterBuilder $filterBuilder
+     * @param TaxRateServiceInterface $taxRateService
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         TaxRuleBuilder $taxRuleBuilder,
         TaxRuleConverter $converter,
         TaxRuleRegistry $taxRuleRegistry,
         Data\TaxRuleSearchResultsBuilder $taxRuleSearchResultsBuilder,
-        TaxRuleModelFactory $taxRuleModelFactory
+        TaxRuleModelFactory $taxRuleModelFactory,
+        FilterBuilder $filterBuilder,
+        TaxRateServiceInterface $taxRateService,
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->taxRuleBuilder = $taxRuleBuilder;
         $this->converter = $converter;
         $this->taxRuleRegistry = $taxRuleRegistry;
         $this->taxRuleSearchResultsBuilder = $taxRuleSearchResultsBuilder;
         $this->taxRuleModelFactory = $taxRuleModelFactory;
+        $this->filterBuilder = $filterBuilder;
+        $this->taxRateService = $taxRateService;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
@@ -132,7 +158,7 @@ class TaxRuleService implements TaxRuleServiceInterface
             }
         }
         if ($fields) {
-            if (in_array('cd.customer_tax_class_id', $fields) || in_array('cd.product_tax_class_id', $fields) ) {
+            if (in_array('cd.customer_tax_class_id', $fields) || in_array('cd.product_tax_class_id', $fields)) {
                 $collection->joinCalculationData('cd');
             }
         }
@@ -157,6 +183,44 @@ class TaxRuleService implements TaxRuleServiceInterface
         }
         $this->taxRuleSearchResultsBuilder->setItems($taxRules);
         return $this->taxRuleSearchResultsBuilder->create();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $productTaxClassId)
+    {
+        $filterGroups = [
+            [
+                $this->filterBuilder
+                    ->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)
+                    ->setValue([$customerTaxClassId])
+                    ->create(),
+            ],
+            [
+                $this->filterBuilder
+                    ->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)
+                    ->setValue([$productTaxClassId])
+                    ->create(),
+            ],
+        ];
+
+        foreach ($filterGroups as $filterGroup) {
+            $this->searchCriteriaBuilder->addFilter($filterGroup);
+        }
+
+        $searchResults = $this->searchTaxRules($this->searchCriteriaBuilder->create());
+        $taxRules = $searchResults->getItems();
+        $rates = [];
+        foreach ($taxRules as $taxRule) {
+            $rateIds = $taxRule->getTaxRateIds();
+            if (!empty($rateIds)) {
+                foreach ($rateIds as $rateId) {
+                    $rates[] = $this->taxRateService->getTaxRate($rateId);
+                }
+            }
+        }
+        return $rates;
     }
 
     /**

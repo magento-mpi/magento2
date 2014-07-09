@@ -35,6 +35,13 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_config;
 
     /**
+     * Tax Rule Service
+     *
+     * @var \Magento\Tax\Service\V1\TaxRuleService
+     */
+    protected $_taxRuleService;
+
+    /**
      * Tax Calculation Service
      *
      * @var \Magento\Tax\Service\V1\TaxCalculationService
@@ -63,11 +70,11 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_groupService;
 
     /**
-     * Default customer tax class
+     * Default customer tax classId
      *
      * @var int
      */
-    protected $_defaultCustomerTaxClass;
+    protected $_defaultCustomerTaxClassId;
 
     /**
      * Region  factory
@@ -86,6 +93,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Tax\Service\V1\TaxRuleService $taxRuleService
      * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
      * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
@@ -104,6 +112,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Service\V1\TaxRuleService $taxRuleService,
         \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
         \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
         \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder,
@@ -114,6 +123,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
+        $this->_taxRuleService = $taxRuleService;
         $this->_taxCalculationService = $taxCalculationService;
         $this->_quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
@@ -148,8 +158,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         }
 
         $defaultCustomerTaxClassId = $this->_getDefaultCustomerTaxClassId($product->getStoreId());
-        $rates = $this->_googleShoppingHelper
-            ->getRatesByCustomerAndProductTaxClassId($defaultCustomerTaxClassId, $product->getTaxClassId());
+        $rates = $this->_taxRuleService->getRatesByCustomerAndProductTaxClassId(
+            $defaultCustomerTaxClassId,
+            $product->getTaxClassId()
+        );
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
@@ -228,19 +240,19 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     }
 
     /**
-     * Fetch default customer tax class
+     * Fetch default customer tax classId
      *
      * @param null|Store|string|int $store
      * @return int
      */
     private function _getDefaultCustomerTaxClassId($store = null)
     {
-        if (is_null($this->_defaultCustomerTaxClass)) {
+        if (is_null($this->_defaultCustomerTaxClassId)) {
             //Not catching the exception here since default group is expected
             $defaultCustomerGroup = $this->_groupService->getDefaultGroup($store);
-            $this->_defaultCustomerTaxClass = $defaultCustomerGroup->getTaxClassId();
+            $this->_defaultCustomerTaxClassId = $defaultCustomerGroup->getTaxClassId();
         }
-        return $this->_defaultCustomerTaxClass;
+        return $this->_defaultCustomerTaxClassId;
     }
 
     /**
