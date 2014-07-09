@@ -57,6 +57,11 @@
                     @_link-color: @addto-color,
                     @_link-color-hover: @addto-hover-color
                 );
+                .css(box-shadow, none);
+                &:active,
+                &:focus {
+                    .css(box-shadow, none);
+                }
                 &.split {
                     &:extend(.abstract-add-to-actions all);
                     .icon-font-symbol(
@@ -65,6 +70,7 @@
                     );
                 }
                 &.toggle {
+                    .css(box-shadow, none);
                     line-height: 26px;
                     width: 26px;
                 }

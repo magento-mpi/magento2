@@ -599,11 +599,7 @@ body.catalog-product-compare-index {
 
 .block.related {
     .action.select {
-        .button-as-link();
-        font-weight: normal;
-        &:active {
-            box-shadow: none;
-        }
+        &:extend(.abstract-action-button-as-link all);
     }
     .product-item-details {
         position: relative;
@@ -621,4 +617,3 @@ body.catalog-product-compare-index {
         }
     }
 }
-

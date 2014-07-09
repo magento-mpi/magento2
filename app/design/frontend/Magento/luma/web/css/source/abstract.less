@@ -37,9 +37,14 @@
 //   Button as a link
 //--------------------------------------
 .abstract-action-button-as-link {
-  .button-as-link();
-  border-radius: 0;
-  font-weight: @font-weight-base;
+    .button-as-link();
+    border-radius: 0;
+    font-weight: @font-weight-base;
+    .css(box-shadow, none);
+    &:active,
+    &:focus {
+        .css(box-shadow, none);
+    }
 }
 
 //
