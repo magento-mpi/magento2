@@ -35,7 +35,7 @@ class AssertUserInvalidEmailMessage extends AbstractConstraint
      */
     public function processAssert(UserEdit $userEdit, User $user)
     {
-        $expectedMessage = sprintf(self::ERROR_MESSAGE, $email = $user->getEmail());
+        $expectedMessage = sprintf(self::ERROR_MESSAGE, $user->getEmail());
         $actualMessage = $userEdit->getMessagesBlock()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             $expectedMessage,
