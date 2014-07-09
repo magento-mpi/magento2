@@ -76,6 +76,8 @@ class EntityId extends InjectableFixture
      *
      * @param string|null $key [optional]
      * @return int
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

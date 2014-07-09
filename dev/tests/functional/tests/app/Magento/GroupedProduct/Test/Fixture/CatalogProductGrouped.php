@@ -18,6 +18,9 @@ use Mtf\System\Event\EventManagerInterface;
 /**
  * Class CatalogProductGrouped
  * Fixture for Grouped product
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class CatalogProductGrouped extends InjectableFixture
 {
