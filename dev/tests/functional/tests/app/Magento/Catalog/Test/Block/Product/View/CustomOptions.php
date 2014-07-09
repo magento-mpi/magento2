@@ -187,7 +187,7 @@ class CustomOptions extends Form
         $isDate = $customOptions['type'] == 'Date' ||
             $customOptions['type'] == 'Time' ||
             $customOptions['type'] == 'Date & Time';
-        $isCheck = $customOptions['type'] == 'Checkbox' || $customOptions['type'] == 'Radio Buttons';
+        $isChecked = $customOptions['type'] == 'Checkbox' || $customOptions['type'] == 'Radio Buttons';
 
         if ($isDate) {
             $customOptions['value'] = explode('/', $customOptions['value'][0]);
@@ -198,7 +198,7 @@ class CustomOptions extends Form
             $selector = $customOptions[$type]['selector'];
             if ($isDate) {
                 $selector .= $customOptions['dateSelector'][$key];
-            } elseif ($isCheck) {
+            } elseif ($isChecked) {
                 $selector = str_replace('%product_name%', $attributeValue, $selector);
                 $attributeValue = 'Yes';
             }

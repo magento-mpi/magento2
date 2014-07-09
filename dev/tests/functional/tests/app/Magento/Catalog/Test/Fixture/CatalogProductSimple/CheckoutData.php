@@ -25,10 +25,11 @@ class CheckoutData implements FixtureInterface
     protected $currentPreset;
 
     /**
-     * @param array $data
+     * @constructor
      * @param array $params
+     * @param array $data
      */
-    public function __construct(array $data = [], array $params)
+    public function __construct(array $params, array $data = [])
     {
         $this->params = $params;
         $this->data = (isset($data['value']) && $data['value'] != '-') ? $data['value'] : null;

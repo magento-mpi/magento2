@@ -132,8 +132,7 @@ class CreateBundle extends Curl
 
             $position = 0;
             foreach ($option['assigned_products'] as $assignedProduct) {
-                foreach($assignedProduct['data'] as &$itemData)
-                {
+                foreach ($assignedProduct['data'] as &$itemData) {
                     $itemData = $this->_getValue($itemData);
                 }
                 $assignedProduct['data'] += [

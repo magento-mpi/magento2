@@ -58,8 +58,8 @@ class AssertBundleProductPage extends AssertProductPage
                 ['price_from' => $price['price_regular_price']],
                 [
                     'price_from' => is_numeric($priceData['price_from'])
-                            ? number_format($priceData['price_from'], 2)
-                            : $priceData['price_from']
+                        ? number_format($priceData['price_from'], 2)
+                        : $priceData['price_from']
                 ]
             ];
         }
