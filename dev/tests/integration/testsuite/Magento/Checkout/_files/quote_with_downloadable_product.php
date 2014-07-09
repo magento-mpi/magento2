@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Magento/Downloadable/_files/product.php';
+require __DIR__ . '/../../../Magento/Downloadable/_files/product_downloadable.php';
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
