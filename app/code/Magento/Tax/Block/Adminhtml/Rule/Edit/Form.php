@@ -164,7 +164,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'tax_product_class',
                 'label' => __('Product Tax Class'),
                 'class' => 'required-entry',
-                'values' => $this->productTaxClassSource->getAllOptions(false),
+                'values' => $this->productTaxClassSource->getAllOptions(),
                 'value' => $selectedProductTax,
                 'required' => true,
                 'select_config' => $selectConfig
@@ -276,7 +276,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if (!empty($configValue)) {
             return $configValue;
         }
-        $taxClasses = $this->productTaxClassSource->getAllOptions(false);
+        $taxClasses = $this->productTaxClassSource->getAllOptions();
         if (!empty($taxClasses)) {
             $firstClass = array_shift($taxClasses);
             return isset($firstClass['value']) ? $firstClass['value'] : null;

@@ -31,6 +31,6 @@ class Product implements \Magento\Framework\Option\ArrayInterface
     {
         /** @var $sourceProduct \Magento\Tax\Model\TaxClass\Source\Product */
         $sourceProduct = $this->_productFactory->create();
-        return $sourceProduct->toOptionArray();
+        return $sourceProduct->toOptionArray(true);
     }
 }

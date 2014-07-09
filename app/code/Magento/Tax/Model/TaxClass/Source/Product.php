@@ -75,7 +75,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * @param bool $withDefaultValue
      * @return array
      */
-    public function getAllOptions($withDefaultValue = true)
+    public function getAllOptions($withDefaultValue = false)
     {
         if (!$this->_options) {
             $filter = $this->_filterBuilder
