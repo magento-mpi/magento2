@@ -24,12 +24,18 @@ class CartTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Checkout\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $checkoutSessionMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerSessionMock;
+
     /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemMock;
 
     protected function setUp()
     {
         $this->checkoutSessionMock = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
+        $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->stockItemMock = $this->getMock(
             'Magento\CatalogInventory\Service\V1\StockItemService',
             [],
@@ -43,7 +49,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
             'Magento\Checkout\Model\Cart',
             [
                 'checkoutSession' => $this->checkoutSessionMock,
-                'stockItemService' => $this->stockItemMock
+                'stockItemService' => $this->stockItemMock,
+                'customerSession' => $this->customerSessionMock,
             ]
         );
     }
@@ -114,5 +121,19 @@ class CartTest extends \PHPUnit_Framework_TestCase
             ->method('getProduct')
             ->will($this->returnValue($product));
         return $quoteItem;
+    }
+
+    public function testGetSummaryQty()
+    {
+        $quoteId = 1;
+        $itemsCount = 1;
+        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['getItemsCount', '__wakeup'], [], '', false);
+        $quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue($itemsCount));
+
+        $this->checkoutSessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
+        $this->checkoutSessionMock->expects($this->at(2))->method('getQuoteId')->will($this->returnValue($quoteId));
+        $this->customerSessionMock->expects($this->any())->method('isLoggedIn')->will($this->returnValue(true));
+
+        $this->assertEquals($itemsCount, $this->cart->getSummaryQty());
     }
 }
