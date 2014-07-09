@@ -46,6 +46,11 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     protected $mockTaxCalculationService;
 
     /**
+     * @var \Magento\Directory\Model\RegionFactory | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $mockRegionFactory;
+
+    /**
      * @var  \Magento\GoogleShopping\Model\Attribute\Tax
      */
     protected $model;
@@ -61,9 +66,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->mockConfig = $this->getMockBuilder('\Magento\GoogleShopping\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->mockResource = $this->getMockBuilder('\Magento\GoogleShopping\Model\Resource\Attribute')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->mockGroupService = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerGroupServiceInterface')
             ->disableOriginalConstructor()
             ->getMock();
@@ -73,16 +75,19 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->mockTaxCalculationService = $this->getMockBuilder('\Magento\Tax\Service\V1\TaxCalculationService')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->mockRegionFactory = $this->getMockBuilder('\Magento\Directory\Model\RegionFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = [
-            'resource'              => $this->mockResource,
             'taxData'               => $this->mockTaxHelper,
             'googleShoppingHelper'  => $this->mockGoogleShoppingHelper,
             'groupServiceInterface' => $this->mockGroupService,
             'config'                => $this->mockConfig,
             'quoteDetailsBuilder'   => $this->mockQuoteDetailsBuilder,
-            'taxCalculationService' => $this->mockTaxCalculationService
+            'taxCalculationService' => $this->mockTaxCalculationService,
+            'regionFactory'         => $this->mockRegionFactory
         ];
         $this->model = $objectManager->getObject('Magento\GoogleShopping\Model\Attribute\Tax', $arguments);
     }
@@ -99,6 +104,19 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($taxClassId, $reflectionMethod->invokeArgs($this->model, [$store]));
     }
 
+    public function testGetRegionsByRegionId()
+    {
+        $regionId = 1;
+        $postalCode = '*';
+        $regionCode = '90210';
+        $this->setUpGetRegionsByRegionId($regionId, $regionCode);
+
+        $reflectionObject = new \ReflectionObject($this->model);
+        $reflectionMethod = $reflectionObject->getMethod('_getRegionsByRegionId');
+        $reflectionMethod->setAccessible(true);
+        $this->assertSame([$regionCode], $reflectionMethod->invokeArgs($this->model, [$regionId, $postalCode]));
+    }
+
     public function testConvertAttribute()
     {
         $productStoreId = 'product_store_id';
@@ -107,7 +125,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $name = 'name';
         $productTaxClassId = 'product_tax_class_id';
         $customerTaxClassId = 'tax_class_id';
+        $postCode = '90210';
         $this->setUpGetDefaultCustomerTaxClass($customerTaxClassId, $productStoreId);
+        $this->setUpGetRegionsByRegionId($postCode, '*');
         $this->mockTaxHelper->expects($this->any())->method('getConfig')->will($this->returnSelf());
         $this->mockTaxHelper->expects($this->any())->method('priceIncludesTax')->will($this->returnValue(false));
         $mockTaxRate = $this->getMockBuilder('Magento\Tax\Service\V1\Data\TaxRate')
@@ -123,28 +143,22 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($targetCountry)
         );
         $mockTaxRate->expects($this->once())->method('getCountryId')->will($this->returnValue($targetCountry));
-        $postCode = '90210';
         $mockTaxRate->expects($this->once())->method('getPostcode')->will($this->returnValue($postCode));
-        $regionId = 'region_id';
-        $mockTaxRate->expects($this->any())->method('getRegionId')->will($this->returnValue($regionId));
-        $region = 'region';
-        $regions = [$region];
-        $this->mockResource->expects($this->once())->method('getRegionsByRegionId')->with($regionId, $postCode)->will(
-            $this->returnValue($regions)
-        );
+        $mockTaxRate->expects($this->any())->method('getRegionId')->will($this->returnValue($postCode));
+
         $this->mockQuoteDetailsBuilder->expects($this->once())->method('populateWithArray')
             ->with(
                 [
                     'billing_address'       => [
                         'country_id'  => $targetCountry,
                         'customer_id' => $customerTaxClassId,
-                        'region'      => ['region_id' => $regionId],
+                        'region'      => ['region_id' => $postCode],
                         'postcode'    => $postCode
                     ],
                     'shipping_address'      => [
                         'country_id'  => $targetCountry,
                         'customer_id' => $customerTaxClassId,
-                        'region'      => ['region_id' => $regionId],
+                        'region'      => ['region_id' => $postCode],
                         'postcode'    => $postCode
                     ],
                     'customer_tax_class_id' => $customerTaxClassId,
@@ -189,7 +203,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                 [
                     'tax_rate'    => $taxRate,
                     'tax_country' => $targetCountry,
-                    'tax_region'  => $region,
+                    'tax_region'  => $postCode,
                 ]
             );
         $this->assertSame($mockEntry, $this->model->convertAttribute($mockProduct, $mockEntry));
@@ -211,6 +225,27 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($taxClassId));
     }
 
+    private function setUpGetRegionsByRegionId($regionId, $code)
+    {
+        $mockRegion = $this->getMockBuilder('\Magento\Directory\Model\Region')
+            ->disableOriginalConstructor()
+            ->setMethods(['getCode', 'load', '__wakeup'])
+            ->getMock();
+
+        $mockRegion->expects($this->once())
+            ->method('load')
+            ->with($regionId)
+            ->will($this->returnSelf());
+
+        $mockRegion->expects($this->once())
+            ->method('getCode')
+            ->will($this->returnValue($code));
+
+        $this->mockRegionFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($mockRegion));
+    }
+
     /**
      * Get a mock product object.
      *
@@ -230,7 +265,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     '__wakeup',
                     'getStoreId',
                     'getPriceInfo',
-                    'getAdjustment',
+                    'getAdjustments',
                     'getSku',
                     'getPrice',
                     'getName'
@@ -242,8 +277,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceInfo')
             ->will($this->returnSelf());
         $mockProduct->expects($this->once())
-            ->method('getAdjustment')
-            ->with('tax');
+            ->method('getAdjustments')
+            ->will($this->returnValue(['tax']));
         $mockProduct->expects($this->any())
             ->method('getStoreId')
             ->will($this->returnValue($productStoreId));
