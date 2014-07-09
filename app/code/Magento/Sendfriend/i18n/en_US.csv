@@ -2,15 +2,13 @@ Back,Back
 Name,Name
 Enabled,Enabled
 "* Required Fields","* Required Fields"
-Message:,Message:
+Message,Message
 "Email to a Friend","Email to a Friend"
 "Email Address","Email Address"
 "Email Templates","Email Templates"
-Name:,Name:
-"Email Address:","Email Address:"
-Sender:,Sender:
-Email:,Email:
-Recipient:,Recipient:
+Sender,Sender
+Email,Email
+Recipient,Recipient
 "Add Recipient","Add Recipient"
 "Send Email","Send Email"
 "You can't send messages more than %1 times an hour.","You can't send messages more than %1 times an hour."
