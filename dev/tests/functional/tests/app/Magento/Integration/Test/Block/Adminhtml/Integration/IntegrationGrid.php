@@ -12,7 +12,7 @@ use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
  * Class IntegrationGrid
- * Integrations grid block.
+ * Integrations grid block
  */
 class IntegrationGrid extends Grid
 {

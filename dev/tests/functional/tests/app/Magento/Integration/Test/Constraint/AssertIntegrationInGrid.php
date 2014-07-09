@@ -31,10 +31,8 @@ class AssertIntegrationInGrid extends AbstractConstraint
      * @param Integration $integration
      * @return void
      */
-    public function processAssert(
-        IntegrationIndex $integrationIndexPage,
-        Integration $integration
-    ) {
+    public function processAssert(IntegrationIndex $integrationIndexPage, Integration $integration)
+    {
         $filter = [
             'name' => $integration->getName(),
         ];

@@ -72,7 +72,7 @@ class AssertIntegrationForm extends AbstractConstraint
                 $fixtureData[$key] = is_array($fixtureData[$key]) ? $fixtureData[$key] : [$fixtureData[$key]];
                 foreach ($fixtureData[$key] as $fixtureResource) {
                     foreach ($formData[$key] as $formResource) {
-                        if (preg_match('|^' . $fixtureResource . '|', $formResource)) {
+                        if (preg_match('|^' . preg_quote($fixtureResource) . '|', $formResource)) {
                             $issetResources[] = $formResource;
                         }
                     }

@@ -38,7 +38,7 @@ class CreateIntegrationEntityTest extends Injectable
     protected $integrationIndexPage;
 
     /**
-     * Integration new/edit page
+     * Integration new page
      *
      * @var IntegrationNew
      */
