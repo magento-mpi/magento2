@@ -21,6 +21,8 @@ class CatalogProductVirtual extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -35,12 +37,6 @@ class CatalogProductVirtual extends AbstractRepository
             'name' => 'Virtual product %isolation%',
             'sku' => 'sku_virtual_product_%isolation%',
             'quantity_and_stock_status' => [
-                'qty' => 666.0000,
-                'is_in_stock' => 'In Stock',
-            ],
-            'stock_data' => [
-                'manage_stock' => 'Yes',
-                'original_inventory_qty' => 666.0000,
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],

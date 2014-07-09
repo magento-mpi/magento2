@@ -285,7 +285,7 @@ class Event extends Action
     public function categoriesJsonAction()
     {
         $id = $this->getRequest()->getParam('id', null);
-        $this->getResponse()->setBody(
+        $this->getResponse()->representJson(
             $this->_view->getLayout()->createBlock(
                 'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category'
             )->getTreeArray(
