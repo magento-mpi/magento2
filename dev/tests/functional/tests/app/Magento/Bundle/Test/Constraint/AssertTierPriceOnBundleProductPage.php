@@ -10,12 +10,12 @@ namespace Magento\Bundle\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Constraint\AssertTierPriceOnProductPage;
+use Magento\Catalog\Test\Constraint\AssertProductTierPriceOnProductPage;
 
 /**
  * Class AssertTierPriceOnBundleProductPage
  */
-class AssertTierPriceOnBundleProductPage extends AssertTierPriceOnProductPage
+class AssertTierPriceOnBundleProductPage extends AssertProductTierPriceOnProductPage
 {
     /**
      * Constraint severeness
@@ -47,7 +47,6 @@ class AssertTierPriceOnBundleProductPage extends AssertTierPriceOnProductPage
      */
     public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
     {
-        // TODO fix initialization url for frontend page
         //Open product view page
         $catalogProductView->init($product);
         $catalogProductView->open();

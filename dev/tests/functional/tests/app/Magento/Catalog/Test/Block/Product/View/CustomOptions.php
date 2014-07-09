@@ -8,17 +8,17 @@
 
 namespace Magento\Catalog\Test\Block\Product\View;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class Custom Options
- * Block of custom options product
+ * Form of custom options product
  *
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
-class CustomOptions extends Block
+class CustomOptions extends Form
 {
     /**
      * Regexp price pattern
@@ -96,50 +96,6 @@ class CustomOptions extends Block
      * @var string
      */
     protected $bundleFieldLocator = '#product-options-wrapper > .fieldset > .field';
-
-    /**
-     * Array for mapping custom options
-     *
-     * @var array
-     */
-    protected $replaceMapping = [
-        'Drop-down' => [
-            'selector' => '//select',
-            'input' => 'select'
-        ],
-        'Multiple Select' => [
-            'selector' => '//select',
-            'input' => 'multiselect'
-        ],
-        'Checkbox' => [
-            'selector' => '//div[label[span[contains(text(), "%product_name%")]]]/input',
-            'input' => 'checkbox',
-            'value' => 'Yes'
-        ],
-        'Radio Buttons' => [
-            'selector' => '//div[label[span[contains(text(), "%product_name%")]]]/input',
-            'input' => 'checkbox',
-            'value' => 'Yes'
-        ],
-        'Date' => [
-            'input' => 'select',
-        ],
-        'Date & Time' => [
-            'input' => 'select',
-        ],
-        'Time' => [
-            'input' => 'select',
-        ],
-        'Area' => [
-            'selector' => '//textarea',
-        ],
-        'File' => [
-            'selector' => '//input',
-        ],
-        'Field' => [
-            'selector' => '//input',
-        ],
-    ];
 
     /**
      * Get product options
@@ -226,45 +182,55 @@ class CustomOptions extends Block
      */
     public function fillCustomOptions(array $customOptions)
     {
-        $type = $customOptions['type'];
+        $type = $this->optionNameConvert($customOptions['type']);
+        $customOptions += $this->dataMapping([$type => '']);
 
-        $customOptions['input'] = isset($this->replaceMapping[$type]['input'])
-            ? $this->replaceMapping[$type]['input']
-            : null;
+        $isDate = $customOptions['type'] == 'Date' ||
+            $customOptions['type'] == 'Time' ||
+            $customOptions['type'] == 'Date & Time';
+        $isCheck = $customOptions['type'] == 'Checkbox' || $customOptions['type'] == 'Radio Buttons';
 
-        $customOptions['selector'] = isset($this->replaceMapping[$type]['selector'])
-            ? $this->replaceMapping[$type]['selector']
-            : '';
-
-        $isData = $type == 'Date' || $type == 'Time' || $type == 'Date & Time';
-        if ($isData) {
-            $parent = '';
+        if ($isDate) {
             $customOptions['value'] = explode('/', $customOptions['value'][0]);
+            $customOptions['dateSelector'] = $this->setDateTypeSelector(count($customOptions['value']));
         }
 
-        $index = 1;
-        foreach ($customOptions['value'] as $attributeValue) {
-            $selector = str_replace('%product_name%', $attributeValue, $customOptions['selector']);
-            if ($isData) {
-                if ($index > 3) {
-                    $index = 1;
-                    $parent = '//span';
-                }
-                $selector .= $parent . '//select[' . $index . ']';
-                $index++;
+        foreach ($customOptions['value'] as $key => $attributeValue) {
+            $selector = $customOptions[$type]['selector'];
+            if ($isDate) {
+                $selector .= $customOptions['dateSelector'][$key];
+            } elseif ($isCheck) {
+                $selector = str_replace('%product_name%', $attributeValue, $selector);
+                $attributeValue = 'Yes';
             }
-
-            $attributeValue = isset($this->replaceMapping[$type]['value'])
-                ? $this->replaceMapping[$type]['value']
-                : $attributeValue;
 
             $select = $this->_rootElement->find(
                 sprintf($this->selectByTitleLocator, $customOptions['title']) . $selector,
                 Locator::SELECTOR_XPATH,
-                $customOptions['input']
+                $customOptions[$type]['input']
             );
             $select->setValue($attributeValue);
         }
+    }
+
+    /**
+     * Set item data type selector
+     *
+     * @param int $count
+     * @return array
+     */
+    protected function setDateTypeSelector($count)
+    {
+        $result = [];
+        $parent = '';
+        for ($i = 0; $i < $count; $i++) {
+            if (!(($i + 1) % 4)) {
+                $parent = '//span';
+            }
+            $result[$i] = $parent . '//select[' . ($i % 3 + 1) . ']';
+        }
+
+        return $result;
     }
 
     /**
@@ -281,5 +247,22 @@ class CustomOptions extends Block
             'select'
         );
         $select->setValue($productOption);
+    }
+
+    /**
+     * Convert option name
+     *
+     * @param string $optionName
+     * @return string
+     */
+    protected function optionNameConvert($optionName)
+    {
+        $optionName = str_replace(' & ', '', $optionName);
+        if ($end = strpos($optionName, ' ')) {
+            $optionName = substr($optionName, 0, $end);
+        } elseif ($end = strpos($optionName, '-')) {
+            $optionName = substr($optionName, 0, $end) . ucfirst(substr($optionName, ($end + 1)));
+        }
+        return lcfirst($optionName);
     }
 }

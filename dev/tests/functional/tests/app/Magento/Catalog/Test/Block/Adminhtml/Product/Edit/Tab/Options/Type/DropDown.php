@@ -9,13 +9,13 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\Type;
 
 use Mtf\Client\Element;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\OptionsAbstract;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\AbstractOptions;
 
 /**
  * Class DropDown
  * Form "Option dropdown" on tab product "Custom options"
  */
-class DropDown extends OptionsAbstract
+class DropDown extends AbstractOptions
 {
     /**
      * Add button css selector

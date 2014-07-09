@@ -119,22 +119,23 @@ class CreateBundle extends Curl
      */
     protected function _getBundleData(array $params)
     {
-        $data = [
-            'bundle_options' => [],
-            'bundle_selections' => []
-        ];
+        $data = [];
         $index = 0;
         foreach ($params['bundle_options'] as $option) {
             $data['bundle_options'][] = [
-                'title' => $option['title'],
-                'type' => $option['type'],
-                'required' => $option['required'],
+                'title' => $this->_getValue($option['title']),
+                'type' => $this->_getValue($option['type']),
+                'required' => $this->_getValue($option['required']),
                 'delete' => '',
                 'position' => $index
             ];
 
             $position = 0;
             foreach ($option['assigned_products'] as $assignedProduct) {
+                foreach($assignedProduct['data'] as &$itemData)
+                {
+                    $itemData = $this->_getValue($itemData);
+                }
                 $assignedProduct['data'] += [
                     'delete' => '',
                     'position' => ++$position

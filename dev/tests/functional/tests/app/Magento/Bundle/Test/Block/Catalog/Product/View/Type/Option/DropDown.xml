@@ -10,8 +10,7 @@
 <mapping strict="0">
     <fields>
         <name>
-            <selector>//select</selector>
-            <strategy>xpath</strategy>
+            <selector>select</selector>
             <input>select</input>
         </name>
         <qty>

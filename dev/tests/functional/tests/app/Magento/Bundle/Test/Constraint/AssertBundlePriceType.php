@@ -33,7 +33,7 @@ class AssertBundlePriceType extends AbstractConstraint
     protected $productPriceType = 'Dynamic';
 
     /**
-     * Assert that displayed price for bundle items on shopping cart page equals passed from fixture.
+     * Assert that displayed price for bundle items on shopping cart page equals to passed from fixture.
      *   Price for bundle items has two options:
      *   1. Fixed (price of bundle product)
      *   2. Dynamic (price of bundle item)
@@ -58,7 +58,7 @@ class AssertBundlePriceType extends AbstractConstraint
     }
 
     /**
-     * Assert prices on the product view page
+     * Assert prices on the product view page and shopping cart page.
      *
      * @param CatalogProductBundle $product
      * @param CatalogProductView $catalogProductView
@@ -76,18 +76,11 @@ class AssertBundlePriceType extends AbstractConstraint
         $this->productPriceType = $product->getPriceType();
         $fillData = $product->getDataFieldConfig('checkout_data')['source']->getPreset();
         $bundleBlock = $catalogProductView->getBundleViewBlock()->getBundleBlock();
-        // TODO put 'Add To Cart' in a block View
-        $bundleBlock->fillBundleOptions($fillData['bundle_options']);
-        if (isset($fillData['custom_options'])) {
-            foreach ($fillData['custom_options'] as $option) {
-                $catalogProductView->getCustomOptionsBlock()->fillCustomOptions($option);
-            }
-        }
-        $catalogProductView->getViewBlock()->clickAddToCart();
+        $bundleBlock->addToCart($fillData, $catalogProductView);
         $cartBlock = $checkoutCartView->getCartBlock();
-        $special_price = 0;
+        $specialPrice = 0;
         if (isset($bundleData['group_price'])) {
-            $special_price =
+            $specialPrice =
                 $bundleData['group_price'][array_search($customerGroup, $bundleData['group_price'])]['price'] / 100;
         }
 
@@ -112,7 +105,7 @@ class AssertBundlePriceType extends AbstractConstraint
         }
 
         foreach ($optionPrice as $index => $item) {
-            $item['price'] -= $item['price'] * $special_price;
+            $item['price'] -= $item['price'] * $specialPrice;
             \PHPUnit_Framework_Assert::assertEquals(
                 number_format($item['price'], 2),
                 $cartBlock->getPriceBundleOptions($index + 1),
@@ -130,7 +123,7 @@ class AssertBundlePriceType extends AbstractConstraint
     }
 
     /**
-     * Text of Visible in category assert
+     * Prepare special price array for Bundle product
      *
      * @return string
      */

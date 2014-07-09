@@ -10,12 +10,12 @@ namespace Magento\Bundle\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Constraint\AssertGroupedPriceOnProductPage as AbstractConstraint;
+use Magento\Catalog\Test\Constraint\AssertProductGroupedPriceOnProductPage;
 
 /**
  * Class AssertGroupedPriceOnBundleProductPage
  */
-class AssertGroupedPriceOnBundleProductPage extends AbstractConstraint
+class AssertGroupedPriceOnBundleProductPage extends AssertProductGroupedPriceOnProductPage
 {
     /**
      * Get grouped price with fixture product and product page

@@ -8,14 +8,14 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
-use Mtf\Block\Block;
+use Magento\Backend\Test\Block\GridPageActions as ParentGridPageActions;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class GridPageAction
  * Catalog manage products block
  */
-class GridPageAction extends Block
+class GridPageAction extends ParentGridPageActions
 {
     /**
      * Product toggle button

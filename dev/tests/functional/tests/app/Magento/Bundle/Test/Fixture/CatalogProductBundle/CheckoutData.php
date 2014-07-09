@@ -18,6 +18,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData as AbstractCh
 class CheckoutData extends AbstractCheckoutData
 {
     /**
+     * Get preset array
+     *
      * @return array|null
      */
     public function getPreset()

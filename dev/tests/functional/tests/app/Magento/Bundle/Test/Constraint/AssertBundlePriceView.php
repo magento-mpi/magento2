@@ -75,7 +75,7 @@ class AssertBundlePriceView extends AbstractConstraint
     }
 
     /**
-     * Text of Visible in bundle assert
+     * Returns a string representation of the object
      *
      * @return string
      */

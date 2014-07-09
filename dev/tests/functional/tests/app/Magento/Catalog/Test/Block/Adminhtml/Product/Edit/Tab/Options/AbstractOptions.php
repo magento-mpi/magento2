@@ -12,10 +12,10 @@ use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
- * Abstract class OptionsAbstract
+ * Abstract class AbstractOptions
  * Parent class for all forms of product options
  */
-abstract class OptionsAbstract extends Tab
+abstract class AbstractOptions extends Tab
 {
     /**
      * Fills in the form of an array of input data

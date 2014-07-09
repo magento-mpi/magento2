@@ -8,13 +8,11 @@
 
 namespace Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option;
 
-use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option\Radio as Option;
-
 /**
  * Class Checkbox
  * Bundle option checkbox type
  */
-class Checkbox extends Option
+class Checkbox extends Radio
 {
     // Parent behavior
 }

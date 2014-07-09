@@ -8,7 +8,6 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Mtf\Fixture\InjectableFixture;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 use Magento\Bundle\Test\Page\Product\CatalogProductView;
@@ -38,7 +37,7 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
         $catalogProductView->open();
         $catalogProductView->getViewBlock()->clickCustomize();
         $result = $this->displayedBundleBlock($catalogProductView, $product);
-        \PHPUnit_Framework_Assert::assertTrue($result['displayed'], $result['errorMessage']);
+        \PHPUnit_Framework_Assert::assertTrue(empty($result), $result);
     }
 
     /**
@@ -46,17 +45,14 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $product
-     * @return array
+     * @return string|null
      */
     protected function displayedBundleBlock(CatalogProductView $catalogProductView, CatalogProductBundle $product)
     {
         $fields = $product->getData();
         $bundleOptions = $fields['bundle_selections']['bundle_options'];
         if (!isset($bundleOptions)) {
-            return [
-                'displayed' => false,
-                'errorMessage' => 'Bundle options data on product page is not equals to fixture preset.'
-            ];
+            return 'Bundle options data on product page is not equals to fixture preset.';
         }
 
         $catalogProductView->getViewBlock()->clickCustomize();
@@ -70,17 +66,11 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
             );
 
             if ($result !== true) {
-                return [
-                    'displayed' => false,
-                    'errorMessage' => 'Bundle item option "' . $item['assigned_products']['name']
-                        . '" data on product page is not equals to fixture preset.'
-                ];
+                return 'Bundle item option "' . $item['assigned_products']['name'] .
+                    '" data on product page is not equals to fixture preset.';
             }
         }
-        return [
-            'displayed' => true,
-            'errorMessage' => ''
-        ];
+        return null;
     }
 
     /**

@@ -76,34 +76,34 @@
             <product class="Mtf\Fixture\FixtureInterface"/>
         </require>
     </assertProductPage>
-    <assertGroupedPriceOnProductPage module="Magento_Catalog">
+    <assertProductGroupedPriceOnProductPage module="Magento_Catalog">
         <severeness>low</severeness>
         <require>
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
             <product class="Mtf\Fixture\FixtureInterface"/>
         </require>
-    </assertGroupedPriceOnProductPage>
-    <assertSpecialPriceOnProductPage module="Magento_Catalog">
+    </assertProductGroupedPriceOnProductPage>
+    <assertProductSpecialPriceOnProductPage module="Magento_Catalog">
         <severeness>low</severeness>
         <require>
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
             <product class="Mtf\Fixture\FixtureInterface"/>
         </require>
-    </assertSpecialPriceOnProductPage>
-    <assertTierPriceOnProductPage module="Magento_Catalog">
+    </assertProductSpecialPriceOnProductPage>
+    <assertProductTierPriceOnProductPage module="Magento_Catalog">
         <severeness>low</severeness>
         <require>
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
             <product class="Mtf\Fixture\FixtureInterface"/>
         </require>
-    </assertTierPriceOnProductPage>
-    <assertCustomOptionsOnProductPage module="Magento_Catalog">
+    </assertProductTierPriceOnProductPage>
+    <assertProductCustomOptionsOnProductPage module="Magento_Catalog">
         <severeness>low</severeness>
         <require>
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
             <product class="Mtf\Fixture\FixtureInterface"/>
         </require>
-    </assertCustomOptionsOnProductPage>
+    </assertProductCustomOptionsOnProductPage>
     <assertProductForm module="Magento_Catalog">
         <severeness>low</severeness>
         <require>

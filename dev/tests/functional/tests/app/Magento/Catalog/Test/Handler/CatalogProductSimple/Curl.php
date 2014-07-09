@@ -163,8 +163,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             $fields['attribute_set_id'] = $attributeSetId;
         }
 
-        $fields = $this->prepareStockData($fields);
-
         return $prefix ? [$prefix => $fields] : $fields;
     }
 

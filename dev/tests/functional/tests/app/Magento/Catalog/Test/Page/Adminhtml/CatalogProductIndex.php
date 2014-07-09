@@ -43,12 +43,6 @@ class CatalogProductIndex extends BackendPage
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
-        'FormPageActions' => [
-            'name' => 'GridPageActions',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
-            'locator' => '#add_new_product',
-            'strategy' => 'css selector',
-        ],
     ];
 
     /**

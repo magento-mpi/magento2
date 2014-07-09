@@ -18,6 +18,9 @@ use Mtf\System\Event\EventManagerInterface;
 /**
  * Class CatalogProductBundle
  * Fixture for Bundle product
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogProductBundle extends InjectableFixture
 {
@@ -338,8 +341,8 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
+        'group' => 'product-details',
         'source' => 'Magento\Bundle\Test\Fixture\CatalogProductBundle\Price',
-        'group' => 'product-details'
     ];
 
     protected $price_type = [
@@ -384,25 +387,6 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-    ];
-
-    protected $use_config_manage_stock = [
-        'attribute_code' => 'use_config_manage_stock',
-        'input' => 'checkbox',
-        'group' => 'advanced-inventory'
-    ];
-
-    protected $manage_stock = [
-        'attribute_code' => 'manage_stock',
-        'input' => 'select',
-        'group' => 'advanced-inventory',
-    ];
-
-
-    protected $inventory_manage_stock = [
-        'attribute_code' => 'inventory_manage_stock',
-        'input' => 'select',
-        'group' => 'advanced-inventory',
     ];
 
     protected $shipment_type = [
@@ -611,15 +595,18 @@ class CatalogProductBundle extends InjectableFixture
     ];
 
     protected $stock_data = [
-        'attribute_code' => 'stock_data'
+        'attribute_code' => 'stock_data',
+        'group' => 'advanced-inventory'
     ];
 
     protected $category_id = [
-        'attribute_code' => 'category_id'
+        'attribute_code' => 'category_id',
+        'group' => 'product-details'
     ];
 
     protected $website_ids = [
-        'attribute_code' => 'website_ids'
+        'attribute_code' => 'website_ids',
+        'group' => 'product-details'
     ];
 
     public function getCategoryIds()

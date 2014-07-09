@@ -18,13 +18,6 @@ use Mtf\Fixture\FixtureInterface;
 class CheckoutData implements FixtureInterface
 {
     /**
-     * Fixture factory
-     *
-     * @var \Mtf\Fixture\FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
      * Current preset
      *
      * @var string
@@ -57,8 +50,10 @@ class CheckoutData implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param int $key [optional]
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {
@@ -76,13 +71,13 @@ class CheckoutData implements FixtureInterface
     }
 
     /**
+     * Return array preset
+     *
      * @return array|null
      */
     public function getPreset()
     {
-        $presets = [
-
-        ];
+        $presets = [];
         if (!isset($presets[$this->currentPreset])) {
             return null;
         }

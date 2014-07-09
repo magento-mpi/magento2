@@ -18,13 +18,6 @@ use Mtf\Fixture\FixtureInterface;
 class BundleSelections implements FixtureInterface
 {
     /**
-     * Fixture factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
      * Current preset
      *
      * @var string
@@ -36,9 +29,8 @@ class BundleSelections implements FixtureInterface
      * @param FixtureFactory $fixtureFactory
      * @param array $data
      * @param array $params
-     * @param bool $persist
      */
-    public function __construct(FixtureFactory $fixtureFactory, $data, array $params = [], $persist = false)
+    public function __construct(FixtureFactory $fixtureFactory, $data, array $params = [])
     {
         $this->params = $params;
 
@@ -57,18 +49,17 @@ class BundleSelections implements FixtureInterface
         if (!empty($this->data['products'])) {
             $productsSelections = $this->data['products'];
             $this->data['products'] = [];
-            foreach ($productsSelections as $products) {
+            foreach ($productsSelections as $index => $products) {
                 $productSelection = [];
-                foreach ($products as $product) {
+                foreach ($products as $key => $product) {
                     list($fixture, $dataSet) = explode('::', $product);
-                    $productSelection[] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                    $productSelection[$key] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+                    $productSelection[$key]->persist();
+                    $this->data['bundle_options'][$index]['assigned_products'][$key]['search_data']['name'] =
+                        $productSelection[$key]->getName();
                 }
                 $this->data['products'][] = $productSelection;
             }
-        }
-
-        if ($persist) {
-            $this->persist();
         }
     }
 
@@ -79,21 +70,7 @@ class BundleSelections implements FixtureInterface
      */
     public function persist()
     {
-        if (!empty($this->data['products'])) {
-            foreach ($this->data['products'] as $selections) {
-                foreach ($selections as $product) {
-                    /** @var $product FixtureInterface */
-                    $product->persist();
-                }
-            }
-
-            foreach ($this->data['bundle_options'] as $optionKey => &$bundleOption) {
-                foreach ($bundleOption['assigned_products'] as $productKey => &$assignedProducts) {
-                    $assignedProducts['search_data']['name'] = $this->data['products'][$optionKey][$productKey]
-                        ->getName();
-                }
-            }
-        }
+        //
     }
 
     /**
@@ -118,42 +95,13 @@ class BundleSelections implements FixtureInterface
     }
 
     /**
-     * Get selection for performing checkout
-     *
-     * @return array|null
-     */
-    public function getSelectionForCheckout()
-    {
-        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple $product */
-        $product = $this->data['products'][0];
-        $selectionsForCheckout = [
-            'default' => [
-                [
-                    'value' => $product->getName(),
-                    'type' => 'select',
-                    'qty' => 1
-                ]
-            ],
-            'second' => [
-                [
-                    'value' => $product->getName(),
-                    'type' => 'select',
-                    'qty' => 1
-                ]
-            ],
-        ];
-        if (!isset($selectionsForCheckout[$this->currentPreset])) {
-            return null;
-        }
-        return $selectionsForCheckout[$this->currentPreset];
-    }
-
-    /**
      * Preset array
      *
      * @param string $name
      * @return mixed
      * @throws \InvalidArgumentException
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function getPreset($name)
     {

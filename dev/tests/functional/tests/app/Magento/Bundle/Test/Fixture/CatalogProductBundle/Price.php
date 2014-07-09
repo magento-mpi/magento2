@@ -19,11 +19,6 @@ use Mtf\Fixture\FixtureInterface;
 class Price implements FixtureInterface
 {
     /**
-     * @var \Mtf\Fixture\FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
      * Current preset
      *
      * @var string
@@ -77,6 +72,8 @@ class Price implements FixtureInterface
     }
 
     /**
+     * Get preset array
+     *
      * @return array|null
      */
     public function getPreset()
@@ -130,6 +127,9 @@ class Price implements FixtureInterface
                 'price_from' => '40.00',
                 'price_to' => '100.00',
                 'cart_price' => '100.00'
+            ],
+            'dynamic-50' => [
+                'price_from' => 'As low as $50.00',
             ],
             'fixed-115' => [
                 'price_from' => '115.00',

@@ -13,9 +13,9 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AssertSpecialPriceOnProductPage
+ * Class AssertProductSpecialPriceOnProductPage
  */
-class AssertSpecialPriceOnProductPage extends AbstractConstraint
+class AssertProductSpecialPriceOnProductPage extends AbstractConstraint
 {
     /**
      * Constraint severeness

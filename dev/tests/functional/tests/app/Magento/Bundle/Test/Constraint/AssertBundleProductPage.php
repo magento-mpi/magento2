@@ -45,26 +45,23 @@ class AssertBundleProductPage extends AssertProductPage
     protected function preparePrice($price)
     {
         $priceData = $this->product->getDataFieldConfig('price')['source']->getPreset();
-        $result = ($this->product->getPriceView() == 'Price Range')
-            ? [
-                [
-                    'price_from' => $price['price_from'],
-                    'price_to' => $price['price_to']
-                ],
+        if ($this->product->getPriceView() == 'Price Range') {
+            return [
+                ['price_from' => $price['price_from'], 'price_to' => $price['price_to']],
                 [
                     'price_from' => number_format($priceData['price_from'], 2),
                     'price_to' => number_format($priceData['price_to'], 2)
                 ]
-              ]
-            : [
+            ];
+        } else {
+            return [
+                ['price_from' => $price['price_regular_price']],
                 [
-                    'price_from' => $price['price_regular_price'],
-                ],
-                [
-                    'price_from' => number_format($priceData['price_from'], 2),
+                    'price_from' => is_numeric($priceData['price_from'])
+                            ? number_format($priceData['price_from'], 2)
+                            : $priceData['price_from']
                 ]
-              ];
-
-        return $result;
+            ];
+        }
     }
 }

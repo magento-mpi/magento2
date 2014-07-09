@@ -9,7 +9,6 @@
 namespace Magento\Bundle\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Constraint\AssertProductForm;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
@@ -71,13 +70,11 @@ class AssertBundleProductForm extends AssertProductForm
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
         $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->prepareSpecialArray($this->prepareFixtureData($product));
-        if (isset($fixtureData['status'])) {
-            $fixtureData['status'] = ($fixtureData['status'] == 'Yes') ? 'Product online' : 'Product offline';
-        }
+        $fixtureData = $this->prepareSpecialPriceArray($this->prepareFixtureData($product));
 
-        $fixtureData['bundle_selections'] = $this
-            ->prepareBundleOptions($fixtureData['bundle_selections']['bundle_options']);
+        $fixtureData['bundle_selections'] = $this->prepareBundleOptions(
+            $fixtureData['bundle_selections']['bundle_options']
+        );
 
         $errors = $this->compareArray($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(
@@ -94,7 +91,7 @@ class AssertBundleProductForm extends AssertProductForm
      */
     protected function prepareBundleOptions(array $bundleSelections)
     {
-        foreach ($bundleSelections as & $item) {
+        foreach ($bundleSelections as &$item) {
             foreach ($item['assigned_products'] as &$selection) {
                 $selection['data']['getProductName'] = $selection['search_data']['name'];
                 $selection = $selection['data'];
@@ -105,12 +102,12 @@ class AssertBundleProductForm extends AssertProductForm
     }
 
     /**
-     * Prepare special array for Bundle product
+     * Prepare special price array for Bundle product
      *
      * @param array $fields
      * @return array
      */
-    protected function prepareSpecialArray(array $fields)
+    protected function prepareSpecialPriceArray(array $fields)
     {
         foreach ($this->specialArray as $key => $value) {
             if (array_key_exists($key, $fields)) {
