@@ -23,10 +23,10 @@ class IntegrationGrid extends Grid
      */
     protected $filters = [
         'name' => [
-            'selector' => '#integrationGrid_filter_name',
+            'selector' => 'input[name="name"]',
         ],
         'status' => [
-            'selector' => '#integrationGrid_filter_status',
+            'selector' => 'input[name="status"]',
             'input' => 'select',
         ]
     ];
@@ -36,5 +36,5 @@ class IntegrationGrid extends Grid
      *
      * @var string
      */
-    protected $editLink = 'td[class*=col-edit] > #edit';
+    protected $editLink = '[data-column="edit"] button';
 }

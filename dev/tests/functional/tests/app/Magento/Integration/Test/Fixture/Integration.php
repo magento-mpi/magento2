@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Integration
+ * Integration data fixture
  */
 class Integration extends InjectableFixture
 {

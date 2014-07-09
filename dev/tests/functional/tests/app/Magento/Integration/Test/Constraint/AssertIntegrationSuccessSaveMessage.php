@@ -24,7 +24,7 @@ class AssertIntegrationSuccessSaveMessage extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'low';
+    protected $severeness = 'high';
 
     /**
      * Assert that success save message is appeared on the Integrations page
@@ -53,6 +53,6 @@ class AssertIntegrationSuccessSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Integrations success save message is correct.';
+        return 'Integration success save message is correct.';
     }
 }
