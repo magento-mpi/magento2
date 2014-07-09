@@ -47,7 +47,10 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
                 'label' => 'Preview',
                 'class' => 'preview',
                 'onclick' => 'preview()'
-            )
+            ),
+            0,
+            0,
+            null
         );
 
         if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
@@ -58,7 +61,10 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
                     'label' => 'Publish',
                     'class' => 'publish',
                     'onclick' => 'publish()'
-                )
+                ),
+                0,
+                0,
+                null
             );
         }
     }

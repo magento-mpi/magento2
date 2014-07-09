@@ -118,61 +118,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Restrict customer grid container
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function widgetCustomerGridContainer($observer)
-    {
-        if (!$this->_role->getWebsiteIds()) {
-            $observer->getEvent()->getBlock()->removeButton('add');
-        }
-    }
-
-    /**
-     * Restrict system stores page container
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function widgetManageStores($observer)
-    {
-        $block = $observer->getEvent()->getBlock();
-        $block->removeButton('add');
-        if (!$this->_role->getWebsiteIds()) {
-            $block->removeButton('add_group');
-            $block->removeButton('add_store');
-        }
-    }
-
-    /**
-     * Restrict product grid container
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function widgetProductGridContainer($observer)
-    {
-        if (!$this->_role->getWebsiteIds()) {
-            $observer->getEvent()->getBlock()->removeButton('add_new');
-        }
-    }
-
-    /**
-     * Restrict event grid container
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function widgetCatalogEventGridContainer($observer)
-    {
-        if (!$this->_role->getWebsiteIds()) {
-            $observer->getEvent()->getBlock()->removeButton('add');
-        }
-    }
-
-    /**
      * Disable fields in tab "Main" of edit product attribute form
      *
      * @param EventObserver $observer
@@ -365,107 +310,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Remove control buttons if user does not have exclusive access to current model
-     *
-     * @param EventObserver $observer
-     * @param string $registryKey
-     * @param array $buttons
-     * @return $this
-     */
-    private function _removeButtons($observer, $registryKey, $buttons = array())
-    {
-        /* @var $model \Magento\Framework\Model\AbstractModel */
-        $model = $this->_coreRegistry->registry($registryKey);
-        if ($model) {
-            $storeIds = $model->getStoreId();
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
-                $block = $observer->getEvent()->getBlock();
-                foreach ($buttons as $buttonName) {
-                    $block->removeButton($buttonName);
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove control buttons if user does not have exclusive access to current page
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeCmsPageButtons($observer)
-    {
-        $this->_removeButtons($observer, 'cms_page', array('save', 'saveandcontinue', 'delete'));
-        return $this;
-    }
-
-    /**
-     * Remove control buttons if user does not have exclusive access to current block
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeCmsBlockButtons($observer)
-    {
-        $this->_removeButtons($observer, 'cms_block', array('save', 'saveandcontinue', 'delete'));
-        return $this;
-    }
-
-    /**
-     * Remove control buttons if user does not have exclusive access to current reward rate
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeRewardRateButtons($observer)
-    {
-        /* @var $model \Magento\Reward\Model\Resource\Reward\Rate */
-        $model = $this->_coreRegistry->registry('current_reward_rate');
-        if ($model) {
-            if ($model->getId() && !in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
-                $block = $observer->getEvent()->getBlock();
-                foreach (array('save', 'delete') as $buttonName) {
-                    $block->removeButton($buttonName);
-                }
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove fetch button if user doesn't have exclusive access to order
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeSalesTransactionControlButtons($observer)
-    {
-        $model = $this->_coreRegistry->registry('current_transaction');
-        if ($model) {
-            $websiteId = $model->getOrderWebsiteId();
-            if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
-                $block = $observer->getEvent()->getBlock();
-                $block->removeButton('fetch');
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove buttons from gift wrapping edit form for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeGiftWrappingEditButtons($observer)
-    {
-        // Remove delete button
-        $observer->getEvent()->getBlock()->removeButton('delete');
-        return $this;
-    }
-
-    /**
      * Remove 'delete' action from Gift Wrapping grid for all GWS limited users
      *
      * @param EventObserver $observer
@@ -478,19 +322,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if ($massBlock) {
             $massBlock->removeItem('delete');
         }
-        return $this;
-    }
-
-    /**
-     * Remove buttons from rating edit form (in Manage Ratings) for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeRatingEditButtons($observer)
-    {
-        // Remove delete button
-        $observer->getEvent()->getBlock()->removeButton('delete');
         return $this;
     }
 
@@ -531,43 +362,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         return $this;
-    }
-
-    /**
-     * Removing buttons from revision edit page which can't be used
-     * by users with limited permissions
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removeRevisionEditButtons($observer)
-    {
-        /* @var $model \Magento\Cms\Model\Page */
-        $model = $this->_coreRegistry->registry('cms_page');
-        if ($model && $model->getId()) {
-            $storeIds = $this->_cmsPageResource->lookupStoreIds($model->getPageId());
-            if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
-                $observer->getEvent()->getBlock()->removeButton('publish')->removeButton('save_publish');
-            }
-        }
-    }
-
-    /**
-     * Removing publish button from preview screen to disallow
-     * publishing for users with limited permissions
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function removePreviewPublishButton($observer)
-    {
-        $model = $this->_coreRegistry->registry('cms_page');
-        if ($model && $model->getId()) {
-            $storeIds = $this->_cmsPageResource->lookupStoreIds($model->getPageId());
-            if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
-                $observer->getEvent()->getBlock()->removeButton('publish');
-            }
-        }
     }
 
     /**
@@ -667,50 +461,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Remove buttons for widget instance editing if user does not have exclusive access
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeWidgetInstanceButtons($observer)
-    {
-        /* @var $block \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit */
-        $block = $observer->getEvent()->getBlock();
-        $widgetInstance = $block->getWidgetInstance();
-        if ($widgetInstance->getId()) {
-            $storeIds = $widgetInstance->getStoreIds();
-            if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
-                $block->removeButton('save');
-                $block->removeButton('save_and_edit_button');
-                $block->removeButton('delete');
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove buttons for banner editing if user does not have exclusive access
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function validateBannerPermissions($observer)
-    {
-        /* @var \Magento\Banner\Block\Adminhtml\Banner\Edit */
-        $block = $observer->getEvent()->getBlock();
-        $model = $this->_coreRegistry->registry('current_banner');
-        if ($block && $model) {
-            if (!$this->_role->hasExclusiveStoreAccess((array)$model->getStoreIds())) {
-                $block->removeButton('reset');
-                $block->removeButton('delete');
-                $block->removeButton('save');
-                $block->removeButton('save_and_edit_button');
-            }
-        }
-        return $this;
-    }
-
-    /**
      * Validate permissions for Banner Content tab for all GWS limited users
      *
      * @param EventObserver $observer
@@ -722,21 +472,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!$this->_role->getIsAll() && $model) {
             $model->setCanSaveAllStoreViewsContent(false);
         }
-        return $this;
-    }
-
-    /**
-     * Remove Save Hierarchy button if GWS permissions are applicable
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeCmsHierarchyFormButtons($observer)
-    {
-        if (!$this->_role->getIsAll()) {
-            $observer->getEvent()->getBlock()->removeButton('save');
-        }
-
         return $this;
     }
 
@@ -783,25 +518,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Remove control buttons for all GWS limited users with no exclusive rights
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeCatalogEventControlButtons($observer)
-    {
-        $block = $observer->getEvent()->getBlock();
-        $eventCategoryId = $block->getEvent()->getCategoryId();
-        $categoryPath = $this->_categoryResource->getCategoryPathById($eventCategoryId);
-        if (!$this->_role->hasExclusiveCategoryAccess($categoryPath)) {
-            $block->removeButton('save');
-            $block->removeButton('save_and_continue');
-            $block->removeButton('delete');
-        }
-        return $this;
-    }
-
-    /**
      * Remove Import possibility for all GWS limited users
      *
      * @param EventObserver $observer
@@ -810,98 +526,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function removeTaxRateImport($observer)
     {
         $observer->getEvent()->getBlock()->setIsReadonly(true);
-        return $this;
-    }
-
-    /**
-     * Remove rule entity grid buttons for users who does not have any permissions
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeRuleEntityGridButtons($observer)
-    {
-        /* @var $block \Magento\Backend\Block\Widget\Grid\Container */
-        $block = $observer->getEvent()->getBlock();
-        // Remove "Apply Rules" button at catalog rules grid for all GWS limited users
-        if ($block) {
-            $block->removeButton('apply_rules');
-        }
-
-        // Remove "Add" button if role has no allowed website ids
-        if (!$this->_role->getWebsiteIds()) {
-            if ($block) {
-                $block->removeButton('add');
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Remove rule entity edit buttons for users who does not have any permissions or does not have full permissions
-     *
-     * @param EventObserver $observer
-     * @return $this|true
-     */
-    public function removeRuleEntityEditButtons($observer)
-    {
-        /* @var $block \Magento\Backend\Block\Widget\Grid\Container */
-        $block = $observer->getEvent()->getBlock();
-        if (!$block) {
-            return true;
-        }
-
-        $controllerName = $block->getRequest()->getControllerName();
-
-        // Determine rule entity object registry key
-        switch ($controllerName) {
-            case 'promo_catalog':
-                $registryKey = 'current_promo_catalog_rule';
-                break;
-            case 'promo_quote':
-                $registryKey = 'current_promo_quote_rule';
-                break;
-            case 'reminder':
-                $registryKey = 'current_reminder_rule';
-                break;
-            case 'customersegment':
-                $registryKey = 'current_customer_segment';
-                break;
-            default:
-                $registryKey = null;
-                break;
-        }
-
-        if (is_null($registryKey)) {
-            return true;
-        }
-
-        /** @var $model \Magento\Rule\Model\Rule */
-        $model = $this->_coreRegistry->registry($registryKey);
-        if ($model) {
-            $websiteIds = $model->getWebsiteIds();
-            $block->removeButton('save_apply');
-            if ($model->getId() && !$this->_role->hasExclusiveAccess((array)$websiteIds)) {
-                $block->removeButton('save');
-                $block->removeButton('save_and_continue_edit');
-                $block->removeButton('run_now');
-                $block->removeButton('match_customers');
-                $block->removeButton('delete');
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove "Delete Attribute" button for all GWS limited users
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeRmaDeleteAttributeButton($observer)
-    {
-        $observer->getEvent()->getBlock()->removeButton('delete');
         return $this;
     }
 
@@ -919,47 +543,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $deleteButton->setDisabled(true);
         }
 
-        return $this;
-    }
-
-    /**
-     * Remove add button for users who does not permissions for any site
-     *
-     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeCustomerSegmentAddButton($observer)
-    {
-        $this->removeRuleEntityGridButtons($observer);
-        return $this;
-    }
-
-    /**
-     * Remove control buttons for store-level roles on Catalog Price Rules page
-     *
-     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removePromoCatalogButtons($observer)
-    {
-        $this->removeRuleEntityGridButtons($observer);
-        return $this;
-    }
-
-    /**
-     * Remove control buttons for store-level roles on Shopping Cart Price Rules page
-     *
-     * @param EventObserver $observer
-     * @return $this
-     * @deprecated after 1.11.2.0 use $this->removeRuleEntityGridButtons() instead
-     */
-    public function removePromoQuoteButtons($observer)
-    {
-        $this->removeRuleEntityGridButtons($observer);
         return $this;
     }
 

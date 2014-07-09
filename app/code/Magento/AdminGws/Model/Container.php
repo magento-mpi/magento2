@@ -18,13 +18,52 @@ class Container
     protected $_role;
 
     /**
-     * Initialize helper
+     * Core registry
      *
-     * @param Role $role
+     * @var \Magento\Framework\Registry
      */
-    public function __construct(Role $role)
+    protected $registry = null;
+
+    /**
+     * @var \Magento\Cms\Model\Resource\Page
+     */
+    protected $cmsPageResource;
+
+    /**
+     * @param Role $role
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
+     */
+    public function __construct(
+        Role $role,
+        \Magento\Framework\Registry $registry,
+        \Magento\Cms\Model\Resource\Page $cmsPageResource)
     {
         $this->_role = $role;
+        $this->registry = $registry;
+        $this->cmsPageResource = $cmsPageResource;
+    }
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current model
+     *
+     * @param ContainerInterface $container
+     * @param string $registryKey
+     * @param array $buttons
+     * @return void
+     */
+    private function removeButtonsStoreAccess(ContainerInterface $container, $registryKey, $buttons = array())
+    {
+        /* @var $model \Magento\Framework\Model\AbstractModel */
+        $model = $this->registry->registry($registryKey);
+        if ($model) {
+            $storeIds = $model->getStoreId();
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+                foreach ($buttons as $buttonName) {
+                    $container->removeButton($buttonName);
+                }
+            }
+        }
     }
 
     /**
@@ -52,7 +91,6 @@ class Container
             $container->removeButton('delete');
         }
     }
-
 
     /**
      * Remove product attribute add button
@@ -221,5 +259,326 @@ class Container
     public function removeRmaAddAttributeButton(ContainerInterface $container)
     {
         $container->removeButton('add');
+    }
+
+    /**
+     * Remove rule entity grid buttons for users who does not have any permissions
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeRuleEntityGridButtons(ContainerInterface $container)
+    {
+        $container->removeButton('apply_rules');
+        // Remove "Add" button if role has no allowed website ids
+        if (!$this->_role->getWebsiteIds()) {
+            $container->removeButton('add');
+        }
+    }
+
+    /**
+     * Remove "Delete Attribute" button for all GWS limited users
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeRmaDeleteAttributeButton(ContainerInterface $container)
+    {
+        $container->removeButton('delete');
+    }
+
+    /**
+     * Restrict customer grid container
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function widgetCustomerGridContainer(ContainerInterface $container)
+    {
+        if (!$this->_role->getWebsiteIds()) {
+            $container->removeButton('add');
+        }
+    }
+
+    /**
+     * Restrict system stores page container
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function widgetManageStores(ContainerInterface $container)
+    {
+        $container->removeButton('add');
+        if (!$this->_role->getWebsiteIds()) {
+            $container->removeButton('add_group');
+            $container->removeButton('add_store');
+        }
+    }
+
+    /**
+     * Restrict product grid container
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function widgetProductGridContainer(ContainerInterface $container)
+    {
+        if (!$this->_role->getWebsiteIds()) {
+            $container->removeButton('add_new');
+        }
+    }
+
+    /**
+     * Restrict event grid container
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function widgetCatalogEventGridContainer(ContainerInterface $container)
+    {
+        if (!$this->_role->getWebsiteIds()) {
+            $container->removeButton('add');
+        }
+    }
+
+    /**
+     * Remove buttons from gift wrapping edit form for all GWS limited users
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeGiftWrappingEditButtons(ContainerInterface $container)
+    {
+        // Remove delete button
+        $container->removeButton('delete');
+    }
+
+
+    /**
+     * Remove buttons from rating edit form (in Manage Ratings) for all GWS limited users
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeRatingEditButtons(ContainerInterface $container)
+    {
+        // Remove delete button
+        $container->removeButton('delete');
+    }
+
+    /**
+     * Remove Save Hierarchy button if GWS permissions are applicable
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeCmsHierarchyFormButtons(ContainerInterface $container)
+    {
+        if (!$this->_role->getIsAll()) {
+            $container->removeButton('save');
+        }
+    }
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current page
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeCmsPageButtons(ContainerInterface $container)
+    {
+        $this->removeButtonsStoreAccess($container, 'cms_page', array('save', 'saveandcontinue', 'delete'));
+    }
+
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current block
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeCmsBlockButtons(ContainerInterface $container)
+    {
+        $this->removeButtonsStoreAccess($container, 'cms_block', array('save', 'saveandcontinue', 'delete'));
+    }
+
+    /**
+     * Remove buttons for banner editing if user does not have exclusive access
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function validateBannerPermissions(ContainerInterface $container)
+    {
+        $this->removeButtonsStoreAccess(
+            $container,
+            'current_banner',
+            ['save', 'save_and_edit_button', 'delete', 'reset']
+        );
+    }
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current reward rate
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeRewardRateButtons(ContainerInterface $container)
+    {
+        /* @var $model \Magento\Reward\Model\Resource\Reward\Rate */
+        $model = $this->registry->registry('current_reward_rate');
+        if ($model) {
+            if ($model->getId() && !in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
+                $container->removeButton('save');
+                $container->removeButton('delete');
+            }
+        }
+    }
+
+    /**
+     * Remove buttons for widget instance editing if user does not have exclusive access
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeWidgetInstanceButtons(ContainerInterface $container)
+    {
+        $widgetInstance = $container->getWidgetInstance();
+        if ($widgetInstance->getId()) {
+            $storeIds = $widgetInstance->getStoreIds();
+            if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+                $container->removeButton('save');
+                $container->removeButton('save_and_edit_button');
+                $container->removeButton('delete');
+            }
+        }
+    }
+
+    /**
+     * Remove fetch button if user doesn't have exclusive access to order
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeSalesTransactionControlButtons(ContainerInterface $container)
+    {
+        $model = $this->registry->registry('current_transaction');
+        if ($model) {
+            $websiteId = $model->getOrderWebsiteId();
+            if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
+                $container->removeButton('fetch');
+            }
+        }
+    }
+
+    /**
+     * Remove rule entity edit buttons for users who does not have any permissions or does not have full permissions
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeRuleEntityEditButtons(ContainerInterface $container)
+    {
+        $controllerName = $container->getRequest()->getControllerName();
+
+        // Determine rule entity object registry key
+        switch ($controllerName) {
+            case 'promo_catalog':
+                $registryKey = 'current_promo_catalog_rule';
+                break;
+            case 'promo_quote':
+                $registryKey = 'current_promo_quote_rule';
+                break;
+            case 'reminder':
+                $registryKey = 'current_reminder_rule';
+                break;
+            case 'customersegment':
+                $registryKey = 'current_customer_segment';
+                break;
+            default:
+                $registryKey = null;
+                break;
+        }
+
+        if (is_null($registryKey)) {
+            return;
+        }
+
+        /** @var $model \Magento\Rule\Model\Rule */
+        $model = $this->registry->registry($registryKey);
+        if ($model) {
+            $websiteIds = $model->getWebsiteIds();
+            $container->removeButton('save_apply');
+            if ($model->getId() && !$this->_role->hasExclusiveAccess((array)$websiteIds)) {
+                $container->removeButton('save');
+                $container->removeButton('save_and_continue_edit');
+                $container->removeButton('run_now');
+                $container->removeButton('match_customers');
+                $container->removeButton('delete');
+            }
+        }
+    }
+
+    /**
+     * Remove rule entity edit buttons for users who does not have any permissions or does not have full permissions
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeSegmentRuleEntityEditButtons(ContainerInterface $container)
+    {
+        $registryKey = 'current_customer_segment';
+        /** @var $model \Magento\Rule\Model\Rule */
+        $model = $this->registry->registry($registryKey);
+        if ($model) {
+            $websiteIds = $model->getWebsiteIds();
+            $container->removeButton('save_apply');
+            if ($model->getId() && !$this->_role->hasExclusiveAccess((array)$websiteIds)) {
+                $container->removeButton('save');
+                $container->removeButton('save_and_continue_edit');
+                $container->removeButton('run_now');
+                $container->removeButton('match_customers');
+                $container->removeButton('delete');
+            }
+        }
+    }
+
+
+    /**
+     * Removing buttons from revision edit page which can't be used
+     * by users with limited permissions
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removeRevisionEditButtons(ContainerInterface $container)
+    {
+        /* @var $model \Magento\Cms\Model\Page */
+        $model = $this->registry->registry('cms_page');
+        if ($model && $model->getId()) {
+            $storeIds = $this->cmsPageResource->lookupStoreIds($model->getPageId());
+            if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
+                $container->removeButton('publish');
+                $container->removeButton('save_publish');
+            }
+        }
+    }
+
+    /**
+     * Removing publish button from preview screen to disallow
+     * publishing for users with limited permissions
+     *
+     * @param ContainerInterface $container
+     * @return void
+     */
+    public function removePreviewPublishButton(ContainerInterface $container)
+    {
+        $model = $this->registry->registry('cms_page');
+        if ($model && $model->getId()) {
+            $storeIds = $this->cmsPageResource->lookupStoreIds($model->getPageId());
+            if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
+                $container->removeButton('publish');
+            }
+        }
     }
 }

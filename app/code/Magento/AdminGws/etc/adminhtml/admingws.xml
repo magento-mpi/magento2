@@ -233,8 +233,8 @@
         <callback class="adminhtml__rma_item_attribute__delete" method="validateRmaAttributeDeleteAction" />
     </group>
     <group name="block_html_before">
-        <callback class="magento_adminhtml_block_customer" method="widgetCustomerGridContainer" />
-        <callback class="magento_adminhtml_block_system_store_store" method="widgetManageStores" />
+        <callback class="magento_customer_block_adminhtml_customer" method="widgetCustomerGridContainer" />
+        <callback class="magento_backend_block_system_store_store" method="widgetManageStores" />
         <callback class="magento_catalog_block_adminhtml_product" method="widgetProductGridContainer" />
         <callback class="magento_catalogEvent_block_adminhtml_event" method="widgetCatalogEventGridContainer" />
         <callback class="magento_catalogEvent_block_adminhtml_event_edit" method="removeCatalogEventControlButtons" />
@@ -255,7 +255,7 @@
         <callback class="magento_index_block_adminhtml_process_grid" method="removeProcessListButtons" />
         <callback class="magento_index_block_adminhtml_process_edit" method="removeProcessEditButtons" />
         <callback class="magento_giftWrapping_block_adminhtml_giftwrapping_edit" method="removeGiftWrappingEditButtons" />
-        <callback class="magento_versionsCms_block_adminhtml_cms_page_revision_edit" method="removeRevisionEditButtons" />
+        <callback class="magento_versionsCms_block_adminhtml_cms_page_revision_edit_info" method="removeRevisionEditButtons" />
         <callback class="magento_versionsCms_block_adminhtml_cms_page_preview_buttons" method="removePreviewPublishButton" />
         <callback class="magento_giftCardAccount_block_adminhtml_giftcardaccount" method="removeGiftCardAccountAddButton" />
         <callback class="magento_giftCardAccount_block_adminhtml_giftcardaccount_edit" method="removeGiftCardAccountControlButtons" />
@@ -272,7 +272,7 @@
         <callback class="magento_versionsCms_block_adminhtml_cms_page_edit_tab_hierarchy" method="prepareCmsHierarchyNodes" />
         <callback class="magento_customer_block_adminhtml_group" method="removeCustomerGroupAddButton" />
         <callback class="magento_customer_block_adminhtml_group_edit" method="removeCustomerGroupControlButtons" />
-        <callback class="magento_adminhtml_block_sales_transactions_detail" method="removeSalesTransactionControlButtons" />
+        <callback class="magento_sales_block_adminhtml_transactions_detail" method="removeSalesTransactionControlButtons" />
         <callback class="magento_tax_block_adminhtml_rule" method="removeTaxRuleAddButton" />
         <callback class="magento_tax_block_adminhtml_rule_edit" method="removeTaxRuleControlButtons" />
         <callback class="magento_adminhtml_block_tax_rule_edit_form" method="disableTaxRelatedMultiselects" />
@@ -283,14 +283,14 @@
         <callback class="magento_customerCustomAttributes_block_adminhtml_customer_address_attribute" method="removeAddNewCustomerAttributeButton" />
         <callback class="magento_customerCustomAttributes_block_adminhtml_customer_attribute_edit" method="removeDeleteCustomerAttributeButton" />
         <callback class="magento_customerCustomAttributes_block_adminhtml_customer_address_attribute_edit" method="removeDeleteCustomerAttributeButton" />
-        <callback class="magento_adminhtml_block_promo_catalog" method="removeRuleEntityGridButtons" />
+        <callback class="magento_catalogRule_block_adminhtml_promo_catalog" method="removeRuleEntityGridButtons" />
         <callback class="magento_adminhtml_block_promo_quote" method="removeRuleEntityGridButtons" />
-        <callback class="magento_customerSegment_block_adminhtml_customersegment" method="removeRuleEntityGridButtons" />
         <callback class="magento_reminder_block_adminhtml_reminder" method="removeRuleEntityGridButtons" />
-        <callback class="magento_adminhtml_block_promo_catalog_edit" method="removeRuleEntityEditButtons" />
-        <callback class="magento_adminhtml_block_promo_quote_edit" method="removeRuleEntityEditButtons" />
-        <callback class="magento_adminhtml_block_rating_edit" method="removeRatingEditButtons" />
-        <callback class="magento_customerSegment_block_adminhtml_customersegment_edit" method="removeRuleEntityEditButtons" />
+        <callback class="magento_catalogRule_block_adminhtml_promo_catalog_edit" method="removeRuleEntityEditButtons" />
+        <callback class="magento_salesRule_block_adminhtml_promo_quote_edit" method="removeRuleEntityEditButtons" />
+        <callback class="magento_review_block_adminhtml_rating_edit" method="removeRatingEditButtons" />
+        <callback class="magento_customerSegment_block_adminhtml_customersegment" method="removeRuleEntityGridButtons" />
+        <callback class="magento_customerSegment_block_adminhtml_customersegment_edit" method="removeSegmentRuleEntityEditButtons" />
         <callback class="magento_reminder_block_adminhtml_reminder_edit" method="removeRuleEntityEditButtons" />
         <callback class="magento_rma_block_adminhtml_rma" method="removeRmaAddAttributeButton" />
         <callback class="magento_rma_block_adminhtml_rma_item_attribute_edit" method="removeRmaDeleteAttributeButton" />
