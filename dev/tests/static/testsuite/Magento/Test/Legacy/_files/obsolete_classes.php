@@ -2698,4 +2698,5 @@ return array(
     ['Magento\Rule\Helper\Data'],
     ['Magento\Theme\Helper\Data'],
     ['Magento\Widget\Helper\Data'],
+    ['Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction'],
 );
