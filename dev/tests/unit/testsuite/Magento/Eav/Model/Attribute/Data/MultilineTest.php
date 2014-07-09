@@ -111,6 +111,7 @@ class MultilineTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Eav\Model\Attribute\Data\Multiline::validateValue
+     * @covers \Magento\Eav\Model\Attribute\Data\Text::validateValue
      *
      * @param mixed $value
      * @param array $rules
