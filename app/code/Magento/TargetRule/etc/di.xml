@@ -32,4 +32,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="targetRuleImportInvalidate" type="Magento\TargetRule\Model\Indexer\Product\Rule\Plugin\Import" />
+    </type>
+    <type name="Magento\Catalog\Model\Category">
+        <plugin name="targetRuleCategoryInvalidate" type="Magento\TargetRule\Model\Indexer\Product\Rule\Plugin\Category" />
+    </type>
+    <type name="\Magento\CustomerSegment\Model\Segment">
+        <plugin name="targetRuleCustomerSegmentInvalidate" type="Magento\TargetRule\Model\Indexer\Product\Rule\Plugin\CustomerSegment" />
+    </type>
 </config>

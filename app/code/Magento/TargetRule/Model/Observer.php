@@ -19,17 +19,17 @@ class Observer
     protected $_indexer;
 
     /**
-     * @var \Magento\TargetRule\Model\Indexer\Product\Rule
+     * @var \Magento\TargetRule\Model\Indexer\Product\Rule\Processor
      */
     protected $_productRuleIndexer;
 
     /**
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\TargetRule\Model\Indexer\Product\Rule $productRuleIndexer
+     * @param \Magento\TargetRule\Model\Indexer\Product\Rule\Processor $productRuleIndexer
      */
     public function __construct(
         \Magento\Index\Model\Indexer $indexer,
-        \Magento\TargetRule\Model\Indexer\Product\Rule $productRuleIndexer
+        \Magento\TargetRule\Model\Indexer\Product\Rule\Processor $productRuleIndexer
     ) {
         $this->_indexer = $indexer;
         $this->_productRuleIndexer = $productRuleIndexer;
@@ -68,7 +68,7 @@ class Observer
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
 
-        $this->_productRuleIndexer->executeRow($product->getId());
+        $this->_productRuleIndexer->reindexRow($product->getId());
     }
 
     /**
@@ -82,15 +82,7 @@ class Observer
         if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled' &&
             $observer->getDataObject()->isValueChanged()
         ) {
-            $this->_indexer->logEvent(
-                new \Magento\Framework\Object(array('type_id' => null, 'store' => null)),
-                \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
-                \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
-            );
-            $this->_indexer->indexEvents(
-                \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
-                \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
-            );
+            $this->_productRuleIndexer->markIndexerAsInvalid();
         }
         return $this;
     }
