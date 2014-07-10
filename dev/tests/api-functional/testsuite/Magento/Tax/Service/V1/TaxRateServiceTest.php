@@ -249,10 +249,11 @@ class TaxRateServiceTest extends WebapiAbstract
         $expectedRateData = [
             'id' => '2',
             'country_id' => 'US',
-            'region_id' => 43,
+            'region_id' => '43',
             'postcode' => '*',
             'code' => 'US-NY-*-Rate 1',
-            'percentage_rate' => 8.375
+            'percentage_rate' => 8.375,
+            'titles' => []
         ];
         $this->assertEquals($expectedRateData, $result);
     }
