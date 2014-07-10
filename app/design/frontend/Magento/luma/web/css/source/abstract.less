@@ -25,6 +25,20 @@
 }
 
 //
+//    Secondary button
+//--------------------------------------
+.abstract-revert-to-action-secondary {
+    &:extend(.abstract-revert-secondary-color all);
+    &:extend(.abstract-revert-secondary-size all);
+    border-radius: @button-border-radius;
+    .css(box-shadow, @button-shadow);
+    &:active,
+    &:focus {
+        .css(box-shadow, @button-shadow-active);
+    }
+}
+
+//
 //    Link as a button
 //--------------------------------------
 .action-link-button {

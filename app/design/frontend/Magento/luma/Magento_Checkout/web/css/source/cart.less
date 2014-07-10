@@ -45,7 +45,7 @@
             display: none;
             .font-size(24);
             font-weight: @font-weight-light;
-            margin: 12px 0 17px;
+            margin: 12px 0;
         }
 
         .block {
@@ -54,7 +54,7 @@
             .item.options {
                 margin: 0 0 25px;
             }
-            form:not(:last-child) {
+            form:not(:last-of-type) {
                 .fieldset {
                     margin: 0 0 25px;
                 }
@@ -65,7 +65,7 @@
             }
 
             .field {
-                margin: 0 0 @indent-s-base;
+                margin: 0 0 16px;
                 &.note {
                     display: none;
                 }
@@ -75,9 +75,7 @@
                 > .primary {
                     text-align: left;
                     .action.primary {
-                        &:extend(.abstract-revert-secondary-color all);
-                        &:extend(.abstract-revert-secondary-size all);
-                        width: auto;
+                        &:extend(.abstract-revert-to-action-secondary all);
                     }
                 }
             }
@@ -94,12 +92,6 @@
             }
             .item {
                 margin-bottom: 25px;
-                > .giftregistry {
-                    text-align: left;
-                    .field {
-                        margin: 0 0 10px;
-                    }
-                }
             }
         }
     }
@@ -193,8 +185,14 @@
     //  Products table
     &.table-wrapper {
         thead {
-            th {
-                padding-top: 0;
+            .col {
+                &.qty,
+                &.price,
+                &.subtotal,
+                &.msrp {
+                    padding-top: 24px;
+                    padding-bottom: 15px;
+                }
             }
         }
         tbody td {
@@ -362,8 +360,9 @@
             display: none;
         }
         .actions-toolbar .primary .action.primary {
-            &:extend(.abstract-revert-secondary-color all);
-            &:extend(.abstract-revert-secondary-size all);
+            &:extend(.abstract-revert-to-action-secondary all);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
         }
         .action.check {
             &:extend(.abstract-action-button-as-link all);
@@ -410,6 +409,7 @@
         &-discount {
             border-bottom: @border-width-base solid @border-color-base;
         }
+
         &.table-wrapper {
             thead {
                 .col {
@@ -452,7 +452,6 @@
 //
 //    Cross sell
 //--------------------------------------
-
 .block.crosssell {
     padding: 0 @mobile-cart-padding;
     margin-top: 70px;
@@ -576,6 +575,7 @@
             .layout-column(2, 1, @layout-column-checkout-main-width);
             .block {
                 &:extend(.blocks-2columns all);
+                width: 48%;
                 > .title {
                     border: 0;
                     cursor: default;
@@ -610,5 +610,9 @@
     //  Cross sell
     .block.crosssell {
         padding: 0;
+        .layout-column(2, 1, @layout-column-checkout-main-width);
+        &:extend(.add-box-sizing-desktop all);
+        padding-right: 4%;
+        .products-grid .product-item { width: 100%/5 }
     }
 }

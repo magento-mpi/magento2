@@ -1,0 +1,56 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.form.giftregistry.share,
+.form.giftregistry.edit {
+    &:extend(.add-recipients all);
+    .actions-toolbar:not(:last-child) {
+        margin-bottom: @indent-xl-base;
+    }
+}
+
+.form.giftregistry.items {
+    .actions-toolbar {
+        &:extend(.reset-left-margin all);
+    }
+}
+
+.dropdown.giftregisty {
+    &:extend(.dropdown-simple all);
+}
+
+.data.table.giftregistry .field.qty .qty {
+    &:extend(.input-qty all);
+}
+
+.form.giftregistry .fieldset {
+    .cart-summary & {
+        margin: 15px 0 25px;
+        text-align: left;
+        .field {
+            margin: 0 0 10px;
+            .control {
+                float: none;
+                width: auto;
+            }
+        }
+        .action.primary {
+            &:extend(.abstract-revert-to-action-secondary all);
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .form.giftregistry.share,
+    .form.giftregistry.edit {
+        &:extend(.add-recipients-desktop all);
+    }
+}
