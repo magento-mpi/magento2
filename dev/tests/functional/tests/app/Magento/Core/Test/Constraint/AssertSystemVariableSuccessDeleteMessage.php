@@ -16,7 +16,7 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertSystemVariableSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'You deleted the customer.';
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the custom variable.';
 
     /**
      * Constraint severeness

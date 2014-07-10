@@ -28,7 +28,7 @@ class AssertSystemVariableInFooter extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Add created variable to existed footer block and assert that Custom Variable is displayed on frontend oin footer
+     * Add created variable to existed footer block and assert that Custom Variable is displayed on frontend in footer
      * and has correct data according to dataset
      *
      * @param SystemVariable $customVariable
@@ -44,6 +44,7 @@ class AssertSystemVariableInFooter extends AbstractConstraint
         CmsIndex $cmsIndex
     ) {
         $filter = ['identifier' => 'footer_links'];
+        $blockIndex->open();
         $blockIndex->getGrid()->searchAndOpen($filter);
 
         $blockEdit->getBlockForm()->toggleEditor();
