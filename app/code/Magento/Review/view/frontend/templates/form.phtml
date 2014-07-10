@@ -17,8 +17,8 @@
         <legend class="legend review-legend"><span><?php echo __("You're reviewing:"); ?></span><strong><?php echo $this->escapeHtml($this->getProductInfo()->getName()) ?></strong></legend><br />
         <?php if ($this->getRatings() && $this->getRatings()->getSize()): ?>
         <span id="input-message-box"></span>
-        <fieldset class="field ratings vote required review-field-ratings">
-            <legend class="label"><span><?php echo __('How do you rate this product?') ?><span></legend>
+        <fieldset class="field required review-field-ratings">
+            <legend class="label"><span><?php echo __('How do you rate this product?') ?><span></legend><br/>
             <div class="control">
                 <div class="nested" id="product-review-table">
                     <?php foreach ($this->getRatings() as $_rating): ?>

@@ -26,12 +26,16 @@
 
 .review-control-vote {
     .rating-vote();
+    &:before {
+        content: "@{icon-star-empty}@{icon-star-empty}@{icon-star-empty}@{icon-star-empty}@{icon-star-empty}";
+        content: @icon-star-empty @icon-star-empty @icon-star-empty @icon-star-empty @icon-star-empty;
+    }
 }
 
 
 
 //
-//    Add reviewblock
+//    Reviews list and form
 //--------------------------------------
 
 
@@ -71,10 +75,11 @@
     .fieldset &-legend.legend {
         border-bottom: 0;
     }
-    &-field-ratings {
-        .label { padding: 0; }
-        .label {
+    .fieldset &-field-ratings {
+        > .label {
+            margin-bottom: @indent-s-base;
             font-weight: 600;
+            padding: 0;
         }
     }
 
@@ -87,8 +92,8 @@
     &-item {
         padding: @indent-m-base 0;
         border-bottom: 1px solid #c9c9c9;
-        overflow: hidden;
-
+        margin: 0;
+        .clearer();
         &:last-child {
             border-width: 0;
         }
@@ -104,9 +109,9 @@
             &-label {
                 display: table-cell;
                 vertical-align: top;
-                padding-top: 2px;
+                padding-top: 1px;
                 padding-right: @indent-m-base;
-                padding-bottom: @indent-s-base;
+                padding-bottom: @indent-xs-base;
             }
             &-result {
                 vertical-align: top;
@@ -189,6 +194,7 @@
         &-ratings {
             max-width: @review-ratings-left - @indent-xl-base;
             float: left;
+            margin-bottom: 0;
         }
         &-content,
         &-details {
@@ -229,7 +235,6 @@
     }
     .rating.summary {
         display:inline-block;
-        margin-left: -@indent-xs-base;
         vertical-align: middle;
     }
     .reviews.actions {
@@ -261,8 +266,7 @@
         }
         .reviews.actions {
             font-size: @font-size-base;
-            a {
-            }
+            margin-top: 3px;
         }
     }
 }

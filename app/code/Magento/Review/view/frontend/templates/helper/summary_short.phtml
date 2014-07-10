@@ -32,17 +32,3 @@
     </a>
 </div>
 <?php endif; ?>
-<script type="text/javascript">
-    (function($) {
-        $(document).ready(function() {
-            $('.reviews.summary .action').click(function(evt){
-                if($('#product_reviews').length > 0) {
-                    evt.preventDefault();
-                    $('[data-sections]').terms({start:'product_reviews'});
-                } else {
-                    return
-                }
-            })
-        });
-    })(jQuery);
-</script>

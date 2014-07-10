@@ -90,7 +90,7 @@
     overflow: hidden;
     ._rating-label-hide(@_label-hide);
     .rating.result {
-        width: (@_icon-font-size * @_icon-count) - (abs(@_icon-letter-spacing) * (@_icon-count - 1));
+        width: (@_icon-font-size * @_icon-count) + ceil(@_icon-letter-spacing * (@_icon-count - 1));
         &:before {
             position: absolute;
             z-index: 1;

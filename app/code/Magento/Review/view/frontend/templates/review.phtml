@@ -25,6 +25,9 @@ function processReviews(url) {
                 event.preventDefault();
             });
         });
+        $('html, body').animate({
+            scrollTop: $('#reviews').offset().top
+        }, 300);
     });
 })(jQuery);
 }

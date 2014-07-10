@@ -48,10 +48,10 @@
 
         <?php if($this->getLastPageNum()>1): ?>
         <div class="pages">
-            <strong class="label" id="paging-label"><?php echo __('Page') ?></strong>
-            <ul class="items" aria-labelledby="paging-label">
+            <strong class="label pages-label" id="paging-label"><?php echo __('Page') ?></strong>
+            <ul class="items pages-items" aria-labelledby="paging-label">
             <?php if (!$this->isFirstPage()): ?>
-                <li class="item">
+                <li class="item pages-item-previous">
                     <?php $text = $this->getAnchorTextForPrevious() ? $this->getAnchorTextForPrevious() : '';?>
                     <a class="<?php echo $text ? 'link ' : 'action '?> previous" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $text ? $text : __('Previous') ?>">
                         <span class="label"><?php echo __('Page') ?></span>
@@ -113,7 +113,7 @@
             <?php endif;?>
 
             <?php if (!$this->isLastPage()): ?>
-                <li class="item">
+                <li class="item pages-item-next">
                     <?php $text = $this->getAnchorTextForNext() ? $this->getAnchorTextForNext() : '';?>
                     <a class="<?php echo $text ? 'link ' : 'action '?> next" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $text ? $text : __('Next') ?>">
                         <span class="label"><?php echo __('Page') ?></span>
