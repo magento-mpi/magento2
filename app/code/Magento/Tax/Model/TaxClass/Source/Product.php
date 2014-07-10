@@ -59,7 +59,6 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
         \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
-
     ) {
         $this->_coreData = $coreData;
         $this->_classesFactory = $classesFactory;
