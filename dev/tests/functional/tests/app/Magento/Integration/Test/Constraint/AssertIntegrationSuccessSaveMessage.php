@@ -31,11 +31,18 @@ class AssertIntegrationSuccessSaveMessage extends AbstractConstraint
      *
      * @param IntegrationIndex $integrationIndexPage
      * @param Integration $integration
+     * @param Integration|null $initialIntegration
      * @return void
      */
-    public function processAssert(IntegrationIndex $integrationIndexPage, Integration $integration)
-    {
-        $expectedMessage = sprintf(self::SUCCESS_SAVE_MESSAGE, $integration->getName());
+    public function processAssert(
+        IntegrationIndex $integrationIndexPage,
+        Integration $integration,
+        Integration $initialIntegration = null
+    ) {
+        $name = ($initialIntegration !== null && !$integration->hasData('name'))
+            ? $initialIntegration->getName()
+            : $integration->getName();
+        $expectedMessage = sprintf(self::SUCCESS_SAVE_MESSAGE, $name);
         $actualMessage = $integrationIndexPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             $expectedMessage,
