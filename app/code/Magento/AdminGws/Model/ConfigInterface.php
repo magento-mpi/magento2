@@ -34,4 +34,13 @@ interface ConfigInterface
      * @return string|null
      */
     public function getGroupProcessor($groupName);
+
+    /**
+     * Get callback for the object
+     *
+     * @param object $object
+     * @param string $callbackGroup
+     * @return string|null
+     */
+    public function getCallbackForObject($object, $callbackGroup);
 }
