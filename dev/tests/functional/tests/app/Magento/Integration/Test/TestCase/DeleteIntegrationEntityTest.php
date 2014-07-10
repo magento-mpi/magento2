@@ -63,6 +63,6 @@ class DeleteIntegrationEntityTest extends Injectable
         // Steps
         $filter = ['name' => $integration->getName()];
         $this->integrationIndexPage->open();
-        $this->integrationIndexPage->getIntegrationGrid()->delete($filter);
+        $this->integrationIndexPage->getIntegrationGrid()->searchAndDelete($filter);
     }
 }

@@ -44,24 +44,24 @@ class IntegrationGrid extends Grid
      *
      * @var string
      */
-    protected $deleteLink = 'td[class*=col-delete] > .delete';
+    protected $deleteLink = '[data-column="delete"] button';
 
     /**
      * Selector for delete block confirmation window
      *
      * @var string
      */
-    protected $deleteBlockSelector = './ancestor::body//div[div[span[text()="Are you sure ?"]]]';
+    protected $deleteBlockSelector = './/ancestor::body/div[div[@id="integration-delete-container"]]';
 
     /**
-     * Delete current item
+     * Search and delete current item
      *
-     * @param array $items
+     * @param array $item
      * @return void
      */
-    public function delete($items = [])
+    public function searchAndDelete(array $item)
     {
-        $this->search($items);
+        $this->search($item);
         $this->_rootElement->find($this->deleteLink)->click();
 
         /** @var \Magento\Integration\Test\Block\Adminhtml\Integration\IntegrationGrid\DeleteDialog $deleteDialog */

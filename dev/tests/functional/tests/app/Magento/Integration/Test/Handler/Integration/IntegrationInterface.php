@@ -15,5 +15,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface IntegrationInterface extends HandlerInterface
 {
-   //
+    //
 }
