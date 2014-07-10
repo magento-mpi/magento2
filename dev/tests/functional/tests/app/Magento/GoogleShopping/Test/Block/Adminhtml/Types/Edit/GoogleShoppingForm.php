@@ -19,10 +19,18 @@ use Mtf\Client\Element\Locator;
 class GoogleShoppingForm extends Form
 {
     /**
+     * Attribute options locator
+     *
+     * @var string
+     */
+    protected $attributeOptions = '//select[@id="gcontent_attribute_0_attribute"]//option';
+
+    /**
      * Fill specified form data
      *
      * @param array $fields
      * @param Element $element
+     * @return void
      */
     protected function _fill(array $fields, Element $element = null)
     {
@@ -44,14 +52,14 @@ class GoogleShoppingForm extends Form
     /**
      * Find Attribute in Attribute set mapping form
      *
-     * @param string $deletedAttribute
+     * @param string $attributeName
      * @return bool
      */
-    public function findAttribute($deletedAttribute)
+    public function findAttribute($attributeName)
     {
         $attributes = $this->getOptions();
         foreach ($attributes as $attribute) {
-            if ($attribute == $deletedAttribute) {
+            if ($attribute == $attributeName) {
                 return true;
             }
         }
@@ -76,19 +84,11 @@ class GoogleShoppingForm extends Form
      */
     protected function getOptions()
     {
+        $elements = $this->_rootElement->find($this->attributeOptions, Locator::SELECTOR_XPATH)->getElements();
+
         $options = [];
-        $counter = 1;
-        $newOption = $this->_rootElement->find(
-            sprintf('//select[@id="gcontent_attribute_0_attribute"]//option[%d]', $counter),
-            Locator::SELECTOR_XPATH
-        );
-        while ($newOption->isVisible()) {
-            $options[] = $newOption->getText();
-            $counter++;
-            $newOption = $this->_rootElement->find(
-                sprintf('//select[@id="gcontent_attribute_0_attribute"]//option[%d]', $counter),
-                Locator::SELECTOR_XPATH
-            );
+        foreach ($elements as $key => $element) {
+            $options[$key] = $element->getText();
         }
 
         return $options;

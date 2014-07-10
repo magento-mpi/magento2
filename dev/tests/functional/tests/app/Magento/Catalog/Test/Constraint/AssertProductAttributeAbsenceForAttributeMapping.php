@@ -35,6 +35,7 @@ class AssertProductAttributeAbsenceForAttributeMapping extends AbstractConstrain
      * @param CatalogAttributeSet $productTemplate
      * @param GoogleShoppingTypesIndex $shoppingTypesIndex
      * @param GoogleShoppingTypesNew $shoppingTypesNew
+     * @return void
      */
     public function processAssert
     (

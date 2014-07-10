@@ -53,7 +53,11 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
     {
         /** @var CatalogAttributeSet $fixture */
         $response = $this->createAttributeSet($fixture);
-        $attributeSetId = $this->getData($this->attributeSetId, $response);
+
+        $attributeSetId = (!$fixture->hasData('attribute_set_id'))
+            ? $this->getData($this->attributeSetId, $response)
+            : 4;
+
         $assignedAttributes = $fixture->hasData('assigned_attributes')
             ? $fixture->getDataFieldConfig('assigned_attributes')['source']->getAttributes()
             : [];
@@ -62,6 +66,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
         foreach ($assignedAttributes as $assignedAttribute) {
             $dataAttribute['attributes'][] = [$assignedAttribute->getAttributeId(), $dataAttribute['groups'][0][0]];
         }
+
         $this->updateAttributeSet($attributeSetId, $dataAttribute);
 
         return ['attribute_set_id' => $attributeSetId];
@@ -73,8 +78,10 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param CatalogAttributeSet $fixture
      * @return string
      */
-    protected function createAttributeSet(CatalogAttributeSet $fixture)
-    {
+    protected
+    function createAttributeSet(
+        CatalogAttributeSet $fixture
+    ) {
         $data = $fixture->getData();
         if (!isset($data['gotoEdit'])) {
             $data['gotoEdit'] = 1;
@@ -85,6 +92,9 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
                 ->getAttributeSet()
                 ->getAttributeSetId();
         } else {
+            if ($data['attribute_set_id'] == 4) {
+                return $this->getDefaultAttributeSet();
+            }
             $data['skeleton_set'] = $data['attribute_set_id'];
         }
 
@@ -98,14 +108,34 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
     }
 
     /**
+     * Get Default Attribute Set page with curl
+     *
+     * @return string
+     */
+    protected
+    function getDefaultAttributeSet()
+    {
+        $url = $_ENV['app_backend_url'] . 'catalog/product_set/edit/id/4/';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->write(CurlInterface::POST, $url, '1.0', []);
+        $response = $curl->read();
+        $curl->close();
+
+        return $response;
+    }
+
+    /**
      * Update Attribute Set
      *
      * @param int $attributeSetId
      * @param array $dataAttribute
      * @return void
      */
-    protected function updateAttributeSet($attributeSetId, array $dataAttribute)
-    {
+    protected
+    function updateAttributeSet(
+        $attributeSetId,
+        array $dataAttribute
+    ) {
         $data = ['data' => json_encode($dataAttribute)];
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/id/' . $attributeSetId . '/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -120,8 +150,10 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param string $response
      * @return array
      */
-    protected function getDataAttributes($response)
-    {
+    protected
+    function getDataAttributes(
+        $response
+    ) {
         $attributes = $this->getData($this->attributes, $response, true);
         $dataAttribute = [];
 
@@ -154,8 +186,12 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @return mixed
      * @throws \Exception
      */
-    protected function getData($regularExpression, $response, $isJson = false)
-    {
+    protected
+    function getData(
+        $regularExpression,
+        $response,
+        $isJson = false
+    ) {
         preg_match($regularExpression, $response, $matches);
         if (!isset($matches[1])) {
             throw new \Exception("Can't find data in response by regular expression \"{$regularExpression}\".");

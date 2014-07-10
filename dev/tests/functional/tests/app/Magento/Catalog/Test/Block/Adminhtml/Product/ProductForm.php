@@ -89,7 +89,19 @@ class ProductForm extends FormTabs
      */
     protected $attributeSearch = '#product-attribute-search-container';
 
+    /**
+     * Variations Attribute Search locator the Product page
+     *
+     * @var string
+     */
     protected $variationsAttributeSearch = '#variations-search-field';
+
+    /**
+     * Variations Tab locator the Product page
+     *
+     * @var string
+     */
+    protected $variationsTab = '#product_info_tabs_super_config_content .title';
 
     /**
      * Fill the product form
@@ -334,7 +346,7 @@ class ProductForm extends FormTabs
      * @param CatalogProductAttribute $productAttribute
      * @return bool
      */
-    public function checkAttributeInSearchAttributeForm($productAttribute)
+    public function checkAttributeInSearchAttributeForm(CatalogProductAttribute $productAttribute)
     {
         return $this->_rootElement->find(
             $this->attributeSearch,
@@ -366,6 +378,8 @@ class ProductForm extends FormTabs
      */
     public function openVariationsTab()
     {
-        $this->_rootElement->find('#product_info_tabs_super_config_content .title', Locator::SELECTOR_CSS)->click();
+        if (!$this->_rootElement->find($this->variationsAttributeSearch, Locator::SELECTOR_CSS)->isVisible()) {
+            $this->_rootElement->find($this->variationsTab, Locator::SELECTOR_CSS)->click();
+        }
     }
 }

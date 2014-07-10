@@ -26,7 +26,7 @@ class GoogleShoppingTypesIndex extends BackendPage
         ],
         'grid' => [
             'name' => 'grid',
-            'class' => 'Magento\GoogleShopping\Test\Block\Adminhtml\Types\Grid',
+            'class' => 'Magento\Backend\Test\Block\Widget\Grid',
             'locator' => '.grid',
             'strategy' => 'css selector',
         ],

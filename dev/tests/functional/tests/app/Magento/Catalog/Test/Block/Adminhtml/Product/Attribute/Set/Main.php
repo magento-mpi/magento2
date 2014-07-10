@@ -38,7 +38,7 @@ class Main extends Block
      * @param string $attributeGroup
      * @return void
      */
-    public function moveAttribute($attributeData, $attributeGroup)
+    public function moveAttribute(array $attributeData, $attributeGroup)
     {
         if (isset($attributeData['attribute_code'])) {
             $attribute = $attributeData['attribute_code'];
@@ -66,7 +66,7 @@ class Main extends Block
     /**
      * Checks present Product Attribute on product_set Groups
      *
-     * @param $attributeLabel
+     * @param string $attributeLabel
      * @return bool
      */
     public function checkProductAttribute($attributeLabel)

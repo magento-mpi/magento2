@@ -67,14 +67,16 @@ class Search extends SuggestElement
      * @param CatalogProductAttribute $productAttribute
      * @return bool
      */
-    public function isExistAttributeInSearchResult($productAttribute)
+    public function isExistAttributeInSearchResult(CatalogProductAttribute $productAttribute)
     {
-        $this->find($this->suggest)->setValue($productAttribute->getFrontendLabel());
+        $attribute = $productAttribute->getFrontendLabel();
+        $searchResult = $this->find($this->searchResult);
 
-        if (!$this->find($this->searchResult)->isVisible()) {
+        $this->find($this->suggest)->setValue($attribute);
+        if (!$searchResult->isVisible()) {
             return false;
         }
-        if ($this->find($this->searchResult)->getText() == $productAttribute->getFrontendLabel()) {
+        if ($searchResult->getText() == $attribute) {
             return true;
         }
         return false;
