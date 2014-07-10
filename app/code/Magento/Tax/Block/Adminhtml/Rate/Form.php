@@ -43,11 +43,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_fieldsetFactory;
 
     /**
-     * @var \Magento\Tax\Model\Calculation\RateFactory
-     */
-    protected $_rateFactory;
-
-    /**
      * @var \Magento\Directory\Model\Config\Source\Country
      */
     protected $_country;
@@ -74,7 +69,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\Config\Source\Country $country
      * @param \Magento\Tax\Block\Adminhtml\Rate\Title\FieldsetFactory $fieldsetFactory
-     * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
      * @param \Magento\Tax\Service\V1\Collection\TaxRateCollection $taxRateCollection
@@ -87,7 +81,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\Config\Source\Country $country,
         \Magento\Tax\Block\Adminhtml\Rate\Title\FieldsetFactory $fieldsetFactory,
-        \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
         \Magento\Tax\Service\V1\Collection\TaxRateCollection $taxRateCollection,
@@ -96,7 +89,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_regionFactory = $regionFactory;
         $this->_country = $country;
         $this->_fieldsetFactory = $fieldsetFactory;
-        $this->_rateFactory = $rateFactory;
         $this->_taxData = $taxData;
         $this->_taxRateService = $taxRateService;
         $this->_taxRateCollection = $taxRateCollection;

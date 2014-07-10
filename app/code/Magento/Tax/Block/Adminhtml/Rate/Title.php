@@ -43,13 +43,12 @@ class Title extends \Magento\Framework\View\Element\Template
     protected $_taxRateService;
 
     /**
-     * @var \Magento\Tax\Model\Calculation\Rate\Converter
-     */
-    protected $_taxRateConverter;
-
-    /**
+     * Initialize dependencies
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Store\Model\StoreFactory $storeFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
      * @param array $data
      */
     public function __construct(
@@ -57,12 +56,10 @@ class Title extends \Magento\Framework\View\Element\Template
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
-        \Magento\Tax\Model\Calculation\Rate\Converter $taxRateConverter,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_taxRateService = $taxRateService;
-        $this->_taxRateConverter = $taxRateConverter;
         $this->_storeFactory = $storeFactory;
         parent::__construct($context, $data);
     }
