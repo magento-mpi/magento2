@@ -94,7 +94,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @var \Magento\Framework\Object
      */
-    protected $_renderingOutput = null;
+    protected $_renderingOutput;
 
     /**
      * Cache of generated elements' HTML
