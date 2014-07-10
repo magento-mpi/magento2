@@ -20,12 +20,14 @@ try {
     $opt = new \Zend_Console_Getopt(
         array(
             'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
+            'version|ver=s' => 'Version for the composer.json file',
             'verbose|v' => 'Detailed console logs',
             'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
         )
     );
     $opt->parse();
 
+    $version = $opt->getOption('ver');
     $workingDir = $opt->getOption('d') ?: realpath(BP);
     if (!$workingDir || !is_dir($workingDir)) {
         throw new Exception($opt->getOption('d') . " must be a Magento code base.");
@@ -59,6 +61,9 @@ try {
         $workingDir . '/composer.json'
     );
     $root->getJson()->name = $name;
+    if ($version) {
+        $root->getJson()->version = $version;
+    }
     $reader = new Reader($workingDir);
     foreach ($reader->readMagentoPackages() as $package) {
         $root->setRequire($package->get('name'), $package->get('version'));
