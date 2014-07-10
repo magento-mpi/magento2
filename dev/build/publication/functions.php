@@ -1,5 +1,12 @@
 <?php
 /**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+/**
  * Execute a command with automatic escaping of arguments
  *
  * @param string $command
