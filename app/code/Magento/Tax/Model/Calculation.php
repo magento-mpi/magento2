@@ -210,18 +210,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Specify customer object which can be used for rate calculation
-     *
-     * @param CustomerDataObject $customerData
-     * @return $this
-     */
-    public function setCustomerData(CustomerDataObject $customerData)
-    {
-        $this->_customer = $customerData;
-        return $this;
-    }
-
-    /**
      * Fetch default customer tax class
      *
      * @param null|Store|string|int $store
@@ -493,7 +481,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
             return $this->getRateOriginRequest($store);
         }
         $address = new \Magento\Framework\Object();
-        $customerData = $customerData ? $customerData : $this->getCustomerData();
         $basedOn = $this->_scopeConfig->getValue(
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -510,7 +497,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
                 || ($shippingAddress === false || is_null($shippingAddress) || !$shippingAddress->getCountryId())
                 && $basedOn == 'shipping'
             ) {
-                if ($customerData->getId()) {
+                if ($customerData && $customerData->getId()) {
                     try {
                         $defaultBilling = $this->_addressService->getDefaultBillingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
@@ -569,7 +556,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
                 break;
         }
 
-        if (is_null($customerTaxClass) && $customerData->getId()) {
+        if (is_null($customerTaxClass) && $customerData && $customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
         } elseif ($customerTaxClass === false && !$customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup(GroupServiceInterface::NOT_LOGGED_IN_ID)->getTaxClassId();

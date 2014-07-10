@@ -8,7 +8,6 @@
 namespace Magento\Catalog\Helper\Product;
 
 use Magento\Catalog\Model\Product;
-use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * Collection of tax module calls
@@ -20,19 +19,13 @@ class Price extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $taxData;
 
-    /**
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $taxCalculation;
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
-    public function __construct(\Magento\Tax\Helper\Data $taxData, \Magento\Tax\Model\Calculation $taxCalculation)
+    public function __construct(\Magento\Tax\Helper\Data $taxData)
     {
         $this->taxData = $taxData;
-        $this->taxCalculation = $taxCalculation;
     }
 
     /**
@@ -76,56 +69,5 @@ class Price extends \Magento\Framework\App\Helper\AbstractHelper
     public function priceIncludesTax()
     {
         return $this->taxData->priceIncludesTax();
-    }
-
-    /**
-     * Get customer data object
-     *
-     * @return Customer
-     */
-    public function getCustomer()
-    {
-        return $this->taxCalculation->getCustomerData();
-    }
-
-    /**
-     * Specify customer object which can be used for rate calculation
-     *
-     * @param Customer $customer
-     * @return $this
-     */
-    public function setCustomer(Customer $customer)
-    {
-        $this->taxCalculation->setCustomerData($customer);
-        return $this;
-    }
-
-    /**
-     * Get request object with information necessary for getting tax rate
-     *
-     * @param null|bool|\Magento\Framework\Object $shippingAddress
-     * @param null|bool||\Magento\Framework\Object $billingAddress
-     * @param null|int $customerTaxClass
-     * @param null|int $store
-     * @return \Magento\Framework\Object
-     */
-    public function getRateRequest(
-        $shippingAddress = null,
-        $billingAddress = null,
-        $customerTaxClass = null,
-        $store = null
-    ) {
-        return $this->taxCalculation->getRateRequest($shippingAddress, $billingAddress, $customerTaxClass, $store);
-    }
-
-    /**
-     * Get calculation tax rate by specific request
-     *
-     * @param \Magento\Framework\Object $request
-     * @return float
-     */
-    public function getRate($request)
-    {
-        return $this->taxCalculation->getRate($request);
     }
 }

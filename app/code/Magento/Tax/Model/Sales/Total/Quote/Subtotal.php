@@ -110,8 +110,6 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             return $this;
         }
 
-        $this->_calculator->setCustomerData($address->getQuote()->getCustomerData());
-
         $addressRequest = $this->_getAddressTaxRequest($address);
         $storeRequest = $this->_getStoreTaxRequest($address);
         if ($this->_config->priceIncludesTax($this->_store)) {
@@ -746,7 +744,8 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             $address,
             $address->getQuote()->getBillingAddress(),
             $address->getQuote()->getCustomerTaxClassId(),
-            $address->getQuote()->getStore()
+            $address->getQuote()->getStore(),
+            $this->_address->getQuote()->getCustomerData()
         );
         return $addressTaxRequest;
     }

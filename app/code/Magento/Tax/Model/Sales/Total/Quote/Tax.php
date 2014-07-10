@@ -104,9 +104,6 @@ class Tax extends AbstractTotal
 
         $this->_store = $address->getQuote()->getStore();
         $customerData = $address->getQuote()->getCustomerData();
-        if ($customerData) {
-            $this->_calculator->setCustomerData($address->getQuote()->getCustomerData());
-        }
 
         if (!$address->getAppliedTaxesReset()) {
             $address->setAppliedTaxes(array());
@@ -120,7 +117,8 @@ class Tax extends AbstractTotal
             $address,
             $address->getQuote()->getBillingAddress(),
             $address->getQuote()->getCustomerTaxClassId(),
-            $this->_store
+            $this->_store,
+            $customerData
         );
 
         if ($this->_config->priceIncludesTax($this->_store)) {
