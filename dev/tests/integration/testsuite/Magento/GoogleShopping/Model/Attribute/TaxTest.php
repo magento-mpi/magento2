@@ -9,12 +9,13 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Tax\Model\ClassModel;
+use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
+use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 
 /**
  * @magentoDataFixture Magento/GoogleShopping/_files/product_simple.php
  * @magentoDataFixture Magento/GoogleShopping/_files/product_group_prices.php
  * @magentoDataFixture Magento/GoogleShopping/_files/multiple_products.php
- * @magentoDataFixture Magento/Tax/_files/tax_classes.php
  */
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
@@ -92,12 +93,11 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->taxRuleService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRuleServiceInterface');
         $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
+        $this->setUpDefaultRules();
     }
 
     public function testConvertAttributeWithSimpleProduct()
     {
-        $this->setUpDefaultRules();
-
         $defaultProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
         $defaultProductTaxClassProduct->load(20);
         $defaultProductTaxClassProduct->setTaxClassId($this->taxClasses['DefaultProductClass']);
@@ -133,17 +133,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             } elseif ($tax->__get('tax_region') == 'CA') {
                 $this->assertEquals(10.0, round($tax->__get('tax_rate'), 1));
             } else {
-                $this->assertFalse();
+                $this->fail('Invalid tax region');
             }
         }
-
-        $this->tearDownDefaultRules();
     }
 
     public function testConvertAttributeWithProductGroup()
     {
-        $this->setUpDefaultRules();
-
         $defaultProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
         $defaultProductTaxClassProduct->load(21);
         $defaultProductTaxClassProduct->setTaxClassId($this->taxClasses['DefaultProductClass']);
@@ -179,17 +175,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             } elseif ($tax->__get('tax_region') == 'CA') {
                 $this->assertEquals(10.0, round($tax->__get('tax_rate'), 1));
             } else {
-                $this->assertFalse();
+                $this->fail('Invalid tax region');
             }
         }
-
-        $this->tearDownDefaultRules();
     }
 
     public function testConvertAttributeWithMultipleProducts()
     {
-        $this->setUpDefaultRules();
-
         $productA = $this->objectManager->create('Magento\Catalog\Model\Product');
         $productA->load(22);
         $productA->setTaxClassId($this->taxClasses['DefaultProductClass']);
@@ -221,7 +213,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             } elseif ($tax->__get('tax_region') == 'CA') {
                 $this->assertEquals(10.0, round($tax->__get('tax_rate'), 1));
             } else {
-                $this->assertFalse();
+                $this->fail('Invalid tax region');
             }
         }
 
@@ -244,8 +236,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                 $this->fail('Invalid tax_region');
             }
         }
-
-        $this->tearDownDefaultRules();
     }
 
     /**
@@ -312,7 +302,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     /**
      * Helper function that tears down some default rules
      */
-    private function tearDownDefaultRules()
+    public function tearDown()
     {
         $this->taxRuleFixtureFactory->deleteTaxRules(array_values($this->taxRules));
         $this->taxRuleFixtureFactory->deleteTaxRates(array_values($this->taxRates));
