@@ -14,13 +14,32 @@ main.controller('navigationController', ['$scope', 'navigationService', function
         });
 
         $scope.nextState = function () {
-            $scope.$broadcast('nextState', $state.$current);
-            $state.go(navigationService.getNextState().id);
+            if ($scope.validate()) {
+                $scope.$broadcast('nextState', $state.$current);
+                $state.go(navigationService.getNextState().id);
+            }
         };
 
         $scope.previousState = function () {
             $state.go(navigationService.getPreviousState().id);
         };
+
+        // Flag indicating the validity of the form
+        $scope.valid = true;
+
+        // Check the validity of the form
+        $scope.validate = function() {
+            if ($state.current.validate) {
+                $scope.$broadcast('validate-' + $state.current.id);
+            }
+            return $scope.valid;
+        }
+
+        // Listens on 'validation-response' event, dispatched by descendant controller
+        $scope.$on('validation-response', function(event, data) {
+            $scope.valid = data;
+            event.stopPropagation();
+        });
     }
 ])
 .service('navigationService', ['$location', '$state', '$http', function ($location, $state, $http) {

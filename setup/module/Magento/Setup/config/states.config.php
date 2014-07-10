@@ -51,6 +51,7 @@ return [
             'header'      => 'Step 2: Add a Database',
             'controller'  => 'addDatabaseController',
             'nav-bar'     => true,
+            'validate'    => true,
             'order'       => 3,
         ],
         [
@@ -61,6 +62,7 @@ return [
             'header'      => 'Step 3: Web Configuration',
             'controller'  => 'webConfigurationController',
             'nav-bar'     => true,
+            'validate'    => true,
             'order'       => 4,
         ],
         [
@@ -81,6 +83,7 @@ return [
             'header'      => 'Step 5: Create Admin Account',
             'controller'  => 'createAdminAccountController',
             'nav-bar'     => true,
+            'validate'    => true,
             'order'       => 6,
         ],
         [

@@ -91,3 +91,12 @@ a.collapsed-options {
 .password-strength-strong > div {
     background-color: #3c763d;
 }
+.error-container {
+    display: block;
+    padding: 6px 12px;
+    margin-top: 2px;
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #a94442;
+    border-radius: 4px;
+}
