@@ -38,7 +38,7 @@ class TitleTest extends \PHPUnit_Framework_TestCase
         $rate = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate');
         $rate->load(1);
         /** @var \Magento\Store\Model\Store $store */
-        $store = $this->_objectManager->get('\Magento\Store\Model\Store');
+        $store = $this->_objectManager->get('Magento\Store\Model\Store');
         $store->load('test', 'code');
         $title = 'title';
         $rate->saveTitles([$store->getId() => $title]);
