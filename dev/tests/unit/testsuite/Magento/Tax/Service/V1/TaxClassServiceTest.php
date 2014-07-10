@@ -14,6 +14,8 @@ use Magento\Tax\Service\V1\Data\TaxClassBuilder;
 
 /**
  * Test for \Magento\Tax\Service\V1\TaxClassService
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 {
