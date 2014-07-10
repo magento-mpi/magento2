@@ -14,6 +14,7 @@ use Magento\Integration\Test\Fixture\Integration;
 
 /**
  * Class AssertIntegrationSuccessDeleteMessage
+ * Assert that success delete message is appeared on the Integrations page
  */
 class AssertIntegrationSuccessDeleteMessage extends AbstractConstraint
 {

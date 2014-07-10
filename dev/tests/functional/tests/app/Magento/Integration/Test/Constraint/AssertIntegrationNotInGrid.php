@@ -14,6 +14,7 @@ use Magento\Integration\Test\Fixture\Integration;
 
 /**
  * Class AssertIntegrationNotInGrid
+ * Assert that Integration is not presented in grid and cannot be found using name
  */
 class AssertIntegrationNotInGrid extends AbstractConstraint
 {
@@ -33,9 +34,7 @@ class AssertIntegrationNotInGrid extends AbstractConstraint
      */
     public function processAssert(IntegrationIndex $integrationIndexPage, Integration $integration)
     {
-        $filter = [
-            'name' => $integration->getName(),
-        ];
+        $filter = ['name' => $integration->getName()];
 
         $integrationIndexPage->open();
         \PHPUnit_Framework_Assert::assertFalse(
