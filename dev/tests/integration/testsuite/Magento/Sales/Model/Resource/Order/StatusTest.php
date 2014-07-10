@@ -43,7 +43,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true);
         $this->assertFalse((bool)
             $this->resourceModel->getReadConnection()->fetchOne($this->resourceModel->getReadConnection()->select()
-            ->from('sales_order_status_state', [new \Zend_Db_Expr(1)])
+            ->from($this->resourceModel->getTable('sales_order_status_state'), [new \Zend_Db_Expr(1)])
             ->where('status = ?', 'fake_status_do_not_use_it')
             ->where('state = ?', 'fake_state_do_not_use_it')));
     }
