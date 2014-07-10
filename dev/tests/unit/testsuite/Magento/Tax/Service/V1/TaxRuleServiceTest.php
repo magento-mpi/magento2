@@ -448,6 +448,10 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($taxRule, $actualResults->getItems()[0]);
     }
 
+    /**
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testGetRatesByCustomerAndProductTaxClassId()
     {
         $customerTaxClass = 0;

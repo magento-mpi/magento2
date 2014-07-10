@@ -148,5 +148,4 @@ class Zip
 
         return $zipPattern;
     }
-
 }
