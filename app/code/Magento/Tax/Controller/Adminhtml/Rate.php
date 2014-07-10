@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-/**
- * Adminhtml tax rate controller
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Tax\Controller\Adminhtml;
 
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Controller\RegistryConstants;
 
+/**
+ * Adminhtml tax rate controller
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Rate extends \Magento\Backend\App\Action
 {
     /**
@@ -52,11 +52,11 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
      * @param \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder
      * @param \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
-     * @param \Magento\Tax\Service\V1\Data\TaxRateTitleBuilder $zipRangeBuilder
+     * @param \Magento\Tax\Service\V1\Data\TaxRateTitleBuilder $taxRateTitleBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -100,7 +100,10 @@ class Rate extends \Magento\Backend\App\Action
 
         $this->_title->add(__('New Tax Rate'));
 
-        $this->_coreRegistry->register(RegistryConstants::CURRENT_TAX_RATE_FORM_DATA, $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true));
+        $this->_coreRegistry->register(
+            RegistryConstants::CURRENT_TAX_RATE_FORM_DATA,
+            $this->_objectManager->get('Magento\Backend\Model\Session'
+        )->getFormData(true));
 
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),
@@ -152,7 +155,7 @@ class Rate extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 return true;
-            } catch (\Magento\Framework\Model\Exception $e) {
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($ratePost);
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -193,7 +196,7 @@ class Rate extends \Magento\Backend\App\Action
                     'code' => $taxRate->getCode()
                 )
             );
-        } catch (\Magento\Framework\Model\Exception $e) {
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
@@ -303,7 +306,7 @@ class Rate extends \Magento\Backend\App\Action
                     __('Something went wrong deleting this rate because of an incorrect rate ID.')
                 );
                 $this->getResponse()->setRedirect($this->getUrl('tax/*/'));
-            } catch (\Magento\Framework\Model\Exception $e) {
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Something went wrong deleting this rate.'));
@@ -324,7 +327,6 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function ajaxDeleteAction()
     {
-        $responseContent = '';
         $rateId = (int)$this->getRequest()->getParam('tax_calculation_rate_id');
         try {
             $this->_taxRateService->deleteTaxRate($rateId);
@@ -333,7 +335,7 @@ class Rate extends \Magento\Backend\App\Action
             )->jsonEncode(
                 array('success' => true, 'error_message' => '')
             );
-        } catch (\Magento\Framework\Model\Exception $e) {
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
@@ -429,7 +431,7 @@ class Rate extends \Magento\Backend\App\Action
                 $importHandler->importFromCsvFile($this->getRequest()->getFiles('import_rates_file'));
 
                 $this->messageManager->addSuccess(__('The tax rate has been imported.'));
-            } catch (\Magento\Framework\Model\Exception $e) {
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Invalid file upload attempt'));
@@ -547,8 +549,8 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Populate a tax rate data object
      *
-     * @param array $taxRate
-     * @return \Magento\Tax\Service\V1\Data\TaxRate $taxRate
+     * @param array $formData
+     * @return \Magento\Tax\Service\V1\Data\TaxRate
      */
     protected function populateTaxRateData($formData)
     {
@@ -568,7 +570,7 @@ class Rate extends \Magento\Backend\App\Action
 
         if (isset($formData['title'])) {
             $titles = [];
-            foreach($formData['title'] as $storeId => $value) {
+            foreach ($formData['title'] as $storeId => $value) {
                 $titles[] = $this->_taxRateTitleBuilder->setStoreId($storeId)->setValue($value)->create();
             }
             $this->_taxRateBuilder->setTitles($titles);
@@ -578,6 +580,8 @@ class Rate extends \Magento\Backend\App\Action
     }
 
     /**
+     * Determines if an array value is set in the form data array and returns it.
+     *
      * @param array $formData the form to get data from
      * @param string $fieldName the key
      * @return null|string

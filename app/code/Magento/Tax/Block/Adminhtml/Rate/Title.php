@@ -65,6 +65,8 @@ class Title extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * Return the tax rate titles associated with a store view.
+     *
      * @return array
      */
     public function getTitles()
