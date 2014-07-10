@@ -98,7 +98,7 @@ try {
         throw new \UnexpectedValueException("No 'version' information found in '$composerFile'");
     }
     $version = $composerConfig->version;
-    echo "Product version is '$version'" . PHP_EOL;
+    echo "Release version is '$version'" . PHP_EOL;
 
     // commit changes to satis repo
     execVerbose("$gitSatisCmd add .");
