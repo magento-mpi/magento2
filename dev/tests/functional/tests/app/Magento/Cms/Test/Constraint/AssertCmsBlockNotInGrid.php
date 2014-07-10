@@ -14,7 +14,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
 
 /**
  * Class AssertCmsBlockNotInGrid
- * Assert that created CMS block can't be found in grid via
+ * Assert that created CMS block can't be found in grid
  */
 class AssertCmsBlockNotInGrid extends AbstractConstraint
 {
