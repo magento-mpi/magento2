@@ -11,6 +11,9 @@ namespace Mtf\Constraint;
 /**
  * Class AssertForm
  * Abstract class AssertForm
+ * Implements:
+ *  - verify fixture data and form data
+ *  - sort multidimensional array by paths
  */
 abstract class AbstractAssertForm extends AbstractConstraint
 {
@@ -22,9 +25,6 @@ abstract class AbstractAssertForm extends AbstractConstraint
      * @param bool $isStrict
      * @param bool $isPrepareError
      * @return array|string
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function verifyData(array $fixtureData, array $formData, $isStrict = false, $isPrepareError = true)
     {
@@ -68,39 +68,92 @@ abstract class AbstractAssertForm extends AbstractConstraint
     }
 
     /**
-     * Sort multidimensional array by paths
+     * Sort array by value
      *
      * @param array $data
-     * @param array|string $paths
      * @return array
      */
-    protected function sortData(array $data, $paths)
+    protected function sortData(array $data)
     {
-        $paths = is_array($paths) ? $paths : [$paths];
-        foreach ($paths as $path) {
-            $values = & $data;
-            $keys = explode('/', $path);
+        $scalarValues = [];
+        $arrayValues = [];
 
-            $key = array_shift($keys);
-            $order = null;
-            while (null !== $key) {
-                if (false !== strpos($key, '::')) {
-                    list($key, $order) = explode('::', $key);
-                }
-                if ($key && !isset($values[$key])) {
-                    $key = null;
-                    continue;
-                }
-
-                if ($key) {
-                    $values = & $values[$key];
-                }
-                if ($order) {
-                    $values = $this->sortMultidimensionalArray($values, $order);
-                    $order = null;
-                }
-                $key = array_shift($keys);
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $arrayValues[$key] = $this->dataSort($value);
+            } else {
+                $scalarValues[$key] = $value;
             }
+        }
+        asort($scalarValues);
+        foreach (array_keys($arrayValues) as $key) {
+            if (!is_numeric($key)) {
+                ksort($arrayValues);
+                break;
+            }
+        }
+
+        return $scalarValues + $arrayValues;
+    }
+
+    /**
+     * Sort multidimensional array by paths
+     * Pattern path: key/subKey::sorkKey.
+     * Exapmle:
+     * $data = [
+     *     'custom_options' => [
+     *         'options' => [
+     *             0 => [
+     *                 'title' => 'title_2',
+     *             ],
+     *             1 => [
+     *                 'title' => 'title_1'
+     *             ]
+     *         ]
+     *     ]
+     * ];
+     * $paths = ['custom_options/options::title'];
+     *
+     * Result:
+     * $data = [
+     *     'custom_options' => [
+     *         'options' => [
+     *             title_1 => [
+     *                 'title' => 'title_1',
+     *             ],
+     *             title_2 => [
+     *                 'title' => 'title_2'
+     *             ]
+     *         ]
+     *     ]
+     * ];
+     *
+     * @param array $data
+     * @param string $path
+     * @param string $path
+     * @return array
+     * @throws \Exception
+     */
+    protected function sortDataByPath(array $data, $path)
+    {
+        $steps = explode('/', $path);
+        $key = array_shift($steps);
+        $order = null;
+        $nextPath = empty($steps) ? null : implode('/', $steps);
+
+        if (false !== strpos($key, '::')) {
+            list($key, $order) = explode('::', $key);
+        }
+        if ($key && !isset($data[$key])) {
+            return $data;
+        }
+
+        if ($key) {
+            $data[$key] = $order ? $this->sortMultidimensionalArray($data[$key], $order) : $data[$key];
+            $data[$key] = $nextPath ? $this->sortData($data[$key], $nextPath) : $data[$key];
+        } else {
+            $data = $this->sortMultidimensionalArray($data, $order);
+            $data = $nextPath ? $this->sortData($data, $nextPath): $data;
         }
 
         return $data;

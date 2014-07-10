@@ -46,7 +46,8 @@ class AssertProductForm extends AbstractAssertForm
         CatalogProductEdit $productPage
     ) {
         $filter = ['sku' => $product->getSku()];
-        $productGrid->open()->getProductGrid()->searchAndOpen($filter);
+        $productGrid->open();
+        $productGrid->getProductGrid()->searchAndOpen($filter);
 
         $fixtureData = $this->prepareFixtureData($product->getData(), $this->sortFields);
         $formData = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
@@ -58,17 +59,17 @@ class AssertProductForm extends AbstractAssertForm
      * Prepares fixture data for comparison
      *
      * @param array $data
-     * @param array|null $sortFields [optional]
+     * @param array $sortFields [optional]
      * @return array
      */
-    protected function prepareFixtureData(array $data, array $sortFields = null)
+    protected function prepareFixtureData(array $data, array $sortFields = [])
     {
         if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
             $data['website_ids'] = [$data['website_ids']];
         }
 
-        if ($sortFields) {
-            $data = $this->sortData($data, $sortFields);
+        foreach ($sortFields as $path) {
+            $data = $this->sortDataByPath($data, $path);
         }
         return $data;
     }
@@ -77,15 +78,13 @@ class AssertProductForm extends AbstractAssertForm
      * Prepares form data for comparison
      *
      * @param array $data
-     * @param array|null $sortFields [optional]
+     * @param array $sortFields [optional]
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function prepareFormData(array $data, array $sortFields = null)
+    protected function prepareFormData(array $data, array $sortFields = [])
     {
-        if ($sortFields) {
-            $data = $this->sortData($data, $sortFields);
+        foreach ($sortFields as $path) {
+            $data = $this->sortDataByPath($data, $path);
         }
         return $data;
     }

@@ -35,13 +35,8 @@ class ProductOnlineSwitcher extends Element
         if (!$this->find(sprintf($this->onlineSwitcher, ''))->isVisible()) {
             throw new \Exception("Can't find product online switcher.");
         }
-        if (
-            (
-                $value === 'Product offline'
-                && $this->find(sprintf($this->onlineSwitcher, ':checked'))->isVisible()
-            )
-            || (
-                $value === 'Product online'
+        if (($value === 'Product offline' && $this->find(sprintf($this->onlineSwitcher, ':checked'))->isVisible())
+            || ($value === 'Product online'
                 && $this->find(sprintf($this->onlineSwitcher, ':not(:checked)'))->isVisible()
             )
         ) {

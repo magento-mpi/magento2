@@ -8,6 +8,7 @@
 
 namespace Mtf\Client\Driver\Selenium\Element;
 
+use Mtf\Client\Driver\Selenium\Element;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -35,7 +36,7 @@ class MultisuggestElement extends SuggestElement
      *
      * @var string
      */
-    protected $choiceValue = './/li[contains(@class,"mage-suggest-choice")][%d]/div';
+    protected $choiceValue = './/li[contains(@class,"mage-suggest-choice")]/div';
 
     /**
      * Selector remove choice item
@@ -69,21 +70,18 @@ class MultisuggestElement extends SuggestElement
     public function getValue()
     {
         $listChoice = $this->find($this->listChoice, Locator::SELECTOR_XPATH);
+        $choices = $listChoice->find($this->choiceValue, Locator::SELECTOR_XPATH)->getElements();
         $values = [];
 
-        $count = 1;
-        $choice = $listChoice->find(sprintf($this->choiceValue, $count), Locator::SELECTOR_XPATH);
-        while ($choice->isVisible()) {
+        foreach ($choices as $choice) {
+            /** @var Element $choice */
             $values[] = $choice->getText();
-            ++$count;
-            $choice = $listChoice->find(sprintf($this->choiceValue, $count), Locator::SELECTOR_XPATH);
         }
-
         return $values;
     }
 
     /**
-     * Check exist choice item
+     * Check exist selected item
      *
      * @param string $value
      * @return bool

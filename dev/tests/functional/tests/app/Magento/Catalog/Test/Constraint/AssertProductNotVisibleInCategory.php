@@ -27,20 +27,6 @@ class AssertProductNotVisibleInCategory extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Displays an error message
-     *
-     * @var string
-     */
-    protected $errorMessage = 'Product is exist on category page.';
-
-    /**
-     * Message for passing test
-     *
-     * @var string
-     */
-    protected $successfulMessage = 'Product is absent in the assigned category.';
-
-    /**
      * Assert that product is not visible in the assigned category
      *
      * @param CatalogCategoryView $catalogCategoryView
@@ -65,16 +51,9 @@ class AssertProductNotVisibleInCategory extends AbstractConstraint
         while (!$isProductVisible && $catalogCategoryView->getToolbar()->nextPage()) {
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         }
-
-        if ($product->getVisibility() === 'Search' || $product->getQuantityAndStockStatus() === 'Out of Stock') {
-            $isProductVisible = !$isProductVisible;
-            $this->errorMessage = 'Product found in this category.';
-            $this->successfulMessage = 'Asserts that the product could not be found in this category.';
-        }
-
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $isProductVisible,
-            $this->errorMessage
+            'Product is exist on category page.'
         );
     }
 
@@ -85,6 +64,6 @@ class AssertProductNotVisibleInCategory extends AbstractConstraint
      */
     public function toString()
     {
-        return $this->successfulMessage;
+        return 'Product is absent in the assigned category.';
     }
 }

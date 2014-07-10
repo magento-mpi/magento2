@@ -26,7 +26,7 @@ class CategoryIds implements FixtureInterface
     protected $data;
 
     /**
-     * New categories
+     * Fixtures of category
      *
      * @var array
      */

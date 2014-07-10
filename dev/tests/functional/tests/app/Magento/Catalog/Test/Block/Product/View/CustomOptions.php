@@ -16,8 +16,6 @@ use Mtf\Fixture\FixtureInterface;
 /**
  * Class Custom Options
  * Block of custom options product
- *
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 class CustomOptions extends Block
 {
@@ -161,7 +159,7 @@ class CustomOptions extends Block
      * @param Element $option
      * @return array
      */
-    private function getFieldData(Element $option)
+    protected function getFieldData(Element $option)
     {
         $priceNotice = $option->find($this->priceNotice, Locator::SELECTOR_XPATH)->getText();
         $price = preg_replace('/[^0-9\.]/', '', $priceNotice);
@@ -183,7 +181,7 @@ class CustomOptions extends Block
      * @param Element $option
      * @return array
      */
-    private function getDropdownData(Element $option)
+    protected function getDropdownData(Element $option)
     {
         $select = $option->find($this->dropdownSelect, Locator::SELECTOR_XPATH, 'select');
         $listSelectOptions = [];

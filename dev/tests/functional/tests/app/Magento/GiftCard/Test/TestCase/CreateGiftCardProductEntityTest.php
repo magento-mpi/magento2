@@ -25,7 +25,7 @@ use Mtf\TestCase\Injectable;
  * 1. Login to the backend.
  * 2. Navigate to Products > Catalog.
  * 3. Start to create Gift Card Product.
- * 4. Fill in data according to attached data set.
+ * 4. Fill in data according to data set.
  * 5. Save Product.
  * 6. Perform appropriate assertions.
  *
@@ -34,6 +34,14 @@ use Mtf\TestCase\Injectable;
  */
 class CreateGiftCardProductEntityTest extends Injectable
 {
+    /**
+     * Run create Gift Card product entity
+     *
+     * @param GiftCardProduct $product
+     * @param CatalogProductIndex $productIndex
+     * @param CatalogProductNew $productNew
+     * @return void
+     */
     public function test(
         GiftCardProduct $product,
         CatalogProductIndex $productIndex,

@@ -30,7 +30,8 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that displayed data on product page(frontend) equals passed from fixture
+     * Assert that displayed amount, "Sender Name", "Sender Email", "Recipient Name", "Recipient Email", "Message" data
+     * on product page(front-end) equals passed from fixture.
      *
      * @param CatalogProductView $catalogProductView
      * @param GiftCardProduct $product

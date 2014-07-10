@@ -91,7 +91,6 @@ class GiftCard extends Block
         $values = [];
         $giftcardAmount = $this->_rootElement->find($this->amountSelect, Locator::SELECTOR_CSS);
         $priceElement = $this->_rootElement->find($this->price);
-        $optionSelector = './/option[%d]';
 
         if (!$giftcardAmount->isVisible() && !$priceElement->isVisible()) {
             return $values;
@@ -104,13 +103,10 @@ class GiftCard extends Block
             return $values;
         }
 
-        /* Skip option #1("Choose amount...") */
-        $count = 2;
-        $option = $giftcardAmount->find(sprintf($optionSelector, $count), Locator::SELECTOR_XPATH);
-        while ($option->isVisible()) {
-            $values[] = $option->getValue();
-            ++$count;
-            $option = $giftcardAmount->find(sprintf($optionSelector, $count), Locator::SELECTOR_XPATH);
+        /* Skip option #0("Choose amount...") */
+        $options = $giftcardAmount->find('.//option', Locator::SELECTOR_XPATH)->getElements();
+        for ($i = 1, $length = count($options); $i <= $length; $i++) {
+            $values[] = $options[$i]->getValue();
         }
         return $values;
     }
@@ -122,7 +118,7 @@ class GiftCard extends Block
      */
     public function selectCustomAmount()
     {
-        $amountSelect = $this->_rootElement->find($this->amountSelect, Element\Locator::SELECTOR_CSS, 'select');
+        $amountSelect = $this->_rootElement->find($this->amountSelect, Locator::SELECTOR_CSS, 'select');
         $amountSelect->setValue($this->amountCustomOption);
     }
 
@@ -136,31 +132,61 @@ class GiftCard extends Block
         return $this->_rootElement->find($this->amountInput)->isVisible();
     }
 
+    /**
+     * Verify that select of Gift Card amount is present
+     *
+     * @return bool
+     */
     public function isAmountSelectVisible()
     {
         return $this->_rootElement->find($this->amountSelect)->isVisible();
     }
 
+    /**
+     * Verify that text field for "Sender Name" is present
+     *
+     * @return bool
+     */
     public function isSenderNameVisible()
     {
         return $this->_rootElement->find($this->senderName)->isVisible();
     }
 
+    /**
+     * Verify that text field for "Sender Email" is present
+     *
+     * @return bool
+     */
     public function isSenderEmailVisible()
     {
         return $this->_rootElement->find($this->senderEmail)->isVisible();
     }
 
+    /**
+     * Verify that text field for "Recipient Name" is present
+     *
+     * @return bool
+     */
     public function isRecipientNameVisible()
     {
         return $this->_rootElement->find($this->recipientName)->isVisible();
     }
 
+    /**
+     * Verify that text field for "Recipient Email" is present
+     *
+     * @return bool
+     */
     public function isRecipientEmailVisible()
     {
         return $this->_rootElement->find($this->recipientEmail)->isVisible();
     }
 
+    /**
+     * Verify that text field for "Message" is present
+     *
+     * @return bool
+     */
     public function isMessageVisible()
     {
         return $this->_rootElement->find($this->message)->isVisible();
@@ -175,8 +201,8 @@ class GiftCard extends Block
     public function isGiftCardNotPhysical()
     {
         return $this->isSenderNameVisible()
-        && $this->isSenderEmailVisible()
-        && $this->isRecipientNameVisible()
-        && $this->isRecipientEmailVisible();
+            && $this->isSenderEmailVisible()
+            && $this->isRecipientNameVisible()
+            && $this->isRecipientEmailVisible();
     }
 }

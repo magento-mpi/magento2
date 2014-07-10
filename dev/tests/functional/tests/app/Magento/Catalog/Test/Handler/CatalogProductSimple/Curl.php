@@ -14,7 +14,6 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
 
 /**
  * Class CreateProduct
@@ -81,9 +80,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param FixtureInterface|null $fixture [optional]
      * @return array
      * @throws \Exception
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function persist(FixtureInterface $fixture = null)
     {
@@ -91,30 +87,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->prepareData($fixture, $prefix);
         return ['id' => $this->createProduct($data, $config)];
-    }
-
-    /**
-     * Getting tax class id from tax rule page
-     *
-     * @param string $taxClassName
-     * @return int
-     * @throws \Exception
-     */
-    protected function getTaxClassId($taxClassName)
-    {
-        $url = $_ENV['app_backend_url'] . 'tax/rule/new/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), array());
-        $response = $curl->read();
-        $curl->close();
-
-        preg_match('~<option value="(\d+)".*>' . $taxClassName . '</option>~', $response, $matches);
-        if (!isset($matches[1]) || empty($matches[1])) {
-            throw new \Exception('Product tax class id ' . $taxClassName . ' undefined!');
-        }
-
-        return (int)$matches[1];
     }
 
     /**
@@ -132,10 +104,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $fields = $this->replaceMappingData($fixture->getData());
         // Getting Tax class id
         if ($fixture->hasData('tax_class_id')) {
-            $taxClassId = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
-            $fields['tax_class_id'] = ($taxClassId === null)
-                ? $this->getTaxClassId($fields['tax_class_id'])
-                : $taxClassId;
+            $fields['tax_class_id'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
         }
 
         if (!empty($fields['category_ids'])) {

@@ -19,6 +19,11 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
  */
 class AssertDownloadableProductForm extends AssertProductForm
 {
+    /**
+     * Sort fields for fixture and form data
+     *
+     * @var array
+     */
     protected $sortFields = ['downloadable_links/downloadable/link::sort_order'];
 
     /**
@@ -47,7 +52,7 @@ class AssertDownloadableProductForm extends AssertProductForm
         $fieldsFixture = $this->prepareFixtureData($product->getData(), $this->sortFields);
         $fieldsForm = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
         $error = $this->verifyData($fieldsFixture, $fieldsForm);
-        \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
+        \PHPUnit_Framework_Assert::assertEmpty($error, $error);
     }
 
     /**

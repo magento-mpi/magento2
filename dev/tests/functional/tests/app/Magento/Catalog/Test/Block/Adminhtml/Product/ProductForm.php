@@ -165,22 +165,6 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Fill product variations
-     *
-     * @param ConfigurableProduct $variations
-     * @return void
-     */
-    public function fillVariations(ConfigurableProduct $variations)
-    {
-        $variationsBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabSuperConfig(
-            $this->_rootElement->find($this->variationsWrapper)
-        );
-        $variationsBlock->fillAttributeOptions($variations->getConfigurableAttributes());
-        $variationsBlock->generateVariations();
-        $variationsBlock->fillVariationsMatrix($variations->getVariationsMatrix());
-    }
-
-    /**
      * Save new category
      *
      * @param Product $fixture
