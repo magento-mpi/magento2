@@ -19,9 +19,9 @@ class CmsBlockIndex extends BackendPage
     const MCA = 'cms/block/index';
 
     protected $_blocks = [
-        'grid' => [
-            'name' => 'grid',
-            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\Grid',
+        'blockGrid' => [
+            'name' => 'blockGrid',
+            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\BlockGrid',
             'locator' => '#cmsBlockGrid',
             'strategy' => 'css selector',
         ],
@@ -30,8 +30,8 @@ class CmsBlockIndex extends BackendPage
     /**
      * @return \Magento\Cms\Test\Block\Adminhtml\Block\BlockGrid
      */
-    public function getGrid()
+    public function getBlockGrid()
     {
-        return $this->getBlockInstance('grid');
+        return $this->getBlockInstance('blockGrid');
     }
 }
