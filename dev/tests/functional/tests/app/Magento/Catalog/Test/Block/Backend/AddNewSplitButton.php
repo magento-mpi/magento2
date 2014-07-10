@@ -18,14 +18,14 @@ class AddNewSplitButton extends Block
      *
      * @var string
      */
-    protected $typeList = '[data-ui-id=products-list-add-new-button-dropdown-menu]';
+    protected $typeList = '[data-ui-id=products-list-add-new-product-button-dropdown-menu]';
 
     /**
      * Product toggle button
      *
      * @var string
      */
-    protected $toggleButton = '[data-ui-id=products-list-add-new-button-dropdown]';
+    protected $toggleButton = '[data-ui-id=products-list-add-new-product-button-dropdown]';
 
     public function getTypeList()
     {

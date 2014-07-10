@@ -38,7 +38,7 @@ class Edit extends Form
      *
      * @var string
      */
-    protected $saveButton = '[data-ui-id$=save-button]';
+    protected $saveButton = '[data-ui-id$=save-button-button]';
 
     /**
      * Get data from 'Posted By' field

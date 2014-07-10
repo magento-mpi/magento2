@@ -116,21 +116,6 @@ class Observer
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
             // Handle blocks related to \Magento\CatalogRule module
-            case 'promo_catalog':
-                if (!$this->_canEditCatalogRules) {
-                    $block->removeButton('add');
-                    $block->removeButton('apply_rules');
-                }
-                break;
-            case 'promo_catalog_edit':
-                if (!$this->_canEditCatalogRules) {
-                    $block->removeButton('delete');
-                    $block->removeButton('save');
-                    $block->removeButton('save_and_continue_edit');
-                    $block->removeButton('save_apply');
-                    $block->removeButton('reset');
-                }
-                break;
             case 'promo_catalog_edit_tab_main':
             case 'promo_catalog_edit_tab_actions':
             case 'promo_catalog_edit_tab_conditions':
@@ -138,20 +123,7 @@ class Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-                // Handle blocks related to \Magento\SalesRule module
-            case 'promo_quote':
-                if (!$this->_canEditSalesRules) {
-                    $block->removeButton('add');
-                }
-                break;
-            case 'promo_quote_edit':
-                if (!$this->_canEditSalesRules) {
-                    $block->removeButton('delete');
-                    $block->removeButton('save');
-                    $block->removeButton('save_and_continue_edit');
-                    $block->removeButton('reset');
-                }
-                break;
+            // Handle blocks related to \Magento\SalesRule module
             case 'promo_quote_edit_tab_main':
                 if (!$this->_canEditSalesRules) {
                     $block->unsetChild('form_after');
@@ -164,28 +136,14 @@ class Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-                // Handle blocks related to \Magento\Reminder module
-            case 'magento_reminder':
-                if (!$this->_canEditReminderRules) {
-                    $block->removeButton('add');
-                }
-                break;
-            case 'adminhtml_reminder_edit':
-                if (!$this->_canEditReminderRules) {
-                    $block->removeButton('save');
-                    $block->removeButton('delete');
-                    $block->removeButton('reset');
-                    $block->removeButton('save_and_continue_edit');
-                    $block->removeButton('run_now');
-                }
-                break;
+            // Handle blocks related to \Magento\Reminder module
             case 'adminhtml_reminder_edit_tab_conditions':
             case 'adminhtml_reminder_edit_tab_templates':
                 if (!$this->_canEditReminderRules) {
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-                // Handle blocks related to \Magento\Banner module
+            // Handle blocks related to \Magento\Banner module
             case 'related_catalogrule_banners_grid':
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $block->getColumn('in_banners')->setDisabledValues($this->_bannerCollection->getAllIds());

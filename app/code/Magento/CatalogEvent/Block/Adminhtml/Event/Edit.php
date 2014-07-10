@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event;
 
-use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Context;
 use Magento\Backend\Block\Widget\Form\Container;
 use Magento\CatalogEvent\Model\Event;
 use Magento\Framework\Registry;
@@ -59,10 +59,10 @@ class Edit extends Container
     protected function _prepareLayout()
     {
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
-            $this->_removeButton('save');
-            $this->_removeButton('reset');
+            $this->buttonList->remove('save');
+            $this->buttonList->remove('reset');
         } else {
-            $this->_addButton(
+            $this->buttonList->add(
                 'save_and_continue',
                 array(
                     'label' => __('Save and Continue Edit'),
@@ -96,17 +96,17 @@ class Edit extends Container
         }
 
         if ($this->getRequest()->getParam('category')) {
-            $this->_updateButton('back', 'label', __('Back to Category'));
+            $this->buttonList->update('back', 'label', __('Back to Category'));
         }
 
         if ($this->getEvent()->isReadonly() && $this->getEvent()->getImageReadonly()) {
-            $this->_removeButton('save');
-            $this->_removeButton('reset');
-            $this->_removeButton('save_and_continue');
+            $this->buttonList->remove('save');
+            $this->buttonList->remove('reset');
+            $this->buttonList->remove('save_and_continue');
         }
 
         if (!$this->getEvent()->isDeleteable()) {
-            $this->_removeButton('delete');
+            $this->buttonList->remove('delete');
         }
 
         parent::_prepareLayout();

@@ -47,4 +47,15 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\A
     {
         return $this->get('acl/' . $level, array());
     }
+
+    /**
+     * Get group processor
+     *
+     * @param string $groupName
+     * @return string|null
+     */
+    public function getGroupProcessor($groupName)
+    {
+        return $this->get('processors/' . $groupName);
+    }
 }
