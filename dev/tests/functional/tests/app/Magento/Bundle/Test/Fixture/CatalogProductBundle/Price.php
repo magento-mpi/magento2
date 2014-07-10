@@ -21,9 +21,18 @@ use Mtf\Fixture\FixtureInterface;
 class Price implements FixtureInterface
 {
     /**
-     * @var \Mtf\Fixture\FixtureFactory
+     * Prepared dataSet data
+     *
+     * @var array
      */
-    protected $fixtureFactory;
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
 
     /**
      * @var string
@@ -103,7 +112,9 @@ class Price implements FixtureInterface
                 'price_from' => '$32.00',
                 'price_to' => '$80.00',
                 'cart_price' => '80.00'
-            ]
+            ],
+            'fixed_compare' => 755,
+            'dynamic_compare' => 560,
         ];
 
         if (!isset($presets[$this->currentPreset])) {

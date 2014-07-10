@@ -25,16 +25,28 @@ class Sidebar extends Block
     protected $isEmpty = 'p.empty';
 
     /**
+     * Product name selector
+     *
+     * @var string
+     */
+    protected $productName = 'li.item strong.name a';
+
+    /**
      * Get compare products block content
      *
      * @return array|string
      */
-    public function getContent()
+    public function getProducts()
     {
+        $result = [];
         $isEmpty = $this->_rootElement->find($this->isEmpty);
         if ($isEmpty->isVisible()) {
             return $isEmpty->getText();
         }
-        // TODO after fix bug MAGETWO-22756 add next steps and return array
+        $elements = $this->_rootElement->find($this->productName)->getElements();
+        foreach ($elements as $element) {
+            $result[] = $element->getText();
+        }
+        return $result;
     }
 }

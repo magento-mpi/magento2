@@ -29,7 +29,13 @@ class AssertProductComparePage extends AbstractConstraint
      *
      * @var array
      */
-    protected $attributeProduct = ['name', 'price', 'sku', 'description', 'short_description'];
+    protected $attributeProduct = [
+        'name' => 'Name',
+        'price' => 'Price',
+        'sku' => ['Sku' => 'SKU'],
+        'description' => ['Description' => 'Description'],
+        'short_description' => ['ShortDescription' => 'Short Description']
+    ];
 
     /**
      * Assert that "Compare Product" page contains product(s) that was added
@@ -42,46 +48,40 @@ class AssertProductComparePage extends AbstractConstraint
      * @param array $products
      * @param CatalogProductCompare $comparePage
      * @param CmsIndex $cmsIndex
-     * @param array $productsPrice
      * @return void
      */
     public function processAssert(
         array $products,
         CatalogProductCompare $comparePage,
-        CmsIndex $cmsIndex,
-        array $productsPrice
+        CmsIndex $cmsIndex
     ) {
+        $cmsIndex->open();
         $cmsIndex->getLinksBlock()->openLink("Compare Products");
         foreach ($products as $key => $product) {
-            foreach ($this->attributeProduct as $attribute) {
-                $attributeName = $this->attributeNameConvert($attribute);
-                $attributeValue = $attribute != 'price'
-                    ? ($product->hasData($attribute)
-                        ? $product->{'get' . $attributeName}()
+            foreach ($this->attributeProduct as $attributeKey => $attribute) {
+                $value = '';
+                if (is_array($attribute)) {
+                    $value = $attribute[key($attribute)];
+                    $attribute = key($attribute);
+                }
+
+                $attributeValue = $attributeKey != 'price'
+                    ? ($product->hasData($attributeKey)
+                        ? $product->{'get' . $attribute}()
                         : 'N/A')
-                    : $productsPrice[$key];
+                    : ($product->getDataFieldConfig('price')['source']->getPreset() !== null
+                        ? number_format($product->getDataFieldConfig('price')['source']->getPreset(), 2)
+                        : number_format($product->getPrice(), 2));
+
+                $attribute = $value != '' ? 'Attribute' : $attribute;
                 \PHPUnit_Framework_Assert::assertEquals(
                     $attributeValue,
-                    $comparePage->getCompareProductsBlock()->{'getProduct' . $attributeName}($key + 1),
-                    'This product with ' . $attribute . ' "' . $attributeValue . '" is not in compare product page.'
+                    $comparePage->getCompareProductsBlock()->{'getProduct' . $attribute}($key + 1, $value),
+                    'This product "' . $product->getName() . '" with ' . $attribute . ' "' . $attributeValue
+                    . '" is not in compare product page.'
                 );
             }
         }
-    }
-
-    /**
-     * Convert attribute name
-     *
-     * @param string $optionName
-     * @return string
-     */
-    protected function attributeNameConvert($optionName)
-    {
-        $optionName = ucfirst($optionName);
-        if ($end = strpos($optionName, '_')) {
-            $optionName = substr($optionName, 0, $end) . ucfirst(substr($optionName, ($end + 1)));
-        }
-        return $optionName;
     }
 
     /**
@@ -91,6 +91,6 @@ class AssertProductComparePage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'This "Compare Product" page is correct.';
+        return '"Compare Product" page has valid data for all products.';
     }
 }

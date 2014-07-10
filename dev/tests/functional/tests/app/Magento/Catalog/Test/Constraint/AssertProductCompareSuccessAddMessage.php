@@ -13,9 +13,9 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class AssertProductCompareSuccessAddedMessage
+ * Class AssertProductCompareSuccessAddMessage
  */
-class AssertProductCompareSuccessAddedMessage extends AbstractConstraint
+class AssertProductCompareSuccessAddMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You added product %s to the comparison list.';
 
@@ -53,6 +53,6 @@ class AssertProductCompareSuccessAddedMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'This product adds to compare product list.';
+        return 'Product has been added compare products list.';
     }
 }

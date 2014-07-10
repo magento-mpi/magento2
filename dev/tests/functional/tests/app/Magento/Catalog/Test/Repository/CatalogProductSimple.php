@@ -177,5 +177,27 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
         ];
+
+        $this->_data['simple_for_composite_products'] = [
+            'name' => 'simple_for_composite_products%isolation%',
+            'sku' => 'simple_for_composite_products%isolation%',
+            'price' => ['value' => 560, 'preset' => '-'],
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
+            'quantity_and_stock_status' => [
+                'qty' => 111,
+                'is_in_stock' => 'In Stock',
+            ],
+            'weight' => '1',
+            'status' => '1',
+            'website_ids' => ['Main Website'],
+            'stock_data' => [
+                'manage_stock' => 'Yes',
+                'qty' => '111',
+                'is_in_stock' => 'In Stock'
+            ],
+            'url_key' => 'simple-for-composite-products%isolation%',
+            'visibility' => 'Catalog, Search'
+        ];
     }
 }

@@ -32,21 +32,19 @@ class AssertProductCompareItemsLink extends AbstractConstraint
      */
     public function processAssert(array $products, CmsIndex $cmsIndex)
     {
-        $linkQtyTextFixture = count($products);
-        $linkQtyTextPage = $cmsIndex->getLinksBlock()->getQtyCompareProducts();
+        $productQty = count($products);
+        $qtyOnPage = $cmsIndex->getLinksBlock()->getQtyInCompareList();
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $linkQtyTextFixture,
-            $linkQtyTextPage,
-            'That link "Compare Products ' . $linkQtyTextFixture . ' item" not correct.'
+            $productQty,
+            $qtyOnPage,
+            'Actually you verify product qty in the compare product list, not a whole link.'
         );
 
-        $linkQtyHrefFixture = '/catalog/product_compare/';
-        $linkQtyHrefPage = $cmsIndex->getLinksBlock()->getLinkUrl('Compare Products');
-
+        $compareProductUrl = '/catalog/product_compare/';
         \PHPUnit_Framework_Assert::assertTrue(
-            strpos($linkQtyHrefPage, $linkQtyHrefFixture) !== false,
-            'That link isn\'t lead to Compare Product Page.'
+            strpos($cmsIndex->getLinksBlock()->getLinkUrl('Compare Products'), $compareProductUrl) !== false,
+            'Compare product link isn\'t lead to Compare Product Page.'
         );
     }
 

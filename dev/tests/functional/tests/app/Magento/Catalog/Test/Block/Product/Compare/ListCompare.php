@@ -64,9 +64,10 @@ class ListCompare extends Block
      * Get product name
      *
      * @param int $index
+     * @param string $attributeKey
      * @return string
      */
-    public function getProductName($index)
+    public function getProductName($index, $attributeKey)
     {
         return $this->getCompareProductInfo($index)->find($this->nameSelector, Locator::SELECTOR_XPATH)->getText();
     }
@@ -75,49 +76,17 @@ class ListCompare extends Block
      * Get product price
      *
      * @param int $index
+     * @param string $attributeKey
      * @param string $currency [optional]
      * @return string
      */
-    public function getProductPrice($index, $currency = '$')
+    public function getProductPrice($index, $attributeKey, $currency = '$')
     {
         $infoBlock = $this->getCompareProductInfo($index);
         if (!$infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->isVisible()) {
             $this->priceSelector = './/span[@class="price"]';
         }
         return trim($infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->getText(), $currency);
-    }
-
-    /**
-     * Get product sku
-     *
-     * @param int $index
-     * @return string
-     */
-    public function getProductSku($index)
-    {
-        return $this->getAttribute("SKU", $index);
-    }
-
-    /**
-     * Get product description
-     *
-     * @param int $index
-     * @return string
-     */
-    public function getProductDescription($index)
-    {
-        return $this->getAttribute("Description", $index);
-    }
-
-    /**
-     * Get product short description
-     *
-     * @param int $index
-     * @return string
-     */
-    public function getProductShortDescription($index)
-    {
-        return $this->getAttribute("Short Description", $index);
     }
 
     /**
@@ -145,11 +114,11 @@ class ListCompare extends Block
     /**
      * Get item attribute
      *
-     * @param string $attributeKey
      * @param int $indexProduct
+     * @param string $attributeKey
      * @return string
      */
-    protected function getAttribute($attributeKey, $indexProduct)
+    public function getProductAttribute($indexProduct, $attributeKey)
     {
         return trim(
             $this->getCompareProductAttribute($attributeKey)

@@ -12,9 +12,9 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductCompareOnCMSPage
+ * Class AssertProductCompareBlockOnCmsPage
  */
-class AssertProductCompareOnCMSPage extends AbstractConstraint
+class AssertProductCompareBlockOnCmsPage extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,18 +27,23 @@ class AssertProductCompareOnCMSPage extends AbstractConstraint
      * Assert that Compare Products block is presented on CMS pages e.g. "About Us".
      * Block contains information about compared products
      *
+     * @param array $products
      * @param CmsIndex $cmsIndex
      * @return void
      */
-    public function processAssert(CmsIndex $cmsIndex)
+    public function processAssert(array $products, CmsIndex $cmsIndex)
     {
+        $cmsIndex->open();
         $cmsIndex->getFooterBlock()->clickLink('About Us');
-        $content = $cmsIndex->getCompareProductsBlock()->getContent();
-        \PHPUnit_Framework_Assert::assertFalse(
-            $content == 'You have no items to compare.',
-            $content
+        $compareBlock = $cmsIndex->getCompareProductsBlock();
+        foreach ($products as &$product) {
+            $product = $product->getName();
+        }
+        \PHPUnit_Framework_Assert::assertEquals(
+            $products,
+            $compareBlock->getProducts(),
+            'Compare product block contains NOT valid information about compared products.'
         );
-        // TODO after fix bug MAGETWO-22756 add next steps
     }
 
     /**
@@ -48,6 +53,6 @@ class AssertProductCompareOnCMSPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Block contains information about compared products.';
+        return 'Compare product block contains valid information about compared products.';
     }
 }
