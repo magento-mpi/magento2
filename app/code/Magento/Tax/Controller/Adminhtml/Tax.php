@@ -59,7 +59,7 @@ class Tax extends \Magento\Backend\App\Action
             if ($taxClassId) {
                 $this->taxClassService->updateTaxClass($taxClassId, $taxClass);
             } else {
-                $this->taxClassService->createTaxClass($taxClass);
+                $taxClassId = $this->taxClassService->createTaxClass($taxClass);
             }
 
             $responseContent = $this->_objectManager->get(
@@ -68,13 +68,9 @@ class Tax extends \Magento\Backend\App\Action
                 array(
                     'success' => true,
                     'error_message' => '',
-                    'class_id' => $taxClass->getClassId(),
+                    'class_id' => $taxClassId,
                     'class_name' => $taxClass->getClassName()
                 )
-            );
-        } catch (\Magento\Framework\Model\Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-                array('success' => false, 'error_message' => $e->getMessage(), 'class_id' => '', 'class_name' => '')
             );
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
@@ -129,7 +125,7 @@ class Tax extends \Magento\Backend\App\Action
      *
      * @param string $className
      * @return string processed class name
-     * @throws \Magento\Framework\Model\Exception
+     * @throws \Magento\Framework\Exception\InputException
      */
     protected function _processClassName($className)
     {
