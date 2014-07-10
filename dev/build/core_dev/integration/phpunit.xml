@@ -35,13 +35,16 @@
         <const name="TESTS_LOCAL_CONFIG_FILE" value="{{local_config_file}}"/>
         <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
         <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/module.xml;etc/test/module.xml"/>
-        <const name="TESTS_CLEANUP" value="enabled"/>
+        <const name="TESTS_CLEANUP" value="{{tests_cleanup}}"/>
         <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
     </php>
     <listeners>
         <listener class="Magento\TestFramework\Event\PhpUnit"/>
     </listeners>
     <logging>
+        <!--parallel_run_placeholder
+            <log type="junit" target="./var/logs-{{instance_index}}/logfile.xml" logIncompleteSkipped="false"/>
+        parallel_run_placeholder-->
         <!--coverage_html_placeholder
             <log type="coverage-html" target="{{coverage_dir}}/test-reports/coverage" charset="UTF-8" yui="true" highlight="true"/>
         coverage_html_placeholder-->
