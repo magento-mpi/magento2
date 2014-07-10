@@ -16,9 +16,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     protected $mockTaxHelper;
 
     /**
-     * @var \Magento\GoogleShopping\Helper\Data | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Tax\Service\V1\TaxRuleService | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockGoogleShoppingHelper;
+    protected $mockTaxRuleService;
 
     /**
      * @var \Magento\GoogleShopping\Model\Config | \PHPUnit_Framework_MockObject_MockObject
@@ -60,7 +60,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->mockTaxHelper = $this->getMockBuilder('\Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->mockGoogleShoppingHelper = $this->getMockBuilder('\Magento\GoogleShopping\Helper\Data')
+        $this->mockTaxRuleService = $this->getMockBuilder('Magento\Tax\Service\V1\TaxRuleService')
             ->disableOriginalConstructor()
             ->getMock();
         $this->mockConfig = $this->getMockBuilder('\Magento\GoogleShopping\Model\Config')
@@ -81,13 +81,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = [
-            'taxData'               => $this->mockTaxHelper,
-            'googleShoppingHelper'  => $this->mockGoogleShoppingHelper,
+            'taxData' => $this->mockTaxHelper,
+            'taxRuleService' => $this->mockTaxRuleService,
             'groupServiceInterface' => $this->mockGroupService,
-            'config'                => $this->mockConfig,
-            'quoteDetailsBuilder'   => $this->mockQuoteDetailsBuilder,
+            'config' => $this->mockConfig,
+            'quoteDetailsBuilder' => $this->mockQuoteDetailsBuilder,
             'taxCalculationService' => $this->mockTaxCalculationService,
-            'regionFactory'         => $this->mockRegionFactory
+            'regionFactory' => $this->mockRegionFactory
         ];
         $this->model = $objectManager->getObject('Magento\GoogleShopping\Model\Attribute\Tax', $arguments);
     }
@@ -134,7 +134,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $rates = [$mockTaxRate];
-        $this->mockGoogleShoppingHelper->expects($this->once())->method('getRatesByCustomerAndProductTaxClassId')->with(
+        $this->mockTaxRuleService->expects($this->once())->method('getRatesByCustomerAndProductTaxClassId')->with(
             $customerTaxClassId,
             $productTaxClassId
         )->will($this->returnValue($rates));
@@ -151,13 +151,11 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                 [
                     'billing_address'       => [
                         'country_id'  => $targetCountry,
-                        'customer_id' => $customerTaxClassId,
                         'region'      => ['region_id' => $postCode],
                         'postcode'    => $postCode
                     ],
                     'shipping_address'      => [
                         'country_id'  => $targetCountry,
-                        'customer_id' => $customerTaxClassId,
                         'region'      => ['region_id' => $postCode],
                         'postcode'    => $postCode
                     ],
