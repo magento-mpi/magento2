@@ -195,14 +195,12 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 
                     $billingAddressDataArray = [
                         'country_id' => $countryId,
-                        'customer_id' => $defaultCustomerTaxClassId,
                         'region' => ['region_id' => $rate->getRegionId()],
                         'postcode' => $postcode,
                     ];
 
                     $shippingAddressDataArray = [
                         'country_id' => $countryId,
-                        'customer_id' => $defaultCustomerTaxClassId,
                         'region' => ['region_id' => $rate->getRegionId()],
                         'postcode' => $postcode,
                     ];

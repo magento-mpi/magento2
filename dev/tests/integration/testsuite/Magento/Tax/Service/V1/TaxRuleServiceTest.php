@@ -76,10 +76,18 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $taxRules;
 
+    /**
+     * TaxRateService
+     *
+     * @var \Magento\Tax\Service\V1\TaxRateServiceInterface
+     */
+    private $taxRateService;
+
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
         $this->taxRuleService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRuleServiceInterface');
+        $this->taxRateService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRateServiceInterface');
         $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
     }
@@ -321,6 +329,27 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             ->create();
         $this->assertEquals($expectedResult, $searchResults);
         $this->tearDownDefaultRules();
+    }
+
+    /**
+     *
+     * @magentoDbIsolation enabled
+     */
+    public function testGetRatesByCustomerAndProductTaxClassId()
+    {
+        $this->setUpDefaultRules();
+        $taxRateIds = $this->taxRuleService->getTaxRule(current($this->taxRules))->getTaxRateIds();
+        $expectedRates = [];
+        foreach ($taxRateIds as $rateId) {
+            $expectedRates[] = $this->taxRateService->getTaxRate($rateId);
+        }
+        $rates = $this->taxRuleService->getRatesByCustomerAndProductTaxClassId(
+            $this->taxClasses['DefaultCustomerClass'],
+            $this->taxClasses['DefaultProductClass']
+        );
+
+        $this->assertCount(2, $rates);
+        $this->assertEquals($expectedRates, $rates);
     }
 
     public function searchTaxRulesDataProvider()
