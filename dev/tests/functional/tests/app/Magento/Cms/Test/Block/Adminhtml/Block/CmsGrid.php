@@ -25,24 +25,24 @@ class CmsGrid extends GridInterface
      */
     protected $filters = [
         'title' => [
-            'selector' => '#cmsBlockGrid_filter_title'
+            'selector' => 'input[name="title"]'
         ],
         'identifier' => [
-            'selector' => '#cmsBlockGrid_filter_identifier',
+            'selector' => 'input[name="identifier"]',
         ],
         'store_id' => [
-            'selector' => '[name="store_id"]',
+            'selector' => 'select[name="store_id"]',
             'input' => 'select',
         ],
         'is_active' => [
-            'selector' => '#cmsBlockGrid_filter_is_active',
+            'selector' => 'select[name="is_active"]',
             'input' => 'select',
         ],
         'creation_time_from' => [
-            'selector' => '[name="creation_time[from]"]',
+            'selector' => 'input[name="creation_time[from]"]',
         ],
         'update_time_from' => [
-            'selector' => '[name="update_time[from]"]',
+            'selector' => 'input[name="update_time[from]"]',
         ],
     ];
 

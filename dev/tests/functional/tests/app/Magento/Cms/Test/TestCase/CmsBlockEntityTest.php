@@ -61,7 +61,7 @@ abstract class CmsBlockEntityTest extends Injectable
      *
      * @var array
      */
-    protected static $storeName;
+    protected $storeName;
 
     /**
      * Injection data
@@ -94,8 +94,7 @@ abstract class CmsBlockEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $storeName = self::$storeName;
-        foreach ($storeName as $store) {
+        foreach ($this->storeName as $store) {
             if ($store == 'All Store Views') {
                 continue;
             }
