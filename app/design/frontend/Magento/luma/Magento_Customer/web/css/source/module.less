@@ -64,7 +64,15 @@
 .box.newsletter {
     address,
     p {
-        line-height: 26px;
+        line-height: 24px;
+    }
+}
+
+.box.information {
+    .change-password {
+        display: inline-block;
+        font-size: @font-size-base;
+        margin-top: @indent-xs-base;
     }
 }
 
@@ -85,9 +93,12 @@
         h2 {
             margin-top: 0;
         }
-        .products.toolbar {
+        .toolbar {
             background: transparent;
             margin-bottom: @indent-base;
+            &.top {
+                display: none;
+            }
         }
         .block:not(.widget) {
             .title {
@@ -98,10 +109,11 @@
             }
             .subtitle {
                 > span {
-                    .heading(h4);
+                    //.heading(h4);
+                    font-size: 16px;
                 }
                 display: inline-block;
-                margin: 0 0 5px;
+                margin: 0 0 @indent-s-base;
                 > .action {
                     font-weight: 400;
                     margin-left: 15px;
@@ -111,9 +123,12 @@
                 p:last-child {
                     margin-bottom: 0;
                 }
-                .box {
-                    margin-bottom: @indent-base;
-                }
+            }
+        }
+        .block.dashboard-welcome {
+            .title {
+                border-bottom: 0;
+                padding: 0;
             }
         }
     }
@@ -199,7 +214,6 @@
         margin-bottom: @indent-s-base;
     }
 }
-
 
 .control.captcha-image {
     .captcha-img {
@@ -297,7 +311,15 @@
         }
         .account-nav {
             .title {
-                &:extend(.visually-hidden-desktop all); 
+                &:extend(.visually-hidden-desktop all);
+            }
+        }
+        .data.table {
+            .col.total {
+                text-align: right;
+            }
+            .col.actions {
+                width: 18%;
             }
         }
     }
@@ -329,6 +351,16 @@
             &:extend(.blocks-2columns all);
         }
     }
+
+    .address.billing,
+    .address.shipping,
+    .box.information,
+    .dashboard-welcome {
+        address,
+        p {
+            &:extend(.abstract-account-block-font-size all);
+        }
+    }
 }
 
 //
@@ -338,11 +370,20 @@
     .account {
         .data.table {
             &:extend(.table-vertical-mobile all);
-            .col.actions {
-                padding-top: 9px;
-                padding-bottom: 15px;
-                &:before {
-                    &:extend(.visually-hidden-mobile all);
+        }
+        .column.main {
+            .block:not(.widget) {
+                .title {
+                    &:extend(.add-clearfix-mobile all);
+                    > .action {
+                        float: right;
+                        .css(margin-top, @indent-xs-base);
+                    }
+                }
+                .content {
+                    .box {
+                        .css(margin-bottom, @indent-base);
+                    }
                 }
             }
         }

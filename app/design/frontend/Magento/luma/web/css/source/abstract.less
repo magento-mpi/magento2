@@ -354,6 +354,12 @@
     }
 }
 
+.responsive-smaller(@break-point-0) {
+    .add-clearfix-mobile {
+        .clearfix();
+    }
+}
+
 //
 //    Box-sizing
 //--------------------------------------
@@ -572,7 +578,7 @@
 }
 
 //
-//    Account title
+//    Account pages: title
 //--------------------------------------
 .abstract-account-title {
     > strong,
@@ -584,4 +590,40 @@
     .css(margin-bottom, @indent-m-base);
     .css(padding-bottom, @indent-s-base);
     border-bottom: 1px solid @account-title-border-color;
+}
+
+//
+//    Account pages: block font size
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .abstract-account-block-font-size {
+        font-size: 16px;
+    }
+}
+
+//
+//    Account pages: margin for table
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .abstract-account-table-margin-mobile {
+        .css(margin-top, -@indent-base);
+    }
+}
+.responsive(@break) when (@break = @break-point-1) {
+    .abstract-account-table-margin-desktop {
+        .css(margin-top, -@indent-m-base);
+    }
+}
+
+//
+//    Account pages: table col actions
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .abstract-account-col-actions {
+        padding-top: 9px;
+        padding-bottom: 15px;
+        &:before {
+            .visually-hidden();
+        }
+    }
 }

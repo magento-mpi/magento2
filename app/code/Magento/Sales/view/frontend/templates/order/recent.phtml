@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 ?>
-<div class="block dashboard orders">
+<div class="block dashboard-orders">
 <?php $_orders = $this->getOrders(); ?>
     <div class="order title">
         <strong><?php echo __('Recent Orders') ?></strong>
@@ -19,8 +19,8 @@
     <div class="content">
     <?php echo $this->getChildHtml()?>
     <?php if( sizeof($_orders->getItems()) > 0 ): ?>
-        <div class="table-wrapper orders recent">
-            <table class="data table orders recent" id="my-orders-table">
+        <div class="table-wrapper orders-recent">
+            <table class="data table table-orders-recent" id="my-orders-table">
                 <caption class="table caption"><?php echo __('Recent Orders') ?></caption>
                 <thead>
                     <tr>

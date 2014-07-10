@@ -84,4 +84,26 @@
             &:extend(.blocks-2columns all);
         }
     }
+    .table-wrapper.orders-history {
+        border-top: 1px solid @account-title-border-color;
+    }
+    .table-wrapper.orders-recent {
+        &:extend(.abstract-account-table-margin-desktop all);
+    }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .account {
+        .table-orders-recent {
+            .col.actions {
+                &:extend(.abstract-account-col-actions all);
+            }
+        } 
+    }
+    .table-wrapper.orders-recent {
+        &:extend(.abstract-account-table-margin-mobile all);
+    }
 }

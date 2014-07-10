@@ -8,24 +8,24 @@
 
 /** @var \Magento\Customer\Block\Account\Dashboard\Info $this */
 ?>
-<div class="block dashboard info">
+<div class="block dashboard-info">
     <div class="title"><strong><?php echo __('Account Information') ?></strong></div>
     <div class="content">
         <div class="box information">
             <strong class="subtitle">
-                <?php echo __('Contact Information') ?>
+                <span><?php echo __('Contact Information') ?></span>
                 <a class="action edit" href="<?php echo $this->getUrl('customer/account/edit') ?>"><span><?php echo __('Edit') ?></span></a>
             </strong>
             <p>
                 <?php echo $this->escapeHtml($this->getName()) ?><br>
                 <?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?><br>
-                <a href="<?php echo $this->getChangePasswordUrl() ?>"><?php echo __('Change Password') ?></a>
+                <a href="<?php echo $this->getChangePasswordUrl() ?>" class="action change-password"><?php echo __('Change Password') ?></a>
             </p>
         </div>
         <?php if( $this->isNewsletterEnabled() ): ?>
             <div class="box newsletter">
                 <strong class="subtitle">
-                    <?php echo __('Newsletters') ?>
+                    <span><?php echo __('Newsletters') ?></span>
                     <a class="action edit" href="<?php echo $this->getUrl('newsletter/manage') ?>"><span><?php echo __('Edit') ?></span></a>
                 </strong>
                 <p>

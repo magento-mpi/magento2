@@ -30,4 +30,21 @@
             width: 100%;
         }
     }
+    .table-balance-history {
+        .col {
+            width: 25%;
+        }
+    }
+    .table-wrapper.balance-history {
+        &:extend(.abstract-account-table-margin-desktop all);
+    }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .table-wrapper.balance-history {
+        &:extend(.abstract-account-table-margin-mobile all);
+    }
 }
