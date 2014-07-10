@@ -14,6 +14,5 @@ angular.module('customize-your-store', ['ngStorage'])
 
         $scope.$on('nextState', function () {
             $localStorage.store = $scope.store;
-        })
-
+        });
     }]);
