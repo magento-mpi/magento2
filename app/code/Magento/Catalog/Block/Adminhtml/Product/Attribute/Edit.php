@@ -50,29 +50,20 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        $region = 'toolbar';
-
-        if ($this->getRequest()->getParam('popup')) {
-            $region = 'header';
-        }
-
         if ($this->getRequest()->getParam('popup')) {
             $this->buttonList->remove('back');
             if ($this->getRequest()->getParam('product_tab') != 'variations') {
-                $this->buttonList->add(
+                $this->addButton(
                     'save_in_new_set',
                     array(
                         'label' => __('Save in New Attribute Set'),
                         'class' => 'save',
                         'onclick' => 'saveAttributeInNewSet(\'' . __('Enter Name for New Attribute Set') . '\')'
-                    ),
-                    0,
-                    0,
-                    $region
+                    )
                 );
             }
         } else {
-            $this->buttonList->add(
+            $this->addButton(
                 'save_and_edit_button',
                 array(
                     'label' => __('Save and Continue Edit'),
@@ -82,10 +73,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                             'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
                         )
                     )
-                ),
-                100,
-                0,
-                $region
+                )
             );
         }
 
@@ -103,6 +91,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         } else {
             $this->buttonList->update('delete', 'label', __('Delete Attribute'));
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
+    {
+        if ($this->getRequest()->getParam('popup')) {
+            $region = 'header';
+        }
+        parent::addButton($buttonId, $data, $level, $sortOrder, $region);
     }
 
     /**

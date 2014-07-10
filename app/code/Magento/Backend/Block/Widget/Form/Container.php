@@ -51,7 +51,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         parent::_construct();
 
-        $this->buttonList->add(
+        $this->addButton(
             'back',
             array(
                 'label' => __('Back'),
@@ -60,7 +60,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
             ),
             -1
         );
-        $this->buttonList->add(
+        $this->addButton(
             'reset',
             array('label' => __('Reset'), 'onclick' => 'setLocation(window.location.href)', 'class' => 'reset'),
             -1
@@ -69,7 +69,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
         $objId = $this->getRequest()->getParam($this->_objectId);
 
         if (!empty($objId)) {
-            $this->buttonList->add(
+            $this->addButton(
                 'delete',
                 array(
                     'label' => __('Delete'),
@@ -81,7 +81,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
             );
         }
 
-        $this->buttonList->add(
+        $this->addButton(
             'save',
             array(
                 'label' => __('Save'),
