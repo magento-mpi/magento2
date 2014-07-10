@@ -494,7 +494,6 @@ save,save
 "Compare Products","Compare Products"
 "1 item","1 item"
 "%1 items","%1 items"
-"%1 Items","%1 Items"
 "Print This Page","Print This Page"
 "Remove Product","Remove Product"
 "Add to Wishlist","Add to Wishlist"
@@ -519,6 +518,7 @@ Prev,Prev
 "Set Descending Direction","Set Descending Direction"
 "Items %1-%2 of %3","Items %1-%2 of %3"
 "%1 Item","%1 Item"
+"%1 Item(s)","%1 Item(s)"
 Show,Show
 "Additional Information","Additional Information"
 "More Views","More Views"
