@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Block\Adminhtml\Rate\Edit;
+namespace Magento\Tax\Block\Adminhtml\Rate;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
