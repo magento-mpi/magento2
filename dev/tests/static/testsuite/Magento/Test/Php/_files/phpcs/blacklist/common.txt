@@ -26,8 +26,6 @@ app/code/Zend
 dev/tools/Magento/Tools/I18n/Zend
 # Not magento code
 dev/tools/layout
-# Not magento code
-dev/tools/xml
 # PSR-1 not applied to
 dev/tests/js
 # Example files that are expected to fail code sniffer
@@ -46,5 +44,3 @@ dev/tests/integration/testsuite/Magento
 dev/tests/unit/testsuite/Magento
 # Newer version of phpcs does not complain about spacing issue.  This appears to be a bug in the phpcs version that is currently run in bamboo.
 app/code/Magento/Sales/Model/Order/Payment/Transaction.php
-# Basically a configuration file of json strings
-dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php
