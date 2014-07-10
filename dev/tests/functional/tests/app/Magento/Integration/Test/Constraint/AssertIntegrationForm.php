@@ -8,7 +8,7 @@
 
 namespace Magento\Integration\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\Integration\Test\Fixture\Integration;
 use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
 use Magento\Integration\Test\Page\Adminhtml\IntegrationNew;
@@ -16,7 +16,7 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationNew;
 /**
  * Class AssertIntegrationForm
  */
-class AssertIntegrationForm extends AbstractConstraint
+class AssertIntegrationForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -82,7 +82,7 @@ class AssertIntegrationForm extends AbstractConstraint
                     $errorMessages[] = sprintf(
                         $errorMessage,
                         $key,
-                        implode(",\n", $issetResources),
+                        implode(",\n", $fixtureData[$key]),
                         implode(",\n", $formData[$key])
                     );
                 }

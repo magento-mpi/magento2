@@ -9,7 +9,7 @@
 -->
 <constraint>
     <assertIntegrationSuccessSaveMessage module="Magento_Integration">
-        <severeness>low</severeness>
+        <severeness>high</severeness>
         <require>
             <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
             <integration class="Magento\Integration\Test\Fixture\Integration" />

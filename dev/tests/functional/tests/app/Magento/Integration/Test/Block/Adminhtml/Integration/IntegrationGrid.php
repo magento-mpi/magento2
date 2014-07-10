@@ -24,20 +24,20 @@ class IntegrationGrid extends Grid
      */
     protected $filters = [
         'name' => [
-            'selector' => '#integrationGrid_filter_name',
+            'selector' => 'input[name="name"]',
         ],
         'status' => [
-            'selector' => '#integrationGrid_filter_status',
+            'selector' => 'input[name="status"]',
             'input' => 'select',
         ]
     ];
 
     /**
-     * Locator value for edit link
+     * Locator value for link in action column
      *
      * @var string
      */
-    protected $editLink = 'td[class*=col-edit] > #edit';
+    protected $editLink = '[data-column="edit"] button';
 
     /**
      * Locator value for delete link
