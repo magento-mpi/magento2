@@ -308,7 +308,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'Magento\Tax\Model\Calculation\Rate\Converter'
         );
 
-        $titles = $converter->createTitlesFromServiceObject($taxRate);
+        $titles = $converter->createTitleArrayFromServiceObject($taxRate);
         foreach ($data as $expectedTitle) {
             $storeId = $expectedTitle->getStoreId();
             $this->assertTrue(isset($titles[$storeId]), "Title for store id {$storeId} was not set.");
