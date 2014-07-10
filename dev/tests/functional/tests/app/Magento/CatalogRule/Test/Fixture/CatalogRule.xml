@@ -119,6 +119,18 @@
             <attribute_code>id</attribute_code>
             <backend_type>virtual</backend_type>
         </id>
+        <sort_order>
+            <attribute_code>sort_order</attribute_code>
+            <default_value></default_value>
+            <input>text</input>
+            <group>rule_information</group>
+        </sort_order>
+        <stop_rules_processing>
+            <attribute_code>stop_rules_processing</attribute_code>
+            <default_value></default_value>
+            <input>select</input>
+            <group>rule_information</group>
+        </stop_rules_processing>
     </fields>
     <repository_class>Magento\CatalogRule\Test\Repository\CatalogRule</repository_class>
     <handler_interface>Magento\CatalogRule\Test\Handler\CatalogRule\CatalogRuleInterface</handler_interface>

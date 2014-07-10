@@ -43,6 +43,8 @@ class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 
         $totalTax = 0;
         $baseTotalTax = 0;
+        $weeeInclTax = 0;
+        $baseWeeeInclTax = 0;
 
         foreach ($invoice->getAllItems() as $item) {
             $orderItem = $item->getOrderItem();
@@ -55,6 +57,9 @@ class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
             $weeeTaxAmount = $item->getWeeeTaxAppliedAmount() * $item->getQty();
             $baseWeeeTaxAmount = $item->getBaseWeeeTaxAppliedAmount() * $item->getQty();
 
+            $weeeTaxAmountInclTax = $this->_weeeData->getWeeeTaxInclTax($item) * $item->getQty();
+            $baseWeeeTaxAmountInclTax = $this->_weeeData->getBaseWeeeTaxInclTax($item) * $item->getQty();
+            
             $item->setWeeeTaxAppliedRowAmount($weeeTaxAmount);
             $item->setBaseWeeeTaxAppliedRowAmount($baseWeeeTaxAmount);
             $newApplied = array();
@@ -74,6 +79,9 @@ class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 
             $totalTax += $weeeTaxAmount;
             $baseTotalTax += $baseWeeeTaxAmount;
+            
+            $weeeInclTax += $weeeTaxAmountInclTax;
+            $baseWeeeInclTax += $baseWeeeTaxAmountInclTax;
         }
 
         /*
@@ -105,6 +113,11 @@ class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
             $invoice->setBaseTaxAmount($invoice->getBaseTaxAmount() + $baseTotalTax);
         }
 
+        if (!$invoice->isLast()) {
+            $invoice->setSubtotalInclTax($invoice->getSubtotalInclTax() + $weeeInclTax);
+            $invoice->setBaseSubtotalInclTax($invoice->getBaseSubtotalInclTax() + $baseWeeeInclTax);
+        }
+        
         $invoice->setGrandTotal($invoice->getGrandTotal() + $totalTax);
         $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $baseTotalTax);
 

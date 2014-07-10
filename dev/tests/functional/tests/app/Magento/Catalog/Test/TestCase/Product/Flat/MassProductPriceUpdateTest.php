@@ -106,7 +106,7 @@ class MassProductPriceUpdateTest extends Functional
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
 
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $this->assertTrue($productListBlock->isProductVisible($product->getName()));
         $this->assertEquals($productPrice, $productListBlock->getPrice($product->getProductId()));
     }
 

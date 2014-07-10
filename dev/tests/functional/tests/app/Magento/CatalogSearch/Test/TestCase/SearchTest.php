@@ -34,7 +34,7 @@ class SearchTest extends Functional
         $productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $productFixture->switchData('simple');
         $productFixture->persist();
-        $productName = $productFixture->getProductName();
+        $productName = $productFixture->getName();
         $productSku = $productFixture->getProductSku();
 
         //Pages & Blocks

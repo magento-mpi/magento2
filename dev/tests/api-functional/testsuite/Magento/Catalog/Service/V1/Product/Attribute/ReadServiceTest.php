@@ -11,7 +11,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Catalog\Service\V1\Data\Eav\Attribute;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
@@ -73,6 +73,9 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertArrayHasKey('attribute_code', $response);
     }
 
+    /**
+     * @return array
+     */
     public function infoDataProvider()
     {
         return array(
@@ -87,7 +90,7 @@ class ReadServiceTest extends WebapiAbstract
     public function testSearch($filterGroups, $expectedAttributes, $sortData)
     {
         list($sortField, $sortValue) = $sortData;
-        if ($sortValue === SearchCriteria::SORT_DESC && TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
         }
         /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
@@ -121,7 +124,7 @@ class ReadServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'search'
+                'operation' => self::SERVICE_NAME . 'Search'
             ]
         ];
 
@@ -138,9 +141,10 @@ class ReadServiceTest extends WebapiAbstract
             // Remove attribute IDs (in order to make test more clear i.e. without hardcoded IDs)
             unset($attribute['id']);
         }
-        foreach ($expectedAttributes as $expectedAttribute) {
-            $this->assertContains($expectedAttribute, $searchResults['items']);
-        }
+        $this->assertEquals(
+            array_map(function($i) { return $i['code'];}, $expectedAttributes),
+            array_map(function($i) { return $i['attribute_code'];}, $searchResults['items'])
+        );
     }
 
     /**
@@ -154,89 +158,32 @@ class ReadServiceTest extends WebapiAbstract
             array(
                 [ //Groups
                     [ //Group(AND)
-                        [Attribute::FRONTEND_INPUT, 'textarea']
+                        [AttributeMetadata::FRONTEND_INPUT, 'textarea']
                     ],
                 ],
                 [
                     [
                         'code' => 'description',
-                        'frontend_label' => 'Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
-                    ],
-                    [
-                        'code' => 'meta_keywords',
-                        'frontend_label' => 'Meta Keywords',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
-                    ],
-                    [
-                        'code' => 'meta_description',
-                        'frontend_label' => 'Meta Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
-                    ],
-                    [
-                        'code' => 'custom_layout_update',
-                        'frontend_label' => 'Custom Layout Update',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
-                    ],
-                    [
-                        'code' => 'description',
-                        'frontend_label' => 'Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                     [
                         'code' => 'short_description',
-                        'frontend_label' => 'Short Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                     [
                         'code' => 'meta_keyword',
-                        'frontend_label' => 'Meta Keywords',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                     [
                         'code' => 'meta_description',
-                        'frontend_label' => 'Meta Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                     [
                         'code' => 'custom_layout_update',
-                        'frontend_label' => 'Custom Layout Update',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                 ],
-                [Attribute::ID, SearchCriteria::SORT_ASC]
+                [AttributeMetadata::ATTRIBUTE_ID, SearchCriteria::SORT_ASC]
             ),
             array(
                 [ //Groups
                     [ //Group(AND)
-                        [Attribute::FRONTEND_INPUT, 'text']
+                        [AttributeMetadata::FRONTEND_INPUT, 'text']
                     ],
                     [ //Group(AND)
                         ['is_configurable', 1]
@@ -244,39 +191,19 @@ class ReadServiceTest extends WebapiAbstract
                 ],
                 [
                     [
-                        'code' => 'related_tgtr_position_limit',
-                        'frontend_label' => 'Related Target Rule Rule Based Positions',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'text'
-                    ],
-                    [
                         'code' => 'related_tgtr_position_behavior',
-                        'frontend_label' => 'Related Target Rule Position Behavior',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'text'
                     ],
                     [
-                        'code' => 'upsell_tgtr_position_limit',
-                        'frontend_label' => 'Upsell Target Rule Rule Based Positions',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'text'
+                        'code' => 'related_tgtr_position_limit',
                     ],
                     [
                         'code' => 'upsell_tgtr_position_behavior',
-                        'frontend_label' => 'Upsell Target Rule Position Behavior',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'text'
+                    ],
+                    [
+                        'code' => 'upsell_tgtr_position_limit',
                     ],
                 ],
-                [Attribute::IS_REQUIRED, SearchCriteria::SORT_ASC]
+                [AttributeMetadata::REQUIRED, SearchCriteria::SORT_ASC]
             )
         );
     }
