@@ -7,7 +7,7 @@
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Eav\Model\Attribute\Data\File

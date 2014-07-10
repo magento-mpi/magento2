@@ -83,4 +83,85 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
+
+    /**
+     * @covers \Magento\Eav\Model\Attribute\Data\AbstractData::_getRequestValue
+     *
+     * @param string $requestScope
+     * @param string $value
+     * @param string $expectedResult
+     * @param array $params
+     * @param bool $requestScopeOnly
+     * @dataProvider getRequestValueDataProvider
+     */
+    public function testGetRequestValue($requestScope, $value, $params, $requestScopeOnly, $expectedResult)
+    {
+        $requestMock = $this->getMock(
+            '\Magento\Framework\App\Request\Http', ['getParams', 'getParam'], [], '', false
+        );
+        $requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap([
+            ['attributeCode', false, $value],
+            [$requestScope, $value]
+        ]));
+        $requestMock->expects($this->any())->method('getParams')->will($this->returnValue($params));
+
+        $attributeMock = $this->getMock('\Magento\Eav\Model\Attribute', [], [], '', false);
+        $attributeMock->expects($this->any())->method('getAttributeCode')->will($this->returnValue('attributeCode'));
+
+        $this->model->setAttribute($attributeMock);
+        $this->model->setRequestScope($requestScope);
+        $this->model->setRequestScopeOnly($requestScopeOnly);
+        $this->assertEquals($expectedResult, $this->model->extractValue($requestMock));
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequestValueDataProvider()
+    {
+        return [
+            [
+                'requestScope' => false,
+                'value' => 'value',
+                'params'=> [],
+                'requestScopeOnly' => true,
+                'expectedResult' => 'value'
+            ],
+            [
+                'requestScope' => 'scope/scope',
+                'value' => 'value',
+                'params'=> ['scope' => ['scope' => ['attributeCode' => 'data']]],
+                'requestScopeOnly' => true,
+                'expectedResult' => 'data'
+            ],
+            [
+                'requestScope' => 'scope/scope',
+                'value' => 'value',
+                'params'=> ['scope' => ['scope' => []]],
+                'requestScopeOnly' => true,
+                'expectedResult' => false
+            ],
+            [
+                'requestScope' => 'scope/scope',
+                'value' => 'value',
+                'params'=> ['scope'],
+                'requestScopeOnly' => true,
+                'expectedResult' => false
+            ],
+            [
+                'requestScope' => 'scope',
+                'value' => 'value',
+                'params'=> ['otherScope' => 1],
+                'requestScopeOnly' => true,
+                'expectedResult' => false
+            ],
+            [
+                'requestScope' => 'scope',
+                'value' => 'value',
+                'params'=> ['otherScope' => 1],
+                'requestScopeOnly' => false,
+                'expectedResult' => 'value'
+            ]
+        ];
+    }
 }

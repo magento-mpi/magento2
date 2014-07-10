@@ -132,4 +132,32 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
+
+    /**
+     * @covers \Magento\Eav\Model\Attribute\Data\Select::compactValue
+     */
+    public function testCompactValue()
+    {
+        $entityMock = $this->getMock('\Magento\Framework\Model\AbstractModel', [], [], '', false);
+        $entityMock->expects($this->once())->method('setData')->with('attrCode', 'value');
+
+        $attributeMock = $this->getMock('\Magento\Eav\Model\Attribute', [], [], '', false);
+        $attributeMock->expects($this->any())->method('getAttributeCode')->will($this->returnValue('attrCode'));
+
+        $this->model->setAttribute($attributeMock);
+        $this->model->setEntity($entityMock);
+        $this->model->compactValue('value');
+    }
+
+    /**
+     * @covers \Magento\Eav\Model\Attribute\Data\Select::compactValue
+     */
+    public function testCompactValueWithFalseValue()
+    {
+        $entityMock = $this->getMock('\Magento\Framework\Model\AbstractModel', [], [], '', false);
+        $entityMock->expects($this->never())->method('setData');
+
+        $this->model->setEntity($entityMock);
+        $this->model->compactValue(false);
+    }
 }

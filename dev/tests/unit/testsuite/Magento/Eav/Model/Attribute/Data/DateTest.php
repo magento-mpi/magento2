@@ -146,4 +146,47 @@ class DateTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @covers \Magento\Eav\Model\Attribute\Data\Date::compactValue
+     *
+     * @param string $value
+     * @param string $expectedResult
+     * @dataProvider compactValueDataProvider
+     */
+    public function testCompactValue($value, $expectedResult)
+    {
+        $entityMock = $this->getMock('\Magento\Framework\Model\AbstractModel', [], [], '', false);
+        $entityMock->expects($this->once())->method('setDataUsingMethod')->with('attrCode', $expectedResult);
+
+        $attributeMock = $this->getMock('\Magento\Eav\Model\Attribute', [], [], '', false);
+        $attributeMock->expects($this->any())->method('getAttributeCode')->will($this->returnValue('attrCode'));
+
+        $this->model->setAttribute($attributeMock);
+        $this->model->setEntity($entityMock);
+        $this->model->compactValue($value);
+    }
+
+    /**
+     * @return array
+     */
+    public function compactValueDataProvider()
+    {
+        return [
+            ['value' => 'value', 'expectedResult' => 'value'],
+            ['value' => '',  'expectedResult' => null]
+        ];
+    }
+
+    /**
+     * @covers \Magento\Eav\Model\Attribute\Data\Date::compactValue
+     */
+    public function testCompactValueWithFalseValue()
+    {
+        $entityMock = $this->getMock('\Magento\Framework\Model\AbstractModel', [], [], '', false);
+        $entityMock->expects($this->never())->method('setDataUsingMethod');
+
+        $this->model->setEntity($entityMock);
+        $this->model->compactValue(false);
+    }
 }
