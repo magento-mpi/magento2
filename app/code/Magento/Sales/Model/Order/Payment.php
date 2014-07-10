@@ -521,9 +521,10 @@ class Payment extends \Magento\Payment\Model\Info
      * TODO: eliminate logic duplication with capture()
      *
      * @param float $amount
+     * @param bool $skipFraudDetection
      * @return $this
      */
-    public function registerCaptureNotification($amount)
+    public function registerCaptureNotification($amount, $skipFraudDetection = false)
     {
         $this->_generateTransactionId(
             \Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE,
@@ -541,7 +542,9 @@ class Payment extends \Magento\Payment\Model\Info
                 $order->addRelatedObject($invoice);
                 $this->setCreatedInvoice($invoice);
             } else {
-                $this->setIsFraudDetected(true);
+                if (!$skipFraudDetection) {
+                    $this->setIsFraudDetected(true);
+                }
                 $this->_updateTotals(array('base_amount_paid_online' => $amount));
             }
         }

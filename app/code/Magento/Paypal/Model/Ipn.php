@@ -213,7 +213,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
             switch ($paymentStatus) {
                 // paid
                 case Info::PAYMENTSTATUS_COMPLETED:
-                    $this->_registerPaymentCapture();
+                    $this->_registerPaymentCapture(true);
                     break;
                     // the holded payment was denied on paypal side
                 case Info::PAYMENTSTATUS_DENIED:
@@ -258,13 +258,15 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
     /**
      * Process completed payment (either full or partial)
      *
+     * @param bool $skipFraudDetection
      * @return void
      */
-    protected function _registerPaymentCapture()
+    protected function _registerPaymentCapture($skipFraudDetection = false)
     {
         if ($this->getRequestData('transaction_entity') == 'auth') {
             return;
         }
+        $parentTransactionId = $this->getRequestData('parent_txn_id');
         $this->_importPaymentInformation();
         $payment = $this->_order->getPayment();
         $payment->setTransactionId(
@@ -277,15 +279,17 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
             $this->_createIpnComment('')
         );
         $payment->setParentTransactionId(
-            $this->getRequestData('parent_txn_id')
+            $parentTransactionId
         );
         $payment->setShouldCloseParentTransaction(
             'Completed' === $this->getRequestData('auth_status')
-        );$payment->setIsTransactionClosed(
+        );
+        $payment->setIsTransactionClosed(
             0
         );
         $payment->registerCaptureNotification(
-            $this->getRequestData('mc_gross')
+            $this->getRequestData('mc_gross'),
+            $skipFraudDetection && $parentTransactionId
         );
         $this->_order->save();
 
