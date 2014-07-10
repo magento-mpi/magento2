@@ -7,6 +7,11 @@
  */
 namespace Magento\GoogleShopping\Model\Attribute;
 
+/**
+ * Class TaxTest
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
 
