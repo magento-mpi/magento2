@@ -46,7 +46,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $taxRateDataOjectBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
         $zipRangeDataObjectBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
-        $taxRateTitleDataObjectBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateTitleBuilder');
+        $taxRateTitleDataObjectBuilder = $this->objectManager->getObject(
+            'Magento\Tax\Service\V1\Data\TaxRateTitleBuilder'
+        );
         /** @var  $converter \Magento\Tax\Model\Calculation\Rate\Converter */
         $converter = $this->objectManager->getObject(
             'Magento\Tax\Model\Calculation\Rate\Converter',
