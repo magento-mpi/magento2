@@ -11,6 +11,7 @@ namespace Magento\GoogleShopping\Model\Attribute;
 use Magento\Tax\Model\ClassModel;
 use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder;
+use Magento\Tax\Service\V1\TaxRuleFixtureFactory;
 
 /**
  * @magentoDataFixture Magento/GoogleShopping/_files/product_simple.php
