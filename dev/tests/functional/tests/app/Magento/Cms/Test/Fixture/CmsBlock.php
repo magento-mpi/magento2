@@ -24,7 +24,7 @@ class CmsBlock extends InjectableFixture
     protected $defaultDataSet = [
         'title' => 'block_%isolation%',
         'identifier' => 'identifier_%isolation%',
-        'store_id' => ['dataSet' => ['All Store Views']],
+        'stores' => ['dataSet' => ['All Store Views']],
         'is_active' => 'Enabled',
         'content' => 'description_%isolation%',
     ];
@@ -85,13 +85,13 @@ class CmsBlock extends InjectableFixture
         'input' => 'select',
     ];
 
-    protected $store_id = [
-        'attribute_code' => 'store_id',
+    protected $stores = [
+        'attribute_code' => 'stores',
         'backend_type' => 'virtual',
         'is_required' => '1',
         'default_value' => '0',
         'input' => 'multiselectgrouplist',
-        'source' => 'Magento\Cms\Test\Fixture\CmsBlock\StoreId',
+        'source' => 'Magento\Cms\Test\Fixture\CmsBlock\Stores',
     ];
 
     public function getBlockId()
@@ -129,8 +129,8 @@ class CmsBlock extends InjectableFixture
         return $this->getData('is_active');
     }
 
-    public function getStoreId()
+    public function getStores()
     {
-        return $this->getData('store_id');
+        return $this->getData('stores');
     }
 }

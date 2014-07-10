@@ -44,7 +44,7 @@ class UpdateCmsBlockEntityTest extends AbstractCmsBlockEntityTest
         $initialCmsBlock->persist();
 
         // Prepare data for tearDown
-        $this->storeName = $cmsBlock->getStoreId();
+        $this->storeName = $cmsBlock->getStores();
 
         // Steps
         $filter = [

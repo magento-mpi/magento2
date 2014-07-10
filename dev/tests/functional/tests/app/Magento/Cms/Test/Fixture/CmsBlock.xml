@@ -63,14 +63,14 @@
             <default_value>1</default_value>
             <input>select</input>
         </is_active>
-        <store_id>
-            <attribute_code>store_id</attribute_code>
+        <stores>
+            <attribute_code>stores</attribute_code>
             <backend_type>virtual</backend_type>
             <is_required>1</is_required>
             <default_value>0</default_value>
             <input>multiselectgrouplist</input>
-            <source>Magento\Cms\Test\Fixture\CmsBlock\StoreId</source>
-        </store_id>
+            <source>Magento\Cms\Test\Fixture\CmsBlock\Stores</source>
+        </stores>
     </fields>
     <data_set></data_set>
     <data_config></data_config>

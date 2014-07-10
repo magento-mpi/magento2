@@ -9,14 +9,13 @@
 namespace Magento\Cms\Test\Block\Adminhtml\Block;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
  * Class CmsGrid
  * Adminhtml Cms Block management grid
  */
-class CmsGrid extends GridInterface
+class CmsGrid extends Grid
 {
     /**
      * Filters array mapping
@@ -51,5 +50,5 @@ class CmsGrid extends GridInterface
      *
      * @var string
      */
-    protected $editLink = '#cmsBlockGrid_table tbody tr:first-child td';
+    protected $editLink = 'td[data-column="title"]';
 }

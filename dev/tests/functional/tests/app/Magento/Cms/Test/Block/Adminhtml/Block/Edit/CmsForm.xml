@@ -9,10 +9,10 @@
 -->
 <mapping strict="0">
 <fields>
-    <store_id>
+    <stores>
         <selector>[name="stores[]"]</selector>
         <input>multiselectgrouplist</input>
-    </store_id>
+    </stores>
     <is_active>
         <input>select</input>
     </is_active>
