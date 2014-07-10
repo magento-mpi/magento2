@@ -41,10 +41,14 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider toHtmlDataProvider
      */
-    public function testToHtml($liParams, $innerText, $result)
+    public function testToHtml($liParams, $attrName, $attrValue, $innerText)
     {
         $this->item->setLink($liParams, $innerText);
-        $this->assertStringStartsWith($result, $this->item->toHtml());
+        $this->assertTag([
+            'tag' => 'li',
+            'attributes' => [$attrName => $attrValue],
+            'content' => $innerText
+        ], $this->item->toHtml());
     }
 
     public function toHtmlDataProvider()
@@ -52,13 +56,14 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'liParams' => ['class' => 'some-css-class'],
+                'attrName' => 'class',
+                'attrValue' => 'some-css-class',
                 'innerText' => 'text',
-                'result' => '<li class="some-css-class">text</li>'
-            ],
-            [
+            ], [
                 'liParams' => 'class="some-css-class"',
+                'attrName' => 'class',
+                'attrValue' => 'some-css-class',
                 'innerText' => 'text',
-                'result' => '<li class="some-css-class">text</li>'
             ]
         ];
     }
