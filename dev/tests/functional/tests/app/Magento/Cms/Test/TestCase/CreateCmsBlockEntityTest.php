@@ -38,7 +38,7 @@ class CreateCmsBlockEntityTest extends AbstractCmsBlockEntityTest
      */
     public function test(CmsBlock $cmsBlock)
     {
-        // Prepare data for tearDownAfterClass
+        // Prepare data for tearDown
         $this->storeName = $cmsBlock->getStoreId();
 
         // Steps

@@ -29,7 +29,7 @@ use Magento\Cms\Test\Fixture\CmsBlock;
  * @group CMS_Content_(PS)
  * @ZephyrId MAGETWO-25941
  */
-class UpdateCmsBlockEntityTest extends CmsBlockEntityTest
+class UpdateCmsBlockEntityTest extends AbstractCmsBlockEntityTest
 {
     /**
      * Run Update CMS Block test
@@ -43,22 +43,15 @@ class UpdateCmsBlockEntityTest extends CmsBlockEntityTest
         // Precondition
         $initialCmsBlock->persist();
 
-        // Prepare data for tearDownAfterClass
-        self::$storeName = $cmsBlock->getStoreId();
+        // Prepare data for tearDown
+        $this->storeName = $cmsBlock->getStoreId();
 
         // Steps
         $filter = [
             'identifier' => $initialCmsBlock->getIdentifier(),
         ];
         $this->cmsBlockIndex->open();
-
-        /**
-         * TODO: MAGETWO-25640
-         * Search doesn't work for CMS Blocks grid bug
-         */
-        // $this->cmsBlockIndex->getCmsBlockGrid()->searchAndOpen($filter);
-        $this->cmsBlockIndex->getCmsBlockGrid()->sortAndOpen();
-
+        $this->cmsBlockIndex->getCmsBlockGrid()->searchAndOpen($filter);
         $this->cmsBlockNew->getCmsForm()->fill($cmsBlock);
         $this->cmsBlockNew->getFormPageActions()->save();
     }
