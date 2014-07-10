@@ -8,9 +8,8 @@
 
 require __DIR__ . '/../../../bootstrap.php';
 
-use \Magento\Tools\Composer\Creator\ComposerCreator;
-use \Magento\Tools\Composer\Model\Package;
-use \Magento\Tools\Composer\Helper\Helper;
+use \Magento\Tools\Composer\Package\Reader;
+use \Magento\Tools\Composer\Package\Package;
 
 /**
  * Composer Skeleton Creator Tool
@@ -20,7 +19,7 @@ use \Magento\Tools\Composer\Helper\Helper;
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]',
+            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
             'verbose|v' => 'Detailed console logs'
         )
     );
@@ -34,60 +33,41 @@ try {
             new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) :
             new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
+    $logger->info('Working copy root directory: ' . BP);
 
     $edition = $opt->getOption('e') ?: null;
-    if (!$edition) {
-        $logger->info('Edition is required. Acceptable values [ee|enterprise] or [ce|community]');
-        exit(100);
-    }
-
-    $product = null;
     switch (strtolower($edition)) {
-        case 'enterprise':
         case 'ee':
-            $logger->info('Your Edition: Enterprise');
-            $product = new Package("magento/product-enterprise", "0.1.0", '', 'project');
+            $name = 'magento/product-enterprise-edition';
             break;
-        case 'community':
         case 'ce':
-            $logger->info('Your Edition: Community');
-            $product = new Package("magento/product-community", "0.1.0", '', 'project');
+            $name = 'magento/product-community-edition';
             break;
         default:
-            $logger->info('Edition value not acceptable. Acceptable values: [ee|ce]');
-            exit(100);
+            throw new \Exception('Edition value not acceptable. Acceptable values: [ee|ce]');
     }
+    $logger->info("Root package name: {$name}");
 
-    $logger->info(sprintf("Your Magento Installation Directory: %s ", BP));
-
-    //Locations to look for components
-    $components = Helper::getComponentsList();
-
-    $dependencies = array();
-    foreach ($components as $component) {
-        foreach (glob($component . '/*', GLOB_ONLYDIR) as $dir) {
-            $file = $dir . '/composer.json';
-            if (!file_exists($file)) {
-                $logger->info('composer.json file not found for ' . $file);
-                exit(100);
-            }
-            $json = json_decode(file_get_contents($file));
-            $depends = new Package(
-                $json->name,
-                $json->version,
-                $dir,
-                ''
-            );
-            $product->addDependencies($depends);
-        }
+    $root = new Package(
+        json_decode(file_get_contents(__DIR__ . '/etc/root_composer_template.json')),
+        BP . '/composer.json'
+    );
+    $root->getJson()->name = $name;
+    $reader = new Reader(BP);
+    foreach ($reader->readMagentoPackages() as $package) {
+        $root->setRequire($package->get('name'), $package->get('version'));
     }
-    $logger->debug(sprintf("Total Dependencies on Skeleton: %s", sizeof($product->getDependencies())));
-    $creator = new ComposerCreator(BP, $logger);
-    $creator->create(array($product));
-
-    $logger->info(sprintf("SUCCESS: Created composer.json for %s edition", $edition));
+    $size = sizeof((array)$root->get('require'));
+    $logger->debug("Total number of dependencies in the skeleton package: {$size}");
+    file_put_contents(
+        $root->getFile(),
+        json_encode($root->getJson(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n"
+    );
+    $logger->info("SUCCESS: created package at {$root->getFile()}");
 } catch (\Zend_Console_Getopt_Exception $e) {
-    exit($e->getUsageMessage());
+    $e->getUsageMessage();
+    exit(1);
 } catch (\Exception $e) {
-    exit($e->getMessage());
+    echo $e;
+    exit(1);
 }

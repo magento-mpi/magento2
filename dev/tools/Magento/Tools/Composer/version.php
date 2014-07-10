@@ -9,7 +9,9 @@
  */
 
 namespace Magento\Tools\Composer\Package;
+
 require __DIR__ . '/Package/Reader.php';
+require __DIR__ . '/Package/Package.php';
 require __DIR__ . '/Package/Collection.php';
 
 $usage = "Usage: php -f version.php -- --version=2.1.3 [--dependent=<exact|wildcard>] [--dir=/path/to/work/dir]
@@ -28,10 +30,7 @@ try {
     if (!preg_match('/^\d+\.\d+\.\d+(\-(?:dev|alpha|beta|rc)\.\d+)?$/', $opt['version'], $matches)) {
         throw new \InvalidArgumentException('Wrong format of version number');
     }
-    $updateDependent = isset($opt['dependent']) ? $opt['dependent'] : false;
-    if ($updateDependent) {
-        Collection::validateUpdateDependent($updateDependent, $opt['version']);
-    }
+    $collection = new Collection(isset($opt['dependent']) ? $opt['dependent'] : false);
     if (isset($opt['dir'])) {
         if (!is_dir($opt['dir'])) {
             throw new \InvalidArgumentException("The specified directory doesn't exist");
@@ -40,6 +39,7 @@ try {
     } else {
         $rootDir = str_replace('\\', '/', realpath(__DIR__ . '/../../../../..'));
     }
+    $reader = new Reader($rootDir);
 } catch (\InvalidArgumentException $e) {
     echo $e->getMessage() . "\n";
     echo $usage;
@@ -47,19 +47,21 @@ try {
 }
 
 try {
-    $reader = new Reader($rootDir);
-    $collection = new Collection($reader);
-    $collection->readPackages('app/code/Magento/*');
-    $collection->readPackages('app/design/*/Magento/*');
-    $collection->readPackages('app/i18n/Magento/*');
-    $collection->readPackage('lib/internal/Magento/Framework');
-    $collection->readPackage('');
-    foreach ($collection->getPackageNames() as $key) {
-        $collection->setVersion($key, $opt['version'], $updateDependent);
+    foreach ($reader->readMagentoPackages() as $package) {
+        $collection->add($package);
     }
-    foreach ($collection->getModified() as $file => $json) {
-        echo $file . "\n";
-        file_put_contents($file, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
+    $rootPackage = $reader->readFromDir('');
+    if ($rootPackage) {
+        $collection->add($rootPackage);
+    }
+    $packages = $collection->getPackages();
+    foreach (array_keys($packages) as $packageName) {
+        $collection->setVersion($packageName, $opt['version']);
+    }
+    foreach ($packages as $package) {
+        $file = $package->getFile();
+        echo  $file . "\n";
+        file_put_contents($file, json_encode($package->getJson(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
     }
 } catch (\Exception $e) {
     echo $e;

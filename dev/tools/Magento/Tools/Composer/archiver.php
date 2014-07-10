@@ -11,7 +11,7 @@ require __DIR__ . '/../../../bootstrap.php';
 $generationDir = __DIR__ . '/_packages';
 
 use \Magento\Tools\Composer\Helper\Zipper;
-use \Magento\Tools\Composer\Helper\Helper;
+use \Magento\Tools\Composer\Package\Reader;
 
 /**
  * Composer Archiver Tool
@@ -40,6 +40,7 @@ try {
 
     $logger->info(sprintf("Your archives output directory: %s. ", $generationDir));
     $logger->info(sprintf("Your Magento Installation Directory: %s ", BP));
+    $reader = new Reader(BP);
 
     try {
         if (!file_exists($generationDir)) {
@@ -53,63 +54,19 @@ try {
     $logger->debug(sprintf("Zip Archive Location: %s", $generationDir));
 
     $noOfZips = 0;
-
-    //Creating zipped folders for all components
-    $components = Helper::getComponentsList();
-    $excludes = array();
-    $name = '';
-    foreach ($components as $component) {
-        $files = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($component, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-
-        $foundComposerJson = false;
-        $prevDepth = 0;
-        foreach ($files as $file) {
-            if ((!$foundComposerJson) && ($files->getDepth() === 0) && ($files->getDepth() < $prevDepth)) {
-                throw new \Exception('Did not find the composer.json file', '1');
-            }
-
-            $prevDepth = $files->getDepth();
-            if ($files->getDepth() >= 2 || $files->isDir()) {
-                continue;
-            }
-
-            if ($files->getDepth() === 0) {
-                $foundComposerJson = false;
-            }
-
-            $file = str_replace('\\', '/', realpath($file));
-
-            if (is_file($file) === true) {
-                if (basename($file) === 'composer.json') {
-                    $foundComposerJson = true;
-                    $json = json_decode(file_get_contents($file));
-                    $name = Helper::vendorPackageToName($json->name);
-                    if ($name == '') {
-                        throw new \Exception('Not a valid vendorPackage name', '1');
-                    }
-                    $noOfZips += Zipper::Zip(
-                        dirname($file),
-                        $generationDir . '/' . $name . "-". $json->version . '.zip',
-                        $excludes
-                    );
-                    $logger->info(
-                        sprintf(
-                            "Created zip archive for %-40s [%9s]",
-                            $name,
-                            $json->version
-                        )
-                    );
-                }
-            }
-        }
+    $packagedDirs = [];
+    foreach ($reader->readMagentoPackages() as $package) {
+        $version = $package->get('version');
+        $fileName = str_replace('/', '_', $package->get('name')) . "-{$version}" . '.zip';
+        $sourceDir = str_replace('\\', '/', realpath(dirname($package->getFile())));
+        $packagedDirs[] = $sourceDir;
+        $noOfZips += Zipper::Zip($sourceDir, $generationDir . '/' . $fileName, []);
+        $logger->info(sprintf("Created zip archive for %-40s [%9s]", $fileName, $version));
     }
 
     //Creating zipped folders for skeletons
     $excludes = array_merge(
-        $components,
+        $packagedDirs,
         array(
             str_replace('\\', '/', realpath(BP)) . '/.git',
             str_replace('\\', '/', realpath(BP)) . '/.idea',
@@ -120,7 +77,7 @@ try {
     $name = '';
     if (file_exists(str_replace('\\', '/', realpath(BP)) . '/composer.json')) {
         $json = json_decode(file_get_contents(str_replace('\\', '/', realpath(BP)) . '/composer.json'));
-        $name = Helper::vendorPackageToName($json->name);
+        $name = str_replace('/', '_', $json->name);
         if ($name == '') {
             throw new \Exception('Not a valid vendorPackage name', '1');
         }
