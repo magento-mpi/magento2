@@ -190,24 +190,24 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     public function getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $productTaxClassId)
     {
-        $filterGroups = [
+        $this->searchCriteriaBuilder->addFilter(
             [
                 $this->filterBuilder
                     ->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)
                     ->setValue([$customerTaxClassId])
                     ->create(),
-            ],
+            ]
+        );
+
+        $this->searchCriteriaBuilder->addFilter(
             [
                 $this->filterBuilder
                     ->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)
                     ->setValue([$productTaxClassId])
                     ->create(),
-            ],
-        ];
+            ]
+        );
 
-        foreach ($filterGroups as $filterGroup) {
-            $this->searchCriteriaBuilder->addFilter($filterGroup);
-        }
 
         $searchResults = $this->searchTaxRules($this->searchCriteriaBuilder->create());
         $taxRules = $searchResults->getItems();
