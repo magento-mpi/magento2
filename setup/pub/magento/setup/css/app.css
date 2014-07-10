@@ -91,7 +91,23 @@ a.collapsed-options {
 .password-strength-strong > div {
     background-color: #3c763d;
 }
-.error-container {
+
+.highlight {
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    padding: 9px 14px;
+}
+.highlight pre {
+    background-color: transparent;
+    border: 0 none;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
+    white-space: nowrap;
+    word-break: normal;
+}.error-container {
     display: block;
     padding: 6px 12px;
     margin-top: 2px;
