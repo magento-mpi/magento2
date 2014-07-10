@@ -15,6 +15,7 @@ define(
 <<<SYNOPSIS
 php -f publish.php --
     --edition="ce|ee"
+    --version="<x.y.z[-stability.m]>", where x, y, z, m: numbers, stability: 'alpha', 'beta', rc' or 'dev'
     --source-dir="<directory>"
     --changelog-file="<markdown_file>"
     --target-satis-repo="<repository>" [--target-satis-dir=="<directory>"]
@@ -22,10 +23,10 @@ php -f publish.php --
 SYNOPSIS
 );
 $options = getopt('', array(
-        'edition:', 'source-dir:', 'changelog-file:', 'target-satis-repo:', 'target-satis-dir::',
+        'edition:', 'version:', 'source-dir:', 'changelog-file:', 'target-satis-repo:', 'target-satis-dir::',
         'target-skeleton-repo:', 'target-skeleton-dir::'
     ));
-$requiredArgs = ['edition', 'source-dir', 'changelog-file', 'target-satis-repo', 'target-skeleton-repo'];
+$requiredArgs = ['edition', 'version', 'source-dir', 'changelog-file', 'target-satis-repo', 'target-skeleton-repo'];
 foreach ($requiredArgs as $arg) {
     if (empty($options[$arg])) {
         echo SYNOPSIS;
@@ -36,6 +37,7 @@ foreach ($requiredArgs as $arg) {
 require_once(__DIR__ . '/functions.php');
 
 $edition = $options['edition'];
+$version = $options['version'];
 $sourceDir = $options['source-dir'];
 $changelogFile = $options['changelog-file'];
 $satisTargetDir = (isset($options['target-satis-dir']) ? $options['target-satis-dir'] : __DIR__ . '/_satis');
@@ -61,8 +63,10 @@ try {
     $sourceSkeletonDir = __DIR__ . '/_tmp_sekelton_source';
     execVerbose("git clone %s %s", $sourceDir, $sourceSkeletonDir);
     execVerbose(
-        'php -f ' . __DIR__ . '/../../tools/Magento/Tools/Composer/create-skeleton.php -- --edition=%s --dir=%s',
+        'php -f ' . __DIR__
+            . '/../../tools/Magento/Tools/Composer/create-skeleton.php -- --edition=%s --version=%s --dir=%s',
         $edition,
+        $version,
         $sourceSkeletonDir
     );
 
@@ -88,18 +92,6 @@ try {
     execVerbose("unzip $satisTargetDir/_packages/magento_product-* -d $skeletonTargetDir");
     execVerbose("rm -f $satisTargetDir/_packages/magento_product-*");
 
-    // Determine version
-    $composerFile = $skeletonTargetDir . '/composer.json';
-    if (!file_exists($composerFile)) {
-        throw new \UnexpectedValueException("Composer file is not found in '$composerFile'");
-    }
-    $composerConfig = json_decode(file_get_contents($composerFile));
-    if (!isset($composerConfig->version)) {
-        throw new \UnexpectedValueException("No 'version' information found in '$composerFile'");
-    }
-    $version = $composerConfig->version;
-    echo "Release version is '$version'" . PHP_EOL;
-
     // commit changes to satis repo
     execVerbose("$gitSatisCmd add .");
     execVerbose("$gitSatisCmd config user.name " . getGitUsername());
@@ -114,6 +106,11 @@ try {
     echo "Source log file is '$logFile'" . PHP_EOL;
     $sourceLog = file_get_contents($logFile);
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
+    if (!preg_match('#^' . preg_quote($version) . '\n#', $commitMsg)) {
+        throw new \UnexpectedValueException(
+            "Version on top of Changelog doesn't correspond to the release version '$version'"
+        );
+    }
     execVerbose("$gitSkeletonCmd commit -m %s", $commitMsg);
     execVerbose("$gitSkeletonCmd tag $version");
 } catch (Exception $exception) {
