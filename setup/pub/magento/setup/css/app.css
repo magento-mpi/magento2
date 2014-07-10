@@ -17,6 +17,7 @@ a.collapsed-options {
     font-weight: bold;
     white-space: nowrap;
 }
+
 .readiness-check-landing {
     text-align: center;
     width: 550px;
@@ -25,6 +26,22 @@ a.collapsed-options {
 .readiness-check-landing > * {
     padding: 20px;
     margin: 20px;
+}
+.rediness-check-items > div {
+    padding: 20px;
+}
+.rediness-check-info {
+    margin: 10px 0 10px 20px;
+    width: 70%;
+}
+.rediness-check-info > ul {
+    margin-top: 10px;
+}
+.rediness-check-block {
+    padding: 20px;
+}
+.rediness-check-panel-right {
+    float:right;
 }
 
 .bs-callout {
@@ -107,7 +124,8 @@ a.collapsed-options {
     padding: 0;
     white-space: nowrap;
     word-break: normal;
-}.error-container {
+}
+.error-container {
     display: block;
     padding: 6px 12px;
     margin-top: 2px;
