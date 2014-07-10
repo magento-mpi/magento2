@@ -2700,4 +2700,7 @@ return array(
     ['Magento\Widget\Helper\Data'],
     ['Magento\Tax\Model\Resource\Calculation\Grid\Collection'],
     ['Magento\Tax\Model\Resource\Rule\Grid\Collection'],
+    ['Magento\Tax\Model\Resource\Rule\Grid\Options\CustomerTaxClass'],
+    ['Magento\Tax\Model\Resource\Rule\Grid\Options\HashOptimized'],
+    ['Magento\Tax\Model\Resource\Rule\Grid\Options\ProductTaxClass']
 );
