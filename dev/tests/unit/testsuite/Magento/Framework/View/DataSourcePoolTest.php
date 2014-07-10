@@ -41,7 +41,7 @@ class DataSourcePoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddWithException()
     {
-        $this->dataSourcePool->add('testBlock', 'NotExistingBlockClass');
+        $this->dataSourcePool->add('DataSourcePoolTestBlock', 'NotExistingBlockClass');
     }
 
     protected function createBlock($blockClass)
@@ -57,8 +57,8 @@ class DataSourcePoolTest extends \PHPUnit_Framework_TestCase
 
     public function testAdd()
     {
-        $blockName = 'TestBlock';
-        $blockClass = 'Magento\Framework\View\TestBlock';
+        $blockName = 'DataSourcePoolTestBlock';
+        $blockClass = 'Magento\Framework\View\DataSourcePoolTestBlock';
 
         $block = $this->createBlock($blockClass);
 
@@ -67,8 +67,8 @@ class DataSourcePoolTest extends \PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $blockName = 'TestBlock';
-        $blockClass = 'Magento\Framework\View\TestBlock';
+        $blockName = 'DataSourcePoolTestBlock';
+        $blockClass = 'Magento\Framework\View\DataSourcePoolTestBlock';
 
         $block = $this->createBlock($blockClass);
         $this->dataSourcePool->add($blockName, $blockClass);
@@ -85,8 +85,8 @@ class DataSourcePoolTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignAndGetNamespaceData()
     {
-        $blockName = 'TestBlock';
-        $blockClass = 'Magento\Framework\View\TestBlock';
+        $blockName = 'DataSourcePoolTestBlock';
+        $blockClass = 'Magento\Framework\View\DataSourcePoolTestBlock';
 
         $block = $this->createBlock($blockClass);
         $this->dataSourcePool->add($blockName, $blockClass);
@@ -101,9 +101,9 @@ class DataSourcePoolTest extends \PHPUnit_Framework_TestCase
 }
 
 /**
- * Class TestBlock mock
+ * Class DataSourcePoolTestBlock mock
  */
-class TestBlock implements \Magento\Framework\View\Element\BlockInterface
+class DataSourcePoolTestBlock implements \Magento\Framework\View\Element\BlockInterface
 {
     /**
      * Produce and return block's html output

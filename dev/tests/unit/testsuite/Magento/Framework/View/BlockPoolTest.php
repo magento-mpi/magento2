@@ -36,10 +36,10 @@ class BlockPoolTest extends \PHPUnit_Framework_TestCase
     public function testAdd()
     {
         $blockName = 'testName';
-        $blockClass = '\Magento\Framework\View\TestBlock';
+        $blockClass = '\Magento\Framework\View\BlockPoolTestBlock';
         $arguments = ['key' => 'value'];
 
-        $block = $this->getMock('Magento\Framework\View\TestBlock');
+        $block = $this->getMock('Magento\Framework\View\BlockPoolTestBlock');
 
         $this->blockFactory->expects($this->atLeastOnce())
             ->method('createBlock')
@@ -59,14 +59,14 @@ class BlockPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddWithException()
     {
-        $this->blockPool->add('testBlock', 'NotExistingBlockClass');
+        $this->blockPool->add('BlockPoolTestBlock', 'NotExistingBlockClass');
     }
 }
 
 /**
- * Class TestBlock mock
+ * Class BlockPoolTestBlock mock
  */
-class TestBlock implements \Magento\Framework\View\Element\BlockInterface
+class BlockPoolTestBlock implements \Magento\Framework\View\Element\BlockInterface
 {
     /**
      * Produce and return block's html output
