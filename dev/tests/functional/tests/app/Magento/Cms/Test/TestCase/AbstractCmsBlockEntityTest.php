@@ -16,10 +16,10 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
 
 /**
- * Class CatalogRuleEntityTest
+ * Class AbstractCmsBlockEntityTest
  * Parent class for CMS Block tests
  */
-abstract class CmsBlockEntityTest extends Injectable
+abstract class AbstractCmsBlockEntityTest extends Injectable
 {
     /**
      * Page CmsBlockIndex
@@ -61,7 +61,17 @@ abstract class CmsBlockEntityTest extends Injectable
      *
      * @var array
      */
-    protected static $storeName;
+    protected $storeName;
+
+    /**
+     * Skipped stores for tearDown
+     *
+     * @var array
+     */
+    protected $skippedStores = [
+        'All Store Views',
+        'Main Website/Main Website Store/Default Store View',
+    ];
 
     /**
      * Injection data
@@ -94,9 +104,8 @@ abstract class CmsBlockEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $storeName = self::$storeName;
-        foreach ($storeName as $store) {
-            if ($store == 'All Store Views') {
+        foreach ($this->storeName as $store) {
+            if (in_array($store, $this->skippedStores)) {
                 continue;
             }
             $tmp = explode("/", $store);

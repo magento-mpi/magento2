@@ -28,7 +28,7 @@ use Magento\Cms\Test\Fixture\CmsBlock;
  * @group CMS_Content_(PS)
  * @ZephyrId MAGETWO-25578
  */
-class CreateCmsBlockEntityTest extends CmsBlockEntityTest
+class CreateCmsBlockEntityTest extends AbstractCmsBlockEntityTest
 {
     /**
      * Create CMS Block
@@ -39,7 +39,7 @@ class CreateCmsBlockEntityTest extends CmsBlockEntityTest
     public function test(CmsBlock $cmsBlock)
     {
         // Prepare data for tearDownAfterClass
-        self::$storeName = $cmsBlock->getStoreId();
+        $this->storeName = $cmsBlock->getStoreId();
 
         // Steps
         $this->cmsBlockIndex->open();
