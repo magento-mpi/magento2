@@ -6,8 +6,7 @@
 //  * @license     {license_link}
 //  */
 
-@mobile-cart-padding: 10px;
-@mobile-summary-padding: 15px;
+@mobile-cart-padding: 15px;
 @cart-price-color: #666;
 @cart-item-cell-padding-top: 20px;
 
@@ -87,6 +86,7 @@
                     text-align: left;
                     .action.primary {
                         &:extend(.abstract-revert-to-action-secondary all);
+                        width: auto;
                     }
                 }
             }
@@ -95,7 +95,7 @@
         .checkout-methods-items {
             &:extend(.reset-list all);
             margin: 20px 0 0;
-            padding: 0 @mobile-summary-padding;
+            padding: 0 @mobile-cart-padding;
             text-align: center;
             .action.primary.checkout {
                 &:extend(.abstract-button-l all);
@@ -120,7 +120,7 @@
     //  Totals block
     &-totals {
         border-top: 1px solid @border-color-base;
-        padding: 10px @mobile-summary-padding 0;
+        padding-top: 10px;
         .mark,
         .amount {
             padding: 6px 0;
@@ -434,8 +434,9 @@
         &.table-wrapper {
             thead {
                 .col {
-                    &.price,
+                    &.item,
                     &.qty,
+                    &.price,
                     &.subtotal,
                     &.msrp {
                         display: none;
@@ -466,6 +467,11 @@
             .item .col.item {
                 padding-bottom: 0;
             }
+        }
+
+        &-totals {
+            padding-left: @mobile-cart-padding;
+            padding-right: @mobile-cart-padding;
         }
     }
 }
@@ -543,11 +549,6 @@
             .checkout-methods-items {
                 padding: 0;
             }
-        }
-
-        //  Totals block
-        &-totals {
-            &:extend(.abstract-revert-side-paddings all);
         }
 
         //  Products table
@@ -634,6 +635,8 @@
         .layout-column(2, 1, @layout-column-checkout-main-width);
         &:extend(.add-box-sizing-desktop all);
         padding-right: 4%;
-        .products-grid .product-item { width: 100%/5 }
+        .products-grid .product-item {
+            width: 100%/4;
+        }
     }
 }
