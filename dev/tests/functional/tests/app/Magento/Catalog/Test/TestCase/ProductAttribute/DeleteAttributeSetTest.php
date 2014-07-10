@@ -25,7 +25,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
  * Test Flow:
  * 1. Log in to Backend.
  * 2. Navigate to Stores > Attributes > Product Template.
- * 3. Open created Product Template according to attached ProductTemplate.php.
+ * 3. Open created Product Template.
  * 4. Click 'Delete Attribute Set' button.
  * 5. Perform all assertions.
  *
