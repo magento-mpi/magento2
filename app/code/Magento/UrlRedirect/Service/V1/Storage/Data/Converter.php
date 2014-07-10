@@ -35,8 +35,7 @@ class Converter
      */
     public function convertArrayToObject(array $data)
     {
-        $dataBuilder = $this->dataBuilderFactory->create();
-        return $dataBuilder->populateWithArray($data)->create();
+        return $this->getBuilder()->populateWithArray($data)->create();
     }
 
     /**
@@ -52,5 +51,13 @@ class Converter
             $flatData[] = DataObjectConverter::toFlatArray($objectData);
         }
         return $flatData;
+    }
+
+    /**
+     * @return AbstractBuilder
+     */
+    public function getBuilder()
+    {
+        return $this->dataBuilderFactory->create();
     }
 }

@@ -45,7 +45,7 @@ interface StorageInterface
      * Find row by specific filter
      *
      * @param \Magento\UrlRedirect\Service\V1\Storage\Data\Filter $filter
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return \Magento\Framework\Service\Data\AbstractObject|null
      */
     public function findByFilter(Filter $filter);
 

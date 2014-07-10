@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRedirect\Service\V1\Storage\Data;
+namespace Magento\CatalogUrlRewrite\Service\V1\Storage\Data;
+
+use Magento\UrlRedirect\Service\V1\Storage\Data\AbstractData;
 
 /**
  * Product data object
