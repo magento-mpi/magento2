@@ -80,7 +80,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('1', $idElement->getValue());
         $this->assertEquals('3', $taxClassIdElement->getValue());
         /** @var \Magento\Tax\Model\TaxClass\Source\Customer $taxClassCustomer */
-        $taxClassCustomer = Bootstrap::getObjectManager()->get('\Magento\Tax\Model\TaxClass\Source\Customer');
+        $taxClassCustomer = Bootstrap::getObjectManager()->get('Magento\Tax\Model\TaxClass\Source\Customer');
         $this->assertEquals($taxClassCustomer->toOptionArray(), $taxClassIdElement->getData('values'));
         $this->assertEquals('General', $groupCodeElement->getValue());
     }
@@ -90,7 +90,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormExistInCustomGroup()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteria */
         $searchCriteria = Bootstrap::getObjectManager()
             ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder')
@@ -115,7 +115,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($customerGroup->getId(), $idElement->getValue());
         $this->assertEquals($customerGroup->getTaxClassId(), $taxClassIdElement->getValue());
         /** @var \Magento\Tax\Model\TaxClass\Source\Customer $taxClassCustomer */
-        $taxClassCustomer = Bootstrap::getObjectManager()->get('\Magento\Tax\Model\TaxClass\Source\Customer');
+        $taxClassCustomer = Bootstrap::getObjectManager()->get('Magento\Tax\Model\TaxClass\Source\Customer');
         $this->assertEquals($taxClassCustomer->toOptionArray(), $taxClassIdElement->getData('values'));
         $this->assertEquals($customerGroup->getCode(), $groupCodeElement->getValue());
     }
