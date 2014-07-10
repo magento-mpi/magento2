@@ -14,7 +14,7 @@ use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
  * Class Grid
  * Backend Cms Block grid
  */
-class Grid extends ParentGrid
+class BlockGrid extends ParentGrid
 {
     /**
      * Filters array mapping
@@ -23,7 +23,7 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'identifier' => [
-            'selector' => '#cmsBlockGrid_filter_identifier'
+            'selector' => 'input[name="identifier"]'
         ],
     ];
 }

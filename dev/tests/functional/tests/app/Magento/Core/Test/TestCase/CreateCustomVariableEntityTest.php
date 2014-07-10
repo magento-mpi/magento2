@@ -26,7 +26,7 @@ use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
  * 6. Perform all asserts.
  *
  * @group Variables_(PS)
- * @ZephyrId MAGETWO-25535////////////////////////////////
+ * @ZephyrId MAGETWO-23293
  */
 class CreateCustomVariableEntityTest extends Injectable
 {

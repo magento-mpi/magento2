@@ -45,9 +45,7 @@ class AssertSystemVariableInPage extends AbstractConstraint
         CmsIndex $cmsIndex
     ) {
         $filter = ['identifier' => 'footer_links'];
-
-        $blockEdit->open();
-//        $blockIndex->getGrid()->searchAndOpen($filter);
+        $blockIndex->getGrid()->searchAndOpen($filter);
 
         $blockEdit->getBlockForm()->toggleEditor();
         $blockEdit->getBlockForm()->clickInsertVariable();

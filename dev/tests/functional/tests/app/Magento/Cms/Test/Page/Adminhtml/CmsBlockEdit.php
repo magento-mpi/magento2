@@ -12,12 +12,11 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsBlockEdit
- *
- * @package Magento\Cms\Test\Page\Adminhtml
+ * Cms Block Edit page
  */
 class CmsBlockEdit extends BackendPage
 {
-    const MCA = 'cms/block/edit/block_id/1/';
+    const MCA = 'cms/block/edit';
 
     protected $_blocks = [
         'blockForm' => [

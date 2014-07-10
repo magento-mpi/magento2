@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsBlockIndex
- *
- * @package Magento\Cms\Test\Page\Adminhtml
+ * Cms Block Index page
  */
 class CmsBlockIndex extends BackendPage
 {
@@ -29,7 +28,7 @@ class CmsBlockIndex extends BackendPage
     ];
 
     /**
-     * @return \Magento\Cms\Test\Block\Adminhtml\Block\Grid
+     * @return \Magento\Cms\Test\Block\Adminhtml\Block\BlockGrid
      */
     public function getGrid()
     {

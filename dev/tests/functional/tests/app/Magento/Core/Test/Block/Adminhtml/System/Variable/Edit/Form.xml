@@ -10,13 +10,9 @@
 <mapping strict="0">
     <wrapper>variable</wrapper>
     <fields>
-        <code>
-        </code>
-        <name>
-        </name>
-        <html_value>
-        </html_value>
-        <plain_value>
-        </plain_value>
+        <code />
+        <name />
+        <html_value />
+        <plain_value />
     </fields>
 </mapping>
