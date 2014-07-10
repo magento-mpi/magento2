@@ -1,6 +1,6 @@
-<div class="step-controls" ng-hide="$state.is('root.readiness-check')">
-    <a href="#" class="btn btn-primary" ng-click="$state.forceReload()">Try Again</a>
-    <a href="#" class="btn btn-primary" ng-click="nextState()">Next</a>
+<div class="step-controls" ng-show="$state.is('root.readiness-check.progress')">
+    <a href="#" class="btn btn-primary" ng-click="$state.forceReload()" ng-disabled="checkingInProgress()">Try Again</a>
+    <a href="#" class="btn btn-primary" ng-click="nextState()" ng-disabled="checkingInProgress()">Next</a>
 </div>
 
 <div class="page-header">
@@ -16,7 +16,7 @@
 
 <div ui-view></div>
 
-<div class="step-controls" ng-hide="$state.is('root.readiness-check')">
-    <a href="#" class="btn btn-primary" ng-click="$state.forceReload()">Try Again</a>
-    <a href="#" class="btn btn-primary" ng-click="nextState()">Next</a>
+<div class="step-controls" ng-show="$state.is('root.readiness-check.progress')">
+    <a href="#" class="btn btn-primary" ng-click="$state.forceReload()" ng-disabled="checkingInProgress()">Try Again</a>
+    <a href="#" class="btn btn-primary" ng-click="nextState()" ng-disabled="checkingInProgress()">Next</a>
 </div>
