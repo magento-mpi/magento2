@@ -102,8 +102,8 @@ class Rate extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register(
             RegistryConstants::CURRENT_TAX_RATE_FORM_DATA,
-            $this->_objectManager->get('Magento\Backend\Model\Session'
-        )->getFormData(true));
+            $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true)
+        );
 
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),
