@@ -15,10 +15,10 @@ use Magento\Cms\Test\Page\Adminhtml\CmsBlockEdit;
 use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
 
 /**
- * Class AssertSystemVariableInPage
- * Assert that Custom Variable is displayed on frontend on Home page and has correct data according to dataset
+ * Class AssertSystemVariableInFooter
+ * Assert that Custom Variable is displayed on frontend in footer and has correct data according to dataset
  */
-class AssertSystemVariableInPage extends AbstractConstraint
+class AssertSystemVariableInFooter extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -28,8 +28,8 @@ class AssertSystemVariableInPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Add created variable to existed footer block and assert that Custom Variable is displayed on frontend on
-     * Home page and has correct data according to dataset
+     * Add created variable to existed footer block and assert that Custom Variable is displayed on frontend oin footer
+     * and has correct data according to dataset
      *
      * @param SystemVariable $customVariable
      * @param CmsBlockIndex $blockIndex
@@ -37,15 +37,14 @@ class AssertSystemVariableInPage extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @return void
      */
-    public function processAssert
-    (
+    public function processAssert(
         SystemVariable $customVariable,
         CmsBlockIndex $blockIndex,
         CmsBlockEdit $blockEdit,
         CmsIndex $cmsIndex
     ) {
         $filter = ['identifier' => 'footer_links'];
-        $blockIndex->getBlockGrid()->searchAndOpen($filter);
+        $blockIndex->getGrid()->searchAndOpen($filter);
 
         $blockEdit->getBlockForm()->toggleEditor();
         $blockEdit->getBlockForm()->clickInsertVariable();
@@ -56,7 +55,7 @@ class AssertSystemVariableInPage extends AbstractConstraint
         $cmsIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $cmsIndex->getFooterBlock()->checkVariable($customVariableName),
-            'Custom Variable with code \'' . $filter['identifier'] . '\' is not displayed on frontend on Home page.'
+            'Custom Variable with name \'' . $customVariableName . '\' is not displayed on frontend on Home page.'
         );
     }
 
@@ -67,6 +66,6 @@ class AssertSystemVariableInPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Custom Variable is displayed on frontend on Home page.';
+        return 'Custom Variable is displayed on frontend in footer.';
     }
 }

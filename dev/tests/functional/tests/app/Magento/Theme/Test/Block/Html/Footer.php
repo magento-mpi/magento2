@@ -25,11 +25,11 @@ class Footer extends Block
     protected $linkSelector = '//*[contains(@class, "links")]//a[contains(text(), "%s")]';
 
     /**
-     * New Variable selector
+     * Variable selector
      *
      * @var string
      */
-    protected $newVariableSelector = '//div[contains(@class, "links")]/*[.="%s"]';
+    protected $variableSelector = '//div[contains(@class, "links")]/*[.="%s"]';
 
     /**
      * Click on link by name
@@ -57,7 +57,7 @@ class Footer extends Block
     {
         return $this
             ->_rootElement
-            ->find(sprintf($this->newVariableSelector, $name), Locator::SELECTOR_XPATH)
+            ->find(sprintf($this->variableSelector, $name), Locator::SELECTOR_XPATH)
             ->isVisible();
     }
 }

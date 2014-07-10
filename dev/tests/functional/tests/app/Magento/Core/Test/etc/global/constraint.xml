@@ -23,9 +23,9 @@
     <assertSystemVariableInGrid module="Magento_Core">
         <severeness>low</severeness>
     </assertSystemVariableInGrid>
-    <assertSystemVariableInPage module="Magento_Core">
+    <assertSystemVariableInFooter module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableInPage>
+    </assertSystemVariableInFooter>
     <assertSystemVariableNotInCmsPageForm module="Magento_Core">
         <severeness>low</severeness>
     </assertSystemVariableNotInCmsPageForm>

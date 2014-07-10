@@ -27,8 +27,7 @@ class AssertSystemVariableInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created custom variable is displayed on backend in custom variable grid and has correct data
-     * according to dataset.
+     * Assert custom variable is displayed on backend in custom variable grid
      *
      * @param SystemVariableIndex $systemVariableIndexNew
      * @param SystemVariable $customVariable

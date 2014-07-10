@@ -8,13 +8,13 @@
 
 namespace Magento\Core\Test\Block\Adminhtml\System\Variable\Edit;
 
-use Mtf\Block\Form as AbstractForm;
+use Mtf\Block\Form;
 
 /**
- * Class Form
+ * Class VariableForm
  * Custom Variable form
  */
-class Form extends AbstractForm
+class VariableForm extends Form
 {
     //
 }

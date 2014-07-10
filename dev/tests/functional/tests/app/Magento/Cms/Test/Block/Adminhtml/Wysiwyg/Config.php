@@ -53,7 +53,7 @@ class Config extends Block
     /**
      * Select variable by name
      *
-     * @param $variableName
+     * @param string $variableName
      * @return void
      */
     public function selectVariableByName($variableName)

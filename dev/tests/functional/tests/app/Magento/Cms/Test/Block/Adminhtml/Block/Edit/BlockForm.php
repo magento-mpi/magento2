@@ -8,15 +8,15 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Block\Edit;
 
+use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class BlockForm
  * Block form
  */
-class BlockForm extends FormTabs
+class BlockForm extends Form
 {
     /**
      * Content Editor toggle button id

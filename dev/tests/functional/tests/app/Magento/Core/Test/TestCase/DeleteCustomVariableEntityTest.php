@@ -15,7 +15,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for DeleteSystemVariableEntity
+ * Test Creation for DeleteCustomVariableEntityTest
  *
  * Test Flow:
  * Preconditions:
@@ -31,7 +31,7 @@ use Mtf\TestCase\Injectable;
  * @group Variables_(PS)
  * @ZephyrId MAGETWO-25535
  */
-class DeleteSystemVariableEntityTest extends Injectable
+class DeleteCustomVariableEntityTest extends Injectable
 {
     /**
      * Custom System Variable grid page
