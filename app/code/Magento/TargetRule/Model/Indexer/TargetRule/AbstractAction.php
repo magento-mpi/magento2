@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Model\Indexer\Product\Rule;
+namespace Magento\TargetRule\Model\Indexer\TargetRule;
 
 /**
  * Abstract action reindex class
  *
- * @package Magento\TargetRule\Model\Indexer\Product\Rule
+ * @package Magento\TargetRule\Model\Indexer\TargetRule
  */
 abstract class AbstractAction
 {
@@ -28,6 +28,11 @@ abstract class AbstractAction
     protected $_ruleCollectionFactory;
 
     /**
+     * @var \Magento\TargetRule\Model\RuleFactory
+     */
+    protected $_ruleFactory;
+
+    /**
      * Resource model instance
      *
      * @var \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -36,27 +41,29 @@ abstract class AbstractAction
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
+     * @param \Magento\TargetRule\Model\RuleFactory $ruleFactory
+     * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory
      * @param \Magento\TargetRule\Model\Resource\Index $resource
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
+        \Magento\TargetRule\Model\RuleFactory $ruleFactory,
+        \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory,
         \Magento\TargetRule\Model\Resource\Index $resource
     ) {
         $this->_productFactory = $productFactory;
-        $this->_ruleCollectionFactory = $ruleFactory;
+        $this->_ruleFactory = $ruleFactory;
         $this->_resource = $resource;
+        $this->_ruleCollectionFactory = $ruleCollectionFactory;
     }
-
     /**
      * Execute action for given ids
      *
-     * @param array|int $productIds
+     * @param array|int $ids
      *
      * @return void
      */
-    abstract public function execute($productIds);
+    abstract public function execute($ids);
 
     /**
      * Refresh entities index
@@ -64,10 +71,10 @@ abstract class AbstractAction
      * @param array $productIds
      * @return array Affected ids
      */
-    protected function _reindexRows($productIds = array())
+    protected function _reindexByProductIds($productIds = array())
     {
         foreach ($productIds as $productId) {
-            $this->_reindex($productId);
+            $this->_reindexByProductId($productId);
         }
     }
 
@@ -76,7 +83,7 @@ abstract class AbstractAction
      *
      * @return void
      */
-    public function reindexAll()
+    protected function _reindexAll()
     {
         $indexResource = $this->_resource;
 
@@ -92,12 +99,12 @@ abstract class AbstractAction
     }
 
     /**
-     * Reindex targetrules
+     * Reindex targetrules by product id
      *
      * @param int|null $productId
      * @return $this
      */
-    protected function _reindex($productId = null)
+    protected function _reindexByProductId($productId = null)
     {
         $indexResource = $this->_resource;
 
@@ -117,6 +124,29 @@ abstract class AbstractAction
             }
         }
         return $this;
+    }
+
+    /**
+     * Refresh entities index by rule Ids
+     *
+     * @param array $ruleIds
+     * @return array Affected ids
+     */
+    protected function _reindexByRuleIds($ruleIds = array())
+    {
+        foreach ($ruleIds as $ruleId) {
+            $this->_reindexByRuleId($ruleId);
+        }
+    }
+
+    /**
+     * Reindex rule by ID
+     *
+     * @param int $ruleId
+     */
+    protected function _reindexByRuleId($ruleId)
+    {
+        $this->_resource->saveProductIndex($this->_ruleFactory->create()->load($ruleId));
     }
 
     /**

@@ -16,14 +16,16 @@ use Magento\TestFramework\Helper\ObjectManager;
 class RowTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TargetRule\Model\Indexer\Product\Rule\Action\Row
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\Row
      */
     protected $_model;
 
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->_model = $objectManager->getObject('Magento\TargetRule\Model\Indexer\Product\Rule\Action\Row');
+        $this->_model = $objectManager->getObject(
+            'Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\Row'
+        );
     }
 
     /**

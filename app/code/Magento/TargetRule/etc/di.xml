@@ -32,4 +32,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\TargetRule\Model\Indexer\TargetRule\AbstractProcessor">
+        <arguments>
+            <argument name="statusContainer" xsi:type="object" shared="true">Magento\TargetRule\Model\Indexer\TargetRule\Status\Container</argument>
+        </arguments>
+    </type>
 </config>

@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Model\Indexer\Product\Rule;
+namespace Magento\TargetRule\Model\Indexer\TargetRule;
 
-class Processor
+abstract class AbstractProcessor
 {
     /**
      * Indexer ID
      */
-    const INDEXER_ID = 'targetrule_product_rule';
+    const INDEXER_ID = '';
 
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
@@ -23,12 +23,22 @@ class Processor
     protected $_indexer;
 
     /**
+     * State container
+     *
+     * @var Status\Container
+     */
+    protected $_statusContainer;
+
+    /**
      * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
+     * @param Status\Container $statusContainer
      */
     public function __construct(
-        \Magento\Indexer\Model\IndexerFactory $indexerFactory
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
+        Status\Container $statusContainer
     ) {
         $this->_indexer = $indexerFactory->create();
+        $this->_statusContainer = $statusContainer;
     }
 
     /**
@@ -39,7 +49,7 @@ class Processor
     public function getIndexer()
     {
         if (!$this->_indexer->getId()) {
-            $this->_indexer->load(self::INDEXER_ID);
+            $this->_indexer->load($this->getIndexerId());
         }
         return $this->_indexer;
     }
@@ -90,5 +100,45 @@ class Processor
     public function markIndexerAsInvalid()
     {
         $this->getIndexer()->invalidate();
+    }
+
+    /**
+     * Get processor state container
+     *
+     * @return Status\Container
+     */
+    public function getStatusContainer()
+    {
+        return $this->_statusContainer;
+    }
+
+    /**
+     * Get processor indexer ID
+     *
+     * @return string
+     */
+    public function getIndexerId()
+    {
+        return static::INDEXER_ID;
+    }
+
+    /**
+     * Is full reindex passed
+     *
+     * @return bool
+     */
+    public function isFullReindexPassed()
+    {
+        return $this->getStatusContainer()->isFullReindexPassed($this->getIndexerId());
+    }
+
+    /**
+     * Set full reindex passed
+     *
+     * @return void
+     */
+    public function setFullReindexPassed()
+    {
+        $this->getStatusContainer()->setFullReindexPassed($this->getIndexerId());
     }
 }
