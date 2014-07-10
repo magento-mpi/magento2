@@ -1,9 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: rganin
- * Date: 10.07.14
- * Time: 17:12
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_TargetRule
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Status;
