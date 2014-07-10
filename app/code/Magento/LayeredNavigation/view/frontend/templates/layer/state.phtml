@@ -20,7 +20,7 @@
     <ol class="items">
         <?php foreach ($_filters as $_filter): ?>
             <li class="item">
-                <span class="label"><?php echo __($_filter->getName()) ?>:</span>
+                <span class="label"><?php echo $this->escapeHtml(__($_filter->getName())); ?>:</span>
                 <span class="value"><?php echo $this->stripTags($_filter->getLabel()) ?></span>
                 <?php
                 $clearLinkUrl = $_filter->getClearLinkUrl();
