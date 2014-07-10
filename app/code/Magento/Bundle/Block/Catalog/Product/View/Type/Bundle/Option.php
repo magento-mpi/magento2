@@ -42,7 +42,6 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Tax\Model\Calculation $taxCalc
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      *
@@ -57,7 +56,6 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Tax\Model\Calculation $taxCalc,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {
@@ -71,7 +69,6 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
             $string,
             $mathRandom,
             $cartHelper,
-            $taxCalc,
             $data
         );
     }

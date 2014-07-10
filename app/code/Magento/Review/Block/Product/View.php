@@ -8,6 +8,7 @@
 namespace Magento\Review\Block\Product;
 
 use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
+use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 
 /**
  * Product Reviews Page
@@ -41,6 +42,8 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param TaxCalculationServiceInterface $taxCalculationService
      * @param array $data
      */
     public function __construct(
@@ -54,6 +57,8 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        TaxCalculationServiceInterface $taxCalculationService,
         array $data = array()
     ) {
         $this->_reviewsColFactory = $collectionFactory;
@@ -67,6 +72,8 @@ class View extends \Magento\Catalog\Block\Product\View
             $productHelper,
             $productTypeConfig,
             $localeFormat,
+            $customerSession,
+            $taxCalculationService,
             $data
         );
     }

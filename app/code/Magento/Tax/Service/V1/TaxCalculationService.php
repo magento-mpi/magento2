@@ -8,6 +8,8 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Resource\Sales\Order\Tax;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
@@ -16,7 +18,6 @@ use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxDetailsBuilder;
-use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Tax Calculation Service
@@ -85,6 +86,11 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     private $parentToChildren;
 
     /**
+     * @var CustomerAccountServiceInterface
+     */
+    protected $customerAccountService;
+
+    /**
      * Constructor
      *
      * @param Calculation $calculation
@@ -92,19 +98,22 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param TaxDetailsBuilder $taxDetailsBuilder
      * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
      * @param StoreManagerInterface $storeManager
+     * @param CustomerAccountServiceInterface $customerAccountService
      */
     public function __construct(
         Calculation $calculation,
         \Magento\Tax\Model\Config $config,
         TaxDetailsBuilder $taxDetailsBuilder,
         TaxDetailsItemBuilder $taxDetailsItemBuilder,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        CustomerAccountServiceInterface $customerAccountService
     ) {
         $this->calculator = $calculation;
         $this->config = $config;
         $this->taxDetailsBuilder = $taxDetailsBuilder;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->storeManager = $storeManager;
+        $this->customerAccountService = $customerAccountService;
     }
 
     /**
@@ -172,6 +181,59 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         }
 
         return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->setItems($processedItems)->create();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultCalculatedRate(
+        $productTaxClassID,
+        $customerId = null,
+        $storeId = null
+    ) {
+        return $this->getRate($productTaxClassID, $customerId, $storeId, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCalculatedRate(
+        $productTaxClassID,
+        $customerId = null,
+        $storeId = null
+    ) {
+        return $this->getRate($productTaxClassID, $customerId, $storeId);
+    }
+
+    /**
+     * Calculate rate based on default parameter
+     *
+     * @param int $productTaxClassID
+     * @param int|null $customerId
+     * @param string|null $storeId
+     * @param bool $isDefault
+     * @return float
+     */
+    protected function getRate(
+        $productTaxClassID,
+        $customerId = null,
+        $storeId = null,
+        $isDefault = false
+    ) {
+        $customerData = null;
+        if ($customerId) {
+            $customerData = $this->customerAccountService->getCustomer($customerId);
+        }
+        if (is_null($storeId)) {
+            $storeId = $this->storeManager->getStore()->getStoreId();
+        }
+        if (!$isDefault) {
+            $addressRequestObject = $this->calculator->getRateRequest(null, null, null, $storeId, $customerData);
+        } else {
+            $addressRequestObject = $this->calculator->getDefaultRateRequest($storeId, $customerData);
+        }
+        $addressRequestObject->setProductClassId($productTaxClassID);
+        return $this->calculator->getRate($addressRequestObject);
     }
 
     /**
@@ -449,9 +511,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $rate = (string)$rate;
             $type = $type . $direction;
             // initialize the delta to a small number to avoid non-deterministic behavior with rounding of 0.5
-            $delta = isset($this->roundingDeltas[$type][$rate]) ?
-                $this->roundingDeltas[$type][$rate] :
-                0.000001;
+            $delta = isset($this->roundingDeltas[$type][$rate])
+                ? $this->roundingDeltas[$type][$rate]
+                : 0.000001;
             $price += $delta;
             $roundPrice = $this->calculator->round($price);
             $this->roundingDeltas[$type][$rate] = $price - $roundPrice;

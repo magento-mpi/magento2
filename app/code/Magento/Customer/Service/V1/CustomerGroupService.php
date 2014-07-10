@@ -20,8 +20,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Tax\Model\ClassModel as TaxClassModel;
-use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
+use Magento\Tax\Service\V1\Data\TaxClass;
+use Magento\Tax\Service\V1\TaxClassServiceInterface;
 
 /**
  * Customer service is responsible for customer business workflow encapsulation
@@ -56,9 +56,9 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_customerGroupBuilder;
 
     /**
-     * @var TaxClassModelFactory
+     * @var TaxClassServiceInterface
      */
-    private $_taxClassModelFactory;
+    private $_taxClassService;
 
     /**
      * @var GroupRegistry
@@ -76,7 +76,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      * @param StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
-     * @param TaxClassModelFactory $taxClassModelFactory
+     * @param TaxClassServiceInterface $taxClassService
      * @param GroupRegistry $groupRegistry
      */
     public function __construct(
@@ -85,7 +85,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         StoreManagerInterface $storeManager,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
-        TaxClassModelFactory $taxClassModelFactory,
+        TaxClassServiceInterface $taxClassService,
         GroupRegistry $groupRegistry
     ) {
         $this->_groupFactory = $groupFactory;
@@ -93,8 +93,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $this->_storeManager = $storeManager;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
-        $this->_taxClassModelFactory = $taxClassModelFactory;
         $this->_groupRegistry = $groupRegistry;
+        $this->_taxClassService = $taxClassService;
     }
 
     /**
@@ -296,18 +296,19 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      * Verifies that the tax class model exists and is a customer tax class type.
      *
      * @param int $taxClassId The id of the tax class model to check
-     * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group The original group parameters
+     * @param CustomerGroup $group The original group parameters
      * @return void
      * @throws InputException Thrown if the tax class model is invalid
      */
     protected function _verifyTaxClassModel($taxClassId, $group)
     {
-        /* Doing this until a Tax Service API is available */
-        $taxClassModel = $this->_taxClassModelFactory->create();
-        $taxClassModel->load($taxClassId);
-        if (is_null($taxClassModel->getId())
-            || $taxClassModel->getClassType() !== TaxClassModel::TAX_CLASS_TYPE_CUSTOMER
-            ) {
+        try {
+            /* @var TaxClass $taxClassData */
+            $taxClassData = $this->_taxClassService->getTaxClass($taxClassId);
+        } catch (NoSuchEntityException $e) {
+            throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
+        }
+        if ($taxClassData->getClassType() !== TaxClass::TYPE_CUSTOMER) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
     }
