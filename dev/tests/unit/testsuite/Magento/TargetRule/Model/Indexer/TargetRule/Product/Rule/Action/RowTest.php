@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Model\Indexer\Product\Rule\Action;
+namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action;
 
 use Magento\TestFramework\Helper\ObjectManager;
 

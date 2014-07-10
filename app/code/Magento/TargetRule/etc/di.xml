@@ -32,6 +32,15 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="targetRuleImportInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin\Import" />
+    </type>
+    <type name="Magento\Catalog\Model\Category">
+        <plugin name="targetRuleCategoryInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin\Category" />
+    </type>
+    <type name="\Magento\CustomerSegment\Model\Segment">
+        <plugin name="targetRuleCustomerSegmentInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin\CustomerSegment" />
+    </type>
     <type name="Magento\TargetRule\Model\Indexer\TargetRule\AbstractProcessor">
         <arguments>
             <argument name="statusContainer" xsi:type="object" shared="true">Magento\TargetRule\Model\Indexer\TargetRule\Status\Container</argument>
