@@ -28,7 +28,7 @@ use Magento\Cms\Test\Fixture\CmsBlock;
  * @group CMS_Content_(PS)
  * @ZephyrId MAGETWO-25578
  */
-class CreateCmsBlockEntityTest extends CmsBlockEntityTest
+class CreateCmsBlockEntityTest extends AbstractCmsBlockEntityTest
 {
     /**
      * Create CMS Block
