@@ -85,7 +85,7 @@ class TaxRateCollection extends AbstractServiceCollection
         $collectionItem->setRegionName($taxRate->getRegionName());
         $collectionItem->setTaxPostcode($taxRate->getPostcode());
         $collectionItem->setRate($taxRate->getPercentageRate());
-        $collectionItem->setTitles($this->rateConverter->createTitlesFromServiceObject($taxRate));
+        $collectionItem->setTitles($this->rateConverter->createTitleArrayFromServiceObject($taxRate));
 
         if ($taxRate->getZipRange() != null) {
             $zipRange = $taxRate->getZipRange();
