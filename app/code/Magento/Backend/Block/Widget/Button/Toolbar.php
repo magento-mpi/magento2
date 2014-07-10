@@ -32,7 +32,7 @@ class Toolbar implements ToolbarInterface
     ) {
         foreach ($buttonList->getItems() as $buttons) {
             /** @var \Magento\Backend\Block\Widget\Button\Item $item */
-            foreach ($buttons as $buttonId => $item) {
+            foreach ($buttons as $item) {
                 $containerName = $context->getNameInLayout() . '-' . $item->getButtonKey();
 
                 $container = $this->createContainer($containerName, $item);
