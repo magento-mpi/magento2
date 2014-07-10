@@ -8,10 +8,14 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
+/**
+ * A localized tax rate title associated with a store view.
+ */
 class TaxRateTitle extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
-     * Constants defined for keys of array, makes typos less likely
+     *
+     * Tax rate field key.
      */
     const KEY_STORE_ID = 'store_id';
 

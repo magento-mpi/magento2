@@ -9,9 +9,9 @@
 namespace Magento\Tax\Service\V1\Data;
 
 /**
- * Builder for the TaxRate Service Data Object
+ * TaxRateTitle data builder
  *
- * @method TaxRate create()
+ * @method TaxRateTitle create()
  */
 class TaxRateTitleBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {

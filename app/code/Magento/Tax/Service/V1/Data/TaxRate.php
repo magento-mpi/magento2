@@ -5,8 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Tax\Service\V1\Data;
 
+/**
+ * Service data object for a tax percentage rate associated with a location.
+ */
 class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
