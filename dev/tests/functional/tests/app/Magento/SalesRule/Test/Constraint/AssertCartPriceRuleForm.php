@@ -32,7 +32,9 @@ class AssertCartPriceRuleForm extends AbstractConstraint
      */
     protected $skippedFields = [
         'conditions_serialized',
-        'actions_serialized'
+        'actions_serialized',
+        'from_date',
+        'to_date'
     ];
 
     /**
@@ -41,21 +43,26 @@ class AssertCartPriceRuleForm extends AbstractConstraint
      * @param PromoQuoteIndex $promoQuoteIndex
      * @param PromoQuoteEdit $promoQuoteEdit
      * @param SalesRuleInjectable $salesRule
+     * @param SalesRuleInjectable $salesRuleOrigin
      * @return void
      */
     public function processAssert(
         PromoQuoteIndex $promoQuoteIndex,
         PromoQuoteEdit $promoQuoteEdit,
-        SalesRuleInjectable $salesRule
+        SalesRuleInjectable $salesRule,
+        SalesRuleInjectable $salesRuleOrigin = null
     ) {
         $filter = [
-            'name' => $salesRule->getName(),
+            'name' => $salesRule->hasData('name') ? $salesRule->getName() : $salesRuleOrigin->getName(),
         ];
+
         $promoQuoteIndex->open();
         $promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
-        $formData = $promoQuoteEdit->getSalesRuleForm()->getData($salesRule);
-        $fixtureData = $salesRule->getData();
-        $dataDiff = $this->verify($formData, $fixtureData);
+        $formData = $promoQuoteEdit->getSalesRuleForm()->getData();
+        $fixtureData = $salesRuleOrigin != null
+            ? array_merge($salesRuleOrigin->getData(), $salesRule->getData())
+            : $salesRule->getData();
+        $dataDiff = $this->verify($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
             'Sales rule data on edit page(backend) not equals to passed from fixture.'
@@ -70,7 +77,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
      * @param array $formData
      * @return array
      */
-    protected function verify(array $formData, array $fixtureData)
+    protected function verify(array $fixtureData, array $formData)
     {
         $errorMessage = [];
 
@@ -79,7 +86,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
                 $diff = array_diff($value, $formData[$key]);
                 $diff = array_merge($diff, array_diff($formData[$key], $value));
                 if (!empty($diff)) {
-                    $errorMessage[] = "Data in " . $key . " field not equal."
+                    $errorMessage[] = "Data in " . $key . " field is not equal."
                         . "\nExpected: " . implode(", ", $value)
                         . "\nActual: " . implode(", ", $formData[$key]);
                 }

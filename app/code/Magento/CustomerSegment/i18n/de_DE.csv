@@ -1,142 +1,153 @@
-"%s Purchased Quantity %s %s while %s of these Conditions match:","%s Abnahmemenge %s %s und %s dieser Konditionen stimmen überein:"
-"%s Sales Amount %s %s while %s of these Conditions match:","%s Verkaufsmenge %s %s und %s dieser Konditionen stimmen überein:"
-"* Could be applied both for visitors and registered customers","* Kann sowohl auf Besucher und registrierte Kunden zutreffen"
-"Active","Aktiv"
-"Add Segment","Segment hinzufügen"
-"Address Attributes","Adressenattribute"
-"Address Type","Adressentyp"
-"All","Alle"
-"Any","Beliebig"
-"Applies to All of the Specified Customer Segments","Gilt für alle angegebenen Kundensegmente"
-"Apply To","Anwenden auf"
-"Apply to the Selected Customer Segments","Auf ausgewählte Kundensegmente anwenden"
-"Assigned to Website","Website zugeteilt"
-"Average","Durchschnitt"
-"Back","Zurück"
-"Billing","Rechnung"
-"CSV","CSV"
-"Conditions","Konditionen"
-"Conditions Combination","Konditionen Kombination"
-"Country","Land"
-"Customer","Kunde"
-"Customer %s","Kunde %s"
-"Customer Address","Kundenadresse"
-"Customer Address %s","Kundenadresse %s"
-"Customer Address %s Default %s Address","Kundenadresse %s Standardeinstellung %s Adresse"
-"Customer Segment","Kundensegment"
-"Customer Segment Report","Kundensegment Report"
-"Customer Segment Report '%s'","Kundensegment Report '%s'"
-"Customer Segment data has been refreshed.","Kundensegmentdaten wurden aktualisiert."
-"Customer Segments","Kundensegmente"
-"Customer Segments Report","Kundensegmente Report"
-"Customer Since","Kunde seit"
-"Customer Store Credit Amount %s %s:","Kunden Store Credit Summe %s %s:"
-"Customer is %s to newsletter.","Kunde ist für Newsletter %s."
-"Customers","Kunden"
-"Date Range","Datenbereich"
-"Date Range %s within %s","Datumsbereich %s innerhalb %s"
-"Date Ranges","Datenbereiche"
-"Default Address","Standardadresse"
-"Description","Beschreibung"
-"Details","Details"
-"Edit Segment","Segment bearbeiten"
-"Edit Segment '%s'","Segment '%s' bearbeiten"
-"Email","E-Mail"
-"Enable Customer Segment Functionality","Kundensegmentfunktionalität aktivieren"
-"Excel XML","Excel-XML"
-"General Properties","Allgemeine Eigenschaften"
-"Gift Card","Geschenkkarte"
-"Grand Total","Gesamtsumme"
-"Group","Gruppe"
-"Has State/Province","Hat Staat/Provinz"
-"ID","ID"
-"If Customer Address %s State/Province specified","Wenn Kundenadresse %s Staat/Provinz spezifiziert"
-"If Customer Addresses match %s of these Conditions:","Wenn Kundenadresse %s dieser Bedingungen zutrifft:"
-"If Customer Segment %s %s","Wenn Kundensegment %s %s"
-"If Order Addresses match %s of these Conditions:","Wenn Bestellungsadresse %s dieser Bedingungen zutrifft:"
-"If Product %s %s and matches %s of these Conditions:","Wenn Produkt %s %s und %s dieser Bedingungen zutrifft:"
-"If Product is %s in the %s with %s of these Conditions match:","Wenn Produkt %s ist und mit %s dieser Bedingungen übereinstimmt:"
-"Inactive","Inaktiv"
-"Intersection","Schnittpunkt"
-"Manage Segments","Segmente bearbeiten"
-"Matched %d Customers of Segment %s","%s Kunden von Segment % stimmen überein"
-"Matched Customers (%d)","Übereinstimmende Kunden (%d)"
-"Name","Name"
-"New Segment","Neues Segment"
-"Newsletter Subscription","Newsletter Abonnement"
-"Number of Cart Line Items","Anzahl der Warenkorbartikel"
-"Customers","Anzahl der Kunden"
-"Number of Orders","Anzahl der Bestellungen"
-"Number of Orders %s %s while %s of these Conditions match:","Anzahl der Bestellungen %s %s bei denen %s dieser Bedingungen übereinstimmen."
-"Number of Shopping Cart Line Items %s %s:","Anzahl der Shopping Cart Linien Artikel %s %s:"
-"Order Address","Bestelladresse"
-"Order Address %s","Bestelladresse %s"
-"Order Address %s a %s Address","Bestellungsadresse %s ist eine %s Adresse"
-"Order Address Attributes","Bestelladresse Eigenschaften"
-"Order Status","Bestellstatus"
-"Order Status %s %s:","Auftragsstatus s%s %s:"
-"Period %s %s Days Up To Date","Zeitraum %s %s Tage bis zum Termin"
-"Please save this information in order to specify the conditions for segmentation","Bitte speichern Sie diese Informationen, um die Bedingungen für die Segmentierung anzugeben"
-"Product %s","Produkt %s"
-"Product Attributes","Produkteigenschaften"
-"Product History","Produkthistorie"
-"Product List","Produktliste"
-"Products","Produkte"
-"Products Quantity","Produktmenge"
-"Purchased Quantity","Gekaufte Menge"
-"Refresh Data","Daten aktualisieren"
-"Refresh Segment Data","Segmentdaten aktualisieren"
-"Registered Customers","Registrierte Kunden"
-"Reports","Reports"
-"Sales","Umsatz"
-"Sales Amount","Umsatzsumme"
+All,Alle
+Back,Zurück
+Products,Produkte
+ID,ID
+Customers,"Anzahl der Kunden"
+"Shopping Cart",Warenkorb
+Subtotal,Zwischensumme
+Total,Gesamt
+Customer,Kunde
+"Grand Total",Gesamtsumme
+Average,Durchschnitt
+Tax,Steuer
+Shipping,Lieferung
+Email,E-Mail
+Name,Name
+Status,Status
 "Save and Continue Edit","Speichern und weiter bearbeiten"
-"Segment Customers matching error.","Fehler beim Zuordnen der Segmentkunden."
-"Segment Information","Segmentinformationen"
-"Segment","Segmentname"
-"Segments","Segmente"
-"Set","Setzen"
-"Shipping","Lieferung"
-"Shopping Cart","Warenkorb"
-"Shopping Cart %s Amount %s %s:","Warenkorb %s Summe %s %s:"
-"Shopping Cart Products Qty %s %s:","Warenkorb Produktanzahl %s %s:"
-"Shopping Cart Total","Warenkorb Gesamtsumme"
-"Specified","Angegeben"
-"State/Province","Staat/Provinz"
-"Status","Status"
+Description,Beschreibung
+Any,Beliebig
+Website,Website
+Specified,Angegeben
+Active,Aktiv
+"Product Attributes",Produkteigenschaften
+Conditions,Konditionen
+Inactive,Inaktiv
+"Conditions Combination","Konditionen Kombination"
+Country,Land
+State/Province,Staat/Provinz
+Sales,Umsatz
+"Registered Customers","Registrierte Kunden"
 "Store Credit","Store Credit"
-"Subtotal","Zwischensumme"
-"Tax","Steuer"
-"Phone","Telefon"
-"The segment has been deleted.","Das Segment wurde gelöscht."
-"The segment has been saved.","Das Segment wurde gespeichert."
-"Total","Gesamt"
-"Unable to delete the segment.","Das Segment kann nicht gelöscht werden."
-"Unable to save the segment.","Das Segment kann nicht gespeichert werden."
-"Union","Vereinigung"
-"Unknown operator specified.","Unbekannter Operator spezifiziert."
-"Unknown quote total specified.","Unbekannte Angebotsbetrag spezifiziert."
-"Up To Date","Auf neuestem Stand"
-"Use in Customer Segment","Im Kundensegment verwenden"
-"View Combined Report","Kombinierten Report ansehen"
-"Viewing combined ""%s"" report from segments: %s","Es wird der kombinierte ""%s""-Report von folgenden Segmenten angezeigt: %s"
-"Viewing combined ""%s"" report from segments: %s.","Kombinierten ""%s"" Bericht von Segmenten: %s ansehen."
-"Visitors","Besucher"
+Segments,Segmente
+"Add Segment","Segment hinzufügen"
+"Refresh Segment Data","Segmentdaten aktualisieren"
+"Edit Segment '%1'","Edit Segment '%1'"
+"New Segment","Neues Segment"
+"Segment Information",Segmentinformationen
+"* applicable to visitors and registered customers","* applicable to visitors and registered customers"
+"General Properties","Allgemeine Eigenschaften"
+"Segment Name","Segment Name"
+"Assigned to Website","Website zugeteilt"
+"Apply To","Anwenden auf"
 "Visitors and Registered Customers","Besucher and registrierte Kunden"
-"Website","Website"
-"Wishlist","Wunschliste"
+Visitors,Besucher
+"Please save this information to specify segmentation conditions.","Please save this information to specify segmentation conditions."
+"Matched Customers (%1)","Matched Customers (%1)"
+Segment,Segmentname
+"Customer Segment Report","Kundensegment Report"
+"Customer Segment Report '%1'","Customer Segment Report '%1'"
+"Customer Segments Report","Kundensegmente Report"
+"You requested the wrong customer segment.","You requested the wrong customer segment."
+"Customer Segments",Kundensegmente
+"Edit Segment","Segment bearbeiten"
+"Segment Customers matching error","Segment Customers matching error"
+"You saved the segment.","You saved the segment."
+"We're unable to save the segment.","We're unable to save the segment."
+"You deleted the segment.","You deleted the segment."
+"We're unable to delete the segement.","We're unable to delete the segement."
+Reports,Reports
+"Viewing combined ""%1"" report from segments: %2.","Viewing combined ""%1"" report from segments: %2."
+Details,Details
+"Customer Segment data has been refreshed.","Kundensegmentdaten wurden aktualisiert."
+Union,Vereinigung
+Intersection,Schnittpunkt
+"Applies to All of the Specified Customer Segments","Gilt für alle angegebenen Kundensegmente"
+"Apply to the Selected Customer Segments","Auf ausgewählte Kundensegmente anwenden"
+contains,contains
+"does not contains","does not contains"
+"Matched %1 Customers of Segment %2","Matched %1 Customers of Segment %2"
+"Customer Segment",Kundensegment
+"Use in Customer Segment","Im Kundensegment verwenden"
+"Unknown operator specified.","Unbekannter Operator spezifiziert."
+"Customer Address",Kundenadresse
+"Product List",Produktliste
+"Product History",Produkthistorie
 "Wrong ""ApplyTo"" type","Falscher ""Anwenden auf"" Typ"
-"Wrong customer segment requested.","Falsches Kundensegment angefordert."
-"ZIP","Postleitzahl"
-"does not exist","existiert nicht"
+"If Customer Addresses match %1 of these Conditions:","If Customer Addresses match %1 of these Conditions:"
+"Address Attributes",Adressenattribute
+"Customer Address %1","Customer Address %1"
+"Default Address",Standardadresse
+Billing,Rechnung
+"Customer Address %1 Default %2 Address","Customer Address %1 Default %2 Address"
+"Has State/Province","Hat Staat/Provinz"
+"If Customer Address %1 State/Province specified","If Customer Address %1 State/Province specified"
+has,besitzt
 "does not have","besitzt nicht"
-"does not match","stimmt nicht überein"
-"exists","existiert"
-"has","besitzt"
-"is not one of","ist nicht eines von"
-"is one of","ist eines von"
-"matches","stimmt überein"
+exists,existiert
+"does not exist","existiert nicht"
+"Customer %1","Customer %1"
+"Newsletter Subscription","Newsletter Abonnement"
+"Customer is %1 to newsletter.","Customer is %1 to newsletter."
+subscribed,abonniert
 "not subscribed","nicht abonniert"
-"ordered","bestellt"
-"subscribed","abonniert"
-"viewed","angesehen"
+"Customer Store Credit Amount %1 %2:","Customer Store Credit Amount %1 %2:"
+"Date Range",Datenbereich
+"Open Chooser","Open Chooser"
+"Date Range %1 within %2","Date Range %1 within %2"
+"If Order Addresses match %1 of these Conditions:","If Order Addresses match %1 of these Conditions:"
+"Order Address Attributes","Bestelladresse Eigenschaften"
+"Order Address %1","Order Address %1"
+"Address Type",Adressentyp
+"Order Address %1 a %2 Address","Order Address %1 a %2 Address"
+"Order Status",Bestellstatus
+"Order Status %1 %2:","Order Status %1 %2:"
+"Product %1","Product %1"
+"Date Ranges",Datenbereiche
+viewed,angesehen
+ordered,bestellt
+was,was
+"was not","was not"
+"If Product %1 %2 and matches %3 of these Conditions:","If Product %1 %2 and matches %3 of these Conditions:"
+"Wish List","Wish List"
+found,found
+"not found","not found"
+"If Product is %1 in the %2 with %3 of these Conditions match:","If Product is %1 in the %2 with %3 of these Conditions match:"
+"Order Address",Bestelladresse
+"Sales Amount",Umsatzsumme
+"Number of Orders","Anzahl der Bestellungen"
+"Purchased Quantity","Gekaufte Menge"
+"Number of Orders %1 %2 while %3 of these Conditions match:","Number of Orders %1 %2 while %3 of these Conditions match:"
+"%1 Purchased Quantity %2 %3 while %4 of these Conditions match:","%1 Purchased Quantity %2 %3 while %4 of these Conditions match:"
+"%1 Sales Amount %2 %3 while %4 of these Conditions match:","%1 Sales Amount %2 %3 while %4 of these Conditions match:"
+"If Customer Segment %1 %2","If Customer Segment %1 %2"
+matches,"stimmt überein"
+"does not match","stimmt nicht überein"
+"is one of","ist eines von"
+"is not one of","ist nicht eines von"
+"Shopping Cart Total","Warenkorb Gesamtsumme"
+"Gift Card",Geschenkkarte
+"Shopping Cart %1 Amount %2 %3:","Shopping Cart %1 Amount %2 %3:"
+"Unknown quote total specified.","Unbekannte Angebotsbetrag spezifiziert."
+"Number of Cart Line Items","Anzahl der Warenkorbartikel"
+"Number of Shopping Cart Line Items %1 %2:","Number of Shopping Cart Line Items %1 %2:"
+"Products Quantity",Produktmenge
+"Shopping Cart Products Qty %1 %2:","Shopping Cart Products Qty %1 %2:"
+"equals or greater than","equals or greater than"
+"equals or less than","equals or less than"
+"greater than","greater than"
+"less than","less than"
+"Up To Date","Auf neuestem Stand"
+"Period %1 %2 Days Up To Date","Period %1 %2 Days Up To Date"
+"Website Filter values","Website Filter values"
+CSV,CSV
+"Excel XML",Excel-XML
+Set,Setzen
+Group,Gruppe
+Phone,Telefon
+ZIP,Postleitzahl
+"Customer Since","Kunde seit"
+"Enable Customer Segment Functionality","Enable Customer Segment Functionality"
+"Refresh Data","Daten aktualisieren"
+"Manage Segments","Segmente bearbeiten"
+"View Combined Report","Kombinierten Report ansehen"
