@@ -29,7 +29,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->buttonList->update('save', 'label', __('Check Data'));
         $this->buttonList->update('save', 'id', 'upload_button');
         $this->buttonList->update('save', 'onclick', 'varienImport.postToFrame();');
-        $this->buttonList->update('save', 'data_attribute', '' );
+        $this->buttonList->update('save', 'data_attribute', '');
 
         $this->_objectId = 'import_id';
         $this->_blockGroup = 'Magento_ImportExport';

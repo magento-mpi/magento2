@@ -88,18 +88,19 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $callbackInvoker;
 
     /**
-     * @param \Magento\AdminGws\Model\Role $role
+     * @param Role $role
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Framework\Acl\Builder $aclBuilder
-     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\User\Model\Resource\Role\Collection $userRoles
      * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
-     * @param \Magento\AdminGws\Model\ConfigInterface $config
+     * @param ConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\Stdlib\String $string
      * @param CallbackList $callbackList
+     * @param CallbackBuilder $callbackBuilder
+     * @param CallbackInvoker $callbackInvoker
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */

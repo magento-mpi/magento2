@@ -40,8 +40,8 @@ class Save extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Block\Widget\Button\ButtonList $buttonList,
         \Magento\Backend\Block\Widget\Button\ToolbarInterface $toolbar,
-        array $data = array())
-    {
+        array $data = array()
+    ) {
         $this->buttonList = $buttonList;
         $this->toolbar = $toolbar;
         parent::__construct($context, $data);

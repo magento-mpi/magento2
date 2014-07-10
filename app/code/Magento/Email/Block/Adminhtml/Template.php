@@ -42,11 +42,20 @@ class Template extends \Magento\Backend\Block\Template implements \Magento\Backe
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Block\Widget\Button\ButtonList $buttonList,
         \Magento\Backend\Block\Widget\Button\ToolbarInterface $toolbar,
-        array $data = array())
-    {
+        array $data = array()
+    ) {
         $this->buttonList = $buttonList;
         $this->toolbar = $toolbar;
         parent::__construct($context, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateButton($buttonId, $key, $data)
+    {
+        $this->buttonList->update($buttonId, $key, $data);
+        return $this;
     }
 
     /**
@@ -79,6 +88,15 @@ class Template extends \Magento\Backend\Block\Template implements \Magento\Backe
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
+    {
+        $this->buttonList->add($buttonId, $data, $level, $sortOrder, $region);
+        return $this;
+    }
+
+    /**
      * Get transactional emails page header text
      *
      * @return string
@@ -86,6 +104,15 @@ class Template extends \Magento\Backend\Block\Template implements \Magento\Backe
     public function getHeaderText()
     {
         return __('Transactional Emails');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeButton($buttonId)
+    {
+        $this->buttonList->remove($buttonId);
+        return $this;
     }
 
     /**
@@ -106,53 +133,7 @@ class Template extends \Magento\Backend\Block\Template implements \Magento\Backe
     }
 
     /**
-     * Public wrapper for the button list
-     *
-     * @param string $buttonId
-     * @param array $data
-     * @param integer $level
-     * @param integer $sortOrder
-     * @param string|null $region That button should be displayed in ('toolbar', 'header', 'footer', null)
-     * @return $this
-     */
-    public function addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
-    {
-        $this->buttonList->add($buttonId, $data, $level, $sortOrder, $region);
-        return $this;
-    }
-
-    /**
-     * Public wrapper for the button list
-     *
-     * @param string $buttonId
-     * @return $this
-     */
-    public function removeButton($buttonId)
-    {
-        $this->buttonList->remove($buttonId);
-        return $this;
-    }
-
-    /**
-     * Public wrapper for protected _updateButton method
-     *
-     * @param string $buttonId
-     * @param string|null $key
-     * @param string $data
-     * @return $this
-     */
-    public function updateButton($buttonId, $key, $data)
-    {
-        $this->buttonList->update($buttonId, $key, $data);
-        return $this;
-    }
-
-
-    /**
-     * Check whether button rendering is allowed in current context
-     *
-     * @param \Magento\Backend\Block\Widget\Button\Item $item
-     * @return bool
+     * {@inheritdoc}
      */
     public function canRender(\Magento\Backend\Block\Widget\Button\Item $item)
     {

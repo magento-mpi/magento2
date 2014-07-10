@@ -11,6 +11,9 @@ class Plugin
 {
     const GROUP_NAME = 'widget_container_buttons_rendering';
 
+    /**
+     * @var \Magento\AdminGws\Model\Role
+     */
     protected $role;
 
     /**

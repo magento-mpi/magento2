@@ -124,7 +124,7 @@ class Converter
             }
         }
 
-       $isDefaultBilling = $addressModel->getData('is_default_billing') === null && intval($addressId)
+        $isDefaultBilling = $addressModel->getData('is_default_billing') === null && intval($addressId)
            ? $addressId === $defaultBillingId
            : $addressModel->getData('is_default_billing');
 

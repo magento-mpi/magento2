@@ -109,7 +109,7 @@ class ButtonList
      */
     public function getItems()
     {
-        array_walk($this->_buttons, function(&$item) {
+        array_walk($this->_buttons, function (&$item) {
             uasort($item, [$this, 'sortButtons']);
         });
         return $this->_buttons;

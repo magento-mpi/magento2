@@ -30,7 +30,7 @@ interface ConfigInterface
     /**
      * Get group processor
      *
-     * @param $groupName
+     * @param string $groupName
      * @return string|null
      */
     public function getGroupProcessor($groupName);
