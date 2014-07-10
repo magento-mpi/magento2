@@ -10,13 +10,13 @@ namespace Magento\Downloadable\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Constraint\AssertDuplicateProductForm;
-use Magento\Downloadable\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Constraint\AssertProductDuplicateForm;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
- * Class AssertDuplicateProductDownloadableForm
+ * Class AssertProductDownloadableDuplicateForm
  */
-class AssertDuplicateProductDownloadableForm extends AssertDuplicateProductForm
+class AssertProductDownloadableDuplicateForm extends AssertProductDuplicateForm
 {
     /**
      * Constraint severeness
@@ -57,7 +57,7 @@ class AssertDuplicateProductDownloadableForm extends AssertDuplicateProductForm
      * @param array $fields
      * @return array
      */
-    protected function sortDownloadableArray(&$fields)
+    protected function sortDownloadableArray($fields)
     {
         usort(
             $fields,
@@ -69,6 +69,8 @@ class AssertDuplicateProductDownloadableForm extends AssertDuplicateProductForm
                 return ($row1['sort_order'] < $row2['sort_order']) ? -1 : 1;
             }
         );
+
+        return $fields;
     }
 
     /**
@@ -80,12 +82,12 @@ class AssertDuplicateProductDownloadableForm extends AssertDuplicateProductForm
     protected function convertDownloadableArray(array $fields)
     {
         if (isset($fields['downloadable_links']['downloadable']['link'])) {
-            $this->sortDownloadableArray(
+            $fields['downloadable_links']['downloadable']['link'] = $this->sortDownloadableArray(
                 $fields['downloadable_links']['downloadable']['link']
             );
         }
         if (isset($fields['downloadable_sample']['downloadable']['sample'])) {
-            $this->sortDownloadableArray(
+            $fields['downloadable_sample']['downloadable']['sample'] = $this->sortDownloadableArray(
                 $fields['downloadable_sample']['downloadable']['sample']
             );
         }

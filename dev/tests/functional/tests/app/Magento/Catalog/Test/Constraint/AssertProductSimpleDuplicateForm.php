@@ -9,10 +9,10 @@
 namespace Magento\Catalog\Test\Constraint;
 
 /**
- * Class AssertDuplicateProductSimpleForm
+ * Class AssertProductSimpleDuplicateForm
  * Assert form data equals duplicate simple product data
  */
-class AssertDuplicateProductSimpleForm extends AssertDuplicateProductForm
+class AssertProductSimpleDuplicateForm extends AssertProductDuplicateForm
 {
     /**
      * Constraint severeness

@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew as ParentCatalogProduc
  */
 class CatalogProductNew extends ParentCatalogProductNew
 {
-    const MCA = 'catalog/product_configurable/new';
+    const MCA = 'configurable/catalog/product/new';
 
     /**
      * Custom constructor

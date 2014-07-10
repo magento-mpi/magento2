@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftCard\Test\Block\Adminhtml\Renderer;
+namespace Magento\GiftCard\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails;
 
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;

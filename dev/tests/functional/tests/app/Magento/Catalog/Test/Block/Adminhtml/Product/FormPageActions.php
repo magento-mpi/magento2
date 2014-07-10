@@ -71,13 +71,35 @@ class FormPageActions extends ParentFormPageActions
     }
 
     /**
-     * Clicked save the button action
+     * Clicked save and duplicate action
      *
-     * @param string $actionType [optional]
+     * @return void
      */
-    public function clickSaveAction($actionType = FormPageActions::SAVE_CLOSE)
+    public function saveAndDuplicate()
     {
         $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->find(sprintf($this->saveTypeItem, $actionType), Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find(sprintf($this->saveTypeItem, static::SAVE_DUPLICATE), Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Clicked save and new action
+     *
+     * @return void
+     */
+    public function saveAndNew()
+    {
+        $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find(sprintf($this->saveTypeItem, static::SAVE_NEW), Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Clicked save and new action
+     *
+     * @return void
+     */
+    public function saveAndClose()
+    {
+        $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find(sprintf($this->saveTypeItem, static::SAVE_CLOSE), Locator::SELECTOR_CSS)->click();
     }
 }

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog/product_configurable/edit" >
+<page mca="configurable/catalog/product/edit" >
     <block>
         <name>form</name>
         <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm</class>

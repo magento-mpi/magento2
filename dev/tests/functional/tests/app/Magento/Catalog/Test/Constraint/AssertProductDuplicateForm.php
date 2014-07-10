@@ -9,38 +9,14 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
- * Class AssertDuplicateProductForm
+ * Class AssertProductDuplicateForm
  */
-class AssertDuplicateProductForm extends AbstractConstraint
+class AssertProductDuplicateForm extends AssertProductForm
 {
-    /**
-     * Formatting options for numeric values
-     *
-     * @var array
-     */
-    protected $formattingOptions = [
-        'price' => [
-            'decimals' => 2,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ],
-        'qty' => [
-            'decimals' => 4,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ],
-        'weight' => [
-            'decimals' => 4,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ]
-    ];
-
     /**
      * Constraint severeness
      *
@@ -117,49 +93,12 @@ class AssertDuplicateProductForm extends AbstractConstraint
     }
 
     /**
-     * Comparison of multidimensional arrays
-     *
-     * @param array $fixtureData
-     * @param array $formData
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    protected function compareArray(array $fixtureData, array $formData)
-    {
-        $errors = [];
-        $keysDiff = array_diff(array_keys($formData), array_keys($fixtureData));
-        if (!empty($keysDiff)) {
-            return ['- fixture data do not correspond to form data in composition.'];
-        }
-
-        foreach ($fixtureData as $key => $value) {
-            if (is_array($value) && is_array($formData[$key])
-                && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
-            ) {
-                $errors = array_merge($errors, $innerErrors);
-            } elseif ($value != $formData[$key]) {
-                $fixtureValue = empty($value) ? '<empty-value>' : $value;
-                $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
-                $errors = array_merge(
-                    $errors,
-                    [
-                        "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
-                    ]
-                );
-            }
-        }
-
-        return $errors;
-    }
-
-    /**
      * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'Form data equal the fixture data.';
+        return 'Form data equals to fixture data of duplicated product.';
     }
 }

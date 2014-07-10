@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit as ParentCatalogProdu
  */
 class CatalogProductEdit extends ParentCatalogProductEdit
 {
-    const MCA = 'catalog/product_configurable/edit';
+    const MCA = 'configurable/catalog/product/edit';
 
     /**
      * Custom constructor

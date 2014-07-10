@@ -118,6 +118,8 @@ class AssertProductForm extends AbstractConstraint
      */
     protected function compareArray(array $fixtureData, array $formData)
     {
+        $fixtureData = $this->dataSort($fixtureData);
+        $formData = $this->dataSort($formData);
         $errors = [];
         $keysDiff = array_diff(array_keys($formData), array_keys($fixtureData));
         if (!empty($keysDiff)) {
@@ -129,19 +131,50 @@ class AssertProductForm extends AbstractConstraint
                 && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
             ) {
                 $errors = array_merge($errors, $innerErrors);
+            } elseif (!isset($formData[$key])) {
+                $errors = array_merge(
+                    $errors,
+                    ["- key -> '{$key}' : does not exist"]
+                );
             } elseif ($value != $formData[$key]) {
                 $fixtureValue = empty($value) ? '<empty-value>' : $value;
                 $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
                 $errors = array_merge(
                     $errors,
-                    [
-                        "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
-                    ]
+                    ["- error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"]
                 );
             }
         }
 
         return $errors;
+    }
+
+    /**
+     * Data sort by value
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function dataSort(array $data)
+    {
+        $scalarValues = [];
+        $arrayValues = [];
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $arrayValues[$key] = $this->dataSort($value);
+            } else {
+                $scalarValues[$key] = $value;
+            }
+        }
+        asort($scalarValues);
+        foreach (array_keys($arrayValues) as $key) {
+            if (!is_numeric($key)) {
+                ksort($arrayValues);
+                break;
+            }
+        }
+
+        return $scalarValues + $arrayValues;
     }
 
     /**

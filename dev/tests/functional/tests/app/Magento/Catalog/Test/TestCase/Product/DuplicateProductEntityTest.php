@@ -14,7 +14,6 @@ use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions;
 
 /**
  * Test Creation for DuplicateProductEntity
@@ -34,7 +33,7 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions;
  * @group Products_(CS)
  * @ZephyrId MAGETWO-23294
  */
-class DuplicateProductEntity extends Injectable
+class DuplicateProductEntityTest extends Injectable
 {
     /**
      * Category fixture
@@ -58,36 +57,68 @@ class DuplicateProductEntity extends Injectable
     protected $editProductPage;
 
     /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * Prepare data
      *
      * @param CatalogCategory $category
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductEdit $editProductPage
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __prepare(
         CatalogCategory $category,
         CatalogProductIndex $productGrid,
-        CatalogProductEdit $editProductPage
+        CatalogProductEdit $editProductPage,
+        FixtureFactory $fixtureFactory
     ) {
         $this->category = $category;
         $this->category->persist();
         $this->productGrid = $productGrid;
         $this->editProductPage = $editProductPage;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
      * Run test duplicate product entity
      *
      * @param string $productType
-     * @param FixtureFactory $fixtureFactory
-     * @return InjectableFixture
+     * @return array
      */
-    public function test($productType, FixtureFactory $fixtureFactory)
+    public function test($productType)
     {
         // Precondition
+        $product = $this->createProduct($productType);
+
+        // Steps
+        $filter = ['sku' => $product->getSku()];
+        $this->productGrid->open()
+            ->getProductGrid()
+            ->searchAndOpen($filter);
+
+        $this->editProductPage
+            ->getFormAction()
+            ->saveAndDuplicate();
+
+        return ['product' => $product];
+    }
+
+    /**
+     * Creating a product according to the type of
+     *
+     * @param string $productType
+     * @return array
+     */
+    protected function createProduct($productType)
+    {
         list($fixture, $dataSet) = explode('::', $productType);
-        $product = $fixtureFactory->createByCode(
+        $product = $this->fixtureFactory->createByCode(
             $fixture,
             [
                 'dataSet' => $dataSet,
@@ -100,16 +131,6 @@ class DuplicateProductEntity extends Injectable
         );
         $product->persist();
 
-        // Steps
-        $filter = ['sku' => $product->getSku()];
-        $this->productGrid->open()
-            ->getProductGrid()
-            ->searchAndOpen($filter);
-
-        $this->editProductPage
-            ->getFormAction()
-            ->clickSaveAction(FormPageActions::SAVE_DUPLICATE);
-
-        return ['product' => $product];
+        return $product;
     }
 }

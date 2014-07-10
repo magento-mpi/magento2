@@ -9,14 +9,14 @@
 namespace Magento\GiftCard\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Magento\GiftCard\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Constraint\AssertDuplicateProductForm;
+use Magento\Catalog\Test\Constraint\AssertProductDuplicateForm;
 
 /**
- * Class AssertDuplicateProductGiftCardForm
+ * Class AssertProductGiftCardDuplicateForm
  */
-class AssertDuplicateProductGiftCardForm extends AssertDuplicateProductForm
+class AssertProductGiftCardDuplicateForm extends AssertProductDuplicateForm
 {
     /**
      * Constraint severeness

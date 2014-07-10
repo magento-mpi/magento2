@@ -28,8 +28,7 @@
             <is_required>0</is_required>
             <input>variations</input>
             <group>variations</group>
-            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableAttributesData
-            </source>
+            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableAttributesData</source>
         </configurable_attributes_data>
         <color>
             <attribute_code>color</attribute_code>

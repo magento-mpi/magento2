@@ -14,9 +14,9 @@ use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
- * Class AssertDuplicatedProductInGrid
+ * Class AssertProductDuplicatedInGrid
  */
-class AssertDuplicatedProductInGrid extends AbstractConstraint
+class AssertProductDuplicatedInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -24,19 +24,6 @@ class AssertDuplicatedProductInGrid extends AbstractConstraint
      * @var string
      */
     protected $severeness = 'low';
-
-    /**
-     * Mapping types of products
-     *
-     * @var array
-     */
-    protected $productTypeMapping = [
-        'CatalogProductSimple' => 'Simple Product',
-        'CatalogProductDownloadable' => 'Downloadable Product',
-        'CatalogProductConfigurable' => 'Configurable Product',
-        'GiftCardProduct' => 'Gift Card',
-
-    ];
 
     /**
      * Assert that duplicated product is found by sku and has correct product type, product template,
@@ -48,22 +35,21 @@ class AssertDuplicatedProductInGrid extends AbstractConstraint
      */
     public function processAssert(FixtureInterface $product, CatalogProductIndex $productGrid)
     {
+        $config = $product->getDataConfig();
         $filter = [
             'name' => $product->getName(),
             'visibility' => $product->getVisibility(),
             'status' => 'Disabled',
             'sku' => $product->getSku() . '-1',
-            'type' => $this->productTypeMapping[basename(get_class($product))]
+            'type' => ucfirst($config['create_url_params']['type']) . ' Product',
+            'price_to' => number_format($product->getPrice(), 2)
         ];
 
         $productGrid->open()
             ->getProductGrid()
             ->search($filter);
 
-        if (!($product instanceof GiftCardProduct)) {
-            $filter['price_to'] = '$' . number_format($product->getPrice(), 2);
-        }
-
+        $filter['price_to'] = '$' . $filter['price_to'];
         \PHPUnit_Framework_Assert::assertTrue(
             $productGrid->getProductGrid()->isRowVisible($filter, false),
             'Product duplicate is absent in Products grid.'

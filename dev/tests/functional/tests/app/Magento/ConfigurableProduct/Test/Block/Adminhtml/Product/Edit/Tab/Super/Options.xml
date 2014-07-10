@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <pricing_value>
+            <selector>td div [name$='[pricing_value]']</selector>
+        </pricing_value>
+        <include>
+            <selector>td div [name$='[include]']</selector>
+            <input>checkbox</input>
+        </include>
+    </fields>
+</mapping>
