@@ -11,7 +11,7 @@ namespace Magento\ConfigurableProduct\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogProductSimple
+ * Class CatalogProductConfigurable
  * Data for creation Catalog Product Configurable
  */
 class CatalogProductConfigurable extends AbstractRepository

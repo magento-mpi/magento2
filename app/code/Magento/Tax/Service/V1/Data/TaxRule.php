@@ -36,7 +36,7 @@ class TaxRule extends AbstractObject
     /**
      * Get id
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {

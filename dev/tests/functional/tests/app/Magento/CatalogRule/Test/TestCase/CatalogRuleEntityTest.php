@@ -46,7 +46,7 @@ abstract class CatalogRuleEntityTest extends Injectable
      *
      * @var CatalogRule
      */
-    protected $catalogRule;
+    protected $catalogRules;
 
     /**
      * Injection data
@@ -54,6 +54,7 @@ abstract class CatalogRuleEntityTest extends Injectable
      * @param CatalogRuleIndex $catalogRuleIndex
      * @param CatalogRuleNew $catalogRuleNew
      * @param AdminCache $adminCache
+     * @return void
      */
     public function __inject(
         CatalogRuleIndex $catalogRuleIndex,
@@ -66,27 +67,18 @@ abstract class CatalogRuleEntityTest extends Injectable
     }
 
     /**
-     * Prepare data for tear down
-     *
-     * @param CatalogRule $catalogRule
-     * @return void
-     */
-    public function prepareTearDown(
-        CatalogRule $catalogRule
-    ) {
-        $this->catalogRule = $catalogRule;
-    }
-
-    /**
      * Clear data after test
      *
      * @return void
      */
     public function tearDown()
     {
-        $filter = ['name' => $this->catalogRule->getName()];
-        $this->catalogRuleIndex->open();
-        $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
-        $this->catalogRuleNew->getFormPageActions()->delete();
+        $this->catalogRules = (is_array($this->catalogRules)) ? $this->catalogRules : [$this->catalogRules];
+        foreach ($this->catalogRules as $catalogRule) {
+            $filter = ['name' => $catalogRule->getName()];
+            $this->catalogRuleIndex->open();
+            $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
+            $this->catalogRuleNew->getFormPageActions()->delete();
+        }
     }
 }

@@ -15,7 +15,6 @@ use Magento\Catalog\Test\Fixture\Category;
 /**
  * Class CreateTest
  * Create category test
- *
  */
 class CreateTest extends Functional
 {
@@ -40,7 +39,7 @@ class CreateTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
-        $treeBlock->selectCategory($category->getCategoryPath());
+        $treeBlock->selectCategory($category);
         $treeBlockEdit->addSubcategory();
         $formBlock->fill($category);
         $actionsBlock->save();
