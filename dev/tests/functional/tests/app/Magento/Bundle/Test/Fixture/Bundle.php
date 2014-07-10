@@ -103,16 +103,15 @@ class Bundle extends Product
         $selectionData = array();
         foreach ($options as $option => $selection) {
             $selectionItem['type'] = $this->getData(
-                'fields/bundle_selections/value/bundle_options/' .
-                $option . '/type/input_value'
+                'fields/bundle_selections/value/bundle_options/' . $option . '/type/input_value'
             );
             $selectionItem['qty'] = $this->getData(
-                'fields/bundle_selections/value/bundle_options/' . $option .
-                '/assigned_products/' . $selection . '/data/selection_qty/value'
+                'fields/bundle_selections/value/bundle_options/' . $option
+                . '/assigned_products/' . $selection . '/data/selection_qty/value'
             );
             $selectionItem['value'] = $this->getData(
-                'fields/bundle_selections/value/bundle_options/' . $option . '/assigned_products/' .
-                $selection . '/search_data/name'
+                'fields/bundle_selections/value/bundle_options/' . $option . '/assigned_products/' . $selection
+                . '/search_data/name'
             );
             $selectionData[] = $selectionItem;
         }

@@ -18,6 +18,20 @@ use Mtf\Fixture\FixtureInterface;
 class BundleSelections implements FixtureInterface
 {
     /**
+     * Prepared dataSet data
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * Current preset
      *
      * @var string
