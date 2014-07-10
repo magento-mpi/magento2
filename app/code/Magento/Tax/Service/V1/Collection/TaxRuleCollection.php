@@ -17,7 +17,7 @@ use Magento\Tax\Service\V1\TaxRuleServiceInterface;
 use Magento\Tax\Service\V1\Data\TaxRule;
 
 /**
- * Tax кгду collection for a grid backed by Services
+ * Tax rule collection for a grid backed by Services
  */
 class TaxRuleCollection extends AbstractServiceCollection
 {
@@ -58,7 +58,7 @@ class TaxRuleCollection extends AbstractServiceCollection
     public function loadData($printQuery = false, $logQuery = false)
     {
         if (!$this->isLoaded()) {
-            $searchCriteria = $this->getSearchCriteria();//print_r($searchCriteria); die();
+            $searchCriteria = $this->getSearchCriteria();
             $searchResults = $this->ruleService->searchTaxRules($searchCriteria);
             $this->_totalRecords = $searchResults->getTotalCount();
             foreach ($searchResults->getItems() as $taxRule) {
@@ -70,10 +70,10 @@ class TaxRuleCollection extends AbstractServiceCollection
     }
 
     /**
-     * Creates a collection item that represents a tax rate for the tax rates grid.
+     * Creates a collection item that represents a tax rule for the tax rules grid.
      *
      * @param TaxRule $taxRule Input data for creating the item.
-     * @return \Magento\Framework\Object Collection item that represents a tax rate
+     * @return \Magento\Framework\Object Collection item that represents a tax rule
      */
     protected function createTaxRuleCollectionItem(TaxRule $taxRule)
     {
