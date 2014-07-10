@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1;
+namespace Magento\GoogleShopping\Model\Attribute;
 
 use Magento\Tax\Model\ClassModel;
 use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
