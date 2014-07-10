@@ -98,7 +98,7 @@ class Converter
                 ->create();
             $this->taxRateDataObjectBuilder->setZipRange($zipRange);
         }
-        $this->taxRateDataObjectBuilder->setTitles($this->createTitleFromModel($rateModel));
+        $this->taxRateDataObjectBuilder->setTitles($this->createTitleArrayFromModel($rateModel));
         return $this->taxRateDataObjectBuilder->create();
     }
 
@@ -135,12 +135,12 @@ class Converter
     }
 
     /**
-     * Convert a TaxRate data object to an array of associated titles
+     * Convert a tax rate data object to an array of associated titles
      *
      * @param TaxRateDataObject $taxRate
      * @return array
      */
-    public function createTitlesFromServiceObject(TaxRateDataObject $taxRate)
+    public function createTitleArrayFromServiceObject(TaxRateDataObject $taxRate)
     {
         $titles = $taxRate->getTitles();
         $titleData = [];
@@ -158,7 +158,7 @@ class Converter
      * @param TaxRateModel $rateModel
      * @return array
      */
-    public function createTitleFromModel(TaxRateModel $rateModel)
+    public function createTitleArrayFromModel(TaxRateModel $rateModel)
     {
         $titlesData = $rateModel->getTitles();
         $titles = [];

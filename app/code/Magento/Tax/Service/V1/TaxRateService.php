@@ -171,7 +171,7 @@ class TaxRateService implements TaxRateServiceInterface
     {
         $this->validate($taxRate);
         $taxRateModel = $this->converter->createTaxRateModel($taxRate);
-        $taxRateTitles = $this->converter->createTitlesFromServiceObject($taxRate);
+        $taxRateTitles = $this->converter->createTitleArrayFromServiceObject($taxRate);
         try {
             $taxRateModel->save();
             $taxRateModel->saveTitles($taxRateTitles);
