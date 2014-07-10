@@ -2699,4 +2699,5 @@ return array(
     ['Magento\Theme\Helper\Data'],
     ['Magento\Widget\Helper\Data'],
     ['Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction'],
+    ['Magento\Catalog\Helper\Product\Price']
 );
