@@ -74,12 +74,12 @@ class CrosssellTest extends Functional
 
         $this->assertTrue(
             $crosssellBlock->verifyProductcrosssell($configurable),
-            'Cross-sell product ' . $configurable->getProductName() . ' was not found in the first product page.'
+            'Cross-sell product ' . $configurable->getName() . ' was not found in the first product page.'
         );
 
         $this->assertTrue(
             $crosssellBlock->verifyProductcrosssell($simple2),
-            'Upsell product ' . $simple2->getProductName() . ' was not found in the first product page.'
+            'Upsell product ' . $simple2->getName() . ' was not found in the first product page.'
         );
 
         $crosssellBlock = $checkoutCartPage->getCrosssellBlock();

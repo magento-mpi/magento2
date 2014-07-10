@@ -78,8 +78,8 @@ class AdminUserRole extends InjectableFixture
         'input' => '',
     ];
 
-    protected $role_name = [
-        'attribute_code' => 'role_name',
+    protected $rolename = [
+        'attribute_code' => 'rolename',
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
@@ -136,7 +136,7 @@ class AdminUserRole extends InjectableFixture
 
     public function getRoleName()
     {
-        return $this->getData('role_name');
+        return $this->getData('rolename');
     }
 
     public function getUserType()

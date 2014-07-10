@@ -7,7 +7,6 @@
         "magento/module-install": "0.1.0",
         "magento/module-admin-notification": "0.1.0",
         "magento/module-backend": "0.1.0",
-        "magento/module-core": "0.1.0",
         "magento/module-catalog-event": "0.1.0",
         "magento/module-catalog-permissions": "0.1.0",
         "magento/module-customer-segment": "0.1.0",
