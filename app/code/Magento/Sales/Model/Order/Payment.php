@@ -542,9 +542,7 @@ class Payment extends \Magento\Payment\Model\Info
                 $order->addRelatedObject($invoice);
                 $this->setCreatedInvoice($invoice);
             } else {
-                if (!$skipFraudDetection) {
-                    $this->setIsFraudDetected(true);
-                }
+                $this->setIsFraudDetected(!$skipFraudDetection);
                 $this->_updateTotals(array('base_amount_paid_online' => $amount));
             }
         }
