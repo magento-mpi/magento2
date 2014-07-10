@@ -1,16 +1,21 @@
+2.0.0.0-dev85
+=============
 * Service layer updates:
-  * Implemented API for CatalogInventory module (MAGETWO-24954)
-  * Refactored external usages of CatalogInventory module to service (MAGETWO-24933, MAGETWO-24934)
+  * Implemented API for the CatalogInventory module
+  * Refactored the external usages of the CatalogInventory module to service
 * Fixed bugs:
-  * Fixed: Add label for Uses per customer option (MAGETWO-24695)
-  * Fixed: Previously selected products in 'Add Product to Bundle Option' grid aren't checked if page has been changed (MAGETWO-10614)
-  * Fixed: Google Content not sending correct attribute 'description' (wisebadger) (MAGETWO-18321)
-  * Fixed: Custom Attribute not listed on layered navigation after import (MAGETWO-18333)
-  * Fixed: Category URL keys do not work correctly after saving (MAGETWO-19490)
-  * Fixed: User has no possibility to create Target rule with special Products to Display condition (MAGETWO-23654)
-  * Fixed: jQuery error on product page in admin when switching between product tabs (MAGETWO-24846)
+  * Fixed an issue where a coupon usage option was not comprehensible enough
+  * Fixed an issue where products selection for adding to a bundle option was lost when switching between pages with product grids
+  * Fixed an issue where  Google Content was not sending the correct 'description' attribute
+  * Fixed an issue where custom attributes were not displayed in layered navigation after a product import
+  * Fixed an issue where the Category URL keys did not work correctly after saving
+  * Fixed an issue where an admin could not create a Target rule with a certain Products to Display condition
+  * Fixed a jQuery error on a product page in the Admin panel, which appeared when switching between product tabs
+* Framework Improvements:
+  * Created ProductsCustomOptions Service API for Catalog module
+  * Created DownloadableLink Service API for Catalog module
 * GitHub requests:
-  * [#257]  JSON loading should follow OWASP reccomendation (MAGETWO-23729)
+  * [#257] JSON loading should follow OWASP recommendation
 
 2.0.0.0-dev84
 =============
