@@ -1,24 +1,5 @@
-<style>
-    .rediness-check-items > div {
-        padding: 20px;
-    }
-    .rediness-check-info {
-        margin: 10px 0 10px 20px;
-        width: 70%;
-    }
-    .rediness-check-info > ul {
-        margin-top: 10px;
-    }
-    .rediness-check-block {
-        padding: 20px;
-    }
-    .rediness-check-panel-right {
-        float:right;
-    }
-</style>
-
 <div class="rediness-check-items">
-    <div class="well" ng-switch="isCompleted()">
+    <div class="bg-info" ng-switch="isCompleted()">
         <div ng-switch-when="true" ng-switch="hasErrors">
             <span ng-switch-when="true"><?php echo $this->translate('Completed! You need to resolve these issues to continue.'); ?></span>
             <span ng-switch-default><?php echo $this->translate('Completed!'); ?></span>
@@ -35,7 +16,7 @@
         </div>
         <div ng-show="version.processed" ng-switch="version.responseType">
             <div ng-switch-when="success" ng-init="updateOnSuccess(version)">
-                <span class="glyphicon glyphicon-ok-sign"></span>
+                <span class="glyphicon glyphicon-ok-sign text-success"></span>
                 <span><?php echo $this->translate('PHP Version Check'); ?></span>
                 <div class="rediness-check-info">
                     <?php echo $this->translate('Your PHP version is correct ({{version.data.current}}).'); ?>
@@ -46,7 +27,7 @@
                     <p><?php echo $this->translate('Need Help?'); ?></p>
                     <p><a href="http://www.php.net/docs.php" target="_blank"><?php echo $this->translate('PHP Documentation'); ?></a></p>
                 </div>
-                <span class="glyphicon glyphicon-remove"></span>
+                <span class="glyphicon glyphicon-remove text-danger"></span>
                 <span><?php echo $this->translate('PHP Version Check'); ?></span>
                 <div class="rediness-check-info">
                     <p>
@@ -71,7 +52,7 @@
         </div>
         <div ng-show="extensions.processed" ng-switch="extensions.responseType">
             <div ng-switch-when="success" ng-init="updateOnSuccess(extensions)">
-                <span class="glyphicon glyphicon-ok-sign"></span>
+                <span class="glyphicon glyphicon-ok-sign text-success"></span>
                 <span><?php echo $this->translate('PHP Extensions Check'); ?></span>
                 <div class="rediness-check-info">
                     <p>
@@ -84,7 +65,7 @@
                     <div class="rediness-check-block" ng-show="extensions.expanded">
                         <ul class="list-unstyled">
                             <li ng-repeat="name in extensions.data.required">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                <span class="glyphicon glyphicon-ok text-success"></span>
                                 <span><?php echo $this->translate('PHP Extension {{name}}.'); ?></span>
                             </li>
                         </ul>
@@ -96,7 +77,7 @@
                     <p>Need Help?</p>
                     <p><a href="#" target="_blank"><?php echo $this->translate('PHP Extension Help'); ?></a></p>
                 </div>
-                <span class="glyphicon glyphicon-remove"></span>
+                <span class="glyphicon glyphicon-remove text-danger"></span>
                 <span><?php echo $this->translate('PHP Extensions Check'); ?></span>
                 <div class="rediness-check-info">
                     <p>
@@ -111,8 +92,8 @@
                     <div class="rediness-check-block" ng-show="extensions.expanded">
                         <ul class="list-unstyled">
                             <li ng-repeat="name in extensions.data.required" ng-switch="hasItem(extensions.data.current, name)">
-                                <span ng-switch-when="true" class="glyphicon glyphicon-ok"></span>
-                                <span ng-switch-default class="glyphicon glyphicon-remove"></span>
+                                <span ng-switch-when="true" class="glyphicon glyphicon-ok text-success"></span>
+                                <span ng-switch-default class="glyphicon glyphicon-remove text-danger"></span>
                                 <span><?php echo $this->translate('PHP Extension {{name}}.'); ?></span>
                             </li>
                         </ul>
@@ -128,7 +109,7 @@
         </div>
         <div ng-show="permissions.processed" ng-switch="permissions.responseType">
             <div ng-switch-when="success" ng-init="updateOnSuccess(permissions)">
-                <span class="glyphicon glyphicon-ok-sign"></span>
+                <span class="glyphicon glyphicon-ok-sign text-success"></span>
                 <span><?php echo $this->translate('File Permission Check'); ?></span>
                 <div class="rediness-check-info">
                     <p>
@@ -141,7 +122,7 @@
                     <div class="rediness-check-block" ng-show="permissions.expanded">
                         <ul class="list-unstyled">
                             <li ng-repeat="name in permissions.data.required">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                <span class="glyphicon glyphicon-ok text-success"></span>
                                 <span><?php echo $this->translate('"{{name}}" directory permission.'); ?></span>
                             </li>
                         </ul>
@@ -153,7 +134,7 @@
                     <p><?php echo $this->translate('Need Help?'); ?></p>
                     <p><a href="#" target="_blank"><?php echo $this->translate('File Permission Help'); ?></a></p>
                 </div>
-                <span class="glyphicon glyphicon-remove"></span>
+                <span class="glyphicon glyphicon-remove text-danger"></span>
                 <span><?php echo $this->translate('File Permission Check'); ?></span>
                 <div class="rediness-check-info">
                     <p>
@@ -168,8 +149,8 @@
                     <div class="rediness-check-block" ng-show="permissions.expanded">
                         <ul class="list-unstyled">
                             <li ng-repeat="name in permissions.data.required" ng-switch="hasItem(permissions.data.current, name)">
-                                <span ng-switch-when="true" class="glyphicon glyphicon-ok"></span>
-                                <span ng-switch-default class="glyphicon glyphicon-remove"></span>
+                                <span ng-switch-when="true" class="glyphicon glyphicon-ok text-success"></span>
+                                <span ng-switch-default class="glyphicon glyphicon-remove text-danger"></span>
                                 <span><?php echo $this->translate('"{{name}}" directory permission.'); ?></span>
                             </li>
                         </ul>
