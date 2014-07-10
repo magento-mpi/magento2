@@ -110,6 +110,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $selectedValue = 'selectedValue';
         $selectedLabel = 'selectedLabel';
+        $selectedParams = [['paramKey' => 'paramValue', 'paramKey2' => 'paramValue2']];
 
         $selectedValues = [$selectedValue, 'selectedGroupElementValue'];
 
@@ -118,19 +119,50 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->select->setTitle($selectTitle);
         $this->select->setName($selectName);
         $this->select->addOption($value, $label, $params);
-        $this->select->addOption($selectedValue, $selectedLabel);
+        $this->select->addOption($selectedValue, $selectedLabel, $selectedParams);
         $this->select->addOption($valueGroup, $labelGroup);
         $this->select->setValue($selectedValues);
 
         $result = '<select name="testName" id="testId" class="testClass" title="testTitle" >'
-            . '<option value="testValue"  paramKey="paramValue" >testLabel</option>'
-            . '<option value="selectedValue" selected="selected" >selectedLabel</option>'
-            . '<optgroup label="groupLabel">'
-            .      '<option value="groupElementValue" >GroupElementLabel</option>'
-            .      '<option value="selectedGroupElementValue" selected="selected" >SelectedGroupElementLabel</option>'
-            . '</optgroup>'
+            .   '<option value="testValue"  paramKey="paramValue" >testLabel</option>'
+            .   '<option value="selectedValue" selected="selected"  paramKey="paramValue" '
+            .       ' paramKey2="paramValue2" >selectedLabel</option>'
+            .   '<optgroup label="groupLabel">'
+            .       '<option value="groupElementValue" >GroupElementLabel</option>'
+            .       '<option value="selectedGroupElementValue" selected="selected" >SelectedGroupElementLabel</option>'
+            .   '</optgroup>'
             . '</select>';
 
+        $this->assertEquals($result, $this->select->getHtml());
+    }
+
+    public function testGetHtmlJs()
+    {
+        $selectId = 'testId';
+        $selectClass = 'testClass';
+        $selectTitle = 'testTitle';
+        $selectName = 'testName';
+
+
+        $options = [
+            'testValue' => 'testLabel',
+            'selectedValue' => 'selectedLabel',
+        ];
+        $selectedValue = 'selectedValue';
+
+        $this->select->setId($selectId);
+        $this->select->setClass($selectClass);
+        $this->select->setTitle($selectTitle);
+        $this->select->setName($selectName);
+        $this->select->setOptions($options);
+        $this->select->setValue($selectedValue);
+
+        $result = '<select name="testName" id="testId" class="testClass" title="testTitle" >'
+            . '<option value="testValue" #{option_extra_attr_4016862802} >testLabel</option>'
+            . '<option value="selectedValue" selected="selected" #{option_extra_attr_662265145} >selectedLabel</option>'
+            . '</select>';
+
+        $this->select->setIsRenderToJsTemplate(true);
         $this->assertEquals($result, $this->select->getHtml());
     }
 }
