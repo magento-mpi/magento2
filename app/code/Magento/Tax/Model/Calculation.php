@@ -226,26 +226,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Retrieve customer data object
-     *
-     * @return CustomerDataObject
-     */
-    public function getCustomerData()
-    {
-        if ($this->_customer === null) {
-            if ($this->_customerSession->isLoggedIn()) {
-                $this->_customer = $this->_customerSession->getCustomerDataObject();
-            } elseif ($this->_customerSession->getCustomerId()) {
-                $this->_customer = $this->customerAccountService->getCustomer($this->_customerSession->getCustomerId());
-            } else {
-                $this->_customer = $this->customerBuilder->create();
-            }
-        }
-
-        return $this->_customer;
-    }
-
-    /**
      * Delete calculation settings by rule id
      *
      * @param   int $ruleId
