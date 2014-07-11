@@ -152,7 +152,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      * Verify that correct fields of address has been set
      *
      * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Address $address
-     * @param $itemData
+     * @param $addressData
      */
     public function verifyAddress(\Magento\Sales\Model\Quote\Address $address, $addressData)
     {
