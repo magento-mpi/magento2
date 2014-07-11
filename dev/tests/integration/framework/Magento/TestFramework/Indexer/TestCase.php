@@ -17,6 +17,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
+        self::_getDbInstance()->cleanup();
         self::_restoreDbState();
         parent::tearDownAfterClass();
     }

@@ -9,7 +9,7 @@
 
 <script id="template-registrant" type="text/x-jQuery-tmpl">
     <input name="registrant[${_index_}][person_id]" value="" id="registrant:person_id${_index_}" type="hidden" />
-    <div class="actions toolbar">
+    <div class="actions-toolbar">
         <div class="secondary">
             <button type="button" class="action remove" id="btn-remove${_index_}">
                 <span>
@@ -60,7 +60,7 @@
             <span><?php echo __('Maximum %1 recipients.', $this->getMaxRegistrant()) ?></span>
         </div>
     <?php endif; ?>
-    <div class="actions toolbar">
+    <div class="actions-toolbar">
         <div class="secondary">
             <?php if ($this->getMaxRegistrant() > 1): ?>
                 <button type="button" id="add-registrant-button" class="action add">
