@@ -28,7 +28,12 @@ try {
     $opt->parse();
 
     $version = $opt->getOption('v');
-    $workingDir = $opt->getOption('d') ?: realpath(BP);
+    if ($opt->getOption('d')) {
+        $workingDir = realpath($opt->getOption('d'));
+    } else {
+        $workingDir = realpath(BP);
+    }
+
     if (!$workingDir || !is_dir($workingDir)) {
         throw new Exception($opt->getOption('d') . " must be a Magento code base.");
     }
@@ -70,7 +75,7 @@ try {
     }
     $size = sizeof((array)$root->get('require'));
     $logger->debug("Total number of dependencies in the skeleton package: {$size}");
-    $root->set('extra->map', $root->getMappingList($workingDir));
+    $root->set('extra->map', $reader->getMappingList($workingDir));
     file_put_contents($root->getFile(), $root->getJson());
     $logger->info("SUCCESS: created package at {$root->getFile()}");
 } catch (\Zend_Console_Getopt_Exception $e) {

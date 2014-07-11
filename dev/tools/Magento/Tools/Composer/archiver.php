@@ -28,7 +28,12 @@ try {
     );
     $opt->parse();
 
-    $workingDir = $opt->getOption('d') ?: realpath(BP);
+    if ($opt->getOption('d')) {
+        $workingDir = realpath($opt->getOption('d'));
+    } else {
+        $workingDir = realpath(BP);
+    }
+
     if (!$workingDir || !is_dir($workingDir)) {
         throw new Exception($opt->getOption('d') . " must be a Magento code base.");
     }
@@ -73,7 +78,7 @@ try {
 
     //Creating zipped folders for skeletons
     $components = $reader->getPatterns();
-    for ($i = 0 ; $i<count($components); $i++) {
+    for ($i = 0 ; $i < count($components); $i++) {
         $components[$i] = str_replace('\\', '/', realpath($workingDir)) . '/' . $components[$i];
     }
 

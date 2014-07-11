@@ -21,6 +21,13 @@ class Reader
     const MAGENTO_COMPONENT_PATTERNS = 'magento_components_list.txt';
 
     /**
+     * Root directory
+     *
+     * @var string
+     */
+    private $rootDir;
+
+    /**
      * List of patterns
      *
      * @var string[]
@@ -32,7 +39,7 @@ class Reader
      *
      * @var string[]
      */
-    private $customizablePaths= [];
+    private $customizablePaths = [];
 
     /**
      * Constructor
@@ -113,21 +120,13 @@ class Reader
     /**
      * Gets mapping list for root composer.json file to be used by marshalling tool
      *
-     * @param array string$workingDir
      * @return array
      */
-    public function getMappingList($workingDir)
+    public function getRootMappingPatterns()
     {
-        $mappingList = array();
-        $excludes = array();
-        $customizableLocationList = array();
+        $mappingList = $this->getCompleteMappingInfo();
 
-        $this->getExemptAndCustomizablePaths($workingDir, $excludes, $customizableLocationList);
-
-        $this->getCompleteMappingInfo($workingDir, $mappingList, $excludes, $customizableLocationList);
-
-        $modifiedMappingList = array();
-        $this->getConciseMappingInfo($modifiedMappingList, $mappingList);
+        $modifiedMappingList = $this->getConciseMappingInfo($mappingList);
 
         $mappings = array();
         foreach ($modifiedMappingList as $path) {
@@ -138,38 +137,25 @@ class Reader
     }
 
     /**
-     * Gets exempt and customizable paths
-     *
-     * @param array string$workingDir
-     * @param array $excludes
-     * @param array $customizableLocationList
-     * @return void
-     */
-    private function getExemptAndCustomizablePaths($workingDir, &$excludes, &$customizableLocationList)
-    {
-        $excludes = $this->patterns;
-        for ($i = 0; $i<count($excludes); $i++) {
-            $excludes[$i] = str_replace('\\', '/', $workingDir) . '/' . $excludes[$i];
-        }
-        $customizableLocationList = $this->customizablePaths;
-        for ($i = 0; $i<count($customizableLocationList); $i++) {
-            $customizableLocationList[$i] = str_replace('\\', '/',
-                    $workingDir) . '/' . $customizableLocationList[$i];
-        }
-    }
-
-    /**
      * Gets complete mapping info
      *
-     * @param array string$workingDir
-     * @param array $mappingList
-     * @param array $excludes
-     * @param array $customizableLocationList
-     * @return void
+     * @return array
      */
-    private function getCompleteMappingInfo($workingDir, &$mappingList, $excludes, $customizableLocationList)
+    private function getCompleteMappingInfo()
     {
-        $directory = new \RecursiveDirectoryIterator($workingDir, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $result = [];
+        $excludes = $this->patterns;
+        $counter = count($excludes);
+        for ($i = 0; $i < $counter; $i++) {
+            $excludes[$i] = str_replace('\\', '/', $this->rootDir) . '/' . $excludes[$i];
+        }
+        $customizableLocationList = $this->customizablePaths;
+        $counter = count($customizableLocationList);
+        for ($i = 0; $i < $counter; $i++) {
+            $customizableLocationList[$i] = str_replace('\\', '/',
+                    $this->rootDir) . '/' . $customizableLocationList[$i];
+        }
+        $directory = new \RecursiveDirectoryIterator($this->rootDir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $directory = new ExcludeFilter($directory, $excludes);
         $files = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
         foreach ($files as $file) {
@@ -178,38 +164,41 @@ class Reader
                 continue;
             }
             if (!$this->checkExistence($customizableLocationList, $excludes, $file)) {
-                array_push($mappingList, str_replace(str_replace('\\', '/', $workingDir) . '/', '', $file));
+                $result[] = str_replace(str_replace('\\', '/', $this->rootDir) . '/', '', $file);
             }
         }
 
-        asort($mappingList);
+        sort($result);
+        return $result;
     }
 
     /**
      * Gets final mapping info
      *
-     * @param array $modifiedMappingList
      * @param array $mappingList
-     * @return void
+     * @return array
      */
-    private function getConciseMappingInfo(&$modifiedMappingList, $mappingList)
+    private function getConciseMappingInfo($mappingList)
     {
+        $result = [];
         $index = 0;
-        for ($i=0; $i<count($mappingList); $i++) {
+        for ($i=0; $i < count($mappingList); $i++) {
             if ($i === 0) {
-                array_push($modifiedMappingList, $mappingList[$i]);
+                $result[] = $mappingList[$i];
                 continue;
             }
             if (strpos($mappingList[$i], $mappingList[$index]) !== false) {
                 if (mb_substr_count($mappingList[$i], '/') === mb_substr_count($mappingList[$index], '/')) {
-                    array_push($modifiedMappingList, $mappingList[$i]);
+                    $result[] = $mappingList[$i];
                     $index = $i;
                 }
             } else {
-                array_push($modifiedMappingList, $mappingList[$i]);
+                $result[] = $mappingList[$i];
                 $index = $i;
             }
         }
+
+        return $result;
     }
 
     /**
