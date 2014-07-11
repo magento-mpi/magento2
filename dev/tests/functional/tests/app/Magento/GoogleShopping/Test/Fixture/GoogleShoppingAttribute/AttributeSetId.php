@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GoogleShopping\Test\Fixture\GoogleShoppingAttributes;
+namespace Magento\GoogleShopping\Test\Fixture\GoogleShoppingAttribute;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
@@ -14,6 +14,7 @@ use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 
 /**
  * Class AttributeSetId
+ * Prepare Attribute Set
  *
  *  Data keys:
  *  - dataSet
@@ -21,6 +22,13 @@ use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
  */
 class AttributeSetId implements FixtureInterface
 {
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params = [];
+
     /**
      * Attribute Set name
      *
@@ -43,13 +51,29 @@ class AttributeSetId implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
+        if (isset($data['dataSet'])) {
+            /** @var CatalogAttributeSet $attributeSet */
             $attributeSet = $fixtureFactory->createByCode('catalogAttributeSet', ['dataSet' => $data['dataSet']]);
+            $this->prepareData($attributeSet);
         }
+
         if (isset($data['attribute_set']) && $data['attribute_set'] instanceof CatalogAttributeSet) {
-            $attributeSet = $data['attribute_set'];
+            $this->prepareData($data['attribute_set']);
         }
-        /** @var CatalogAttributeSet $attributeSet */
+    }
+
+    /**
+     * Prepare Catalog Attribute Set data
+     *
+     * @param CatalogAttributeSet $attributeSet
+     * @return void
+     */
+    protected function prepareData(CatalogAttributeSet $attributeSet)
+    {
+        if (!$attributeSet->hasData('attribute_set_id')) {
+            $attributeSet->persist();
+        }
+
         $this->data = $attributeSet->getAttributeSetName();
         $this->attributeSet = $attributeSet;
     }

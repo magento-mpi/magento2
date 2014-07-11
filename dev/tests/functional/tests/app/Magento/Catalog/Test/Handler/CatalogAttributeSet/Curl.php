@@ -72,7 +72,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
                 $assignedAttribute->getAttributeId(),
                 $dataAttribute['groups'][0][0],
                 ($lastAttribute[2] + ($key + 1)),
-                ($lastAttribute[3] + ($key + 1))
+                null,
             ];
         }
 
