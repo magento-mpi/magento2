@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
  * Class AssertProductComparePage
- * It will be nice to add description 'Assert that "Compare Product" page contains product(s) that was added'
+ * Assert that "Compare Product" page contains product(s) that was added
  */
 class AssertProductComparePage extends AbstractConstraint
 {

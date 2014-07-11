@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\TestCase;
+namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
@@ -88,7 +88,18 @@ class AddCompareProductsTest extends Injectable
      */
     protected $customer;
 
-
+    /**
+     * Prepare data
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @return void
+     */
+    public function __prepare(FixtureFactory $fixtureFactory)
+    {
+        $this->fixtureFactory = $fixtureFactory;
+        $this->customer = $this->fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
+        $this->customer->persist();
+    }
     /**
      * Injection data
      *
@@ -96,22 +107,18 @@ class AddCompareProductsTest extends Injectable
      * @param CatalogProductCompare $catalogProductCompare
      * @param CatalogProductView $catalogProductView
      * @param CustomerAccountLogin $customerAccountLogin
-     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
         CatalogProductCompare $catalogProductCompare,
         CatalogProductView $catalogProductView,
-        CustomerAccountLogin $customerAccountLogin,
-        FixtureFactory $fixtureFactory
+        CustomerAccountLogin $customerAccountLogin
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductCompare = $catalogProductCompare;
         $this->catalogProductView = $catalogProductView;
         $this->customerAccountLogin = $customerAccountLogin;
-        $this->fixtureFactory = $fixtureFactory;
-        $this->customer = $this->fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
     }
 
     /**

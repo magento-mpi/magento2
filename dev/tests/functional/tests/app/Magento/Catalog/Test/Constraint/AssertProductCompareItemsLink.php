@@ -55,6 +55,6 @@ class AssertProductCompareItemsLink extends AbstractConstraint
      */
     public function toString()
     {
-        return 'That link "Compare Products..." on top menu of page is correct.';
+        return '"Compare Products..." link on top menu of page is correct.';
     }
 }

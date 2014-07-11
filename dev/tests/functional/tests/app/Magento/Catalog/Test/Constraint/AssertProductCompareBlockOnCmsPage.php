@@ -26,7 +26,7 @@ class AssertProductCompareBlockOnCmsPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that Compare Products block is presented on CMS pages e.g. "About Us".
+     * Assert that Compare Products block is presented on CMS pages.
      * Block contains information about compared products
      *
      * @param array $products
@@ -40,9 +40,6 @@ class AssertProductCompareBlockOnCmsPage extends AbstractConstraint
         $newCmsPage = $fixtureFactory->createByCode('cmsPage', ['dataSet' => 'with_compare']);
         $newCmsPage->persist();
         $browser->open($_ENV['app_frontend_url'] . $newCmsPage->getIdentifier());
-        // TODO after fix bug return next steps
-        //$cmsIndex->open();
-        //$cmsIndex->getFooterBlock()->clickLink('About Us');
         foreach ($products as &$product) {
             $product = $product->getName();
         }

@@ -62,7 +62,7 @@ class CmsPage extends AbstractRepository
             'constraint' => 'cmsPageSaveSuccess'
         ];
 
-        $this->_data['with_compare'] = [
+        $this->_data['3_column_template'] = [
             'title' => 'compare-%isolation%',
             'identifier' => 'compare-%isolation%',
             'store_id' => 'All Store Views',
