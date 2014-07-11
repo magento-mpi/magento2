@@ -6,9 +6,8 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Model\Calculation;
+namespace Magento\Tax\Model;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
