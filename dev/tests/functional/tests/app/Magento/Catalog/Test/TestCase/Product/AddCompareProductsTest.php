@@ -92,13 +92,14 @@ class AddCompareProductsTest extends Injectable
      * Prepare data
      *
      * @param FixtureFactory $fixtureFactory
+     * @param CustomerInjectable $customer
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(FixtureFactory $fixtureFactory, CustomerInjectable $customer)
     {
         $this->fixtureFactory = $fixtureFactory;
-        $this->customer = $this->fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
-        $this->customer->persist();
+        $customer->persist();
+        $this->customer = $customer;
     }
     /**
      * Injection data
