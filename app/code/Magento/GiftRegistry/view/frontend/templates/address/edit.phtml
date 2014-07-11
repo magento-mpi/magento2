@@ -18,6 +18,7 @@
 
 <fieldset class="fieldset shipping_address">
     <legend class="legend"><span><?php echo __('Shipping Address'); ?></span></legend>
+    <br />
 
     <?php if ($this->customerHasAddresses()) : ?>
         <div class="field address">
@@ -43,16 +44,16 @@
             <label for="address:street1" class="label"><span><?php echo __('Address'); ?></span></label>
             <div class="control">
                 <input type="text" title="<?php echo __('Street Address') ?>" name="address[street][]" id="address:street1" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
-            </div>
-            <div class="nested">
-                <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
-                <?php for ($_i = 2, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
-                    <div class="field additional">
-                        <div class="control">
-                            <input type="text" title="<?php echo __('Street Address %1', $_i) ?>" name="address[street][]" id="address:street<?php echo $_i ?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>"/>
+                <div class="nested">
+                    <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+                    <?php for ($_i = 2, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+                        <div class="field additional no-label">
+                            <div class="control">
+                                <input type="text" title="<?php echo __('Street Address %1', $_i) ?>" name="address[street][]" id="address:street<?php echo $_i ?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>"/>
+                            </div>
                         </div>
-                    </div>
-                <?php endfor; ?>
+                    <?php endfor; ?>
+                </div>
             </div>
         </div>
 
