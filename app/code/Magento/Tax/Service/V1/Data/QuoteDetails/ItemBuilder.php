@@ -116,7 +116,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set associated item code
      *
-     * @param $code
+     * @param string $code
      * @return $this
      */
     public function setAssociatedItemCode($code)

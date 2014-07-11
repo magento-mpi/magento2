@@ -152,8 +152,9 @@ class Giftwrapping extends CommonTaxCollector
     /**
      * Collect wrapping tax total for quote
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  $this
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param int $gwTaxClassId
+     * @return $this
      */
     protected function _collectWrappingForQuote($address, $gwTaxClassId)
     {

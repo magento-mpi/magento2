@@ -128,7 +128,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Backend\Helper\Data::prepareFilterString
-     * @covers \Magento\Backend\Helper\Data::decodeFilter
      */
     public function testPrepareFilterString()
     {

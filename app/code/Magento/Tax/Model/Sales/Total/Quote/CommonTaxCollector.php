@@ -499,7 +499,7 @@ class CommonTaxCollector extends AbstractTotal
      * @param array $itemsByType
      * @return $this
      */
-    protected function processAppliedTaxes(Address $address, Array $itemsByType)
+    protected function processAppliedTaxes(Address $addressor, Array $itemsByType)
     {
         $address->setAppliedTaxes([]);
         $allAppliedTaxesArray = [];
@@ -563,109 +563,6 @@ class CommonTaxCollector extends AbstractTotal
         }
 
         $address->setItemsAppliedTaxes($allAppliedTaxesArray);
-
-        return $this;
-    }
-
-    /**
-     * Update item tax and prices from item tax details object from tax calculation service
-     *
-     * @param Address $address
-     * @param TaxDetails $taxDetails
-     * @param TaxDetails $baseTaxDetails
-     * @return $this
-     */
-    protected function updateTaxInfoOrig(Address $address, TaxDetails $taxDetails, TaxDetails $baseTaxDetails)
-    {
-        /** @var \Magento\Tax\Service\V1\Data\TaxDetails\Item[] $keyedItems */
-        $keyedItems = [];
-        foreach ($taxDetails->getItems() as $item) {
-            $keyedItems[$item->getCode()] = $item;
-        }
-        /** @var \Magento\Tax\Service\V1\Data\TaxDetails\Item[] $baseKeyedItems */
-        $baseKeyedItems = [];
-        foreach ($baseTaxDetails->getItems() as $item) {
-            $baseKeyedItems[$item->getCode()] = $item;
-        }
-
-        $appliedTaxesByItem = [];
-
-        /** @var AbstractItem[] $keyedAddressItems */
-        $keyedAddressItems = [];
-        foreach ($this->_getAddressItems($address) as $addressItem) {
-            $keyedAddressItems[$addressItem->getSequence()] = $addressItem;
-        }
-
-        $subtotal = $baseSubtotal = 0;
-        $hiddenTax = $baseHiddenTax = 0;
-        $tax = $baseTax = 0;
-        $subtotalInclTax = $baseSubtotalInclTax = 0;
-
-        foreach ($keyedItems as $code => $itemTaxDetails) {
-            $baseItemTaxDetails = $baseKeyedItems[$code];
-            $type = $itemTaxDetails->getType();
-            if ($type == self::ITEM_TYPE_PRODUCT) {
-                $quoteItem = $keyedAddressItems[$code];
-                $this->updateItemTaxInfo($quoteItem, $itemTaxDetails, $baseItemTaxDetails);
-
-                if ($quoteItem->getHasChildren() && $quoteItem->isChildrenCalculated()) {
-                    //avoid double counting
-                    continue;
-                }
-                $subtotal += $itemTaxDetails->getRowTotal();
-                $baseSubtotal += $baseItemTaxDetails->getRowTotal();
-                $hiddenTax += $itemTaxDetails->getDiscountTaxCompensationAmount();
-                $baseHiddenTax += $baseItemTaxDetails->getDiscountTaxCompensationAmount();
-                $tax += $itemTaxDetails->getRowTax();
-                $baseTax += $baseItemTaxDetails->getRowTax();
-                $subtotalInclTax += $itemTaxDetails->getRowTotalInclTax();
-                $baseSubtotalInclTax += $baseItemTaxDetails->getRowTotalInclTax();
-
-                if ($this->saveAppliedTaxes()) {
-                    $appliedTaxes = $itemTaxDetails->getAppliedTaxes();
-                    $baseAppliedTaxes = $baseItemTaxDetails->getAppliedTaxes();
-                    $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
-
-                    foreach ($appliedTaxesArray as $appliedTaxArray) {
-                        $this->_saveAppliedTaxes(
-                            $address,
-                            [$appliedTaxArray],
-                            $appliedTaxArray['amount'],
-                            $appliedTaxArray['base_amount'],
-                            $appliedTaxArray['percent']
-                        );
-                    }
-
-                    $appliedTaxesByItem[$quoteItem->getId()] = $appliedTaxesArray;
-                    //Set applied tax for item
-                    $quoteItem->setAppliedTaxes($appliedTaxesArray);
-                }
-            }
-            $address->getQuote()->setTaxesForItems($appliedTaxesByItem);
-        }
-
-        // Set item subtotals
-        $address->setTotalAmount('subtotal', $subtotal);
-        $address->setBaseTotalAmount('subtotal', $baseSubtotal);
-
-        $address->setSubtotalInclTax($subtotalInclTax);
-        $address->setBaseSubtotalInclTax($baseSubtotalInclTax);
-        $address->setTotalAmount('hidden_tax', $hiddenTax);
-        $address->setBaseTotalAmount('hidden_tax', $baseHiddenTax);
-
-        //Set shipping tax
-        if (isset($keyedItems[self::ITEM_CODE_SHIPPING]) && isset($baseKeyedItems[self::ITEM_CODE_SHIPPING])) {
-            $shippingItem = $keyedItems[self::ITEM_CODE_SHIPPING];
-            $baseShippingItem = $baseKeyedItems[self::ITEM_CODE_SHIPPING];
-
-            $this->processShippingTaxInfo($address, $shippingItem, $baseShippingItem);
-
-            $tax += $shippingItem->getRowTax();
-            $baseTax += $baseShippingItem->getRowTax();
-        }
-
-        $address->setTotalAmount('tax', $tax);
-        $address->setBaseTotalAmount('tax', $baseTax);
 
         return $this;
     }

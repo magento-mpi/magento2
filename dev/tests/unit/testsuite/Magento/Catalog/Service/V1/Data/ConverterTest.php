@@ -46,8 +46,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $attributes = [
             ProductDataObject::SKU => ProductDataObject::SKU . 'value',
             ProductDataObject::PRICE => ProductDataObject::PRICE . 'value',
-            ProductDataObject::STATUS => ProductDataObject::STATUS . 'dataValue',
-            ProductDataObject::ID => 'entity_id' . 'value'
+            ProductDataObject::STATUS => ProductDataObject::STATUS . 'dataValue'
         ];
         $this->productBuilder->expects($this->once())
             ->method('populateWithArray')
@@ -88,7 +87,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->converter = new Converter($this->productBuilder);
         $productData = $this->converter->createProductDataFromModel($productModelMock);
         $this->assertEquals(ProductDataObject::SKU . 'value', $productData->getSku());
-        $this->assertEquals('entity_id' . 'value', $productData->getId());
         $this->assertEquals(ProductDataObject::PRICE . 'value', $productData->getPrice());
         $this->assertEquals(ProductDataObject::STATUS . 'dataValue', $productData->getStatus());
         $this->assertEquals(null, $productData->getUpdatedAt());

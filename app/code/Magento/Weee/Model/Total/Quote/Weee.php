@@ -201,27 +201,6 @@ class Weee extends CommonTaxCollector
     }
 
     /**
-     * Add extra amount which should be taxable by regular tax
-     *
-     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @param   float $value
-     * @param   float $baseValue
-     * @param   float $rowValue
-     * @param   float $baseRowValue
-     * @return  $this
-     */
-    protected function processTaxSettings($item, $value, $baseValue, $rowValue, $baseRowValue)
-    {
-        if ($this->weeeData->isTaxable($this->_store) && $rowValue) {
-            $item->setExtraTaxableAmount($value)
-                ->setBaseExtraTaxableAmount($baseValue)
-                ->setExtraRowTaxableAmount($rowValue)
-                ->setBaseExtraRowTaxableAmount($baseRowValue);
-        }
-        return $this;
-    }
-
-    /**
      * Process row amount based on FPT total amount configuration setting
      *
      * @param   \Magento\Sales\Model\Quote\Address $address

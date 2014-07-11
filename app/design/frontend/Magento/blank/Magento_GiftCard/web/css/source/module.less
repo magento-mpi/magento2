@@ -7,12 +7,12 @@
 //  */
 
 .cart {
-    &.summary {
+    &-summary {
         .block {
             &.giftcard {
                 .action.check {
                     .button-s();
-                    .button-as-link();
+                    &:extend(.abstract-action-button-as-link all);
                     margin-top: @indent-base;
                 }
             }

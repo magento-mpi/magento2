@@ -70,6 +70,8 @@ app/design/frontend/Magento/blank/Magento_GiftRegistry
 app/design/frontend/Magento/blank/Magento_GroupedProduct
 app/design/frontend/Magento/blank/Magento_MultipleWishlist
 app/design/frontend/Magento/blank/Magento_VersionsCms
+app/design/frontend/Magento/blank/Magento_GiftWrapping
+app/design/frontend/Magento/luma
 app/design/install/Magento/enterprise
 
 app/etc/enterprise
@@ -97,8 +99,6 @@ downloader/app/Magento/Downloader/Model/Config/Enterprise.php
 downloader/skin/install/images/enterprise.gif
 downloader/template/enterprise
 
-dev/tools/xml/logging.xslt
-dev/tools/xml/transform_logging.php
 lib/internal/Apache
 pub/errors/enterprise
 dev/tools/performance_toolkit

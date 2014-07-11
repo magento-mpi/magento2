@@ -1,0 +1,255 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+//
+//    Minicart
+//--------------------------------------
+
+.block.minicart {
+    .items-total {
+        float: left;
+        margin: 0 10px;
+    }
+    .subtotal {
+        margin: 0 10px;
+        text-align: right;
+        .amount {
+            .incl.tax {
+                display: block;
+            }
+            .price {
+                font-size: @font-size-l;
+                font-weight: @font-weight-bold;
+            }
+        }
+    }
+    .subtitle {
+        display: none;
+    }
+    .subtitle.empty {
+        display: block;
+        padding: 30px 0 20px;
+        text-align: center;
+        font-size: 14px;
+    }
+    > .content > .actions {
+        margin-top: 15px;
+        > .secondary {
+            margin: 15px 0;
+            text-align: center;
+        }
+        > .primary {
+            margin: 0 10px;
+            .action.primary {
+                &:extend(.abstract-button-l all);
+                display: block;
+                width: 100%;
+            }
+        }
+        .paypal-logo {
+            margin-top: 15px;
+            text-align: center;
+        }
+    }
+}
+
+.minicart-wrapper {
+    .dropdown(
+        @_toggle-selector: ~".action.showcart",
+        @_options-selector: ~".block.minicart",
+        @_dropdown-toggle-icon-content: @icon-cart,
+        @_dropdown-toggle-active-icon-content: @icon-cart,
+        @_dropdown-list-item-padding: false,
+        @_dropdown-list-item-hover: false,
+        @_icon-font-position: before,
+        @_icon-font-size: 22px,
+        @_icon-font-line-height: 28px,
+        @_icon-font-color: @minicart-icons-color,
+        @_icon-font-color-hover: @color-primary,
+        @_icon-font-color-active: @minicart-icons-color
+    );
+    float: right;
+    .block.minicart {
+        padding: 29px 25px 25px;
+        right: 0;
+        width: 320px;
+        > .title {
+            display: none;
+        }
+        &:after {
+            left: auto;
+            right: 25px;
+        }
+        &:before {
+            left: auto;
+            right: 26px;
+        }
+    }
+    .product.actions {
+        float: right;
+        margin: -24px 0 0;
+        > .primary,
+        > .secondary {
+            display: inline;
+        }
+    }
+    .pricing.details {
+        display: table;
+        .rate,
+        .details.qty {
+            display: table-row;
+        }
+        .value,
+        .label {
+            padding: 2px 10px 2px 0;
+            display: table-cell;
+        }
+        .label:after {
+            content: ":";
+        }
+    }
+    .action {
+        &.edit,
+        &.delete {
+            .icon-font(
+                @icon-edit,
+                @_icon-font-size: 18px,
+                @_icon-font-line-height: 20px,
+                @_icon-font-text-hide: true,
+                @_icon-font-color: @minicart-icons-color,
+                @_icon-font-color-hover: @color-primary,
+                @_icon-font-color-active: @minicart-icons-color
+            );
+        }
+        &.delete {
+            .icon-font-symbol(
+                @_icon-font-content: @icon-trash
+            );
+        }
+    }
+    .action.close {
+        position: absolute;
+        right: 14px;
+        top: 6px;
+        .icon-font(
+            @icon-remove,
+            @_icon-font-size: 16px,
+            @_icon-font-line-height: 16px,
+            @_icon-font-color: @text-color-muted,
+            @_icon-font-text-hide: true
+        );
+        .button-reset();
+    }
+    .action.showcart {
+        .text {
+            &:extend(.visually-hidden all);
+        }
+        white-space: nowrap;
+        .counter.qty {
+            &.empty {
+               display: none;
+            }
+            background: @color-active;
+            border-radius: 2px;
+            color: @page-bg-color;
+            clip: none;
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+            max-width: 2em;
+            min-width: 20px;
+            margin: 0 0 0 7px;
+            padding: 0 3px;
+            overflow: hidden;
+            text-align: center;
+            white-space: normal;
+        }
+    }
+    .ui-dialog {
+        .action.close {
+            right: 11px;
+            top: 53px;
+            z-index: 100;
+        }
+    }
+}
+
+.minilist {
+    .list-reset-styles(0, 0);
+    .item {
+        border-top: 1px solid @color-secondary;
+        padding: 20px 0;
+        z-index: 1;
+    }
+    .item > .product {
+        &:extend(.add-clearfix all);
+    }
+    .product {
+        &.photo {
+            float: left;
+        }
+        &.name {
+            display: block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: @font-weight-base;
+            a {
+                color: @link-color;
+            }
+        }
+        &.details {
+            padding-left: 88px;
+            .price {
+                font-weight: @font-weight-bold;
+            }
+        }
+        &.pricing {
+            margin-top: 3px;
+        }
+        &.options {
+            .tooltip.toggle {
+                .icon-font(
+                    @icon-down,
+                    @_icon-font-size: 12px,
+                    @_icon-font-line-height: 12px,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-margin: -3px 0 0 7px,
+                    @_icon-font-position: after
+                );
+            }
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+
+.responsive(@break) when (@break = @break-point-1) {
+    .minicart-wrapper {
+        margin-left: 13px;
+        .block.minicart {
+            right: -15px;
+            width: 390px;
+        }
+        .ui-dialog {
+            position: relative;
+            .action.close {
+                right: 0;
+                top: 18px;
+            }
+        }
+    }
+    .minilist .action.delete,
+    .minicart-wrapper .action.edit {
+        .icon-font-size(
+            @_icon-font-size: 16px
+        );
+    }
+}
