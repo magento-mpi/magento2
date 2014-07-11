@@ -1,2 +1,2 @@
 "integration/dataSet";"constraint"
-"default_with_all_resources";"assertResourcesPopup, assertTokensPopup, assertIntegrationSuccessActivationMessage"
+"default_with_all_resources";"assertIntegrationResourcesPopup, assertIntegrationTokensPopup, assertIntegrationSuccessActivationMessage"

@@ -9,7 +9,6 @@
 namespace Magento\Integration\Test\Block\Adminhtml\Integration\IntegrationGrid;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class TokensPopup
@@ -22,7 +21,7 @@ class TokensPopup extends Form
      *
      * @var string
      */
-    protected $doneButtonSelector = './/button/span[@class="ui-button-text"][text()="Done"]';
+    protected $doneButtonSelector = '.primary[role="button"]';
 
     /**
      * Click Done button on Integration tokens popup window
@@ -31,6 +30,6 @@ class TokensPopup extends Form
      */
     public function clickDoneButton()
     {
-        $this->_rootElement->find($this->doneButtonSelector, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->doneButtonSelector)->click();
     }
 }

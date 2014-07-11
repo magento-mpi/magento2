@@ -13,10 +13,10 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
 use Magento\Integration\Test\Fixture\Integration;
 
 /**
- * Class AssertResourcesPopup
+ * Class AssertIntegrationResourcesPopup
  * Assert that pop-up with resources are shown after starting activation
  */
-class AssertResourcesPopup extends AbstractConstraint
+class AssertIntegrationResourcesPopup extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -56,17 +56,17 @@ class AssertResourcesPopup extends AbstractConstraint
      */
     protected function verifyResources(array $formResources, array $fixtureResources)
     {
-        $errorMessage = null;
-        $issetResources = [];
+        $errorMessage = '';
+        $topFormResources = [];
 
         foreach ($fixtureResources as $fixtureResource) {
             foreach ($formResources as $formResource) {
                 if (preg_match('|^' . preg_quote($fixtureResource) . '|', $formResource)) {
-                    $issetResources[] = $formResource;
+                    $topFormResources[] = $formResource;
                 }
             }
         }
-        $diff = array_diff($formResources, $issetResources);
+        $diff = array_diff($formResources, $topFormResources);
         if (!empty($diff)) {
             $errorMessage = sprintf(
                 "Resources are not equal.\nExpected: %s\nActual: %s",

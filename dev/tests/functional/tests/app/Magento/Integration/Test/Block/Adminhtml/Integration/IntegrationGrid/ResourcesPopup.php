@@ -9,7 +9,6 @@
 namespace Magento\Integration\Test\Block\Adminhtml\Integration\IntegrationGrid;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class ResourcesPopup
@@ -22,7 +21,7 @@ class ResourcesPopup extends Form
      *
      * @var string
      */
-    protected $allowButtonSelector = './/button/span[@class="ui-button-text"][text()="Allow"]';
+    protected $allowButtonSelector = '[data-row-dialog="tokens"][role="button"]';
 
     /**
      * Click allow button in integration resources popup window
@@ -31,6 +30,6 @@ class ResourcesPopup extends Form
      */
     public function clickAllowButton()
     {
-        $this->_rootElement->find($this->allowButtonSelector, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->allowButtonSelector)->click();
     }
 }

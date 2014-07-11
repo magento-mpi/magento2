@@ -26,7 +26,7 @@ use Mtf\TestCase\Injectable;
  * 4. Perform all assertions.
  *
  * @group Web_API_Framework_(PS)
- * @ZephyrId MTA-161
+ * @ZephyrId MAGETWO-26119
  */
 class ActivateIntegrationEntityTest extends Injectable
 {
