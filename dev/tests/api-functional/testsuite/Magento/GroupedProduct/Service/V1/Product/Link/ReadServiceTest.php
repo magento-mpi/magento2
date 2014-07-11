@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Service\V1;
+namespace Magento\GroupedProduct\Service\V1\Product\Link;
 
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\GroupedProduct\Model\Resource\Product\Link;

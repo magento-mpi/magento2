@@ -42,6 +42,8 @@ Magento/Catalog/Block/Product
 Magento/Catalog/Model/Resource/Product
 Magento/Catalog/Model/Layer
 Magento/Catalog/Service/V1/Data
+Magento/CatalogImportExport/Model/Export
+Magento/CatalogImportExport/Model/Import
 Magento/CatalogRule/Block/Adminhtml/Promo/Catalog/Edit/Tab
 Magento/Checkout/Block/Onepage
 Magento/Cms/Block/Adminhtml/Page/Edit

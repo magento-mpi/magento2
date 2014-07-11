@@ -371,7 +371,14 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      */
     protected function _getRequestCacheKey($request)
     {
-        $key = $request->getStore() ? $request->getStore()->getId() . '|' : '';
+        $store = $request->getStore();
+        $key = '';
+        if ($store instanceof \Magento\Store\Model\Store) {
+            $key = $store->getId() . '|';
+        } elseif (is_numeric($store)) {
+            $key = $store . '|';
+        }
+
         $key .= $request->getProductClassId() . '|'
             . $request->getCustomerClassId() . '|'
             . $request->getCountryId() . '|'
@@ -467,8 +474,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      *  customer_class_id (->getCustomerClassId())
      *  store (->getStore())
      *
-     * @param   null|bool|\Magento\Framework\Object $shippingAddress
-     * @param   null|bool||\Magento\Framework\Object $billingAddress
+     * @param   null|bool|\Magento\Framework\Object|\Magento\Customer\Service\V1\Data\Address $shippingAddress
+     * @param   null|bool|\Magento\Framework\Object|\Magento\Customer\Service\V1\Data\Address $billingAddress
      * @param   null|int $customerTaxClass
      * @param   null|int|\Magento\Store\Model\Store $store
      * @return  \Magento\Framework\Object
@@ -561,7 +568,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
 
         if (is_null($customerTaxClass) && $customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
-        } elseif ($customerTaxClass === false || !$customerData->getId()) {
+        } elseif ($customerTaxClass === false && !$customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup(GroupServiceInterface::NOT_LOGGED_IN_ID)->getTaxClassId();
         }
 

@@ -43,6 +43,11 @@ class Matrix extends \Magento\Backend\Block\Template
     protected $_localeCurrency;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItemServiceInterface
+     */
+    protected $stockItemService;
+
+    /**
      * @var \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix
      */
     protected $variationMatrix;
@@ -54,6 +59,7 @@ class Matrix extends \Magento\Backend\Block\Template
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\CatalogInventory\Service\V1\StockItemServiceInterface $stockItemService
      * @param array $data
      */
     public function __construct(
@@ -63,6 +69,7 @@ class Matrix extends \Magento\Backend\Block\Template
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        \Magento\CatalogInventory\Service\V1\StockItemServiceInterface $stockItemService,
         \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix,
         array $data = array()
     ) {
@@ -72,6 +79,8 @@ class Matrix extends \Magento\Backend\Block\Template
         $this->_config = $config;
         $this->_coreRegistry = $coreRegistry;
         $this->_localeCurrency = $localeCurrency;
+        $this->stockItemService = $stockItemService;
+        parent::__construct($context, $data);
         $this->variationMatrix = $variationMatrix;
     }
 
@@ -227,5 +236,14 @@ class Matrix extends \Magento\Backend\Block\Template
     public function getImageUploadUrl()
     {
         return $this->getUrl('catalog/product_gallery/upload');
+    }
+
+    /**
+     * @param int $productId
+     * @return float
+     */
+    public function getProductStockQty($productId)
+    {
+        return $this->stockItemService->getStockItem($productId)->getQty();
     }
 }
