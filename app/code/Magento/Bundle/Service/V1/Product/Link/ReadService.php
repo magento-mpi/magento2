@@ -7,6 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Link;
 
+use Magento\Bundle\Model\Option;
 use Magento\Bundle\Service\V1\Data\Product\Link\MetadataConverter;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
@@ -54,7 +55,6 @@ class ReadService implements ReadServiceInterface
 
         $childrenList = [];
         foreach ($this->getOptions($product) as $option) {
-            /** @var \Magento\Bundle\Model\Option $option */
             foreach ($option->getSelections() as $selection) {
                 $childrenList[] = $this->metadataConverter->createDataFromModel($selection);
             }
@@ -63,6 +63,10 @@ class ReadService implements ReadServiceInterface
         return $childrenList;
     }
 
+    /**
+     * @param Product $product
+     * @return Option[]
+     */
     protected function getOptions(Product $product)
     {
         $product->getTypeInstance()->setStoreFilter(
