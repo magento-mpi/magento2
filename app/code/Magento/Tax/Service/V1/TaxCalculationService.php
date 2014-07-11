@@ -159,7 +159,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         }
         $this->computeRelationships($items);
 
-        $addressRequest = $this->getAddressTaxRequest($quoteDetails, $storeId);
+        $addressRequest = $this->getAddressTaxRequest($quoteDetails, $storeId, $quoteDetails->getCustomerId());
         if ($this->config->priceIncludesTax($storeId)) {
             $storeRequest = $this->getStoreTaxRequest($storeId);
             $classIds = [];
@@ -246,17 +246,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $storeId = null,
         $isDefault = false
     ) {
-        $customerData = null;
-        if ($customerId) {
-            $customerData = $this->customerAccountService->getCustomer($customerId);
-        }
         if (is_null($storeId)) {
             $storeId = $this->storeManager->getStore()->getStoreId();
         }
         if (!$isDefault) {
-            $addressRequestObject = $this->calculator->getRateRequest(null, null, null, $storeId, $customerData);
+            $addressRequestObject = $this->calculator->getRateRequest(null, null, null, $storeId, $customerId);
         } else {
-            $addressRequestObject = $this->calculator->getDefaultRateRequest($storeId, $customerData);
+            $addressRequestObject = $this->calculator->getDefaultRateRequest($storeId, $customerId);
         }
         $addressRequestObject->setProductClassId($productTaxClassID);
         return $this->calculator->getRate($addressRequestObject);
@@ -286,15 +282,17 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      *
      * @param QuoteDetails $quoteDetails
      * @param int $storeId
+     * @param int $customerId
      * @return \Magento\Framework\Object
      */
-    protected function getAddressTaxRequest(QuoteDetails $quoteDetails, $storeId)
+    protected function getAddressTaxRequest(QuoteDetails $quoteDetails, $storeId, $customerId)
     {
         return $this->calculator->getRateRequest(
             $quoteDetails->getShippingAddress(),
             $quoteDetails->getBillingAddress(),
             $quoteDetails->getCustomerTaxClassId(),
-            $storeId
+            $storeId,
+            $customerId
         );
     }
 
