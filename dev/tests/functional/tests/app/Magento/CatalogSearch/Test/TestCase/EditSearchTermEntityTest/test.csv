@@ -1,0 +1,2 @@
+"catalogSearch/data/query_text/value";"termSearch/store_id";"termSearch/num_results";"termSearch/popularity";"termSearch/synonym_for";"termSearch/redirect";"termSearch/display_in_terms";"constraint"
+"catalogProductSimple::getSku";"Default Store View";1;20;"simple";"http://example.com/";"No";"assertTermSearchForm, assertTermSearchInGrid, assertTermSearchOnFrontend"

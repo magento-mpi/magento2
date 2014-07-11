@@ -27,6 +27,21 @@
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <catalogSearch class="Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery" />
+            <editPage class="Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchEdit" />
         </require>
     </assertCatalogSearchResult>
+    <assertTermSearchForm module="Magento_CatalogSearch">
+        <severeness>high</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogSearch class="Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery" />
+            <editPage class="Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchEdit" />
+        </require>
+    </assertTermSearchForm>
+    <assertTermSearchInGrid module="Magento_CatalogSearch">
+        <severeness>high</severeness>
+    </assertTermSearchInGrid>
+    <assertTermSearchOnFrontend module="Magento_CatalogSearch">
+        <severeness>high</severeness>
+    </assertTermSearchOnFrontend>
 </constraint>
