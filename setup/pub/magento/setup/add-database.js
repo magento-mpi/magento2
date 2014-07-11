@@ -1,6 +1,6 @@
 'use strict';
 var addDatabase = angular.module('add-database', ['ngStorage']);
-addDatabase.controller('addDatabaseController', ['$scope', '$state', '$localStorage', function ($scope, $state, $localStorage, $http) {
+addDatabase.controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', function ($scope, $state, $localStorage, $http) {
     $scope.db = {
         useExistingDb: 1,
         useAccess: 1
