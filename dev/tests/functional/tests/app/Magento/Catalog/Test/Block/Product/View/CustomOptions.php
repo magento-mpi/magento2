@@ -81,14 +81,14 @@ class CustomOptions extends Block
      *
      * @var string
      */
-    protected $optionByValueLocator = '//*[@class="product options wrapper"]//option[contains(text(),"%s")]/..';
+    protected $optionByValueLocator = '//*[@class="product-options-wrapper"]//option[text()="%s"]/..';
 
     /**
      * Select XPath locator by title
      *
      * @var string
      */
-    protected $selectByTitleLocator = '//*[*[@class="product options wrapper"]//span[text()="%s"]]//select';
+    protected $selectByTitleLocator = '//*[*[@class="product-options-wrapper"]//span[text()="%s"]]//select';
 
     /**
      * Bundle field CSS locator
@@ -129,8 +129,7 @@ class CustomOptions extends Block
                     $option['value'][] = $value;
                     $option['price'][] = $matches[1];
                 }
-            } elseif (
-                ($prices = $fieldElement->find($this->selectLocator, Locator::SELECTOR_XPATH))
+            } elseif (($prices = $fieldElement->find($this->selectLocator, Locator::SELECTOR_XPATH))
                 && $prices->isVisible()
             ) {
                 $priceIndex = 0;

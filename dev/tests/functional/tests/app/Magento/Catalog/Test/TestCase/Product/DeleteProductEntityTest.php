@@ -10,6 +10,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
@@ -41,6 +42,20 @@ class DeleteProductEntityTest extends Injectable
     protected $catalogProductIndex;
 
     /**
+     * Prepare data
+     *
+     * @param CatalogCategory $category
+     * @return array
+     */
+    public function __prepare(CatalogCategory $category)
+    {
+        $category->persist();
+        return [
+            'category' => $category
+        ];
+    }
+
+    /**
      * Injection data
      *
      * @param CatalogProductIndex $catalogProductIndexPage
@@ -56,21 +71,33 @@ class DeleteProductEntityTest extends Injectable
      *
      * @param string $products
      * @param FixtureFactory $fixtureFactory
+     * @param CatalogCategory $category
      * @return array
      */
-    public function test($products, FixtureFactory $fixtureFactory)
+    public function test($products, FixtureFactory $fixtureFactory, CatalogCategory $category)
     {
         //Steps
         $products = explode(',', $products);
         $deleteProducts = [];
         foreach ($products as &$product) {
             list($fixture, $dataSet) = explode('::', $product);
-            $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            $product = $fixtureFactory->createByCode(
+                $fixture,
+                [
+                    'dataSet' => $dataSet,
+                    'data' => [
+                        'category_ids' => [
+                            'category' => $category
+                        ]
+                    ]
+                ]
+            );
             $product->persist();
             $deleteProducts[] = ['sku' => $product->getSku()];
         }
         $this->catalogProductIndex->open();
         $this->catalogProductIndex->getProductGrid()->delete($deleteProducts);
+
         return ['product' => $products];
     }
 }

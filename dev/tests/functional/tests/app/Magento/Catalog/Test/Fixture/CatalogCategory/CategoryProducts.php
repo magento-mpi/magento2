@@ -75,8 +75,10 @@ class CategoryProducts implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param string|null $key
+     * @param string|null $key [optional]
      * @return array|null
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

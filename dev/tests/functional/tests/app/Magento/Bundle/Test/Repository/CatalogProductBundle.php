@@ -21,7 +21,7 @@ class CatalogProductBundle extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
-     * 
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
@@ -70,7 +70,6 @@ class CatalogProductBundle extends AbstractRepository
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
-            'category_ids' => ['presets' => 'default'],
             'weight_type' => 'Dynamic',
             'shipment_type' => 'Separately',
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
@@ -98,7 +97,6 @@ class CatalogProductBundle extends AbstractRepository
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
-            'category_ids' => ['presets' => 'default'],
             'weight' => 1.0000,
             'weight_type' => 'Fixed',
             'status' => 'Product online',

@@ -21,7 +21,7 @@ class CatalogProductSimple extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
-     * 
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
@@ -31,7 +31,6 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => ['dataSet' => 'default'],
             'name' => 'Simple Product %isolation%',
             'sku' => 'sku_simple_product_%isolation%',
-            'category_ids' => ['presets' => 'default'],
             'weight' => 1,
             'quantity_and_stock_status' => [
                 'qty' => 25.0000,
@@ -140,20 +139,12 @@ class CatalogProductSimple extends AbstractRepository
             'tax_class_id' => ['dataSet' => 'None'],
             'quantity_and_stock_status' => [
                 'qty' => 666.0000,
-                'is_in_stock' => 'Yes',
+                'is_in_stock' => 'In Stock',
             ],
             'weight' => 1.0000,
             'description' => '<p>dfj_full</p>',
             'status' => 'Product online',
-            'website_ids' => [
-                0 => 'Main Website',
-            ],
-            'stock_data' => [
-                'manage_stock' => 'Yes',
-                'original_inventory_qty' => 666.0000,
-                'qty' => 666.0000,
-                'is_in_stock' => 'In Stock',
-            ],
+            'website_ids' => ['Main Website'],
             'visibility' => 'Catalog, Search',
         ];
 
@@ -170,15 +161,7 @@ class CatalogProductSimple extends AbstractRepository
             'description' => '<p>adc_Full</p>',
             'status' => 'Product online',
             'short_description' => '<p>abc_short</p>',
-            'website_ids' => [
-                0 => 'Main Website',
-            ],
-            'stock_data' => [
-                'manage_stock' => 'Yes',
-                'original_inventory_qty' => 666.0000,
-                'qty' => 666.0000,
-                'is_in_stock' => 'Yes',
-            ],
+            'website_ids' => ['Main Website'],
             'visibility' => 'Catalog, Search',
         ];
 

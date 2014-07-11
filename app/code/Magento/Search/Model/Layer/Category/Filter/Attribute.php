@@ -25,6 +25,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Framework\Stdlib\String $string
+     * @param \Magento\Framework\Filter\StripTags $tagFilter
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param array $data
      */
@@ -34,6 +35,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\String $string,
+        \Magento\Framework\Filter\StripTags $tagFilter,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         array $data = array()
     ) {
@@ -44,6 +46,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             $layer,
             $filterAttributeFactory,
             $string,
+            $tagFilter,
             $data
         );
     }
@@ -74,7 +77,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
                 !empty($optionsFacetedData[$optionId])
             ) {
                 $data[] = array(
-                    'label' => $option['label'],
+                    'label' => $this->tagFilter->filter($option['label']),
                     'value' => $option['label'],
                     'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0
                 );

@@ -21,7 +21,7 @@ class CatalogProductConfigurable extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
-     * 
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
@@ -30,7 +30,6 @@ class CatalogProductConfigurable extends AbstractRepository
             'name' => 'Test configurable product %isolation%',
             'sku' => 'sku_test_configurable_product_%isolation%',
             'price' => ['value' => 120.00],
-            'category_ids' => ['presets' => 'default'],
             'weight' => 30.0000,
             'status' => 'Product online',
             'visibility' => 'Catalog, Search',
