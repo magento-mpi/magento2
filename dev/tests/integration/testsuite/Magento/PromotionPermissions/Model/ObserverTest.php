@@ -24,7 +24,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestSkipped();
         $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Framework\Module\ModuleList');
