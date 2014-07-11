@@ -30,11 +30,11 @@ class AssertProductComparePage extends AbstractConstraint
      * @var array
      */
     protected $attributeProduct = [
-        'name' => 'Name',
-        'price' => 'Price',
-        'sku' => ['Sku' => 'SKU'],
-        'description' => ['Description' => 'Description'],
-        'short_description' => ['ShortDescription' => 'Short Description']
+        'name',
+        'price',
+        'sku' => 'SKU',
+        'description' => 'Description',
+        'short_description' => 'Short Description'
     ];
 
     /**
@@ -59,26 +59,23 @@ class AssertProductComparePage extends AbstractConstraint
         $cmsIndex->getLinksBlock()->openLink("Compare Products");
         foreach ($products as $key => $product) {
             foreach ($this->attributeProduct as $attributeKey => $attribute) {
-                $value = '';
-                if (is_array($attribute)) {
-                    $value = $attribute[key($attribute)];
-                    $attribute = key($attribute);
-                }
+                $value = $attribute;
+                $attribute = is_numeric($attributeKey) ? $attribute : $attributeKey;
 
-                $attributeValue = $attributeKey != 'price'
-                    ? ($product->hasData($attributeKey)
-                        ? $product->{'get' . $attribute}()
+                $attributeValue = $attribute != 'price'
+                    ? ($product->hasData($attribute)
+                        ? $product->getData($attribute)
                         : 'N/A')
                     : ($product->getDataFieldConfig('price')['source']->getPreset() !== null
-                        ? number_format($product->getDataFieldConfig('price')['source']->getPreset(), 2)
+                        ? $product->getDataFieldConfig('price')['source']->getPreset()['compare_price']
                         : number_format($product->getPrice(), 2));
 
-                $attribute = $value != '' ? 'Attribute' : $attribute;
+                $attribute = is_numeric($attributeKey) ? $attribute : 'attribute';
                 \PHPUnit_Framework_Assert::assertEquals(
                     $attributeValue,
-                    $comparePage->getCompareProductsBlock()->{'getProduct' . $attribute}($key + 1, $value),
-                    'This product "' . $product->getName() . '" with ' . $attribute . ' "' . $attributeValue
-                    . '" is not in compare product page.'
+                    $comparePage->getCompareProductsBlock()->{'getProduct' . ucfirst($attribute)}($key + 1, $value),
+                    'Product "' . $product->getName() . '" with ' . $attribute . ' "' . $attributeValue
+                    . '" is absent on compare product page.'
                 );
             }
         }

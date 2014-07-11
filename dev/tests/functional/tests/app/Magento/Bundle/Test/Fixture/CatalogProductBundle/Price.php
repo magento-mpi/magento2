@@ -113,8 +113,12 @@ class Price implements FixtureInterface
                 'price_to' => '$80.00',
                 'cart_price' => '80.00'
             ],
-            'fixed_compare' => 755,
-            'dynamic_compare' => 560,
+            'default_fixed' => [
+                'compare_price' => '755.00'
+            ],
+            'default_dynamic' => [
+                'compare_price' => '560.00'
+            ],
         ];
 
         if (!isset($presets[$this->currentPreset])) {

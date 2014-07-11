@@ -29,7 +29,7 @@ class Sidebar extends Block
      *
      * @var string
      */
-    protected $productName = 'li.item strong.name a';
+    protected $productName = 'li.item.odd.last strong.name a';
 
     /**
      * Get compare products block content
