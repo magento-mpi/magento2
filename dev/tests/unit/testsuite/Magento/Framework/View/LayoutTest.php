@@ -530,5 +530,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function testIsPrivate()
     {
         $this->assertFalse($this->model->isPrivate());
+        $this->assertSame($this->model, $this->model->setIsPrivate(true));
+        $this->assertTrue($this->model->isPrivate());
     }
 }
