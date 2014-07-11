@@ -11,6 +11,9 @@ namespace Magento\Bundle\Service\V1\Data\Product\Link;
 
 use Magento\Catalog\Model\Product;
 
+/**
+ * @codeCoverageIgnore
+ */
 class MetadataConverter
 {
     /**
