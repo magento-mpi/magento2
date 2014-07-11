@@ -12,7 +12,7 @@ use Magento\Backend\Test\Block\Widget\Grid as WidgetGrid;
 
 /**
  * Class Grid
- * Backend terms grid
+ * Backend search terms grid
  */
 class Grid extends WidgetGrid
 {
@@ -23,26 +23,26 @@ class Grid extends WidgetGrid
      */
     protected $filters = [
         'search_query' => [
-            'selector' => '#catalog_search_grid_filter_search_query'
+            'selector' => 'input[name="search_query"]'
         ],
         'store_id' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-store-filter-store-id"]',
-            'input' => 'select'
+            'selector' => 'select[name="store_id"]',
+            'input' => 'selectstore'
         ],
         'results_from' => [
-            'selector' => '#catalog_search_grid_filter_num_results_from'
+            'selector' => 'input[name="num_results[from]"]'
         ],
         'popularity_from' => [
-            'selector' => '#catalog_search_grid_filter_popularity_from'
+            'selector' => 'input[name="popularity[from]"]'
         ],
         'synonym_for' => [
-            'selector' => '#catalog_search_grid_filter_synonym_for'
+            'selector' => 'input[name="synonym_for"]'
         ],
         'redirect' => [
-            'selector' => '#catalog_search_grid_filter_redirect'
+            'selector' => 'input[name="redirect"]'
         ],
         'display_in_terms' => [
-            'selector' => '#catalog_search_grid_filter_display_in_terms',
+            'selector' => 'select[name="display_in_terms"]',
             'input' => 'select'
         ]
     ];

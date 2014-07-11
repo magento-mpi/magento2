@@ -60,53 +60,37 @@ class EditSearchTermEntityTest extends Injectable
     protected $editPage;
 
     /**
-     * Fixture factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
-     * Prepare data
+     * Prepare page
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogSearchIndex $indexPage
      * @param CatalogSearchEdit $editPage
-     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __prepare(
         CmsIndex $cmsIndex,
         CatalogSearchIndex $indexPage,
-        CatalogSearchEdit $editPage,
-        FixtureFactory $fixtureFactory
+        CatalogSearchEdit $editPage
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->indexPage = $indexPage;
         $this->editPage = $editPage;
-        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
-     * Run suggest searching result test
+     * Run edit search term test
      *
-     * @param CatalogSearchQuery $catalogSearch
-     * @param array $termSearch
-     * @return array
+     * @param CatalogSearchQuery $searchTerm
+     * @return void
      */
-    public function test(CatalogSearchQuery $catalogSearch, array $termSearch)
+    public function test(CatalogSearchQuery $searchTerm)
     {
         // Preconditions
-        $searchText = $catalogSearch->getQueryText();
+        $searchText = $searchTerm->getQueryText();
         // Steps
-        $this->cmsIndex->open();
-        $this->cmsIndex->getSearchBlock()->search($searchText);
+        $this->cmsIndex->open()->getSearchBlock()->search($searchText);
         $this->indexPage->open()->getGrid()->searchAndOpen(['search_query' => $searchText]);
-        $termSearch['query_text']['value'] = $searchText;
-        $termSearch = $this->fixtureFactory->createByCode('catalogSearchQuery', ['data' => $termSearch]);
-        $this->editPage->getForm()->fill($termSearch);
+        $this->editPage->getForm()->fill($searchTerm);
         $this->editPage->getFormPageActions()->save();
-
-        return ['termSearch' => $termSearch];
     }
 }

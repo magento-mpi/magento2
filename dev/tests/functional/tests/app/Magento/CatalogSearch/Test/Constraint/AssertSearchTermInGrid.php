@@ -13,9 +13,10 @@ use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
 
 /**
- * Class AssertTermSearchInGrid
+ * Class AssertSearchTermInGrid
+ * Assert that after save a term search on edit term search page displays
  */
-class AssertTermSearchInGrid extends AbstractConstraint
+class AssertSearchTermInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,29 +27,29 @@ class AssertTermSearchInGrid extends AbstractConstraint
 
     /**
      * Assert that after save a term search on edit term search page displays:
-     * 1. Correct Search Query field passed from fixture
-     * 2. Correct Store
-     * 3. Correct Results
-     * 4. Correct Uses
-     * 5. Correct Synonym
-     * 6. Correct Redirect URL
-     * 7. Correct Suggested Terms
+     *  - correct Search Query field passed from fixture
+     *  - correct Store
+     *  - correct Results
+     *  - correct Uses
+     *  - correct Synonym
+     *  - correct Redirect URL
+     *  - correct Suggested Terms
      *
      * @param CatalogSearchIndex $indexPage
-     * @param CatalogSearchQuery $termSearch
+     * @param CatalogSearchQuery $searchTerm
      * @return void
      */
-    public function processAssert(CatalogSearchIndex $indexPage, CatalogSearchQuery $termSearch)
+    public function processAssert(CatalogSearchIndex $indexPage, CatalogSearchQuery $searchTerm)
     {
         $grid = $indexPage->open()->getGrid();
         $filters = [
-            'search_query' => $termSearch->getQueryText(),
-            'store_id' => $termSearch->getStoreId(),
-            'results_from' => $termSearch->getNumResults(),
-            'popularity_from' => $termSearch->getPopularity(),
-            'synonym_for' => $termSearch->getSynonymFor(),
-            'redirect' => $termSearch->getRedirect(),
-            'display_in_terms' => strtolower($termSearch->getDisplayInTerms())
+            'search_query' => $searchTerm->getQueryText(),
+            'store_id' => $searchTerm->getStoreId(),
+            'results_from' => $searchTerm->getNumResults(),
+            'popularity_from' => $searchTerm->getPopularity(),
+            'synonym_for' => $searchTerm->getSynonymFor(),
+            'redirect' => $searchTerm->getRedirect(),
+            'display_in_terms' => strtolower($searchTerm->getDisplayInTerms())
         ];
 
         $grid->search($filters);
@@ -66,6 +67,6 @@ class AssertTermSearchInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Row terms successfully found.';
+        return 'Row term according to the filters is not found.';
     }
 }

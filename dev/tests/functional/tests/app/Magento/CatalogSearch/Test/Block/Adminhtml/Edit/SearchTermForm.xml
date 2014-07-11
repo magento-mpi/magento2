@@ -11,7 +11,7 @@
     <fields>
         <query_text />
         <store_id>
-            <input>select</input>
+            <input>selectstore</input>
         </store_id>
         <num_results />
         <popularity />

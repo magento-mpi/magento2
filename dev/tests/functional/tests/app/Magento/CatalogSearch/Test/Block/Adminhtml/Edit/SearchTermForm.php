@@ -12,9 +12,9 @@ use Magento\Backend\Test\Block\Widget\Form as WidgetForm;
 
 /**
  * Class Form
- * Form for search terms
+ * Form for search term
  */
-class Form extends WidgetForm
+class SearchTermForm extends WidgetForm
 {
     //
 }

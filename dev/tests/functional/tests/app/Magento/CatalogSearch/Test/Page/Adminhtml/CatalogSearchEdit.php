@@ -20,7 +20,7 @@ class CatalogSearchEdit extends BackendPage
     protected $_blocks = [
         'form' => [
             'name' => 'form',
-            'class' => 'Magento\CatalogSearch\Test\Block\Adminhtml\Edit\Form',
+            'class' => 'Magento\CatalogSearch\Test\Block\Adminhtml\Edit\SearchTermForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
@@ -33,7 +33,7 @@ class CatalogSearchEdit extends BackendPage
     ];
 
     /**
-     * @return \Magento\CatalogSearch\Test\Block\Adminhtml\Edit\Form
+     * @return \Magento\CatalogSearch\Test\Block\Adminhtml\Edit\SearchTermForm
      */
     public function getForm()
     {

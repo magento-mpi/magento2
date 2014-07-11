@@ -10,7 +10,7 @@
 <page mca="catalog/search/edit" >
     <block>
         <name>form</name>
-        <class>Magento\CatalogSearch\Test\Block\Adminhtml\Edit\Form</class>
+        <class>Magento\CatalogSearch\Test\Block\Adminhtml\Edit\SearchTermForm</class>
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>
