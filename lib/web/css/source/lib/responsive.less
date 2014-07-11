@@ -6,6 +6,13 @@
 //  * @license     {license_link}
 //  */
 
+// Small screens only
+.responsive-smaller(@break-point-0) {};
+
+@media all and (max-width: @break-point-0) {
+    .responsive-smaller(@break-point-0);
+}
+
 @media all and (min-width: @break-point-0) {
     .responsive(@break-point-0);
 }

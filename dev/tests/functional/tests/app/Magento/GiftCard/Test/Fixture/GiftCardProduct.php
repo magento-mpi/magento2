@@ -13,6 +13,9 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class GiftCardProduct
  * Fixture for GiftCard product
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class GiftCardProduct extends InjectableFixture
 {

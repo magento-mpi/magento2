@@ -133,5 +133,25 @@ return array(
         'FORM_SELECT_ALL_VALUES',
         'Magento\CatalogPermissions\Model\Adminhtml\Observer',
         'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row::FORM_SELECT_ALL_VALUES'
-    )
+    ),
+    array(
+        'STATUS_NEW',
+        'Magento\Invitation\Model\Invitation',
+        'Magento\Invitation\Model\Invitation\Status::STATUS_NEW',
+    ),
+    array(
+        'STATUS_SENT',
+        'Magento\Invitation\Model\Invitation',
+        'Magento\Invitation\Model\Invitation\Status::STATUS_SENT',
+    ),
+    array(
+        'STATUS_ACCEPTED',
+        'Magento\Invitation\Model\Invitation',
+        'Magento\Invitation\Model\Invitation\Status::STATUS_ACCEPTED',
+    ),
+    array(
+        'STATUS_CANCELED',
+        'Magento\Invitation\Model\Invitation',
+        'Magento\Invitation\Model\Invitation\Status::STATUS_CANCELED',
+    ),
 );
