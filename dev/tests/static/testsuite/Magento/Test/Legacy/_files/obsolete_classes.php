@@ -2704,4 +2704,5 @@ return array(
     ['Magento\Tax\Model\Resource\Rule\Grid\Options\HashOptimized'],
     ['Magento\Tax\Model\Resource\Rule\Grid\Options\ProductTaxClass'],
     ['Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction'],
+    ['Magento\Catalog\Helper\Product\Price']
 );
