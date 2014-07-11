@@ -11,14 +11,14 @@ namespace Magento\Tax\Service\V1\Data;
 use Magento\Framework\Service\V1\Data\SearchResults;
 
 /**
- * TaxRuleSearchResults Service Data Object used for the search service requests
+ * TaxRateSearchResults Service Data Object used for the search service requests
  */
-class TaxRuleSearchResults extends SearchResults
+class TaxRateSearchResults extends SearchResults
 {
     /**
      * Get items
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxRule[]
+     * @return \Magento\Tax\Service\V1\Data\TaxRate[]
      */
     public function getItems()
     {
