@@ -269,7 +269,7 @@ class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
      * @return void
      * @throws ErrorException
      */
-    protected function connect()
+    public function connect()
     {
         if ($this->getDriver()->getConnection()->isConnected()) {
             return;
@@ -932,11 +932,12 @@ class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
     /**
      * Creates and returns a new \Zend_Db_Select object for this adapter.
      *
-     * @return Select
+     * @return Sql/Select
      */
     public function select()
     {
-        return new Select($this);
+        $sql = new Sql($this);
+        return $sql->select();
     }
 
     /**
@@ -1172,7 +1173,7 @@ class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
     }
 
     /**
-     * Create \Magento\Framework\DB\Ddl\Table object by data from describe table
+     * Create \Magento\Db\Ddl\Table object by data from describe table
      *
      * @param string $tableName
      * @param string $newTableName

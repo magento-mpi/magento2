@@ -33,6 +33,7 @@ return [
             'Magento\Setup\Controller\Data\PhpExtensionsController',
             'Magento\Setup\Controller\Data\PhpVersionController',
             'Magento\Setup\Controller\Data\StatesController',
+            'Magento\Setup\Controller\Data\DatabaseController',
             'Magento\Setup\Controller\Data\LanguagesController',
         ],
         'instance' => [

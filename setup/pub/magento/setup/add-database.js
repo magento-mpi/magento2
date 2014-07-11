@@ -10,9 +10,11 @@ angular.module('add-database', ['ngStorage'])
             $scope.db = $localStorage.db;
         }
 
-        $scope.testConnection = function () {
-            $http.get(''); //@todo
-        };
+    $scope.testConnection = function () {
+        $http.post('data/database', $scope.db).success(function (data) {
+            $scope.testConnection.result = data;
+        });
+    };
 
         $scope.$on('nextState', function () {
             $localStorage.db = $scope.db;

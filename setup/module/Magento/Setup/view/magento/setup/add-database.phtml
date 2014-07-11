@@ -84,7 +84,7 @@
                    tooltip-trigger="focus"
                    tooltip-append-to-body="true"
                    class="form-control"
-                   type="text"
+                   type="password"
                    name="dbPassword"
                    ng-model="db.password"
                    placeholder="<?php echo $this->translate('(not always necessary)'); ?>" />
@@ -94,7 +94,7 @@
                    tooltip-trigger="focus"
                    tooltip-append-to-body="true"
                    class="form-control"
-                   type="text"
+                   type="password"
                    name="dbPassword"
                    ng-model="db.password"
                    placeholder="<?php echo $this->translate('(not always necessary)'); ?>" />
@@ -127,7 +127,7 @@
                 <?php echo $this->translate('Test Connection and Authentication'); ?>
             </button>
         </div>
-        <div class="col-sm-offset-8 col-sm-4">{{testConnection.result}}</div>
+        <div class="col-sm-offset-8 col-sm-4">{{testConnection.result | json}}</div>
     </div>
 
     <div class="form-group" ng-if="db.useExistingDb==0">
