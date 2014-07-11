@@ -270,5 +270,5 @@ class FileTest extends \PHPUnit_Framework_TestCase
  */
 function is_uploaded_file($name)
 {
-    return ($name !== 'NotUploaded') ? true : false;
+    return ($name == 'NotUploaded') ? false : true;
 }

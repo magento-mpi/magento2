@@ -31,6 +31,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Attention: this test depends on mock of "is_uploaded_file" function in ./FileTest.php,
+     * so validates method successfully in batch run of directory tests, separately will fail.
+     * 
      * @covers \Magento\Eav\Model\Attribute\Data\Image::_validateByRules
      *
      * @param mixed $value
@@ -74,7 +77,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => ['"Label" is not a valid file']
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'ImageWithoutExtension.png'],
+                'value' => ['delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.ico', 'name' => 'image.ico'],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
@@ -82,7 +85,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => ['"Label" is not a valid image format']
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'ImageWithWrongExtension.png', 'name' => 'image.png'],
+                'value' => ['delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg', 'name' => 'image.ppp'],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
@@ -90,7 +93,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => true
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'image.png', 'name' => 'image.png', 'size' => 10],
+                'value' => [
+                    'delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg',
+                    'name' => 'image.jpg', 'size' => 10
+                ],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
@@ -98,7 +104,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => ['"Label" exceeds the allowed file size.']
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'image.png', 'name' => 'image.png', 'size' => 10],
+                'value' => [
+                    'delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg',
+                    'name' => 'image.jpg', 'size' => 10
+                ],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
@@ -106,7 +115,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => true
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'image.png', 'name' => 'image.png'],
+                'value' => ['delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg', 'name' => 'image.jpg'],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
@@ -114,15 +123,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => ['"Label" width exceeds allowed value of 2 px.']
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'image.png', 'name' => 'image.png'],
+                'value' => ['delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg', 'name' => 'image.jpg'],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
-                'rules' => ['max_image_width' => 20],
+                'rules' => ['max_image_width' => 2000],
                 'expectedResult' => true
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'image.png', 'name' => 'image.png'],
+                'value' => ['delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg', 'name' => 'image.jpg'],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
@@ -130,15 +139,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => ['"Label" height exceeds allowed value of 2 px.']
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'image.png', 'name' => 'image.png'],
+                'value' => ['delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg', 'name' => 'image.jpg'],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
-                'rules' => ['max_image_heght' => 20],
+                'rules' => ['max_image_heght' => 2000],
                 'expectedResult' => true
             ],
             [
-                'value' => ['delete' => 'delete', 'tmp_name' => 'image.png', 'name' => 'image.png'],
+                'value' => ['delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg', 'name' => 'image.jpg'],
                 'originalValue' => 'value',
                 'isRequired' => true,
                 'isAjaxRequest' => false,
@@ -151,38 +160,3 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         ];
     }
 };
-
-/**
- * Mocking of std function to test validation
- *
- * @param string $name
- * @return array
- */
-function getimagesize($name)
-{
-    $imageData = array();
-
-    switch ($name) {
-        case 'ImageWithoutExtension.png':
-            $imageData = [2 => 4/* extension */];
-            break;
-        case 'ImageWithWrongExtension.png':
-            $imageData = [2 => 2/* extension */];
-            break;
-        default:
-            $imageData = [0 => 5/* image_width */, 1 => 5/* image_height */, 2 => 3/* extension */];
-    }
-
-    return $imageData;
-}
-
-/**
- * Mocking of std function to test validation
- *
- * @param string $name
- * @return boolean
- */
-function is_uploaded_file($name)
-{
-    return ($name == "NotUploaded") ? false : true;
-}
