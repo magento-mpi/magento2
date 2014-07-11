@@ -253,7 +253,8 @@ class TaxRateServiceTest extends WebapiAbstract
             'postcode' => '*',
             'code' => 'US-NY-*-Rate 1',
             'percentage_rate' => 8.375,
-            'titles' => []
+            'titles' => [],
+            'region_name' => 'NY',
         ];
         $this->assertEquals($expectedRateData, $result);
     }
