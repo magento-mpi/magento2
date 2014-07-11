@@ -439,4 +439,14 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Service\V1\Product\MetadataService">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\Catalog\Service\V1\MetadataService\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Service\V1\ProductService">
+        <arguments>
+            <argument name="searchResultsBuilder" xsi:type="object" shared="false">Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder</argument>
+        </arguments>
+    </type>
 </config>
