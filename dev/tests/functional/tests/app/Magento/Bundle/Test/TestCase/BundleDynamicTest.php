@@ -10,7 +10,6 @@ namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Bundle\Test\Fixture\Bundle;
 
 /**
  * Class BundleDynamicTest
@@ -45,9 +44,8 @@ class BundleDynamicTest extends Functional
         $productForm = $createProductPage->getForm();
         //Steps
         $manageProductsGrid->open();
-        $manageProductsGrid->getProductBlock()->addProduct('bundle');
-        $category = $bundle->getCategories()['category'];
-        $productForm->fillProduct($bundle, $category);
+        $manageProductsGrid->getGridPageActionBlock()->addProduct('bundle');
+        $productForm->fillProduct($bundle);
         $createProductPage->getFormAction()->save();
         //Verification
         $createProductPage->getMessagesBlock()->assertSuccessMessage();

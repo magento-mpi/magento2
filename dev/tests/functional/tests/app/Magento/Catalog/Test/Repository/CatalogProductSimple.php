@@ -55,8 +55,8 @@ class CatalogProductSimple extends AbstractRepository
         ];
 
         $this->_data['40_dollar_product'] = [
-            'sku' => '40_dollar_product',
-            'name' => '40_dollar_product',
+            'sku' => '40_dollar_product%isolation%',
+            'name' => '40_dollar_produc%isolation%',
             'type_id' => 'simple',
             'quantity_and_stock_status' => [
                 'qty' => 666.0000,

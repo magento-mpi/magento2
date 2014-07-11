@@ -42,5 +42,12 @@ class CatalogProductVirtual extends AbstractRepository
             ],
             'price' => ['value' => 10.00, 'preset' => '-']
         ];
+
+        $this->_data['50_dollar_product'] = [
+            'sku' => 'virtual_50_dollar_product%isolation%',
+            'name' => 'virtual_50_dollar_product%isolation%',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'price' => ['value' => 50, 'preset' => '-'],
+        ];
     }
 }
