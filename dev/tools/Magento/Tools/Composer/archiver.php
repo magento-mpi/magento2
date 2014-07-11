@@ -85,8 +85,8 @@ try {
     $excludes = array_merge(
         $components,
         array(
-            str_replace('\\', '/', realpath(BP)) . '/.git',
-            str_replace('\\', '/', realpath(BP)) . '/.idea'
+            str_replace('\\', '/', $workingDir) . '/.git',
+            str_replace('\\', '/', $workingDir) . '/.idea'
         )
     );
 
