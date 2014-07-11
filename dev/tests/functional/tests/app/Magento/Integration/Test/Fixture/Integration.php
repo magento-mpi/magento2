@@ -19,6 +19,11 @@ class Integration extends InjectableFixture
     /**
      * @var string
      */
+    protected $repositoryClass = 'Magento\Integration\Test\Repository\Integration';
+
+    /**
+     * @var string
+     */
     protected $handlerInterface = 'Magento\Integration\Test\Handler\Integration\IntegrationInterface';
 
     protected $defaultDataSet = [

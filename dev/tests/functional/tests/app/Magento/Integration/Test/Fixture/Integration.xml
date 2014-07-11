@@ -98,4 +98,6 @@
             <group>api</group>
         </resources>
     </fields>
+    <repository_class>Magento\Integration\Test\Repository\Integration</repository_class>
+    <handler_interface>Magento\Integration\Test\Handler\Integration\IntegrationInterface</handler_interface>
 </fixture>

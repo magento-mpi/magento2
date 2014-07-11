@@ -44,4 +44,24 @@
             <integration class="Magento\Integration\Test\Fixture\Integration" />
         </require>
     </assertIntegrationNotInGrid>
+    <assertResourcesPopup module="Magento_Integration">
+        <severeness>high</severeness>
+        <require>
+            <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
+            <integration class="Magento\Integration\Test\Fixture\Integration" />
+        </require>
+    </assertResourcesPopup>
+    <assertTokensPopup module="Magento_Integration">
+        <severeness>high</severeness>
+        <require>
+            <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
+        </require>
+    </assertTokensPopup>
+    <assertIntegrationSuccessActivationMessage module="Magento_Integration">
+        <severeness>high</severeness>
+        <require>
+            <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
+            <integration class="Magento\Integration\Test\Fixture\Integration" />
+        </require>
+    </assertIntegrationSuccessActivationMessage>
 </constraint>
