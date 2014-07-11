@@ -26,7 +26,7 @@ class AttributeFactory
      *
      * @var \Magento\GoogleShopping\Helper\Data
      */
-    protected  $_googleShoppingHelper;
+    protected $_googleShoppingHelper;
 
     /**
      * @var \Magento\Framework\Stdlib\String
