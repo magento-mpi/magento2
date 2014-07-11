@@ -12,7 +12,7 @@ namespace Magento\Tax\Model\Sales\Total\Quote;
  */
 use Magento\Tax\Model\Calculation;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class TaxTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests the specific method
