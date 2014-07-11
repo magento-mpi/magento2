@@ -159,10 +159,13 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
+        $fields = [];
+        $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $field = $this->translateField($filter->getField());
-            $condition = [$condition => $filter->getValue()];
+            $fields[] = $field;
+            $conditions[] = [$condition => $filter->getValue()];
             switch ($field) {
                 case 'rate.tax_calculation_rate_id':
                     $collection->joinCalculationData('rate');
@@ -176,7 +179,9 @@ class TaxRuleService implements TaxRuleServiceInterface
                     $collection->joinCalculationData('ptc');
                     break;
             }
-            $collection->addFieldToFilter($field, $condition);
+        }
+        if ($fields) {
+            $collection->addFieldToFilter($fields, $conditions);
         }
     }
 

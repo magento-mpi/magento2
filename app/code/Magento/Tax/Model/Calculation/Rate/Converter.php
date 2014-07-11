@@ -7,6 +7,7 @@
  */
 namespace Magento\Tax\Model\Calculation\Rate;
 
+use Magento\Directory\Model\Region;
 use Magento\Tax\Model\Calculation\Rate as TaxRateModel;
 use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
@@ -42,21 +43,29 @@ class Converter
     protected $taxRateTitleDataObjectBuilder;
 
     /**
+     * @var Region
+     */
+    protected $directoryRegion;
+
+    /**
      * @param TaxRateDataObjectBuilder $taxRateDataObjectBuilder
      * @param TaxRateModelFactory $taxRateModelFactory
      * @param ZipRangeDataObjectBuilder $zipRangeDataObjectBuilder
      * @param TaxRateTitleDataObjectBuilder $taxRateTitleDataObjectBuilder
+     * @param Region $directoryRegion
      */
     public function __construct(
         TaxRateDataObjectBuilder $taxRateDataObjectBuilder,
         TaxRateModelFactory $taxRateModelFactory,
         ZipRangeDataObjectBuilder $zipRangeDataObjectBuilder,
-        TaxRateTitleDataObjectBuilder $taxRateTitleDataObjectBuilder
+        TaxRateTitleDataObjectBuilder $taxRateTitleDataObjectBuilder,
+        Region $directoryRegion
     ) {
         $this->taxRateDataObjectBuilder = $taxRateDataObjectBuilder;
         $this->taxRateModelFactory = $taxRateModelFactory;
         $this->zipRangeDataObjectBuilder = $zipRangeDataObjectBuilder;
         $this->taxRateTitleDataObjectBuilder = $taxRateTitleDataObjectBuilder;
+        $this->directoryRegion = $directoryRegion;
     }
 
     /**
@@ -78,6 +87,8 @@ class Converter
         /* tax region id may be 0 which is "*" which would fail an if check */
         if ($rateModel->getTaxRegionId() !== null) {
             $this->taxRateDataObjectBuilder->setRegionId($rateModel->getTaxRegionId());
+            $regionName = $this->directoryRegion->load($rateModel->getTaxRegionId())->getCode();
+            $this->taxRateDataObjectBuilder->setRegionName($regionName);
         }
         if ($rateModel->getRegionName()) {
             $this->taxRateDataObjectBuilder->setRegionName($rateModel->getRegionName());

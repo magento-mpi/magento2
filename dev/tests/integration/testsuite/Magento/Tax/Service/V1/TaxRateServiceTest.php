@@ -75,7 +75,6 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
         $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
         $this->assertEquals($taxData['code'], $taxRateServiceData->getCode());
-        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
         $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
         $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
         $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
@@ -168,7 +167,6 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         $expectedErrorMessages = [
             'country_id is a required field.',
-            'region_id is a required field.',
             'percentage_rate is a required field.',
             'code is a required field.'
         ];
@@ -399,13 +397,12 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchTaxRates($filters, $filterGroup, $expectedRateCodes)
     {
-
         $taxRates = $this->taxRateFixtureFactory->createTaxRates(
             [
-                ['percentage' => 7.5, 'country' => 'US', 'region' => 42],
-                ['percentage' => 7.5, 'country' => 'US', 'region' => 12],
-                ['percentage' => 22.0, 'country' => 'US', 'region' => 42],
-                ['percentage' => 10.0, 'country' => 'US', 'region' => 12]
+                ['percentage' => 7.5, 'country' => 'US', 'region' => '42'],
+                ['percentage' => 7.5, 'country' => 'US', 'region' => '12'],
+                ['percentage' => 22.0, 'country' => 'US', 'region' => '42'],
+                ['percentage' => 10.0, 'country' => 'US', 'region' => '12']
             ]
         );
 
