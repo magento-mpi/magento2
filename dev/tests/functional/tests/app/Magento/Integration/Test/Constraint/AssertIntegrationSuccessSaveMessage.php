@@ -14,6 +14,7 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
 
 /**
  * Class AssertIntegrationSuccessSaveMessage
+ * Assert that success save message is correct
  */
 class AssertIntegrationSuccessSaveMessage extends AbstractConstraint
 {

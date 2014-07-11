@@ -14,6 +14,7 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
 
 /**
  * Class AssertIntegrationInGrid
+ * Assert Integration availability in integration grid
  */
 class AssertIntegrationInGrid extends AbstractConstraint
 {
@@ -25,7 +26,7 @@ class AssertIntegrationInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert Integration availability in integration grid
+     * Assert that data in grid on Integrations page according to fixture by name field
      *
      * @param IntegrationIndex $integrationIndexPage
      * @param Integration $integration
@@ -39,8 +40,8 @@ class AssertIntegrationInGrid extends AbstractConstraint
     ) {
         $filter = [
             'name' => ($initialIntegration !== null && !$integration->hasData('name'))
-                    ? $initialIntegration->getName()
-                    : $integration->getName(),
+                ? $initialIntegration->getName()
+                : $integration->getName(),
         ];
 
         $integrationIndexPage->open();

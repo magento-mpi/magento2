@@ -15,6 +15,7 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationNew;
 
 /**
  * Class AssertIntegrationForm
+ * Assert that integration form filled correctly
  */
 class AssertIntegrationForm extends AbstractAssertForm
 {
