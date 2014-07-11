@@ -38,7 +38,7 @@ class AssertProductCompareItemsLink extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             $productQty,
             $qtyOnPage,
-            'Actually you verify product qty in the compare product list, not a whole link.'
+            'Qty is not correct in "Compare Products" link.'
         );
 
         $compareProductUrl = '/catalog/product_compare/';
@@ -55,6 +55,6 @@ class AssertProductCompareItemsLink extends AbstractConstraint
      */
     public function toString()
     {
-        return 'That link is correct.';
+        return '"Compare Products..." link on top menu of page is correct.';
     }
 }

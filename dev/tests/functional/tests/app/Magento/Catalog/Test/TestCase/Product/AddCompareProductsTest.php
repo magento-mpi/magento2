@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\TestCase;
+namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
@@ -81,7 +81,26 @@ class AddCompareProductsTest extends Injectable
      */
     protected $fixtureFactory;
 
+    /**
+     * Fixture customer
+     *
+     * @var CustomerInjectable
+     */
+    protected $customer;
 
+    /**
+     * Prepare data
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @param CustomerInjectable $customer
+     * @return void
+     */
+    public function __prepare(FixtureFactory $fixtureFactory, CustomerInjectable $customer)
+    {
+        $this->fixtureFactory = $fixtureFactory;
+        $customer->persist();
+        $this->customer = $customer;
+    }
     /**
      * Injection data
      *
@@ -89,46 +108,38 @@ class AddCompareProductsTest extends Injectable
      * @param CatalogProductCompare $catalogProductCompare
      * @param CatalogProductView $catalogProductView
      * @param CustomerAccountLogin $customerAccountLogin
-     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
         CatalogProductCompare $catalogProductCompare,
         CatalogProductView $catalogProductView,
-        CustomerAccountLogin $customerAccountLogin,
-        FixtureFactory $fixtureFactory
+        CustomerAccountLogin $customerAccountLogin
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductCompare = $catalogProductCompare;
         $this->catalogProductView = $catalogProductView;
         $this->customerAccountLogin = $customerAccountLogin;
-        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
      * Test creation for adding compare products
      *
      * @param string $products
-     * @param CustomerInjectable $customer
      * @param string $isCustomerLoggedIn
      * @param AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage
      * @return array
      */
     public function test(
         $products,
-        CustomerInjectable $customer,
         $isCustomerLoggedIn,
         AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage
     ) {
         //Steps
         $this->cmsIndex->open();
-        if ($isCustomerLoggedIn == 'Yes') {
-            $customer->persist();
-            if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-                $this->cmsIndex->getLinksBlock()->openLink("Log In");
-                $this->customerAccountLogin->getLoginBlock()->login($customer);
-            }
+        if ($isCustomerLoggedIn == 'Yes' && !$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
+            $this->cmsIndex->getLinksBlock()->openLink("Log In");
+            $this->customerAccountLogin->getLoginBlock()->login($this->customer);
         }
         $this->products = $this->createProducts($products);
         $this->addProducts($this->products, $assertProductCompareSuccessAddMessage);
@@ -184,7 +195,6 @@ class AddCompareProductsTest extends Injectable
      */
     public function tearDown()
     {
-        // TODO after fix bug MAGETWO-22756 delete first step
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
         for ($i = 1; $i <= count($this->products); $i++) {
