@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action;
+namespace Magento\TargetRule\Model\Indexer\TargetRule\Action;
 
 class FullTest extends \PHPUnit_Framework_TestCase
 {
