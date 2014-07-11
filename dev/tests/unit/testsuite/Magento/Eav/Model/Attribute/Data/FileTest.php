@@ -31,7 +31,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $localeResolverMock = $this->getMock('\Magento\Framework\Locale\ResolverInterface');
         $this->coreDataMock = $this->getMock('\Magento\Core\Helper\Data', [], [], '', false);
         $this->fileValidatorMock = $this->getMock(
-            '\Magento\Core\Model\File\Validator\NotProtectedExtension', ['isValid', 'getMessages'] ,[], '', false
+            '\Magento\Core\Model\File\Validator\NotProtectedExtension', ['isValid', 'getMessages'], [], '', false
         );
         $filesystemMock = $this->getMock('\Magento\Framework\App\Filesystem', [], [], '', false);
 
