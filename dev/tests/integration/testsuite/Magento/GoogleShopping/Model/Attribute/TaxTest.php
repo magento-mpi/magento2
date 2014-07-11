@@ -14,9 +14,7 @@ use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 use Magento\Tax\Service\V1\TaxRuleFixtureFactory;
 
 /**
- * @magentoDataFixture Magento/GoogleShopping/_files/product_simple.php
- * @magentoDataFixture Magento/GoogleShopping/_files/product_group_prices.php
- * @magentoDataFixture Magento/GoogleShopping/_files/multiple_products.php
+ * Tests GoogleShopping\Model\Attribute\Tax
  */
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
@@ -97,10 +95,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->setUpDefaultRules();
     }
 
+    /**
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
+     */
     public function testConvertAttributeWithSimpleProduct()
     {
         $defaultProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
-        $defaultProductTaxClassProduct->load(20);
+        $defaultProductTaxClassProduct->load(1);
         $defaultProductTaxClassProduct->setTaxClassId($this->taxClasses['DefaultProductClass']);
 
         $defaultGoogleShoppingEntry = $this->objectManager
@@ -117,7 +118,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         }
 
         $higherProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
-        $higherProductTaxClassProduct->load(20);
+        $higherProductTaxClassProduct->load(1);
         $higherProductTaxClassProduct->setTaxClassId($this->taxClasses['HigherProductClass']);
 
         $higherGoogleShoppingEntry = $this->objectManager
@@ -139,10 +140,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoDataFixture Magento/Catalog/_files/product_group_prices.php
+     */
     public function testConvertAttributeWithProductGroup()
     {
         $defaultProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
-        $defaultProductTaxClassProduct->load(21);
+        $defaultProductTaxClassProduct->load(1);
         $defaultProductTaxClassProduct->setTaxClassId($this->taxClasses['DefaultProductClass']);
 
         $defaultGoogleShoppingEntry = $this->objectManager
@@ -159,7 +163,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         }
 
         $higherProductTaxClassProduct = $this->objectManager->create('Magento\Catalog\Model\Product');
-        $higherProductTaxClassProduct->load(21);
+        $higherProductTaxClassProduct->load(1);
         $higherProductTaxClassProduct->setTaxClassId($this->taxClasses['HigherProductClass']);
 
         $higherGoogleShoppingEntry = $this->objectManager
@@ -181,10 +185,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
+     */
     public function testConvertAttributeWithMultipleProducts()
     {
         $productA = $this->objectManager->create('Magento\Catalog\Model\Product');
-        $productA->load(22);
+        $productA->load(10);
         $productA->setTaxClassId($this->taxClasses['DefaultProductClass']);
         $productAGoogleShoppingEntry = $this->objectManager
             ->create('Magento\Framework\Gdata\Gshopping\Entry');
@@ -199,7 +206,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         }
 
         $productB = $this->objectManager->create('Magento\Catalog\Model\Product');
-        $productB->load(23);
+        $productB->load(11);
         $productB->setTaxClassId($this->taxClasses['HigherProductClass']);
         $productBGoogleShoppingEntry = $this->objectManager
             ->create('Magento\Framework\Gdata\Gshopping\Entry');
@@ -219,7 +226,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         }
 
         $productC = $this->objectManager->create('Magento\Catalog\Model\Product');
-        $productC->load(24);
+        $productC->load(12);
         $productC->setTaxClassId($this->taxClasses['HighestProductClass']);
         $productCGoogleShoppingEntry = $this->objectManager
             ->create('Magento\Framework\Gdata\Gshopping\Entry');
