@@ -8,6 +8,8 @@
 
 namespace Magento\Tools\Composer\Package;
 
+use \Magento\Tools\Composer\Helper\ExcludeFilter;
+
 /**
  * A model that represents composer package
  */
@@ -141,5 +143,95 @@ class Package
     {
         $json = $this->getClone();
         $json->require->{$name} = $version;
+    }
+
+    /**
+     * Set mapping info in "extra" section
+     *
+     * @param string $name
+     * @param string $workingDir
+     */
+    public function setExtra($name, $workingDir)
+    {
+        $json = $this->getClone();
+        $json->extra->{$name} = $this->getMappingList($workingDir);
+    }
+
+    public function getMappingList($workingDir)
+    {
+        $mappingList = array();
+        //excluding paths those come as composer packages
+        $excludes = file(str_replace('\\', '/',
+            realpath(__DIR__ . '/../etc/magento_components_list.txt')), FILE_IGNORE_NEW_LINES);
+        for($i=0; $i<count($excludes); $i++){
+            $excludes[$i] = str_replace('\\', '/', $workingDir) . '/' . $excludes[$i];
+        }
+        //excluding paths those are customizable
+        $customizableLocationList = file(str_replace('\\', '/',
+            realpath(__DIR__ . '/../etc/magento_customizable_paths.txt')), FILE_IGNORE_NEW_LINES);
+        for($i=0; $i<count($customizableLocationList); $i++){
+            $customizableLocationList[$i] = str_replace('\\', '/',
+                    $workingDir) . '/' . $customizableLocationList[$i];
+        }
+        $directory = new \RecursiveDirectoryIterator($workingDir, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $directory = new ExcludeFilter($directory, $excludes);
+        $files = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($files as $file) {
+            $file = str_replace('\\', '/', realpath($file));
+            if (in_array(substr($file, strrpos($file, '/') + 1), array('.', '..'))) {
+                continue;
+            }
+            if (!$this->checkExistence($customizableLocationList, $excludes, $file)){
+                array_push($mappingList, str_replace(str_replace('\\', '/', $workingDir) . '/', '', $file));
+            }
+        }
+
+        asort($mappingList);
+        $modifiedMappingList = array();
+        $index = 0;
+        for($i=0; $i<count($mappingList); $i++) {
+            if ($i===0){
+                array_push($modifiedMappingList, $mappingList[$i]);
+                continue;
+            }
+            if (strpos($mappingList[$i], $mappingList[$index]) !== false) {
+                if (mb_substr_count($mappingList[$i], '/') === mb_substr_count($mappingList[$index], '/')) {
+                    array_push($modifiedMappingList, $mappingList[$i]);
+                    $index = $i;
+                }
+            } else {
+                array_push($modifiedMappingList, $mappingList[$i]);
+                $index = $i;
+            }
+        }
+
+        $mappings = array();
+        foreach($modifiedMappingList as $path){
+            $mappings[] = array($path, $path);
+        }
+
+        return $mappings;
+    }
+
+    /**
+     * Check existence of a path in exempt list
+     *
+     * @param array $customizableLocationList
+     * @param array $excludes
+     * @param string $file
+     * @return void
+     */
+    protected function checkExistence($customizableLocationList, $excludes, $file)
+    {
+        foreach ($excludes as $path) {
+            if (strpos($path, $file) !== false) return true;
+        }
+
+        foreach ($customizableLocationList as $path) {
+            if ((strpos($path, $file) !== false)
+                ||((strpos(str_replace('*', '', $path), $file)) !== false)) return true;
+        }
+
+        return false;
     }
 }

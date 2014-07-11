@@ -40,8 +40,8 @@ try {
     $logger = new Zend_Log($logWriter);
     $logger->setTimestampFormat("H:i:s");
     $filter = $opt->getOption('v') ?
-            new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) :
-            new \Zend_Log_Filter_Priority(Zend_Log::INFO);
+        new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) :
+        new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
 
     $logger->info(sprintf("Your archives output directory: %s. ", $generationDir));
@@ -60,6 +60,7 @@ try {
     $logger->debug(sprintf("Zip Archive Location: %s", $generationDir));
 
     $noOfZips = 0;
+
     $packagedDirs = [];
     foreach ($reader->readMagentoPackages() as $package) {
         $version = $package->get('version');
@@ -71,15 +72,20 @@ try {
     }
 
     //Creating zipped folders for skeletons
+    $components = file(str_replace('\\', '/',
+        realpath(__DIR__ . '/etc/magento_components_list.txt')),FILE_IGNORE_NEW_LINES);
+    for($i=0 ; $i<count($components); $i++){
+        $components[$i] = str_replace('\\', '/', realpath($workingDir)) . '/' . $components[$i];
+    }
+
     $excludes = array_merge(
-        $packagedDirs,
+        $components,
         array(
-            str_replace('\\', '/', realpath($workingDir)) . '/.git',
-            str_replace('\\', '/', realpath($workingDir)) . '/.idea',
-            str_replace('\\', '/', realpath($workingDir)) . '/dev/tools/Magento/Tools/Composer',
-            str_replace('\\', '/', realpath($workingDir)) . '/dev/tests/unit/testsuite/Magento/Test/Tools/Composer'
+            str_replace('\\', '/', realpath(BP)) . '/.git',
+            str_replace('\\', '/', realpath(BP)) . '/.idea'
         )
     );
+
     $name = '';
     if (file_exists(str_replace('\\', '/', realpath($workingDir)) . '/composer.json')) {
         $json = json_decode(file_get_contents(str_replace('\\', '/', realpath($workingDir)) . '/composer.json'));

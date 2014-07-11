@@ -1,0 +1,15 @@
+app/etc/*
+dev/tests/api-functional/testsuite/*
+dev/tests/functional/testsuites/*
+dev/tests/functional-old/testsuite/*
+dev/tests/integration/testsuite/*
+dev/tests/js/testsuite/*
+dev/tests/performance/testsuite/*
+dev/tests/static/testsuite/*
+dev/tests/unit/testsuite/*
+lib/web/*
+pub/media/customer/*
+pub/media/downloadable/*
+pub/media/theme_customization/*
+pub/static/*
+var/*

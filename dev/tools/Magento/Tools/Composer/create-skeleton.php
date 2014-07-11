@@ -10,6 +10,7 @@ require __DIR__ . '/../../../bootstrap.php';
 
 use \Magento\Tools\Composer\Package\Reader;
 use \Magento\Tools\Composer\Package\Package;
+use Magento\Tools\Composer\Helper\RootMapping;
 
 /**
  * Composer Skeleton Creator Tool
@@ -20,14 +21,14 @@ try {
     $opt = new \Zend_Console_Getopt(
         array(
             'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
-            'version|ver=s' => 'Version for the composer.json file',
-            'verbose|v' => 'Detailed console logs',
+            'version|v=s' => 'Version for the composer.json file',
+            'verbose|r' => 'Detailed console logs',
             'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
         )
     );
     $opt->parse();
 
-    $version = $opt->getOption('ver');
+    $version = $opt->getOption('v');
     $workingDir = $opt->getOption('d') ?: realpath(BP);
     if (!$workingDir || !is_dir($workingDir)) {
         throw new Exception($opt->getOption('d') . " must be a Magento code base.");
@@ -37,7 +38,7 @@ try {
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
     $logger = new Zend_Log($logWriter);
     $logger->setTimestampFormat('H:i:s');
-    $filter = $opt->getOption('v') ?
+    $filter = $opt->getOption('r') ?
             new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) :
             new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
@@ -70,6 +71,7 @@ try {
     }
     $size = sizeof((array)$root->get('require'));
     $logger->debug("Total number of dependencies in the skeleton package: {$size}");
+    $root->setExtra('map', $workingDir);
     file_put_contents(
         $root->getFile(),
         json_encode($root->getJson(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n"
