@@ -28,7 +28,7 @@ class CatalogProductView extends ParentCatalogProductView
         $this->_blocks['giftCardBlock'] = [
             'name' => 'giftCardBlock',
             'class' => 'Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard',
-            'locator' => '.product.info.main',
+            'locator' => '.product-info-main',
             'strategy' => 'css selector',
         ];
         parent::_init();
