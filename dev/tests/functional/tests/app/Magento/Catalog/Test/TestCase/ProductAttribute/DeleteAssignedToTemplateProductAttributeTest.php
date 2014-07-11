@@ -49,7 +49,7 @@ class DeleteAssignedToTemplateProductAttributeTest extends Injectable
     protected $attributeNew;
 
     /**
-     * Inject data
+     * Inject pages
      *
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
@@ -75,9 +75,9 @@ class DeleteAssignedToTemplateProductAttributeTest extends Injectable
         // Steps
         $filter = [
             'attribute_code' => $productTemplate
-                    ->getDataFieldConfig('assigned_attributes')['source']
-                    ->getAttributes()[0]
-                    ->getAttributeCode()
+                ->getDataFieldConfig('assigned_attributes')['source']
+                ->getAttributes()[0]
+                ->getAttributeCode()
         ];
 
         $this->attributeIndex->open();

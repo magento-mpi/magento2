@@ -32,6 +32,13 @@ class Main extends Block
     protected $attribute = './/*[contains(@class,"x-tree-root-node")]//div/a/span[text()="%s"]';
 
     /**
+     * Attribute label locator
+     *
+     * @var string
+     */
+    protected $attributeLabel = ".//*[contains(@id,'tree-div2')]//li[@class='x-tree-node']/div/a/span[text()='%s']";
+
+    /**
      * Move Attribute to Attribute Group
      *
      * @param array $attributeData
@@ -87,10 +94,7 @@ class Main extends Block
      */
     public function checkUnassignedProductAttribute($attributeLabel)
     {
-        $attributeLabelLocator = sprintf(
-            ".//*[contains(@id,'tree-div2')]//li[@class='x-tree-node']/div/a/span[text()='%s']",
-            $attributeLabel
-        );
+        $attributeLabelLocator = sprintf($this->attributeLabel, $attributeLabel);
 
         return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
     }

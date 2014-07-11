@@ -27,7 +27,7 @@ class GoogleShoppingTypesIndex extends BackendPage
         'grid' => [
             'name' => 'grid',
             'class' => 'Magento\Backend\Test\Block\Widget\Grid',
-            'locator' => '.grid',
+            'locator' => '#types_grid',
             'strategy' => 'css selector',
         ],
     ];
@@ -41,7 +41,7 @@ class GoogleShoppingTypesIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\GoogleShopping\Test\Block\Adminhtml\Types\Grid
+     * @return \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getGrid()
     {

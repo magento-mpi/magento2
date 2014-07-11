@@ -23,11 +23,6 @@ use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 class Curl extends AbstractCurl implements CatalogAttributeSetInterface
 {
     /**
-     * Default Attribute Set id
-     */
-    const DEFAULT_ATTRIBUTE_SET_ID = 4;
-
-    /**
      * Regex for finding attribute set id
      *
      * @var string
@@ -57,10 +52,12 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
     public function persist(FixtureInterface $fixture = null)
     {
         /** @var CatalogAttributeSet $fixture */
-        $response = $this->createAttributeSet($fixture);
+        $response = $fixture->hasData('attribute_set_id')
+            ? $this->getDefaultAttributeSet($fixture)
+            : $this->createAttributeSet($fixture);
 
         $attributeSetId = ($fixture->hasData('attribute_set_id'))
-            ? self::DEFAULT_ATTRIBUTE_SET_ID
+            ? $fixture->getAttributeSetId()
             : $this->getData($this->attributeSetId, $response);
 
         $assignedAttributes = $fixture->hasData('assigned_attributes')
@@ -83,24 +80,15 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param CatalogAttributeSet $fixture
      * @return string
      */
-    protected function createAttributeSet(
-        CatalogAttributeSet $fixture
-    ) {
+    protected function createAttributeSet(CatalogAttributeSet $fixture)
+    {
         $data = $fixture->getData();
         if (!isset($data['gotoEdit'])) {
             $data['gotoEdit'] = 1;
         }
-        if (!isset($data['attribute_set_id'])) {
-            $data['skeleton_set'] = $fixture
-                ->getDataFieldConfig('skeleton_set')['source']
-                ->getAttributeSet()
-                ->getAttributeSetId();
-        } else {
-            if ($data['attribute_set_id'] == self::DEFAULT_ATTRIBUTE_SET_ID) {
-                return $this->getDefaultAttributeSet();
-            }
-            $data['skeleton_set'] = $data['attribute_set_id'];
-        }
+
+        $data['skeleton_set'] = $fixture->getDataFieldConfig('skeleton_set')['source']->getAttributeSet()
+            ->getAttributeSetId();
 
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -115,13 +103,14 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
     /**
      * Get Default Attribute Set page with curl
      *
+     * @param CatalogAttributeSet $fixture
      * @return string
      */
-    protected function getDefaultAttributeSet()
+    protected function getDefaultAttributeSet(CatalogAttributeSet $fixture)
     {
-        $url = $_ENV['app_backend_url'] . 'catalog/product_set/edit/id/4/';
+        $url = $_ENV['app_backend_url'] . 'catalog/product_set/edit/id/' . $fixture->getAttributeSetId() . '/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', []);
+        $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
         $curl->close();
 

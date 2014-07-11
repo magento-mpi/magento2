@@ -12,7 +12,7 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class GoogleShoppingAttributes
- * Data for creation Google Shoppingt Attributes
+ * Data for creation Google Shopping Attributes
  */
 class GoogleShoppingAttributes extends AbstractRepository
 {
@@ -28,8 +28,8 @@ class GoogleShoppingAttributes extends AbstractRepository
     {
         $this->_data['default'] = [
             'target_country' => 'United States',
-            'attribute_set_id' => 'Default',
-            'category' => 'Apparel & Accessories > Clothing',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'category' => 'Apparel & Accessories',
         ];
     }
 }

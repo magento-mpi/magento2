@@ -26,6 +26,13 @@ class GoogleShoppingForm extends Form
     protected $attributeOptions = '//select[@id="gcontent_attribute_0_attribute"]//option';
 
     /**
+     * Loading Mask locator
+     *
+     * @var string
+     */
+    protected $loadingMask = '//ancestor::body/div[@id="loading-mask"]';
+
+    /**
      * Fill specified form data
      *
      * @param array $fields
@@ -36,15 +43,10 @@ class GoogleShoppingForm extends Form
     {
         $context = ($element === null) ? $this->_rootElement : $element;
         foreach ($fields as $name => $field) {
-            if (!isset($field['value'])) {
-                $this->_fill($field);
-            } else {
-                $element = $this->getElement($context, $field);
-                if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {
-                    $element->setValue($field['value']);
-                    $this->setFields[$name] = $field['value'];
-                    $this->waitForElementNotVisible('ancestor::body//div[@id="loading-mask"]', Locator::SELECTOR_XPATH);
-                }
+            $element = $this->getElement($context, $field);
+            if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {
+                $element->setValue($field['value']);
+                $this->waitForElementNotVisible($this->loadingMask, Locator::SELECTOR_XPATH);
             }
         }
     }

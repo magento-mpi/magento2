@@ -34,8 +34,7 @@ class AssertProductAttributeAbsenceInUnassignedAttributes extends AbstractConstr
      * @param CatalogProductSetEdit $productSetEdit
      * @return void
      */
-    public function processAssert
-    (
+    public function processAssert(
         CatalogAttributeSet $productTemplate,
         CatalogProductSetIndex $productSetIndex,
         CatalogProductSetEdit $productSetEdit
@@ -44,7 +43,7 @@ class AssertProductAttributeAbsenceInUnassignedAttributes extends AbstractConstr
         $productSetIndex->open();
         $productSetIndex->getGrid()->searchAndOpen($filter);
 
-        $attributeCode  = $productTemplate
+        $attributeCode = $productTemplate
             ->getDataFieldConfig('assigned_attributes')['source']
             ->getAttributes()[0]
             ->getAttributeCode();

@@ -31,7 +31,7 @@ class GoogleShoppingAttributes extends InjectableFixture
 
     protected $defaultDataSet = [
         'target_country' => 'United States',
-        'attribute_set_id' => 'Default',
+        'attribute_set_id' => ['dataSet' => 'default'],
         'category' => 'Apparel & Accessories',
     ];
 
@@ -49,6 +49,7 @@ class GoogleShoppingAttributes extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\GoogleShopping\Test\Fixture\GoogleShoppingAttributes\AttributeSetId',
     ];
 
     protected $target_country = [

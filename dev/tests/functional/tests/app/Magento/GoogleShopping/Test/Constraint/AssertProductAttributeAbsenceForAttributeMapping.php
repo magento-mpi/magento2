@@ -37,8 +37,7 @@ class AssertProductAttributeAbsenceForAttributeMapping extends AbstractConstrain
      * @param GoogleShoppingTypesNew $shoppingTypesNew
      * @return void
      */
-    public function processAssert
-    (
+    public function processAssert(
         FixtureFactory $fixtureFactory,
         CatalogAttributeSet $productTemplate,
         GoogleShoppingTypesIndex $shoppingTypesIndex,
@@ -52,7 +51,7 @@ class AssertProductAttributeAbsenceForAttributeMapping extends AbstractConstrain
             [
                 'dataSet' => 'default',
                 'data' => [
-                    'attribute_set_id' => $productTemplate->getAttributeSetName()
+                    'attribute_set_id' => ['attribute_set' => $productTemplate]
                 ],
             ]
         );
@@ -60,7 +59,7 @@ class AssertProductAttributeAbsenceForAttributeMapping extends AbstractConstrain
         $shoppingTypesNew->getGoogleShoppingForm()->fill($shoppingAttributes);
         $shoppingTypesNew->getGoogleShoppingForm()->clickAddNewAttribute();
 
-        $attributeCode  = $productTemplate
+        $attributeCode = $productTemplate
             ->getDataFieldConfig('assigned_attributes')['source']
             ->getAttributes()[0]
             ->getAttributeCode();
@@ -72,12 +71,12 @@ class AssertProductAttributeAbsenceForAttributeMapping extends AbstractConstrain
     }
 
     /**
-     * Text absent Product Attribute in Attribute set mapping
+     * Text absent Product Attribute in Google Content Attribute Mapping
      *
      * @return string
      */
     public function toString()
     {
-        return "Attribute is absent in Attribute set mapping.";
+        return "Attribute is absent in Google Content Attribute Mapping.";
     }
 }
