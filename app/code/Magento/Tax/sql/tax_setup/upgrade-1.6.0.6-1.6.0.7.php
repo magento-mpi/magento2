@@ -95,4 +95,3 @@ $connection->addForeignKey(
     $installer->getTable('sales_flat_order_item'),
     'item_id'
 );
-
