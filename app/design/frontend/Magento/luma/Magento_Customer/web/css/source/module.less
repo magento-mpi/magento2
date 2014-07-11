@@ -133,14 +133,24 @@
         }
     }
     .block.account-nav {
-        .css(background, @sidebar-background);
-        padding: 15px 0;
+        margin-bottom: 20px;
         .title {
-            padding: 0 18px;
-            margin-bottom: 25px;
+            &:extend(.abstract-toggling-title all);
+            border-bottom: @border-width-base solid @border-color-base;
             strong {
-                .heading(h3);
+                .font-size(14);
+                font-weight: @font-weight-base;
             }
+            &.active {
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: after
+                );
+            }
+        }
+        .content {
+            padding: 15px 0;
+            .css(background, @sidebar-background);
         }
         .nav.items {
             padding: 0;
@@ -153,8 +163,7 @@
                 a,
                 strong {
                     display: block;
-                    padding: 0 18px 0 15px;
-                    line-height: 30px;
+                    padding: 5px 18px 5px 15px;
                     .css(border-left, @account-nav-current-border);
                 }
                 a {
@@ -223,13 +232,6 @@
     .action.reload {
         margin: 10px 0 0;
     }
-}
-
-//
-//    Welcome block
-//--------------------------------------
-.toggle-dashboard-welcome {
-    display: none;
 }
 
 //
@@ -309,8 +311,8 @@
                 margin-bottom: 0;
             }
         }
-        .account-nav {
-            .title {
+        .block.account-nav {
+             .title {
                 &:extend(.visually-hidden-desktop all);
             }
         }
@@ -361,6 +363,13 @@
             &:extend(.abstract-account-block-font-size all);
         }
     }
+
+    //
+    //    Welcome block
+    //--------------------------------------
+    .dashboard-welcome-toggler {
+        &:extend(.visually-hidden-desktop all);
+    }
 }
 
 //
@@ -388,6 +397,17 @@
             }
         }
 
+        .block.account-nav {
+            margin-left: -@layout-width-xs-indent;
+            margin-right: -@layout-width-xs-indent;
+            .content {
+                display: none;
+                &-toggled {
+                    display: block;
+                }
+            }
+        }
+
 //
 //    Welcome block
 //--------------------------------------
@@ -401,7 +421,7 @@
             }
         }
 
-        .toggle-dashboard-welcome {
+        .dashboard-welcome-toggler {
             display: block;
             cursor: pointer;
             float: right;
@@ -451,7 +471,7 @@
             padding: 15px 20px 20px;
             position: absolute;
             z-index: 3;
-            &.hidden {
+            &-toggled {
                 display: none;
             }
         }

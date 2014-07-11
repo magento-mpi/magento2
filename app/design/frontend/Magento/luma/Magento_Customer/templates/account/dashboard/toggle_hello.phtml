@@ -9,6 +9,6 @@
 /** @var \Magento\Customer\Block\Account\Dashboard\Hello $this */
 ?>
 
-<div id="expand-welcome" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#dashboard-welcome"}}' class="toggle-dashboard-welcome">
+<div id="expand-welcome" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#dashboard-welcome", "selectorsToggleClass": "dashboard-welcome-toggled"}}' class="dashboard-welcome-toggler">
     <span><span><?php echo __('Hello, %1!', $this->escapeHtml($this->getCustomerName())) ?></span></span>
 </div>
