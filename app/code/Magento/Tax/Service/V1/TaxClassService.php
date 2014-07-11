@@ -9,7 +9,6 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
