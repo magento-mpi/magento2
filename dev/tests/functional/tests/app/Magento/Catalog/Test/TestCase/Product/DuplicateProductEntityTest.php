@@ -10,7 +10,6 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;

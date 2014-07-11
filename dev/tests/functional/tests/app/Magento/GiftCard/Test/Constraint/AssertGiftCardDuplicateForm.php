@@ -26,7 +26,7 @@ class AssertGiftCardDuplicateForm extends AssertProductDuplicateForm
     protected $severeness = 'low';
 
     /**
-     * Assert form data equals duplicate product gift card data
+     * Assert form data equals duplicate gift card data
      *
      * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid

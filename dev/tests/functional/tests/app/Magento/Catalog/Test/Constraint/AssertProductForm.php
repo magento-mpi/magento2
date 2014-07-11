@@ -131,6 +131,11 @@ class AssertProductForm extends AbstractConstraint
                 && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
             ) {
                 $errors = array_merge($errors, $innerErrors);
+            } elseif (!isset($formData[$key])) {
+                $errors = array_merge(
+                    $errors,
+                    ["- error key -> '{$key}' : error value ->  '{$value}' is not contained in the form"]
+                );
             } elseif ($value != $formData[$key]) {
                 $fixtureValue = empty($value) ? '<empty-value>' : $value;
                 $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
