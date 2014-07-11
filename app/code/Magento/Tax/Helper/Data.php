@@ -7,6 +7,7 @@
  */
 namespace Magento\Tax\Helper;
 
+use Magento\Customer\Helper\Session\CurrentCustomer;
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Calculation;
@@ -142,6 +143,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $addressConverter;
 
     /**
+     * Current customer
+     *
+     * @var CurrentCustomer
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
@@ -158,6 +166,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationServiceInterface $taxCalculationService
      * @param AddressConverter $addressConverter
+     * @param CurrentCustomer $currentCustomer
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -175,7 +184,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         TaxCalculationServiceInterface $taxCalculationService,
-        AddressConverter $addressConverter
+        AddressConverter $addressConverter,
+        CurrentCustomer $currentCustomer
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -193,6 +203,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->taxCalculationService = $taxCalculationService;
         $this->addressConverter = $addressConverter;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -495,7 +506,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getAllRatesByProductClass($store = null)
     {
         $result = array();
-        $defaultRate = $this->_calculation->getDefaultRateRequest($store);
+        $defaultRate = $this->_calculation->getDefaultRateRequest($store, $this->currentCustomer->getCustomerId());
         $rates = $this->_calculation->getRatesForAllProductTaxClasses($defaultRate);
         foreach ($rates as $class => $rate) {
             $result["value_{$class}"] = $rate;

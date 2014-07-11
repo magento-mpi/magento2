@@ -260,11 +260,12 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     /**
      * Returns tax config for Configurable options
      *
+     * @param int|null $customerId
      * @return array
      */
-    public function getTaxConfig()
+    public function getTaxConfig($customerId)
     {
-        $config = $this->prepareAdjustmentConfig();
+        $config = $this->prepareAdjustmentConfig($customerId);
         unset($config['product']);
         return $config;
     }
@@ -272,10 +273,12 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     /**
      * Default values for configurable options
      *
+     * @param int|null $customerId
      * @return array
      */
-    public function prepareAdjustmentConfig()
+    public function prepareAdjustmentConfig($customerId)
     {
+        //pass customer
         return [
             'includeTax' => false,
             'showIncludeTax' => false,
@@ -283,7 +286,8 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             'defaultTax' => 0,
             'currentTax' => 0,
             'inclTaxTitle' => __('Incl. Tax'),
-            'product' => $this->product
+            'product' => $this->product,
+            'customer' => $customerId
         ];
     }
 
