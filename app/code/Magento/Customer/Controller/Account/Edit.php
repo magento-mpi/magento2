@@ -9,6 +9,10 @@
 namespace Magento\Customer\Controller\Account;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
+use Magento\Customer\Helper\Address as CustomerHelper;
+use Magento\Framework\UrlFactory;
 
 class Edit extends \Magento\Customer\Controller\Account
 {
@@ -16,10 +20,10 @@ class Edit extends \Magento\Customer\Controller\Account
     protected $_customerBuilder;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Framework\UrlFactory $urlFactory
+     * @param Context $context
+     * @param Session $customerSession
+     * @param CustomerHelper $addressHelper
+     * @param UrlFactory $urlFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\State $appState
@@ -27,10 +31,10 @@ class Edit extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Framework\UrlFactory $urlFactory,
+        Context $context,
+        Session $customerSession,
+        CustomerHelper $addressHelper,
+        UrlFactory $urlFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\State $appState,

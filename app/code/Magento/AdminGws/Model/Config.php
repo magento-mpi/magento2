@@ -81,7 +81,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\A
          */
         $output = $this->get('callbacks/' . $callbackGroup . '/' . $objectClass, null);
         if (!$output) {
-            foreach ( $this->get('callbacks/' . $callbackGroup, array()) as $className => $callback) {
+            foreach ($this->get('callbacks/' . $callbackGroup, array()) as $className => $callback) {
                 if ($object instanceof $className) {
                     $output = $callback;
                     break;

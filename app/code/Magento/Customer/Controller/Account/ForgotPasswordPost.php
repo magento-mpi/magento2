@@ -10,6 +10,11 @@ namespace Magento\Customer\Controller\Account;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
+use Magento\Customer\Helper\Address;
+use Magento\Framework\UrlFactory;
+use Magento\Store\Model\StoreManagerInterface;
 
 class ForgotPasswordPost extends \Magento\Customer\Controller\Account
 {
@@ -17,22 +22,22 @@ class ForgotPasswordPost extends \Magento\Customer\Controller\Account
     protected $escaper;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Framework\UrlFactory $urlFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param Context $context
+     * @param Session $customerSession
+     * @param Address $addressHelper
+     * @param UrlFactory $urlFactory
+     * @param StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\State $appState
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\Escaper $escaper
      */
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Framework\UrlFactory $urlFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        Context $context,
+        Session $customerSession,
+        Address $addressHelper,
+        UrlFactory $urlFactory,
+        StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\State $appState,
         CustomerAccountServiceInterface $customerAccountService,
