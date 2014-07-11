@@ -140,3 +140,7 @@ a.collapsed-options {
 .p-top-10 {
     padding: 10px;
 }
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}

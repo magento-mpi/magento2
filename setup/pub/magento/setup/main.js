@@ -1,7 +1,11 @@
 'use strict';
 var main = angular.module('main', []);
-main.controller('navigationController', ['$scope', 'navigationService', function ($scope, navigationService) {
+main.controller('navigationController', ['$scope', '$state', 'navigationService', function ($scope, $state, navigationService) {
     navigationService.load();
+    $scope.itemStatus = function (order) {
+        console.log(order, $state.$current.order, $state.$current.order <= order);
+        return $state.$current.order <= order;
+    };
 }])
 .controller('mainController', [
     '$scope', '$state', 'navigationService',
