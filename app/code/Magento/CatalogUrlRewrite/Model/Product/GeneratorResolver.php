@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
+use Magento\UrlRedirect\Service\V1\Storage\Data\Converter;
 use Magento\CatalogUrlRewrite\Model\Product\GeneratorFactory;
 use Magento\Framework\App\Resource;
 use Magento\Store\Model\StoreManagerInterface;
@@ -18,6 +19,11 @@ use Magento\Eav\Model\Config;
  */
 class GeneratorResolver
 {
+    /**
+     * @var \Magento\UrlRedirect\Service\V1\Storage\Data\Converter
+     */
+    protected $converter;
+
     /**
      * Store manager
      *
@@ -53,6 +59,7 @@ class GeneratorResolver
     /**
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\CatalogUrlRewrite\Model\Product\GeneratorFactory $generatorFactory
+     * @param \Magento\UrlRedirect\Service\V1\Storage\Data\Converter $converter
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\Resource $resource
@@ -60,11 +67,12 @@ class GeneratorResolver
     public function __construct(
         Product $product,
         GeneratorFactory $generatorFactory,
+        Converter $converter,
         StoreManagerInterface $storeManager,
         Config $eavConfig,
         Resource $resource
-    )
-    {
+    ) {
+        $this->converter = $converter;
         $this->storeManager = $storeManager;
         $this->eavConfig = $eavConfig;
         $this->product = $product;
@@ -90,7 +98,7 @@ class GeneratorResolver
         } else {
             $urls = $this->generator->generatePerStore($storeId);
         }
-        return $urls;
+        return $this->convertToStorageObjects($urls);
     }
 
     /**
@@ -121,5 +129,20 @@ class GeneratorResolver
             $this->fallbackStoreData = $this->connection->fetchCol($select);
         }
         return !in_array($storeId, $this->fallbackStoreData);
+    }
+
+    /**
+     * Convert array of urls to storage data object
+     *
+     * @param array $urls
+     * @return \Magento\CatalogUrlRewrite\Service\V1\Storage\Data\Product[]
+     */
+    protected function convertToStorageObjects(array $urls)
+    {
+        $storageObjects = [];
+        foreach ($urls as $url) {
+            $storageObjects[] = $this->converter->convertArrayToObject($url);
+        }
+        return $storageObjects;
     }
 }

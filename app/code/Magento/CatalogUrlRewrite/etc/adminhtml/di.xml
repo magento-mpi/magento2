@@ -18,7 +18,17 @@
             <argument name="dataBuilderFactory" xsi:type="object">factoryForProductBuilder</argument>
         </arguments>
     </virtualType>
+    <virtualType name="ProductStorage" type="Magento\UrlRedirect\Service\V1\Storage\GenericStorage">
+        <arguments>
+            <argument name="converter" xsi:type="object">ProductConverter</argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\CatalogUrlRewrite\Model\Product\Generator">
+        <arguments>
+            <argument name="storage" xsi:type="object">ProductStorage</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogUrlRewrite\Model\Product\GeneratorResolver">
         <arguments>
             <argument name="converter" xsi:type="object">ProductConverter</argument>
         </arguments>

@@ -110,7 +110,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'entity_id' => $model->getEntityId(),
             'request_path' => $model->getRequestPath(),
             'target_path' => $model->getTargetPath(),
-            'options' => $model->getOptions(),
+            'redirect_type' => $model->getRedirectType(),
             'description' => $model->getDescription()
         );
 
@@ -190,14 +190,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var $optionsModel \Magento\UrlRedirect\Model\OptionProvider */
         $optionsModel = $this->_optionFactory->create();
         $fieldset->addField(
-            'options',
+            'redirect_type',
             'select',
             array(
                 'label' => __('Redirect'),
                 'title' => __('Redirect'),
-                'name' => 'options',
+                'name' => 'redirect_type',
                 'options' => $optionsModel->getAllOptions(),
-                'value' => $this->_formValues['options']
+                'value' => $this->_formValues['redirect_type']
             )
         );
 

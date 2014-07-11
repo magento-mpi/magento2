@@ -14,5 +14,8 @@ use Magento\UrlRedirect\Service\V1\Storage\Data\AbstractData;
  */
 class Product extends AbstractData
 {
-    const ENTITY_TYPE = 'product';
+    /** temporary solution for store product types */
+    const TYPE = 'product';
+
+    const TYPE_REDIRECT = 'product_redirect';
 }
