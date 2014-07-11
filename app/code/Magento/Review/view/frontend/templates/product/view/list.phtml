@@ -32,7 +32,7 @@
                 <div class="review-ratings">
                 <?php foreach ($_review->getRatingVotes() as $_vote): ?>
                 <div class="rating summary item rating-summary">
-                    <span class="label rating-label"><span><?php echo $this->escapeHtml($_vote->getRatingCode()) ?>:</span></span>
+                    <span class="label rating-label"><span><?php echo $this->escapeHtml($_vote->getRatingCode()) ?></span></span>
                     <div class="rating result rating-result" title="<?php echo $_vote->getPercent() ?>%">
                         <span style="width:<?php echo $_vote->getPercent() ?>%">
                             <span><?php echo $_vote->getPercent() ?>%</span>

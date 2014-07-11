@@ -79,7 +79,7 @@ class Review extends \Magento\Framework\View\Element\Template
     public function setTabTitle()
     {
         $title = $this->getCollectionSize()
-            ? __('Reviews (%1)', $this->getCollectionSize())
+            ? __('Reviews %1', '<span class="counter">' . $this->getCollectionSize() . '</span>')
             : __('Reviews');
         $this->setTitle($title);
     }
