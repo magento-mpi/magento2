@@ -10,7 +10,8 @@ var app = angular.module(
         'add-database',
         'web-configuration',
         'customize-your-store',
-        'create-admin-account'
+        'create-admin-account',
+        'install'
     ]);
 
 app.config(function ($stateProvider) {
