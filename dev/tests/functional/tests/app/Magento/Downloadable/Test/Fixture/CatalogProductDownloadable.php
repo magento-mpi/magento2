@@ -368,32 +368,8 @@ class CatalogProductDownloadable extends InjectableFixture
         'group' => 'product-details'
     ];
 
-    protected $inventory_manage_stock = [
-        'attribute_code' => 'inventory_manage_stock',
-        'input' => 'select',
-        'group' => 'advanced-inventory',
-    ];
-
     protected $stock_data = [
         'attribute_code' => 'stock_data',
-        'input' => 'text',
-        'group' => 'advanced-inventory',
-    ];
-
-    protected $stock_data_min_qty = [
-        'attribute_code' => 'stock_data',
-        'input' => 'text',
-        'group' => 'advanced-inventory',
-    ];
-
-    protected $stock_data_use_config_min_qty = [
-        'attribute_code' => 'stock_data_use_config_min_qty',
-        'input' => 'checkbox',
-        'group' => 'advanced-inventory'
-    ];
-
-    protected $inventory_qty = [
-        'attribute_code' => 'inventory_qty',
         'input' => 'text',
         'group' => 'advanced-inventory',
     ];

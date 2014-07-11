@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 /**
  * Class AssertProductSpecialPriceOnProductPage
  */
-class AssertProductSpecialPriceOnProductPage extends AbstractConstraint
+class AssertSpecialPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -23,6 +23,13 @@ class AssertProductSpecialPriceOnProductPage extends AbstractConstraint
      * @var string
      */
     protected $severeness = 'low';
+
+    /**
+     * Error message
+     *
+     * @var string
+     */
+    protected $errorMessage = 'Assert that displayed special price on product page NOT equals to passed from fixture.';
 
     /**
      * Assert that displayed special price on product page equals passed from fixture
@@ -35,16 +42,45 @@ class AssertProductSpecialPriceOnProductPage extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
+
+        //Process assertions
+        $this->assertPrice($product, $catalogProductView);
+    }
+
+    /**
+     * Set $errorMessage for special price assert
+     *
+     * @param string $errorMessage
+     * @return void
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
+    }
+
+    /**
+     * Verify product special price on product view page
+     *
+     * @param CatalogProductView $catalogProductView
+     * @param FixtureInterface $product
+     * @param string $block [optional]
+     * @return void
+     */
+    public function assertPrice(
+        FixtureInterface $product,
+        CatalogProductView $catalogProductView,
+        $block = ''
+    ) {
         $fields = $product->getData();
-        $specialPrice = $catalogProductView->getViewBlock()->getProductPrice();
+        $specialPrice = $catalogProductView->{'get' . $block . 'ViewBlock'}()->getProductPrice();
         $specialPrice = (isset($specialPrice['price_special_price']))
             ? $specialPrice['price_special_price']
             : null;
         if (isset($fields['special_price'])) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $fields['special_price'],
+                number_format($fields['special_price'], 2),
                 $specialPrice,
-                'Assert that displayed special price on product page NOT equals passed from fixture.'
+                $this->errorMessage
             );
         }
     }

@@ -85,13 +85,6 @@ class View extends Block
     protected $productPrice = '.price-box .price';
 
     /**
-     * Bundle options block
-     *
-     * @var string
-     */
-    protected $bundleBlock = '#product-options-wrapper';
-
-    /**
      * Click for Price link on Product page
      *
      * @var string
@@ -127,16 +120,11 @@ class View extends Block
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
 
     /**
-     * Get bundle options block
+     * This member holds the class name of the tier price block.
      *
-     * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
+     * @var string
      */
-    public function getBundleBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
-            $this->_rootElement->find($this->bundleBlock)
-        );
-    }
+    protected $priceBlock = '.product.info.main .price-box';
 
     /**
      * Get block price
@@ -146,7 +134,7 @@ class View extends Block
     protected function getPriceBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find('.product-info-main .price-box')
+            $this->_rootElement->find($this->priceBlock)
         );
     }
 
@@ -349,7 +337,7 @@ class View extends Block
     /**
      * This method return array tier prices
      *
-     * @param int $lineNumber
+     * @param int $lineNumber [optional]
      * @return array
      */
     public function getTierPrices($lineNumber = 1)

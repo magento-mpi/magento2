@@ -11,11 +11,12 @@ namespace Magento\Catalog\Test\Constraint;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Block\Product\View;
 
 /**
  * Class AssertProductTierPriceOnProductPage
  */
-class AssertProductTierPriceOnProductPage extends AbstractConstraint
+class AssertTierPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -25,11 +26,18 @@ class AssertProductTierPriceOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Decimals for price format
+     * Error message
+     *
+     * @var string
+     */
+    protected $errorMessage = 'Product tier price on product page is not correct.';
+
+    /**
+     * Format price
      *
      * @var int
      */
-    protected $decimals = 2;
+    protected $priceFormat = 2;
 
     /**
      * Assertion that tier prices are displayed correctly
@@ -46,7 +54,18 @@ class AssertProductTierPriceOnProductPage extends AbstractConstraint
         $catalogProductView->open();
 
         //Process assertions
-        $this->assertTierPrice($product, $catalogProductView);
+        $this->assertPrice($product, $catalogProductView);
+    }
+
+    /**
+     * Set $errorMessage for tier price assert
+     *
+     * @param string $errorMessage
+     * @return void
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
     }
 
     /**
@@ -54,14 +73,16 @@ class AssertProductTierPriceOnProductPage extends AbstractConstraint
      *
      * @param FixtureInterface $product
      * @param CatalogProductView $catalogProductView
+     * @param string $block [optional]
      * @return void
      */
-    protected function assertTierPrice(FixtureInterface $product, CatalogProductView $catalogProductView)
+    public function assertPrice(FixtureInterface $product, CatalogProductView $catalogProductView, $block = '')
     {
         $noError = true;
         $match = [];
         $index = 1;
-        $viewBlock = $catalogProductView->getViewBlock();
+        /** @var View $viewBlock */
+        $viewBlock = $catalogProductView->{'get' . $block . 'ViewBlock'}();
         $tierPrices = $product->getTierPrice();
 
         foreach ($tierPrices as $tierPrice) {
@@ -72,14 +93,14 @@ class AssertProductTierPriceOnProductPage extends AbstractConstraint
             }
             if (count($match) < 2
                 && $match[1] != $tierPrice['price_qty']
-                || $match[2] !== number_format($tierPrice['price'], $this->decimals)
+                || $match[2] !== number_format($tierPrice['price'], $this->priceFormat)
             ) {
                 $noError = false;
                 break;
             }
         }
 
-        \PHPUnit_Framework_Assert::assertTrue($noError, 'Product tier price on product page is not correct.');
+        \PHPUnit_Framework_Assert::assertTrue($noError, $this->errorMessage);
     }
 
     /**
