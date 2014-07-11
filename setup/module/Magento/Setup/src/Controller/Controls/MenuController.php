@@ -44,7 +44,7 @@ class MenuController extends AbstractActionController
     public function indexAction()
     {
         $this->view->setVariable('menu', $this->navigation->getMenuItems());
-        $this->view->setVariable('main', $this->navigation->getMainItem());
+        $this->view->setVariable('main', $this->navigation->getMainItems());
         $this->view->setTerminal(true);
 
         return $this->view;

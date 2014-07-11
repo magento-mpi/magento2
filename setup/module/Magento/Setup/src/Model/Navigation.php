@@ -58,7 +58,7 @@ class Navigation
      *
      * @return array
      */
-    public function getMainItem()
+    public function getMainItems()
     {
         $result = array_filter(
             $this->serviceLocator->get('config')['nav'],
@@ -66,6 +66,6 @@ class Navigation
                 return isset($value['main']) && (bool)$value['main'];
             }
         );
-        return array_shift($result);
+        return $result;
     }
 }

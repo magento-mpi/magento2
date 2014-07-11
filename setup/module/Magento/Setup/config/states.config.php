@@ -99,6 +99,7 @@ return [
             'url'         => 'success',
             'templateUrl' => 'success',
             'controller'  => 'successController',
+            'main'        => true,
             'order'       => 8,
         ],
     ]

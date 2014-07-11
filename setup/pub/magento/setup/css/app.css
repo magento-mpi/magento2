@@ -134,3 +134,9 @@ a.collapsed-options {
     border-color: #a94442;
     border-radius: 4px;
 }
+.bold {
+    font-weight: bold;
+}
+.p-top-10 {
+    padding: 10px;
+}
