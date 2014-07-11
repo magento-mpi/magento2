@@ -18,7 +18,7 @@ $usage = "Usage: php -f version.php -- --version=2.1.3 [--dependent=<exact|wildc
 --version - set the specified version value to all the components. Format: 'x.y.z' or 'x.y.z-stability.n'
 --dependent - in all the dependent components, set a version of depenency
   exact - set exactly the same version as specified
-  wildcard - use the specified version, but replace last number via a wildcard - e.g. 1.2.*
+  wildcard - use the specified version, but replace last number with a wildcard - e.g. 1.2.*
 --dir - use specified path as the working directory
 ";
 
@@ -33,7 +33,7 @@ try {
     $collection = new Collection(isset($opt['dependent']) ? $opt['dependent'] : false);
     if (isset($opt['dir'])) {
         if (!is_dir($opt['dir'])) {
-            throw new \InvalidArgumentException("The specified directory doesn't exist");
+            throw new \InvalidArgumentException("The specified directory doesn't exist: '{$opt['dir']}'");
         }
         $rootDir = $opt['dir'];
     } else {

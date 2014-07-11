@@ -1,18 +1,26 @@
-composer-packager
-=================
+Composer Tools
+==============
 
-A tool that helps you package magento source code into composer packages.
+A set of tools that allows creating or maintaining `composer.json` files.
 
-Uses
+Skeleton Creator
 ---
-This tool uses the package identifier of skeleton, and create a composer package based on that information.
-The dependency's version are determined based on the information provided in identifier file of those packages. 
-The versions are modified to wrap upto 4 decimals. This will soon be fixed when the new versioning policy takes place.
-It also includes script to archive zip each package, and store it in a specified location.
 
+Creates in the root directory a `composer.json` file that aggregates all Magento components as Composer packages.
 
-Help
+```shell
+> php -f create-skeleton.php -- -help
+Usage: create-skeleton.php [ options ]
+--edition|-e <string> Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]
+--verbose|-v          Detailed console logs
+--dir|-d <string>     Working directory of build. Default current code base.
+
+```
+
+Archiver
 ---
+
+Breaks down a working copy into packages (zip-archives) with Magento components. Each component must already contain a `composer.json` file in its root directory.
 
 ```shell
 > php -f archiver.php -- -help
@@ -23,11 +31,19 @@ Usage: archiver.php [ options ]
 
 ```
 
+A package for Magento edition will also be created, if there is a `composer.json` file in the root directory of Magento code base. This package will contain everything except stuff that was packaged into other packages.
+
+Version Setter
+---
+
+Go through all composer.json files of Magento components and set their version. Can optionally update version in the dependent components.
+
 ```shell
-> php -f create-skeleton.php -- -help
-Usage: create-skeleton.php [ options ]
---edition|-e <string> Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]
---verbose|-v          Detailed console logs
---dir|-d <string>     Working directory of build. Default current code base.
+> php -f version.php -- --version=2.1.3 [--dependent=<exact|wildcard>] [--dir=/path/to/work/dir]
+--version - set the specified version value to all the components. Format: 'x.y.z' or 'x.y.z-stability.n'
+--dependent - in all the dependent components, set a version of depenency
+  exact - set exactly the same version as specified
+  wildcard - use the specified version, but replace last number with a wildcard - e.g. 1.2.*
+--dir - use specified path as the working directory
 
 ```
