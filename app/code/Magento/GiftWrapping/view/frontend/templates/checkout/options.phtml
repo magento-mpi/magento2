@@ -10,7 +10,7 @@
 
 <?php if ($this->getDesignCollectionCount() && ($this->getAllowForOrder() || $this->getAllowForItems() || $this->getGiftWrappingAvailable())): ?>
     <script id="gift-wrapping-container" type="text/x-jQuery-tmpl">
-        <div class="field gift wrapping">
+        <div class="field gift-wrapping">
             <label class="label"><span><?php echo __('Gift Wrapping Design') ?></span></label>
             <div class="control">
                 <?php echo $this->getDesignSelectHtml() ?>

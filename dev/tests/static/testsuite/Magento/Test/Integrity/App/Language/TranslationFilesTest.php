@@ -31,6 +31,7 @@ class TranslationFilesTest extends TranslationFiles
      */
     public function testDefaultLocale($file, $phrases)
     {
+        $this->markTestSkipped('MAGETWO-26083');
         $failures = $this->comparePhrase($phrases, $this->csvParser->getDataPairs($file));
         $this->assertEmpty(
             $failures,
@@ -140,6 +141,7 @@ class TranslationFilesTest extends TranslationFiles
      */
     public function testPhrasePlaceHolders($placePath)
     {
+        $this->markTestSkipped('MAGETWO-26083');
         $files = $this->getCsvFiles($placePath);
 
         $failures = array();
