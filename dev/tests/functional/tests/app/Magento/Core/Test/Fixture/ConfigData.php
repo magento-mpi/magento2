@@ -6,25 +6,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\Config\Test\Fixture;
+namespace Magento\Core\Test\Fixture;
 
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Config
+ * Class ConfigData
  * Config fixture
  */
-class Config extends InjectableFixture
+class ConfigData extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Config\Test\Repository\Config';
+    protected $repositoryClass = 'Magento\Core\Test\Repository\ConfigData';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Config\Test\Handler\Config\ConfigInterface';
+    protected $handlerInterface = 'Magento\Core\Test\Handler\ConfigData\ConfigDataInterface';
 
     /**
      * @var array

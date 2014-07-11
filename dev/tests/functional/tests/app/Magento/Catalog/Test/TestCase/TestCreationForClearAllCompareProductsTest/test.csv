@@ -1,2 +1,0 @@
-"config/dataSet";"products";"customer/dataSet";"constraint"
-"compare_products";"catalogProductSimple::simple_for_composite_products,catalogProductVirtual::default,giftCardProduct::default,catalogProductDownloadable::default,catalogProductGrouped::default,catalogProductConfigurable::default,catalogProductBundle::bundle_dynamic_product,catalogProductBundle::bundle_fixed_product";"default";"assertProductCompareSuccessRemoveAllProductsMessage, assertProductCompareItemsLinkIsAbsent, assertProductCompareRemoveLastProductMessage, assertProductIsNotVisibleInCompareBlock"

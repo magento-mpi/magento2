@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Config\Test\Handler\Config;
+namespace Magento\Core\Test\Handler\ConfigData;
 
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
@@ -19,7 +19,7 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
  * Class Curl
  * Setting config
  */
-class Curl extends AbstractCurl implements ConfigInterface
+class Curl extends AbstractCurl implements ConfigDataInterface
 {
     /**
      * Post request for setting configuration attribute
@@ -50,9 +50,9 @@ class Curl extends AbstractCurl implements ConfigInterface
         $result = [];
         $fields = $fixture->getData();
         if (isset($fields['section'])) {
-            foreach ($fields['section'] as $key => $field) {
-                $key = explode('/', $key);
-                $result[$key[0]]['groups'][$key[1]]['fields'][$key[2]]['value'] = $field;
+            foreach ($fields['section'] as $itemSection) {
+                list($scope, $group, $field) = explode('/', $itemSection['path']);
+                $result[$scope]['groups'][$group]['fields'][$field]['value'] = $itemSection['value'];
             }
         }
         return $result;

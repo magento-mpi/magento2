@@ -62,7 +62,7 @@ class Links extends Block
      */
     public function getQtyInCompareList()
     {
-        $compareProductLink = $this->_rootElement->find($this->qtyCompareProducts, Locator::SELECTOR_XPATH);
+        $compareProductLink = $this->_rootElement->find($this->qtyCompareProducts);
         if ($compareProductLink->isVisible()) {
             preg_match_all('/^\d+/', $compareProductLink->getText(), $matches);
             return $matches[0][0];

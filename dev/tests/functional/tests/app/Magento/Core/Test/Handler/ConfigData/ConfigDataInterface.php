@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Config\Test\Handler\Config;
+namespace Magento\Core\Test\Handler\ConfigData;
 
 use Mtf\Handler\HandlerInterface;
 
 /**
- * Interface ConfigInterface
+ * Interface ConfigDataInterface
  */
-interface ConfigInterface extends HandlerInterface
+interface ConfigDataInterface extends HandlerInterface
 {
     //
 }

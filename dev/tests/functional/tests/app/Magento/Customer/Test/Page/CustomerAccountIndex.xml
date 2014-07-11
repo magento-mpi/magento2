@@ -32,4 +32,10 @@
         <locator>.nav.items</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>compareProductsBlock</name>
+        <class>Magento\Catalog\Test\Block\Product\Compare\ListCompare</class>
+        <locator>.block.compare</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

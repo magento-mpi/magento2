@@ -46,7 +46,7 @@ class CustomerAccountIndex extends FrontendPage
         ],
         'compareProductsBlock' => [
             'name' => 'compareProductsBlock',
-            'class' => 'Magento\Catalog\Test\Block\Product\Compare\ListCompare\Interceptor',
+            'class' => 'Magento\Catalog\Test\Block\Product\Compare\ListCompare',
             'locator' => '.block.compare',
             'strategy' => 'css selector',
         ],
@@ -89,7 +89,7 @@ class CustomerAccountIndex extends FrontendPage
     /**
      * Get compare products block
      *
-     * @return \Magento\Catalog\Test\Block\Product\Compare\ListCompare\Interceptor
+     * @return \Magento\Catalog\Test\Block\Product\Compare\ListCompare
      */
     public function getCompareProductsBlock()
     {
