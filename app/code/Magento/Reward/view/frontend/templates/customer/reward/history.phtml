@@ -11,17 +11,17 @@
  * @see \Magento\Reward\Block\Customer\Reward\History
  */
 ?>
-<div class="block reward history">
-    <div class="title">
+<div class="block block-reward-history">
+    <div class="block-title">
         <strong><?php echo __('Balance History'); ?></strong>
     </div>
-    <div class="content">
+    <div class="block-content">
         <?php if ($history = $this->getHistory()):?>
 
         <?php echo $this->getChildHtml('pager') ?>
 
-        <div class="table-wrapper reward history">
-            <table class="data table reward history">
+        <div class="table-wrapper reward-history">
+            <table class="data table table-reward-history">
                 <caption class="table caption"><?php echo __('Balance History') ?></caption>
                 <thead>
                     <tr>

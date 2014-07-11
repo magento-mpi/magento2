@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 ?>
-<div class="block dashboard-orders">
+<div class="block block-dashboard-orders">
 <?php $_orders = $this->getOrders(); ?>
-    <div class="order title">
+    <div class="block-title order">
         <strong><?php echo __('Recent Orders') ?></strong>
         <?php if( sizeof($_orders->getItems()) > 0 ): ?>
             <a class="action view" href="<?php echo $this->getUrl('sales/order/history') ?>">
@@ -16,7 +16,7 @@
             </a>
         <?php endif; ?>
     </div>
-    <div class="content">
+    <div class="block-content">
     <?php echo $this->getChildHtml()?>
     <?php if( sizeof($_orders->getItems()) > 0 ): ?>
         <div class="table-wrapper orders-recent">

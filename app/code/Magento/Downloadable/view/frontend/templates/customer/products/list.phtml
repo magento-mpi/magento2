@@ -13,11 +13,11 @@
 ?>
 <?php $_items = $this->getItems(); ?>
 <?php if(count($_items)): ?>
-    <div class="downloadable products toolbar">
+    <div class="toolbar downloadable-products-toolbar top">
         <?php echo $this->getChildHtml('pager'); ?>
     </div>
-    <div class="table-wrapper downloadable products">
-        <table id="my-downloadable-products-table" class="data table downloadable products">
+    <div class="table-wrapper downloadable-products">
+        <table id="my-downloadable-products-table" class="data table table-downloadable-products">
             <caption class="table caption"><?php echo __('Downloadable Products') ?></caption>
             <thead>
                 <tr>
@@ -48,7 +48,7 @@
             </tbody>
         </table>
     </div>
-    <div class="downloadable products toolbar">
+    <div class="toolbar downloadable-products-toolbar bottom">
         <?php echo $this->getChildHtml('pager'); ?>
     </div>
 <?php else: ?>

@@ -6,12 +6,14 @@
  * @license     {license_link}
  */
 ?>
-<div class="block balance">
-	<div class="title">
-		<strong><?php echo __('Balance'); ?></strong>
-	</div>
-	<p>
-		<span class="balance-price-label"><?php echo __('Your current balance is:'); ?></span>
-		<?php echo $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
-	</p>
+<div class="block block-balance">
+    <div class="block-title">
+        <strong><?php echo __('Balance'); ?></strong>
+    </div>
+    <div class="block-content">
+        <p>
+            <span class="balance-price-label"><?php echo __('Your current balance is:'); ?></span>
+            <?php echo $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
+        </p>
+    </div>
 </div>

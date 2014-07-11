@@ -35,7 +35,7 @@
     }
 }
 
-.block.addresses.list {
+.block-addresses-list {
     .items.addresses {
         > .item {
             margin-bottom: @indent-base;
@@ -58,21 +58,12 @@
     }
 }
 
-.address.billing,
-.address.shipping,
-.box.information,
-.box.newsletter {
-    address,
-    p {
+.box-address-billing,
+.box-address-shipping,
+.box-information,
+.box-newsletter {
+    .box-content {
         line-height: 24px;
-    }
-}
-
-.box.information {
-    .change-password {
-        display: inline-block;
-        font-size: @font-size-base;
-        margin-top: @indent-xs-base;
     }
 }
 
@@ -101,16 +92,15 @@
             }
         }
         .block:not(.widget) {
-            .title {
+            .block-title {
                 &:extend(.abstract-account-title all);
                 > .action {
                     margin-left: 15px;
                 }
             }
-            .subtitle {
+            .box-title {
                 > span {
-                    //.heading(h4);
-                    font-size: 16px;
+                    .font-size(16);
                 }
                 display: inline-block;
                 margin: 0 0 @indent-s-base;
@@ -119,14 +109,11 @@
                     margin-left: 15px;
                 }
             }
-            .content {
-                p:last-child {
-                    margin-bottom: 0;
-                }
+            .box-content {
             }
         }
-        .block.dashboard-welcome {
-            .title {
+        .block.block-dashboard-welcome {
+            .block-title {
                 border-bottom: 0;
                 padding: 0;
             }
@@ -222,6 +209,12 @@
         }
         margin-bottom: @indent-s-base;
     }
+    p:last-child {
+        margin: 0;
+    }
+    .box-actions {
+        margin-top: @indent-xs-base;
+    }
 }
 
 .control.captcha-image {
@@ -294,7 +287,7 @@
         }
         .column.main {
             .block:not(.widget) {
-                .content {
+                .block-content {
                     &:extend(.add-clearfix-desktop all);
                     .box {
                         &:extend(.blocks-2columns all);
@@ -326,7 +319,7 @@
         }
     }
 
-    .block.addresses.list {
+    .block-addresses-list {
         .items.addresses {
             &:extend(.add-clearfix-desktop all);
             > .item {
@@ -354,12 +347,15 @@
         }
     }
 
-    .address.billing,
-    .address.shipping,
-    .box.information,
-    .dashboard-welcome {
-        address,
-        p {
+    .box-address-billing,
+    .box-address-shipping,
+    .box-information {
+        .box-content {
+            &:extend(.abstract-account-block-font-size all);
+        }
+    }
+    .block-dashboard-welcome {
+        .block-content {
             &:extend(.abstract-account-block-font-size all);
         }
     }
@@ -382,16 +378,19 @@
         }
         .column.main {
             .block:not(.widget) {
-                .title {
+                .block-title {
                     &:extend(.add-clearfix-mobile all);
                     > .action {
                         float: right;
                         .css(margin-top, @indent-xs-base);
                     }
                 }
-                .content {
+                .block-content {
                     .box {
                         .css(margin-bottom, @indent-base);
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
                     }
                 }
             }
@@ -412,7 +411,7 @@
 //    Welcome block
 //--------------------------------------
         .column.main {
-            .dashboard-welcome:not(.widget) {
+            .block-dashboard-welcome:not(.widget) {
                 .title {
                     border: 0;
                     margin: 0 0 20px;
@@ -463,7 +462,7 @@
             }
         }
 
-        .dashboard-welcome {
+        .block-dashboard-welcome {
             background: @page-bg-color;
             border: @border-width-base solid @border-color-base;
             .css(box-shadow, @dropdown-list-shadow);
@@ -471,7 +470,7 @@
             padding: 15px 20px 20px;
             position: absolute;
             z-index: 3;
-            &-toggled {
+            &.toggled {
                 display: none;
             }
         }

@@ -7,11 +7,11 @@
  */
 ?>
 <?php if( $this->getCollection() && $this->count()): ?>
-    <div class="products toolbar reviews">
+    <div class="toolbar products-reviews-toolbar top">
         <?php echo $this->getToolbarHtml() ?>
     </div>
     <div class="table-wrapper reviews">
-        <table class="data table reviews" id="my-reviews-table">
+        <table class="data table table-reviews" id="my-reviews-table">
             <caption class="table caption"><?php echo __('Product Reviews') ?></caption>
             <thead>
                 <tr>
@@ -54,7 +54,7 @@
             </tbody>
         </table>
     </div>
-    <div class="products toolbar reviews bottom">
+    <div class="toolbar products-reviews-toolbar bottom">
         <?php echo $this->getToolbarHtml() ?>
     </div>
 <?php else: ?>

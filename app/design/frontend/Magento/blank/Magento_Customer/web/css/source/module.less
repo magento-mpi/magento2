@@ -33,7 +33,7 @@
     }
 }
 
-.block.addresses.list {
+.block-addresses-list {
     .items.addresses {
         > .item {
             margin-bottom: @indent-base;
@@ -56,12 +56,11 @@
 	}
 }
 
-.address.billing,
-.address.shipping,
-.box.information,
-.box.newsletter {
-    address,
-    p {
+.box-address-billing,
+.box-address-shipping,
+.box-information,
+.box-newsletter {
+    .box-content {
         line-height: 26px;
     }
 }
@@ -81,7 +80,7 @@
             margin-bottom: @indent-base;
         }
         .block:not(.widget) {
-            .title {
+            .block-title {
                 > strong {
                     .heading(h3);
                 }
@@ -90,7 +89,7 @@
                     margin-left: 15px;
                 }
             }
-            .subtitle {
+            .box-title {
                 > span {
                     .heading(h4);
                 }
@@ -101,7 +100,7 @@
                     margin-left: 15px;
                 }
             }
-            .content {
+            .block-content {
                 p:last-child {
                     margin-bottom: 0;
                 }
@@ -189,6 +188,12 @@
         }
         margin-bottom: @indent-s-base;
     }
+    p:last-child {
+        margin: 0;
+    }
+    .box-actions {
+        margin-top: @indent-xs-base;
+    }
 }
 
 
@@ -257,7 +262,7 @@
     .account {
         .column.main {
             .block:not(.widget) {
-                .content {
+                .block-content {
                     &:extend(.add-clearfix-desktop all);
                     .box {
                         &:extend(.blocks-2columns all);
@@ -276,7 +281,7 @@
         }
     }
 
-    .block.addresses.list {
+    .block-addresses-list {
         .items.addresses {
             &:extend(.add-clearfix-desktop all);
             > .item {

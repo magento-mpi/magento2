@@ -12,12 +12,12 @@
 ?>
 
 <?php if( $this->getCollection() && $this->count()): ?>
-<div class="block reviews dashboard">
-    <div class="title">
+<div class="block block-reviews-dashboard">
+    <div class="block-title">
         <strong><?php echo __('My Recent Reviews') ?></strong>
         <a class="action view" href="<?php echo $this->getAllReviewsUrl() ?>"><span><?php echo __('View All Reviews') ?></span></a>
     </div>
-    <div class="content">
+    <div class="block-content">
         <ol class="items">
         <?php foreach ($this->getCollection() as $_review): ?>
             <li class="item">

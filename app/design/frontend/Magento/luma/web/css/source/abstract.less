@@ -169,7 +169,7 @@
 //
 //    Input quantity
 //--------------------------------------
-.input-qty {
+.abstract-input-qty {
     .form-element-size(@_width: 54px);
     text-align: center;
 }
@@ -604,7 +604,7 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .abstract-account-block-font-size {
-        font-size: 16px;
+        .font-size(16);
     }
 }
 
