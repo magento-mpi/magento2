@@ -74,9 +74,6 @@ class Image extends \Magento\Customer\Block\Adminhtml\Form\Element\File
      */
     protected function _getPreviewUrl()
     {
-        if (is_array($this->getValue())) {
-            return false;
-        }
         return $this->_adminhtmlData->getUrl(
             'customer/index/viewfile',
             array('image' => $this->_adminhtmlData->urlEncode($this->getValue()))

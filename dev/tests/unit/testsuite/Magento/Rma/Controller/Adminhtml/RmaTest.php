@@ -17,27 +17,27 @@ namespace Magento\Rma\Controller\Adminhtml;
 class RmaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Rma\Controller\Adminhtml\Rma
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Rma\Controller\Adminhtml\Rma
      */
     protected $controllerMock;
 
     /**
-     * @var \Magento\Framework\App\Request\Http
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\Request\Http
      */
     protected $requestMock;
 
     /**
-     * @var \Magento\Framework\App\Response\Http
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\Response\Http
      */
     protected $responseMock;
 
     /**
-     * @var \Magento\Framework\Registry
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Registry
      */
     protected $coreRegistryMock;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\ObjectManager
      */
     protected $objectManagerMock;
 
@@ -87,7 +87,7 @@ class RmaTest extends \PHPUnit_Framework_TestCase
     protected $statusHistoryMock;
 
     /**
-     * @var \Magento\Framework\App\ViewInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\ViewInterface
      */
     protected $viewMock;
 
@@ -431,5 +431,58 @@ class RmaTest extends \PHPUnit_Framework_TestCase
             ->with($commentText, null);
 
         $this->assertNull($this->controllerMock->addCommentAction());
+    }
+
+    public function testLoadNewAttributesAction()
+    {
+        $blockHtml = 'test';
+        $productId = 1;
+        $itemId = 2;
+        $this->requestMock->expects($this->at(0))
+            ->method('getParam')
+            ->with('order_id');
+        $this->requestMock->expects($this->at(1))
+            ->method('getParam')
+            ->with('product_id')
+            ->will($this->returnValue($productId));
+        $this->requestMock->expects($this->at(2))
+            ->method('getParam')
+            ->with('item_id')
+            ->will($this->returnValue($itemId));
+
+        $rmaBlockMock = $this->getMockBuilder('Magento\Rma\Block\Adminhtml\Rma\Edit\Item')
+            ->disableOriginalConstructor()
+            ->setMethods(['setProductId', 'setHtmlPrefixId', 'initForm', 'toHtml'])
+            ->getMock();
+
+        $rmaBlockMock->expects($this->once())
+            ->method('setProductId')
+            ->with($productId)
+            ->will($this->returnSelf());
+        $rmaBlockMock->expects($this->once())
+            ->method('setHtmlPrefixId')
+            ->with($itemId)
+            ->will($this->returnSelf());
+        $rmaBlockMock->expects($this->once())
+            ->method('initForm')
+            ->will($this->returnSelf());
+        $rmaBlockMock->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue($blockHtml));
+
+        $layoutMock = $this->getMockBuilder('Magento\Framework\View\Layout')
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
+        $layoutMock->expects($this->once())
+            ->method('getBlock')
+            ->with('magento_rma_edit_item')
+            ->will($this->returnValue($rmaBlockMock));
+
+        $this->viewMock->expects($this->any())
+            ->method('getLayout')
+            ->will($this->returnValue($layoutMock));
+
+        $this->assertNull($this->controllerMock->loadNewAttributesAction());
     }
 }
