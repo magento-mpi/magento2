@@ -387,7 +387,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $session->setStepData('complex', 'key2', 'value2');
         $session->setStepData('simple', array('key' => 'value'));
         $session->setStepData('simple', 'key2', 'value2');
-        $expectedResult = $stepData = array(
+        $expectedResult = array(
             'complex' => array(
                 'key' => 'value',
                 'key2' => 'value2',
