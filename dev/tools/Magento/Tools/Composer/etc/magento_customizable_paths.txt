@@ -1,4 +1,5 @@
 app/etc/*
+app/etc/enterprise/*
 dev/tests/api-functional/testsuite/*
 dev/tests/functional/testsuites/*
 dev/tests/functional-old/testsuite/*
@@ -7,6 +8,7 @@ dev/tests/js/testsuite/*
 dev/tests/performance/testsuite/*
 dev/tests/static/testsuite/*
 dev/tests/unit/testsuite/*
+lib/internal/*
 lib/web/*
 pub/media/customer/*
 pub/media/downloadable/*

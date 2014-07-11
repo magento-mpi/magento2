@@ -10,7 +10,6 @@ require __DIR__ . '/../../../bootstrap.php';
 
 use \Magento\Tools\Composer\Package\Reader;
 use \Magento\Tools\Composer\Package\Package;
-use Magento\Tools\Composer\Helper\RootMapping;
 
 /**
  * Composer Skeleton Creator Tool

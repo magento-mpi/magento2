@@ -72,9 +72,8 @@ try {
     }
 
     //Creating zipped folders for skeletons
-    $components = file(str_replace('\\', '/',
-        realpath(__DIR__ . '/etc/magento_components_list.txt')),FILE_IGNORE_NEW_LINES);
-    for($i=0 ; $i<count($components); $i++){
+    $components = $reader->getPatterns();
+    for ($i = 0 ; $i<count($components); $i++) {
         $components[$i] = str_replace('\\', '/', realpath($workingDir)) . '/' . $components[$i];
     }
 

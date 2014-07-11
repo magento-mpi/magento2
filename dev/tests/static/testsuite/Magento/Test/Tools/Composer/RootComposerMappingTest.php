@@ -7,6 +7,9 @@
  */
 namespace Magento\Test\Tools\Composer;
 
+use \Magento\Tools\Composer\Package\Reader;
+
+
 /**
  * Class RootComposerMappingTest
  */
@@ -19,21 +22,22 @@ class RootComposerMappingTest extends \PHPUnit_Framework_TestCase
     public function testMapping()
     {
         //Checking existence of composer components
-        $paths = file(BP . '/dev/tools/Magento/Tools/Composer/etc/magento_components_list.txt', FILE_IGNORE_NEW_LINES);
+        $reader = new Reader(BP . '/dev/tools/Magento/Tools/Composer');
+        $patterns = $reader->getPatterns();
         $counter = 0;
-        for($i=0; $i<count($paths); $i++){
-            if (file_exists(BP . '/' . $paths[$i])) {
+        for ($i = 0; $i<count($patterns); $i++) {
+            if (file_exists(BP . '/' . $patterns[$i])) {
                 $counter++;
             }
         }
 
-        $this->assertEquals(count($paths), $counter);
+        $this->assertEquals(count($patterns), $counter);
 
         //Checking existence of customizable paths
         $paths = file(BP .
             '/dev/tools/Magento/Tools/Composer/etc/magento_customizable_paths.txt', FILE_IGNORE_NEW_LINES);
         $counter = 0;
-        for($i=0; $i<count($paths); $i++){
+        for ($i = 0; $i<count($paths); $i++) {
             if (file_exists(BP . '/' . str_replace('*', '', $paths[$i]))) {
                 $counter++;
             }
