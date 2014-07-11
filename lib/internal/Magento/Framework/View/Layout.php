@@ -1562,18 +1562,11 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         if ($options = $this->getRendererOptions($namespace, $staticType, $dynamicType)) {
             $dictionary = array();
             /** @var $block \Magento\Framework\View\Element\Template */
-            $block = $this->createBlock(
-                $options['type'],
-                ''
-            )->setData(
-                $data
-            )->assign(
-                $dictionary
-            )->setTemplate(
-                $options['template']
-            )->assign(
-                $data
-            );
+            $block = $this->createBlock($options['type'], '')
+                ->setData($data)
+                ->assign($dictionary)
+                ->setTemplate($options['template'])
+                ->assign($data);
 
             echo $this->_renderBlock($block->getNameInLayout());
         }

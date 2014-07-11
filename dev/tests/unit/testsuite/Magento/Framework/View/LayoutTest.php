@@ -213,7 +213,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     protected function prepareGenerateBlock($name)
     {
         $blockClass = 'Magento\Framework\View\Element\Template';
-        $xmlString = '<?xml version="1.0"?><block class="' . $blockClass . '"></block>';
+        $template = 'file.phtml';
+        $ttl = 100;
+        $xmlString = '<?xml version="1.0"?><block class="' . $blockClass . '" template="' . $template
+            . '" ttl="' . $ttl . '"></block>';
         $xml = simplexml_load_string($xmlString, 'Magento\Framework\View\Layout\Element');
         $elementData = [\Magento\Framework\View\Layout\Element::TYPE_BLOCK, $xml, [], []];
         $this->schStructureMock->expects($this->once())
@@ -225,9 +228,17 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($name))
             ->will($this->returnSelf());
         $blockMock = $this->getMockBuilder('Magento\Framework\View\Element\AbstractBlock')
-            ->setMethods(['setType', 'setNameInLayout', 'addData', 'setLayout'])
+            ->setMethods(['setType', 'setNameInLayout', 'addData', 'setLayout', 'setTemplate', 'setTtl'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
+        $blockMock->expects($this->once())
+            ->method('setTemplate')
+            ->with($this->equalTo($template))
+            ->will($this->returnSelf());
+        $blockMock->expects($this->once())
+            ->method('setTtl')
+            ->with($this->equalTo($ttl))
+            ->will($this->returnSelf());
         $blockMock->expects($this->once())
             ->method('setType')
             ->with($this->equalTo(get_class($blockMock)))
@@ -255,5 +266,208 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(['block' => $blockMock])
             )
             ->will($this->returnSelf());
+    }
+
+    public function testSetChild()
+    {
+        $elementName = 'child';
+        $parentName = 'parent';
+        $alias = 'some_alias';
+        $this->structureMock->expects($this->once())
+            ->method('setAsChild')
+            ->with($this->equalTo($elementName), $this->equalTo($parentName), $this->equalTo($alias))
+            ->will($this->returnSelf());
+        $this->assertSame($this->model, $this->model->setChild($parentName, $elementName, $alias));
+    }
+
+    public function testUnsetChild()
+    {
+        $parentName = 'parent';
+        $alias = 'some_alias';
+        $this->structureMock->expects($this->once())
+            ->method('unsetChild')
+            ->with($this->equalTo($parentName), $this->equalTo($alias))
+            ->will($this->returnSelf());
+        $this->assertSame($this->model, $this->model->unsetChild($parentName, $alias));
+    }
+
+    public function testGetChildNames()
+    {
+        $parentName = 'parent';
+        $childrenArray = ['key1' => 'value1', 'key2' => 'value2'];
+        $this->structureMock->expects($this->once())
+            ->method('getChildren')
+            ->with($this->equalTo($parentName))
+            ->will($this->returnValue($childrenArray));
+        $this->assertSame(['key1', 'key2'], $this->model->getChildNames($parentName));
+    }
+
+    public function testGetChildBlocks()
+    {
+        $parentName = 'parent';
+        $childrenArray = ['block_name' => 'value1'];
+        $this->structureMock->expects($this->once())
+            ->method('getChildren')
+            ->with($this->equalTo($parentName))
+            ->will($this->returnValue($childrenArray));
+
+        $blockMock = $this->getMockBuilder('Magento\Framework\View\Element\AbstractBlock')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->blockFactoryMock->expects($this->once())->method('createBlock')->will($this->returnValue($blockMock));
+        $this->assertSame($blockMock, $this->model->createBlock('type', 'block_name', []));
+        $this->assertSame(['value1' => $blockMock], $this->model->getChildBlocks($parentName));
+    }
+
+    public function testGetChildName()
+    {
+        $parentName = 'parent';
+        $alias = 'some_alias';
+        $this->structureMock->expects($this->once())
+            ->method('getChildId')
+            ->with($this->equalTo($parentName), $this->equalTo($alias))
+            ->will($this->returnValue('1'));
+        $this->assertSame('1', $this->model->getChildName($parentName, $alias));
+    }
+
+    public function testAddToParentGroup()
+    {
+        $blockName = 'block_name';
+        $parentGroup = 'parent_group';
+        $this->structureMock->expects($this->once())
+            ->method('addToParentGroup')
+            ->with($this->equalTo($blockName), $this->equalTo($parentGroup))
+            ->will($this->returnSelf());
+        $this->assertSame($this->structureMock, $this->model->addToParentGroup($blockName, $parentGroup));
+    }
+
+    public function testGetGroupChildNames()
+    {
+        $blockName = 'block_name';
+        $groupName = 'group_name';
+        $this->structureMock->expects($this->once())
+            ->method('getGroupChildNames')
+            ->with($this->equalTo($blockName), $this->equalTo($groupName))
+            ->will($this->returnSelf());
+        $this->assertSame($this->structureMock, $this->model->getGroupChildNames($blockName, $groupName));
+    }
+
+    public function testHasElement()
+    {
+        $elementName = 'name';
+        $this->structureMock->expects($this->once())
+            ->method('hasElement')
+            ->with($this->equalTo($elementName))
+            ->will($this->returnValue(true));
+        $this->assertTrue($this->model->hasElement($elementName));
+    }
+
+    public function testGetElementProperty()
+    {
+        $elementName = 'name';
+        $elementAttr = 'attribute';
+        $result = 'result';
+        $this->structureMock->expects($this->once())
+            ->method('getAttribute')
+            ->with($this->equalTo($elementName), $this->equalTo($elementAttr))
+            ->will($this->returnValue($result));
+        $this->assertSame($result, $this->model->getElementProperty($elementName, $elementAttr));
+    }
+
+    /**
+     * @param bool $hasElement
+     * @param string $attribute
+     * @param bool $result
+     * @dataProvider isContainerDataProvider
+     */
+    public function testIsContainer($hasElement, $attribute, $result)
+    {
+        $elementName = 'element_name';
+        $this->structureMock->expects($this->once())
+            ->method('hasElement')
+            ->with($this->equalTo($elementName))
+            ->will($this->returnValue($hasElement));
+        if ($hasElement) {
+            $this->structureMock->expects($this->once())
+                ->method('getAttribute')
+                ->with($this->equalTo($elementName), $this->equalTo('type'))
+                ->will($this->returnValue($attribute));
+        }
+        $this->assertSame($result, $this->model->isContainer($elementName));
+    }
+
+    /**
+     * @return array
+     */
+    public function isContainerDataProvider()
+    {
+        return [
+            [false, '', false],
+            [true, 'container', true],
+            [true, 'block', false],
+            [true, 'something', false],
+        ];
+    }
+
+    /**
+     * @param bool $parentName
+     * @param array $containerConfig
+     * @param bool $result
+     * @dataProvider isManipulationAllowedDataProvider
+     */
+    public function testIsManipulationAllowed($parentName, $containerConfig, $result)
+    {
+        $elementName = 'element_name';
+        $this->structureMock->expects($this->once())
+            ->method('getParentId')
+            ->with($this->equalTo($elementName))
+            ->will($this->returnValue($parentName));
+        if ($parentName) {
+            $this->structureMock->expects($this->once())
+                ->method('hasElement')
+                ->with($this->equalTo($parentName))
+                ->will($this->returnValue($containerConfig['has_element']));
+            if ($containerConfig['has_element']) {
+                $this->structureMock->expects($this->once())
+                    ->method('getAttribute')
+                    ->with($this->equalTo($parentName), $this->equalTo('type'))
+                    ->will($this->returnValue($containerConfig['attribute']));
+            }
+        }
+
+        $this->assertSame($result, $this->model->isManipulationAllowed($elementName));
+    }
+
+    /**
+     * @return array
+     */
+    public function isManipulationAllowedDataProvider()
+    {
+        return [
+            ['parent', ['has_element' => true, 'attribute' => 'container'], true],
+            ['parent', ['has_element' => true, 'attribute' => 'block'], false],
+            [false, [], false],
+        ];
+    }
+
+    /**
+     * @covers \Magento\Framework\View\Layout::setBlock
+     * @covers \Magento\Framework\View\Layout::getAllBlocks
+     * @covers \Magento\Framework\View\Layout::unsetElement
+     */
+    public function testSetGetBlock()
+    {
+        $blockName = 'some_name';
+        $blockMock = $this->getMockBuilder('Magento\Framework\View\Element\AbstractBlock')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->assertSame($this->model, $this->model->setBlock($blockName, $blockMock));
+        $this->assertSame([$blockName => $blockMock], $this->model->getAllBlocks());
+        $this->structureMock->expects($this->once())
+            ->method('unsetElement')
+            ->with($this->equalTo($blockName))
+            ->will($this->returnSelf());
+        $this->assertSame($this->model, $this->model->unsetElement($blockName));
+        $this->assertSame([], $this->model->getAllBlocks());
     }
 }
