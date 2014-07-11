@@ -33,14 +33,13 @@ class DatabaseController extends AbstractActionController
      */
     public function indexAction()
     {
-        $request = $this->getRequest();
         $params = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
-        $db = new DatabaseCheck($this->prepareDbConfig($params));
-        var_dump($db->checkConnection());
-        return $this->jsonModel->setVariables([
-            'success' => true,
-            'post' => $request->getPost()
-        ]);
+        try {
+            $db = new DatabaseCheck($this->prepareDbConfig($params));
+            return $this->jsonModel->setVariables(['success' => $db->checkConnection()]);
+        } catch (\Exception $e) {
+            return $this->jsonModel->setVariables(['success' => false]);
+        }
     }
 
     protected function prepareDbConfig(array $data = array())
@@ -49,7 +48,7 @@ class DatabaseController extends AbstractActionController
             'driver'         => "Pdo",
             'dsn'            => "mysql:dbname=" . $data['name']. ";host=" .$data['host'],
             'username'       => $data['user'],
-            'password'       => $data['password'],
+            'password'       => isset($data['password']) ? $data['password'] : null,
             'driver_options' => array(
                 \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
             ),

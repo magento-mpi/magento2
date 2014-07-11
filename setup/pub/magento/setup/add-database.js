@@ -1,6 +1,6 @@
 'use strict';
 angular.module('add-database', ['ngStorage'])
-    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', function ($scope, $state, $localStorage, $http) {
+    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', function ($scope, $state, $localStorage, $http, $timeout) {
         $scope.db = {
             useExistingDb: 1,
             useAccess: 1
@@ -11,9 +11,16 @@ angular.module('add-database', ['ngStorage'])
         }
 
     $scope.testConnection = function () {
-        $http.post('data/database', $scope.db).success(function (data) {
-            $scope.testConnection.result = data;
-        });
+        $http.post('data/database', $scope.db)
+            .success(function (data) {
+                $scope.testConnection.result = data;
+            })
+            .then(function () {
+                $scope.testConnection.pressed = true;
+                $timeout(function () {
+                    $scope.testConnection.pressed = false;
+                }, 2500);
+            });
     };
 
         $scope.$on('nextState', function () {
