@@ -1,0 +1,44 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.form.send.friend {
+   &:extend(.add-recipients all);
+}
+
+.product-social-links .action.mailto.friend {
+    &:extend(.abstract-add-to-actions all);
+    .icon-font-symbol(
+        @_icon-font-content: @icon-envelope,
+        @_icon-font-position: before
+    );
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .form.send.friend {
+        width: 60%;
+        &:extend(.add-recipients-desktop all);
+        &:extend(.form-field-column-2 all);
+        .fieldset {
+            .field {
+                width: 43%;
+            }
+            .field.text {
+                //&:extend(.form-field-revert-column-1 all);
+                width: 86%;
+            }
+        }
+        .recipients {
+            .field {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

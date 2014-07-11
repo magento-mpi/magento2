@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceContainer name="right">
+    <referenceContainer name="sidebar.main">
         <block class="Magento\VersionsCms\Block\Hierarchy\Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
     </referenceContainer>
 </layout>

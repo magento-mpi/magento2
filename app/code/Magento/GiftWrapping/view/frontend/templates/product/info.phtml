@@ -9,8 +9,15 @@
 /** @var $this \Magento\GiftWrapping\Block\Product\Info */
 ?>
 <?php if ($this->getGiftWrappingInfo()) : ?>
-    <dl class="item options">
-        <dt><?php echo __('Gift Wrapping'); ?></dt>
-        <dd><em><?php echo __('Design'); ?></em> <?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?></dd>
+    <dl class="gift-wrapping">
+        <dt class="title"><?php echo __('Gift Wrapping'); ?></dt>
+        <dd class="content">
+            <?php if($this->getGiftWrappingInfo()->getImageUrl()): ?>
+            <img src="<?php echo $this->getGiftWrappingInfo()->getImageUrl() ?>"
+                 alt="<?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?>"
+                title="<?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?>" />
+            <?php endif ?>
+            <?php echo $this->escapeHtml($this->getGiftWrappingInfo()->getDesign()); ?>
+        </dd>
     </dl>
 <?php endif; ?>

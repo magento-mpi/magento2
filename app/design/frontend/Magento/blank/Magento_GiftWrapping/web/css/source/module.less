@@ -1,0 +1,62 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.opc-wrapper {
+    .gift-wrapping {
+        margin-bottom: 10px;
+        > .label {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .design {
+            margin: 10px 0;
+            &:extend(.add-clearfix all);
+            > img {
+                float: left;
+                max-width: 100px;
+                max-height: 100px;
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .data.table {
+        .gift-wrapping {
+            margin: 20px 0;
+            .title {
+                float: none;
+            }
+            .content {
+                &:extend(.add-clearfix all);
+                > img {
+                    float: left;
+                    margin: 0 10px 0 0;
+                    max-height: 50px;
+                    max-width: 50px;
+                }
+            }
+        }
+    }
+}
+
+.responsive(@break) when (@break = @break-point-1) {
+    .opc-wrapper {
+        .gift-wrapping {
+            .nested {
+                &:extend(add-clearfix-desktop all);
+            }
+        }
+        .data.table {
+            .gift-wrapping {
+                .content {
+                    &:extend(.add-clearfix-desktop all);
+                }
+            }
+        }
+    }
+}
