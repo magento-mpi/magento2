@@ -9,7 +9,6 @@
 namespace Magento\CatalogSearch\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchEdit;
@@ -60,14 +59,14 @@ class EditSearchTermEntityTest extends Injectable
     protected $editPage;
 
     /**
-     * Prepare page
+     * Inject pages
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogSearchIndex $indexPage
      * @param CatalogSearchEdit $editPage
      * @return void
      */
-    public function __prepare(
+    public function __inject(
         CmsIndex $cmsIndex,
         CatalogSearchIndex $indexPage,
         CatalogSearchEdit $editPage
