@@ -137,8 +137,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Model\Resource\Iterator $iterator
-     * @param Rule\Condition\CombineFactory $ruleFactory
-     * @param Actions\Condition\CombineFactory $actionFactory
+     * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
+     * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductIndexerProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
