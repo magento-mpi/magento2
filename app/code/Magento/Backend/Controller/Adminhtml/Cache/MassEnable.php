@@ -1,0 +1,46 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Backend\Controller\Adminhtml\Cache;
+
+use Magento\Framework\Model\Exception;
+
+class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache
+{
+    /**
+     * Mass action for cache enabling
+     *
+     * @return void
+     */
+    public function execute()
+    {
+        try {
+            $types = $this->getRequest()->getParam('types');
+            $updatedTypes = 0;
+            if (!is_array($types)) {
+                $types = array();
+            }
+            $this->_validateTypes($types);
+            foreach ($types as $code) {
+                if (!$this->_cacheState->isEnabled($code)) {
+                    $this->_cacheState->setEnabled($code, true);
+                    $updatedTypes++;
+                }
+            }
+            if ($updatedTypes > 0) {
+                $this->_cacheState->persist();
+                $this->messageManager->addSuccess(__("%1 cache type(s) enabled.", $updatedTypes));
+            }
+        } catch (Exception $e) {
+            $this->messageManager->addError($e->getMessage());
+        } catch (\Exception $e) {
+            $this->messageManager->addException($e, __('An error occurred while enabling cache.'));
+        }
+        $this->_redirect('adminhtml/*');
+    }
+}

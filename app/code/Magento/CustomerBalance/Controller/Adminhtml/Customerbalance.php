@@ -69,45 +69,6 @@ class Customerbalance extends \Magento\Backend\App\Action
     }
 
     /**
-     * Customer balance form
-     *
-     * @return void
-     */
-    public function formAction()
-    {
-        $this->_initCustomer();
-        $this->_view->loadLayout();
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Customer balance grid
-     *
-     * @return void
-     */
-    public function gridHistoryAction()
-    {
-        $this->_initCustomer();
-        $this->_view->loadLayout();
-        $this->getResponse()->setBody(
-            $this->_view->getLayout()->createBlock(
-                'Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid'
-            )->toHtml()
-        );
-    }
-
-    /**
-     * Delete orphan balances
-     *
-     * @return void
-     */
-    public function deleteOrphanBalancesAction()
-    {
-        $this->_balance->deleteBalancesByCustomerId((int)$this->getRequest()->getParam('id'));
-        $this->_redirect('customer/index/edit/', array('_current' => true));
-    }
-
-    /**
      * Instantiate customer model
      *
      * @param string $idFieldName

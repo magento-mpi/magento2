@@ -32,7 +32,7 @@ class ApplyConfig extends Curl
         $fields = array('groups' => array());
         foreach ($sections as $section => $data) {
             $fields['groups'] = $data['groups'];
-            $url = $_ENV['app_backend_url'] . 'admin/system_config_save/index/section/' . $section . '/';
+            $url = $_ENV['app_backend_url'] . 'admin/system_config/save/section/' . $section . '/';
             $curl = new BackendDecorator(new CurlTransport(), new Config());
             $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
             $curl->read();
