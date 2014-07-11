@@ -120,7 +120,7 @@ $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'price_view',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',

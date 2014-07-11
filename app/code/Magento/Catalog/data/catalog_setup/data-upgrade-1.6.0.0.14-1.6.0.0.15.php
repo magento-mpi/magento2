@@ -9,8 +9,6 @@
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
-$installer->installEntities();
-
 foreach (array('news_from_date', 'custom_design_from') as $attributeCode) {
     $installer->updateAttribute(
         \Magento\Catalog\Model\Product::ENTITY,

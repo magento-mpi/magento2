@@ -15,7 +15,7 @@ $installer->addAttribute(
     'catalog_product',
     'giftcard_amounts',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'decimal',
         'backend' => 'Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount',
         'frontend' => '',
@@ -43,7 +43,7 @@ $installer->addAttribute(
     'catalog_product',
     'allow_open_amount',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -70,7 +70,7 @@ $installer->addAttribute(
     'catalog_product',
     'open_amount_min',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'decimal',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
         'frontend' => '',
@@ -97,7 +97,7 @@ $installer->addAttribute(
     'catalog_product',
     'open_amount_max',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'decimal',
         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Price',
         'frontend' => '',
@@ -125,7 +125,7 @@ $installer->addAttribute(
     'catalog_product',
     'giftcard_type',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -151,7 +151,7 @@ $installer->addAttribute(
     'catalog_product',
     'is_redeemable',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -177,7 +177,7 @@ $installer->addAttribute(
     'catalog_product',
     'use_config_is_redeemable',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -203,7 +203,7 @@ $installer->addAttribute(
     'catalog_product',
     'lifetime',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -229,7 +229,7 @@ $installer->addAttribute(
     'catalog_product',
     'use_config_lifetime',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -255,7 +255,7 @@ $installer->addAttribute(
     'catalog_product',
     'email_template',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'varchar',
         'backend' => '',
         'frontend' => '',
@@ -281,7 +281,7 @@ $installer->addAttribute(
     'catalog_product',
     'use_config_email_template',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -307,7 +307,7 @@ $installer->addAttribute(
     'catalog_product',
     'allow_message',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -333,7 +333,7 @@ $installer->addAttribute(
     'catalog_product',
     'use_config_allow_message',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',

@@ -15,7 +15,7 @@ $catalogInstaller->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'tax_class_id',
     array(
-        'group' => 'Prices',
+        'group' => 'Advanced Pricing',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
