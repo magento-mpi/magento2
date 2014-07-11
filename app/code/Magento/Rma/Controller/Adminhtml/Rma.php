@@ -695,6 +695,7 @@ class Rma extends \Magento\Backend\App\Action
         $response = false;
         $orderId = $this->getRequest()->getParam('order_id');
         $productId = $this->getRequest()->getParam('product_id');
+        $itemId = $this->getRequest()->getParam('item_id');
 
         /** @var $rma_item \Magento\Rma\Model\Item */
         $rma_item = $this->_objectManager->create('Magento\Rma\Model\Item');
@@ -705,6 +706,8 @@ class Rma extends \Magento\Backend\App\Action
             'magento_rma_edit_item'
         )->setProductId(
             intval($productId)
+        )->setHtmlPrefixId(
+            intval($itemId)
         )->initForm()->toHtml();
 
         if (is_array($response)) {
@@ -871,9 +874,7 @@ class Rma extends \Magento\Backend\App\Action
             )->clearBody();
             $this->getResponse()->sendHeaders();
 
-            while (false !== ($buffer = $readFile->read(1024))) {
-                echo $buffer;
-            }
+            echo $readFile->read($fileStat['size']);
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
             $this->_fileFactory->create(

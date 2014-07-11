@@ -11,6 +11,9 @@ use Magento\Rma\Model\Item as ModelItem;
 
 /**
  * User-attributes block for RMA Item  in Admin RMA edit
+ *
+ * @method int getHtmlPrefixId
+ * @method \Magento\Rma\Block\Adminhtml\Rma\Edit\Item setHtmlPrefixId
  */
 class Item extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -68,7 +71,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $form->setHtmlIdPrefix('_rma');
+        $form->setHtmlIdPrefix($this->getHtmlPrefixId() . '_rma');
         $form->setFieldNameSuffix();
 
         $item = $this->_coreRegistry->registry('current_rma_item');
