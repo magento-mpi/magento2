@@ -265,25 +265,25 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
             'showIncludeTax' => $this->_taxData->displayPriceIncludingTax(),
             'showBothPrices' => $this->_taxData->displayBothPrices(),
             'productPrice' => $this->_coreData->currency(
-                    $product->getPriceInfo()->getPrice('final_price')->getValue(),
-                    false,
-                    false
-                ),
+                $product->getPriceInfo()->getPrice('final_price')->getValue(),
+                false,
+                false
+            ),
             'productOldPrice' => $this->_coreData->currency(
-                    $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue(),
-                    false,
-                    false
-                ),
+                $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue(),
+                false,
+                false
+            ),
             'inclTaxPrice' => $this->_coreData->currency(
-                    $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
-                    false,
-                    false
-                ),
+                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
+                false,
+                false
+            ),
             'exclTaxPrice' => $this->_coreData->currency(
-                    $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
-                    false,
-                    false
-                ),
+                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
+                false,
+                false
+            ),
             'defaultTax' => $defaultTax,
             'currentTax' => $currentTax,
             'idSuffix' => '_clone',

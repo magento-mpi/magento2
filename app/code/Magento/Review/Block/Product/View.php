@@ -41,9 +41,9 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
-     * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
@@ -56,9 +56,9 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         TaxCalculationServiceInterface $taxCalculationService,
+        \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_reviewsColFactory = $collectionFactory;

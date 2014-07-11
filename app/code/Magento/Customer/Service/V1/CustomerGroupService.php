@@ -308,7 +308,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         } catch (NoSuchEntityException $e) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
-        if ($taxClassData->getClassType() !== TaxClass::TYPE_CUSTOMER) {
+        if ($taxClassData->getClassType() !== TaxClassServiceInterface::TYPE_CUSTOMER) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
     }
