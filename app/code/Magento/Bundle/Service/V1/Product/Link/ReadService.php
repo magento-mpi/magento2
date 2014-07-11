@@ -21,28 +21,20 @@ class ReadService implements ReadServiceInterface
     private $productRepository;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\Collection
-     */
-    private $productCollection;
-
-    /**
      * @var \Magento\Bundle\Service\V1\Data\Product\Link\MetadataConverter
      */
     private $metadataConverter;
 
     /**
      * @param ProductRepository $productRepository
-     * @param Collection $productCollection
      * @param MetadataConverter $metadataConverter
      */
     public function __construct(
         ProductRepository $productRepository,
-        Collection $productCollection,
         MetadataConverter $metadataConverter
     ) {
 
         $this->productRepository = $productRepository;
-        $this->productCollection = $productCollection;
         $this->metadataConverter = $metadataConverter;
     }
 
