@@ -11,10 +11,10 @@ namespace Magento\GoogleShopping\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class GoogleShoppingAttributes
- * Data for creation Google Shopping Attributes
+ * Class GoogleShoppingAttribute
+ * Data for creation Google Shopping Attribute
  */
-class GoogleShoppingAttributes extends AbstractRepository
+class GoogleShoppingAttribute extends AbstractRepository
 {
     /**
      * Construct

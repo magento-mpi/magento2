@@ -11,22 +11,22 @@ namespace Magento\GoogleShopping\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class GoogleShoppingAttributes
- * Google Shopping Attributes fixture
+ * Class GoogleShoppingAttribute
+ * Google Shopping Attribute fixture
  *
  */
-class GoogleShoppingAttributes extends InjectableFixture
+class GoogleShoppingAttribute extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\GoogleShopping\Test\Repository\GoogleShoppingAttributes';
+    protected $repositoryClass = 'Magento\GoogleShopping\Test\Repository\GoogleShoppingAttribute';
 
     // @codingStandardsIgnoreStart
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\GoogleShopping\Test\Handler\GoogleShoppingAttributes\GoogleShoppingAttributesInterface';
+    protected $handlerInterface = 'Magento\GoogleShopping\Test\Handler\GoogleShoppingAttribute\GoogleShoppingAttributeInterface';
     // @codingStandardsIgnoreEnd
 
     protected $defaultDataSet = [
@@ -49,7 +49,7 @@ class GoogleShoppingAttributes extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => 'Magento\GoogleShopping\Test\Fixture\GoogleShoppingAttributes\AttributeSetId',
+        'source' => 'Magento\GoogleShopping\Test\Fixture\GoogleShoppingAttribute\AttributeSetId',
     ];
 
     protected $target_country = [

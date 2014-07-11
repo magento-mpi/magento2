@@ -65,8 +65,15 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
             : [];
         $dataAttribute = $this->getDataAttributes($response);
 
-        foreach ($assignedAttributes as $assignedAttribute) {
-            $dataAttribute['attributes'][] = [$assignedAttribute->getAttributeId(), $dataAttribute['groups'][0][0]];
+        $lastAttribute = array_pop($dataAttribute['attributes']);
+
+        foreach ($assignedAttributes as $key => $assignedAttribute) {
+            $dataAttribute['attributes'][] = [
+                $assignedAttribute->getAttributeId(),
+                $dataAttribute['groups'][0][0],
+                ($lastAttribute[2] + ($key + 1)),
+                ($lastAttribute[3] + ($key + 1))
+            ];
         }
 
         $this->updateAttributeSet($attributeSetId, $dataAttribute);
@@ -145,7 +152,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
         $attributes = $this->getData($this->attributes, $response, true);
         $dataAttribute = [];
 
-        $index = 0;
+        $index = 1;
         foreach ($attributes as $key => $parentAttributes) {
             $dataAttribute['groups'][$key][] = $parentAttributes['id'];
             $dataAttribute['groups'][$key][] = $parentAttributes['text'];
