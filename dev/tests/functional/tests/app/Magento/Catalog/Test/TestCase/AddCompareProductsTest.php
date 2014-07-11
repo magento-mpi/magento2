@@ -81,6 +81,13 @@ class AddCompareProductsTest extends Injectable
      */
     protected $fixtureFactory;
 
+    /**
+     * Fixture customer
+     *
+     * @var CustomerInjectable
+     */
+    protected $customer;
+
 
     /**
      * Injection data
@@ -104,31 +111,27 @@ class AddCompareProductsTest extends Injectable
         $this->catalogProductView = $catalogProductView;
         $this->customerAccountLogin = $customerAccountLogin;
         $this->fixtureFactory = $fixtureFactory;
+        $this->customer = $this->fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
     }
 
     /**
      * Test creation for adding compare products
      *
      * @param string $products
-     * @param CustomerInjectable $customer
      * @param string $isCustomerLoggedIn
      * @param AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage
      * @return array
      */
     public function test(
         $products,
-        CustomerInjectable $customer,
         $isCustomerLoggedIn,
         AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage
     ) {
         //Steps
         $this->cmsIndex->open();
-        if ($isCustomerLoggedIn == 'Yes') {
-            $customer->persist();
-            if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-                $this->cmsIndex->getLinksBlock()->openLink("Log In");
-                $this->customerAccountLogin->getLoginBlock()->login($customer);
-            }
+        if ($isCustomerLoggedIn == 'Yes' && !$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
+            $this->cmsIndex->getLinksBlock()->openLink("Log In");
+            $this->customerAccountLogin->getLoginBlock()->login($this->customer);
         }
         $this->products = $this->createProducts($products);
         $this->addProducts($this->products, $assertProductCompareSuccessAddMessage);
@@ -184,7 +187,6 @@ class AddCompareProductsTest extends Injectable
      */
     public function tearDown()
     {
-        // TODO after fix bug MAGETWO-22756 delete first step
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
         for ($i = 1; $i <= count($this->products); $i++) {

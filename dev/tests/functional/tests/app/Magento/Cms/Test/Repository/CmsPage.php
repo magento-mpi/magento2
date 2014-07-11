@@ -61,5 +61,15 @@ class CmsPage extends AbstractRepository
             'mtf_dataset_name' => 'cms-page-test',
             'constraint' => 'cmsPageSaveSuccess'
         ];
+
+        $this->_data['with_compare'] = [
+            'title' => 'compare-%isolation%',
+            'identifier' => 'compare-%isolation%',
+            'store_id' => 'All Store Views',
+            'is_active' => 'Published',
+            'under_version_control' => 'No',
+            'content' => 'text content',
+            'root_template' => '3 columns'
+        ];
     }
 }

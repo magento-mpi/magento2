@@ -328,6 +328,11 @@
             <backend_type>virtual</backend_type>
             <default_value>Main Website</default_value>
         </website_ids>
+        <price>
+            <attribute_code>price</attribute_code>
+            <backend_type>virtual</backend_type>
+            <source>'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</source>
+        </price>
     </fields>
     <data_set>
         <sku></sku>

@@ -14,6 +14,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
  * Class AssertProductComparePage
+ * It will be nice to add description 'Assert that "Compare Product" page contains product(s) that was added'
  */
 class AssertProductComparePage extends AbstractConstraint
 {
@@ -70,7 +71,7 @@ class AssertProductComparePage extends AbstractConstraint
                         ? $product->getDataFieldConfig('price')['source']->getPreset()['compare_price']
                         : number_format($product->getPrice(), 2));
 
-                $attribute = is_numeric($attributeKey) ? $attribute : 'attribute';
+                $attribute = is_numeric($attributeKey) ? 'info' : 'attribute';
                 \PHPUnit_Framework_Assert::assertEquals(
                     $attributeValue,
                     $comparePage->getCompareProductsBlock()->{'getProduct' . ucfirst($attribute)}($key + 1, $value),

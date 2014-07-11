@@ -61,32 +61,24 @@ class ListCompare extends Block
     protected $removeButton = 'a.action.delete';
 
     /**
-     * Get product name
+     * Get product info
      *
      * @param int $index
      * @param string $attributeKey
+     * @param string $currency
      * @return string
      */
-    public function getProductName($index, $attributeKey)
-    {
-        return $this->getCompareProductInfo($index)->find($this->nameSelector, Locator::SELECTOR_XPATH)->getText();
-    }
-
-    /**
-     * Get product price
-     *
-     * @param int $index
-     * @param string $attributeKey
-     * @param string $currency [optional]
-     * @return string
-     */
-    public function getProductPrice($index, $attributeKey, $currency = '$')
+    public function getProductInfo($index, $attributeKey, $currency = '$')
     {
         $infoBlock = $this->getCompareProductInfo($index);
-        if (!$infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->isVisible()) {
-            $this->priceSelector = './/span[@class="price"]';
+        if ($attributeKey == 'price') {
+            if (!$infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->isVisible()) {
+                $this->priceSelector = './/span[@class="price"]';
+            }
+            return trim($infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->getText(), $currency);
+        } else {
+            return $infoBlock->find($this->nameSelector, Locator::SELECTOR_XPATH)->getText();
         }
-        return trim($infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->getText(), $currency);
     }
 
     /**

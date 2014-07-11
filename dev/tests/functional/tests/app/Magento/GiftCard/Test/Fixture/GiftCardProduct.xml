@@ -437,6 +437,11 @@
             <is_required>0</is_required>
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</source>
         </custom_options>
+        <price>
+            <attribute_code>price</attribute_code>
+            <backend_type>virtual</backend_type>
+            <source>'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</source>
+        </price>
     </fields>
     <data_set>
         <sku></sku>
