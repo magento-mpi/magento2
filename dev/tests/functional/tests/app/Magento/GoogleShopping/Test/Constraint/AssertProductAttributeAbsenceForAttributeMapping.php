@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint;
+namespace Magento\GoogleShopping\Test\Constraint;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;

@@ -82,7 +82,7 @@ class Main extends Block
     /**
      * Checks present Unassigned Product Attribute
      *
-     * @param $attributeLabel
+     * @param string $attributeLabel
      * @return bool
      */
     public function checkUnassignedProductAttribute($attributeLabel)

@@ -337,9 +337,6 @@
     <assertProductNotInGrid module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductNotInGrid>
-    <assertProductAttributeAbsenceForAttributeMapping module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertProductAttributeAbsenceForAttributeMapping>
     <assertProductAttributeAbsenceInTemplateGroups module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductAttributeAbsenceInTemplateGroups>

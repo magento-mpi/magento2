@@ -23,6 +23,11 @@ use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 class Curl extends AbstractCurl implements CatalogAttributeSetInterface
 {
     /**
+     * Default Attribute Set id
+     */
+    const DEFAULT_ATTRIBUTE_SET_ID = 4;
+
+    /**
      * Regex for finding attribute set id
      *
      * @var string
@@ -54,9 +59,9 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
         /** @var CatalogAttributeSet $fixture */
         $response = $this->createAttributeSet($fixture);
 
-        $attributeSetId = (!$fixture->hasData('attribute_set_id'))
-            ? $this->getData($this->attributeSetId, $response)
-            : 4;
+        $attributeSetId = ($fixture->hasData('attribute_set_id'))
+            ? self::DEFAULT_ATTRIBUTE_SET_ID
+            : $this->getData($this->attributeSetId, $response);
 
         $assignedAttributes = $fixture->hasData('assigned_attributes')
             ? $fixture->getDataFieldConfig('assigned_attributes')['source']->getAttributes()
@@ -78,8 +83,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param CatalogAttributeSet $fixture
      * @return string
      */
-    protected
-    function createAttributeSet(
+    protected function createAttributeSet(
         CatalogAttributeSet $fixture
     ) {
         $data = $fixture->getData();
@@ -92,7 +96,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
                 ->getAttributeSet()
                 ->getAttributeSetId();
         } else {
-            if ($data['attribute_set_id'] == 4) {
+            if ($data['attribute_set_id'] == self::DEFAULT_ATTRIBUTE_SET_ID) {
                 return $this->getDefaultAttributeSet();
             }
             $data['skeleton_set'] = $data['attribute_set_id'];
@@ -100,6 +104,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
 
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
@@ -112,8 +117,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      *
      * @return string
      */
-    protected
-    function getDefaultAttributeSet()
+    protected function getDefaultAttributeSet()
     {
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/edit/id/4/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -131,11 +135,8 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param array $dataAttribute
      * @return void
      */
-    protected
-    function updateAttributeSet(
-        $attributeSetId,
-        array $dataAttribute
-    ) {
+    protected function updateAttributeSet($attributeSetId, array $dataAttribute)
+    {
         $data = ['data' => json_encode($dataAttribute)];
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/id/' . $attributeSetId . '/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -150,10 +151,8 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @param string $response
      * @return array
      */
-    protected
-    function getDataAttributes(
-        $response
-    ) {
+    protected function getDataAttributes($response)
+    {
         $attributes = $this->getData($this->attributes, $response, true);
         $dataAttribute = [];
 
@@ -186,12 +185,8 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      * @return mixed
      * @throws \Exception
      */
-    protected
-    function getData(
-        $regularExpression,
-        $response,
-        $isJson = false
-    ) {
+    protected function getData($regularExpression, $response, $isJson = false)
+    {
         preg_match($regularExpression, $response, $matches);
         if (!isset($matches[1])) {
             throw new \Exception("Can't find data in response by regular expression \"{$regularExpression}\".");

@@ -9,14 +9,12 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
@@ -361,7 +359,7 @@ class ProductForm extends FormTabs
      * @param CatalogProductAttribute $productAttribute
      * @return bool
      */
-    public function checkAttributeInVariationsSearchAttributeForm($productAttribute)
+    public function checkAttributeInVariationsSearchAttributeForm(CatalogProductAttribute $productAttribute)
     {
         return $this->_rootElement->find(
             $this->variationsAttributeSearch,
