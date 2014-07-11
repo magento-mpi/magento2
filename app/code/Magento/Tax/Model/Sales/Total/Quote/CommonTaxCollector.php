@@ -507,24 +507,48 @@ class CommonTaxCollector extends AbstractTotal
         /** @var AbstractItem[] $keyedAddressItems */
         $keyedAddressItems = [];
         foreach ($this->_getAddressItems($address) as $addressItem) {
-            //TODO: set item id when available
             $keyedAddressItems[$addressItem->getTaxCalculationItemId()] = $addressItem;
         }
 
         foreach ($itemsByType as $itemType => $items) {
             foreach ($items as $itemTaxCalculationId => $itemTaxDetails) {
+                /** @var ItemTaxDetails $taxDetails */
                 $taxDetails = $itemTaxDetails[self::KEY_ITEM];
                 $baseTaxDetails = $itemTaxDetails[self::KEY_BASE_ITEM];
 
                 $appliedTaxes = $taxDetails->getAppliedTaxes();
                 $baseAppliedTaxes = $baseTaxDetails->getAppliedTaxes();
-                $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
 
-                $allAppliedTaxesArray = array_merge($allAppliedTaxesArray, $appliedTaxesArray);
+                $itemType = $taxDetails->getType();
+                $itemId = null;
+                $associatedItemId = null;
+                if ($itemType == self::ITEM_TYPE_PRODUCT) {
+                    //Use item id instead of tax calculation id
+                    $itemId = $keyedAddressItems[$itemTaxCalculationId]->getId();
+                } else {
+                    if ($taxDetails->getAssociatedItemCode()
+                        && $taxDetails->getAssociatedItemCode() != self::ASSOCIATION_ITEM_CODE_FOR_QUOTE) {
+                        //This item is associated with a product item
+                        $associatedItemId = $keyedAddressItems[$taxDetails->getAssociatedItemCode()]->getId();
+                    } else {
+                        //This item is associated with an order, e.g., shipping, etc.
+                        $itemId = null;
+                    }
+                }
+                $extraInfo = [
+                    'item_id' => $itemId,
+                    'item_type' => $itemType,
+                    'associated_item_id' => $associatedItemId,
+                ];
+
+                $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes, $extraInfo);
+
                 if ($itemType == self::ITEM_TYPE_PRODUCT) {
                     $quoteItem = $keyedAddressItems[$itemTaxCalculationId];
                     $quoteItem->setAppliedTaxes($appliedTaxesArray);
                 }
+
+                $allAppliedTaxesArray[$itemTaxCalculationId] = $appliedTaxesArray;
 
                 foreach ($appliedTaxesArray as $appliedTaxArray) {
                     $this->_saveAppliedTaxes(
@@ -723,9 +747,10 @@ class CommonTaxCollector extends AbstractTotal
      *
      * @param \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $appliedTaxes
      * @param \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $baseAppliedTaxes
+     * @param array $extraInfo
      * @return array
      */
-    public function convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes)
+    public function convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes, $extraInfo = [])
     {
         $appliedTaxesArray = [];
 
@@ -746,13 +771,18 @@ class CommonTaxCollector extends AbstractTotal
                 ];
             }
 
-            $appliedTaxesArray[] = [
+            $appliedTaxArray = [
                 'amount' => $appliedTax->getAmount(),
                 'base_amount' => $baseAppliedTax->getAmount(),
                 'percent' => $appliedTax->getPercent(),
                 'id' => $appliedTax->getTaxRateKey(),
                 'rates' => $rates,
             ];
+            if (!empty($extraInfo)) {
+                $appliedTaxArray = array_merge($appliedTaxArray, $extraInfo);
+            }
+
+            $appliedTaxesArray[] = $appliedTaxArray;
         }
 
         return $appliedTaxesArray;
