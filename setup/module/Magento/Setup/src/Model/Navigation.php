@@ -45,7 +45,7 @@ class Navigation
         return array_filter(
             $this->serviceLocator->get('config')['nav'],
             function ($value) {
-                return (bool)$value['nav-bar'];
+                return isset($value['nav-bar']) && (bool)$value['nav-bar'];
             }
         );
     }

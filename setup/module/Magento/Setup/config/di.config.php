@@ -15,6 +15,7 @@ return [
             'Magento\Setup\Controller\WebConfigurationController',
             'Magento\Setup\Controller\CustomizeYourStoreController',
             'Magento\Setup\Controller\CreateAdminAccountController',
+            'Magento\Setup\Controller\SuccessController',
             'Magento\Setup\Controller\InstallController',
             'Magento\Setup\Controller\Install\ProgressController',
             'Magento\Setup\Controller\IndexController',

@@ -22,7 +22,8 @@
             ->appendFile($this->basePath() . '/pub/magento/setup/web-configuration.js')
             ->appendFile($this->basePath() . '/pub/magento/setup/customize-your-store.js')
             ->appendFile($this->basePath() . '/pub/magento/setup/create-admin-account.js')
-            ->appendFile($this->basePath() . '/pub/magento/setup/install.js');
+            ->appendFile($this->basePath() . '/pub/magento/setup/install.js')
+            ->appendFile($this->basePath() . '/pub/magento/setup/success.js');
         ?>
         <?php echo $this->inlineScript() ?>
     </head>

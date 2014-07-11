@@ -11,7 +11,8 @@ var app = angular.module(
         'web-configuration',
         'customize-your-store',
         'create-admin-account',
-        'install'
+        'install',
+        'success'
     ]);
 
 app.config(function ($stateProvider) {

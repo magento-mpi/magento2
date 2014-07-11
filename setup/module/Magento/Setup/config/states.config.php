@@ -10,7 +10,6 @@ return [
     'nav' => [
         [
             'id'          => 'root',
-            'nav-bar'     => false,
             'step'        => 0,
             'views'       => ['root' => []]
         ],
@@ -21,7 +20,6 @@ return [
             'title'       => 'Landing',
             'controller'  => 'landingController',
             'main'        => true,
-            'nav-bar'     => false,
             'order'       => 0,
         ],
         [
@@ -95,6 +93,13 @@ return [
             'controller'  => 'installController',
             'nav-bar'     => true,
             'order'       => 7,
+        ],
+        [
+            'id'          => 'root.success',
+            'url'         => 'success',
+            'templateUrl' => 'success',
+            'controller'  => 'successController',
+            'order'       => 8,
         ],
     ]
 ];

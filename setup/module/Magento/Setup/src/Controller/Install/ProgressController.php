@@ -33,7 +33,8 @@ class ProgressController extends AbstractActionController
     {
         return $this->json->setVariables(
             array(
-                'progress' => 75,
+                'progress' => 50,
+                'success' => true,
                 'console' => array(
                     'log msg 1',
                     'log msg 2',
