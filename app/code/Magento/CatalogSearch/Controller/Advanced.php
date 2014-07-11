@@ -78,6 +78,8 @@ class Advanced extends \Magento\Framework\App\Action\Action
     {
         try {
             $this->_catalogSearchAdvanced->addFilters($this->getRequest()->getQuery());
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $defaultUrl = $this->_urlFactory->create()
@@ -85,7 +87,5 @@ class Advanced extends \Magento\Framework\App\Action\Action
                 ->getUrl('*/*/');
             $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
         }
-        $this->_view->loadLayout();
-        $this->_view->renderLayout();
     }
 }
