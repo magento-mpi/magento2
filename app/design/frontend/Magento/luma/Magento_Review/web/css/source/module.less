@@ -1,0 +1,110 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+//
+//    Add reviewblock
+//--------------------------------------
+.block {
+    &.add.review {
+        margin-bottom: @indent-xl-base;
+        > .title {
+            .heading(h2);
+        }
+        .legend {
+            .heading(h3);
+            margin: 0 0 @indent-base;
+        }
+        .field.rating {
+            display: table-row;
+            .label {
+                display: table-cell;
+                vertical-align: middle;
+                padding: @indent-xs-base 0;
+            }
+            .control {
+                display: table-cell;
+                vertical-align: top;
+            }
+        }
+    }
+    &.reviews.list {
+        > .title {
+            .heading(h2);
+        }
+        .review {
+            &.item {
+                margin-bottom: @indent-xl-base;
+            }
+            &.title {
+                .heading(h3);
+            }
+        }
+    }
+}
+
+.data.table.reviews {
+    .rating.summary {
+        margin-top: -4px;
+    }
+}
+
+.customer.review.view {
+    .review.title,
+    .ratings.summary.items,
+    .product.details {
+        margin-bottom: @indent-base;
+    }
+}
+
+.product.reviews.summary {
+    margin-bottom: @indent-xs-base;
+    .products.wrapper.list & {
+        margin: 0 auto;
+    }
+    &.empty {
+        margin-left: 0;
+    }
+    .rating.summary {
+        display:inline-block;
+        margin-left: -@indent-xs-base;
+        vertical-align: middle;
+    }
+    .reviews.actions {
+        display:inline-block;
+        vertical-align: middle;
+        font-size: floor(0.8 * @font-size-base);
+        a:not(:last-child) {
+            margin-right: 30px;
+        }
+        .action.view span {
+        }
+    }
+}
+
+.product-info-main {
+    .rating.summary {
+        margin-right: 30px;
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .product.reviews.summary {
+        margin-bottom: @indent-s-base + @indent-xs-base;
+        .products.wrapper.list & {
+            margin: 0;
+        }
+        .reviews.actions {
+            font-size: @font-size-base;
+            a {
+            }
+        }
+    }
+}
