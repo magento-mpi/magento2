@@ -383,6 +383,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 Config::CONFIG_XML_PATH_CROSS_BORDER_TRADE_ENABLED,
                 true,
                 true
+            ],
+            [
+                'isWrongDisplaySettingsIgnored',
+                Config::XML_PATH_TAX_NOTIFICATION_IGNORE_PRICE_DISPLAY,
+                true,
+                true
+            ],
+            [
+                'isWrongDiscountSettingsIgnored',
+                Config::XML_PATH_TAX_NOTIFICATION_IGNORE_DISCOUNT,
+                true,
+                true
             ]
         ];
     }

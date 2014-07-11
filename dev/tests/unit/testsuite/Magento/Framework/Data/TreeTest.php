@@ -13,6 +13,9 @@ namespace Magento\Framework\Data;
  */
 class TreeTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\Framework\Data\Tree
+     */
     protected $_tree;
 
     public function setUp()
