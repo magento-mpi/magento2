@@ -153,12 +153,15 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 
+        $tagFilter = $this->getMock('\Magento\Framework\Filter\StripTags', array(), array(), '', false);
+        $tagFilter->expects($this->any())->method('filter')->will($this->returnArgument(0));
         $this->_model = new \Magento\Search\Model\Layer\Category\Filter\Attribute(
             $this->_filterItemFactory,
             $this->_storeManager,
             $this->_layer,
             $this->_attributeFactory,
             $this->_string,
+            $tagFilter,
             $this->_resourceEngine
         );
     }
