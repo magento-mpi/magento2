@@ -78,14 +78,14 @@ class CustomOptions extends Form
      *
      * @var string
      */
-    protected $optionByValueLocator = '//*[@class="product options wrapper"]//option[contains(text(),"%s")]/..';
+    protected $optionByValueLocator = '//*[@class="product-options-wrapper"]//option[text()="%s"]/..';
 
     /**
      * Select XPath locator by title
      *
      * @var string
      */
-    protected $selectByTitleLocator = '//div[label[span[contains(text(),"%s")]]]';
+    protected $selectByTitleLocator = '//*[*[@class="product-options-wrapper"]//span[text()="%s"]]//select';
 
     /**
      * Get product options
