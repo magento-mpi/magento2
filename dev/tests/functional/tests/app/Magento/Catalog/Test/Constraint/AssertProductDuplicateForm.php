@@ -46,7 +46,7 @@ class AssertProductDuplicateForm extends AssertProductForm
         $errors = $this->compareArray($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertEmpty(
             $errors,
-            "These data must be equal to each other:\n" . implode("\n", $errors)
+            "Duplicated product data is not equal to expected:\n" . implode("\n", $errors)
         );
     }
 

@@ -234,11 +234,10 @@ class Config extends Tab
 
             foreach ($data['value'] as $key => $value) {
                 ++$key;
-                $this->activeVariations($key, $variationsBlock);
+                $this->openVariation($key, $variationsBlock);
                 $row = $variationsBlock->find(sprintf($this->rowSelector, $key), Locator::SELECTOR_XPATH);
                 --$key;
-                $dataResult['attributes_data'][$key]['title'] = $row->find($this->labelSelector)
-                    ->getValue();
+                $dataResult['attributes_data'][$key]['title'] = $row->find($this->labelSelector)->getValue();
                 $dataResult['attributes_data'][$key]['options'] = [];
                 foreach ($value['options'] as $optionKey => $option) {
                     ++$optionKey;
@@ -266,9 +265,7 @@ class Config extends Tab
             }
         }
 
-        return [
-            'configurable_attributes_data' => $dataResult
-        ];
+        return ['configurable_attributes_data' => $dataResult];
     }
 
     /**
@@ -278,7 +275,7 @@ class Config extends Tab
      * @param Element $variationsBlock
      * @return void
      */
-    protected function activeVariations($row, Element $variationsBlock)
+    protected function openVariation($row, Element $variationsBlock)
     {
         $element = $variationsBlock->find(
             sprintf($this->rowSelector, $row) . $this->activeButtonSelector,

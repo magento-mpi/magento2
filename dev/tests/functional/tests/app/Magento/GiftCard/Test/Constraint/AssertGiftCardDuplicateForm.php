@@ -14,9 +14,9 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Constraint\AssertProductDuplicateForm;
 
 /**
- * Class AssertProductGiftCardDuplicateForm
+ * Class AssertGiftCardDuplicateForm
  */
-class AssertProductGiftCardDuplicateForm extends AssertProductDuplicateForm
+class AssertGiftCardDuplicateForm extends AssertProductDuplicateForm
 {
     /**
      * Constraint severeness
@@ -52,7 +52,7 @@ class AssertProductGiftCardDuplicateForm extends AssertProductDuplicateForm
         $errors = $this->compareArray($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertEmpty(
             $errors,
-            "These data must be equal to each other:\n" . implode("\n", $errors)
+            "Duplicated gift card data is not equal to expected:\n" . implode("\n", $errors)
         );
     }
 }

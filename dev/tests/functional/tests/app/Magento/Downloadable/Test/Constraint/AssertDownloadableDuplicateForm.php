@@ -14,9 +14,9 @@ use Magento\Catalog\Test\Constraint\AssertProductDuplicateForm;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
- * Class AssertProductDownloadableDuplicateForm
+ * Class AssertDownloadableDuplicateForm
  */
-class AssertProductDownloadableDuplicateForm extends AssertProductDuplicateForm
+class AssertDownloadableDuplicateForm extends AssertProductDuplicateForm
 {
     /**
      * Constraint severeness
@@ -47,7 +47,7 @@ class AssertProductDownloadableDuplicateForm extends AssertProductDuplicateForm
 
         \PHPUnit_Framework_Assert::assertEmpty(
             $errors,
-            "These data must be equal to each other:\n" . implode("\n", $errors)
+            "Duplicated downloadable product data is not equal to expected:\n" . implode("\n", $errors)
         );
     }
 
@@ -57,7 +57,7 @@ class AssertProductDownloadableDuplicateForm extends AssertProductDuplicateForm
      * @param array $fields
      * @return array
      */
-    protected function sortDownloadableArray($fields)
+    protected function sortDownloadableArray(array $fields)
     {
         usort(
             $fields,

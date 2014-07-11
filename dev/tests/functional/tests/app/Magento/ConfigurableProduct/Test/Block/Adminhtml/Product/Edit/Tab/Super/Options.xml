@@ -10,10 +10,10 @@
 <mapping strict="0">
     <fields>
         <pricing_value>
-            <selector>td div [name$='[pricing_value]']</selector>
+            <selector>[name$='[pricing_value]']</selector>
         </pricing_value>
         <include>
-            <selector>td div [name$='[include]']</selector>
+            <selector>[name$='[include]']</selector>
             <input>checkbox</input>
         </include>
     </fields>

@@ -68,8 +68,8 @@ class AssertProductForm extends AbstractConstraint
         $fixtureData = $this->prepareFixtureData($product);
 
         $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($errors),
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $errors,
             "These data must be equal to each other:\n" . implode("\n", $errors)
         );
     }
@@ -131,11 +131,6 @@ class AssertProductForm extends AbstractConstraint
                 && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
             ) {
                 $errors = array_merge($errors, $innerErrors);
-            } elseif (!isset($formData[$key])) {
-                $errors = array_merge(
-                    $errors,
-                    ["- key -> '{$key}' : does not exist"]
-                );
             } elseif ($value != $formData[$key]) {
                 $fixtureValue = empty($value) ? '<empty-value>' : $value;
                 $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
@@ -167,12 +162,7 @@ class AssertProductForm extends AbstractConstraint
             }
         }
         asort($scalarValues);
-        foreach (array_keys($arrayValues) as $key) {
-            if (!is_numeric($key)) {
-                ksort($arrayValues);
-                break;
-            }
-        }
+        ksort($arrayValues);
 
         return $scalarValues + $arrayValues;
     }

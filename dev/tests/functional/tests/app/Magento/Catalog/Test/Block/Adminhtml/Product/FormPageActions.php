@@ -71,7 +71,7 @@ class FormPageActions extends ParentFormPageActions
     }
 
     /**
-     * Clicked save and duplicate action
+     * Click save and duplicate action
      *
      * @return void
      */
@@ -82,7 +82,7 @@ class FormPageActions extends ParentFormPageActions
     }
 
     /**
-     * Clicked save and new action
+     * Click save and new action
      *
      * @return void
      */
@@ -93,7 +93,7 @@ class FormPageActions extends ParentFormPageActions
     }
 
     /**
-     * Clicked save and new action
+     * Click save and new action
      *
      * @return void
      */

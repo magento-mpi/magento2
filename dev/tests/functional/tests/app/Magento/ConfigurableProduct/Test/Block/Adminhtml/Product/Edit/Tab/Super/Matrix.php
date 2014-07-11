@@ -40,9 +40,9 @@ class Matrix extends CatalogOptions
     /**
      * Getting product matrix data form on the product form
      *
-     * @param array $fields
-     * @param Element $element
-     * @return $this
+     * @param array|null $fields [optional]
+     * @param Element|null $element [optional]
+     * @return array
      */
     public function getDataOptions(array $fields = null, Element $element = null)
     {

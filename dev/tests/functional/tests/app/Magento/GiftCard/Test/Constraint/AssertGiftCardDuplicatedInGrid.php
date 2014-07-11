@@ -13,9 +13,9 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
- * Class AssertProductGiftCardDuplicatedInGrid
+ * Class AssertGiftCardDuplicatedInGrid
  */
-class AssertProductGiftCardDuplicatedInGrid extends AbstractConstraint
+class AssertGiftCardDuplicatedInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -42,13 +42,11 @@ class AssertProductGiftCardDuplicatedInGrid extends AbstractConstraint
             'type' => 'Gift Card',
         ];
 
-        $productGrid->open()
-            ->getProductGrid()
-            ->search($filter);
+        $productGrid->open()->getProductGrid()->search($filter);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $productGrid->getProductGrid()->isRowVisible($filter, false),
-            'Product duplicate is absent in Products grid.'
+            'Duplicated gift card is absent in Products grid.'
         );
     }
 
@@ -59,6 +57,6 @@ class AssertProductGiftCardDuplicatedInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'The product has been successfully found, according to the filters.';
+        return 'The gift card has been successfully found, according to the filters.';
     }
 }

@@ -98,13 +98,8 @@ class DuplicateProductEntityTest extends Injectable
 
         // Steps
         $filter = ['sku' => $product->getSku()];
-        $this->productGrid->open()
-            ->getProductGrid()
-            ->searchAndOpen($filter);
-
-        $this->editProductPage
-            ->getFormAction()
-            ->saveAndDuplicate();
+        $this->productGrid->open()->getProductGrid()->searchAndOpen($filter);
+        $this->editProductPage->getFormAction()->saveAndDuplicate();
 
         return ['product' => $product];
     }

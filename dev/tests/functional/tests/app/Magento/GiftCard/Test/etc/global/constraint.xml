@@ -8,19 +8,19 @@
  */
 -->
 <constraint>
-    <assertProductGiftCardDuplicateForm module="Magento_GiftCard">
+    <assertGiftCardDuplicatedInGrid module="Magento_GiftCard">
         <severeness>high</severeness>
         <require>
             <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
             <productPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
-    </assertProductGiftCardDuplicateForm>
-    <assertProductGiftCardDuplicatedInGrid module="Magento_GiftCard">
+    </assertGiftCardDuplicatedInGrid>
+    <assertGiftCardDuplicateForm module="Magento_GiftCard">
         <severeness>low</severeness>
         <require>
             <product class="Mtf\Fixture\FixtureInterface" />
             <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
         </require>
-    </assertProductGiftCardDuplicatedInGrid>
+    </assertGiftCardDuplicateForm>
 </constraint>
