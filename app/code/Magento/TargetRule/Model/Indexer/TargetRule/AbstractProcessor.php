@@ -31,11 +31,11 @@ abstract class AbstractProcessor
 
     /**
      * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
-     * @param Status\Container $statusContainer
+     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Status\Container $statusContainer
      */
     public function __construct(
         \Magento\Indexer\Model\IndexerFactory $indexerFactory,
-        Status\Container $statusContainer
+        \Magento\TargetRule\Model\Indexer\TargetRule\Status\Container $statusContainer
     ) {
         $this->_indexer = $indexerFactory->create();
         $this->_statusContainer = $statusContainer;

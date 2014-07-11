@@ -127,14 +127,20 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_localeDate;
 
     /**
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor
+     */
+    protected $_ruleProductIndexerProcessor;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Model\Resource\Iterator $iterator
-     * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
-     * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
+     * @param Rule\Condition\CombineFactory $ruleFactory
+     * @param Actions\Condition\CombineFactory $actionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductIndexerProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -148,6 +154,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductIndexerProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -157,6 +164,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->_actionFactory = $actionFactory;
+        $this->_ruleProductIndexerProcessor = $ruleProductIndexerProcessor;
         parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
@@ -185,6 +193,55 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         }
 
         return $this;
+    }
+
+    /**
+     * AfterSave callback
+     *
+     * @return $this
+     */
+    protected function _afterSave()
+    {
+        if ($this->isObjectNew() || $this->dataHasChangedForAny([
+            'is_active',
+            'from_date',
+            'to_date',
+            'conditions',
+            'apply_to',
+            'actions',
+            'use_customer_segment',
+            'customer_segment_ids',
+        ])) {
+            $this->_ruleProductIndexerProcessor->reindexRow($this->getId());
+        }
+        return parent::_afterSave();
+    }
+
+    /**
+     * After delete callback
+     *
+     * @return $this
+     */
+    public function _afterDeleteCommit()
+    {
+        $this->_ruleProductIndexerProcessor->reindexRow($this->getId());
+        return parent::_afterDeleteCommit();
+    }
+
+    /**
+     * Check is data changed for any of provided fields
+     *
+     * @param array $fields
+     * @return bool
+     */
+    public function dataHasChangedForAny(array $fields = array())
+    {
+        foreach ($fields as $field) {
+            if ($this->dataHasChangedFor($field)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
