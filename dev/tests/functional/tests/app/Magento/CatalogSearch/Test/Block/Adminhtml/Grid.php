@@ -18,6 +18,8 @@ class Grid extends WidgetGrid
 {
     /**
      * Initialize block elements
+     *
+     * @var array
      */
     protected $filters = [
         'search_query' => [

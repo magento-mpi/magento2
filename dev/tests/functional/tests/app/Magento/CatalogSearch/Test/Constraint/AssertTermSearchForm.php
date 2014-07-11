@@ -38,6 +38,7 @@ class AssertTermSearchForm extends AbstractConstraint
      * @param CatalogSearchIndex $indexPage
      * @param CatalogSearchEdit $editPage
      * @param CatalogSearchQuery $termSearch
+     * @return void
      */
     public function processAssert(
         CatalogSearchIndex $indexPage,

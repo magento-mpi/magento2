@@ -39,6 +39,9 @@ class AssertTermSearchOnFrontend extends AbstractConstraint
      * 3. After click 'Go' of Search field a customer search redirects to a specific page (passed from fixture)
      * if it was specified Redirect URL
      *
+     * @param CmsIndex $cmsIndex
+     * @param CatalogSearchQuery $termSearch
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(CmsIndex $cmsIndex, CatalogSearchQuery $termSearch, Browser $browser)
