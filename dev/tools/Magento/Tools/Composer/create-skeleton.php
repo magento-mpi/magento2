@@ -61,21 +61,18 @@ try {
         json_decode(file_get_contents(__DIR__ . '/etc/root_composer_template.json')),
         $workingDir . '/composer.json'
     );
-    $root->getJson()->name = $name;
+    $root->set('name', $name);
     if ($version) {
-        $root->getJson()->version = $version;
+        $root->set('version', $version);
     }
     $reader = new Reader($workingDir);
     foreach ($reader->readMagentoPackages() as $package) {
-        $root->setRequire($package->get('name'), $package->get('version'));
+        $root->set("require->{$package->get('name')}", $package->get('version'));
     }
     $size = sizeof((array)$root->get('require'));
     $logger->debug("Total number of dependencies in the skeleton package: {$size}");
-    $root->setExtra('map', $workingDir);
-    file_put_contents(
-        $root->getFile(),
-        json_encode($root->getJson(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n"
-    );
+    $root->set('extra->map', $root->getMappingList($workingDir));
+    file_put_contents($root->getFile(), $root->getJson());
     $logger->info("SUCCESS: created package at {$root->getFile()}");
 } catch (\Zend_Console_Getopt_Exception $e) {
     $e->getUsageMessage();

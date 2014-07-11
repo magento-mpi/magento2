@@ -41,7 +41,7 @@ try {
     }
     $reader = new Reader($rootDir);
 } catch (\InvalidArgumentException $e) {
-    echo $e->getMessage() . "\n";
+    echo $e->getMessage() . "\n\n";
     echo $usage;
     exit(1);
 }
@@ -61,7 +61,7 @@ try {
     foreach ($packages as $package) {
         $file = $package->getFile();
         echo  $file . "\n";
-        file_put_contents($file, json_encode($package->getJson(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
+        file_put_contents($file, $package->getJson());
     }
 } catch (\Exception $e) {
     echo $e;

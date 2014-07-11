@@ -85,8 +85,7 @@ class Collection
     public function setVersion($packageName, $version)
     {
         $package = $this->getPackage($packageName);
-        $json = $package->getJson();
-        $json->version = $version;
+        $package->set('version', $version);
         $dependentVersion = $this->getDependentVersion($version);
         if ($dependentVersion) {
             $this->massUpdateByKey($packageName, $dependentVersion);
@@ -121,8 +120,7 @@ class Collection
         foreach ($this->packages as $package) {
             foreach ($keys as $key) {
                 if ($package->get("{$key}->{$subjectName}")) {
-                    $json = $package->getJson();
-                    $json->{$key}->{$subjectName} = $targetValue;
+                    $package->set("{$key}->{$subjectName}", $targetValue);
                 }
             }
         }

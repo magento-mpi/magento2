@@ -23,13 +23,6 @@ class Package
     private $json;
 
     /**
-     * The cloned data of composer.json
-     *
-     * @var \StdClass
-     */
-    private $clone;
-
-    /**
      * Path to the composer.json file
      *
      * @var string
@@ -49,26 +42,31 @@ class Package
     }
 
     /**
-     * Get JSON contents of composer.json
+     * Get JSON contents
      *
-     * @return \StdClass
+     * @param bool $formatted
+     * @param string|null $format
+     * @return string|\StdClass
      */
-    public function getJson()
+    public function getJson($formatted = true, $format = null)
     {
-        return $this->getClone();
+        if ($formatted) {
+            if (null === $format) {
+                $format = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES;
+            }
+            return json_encode($this->json, $format) . "\n";
+        }
+        return $this->json;
     }
 
     /**
-     * Replace the real JSON object with a clone to be able to track changes
+     * Get file path
      *
-     * @return \StdClass
+     * @return string
      */
-    private function getClone()
+    public function getFile()
     {
-        if (null === $this->clone) {
-            $this->clone = unserialize(serialize($this->json)); // a "clone" won't create object clones recursively
-        }
-        return $this->clone;
+        return $this->file;
     }
 
     /**
@@ -86,8 +84,7 @@ class Package
      */
     public function get($propertyPath)
     {
-        $json = (null !== $this->clone) ? $this->clone : $this->json;
-        return $this->traverseProperty($json, explode('->', $propertyPath));
+        return $this->traverseGet($this->json, explode('->', $propertyPath));
     }
 
     /**
@@ -98,63 +95,57 @@ class Package
      * @param int $index
      * @return mixed
      */
-    private function traverseProperty(\StdClass $json, array $chain, $index = 0)
+    private function traverseGet(\StdClass $json, array $chain, $index = 0)
     {
         $property = $chain[$index];
         if (!property_exists($json, $property)) {
             return false;
         }
         if (isset($chain[$index + 1])) {
-            return $this->traverseProperty($json->{$property}, $chain, $index + 1);
+            return $this->traverseGet($json->{$property}, $chain, $index + 1);
         } else {
             return $json->{$property};
         }
     }
 
     /**
-     * Get file path
+     * A setter for properties
      *
-     * @return string
+     * For example:
+     *     $package->set('name', 'foo/bar');
+     *     $package->set('require->foo/bar', '1.0.0');
+     *     $package->set('extra->foo->bar', 'baz');
+     *     $package->set('extra->foo', ['bar', 'baz']);
+     *
+     * @param string $propertyPath
+     * @param mixed $value
+     * @return void
      */
-    public function getFile()
+    public function set($propertyPath, $value)
     {
-        return $this->file;
+        $this->traverseSet($this->json, $value, explode('->', $propertyPath));
     }
 
     /**
-     * Whether contents of the package was modified
+     * Traverse an \StdClass object recursively and set the property by specified path (chain)
      *
-     * It is assumed as modified, as soon as someone has obtained the clone of object using getJson()
-     *
-     * @return bool
+     * @param \StdClass $target
+     * @param mixed $value
+     * @param array $chain
+     * @param int $index
+     * @return void
      */
-    public function isModified()
+    private function traverseSet(\StdClass $target, $value, array $chain, $index = 0)
     {
-        return null === $this->clone;
-    }
-
-    /**
-     * Set something into "require" section
-     *
-     * @param string $name
-     * @param string $version
-     */
-    public function setRequire($name, $version)
-    {
-        $json = $this->getClone();
-        $json->require->{$name} = $version;
-    }
-
-    /**
-     * Set mapping info in "extra" section
-     *
-     * @param string $name
-     * @param string $workingDir
-     */
-    public function setExtra($name, $workingDir)
-    {
-        $json = $this->getClone();
-        $json->extra->{$name} = $this->getMappingList($workingDir);
+        $property = $chain[$index];
+        if (isset($chain[$index + 1])) {
+            if (!property_exists($target, $property)) {
+                $target->{$property} = new \StdClass;
+            }
+            $this->traverseSet($target->{$property}, $value, $chain, $index + 1);
+        } else {
+            $target->{$property} = $value;
+        }
     }
 
     public function getMappingList($workingDir)
