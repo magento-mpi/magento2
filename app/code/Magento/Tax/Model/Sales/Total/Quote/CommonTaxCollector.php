@@ -499,7 +499,7 @@ class CommonTaxCollector extends AbstractTotal
      * @param array $itemsByType
      * @return $this
      */
-    protected function processAppliedTaxes(Address $addressor, Array $itemsByType)
+    protected function processAppliedTaxes(Address $address, Array $itemsByType)
     {
         $address->setAppliedTaxes([]);
         $allAppliedTaxesArray = [];
