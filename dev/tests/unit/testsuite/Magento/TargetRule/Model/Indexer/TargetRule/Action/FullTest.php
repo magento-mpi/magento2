@@ -13,7 +13,7 @@ namespace Magento\TargetRule\Model\Indexer\TargetRule\Action;
 
 class FullTest extends \PHPUnit_Framework_TestCase
 {
-    public function testExecuteWithAdapterErrorThrowsException()
+    public function testFullReindex()
     {
         $productFactoryMock = $this->getMock(
             'Magento\Catalog\Model\ProductFactory',
