@@ -113,6 +113,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $this->model->createBlock('type', 'blockname', array());
         $this->assertInstanceOf('Magento\Framework\View\Element\AbstractBlock', $this->model->getBlock('blockname'));
+        $this->assertFalse($this->model->getBlock('not_exist'));
     }
 
     public function testGetUpdate()
@@ -469,5 +470,65 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->assertSame($this->model, $this->model->unsetElement($blockName));
         $this->assertSame([], $this->model->getAllBlocks());
+    }
+
+    public function testRenameElement()
+    {
+        $oldName = 'old_name';
+        $newName = 'new_name';
+        $blockMock = $this->getMockBuilder('Magento\Framework\View\Element\AbstractBlock')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $this->structureMock->expects($this->once())
+            ->method('renameElement')
+            ->with($this->equalTo($oldName), $this->equalTo($newName))
+            ->will($this->returnSelf());
+        $this->assertSame($this->model, $this->model->setBlock($oldName, $blockMock));
+        $this->assertSame($this->model, $this->model->renameElement($oldName, $newName));
+        $this->assertSame([$newName => $blockMock], $this->model->getAllBlocks());
+    }
+
+    public function testGetParentName()
+    {
+        $childName = 'child_name';
+        $parentId = 'parent_id';
+        $this->structureMock->expects($this->once())
+            ->method('getParentId')
+            ->with($this->equalTo($childName))
+            ->will($this->returnValue($parentId));
+        $this->assertSame($parentId, $this->model->getParentName($childName));
+    }
+
+    public function testGetElementAlias()
+    {
+        $name = 'child_name';
+        $parentId = 'parent_id';
+        $alias = 'alias';
+        $this->structureMock->expects($this->once())
+            ->method('getParentId')
+            ->with($this->equalTo($name))
+            ->will($this->returnValue($parentId));
+        $this->structureMock->expects($this->once())
+            ->method('getChildAlias')
+            ->with($this->equalTo($parentId), $this->equalTo($name))
+            ->will($this->returnValue($alias));
+        $this->assertSame($alias, $this->model->getElementAlias($name));
+    }
+
+    public function testAddRemoveOutputElement()
+    {
+        $this->assertSame($this->model, $this->model->addOutputElement('name'));
+        $this->assertSame($this->model, $this->model->removeOutputElement('name'));
+    }
+
+    public function testGetBlockFactory()
+    {
+        $this->assertSame($this->blockFactoryMock, $this->model->getBlockFactory());
+    }
+
+    public function testIsPrivate()
+    {
+        $this->assertFalse($this->model->isPrivate());
     }
 }
