@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Model\Sales\Total\Quote;
 
 /**
  * Test class for \Magento\Tax\Model\Sales\Total\Quote\Tax
  */
-namespace Magento\Tax\Model\Sales\Total\Quote;
-
 use Magento\Tax\Model\Calculation;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
