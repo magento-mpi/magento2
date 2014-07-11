@@ -78,13 +78,13 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             $result[] = [$dir, 'magento2-language'];
         }
         foreach (glob("{$root}/app/design/adminhtml/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme-adminhtml'];
+            $result[] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/app/design/frontend/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme-frontend'];
+            $result[] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/lib/internal/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-framework'];
+            $result[] = [$dir, 'magento2-library'];
         }
         return $result;
     }
@@ -127,16 +127,16 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
                 $this->assertDependsOnFramework($json->require);
                 break;
-            case 'magento2-theme-adminhtml':
-            case 'magento2-theme-frontend': // break is intentionally omitted
-                $this->assertRegExp('/^magento\/theme-(?:adminhtml|frontend)(\-[a-z0-9_]+)+$/', $json->name);
+            case 'magento2-theme':
+            case 'magento2-theme': // break is intentionally omitted
+                $this->assertRegExp('/^magento\/theme\-([a-z0-9_]+)+$/', $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertThemeVersionInSync($dir, $json->version);
                 break;
             case 'magento2-framework':
                 $this->assertDependsOnPhp($json->require);
-                $this->assertRegExp('/^magento\/framework$/', $json->name);
+                $this->assertRegExp('/^magento\/library$/', $json->name);
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown package type {$packageType}");
