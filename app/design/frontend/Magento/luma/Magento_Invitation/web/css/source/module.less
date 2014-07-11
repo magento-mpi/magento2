@@ -6,8 +6,22 @@
 //  * @license     {license_link}
 //  */
 
-.data.table.invitations {
-    .col {
-        width: 50%;
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .table-wrapper.invitations {
+        &:extend(.abstract-account-table-border all);
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .table-invitations {
+        .col {
+            width: 50%;
+        }
     }
 }

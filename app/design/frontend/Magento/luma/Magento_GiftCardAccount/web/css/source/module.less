@@ -6,10 +6,27 @@
 //  * @license     {license_link}
 //  */
 
+.giftcard-account {
+    .please-wait {
+        display: none;
+    }
+    .form.giftcard.redeem {
+        .giftcard.ballance {
+            margin-bottom: @indent-l-base;
+        }
+    }
+}
+.checkout-payment-giftcardaccount {
+    margin: 20px 0 0;
+}
+
 //
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
+    .form-giftcard-redeem {
+        &:extend(.abstract-forms-general-desktop all);
+    }
     .block-balance-giftcard {
         .block-content {
             &:extend(.abstract-account-block-font-size all);

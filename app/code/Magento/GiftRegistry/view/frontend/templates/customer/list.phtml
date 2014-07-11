@@ -10,7 +10,7 @@
 <?php $entityCollection = $this->getEntityCollection(); ?>
 
 <?php if ($entityCollection->getSize()):?>
-    <div class="giftregistry toolbar">
+    <div class="toolbar giftregistry-toolbar top">
         <?php echo $this->getChildHtml('pager'); ?>
     </div>
 
@@ -42,7 +42,7 @@
             </tbody>
         </table>
     </div>
-    <div class="giftregistry toolbar">
+    <div class="toolbar giftregistry-toolbar bottom">
         <?php echo $this->getChildHtml('pager'); ?>
     </div>
 <?php else:?>

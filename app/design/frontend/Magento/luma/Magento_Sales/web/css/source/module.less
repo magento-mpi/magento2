@@ -84,9 +84,6 @@
             &:extend(.blocks-2columns all);
         }
     }
-    .table-wrapper.orders-history {
-        border-top: 1px solid @account-title-border-color;
-    }
     .table-wrapper.orders-recent {
         &:extend(.abstract-account-table-margin-desktop all);
     }
@@ -105,5 +102,11 @@
     }
     .table-wrapper.orders-recent {
         &:extend(.abstract-account-table-margin-mobile all);
+    }
+    .table-wrapper.orders-history {
+        &:extend(.abstract-account-table-border all);
+        .col.actions {
+            &:extend(.abstract-account-col-actions all);
+        }
     }
 }
