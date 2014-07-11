@@ -31,6 +31,12 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
 
     const TRXTYPE_DELAYED_INQUIRY = 'I';
 
+    const TRXTYPE_ACCEPT_DENY       = 'U';
+
+    const UPDATEACTION_APPROVED = 'APPROVE';
+
+    const UPDATEACTION_DECLINED_BY_MERCHANT = 'FPS_MERCHANT_DECLINE';
+
     /**
      * Tender type codes
      */
@@ -154,6 +160,13 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
      * @var bool
      */
     protected $_canFetchTransactionInfo = true;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
+    protected $_canReviewPayment = true;
 
     /**
      * Gateway request timeout
@@ -471,6 +484,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     {
         $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_DELAYED_INQUIRY);
+        $transactionId = $payment->getCcTransId() ? $payment->getCcTransId() : $transactionId;
         $request->setOrigid($transactionId);
         $response = $this->_postRequest($request);
 
@@ -529,6 +543,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     {
         $debugData = array('request' => $request->getData());
 
+        /** @var \Magento\Framework\HTTP\ZendClient $client */
         $client = $this->_httpClientFactory->create();
         $result = new \Magento\Framework\Object();
 
@@ -622,16 +637,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
             $request->setCurrency($order->getBaseCurrencyCode());
 
             $orderIncrementId = $order->getIncrementId();
-
-            $request->setCurrency($order->getBaseCurrencyCode())
-                ->setInvnum($orderIncrementId)
-                ->setPonum($order->getId())
-                ->setComment1($orderIncrementId);
-
-            $customerId = $order->getCustomerId();
-            if ($customerId) {
-                $request->setCustref($customerId);
-            }
+            $request->setCustref($orderIncrementId)->setComment1($orderIncrementId);
 
             $billing = $order->getBillingAddress();
             if (!empty($billing)) {
@@ -732,6 +738,8 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
             throw new \Magento\Framework\Model\Exception($response->getRespmsg());
+        } elseif ($response->getOrigresult() == self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
+            throw new \Magento\Framework\Model\Exception($response->getRespmsg());
         }
     }
 
@@ -745,5 +753,59 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     protected function _setReferenceTransaction(\Magento\Framework\Object $payment, $request)
     {
         return $this;
+    }
+
+    /**
+     * Attempt to accept a pending payment
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @return bool
+     */
+    public function acceptPayment(\Magento\Payment\Model\Info $payment)
+    {
+        return $this->reviewPayment($payment, self::UPDATEACTION_APPROVED);
+    }
+
+    /**
+     * Attempt to deny a pending payment
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @return bool
+     */
+    public function denyPayment(\Magento\Payment\Model\Info $payment)
+    {
+        return $this->reviewPayment($payment, self::UPDATEACTION_DECLINED_BY_MERCHANT);
+    }
+
+
+    /**
+     * Perform the payment review
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @param string $action
+     * @return bool
+     */
+    public function reviewPayment(\Magento\Payment\Model\Info $payment, $action)
+    {
+        $request = $this->_buildBasicRequest($payment);
+        $transactionId = ($payment->getCcTransId()) ? $payment->getCcTransId() : $payment->getLastTransId();
+        $request->setTrxtype(self::TRXTYPE_ACCEPT_DENY);
+        $request->setOrigid($transactionId);
+        $request->setUpdateaction($action);
+
+        $response = $this->_postRequest($request);
+        $payment->setAdditionalInformation((array)$response->getData());
+        $this->_processErrors($response);
+
+        if (!$this->_isTransactionUnderReview($response->getOrigresult())) {
+            $payment->setTransactionId($response->getOrigpnref())->setIsTransactionClosed(0);
+            if ($response->getOrigresult() == self::RESPONSE_CODE_APPROVED) {
+                $payment->setIsTransactionApproved(true);
+            } else if ($response->getOrigresult() == self::RESPONSE_CODE_DECLINED_BY_MERCHANT) {
+                $payment->setIsTransactionDenied(true);
+            }
+        }
+        $rawData = $response->getData();
+        return ($rawData) ? $rawData : array();
     }
 }

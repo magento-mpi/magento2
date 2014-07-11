@@ -1052,7 +1052,6 @@ class Payment extends \Magento\Payment\Model\Info
                         $this,
                         $transactionId
                     );
-                } else {
                 }
                 if ($this->getIsTransactionApproved()) {
                     $result = true;
