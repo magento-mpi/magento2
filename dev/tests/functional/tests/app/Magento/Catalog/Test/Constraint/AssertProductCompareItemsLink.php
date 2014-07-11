@@ -24,10 +24,7 @@ class AssertProductCompareItemsLink extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that link "Compare Products %count_of_compared_products% item"(is count >1 ""Compare Products
-     * %count_of_compared_products% items") is presented at the top of the page
-     * (near "welcom msg", My Account, Register ...). Link contains correct count of products that added
-     * to compare. Link is lead to Compare Product Page.
+     * Assert that link "Compare Products..." on top menu of page
      *
      * @param array $products
      * @param CmsIndex $cmsIndex
@@ -35,27 +32,24 @@ class AssertProductCompareItemsLink extends AbstractConstraint
      */
     public function processAssert(array $products, CmsIndex $cmsIndex)
     {
-        $linkQtyTextFixture = count($products);
-        $linkQtyTextPage = $cmsIndex->getLinksBlock()->getQtyCompareProducts();
+        $productQty = count($products);
+        $qtyOnPage = $cmsIndex->getLinksBlock()->getQtyInCompareList();
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $linkQtyTextFixture,
-            $linkQtyTextPage,
-            'That link "Compare Products ' . $linkQtyTextFixture . ' item" not correct.'
+            $productQty,
+            $qtyOnPage,
+            'Actually you verify product qty in the compare product list, not a whole link.'
         );
 
-        $linkQtyHrefFixture = '/catalog/product_compare/';
-        $linkQtyHrefPage = $cmsIndex->getLinksBlock()->getLinkUrl('Compare Products');
-        $isValidLink = strpos($linkQtyHrefPage, $linkQtyHrefFixture);
-
+        $compareProductUrl = '/catalog/product_compare/';
         \PHPUnit_Framework_Assert::assertTrue(
-            is_numeric($isValidLink),
-            'That link isn\'t lead to Compare Product Page.'
+            strpos($cmsIndex->getLinksBlock()->getLinkUrl('Compare Products'), $compareProductUrl) !== false,
+            'Compare product link isn\'t lead to Compare Product Page.'
         );
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

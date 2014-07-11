@@ -550,6 +550,17 @@ class GiftCardProduct extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
+    protected $price = [
+        'attribute_code' => 'price',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price',
+    ];
+
+    public function getPrice()
+    {
+        return $this->getData('price');
+    }
+
     public function getAllowMessage()
     {
         return $this->getData('allow_message');

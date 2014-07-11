@@ -337,12 +337,12 @@
     <assertProductComparePage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductComparePage>
-    <assertProductCompareOnCMSPage module="Magento_Catalog">
+    <assertProductCompareBlockOnCmsPage module="Magento_Catalog">
         <severeness>low</severeness>
-    </assertProductCompareOnCMSPage>
-    <assertProductCompareSuccessAddedMessage module="Magento_Catalog">
+    </assertProductCompareBlockOnCmsPage>
+    <assertProductCompareSuccessAddMessage module="Magento_Catalog">
         <severeness>high</severeness>
-    </assertProductCompareSuccessAddedMessage>
+    </assertProductCompareSuccessAddMessage>
     <assertProductCompareSuccessRemoveMessage module="Magento_Catalog">
         <severeness>high</severeness>
     </assertProductCompareSuccessRemoveMessage>

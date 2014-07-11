@@ -6,31 +6,31 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Product\Compare\ListCompare;
+namespace Magento\Catalog\Test\Block\Product\Compare;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Interceptor
- * Compare product block
+ * Class ListCompare
+ * Compare list product block
  */
-class Interceptor extends Block
+class ListCompare extends Block
 {
     /**
-     * Selector by product info block
+     * Selector by product info
      *
      * @var string
      */
-    protected $productBlockInfo = '//td[contains(@class, "cell product info")][%d]';
+    protected $productInfo = '//td[contains(@class, "cell product info")][%d]';
 
     /**
-     * Selector by product attribute block
+     * Selector by product attribute
      *
      * @var string
      */
-    protected $productBlockAttribute = '//tr[td[contains(@class,"attribute")]][%d]';
+    protected $productAttribute = '//tr[th//*[normalize-space(text()) = "%s"]]';
 
     /**
      * Selector by name product
@@ -78,23 +78,25 @@ class Interceptor extends Block
      * Get product name
      *
      * @param int $index
+     * @param string $attributeKey
      * @return string
      */
-    public function getProductName($index)
+    public function getProductName($index, $attributeKey)
     {
-        return $this->getCompareProductInfoBlock($index)->find($this->nameSelector, Locator::SELECTOR_XPATH)->getText();
+        return $this->getCompareProductInfo($index)->find($this->nameSelector, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
      * Get product price
      *
      * @param int $index
+     * @param string $attributeKey
      * @param string $currency [optional]
      * @return string
      */
-    public function getProductPrice($index, $currency = '$')
+    public function getProductPrice($index, $attributeKey, $currency = '$')
     {
-        $infoBlock = $this->getCompareProductInfoBlock($index);
+        $infoBlock = $this->getCompareProductInfo($index);
         if (!$infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->isVisible()) {
             $this->priceSelector = './/span[@class="price"]';
         }
@@ -102,71 +104,38 @@ class Interceptor extends Block
     }
 
     /**
-     * Get product sku
-     *
-     * @param int $index
-     * @return string
-     */
-    public function getProductSku($index)
-    {
-        return $this->getAttribute(1, $index);
-    }
-
-    /**
-     * Get product description
-     *
-     * @param int $index
-     * @return string
-     */
-    public function getProductDescription($index)
-    {
-        return $this->getAttribute(2, $index);
-    }
-
-    /**
-     * Get product short description
-     *
-     * @param int $index
-     * @return string
-     */
-    public function getProductShortDescription($index)
-    {
-        return $this->getAttribute(3, $index);
-    }
-
-    /**
-     * Get item compare product info block
+     * Get item compare product info
      *
      * @param int $index
      * @return Element
      */
-    protected function getCompareProductInfoBlock($index)
+    protected function getCompareProductInfo($index)
     {
-        return $this->_rootElement->find(sprintf($this->productBlockInfo, $index), Locator::SELECTOR_XPATH);
+        return $this->_rootElement->find(sprintf($this->productInfo, $index), Locator::SELECTOR_XPATH);
     }
 
     /**
-     * Get item compare product attribute block
+     * Get item compare product attribute
      *
-     * @param int $index
+     * @param string $key
      * @return Element
      */
-    protected function getCompareProductAttributeBlock($index)
+    protected function getCompareProductAttribute($key)
     {
-        return $this->_rootElement->find(sprintf($this->productBlockAttribute, $index), Locator::SELECTOR_XPATH);
+        return $this->_rootElement->find(sprintf($this->productAttribute, $key), Locator::SELECTOR_XPATH);
     }
 
     /**
      * Get item attribute
      *
-     * @param int $indexAttribute
      * @param int $indexProduct
+     * @param string $attributeKey
      * @return string
      */
-    protected function getAttribute($indexAttribute, $indexProduct)
+    public function getProductAttribute($indexProduct, $attributeKey)
     {
         return trim(
-            $this->getCompareProductAttributeBlock($indexAttribute)
+            $this->getCompareProductAttribute($attributeKey)
                 ->find(sprintf($this->attributeSelector, $indexProduct), Locator::SELECTOR_XPATH)->getText()
         );
     }

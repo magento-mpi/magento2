@@ -13,9 +13,9 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class AssertProductCompareSuccessAddedMessage
+ * Class AssertProductCompareSuccessAddMessage
  */
-class AssertProductCompareSuccessAddedMessage extends AbstractConstraint
+class AssertProductCompareSuccessAddMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You added product %s to the comparison list.';
 
@@ -26,9 +26,8 @@ class AssertProductCompareSuccessAddedMessage extends AbstractConstraint
      */
     protected $severeness = 'high';
 
-
     /**
-     * Assert success message is presented on page.
+     * Assert success message is presented on page
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
@@ -37,22 +36,23 @@ class AssertProductCompareSuccessAddedMessage extends AbstractConstraint
     public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
     {
         $successMessage = sprintf(self::SUCCESS_MESSAGE, $product->getName());
+        $actualMessage = $catalogProductView->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             $successMessage,
-            $catalogProductView->getMessagesBlock()->getSuccessMessages(),
+            $actualMessage,
             'Wrong success message is displayed.'
             . "\nExpected: " . self::SUCCESS_MESSAGE
-            . "\nActual: " . $catalogProductView->getMessagesBlock()->getSuccessMessages()
+            . "\nActual: " . $actualMessage
         );
     }
 
     /**
-     * Text success present save message
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'This product adds to compare product list.';
+        return 'Product has been added compare products list.';
     }
 }

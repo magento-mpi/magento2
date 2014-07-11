@@ -24,7 +24,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $qtyCompareProducts = '//a[contains(text(), "Compare Products")]/span[contains(@class, "counter qty")]';
+    protected $qtyCompareProducts = '.compare .counter.qty';
 
     /**
      * Link selector
@@ -56,15 +56,16 @@ class Links extends Block
     }
 
     /**
-     * Get count products adds to compare
+     * Get the number of products added to compare list
      *
      * @return string|bool
      */
-    public function getQtyCompareProducts()
+    public function getQtyInCompareList()
     {
         $compareProductLink = $this->_rootElement->find($this->qtyCompareProducts, Locator::SELECTOR_XPATH);
         if ($compareProductLink->isVisible()) {
-            return trim(str_replace(['items', 'item'], '', $compareProductLink->getText()));
+            preg_match_all('/^\d+/', $compareProductLink->getText(), $matches);
+            return $matches[0][0];
         } else {
             return false;
         }

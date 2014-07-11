@@ -44,6 +44,7 @@ class GiftCardProduct extends AbstractRepository
                 'qty' => 123.0000,
                 'is_in_stock' => 'In Stock',
             ],
+            'price' => ['value' => 120, 'preset' => '-'],
             'status' => 'Product online',
             'use_config_is_redeemable' => 'Yes',
             'lifetime' => 5,

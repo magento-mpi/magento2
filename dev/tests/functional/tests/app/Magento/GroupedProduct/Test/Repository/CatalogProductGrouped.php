@@ -29,7 +29,7 @@ class CatalogProductGrouped extends AbstractRepository
         $this->_data['default'] = [
             'name' => 'Test grouped product %isolation%',
             'sku' => 'sku_test_grouped_product_%isolation%',
-            'price' => ['value' => 120.00],
+            'price' => ['value' => 560.00, 'preset' => '-'],
             'weight' => 30.0000,
             'category_ids' => ['presets' => 'default'],
             'associated' => ['preset' => 'defaultSimpleProduct'],
