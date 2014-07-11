@@ -13,6 +13,11 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Class TaxRuleServiceTest
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
