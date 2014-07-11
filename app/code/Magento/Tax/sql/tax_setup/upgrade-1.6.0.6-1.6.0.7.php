@@ -8,11 +8,12 @@
 
 /** @var \Magento\Tax\Model\Resource\Setup $installer */
 $installer = $this;
+$connection = $installer->getConnection();
 
 /**
  * Add new field to 'sales_order_tax_item'
  */
-$installer->getConnection()->addColumn(
+$connection->addColumn(
     $installer->getTable('sales_order_tax_item'),
     'amount',
     [
@@ -22,7 +23,8 @@ $installer->getConnection()->addColumn(
         'NULLABLE' => false,
         'COMMENT' => 'Tax amount for the item and tax rate.'
     ]
-)->addColumn(
+);
+$connection->addColumn(
     $installer->getTable('sales_order_tax_item'),
     'base_amount',
     [
@@ -32,7 +34,8 @@ $installer->getConnection()->addColumn(
         'NULLABLE' => false,
         'COMMENT' => 'Base tax amount for the item and tax rate.'
     ]
-)->addColumn(
+);
+$connection->addColumn(
     $installer->getTable('sales_order_tax_item'),
     'real_amount',
     [
@@ -42,7 +45,8 @@ $installer->getConnection()->addColumn(
         'NULLABLE' => false,
         'COMMENT' => 'Real tax amount for the item and tax rate.'
     ]
-)->addColumn(
+);
+$connection->addColumn(
     $installer->getTable('sales_order_tax_item'),
     'real_base_amount',
     [
@@ -52,7 +56,8 @@ $installer->getConnection()->addColumn(
         'NULLABLE' => false,
         'COMMENT' => 'Real base tax amount for the item and tax rate.'
     ]
-)->addColumn(
+);
+$connection->addColumn(
     $installer->getTable('sales_order_tax_item'),
     'associated_item_id',
     [
@@ -61,7 +66,8 @@ $installer->getConnection()->addColumn(
         'NULLABLE' => true,
         'COMMENT' => 'Id of the associated item.'
     ]
-)->addColumn(
+);
+$connection->addColumn(
     $installer->getTable('sales_order_tax_item'),
     'taxable_item_type',
     [
@@ -70,7 +76,8 @@ $installer->getConnection()->addColumn(
         'NULLABLE' => false,
         'COMMENT' => 'Type of the taxable item.'
     ]
-)->changeColumn(
+);
+$connection->changeColumn(
     $installer->getTable('sales_order_tax_item'),
     'item_id',
     'item_id',
@@ -80,7 +87,8 @@ $installer->getConnection()->addColumn(
         'UNSIGNED' => true,
         'COMMENT' => 'Item Id',
     ]
-)->addForeignKey(
+);
+$connection->addForeignKey(
     $installer->getFkName('sales_order_tax_item', 'associated_item_id', 'sales_flat_order_item', 'item_id'),
     $installer->getTable('sales_order_tax_item'),
     'associated_item_id',
