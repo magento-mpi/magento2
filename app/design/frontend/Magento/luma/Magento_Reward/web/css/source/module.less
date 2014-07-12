@@ -6,10 +6,9 @@
 //  * @license     {license_link}
 //  */
 
-.block.reward-info {
+.block-reward-info {
     .reward-balance {
-        //.heading(h3);
-        font-size: 18px;
+        .font-size(18);
         .css(margin-bottom, @indent-m-base);
     }
     .reward-rates {
@@ -21,4 +20,22 @@
 }
 
 .form.reward-settings {
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .table-wrapper.reward-history {
+        &:extend(.abstract-account-table-margin-mobile all);
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .table-wrapper.reward-history {
+        &:extend(.abstract-account-table-margin-desktop all);
+    }
 }

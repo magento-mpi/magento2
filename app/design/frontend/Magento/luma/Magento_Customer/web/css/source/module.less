@@ -171,7 +171,7 @@
         }
     }
     .table-wrapper {
-        margin-bottom: @indent-base;
+        .css(margin-bottom, @indent-base);
         border-bottom: 1px solid @account-table-border-bottom-color;
         &:last-child {
             margin-bottom: 0;
@@ -182,7 +182,7 @@
                 .action {
                     margin-right: 15px;
                     &:last-child {
-                        margin-left: 0;
+                        margin-right: 0;
                     }
                 }
             }
@@ -312,9 +312,6 @@
         .data.table {
             .col.total {
                 text-align: right;
-            }
-            .col.actions {
-                width: 18%;
             }
         }
     }
