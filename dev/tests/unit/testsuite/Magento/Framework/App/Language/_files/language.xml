@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/internal/Magento/Framework/App/Language/package.xsd">
+<language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../lib/internal/Magento/Framework/App/Language/package.xsd">
     <code>en_GB</code>
     <vendor>magento</vendor>
     <package>en_gb</package>

@@ -12,7 +12,7 @@
         <xs:unique name="vendorCode">
             <xs:selector xpath="use"/>
             <xs:field xpath="@vendor"/>
-            <xs:field xpath="@code"/>
+            <xs:field xpath="@package"/>
         </xs:unique>
     </xs:element>
 
@@ -23,6 +23,7 @@
         <xs:sequence>
             <xs:element minOccurs="1" maxOccurs="1" name="code" type="codeType"/>
             <xs:element minOccurs="1" maxOccurs="1" name="vendor" type="vendorType"/>
+            <xs:element minOccurs="1" maxOccurs="1" name="package" type="packageType"/>
             <xs:element minOccurs="0" maxOccurs="1" name="sort_order" type="xs:integer"/>
             <xs:element minOccurs="0" maxOccurs="unbounded" name="use" type="useType"/>
         </xs:sequence>
@@ -36,12 +37,18 @@
 
     <xs:simpleType name="vendorType">
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Z][A-Za-z]+"/>
+            <xs:pattern value="[a-z\-_]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="packageType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z\-_]+"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:complexType name="useType">
         <xs:attribute use="required" name="vendor" type="vendorType"/>
-        <xs:attribute use="required" name="code" type="codeType"/>
+        <xs:attribute use="required" name="package" type="packageType"/>
     </xs:complexType>
 </xs:schema>
