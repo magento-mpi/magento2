@@ -19,7 +19,7 @@ use \Magento\Tools\Composer\Package\Package;
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
+            'edition|e' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
             'version|v=s' => 'Version for the composer.json file',
             'verbose|r' => 'Detailed console logs',
             'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
@@ -79,7 +79,7 @@ try {
     file_put_contents($root->getFile(), $root->getJson());
     $logger->info("SUCCESS: created package at {$root->getFile()}");
 } catch (\Zend_Console_Getopt_Exception $e) {
-    $e->getUsageMessage();
+    echo $e->getUsageMessage();
     exit(1);
 } catch (\Exception $e) {
     echo $e;
