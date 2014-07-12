@@ -12,7 +12,8 @@ Creates in the root directory a `composer.json` file that aggregates all Magento
 > php -f create-skeleton.php -- -help
 Usage: create-skeleton.php [ options ]
 --edition|-e <string> Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]
---verbose|-v          Detailed console logs
+--version|-v <string> Version for the composer.json file
+--verbose|-r          Detailed console logs
 --dir|-d <string>     Working directory of build. Default current code base.
 
 ```
