@@ -19,7 +19,7 @@ use \Magento\Tools\Composer\Package\Package;
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-            'edition|e' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
+            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
             'version|v=s' => 'Version for the composer.json file',
             'verbose|r' => 'Detailed console logs',
             'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
