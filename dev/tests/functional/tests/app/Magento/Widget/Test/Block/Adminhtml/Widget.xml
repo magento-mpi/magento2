@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <widget_type>
+            <selector>#select_widget_type</selector>
+            <input>select</input>
+        </widget_type>
+        <anchor_text>
+            <selector>[name="parameters[anchor_text]"]</selector>
+        </anchor_text>
+        <title>
+            <selector>[name="parameters[title]"]</selector>
+        </title>
+        <template>
+            <selector>[name="parameters[template]"]</selector>
+            <input>select</input>
+        </template>
+        <chosen_option>
+            <selector>.control button</selector>
+            <class>\Magento\Widget\Test\Block\Adminhtml\Widget\ChosenOption</class>
+        </chosen_option>
+        <display_type>
+            <selector>[name="parameters[display_type]"]</selector>
+            <input>select</input>
+        </display_type>
+        <show_pager>
+            <selector>[name="parameters[show_pager]"]</selector>
+            <input>select</input>
+        </show_pager>
+        <products_count>
+            <selector>[name="parameters[products_count]"]</selector>
+        </products_count>
+        <cache_lifetime>
+            <selector>[name="parameters[cache_lifetime]"]</selector>
+        </cache_lifetime>
+        <page_size>
+            <selector>[name="parameters[page_size]"]</selector>
+        </page_size>
+    </fields>
+</mapping>

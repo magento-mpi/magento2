@@ -8,57 +8,66 @@
 
 namespace Magento\Cms\Test\TestCase;
 
-use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage as CmsPageFixture;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
-use Magento\Cms\Test\Page\CmsPage;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 
 /**
- * Class CreatePageTest
+ * Test Creation for Create CmsPageEntity
+ *
+ * Test Flow:
+ * Steps:
+ * 1. Log in to Backend
+ * 2. Navigate to Content > Elements > Pages
+ * 3. Start to create new CMS Page
+ * 4. Fill out fields data according to data set
+ * 5. Save CMS Page
+ * 6. Verify created CMS Page
+ *
+ * @group CMS Content (PS)
+ * @ZephyrId MAGETWO-25580
  */
-class CreatePageEntityTest extends Injectable
+class CreateCmsPageEntityTest extends Injectable
 {
     /**
+     * CmsIndex page
+     *
      * @var CmsIndex
      */
     protected $cmsIndex;
 
     /**
+     * CmsNew page
+     *
      * @var CmsNew
      */
     protected $cmsNew;
 
     /**
-     * @var CmsPage
-     */
-    protected $cmsPage;
-
-    /**
+     * Inject data
+     *
      * @param CmsIndex $cmsIndex
-     * @param CmsPage $cmsPage
      * @param CmsNew $cmsNew
      * @return void
      */
-    public function __inject(CmsIndex $cmsIndex, CmsPage $cmsPage, CmsNew $cmsNew)
+    public function __inject(CmsIndex $cmsIndex, CmsNew $cmsNew)
     {
         $this->cmsIndex = $cmsIndex;
         $this->cmsNew = $cmsNew;
-        $this->cmsPage = $cmsPage;
     }
 
     /**
-     * Creating CMS content page
+     * Creating Cms page
      *
      * @param CmsPageFixture $cms
-     * @return void
-     * @ZephyrId MAGETWO-12399
+     * return void
      */
     public function test(CmsPageFixture $cms)
     {
+        // Steps
         $this->cmsIndex->open();
-        $cmsPageGridBlock = $this->cmsIndex->getPageActionsBlock();
-        $cmsPageGridBlock->addNew();
+        $this->cmsIndex->getPageActionsBlock()->addNew();
         $this->cmsNew->getPageForm()->fill($cms);
         $this->cmsNew->getPageMainActions()->save();
     }

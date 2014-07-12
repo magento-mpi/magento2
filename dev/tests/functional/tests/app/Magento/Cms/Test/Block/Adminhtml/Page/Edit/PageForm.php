@@ -9,6 +9,7 @@
 namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
@@ -32,6 +33,13 @@ class PageForm extends FormTabs
      * @var string
      */
     protected $contentForm = "#page_content";
+
+    /**
+     * Select page button selector
+     *
+     * @var string
+     */
+    protected $currentlyPublishedRevision = '#page_published_revision_link';
 
     /**
      * Fill the page form
@@ -78,5 +86,55 @@ class PageForm extends FormTabs
         $config = $contentTab->getWysiwygConfig();
 
         return $config->getAllVariables();
+    }
+
+    /**
+     * Get data of the tabs
+     *
+     * @param FixtureInterface|null $fixture
+     * @param Element|null $element
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function getData(FixtureInterface $fixture = null, Element $element = null)
+    {
+        $data = [];
+
+        if (null === $fixture) {
+            foreach ($this->tabs as $tabName => $tab) {
+                if (isset($data['under_version_control'])
+                    && $data['under_version_control'] == 'Yes'
+                    && $tabName == 'content'
+                ) {
+                    $this->clickCurrentlyPublishedRevision();
+                    $this->reinitRootElement();
+                }
+                $this->openTab($tabName);
+                $tabData = $this->getTabElement($tabName)->getDataFormTab();
+                $data = array_merge($data, $tabData);
+            }
+        } else {
+            $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
+            $tabsFields = $isHasData ? $this->getFieldsByTabs($fixture) : [];
+            foreach ($tabsFields as $tabName => $fields) {
+                $this->openTab($tabName);
+                $tabData = $this->getTabElement($tabName)->getDataFormTab($fields, $this->_rootElement);
+                $data = array_merge($data, $tabData);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Clicking to Currently Published Revision link
+     *
+     * @return void
+     */
+    protected function clickCurrentlyPublishedRevision()
+    {
+        $this->_rootElement->find($this->currentlyPublishedRevision)->click();
     }
 }

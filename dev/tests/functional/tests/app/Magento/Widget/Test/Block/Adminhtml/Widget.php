@@ -1,0 +1,77 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Widget\Test\Block\Adminhtml;
+
+use Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
+
+/**
+ * Class Widget
+ * Widget block
+ */
+class Widget extends Form
+{
+    /**
+     * Widget type selector
+     *
+     * @var string
+     */
+    protected $widgetType = '//select[@id="select_widget_type"]';
+
+    /**
+     * Insert widget button selector
+     *
+     * @var string
+     */
+    protected $insertButton = '#insert_button';
+
+    /**
+     * Magento varienLoader.js loader
+     *
+     * @var string
+     */
+    protected $loaderOld = '//ancestor::body/div[@id="loading-mask"]';
+
+    /**
+     * Add widgets
+     *
+     * @param array $widget
+     * @return void
+     */
+    public function addWidget($widget)
+    {
+        $this->selectWidgetType($widget['widget_type']);
+        $mapping = $this->dataMapping($widget);
+        $this->_fill($mapping);
+        $this->insertWidget();
+    }
+
+    /**
+     * Select widget type
+     *
+     * @param $type
+     * @return void
+     */
+    protected function selectWidgetType($type)
+    {
+        $this->_rootElement->find($this->widgetType, Locator::SELECTOR_XPATH, 'select')->setValue($type);
+        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
+    }
+
+    /**
+     * Click Insert Widget button
+     *
+     * @return void
+     */
+    protected function insertWidget()
+    {
+        $this->_rootElement->find($this->insertButton)->click();
+        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
+    }
+}

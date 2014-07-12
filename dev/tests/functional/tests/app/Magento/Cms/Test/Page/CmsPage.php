@@ -64,4 +64,15 @@ class CmsPage extends \Mtf\Page\Page
     {
         $this->_browser->selectWindow();
     }
+
+    /**
+     * Check is visible widget selector
+     *
+     * @param $widgetSelector
+     * @return bool
+     */
+    public function widgetSelectorIsVisible($widgetSelector)
+    {
+        return $this->_browser->find($widgetSelector)->isVisible();
+    }
 }

@@ -53,4 +53,7 @@
     <assertCmsPageNotInGrid module="Magento_Cms">
         <severeness>low</severeness>
     </assertCmsPageNotInGrid>
+    <assertCmsPageInGrid module="Magento_Cms">
+        <severeness>low</severeness>
+    </assertCmsPageInGrid>
 </constraint>

@@ -49,18 +49,61 @@ class AssertCmsPagePreview extends AbstractConstraint
         $filter = ['title' => $cms->getTitle()];
         $cmsIndex->getCmsPageGridBlock()->searchAndPreview($filter);
         $browser->selectWindow();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $cms->getContentHeading(),
-            $frontCmsIndex->getTitleBlock()->getTitle(),
-            'Wrong title is displayed.'
+
+        $fixtureContent = $cms->getContent();
+        \PHPUnit_Framework_Assert::assertContains(
+            $fixtureContent['content'],
+            $frontendCmsPageContent = $frontCmsPage->getCmsPageBlock()->getPageContent(),
+            'Wrong content is displayed.'
         );
-        if ($cms->getContent()) {
+        if (isset($fixtureContent['widget'])) {
+            $widgetSelectors = $this->getWidgetsSelectors($fixtureContent['widget']);
+            foreach($widgetSelectors as $widgetType => $widgetSelector){
+                \PHPUnit_Framework_Assert::assertTrue(
+                    $frontCmsPage->widgetSelectorIsVisible($widgetSelector),
+                    'Widget \'' . $widgetType . '\' is not displayed.'
+                );
+            }
+        }
+        if ($cms->getContentHeading()) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $cms->getContent(),
-                $frontCmsPage->getCmsPageBlock()->getPageContent(),
-                'Wrong content is displayed.'
+                $cms->getContentHeading(),
+                $frontCmsIndex->getTitleBlock()->getTitle(),
+                'Wrong title is displayed.'
             );
         }
+    }
+
+    /**
+     * Get widgets selectors
+     *
+     * @param $contentWidgets
+     * @return array
+     */
+    protected function getWidgetsSelectors($contentWidgets)
+    {
+        $widgetSelectors = [];
+        foreach ($contentWidgets['preset'] as $widget) {
+            switch ($widget['widget_type']) {
+                case 'CMS Page Link':
+                    $widgetSelectors[$widget['widget_type']] = '.widget.widget-cms-link';
+                    break;
+                case 'Catalog Category Link':
+                    $widgetSelectors[$widget['widget_type']] = '.widget.category.link';
+                    break;
+                case 'Catalog Product Link':
+                    $widgetSelectors[$widget['widget_type']] = '.widget.product.link';
+                    break;
+                case 'Recently Compared Products':
+                    $widgetSelectors[$widget['widget_type']] = '.block.compare';
+                    break;
+                case 'Recently Viewed Products':
+                    $widgetSelectors[$widget['widget_type']] = '.block.viewed.links';
+                    break;
+            }
+        }
+
+        return $widgetSelectors;
     }
 
     /**
