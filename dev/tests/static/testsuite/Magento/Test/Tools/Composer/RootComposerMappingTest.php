@@ -34,7 +34,8 @@ class RootComposerMappingTest extends \PHPUnit_Framework_TestCase
 
         //Checking existence of customizable paths
         $paths = file(
-            BP . '/dev/tools/Magento/Tools/Composer/etc/magento_customizable_paths.txt', FILE_IGNORE_NEW_LINES
+            BP . '/dev/tools/Magento/Tools/Composer/etc/magento_customizable_paths.txt',
+            FILE_IGNORE_NEW_LINES
         );
         $counter = 0;
         for ($i = 0; $i < count($paths); $i++) {
