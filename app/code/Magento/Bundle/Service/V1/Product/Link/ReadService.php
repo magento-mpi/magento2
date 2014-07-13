@@ -61,7 +61,7 @@ class ReadService implements ReadServiceInterface
      */
     protected function getOptions(Product $product)
     {
-        /** @var \Magento\Bundle\Model\Product\Type\Interceptor $productTypeInstance */
+        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
         $productTypeInstance = $product->getTypeInstance();
         $productTypeInstance->setStoreFilter(
             $product->getStoreId(),
