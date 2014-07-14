@@ -9,7 +9,7 @@ namespace Magento\Framework\View;
 
 /**
  * Class LayoutTest
-  */
+ */
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
