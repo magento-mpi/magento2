@@ -27,6 +27,7 @@ class Plugin
      * Disable multishipping
      *
      * @param \Magento\Framework\App\Action\Action $subject
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeExecute(\Magento\Framework\App\Action\Action $subject)
