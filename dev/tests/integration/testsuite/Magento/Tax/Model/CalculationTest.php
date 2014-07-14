@@ -71,7 +71,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
         $customerDataSet = $this->_customerAccountService->getCustomer(self::FIXTURE_CUSTOMER_ID);
         $address = $this->_addressService->getAddress(self::FIXTURE_ADDRESS_ID);
 
-        $rateRequest = $this->_model->getRateRequest(null, null, null, null, $customerDataSet);
+        $rateRequest = $this->_model->getRateRequest(null, null, null, null, $customerDataSet->getId());
 
         $this->assertNotNull($rateRequest);
         $this->assertEquals($address->getCountryId(), $rateRequest->getCountryId());

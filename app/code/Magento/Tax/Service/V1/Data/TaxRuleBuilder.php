@@ -100,7 +100,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
      */
     public function setPriority($priority)
     {
-        return $this->_set(TaxRule::PRIORITY, $priority);
+        return $this->_set(TaxRule::PRIORITY, (int)$priority);
     }
 
     /**
@@ -111,7 +111,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
      */
     public function setSortOrder($sortOrder)
     {
-        return $this->_set(TaxRule::SORT_ORDER, $sortOrder);
+        return $this->_set(TaxRule::SORT_ORDER, (int)$sortOrder);
     }
 
     /**
@@ -122,6 +122,6 @@ class TaxRuleBuilder extends AbstractObjectBuilder
      */
     public function setCalculateSubtotal($calculateSubtotal)
     {
-        return $this->_set(TaxRule::CALCULATE_SUBTOTAL, $calculateSubtotal);
+        return $this->_set(TaxRule::CALCULATE_SUBTOTAL, (int)$calculateSubtotal);
     }
 }

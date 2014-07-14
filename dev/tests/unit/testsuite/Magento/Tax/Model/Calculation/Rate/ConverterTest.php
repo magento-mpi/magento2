@@ -46,6 +46,22 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $taxRateDataOjectBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
         $zipRangeDataObjectBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+
+        $directoryRegionModel = $this->getMockBuilder('Magento\Directory\Model\Region')
+            ->disableOriginalConstructor()
+            ->setMethods(['load', 'getCode', '__wakeup'])
+            ->getMock();
+        if ($this->getExpectedValue($valueMap, 'getTaxRegionId') !== null) {
+            $directoryRegionModel->expects($this->once())
+                ->method('load')
+                ->with($this->getExpectedValue($valueMap, 'getTaxRegionId'))
+                ->will($this->returnSelf());
+            $codeForRegion = 'Antarctica';
+            $directoryRegionModel->expects($this->once())
+                ->method('getCode')
+                ->will($this->returnValue($codeForRegion));
+        }
+
         $taxRateTitleDataObjectBuilder = $this->objectManager->getObject(
             'Magento\Tax\Service\V1\Data\TaxRateTitleBuilder'
         );
@@ -56,6 +72,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'taxRateDataObjectBuilder' => $taxRateDataOjectBuilder,
                 'zipRangeDataObjectBuilder' => $zipRangeDataObjectBuilder,
                 'taxRateTitleDataObjectBuilder' => $taxRateTitleDataObjectBuilder,
+                'directoryRegion' => $directoryRegionModel,
             ]
         );
         $taxRateDataObject = $converter->createTaxRateDataObjectFromModel($taxRateModelMock);
@@ -64,6 +81,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->getExpectedValue($valueMap, 'getTaxRegionId'), $taxRateDataObject->getRegionId());
         ///* make sure that 0 is an acceptable value and is converted */
         $this->assertTrue($this->getExpectedValue($valueMap, 'getTaxRegionId') === $taxRateDataObject->getRegionId());
+        if ($this->getExpectedValue($valueMap, 'getTaxRegionId') !== null) {
+            $this->assertEquals($codeForRegion, $taxRateDataObject->getRegionName());
+        }
         $this->assertEquals($this->getExpectedValue($valueMap, 'getTaxPostcode'), $taxRateDataObject->getPostcode());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getCode'), $taxRateDataObject->getCode());
         $this->assertEquals($this->getExpectedValue($valueMap, 'getRate'), $taxRateDataObject->getPercentageRate());

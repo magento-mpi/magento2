@@ -613,6 +613,7 @@ return array(
     array('getTagsByType', 'Magento\Framework\App\CacheInterface', 'Magento_Cache_Frontend_Decorator_TagScope::getTag()'),
     array('getTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
     array('getTaxRatesByProductClass', '', '_getAllRatesByProductClass'),
+    array('getAllRatesByProductClass', 'Magento\Tax\Helper\Data'),
     array(
         'getTemplateProcessor',
         'Magento\Newsletter\Helper\Data',

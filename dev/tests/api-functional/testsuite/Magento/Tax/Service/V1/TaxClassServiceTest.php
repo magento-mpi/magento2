@@ -11,6 +11,7 @@ namespace Magento\Tax\Service\V1;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Tax\Model\ClassModelRegistry;
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\Data\TaxClassBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -38,6 +39,9 @@ class TaxClassServiceTest extends WebapiAbstract
     /** @var TaxClassService */
     private $taxClassService;
 
+    /** @var ClassModelRegistry */
+    private $taxClassRegistry;
+
     const SAMPLE_TAX_CLASS_NAME = 'Wholesale Customer';
 
     /**
@@ -54,8 +58,12 @@ class TaxClassServiceTest extends WebapiAbstract
         $this->taxClassBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Tax\Service\V1\Data\TaxClassBuilder'
         );
+        $this->taxClassRegistry = Bootstrap::getObjectManager()->create(
+            'Magento\Tax\Model\ClassModelRegistry'
+        );
         $this->taxClassService = Bootstrap::getObjectManager()->create(
-            'Magento\Tax\Service\V1\TaxClassService'
+            'Magento\Tax\Service\V1\TaxClassService',
+            ['classModelRegistry' => $this->taxClassRegistry]
         );
     }
 
@@ -126,6 +134,7 @@ class TaxClassServiceTest extends WebapiAbstract
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
 
         //Verify by getting the TaxClass
+        $this->taxClassRegistry->remove($taxClassId);
         $taxClassData = $this->taxClassService->getTaxClass($taxClassId);
         $this->assertEquals($taxClassData->getClassName(), $updatedTaxClassName);
     }
@@ -186,6 +195,7 @@ class TaxClassServiceTest extends WebapiAbstract
         $this->assertTrue($result);
 
         try {
+            $this->taxClassRegistry->remove($taxClassId);
             $this->taxClassService->getTaxClass($taxClassId);
             $this->fail("Tax class was not expected to be returned after being deleted.");
         } catch (NoSuchEntityException $e) {

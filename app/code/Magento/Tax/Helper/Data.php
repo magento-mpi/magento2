@@ -7,9 +7,9 @@
  */
 namespace Magento\Tax\Helper;
 
+use Magento\Customer\Helper\Session\CurrentCustomer;
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
-use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
@@ -47,13 +47,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var Config
      */
     protected $_config;
-
-    /**
-     * Tax calculator
-     *
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $_calculation;
 
     /**
      * Postcode cut to this length when creating search templates
@@ -142,12 +135,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $addressConverter;
 
     /**
+     * Current customer
+     *
+     * @var CurrentCustomer
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Config $taxConfig
-     * @param Calculation $calculation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -158,6 +157,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationServiceInterface $taxCalculationService
      * @param AddressConverter $addressConverter
+     * @param CurrentCustomer $currentCustomer
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -165,7 +165,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Config $taxConfig,
-        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
@@ -175,14 +174,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         TaxCalculationServiceInterface $taxCalculationService,
-        AddressConverter $addressConverter
+        AddressConverter $addressConverter,
+        CurrentCustomer $currentCustomer
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
-        $this->_calculation = $calculation;
         $this->_storeManager = $storeManager;
         $this->_localeFormat = $localeFormat;
         $this->_attributeFactory = $attributeFactory;
@@ -193,6 +192,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->taxCalculationService = $taxCalculationService;
         $this->addressConverter = $addressConverter;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**

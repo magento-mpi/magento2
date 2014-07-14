@@ -230,8 +230,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
             $shipping,
             $billing,
             $customerTaxClass,
-            $store,
-            $shipping ? $shipping->getQuote()->getCustomerData() : null
+            $store
         );
         $defaultRateRequest = $calculator->getDefaultRateRequest($store);
 

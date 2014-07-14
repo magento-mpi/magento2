@@ -223,8 +223,10 @@ class TaxRateService implements TaxRateServiceInterface
                 return 'tax_' . $field;
             case TaxRateDataObject::KEY_PERCENTAGE_RATE:
                 return 'rate';
+            case TaxRateDataObject::KEY_REGION_NAME:
+                return 'region_table.code';
             default:
-                return $field;
+                return "main_table." . $field;
         }
     }
 
