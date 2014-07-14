@@ -352,7 +352,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_' . $field;
 
-            $format = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_localeDate->getDateFormat(
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+            );
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!$this->dateTime->isEmptyDate($val)) {
@@ -422,7 +424,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
                     null,
                     null,
                     null,
-                    $this->currentCustomer->getCustomerId());
+                    $this->currentCustomer->getCustomerId()
+                );
                 $currentRates = $this->calculation->getRatesForAllProductTaxClasses($request);
                 // Remove rate 0
                 $currentRates = array_filter($currentRates);
