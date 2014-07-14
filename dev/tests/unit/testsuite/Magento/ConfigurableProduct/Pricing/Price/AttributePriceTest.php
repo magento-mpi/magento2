@@ -351,7 +351,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             'defaultTax' => 0,
             'currentTax' => 0,
             'inclTaxTitle' => __('Incl. Tax'),
-            'customer' => 1
+            'customerId' => 1
         ];
         $this->assertEquals($expectedTaxConfig, $this->attribute->getTaxConfig(1));
     }
@@ -369,7 +369,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             'currentTax' => 0,
             'inclTaxTitle' => __('Incl. Tax'),
             'product' => $this->saleableItemMock,
-            'customer' => 1
+            'customerId' => 1
         ];
         $this->assertEquals($expectedAdjustmentConfig, $this->attribute->prepareAdjustmentConfig(1));
     }
