@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Data\Product\Link;
 
-use \Magento\Framework\Service\Data\Eav\AbstractObject;
+use \Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * @codeCoverageIgnore
