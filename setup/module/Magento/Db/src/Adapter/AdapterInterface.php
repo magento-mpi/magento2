@@ -14,7 +14,7 @@ use Magento\Db\Ddl\Table;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface AdapterInterface
+interface AdapterInterface extends \Zend\Db\Adapter\AdapterInterface
 {
     const INDEX_TYPE_PRIMARY = 'primary';
 
