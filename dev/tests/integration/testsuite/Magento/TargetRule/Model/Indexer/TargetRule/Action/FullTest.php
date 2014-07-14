@@ -1,0 +1,54 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_TargetRule
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\TargetRule\Model\Indexer\TargetRule\Action;
+
+/**
+ * Full reindex Test
+ */
+class FullTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor
+     */
+    protected $_processor;
+
+    /**
+     * @var \Magento\TargetRule\Model\Rule
+     */
+    protected $_rule;
+
+    protected function setUp()
+    {
+        $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor'
+        );
+        $this->_rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\TargetRule\Model\Rule'
+        );
+    }
+
+    /**
+     * Covers Magento/TargetRule/view/frontend/catalog/product/list/related.html
+     * Checks if related products are displayed
+     *
+     * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
+     * @magentoDataFixture Magento/TargetRule/_files/related.php
+     */
+    public function testReindexAll()
+    {
+        $this->_processor->getIndexer()->setScheduled(false);
+        $this->assertFalse($this->_processor->getIndexer()->isScheduled());
+
+        $this->_processor->reindexAll();
+        $this->_rule->load(1);
+        $this->assertEquals(2, count($this->_rule->getMatchingProductIds()));
+    }
+}
