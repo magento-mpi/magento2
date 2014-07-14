@@ -129,6 +129,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
@@ -150,6 +151,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         CarrierHelper $carrierHelper,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
@@ -172,6 +174,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
             $countryFactory,
             $currencyFactory,
             $directoryData,
+            $stockItemService,
             $data
         );
     }

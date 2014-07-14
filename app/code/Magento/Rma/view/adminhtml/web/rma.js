@@ -48,6 +48,10 @@ AdminRma.prototype = {
     },
 
     itemDetailsRowClick : function(event,forceDivId){
+        if (event.target.getAttribute('disabled') == 'disabled') {
+            event.stopPropagation;
+            return;
+        }
         var divId;
         if (forceDivId) {
             divId = event;
@@ -377,19 +381,40 @@ AdminRma.prototype = {
 
     addOrderItemToRmaGrid : function (idElement, className) {
         if(!idElement) return false;
+        var self = this;
+        var url = this.getLoadAttributesLink(this.newRmaItemId);
+        var hasUserAttributes = false;
 
-        if (this.bundleArray[idElement.value] !== undefined) {
-            var obj = this.bundleArray[idElement.value];
-            for(var key in obj) {
-                this.addOrderItemToGrid(obj[key], className);
+//        if (this.bundleArray[idElement.value] !== undefined) {
+//            var obj = this.bundleArray[idElement.value];
+//            for(var key in obj) {
+//                this.addOrderItemToGrid(obj[key], className);
+//            }
+//        } else {
+//            var orderItem = this.getOrderItem(idElement);
+//            this.addOrderItemToGrid(orderItem, className);
+//        }
+
+        new Ajax.Request(url, {
+            onSuccess: function(transport) {
+                var response = transport.responseText;
+                if (response.length !== 0) {
+                    hasUserAttributes = true;
+                }
+                if (self.bundleArray[idElement.value] !== undefined) {
+                    var obj = self.bundleArray[idElement.value];
+                    for(var key in obj) {
+                        self.addOrderItemToGrid(obj[key], className, hasUserAttributes);
+                    }
+                } else {
+                    var orderItem = self.getOrderItem(idElement);
+                    self.addOrderItemToGrid(orderItem, className, hasUserAttributes);
+                }
             }
-        } else {
-            var orderItem = this.getOrderItem(idElement);
-            this.addOrderItemToGrid(orderItem, className);
-        }
+        });
     },
 
-    addOrderItemToGrid: function (orderItem, className) {
+    addOrderItemToGrid: function (orderItem, className, hasUserAttributes) {
         var fieldsProduct = [
             'product_name',
             'product_sku',
@@ -444,7 +469,12 @@ AdminRma.prototype = {
         column.insert(deleteLink);
 
         var detailsLink = new Element('a', {href:'#'});
-        Event.observe(detailsLink, 'click', this.addDetails.bind(this));
+        if (hasUserAttributes) {
+            Event.observe(detailsLink, 'click', this.addDetails.bind(this));
+        } else {
+            detailsLink.setAttribute('disabled', 'disabled');
+            detailsLink.addClassName('disabled');
+        }
         detailsLink.insert($$('label[for="rma_properties_add_details_link"]').first().innerHTML);
         column.insert(detailsLink);
         column.insert('<input type="hidden" name="items[' + this.newRmaItemId + '][order_item_id]" class="rma-action-links-' + orderItem['item_id'] + ' required" value="'+orderItem['item_id']+'"/>');

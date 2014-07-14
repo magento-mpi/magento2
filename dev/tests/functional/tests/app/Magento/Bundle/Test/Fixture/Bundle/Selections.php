@@ -162,7 +162,7 @@ class Selections implements FixtureInterface
                         'assigned_products' => [
                             0 => [
                                 'search_data' => [
-                                    'name' => '%item1::getProductName%',
+                                    'name' => '%item1::getName%',
                                 ],
                                 'data' => [
                                     'selection_qty' => [
@@ -175,7 +175,7 @@ class Selections implements FixtureInterface
                             ],
                             1 => [
                                 'search_data' => [
-                                    'name' => '%item2::getProductName%',
+                                    'name' => '%item2::getName%',
                                 ],
                                 'data' => [
                                     'selection_qty' => [
@@ -208,7 +208,7 @@ class Selections implements FixtureInterface
                         'assigned_products' => [
                             0 => [
                                 'search_data' => [
-                                    'name' => '%item1::getProductName%',
+                                    'name' => '%item1::getName%',
                                 ],
                                 'data' => [
                                     'selection_qty' => [
@@ -224,7 +224,7 @@ class Selections implements FixtureInterface
                             ],
                             1 => [
                                 'search_data' => [
-                                    'name' => '%item2::getProductName%',
+                                    'name' => '%item2::getName%',
                                 ],
                                 'data' => [
                                     'selection_qty' => [

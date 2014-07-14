@@ -39,6 +39,13 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_itemFactory;
 
     /**
+     * Define if the form has user-defined attributes
+     *
+     * @var bool
+     */
+    protected $hasNewAttributes = false;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -102,9 +109,10 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         );
         $fieldset->setCancelButton($cancelButton->toHtml());
 
-
         $attributes = $customerForm->getUserAttributes();
-
+        if (count($attributes) > 0) {
+            $this->hasNewAttributes = true;
+        }
         foreach ($attributes as $attribute) {
             $attribute->unsIsVisible();
         }
@@ -175,5 +183,10 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
                 $item->setProductAdminName($this->_rmaData->getAdminProductName($orderItem));
             }
         }
+    }
+
+    public function hasNewAttributes()
+    {
+        return $this->hasNewAttributes;
     }
 }

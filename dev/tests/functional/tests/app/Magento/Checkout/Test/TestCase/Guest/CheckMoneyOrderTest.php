@@ -96,7 +96,7 @@ class CheckMoneyOrderTest extends Functional
     protected function checkProductPrice(CheckMoneyOrder $fixture, Fixture\Product $product, Block\Cart $block)
     {
         $expected = $fixture->getProductPriceWithTax($product);
-        $this->assertEquals($expected, $block->getProductPriceByName($product->getProductName()));
+        $this->assertEquals($expected, $block->getProductPriceByName($product->getName()));
     }
 
     /**
@@ -109,7 +109,7 @@ class CheckMoneyOrderTest extends Functional
     {
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
         $this->assertContains(
-            'Your order has been received.',
+            'Thank you for your purchase!',
             $successPage->getTitleBlock()->getTitle(),
             'Order success page was not opened.'
         );

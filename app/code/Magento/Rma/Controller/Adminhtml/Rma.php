@@ -542,9 +542,12 @@ class Rma extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => __('We cannot add the RMA history.'));
         }
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
+        } else {
+            $this->getResponse()->setBody($response);
         }
-        $this->getResponse()->setBody($response);
     }
 
     /**
@@ -605,8 +608,9 @@ class Rma extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => __('Something went wrong retrieving the product list.'));
         }
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
         } else {
             $this->getResponse()->setBody($response);
         }
@@ -680,9 +684,12 @@ class Rma extends \Magento\Backend\App\Action
         $response = $block->toHtml();
 
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
+        } else {
+            $this->getResponse()->setBody($response);
         }
-        $this->getResponse()->setBody($response);
     }
 
     /**
@@ -692,8 +699,6 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function loadNewAttributesAction()
     {
-        $response = false;
-        $orderId = $this->getRequest()->getParam('order_id');
         $productId = $this->getRequest()->getParam('product_id');
         $itemId = $this->getRequest()->getParam('item_id');
 
@@ -702,19 +707,21 @@ class Rma extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_rma_item', $rma_item);
 
         $this->_view->loadLayout();
-        $response = $this->_view->getLayout()->getBlock(
-            'magento_rma_edit_item'
-        )->setProductId(
-            intval($productId)
-        )->setHtmlPrefixId(
-            intval($itemId)
-        )->initForm()->toHtml();
-
-        if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
-        } else {
-            $this->getResponse()->setBody($response);
+        $form = $this->_view->getLayout()
+            ->getBlock('magento_rma_edit_item')
+            ->setProductId(intval($productId))
+            ->setHtmlPrefixId(intval($itemId))
+            ->initForm();
+        if ($form->hasNewAttributes()) {
+            $response = $form->toHtml();
+            
+            if (is_array($response)) {
+                $this->getResponse()->representJson(
+                    $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+                );
+            } else {
+                $this->getResponse()->setBody($response);
+            }
         }
     }
 
@@ -812,8 +819,9 @@ class Rma extends \Magento\Backend\App\Action
         $response = $this->_view->getLayout()->getBlock('magento_rma_bundle')->toHtml();
 
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
         } else {
             $this->getResponse()->setBody($response);
         }
@@ -928,8 +936,9 @@ class Rma extends \Magento\Backend\App\Action
         $response = $this->_view->getLayout()->getBlock('magento_rma_shipping_available')->toHtml();
 
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
-            $this->getResponse()->setBody($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
         } else {
             $this->getResponse()->setBody($response);
         }
@@ -965,9 +974,12 @@ class Rma extends \Magento\Backend\App\Action
         $response = $this->_view->getLayout()->getBlock('magento_rma_shipment_packaging')->toHtml();
 
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
+        } else {
+            $this->getResponse()->setBody($response);
         }
-        $this->getResponse()->setBody($response);
     }
 
     /**
@@ -1047,9 +1059,12 @@ class Rma extends \Magento\Backend\App\Action
         $response = $this->_view->getLayout()->getBlock('magento_rma_getshippingitemsgrid')->toHtml();
 
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
+        } else {
+            $this->getResponse()->setBody($response);
         }
-        $this->getResponse()->setBody($response);
     }
 
     /**
@@ -1083,7 +1098,7 @@ class Rma extends \Magento\Backend\App\Action
             $responseAjax->setError(true);
             $responseAjax->setMessage(__('Something went wrong creating a shipping label.'));
         }
-        $this->getResponse()->setBody($responseAjax->toJson());
+        $this->getResponse()->representJson($responseAjax->toJson());
     }
 
     /**
@@ -1111,8 +1126,7 @@ class Rma extends \Magento\Backend\App\Action
             $response->setMessage(__('Something went wrong creating a shipping label.'));
         }
 
-        $this->getResponse()->setBody($response->toJson());
-        return;
+        $this->getResponse()->representJson($response->toJson());
     }
 
     /**
@@ -1399,9 +1413,12 @@ class Rma extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => __('We cannot add a message.'));
         }
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
+        } else {
+            $this->getResponse()->setBody($response);
         }
-        $this->getResponse()->setBody($response);
     }
 
     /**
@@ -1436,8 +1453,11 @@ class Rma extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => __('We cannot load track with retrieving identifier.'));
         }
         if (is_array($response)) {
-            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
+        } else {
+            $this->getResponse()->setBody($response);
         }
-        $this->getResponse()->setBody($response);
     }
 }
