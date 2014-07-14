@@ -7,6 +7,7 @@
  */
 namespace Magento\Tax\Helper;
 
+use Magento\Customer\Helper\Session\CurrentCustomer;
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Config;
@@ -134,6 +135,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $addressConverter;
 
     /**
+     * Current customer
+     *
+     * @var CurrentCustomer
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
@@ -149,6 +157,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationServiceInterface $taxCalculationService
      * @param AddressConverter $addressConverter
+     * @param CurrentCustomer $currentCustomer
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -165,7 +174,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         TaxCalculationServiceInterface $taxCalculationService,
-        AddressConverter $addressConverter
+        AddressConverter $addressConverter,
+        CurrentCustomer $currentCustomer
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -182,6 +192,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->taxCalculationService = $taxCalculationService;
         $this->addressConverter = $addressConverter;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -460,6 +471,36 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $priceFormat['pattern'] = $this->_storeManager->getStore($store)->getCurrentCurrency()->getOutputFormat();
         }
         return $this->_coreData->jsonEncode($priceFormat);
+    }
+
+    /**
+     * Get all tax rates JSON for all product tax classes of specific store
+     *
+     * @param null|string|bool|int|Store $store
+     * @return string
+     * @deprecated
+     */
+    public function getAllRatesByProductClass($store = null)
+    {
+        return $this->_getAllRatesByProductClass($store);
+    }
+
+    /**
+     * Get all tax rates JSON for all product tax classes of specific store
+     *
+     * @param null|string|bool|int|Store $store
+     * @return string
+     * @deprecated
+     */
+    protected function _getAllRatesByProductClass($store = null)
+    {
+        $result = array();
+        $defaultRate = $this->_calculation->getDefaultRateRequest($store);
+        $rates = $this->_calculation->getRatesForAllProductTaxClasses($defaultRate);
+        foreach ($rates as $class => $rate) {
+            $result["value_{$class}"] = $rate;
+        }
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

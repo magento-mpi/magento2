@@ -49,10 +49,10 @@ class AttributePrice
 
         $productClassId = $product->getTaxClassId();
 
-        $defaultValue = $this->applyRate($productClassId, false, false, false);
+        $defaultValue = $this->applyRate($productClassId, false, false, false, $result['customerId']);
         $result['defaultTax'] = $defaultValue + $result['defaultTax'];
 
-        $currentTax = $this->applyRate($productClassId);
+        $currentTax = $this->applyRate($productClassId, $result['customerId']);
         $result['currentTax'] = $currentTax + $result['currentTax'];
 
         $adjustment = $product->getPriceInfo()->getAdjustment(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE);
@@ -70,11 +70,22 @@ class AttributePrice
      * @param null $shippingAddress
      * @param null $billingAddress
      * @param null $customerTaxClass
+     * @param int|null $customerId
      * @return float
      */
-    protected function applyRate($classId, $shippingAddress = null, $billingAddress = null, $customerTaxClass = null)
-    {
-        $rateRequest = $this->calculation->getRateRequest($shippingAddress, $billingAddress, $customerTaxClass);
+    protected function applyRate(
+        $classId,
+        $shippingAddress = null,
+        $billingAddress = null,
+        $customerTaxClass = null,
+        $customerId = null
+    ) {
+        $rateRequest = $this->calculation->getRateRequest(
+            $shippingAddress,
+            $billingAddress,
+            $customerTaxClass,
+            $customerId
+        );
         $rateRequest->setProductClassId($classId);
         return $this->calculation->getRate($rateRequest);
     }
