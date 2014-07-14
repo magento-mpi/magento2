@@ -63,7 +63,7 @@ class MergeService
     /**
      * Return merged assets, if merging is enabled for a given content type
      *
-     * @param array $assets
+     * @param MergeableInterface[] $assets
      * @param string $contentType
      * @return array|\Iterator
      * @throws \InvalidArgumentException
