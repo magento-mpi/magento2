@@ -35,10 +35,18 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
     protected $stockItemBuilder;
 
     /**
+     * Stock Indexer
+     *
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Processor
+     */
+    protected $_stockIndexerProcessor;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeHelper
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\CatalogInventory\Service\V1\Data\StockItemBuilder $stockItemBuilder
      */
@@ -47,11 +55,13 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeHelper,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
+        \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\CatalogInventory\Service\V1\Data\StockItemBuilder $stockItemBuilder
     ) {
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
+        $this->_stockIndexerProcessor = $stockIndexerProcessor;
         $this->_catalogProduct = $catalogProduct;
         $this->stockItemBuilder = $stockItemBuilder;
         parent::__construct($context, $attributeHelper);
@@ -139,6 +149,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
                         $this->stockItemBuilder->mergeDataObjectWithArray($stockItemDo, $inventoryData)
                     );
                 }
+                $this->_stockIndexerProcessor->reindexList($this->_helper->getProductIds());
             }
 
             if ($websiteAddData || $websiteRemoveData) {
