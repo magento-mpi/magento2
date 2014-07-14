@@ -11,7 +11,7 @@ use Magento\Tax\Model\Calculation;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 
-class UnitBasedCalculator extends AbstractBasedCalculator
+class UnitBasedCalculator extends AbstractCalculator
 {
     /**
      * {@inheritdoc}
@@ -88,6 +88,7 @@ class UnitBasedCalculator extends AbstractBasedCalculator
         $price = $this->calculationTool->round($item->getUnitPrice());
         $unitTaxes = [];
         $unitTaxesBeforeDiscount = [];
+        $appliedTaxes = [];
         //Apply each tax rate separately
         foreach ($appliedRates as $appliedRate) {
             $taxId = $appliedRate['id'];
@@ -117,9 +118,7 @@ class UnitBasedCalculator extends AbstractBasedCalculator
         }
         $unitTax = array_sum($unitTaxes);
         $unitTaxBeforeDiscount = array_sum($unitTaxesBeforeDiscount);
-        // Set discount tax compensation
-        $unitDiscountTaxCompensationAmount = $unitTaxBeforeDiscount - $unitTax;
-        $discountTaxCompensationAmount = $unitDiscountTaxCompensationAmount * $quantity;
+
         $rowTax = $unitTax * $quantity;
         $priceInclTax = $price + $unitTaxBeforeDiscount;
 

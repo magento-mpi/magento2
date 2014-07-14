@@ -11,7 +11,7 @@ use Magento\Tax\Model\Calculation;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 
-class TotalBasedCalculator extends AbstractBasedCalculator
+class TotalBasedCalculator extends AbstractCalculator
 {
     protected function calculateWithTaxInPrice(QuoteDetailsItem $item, $quantity)
     {
@@ -128,8 +128,6 @@ class TotalBasedCalculator extends AbstractBasedCalculator
         }
         $rowTax = array_sum($rowTaxes);
         $rowTaxBeforeDiscount = array_sum($rowTaxesBeforeDiscount);
-        // Set discount tax compensation
-        $discountTaxCompensationAmount = $rowTaxBeforeDiscount - $rowTax;
         $rowTotalInclTax = $rowTotal + $rowTaxBeforeDiscount;
         $priceInclTax = $this->calculationTool->round($rowTotalInclTax / $quantity);
 

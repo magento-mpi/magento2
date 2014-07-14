@@ -14,7 +14,7 @@ use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
 
-abstract class AbstractBasedCalculator
+abstract class AbstractCalculator
 {
     /**#@+
      * Constants for delta rounding key
@@ -117,43 +117,47 @@ abstract class AbstractBasedCalculator
         TaxDetailsItemBuilder $taxDetailsItemBuilder,
         Calculation $calculationTool,
         \Magento\Tax\Model\Config $config,
-        $storeId = null,
-        $customerTaxClassId = null,
-        Address $shippingAddress = null,
-        Address $billingAddress = null
+        $storeId,
+        \Magento\Framework\Object $addressRateRequest = null
     ) {
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->calculationTool = $calculationTool;
         $this->config = $config;
         $this->storeId = $storeId;
-        $this->customerTaxClassId = $customerTaxClassId;
-        $this->shippingAddress = $shippingAddress;
+        $this->addressRateRequest = $addressRateRequest;
+    }
+
+    /**
+     * Set billing address
+     *
+     * @param Address $billingAddress
+     * @return void
+     */
+    public function setBillingAddress(Address $billingAddress)
+    {
         $this->billingAddress = $billingAddress;
     }
 
     /**
-     * Get address rate request
+     * Set shipping address
      *
-     * Request object contain:
-     *  country_id (->getCountryId())
-     *  region_id (->getRegionId())
-     *  postcode (->getPostcode())
-     *  customer_class_id (->getCustomerClassId())
-     *  store (->getStore())
-     *
-     * @return \Magento\Framework\Object
+     * @param Address $shippingAddress
+     * @return void
      */
-    protected function getAddressRateRequest()
+    public function setShippingAddress(Address $shippingAddress)
     {
-        if (null == $this->addressRateRequest) {
-            $this->addressRateRequest = $this->calculationTool->getRateRequest(
-                $this->shippingAddress,
-                $this->billingAddress,
-                $this->customerTaxClassId,
-                $this->storeId
-            );
-        }
-        return $this->addressRateRequest;
+        $this->shippingAddress = $shippingAddress;
+    }
+
+    /**
+     * Set customer tax class id
+     *
+     * @param int $customerTaxClassId
+     * @return void
+     */
+    public function setCustomerTaxClassId($customerTaxClassId)
+    {
+        $this->customerTaxClassId = $customerTaxClassId;
     }
 
     /**
@@ -189,6 +193,31 @@ abstract class AbstractBasedCalculator
      * @return TaxDetailsItem
      */
     abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity);
+
+    /**
+     * Get address rate request
+     *
+     * Request object contain:
+     *  country_id (->getCountryId())
+     *  region_id (->getRegionId())
+     *  postcode (->getPostcode())
+     *  customer_class_id (->getCustomerClassId())
+     *  store (->getStore())
+     *
+     * @return \Magento\Framework\Object
+     */
+    protected function getAddressRateRequest()
+    {
+        if (null == $this->addressRateRequest) {
+            $this->addressRateRequest = $this->calculationTool->getRateRequest(
+                $this->shippingAddress,
+                $this->billingAddress,
+                $this->customerTaxClassId,
+                $this->storeId
+            );
+        }
+        return $this->addressRateRequest;
+    }
 
     /**
      * Check if tax rate is same as store tax rate
