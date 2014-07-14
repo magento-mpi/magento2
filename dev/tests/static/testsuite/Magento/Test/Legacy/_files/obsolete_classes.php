@@ -2685,6 +2685,8 @@ return array(
         'Magento\Bundle\Pricing\Price\BasePrice',
         'Magento\Catalog\Pricing\Price\BasePrice'
     ],
+    ['Magento\Cataloginventory\Model\Resource\Indexer\Stock'],
+    ['Magento\Catalog\Model\Product\Indexer\Eav'],
     ['Magento\Bundle\Pricing\Price\BasePriceInterface'],
     ['Magento\Banner\Helper\Data'],
     ['Magento\Cms\Helper\Data'],
@@ -2698,4 +2700,5 @@ return array(
     ['Magento\Rule\Helper\Data'],
     ['Magento\Theme\Helper\Data'],
     ['Magento\Widget\Helper\Data'],
+    ['Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction'],
 );

@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Category view template
+ *
+ * @var $this \Magento\Catalog\Block\Category\View
+ */
+?>
+<?php if($this->isContentMode() || $this->isMixedMode()): ?>
+    <div class="category-cms">
+        <?php echo $this->getCmsBlockHtml(); ?>
+    </div>
+<?php endif; ?>
