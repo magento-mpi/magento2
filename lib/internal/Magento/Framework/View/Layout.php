@@ -1474,8 +1474,8 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * Get block singleton
      *
      * @param string $type
-     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Framework\App\Helper\AbstractHelper
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getBlockSingleton($type)
     {
