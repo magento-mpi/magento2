@@ -112,4 +112,15 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     {
         return $this->_set(Item::KEY_PARENT_CODE, $code);
     }
+
+    /**
+     * Set associated item code
+     *
+     * @param string $code
+     * @return $this
+     */
+    public function setAssociatedItemCode($code)
+    {
+        return $this->_set(Item::KEY_ASSOCIATED_ITEM_CODE, $code);
+    }
 }
