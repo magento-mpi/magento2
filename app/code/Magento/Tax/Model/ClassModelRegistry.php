@@ -13,12 +13,15 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Service\V1\Data\TaxClass;
 
+/**
+ * Class Registry for the ClassModel models
+ */
 class ClassModelRegistry
 {
     /**
      * Tax class model factory
      *
-     * @var  TaxClassModelFactory
+     * @var TaxClassModelFactory
      */
     private $taxClassModelFactory;
 
@@ -39,7 +42,7 @@ class ClassModelRegistry
     }
 
     /**
-     * Register TaxClassModel Model to registry
+     * Add Tax Class Model Model to registry
      *
      * @param TaxClassModel $taxClassModel
      * @return void
@@ -50,7 +53,7 @@ class ClassModelRegistry
     }
 
     /**
-     * Retrieve ClassModel Model from registry given an id
+     * Retrieve Tax Class Model Model from registry given an id
      *
      * @param int $taxClassId
      * @return TaxClassModel
@@ -72,7 +75,7 @@ class ClassModelRegistry
     }
 
     /**
-     * Remove an instance of the TaxClass Model from the registry
+     * Remove an instance of the Tax Class Model from the registry
      *
      * @param int $taxClassId
      * @return void

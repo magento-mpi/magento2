@@ -12,9 +12,7 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Test for TaxRuleRegistry
- *
  */
-
 class ClassModelRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,12 +21,12 @@ class ClassModelRegistryTest extends \PHPUnit_Framework_TestCase
     private $taxRuleRegistry;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\ClassModelFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Model\ClassModelFactory
      */
     private $classModelFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\ClassModel
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Model\ClassModel
      */
     private $classModelMock;
 
