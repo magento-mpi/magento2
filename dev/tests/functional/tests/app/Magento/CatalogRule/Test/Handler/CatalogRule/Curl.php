@@ -8,13 +8,13 @@
 
 namespace Magento\CatalogRule\Test\Handler\CatalogRule;
 
-use Magento\Backend\Test\Handler\Conditions;
-use Magento\CatalogRule\Test\Handler\CatalogRule;
+use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Magento\Backend\Test\Handler\Conditions;
+use Magento\CatalogRule\Test\Handler\CatalogRule;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class Curl
@@ -28,6 +28,11 @@ class Curl extends Conditions implements CatalogRuleInterface
      * @var array
      */
     protected $mapTypeParams = [
+        'Conditions combination' => [
+            'type' => 'Magento\CatalogRule\Model\Rule\Condition\Combine',
+            'aggregator' => 'all',
+            'value' => 1
+        ],
         'Category' => [
             'type' => 'Magento\CatalogRule\Model\Rule\Condition\Product',
             'attribute' => 'category_ids',
@@ -46,19 +51,35 @@ class Curl extends Conditions implements CatalogRuleInterface
             'To Percentage of the Original Price' => 'to_percent',
             'To Fixed Amount' => 'to_fixed'
         ],
-        'customer_group_ids' => [
-            'NOT LOGGED IN' => 0,
-            'General' => 1,
-            'Wholesale' => 2,
-            'Retailer' => 3
-        ],
         'is_active' => [
             'Active' => 1,
             'Inactive' => 0
         ],
-        'website_ids' => [
-            'Main Website' => 1
+        'stop_rules_processing' => [
+            'Yes' => 1,
+            'No' => 0
         ]
+    ];
+
+    /**
+     * Mapping values for Websites
+     *
+     * @var array
+     */
+    protected $websiteIds = [
+        'Main Website' => 1
+    ];
+
+    /**
+     * Mapping values for Customer Groups
+     *
+     * @var array
+     */
+    protected $customerGroupIds = [
+        'NOT LOGGED IN' => 0,
+        'General' => 1,
+        'Wholesale' => 2,
+        'Retailer' => 3
     ];
 
     /**
@@ -96,7 +117,28 @@ class Curl extends Conditions implements CatalogRuleInterface
     protected function prepareData($fixture)
     {
         $data = $this->replaceMappingData($fixture->getData());
-        $data['rule'] = ['conditions' => $this->prepareCondition($data['rule'])];
+        if (isset($data['website_ids'])) {
+            $websiteIds = [];
+            foreach ($data['website_ids'] as $websiteId) {
+                $websiteIds[] = isset($this->websiteIds[$websiteId]) ? $this->websiteIds[$websiteId] : $websiteId;
+            }
+            $data['website_ids'] = $websiteIds;
+        }
+        if (isset($data['customer_group_ids'])) {
+            $customerGroupIds = [];
+            foreach ($data['customer_group_ids'] as $customerGroupId) {
+                $customerGroupIds[] = isset($this->customerGroupIds[$customerGroupId])
+                    ? $this->customerGroupIds[$customerGroupId]
+                    : $customerGroupId;
+            }
+            $data['customer_group_ids'] = $customerGroupIds;
+        }
+        if (!isset($data['stop_rules_processing'])) {
+            $data['stop_rules_processing'] = 0;
+        }
+        if (isset($data['rule'])) {
+            $data['rule'] = ['conditions' => $this->prepareCondition($data['rule'])];
+        }
 
         return $data;
     }
@@ -110,7 +152,7 @@ class Curl extends Conditions implements CatalogRuleInterface
      */
     public function getCategoryPriceRuleId(array $data)
     {
-        //Sort data in grid to define category price rule id if more than 20 items in grid
+        // Sort data in grid to define category price rule id if more than 20 items in grid
         $url = $_ENV['app_backend_url'] . 'catalog_rule/promo_catalog/index/sort/rule_id/dir/desc';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->write(CurlInterface::POST, $url, '1.0');
@@ -123,6 +165,7 @@ class Curl extends Conditions implements CatalogRuleInterface
         if (empty($matches)) {
             throw new \Exception('Cannot find Category Price Rule id');
         }
+
         return $matches[1];
     }
 }

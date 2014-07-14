@@ -12,11 +12,24 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Samples
- *
  * Preset for sample block
  */
 class Samples implements FixtureInterface
 {
+    /**
+     * Prepared dataSet data
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
     /**
      * Construct for class
      *
@@ -46,6 +59,8 @@ class Samples implements FixtureInterface
      *
      * @param string $key [optional]
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {
@@ -116,9 +131,11 @@ class Samples implements FixtureInterface
                 ]
             ]
         ];
+
         if (!isset($presets[$name])) {
             return null;
         }
+
         return $presets[$name];
     }
 }

@@ -21,4 +21,17 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $this->_init('Magento\Integration\Model\Integration', 'Magento\Integration\Model\Resource\Integration');
     }
+
+    /**
+     * Add filter for finding integrations with unsecure URLs.
+     *
+     * @return $this
+     */
+    public function addUnsecureUrlsFilter()
+    {
+        return $this->addFieldToFilter(
+            ['endpoint', 'identity_link_url'],
+            [['like' => 'http:%'], ['like' => 'http:%']]
+        );
+    }
 }

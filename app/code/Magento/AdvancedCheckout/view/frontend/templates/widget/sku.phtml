@@ -14,8 +14,6 @@
  */
 $uniqueSuffix = '_' . $this->getRandomString(20);
 $skuFormId = 'skuForm' . $uniqueSuffix;
-$qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
-    . ' validate-number-range number-range-0.0001-99999999.9999';
 ?>
 <div class="widget block addbysku" data-mage-init='{"itemTable":{"addBlockData":{"uniqueSuffix":"<?php echo $uniqueSuffix; ?>"}}}'>
     <?php if (!$this->getIsTitleHidden()): ?>
@@ -32,7 +30,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                     <?php echo $this->getChildHtml(); ?>
                 </fieldset>
             <?php endif; ?>
-            <div class="actions toolbar">
+            <div class="actions-toolbar">
                 <div class="primary">
                     <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit"
                             title="<?php echo __('Add to Cart') ?>"
@@ -53,7 +51,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
         </form>
         <script data-template="add-block" type="text/x-jQuery-tmpl">
             <div class="fields additional" data-mage-init='{"deletableItem":{}}'>
-                <div class="actions toolbar">
+                <div class="actions-toolbar">
                     <div class="secondary">
                         <button class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></button>
                     </div>
@@ -64,8 +62,7 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                         <input type="text"
                                name="items[${rowIndex}${uniqueSuffix}][sku]"
                                id="id-items[${rowIndex}${uniqueSuffix}][sku]"
-                               data-id="${rowIndex}${uniqueSuffix}sku"
-                               data-validate="{'required-if-not-specified': '#customer_sku_csv'}"/>
+                               data-id="${rowIndex}${uniqueSuffix}sku" />
                     </div>
                 </div>
                 <div class="field qty required">
@@ -76,7 +73,12 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                                id="id-items[${rowIndex}${uniqueSuffix}][qty]"
                                class="qty"
                                maxlength="13"
-                               data-validate="{'required-if-specified': '[data-id=${rowIndex}${uniqueSuffix}sku]', 'validate-greater-than-zero': true}"/>
+                               data-validate='{
+                                    "required-if-specified": "[data-id=${rowIndex}${uniqueSuffix}sku]",
+                                    "validate-number": true,
+                                    "validate-greater-than-zero": true,
+                                    "validate-number-range": "0.0001-99999999.9999"
+                                    }'/>
                     </div>
                 </div>
             </div>

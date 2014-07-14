@@ -22,30 +22,151 @@
         <condition property="app_mode" value="developer">
             <not><isset property="app_mode"/></not>
         </condition>
-        <copy file="${basedir}/dev/build/core_dev/integration/local-${db_vendor_name}.xml" todir="${product_root_dir}/dev/tests/integration/etc" overwrite="true"/>
+
+        <copy file="${basedir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
+              tofile="${product_root_dir}/.htaccess"/>
+
+        <script language="javascript"><![CDATA[
+            var errorMessages = [];
+
+            var variables = {
+                db_host: '',
+                db_name: '',
+                db_user: '',
+                db_password: '',
+            };
+            for (var name in variables) {
+                if (project.getProperty('env.' + name) === null) {
+                    errorMessages.push('Environment variable "' + name + '" must be defined' + variables[name] + '.');
+                }
+            }
+
+            if (errorMessages.length > 0) {
+                project.setProperty('error_message', errorMessages.join('\n'));
+            }
+
+            if (project.getProperty('env.bamboo_max_instances') === null) {
+                var max_instances = 1;
+            } else {
+                project.setProperty('max_instances', project.getProperty('env.bamboo_max_instances'));
+            }
+        ]]></script>
+
+        <fail if="error_message" message="${error_message}"/>
+
+        <script language="javascript"><![CDATA[
+            var maxInstances = project.getProperty('max_instances');
+
+            if (maxInstances > 1) {
+                project.setProperty('tests_cleanup', '');
+
+                var parallelConfigTask = project.createTask('antcall');
+                parallelConfigTask.setTarget('_parallel_run_phpunit_configuration');
+                parallelConfigTask.setInheritAll(true);
+                var configParam = parallelConfigTask.createParam();
+                configParam.setName('configuration_file');
+                configParam.setValue(project.getProperty('basedir') + '/dev/build/core_dev/integration/phpunit.xml');
+                parallelConfigTask.execute();
+
+                var parallel = project.createTask('parallel');
+                for (var instanceIndex = 0; instanceIndex < maxInstances; instanceIndex++) {
+                    var antcall = project.createTask('antcall');
+                    antcall.setTarget('prepare_for_single_process');
+                    antcall.setInheritAll(true);
+
+                    var param = antcall.createParam();
+                    param.setName('instance_index');
+                    param.setValue(instanceIndex);
+
+                    parallel.addTask(antcall);
+                }
+
+                parallel.execute();
+            } else {
+                project.setProperty('tests_cleanup', 'enabled');
+
+                var antcall = project.createTask('antcall');
+                antcall.setTarget('prepare_for_single_process');
+                antcall.setInheritAll(true);
+
+                var param = antcall.createParam();
+                param.setName('instance_index');
+                param.setValue(0);
+
+                antcall.execute();
+            }
+        ]]></script>
+
+        <delete dir="${product_root_dir}/dev/tests/integration/var/split-by-test" quiet="true"/>
+    </target>
+
+    <target name="prepare_for_single_process">
+        <exec dir="${product_root_dir}/dev/tests/integration" executable="mysql" failonerror="true">
+            <arg line="-u${env.db_user} -p${env.db_password} -e 'DROP DATABASE IF EXISTS ${env.db_name}_${instance_index}; CREATE DATABASE ${env.db_name}_${instance_index}'"/>
+        </exec>
+
+        <copy file="${basedir}/dev/build/core_dev/integration/local-${db_vendor_name}.xml"
+              tofile="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}-${instance_index}.xml" overwrite="true"/>
         <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_database_credential_substitution">
-            <property name="db_config_file" value="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}.xml"/>
+            <property name="db_config_file" value="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}-${instance_index}.xml"/>
+            <property name="env.db_name" value="${env.db_name}_${instance_index}"/>
         </ant>
-        <replace file="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}.xml">
+        <replace file="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}-${instance_index}.xml">
             <replacefilter token="{{db_table_prefix}}" value="${db_table_prefix}"/>
         </replace>
-        <copy file="${basedir}/dev/build/core_dev/integration/phpunit.xml" todir="${product_root_dir}/dev/tests/integration" overwrite="true"/>
-        <replace file="${product_root_dir}/dev/tests/integration/phpunit.xml">
-            <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
+
+        <copy file="${basedir}/dev/build/core_dev/integration/phpunit.xml"
+              tofile="${product_root_dir}/dev/tests/integration/phpunit-${instance_index}.xml" overwrite="true"/>
+        <replace file="${product_root_dir}/dev/tests/integration/phpunit-${instance_index}.xml">
+            <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}-${instance_index}.xml"/>
             <replacefilter token="{{app_mode}}" value="${app_mode}"/>
+            <replacefilter token="{{instance_index}}" value="${instance_index}"/>
+            <replacefilter token="{{tests_cleanup}}" value="${tests_cleanup}"/>
+        </replace>
+
+        <mkdir dir="${product_root_dir}/dev/tests/integration/var/logs-${instance_index}"/>
+    </target>
+
+    <target name="_parallel_run_phpunit_configuration" description="Phpunit configuration for parallel run">
+        <fail unless="configuration_file" message="Phpunit configuration variable 'configuration_file' must be defined"/>
+        <replace file="${configuration_file}">
+            <replacefilter token="--parallel_run_placeholder" value="-- --&gt;"/>
+            <replacefilter token="parallel_run_placeholder--" value="&lt;!-- --"/>
         </replace>
     </target>
 
     <target name="_integration_tests_magento" depends="_integration_tests_configuration" description="Product integration tests">
-        <exec dir="${product_root_dir}/dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/integration_tests_magento.xml"/>
-            <arg line="--testdox" />
-        </exec>
+        <script language="javascript"><![CDATA[
+            importClass(java.io.File);
+            var maxInstances = project.getProperty('max_instances');
+            var productRootDir = project.getProperty('product_root_dir');
+            var baseDir = project.getProperty('basedir');
+
+            if (maxInstances > 1) {
+                var parallel_run_exec = project.createTask('exec');
+                parallel_run_exec.setExecutable('php');
+                parallel_run_exec.setDir(new File(productRootDir + '/dev/tests/integration'));
+                parallel_run_exec.setFailonerror(false);
+                var arg = parallel_run_exec.createArg();
+                var command = '-f parallel-run.php testsuite/Magento/ -- --log-junit '
+                        + baseDir + '/integration_tests_magento.xml --max-instances ' + maxInstances;
+                arg.setLine(command);
+                parallel_run_exec.execute();
+            } else {
+                var phpunit_exec = project.createTask('exec');
+                phpunit_exec.setExecutable('phpunit');
+                phpunit_exec.setDir(new File(productRootDir + '/dev/tests/integration'));
+                var arg = phpunit_exec.createArg();
+                var command = '-c phpunit-0.xml --stderr --log-junit ' + baseDir + '/integration_tests_magento.xml';
+                arg.setLine(command);
+                phpunit_exec.execute();
+            }
+        ]]></script>
     </target>
 
     <target name="_integration_tests_magento_xdebug" depends="_integration_tests_configuration" description="Product integration tests with Xdebug">
         <exec dir="${product_root_dir}/dev/tests/integration" executable="${basedir}/dev/build/bin/phpunit-with-xdebug.sh" failonerror="true">
-            <arg line="--stderr --log-junit ${basedir}/integration_tests_magento_xdebug.xml"/>
+            <arg line="-c phpunit-0.xml --stderr --log-junit ${basedir}/integration_tests_magento_xdebug.xml"/>
         </exec>
     </target>
 
@@ -76,8 +197,6 @@
     </target>
 
     <target name="integration_tests_ee_dev_xd_mysql_tpfx" depends="_product_location,_server_info,_enterprise_edition" description="Integration tests in dev mode with Xdebug and table prefix on MySQL for EE">
-        <copy file="${product_root_dir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
-              tofile="${product_root_dir}/.htaccess"/>
         <antcall target="_integration_tests_magento_xdebug">
             <param name="db_table_prefix" value="pfx_"/>
         </antcall>
@@ -111,7 +230,7 @@
 
     <target name="_integration_integrity_tests_magento" depends="_integration_tests_configuration" description="Product integration integrity tests">
         <exec dir="${product_root_dir}/dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${product_root_dir}/integration_integrity_tests_magento.xml testsuite/Magento/Test/Integrity"/>
+            <arg line="-c phpunit-0.xml --log-junit ${product_root_dir}/integration_integrity_tests_magento.xml testsuite/Magento/Test/Integrity"/>
         </exec>
     </target>
 
@@ -136,8 +255,6 @@
     </target>
 
     <target name="integration_tests_ce_xd_mysql_code_coverage" depends="_product_location" description="Code Coverage CE Integration Tests with Xdebug">
-        <copy file="${product_root_dir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
-              tofile="${product_root_dir}/.htaccess"/>
         <antcall target="_code_coverage_configuration">
             <param name="configuration_file" value="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml"/>
         </antcall>
@@ -145,8 +262,6 @@
     </target>
 
     <target name="integration_tests_ee_xd_mysql_code_coverage" depends="_product_location" description="Code Coverage EE Integration Tests with Xdebug">
-        <copy file="${product_root_dir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
-              tofile="${product_root_dir}/.htaccess"/>
         <antcall target="_code_coverage_configuration">
             <param name="configuration_file" value="${product_root_dir}/dev/build/core_dev/integration/phpunit.xml"/>
         </antcall>

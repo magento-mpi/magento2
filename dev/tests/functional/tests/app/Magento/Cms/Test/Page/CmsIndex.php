@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Page; 
+namespace Magento\Cms\Test\Page;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CmsIndex
@@ -33,13 +33,13 @@ class CmsIndex extends FrontendPage
         'titleBlock' => [
             'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
-            'locator' => '.page.title',
+            'locator' => '[data-ui-id="page-title"]',
             'strategy' => 'css selector',
         ],
         'footerBlock' => [
             'name' => 'footerBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Footer',
-            'locator' => 'footer.footer',
+            'locator' => 'footer.page-footer',
             'strategy' => 'css selector',
         ],
         'linksBlock' => [

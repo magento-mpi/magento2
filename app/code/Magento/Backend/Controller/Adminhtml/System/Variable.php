@@ -133,7 +133,7 @@ class Variable extends Action
             $response->setError(true);
             $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
-        $this->getResponse()->setBody($response->toJson());
+        $this->getResponse()->representJson($response->toJson());
     }
 
     /**
@@ -182,7 +182,7 @@ class Variable extends Action
         if ($variable->getId()) {
             try {
                 $variable->delete();
-                $this->messageManager->addSuccess(__('You deleted the customer.'));
+                $this->messageManager->addSuccess(__('You deleted the custom variable.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -207,7 +207,7 @@ class Variable extends Action
             true
         );
         $variables = array($storeContactVariabls, $customVariables);
-        $this->getResponse()->setBody(\Zend_Json::encode($variables));
+        $this->getResponse()->representJson(\Zend_Json::encode($variables));
     }
 
     /**

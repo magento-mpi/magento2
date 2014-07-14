@@ -58,6 +58,8 @@ class Curl extends AbstractCurl implements TaxRuleInterface
      *
      * @param FixtureInterface $fixture
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function prepareData($fixture)
     {

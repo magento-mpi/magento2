@@ -100,6 +100,10 @@ class AssertProductForm extends AbstractConstraint
             $this->formattingOptions
         );
 
+        if (isset($compareData['special_price'])) {
+            $compareData['special_price'] = ['special_price' => $compareData['special_price']];
+        }
+
         return $compareData;
     }
 
@@ -109,6 +113,8 @@ class AssertProductForm extends AbstractConstraint
      * @param array $fixtureData
      * @param array $formData
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function compareArray(array $fixtureData, array $formData)
     {

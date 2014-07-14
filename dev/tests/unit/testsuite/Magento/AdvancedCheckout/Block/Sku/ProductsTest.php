@@ -24,7 +24,7 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\AdvancedCheckout\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $checkoutHelperMock;
 
-    /** @var \Magento\CatalogInventory\Service\V1\StockItem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemMock;
 
     protected function setUp()
@@ -33,7 +33,13 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
         $this->checkoutHelperMock->expects($this->once())
             ->method('getFailedItems')
             ->will($this->returnValue([]));
-        $this->stockItemMock = $this->getMock('Magento\CatalogInventory\Service\V1\StockItem', [], [], '', false);
+        $this->stockItemMock = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            [],
+            [],
+            '',
+            false
+        );
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->products = $this->objectManagerHelper->getObject(

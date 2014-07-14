@@ -29,7 +29,7 @@ class Collection extends \Magento\Invitation\Model\Resource\Invitation\Collectio
 
         $canceledField = $this->getConnection()->getCheckSql(
             'main_table.status = ' . $this->getConnection()->quote(
-                \Magento\Invitation\Model\Invitation::STATUS_CANCELED
+                \Magento\Invitation\Model\Invitation\Status::STATUS_CANCELED
             ),
             '1',
             '0'

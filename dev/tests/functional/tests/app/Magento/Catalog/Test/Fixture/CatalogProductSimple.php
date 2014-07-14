@@ -18,6 +18,9 @@ use Mtf\System\Event\EventManagerInterface;
 /**
  * Class CatalogProductSimple
  * Product Simple fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class CatalogProductSimple extends InjectableFixture
 {
@@ -80,11 +83,13 @@ class CatalogProductSimple extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Test simple product %isolation%',
         'sku' => 'test_simple_sku_%isolation%',
-        'attribute_set_id' => 'Default',
+        'attribute_set_id' => ['dataSet' => 'default'],
         'price' => ['value' => 100.00],
         'weight' => 12.0000,
-        'qty' => 10,
-        'quantity_and_stock_status' => 'In Stock',
+        'quantity_and_stock_status' => [
+            'qty' => 10.0000,
+            'is_in_stock' => 'In Stock',
+        ],
     ];
 
     protected $category_ids = [
@@ -538,12 +543,8 @@ class CatalogProductSimple extends InjectableFixture
     protected $attribute_set_id = [
         'attribute_code' => 'attribute_set_id',
         'backend_type' => 'virtual',
-    ];
-
-    protected $qty = [
-        'attribute_code' => 'qty',
-        'input' => 'input',
         'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
     protected $custom_options = [
@@ -557,7 +558,8 @@ class CatalogProductSimple extends InjectableFixture
     protected $website_ids = [
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
-        'default_value' => 'Main Website',
+        'default_value' => ['Main Website'],
+        'group' => 'websites',
     ];
 
     public function getCategoryIds()
@@ -833,11 +835,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
-    }
-
-    public function getQty()
-    {
-        return $this->getData('qty');
     }
 
     public function getCustomOptions()

@@ -33,6 +33,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Framework\Math\Division $mathDivision
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Shipping\Model\Shipment\Request $request
      */
@@ -45,6 +46,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Framework\Math\Division $mathDivision,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Shipping\Model\Shipment\Request $request
     ) {
@@ -58,7 +60,8 @@ class Labels extends \Magento\Shipping\Model\Shipping
             $rateResultFactory,
             $shipmentRequestFactory,
             $regionFactory,
-            $mathDivision
+            $mathDivision,
+            $stockItemService
         );
     }
 

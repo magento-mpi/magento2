@@ -18,6 +18,20 @@ use Mtf\Fixture\FixtureInterface;
 class Links implements FixtureInterface
 {
     /**
+     * Prepared dataSet data
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * Construct for class
      *
      * @param array $params
@@ -46,6 +60,8 @@ class Links implements FixtureInterface
      *
      * @param string $key [optional]
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

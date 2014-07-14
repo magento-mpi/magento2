@@ -14,6 +14,12 @@
 
 // Base
 
+html {
+    font-size: 62.5%;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
 body,
 html {
     height: 100%;
@@ -22,7 +28,10 @@ html {
 
 body {
     color: @baseColor;
-    font: @baseFontWeight @baseFontSize/@baseLineHeight @baseFont;
+    font-family: @baseFont;
+    line-height: @baseLineHeight;
+    font-weight: @baseFontWeight;
+    .font-size(@baseFontSize);
     background: @primary7;
 }
 
@@ -517,6 +526,29 @@ button {
         bottom: 0;
         width: 100%;
     }
+}
+
+//
+// Icons
+//--------------------------------------
+.icon-error {
+  margin-left: 15px;
+  color: #c00815;
+  font-size: 11px;
+  &:before {
+    font-family: 'MUI-Icons';
+    content: "\e086";
+    font-size: 13px;
+    line-height: 13px;
+    overflow: hidden;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin: -1px 5px 0 0;
+  }
 }
 
 .ui-widget-overlay {

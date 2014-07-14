@@ -102,7 +102,7 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
         $this->productListFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->productCollection));
 
-        $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItem')
+        $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItemService')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
@@ -194,7 +194,6 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
                 'stockItemService'   => $this->stockItemService
             ]
         );
-
-        $this->assertNotEmpty($this->model->getData('items_collection'));
+        $this->assertSame($this->productCollection, $this->model->getData('items_collection'));
     }
 }

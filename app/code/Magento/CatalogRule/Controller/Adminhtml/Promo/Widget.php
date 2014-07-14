@@ -111,7 +111,7 @@ class Widget extends Action
             )->setCategoryIds(
                 array($categoryId)
             );
-            $this->getResponse()->setBody(
+            $this->getResponse()->representJson(
                 $block->getTreeJson($category)
             );
         }
