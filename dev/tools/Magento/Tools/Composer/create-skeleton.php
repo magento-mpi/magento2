@@ -21,7 +21,6 @@ try {
         array(
             'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
             'version|v=s' => 'Version for the composer.json file',
-            'verbose|r' => 'Detailed console logs',
             'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
         )
     );
@@ -42,13 +41,9 @@ try {
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
     $logger = new Zend_Log($logWriter);
     $logger->setTimestampFormat('H:i:s');
-    $filter = $opt->getOption('r') ?
-            new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) :
-            new \Zend_Log_Filter_Priority(Zend_Log::INFO);
-    $logger->addFilter($filter);
     $logger->info('Working copy root directory: ' . $workingDir);
 
-    $edition = $opt->getOption('e') ?: null;
+    $edition = $opt->getOption('e');
     switch (strtolower($edition)) {
         case 'ee':
             $name = 'magento/product-enterprise-edition';
@@ -57,7 +52,7 @@ try {
             $name = 'magento/product-community-edition';
             break;
         default:
-            throw new \Exception('Edition value not acceptable. Acceptable values: [ee|ce]');
+            throw new \Zend_Console_Getopt_Exception('Edition value not acceptable. Acceptable values: [ee|ce]');
     }
     $logger->info("Root package name: {$name}");
 
@@ -74,12 +69,12 @@ try {
         $root->set("require->{$package->get('name')}", $package->get('version'));
     }
     $size = sizeof((array)$root->get('require'));
-    $logger->debug("Total number of dependencies in the skeleton package: {$size}");
-    $root->set('extra->map', $reader->getMappingList($workingDir));
+    $logger->info("Total number of dependencies in the skeleton package: {$size}");
+    $root->set('extra->map', $reader->getRootMappingPatterns());
     file_put_contents($root->getFile(), $root->getJson());
     $logger->info("SUCCESS: created package at {$root->getFile()}");
 } catch (\Zend_Console_Getopt_Exception $e) {
-    echo $e->getUsageMessage();
+    echo $e->getMessage();
     exit(1);
 } catch (\Exception $e) {
     echo $e;

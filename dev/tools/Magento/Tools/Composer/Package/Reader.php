@@ -16,11 +16,6 @@ use \Magento\Tools\Composer\Helper\ExcludeFilter;
 class Reader
 {
     /**
-     * List of patterns by which Magento components reside
-     */
-    const MAGENTO_COMPONENT_PATTERNS = 'magento_components_list.txt';
-
-    /**
      * Root directory
      *
      * @var string

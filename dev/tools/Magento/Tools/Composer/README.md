@@ -9,12 +9,11 @@ Skeleton Creator
 Creates in the root directory a `composer.json` file that aggregates all Magento components as Composer packages.
 
 ```shell
-> php -f create-skeleton.php -- -help
+> php -f create-skeleton.php
 Usage: create-skeleton.php [ options ]
---edition|-e <string> Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]
+--edition|-e <string> Edition of which packaging is done. Acceptable values: [ee] or [ce]
 --version|-v <string> Version for the composer.json file
---verbose|-r          Detailed console logs
---dir|-d <string>     Working directory of build. Default current code base.
+--dir|-d     <string> Working directory of build. Default current code base.
 
 ```
 
@@ -24,11 +23,10 @@ Archiver
 Breaks down a working copy into packages (zip-archives) with Magento components. Each component must already contain a `composer.json` file in its root directory.
 
 ```shell
-> php -f archiver.php -- -help
+> php -f archiver.php
 Usage: archiver.php [ options ]
---verbose|-v         Detailed console logs
 --output|-o <string> Generation dir. Default value _packages
---dir|-d <string>    Working directory of build. Default current code base.
+--dir|-d    <string> Working directory of build. Default current code base.
 
 ```
 

@@ -21,7 +21,6 @@ use \Magento\Tools\Composer\Package\Reader;
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-            'verbose|v' => 'Detailed console logs',
             'output|o=s' => 'Generation dir. Default value ' . $generationDir,
             'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
         )
@@ -44,10 +43,6 @@ try {
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
     $logger = new Zend_Log($logWriter);
     $logger->setTimestampFormat("H:i:s");
-    $filter = $opt->getOption('v') ?
-        new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) :
-        new \Zend_Log_Filter_Priority(Zend_Log::INFO);
-    $logger->addFilter($filter);
 
     $logger->info(sprintf("Your archives output directory: %s. ", $generationDir));
     $logger->info(sprintf("Your Magento Installation Directory: %s ", $workingDir));
@@ -62,16 +57,14 @@ try {
         exit($e->getCode());
     }
 
-    $logger->debug(sprintf("Zip Archive Location: %s", $generationDir));
+    $logger->info(sprintf("Zip Archive Location: %s", $generationDir));
 
     $noOfZips = 0;
 
-    $packagedDirs = [];
     foreach ($reader->readMagentoPackages() as $package) {
         $version = $package->get('version');
         $fileName = str_replace('/', '_', $package->get('name')) . "-{$version}" . '.zip';
         $sourceDir = str_replace('\\', '/', realpath(dirname($package->getFile())));
-        $packagedDirs[] = $sourceDir;
         $noOfZips += Zipper::Zip($sourceDir, $generationDir . '/' . $fileName, []);
         $logger->info(sprintf("Created zip archive for %-40s [%9s]", $fileName, $version));
     }

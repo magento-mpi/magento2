@@ -93,7 +93,7 @@ class Collection
     }
 
     /**
-     * Get a package object (which is safe for modifications)
+     * Get a package object
      *
      * @param string $name
      * @return Package
