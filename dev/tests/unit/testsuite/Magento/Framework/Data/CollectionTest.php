@@ -31,6 +31,19 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test loadWithFilter()
+     * @return void
+     */
+    public function testLoadWithFilter()
+    {
+        $this->assertInstanceOf('Magento\Framework\Data\Collection', $this->_model->loadWithFilter());
+        $this->assertEmpty($this->_model->getItems());
+        $this->_model->addItem(new \Magento\Framework\Object());
+        $this->_model->addItem(new \Magento\Framework\Object());
+        $this->assertCount(2, $this->_model->loadWithFilter()->getItems());
+    }
+
+    /**
      * @dataProvider setItemObjectClassDataProvider
      */
     public function testSetItemObjectClass($class)
