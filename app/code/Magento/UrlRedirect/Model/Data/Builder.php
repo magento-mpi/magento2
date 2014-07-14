@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRedirect\Service\V1\Storage\Data;
+namespace Magento\UrlRedirect\Model\Data;
 
-use \Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 /**
- * Data builder class for url storage
+ * Data builder class for url rewrite
  */
-abstract class AbstractBuilder extends AbstractObjectBuilder
+class Builder extends AbstractObjectBuilder
 {
     /**
      * @param int $entityId
@@ -21,7 +21,7 @@ abstract class AbstractBuilder extends AbstractObjectBuilder
      */
     public function setEntityId($entityId)
     {
-        return $this->_set(AbstractData::ENTITY_ID, $entityId);
+        return $this->_set(UrlRewrite::ENTITY_ID, $entityId);
     }
 
     /**
@@ -31,7 +31,7 @@ abstract class AbstractBuilder extends AbstractObjectBuilder
      */
     public function setEntityType($entityType)
     {
-        return $this->_set(AbstractData::ENTITY_TYPE, $entityType);
+        return $this->_set(UrlRewrite::ENTITY_TYPE, $entityType);
     }
 
     /**
@@ -41,7 +41,7 @@ abstract class AbstractBuilder extends AbstractObjectBuilder
      */
     public function setRequestPath($requestPath)
     {
-        return $this->_set(AbstractData::REQUEST_PATH, $requestPath);
+        return $this->_set(UrlRewrite::REQUEST_PATH, $requestPath);
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class AbstractBuilder extends AbstractObjectBuilder
      */
     public function setTargetPath($targetPath)
     {
-        return $this->_set(AbstractData::TARGET_PATH, $targetPath);
+        return $this->_set(UrlRewrite::TARGET_PATH, $targetPath);
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class AbstractBuilder extends AbstractObjectBuilder
      */
     public function setStoreId($storeId)
     {
-        return $this->_set(AbstractData::STORE_ID, $storeId);
+        return $this->_set(UrlRewrite::STORE_ID, $storeId);
     }
 
     /**
@@ -71,7 +71,7 @@ abstract class AbstractBuilder extends AbstractObjectBuilder
      */
     public function setRedirectCode($redirectCode)
     {
-        return $this->_set(AbstractData::REDIRECT_TYPE, $redirectCode);
+        return $this->_set(UrlRewrite::REDIRECT_TYPE, $redirectCode);
     }
 
     /**
@@ -81,6 +81,6 @@ abstract class AbstractBuilder extends AbstractObjectBuilder
      */
     public function setDescription($description)
     {
-        return $this->_set(AbstractData::DESCRIPTION, $description);
+        return $this->_set(UrlRewrite::DESCRIPTION, $description);
     }
 }

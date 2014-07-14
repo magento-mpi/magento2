@@ -5,30 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRedirect\Service\V1\Storage\Data;
+namespace Magento\UrlRedirect\Model\Data;
 
-use \Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * Data abstract class for url storage
  */
-abstract class AbstractData extends AbstractObject
+class UrlRewrite extends AbstractObject
 {
     /**#@+
      * Value object attribute names
      */
     const ENTITY_ID = 'entity_id';
-
     const ENTITY_TYPE = 'entity_type';
-
     const REQUEST_PATH = 'request_path';
-
     const TARGET_PATH = 'target_path';
-
     const STORE_ID = 'store_id';
-
     const REDIRECT_TYPE = 'redirect_type';
-
     const DESCRIPTION = 'description';
     /**#@-*/
 

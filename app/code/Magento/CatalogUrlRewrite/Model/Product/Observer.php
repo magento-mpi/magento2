@@ -8,28 +8,29 @@
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRedirect\Service\V1\StorageInterface;
+use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGenerator;
+use Magento\UrlRedirect\Service\V1\UrlPersisterInterface;
 
 class Observer
 {
     /**
-     * @var \Magento\CatalogUrlRewrite\Model\Product\GeneratorResolverFactory
+     * @var ProductUrlGenerator
      */
-    protected $generatorResolverFactory;
+    protected $urlGenerator;
 
     /**
-     * @var \Magento\UrlRedirect\Service\V1\StorageInterface
+     * @var \Magento\UrlRedirect\Service\V1\UrlPersisterInterface
      */
-    protected $storage;
+    protected $urlPersister;
 
     /**
-     * @param \Magento\CatalogUrlRewrite\Model\Product\GeneratorResolverFactory $generatorResolverFactory
-     * @param \Magento\UrlRedirect\Service\V1\StorageInterface $storage
+     * @param ProductUrlGenerator $urlGenerator
+     * @param UrlPersisterInterface $urlPersister
      */
-    public function __construct(GeneratorResolverFactory $generatorResolverFactory, StorageInterface $storage)
+    public function __construct(ProductUrlGenerator $urlGenerator, UrlPersisterInterface $urlPersister)
     {
-        $this->generatorResolverFactory = $generatorResolverFactory;
-        $this->storage = $storage;
+        $this->urlGenerator = $urlGenerator;
+        $this->urlPersister = $urlPersister;
     }
 
     /**
@@ -42,12 +43,10 @@ class Observer
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
-        if ($product->getOrigData('url_key') != $product->getData('url_key')) {
-            /** @var \Magento\CatalogUrlRewrite\Model\Product\GeneratorResolver $generatorResolver */
-            $generatorResolver = $this->generatorResolverFactory->create(['product' => $product]);
 
-            $urls = $generatorResolver->generate();
-            $this->storage->save($urls);
+        if ($product->getOrigData('url_key') != $product->getData('url_key')) {
+            $urls = $this->urlGenerator->generate($product);
+            $this->urlPersister->save($urls);
         }
     }
 }

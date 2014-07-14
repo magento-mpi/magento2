@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRedirect\Service\V1\Storage\Data;
+namespace Magento\UrlRedirect\Model\Data;
 
 /**
- * Filter for Storage
+ * Url rewrite search filter
  */
 class Filter
 {
@@ -25,10 +25,10 @@ class Filter
      * @var array
      */
     protected $possibleFields = [
-        AbstractData::ENTITY_ID,
-        AbstractData::ENTITY_TYPE,
-        AbstractData::STORE_ID,
-        AbstractData::REQUEST_PATH
+        UrlRewrite::ENTITY_ID,
+        UrlRewrite::ENTITY_TYPE,
+        UrlRewrite::STORE_ID,
+        UrlRewrite::REQUEST_PATH,
     ];
 
     /**
@@ -76,7 +76,7 @@ class Filter
      */
     public function setEntityId($entityId)
     {
-        return $this->_set(AbstractData::ENTITY_ID, $entityId);
+        return $this->_set(UrlRewrite::ENTITY_ID, $entityId);
     }
 
     /**
@@ -86,7 +86,7 @@ class Filter
      */
     public function setEntityType($entityType)
     {
-        return $this->_set(AbstractData::ENTITY_TYPE, $entityType);
+        return $this->_set(UrlRewrite::ENTITY_TYPE, $entityType);
     }
 
     /**
@@ -96,7 +96,7 @@ class Filter
      */
     public function setRequestPath($requestPath)
     {
-        return $this->_set(AbstractData::REQUEST_PATH, $requestPath);
+        return $this->_set(UrlRewrite::REQUEST_PATH, $requestPath);
     }
 
     /**
@@ -106,6 +106,6 @@ class Filter
      */
     public function setStoreId($storeId)
     {
-        return $this->_set(AbstractData::STORE_ID, $storeId);
+        return $this->_set(UrlRewrite::STORE_ID, $storeId);
     }
 }

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\UrlRedirect\Service\V1\Storage\AdapterInterface" type="Magento\UrlRedirect\Service\V1\Storage\Adapter\Db" />
-    <preference for="Magento\UrlRedirect\Service\V1\StorageInterface" type="Magento\UrlRedirect\Service\V1\Storage\GenericStorage" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\UrlRedirect\Model\StorageInterface" type="Magento\UrlRedirect\Model\Storage\Db"/>
 </config>

@@ -5,16 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRedirect\Service\V1\Storage\Adapter;
+namespace Magento\UrlRedirect\Model\Storage;
 
-use Magento\UrlRedirect\Service\V1\Storage\AdapterInterface;
-use Magento\UrlRedirect\Service\V1\Storage\Data\Filter;
 use Magento\Framework\App\Resource;
+use Magento\UrlRedirect\Model\Data\Filter;
 
 /**
- * Db storage adapter
+ * Db storage
  */
-class Db implements AdapterInterface
+class Db extends AbstractStorage
 {
     /**
      * DB Storage table name
@@ -37,10 +36,10 @@ class Db implements AdapterInterface
     /**
      * Prepare select statement for specific filter
      *
-     * @param \Magento\UrlRedirect\Service\V1\Storage\Data\Filter $filter
+     * @param Filter $filter
      * @return \Magento\Framework\DB\Select
      */
-    protected function prepareSelect(Filter $filter)
+    protected function prepareSelect($filter)
     {
         $select = $this->connection->select();
         $select->from(self::TABLE_NAME);
@@ -54,35 +53,32 @@ class Db implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function findAll(Filter $filter)
+    protected function doFindAllByFilter($filter)
     {
-        $select = $this->prepareSelect($filter);
-        return $this->connection->fetchAll($select);
+        return $this->connection->fetchAll($this->prepareSelect($filter));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function find(Filter $filter)
+    protected function doFindByFilter($filter)
     {
-        $select = $this->prepareSelect($filter);
-        return $this->connection->fetchRow($select);
+        return $this->connection->fetchRow($this->prepareSelect($filter));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add(array $data)
+    protected function doAdd($data)
     {
-        return $this->connection->insertMultiple(self::TABLE_NAME, $data);
+        $this->connection->insertMultiple(self::TABLE_NAME, $data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function delete(Filter $filter)
+    public function deleteByFilter(Filter $filter)
     {
-        $select = $this->prepareSelect($filter);
-        return $this->connection->query($select->deleteFromSelect(self::TABLE_NAME));
+        $this->connection->query($this->prepareSelect($filter)->deleteFromSelect(self::TABLE_NAME));
     }
 }
