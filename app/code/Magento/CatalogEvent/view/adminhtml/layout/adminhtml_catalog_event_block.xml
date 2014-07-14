@@ -58,7 +58,7 @@
                         <argument name="header" xsi:type="string" translate="true">Start On</argument>
                         <argument name="type" xsi:type="string">datetime</argument>
                         <argument name="index" xsi:type="string">date_start</argument>
-                        <argument name="filter_time" xsi:type="string">1</argument>
+                        <argument name="filter_time" xsi:type="string">0</argument>
                         <argument name="column_css_class" xsi:type="string">col-date</argument>
                         <argument name="header_css_class" xsi:type="string">col-date</argument>
 
@@ -69,7 +69,7 @@
                         <argument name="header" xsi:type="string" translate="true">End On</argument>
                         <argument name="type" xsi:type="string">datetime</argument>
                         <argument name="index" xsi:type="string">date_end</argument>
-                        <argument name="filter_time" xsi:type="string">1</argument>
+                        <argument name="filter_time" xsi:type="string">0</argument>
                         <argument name="column_css_class" xsi:type="string">col-date</argument>
                         <argument name="header_css_class" xsi:type="string">col-date</argument>
                     </arguments>
