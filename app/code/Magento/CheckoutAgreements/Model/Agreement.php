@@ -33,4 +33,21 @@ class Agreement extends \Magento\Framework\Model\AbstractModel
     {
         $this->_init('Magento\CheckoutAgreements\Model\Resource\Agreement');
     }
+
+    /**
+     * @param \Magento\Framework\Object $agreementData
+     * @return array|bool
+     */
+    public function validateData($agreementData)
+    {
+        $errors = [];
+
+        if ($agreementData->getContentHeight() !== ''
+            && !preg_match('/^[0-9]*\.*[0-9]+(px|pc|pt|ex|em|mm|cm|in|%)$/', $agreementData->getContentHeight())
+        ) {
+            $errors[] = "Please enter correct value for 'Content Height' field with units [px,pc,pt,ex,em,mm,cm,in,%].";
+        }
+
+        return (count($errors)) ? $errors : true;
+    }
 }
