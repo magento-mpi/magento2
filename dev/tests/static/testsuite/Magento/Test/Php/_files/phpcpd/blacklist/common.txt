@@ -100,7 +100,6 @@ Magento/Widget/Model/Widget/Instance
 Magento/Wishlist/Block
 Magento/Wishlist/Model
 lib/internal/Magento/Framework/Archive
-lib/internal/Magento/Framework/Connect/Channel
 lib/internal/Magento/Framework/HTTP/Client
 lib/internal/Magento/Framework/Acl
 lib/internal/PEAR

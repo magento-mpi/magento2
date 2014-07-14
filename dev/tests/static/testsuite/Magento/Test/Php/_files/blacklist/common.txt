@@ -44,7 +44,6 @@ lib/internal/Magento/Framework/Cache/Backend/Database.php
 lib/internal/Magento/Framework/Cache/Backend/Eaccelerator.php
 lib/internal/Magento/Framework/Cache/Backend/Memcached.php
 lib/internal/Magento/Framework/Cache/Core.php
-lib/internal/Magento/Framework/Connect
 lib/internal/Magento/Framework/Data/Collection.php
 lib/internal/Magento/Framework/Data/Collection/Db.php
 lib/internal/Magento/Framework/Data/Collection/Db/FetchStrategy/Cache.php
