@@ -15,4 +15,10 @@
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
+    <route url="/V1/bundle-products/:productSku/options/:optionId/children/:childSku" method="DELETE">
+        <service class="Magento\Bundle\Service\V1\Product\Link\WriteServiceInterface" method="removeChild"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
 </routes>
