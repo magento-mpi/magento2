@@ -1467,7 +1467,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $result = [
             'subtotal' => 183.75,
             'tax_amount' => 42.88,
-            'discount_tax_compensation_amount' => 3.08,
+            'discount_tax_compensation_amount' => 4.37,
             'applied_taxes' => [
                 [
                     'amount' => 22.1,
@@ -1593,7 +1593,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'row_total_incl_tax' => 125.7,
                     'type' => 'product',
                     'tax_percent' => 25.7075,
-                    'discount_tax_compensation_amount' => 0,
+                    'discount_tax_compensation_amount' => 1.29,
                     'applied_taxes' => [
                         'US - 42 - 8.25US - 42 - 5 - 55555' => [
                             'amount' => 12.59,
@@ -1693,7 +1693,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         //Differences from the row base result
         $results['subtotal'] = 183.76;
         $results['tax_amount'] = 42.89;
-        $results['discount_tax_compensation_amount'] = 3.06;
+        $results['discount_tax_compensation_amount'] = 4.35;
         $results['applied_taxes'][0]['amount'] = 22.11;
         $results['items']['sku_2']['row_tax'] = 15.16;
         $results['items']['sku_2']['row_total'] = 66.91;
@@ -1736,7 +1736,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         //Differences from the row base result
         $results['subtotal'] = 183.79;
         $results['tax_amount'] = 42.87;
-        $results['discount_tax_compensation_amount'] = 3.05;
+        $results['discount_tax_compensation_amount'] = 4.34;
         $results['applied_taxes'][1]['amount'] = 20.77;
         $results['items']['sku_1']['row_tax'] = 3.3;
         $results['items']['sku_1']['row_total'] = 16.9;

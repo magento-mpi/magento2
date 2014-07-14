@@ -1,0 +1,306 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Tax\Model\Calculation;
+
+use Magento\Tax\Model\Calculation;
+use Magento\Customer\Service\V1\Data\Address;
+use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
+use Magento\Tax\Service\V1\Data\QuoteDetails;
+use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
+
+abstract class AbstractBasedCalculator
+{
+    /**#@+
+     * Constants for delta rounding key
+     */
+    const KEY_REGULAR_DELTA_ROUNDING = 'regular';
+
+    const KEY_APPLIED_TAX_DELTA_ROUNDING = 'applied_tax_amount';
+
+    const KEY_TAX_AFTER_DISCOUNT_DELTA_ROUNDING = 'tax_after_discount';
+    /**#@-*/
+
+    /**
+     * Tax details item builder
+     *
+     * @var TaxDetailsItemBuilder
+     */
+    protected $taxDetailsItemBuilder;
+
+    /**
+     * Tax calculation tool
+     *
+     * @var Calculation
+     */
+    protected $calculationTool;
+
+    /**
+     * Store id
+     *
+     * @var int
+     */
+    protected $storeId;
+
+    /**
+     * Customer tax class id
+     *
+     * @var int
+     */
+    protected $customerTaxClassId;
+
+    /**
+     * Shipping Address
+     *
+     * @var Address
+     */
+    protected $shippingAddress;
+
+    /**
+     * Billing Address
+     *
+     * @var Address
+     */
+    protected $billingAddress;
+
+    /**
+     * Tax configuration object
+     *
+     * @var \Magento\Tax\Model\Config
+     */
+    protected $config;
+
+    /**
+     * Address rate request
+     *
+     * Request object contain:
+     *  country_id (->getCountryId())
+     *  region_id (->getRegionId())
+     *  postcode (->getPostcode())
+     *  customer_class_id (->getCustomerClassId())
+     *  store (->getStore())
+     *
+     * @var \Magento\Framework\Object
+     */
+    private $addressRateRequest = null;
+
+    /**
+     * Rounding deltas for prices
+     *
+     * @var array
+     * example:
+     *  [
+     *      'type' => [
+     *          'rate' => 'rounding delta',
+     *      ],
+     *  ]
+     */
+    protected $roundingDeltas;
+
+    /**
+     * Constructor
+     *
+     * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
+     * @param Calculation $calculationTool
+     * @param \Magento\Tax\Model\Config $config
+     * @param int $storeId
+     * @param int $customerTaxClassId
+     * @param Address $shippingAddress
+     * @param Address $billingAddress
+     */
+    public function __construct(
+        TaxDetailsItemBuilder $taxDetailsItemBuilder,
+        Calculation $calculationTool,
+        \Magento\Tax\Model\Config $config,
+        $storeId = null,
+        $customerTaxClassId = null,
+        Address $shippingAddress = null,
+        Address $billingAddress = null
+    ) {
+        $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
+        $this->calculationTool = $calculationTool;
+        $this->config = $config;
+        $this->storeId = $storeId;
+        $this->customerTaxClassId = $customerTaxClassId;
+        $this->shippingAddress = $shippingAddress;
+        $this->billingAddress = $billingAddress;
+    }
+
+    /**
+     * Get address rate request
+     *
+     * Request object contain:
+     *  country_id (->getCountryId())
+     *  region_id (->getRegionId())
+     *  postcode (->getPostcode())
+     *  customer_class_id (->getCustomerClassId())
+     *  store (->getStore())
+     *
+     * @return \Magento\Framework\Object
+     */
+    protected function getAddressRateRequest()
+    {
+        if (null == $this->addressRateRequest) {
+            $this->addressRateRequest = $this->calculationTool->getRateRequest(
+                $this->shippingAddress,
+                $this->billingAddress,
+                $this->customerTaxClassId,
+                $this->storeId
+            );
+        }
+        return $this->addressRateRequest;
+    }
+
+    public function calculate(QuoteDetailsItem $item, $quantity)
+    {
+        if ($item->getTaxIncluded()) {
+            return $this->calculateWithTaxInPrice($item, $quantity);
+        } else {
+            return $this->calculateWithTaxNotInPrice($item, $quantity);
+        }
+    }
+
+    abstract protected function calculateWithTaxInPrice(QuoteDetailsItem $item, $quantity);
+
+    abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity);
+
+    protected function isSameRateAsStore($rate, $storeRate)
+    {
+        if ((bool)$this->config->crossBorderTradeEnabled($this->storeId)) {
+            return true;
+        } else {
+            return ($rate == $storeRate);
+        }
+    }
+
+    /**
+     * Create AppliedTax data object based applied tax rates and tax amount
+     *
+     * @param float $rowTax
+     * @param array $appliedRate
+     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax
+     */
+    protected function getAppliedTax($rowTax, $appliedRate)
+    {
+        $appliedTaxBuilder = $this->taxDetailsItemBuilder->getAppliedTaxBuilder();
+        $appliedTaxRateBuilder = $appliedTaxBuilder->getAppliedTaxRateBuilder();
+        $appliedTaxBuilder->setAmount($rowTax);
+        $appliedTaxBuilder->setPercent($appliedRate['percent']);
+        $appliedTaxBuilder->setTaxRateKey($appliedRate['id']);
+
+        /** @var  AppliedTaxRate[] $rateDataObjects */
+        $rateDataObjects = [];
+        foreach ($appliedRate['rates'] as $rate) {
+            $appliedTaxRateBuilder->setPercent($rate['percent']);
+            $appliedTaxRateBuilder->setCode($rate['code']);
+            $appliedTaxRateBuilder->setTitle($rate['title']);
+            //Skipped position, priority and rule_id
+            $rateDataObjects[$rate['code']] = $appliedTaxRateBuilder->create();
+        }
+        $appliedTaxBuilder->setRates($rateDataObjects);
+        $appliedTax = $appliedTaxBuilder->create();
+        return $appliedTax;
+    }
+
+    /**
+     * Create AppliedTax data object based on applied tax rates and tax amount
+     *
+     * @param float $rowTax
+     * @param float $totalTaxRate
+     * @param array $appliedRates May contain multiple tax rates when catalog price includes tax
+     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[]
+     */
+    protected function getAppliedTaxes($rowTax, $totalTaxRate, $appliedRates)
+    {
+        $appliedTaxBuilder = $this->taxDetailsItemBuilder->getAppliedTaxBuilder();
+        $appliedTaxRateBuilder = $appliedTaxBuilder->getAppliedTaxRateBuilder();
+        /** @var \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $appliedTaxes */
+        $appliedTaxes = [];
+        $totalAppliedAmount = 0;
+        foreach ($appliedRates as $appliedRate) {
+            if ($appliedRate['percent'] == 0) {
+                continue;
+            }
+
+            $appliedAmount = $rowTax / $totalTaxRate * $appliedRate['percent'];
+            //Use delta rounding to split tax amounts for each tax rates between items
+            $appliedAmount = $this->deltaRound(
+                $appliedAmount,
+                $appliedRate['id'],
+                true,
+                self::KEY_APPLIED_TAX_DELTA_ROUNDING
+            );
+            if ($totalAppliedAmount + $appliedAmount > $rowTax) {
+                $appliedAmount = $rowTax - $totalAppliedAmount;
+            }
+            $totalAppliedAmount += $appliedAmount;
+
+            $appliedTaxBuilder->setAmount($appliedAmount);
+            $appliedTaxBuilder->setPercent($appliedRate['percent']);
+            $appliedTaxBuilder->setTaxRateKey($appliedRate['id']);
+
+            /** @var  AppliedTaxRate[] $rateDataObjects */
+            $rateDataObjects = [];
+            foreach ($appliedRate['rates'] as $rate) {
+                $appliedTaxRateBuilder->setPercent($rate['percent']);
+                $appliedTaxRateBuilder->setCode($rate['code']);
+                $appliedTaxRateBuilder->setTitle($rate['title']);
+                //Skipped position, priority and rule_id
+                $rateDataObjects[$rate['code']] = $appliedTaxRateBuilder->create();
+            }
+            $appliedTaxBuilder->setRates($rateDataObjects);
+            $appliedTax = $appliedTaxBuilder->create();
+            $appliedTaxes[$appliedTax->getTaxRateKey()] = $appliedTax;
+        }
+
+        return $appliedTaxes;
+    }
+
+    /**
+     * Round price based on previous rounding operation delta
+     *
+     * @param float $price
+     * @param string $rate
+     * @param bool $direction
+     * @param string $type
+     * @return float
+     */
+    protected function deltaRound($price, $rate, $direction, $type = self::KEY_REGULAR_DELTA_ROUNDING)
+    {
+        if ($price) {
+            $rate = (string)$rate;
+            $type = $type . $direction;
+            // initialize the delta to a small number to avoid non-deterministic behavior with rounding of 0.5
+            $delta = isset($this->roundingDeltas[$type][$rate]) ?
+                $this->roundingDeltas[$type][$rate] :
+                0.000001;
+            $price += $delta;
+            $roundPrice = $this->calculationTool->round($price);
+            $this->roundingDeltas[$type][$rate] = $price - $roundPrice;
+            $price = $roundPrice;
+        }
+        return $price;
+    }
+
+    /**
+     * Given a store price that includes tax at the store rate, this function will back out the store's tax, and add in
+     * the customer's tax.  Returns this new price which is the customer's price including tax.
+     *
+     * @param float $storePriceInclTax
+     * @param float $storeRate
+     * @param float $customerRate
+     * @return float
+     */
+    protected function calculatePriceInclTax($storePriceInclTax, $storeRate, $customerRate)
+    {
+        $storeTax = $this->calculationTool->calcTaxAmount($storePriceInclTax, $storeRate, true, false);
+        $priceExclTax = $storePriceInclTax - $storeTax;
+        $customerTax = $this->calculationTool->calcTaxAmount($priceExclTax, $customerRate, false, false);
+        $customerPriceInclTax = $this->calculationTool->round($priceExclTax + $customerTax);
+        return $customerPriceInclTax;
+    }
+}
