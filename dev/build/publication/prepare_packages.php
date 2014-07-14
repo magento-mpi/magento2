@@ -72,7 +72,6 @@ try {
 
     // init satis repo
     execVerbose("git clone $satisTargetRepo $satisTargetDir");
-    execVerbose("$gitSatisCmd rm -r _packages");
 
     // generate all packages
     execVerbose(
