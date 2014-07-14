@@ -259,9 +259,11 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $product->expects($this->any())->method('getData')
             ->will($this->returnValue(1));
         $productCollection = $this->getMockBuilder(
-            '\Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection'
-        )->setMethods(['setFlag', 'setProductFilter', 'addStoreFilter', 'addAttributeToSelect', 'addFilterByRequiredOptions', 'setStoreId'])
-            ->disableOriginalConstructor()
+            'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection'
+        )->setMethods(
+            ['setFlag', 'setProductFilter', 'addStoreFilter', 'addAttributeToSelect', 'addFilterByRequiredOptions',
+             'setStoreId']
+        )->disableOriginalConstructor()
             ->getMock();
         $productCollection->expects($this->any())->method('addAttributeToSelect')->will($this->returnSelf());
         $productCollection->expects($this->any())->method('setProductFilter')->will($this->returnSelf());
