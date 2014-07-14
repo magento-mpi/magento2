@@ -11,6 +11,7 @@ use Magento\Filesystem\Filesystem;
 use Magento\Db\Adapter\AdapterInterface;
 use Magento\Db\Ddl\Table;
 use Magento\Db\ExpressionConverter;
+use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Driver;
 use Zend\Db\Exception\ErrorException;
@@ -23,7 +24,7 @@ use Zend\Db\ResultSet;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Sql;
 
-class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
+class Mysql extends Adapter implements AdapterInterface
 {
     const DEBUG_CONNECT         = 0;
     const DEBUG_TRANSACTION     = 1;
@@ -316,16 +317,17 @@ class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
         if (!$result) {
             return false;
         }
+        if ($result instanceof ResultSet\ResultSetInterface) {
+            $resultSet = new ResultSet\ResultSet;
+            $resultSet->initialize($result);
 
-        $row = $result->fetch(\PDO::FETCH_ASSOC);
-        if (!$row) {
-            return false;
-        }
+            $row = $resultSet->toArray();
 
-        if (empty($field)) {
-            return $row;
-        } else {
-            return isset($row[$field]) ? $row[$field] : false;
+            if (empty($field)) {
+                return $row;
+            } else {
+                return isset($row[$field]) ? $row[$field] : false;
+            }
         }
     }
 
@@ -930,7 +932,7 @@ class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
     }
 
     /**
-     * Creates and returns a new \Zend_Db_Select object for this adapter.
+     * Creates and returns a new \Zend\Db\Sql\Select object for this adapter.
      *
      * @return Sql/Select
      */
@@ -1057,11 +1059,17 @@ class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
      */
     public function quoteInto($text, $value, $type = null, $count = null)
     {
-        if (is_array($value) && empty($value)) {
-            $value = new Expression('NULL');
+        if ($count === null) {
+            return str_replace('?', $this->quote($value, $type), $text);
+        } else {
+            while ($count > 0) {
+                if (strpos($text, '?') !== false) {
+                    $text = substr_replace($text, $this->quote($value, $type), strpos($text, '?'), 1);
+                }
+                --$count;
+            }
+            return $text;
         }
-
-        return parent::quoteInto($text, $value, $type, $count);
     }
 
     /**
@@ -1411,10 +1419,10 @@ class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
     /**
      * Create temporary table
      *
-     * @param \Magento\Db\Ddl\Table $table
+     * @param Table $table
      * @return ResultSet\ResultSetInterface
      */
-    public function createTemporaryTable(\Magento\Db\Ddl\Table $table)
+    public function createTemporaryTable(Table $table)
     {
         $columns = $table->getColumns();
         $sqlFragment    = array_merge(
@@ -2190,90 +2198,6 @@ class Mysql extends \Zend\Db\Adapter\Adapter implements AdapterInterface
         } else {
             return ($conditionKey == 'seq') ? 'eq' : 'neq';
         }
-    }
-
-    /**
-     * Prepare value for save in column
-     * Return converted to column data type value
-     *
-     * @param array $column     the column describe array
-     * @param mixed $value
-     * @return mixed
-     */
-    public function prepareColumnValue(array $column, $value)
-    {
-        if ($value instanceof \Zend_Db_Expr) {
-            return $value;
-        }
-        if ($value instanceof Parameter) {
-            return $value;
-        }
-
-        // return original value if invalid column describe data
-        if (!isset($column['DATA_TYPE'])) {
-            return $value;
-        }
-
-        // return null
-        if (is_null($value) && $column['NULLABLE']) {
-            return null;
-        }
-
-        switch ($column['DATA_TYPE']) {
-            case 'smallint':
-            case 'int':
-                $value = (int)$value;
-                break;
-            case 'bigint':
-                if (!is_integer($value)) {
-                    $value = sprintf('%.0f', (float)$value);
-                }
-                break;
-
-            case 'decimal':
-                $precision  = 10;
-                $scale      = 0;
-                if (isset($column['SCALE'])) {
-                    $scale = $column['SCALE'];
-                }
-                if (isset($column['PRECISION'])) {
-                    $precision = $column['PRECISION'];
-                }
-                $format = sprintf('%%%d.%dF', $precision - $scale, $scale);
-                $value  = (float)sprintf($format, $value);
-                break;
-
-            case 'float':
-                $value  = (float)sprintf('%F', $value);
-                break;
-
-            case 'date':
-                $value  = $this->formatDate($value, false);
-                break;
-            case 'datetime':
-            case 'timestamp':
-                $value  = $this->formatDate($value);
-                break;
-
-            case 'varchar':
-            case 'mediumtext':
-            case 'text':
-            case 'longtext':
-                $value  = (string)$value;
-                if ($column['NULLABLE'] && $value == '') {
-                    $value = null;
-                }
-                break;
-
-            case 'varbinary':
-            case 'mediumblob':
-            case 'blob':
-            case 'longblob':
-                // No special processing for MySQL is needed
-                break;
-        }
-
-        return $value;
     }
 
     /**

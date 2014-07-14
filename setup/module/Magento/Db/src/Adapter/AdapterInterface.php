@@ -403,7 +403,7 @@ interface AdapterInterface
     /**
      * Creates and returns a new \Magento\Framework\DB\Select object for this adapter.
      *
-     * @return \Magento\Framework\DB\Select
+     * @return \Zend\Db\Sql\Select
      */
     public function select();
 
@@ -449,9 +449,8 @@ interface AdapterInterface
      * Prepares and executes an SQL statement with bound data.
      *
      * @param  mixed  $sql  The SQL statement with placeholders.
-     *                      May be a string or \Zend_Db_Select.
      * @param  mixed  $bind An array of data or data itself to bind to the placeholders.
-     * @return \Zend_Db_Statement_Interface
+     * @return \Zend\Db\Adapter\Driver\StatementInterface
      */
     public function query($sql, $bind = array());
 
@@ -558,16 +557,6 @@ interface AdapterInterface
      * @return string
      */
     public function prepareSqlCondition($fieldName, $condition);
-
-    /**
-     * Prepare value for save in column
-     * Return converted to column data type value
-     *
-     * @param array $column     the column describe array
-     * @param mixed $value
-     * @return mixed
-     */
-    public function prepareColumnValue(array $column, $value);
 
     /**
      * Retrieve valid table name
