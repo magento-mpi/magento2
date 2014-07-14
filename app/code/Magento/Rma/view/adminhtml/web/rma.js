@@ -482,7 +482,7 @@ AdminRma.prototype = {
         tableRma.insert(tbody.insert(row));
 
         this.getAjaxData(this.newRmaItemId, true);
-
+        this.callLoadProductsCallback();
         this.newRmaItemId++;
     },
 
