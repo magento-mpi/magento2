@@ -35,8 +35,7 @@ class Converter
      */
     public function convertArrayToObject(array $data)
     {
-        $dataBuilder = $this->dataBuilderFactory->create();
-        return $dataBuilder->populateWithArray($data)->create();
+        return $this->dataBuilderFactory->create()->populateWithArray($data)->create();
     }
 
     /**

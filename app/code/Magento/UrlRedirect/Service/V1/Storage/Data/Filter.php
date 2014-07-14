@@ -80,7 +80,7 @@ class Filter
     }
 
     /**
-     * @param int $entityType
+     * @param int|array $entityType
      *
      * @return $this
      */

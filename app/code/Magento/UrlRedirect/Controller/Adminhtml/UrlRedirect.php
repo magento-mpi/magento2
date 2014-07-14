@@ -207,7 +207,7 @@ class UrlRedirect extends Action
 
                 $model->setEntityType($this->getRequest()->getParam('entity_type') ?: CustomRewrite::ENTITY_TYPE)
                     ->setTargetPath($this->getRequest()->getParam('target_path'))
-                    ->setOptions($this->getRequest()->getParam('options'))
+                    ->setRedirectType($this->getRequest()->getParam('redirect_type'))
                     ->setDescription($this->getRequest()->getParam('description'))
                     ->setRequestPath($requestPath);
 

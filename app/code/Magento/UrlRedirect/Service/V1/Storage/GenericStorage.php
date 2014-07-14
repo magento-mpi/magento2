@@ -110,7 +110,8 @@ class GenericStorage implements StorageInterface
      */
     public function findByFilter(Data\Filter $filter)
     {
-        return $this->converter->convertArrayToObject($this->storageAdapter->find($filter));
+        $data = $this->storageAdapter->find($filter);
+        return $data ? $this->converter->convertArrayToObject($data) : null;
     }
 
     /**
