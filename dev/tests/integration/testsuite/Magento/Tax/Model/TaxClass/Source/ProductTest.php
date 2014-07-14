@@ -30,7 +30,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $source = Bootstrap::getObjectManager()->get('Magento\Tax\Model\TaxClass\Source\Product');
         $this->assertEquals(
             $expectedResult,
-            $source->getAllOptions(),
+            $source->getAllOptions(false),
             'Tax Class options are invalid.'
         );
     }

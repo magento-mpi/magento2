@@ -71,10 +71,10 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     /**
      * Retrieve all product tax class options.
      *
-     * @param bool $withDefaultValue
+     * @param bool $withEmpty
      * @return array
      */
-    public function getAllOptions($withDefaultValue = false)
+    public function getAllOptions($withEmpty = true)
     {
         if (!$this->_options) {
             $filter = $this->_filterBuilder
@@ -90,8 +90,8 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
                 );
             }
         }
-        if ($withDefaultValue) {
-            return array_merge(array(array('value' => '0', 'label' => __('None'))), $this->_options);
+        if ($withEmpty) {
+            return array_unshift($this->_options, array('value' => '0', 'label' => __('None')));
         }
         return $this->_options;
     }

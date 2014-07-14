@@ -543,7 +543,7 @@ return array(
     ),
     array(
         'Mage_Adminhtml_Model_System_Config_Source_Shipping_Taxclass',
-        'Magento\Tax\Model\Config\Source\TaxClass\Product'
+        'Magento\Tax\Model\TaxClass\Source\Product'
     ),
     array(
         'Mage_Adminhtml_Model_System_Config_Source_Storage_Media_Database',
@@ -2706,5 +2706,7 @@ return array(
     ['Magento\Tax\Model\Resource\Rule\Grid\Options\HashOptimized'],
     ['Magento\Tax\Model\Resource\Rule\Grid\Options\ProductTaxClass'],
     ['Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction'],
-    ['Magento\Catalog\Helper\Product\Price']
+    ['Magento\Catalog\Helper\Product\Price'],
+    ['Magento\Tax\Model\Config\Source\TaxClass\Product', 'Magento\Tax\Model\TaxClass\Source\Product'],
+    ['Magento\Tax\Model\Config\Source\TaxClass\Customer', 'Magento\Tax\Model\TaxClass\Source\Customer'],
 );

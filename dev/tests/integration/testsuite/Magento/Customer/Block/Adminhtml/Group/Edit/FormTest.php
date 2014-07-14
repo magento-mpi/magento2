@@ -82,7 +82,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('3', $taxClassIdElement->getValue());
         /** @var \Magento\Tax\Model\TaxClass\Source\Customer $taxClassCustomer */
         $taxClassCustomer = Bootstrap::getObjectManager()->get('Magento\Tax\Model\TaxClass\Source\Customer');
-        $this->assertEquals($taxClassCustomer->toOptionArray(), $taxClassIdElement->getData('values'));
+        $this->assertEquals($taxClassCustomer->toOptionArray(false), $taxClassIdElement->getData('values'));
         $this->assertEquals('General', $groupCodeElement->getValue());
     }
 
@@ -118,7 +118,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($customerGroup->getTaxClassId(), $taxClassIdElement->getValue());
         /** @var \Magento\Tax\Model\TaxClass\Source\Customer $taxClassCustomer */
         $taxClassCustomer = Bootstrap::getObjectManager()->get('Magento\Tax\Model\TaxClass\Source\Customer');
-        $this->assertEquals($taxClassCustomer->toOptionArray(), $taxClassIdElement->getData('values'));
+        $this->assertEquals($taxClassCustomer->toOptionArray(false), $taxClassIdElement->getData('values'));
         $this->assertEquals($customerGroup->getCode(), $groupCodeElement->getValue());
     }
 }
