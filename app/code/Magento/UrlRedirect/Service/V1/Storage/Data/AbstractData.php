@@ -30,7 +30,6 @@ abstract class AbstractData extends AbstractObject
     const REDIRECT_TYPE = 'redirect_type';
 
     const DESCRIPTION = 'description';
-
     /**#@-*/
 
     /**

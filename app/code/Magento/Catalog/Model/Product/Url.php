@@ -59,7 +59,6 @@ class Url extends \Magento\Framework\Object
     /**
      * Construct
      *
-     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Category $catalogCategory
@@ -68,7 +67,6 @@ class Url extends \Magento\Framework\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory,
         \Magento\Framework\UrlInterface $url,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Category $catalogCategory,
@@ -76,7 +74,6 @@ class Url extends \Magento\Framework\Object
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         array $data = array()
     ) {
-        $this->_urlRewrite = $urlRewriteFactory->create();
         $this->_url = $url;
         $this->_storeManager = $storeManager;
         $this->_catalogCategory = $catalogCategory;
