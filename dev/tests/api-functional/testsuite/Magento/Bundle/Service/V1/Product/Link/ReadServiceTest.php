@@ -26,16 +26,18 @@ class ReadServiceTest extends WebapiAbstract
             [
                 'sku' => 'simple',
                 'position' => '0',
-                'is_default' => false,
-                'qty' => '1.0000',
-                'defined' => true,
+                'qty' => 1,
             ]
         ];
 
         $result = $this->getChildren($productSku);
         $this->assertArrayHasKey(0, $result);
         $this->assertArrayHasKey('option_id', $result[0]);
-        unset($result[0]['option_id']);
+        $this->assertArrayHasKey('default', $result[0]);
+        $this->assertArrayHasKey('defined', $result[0]);
+        unset($result[0]['option_id'], $result[0]['default'], $result[0]['defined']);
+        ksort($result[0]);
+        ksort($expected[0]);
         $this->assertEquals($expected, $result);
     }
 
