@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/search/edit" >
+    <block>
+        <name>form</name>
+        <class>Magento\CatalogSearch\Test\Block\Adminhtml\Edit\SearchTermForm</class>
+        <locator>#edit_form</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>formPageActions</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
