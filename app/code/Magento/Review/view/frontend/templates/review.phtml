@@ -23,14 +23,30 @@ function processReviews(url) {
             $(element).click(function(event) {
                 processReviews($(element).attr('href'));
                 event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: $('#reviews').offset().top - 50
+                }, 300);
             });
         });
-        $('html, body').animate({
-            scrollTop: $('#reviews').offset().top + 50
-        }, 300);
     });
 })(jQuery);
 }
 processReviews('<?php echo $this->getProductReviewUrl();?>');
+
+jQuery(function() {
+    jQuery('.product-info-main .reviews-actions a').click(function(event) {
+        event.preventDefault();
+        var acnchor = jQuery(this).attr('href').replace(/^.*?(#|$)/,'');
+        jQuery(".product.data.items [data-role='content']").each(function(index){
+            if(this.id == "reviews") {
+                jQuery(".product.data.items").tabs('activate',index);
+                jQuery('html, body').animate({
+                    scrollTop: jQuery('#' + acnchor).offset().top - 50
+                }, 300);
+            }
+        })
+    })
+});
+
 //]]>
 </script>

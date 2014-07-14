@@ -29,18 +29,20 @@
         <?php foreach ($_items as $_review):?>
             <li class="item review-item">
                 <div class="review-title"><?php echo $this->escapeHtml($_review->getTitle()) ?></div>
-                <div class="review-ratings">
-                <?php foreach ($_review->getRatingVotes() as $_vote): ?>
-                <div class="rating-summary item">
-                    <span class="label rating-label"><span><?php echo $this->escapeHtml($_vote->getRatingCode()) ?></span></span>
-                    <div class="rating-result" title="<?php echo $_vote->getPercent() ?>%">
-                        <span style="width:<?php echo $_vote->getPercent() ?>%">
-                            <span><?php echo $_vote->getPercent() ?>%</span>
-                        </span>
+                <?php if (count($_review->getRatingVotes())): ?>
+                    <div class="review-ratings">
+                    <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                    <div class="rating-summary item">
+                        <span class="label rating-label"><span><?php echo $this->escapeHtml($_vote->getRatingCode()) ?></span></span>
+                        <div class="rating-result" title="<?php echo $_vote->getPercent() ?>%">
+                            <span style="width:<?php echo $_vote->getPercent() ?>%">
+                                <span><?php echo $_vote->getPercent() ?>%</span>
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <?php endforeach; ?>
-                </div>
+                    <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
                 <div class="review-content">
                     <?php echo nl2br($this->escapeHtml($_review->getDetail())) ?>
                 </div>

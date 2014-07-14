@@ -247,8 +247,8 @@
             float: left;
             margin-bottom: 0;
         }
-        &-content,
-        &-details {
+        &-ratings ~ &-content,
+        &-ratings ~ &-details {
             margin-left: @review-ratings-left;
             margin-bottom: @indent-base;
         }
@@ -363,7 +363,7 @@
 .table-reviews,
 .block-reviews-dashboard {
     .product-name {
-        .css(font-weight, @font-weight-base); 
+        .css(font-weight, @font-weight-base);
     }
 }
 
