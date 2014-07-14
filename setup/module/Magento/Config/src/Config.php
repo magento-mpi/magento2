@@ -14,12 +14,12 @@ use Zend\Filter\Inflector;
 class Config extends ZendConfig
 {
     /**
-     * @var \Zend\Filter\Inflector
+     * @var Inflector
      */
     private $inflector;
 
     /**
-     * @param \Zend\Filter\Inflector $inflector
+     * @param Inflector $inflector
      * @param array $array
      */
     public function __construct(Inflector $inflector, array $array)

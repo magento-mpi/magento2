@@ -16,7 +16,7 @@ use Magento\Config\ConfigFactory;
 class SchemaLocator implements SchemaLocatorInterface
 {
     /**
-     * @var \Magento\Config\ConfigFactory
+     * @var ConfigFactory
      */
     protected $configFactory;
 

@@ -16,7 +16,7 @@ return [
             'filesystem' => [
                 'module' => '/app/code/',
                 'config' => '/app/etc/',
-                'framework' => '/lib/Magento/Framework/',
+                'framework' => '/lib/internal/Magento/Framework/',
                 'permissions' => [
                     'etc' => [
                         'path' => 'app/etc',

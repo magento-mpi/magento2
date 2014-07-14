@@ -8,6 +8,7 @@
 
 namespace Magento\Module;
 
+use Magento\Config\Config;
 use Zend\Stdlib\Glob;
 use Magento\Config\FileResolverInterface;
 use Magento\Config\FileIteratorFactory;
@@ -16,24 +17,24 @@ use Magento\Config\ConfigFactory;
 class FileResolver implements FileResolverInterface
 {
     /**
-     * @var \Magento\Config\FileIteratorFactory
+     * @var FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
-     * @var \Magento\Config\ConfigFactory
+     * @var ConfigFactory
      */
     protected $configFactory;
 
     /**
-     * @var \Magento\Config\Config
+     * @var Config
      */
     protected $config;
 
     /**
-     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
-     * @param \Magento\Config\ConfigFactory $configFactory
-     * @internal param \Magento\Config\Config $config
+     * @param FileIteratorFactory $iteratorFactory
+     * @param ConfigFactory $configFactory
+     * @internal param Config $config
      */
     public function __construct(
         FileIteratorFactory $iteratorFactory,

@@ -18,7 +18,7 @@ class ModuleList implements ModuleListInterface
     protected $data;
 
     /**
-     * @param \Magento\Module\Reader\Filesystem $reader
+     * @param Filesystem $reader
      */
     public function __construct(Filesystem $reader)
     {
