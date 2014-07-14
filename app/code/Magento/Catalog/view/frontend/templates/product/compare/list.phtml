@@ -95,7 +95,7 @@
                             <?php if($_i++==0): ?>
                                 <th scope="row" class="cell label">
                                     <span class="attribute label">
-                                        <?php echo $_attribute->getStoreLabel() ? $_attribute->getStoreLabel() : __($_attribute->getFrontendLabel()) ?>
+                                        <?php echo $this->escapeHtml($_attribute->getStoreLabel() ? $_attribute->getStoreLabel() : __($_attribute->getFrontendLabel())) ?>
                                     </span>
                                 </th>
                             <?php endif; ?>

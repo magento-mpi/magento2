@@ -40,6 +40,11 @@ class Observer
     protected $_session;
 
     /**
+     * @var \Magento\Framework\Escaper
+     */
+    protected $_escaper;
+    
+    /**
      * @var \Magento\Framework\App\PageCache\FormKey
      */
     protected $_formKey;
@@ -53,6 +58,7 @@ class Observer
      * @param \Magento\Framework\App\Cache\TypeListInterface $typeList
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\App\PageCache\FormKey $formKey
+     * @param \Magento\Framework\Escaper $escaper
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
@@ -60,7 +66,8 @@ class Observer
         \Magento\PageCache\Helper\Data $helper,
         \Magento\Framework\App\Cache\TypeListInterface $typeList,
         \Magento\Framework\App\PageCache\FormKey $formKey,
-        \Magento\Framework\Session\Generic $session
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Framework\Escaper $escaper
     ) {
         $this->_config = $config;
         $this->_cache = $cache;
@@ -68,6 +75,7 @@ class Observer
         $this->_typeList = $typeList;
         $this->_session = $session;
         $this->_formKey = $formKey;
+        $this->_escaper = $escaper;
     }
 
     /**
@@ -148,6 +156,8 @@ class Observer
      *
      * @param \Magento\Framework\Event\Observer $observer
      * @return void
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function flushAllCache(\Magento\Framework\Event\Observer $observer)
     {
@@ -174,12 +184,17 @@ class Observer
      *
      * @param \Magento\Framework\Event\Observer $observer
      * @return void
+     * 
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function registerFormKeyFromCookie(\Magento\Framework\Event\Observer $observer)
     {
         $formKeyFromCookie = $this->_formKey->get();
         if ($formKeyFromCookie) {
-            $this->_session->setData(\Magento\Framework\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
+            $this->_session->setData(
+                \Magento\Framework\Data\Form\FormKey::FORM_KEY,
+                $this->_escaper->escapeHtml($formKeyFromCookie)
+            );
         }
     }
 }
