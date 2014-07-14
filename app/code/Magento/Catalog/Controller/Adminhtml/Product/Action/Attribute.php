@@ -37,10 +37,18 @@ class Attribute extends Action
     protected $stockItemBuilder;
 
     /**
+     * Stock Indexer
+     *
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Processor
+     */
+    protected $_stockIndexerProcessor;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\CatalogInventory\Service\V1\Data\StockItemBuilder $stockItemBuilder
      */
@@ -49,6 +57,7 @@ class Attribute extends Action
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
+        \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\CatalogInventory\Service\V1\Data\StockItemBuilder $stockItemBuilder
     ) {
@@ -56,6 +65,7 @@ class Attribute extends Action
         $this->_helper = $helper;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
+        $this->_stockIndexerProcessor = $stockIndexerProcessor;
         $this->_catalogProduct = $catalogProduct;
         $this->stockItemBuilder = $stockItemBuilder;
     }
@@ -154,6 +164,7 @@ class Attribute extends Action
                         $this->stockItemBuilder->mergeDataObjectWithArray($stockItemDo, $inventoryData)
                     );
                 }
+                $this->_stockIndexerProcessor->reindexList($this->_helper->getProductIds());
             }
 
             if ($websiteAddData || $websiteRemoveData) {

@@ -129,7 +129,7 @@ class Items extends Form
     {
         $result = true;
         foreach ($products as $product) {
-            $productName = $product->getProductName();
+            $productName = $product->getName();
 
             $productSearchString = $this->productRow . $this->productNameField;
             $productSearchString = sprintf($productSearchString, $productName);

@@ -208,7 +208,7 @@ class Encryption extends \Magento\Framework\Encryption\Encryptor
             $cipher = MCRYPT_RIJNDAEL_128;
             $mode = MCRYPT_MODE_ECB;
         } elseif ($cipherVersion === self::CIPHER_RIJNDAEL_256) {
-            $cipher = MCRYPT_RIJNDAEL_128;
+            $cipher = MCRYPT_RIJNDAEL_256;
             $mode = MCRYPT_MODE_CBC;
         } else {
             $cipher = MCRYPT_BLOWFISH;

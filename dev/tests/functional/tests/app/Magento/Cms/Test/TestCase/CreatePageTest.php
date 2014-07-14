@@ -13,7 +13,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class CreatePageTest
- *
  */
 class CreatePageTest extends Functional
 {
@@ -37,22 +36,21 @@ class CreatePageTest extends Functional
     {
         // Fixture, pages and blocks
         $cmsPageFixture = Factory::getFixtureFactory()->getMagentoCmsPage();
-        $cmsPageGrid = Factory::getPageFactory()->getAdminCmsPage();
+        $cmsPageGrid = Factory::getPageFactory()->getAdminCmsPageIndex();
         $cmsPageGrid->open();
-        $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
+        $cmsPageGrid->getPageActionsBlock()->addNew();
         // Create a Cms Page
-        $cmsPageGridBlock->addNewCmsPage();
         $cmsPageNew = Factory::getPageFactory()->getAdminCmsPageNew();
-        $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
+        $cmsPageNewForm = $cmsPageNew->getPageForm();
         $cmsPageNewForm->fill($cmsPageFixture);
-        $cmsPageNewForm->save();
+        $cmsPageNew->getPageMainActions()->save();
         $message = $cmsPageGrid->getMessagesBlock();
         $message->assertSuccessMessage();
         $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
-        $cmsPageGridBlock->search(array('title' => $cmsPageFixture->getPageTitle()));
-        $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
         // Select the 'Preview' link for the new page
-        $cmsPageGridBlock->previewCmsPage();
+        $filter = ['title' => $cmsPageFixture->getPageTitle()];
+        $cmsPageGridBlock->searchAndPreview($filter);
+
         $cmsPage = Factory::getPageFactory()->getCmsPage();
         $cmsPage->init($cmsPageFixture);
         $cmsPage->selectWindow();
