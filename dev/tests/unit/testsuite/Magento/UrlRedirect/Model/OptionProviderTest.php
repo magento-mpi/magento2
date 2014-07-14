@@ -6,19 +6,13 @@
  * @license     {license_link}
  */
 
-/**
- * Test class for \Magento\UrlRewrite\Model\UrlRewrite\OptionProvider.
- */
-namespace Magento\UrlRewrite\Model\UrlRewrite;
+namespace Magento\UrlRedirect\Model;
 
 class OptionProviderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers \Magento\UrlRewrite\Model\UrlRewrite\OptionProvider::getAllOptions
-     */
     public function testGetAllOptions()
     {
-        $model = new \Magento\UrlRewrite\Model\UrlRewrite\OptionProvider();
+        $model = new OptionProvider();
         $options = $model->getAllOptions();
         $this->assertInternalType('array', $options);
         $expectedOptions = array('' => 'No', 'R' => 'Temporary (302)', 'RP' => 'Permanent (301)');

@@ -29,17 +29,6 @@ class Urlrewrite extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Generate id path
-     *
-     * @param \Magento\Cms\Model\Page $cmsPage
-     * @return string
-     */
-    public function generateIdPath($cmsPage)
-    {
-        return 'cms_page/' . $cmsPage->getId();
-    }
-
-    /**
      * Generate target path
      *
      * @param \Magento\Cms\Model\Page $cmsPage

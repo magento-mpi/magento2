@@ -122,8 +122,6 @@ return array(
     'core_layout_update' => 'Magento_Core',
     'core_resource' => 'Magento_Core',
     'core_translate' => 'Magento_Core',
-    'core_url_rewrite' => 'Magento_Core',
-    'core_url_rewrite_tag' => 'Magento_Core',
     'core_variable' => 'Magento_Core',
     'core_variable_value' => 'Magento_Core',
     'core_session' => 'Magento_Core',

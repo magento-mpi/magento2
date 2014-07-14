@@ -66,7 +66,6 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @param \Magento\Framework\App\RouterListInterface $routerList
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService
      * @param \Magento\DesignEditor\Helper\Data $designEditorHelper
      * @param \Magento\DesignEditor\Model\State $designEditorState
      * @param \Magento\Backend\Model\Auth\Session $session
@@ -87,7 +86,6 @@ class Standard extends \Magento\Core\App\Router\Base
         \Magento\Framework\Code\NameBuilder $nameBuilder,
         \Magento\Framework\App\RouterListInterface $routerList,
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService,
         \Magento\DesignEditor\Helper\Data $designEditorHelper,
         \Magento\DesignEditor\Model\State $designEditorState,
         \Magento\Backend\Model\Auth\Session $session
@@ -105,7 +103,6 @@ class Standard extends \Magento\Core\App\Router\Base
             $routerId,
             $nameBuilder
         );
-        $this->_urlRewriteService = $urlRewriteService;
         $this->_routerList = $routerList;
         $this->_designEditorHelper = $designEditorHelper;
         $this->_state = $designEditorState;
