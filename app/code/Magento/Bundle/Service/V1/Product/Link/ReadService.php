@@ -59,7 +59,7 @@ class ReadService implements ReadServiceInterface
      * @param Product $product
      * @return Option[]
      */
-    protected function getOptions(Product $product)
+    private function getOptions(Product $product)
     {
         /** @var \Magento\Bundle\Model\Product\Type\Interceptor $productTypeInstance */
         $productTypeInstance = $product->getTypeInstance();
