@@ -19,17 +19,25 @@ class Checkout extends \Magento\Checkout\Controller\Action implements
     \Magento\Checkout\Controller\Express\RedirectLoginInterface
 {
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $formKeyValidator;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         CustomerAccountService $customerAccountService,
-        CustomerMetadataService $customerMetadataService
+        CustomerMetadataService $customerMetadataService,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
+        $this->formKeyValidator = $formKeyValidator;
         parent::__construct($context, $customerSession, $customerAccountService, $customerMetadataService);
     }
 
@@ -463,6 +471,10 @@ class Checkout extends \Magento\Checkout\Controller\Action implements
      */
     public function overviewPostAction()
     {
+        if (!$this->formKeyValidator->validate($this->getRequest())) {
+            $this->_forward('backToAddresses');
+            return;
+        }
         if (!$this->_validateMinimumAmount()) {
             return;
         }
