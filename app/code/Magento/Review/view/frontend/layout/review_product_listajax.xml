@@ -11,11 +11,9 @@
     <remove name="root"/>
     <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml" output="1"/>
     <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar" output="1">
-        <action method="setShowPerPage">
-            <argument name="showPerPage" xsi:type="boolean">false</argument>
-        </action>
-        <action method="setShowAmounts">
-            <argument name="showAmounts" xsi:type="boolean">false</argument>
-        </action>
+        <arguments>
+            <argument name="show_per_page" xsi:type="boolean">false</argument>
+            <argument name="show_amounts" xsi:type="boolean">false</argument>
+        </arguments>
     </block>
 </layout>

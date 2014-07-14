@@ -12,22 +12,26 @@
 
 <script type="text/javascript">
 //<![CDATA[
-function processReviews(url) {
+function processReviews(url,fromPages) {
 (function($) {
     $.ajax({
         url: url,
+        fromPages: fromPages,
         dataType: 'html'
     }).done(function(data) {
         $('#product-review-container').html(data);
         $('.pages a').each(function(index, element) {
             $(element).click(function(event) {
-                processReviews($(element).attr('href'));
+                processReviews($(element).attr('href'), true);
                 event.preventDefault();
-                $('html, body').animate({
-                    scrollTop: $('#reviews').offset().top - 50
-                }, 300);
             });
         });
+    }).complete(function(){
+        if (fromPages == true) {
+            $('html, body').animate({
+                scrollTop: $('#reviews').offset().top - 50
+            }, 300);
+        }
     });
 })(jQuery);
 }
