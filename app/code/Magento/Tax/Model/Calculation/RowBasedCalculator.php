@@ -13,6 +13,9 @@ use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 
 class RowBasedCalculator extends TotalBasedCalculator
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function roundAmount($amount, $rate = null, $direction = null, $type = self::KEY_REGULAR_DELTA_ROUNDING)
     {
         return $this->calculationTool->round($amount);

@@ -12,6 +12,7 @@ use Magento\Customer\Service\V1\Data\Address;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
+use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
 
 abstract class AbstractBasedCalculator
 {
@@ -155,6 +156,13 @@ abstract class AbstractBasedCalculator
         return $this->addressRateRequest;
     }
 
+    /**
+     * Calculate tax details for quote item with given quantity
+     *
+     * @param QuoteDetailsItem $item
+     * @param int $quantity
+     * @return TaxDetailsItem
+     */
     public function calculate(QuoteDetailsItem $item, $quantity)
     {
         if ($item->getTaxIncluded()) {
@@ -164,10 +172,31 @@ abstract class AbstractBasedCalculator
         }
     }
 
+    /**
+     * Calculate tax details for quote item with tax in price with given quantity
+     *
+     * @param QuoteDetailsItem $item
+     * @param int $quantity
+     * @return TaxDetailsItem
+     */
     abstract protected function calculateWithTaxInPrice(QuoteDetailsItem $item, $quantity);
 
+    /**
+     * Calculate tax details for quote item with tax not in price with given quantity
+     *
+     * @param QuoteDetailsItem $item
+     * @param int $quantity
+     * @return TaxDetailsItem
+     */
     abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity);
 
+    /**
+     * Check if tax rate is same as store tax rate
+     *
+     * @param $rate
+     * @param $storeRate
+     * @return bool
+     */
     protected function isSameRateAsStore($rate, $storeRate)
     {
         if ((bool)$this->config->crossBorderTradeEnabled($this->storeId)) {

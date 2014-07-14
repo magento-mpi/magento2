@@ -74,7 +74,10 @@ class TotalBasedCalculator extends AbstractBasedCalculator
         return $this->taxDetailsItemBuilder->create();
     }
 
-    public function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity)
+    /**
+     * {@inheritdoc}
+     */
+    protected function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity)
     {
         $taxRateRequest = $this->getAddressRateRequest()->setProductClassId($item->getTaxClassId());
         $rate = $this->calculationTool->getRate($taxRateRequest);
@@ -95,7 +98,7 @@ class TotalBasedCalculator extends AbstractBasedCalculator
             $taxId = $appliedRate['id'];
             $taxRate = $appliedRate['percent'];
             $rowTaxPerRate = $this->calculationTool->calcTaxAmount($rowTotal, $taxRate, false, false);
-            $rowTaxPerRate = $this->roundAmount($rowTaxPerRate, $taxId, false);
+            $rowTaxPerRate = $this->roundAmount($rowTaxPerRate, $taxRate, false);
             $rowTaxAfterDiscount = $rowTaxPerRate;
 
             //Handle discount
@@ -143,6 +146,15 @@ class TotalBasedCalculator extends AbstractBasedCalculator
         return $this->taxDetailsItemBuilder->create();
     }
 
+    /**
+     * Round amount
+     *
+     * @param float $amount
+     * @param null|float $rate
+     * @param null|bool $direction
+     * @param string $type
+     * @return float
+     */
     protected function roundAmount($amount, $rate = null, $direction = null, $type = self::KEY_REGULAR_DELTA_ROUNDING)
     {
         return $this->deltaRound($amount, $rate, $direction, $type);

@@ -13,6 +13,9 @@ use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 
 class UnitBasedCalculator extends AbstractBasedCalculator
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function calculateWithTaxInPrice(QuoteDetailsItem $item, $quantity)
     {
         $taxRateRequest = $this->getAddressRateRequest()->setProductClassId($item->getTaxClassId());
@@ -68,7 +71,10 @@ class UnitBasedCalculator extends AbstractBasedCalculator
         return $this->taxDetailsItemBuilder->create();
     }
 
-    public function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity)
+    /**
+     * {@inheritdoc}
+     */
+    protected function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity)
     {
         $taxRateRequest = $this->getAddressRateRequest()->setProductClassId($item->getTaxClassId());
         $rate = $this->calculationTool->getRate($taxRateRequest);

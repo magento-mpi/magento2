@@ -31,6 +31,8 @@ class CalculatorFactory
     protected $_objectManager;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(\Magento\Framework\ObjectManager $objectManager)
