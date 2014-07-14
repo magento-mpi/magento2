@@ -14,6 +14,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @dataProvider ajaxSaveActionDataProvider
+     * @magentoDbIsolation enabled
      */
     public function testAjaxSaveAction($postData, $expectedData)
     {
@@ -76,6 +77,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
      * Test wrong data conditions
      *
      * @dataProvider ajaxSaveActionDataInvalidDataProvider
+     * @magentoDbIsolation enabled
      */
     public function testAjaxSaveActionInvalidData($postData, $expectedData)
     {

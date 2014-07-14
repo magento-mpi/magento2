@@ -23,7 +23,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     private $taxClassCollectionFactory;
 
     /**
-     * @var \Magento\Tax\Service\V1\Data\SearchResultsBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     private $searchResultBuilder;
 
@@ -549,8 +549,9 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->searchResultBuilder = $this
-            ->getMockBuilder('Magento\Tax\Service\V1\Data\SearchResultsBuilder')
+            ->getMockBuilder('Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder')
             ->disableOriginalConstructor()
+            ->setMethods(['setSearchCriteria', 'setItems', 'setTotalCount', 'create'])
             ->getMock();
 
         $this->converterMock = $this->getMockBuilder('Magento\Tax\Model\Converter')

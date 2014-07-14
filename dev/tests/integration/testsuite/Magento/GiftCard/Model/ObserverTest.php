@@ -13,6 +13,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store giftcard/general/order_item_status 2
      * @magentoDataFixture Magento/GiftCard/_files/gift_card.php
      * @magentoDataFixture Magento/GiftCard/_files/order_with_gift_card.php
+     * @magentoDbIsolation enabled
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
