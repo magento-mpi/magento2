@@ -23,8 +23,27 @@
     }
 }
 
-.form.new.agreement {
-    .actions-toolbar {
-        &:extend(.reset-left-margin all);
+//
+//    Account
+//--------------------------------------
+.table-wrapper.billing-agreements {
+    margin-bottom: @indent-xl-base;
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .table-wrapper.billing-agreements,
+    .table-wrapper.billing-agreements-related {
+        &:extend(.abstract-account-table-border all);
+    }
+    .account {
+        .table-billing-agreements,
+        .table-billing-agreements-related {
+            .col.actions {
+                &:extend(.abstract-account-col-actions all);
+            }
+        }
     }
 }

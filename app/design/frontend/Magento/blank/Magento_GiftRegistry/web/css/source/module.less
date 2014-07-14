@@ -6,8 +6,8 @@
 //  * @license     {license_link}
 //  */
 
-.form.giftregistry.share,
-.form.giftregistry.edit {
+.form-giftregistry-share,
+.form-giftregistry-edit {
     &:extend(.add-recipients all);
     .actions-toolbar:not(:last-child) {
         margin-bottom: @indent-xl-base;
@@ -24,7 +24,7 @@
     &:extend(.dropdown-simple all);
 }
 
-.data.table.giftregistry .field.qty .qty {
+.table-giftregistry-items .field.qty .qty {
     &:extend(.abstract-input-qty all);
 }
 
@@ -50,8 +50,8 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .form.giftregistry.share,
-    .form.giftregistry.edit {
+    .form-giftregistry-share,
+    .form-giftregistry-edit {
         &:extend(.add-recipients-desktop all);
     }
 }

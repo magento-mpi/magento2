@@ -8,6 +8,7 @@
 
 @account-title-border-color: #c6c6c6;
 @account-table-border-bottom-color: #e4e4e4;
+@account-table-action-delete: #d10029;
 @account-nav-background: #e8e8e8;
 @account-nav-color: #575757;
 @account-nav-current-color: #000;
@@ -85,7 +86,7 @@
             margin-top: 0;
         }
         .toolbar {
-            background: transparent;
+            //background: transparent;
             margin-bottom: @indent-base;
             &.top {
                 display: none;
@@ -185,7 +186,11 @@
                         margin-right: 0;
                     }
                 }
+                .action.delete {
+                    color: @account-table-action-delete;
+                }
             }
+
         } 
     }
     .legend {

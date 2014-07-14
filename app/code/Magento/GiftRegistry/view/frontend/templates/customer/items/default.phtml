@@ -8,7 +8,7 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td class="col product">
+    <td data-th="" class="col product">
         <?php if ($this->hasProductUrl()):?>
         <a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>">
         <?php endif;?>
@@ -20,7 +20,7 @@
         </a>
         <?php endif;?>
     </td>
-    <td class="col name">
+    <td data-th="" class="col name">
         <?php if ($this->hasProductUrl()):?>
             <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
         <?php else: ?>
@@ -51,7 +51,7 @@
         <?php endforeach; ?>
         <?php endif; ?>
     </td>
-    <td class="col note">
+    <td data-th="" class="col note">
         <div class="field note">
             <div class="control">
                 <textarea name="items[<?php echo $_item->getId() ?>][note]" rows="3" cols="10"><?php echo $this->escapeHtml($_item->getNote()) ?></textarea>
@@ -61,17 +61,17 @@
     <td class="col date">
         <?php echo $this->formatDate($_item->getAddedAt(), \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM) ?>
     </td>
-    <td class="col qty">
+    <td data-th="" class="col qty">
         <div class="field qty">
             <div class="control">
                 <input class="input-text qty" type="number" data-validate="{'validate-greater-than-zero':true}" name="items[<?php echo $_item->getId() ?>][qty]" value="<?php echo $_item->getQty()*1 ?>"/>
             </div>
         </div>
     </td>
-    <td class="col fulfilled">
+    <td data-th="" class="col fulfilled">
         <?php echo $_item->getQtyFulfilled()*1 ?>
     </td>
-    <td class="col actions">
+    <td data-th="" class="col actions">
         <div class="field choice">
             <input type="checkbox" class="checkbox" name="items[<?php echo $_item->getItemId() ?>][delete]" value="1" />
         </div>

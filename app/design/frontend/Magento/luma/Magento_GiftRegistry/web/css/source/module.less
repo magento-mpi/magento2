@@ -6,8 +6,8 @@
 //  * @license     {license_link}
 //  */
 
-.form.giftregistry.share,
-.form.giftregistry.edit {
+.form-giftregistry-share,
+.form-giftregistry-edit {
     &:extend(.add-recipients all);
     .actions-toolbar:not(:last-child) {
         margin-bottom: @indent-xl-base;
@@ -24,7 +24,7 @@
     &:extend(.dropdown-simple all);
 }
 
-.data.table.giftregistry .field.qty .qty {
+.table-giftregistry-items .field.qty .qty {
     &:extend(.abstract-input-qty all);
 }
 
@@ -45,12 +45,58 @@
     }
 }
 
+.form-giftregistry-edit {
+   .giftregistry-type {
+        .css(margin-bottom, @indent-l-base);
+        .css(margin-top, -@indent-m-base);
+   }
+   .field.date {
+        input {
+            width: 90%;
+            .css(margin-right, @indent-s-base);
+        }
+   }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break-point-0) {
+    .table-wrapper.giftregistry {
+        &:extend(.abstract-account-table-border all);
+    }
+    .account {
+        .table-giftregistry {
+            .col.actions {
+                &:extend(.abstract-account-col-actions all);
+            }
+            .col.message {
+            }
+        }
+    }
+}
+
 //
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .form.giftregistry.share,
-    .form.giftregistry.edit {
+    .form-giftregistry-share,
+    .form-giftregistry-edit {
         &:extend(.add-recipients-desktop all);
+        &:extend(.form-field-column-2 all);
+        .fieldset .field {
+           width: 45%;
+        }
+    }
+    .form-giftregistry-create {
+        &:extend(.abstract-forms-general-desktop all);
+    }
+    .table-giftregistry {
+        .col.actions {
+            width: 30%;
+        }
+        .col.message {
+            width: 50%;
+        }
     }
 }
