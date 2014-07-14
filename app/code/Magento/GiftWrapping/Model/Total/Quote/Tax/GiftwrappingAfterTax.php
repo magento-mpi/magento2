@@ -109,9 +109,16 @@ class GiftwrappingAfterTax extends Giftwrapping
         $wrappingForItemsTaxAmount = false;
 
         foreach ($itemTaxDetails as $itemCode => $itemTaxDetail) {
-            $gwTaxDetail = $itemTaxDetail[0]; //there is only one giftwrapping per item
-            $gwItemCode = $gwTaxDetail['code'];
-            $item = $gwItemCodeToItemMapping[$gwItemCode];
+            // order may have multiple giftwrapping items
+            for ($i = 0; $i < count($itemTaxDetail); $i++) {
+                $gwTaxDetail = $itemTaxDetail[$i];
+                $gwItemCode = $gwTaxDetail['code'];
+                $item = $gwItemCodeToItemMapping[$gwItemCode];
+
+                // search for the right giftwrapping item associated with the address
+                if ($item == null)
+                    continue;
+            }
 
             $wrappingBaseTaxAmount = $gwTaxDetail['base_row_tax'];
             $wrappingTaxAmount = $gwTaxDetail['row_tax'];
