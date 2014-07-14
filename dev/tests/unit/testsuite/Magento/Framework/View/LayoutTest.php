@@ -228,10 +228,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->method('unsetElement')
             ->with($this->equalTo($name))
             ->will($this->returnSelf());
-        $blockMock = $this->getMockBuilder('Magento\Framework\View\Element\AbstractBlock')
+        $blockMock = $this->getMockBuilder('Magento\Framework\View\Element\Template')
             ->setMethods(['setType', 'setNameInLayout', 'addData', 'setLayout', 'setTemplate', 'setTtl'])
             ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+            ->getMock();
         $blockMock->expects($this->once())
             ->method('setTemplate')
             ->with($this->equalTo($template))
@@ -532,5 +532,169 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->isPrivate());
         $this->assertSame($this->model, $this->model->setIsPrivate(true));
         $this->assertTrue($this->model->isPrivate());
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage Invalid block type
+     */
+    public function testGetBlockSingletonException()
+    {
+        $this->model->getBlockSingleton(false);
+    }
+
+    /**
+     * @param array $type
+     * @param array $blockInstance
+     * @dataProvider getBlockSingletonDataProvider
+     */
+    public function testGetBlockSingleton($type, $blockInstance, $isAbstract)
+    {
+        $blockMock = $this->getMock($blockInstance, [], [], '', false);
+        $this->blockFactoryMock->expects($this->once())
+            ->method('createBlock')
+            ->with($this->equalTo($type))
+            ->will($this->returnValue($blockMock));
+        if ($isAbstract) {
+            $blockMock->expects($this->once())
+                ->method('setLayout')
+                ->with($this->equalTo($this->model))
+                ->will($this->returnSelf());
+        }
+        $this->assertInstanceOf($blockInstance, $this->model->getBlockSingleton($type));
+        // singleton test
+        $this->assertInstanceOf($blockInstance, $this->model->getBlockSingleton($type));
+    }
+
+    /**
+     * @return array
+     */
+    public function getBlockSingletonDataProvider()
+    {
+        return [
+            [
+                'some_type',
+                'Magento\Framework\View\Element\Template',
+                true,
+            ],
+            [
+                'other_type',
+                'stdClass',
+                false,
+            ],
+        ];
+    }
+
+    /**
+     * @param array $rendererData
+     * @param array $getData
+     * @param bool $result
+     * @dataProvider getRendererOptionsDataProvider
+     */
+    public function testAddGetRendererOptions($rendererData, $getData, $result)
+    {
+        $this->assertSame(
+            $this->model,
+            $this->model->addAdjustableRenderer(
+                $rendererData['namespace'],
+                $rendererData['static_type'],
+                $rendererData['dynamic_type'],
+                $rendererData['type'],
+                $rendererData['template'],
+                $rendererData['data']
+            )
+        );
+        $this->assertSame(
+            $result,
+            $this->model->getRendererOptions($getData['namespace'], $getData['static_type'], $getData['dynamic_type'])
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getRendererOptionsDataProvider()
+    {
+        $rendererData = [
+            'namespace' => 'namespace_value',
+            'static_type' => 'static_type_value',
+            'dynamic_type' => 'dynamic_type_value',
+            'type' => 'type_value',
+            'template' => 'template.phtml',
+            'data' => ['some' => 'data']
+        ];
+        return [
+            'wrong namespace' => [
+                $rendererData,
+                [
+                    'namespace' => 'wrong namespace',
+                    'static_type' => 'static_type_value',
+                    'dynamic_type' => 'dynamic_type_value',
+                ],
+                null
+            ],
+            'wrong static type' => [
+                $rendererData,
+                [
+                    'namespace' => 'namespace_value',
+                    'static_type' => 'wrong static type',
+                    'dynamic_type' => 'dynamic_type_value',
+                ],
+                null
+            ],
+            'wrong dynamic type' => [
+                $rendererData,
+                [
+                    'namespace' => 'namespace_value',
+                    'static_type' => 'static_type_value',
+                    'dynamic_type' => 'wrong dynamic type',
+                ],
+                null
+            ],
+            'set and get test' => [
+                $rendererData,
+                [
+                    'namespace' => 'namespace_value',
+                    'static_type' => 'static_type_value',
+                    'dynamic_type' => 'dynamic_type_value',
+                ],
+                [
+                    'type' => 'type_value',
+                    'template' => 'template.phtml',
+                    'data' => ['some' => 'data'],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @param string $xmlString
+     * @param bool $result
+     * @dataProvider isCacheableDataProvider
+     */
+    public function testIsCacheable($xmlString, $result)
+    {
+        $xml = simplexml_load_string($xmlString, 'Magento\Framework\View\Layout\Element');
+        $this->assertSame($this->model, $this->model->setXml($xml));
+        $this->assertSame($result, $this->model->isCacheable());
+    }
+
+    /**
+     * @return array
+     */
+    public function isCacheableDataProvider()
+    {
+        return [
+            [
+                '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+                . '<block></block></layout>',
+                true
+            ],
+            [
+                '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+                . '<block cacheable="false"></block></layout>',
+                false
+            ],
+        ];
     }
 }
