@@ -113,6 +113,9 @@ class GiftwrappingAfterTax extends Giftwrapping
             for ($i = 0; $i < count($itemTaxDetail); $i++) {
                 $gwTaxDetail = $itemTaxDetail[$i];
                 $gwItemCode = $gwTaxDetail['code'];
+
+                if (!array_key_exists($gwItemCode, $gwItemCodeToItemMapping))
+                    continue;
                 $item = $gwItemCodeToItemMapping[$gwItemCode];
 
                 // search for the right giftwrapping item associated with the address
