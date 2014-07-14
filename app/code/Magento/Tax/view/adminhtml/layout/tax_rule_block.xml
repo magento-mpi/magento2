@@ -22,7 +22,7 @@
                     <argument name="rowUrl" xsi:type="array">
                         <item name="path" xsi:type="string">tax/*/edit</item>
                         <item name="extraParamsTemplate" xsi:type="array">
-                            <item name="rule" xsi:type="string">getId</item>
+                            <item name="rule" xsi:type="string">getTaxCalculationRuleId</item>
                         </item>
                     </argument>
                 </arguments>
