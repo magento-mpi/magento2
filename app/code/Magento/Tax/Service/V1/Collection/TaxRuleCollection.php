@@ -80,9 +80,10 @@ class TaxRuleCollection extends AbstractServiceCollection
         $collectionItem = new \Magento\Framework\Object();
         $collectionItem->setTaxCalculationRuleId($taxRule->getId());
         $collectionItem->setCode($taxRule->getCode());
-        $collectionItem->setPriority($taxRule->getPriority());
-        $collectionItem->setPosition($taxRule->getSortOrder());
-        $collectionItem->setCalculateSubtotal($taxRule->getCalculateSubtotal());
+        /* should cast to string so that some optional fields won't be null on the collection grid pages */
+        $collectionItem->setPriority((string)$taxRule->getPriority());
+        $collectionItem->setPosition((string)$taxRule->getSortOrder());
+        $collectionItem->setCalculateSubtotal((string)$taxRule->getCalculateSubtotal());
         $collectionItem->setCustomerTaxClasses($taxRule->getCustomerTaxClassIds());
         $collectionItem->setProductTaxClasses($taxRule->getProductTaxClassIds());
         $collectionItem->setTaxRates($taxRule->getTaxRateIds());
