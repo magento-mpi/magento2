@@ -18,13 +18,14 @@ use Mtf\System\Config;
 
 /**
  * Curl handler for persisting Magento configuration
- *
  */
 class ApplyConfig extends Curl
 {
     /**
      * Post request for each fixture section
+     *
      * @param FixtureInterface $fixture
+     * @return mixed|void
      */
     public function persist(FixtureInterface $fixture = null)
     {

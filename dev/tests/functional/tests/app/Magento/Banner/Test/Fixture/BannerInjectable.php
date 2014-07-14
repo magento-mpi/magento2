@@ -16,6 +16,16 @@ use Mtf\Fixture\InjectableFixture;
  */
 class BannerInjectable extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\Banner\Test\Repository\BannerInjectable';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\Banner\Test\Handler\BannerInjectable\BannerInjectableInterface';
+
     protected $defaultDataSet = [
         'name' => 'banner_%isolation%',
         'is_enabled' => 'Yes',
