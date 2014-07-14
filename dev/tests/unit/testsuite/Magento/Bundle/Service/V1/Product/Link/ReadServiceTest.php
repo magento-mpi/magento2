@@ -42,6 +42,25 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $optionCollection;
 
+    /**
+     * @var \Magento\Bundle\Model\Resource\Selection\Collection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $selectionCollection;
+
+    /**
+     * @var \Magento\Bundle\Model\Option|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $option;
+
+    /**
+     * @var \Magento\Bundle\Service\V1\Data\Product\Link\Metadata|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $metadata;
+
+    private $storeId = 2;
+
+    private $optionIds = [1, 2, 3];
+
     protected function setUp()
     {
         $helper = new ObjectManager($this);
@@ -52,17 +71,30 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->productType = $this->getMockBuilder('Magento\Bundle\Model\Product\Type\Interceptor')
-            ->setMethods(['getOptionsCollection'])
+            ->setMethods(['getOptionsCollection', 'setStoreFilter', 'getSelectionsCollection', 'getOptionsIds'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->option = $this->getMockBuilder('Magento\Bundle\Model\Option')
+            ->setMethods(['getSelections', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->optionCollection = $this->getMockBuilder('Magento\Bundle\Model\Resource\Option\Collection')
-            ->setMethods([])
+            ->setMethods(['appendSelections'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->selectionCollection = $this->getMockBuilder('Magento\Bundle\Model\Resource\Selection\Collection')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->setMethods(['getTypeInstance', 'getStoreId', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->metadata = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Link\Metadata')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -91,17 +123,36 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->productRepository->expects($this->any())->method('get')->with($this->equalTo($productSku))
             ->will($this->returnValue($this->product));
 
-        $this->model->getChildren($productSku);
+        $this->productType->expects($this->once())->method('setStoreFilter')->with(
+            $this->equalTo($this->storeId),
+            $this->product
+        );
+        $this->productType->expects($this->once())->method('getSelectionsCollection')
+            ->with($this->equalTo($this->optionIds), $this->equalTo($this->product))
+            ->will($this->returnValue($this->selectionCollection));
+        $this->productType->expects($this->once())->method('getOptionsIds')->with($this->equalTo($this->product))
+            ->will($this->returnValue($this->optionIds));
+
+        $this->optionCollection->expects($this->once())->method('appendSelections')
+            ->with($this->equalTo($this->selectionCollection))
+            ->will($this->returnValue([$this->option]));
+
+        $this->option->expects($this->any())->method('getSelections')->will($this->returnValue([$this->product]));
+
+        $this->metadataConverter->expects($this->once())->method('createDataFromModel')
+            ->with($this->equalTo($this->product))
+            ->will($this->returnValue($this->metadata));
+
+        $this->assertEquals([$this->metadata], $this->model->getChildren($productSku));
     }
 
     public function getOptions()
     {
-        $storeId = 2;
         $this->product->expects($this->once())->method('getTypeInstance')->will($this->returnValue($this->productType));
-        $this->product->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
+        $this->product->expects($this->once())->method('getStoreId')->will($this->returnValue($this->storeId));
 
         $this->productType->expects($this->once())->method('setStoreFilter')
-            ->with($this->equalTo($storeId), $this->equalTo($this->product));
+            ->with($this->equalTo($this->storeId), $this->equalTo($this->product));
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
             ->will($this->returnValue($this->optionCollection));
