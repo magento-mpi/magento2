@@ -90,6 +90,7 @@ class Dictionary
      * @param Config $languageConfig
      * @param array $result
      * @param int $level
+     * @return void
      */
     private function collectInheritedPacks($languageConfig, &$result, $level = 0)
     {
