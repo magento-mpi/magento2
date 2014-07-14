@@ -7,14 +7,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Report\Customer\Segment\Detail;
+namespace Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Detail;
 
 use Mtf\Client\Element\Locator;
 
 /**
  * Class MatchedCustomerGrid
  * Backend segment matched customer grid
- *
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
@@ -22,21 +21,26 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      * XPath for segment grid row
      */
     const GRID_XPATH_ROW = '//table[@id="segmentGrid_table"]/tbody/tr';
+
     /**
      * The Xpath column for the Name
      */
     const GRID_NAME_COL = '/td[2]';
+
     /**
      * The Xpath column for the Email
      */
     const GRID_EMAIL_COL = '/td[3]';
+
     /**
      * The Xpath column for the Group
      */
     const GRID_GROUP_COL = '/td[4]';
+
     /**
-     * Initialize block elements
+     * The total records path
      */
+    const TOTAL_RECORDS = '.pages-total-found';
 
     /**
      * {@inheritdoc}
@@ -54,7 +58,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getGridName()
     {
-        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_NAME_COL, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find(self::GRID_XPATH_ROW . self::GRID_NAME_COL, Locator::SELECTOR_XPATH)->getText(
+        );
     }
 
     /**
@@ -64,7 +69,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getGridEmail()
     {
-        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_EMAIL_COL, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find(self::GRID_XPATH_ROW . self::GRID_EMAIL_COL, Locator::SELECTOR_XPATH)->getText(
+        );
     }
 
     /**
@@ -74,6 +80,19 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getGridGroup()
     {
-        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_GROUP_COL, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find(self::GRID_XPATH_ROW . self::GRID_GROUP_COL, Locator::SELECTOR_XPATH)->getText(
+        );
+    }
+
+    /**
+     * Get total records in grid
+     *
+     * @return int
+     */
+    public function getTotalRecords()
+    {
+        $totalRecordsText = $this->_rootElement->find(self::TOTAL_RECORDS, Locator::SELECTOR_CSS)->getText();
+        preg_match('`Total (\d*?) `', $totalRecordsText, $total);
+        return $total[1];
     }
 }

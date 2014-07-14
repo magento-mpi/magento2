@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment;
+namespace Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 

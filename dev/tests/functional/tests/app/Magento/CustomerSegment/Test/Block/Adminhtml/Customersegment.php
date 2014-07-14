@@ -7,14 +7,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Test\Block\Backend\Adminhtml;
+namespace Magento\CustomerSegment\Test\Block\Adminhtml;
 
 use Mtf\Block\Block;
 
 /**
  * Class Customersegment
  * Customer Segment actions block
- *
  */
 class Customersegment extends Block
 {

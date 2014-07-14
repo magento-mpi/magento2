@@ -9,7 +9,7 @@
 
 namespace Magento\CustomerSegment\Test\Page;
 
-use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Grid;
+use Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Grid;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
@@ -17,7 +17,6 @@ use Mtf\Page\Page;
 /**
  * Class CustomerSegment
  * CustomerSegment backend grid page.
- *
  */
 class CustomersegmentIndex extends Page
 {

@@ -11,17 +11,17 @@ namespace Magento\CustomerSegment\Test\Page;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Core\Test\Block\Messages;
-use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Report\Customer\Segment\Detail\Grid;
-use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment;
-use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\CustomerSegmentForm;
-use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit\Tab\Conditions;
+use Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Detail\Grid;
+use Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment;
+use Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\CustomerSegmentForm;
+use Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab\Conditions;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
 /**
  * Class for creating new customer in backend page
- *
+ * CustomerSegment backend edit page.
  */
 class CustomerSegmentNew extends Page
 {

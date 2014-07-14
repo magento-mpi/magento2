@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="customersegment/index/new/index" >
+    <block>
+        <name>customerSegmentForm</name>
+        <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\CustomerSegmentForm</class>
+        <locator>[id="page:main-container"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>pageMainActions</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

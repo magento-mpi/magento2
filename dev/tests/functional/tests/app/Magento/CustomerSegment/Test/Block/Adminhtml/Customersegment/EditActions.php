@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment;
+namespace Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment;
 
 use Magento\Backend\Test\Block\FormPageActions as AbstractPageActions;
 
 /**
  * Class EditActions
- *
+ * Edit actions block
  */
 class EditActions extends AbstractPageActions
 {

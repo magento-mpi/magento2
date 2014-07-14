@@ -11,6 +11,7 @@ namespace Mtf\Client\Driver\Selenium\Element;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element as AbstractElement;
+use Mtf\ObjectManager;
 
 /**
  * Class ConditionsElement
@@ -44,6 +45,20 @@ class ConditionsElement extends AbstractElement
      * @var string
      */
     protected $mainCondition = './/ul[contains(@id,"__1__children")]/..';
+
+    /**
+     * Identification for chooser grid
+     *
+     * @var string
+     */
+    protected $chooser = '%chooser%';
+
+    /**
+     * Identification for chooser grid
+     *
+     * @var string
+     */
+    protected $chooserLocator = '.rule-chooser-trigger';
 
     /**
      * Button add condition
@@ -148,6 +163,20 @@ class ConditionsElement extends AbstractElement
     protected $loader = './/ancestor::body/div[@id="loading-mask"]';
 
     /**
+     * Path to chooser grid class
+     *
+     * @var string
+     */
+    protected $chooserGrid = 'Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Grid\Chooser';
+
+    /**
+     * Chooser grid locator
+     *
+     * @var string
+     */
+    protected $chooserGridLocator = 'div[id*=chooser]';
+
+    /**
      * Set value to conditions
      *
      * @param string $value
@@ -237,6 +266,19 @@ class ConditionsElement extends AbstractElement
         foreach ($rules as $rule) {
             $param = $this->findNextParam($element);
             $param->find('a')->click();
+
+            if (strpos($rule, $this->chooser) !== false) {
+                $param->find($this->chooserLocator)->click();
+                $rule = str_replace($this->chooser, '', $rule);
+                $grid = ObjectManager::getInstance()->create(
+                    $this->chooserGrid,
+                    [
+                        'element' => $this->find($this->chooserGridLocator)
+                    ]
+                );
+                $grid->searchAndSelect(['name' => $rule]);
+                continue;
+            }
 
             $value = $param->find('select', Locator::SELECTOR_CSS, 'select');
             if ($value->isVisible()) {
