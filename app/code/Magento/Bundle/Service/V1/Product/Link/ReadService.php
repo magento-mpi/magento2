@@ -8,10 +8,11 @@
 namespace Magento\Bundle\Service\V1\Product\Link;
 
 use Magento\Bundle\Model\Option;
+use Magento\Bundle\Model\Product\Type\Interceptor;
 use Magento\Bundle\Service\V1\Data\Product\Link\MetadataConverter;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
-use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\Webapi\Exception;
 
 class ReadService implements ReadServiceInterface
 {
@@ -45,6 +46,10 @@ class ReadService implements ReadServiceInterface
     {
         $product = $this->productRepository->get($productId);
 
+        if (!$product->getTypeInstance() instanceof Interceptor) {
+            throw new Exception('Only implemented for bundle product', Exception::HTTP_FORBIDDEN);
+        }
+
         $childrenList = [];
         foreach ($this->getOptions($product) as $option) {
             foreach ($option->getSelections() as $selection) {
@@ -61,7 +66,7 @@ class ReadService implements ReadServiceInterface
      */
     private function getOptions(Product $product)
     {
-        /** @var \Magento\Bundle\Model\Product\Type\Interceptor $productTypeInstance */
+        /** @var Interceptor $productTypeInstance */
         $productTypeInstance = $product->getTypeInstance();
         $productTypeInstance->setStoreFilter(
             $product->getStoreId(),

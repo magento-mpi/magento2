@@ -7,7 +7,6 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Link;
 
-
 interface ReadServiceInterface
 {
     /**
@@ -15,6 +14,8 @@ interface ReadServiceInterface
      *
      * @param string $productId
      * @return \Magento\Bundle\Service\V1\Data\Product\Link\Metadata[]
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Webapi\Exception
      */
     public function getChildren($productId);
 }
