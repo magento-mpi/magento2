@@ -287,7 +287,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             'currentTax' => 0,
             'inclTaxTitle' => __('Incl. Tax'),
             'product' => $this->product,
-            'customer' => $customerId
+            'customerId' => $customerId
         ];
     }
 
