@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Page\Adminhtml;
+namespace Magento\Backend\Test\Page\Adminhtml;
 
 use Mtf\Page\BackendPage;
 
 /**
- * Class CmsBlockIndex
- * Backend CMS Block index page
+ * Class StoreIndex
+ * Backend Store index page
  */
-class CmsBlockIndex extends BackendPage
+class StoreIndex extends BackendPage
 {
-    const MCA = 'cms/block';
+    const MCA = 'admin/system_store';
 
     protected $_blocks = [
         'messagesBlock' => [
@@ -27,14 +27,14 @@ class CmsBlockIndex extends BackendPage
         ],
         'gridPageActions' => [
             'name' => 'gridPageActions',
-            'class' => 'Magento\Backend\Test\Block\GridPageActions',
+            'class' => 'Magento\Backend\Test\Block\System\Store\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'cmsBlockGrid' => [
-            'name' => 'cmsBlockGrid',
-            'class' => 'Magento\Cms\Test\Block\Adminhtml\Block\CmsGrid',
-            'locator' => '#cmsBlockGrid',
+        'storeGrid' => [
+            'name' => 'storeGrid',
+            'class' => 'Magento\Backend\Test\Block\System\Store\StoreGrid',
+            'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
     ];
@@ -48,7 +48,7 @@ class CmsBlockIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\GridPageActions
+     * @return \Magento\Backend\Test\Block\System\Store\GridPageActions
      */
     public function getGridPageActions()
     {
@@ -56,10 +56,10 @@ class CmsBlockIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Cms\Test\Block\Adminhtml\Block\CmsGrid
+     * @return \Magento\Backend\Test\Block\System\Store\StoreGrid
      */
-    public function getCmsBlockGrid()
+    public function getStoreGrid()
     {
-        return $this->getBlockInstance('cmsBlockGrid');
+        return $this->getBlockInstance('storeGrid');
     }
 }

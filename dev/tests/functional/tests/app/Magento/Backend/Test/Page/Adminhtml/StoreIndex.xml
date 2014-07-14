@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="cms/block" >
+<page mca="admin/system_store" >
     <block>
         <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
@@ -16,14 +16,14 @@
     </block>
     <block>
         <name>gridPageActions</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
+        <class>Magento\Backend\Test\Block\System\Store\GridPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>cmsBlockGrid</name>
-        <class>Magento\Cms\Test\Block\Adminhtml\Block\CmsGrid</class>
-        <locator>#cmsBlockGrid</locator>
+        <name>storeGrid</name>
+        <class>Magento\Backend\Test\Block\System\Store\StoreGrid</class>
+        <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

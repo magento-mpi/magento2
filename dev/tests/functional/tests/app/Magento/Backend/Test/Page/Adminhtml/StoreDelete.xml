@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="cms/block" >
+<page mca="admin/system_store/deleteStore" >
     <block>
         <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
@@ -15,15 +15,15 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>gridPageActions</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
-        <locator>.page-main-actions</locator>
+        <name>storeForm</name>
+        <class>Magento\Backend\Test\Block\System\Store\Delete\StoreForm</class>
+        <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>cmsBlockGrid</name>
-        <class>Magento\Cms\Test\Block\Adminhtml\Block\CmsGrid</class>
-        <locator>#cmsBlockGrid</locator>
+        <name>formPageActions</name>
+        <class>Magento\Backend\Test\Block\System\Store\FormPageActions</class>
+        <locator>.content-footer</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

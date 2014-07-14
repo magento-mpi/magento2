@@ -20,6 +20,37 @@
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
     </assertCmsPageSuccessSaveMessage>
+    <assertCmsBlockSuccessSaveMessage module="Magento_Cms">
+        <severeness>high</severeness>
+        <require>
+            <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
+        </require>
+    </assertCmsBlockSuccessSaveMessage>
+    <assertCmsBlockInGrid module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
+            <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
+        </require>
+    </assertCmsBlockInGrid>
+    <assertCmsBlockOnCategoryPage module="Magento_Cms">
+        <severeness>high</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
+            <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
+            <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
+        </require>
+    </assertCmsBlockOnCategoryPage>
+    <assertCmsBlockNotOnCategoryPage module="Magento_Cms">
+        <severeness>high</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
+            <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
+            <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
+        </require>
+    </assertCmsBlockNotOnCategoryPage>
     <assertCmsPageDisabledOnFrontend module="Magento_Cms">
         <severeness>low</severeness>
         <require>
@@ -47,6 +78,19 @@
             <cms class="Magento\Cms\Test\Fixture\CmsPage" />
         </require>
     </assertCmsPagePreview>
+    <assertCmsBlockDeleteMessage module="Magento_Cms">
+        <severeness>high</severeness>
+        <require>
+            <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
+        </require>
+    </assertCmsBlockDeleteMessage>
+    <assertCmsBlockNotInGrid module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
+            <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
+        </require>
+    </assertCmsBlockNotInGrid>
     <assertCmsPageDeleteMessage module="Magento_Cms">
         <severeness>low</severeness>
     </assertCmsPageDeleteMessage>
