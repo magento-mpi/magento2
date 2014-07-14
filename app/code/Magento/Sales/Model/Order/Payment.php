@@ -339,6 +339,8 @@ class Payment extends \Magento\Payment\Model\Info
             } else {
                 $orderState = \Magento\Sales\Model\Order::STATE_PROCESSING;
                 $this->processAction($action, $order);
+                $orderState = $order->getState() ? $order->getState() : $orderState;
+                $orderStatus = $order->getStatus() ? $order->getStatus() : $orderStatus;
             }
         }
 
