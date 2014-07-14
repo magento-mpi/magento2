@@ -21,7 +21,7 @@ use Mtf\Page\Page;
 
 /**
  * Class for creating new customer in backend page
- * CustomerSegment backend edit page.
+ * CustomerSegment backend edit page
  */
 class CustomerSegmentNew extends Page
 {

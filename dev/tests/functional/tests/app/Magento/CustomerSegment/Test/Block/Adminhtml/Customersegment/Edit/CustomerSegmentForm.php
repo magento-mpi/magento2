@@ -29,7 +29,7 @@ class CustomerSegmentForm extends FormTabs
         $customerLink = $this->_rootElement->find($this->tabs['matched_customers']['selector'], Locator::SELECTOR_CSS)
             ->getText();
         preg_match('`\((\d*?)\)`', $customerLink, $customersCount);
-        return $customersCount[1];
+        return (int) $customersCount[1];
     }
 
     /**

@@ -28,18 +28,19 @@ class AssertCustomerSegmentInCartPriceRuleIsNotApplying extends AssertCustomerSe
      */
     protected function assert()
     {
-        $subTotal = $this->checkoutCart->getTotalsBlock()->getSubtotal();
-        $grandTotal = $this->checkoutCart->getTotalsBlock()->getGrandTotal();
+        $totalBlock = $this->checkoutCart->getTotalsBlock();
+        $subTotal = $totalBlock->getSubtotal();
+        $grandTotal = $totalBlock->getGrandTotal();
 
-        if ($this->checkoutCart->getTotalsBlock()->isVisibleShippingPriceBlock()) {
-            $shippingPrice = $this->checkoutCart->getTotalsBlock()->getShippingPrice();
+        if ($totalBlock->isVisibleShippingPriceBlock()) {
+            $shippingPrice = $totalBlock->getShippingPrice();
             $grandTotal = number_format(($grandTotal - $shippingPrice), 2);
         }
 
         \PHPUnit_Framework_Assert::assertEquals(
             $subTotal,
             $grandTotal,
-            'Price is not equals'
+            'Catalog Price Rule is not applied on product in shopping cart. Price is not equals.'
         );
     }
 

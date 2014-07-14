@@ -82,6 +82,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
 
     /**
      * Customer grid page
+     *
      * @var CustomerIndex
      */
     protected $customerIndexPage;

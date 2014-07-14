@@ -8,7 +8,7 @@
 
 namespace Magento\CustomerSegment\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
@@ -17,7 +17,7 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
  * Class AssertCustomerSegmentForm
  * Assert that displayed segment data on edit page is equals passed from fixture
  */
-class AssertCustomerSegmentForm extends AbstractConstraint
+class AssertCustomerSegmentForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -46,22 +46,12 @@ class AssertCustomerSegmentForm extends AbstractConstraint
         $customerSegmentIndex->getGrid()->searchAndOpen($filter);
 
         $formData = $customerSegmentNew->getFormTabs()->getData();
-        $dataDiff = $this->verifyForm($formData, $customerSegment->getData());
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($dataDiff),
+        $dataDiff = $this->verifyData($customerSegment->getData(), $formData, false, false);
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $dataDiff,
             'Customer Segments data not equals to passed from fixture.'
             . "\nLog:\n" . implode(";\n", $dataDiff)
         );
-    }
-
-    /**
-     * Returns a string representation of the object
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Customer Segments page data on edit page equals data from fixture.';
     }
 
     /**
@@ -94,5 +84,15 @@ class AssertCustomerSegmentForm extends AbstractConstraint
         }
 
         return $errorMessage;
+    }
+
+    /**
+     * Returns a string representation of the object
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return 'Customer Segments page data on edit page equals data from fixture.';
     }
 }

@@ -10,8 +10,7 @@ namespace Magento\CustomerSegment\Test\Constraint;
 
 /**
  * Class AssertCustomerSegmentInCartPriceRule
- * Assert that Catalog Price Rule is applied on product(s) in shopping cart according to rule condition has been
- * applied in shopping cart page
+ * Assert that shopping cart subtotal not equals with grand total
  */
 class AssertCustomerSegmentInCartPriceRuleIsApplying extends AssertCustomerSegmentPriceRuleApplying
 {
@@ -23,24 +22,25 @@ class AssertCustomerSegmentInCartPriceRuleIsApplying extends AssertCustomerSegme
     protected $severeness = 'low';
 
     /**
-     * Assert that shopping cart subtotal not equals with grand total
+     * Assert that Catalog Price Rule is applied on product(s) in shopping cart according to rule condition has been
+     * applied in shopping cart page
      *
      * @return void
      */
     protected function assert()
     {
-        $subTotal = $this->checkoutCart->getTotalsBlock()->getSubtotal();
-        $grandTotal = $this->checkoutCart->getTotalsBlock()->getGrandTotal();
+        $totalBlock = $this->checkoutCart->getTotalsBlock();
+        $grandTotal = $totalBlock->getGrandTotal();
 
-        if ($this->checkoutCart->getTotalsBlock()->isVisibleShippingPriceBlock()) {
-            $shippingPrice = $this->checkoutCart->getTotalsBlock()->getShippingPrice();
+        if ($totalBlock->isVisibleShippingPriceBlock()) {
+            $shippingPrice = $totalBlock->getShippingPrice();
             $grandTotal = number_format(($grandTotal - $shippingPrice), 2);
         }
 
         \PHPUnit_Framework_Assert::assertNotEquals(
-            $subTotal,
+            $totalBlock->getSubtotal(),
             $grandTotal,
-            'Price is equals'
+            'Catalog Price Rule is not applied on product in shopping cart. Price is equals.'
         );
     }
 

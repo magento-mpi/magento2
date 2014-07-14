@@ -50,6 +50,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 
     /**
      * Add new segment
+     *
+     * @return void
      */
     public function addNewSegment()
     {

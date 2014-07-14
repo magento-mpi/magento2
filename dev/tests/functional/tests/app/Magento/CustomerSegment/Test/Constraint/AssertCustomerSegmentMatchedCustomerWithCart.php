@@ -10,9 +10,8 @@ namespace Magento\CustomerSegment\Test\Constraint;
 
 /**
  * Class AssertCustomerSegmentMatchedCustomerWithCart
- * Assert that grid on 'Matched Customer' tab contains customer according to conditions(it need save condition before
- * verification), assert number of matched customer near 'Matched Customer(%number%)' should be equal row in grid
- * with adding product to shopping cart
+ * Assert that grid on 'Matched Customer' tab contains customer according to conditions,
+ * assert number of matched customer near 'Matched Customer(%number%)' should be equal row in grid
  */
 class AssertCustomerSegmentMatchedCustomerWithCart extends AssertCustomerSegmentPriceRuleApplying
 {
@@ -24,34 +23,37 @@ class AssertCustomerSegmentMatchedCustomerWithCart extends AssertCustomerSegment
     protected $severeness = 'low';
 
     /**
-     * Assert that grid on 'Matched Customer' tab contains customer according to conditions,
-     * assert number of matched customer near 'Matched Customer(%number%)' should be equal row in grid
+     * Assert that grid on 'Matched Customer' tab contains customer according to conditions(it need save condition before
+     * verification), assert number of matched customer near 'Matched Customer(%number%)' should be equal row in grid
+     * with adding product to shopping cart
      *
      * @return void
      */
     public function assert()
     {
-        $filter = [
-            'grid_segment_name' => $this->customerSegment->getName(),
-        ];
+        $errors = '';
+        $formTabs = $this->customerSegmentNew->getFormTabs();
         $this->customerSegmentIndex->open();
-        $this->customerSegmentIndex->getGrid()->searchAndOpen($filter);
-        $customerSegmentGrid = $this->customerSegmentNew->getFormTabs()->getMatchedCustomers()->getCustomersGrid();
-        $this->customerSegmentNew->getFormTabs()->openTab('matched_customers');
-        \PHPUnit_Framework_Assert::assertTrue(
-            $customerSegmentGrid->isRowVisible(['email' => $this->customer->getEmail()]),
-            'Customer is absent in grid.'
+        $this->customerSegmentIndex->getGrid()->searchAndOpen(
+            ['grid_segment_name' => $this->customerSegment->getName()]
         );
+        $customerSegmentGrid = $formTabs->getMatchedCustomers()->getCustomersGrid();
+        $formTabs->openTab('matched_customers');
+
+        if ($customerSegmentGrid->isRowVisible(['email' => $this->customer->getEmail()])) {
+            $errors .= "Customer is absent in grid.\n";
+        }
+
         $customerSegmentGrid->resetFilter();
-        $totalOnTab = $this->customerSegmentNew->getFormTabs()->getNumberOfCustomersOnTabs();
+        $totalOnTab = $formTabs->getNumberOfCustomersOnTabs();
         $totalInGrid = $customerSegmentGrid->getTotalRecords();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $totalInGrid,
-            $totalOnTab,
-            'Wrong count of records is displayed.'
-            . "\nExpected: " . $totalInGrid
-            . "\nActual: " . $totalOnTab
-        );
+        if ( $totalOnTab == $totalInGrid) {
+            $errors .= 'Wrong count of records is displayed.'
+                . "\nExpected: " . $totalInGrid
+                . "\nActual: " . $totalOnTab;
+        }
+        
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**
