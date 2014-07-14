@@ -116,8 +116,8 @@ class GiftwrappingAfterTax extends Giftwrapping
                 $item = $gwItemCodeToItemMapping[$gwItemCode];
 
                 // search for the right giftwrapping item associated with the address
-                if ($item == null)
-                    continue;
+                if ($item != null)
+                    break;
             }
 
             $wrappingBaseTaxAmount = $gwTaxDetail['base_row_tax'];
