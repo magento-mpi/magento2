@@ -30,5 +30,11 @@ class Rating extends AbstractRepository
             'stores' => ['Main Website/Main Website Store/Default Store View'],
             'is_active' => 'Yes',
         ];
+
+        $this->_data['visibleOnDefaultWebsite'] = [
+            'rating_code' => 'productRating_%isolation%',
+            'stores' => ['Main Website/Main Website Store/Default Store View'],
+            'is_active' => 'Yes'
+        ];
     }
 }

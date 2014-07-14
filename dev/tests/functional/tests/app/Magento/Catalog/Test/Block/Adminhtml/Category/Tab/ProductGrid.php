@@ -13,7 +13,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
 /**
  * Class ProductGrid
  * Products' grid of Category Products tab
- *
  */
 class ProductGrid extends Grid
 {
@@ -25,6 +24,9 @@ class ProductGrid extends Grid
     protected $filters = [
         'sku' => [
             'selector' => '#catalog_category_products_filter_sku'
+        ],
+        'name' => [
+            'selector' => '#catalog_category_products_filter_name'
         ]
     ];
 
