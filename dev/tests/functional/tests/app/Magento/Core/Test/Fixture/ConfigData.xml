@@ -1,0 +1,25 @@
+
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\Core\Test\Fixture\ConfigData">
+    <module>Magento_Core</module>
+    <type>composite</type>
+    <entity_type>config</entity_type>
+    <collection>Magento\Core\Model\Resource\Variable\Collection</collection>
+    <fields>
+        <section>
+            <attribute_code>section</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required />
+            <default_value />
+            <input />
+        </section>
+    </fields>
+</fixture>

@@ -40,6 +40,13 @@ class ListCompare extends Block
     protected $nameSelector = './/*[contains(@class, "product name")]/a';
 
     /**
+     * Selector for search product via name
+     *
+     * @var string
+     */
+    protected $productName = '[normalize-space(text()) = "%s"]';
+
+    /**
      * Selector by price product
      *
      * @var string
@@ -58,7 +65,7 @@ class ListCompare extends Block
      *
      * @var string
      */
-    protected $removeButton = 'a.action.delete';
+    protected $removeButton = 'thead td:nth-child(%d) a.action.delete';
 
     /**
      * Selector for  "Clear All" button
@@ -135,11 +142,12 @@ class ListCompare extends Block
     /**
      * Remove product from compare product list
      *
+     * @param int $index
      * @return void
      */
-    public function removeProduct()
+    public function removeProduct($index = 2)
     {
-        $this->_rootElement->find($this->removeButton)->click();
+        $this->_rootElement->find(sprintf($this->removeButton, $index))->click();
     }
 
     /**
@@ -156,10 +164,20 @@ class ListCompare extends Block
     /**
      * Get empty message on compare product block
      *
-     * @return string
+     * @param string $productName
+     * @return string|bool
      */
-    public function getEmptyMessage()
+    public function productIsNotInBlock($productName = '')
     {
-        return $this->_rootElement->find($this->isEmpty)->getText();
+        $isEmpty = $this->_rootElement->find($this->isEmpty);
+        if ($isEmpty->isVisible()) {
+            return $isEmpty->getText();
+        }
+        $nameSelector = $this->nameSelector . sprintf($this->productName, $productName);
+        $isVisible = $this->_rootElement->find($nameSelector, Locator::SELECTOR_XPATH)->isVisible();
+        if ($productName !== '' && $isVisible) {
+            return $this->_rootElement->find($nameSelector, Locator::SELECTOR_XPATH)->getText();
+        }
+        return true;
     }
 }

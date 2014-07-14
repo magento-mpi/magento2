@@ -34,7 +34,7 @@ class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
     public function processAssert(CatalogProductCompare $comparePage)
     {
         $comparePage->open();
-        $actualMessage = $comparePage->getCompareProductsBlock()->getEmptyMessage();
+        $actualMessage = $comparePage->getCompareProductsBlock()->productIsNotInBlock();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

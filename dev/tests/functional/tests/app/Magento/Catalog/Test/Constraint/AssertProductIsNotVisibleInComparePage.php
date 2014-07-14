@@ -9,14 +9,13 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
- * Class AssertProductIsNotVisibleInCompareBlock
+ * Class AssertProductIsNotVisibleInComparePage
  */
-class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
+class AssertProductIsNotVisibleInComparePage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You have no items to compare.';
 
@@ -28,24 +27,19 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert the product is not displayed on Compare Products block on my account page
+     * Assert the product is not displayed on Compare Products page
      *
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountIndex $customerAccountIndex
+     * @param CatalogProductCompare $comparePage
      * @param FixtureInterface $product
      * @param int $countProducts
      * @return void
      */
-    public function processAssert(
-        CmsIndex $cmsIndex,
-        CustomerAccountIndex $customerAccountIndex,
-        FixtureInterface $product = null,
-        $countProducts
-    ) {
-        $cmsIndex->getLinksBlock()->openLink("My Account");
+    public function processAssert(CatalogProductCompare $comparePage, FixtureInterface $product, $countProducts)
+    {
+        $comparePage->open();
         $name = $countProducts > 1 ? $product->getName() : '';
         $success = $name !== '' ? true : self::SUCCESS_MESSAGE;
-        $actual = $customerAccountIndex->getCompareProductsBlock()->productIsNotInBlock($name);
+        $actual = $comparePage->getCompareProductsBlock()->productIsNotInBlock($name);
 
         \PHPUnit_Framework_Assert::assertEquals($success, $actual, 'Wrong success message is displayed.');
     }
@@ -57,6 +51,6 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
      */
     public function toString()
     {
-        return 'That message is appeared on Compare Products block on my account page.';
+        return 'Products is not displayed on Compare Products page.';
     }
 }
