@@ -81,8 +81,8 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
 
         if ($typeModel->getAssignedToRules()->getSize() > 0) {
             throw new CouldNotDeleteException(
-                'You cannot delete this tax class because it is used in Tax Rules.'
-                    . ' You have to delete the rules it is used in first.'
+                'You cannot delete this tax class because it is used in Tax Rules.' .
+                ' You have to delete the rules it is used in first.'
             );
         }
 
