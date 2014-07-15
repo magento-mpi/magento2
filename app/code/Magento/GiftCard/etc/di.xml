@@ -72,7 +72,7 @@
                 <item name="custom_option_price" xsi:type="string">Magento\Catalog\Pricing\Price\CustomOptionPrice</item>
                 <item name="base_price" xsi:type="string">Magento\Catalog\Pricing\Price\BasePrice</item>
                 <item name="configured_price" xsi:type="string">Magento\Catalog\Pricing\Price\ConfiguredPrice</item>
-                <item name="bundle_option" xsi:type="string">Magento\Catalog\Pricing\Price\BundleOptionPrice</item>
+                <item name="bundle_option" xsi:type="string">Magento\Bundle\Pricing\Price\BundleOptionPrice</item>
             </argument>
         </arguments>
     </virtualType>

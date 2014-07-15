@@ -24,7 +24,7 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
     protected $_rmaData = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Sales\Helper\Reorder $reorderHelper
@@ -32,7 +32,7 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Sales\Helper\Reorder $reorderHelper,

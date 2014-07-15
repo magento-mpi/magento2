@@ -25,6 +25,6 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_controller = 'adminhtml_report_customer_wishlist';
         $this->_headerText = __("Customer's Wish List Report");
         parent::_construct();
-        $this->_removeButton('add');
+        $this->buttonList->remove('add');
     }
 }
