@@ -88,9 +88,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        // note: this results in setting a static variable in the Form class
         $this->_form->setElementRenderer($setElementRenderer);
         $getElementRenderer = $this->_form->getElementRenderer();
         $this->assertSame($setElementRenderer, $getElementRenderer);
+        // restore our Form to its earlier state
+        $this->_form->setElementRenderer(null);
 
 
         $setFieldsetRenderer = $this->getMockBuilder
