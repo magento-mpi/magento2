@@ -308,7 +308,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     {
         $storeId = $this->_storeManager->getStore()->getId();
         $this->joinTable(
-            'core_url_rewrite',
+            'url_rewrite',
             'category_id=entity_id',
             array('request_path'),
             "{{table}}.is_system=1" .

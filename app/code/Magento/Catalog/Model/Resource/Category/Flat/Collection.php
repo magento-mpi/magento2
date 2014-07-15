@@ -321,7 +321,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $storeId = $this->_storeManager->getStore()->getId();
         $this->getSelect()->joinLeft(
-            array('url_rewrite' => $this->getTable('core_url_rewrite')),
+            array('url_rewrite' => $this->getTable('url_rewrite')),
             'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 ' .
             'AND url_rewrite.product_id IS NULL' .
             ' AND ' .

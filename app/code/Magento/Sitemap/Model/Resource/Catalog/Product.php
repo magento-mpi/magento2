@@ -267,7 +267,7 @@ class Product extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'e.entity_id = w.product_id',
             array()
         )->joinLeft(
-            array('ur' => $this->getTable('core_url_rewrite')),
+            array('ur' => $this->getTable('url_rewrite')),
             join(' AND ', $urConditions),
             array('url' => 'request_path')
         )->where(
