@@ -69,28 +69,6 @@ class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
     }
 
     /**
-     * Set parent product sku
-     *
-     * @param string $parentSku
-     * @return $this
-     */
-    public function setParentSku($parentSku)
-    {
-        return $this->_set(ProductLink::PARENT_SKU, $parentSku);
-    }
-
-    /**
-     * Set option id
-     *
-     * @param int $optionId
-     * @return $this
-     */
-    public function setOptionId($optionId)
-    {
-        return $this->_set(ProductLink::OPTION_ID, $optionId);
-    }
-
-    /**
      * Set is default
      *
      * @param boolean $default

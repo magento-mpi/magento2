@@ -16,8 +16,6 @@ class ProductLink extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * Constants for Data Object keys
      */
-    const OPTION_ID = 'option_id';
-    const PARENT_SKU = 'parent_product_sku';
     const SKU = 'product_sku';
     const POSITION = 'position';
     const IS_DEFAULT = 'is_default';
@@ -34,26 +32,6 @@ class ProductLink extends \Magento\Framework\Service\Data\Eav\AbstractObject
     public function getSku()
     {
         return $this->_get(self::SKU);
-    }
-
-    /**
-     * Get option ID
-     *
-     * @return int
-     */
-    public function getOptionId()
-    {
-        return $this->_get(self::OPTION_ID);
-    }
-
-    /**
-     * Get parent product SKU
-     *
-     * @return string
-     */
-    public function getParentSku()
-    {
-        return $this->_get(self::PARENT_SKU);
     }
 
     /**

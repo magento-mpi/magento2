@@ -105,7 +105,7 @@ class WriteService implements WriteServiceInterface
         }
 
         $selectionModel = $this->bundleModelSelection->create();
-        $selectionModel->setOptionId($linkedProduct->getOptionId())
+        $selectionModel->setOptionId($optionId)
             ->setPosition($linkedProduct->getPosition())
             ->setSelectionQty($linkedProduct->getQuantity())
             ->setSelectionPriceType($linkedProduct->getPriceType())
