@@ -252,7 +252,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
                 'is_anchor'
             )
         )->joinLeft(
-            array('url_rewrite' => $this->getTable('core_url_rewrite')),
+            array('url_rewrite' => $this->getTable('url_rewrite')),
             'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND ' . $_conn->quoteInto(
                 'url_rewrite.product_id IS NULL AND url_rewrite.store_id=? AND ',
                 $storeId
@@ -510,7 +510,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
             array('main_table' => $this->getMainStoreTable($category->getStoreId())),
             array('main_table.entity_id', 'main_table.name')
         )->joinLeft(
-            array('url_rewrite' => $this->getTable('core_url_rewrite')),
+            array('url_rewrite' => $this->getTable('url_rewrite')),
             'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND ' . $read->quoteInto(
                 'url_rewrite.product_id IS NULL AND url_rewrite.store_id=? AND ',
                 $category->getStoreId()

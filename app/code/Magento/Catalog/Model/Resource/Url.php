@@ -118,7 +118,7 @@ class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('core_url_rewrite', 'url_rewrite_id');
+        $this->_init('url_rewrite', 'url_rewrite_id');
     }
 
     /**
