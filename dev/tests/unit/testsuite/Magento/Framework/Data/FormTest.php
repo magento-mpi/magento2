@@ -55,7 +55,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $collectionModel = $objectManager->getObject
             ('Magento\Framework\Data\Form\Element\Collection');
 
-        $this->_factoryCollectionMock->expects($this->any())->method('create')->will($this->returnValue($collectionModel));
+        $this->_factoryCollectionMock
+            ->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($collectionModel));
 
         $this->_formKeyMock = $this->getMock(
             'Magento\Framework\Data\Form\FormKey',
