@@ -9,6 +9,7 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\ProductRepository;
 use \Magento\ConfigurableProduct\Model\Resource\Product\Type\ConfigurableFactory;
+use Magento\Framework\Exception\StateException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -18,7 +19,7 @@ class WriteService implements WriteServiceInterface
     protected $productRepository;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\ConfigurableFactory
+     * @var ConfigurableFactory
      */
     protected $typeConfigurableFactory;
 
@@ -40,13 +41,18 @@ class WriteService implements WriteServiceInterface
     public function addChild($productSku, $childSku)
     {
         $product = $this->productRepository->get($productSku);
+        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType */
         $configurableType = $this->typeConfigurableFactory->create();
 
-        $productIds = [$childSku];
-        if (is_array($productIds)) {
-            $configurableType->saveProducts($product, $productIds);
+        $child = $this->productRepository->get($childSku);
+
+        $childrenIds = $configurableType->getChildrenIds($product->getId());
+        if (in_array($child->getId(), $childrenIds)) {
+
         }
+
+        $childrenIds[] = $child->getId();
+        $configurableType->saveProducts($product, $childrenIds);
         return true;
     }
-
 }

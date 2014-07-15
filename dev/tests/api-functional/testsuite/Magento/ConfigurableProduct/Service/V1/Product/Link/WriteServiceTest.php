@@ -20,11 +20,12 @@ class WriteServiceTest extends WebapiAbstract
 {
     const SERVICE_NAME = 'configurableProductProductLinkWriteServiceV1';
     const SERVICE_VERSION = 'V1';
-    const RESOURCE_PATH = '/V1/products/';
+    const RESOURCE_PATH = '/V1/configurable-products/';
 
     public function testAddChild()
     {
         $productSku = 'Test Configurable';
+        $childSku = 40;
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/children',
@@ -37,7 +38,7 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
 
-        $res = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'childSku' => '40']);
+        $res = $this->_webApiCall($serviceInfo, ['childSku' => $childSku]);
         var_dump($res);
     }
 }
