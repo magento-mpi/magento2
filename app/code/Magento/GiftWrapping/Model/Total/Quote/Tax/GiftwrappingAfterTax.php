@@ -98,8 +98,8 @@ class GiftwrappingAfterTax extends Giftwrapping
     /**
      * Update wrapping tax total for items
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @param array $itemTaxDetails
+     * @param  \Magento\Sales\Model\Quote\Address $address
+     * @param  array $itemTaxDetails
      * @return  $this
      */
     protected function processWrappingForItems($address, $itemTaxDetails)
@@ -114,13 +114,15 @@ class GiftwrappingAfterTax extends Giftwrapping
                 $gwTaxDetail = $itemTaxDetail[$i];
                 $gwItemCode = $gwTaxDetail['code'];
 
-                if (!array_key_exists($gwItemCode, $gwItemCodeToItemMapping))
+                if (!array_key_exists($gwItemCode, $gwItemCodeToItemMapping)) {
                     continue;
+                }
                 $item = $gwItemCodeToItemMapping[$gwItemCode];
 
                 // search for the right giftwrapping item associated with the address
-                if ($item != null)
+                if ($item != null) {
                     break;
+                }
             }
 
             $wrappingBaseTaxAmount = $gwTaxDetail['base_row_tax'];
@@ -130,7 +132,6 @@ class GiftwrappingAfterTax extends Giftwrapping
 
             $wrappingForItemsBaseTaxAmount += $wrappingBaseTaxAmount;
             $wrappingForItemsTaxAmount += $wrappingTaxAmount;
-
         }
 
         $address->setGwItemsBaseTaxAmount($wrappingForItemsBaseTaxAmount);
