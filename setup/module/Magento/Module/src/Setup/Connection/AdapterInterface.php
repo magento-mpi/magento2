@@ -1,20 +1,19 @@
 <?php
 /**
- * Connection adapter interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Setup;
+namespace Magento\Module\Setup\Connection;
 
-interface ConnectionAdapterInterface
+interface AdapterInterface
 {
     /**
      * Get connection
      *
+     * @param array $config
      * @return \Magento\Db\Adapter\AdapterInterface|null
      */
-    public function getConnection();
+    public function getConnection(array $config = array());
 }

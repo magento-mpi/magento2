@@ -11,7 +11,10 @@ return [
         'instance' => [
             'preference' => [
                 'Magento\Module\Dependency\ManagerInterface' => 'Magento\Module\Dependency\Manager',
-            ],
+                'Magento\Module\Setup\Connection\AdapterInterface' => 'Magento\Module\Setup\Connection\Adapter',
+                'Magento\Module\Resource\ResourceInterface' => 'Magento\Module\Resource\Resource',
+                'Magento\Module\ModuleListInterface' => 'Magento\Module\ModuleList'
+            ]
         ],
     ],
 ];

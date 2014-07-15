@@ -86,4 +86,14 @@ class Config extends ZendConfig
     {
         return $this->magento->filesystem->permissions;
     }
+
+    /**
+     * Retrieve path to Magento config directory
+     *
+     * @return mixed
+     */
+    public function getMagentoConfigPath()
+    {
+        return $this->magento->filesystem->config;
+    }
 }

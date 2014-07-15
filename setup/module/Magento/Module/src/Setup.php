@@ -7,7 +7,9 @@
  */
 namespace Magento\Module;
 
-use Magento\Module\Setup\ConnectionAdapterInterface;
+use Magento\Module\Setup\Connection\AdapterInterface;
+use Magento\Module\Setup\FileResolver;
+use Magento\Module\Resource\Resource;
 use Magento\Module\Updater\SetupInterface;
 
 class Setup implements SetupInterface
@@ -100,26 +102,32 @@ class Setup implements SetupInterface
     protected $dir;
 
     /**
-     * @param ConnectionAdapterInterface $connection
+     * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
-     * @param ResourceInterface $resource
      * @param Dir $dir
-     * @param $resourceName
+     * @param FileResolver $setupFileResolver
      * @param $moduleName
      */
     public function __construct(
-        ConnectionAdapterInterface $connection,
+        AdapterInterface $connection,
         ModuleListInterface $moduleList,
-        ResourceInterface $resource,
-        Dir $dir,
-        $resourceName,
+        //Dir $dir,
+        FileResolver $setupFileResolver,
         $moduleName
     ) {
-        $this->connection = $connection->getConnection();
+        $this->connection = $connection->getConnection(
+            [
+                'host' => '127.0.0.1',
+                'user' => 'root',
+                'password' => '01031983',
+                'name' => 'magento2_local',
+            ]
+        );
         $this->moduleConfig = $moduleList->getModule($moduleName);
-        $this->resource = $resource;
-        $this->dir = $dir;
-        $this->resourceName = $resourceName;
+        $this->resource = new Resource($this->connection);
+        //$this->dir = $dir;
+        $this->setupFileResolver = $setupFileResolver;
+        $this->resourceName = $setupFileResolver->getResourceCode($moduleName);
         /**$this->_eventManager = $context->getEventManager();
         $this->_resourceModel = $context->getResourceModel();
         $this->_logger = $context->getLogger();
@@ -289,17 +297,17 @@ class Setup implements SetupInterface
     {
         $modName = (string)$this->moduleConfig['name'];
 
-        $filesDir = $this->dir->getDir($modName, 'sql') . '/' . $this->resourceName;
+/*        $filesDir = $this->dir->getDir($modName, 'sql') . '/' . $this->resourceName;
         $modulesDirPath = $this->modulesDir->getRelativePath($filesDir);
         if (!$this->modulesDir->isDirectory($modulesDirPath) || !$this->modulesDir->isReadable($modulesDirPath)) {
             return array();
         }
-
+*/
         $dbFiles = array();
         $typeFiles = array();
         $regExpDb = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
         $regExpType = sprintf('#%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
-        foreach ($this->modulesDir->read($modulesDirPath) as $file) {
+        foreach ($this->setupFileResolver->get($modName) as $file) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
                 $dbFiles[$matches[1]] = $this->modulesDir->getAbsolutePath($file);

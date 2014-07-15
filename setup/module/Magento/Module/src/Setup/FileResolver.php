@@ -6,13 +6,13 @@
  * @license   {license_link}
  */
 
-namespace Magento\Module;
+namespace Magento\Module\Setup;
 
-use Magento\Config\Config;
 use Zend\Stdlib\Glob;
 use Magento\Config\FileResolverInterface;
 use Magento\Config\FileIteratorFactory;
 use Magento\Config\ConfigFactory;
+use Magento\Config\Config;
 
 class FileResolver implements FileResolverInterface
 {
@@ -46,21 +46,15 @@ class FileResolver implements FileResolverInterface
     }
 
     /**
-     * @param string $filename
+     * @param string $moduleName
      * @return array
      */
-    public function get($filename)
+    public function get($moduleName)
     {
         $paths = [];
-
-        // Collect files by /app/code/*/*/etc/{filename} pattern
-        $files = $this->getFiles($this->config->getMagentoModulePath() . '*/*/etc/' . $filename);
-        foreach ($files as $file) {
-            $paths[] = $this->getRelativePath($file);
-        }
-
-        // Collect files by /app/etc/*/{filename} pattern
-        $files = $this->getFiles($this->config->getMagentoConfigPath() . '*/' . $filename);
+        $modulePath = str_replace('_', '/', $moduleName);
+        // Collect files by /app/code/{modulePath}/sql/*/*.php pattern
+        $files = $this->getFiles($this->config->getMagentoModulePath() . $modulePath . '/sql/*/*.php');
         foreach ($files as $file) {
             $paths[] = $this->getRelativePath($file);
         }
@@ -93,5 +87,23 @@ class FileResolver implements FileResolverInterface
     protected function getFiles($path)
     {
         return Glob::glob($this->config->getMagentoBasePath() . $path);
+    }
+
+    /**
+     * @param string $moduleName
+     * @return string
+     */
+    public function getResourceCode($moduleName)
+    {
+        $codes = [];
+        $modulePath = str_replace('_', '/', $moduleName);
+        // Collect files by /app/code/{modulePath}/sql/*/ pattern
+        $files = $this->getFiles($this->config->getMagentoModulePath() . $modulePath . '/sql/*/');
+        foreach ($files as $file) {
+            $pieces = explode('/', rtrim($file, '/ '));
+            $codes[] = array_pop($pieces);
+        }
+
+        return array_shift($codes);
     }
 }
