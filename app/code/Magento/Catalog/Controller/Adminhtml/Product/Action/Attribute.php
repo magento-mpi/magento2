@@ -15,7 +15,7 @@ use Magento\Backend\App\Action;
 class Attribute extends Action
 {
     /**
-     * @var \Magento\Catalog\Helper\Product\Edit\Action\Attribute
+     *  @var \Magento\Catalog\Helper\Product\Edit\Action\Attribute
      */
     protected $attributeHelper;
 
