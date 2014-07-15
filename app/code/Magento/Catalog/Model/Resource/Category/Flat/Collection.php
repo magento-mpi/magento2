@@ -319,6 +319,10 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addUrlRewriteToResult()
     {
+        /**
+         * @TODO: Refactor accordingly in MAGETWO-25952
+         */
+        return $this;
         $storeId = $this->_storeManager->getStore()->getId();
         $this->getSelect()->joinLeft(
             array('url_rewrite' => $this->getTable('url_rewrite')),
@@ -334,7 +338,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             ),
             array('request_path')
         );
-        return $this;
     }
 
     /**

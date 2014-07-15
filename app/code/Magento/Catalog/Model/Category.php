@@ -549,18 +549,21 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
                 return $this->getData('url');
             }
 
-            $rewrite = $this->getUrlRewrite();
-            if ($this->getStoreId()) {
-                $rewrite->setStoreId($this->getStoreId());
-            }
-            $idPath = 'category/' . $this->getId();
-            $rewrite->loadByIdPath($idPath);
-
-            if ($rewrite->getId()) {
-                $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
-                \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
-                return $this->getData('url');
-            }
+            /**
+             * @TODO: Refactor accordingly in MAGETWO-25952
+             */
+//            $rewrite = $this->getUrlRewrite();
+//            if ($this->getStoreId()) {
+//                $rewrite->setStoreId($this->getStoreId());
+//            }
+//            $idPath = 'category/' . $this->getId();
+//            $rewrite->loadByIdPath($idPath);
+//
+//            if ($rewrite->getId()) {
+//                $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
+//                \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
+//                return $this->getData('url');
+//            }
 
             \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
 

@@ -945,6 +945,10 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id');
         if ($id) {
+            /**
+             * @TODO: Refactor accordingly in MAGETWO-25952
+             */
+            return true;
             $object = $this->_objectManager->create('Magento\UrlRewrite\Model\UrlRewrite')->load($id);
             if ($object && $object->getId()) {
                 if (!$this->_role->hasStoreAccess($object->getStoreId())) {

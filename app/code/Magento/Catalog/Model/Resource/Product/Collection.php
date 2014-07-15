@@ -1206,6 +1206,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function joinUrlRewrite()
     {
+        /**
+         * @TODO: Refactor accordingly in MAGETWO-25952
+         */
+        return $this;
         $this->joinTable(
             'url_rewrite',
             'entity_id=entity_id',
@@ -1213,8 +1217,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             '{{table}}.type = ' . \Magento\UrlRewrite\Model\UrlRewrite::TYPE_PRODUCT,
             'left'
         );
-
-        return $this;
     }
 
     /**
@@ -1260,6 +1262,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             return;
         }
 
+        /**
+         * @TODO: Refactor accordingly in MAGETWO-25952
+         */
+        return;
         $select = $this->getConnection()->select()->from(
             $this->getTable('url_rewrite'),
             array('product_id', 'request_path')
