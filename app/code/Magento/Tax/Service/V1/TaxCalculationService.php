@@ -140,12 +140,10 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
         $calculator = $this->calculatorFactory->create(
             $this->config->getAlgorithm($storeId),
-            [
-                'storeId' => $storeId,
-                'customerTaxClassId' => $quoteDetails->getCustomerTaxClassId(),
-                'shippingAddress' => $quoteDetails->getShippingAddress(),
-                'billingAddress' => $quoteDetails->getBillingAddress(),
-            ]
+            $storeId,
+            $quoteDetails->getBillingAddress(),
+            $quoteDetails->getShippingAddress(),
+            $quoteDetails->getCustomerTaxClassId()
         );
 
         $processedItems = [];
@@ -196,12 +194,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * Calculate item tax with customized rounding level
      *
      * @param QuoteDetailsItem $item
-     * @param Calculation\AbstractBasedCalculator $calculator
+     * @param Calculation\AbstractCalculator $calculator
      * @return TaxDetailsItem
      */
     protected function processItem(
         QuoteDetailsItem $item,
-        Calculation\AbstractBasedCalculator $calculator
+        Calculation\AbstractCalculator $calculator
     ) {
         $quantity = $this->getTotalQuantity($item);
         return $calculator->calculate($item, $quantity);
