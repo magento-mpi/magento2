@@ -24,8 +24,14 @@
     &:extend(.dropdown-simple all);
 }
 
-.table-giftregistry-items .field.qty .qty {
-    &:extend(.abstract-input-qty all);
+.table-giftregistry-items {
+    .field.qty .qty {
+        &:extend(.abstract-input-qty all);
+    }
+    .product-image {
+        float: left;
+        .css(margin-right, @indent-s-base);
+    }
 }
 
 .form.giftregistry .fieldset {
@@ -74,6 +80,18 @@
             }
         }
     }
+    .table-giftregistry-items {
+        .col.product {
+            &:before {
+                &:extend(.visually-hidden-mobile all);
+            }
+            &:extend(.add-clearfix-mobile all);
+        }
+        .field.choice,
+        .field.qty {
+            display: inline-block;
+        }
+    }
 }
 
 //
@@ -97,6 +115,23 @@
         }
         .col.message {
             width: 50%;
+        }
+    }
+    .table-giftregistry-items {
+        .col.note {
+            width: 30%;
+        }
+        .account .data.table& {
+            th {
+                border-bottom: 0;
+            }
+            .table-bordered(@_type: horizontal);
+            > tbody > tr:nth-child(even) {
+                > td,
+                > th {
+                    background: none;
+                }
+            }
         }
     }
 }

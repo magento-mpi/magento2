@@ -29,7 +29,7 @@
 //--------------------------------------
 .abstract-revert-to-action-secondary {
     &:extend(.abstract-revert-secondary-color all);
-    &:extend(.abstract-revert-secondary-size all);
+    //&:extend(.abstract-revert-secondary-size all);
     border-radius: @button-border-radius;
     .css(box-shadow, @button-shadow);
     &:active,
@@ -129,6 +129,10 @@
             & + * {
                 clear: both;
             }
+        }
+        .field {
+            width: auto;
+            padding: 0;
         }
     }
     .blocks-2columns-reverse {
@@ -245,8 +249,7 @@
     line-height: normal;
     position: absolute;
     top: 34px; // 6px
-    left: 10px;
-    margin-left: 70%;
+    margin-left: 73%;
 }
 
 //
@@ -302,7 +305,10 @@
         .recipients {
             .field {
                  .control {
-                    width:auto;
+                    width: auto;
+                }
+                &:nth-last-child(2) {
+                    margin-bottom: 0;
                 }
             }
             .additional {

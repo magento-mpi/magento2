@@ -177,22 +177,21 @@
         &:last-child {
             margin-bottom: 0;
         }
-        .data.table {
-            .table-striped(@_stripped-highlight: even);
-            .col.actions {
-                .action {
-                    margin-right: 15px;
-                    &:last-child {
-                        margin-right: 0;
-                    }
-                }
-                .action.delete {
-                    color: @account-table-action-delete;
+    }
+    .data.table {
+        .table-striped(@_stripped-highlight: even);
+        .col.actions {
+            .action {
+                margin-right: 15px;
+                &:last-child {
+                    margin-right: 0;
                 }
             }
-
-        } 
-    }
+            .action.delete {
+                color: @account-table-action-delete;
+            }
+        }
+    } 
     .legend {
         &:extend(.abstract-account-title all);
     }
@@ -300,15 +299,15 @@
                 }
             }
         }
-        .table-wrapper {
-            .data.table {
-                .table-bordered(
-                    @_type: light,
-                    @_border-width: 1px
-                );
-                margin-bottom: 0;
-            }
+
+        .data.table {
+            .table-bordered(
+                @_type: light,
+                @_border-width: 1px
+            );
+            margin-bottom: 0;
         }
+
         .block.account-nav {
              .title {
                 &:extend(.visually-hidden-desktop all);
@@ -344,7 +343,7 @@
     }
 
     .form-edit-account {
-        fieldset {
+        .fieldset {
             &:extend(.blocks-2columns all);
         }
     }
