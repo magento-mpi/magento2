@@ -331,6 +331,15 @@
     <assertProductNotInGrid module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductNotInGrid>
+    <assertProductTemplateSuccessDeleteMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateSuccessDeleteMessage>
+    <assertProductTemplateNotInGrid module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductTemplateNotInGrid>
+    <assertProductNotInGrid module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductNotInGrid>
     <assertProductNotSearchableBySku module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductNotSearchableBySku>

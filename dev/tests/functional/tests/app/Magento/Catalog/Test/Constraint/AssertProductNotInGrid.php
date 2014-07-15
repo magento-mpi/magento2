@@ -14,6 +14,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Class AssertProductNotInGrid
+ * Assert that Product absence on grid
  */
 class AssertProductNotInGrid extends AbstractConstraint
 {
@@ -45,7 +46,7 @@ class AssertProductNotInGrid extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

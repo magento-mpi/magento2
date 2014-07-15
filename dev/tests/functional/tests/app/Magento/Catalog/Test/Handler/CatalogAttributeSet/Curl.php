@@ -14,6 +14,7 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 
 /**
  * Class Curl
@@ -22,13 +23,57 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 class Curl extends AbstractCurl implements CatalogAttributeSetInterface
 {
     /**
+     * Regex for finding attribute set id
+     *
+     * @var string
+     */
+    protected $attributeSetId = '`http.*?product_set\/delete\/id\/(\d*?)\/`';
+
+    /**
+     * Regex for finding attributes
+     *
+     * @var string
+     */
+    protected $attributes = '#buildCategoryTree\(this.root,.*?(\[.*\}\]\}\])\);#s';
+
+    /**
+     * Regex for finding attribute set name
+     *
+     * @var string
+     */
+    protected $attributeSetName = '#id="attribute_set_name".*?value="([\w\d]+)"#s';
+
+    /**
      * Post request for creating Attribute Set
      *
-     * @param FixtureInterface $fixture
+     * @param FixtureInterface|null $fixture
      * @return array
-     * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
+    {
+        /** @var CatalogAttributeSet $fixture */
+        $response = $this->createAttributeSet($fixture);
+        $attributeSetId = $this->getData($this->attributeSetId, $response);
+        $assignedAttributes = $fixture->hasData('assigned_attributes')
+            ? $fixture->getDataFieldConfig('assigned_attributes')['source']->getAttributes()
+            : [];
+        $dataAttribute = $this->getDataAttributes($response);
+
+        foreach ($assignedAttributes as $assignedAttribute) {
+            $dataAttribute['attributes'][] = [$assignedAttribute->getAttributeId(), $dataAttribute['groups'][0][0]];
+        }
+        $this->updateAttributeSet($attributeSetId, $dataAttribute);
+
+        return ['attribute_set_id' => $attributeSetId];
+    }
+
+    /**
+     * Create Attribute Set
+     *
+     * @param CatalogAttributeSet $fixture
+     * @return string
+     */
+    protected function createAttributeSet(CatalogAttributeSet $fixture)
     {
         $data = $fixture->getData();
         if (!isset($data['gotoEdit'])) {
@@ -41,21 +86,77 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
 
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
-        preg_match(
-            '`http.*?id\/(\d*?)\/.*?data-ui-id=\"page-actions-toolbar-delete-button\".*`',
-            $response,
-            $matches
-        );
-        $id = isset($matches[1]) ? $matches[1] : null;
+        return $response;
+    }
 
-        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Attribute Set creating by curl handler was not successful!");
+    /**
+     * Update Attribute Set
+     *
+     * @param int $attributeSetId
+     * @param array $dataAttribute
+     * @return void
+     */
+    protected function updateAttributeSet($attributeSetId, array $dataAttribute)
+    {
+        $data = ['data' => json_encode($dataAttribute)];
+        $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/id/' . $attributeSetId . '/';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
+        $curl->read();
+        $curl->close();
+    }
+
+    /**
+     * Get data attributes for curl
+     *
+     * @param string $response
+     * @return array
+     */
+    protected function getDataAttributes($response)
+    {
+        $attributes = $this->getData($this->attributes, $response, true);
+        $dataAttribute = [];
+
+        $index = 0;
+        foreach ($attributes as $key => $parentAttributes) {
+            $dataAttribute['groups'][$key][] = $parentAttributes['id'];
+            $dataAttribute['groups'][$key][] = $parentAttributes['text'];
+            $dataAttribute['groups'][$key][] = $key + 1;
+            foreach ($parentAttributes['children'] as $attribute) {
+                $dataAttribute['attributes'][$index][] = $attribute['id'];
+                $dataAttribute['attributes'][$index][] = $parentAttributes['id'];
+                $dataAttribute['attributes'][$index][] = $index;
+                $dataAttribute['attributes'][$index][] = $attribute['entity_id'];
+                $index++;
+            }
+        }
+        $dataAttribute['not_attributes'] = [];
+        $dataAttribute['removeGroups'] = [];
+        $dataAttribute['attribute_set_name'] = $this->getData($this->attributeSetName, $response);
+
+        return $dataAttribute;
+    }
+
+    /**
+     * Select data from response by regular expression
+     *
+     * @param string $regularExpression
+     * @param string $response
+     * @param bool $isJson
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function getData($regularExpression, $response, $isJson = false)
+    {
+        preg_match($regularExpression, $response, $matches);
+        if (!isset($matches[1])) {
+            throw new \Exception("Can't find data in response by regular expression \"{$regularExpression}\".");
         }
 
-        return ['attribute_set_id' => $id];
+        return $isJson ? json_decode($matches[1], true) : $matches[1];
     }
 }
