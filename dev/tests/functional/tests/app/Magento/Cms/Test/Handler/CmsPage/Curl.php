@@ -47,6 +47,13 @@ class Curl extends Conditions implements CmsPageInterface
     ];
 
     /**
+     * Url for save cms page
+     *
+     * @var string
+     */
+    protected $url = 'admin/cms_page/save/back/edit/active_tab/main_section/';
+
+    /**
      * Post request for creating a cms page
      *
      * @param FixtureInterface $fixture
@@ -55,7 +62,7 @@ class Curl extends Conditions implements CmsPageInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $url = $_ENV['app_backend_url'] . 'admin/cms_page/save/';
+        $url = $_ENV['app_backend_url'] . $this->url;
         $data = $this->replaceMappingData($fixture->getData());
         $data['stores'] = [$data['store_id']];
         unset($data['store_id']);

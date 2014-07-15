@@ -26,6 +26,6 @@ class Formtype extends \Magento\Backend\Block\Widget\Grid\Container
 
         parent::_construct();
 
-        $this->_updateButton('add', 'label', __('New Form Type'));
+        $this->buttonList->update('add', 'label', __('New Form Type'));
     }
 }

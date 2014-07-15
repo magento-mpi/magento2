@@ -26,4 +26,21 @@ interface ConfigInterface
      * @return array
      */
     public function getDeniedAclResources($level);
+
+    /**
+     * Get group processor
+     *
+     * @param string $groupName
+     * @return string|null
+     */
+    public function getGroupProcessor($groupName);
+
+    /**
+     * Get callback for the object
+     *
+     * @param object $object
+     * @param string $callbackGroup
+     * @return string|null
+     */
+    public function getCallbackForObject($object, $callbackGroup);
 }
