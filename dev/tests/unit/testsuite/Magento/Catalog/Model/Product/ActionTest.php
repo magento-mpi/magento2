@@ -96,7 +96,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateAttributes()
     {
-        $productIds = [1];
+        $productIds = [1, 2, 2, 4];
+        $productIdsUnique = [0 => 1, 1 => 2, 3 => 4];
         $attrData = [1];
         $storeId = 1;
         $this->resource
@@ -126,6 +127,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->method('reindexList')
             ->will($this->returnValue($productIds));
         $this->assertEquals($this->model, $this->model->updateAttributes($productIds, $attrData, $storeId));
+        $this->assertEquals($this->model->getDataByKey('product_ids'), $productIdsUnique);
+        $this->assertEquals($this->model->getDataByKey('attributes_data'), $attrData);
+        $this->assertEquals($this->model->getDataByKey('store_id'), $storeId);
     }
 
     /**
@@ -135,7 +139,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateWebsites($type, $methodName)
     {
-        $productIds = [1];
+        $productIds = [1, 2, 2, 4];
+        $productIdsUnique = [0 => 1, 1 => 2, 3 => 4];
         $websiteIds = [1];
         $this->productWebsite
             ->expects($this->any())
@@ -163,7 +168,10 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('reindexList')
             ->will($this->returnValue($productIds));
-        $this->assertEquals(null, $this->model->updateWebsites($productIds, $websiteIds, $type));
+        $this->model->updateWebsites($productIds, $websiteIds, $type);
+        $this->assertEquals($this->model->getDataByKey('product_ids'), $productIdsUnique);
+        $this->assertEquals($this->model->getDataByKey('website_ids'), $websiteIds);
+        $this->assertEquals($this->model->getDataByKey('action_type'), $type);
     }
 
     public function updateWebsitesDataProvider()
