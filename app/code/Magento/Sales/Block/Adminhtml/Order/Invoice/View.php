@@ -36,13 +36,13 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     protected $_backendSession;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Backend\Model\Auth\Session $backendSession
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Backend\Model\Auth\Session $backendSession,
         \Magento\Framework\Registry $registry,
         array $data = array()
@@ -66,9 +66,9 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        $this->_removeButton('save');
-        $this->_removeButton('reset');
-        $this->_removeButton('delete');
+        $this->buttonList->remove('save');
+        $this->buttonList->remove('reset');
+        $this->buttonList->remove('delete');
 
         if (!$this->getInvoice()) {
             return;
@@ -78,7 +78,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
             'Magento_Sales::cancel'
         ) && $this->getInvoice()->canCancel() && !$this->_isPaymentReview()
         ) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'cancel',
                 array(
                     'label' => __('Cancel'),
@@ -109,7 +109,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
                 $orderPayment->getAmountPaid() > $orderPayment->getAmountRefunded() ||
                 $orderPayment->canRefund() && !$this->getInvoice()->getIsUsedForRefund()
             ) {
-                $this->_addButton(
+                $this->buttonList->add(
                     'capture',
                     array( // capture?
                         'label' => __('Credit Memo'),
@@ -124,7 +124,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
             'Magento_Sales::capture'
         ) && $this->getInvoice()->canCapture() && !$this->_isPaymentReview()
         ) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'capture',
                 array(
                     'label' => __('Capture'),
@@ -135,7 +135,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         }
 
         if ($this->getInvoice()->canVoid()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'void',
                 array(
                     'label' => __('Void'),
@@ -146,7 +146,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         }
 
         if ($this->getInvoice()->getId()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'print',
                 array(
                     'label' => __('Print'),
@@ -291,13 +291,13 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     {
         if ($flag) {
             if ($this->getInvoice()->getBackUrl()) {
-                return $this->_updateButton(
+                return $this->buttonList->update(
                     'back',
                     'onclick',
                     'setLocation(\'' . $this->getInvoice()->getBackUrl() . '\')'
                 );
             }
-            return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('sales/invoice/') . '\')');
+            return $this->buttonList->update('back', 'onclick', 'setLocation(\'' . $this->getUrl('sales/invoice/') . '\')');
         }
         return $this;
     }

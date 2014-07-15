@@ -18,13 +18,13 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
     protected $_cmsConfig;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
@@ -54,7 +54,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
         $objId = $this->getRequest()->getParam($this->_objectId);
 
         if (!empty($objId) && $this->_cmsConfig->canCurrentUserDeleteRevision()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'delete_revision',
                 array(
                     'label' => __('Delete'),
@@ -66,7 +66,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
             );
         }
 
-        $this->_addButton(
+        $this->buttonList->add(
             'preview',
             array(
                 'label' => __('Preview'),
@@ -84,7 +84,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
         );
 
         if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'publish',
                 array(
                     'id' => 'publish_button',
@@ -96,7 +96,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
             );
 
             if ($this->_cmsConfig->canCurrentUserSaveRevision()) {
-                $this->_addButton(
+                $this->buttonList->add(
                     'save_publish',
                     array(
                         'id' => 'save_publish_button',
@@ -112,17 +112,17 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
                 );
             }
 
-            $this->_updateButton('saveandcontinue', 'level', 2);
+            $this->buttonList->update('saveandcontinue', 'level', 2);
         }
 
         if ($this->_cmsConfig->canCurrentUserSaveRevision()) {
-            $this->_updateButton('save', 'label', __('Save'));
-            $this->_updateButton(
+            $this->buttonList->update('save', 'label', __('Save'));
+            $this->buttonList->update(
                 'save',
                 'data_attribute',
                 array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
             );
-            $this->_updateButton(
+            $this->buttonList->update(
                 'saveandcontinue',
                 'data_attribute',
                 array('mage-init' => array('button' => array('event' => 'preview', 'target' => '#edit_form')))
@@ -130,7 +130,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
 
             $page = $this->_coreRegistry->registry('cms_page');
             // Adding button to create new version
-            $this->_addButton(
+            $this->buttonList->add(
                 'new_version',
                 array(
                     'id' => 'new_version',

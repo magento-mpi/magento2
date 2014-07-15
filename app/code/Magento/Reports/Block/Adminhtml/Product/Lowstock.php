@@ -23,6 +23,6 @@ class Lowstock extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_controller = 'adminhtml_product_lowstock';
         $this->_headerText = __('Low stock');
         parent::_construct();
-        $this->_removeButton('add');
+        $this->buttonList->remove('add');
     }
 }
