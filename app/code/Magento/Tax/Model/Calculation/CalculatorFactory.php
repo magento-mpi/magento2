@@ -51,6 +51,7 @@ class CalculatorFactory
      * @param Address $shippingAddress
      * @param null|int $customerTaxClassId
      * @return \Magento\Tax\Model\Calculation\AbstractCalculator
+     * @throws \InvalidArgumentException
      */
     public function create(
         $type,
@@ -61,16 +62,16 @@ class CalculatorFactory
     ) {
         switch ($type) {
             case self::CALC_UNIT_BASE:
-                $className = 'Magento\Tax\Model\Calculation\UnitBasedCalculator';
+                $className = 'Magento\Tax\Model\Calculation\UnitBaseCalculator';
                 break;
             case self::CALC_ROW_BASE:
-                $className = 'Magento\Tax\Model\Calculation\RowBasedCalculator';
+                $className = 'Magento\Tax\Model\Calculation\RowBaseCalculator';
                 break;
             case self::CALC_TOTAL_BASE:
-                $className = 'Magento\Tax\Model\Calculation\TotalBasedCalculator';
+                $className = 'Magento\Tax\Model\Calculation\TotalBaseCalculator';
                 break;
             default:
-                return null;
+                throw new \InvalidArgumentException('Unknown calculation type: ' . $type);
         }
         /** @var \Magento\Tax\Model\Calculation\AbstractCalculator $calculator */
         $calculator = $this->objectManager->create($className, ['storeId' => $storeId]);

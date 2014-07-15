@@ -264,7 +264,7 @@ abstract class AbstractCalculator
         if ((bool)$this->config->crossBorderTradeEnabled($this->storeId)) {
             return true;
         } else {
-            return ($rate == $storeRate);
+            return (abs($rate - $storeRate) < 0.00001);
         }
     }
 

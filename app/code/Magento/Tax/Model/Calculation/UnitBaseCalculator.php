@@ -11,7 +11,7 @@ use Magento\Tax\Model\Calculation;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 
-class TotalBasedCalculator extends AbstractCalculator
+class UnitBaseCalculator extends AbstractCalculator
 {
     /**
      * {@inheritdoc}
@@ -24,17 +24,13 @@ class TotalBasedCalculator extends AbstractCalculator
         $rate = $this->calculationTool->getRate($taxRateRequest);
         $storeRate = $storeRate = $this->calculationTool->getStoreRate($taxRateRequest, $this->storeId);
 
-        // Calculate $rowTotalInclTax
+        // Calculate $priceInclTax
         $priceInclTax = $this->calculationTool->round($item->getUnitPrice());
-        $rowTotalInclTax = $priceInclTax * $quantity;
         if (!$this->isSameRateAsStore($rate, $storeRate)) {
             $priceInclTax = $this->calculatePriceInclTax($priceInclTax, $storeRate, $rate);
-            $rowTotalInclTax = $priceInclTax * $quantity;
         }
-        $rowTaxExact = $this->calculationTool->calcTaxAmount($rowTotalInclTax, $rate, true, false);
-        $rowTax = $this->roundAmount($rowTaxExact, $rate, true);
-        $rowTotal = $rowTotalInclTax - $rowTax;
-        $price = $this->calculationTool->round($rowTotal / $quantity);
+        $uniTax = $this->calculationTool->calcTaxAmount($priceInclTax, $rate, true, true);
+        $price = $priceInclTax - $uniTax;
 
         //Handle discount
         $discountTaxCompensationAmount = 0;
@@ -42,23 +38,21 @@ class TotalBasedCalculator extends AbstractCalculator
         $discountAmount = $item->getDiscountAmount();
         if ($discountAmount && $applyTaxAfterDiscount) {
             //TODO: handle originalDiscountAmount
-            $taxableAmount = max($rowTotalInclTax - $discountAmount, 0);
-            $rowTaxAfterDiscount = $this->calculationTool->calcTaxAmount(
+            $unitDiscountAmount = $discountAmount / $quantity;
+            $taxableAmount = max($priceInclTax - $unitDiscountAmount, 0);
+            $unitTaxAfterDiscount = $this->calculationTool->calcTaxAmount(
                 $taxableAmount,
                 $rate,
                 true,
-                false
+                true
             );
-            $rowTaxAfterDiscount = $this->roundAmount(
-                $rowTaxAfterDiscount,
-                $rate,
-                true,
-                self::KEY_TAX_AFTER_DISCOUNT_DELTA_ROUNDING
-            );
+
             // Set discount tax compensation
-            $discountTaxCompensationAmount = $rowTax - $rowTaxAfterDiscount;
-            $rowTax = $rowTaxAfterDiscount;
+            $unitDiscountTaxCompensationAmount = $uniTax - $unitTaxAfterDiscount;
+            $discountTaxCompensationAmount = $unitDiscountTaxCompensationAmount * $quantity;
+            $uniTax = $unitTaxAfterDiscount;
         }
+        $rowTax = $uniTax * $quantity;
 
         // Calculate applied taxes
         /** @var  \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $appliedTaxes */
@@ -71,8 +65,8 @@ class TotalBasedCalculator extends AbstractCalculator
         $this->taxDetailsItemBuilder->setRowTax($rowTax);
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
-        $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
-        $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
+        $this->taxDetailsItemBuilder->setRowTotal($price * $quantity);
+        $this->taxDetailsItemBuilder->setRowTotalInclTax($priceInclTax * $quantity);
         $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
@@ -94,74 +88,54 @@ class TotalBasedCalculator extends AbstractCalculator
         $discountAmount = $item->getDiscountAmount();
         $discountTaxCompensationAmount = 0;
 
-        // Calculate $rowTotal
+        // Calculate $price
         $price = $this->calculationTool->round($item->getUnitPrice());
-        $rowTotal = $price * $quantity;
-        $rowTaxes = [];
-        $rowTaxesBeforeDiscount = [];
+        $unitTaxes = [];
+        $unitTaxesBeforeDiscount = [];
         $appliedTaxes = [];
         //Apply each tax rate separately
         foreach ($appliedRates as $appliedRate) {
             $taxId = $appliedRate['id'];
             $taxRate = $appliedRate['percent'];
-            $rowTaxPerRate = $this->calculationTool->calcTaxAmount($rowTotal, $taxRate, false, false);
-            $rowTaxPerRate = $this->roundAmount($rowTaxPerRate, $taxRate, false);
-            $rowTaxAfterDiscount = $rowTaxPerRate;
+            $unitTaxPerRate = $this->calculationTool->calcTaxAmount($price, $taxRate, false);
+            $unitTaxAfterDiscount = $unitTaxPerRate;
 
             //Handle discount
             if ($discountAmount && $applyTaxAfterDiscount) {
                 //TODO: handle originalDiscountAmount
-                $taxableAmount = max($rowTotal - $discountAmount, 0);
-                $rowTaxAfterDiscount = $this->calculationTool->calcTaxAmount(
+                $unitDiscountAmount = $discountAmount / $quantity;
+                $taxableAmount = max($price - $unitDiscountAmount, 0);
+                $unitTaxAfterDiscount = $this->calculationTool->calcTaxAmount(
                     $taxableAmount,
                     $taxRate,
                     false,
-                    false
-                );
-                $rowTaxAfterDiscount = $this->roundAmount(
-                    $rowTaxAfterDiscount,
-                    $taxRate,
-                    false,
-                    self::KEY_TAX_AFTER_DISCOUNT_DELTA_ROUNDING
+                    true
                 );
             }
             $appliedTaxes[$taxId] = $this->getAppliedTax(
-                $rowTaxAfterDiscount,
+                $unitTaxAfterDiscount * $quantity,
                 $appliedRate
             );
 
-            $rowTaxes[] = $rowTaxAfterDiscount;
-            $rowTaxesBeforeDiscount[] = $rowTaxPerRate;
+            $unitTaxes[] = $unitTaxAfterDiscount;
+            $unitTaxesBeforeDiscount[] = $unitTaxPerRate;
         }
-        $rowTax = array_sum($rowTaxes);
-        $rowTaxBeforeDiscount = array_sum($rowTaxesBeforeDiscount);
-        $rowTotalInclTax = $rowTotal + $rowTaxBeforeDiscount;
-        $priceInclTax = $this->calculationTool->round($rowTotalInclTax / $quantity);
+        $unitTax = array_sum($unitTaxes);
+        $unitTaxBeforeDiscount = array_sum($unitTaxesBeforeDiscount);
+
+        $rowTax = $unitTax * $quantity;
+        $priceInclTax = $price + $unitTaxBeforeDiscount;
 
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
         $this->taxDetailsItemBuilder->setRowTax($rowTax);
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
-        $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
-        $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
+        $this->taxDetailsItemBuilder->setRowTotal($price * $quantity);
+        $this->taxDetailsItemBuilder->setRowTotalInclTax($priceInclTax * $quantity);
         $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
         return $this->taxDetailsItemBuilder->create();
-    }
-
-    /**
-     * Round amount
-     *
-     * @param float $amount
-     * @param null|float $rate
-     * @param null|bool $direction
-     * @param string $type
-     * @return float
-     */
-    protected function roundAmount($amount, $rate = null, $direction = null, $type = self::KEY_REGULAR_DELTA_ROUNDING)
-    {
-        return $this->deltaRound($amount, $rate, $direction, $type);
     }
 }

@@ -22,7 +22,7 @@ class UnitBasedCalculatorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Tax\Model\Config | \PHPUnit_Framework_MockObject_MockObject */
     protected $mockConfig;
 
-    /** @var UnitBasedCalculator */
+    /** @var UnitBaseCalculator */
     protected $model;
 
     public function setUp()
@@ -37,7 +37,7 @@ class UnitBasedCalculatorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->model = new UnitBasedCalculator(
+        $this->model = new UnitBaseCalculator(
             $this->mockTaxItemDetailsBuilder,
             $this->mockCalculationTool,
             $this->mockConfig,

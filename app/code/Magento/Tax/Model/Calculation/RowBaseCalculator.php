@@ -11,7 +11,7 @@ use Magento\Tax\Model\Calculation;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 
-class RowBasedCalculator extends TotalBasedCalculator
+class RowBaseCalculator extends TotalBaseCalculator
 {
     /**
      * {@inheritdoc}
