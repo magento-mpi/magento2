@@ -108,7 +108,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $attributeId = 345345;
 
         $attribute = $this->getMock(
-            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute',
             ['getBackendTable', 'isStatic', 'getAttributeId', 'getName', '__wakeup'],
             [],
             '',
@@ -253,7 +253,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $attributeCode = 'attr_code';
         $attribute = $this->getMock(
-            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute',
             ['getAttributeCode', '__wakeup'],
             [],
             '',
@@ -305,7 +305,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $attributeCode = 'attr_code';
         $attribute = $this->getMock(
-            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute',
             ['getAttributeCode', 'getIsRequired', 'isValueEmpty', 'getIsUnique', 'getEntityType', '__wakeup'],
             [],
             '',
@@ -343,7 +343,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $attributeCode = 'attr_code';
         $attribute = $this->getMock(
-            'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+            'Magento\Eav\Model\Entity\Attribute',
             ['getAttributeCode', 'getIsRequired', 'isValueEmpty', 'getIsUnique', 'getEntityType', '__wakeup'],
             [],
             '',
