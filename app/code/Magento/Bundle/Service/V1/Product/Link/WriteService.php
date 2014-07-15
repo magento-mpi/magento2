@@ -20,9 +20,9 @@ class WriteService implements WriteServiceInterface
     protected $productRepository;
 
     /**
-     * @var \Magento\Bundle\Model\SelectionFactory $bundleModelSelection
+     * @var \Magento\Bundle\Model\SelectionFactory $bundleSelection
      */
-    protected $bundleModelSelection;
+    protected $bundleSelection;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -41,20 +41,20 @@ class WriteService implements WriteServiceInterface
 
     /**
      * @param ProductRepository $productRepository
-     * @param \Magento\Bundle\Model\SelectionFactory $bundleModelSelection
+     * @param \Magento\Bundle\Model\SelectionFactory $bundleSelection
      * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
      * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         ProductRepository $productRepository,
-        \Magento\Bundle\Model\SelectionFactory $bundleModelSelection,
+        \Magento\Bundle\Model\SelectionFactory $bundleSelection,
         \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory,
         \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->productRepository = $productRepository;
-        $this->bundleModelSelection = $bundleModelSelection;
+        $this->bundleSelection = $bundleSelection;
         $this->bundleFactory = $bundleFactory;
         $this->optionCollection = $optionCollection;
         $this->storeManager = $storeManager;
@@ -74,6 +74,7 @@ class WriteService implements WriteServiceInterface
         $options = $this->optionCollection->create();
         $options->setProductIdFilter($product->getId())->joinValues($this->storeManager->getStore()->getId());
         $isNewOption = true;
+        /** @var \Magento\Bundle\Model\Option $option */
         foreach ($options as $option) {
             if ($option->getOptionId() == $optionId) {
                 $isNewOption = false;
@@ -107,7 +108,7 @@ class WriteService implements WriteServiceInterface
             }
         }
 
-        $selectionModel = $this->bundleModelSelection->create();
+        $selectionModel = $this->bundleSelection->create();
         $selectionModel->setOptionId($optionId)
             ->setPosition($linkedProduct->getPosition())
             ->setSelectionQty($linkedProduct->getQuantity())

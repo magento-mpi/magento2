@@ -18,6 +18,7 @@ interface WriteServiceInterface
      * @param \Magento\Bundle\Service\V1\Product\Link\Data\ProductLink $linkedProduct
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\InputException
      * @return int
      */
     public function addChild($productSku, $optionId, Data\ProductLink $linkedProduct);
