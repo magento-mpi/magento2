@@ -30,7 +30,7 @@ class CmsPage extends \Mtf\Page\Page
      *
      * @var string
      */
-    protected $cmsPageClass = '.page .main';
+    protected $cmsPageClass = '.page.main';
 
     /**
      * Page initialization for building dynamically named Cms Page

@@ -21,11 +21,14 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     {
         /** @var \DOMNodeList $groups */
         $groups = $source->getElementsByTagName('group');
-        /** @var DOMNode $groupConfig */
+        /** @var \DOMNode $groupConfig */
         $callbacks = array();
+        $groupProcessors = array();
         foreach ($groups as $groupConfig) {
             $groupName = $groupConfig->attributes->getNamedItem('name')->nodeValue;
-            /** @var $callback DOMNode */
+            $processor = $groupConfig->attributes->getNamedItem('processor');
+            $groupProcessors[$groupName] = $processor ? $processor->nodeValue : null;
+            /** @var $callback \DOMNode */
             foreach ($groupConfig->childNodes as $callback) {
                 if ($callback->nodeType === XML_ELEMENT_NODE) {
                     $className = $callback->attributes->getNamedItem('class')->nodeValue;
@@ -36,11 +39,11 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
 
         /** @var \DOMNodeList $aclLevel */
         $aclLevel = $source->getElementsByTagName('level');
-        /** @var DOMNode $groupConfig */
+        /** @var \DOMNode $groupConfig */
         $rules = array();
         foreach ($aclLevel as $levelConfig) {
             $levelName = $levelConfig->attributes->getNamedItem('name')->nodeValue;
-            /** @var $rule DOMNode */
+            /** @var $rule \DOMNode */
             foreach ($levelConfig->childNodes as $rule) {
                 if ($rule->nodeType === XML_ELEMENT_NODE) {
                     $ruleName = $rule->attributes->getNamedItem('name')->nodeValue;
@@ -48,6 +51,6 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 }
             }
         }
-        return array('callbacks' => $callbacks, 'acl' => $rules);
+        return array('callbacks' => $callbacks, 'acl' => $rules, 'processors' => $groupProcessors);
     }
 }

@@ -37,7 +37,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         parent::_construct();
 
-        $this->_addButton(
+        $this->buttonList->add(
             'back',
             array(
                 'label' => __('Back'),
@@ -46,7 +46,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
             )
         );
 
-        $this->_addButton(
+        $this->buttonList->add(
             'edit',
             array(
                 'label' => __('Edit'),

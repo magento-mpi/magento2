@@ -14,8 +14,8 @@ use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Factory\Factory;
 
 /**
+ * Class Crosssell
  * Cross-sell Tab
- *
  */
 class Crosssell extends Tab
 {

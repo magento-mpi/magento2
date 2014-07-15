@@ -53,14 +53,15 @@ class AssertBundleInCategory extends AbstractConstraint
      *
      * @param CatalogProductBundle $bundle
      * @param CatalogCategoryView $catalogCategoryView
+     * @return void
      */
     protected function assertPrice(CatalogProductBundle $bundle, CatalogCategoryView $catalogCategoryView)
     {
-        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
+        /** @var \Magento\Bundle\Test\Fixture\CatalogProductBundle\Price $priceFixture */
         $priceFixture = $bundle->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
-        //Price from/to verification
+        // Price from/to verification
         $priceBlock = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($bundle->getName());
         \PHPUnit_Framework_Assert::assertEquals(
             $pricePresetData['price_from'],
