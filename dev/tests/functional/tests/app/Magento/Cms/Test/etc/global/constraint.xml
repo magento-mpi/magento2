@@ -78,6 +78,19 @@
             <cms class="Magento\Cms\Test\Fixture\CmsPage" />
         </require>
     </assertCmsPagePreview>
+    <assertCmsBlockDeleteMessage module="Magento_Cms">
+        <severeness>high</severeness>
+        <require>
+            <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
+        </require>
+    </assertCmsBlockDeleteMessage>
+    <assertCmsBlockNotInGrid module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsBlock class="Magento\Cms\Test\Fixture\CmsBlock" />
+            <cmsBlockIndex class="Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex" />
+        </require>
+    </assertCmsBlockNotInGrid>
     <assertCmsPageDeleteMessage module="Magento_Cms">
         <severeness>low</severeness>
     </assertCmsPageDeleteMessage>

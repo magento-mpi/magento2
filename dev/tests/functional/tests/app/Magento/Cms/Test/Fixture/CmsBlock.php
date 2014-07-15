@@ -16,12 +16,17 @@ use Mtf\Fixture\InjectableFixture;
  */
 class CmsBlock extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\Cms\Test\Handler\CmsBlock\CmsBlockInterface';
+
     protected $defaultDataSet = [
         'title' => 'block_%isolation%',
         'identifier' => 'identifier_%isolation%',
-        'store_id' => 'All Store Views',
+        'store_id' => ['dataSet' => ['All Store Views']],
         'is_active' => 'Enabled',
-        'content' => 'description_%isolation%'
+        'content' => 'description_%isolation%',
     ];
 
     protected $block_id = [

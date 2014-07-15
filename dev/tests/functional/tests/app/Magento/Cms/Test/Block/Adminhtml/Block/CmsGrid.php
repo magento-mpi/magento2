@@ -9,6 +9,7 @@
 namespace Magento\Cms\Test\Block\Adminhtml\Block;
 
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
@@ -44,4 +45,11 @@ class CmsGrid extends GridInterface
             'selector' => 'input[name="update_time[from]"]',
         ],
     ];
+
+    /**
+     * An element locator which allows to select first entity in grid
+     *
+     * @var string
+     */
+    protected $editLink = '#cmsBlockGrid_table tbody tr:first-child td';
 }
