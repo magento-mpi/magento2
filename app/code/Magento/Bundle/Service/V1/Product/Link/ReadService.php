@@ -46,7 +46,7 @@ class ReadService implements ReadServiceInterface
     {
         $product = $this->productRepository->get($productId);
 
-        if (!$product->getTypeInstance() instanceof Interceptor) {
+        if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             throw new Exception('Only implemented for bundle product', Exception::HTTP_FORBIDDEN);
         }
 
