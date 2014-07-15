@@ -68,6 +68,9 @@ try {
     foreach ($reader->readMagentoPackages() as $package) {
         $root->set("require->{$package->get('name')}", $package->get('version'));
     }
+    //as the last one, adding dependency on magento/magento-custom-installer
+    $root->set("require->magento/magento-composer-installer", "*");
+
     $size = sizeof((array)$root->get('require'));
     $logger->info("Total number of dependencies in the skeleton package: {$size}");
     $root->set('extra->map', $reader->getRootMappingPatterns());

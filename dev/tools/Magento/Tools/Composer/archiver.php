@@ -71,7 +71,8 @@ try {
 
     //Creating zipped folders for skeletons
     $components = $reader->getPatterns();
-    for ($i = 0 ; $i < count($components); $i++) {
+    $counter = count($components);
+    for ($i = 0 ; $i < $counter; $i++) {
         $components[$i] = str_replace('\\', '/', realpath($workingDir)) . '/' . $components[$i];
     }
 

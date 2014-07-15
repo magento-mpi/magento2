@@ -30,7 +30,7 @@ class Reader
     private $patterns = [];
 
     /**
-     * List of patterns
+     * List of paths that can be customized
      *
      * @var string[]
      */
@@ -183,7 +183,7 @@ class Reader
                 continue;
             }
             if (strpos($mappingList[$i], $mappingList[$index]) !== false) {
-                if (mb_substr_count($mappingList[$i], '/') === mb_substr_count($mappingList[$index], '/')) {
+                if (substr_count($mappingList[$i], '/') === substr_count($mappingList[$index], '/')) {
                     $result[] = $mappingList[$i];
                     $index = $i;
                 }
@@ -207,8 +207,7 @@ class Reader
     private function checkExistence($customizableLocationList, $excludes, $file)
     {
         foreach ($customizableLocationList as $path) {
-            if ((strpos($path, $file) !== false)
-                || ((strpos(str_replace('*', '', $path), $file)) !== false)) {
+            if ((strpos($path, $file) !== false) || ((strpos(str_replace('*', '', $path), $file)) !== false)) {
                 return true;
             }
         }
