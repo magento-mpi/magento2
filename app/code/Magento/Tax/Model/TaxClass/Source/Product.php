@@ -74,7 +74,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * @param bool $withEmpty
      * @return array
      */
-    public function getAllOptions($withEmpty = true)
+    public function getAllOptions($withEmpty = false)
     {
         if (!$this->_options) {
             $filter = $this->_filterBuilder
@@ -91,7 +91,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             }
         }
         if ($withEmpty) {
-            return array_unshift($this->_options, array('value' => '0', 'label' => __('None')));
+            return array_merge(array(array('value' => '0', 'label' => __('None'))), $this->_options);
         }
         return $this->_options;
     }
