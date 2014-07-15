@@ -8,40 +8,67 @@
 
 namespace Magento\Test\Integrity\App\Language;
 
+use \Magento\Framework\App\Language\Config;
+
 class CircularDependencyTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Config[][]
+     */
+    private $packs;
+
     /**
      * Test circular dependencies between languages
      */
     public function testCircularDependencies()
     {
         $package = new Package();
-
         $rootDirectory = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $declaredLanguages = $package->readDeclarationFiles($rootDirectory);
-
-        $dictionary = new \Magento\Framework\App\Language\Dictionary($this->getFileSystem($rootDirectory));
-
+        $packs = [];
         foreach ($declaredLanguages as $language) {
-            /** Get dictionary by language code */
-            try {
-                $dictionary->getDictionary($language[2]);
-            } catch (\LogicException $e) {
-                $this->fail($e->getMessage());
+            $filePath = reset($language);
+            $languageConfig = new Config(file_get_contents($filePath));
+            $this->packs[$languageConfig->getVendor()][$languageConfig->getPackage()] = $languageConfig;
+            $packs[] = $languageConfig;
+        }
+
+        /** @var $languageConfig Config */
+        foreach ($packs as $languageConfig) {
+            $languages = [];
+            /** @var $config Config */
+            foreach ($this->collectCircularInheritance($languageConfig) as $config) {
+                $languages[] = $config->getVendor() . '/' . $config->getPackage();
+            }
+            if (!empty($languages)) {
+                $this->fail("Circular dependency detected:\n" . implode(' -> ', $languages));
             }
         }
     }
 
     /**
-     * @param string $rootDirectory
-     * @return \Magento\Framework\App\Filesystem
+     * @param Config $languageConfig
+     * @param array $languageList
+     * @param bool $isCircular
+     * @return array|null
      */
-    protected function getFileSystem($rootDirectory)
+    private function collectCircularInheritance(Config $languageConfig, &$languageList = [], &$isCircular = false)
     {
-        return new \Magento\Framework\App\Filesystem(
-            new \Magento\Framework\App\Filesystem\DirectoryList($rootDirectory),
-            new \Magento\Framework\Filesystem\Directory\ReadFactory(),
-            new \Magento\Framework\Filesystem\Directory\WriteFactory()
-        );
+        $packKey = implode('|', [$languageConfig->getVendor(), $languageConfig->getPackage()]);
+        if (isset($languageList[$packKey])) {
+            $isCircular = true;
+        } else {
+            $languageList[$packKey] = $languageConfig;
+            foreach ($languageConfig->getUses() as $reuse) {
+                if (isset($this->packs[$reuse['vendor']][$reuse['package']])) {
+                    $this->collectCircularInheritance(
+                        $this->packs[$reuse['vendor']][$reuse['package']],
+                        $languageList,
+                        $isCircular
+                    );
+                }
+            }
+        }
+        return $isCircular ? $languageList : [];
     }
 }
