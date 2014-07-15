@@ -54,6 +54,6 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
      */
     public function toString()
     {
-        return 'That message is appeared on Compare Products block on my account page.';
+        return 'The message appeared on Compare Products block on my account page.';
     }
 }

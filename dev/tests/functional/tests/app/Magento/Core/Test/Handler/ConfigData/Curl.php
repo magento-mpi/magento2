@@ -41,9 +41,6 @@ class Curl extends AbstractCurl implements ConfigDataInterface
      *
      * @param FixtureInterface $fixture
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function prepareData(FixtureInterface $fixture)
     {
@@ -69,14 +66,14 @@ class Curl extends AbstractCurl implements ConfigDataInterface
     protected function applyConfigSettings(array $data, $section)
     {
         $url = $this->getUrl($section);
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
 
-        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Settings is not apply! Response: $response");
+        if (strpos($response, 'data-ui-id="messages-message-success"') === false) {
+            throw new \Exception("Settings are not applied! Response: $response");
         }
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
 

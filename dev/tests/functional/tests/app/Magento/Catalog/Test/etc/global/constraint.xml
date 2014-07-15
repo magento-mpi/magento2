@@ -343,9 +343,6 @@
     <assertProductCompareSuccessAddMessage module="Magento_Catalog">
         <severeness>high</severeness>
     </assertProductCompareSuccessAddMessage>
-    <assertProductCompareSuccessRemoveMessage module="Magento_Catalog">
-        <severeness>high</severeness>
-    </assertProductCompareSuccessRemoveMessage>
     <assertProductCompareSuccessRemoveAllProductsMessage module="Magento_Catalog">
         <severeness>high</severeness>
     </assertProductCompareSuccessRemoveAllProductsMessage>

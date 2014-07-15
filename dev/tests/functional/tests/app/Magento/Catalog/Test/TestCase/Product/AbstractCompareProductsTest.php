@@ -88,6 +88,24 @@ class AbstractCompareProductsTest extends Injectable
     }
 
     /**
+     * Injection data
+     *
+     * @param CmsIndex $cmsIndex
+     * @param CatalogProductView $catalogProductView
+     * @param CustomerAccountLogin $customerAccountLogin
+     * @return void
+     */
+    public function __inject(
+        CmsIndex $cmsIndex,
+        CatalogProductView $catalogProductView,
+        CustomerAccountLogin $customerAccountLogin
+    ) {
+        $this->cmsIndex = $cmsIndex;
+        $this->catalogProductView = $catalogProductView;
+        $this->customerAccountLogin = $customerAccountLogin;
+    }
+
+    /**
      * Login customer
      *
      * @return void

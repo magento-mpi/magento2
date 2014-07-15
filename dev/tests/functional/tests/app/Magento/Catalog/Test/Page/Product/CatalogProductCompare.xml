@@ -10,8 +10,8 @@
 <page mca="catalog/product_compare/index" >
     <block>
         <name>compareProductsBlock</name>
-        <class>Magento\Catalog\Test\Block\Product\Compare\ListCompare\Interceptor</class>
-        <locator>#product-comparison</locator>
+        <class>Magento\Catalog\Test\Block\Product\Compare\ListCompare</class>
+        <locator>.column.main</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

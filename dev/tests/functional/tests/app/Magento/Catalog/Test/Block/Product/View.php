@@ -18,6 +18,9 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Class View
  * Product view block on the product page
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class View extends Block
 {

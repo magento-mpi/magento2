@@ -44,40 +44,22 @@ class AddCompareProductsTest extends AbstractCompareProductsTest
     protected $catalogProductCompare;
 
     /**
-     * Injection data
-     *
-     * @param CmsIndex $cmsIndex
-     * @param CatalogProductCompare $catalogProductCompare
-     * @param CatalogProductView $catalogProductView
-     * @param CustomerAccountLogin $customerAccountLogin
-     * @return void
-     */
-    public function __inject(
-        CmsIndex $cmsIndex,
-        CatalogProductCompare $catalogProductCompare,
-        CatalogProductView $catalogProductView,
-        CustomerAccountLogin $customerAccountLogin
-    ) {
-        $this->cmsIndex = $cmsIndex;
-        $this->catalogProductCompare = $catalogProductCompare;
-        $this->catalogProductView = $catalogProductView;
-        $this->customerAccountLogin = $customerAccountLogin;
-    }
-
-    /**
      * Test creation for adding compare products
      *
      * @param string $products
      * @param string $isCustomerLoggedIn
      * @param AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage
+     * @param CatalogProductCompare $catalogProductCompare
      * @return array
      */
     public function test(
         $products,
         $isCustomerLoggedIn,
-        AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage
+        AssertProductCompareSuccessAddMessage $assertProductCompareSuccessAddMessage,
+        CatalogProductCompare $catalogProductCompare
     ) {
         //Steps
+        $this->catalogProductCompare = $catalogProductCompare;
         $this->cmsIndex->open();
         if ($isCustomerLoggedIn == 'Yes') {
             $this->loginCustomer($this->customer);
