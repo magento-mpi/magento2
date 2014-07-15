@@ -365,7 +365,8 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product-details'
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price',
     ];
 
     protected $stock_data = [

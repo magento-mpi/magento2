@@ -127,6 +127,13 @@ class View extends Block
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
 
     /**
+     * 'Add to Compare' button
+     *
+     * @var string
+     */
+    protected $clickAddToCompare = '.action.tocompare';
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
@@ -430,5 +437,15 @@ class View extends Block
     public function stockAvailability()
     {
         return $this->_rootElement->find($this->stockAvailability)->getText();
+    }
+
+    /**
+     * Click "Add to Compare" button
+     *
+     * @return void
+     */
+    public function clickAddToCompare()
+    {
+        $this->_rootElement->find($this->clickAddToCompare, Locator::SELECTOR_CSS)->click();
     }
 }

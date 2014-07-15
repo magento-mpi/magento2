@@ -29,7 +29,7 @@ class CatalogProductDownloadable extends AbstractRepository
         $this->_data['default'] = [
             'name' => 'Test downloadable product %isolation%',
             'sku' => 'sku_test_downloadable_product_%isolation%',
-            'price' => 280.00,
+            'price' => ['value' => 280.00, 'preset' => '-'],
             'type_id' => 'downloadable',
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'quantity_and_stock_status' => [

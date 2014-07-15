@@ -21,6 +21,20 @@ class Price implements FixtureInterface
     /**
      * Current preset
      *
+     * Prepared dataSet data
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * @var string
      */
     protected $currentPreset;
@@ -145,6 +159,12 @@ class Price implements FixtureInterface
             'fixed-15' => [
                 'price_from' => '15.00',
                 'cart_price' => '80.00'
+            ],
+            'default_fixed' => [
+                'compare_price' => '755.00'
+            ],
+            'default_dynamic' => [
+                'compare_price' => '560.00'
             ],
         ];
         if (!isset($presets[$this->currentPreset])) {
