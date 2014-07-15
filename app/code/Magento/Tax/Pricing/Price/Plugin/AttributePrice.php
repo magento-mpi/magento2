@@ -52,7 +52,7 @@ class AttributePrice
         $defaultValue = $this->applyRate($productClassId, false, false, false, $result['customerId']);
         $result['defaultTax'] = $defaultValue + $result['defaultTax'];
 
-        $currentTax = $this->applyRate($productClassId, $result['customerId']);
+        $currentTax = $this->applyRate($productClassId, null, null, null, $result['customerId']);
         $result['currentTax'] = $currentTax + $result['currentTax'];
 
         $adjustment = $product->getPriceInfo()->getAdjustment(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE);
@@ -84,6 +84,7 @@ class AttributePrice
             $shippingAddress,
             $billingAddress,
             $customerTaxClass,
+            null,
             $customerId
         );
         $rateRequest->setProductClassId($classId);
