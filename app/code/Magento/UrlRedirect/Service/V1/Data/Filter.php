@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRedirect\Model\Data;
+namespace Magento\UrlRedirect\Service\V1\Data;
 
 /**
  * Url rewrite search filter
@@ -29,6 +29,7 @@ class Filter
         UrlRewrite::ENTITY_TYPE,
         UrlRewrite::STORE_ID,
         UrlRewrite::REQUEST_PATH,
+        UrlRewrite::REDIRECT_TYPE,
     ];
 
     /**
@@ -107,5 +108,15 @@ class Filter
     public function setStoreId($storeId)
     {
         return $this->_set(UrlRewrite::STORE_ID, $storeId);
+    }
+
+    /**
+     * @param string|array $redirectType
+     *
+     * @return $this
+     */
+    public function setRedirectType($redirectType)
+    {
+        return $this->_set(UrlRewrite::REDIRECT_TYPE, $redirectType);
     }
 }

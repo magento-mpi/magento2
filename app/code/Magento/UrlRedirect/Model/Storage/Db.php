@@ -8,7 +8,9 @@
 namespace Magento\UrlRedirect\Model\Storage;
 
 use Magento\Framework\App\Resource;
-use Magento\UrlRedirect\Model\Data\Filter;
+// TODO: structure layer knows about service layer(and version)
+use Magento\UrlRedirect\Service\V1\Data\Converter;
+use Magento\UrlRedirect\Service\V1\Data\Filter;
 
 /**
  * Db storage
@@ -21,16 +23,19 @@ class Db extends AbstractStorage
     const TABLE_NAME = 'url_rewrite';
 
     /**
-     * @var false|\Magento\Framework\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $connection;
 
     /**
-     * @param \Magento\Framework\App\Resource $resource
+     * @param Converter $converter
+     * @param Resource $resource
      */
-    public function __construct(Resource $resource)
+    public function __construct(Converter $converter, Resource $resource)
     {
         $this->connection = $resource->getConnection(Resource::DEFAULT_WRITE_RESOURCE);
+
+        parent::__construct($converter);
     }
 
     /**
@@ -69,7 +74,7 @@ class Db extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    protected function doAdd($data)
+    protected function doAddMultiple($data)
     {
         $this->connection->insertMultiple(self::TABLE_NAME, $data);
     }

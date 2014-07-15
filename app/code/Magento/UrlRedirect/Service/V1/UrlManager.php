@@ -7,15 +7,15 @@
  */
 namespace Magento\UrlRedirect\Service\V1;
 
-use Magento\UrlRedirect\Model\Data\Filter;
-use Magento\UrlRedirect\Model\Data\FilterFactory;
-use Magento\UrlRedirect\Model\Data\UrlRewrite;
+use Magento\UrlRedirect\Service\V1\Data\Filter;
+use Magento\UrlRedirect\Service\V1\Data\FilterFactory;
+use Magento\UrlRedirect\Service\V1\Data\UrlRewrite;
 use Magento\UrlRedirect\Model\StorageInterface;
 
 /**
  * Url Manager
  */
-class UrlManager implements UrlMatcherInterface, UrlPersisterInterface
+class UrlManager implements UrlMatcherInterface, UrlSaveInterface
 {
     /**
      * @var StorageInterface
@@ -44,7 +44,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersisterInterface
     {
         $this->storage->deleteByFilter($this->createFilter($urls));
 
-        $this->storage->add($urls);
+        $this->storage->addMultiple($urls);
     }
 
     /**
@@ -52,6 +52,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersisterInterface
      */
     public function match($requestPath, $storeId)
     {
+        /** @var Filter $filter */
         $filter = $this->filterFactory->create();
         $filter->setRequestPath($requestPath)->setStoreId($storeId);
 
@@ -63,6 +64,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersisterInterface
      */
     public function findByEntity($entityId, $entityType, $storeId = 0)
     {
+        /** @var Filter $filter */
         $filter = $this->filterFactory->create();
         $filter->setEntityId($entityId)->setEntityType($entityType)->setStoreId($storeId);
 

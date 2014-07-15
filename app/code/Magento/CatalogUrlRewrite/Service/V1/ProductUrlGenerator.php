@@ -7,31 +7,41 @@
  */
 namespace Magento\CatalogUrlRewrite\Service\V1;
 
-use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ProductFactory;
 use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\UrlRedirect\Model\Data\BuilderFactory;
-use Magento\UrlRedirect\Model\Data\FilterFactory;
-use Magento\UrlRedirect\Model\Data\UrlRewrite;
+use Magento\UrlRedirect\Model\OptionProvider;
+use Magento\UrlRedirect\Service\V1\Data\Converter;
+use Magento\UrlRedirect\Service\V1\Data\FilterFactory;
+use Magento\UrlRedirect\Service\V1\Data\UrlRewrite;
 use Magento\UrlRedirect\Service\V1\UrlMatcherInterface;
-
 
 /**
  * Product Generator
- * TODO: interface
  */
-class ProductUrlGenerator
+class ProductUrlGenerator implements ProductUrlGeneratorInterface
 {
-    // TODO:
-    /** temporary solution for store product types */
-    const TYPE = 'product';
-    const TYPE_REDIRECT = 'product_redirect';
-    // TODO:
+    /**
+     * TODO: think about better place for this const
+     *
+     * Entity type
+     */
+    const ENTITY_TYPE_PRODUCT = 'product';
+
+    /**
+     * @var ProductFactory
+     */
+    protected $productFactory;
 
     /**
      * @var FilterFactory
      */
     protected $filterFactory;
+
+    /**
+     * @var Converter
+     */
+    protected $converter;
 
     /**
      * Store manager
@@ -46,17 +56,12 @@ class ProductUrlGenerator
     protected $urlMatcher;
 
     /**
-     * @var BuilderFactory
-     */
-    protected $builderFactory;
-
-    /**
      * @var CatalogUrlRewriteHelper
      */
     protected $catalogUrlRewriteHelper;
 
     /**
-     * @var Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $product;
 
@@ -66,22 +71,25 @@ class ProductUrlGenerator
     protected $categories;
 
     /**
+     * @param ProductFactory $productFactory
      * @param FilterFactory $filterFactory
+     * @param Converter $converter
      * @param StoreManagerInterface $storeManager
-     * @param BuilderFactory $builderFactory
      * @param UrlMatcherInterface $urlMatcher
      * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
      */
     public function __construct(
+        ProductFactory $productFactory,
         FilterFactory $filterFactory,
+        Converter $converter,
         StoreManagerInterface $storeManager,
-        BuilderFactory $builderFactory,
         UrlMatcherInterface $urlMatcher,
         CatalogUrlRewriteHelper $catalogUrlRewriteHelper
     ) {
+        $this->productFactory = $productFactory;
         $this->filterFactory = $filterFactory;
+        $this->converter = $converter;
         $this->storeManager = $storeManager;
-        $this->builderFactory = $builderFactory;
         $this->urlMatcher = $urlMatcher;
         $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;
         $this->product = null;
@@ -89,13 +97,12 @@ class ProductUrlGenerator
     }
 
     /**
-     * Generate list of urls
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return UrlRewrite[]
+     * {@inheritdoc}
+     * TODO: fix service parameter
      */
-    public function generate(Product $product)
+    public function generate($product)
     {
+//        $this->product = $this->productFactory->create()->load($productId);
         $this->product = $product;
         $storeId = $this->product->getStoreId();
 
@@ -137,71 +144,65 @@ class ProductUrlGenerator
         $urls[] = $this->createUrlRewrite(
             $storeId,
             $this->catalogUrlRewriteHelper->getProductUrlKeyPath($this->product, $storeId),
-            $this->catalogUrlRewriteHelper->getProductCanonicalUrlPath($this->product),
-            self::TYPE
+            $this->catalogUrlRewriteHelper->getProductCanonicalUrlPath($this->product)
         );
 
         foreach ($this->getCategories() as $category) {
             $urls[] = $this->createUrlRewrite(
                 $storeId,
                 $this->catalogUrlRewriteHelper->getProductUrlKeyPathWithCategory($this->product, $category, $storeId),
-                $this->catalogUrlRewriteHelper->getProductCanonicalUrlPathWithCategory($this->product, $category),
-                self::TYPE
+                $this->catalogUrlRewriteHelper->getProductCanonicalUrlPathWithCategory($this->product, $category)
             );
         }
-        return array_merge($urls, $this->generatePermanentRedirectUrlsForStore($storeId));
+        return array_merge($urls, $this->generatePermanentRewritesBasedOnCurrentRewrites($storeId));
     }
 
     /**
-     * Build redirect urls
+     * Processing current rewrites
      *
      * @param int $storeId
      * @return array
      */
-    protected function generatePermanentRedirectUrlsForStore($storeId)
+    protected function generatePermanentRewritesBasedOnCurrentRewrites($storeId)
     {
-        // TODO: don't clear logic
         $urls = [];
-        foreach ($this->urlMatcher->findAllByFilter($this->createFilter($storeId)) as $url) {
-            if ($url->getEntityType() == self::TYPE) {
-                $targetPath = str_replace(
-                    $this->product->getOrigData('url_key'),
-                    $this->product->getData('url_key'),
-                    $url->getRequestPath()
-                );
-            } else {
+        foreach ($this->urlMatcher->findAllByFilter($this->createCurrentUrlRewritesFilter($storeId)) as $url) {
+            $targetPath = null;
+            if ($url->getRedirectType()) {
                 $targetPath = str_replace(
                     $this->product->getOrigData('url_key'),
                     $this->product->getData('url_key'),
                     $url->getTargetPath()
                 );
+                $redirectType = $url->getRedirectType();
+            } elseif ($this->product->getData('save_rewrites_history')) {
+                $targetPath = str_replace(
+                    $this->product->getOrigData('url_key'),
+                    $this->product->getData('url_key'),
+                    $url->getRequestPath()
+                );
+                $redirectType = OptionProvider::PERMANENT;
             }
-            if ($url->getRequestPath() == $targetPath) {
-                continue;
+
+            if ($targetPath && $url->getRequestPath() != $targetPath) {
+                $urls[] = $this->createUrlRewrite($storeId, $url->getRequestPath(), $targetPath, $redirectType);
             }
-            $urls[] = $this->createUrlRewrite($storeId, $url->getRequestPath(), $targetPath, self::TYPE_REDIRECT, 'RP');
         }
         return $urls;
     }
 
     /**
      * @param int $storeId
-     * @return \Magento\UrlRedirect\Model\Data\Filter
+     * @return \Magento\UrlRedirect\Service\V1\Data\Filter
      */
-    protected function createFilter($storeId)
+    protected function createCurrentUrlRewritesFilter($storeId)
     {
-        /** @var \Magento\UrlRedirect\Model\Data\Filter $filter */
+        /** @var \Magento\UrlRedirect\Service\V1\Data\Filter $filter */
         $filter = $this->filterFactory->create();
 
         $filter->setStoreId($storeId);
         $filter->setEntityId($this->product->getId());
-
-        $entityTypes = [ProductStorage::TYPE_REDIRECT];
-        if ($this->product->getData('save_rewrites_history')) {
-            $entityTypes[] = ProductStorage::TYPE;
-        }
-        $filter->setEntityType($entityTypes);
-
+        $filter->setEntityType(self::ENTITY_TYPE_PRODUCT);
         return $filter;
     }
 
@@ -226,20 +227,18 @@ class ProductUrlGenerator
      * @param int $storeId
      * @param string $requestPath
      * @param string $targetPath
-     * @param string $entityType
-     * @param string $redirectType
-     * @return \Magento\UrlRedirect\Model\Data\UrlRewrite
+     * @param string|null $redirectType Null or one of OptionProvider const
+     * @return UrlRewrite
      */
-    protected function createUrlRewrite($storeId, $requestPath, $targetPath, $entityType, $redirectType = '')
+    protected function createUrlRewrite($storeId, $requestPath, $targetPath, $redirectType = null)
     {
-        $data = [
-            UrlRewrite::ENTITY_TYPE => $entityType,
+        return $this->converter->convertArrayToObject([
+            UrlRewrite::ENTITY_TYPE => self::ENTITY_TYPE_PRODUCT,
             UrlRewrite::ENTITY_ID => $this->product->getId(),
             UrlRewrite::STORE_ID => $storeId,
             UrlRewrite::REQUEST_PATH => $requestPath,
             UrlRewrite::TARGET_PATH => $targetPath,
             UrlRewrite::REDIRECT_TYPE => $redirectType,
-        ];
-        return $this->builderFactory->create()->populateWithArray($data)->create();
+        ]);
     }
 }

@@ -9,8 +9,9 @@ namespace Magento\UrlRedirect\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\UrlRedirect\Model\StorageInterface;
-use Magento\UrlRedirect\Model\Data\BuilderFactory;
-use Magento\UrlRedirect\Model\Data\Filter;
+// TODO: structure layer knows about service layer(and version)
+use Magento\UrlRedirect\Service\V1\Data\Converter;
+use Magento\UrlRedirect\Service\V1\Data\Filter;
 
 /**
  * Abstract db storage
@@ -18,16 +19,16 @@ use Magento\UrlRedirect\Model\Data\Filter;
 abstract class AbstractStorage implements StorageInterface
 {
     /**
-     * @var BuilderFactory
+     * @var Converter
      */
-    protected $builderFactory;
+    protected $converter;
 
     /**
-     * @param BuilderFactory $builderFactory
+     * @param Converter $converter
      */
-    public function __construct(BuilderFactory $builderFactory)
+    public function __construct(Converter $converter)
     {
-        $this->builderFactory = $builderFactory;
+        $this->converter = $converter;
     }
 
     /**
@@ -73,9 +74,13 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    public function add(array $data)
+    public function addMultiple(array $urls)
     {
-        $this->doAdd($data);
+        $flatData = [];
+        foreach ($urls as $url) {
+            $flatData[] = $this->converter->convertObjectToArray($url);
+        }
+        $this->doAddMultiple($flatData);
     }
 
     /**
@@ -84,16 +89,16 @@ abstract class AbstractStorage implements StorageInterface
      * @param array $data
      * @return int
      */
-    abstract protected function doAdd($data);
+    abstract protected function doAddMultiple($data);
 
     /**
      * Create url rewrite object
      *
      * @param array $data
-     * @return \Magento\UrlRedirect\Model\Data\UrlRewrite
+     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite
      */
     protected function createUrlRewrite($data)
     {
-        return $this->builderFactory->create()->populateWithArray($data)->create();
+        return $this->converter->convertArrayToObject($data);
     }
 }

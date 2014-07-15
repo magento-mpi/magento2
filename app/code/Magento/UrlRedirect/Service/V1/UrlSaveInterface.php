@@ -8,14 +8,14 @@
 namespace Magento\UrlRedirect\Service\V1;
 
 /**
- * Url Persister Interface
+ * Url Save Interface
  */
-interface UrlPersisterInterface
+interface UrlSaveInterface
 {
     /**
      * Save url rewrites. Return number of saved urls
      *
-     * @param \Magento\UrlRedirect\Model\Data\UrlRewrite[] $urls
+     * @param \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[] $urls
      */
     public function save(array $urls);
 }

@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRedirect\Model\Data;
+namespace Magento\UrlRedirect\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 /**
  * Data builder class for url rewrite
  */
-class Builder extends AbstractObjectBuilder
+class UrlRewriteBuilder extends AbstractObjectBuilder
 {
     /**
      * @param int $entityId

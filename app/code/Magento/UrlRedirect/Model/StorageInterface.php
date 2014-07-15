@@ -7,7 +7,8 @@
  */
 namespace Magento\UrlRedirect\Model;
 
-use Magento\UrlRedirect\Model\Data\Filter;
+// TODO: structure layer knows about service layer(and version)
+use Magento\UrlRedirect\Service\V1\Data\Filter;
 
 /**
  * Url Storage Interface
@@ -18,7 +19,7 @@ interface StorageInterface
      * Find all rows by specific filter
      *
      * @param Filter $filter
-     * @return array
+     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
      */
     public function findAllByFilter(Filter $filter);
 
@@ -26,16 +27,16 @@ interface StorageInterface
      * Find row by specific filter
      *
      * @param Filter $filter
-     * @return array
+     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite
      */
     public function findByFilter(Filter $filter);
 
     /**
-     * Add multiple data to storage
+     * Add multiple urls to storage
      *
-     * @param array $data
+     * @param array $urls
      */
-    public function add(array $data);
+    public function addMultiple(array $urls);
 
     /**
      * Delete data from storage by specific filter

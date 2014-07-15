@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRedirect\Model\Data;
+namespace Magento\UrlRedirect\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObject;
 

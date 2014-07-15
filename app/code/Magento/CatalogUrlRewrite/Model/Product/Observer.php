@@ -8,29 +8,29 @@
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGenerator;
-use Magento\UrlRedirect\Service\V1\UrlPersisterInterface;
+use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGeneratorInterface;
+use Magento\UrlRedirect\Service\V1\UrlSaveInterface;
 
 class Observer
 {
     /**
-     * @var ProductUrlGenerator
+     * @var ProductUrlGeneratorInterface
      */
     protected $urlGenerator;
 
     /**
-     * @var \Magento\UrlRedirect\Service\V1\UrlPersisterInterface
+     * @var \Magento\UrlRedirect\Service\V1\UrlSaveInterface
      */
-    protected $urlPersister;
+    protected $urlSave;
 
     /**
-     * @param ProductUrlGenerator $urlGenerator
-     * @param UrlPersisterInterface $urlPersister
+     * @param ProductUrlGeneratorInterface $urlGenerator
+     * @param UrlSaveInterface $urlSave
      */
-    public function __construct(ProductUrlGenerator $urlGenerator, UrlPersisterInterface $urlPersister)
+    public function __construct(ProductUrlGeneratorInterface $urlGenerator, UrlSaveInterface $urlSave)
     {
         $this->urlGenerator = $urlGenerator;
-        $this->urlPersister = $urlPersister;
+        $this->urlSave = $urlSave;
     }
 
     /**
@@ -45,8 +45,9 @@ class Observer
         $product = $observer->getEvent()->getProduct();
 
         if ($product->getOrigData('url_key') != $product->getData('url_key')) {
+            // TODO: fix service parameter
             $urls = $this->urlGenerator->generate($product);
-            $this->urlPersister->save($urls);
+            $this->urlSave->save($urls);
         }
     }
 }
