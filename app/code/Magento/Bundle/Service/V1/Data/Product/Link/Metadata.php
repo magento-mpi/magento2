@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Data\Product\Link;
 
-use \Magento\Framework\Service\Data\Eav\AbstractObject;
+use \Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * @codeCoverageIgnore
@@ -24,7 +24,7 @@ class Metadata extends AbstractObject
 
     const DEFINED = 'defined';
 
-    const IS_DEFAULT = 'is_default';
+    const IS_DEFAULT = 'default';
 
     /**
      * @return string|null
