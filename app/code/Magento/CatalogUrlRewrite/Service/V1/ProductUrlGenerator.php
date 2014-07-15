@@ -92,8 +92,6 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
         $this->storeManager = $storeManager;
         $this->urlMatcher = $urlMatcher;
         $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;
-        $this->product = null;
-        $this->categories = null;
     }
 
     /**
@@ -102,15 +100,11 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      */
     public function generate($product)
     {
-//        $this->product = $this->productFactory->create()->load($productId);
         $this->product = $product;
         $storeId = $this->product->getStoreId();
 
-        if ($this->catalogUrlRewriteHelper->isDefaultStore($storeId)) {
-            $urls = $this->generateUrlForDefaultStore();
-        } else {
-            $urls = $this->generateForStore($storeId);
-        }
+        $urls = $this->catalogUrlRewriteHelper->isDefaultStore($storeId)
+            ? $this->generateForDefaultStore() : $this->generateForStore($storeId);
 
         $this->product = null;
         $this->categories = null;
@@ -122,7 +116,7 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      *
      * @return UrlRewrite[]
      */
-    protected function generateUrlForDefaultStore()
+    protected function generateForDefaultStore()
     {
         $urls = [];
         foreach ($this->storeManager->getStores() as $store) {

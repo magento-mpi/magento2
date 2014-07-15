@@ -14,9 +14,10 @@ interface ProductUrlGeneratorInterface
 {
     /**
      * Generate list of urls
+     * TODO: fix service parameter
      *
-     * @param int $productId
+     * @param \Magento\Catalog\Model\Product $product
      * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
      */
-    public function generate($productId);
+    public function generate($product);
 }
