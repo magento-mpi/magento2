@@ -79,7 +79,6 @@ class UrlRedirect extends Action
         $this->_setActiveMenu('Magento_UrlRedirect::urlrewrite');
 
         $mode = $this->_getMode();
-
         switch ($mode) {
             case self::PRODUCT_MODE:
                 $editBlock = $this->_view->getLayout()->createBlock(
@@ -212,6 +211,7 @@ class UrlRedirect extends Action
                 $this->_objectManager->get('Magento\UrlRedirect\Helper\UrlRewrite')->validateRequestPath($requestPath);
 
                 $model->setEntityType($this->getRequest()->getParam('entity_type', self::ENTITY_TYPE_CUSTOM))
+                    ->setStoreId($this->getRequest()->getParam('store_id', 0))
                     ->setTargetPath($this->getRequest()->getParam('target_path'))
                     ->setRedirectType($this->getRequest()->getParam('redirect_type'))
                     ->setDescription($this->getRequest()->getParam('description'))
@@ -371,8 +371,10 @@ class UrlRedirect extends Action
             $this->_category = $this->_objectManager->create('Magento\Catalog\Model\Category');
             $categoryId = (int)$this->getRequest()->getParam('category', 0);
 
-            if (!$categoryId && $this->_getUrlRewrite()->getId()) {
-                $categoryId = $this->_getUrlRewrite()->getCategoryId();
+            if (!$categoryId && $this->_getUrlRewrite()->getId()
+                && $this->_getUrlRewrite()->getEntityType() === self::ENTITY_TYPE_CATEGORY
+            ) {
+                $categoryId = $this->_getUrlRewrite()->getEntityId();
             }
 
             if ($categoryId) {
@@ -393,8 +395,10 @@ class UrlRedirect extends Action
             $this->_product = $this->_objectManager->create('Magento\Catalog\Model\Product');
             $productId = (int)$this->getRequest()->getParam('product', 0);
 
-            if (!$productId && $this->_getUrlRewrite()->getId()) {
-                $productId = $this->_getUrlRewrite()->getProductId();
+            if (!$productId && $this->_getUrlRewrite()->getId()
+                && $this->_getUrlRewrite()->getEntityType() === self::ENTITY_TYPE_PRODUCT
+            ) {
+                $productId = $this->_getUrlRewrite()->getEntityId();
             }
 
             if ($productId) {
@@ -415,12 +419,10 @@ class UrlRedirect extends Action
             $this->_cmsPage = $this->_objectManager->create('Magento\Cms\Model\Page');
             $cmsPageId = (int)$this->getRequest()->getParam('cms_page', 0);
 
-            if (!$cmsPageId && $this->_getUrlRewrite()->getId()) {
-                $urlRewriteId = $this->_getUrlRewrite()->getId();
-                /** @var $cmsUrlRewrite \Magento\Cms\Model\Page\Urlrewrite */
-                $cmsUrlRewrite = $this->_objectManager->create('Magento\Cms\Model\Page\Urlrewrite');
-                $cmsUrlRewrite->load($urlRewriteId, 'url_rewrite_id');
-                $cmsPageId = $cmsUrlRewrite->getCmsPageId();
+            if (!$cmsPageId && $this->_getUrlRewrite()->getId()
+                && $this->_getUrlRewrite()->getEntityType() === self::ENTITY_TYPE_CMS_PAGE
+            ) {
+                $cmsPageId = $this->_getUrlRewrite()->getEntityId();
             }
 
             if ($cmsPageId) {

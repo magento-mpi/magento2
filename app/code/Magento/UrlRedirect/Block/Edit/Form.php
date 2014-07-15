@@ -162,6 +162,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
+        $this->_prepareStoreElement($fieldset);
+
         $fieldset->addField(
             'request_path',
             'text',
@@ -215,8 +217,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        $this->_prepareStoreElement($fieldset);
-
         $this->setForm($form);
         $this->_formPostInit($form);
 
@@ -231,9 +231,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareStoreElement($fieldset)
     {
-        // get store switcher or a hidden field with it's id
         if ($this->_storeManager->isSingleStoreMode()) {
-
+            $fieldset->addField(
+                'store_id',
+                'hidden',
+                array('name' => 'store_id', 'value' => $this->_storeManager->getStore(true)->getId())
+            );
         } else {
             /** @var $renderer \Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element */
             $renderer = $this->getLayout()->createBlock(
@@ -249,7 +252,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'name' => 'store_id',
                     'required' => true,
                     'values' => $this->_getRestrictedStoresList(),
-                    'disabled' => $this->_getModel()->getIsSystem(),
                     'value' => $this->_formValues['store_id']
                 )
             );
