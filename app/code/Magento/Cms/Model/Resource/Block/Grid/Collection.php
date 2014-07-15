@@ -28,7 +28,7 @@ class Collection extends \Magento\Cms\Model\Resource\Block\Collection
     public function addFieldToFilter($field, $condition = null)
     {
         if ($field == 'store_id') {
-            return $this->addStoreFilter($condition);
+            return $this->addStoreFilter($condition, false);
         }
         return parent::addFieldToFilter($field, $condition);
     }
