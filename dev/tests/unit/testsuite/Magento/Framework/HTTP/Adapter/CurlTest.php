@@ -27,7 +27,7 @@ class CurlTest extends \PHPUnit_Framework_TestCase
      */
     public function testRead($response)
     {
-        self::$curlExectClosure = function ($resource) use ($response) {
+        self::$curlExectClosure = function () use ($response) {
             return $response;
         };
         $this->assertEquals(file_get_contents(__DIR__ . '/_files/curl_response_expected.txt'), $this->model->read());
@@ -45,10 +45,11 @@ class CurlTest extends \PHPUnit_Framework_TestCase
 /**
  * Override global PHP function
  *
+ * @SuppressWarnings("unused")
  * @param mixed $resource
  * @return string
  */
 function curl_exec($resource)
 {
-    return call_user_func(CurlTest::$curlExectClosure, $resource);
+    return call_user_func(CurlTest::$curlExectClosure);
 }

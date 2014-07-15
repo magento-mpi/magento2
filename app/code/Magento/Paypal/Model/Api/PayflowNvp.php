@@ -796,6 +796,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**
      * Set specific data when negative line item case
+     * @return void
      */
     protected function _setSpecificForNegativeLineItems()
     {

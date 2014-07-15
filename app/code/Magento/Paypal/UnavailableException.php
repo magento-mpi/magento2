@@ -16,4 +16,3 @@ class UnavailableException extends \Magento\Framework\Model\Exception
 {
 
 }
-
