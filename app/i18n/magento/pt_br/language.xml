@@ -8,6 +8,7 @@
  */
 -->
 <language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../lib/internal/Magento/Framework/App/Language/package.xsd">
-    <code>nl_NL</code>
-    <vendor>Magento</vendor>
+    <code>pt_BR</code>
+    <vendor>magento</vendor>
+    <package>pt_br</package>
 </language>

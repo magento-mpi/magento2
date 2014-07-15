@@ -9,5 +9,6 @@
 -->
 <language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../lib/internal/Magento/Framework/App/Language/package.xsd">
     <code>es_ES</code>
-    <vendor>Magento</vendor>
+    <vendor>magento</vendor>
+    <package>es_es</package>
 </language>
