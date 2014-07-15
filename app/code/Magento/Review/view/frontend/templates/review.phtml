@@ -16,7 +16,6 @@ function processReviews(url,fromPages) {
 (function($) {
     $.ajax({
         url: url,
-        fromPages: fromPages,
         dataType: 'html'
     }).done(function(data) {
         $('#product-review-container').html(data);
