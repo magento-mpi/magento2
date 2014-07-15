@@ -15,6 +15,7 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationNew;
 
 /**
  * Class AssertIntegrationForm
+ * Assert that integration form filled correctly
  */
 class AssertIntegrationForm extends AbstractAssertForm
 {
@@ -26,26 +27,39 @@ class AssertIntegrationForm extends AbstractAssertForm
     protected $severeness = 'high';
 
     /**
+     * Skipped fields while verifying
+     *
+     * @var array
+     */
+    protected $skippedFields = [
+        'integration_id',
+    ];
+
+    /**
      * Assert that integration form filled correctly
      *
      * @param IntegrationIndex $integrationIndexPage
      * @param IntegrationNew $integrationNewPage
      * @param Integration $integration
+     * @param Integration|null $initialIntegration
      * @return void
      */
     public function processAssert(
         IntegrationIndex $integrationIndexPage,
         IntegrationNew $integrationNewPage,
-        Integration $integration
+        Integration $integration,
+        Integration $initialIntegration = null
     ) {
-        $data = $integration->getData();
+        $data = ($initialIntegration === null)
+            ? $integration->getData()
+            : array_merge($initialIntegration->getData(), $integration->getData());
         $filter = [
             'name' => $data['name'],
         ];
 
         $integrationIndexPage->open();
         $integrationIndexPage->getIntegrationGrid()->searchAndOpen($filter);
-        $formData = $integrationNewPage->getIntegrationForm()->getData($integration);
+        $formData = $integrationNewPage->getIntegrationForm()->getData();
         $dataDiff = $this->verifyForm($formData, $data);
         \PHPUnit_Framework_Assert::assertEmpty(
             $dataDiff,
@@ -68,6 +82,9 @@ class AssertIntegrationForm extends AbstractAssertForm
         $errorMessage = "Data in '%s' field not equal.\nExpected: %s\nActual: %s";
 
         foreach ($fixtureData as $key => $value) {
+            if (in_array($key, $this->skippedFields)) {
+                continue;
+            }
             if ($key === 'resources') {
                 $fixtureData[$key] = is_array($fixtureData[$key]) ? $fixtureData[$key] : [$fixtureData[$key]];
                 foreach ($fixtureData[$key] as $fixtureResource) {
