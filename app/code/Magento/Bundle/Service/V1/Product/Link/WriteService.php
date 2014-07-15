@@ -8,16 +8,16 @@
 
 namespace Magento\Bundle\Service\V1\Product\Link;
 
-use Magento\Catalog\Service\V1\Product\ProductLoader;
+use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\CouldNotSaveException;
 
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var ProductLoader
+     * @var ProductRepository
      */
-    protected $productLoader;
+    protected $productRepository;
 
     /**
      * @var \Magento\Bundle\Model\SelectionFactory $bundleModelSelection
@@ -40,20 +40,20 @@ class WriteService implements WriteServiceInterface
     protected $optionCollection;
 
     /**
-     * @param ProductLoader $productLoader
+     * @param ProductRepository $productRepository
      * @param \Magento\Bundle\Model\SelectionFactory $bundleModelSelection
      * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
      * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        ProductLoader $productLoader,
+        ProductRepository $productRepository,
         \Magento\Bundle\Model\SelectionFactory $bundleModelSelection,
         \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory,
         \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
-        $this->productLoader = $productLoader;
+        $this->productRepository = $productRepository;
         $this->bundleModelSelection = $bundleModelSelection;
         $this->bundleFactory = $bundleFactory;
         $this->optionCollection = $optionCollection;
@@ -66,7 +66,7 @@ class WriteService implements WriteServiceInterface
     public function addChild($productSku, $optionId, Data\ProductLink $linkedProduct)
     {
         /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->productLoader->load($productSku);
+        $product = $this->productRepository->get($productSku);
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             throw new InputException('Product with specified sku: "%1" is not a bundle product', [$productSku]);
         }
@@ -92,7 +92,10 @@ class WriteService implements WriteServiceInterface
         $resource = $this->bundleFactory->create();
         $selections = $resource->getSelectionsData($product->getId());
         /** @var \Magento\Catalog\Model\Product $linkProductModel */
-        $linkProductModel = $this->productLoader->load($linkedProduct->getSku());
+        $linkProductModel = $this->productRepository->get($linkedProduct->getSku());
+        if ($linkProductModel->isComposite()) {
+            throw new InputException('Bundle product could not contain another composite product');
+        }
         if ($selections) {
             foreach ($selections as $selection) {
                 if ($selection['option_id'] == $optionId && $selection['product_id'] == $linkProductModel->getId()) {
@@ -113,7 +116,7 @@ class WriteService implements WriteServiceInterface
             ->setSelectionCanChangeQty($linkedProduct->getCanChangeQuantity())
             ->setProductId($linkProductModel->getId())
             ->setParentProductId($product->getId())
-            ->setIsDefault($linkedProduct->getIsDefault())
+            ->setIsDefault($linkedProduct->isDefault())
             ->setWebsiteId($this->storeManager->getStore()->getWebsiteId());
 
         try {

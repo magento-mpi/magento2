@@ -46,9 +46,8 @@ class ProductLink extends \Magento\Framework\Service\Data\Eav\AbstractObject
 
     /**
      * @return boolean
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
-    public function getIsDefault()
+    public function isDefault()
     {
         return $this->_get(self::IS_DEFAULT);
     }

@@ -74,7 +74,7 @@ class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      * @param boolean $default
      * @return $this
      */
-    public function setIsDefault($default)
+    public function setDefault($default)
     {
         return $this->_set(ProductLink::IS_DEFAULT, $default);
     }
