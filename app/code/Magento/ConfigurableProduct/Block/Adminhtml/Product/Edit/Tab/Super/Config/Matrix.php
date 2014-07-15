@@ -60,6 +60,7 @@ class Matrix extends \Magento\Backend\Block\Template
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\CatalogInventory\Service\V1\StockItemServiceInterface $stockItemService
+     * @param \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix
      * @param array $data
      */
     public function __construct(

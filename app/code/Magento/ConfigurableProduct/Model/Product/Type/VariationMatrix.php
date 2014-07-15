@@ -29,7 +29,7 @@ class VariationMatrix
         $variationalAttributes = array_reverse($variationalAttributes);
         $lastAttribute = $attributesCount - 1;
         do {
-            $this->incrementVariationalIndex($attributesCount, $currentVariation, $variationalAttributes);
+            $this->incrementVariationalIndex($attributesCount, $variationalAttributes, $currentVariation);
             if ($currentVariation[$lastAttribute] >= count($variationalAttributes[$lastAttribute]['values'])) {
                 break;
             }
