@@ -20,12 +20,12 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_cmsData;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\VersionsCms\Helper\Data $cmsData,
         array $data = array()
     ) {
@@ -46,9 +46,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        $this->_updateButton('save', 'onclick', 'hierarchyNodes.save()');
-        $this->_removeButton('back');
-        $this->_addButton(
+        $this->buttonList->update('save', 'onclick', 'hierarchyNodes.save()');
+        $this->buttonList->remove('back');
+        $this->buttonList->add(
             'delete',
             array(
                 'label' => __('Delete Current Hierarchy'),
@@ -60,7 +60,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         );
 
         if (!$this->_storeManager->hasSingleStore()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'delete_multiple',
                 array(
                     'label' => $this->_cmsData->getDeleteMultipleHierarchiesText(),
@@ -70,7 +70,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 -1,
                 7
             );
-            $this->_addButton(
+            $this->buttonList->add(
                 'copy',
                 array('label' => __('Copy'), 'class' => 'add', 'onclick' => "openHierarchyDialog('copy')"),
                 -1,

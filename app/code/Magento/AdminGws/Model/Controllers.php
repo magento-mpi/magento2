@@ -13,7 +13,7 @@
  */
 namespace Magento\AdminGws\Model;
 
-class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
+class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver implements CallbackProcessorInterface
 {
     /**
      * @var \Magento\Framework\App\RequestInterface

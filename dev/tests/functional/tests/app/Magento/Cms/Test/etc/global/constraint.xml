@@ -47,4 +47,10 @@
             <cms class="Magento\Cms\Test\Fixture\CmsPage" />
         </require>
     </assertCmsPagePreview>
+    <assertCmsPageDeleteMessage module="Magento_Cms">
+        <severeness>low</severeness>
+    </assertCmsPageDeleteMessage>
+    <assertCmsPageNotInGrid module="Magento_Cms">
+        <severeness>low</severeness>
+    </assertCmsPageNotInGrid>
 </constraint>
