@@ -196,7 +196,7 @@ class Request extends \Magento\Framework\Object
             'first_name' => $address->getFirstname(),
             'last_name' => $address->getLastname(),
             'city' => $address->getCity(),
-            'state' => $address->getRegionCode() ? $address->getRegionCode() : $address->getCity(),
+            'state' => $address->getRegion() ? $address->getRegion() : $address->getCity(),
             'zip' => $address->getPostcode(),
             'country' => $address->getCountry()
         );
@@ -222,7 +222,7 @@ class Request extends \Magento\Framework\Object
             'billing_first_name' => $address->getFirstname(),
             'billing_last_name' => $address->getLastname(),
             'billing_city' => $address->getCity(),
-            'billing_state' => $address->getRegionCode() ? $address->getRegionCode() : $address->getCity(),
+            'billing_state' => $address->getRegion() ? $address->getRegion() : $address->getCity(),
             'billing_zip' => $address->getPostcode(),
             'billing_country' => $address->getCountry()
         );
