@@ -39,30 +39,8 @@ class CatalogProductDownloadable extends AbstractRepository
             'status' => 'Product online',
             'visibility' => 'Catalog, Search',
             'url_key' => 'test-downloadable-product-%isolation%',
-            'stock_data' => [
-                'manage_stock' => 'Yes',
-                'qty' => 90.0000,
-                'is_in_stock' => 'Yes'
-            ],
             'is_virtual' => 'Yes',
-            'links_title' => 'Links',
-            'links_purchased_separately' => 'Yes',
-            'downloadable' => [
-                'link' => [
-                    [
-                        'title' => 'Link title',
-                        'price' => '1',
-                        'number_of_downloads' => 1,
-                        'is_shareable' => 'Use config',
-                        'sample' => [
-                            'type' => 'url',
-                            'url' => 'http://example.com/',
-                        ],
-                        'type' => 'url',
-                        'link_url' => 'http://example.com/',
-                    ]
-                ]
-            ],
+            'downloadable_links' => ['preset' => 'default'],
             'website_ids' => ['Main Website'],
         ];
     }

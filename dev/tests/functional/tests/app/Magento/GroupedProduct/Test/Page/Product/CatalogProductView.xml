@@ -11,7 +11,7 @@
     <block>
         <name>groupedViewBlock</name>
         <class>Magento\GroupedProduct\Test\Block\Catalog\Product\View</class>
-        <locator>.product.info.main</locator>
+        <locator>.product-info-main</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

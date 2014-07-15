@@ -433,6 +433,12 @@
             <attribute_code>stock_data_min_qty</attribute_code>
             <input>text</input>
         </stock_data_min_qty>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+            <default_value>Main Website</default_value>
+            <group>websites</group>
+        </website_ids>
     </fields>
     <data_set>
         <sku></sku>
