@@ -26,7 +26,7 @@ class AssertProductNotInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that product cannot be found by name and sku.
+     * Assert that product cannot be found by name and sku
      *
      * @param FixtureInterface|FixtureInterface[] $product
      * @param CatalogProductIndex $productGrid

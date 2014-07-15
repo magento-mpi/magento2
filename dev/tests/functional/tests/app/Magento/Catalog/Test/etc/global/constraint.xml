@@ -355,4 +355,13 @@
     <assertProductCompareSuccessAddMessage module="Magento_Catalog">
         <severeness>high</severeness>
     </assertProductCompareSuccessAddMessage>
+    <assertProductAttributeAbsenceInTemplateGroups module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeAbsenceInTemplateGroups>
+    <assertProductAttributeAbsenceInUnassignedAttributes module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeAbsenceInUnassignedAttributes>
+    <assertProductAttributeAbsenceInVariationsSearch module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeAbsenceInVariationsSearch>
 </constraint>

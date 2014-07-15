@@ -9,14 +9,12 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
@@ -88,6 +86,20 @@ class ProductForm extends FormTabs
      * @var string
      */
     protected $attributeSearch = '#product-attribute-search-container';
+
+    /**
+     * Variations Attribute Search locator the Product page
+     *
+     * @var string
+     */
+    protected $variationsAttributeSearch = '#variations-search-field';
+
+    /**
+     * Variations Tab locator the Product page
+     *
+     * @var string
+     */
+    protected $variationsTab = '#product_info_tabs_super_config_content .title';
 
     /**
      * Fill the product form
@@ -332,12 +344,40 @@ class ProductForm extends FormTabs
      * @param CatalogProductAttribute $productAttribute
      * @return bool
      */
-    public function checkAttributeInSearchAttributeForm($productAttribute)
+    public function checkAttributeInSearchAttributeForm(CatalogProductAttribute $productAttribute)
     {
         return $this->_rootElement->find(
             $this->attributeSearch,
             Locator::SELECTOR_CSS,
             'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Attributes\Search'
         )->isExistAttributeInSearchResult($productAttribute);
+    }
+
+    /**
+     * Call method that checking present attribute in search result
+     *
+     * @param CatalogProductAttribute $productAttribute
+     * @return bool
+     */
+    public function checkAttributeInVariationsSearchAttributeForm(CatalogProductAttribute $productAttribute)
+    {
+        return $this->_rootElement->find(
+            $this->variationsAttributeSearch,
+            Locator::SELECTOR_CSS,
+            'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Variations\Search'
+        )->isExistAttributeInSearchResult($productAttribute);
+    }
+
+
+    /**
+     * Open Variations tab on Product form
+     *
+     * @return void
+     */
+    public function openVariationsTab()
+    {
+        if (!$this->_rootElement->find($this->variationsAttributeSearch, Locator::SELECTOR_CSS)->isVisible()) {
+            $this->_rootElement->find($this->variationsTab, Locator::SELECTOR_CSS)->click();
+        }
     }
 }

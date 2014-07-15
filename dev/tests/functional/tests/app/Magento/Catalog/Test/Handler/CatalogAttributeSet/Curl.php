@@ -52,16 +52,30 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
     public function persist(FixtureInterface $fixture = null)
     {
         /** @var CatalogAttributeSet $fixture */
-        $response = $this->createAttributeSet($fixture);
-        $attributeSetId = $this->getData($this->attributeSetId, $response);
+        $response = $fixture->hasData('attribute_set_id')
+            ? $this->getDefaultAttributeSet($fixture)
+            : $this->createAttributeSet($fixture);
+
+        $attributeSetId = ($fixture->hasData('attribute_set_id'))
+            ? $fixture->getAttributeSetId()
+            : $this->getData($this->attributeSetId, $response);
+
         $assignedAttributes = $fixture->hasData('assigned_attributes')
             ? $fixture->getDataFieldConfig('assigned_attributes')['source']->getAttributes()
             : [];
         $dataAttribute = $this->getDataAttributes($response);
 
-        foreach ($assignedAttributes as $assignedAttribute) {
-            $dataAttribute['attributes'][] = [$assignedAttribute->getAttributeId(), $dataAttribute['groups'][0][0]];
+        $lastAttribute = array_pop($dataAttribute['attributes']);
+
+        foreach ($assignedAttributes as $key => $assignedAttribute) {
+            $dataAttribute['attributes'][] = [
+                $assignedAttribute->getAttributeId(),
+                $dataAttribute['groups'][0][0],
+                ($lastAttribute[2] + ($key + 1)),
+                null,
+            ];
         }
+
         $this->updateAttributeSet($attributeSetId, $dataAttribute);
 
         return ['attribute_set_id' => $attributeSetId];
@@ -79,14 +93,31 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
         if (!isset($data['gotoEdit'])) {
             $data['gotoEdit'] = 1;
         }
-        $data['skeleton_set'] = $fixture
-            ->getDataFieldConfig('skeleton_set')['source']
-            ->getAttributeSet()
+
+        $data['skeleton_set'] = $fixture->getDataFieldConfig('skeleton_set')['source']->getAttributeSet()
             ->getAttributeSetId();
 
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
+        $response = $curl->read();
+        $curl->close();
+
+        return $response;
+    }
+
+    /**
+     * Get Default Attribute Set page with curl
+     *
+     * @param CatalogAttributeSet $fixture
+     * @return string
+     */
+    protected function getDefaultAttributeSet(CatalogAttributeSet $fixture)
+    {
+        $url = $_ENV['app_backend_url'] . 'catalog/product_set/edit/id/' . $fixture->getAttributeSetId() . '/';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
         $curl->close();
 
@@ -121,7 +152,7 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
         $attributes = $this->getData($this->attributes, $response, true);
         $dataAttribute = [];
 
-        $index = 0;
+        $index = 1;
         foreach ($attributes as $key => $parentAttributes) {
             $dataAttribute['groups'][$key][] = $parentAttributes['id'];
             $dataAttribute['groups'][$key][] = $parentAttributes['text'];
