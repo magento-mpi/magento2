@@ -22,38 +22,22 @@ class RmaTest extends \PHPUnit_Framework_TestCase
     protected $controller;
 
     /**
-<<<<<<< HEAD
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\Request\Http
-=======
      * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
->>>>>>> develop
      */
     protected $requestMock;
 
     /**
-<<<<<<< HEAD
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\Response\Http
-=======
      * @var \Magento\Framework\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
->>>>>>> develop
      */
     protected $responseMock;
 
     /**
-<<<<<<< HEAD
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Registry
-=======
      * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
->>>>>>> develop
      */
     protected $coreRegistryMock;
 
     /**
-<<<<<<< HEAD
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\ObjectManager
-=======
      * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
->>>>>>> develop
      */
     protected $objectManagerMock;
 
@@ -103,11 +87,7 @@ class RmaTest extends \PHPUnit_Framework_TestCase
     protected $statusHistoryMock;
 
     /**
-<<<<<<< HEAD
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\ViewInterface
-=======
      * @var \Magento\Framework\App\ViewInterface|\PHPUnit_Framework_MockObject_MockObject
->>>>>>> develop
      */
     protected $viewMock;
 
