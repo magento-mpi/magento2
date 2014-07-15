@@ -13,6 +13,9 @@ use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 
 class TotalBasedCalculator extends AbstractCalculator
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function calculateWithTaxInPrice(QuoteDetailsItem $item, $quantity)
     {
         $taxRateRequest = $this->getAddressRateRequest()->setProductClassId($item->getTaxClassId());

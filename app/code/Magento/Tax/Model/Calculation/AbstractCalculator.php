@@ -92,7 +92,7 @@ abstract class AbstractCalculator
     /**
      * Rounding deltas for prices
      *
-     * @var array
+     * @var string[]
      * example:
      *  [
      *      'type' => [
@@ -109,9 +109,7 @@ abstract class AbstractCalculator
      * @param Calculation $calculationTool
      * @param \Magento\Tax\Model\Config $config
      * @param int $storeId
-     * @param int $customerTaxClassId
-     * @param Address $shippingAddress
-     * @param Address $billingAddress
+     * @param \Magento\Framework\Object $addressRateRequest
      */
     public function __construct(
         TaxDetailsItemBuilder $taxDetailsItemBuilder,
@@ -240,6 +238,16 @@ abstract class AbstractCalculator
      *
      * @param float $rowTax
      * @param array $appliedRate
+     * example:
+     *  [
+     *      'id' => 'id',
+     *      'percent' => 7.5,
+     *      'rates' => [
+     *          'code' => 'code',
+     *          'title' => 'title',
+     *          'percent' => 5.3,
+     *      ],
+     *  ]
      * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax
      */
     protected function getAppliedTax($rowTax, $appliedRate)
@@ -270,6 +278,27 @@ abstract class AbstractCalculator
      * @param float $rowTax
      * @param float $totalTaxRate
      * @param array $appliedRates May contain multiple tax rates when catalog price includes tax
+     * example:
+     *  [
+     *      [
+     *          'id' => 'id1',
+     *          'percent' => 7.5,
+     *          'rates' => [
+     *              'code' => 'code1',
+     *              'title' => 'title1',
+     *              'percent' => 5.3,
+     *          ],
+     *      ],
+     *      [
+     *          'id' => 'id2',
+     *          'percent' => 8.5,
+     *          'rates' => [
+     *              'code' => 'code2',
+     *              'title' => 'title2',
+     *              'percent' => 7.3,
+     *          ],
+     *      ],
+     *  ]
      * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[]
      */
     protected function getAppliedTaxes($rowTax, $totalTaxRate, $appliedRates)
