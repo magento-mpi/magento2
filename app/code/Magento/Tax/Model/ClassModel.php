@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Model;
 
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Tax class model
@@ -69,25 +69,25 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
      * Check whether this class can be deleted
      *
      * @return bool
-     * @throws LocalizedException
+     * @throws CouldNotDeleteException
      */
     protected function checkClassCanBeDeleted()
     {
         if (!$this->getId()) {
-            throw new LocalizedException('This class no longer exists.');
+            throw new CouldNotDeleteException('This class no longer exists.');
         }
 
         $typeModel = $this->_classFactory->create($this);
 
         if ($typeModel->getAssignedToRules()->getSize() > 0) {
-            throw new LocalizedException(
+            throw new CouldNotDeleteException(
                 'You cannot delete this tax class because it is used in Tax Rules.'
                     . ' You have to delete the rules it is used in first.'
             );
         }
 
         if ($typeModel->isAssignedToObjects()) {
-            throw new LocalizedException(
+            throw new CouldNotDeleteException(
                 'You cannot delete this tax class because it is used in existing %object(s).',
                 ['object' => $typeModel->getObjectTypeName()]
             );

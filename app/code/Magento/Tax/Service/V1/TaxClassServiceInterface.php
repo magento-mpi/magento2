@@ -56,7 +56,7 @@ interface TaxClassServiceInterface
      * @param int $taxClassId
      * @return bool True if the tax class was deleted, false otherwise
      * @throws \Magento\Framework\Exception\NoSuchEntityException If tax class with $taxClassId does not exist
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
     public function deleteTaxClass($taxClassId);
 
