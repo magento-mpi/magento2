@@ -17,7 +17,12 @@
     "use strict";
     rma.addLoadProductsCallback(function () {
         $('[class^="rma-action-links-"]').each(function (el, val) {
-            var className = $(val).attr('class').split(' ')[0];
+            var className = false;
+            $(val).attr('class').split(' ').each(function (el, val) {
+                if (el.search(/rma-action-links-/i) !== -1) {
+                    className = el;
+                }
+            });
             $.validator.addMethod(
                 className,
                 function (v, elem) {
@@ -30,7 +35,7 @@
                     });
                     return isValid;
                 },
-                $.mage.__("Please fill required fields in popup")
+                $.mage.__("Fill out the popup form.")
             );
         });
     });

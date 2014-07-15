@@ -37,11 +37,6 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
             '" value="' .
             $row->getId() .
             '" class="rowId" />';
-        $inputDetails = '<input type="hidden" name="items[' .
-            $row->getId() .
-            '][order_item_id]" value="' .
-            $row->getOrderItemId() .
-            '" class="rma-action-links-' . $row->getId() .'" />';
         $separator = '';
         foreach ($actions as $action) {
             if (!(isset(
@@ -51,13 +46,15 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
                 $row->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED))
             ) {
                 $out .= $separator . $this->_toLinkHtml($action, $row);
-                if ($action['caption'] == 'Details') {
-                    $out .= $inputDetails;
-                }
-
                 $separator = '';
             }
         }
+        $out .= '<input type="hidden" name="items[' .
+            $row->getId() .
+            '][order_item_id]" value="' .
+            $row->getOrderItemId() .
+            '" class="rma-action-links-' . $row->getId() .'" />';
+
         return $out;
     }
 }
