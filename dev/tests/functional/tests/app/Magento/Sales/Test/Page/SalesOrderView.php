@@ -57,7 +57,7 @@ class SalesOrderView extends Page
      *
      * @var string
      */
-    protected $itemsOrderedBlock = '.grid';
+    protected $itemsOrderedBlock = '#sales_order_view_tabs_order_info_content .grid';
 
     /**
      * Order information block
