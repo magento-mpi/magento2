@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertIntegrationSuccessSaveMessage module="Magento_Integration">
+        <severeness>high</severeness>
+        <require>
+            <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
+            <integration class="Magento\Integration\Test\Fixture\Integration" />
+        </require>
+    </assertIntegrationSuccessSaveMessage>
+    <assertIntegrationInGrid module="Magento_Integration">
+        <severeness>high</severeness>
+        <require>
+            <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
+            <integration class="Magento\Integration\Test\Fixture\Integration" />
+        </require>
+    </assertIntegrationInGrid>
+    <assertIntegrationForm module="Magento_Integration">
+        <severeness>high</severeness>
+        <require>
+            <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
+            <integrationNew class="Magento\Integration\Test\Page\Adminhtml\IntegrationNew" />
+            <integration class="Magento\Integration\Test\Fixture\Integration" />
+        </require>
+    </assertIntegrationForm>
+</constraint>
