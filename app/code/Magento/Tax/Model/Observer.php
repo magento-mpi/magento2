@@ -162,17 +162,20 @@ class Observer
                     $baseRealAmount = $row['base_amount'] / $row['percent'] * $tax['percent'];
                 }
                 $hidden = isset($row['hidden']) ? $row['hidden'] : 0;
+                $priority = isset($tax['priority']) ? $tax['priority'] : 0;
+                $position = isset($tax['position']) ? $tax['position'] : 0;
+                $process = isset($row['process']) ? $row['process'] : 0;
                 $data = array(
                     'order_id' => $order->getId(),
                     'code' => $tax['code'],
                     'title' => $tax['title'],
                     'hidden' => $hidden,
                     'percent' => $tax['percent'],
-                    'priority' => $tax['priority'],
-                    'position' => $tax['position'],
+                    'priority' => $priority,
+                    'position' => $position,
                     'amount' => $row['amount'],
                     'base_amount' => $row['base_amount'],
-                    'process' => $row['process'],
+                    'process' => $process,
                     'base_real_amount' => $baseRealAmount
                 );
 

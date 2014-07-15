@@ -39,6 +39,26 @@ class QuoteDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Convenience method to return item builder
+     *
+     * @return QuoteDetails\ItemBuilder
+     */
+    public function getItemBuilder()
+    {
+        return $this->itemBuilder;
+    }
+
+    /**
+     * Convenience method to return address builder
+     *
+     * @return \Magento\Customer\Service\V1\Data\AddressBuilder
+     */
+    public function getAddressBuilder()
+    {
+        return $this->addressBuilder;
+    }
+
+    /**
      * Set customer billing address
      *
      * @param \Magento\Customer\Service\V1\Data\Address $address
