@@ -16,6 +16,7 @@ use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as ItemDataObject;
+use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 
 /**
@@ -174,7 +175,12 @@ class Tax extends AbstractTotal
             $this->mapAddress($addressBuilder, $address)
         );
         //Set customer tax class
-        $this->quoteDetailsBuilder->setCustomerTaxClassId($address->getQuote()->getCustomerTaxClassId());
+        $this->quoteDetailsBuilder->setCustomerTaxClassKey(
+            $this->quoteDetailsBuilder->getTaxClassKeyBuilder()
+                ->setType(TaxClassKey::TYPE_ID)
+                ->setValue($address->getQuote()->getCustomerTaxClassId())
+                ->create()
+        );
         //Populate with items
         $priceIncludesTax = $this->_config->priceIncludesTax($this->_store);
         $itemBuilder = $this->quoteDetailsBuilder->getItemBuilder();
@@ -227,7 +233,12 @@ class Tax extends AbstractTotal
                         $itemBuilder->setDiscountAmount($address->getShippingDiscountAmount());
                     }
                 }
-                $itemBuilder->setTaxClassId($this->_config->getShippingTaxClass($this->_store));
+                $itemBuilder->setTaxClassKey(
+                    $itemBuilder->getTaxClassKeyBuilder()
+                        ->setType(TaxClassKey::TYPE_ID)
+                        ->setValue($this->_config->getShippingTaxClass($this->_store))
+                        ->create()
+                );
                 $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($this->_store));
                 $itemDataObjects[] = $itemBuilder->create();
             }
@@ -283,7 +294,12 @@ class Tax extends AbstractTotal
         }
         $itemBuilder->setCode($item->getSequence());
         $itemBuilder->setQuantity($item->getQty());
-        $itemBuilder->setTaxClassId($item->getProduct()->getTaxClassId());
+        $itemBuilder->setTaxClassKey(
+            $itemBuilder->getTaxClassKeyBuilder()
+                ->setType(TaxClassKey::TYPE_ID)
+                ->setValue($item->getProduct()->getTaxClassId())
+                ->create()
+        );
 
         $itemBuilder->setTaxIncluded($priceIncludesTax);
         $itemBuilder->setType('product'); //TODO: find a place to define constants

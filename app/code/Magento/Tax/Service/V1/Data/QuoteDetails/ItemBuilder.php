@@ -36,6 +36,16 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
+     * Get tax class key builder
+     *
+     * @return \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder
+     */
+    public function getTaxClassKeyBuilder()
+    {
+        return $this->taxClassKeyBuilder;
+    }
+
+    /**
      * Set code (sku or shipping code)
      *
      * @param string $code

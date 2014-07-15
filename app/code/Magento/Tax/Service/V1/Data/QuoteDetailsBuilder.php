@@ -76,6 +76,16 @@ class QuoteDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Get tax class key builder
+     *
+     * @return TaxClassKeyBuilder
+     */
+    public function getTaxClassKeyBuilder()
+    {
+        return $this->taxClassKeyBuilder;
+    }
+
+    /**
      * Set customer billing address
      *
      * @param \Magento\Customer\Service\V1\Data\Address $address
