@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 ?>
+<?php if ($this->isGiftWrappingForEntireOrder() || $this->getAllowGiftReceipt() || $this->getAllowPrintedCard()): ?>
 
 <div id="orderCreateGiftWrapping" class="box-right">
     <?php echo $this->getChildHtml('wrapping.order.create.info.content'); ?>
@@ -128,3 +129,4 @@ Event.observe(document, 'quote_items:afterIFrameLoaded',  giftWrappingOrder.refr
 Event.observe(document, 'product_to_add:afterIFrameLoaded',  giftWrappingOrder.refresh.bind(giftWrappingOrder));
 //]]>
 </script>
+<?php endif;?>
