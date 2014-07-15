@@ -75,7 +75,7 @@ class AssertProductPage extends AbstractConstraint
         $compareData = [
             'name'          => $this->product->getName(),
             'sku'           => $this->product->getSku(),
-            'regular_price' => number_format($this->product->getPrice(), 2),
+            'regular_price' => number_format($this->product->getData('price'), 2),
 
         ];
 

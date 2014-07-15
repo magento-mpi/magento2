@@ -30,17 +30,14 @@
                 </is_virtual>
                 <quantity_and_stock_status composite="1">
                     <qty>
-                        <selector>#qty</selector>
+                        <selector>[name='product[quantity_and_stock_status][qty]']</selector>
                     </qty>
                     <is_in_stock>
-                        <selector>#quantity_and_stock_status</selector>
+                        <selector>[name='product[quantity_and_stock_status][is_in_stock]']</selector>
                         <input>select</input>
                     </is_in_stock>
                 </quantity_and_stock_status>
-                <description>
-                    <selector>#description</selector>
-                    <input>textarea</input>
-                </description>
+                <description />
             </fields>
     </product-details>
     <websites>
@@ -72,20 +69,14 @@
         <strategy>css selector</strategy>
         <wrapper>product[stock_data]</wrapper>
         <fields>
-            <inventory_manage_stock>
-                <selector>[name='product[stock_data][manage_stock]']</selector>
-                <input>select</input>
-            </inventory_manage_stock>
-            <inventory_qty>
-                <selector>[name='product[stock_data][qty]']</selector>
-            </inventory_qty>
-            <stock_data_use_config_min_qty>
-                <selector>[name='product[stock_data][use_config_min_qty]']</selector>
-                <input>checkbox</input>
-            </stock_data_use_config_min_qty>
-            <stock_data_min_qty>
-                <selector>[name='product[stock_data][min_qty]']</selector>
-            </stock_data_min_qty>
+            <stock_data  composite="1">
+                <manage_stock>
+                    <input>select</input>
+                </manage_stock>
+                <use_config_min_qty>
+                    <input>checkbox</input>
+                </use_config_min_qty>
+            </stock_data>
         </fields>
     </advanced-inventory>
     <autosettings>
@@ -97,11 +88,8 @@
             <visibility>
                 <input>select</input>
             </visibility>
-            <short_description>
-                <selector>#short_description</selector>
-                <input>textarea</input>
-            </short_description>
-            <url_key></url_key>
+            <short_description />
+            <url_key />
         </fields>
     </autosettings>
     <variations>

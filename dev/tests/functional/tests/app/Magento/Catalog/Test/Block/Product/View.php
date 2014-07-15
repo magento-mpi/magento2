@@ -349,7 +349,7 @@ class View extends Block
     /**
      * This method return array tier prices
      *
-     * @param int $lineNumber
+     * @param int $lineNumber [optional]
      * @return array
      */
     public function getTierPrices($lineNumber = 1)
