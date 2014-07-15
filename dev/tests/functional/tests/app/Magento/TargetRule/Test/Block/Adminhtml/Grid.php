@@ -29,6 +29,9 @@ class Grid extends AbstractGrid
      * @var array
      */
     protected $filters = [
+        'id' => [
+            'selector' => '.filter [name="rule_id"]'
+        ],
         'name' => [
             'selector' => '.filter [name="name"]',
         ],

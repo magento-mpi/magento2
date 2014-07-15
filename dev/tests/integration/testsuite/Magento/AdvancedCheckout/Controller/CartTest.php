@@ -91,7 +91,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * Test for \Magento\AdvancedCheckout\Controller\Cart::configureFailedAction() with downloadable product
      *
-     * @magentoDataFixture Magento/Downloadable/_files/product.php
+     * @magentoDataFixture Magento/Downloadable/_files/product_downloadable.php
      */
     public function testConfigureFailedActionWithDownloadableProduct()
     {
