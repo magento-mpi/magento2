@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Framework\View;
+
 /**
  * Test for view BlockPool model
  */
-namespace Magento\Framework\View;
-
 class BlockPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**

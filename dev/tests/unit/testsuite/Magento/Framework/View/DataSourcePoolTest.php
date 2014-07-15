@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Framework\View;
+
 /**
  * Test for view Context model
  */
-namespace Magento\Framework\View;
-
 class DataSourcePoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
