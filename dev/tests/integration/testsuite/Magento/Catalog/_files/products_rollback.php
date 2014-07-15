@@ -12,14 +12,19 @@ $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Ma
 $registry->unregister('isSecureArea');
 $registry->register('isSecureArea', true);
 
-$productIds = array(1, 2);
-foreach ($productIds as $productId) {
-    /** @var $product \Magento\Catalog\Model\Product */
-    $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-    $product->load($productId);
-    if ($product->getId()) {
-        $product->delete();
-    }
+/** @var $product \Magento\Catalog\Model\Product */
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
+$product->load(1);
+if ($product->getId()) {
+    $product->delete();
+}
+
+/** @var $customDesignProduct \Magento\Catalog\Model\Product */
+$customDesignProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
+$customDesignProduct->load(2);
+if ($customDesignProduct->getId()) {
+    $customDesignProduct->delete();
 }
 
 $registry->unregister('isSecureArea');

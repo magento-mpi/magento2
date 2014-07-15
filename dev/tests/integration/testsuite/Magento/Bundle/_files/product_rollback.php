@@ -6,6 +6,13 @@
  * @license     {license_link}
  */
 
+/*
+ * Since the bundle product creation GUI doesn't allow to choose values for bundled products' custom options,
+ * bundled items should not contain products with required custom options.
+ * However, if to create such a bundle product, it will be always out of stock.
+ */
+require __DIR__ . '/../../../Magento/Catalog/_files/products_rollback.php';
+
 /** @var \Magento\Framework\Registry $registry */
 $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
 
@@ -21,5 +28,3 @@ if ($product->getId()) {
 
 $registry->unregister('isSecureArea');
 $registry->register('isSecureArea', false);
-
-require __DIR__ . '/../../../Magento/Catalog/_files/products_rollback.php';

@@ -24,7 +24,7 @@ class Metadata extends AbstractObject
 
     const DEFINED = 'defined';
 
-    const IS_DEFAULT = 'is_default';
+    const IS_DEFAULT = 'default';
 
     /**
      * @return string|null
