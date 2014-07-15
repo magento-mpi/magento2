@@ -8,7 +8,7 @@
 namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\ProductRepository;
-use \Magento\ConfigurableProduct\Model\Resource\Product\Type\ConfigurableFactory;
+use \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 use Magento\Framework\Exception\StateException;
 
 class WriteService implements WriteServiceInterface
@@ -19,20 +19,21 @@ class WriteService implements WriteServiceInterface
     protected $productRepository;
 
     /**
-     * @var ConfigurableFactory
+     * @var Configurable
      */
-    protected $typeConfigurableFactory;
+    protected $configurableType;
 
     /**
      * @param ProductRepository $productRepository
-     * @param ConfigurableFactory $typeConfigurableFactory
+     * @param Configurable $configurableType
+     * @internal param ConfigurableFactory $typeConfigurableFactory
      */
     public function __construct(
         ProductRepository $productRepository,
-        ConfigurableFactory $typeConfigurableFactory
+        Configurable $configurableType
     ) {
         $this->productRepository = $productRepository;
-        $this->typeConfigurableFactory = $typeConfigurableFactory;
+        $this->configurableType = $configurableType;
     }
 
     /**
@@ -41,18 +42,16 @@ class WriteService implements WriteServiceInterface
     public function addChild($productSku, $childSku)
     {
         $product = $this->productRepository->get($productSku);
-        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType */
-        $configurableType = $this->typeConfigurableFactory->create();
-
         $child = $this->productRepository->get($childSku);
 
-        $childrenIds = $configurableType->getChildrenIds($product->getId());
+        $childrenIds = array_values($this->configurableType->getChildrenIds($product->getId())[0]);
         if (in_array($child->getId(), $childrenIds)) {
-
+            throw new StateException('Product has been already attached');
         }
 
         $childrenIds[] = $child->getId();
-        $configurableType->saveProducts($product, $childrenIds);
+        $product->setAssociatedProductIds($childrenIds);
+        $product->save();
         return true;
     }
 }
