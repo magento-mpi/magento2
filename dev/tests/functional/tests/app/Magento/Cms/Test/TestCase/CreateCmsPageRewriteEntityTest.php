@@ -6,12 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\TestCase;
+namespace Magento\Cms\Test\TestCase;
 
-use Magento\UrlRewrite\Test\Page\Adminhtml\EditCmsPage;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage;
-use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
+use Magento\Cms\Test\Fixture\UrlRewrite;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
 
@@ -74,7 +73,7 @@ class CreateCmsPageRewriteEntityTest extends Injectable
      * @param UrlRewrite $urlRewrite
      * @return void
      */
-    public function testCmsPageRewrite(CmsPage $cmsPage, UrlRewrite $urlRewrite)
+    public function test(CmsPage $cmsPage, UrlRewrite $urlRewrite)
     {
         //Preconditions
         $cmsPage->persist();
