@@ -54,7 +54,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productName = '.page-title.product span';
+    protected $productName = '.page-title.product h1.title .base';
 
     /**
      * Product sku element
@@ -124,7 +124,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $priceBlock = '.product.info.main .price-box';
+    protected $priceBlock = '.product-info-main .price-box';
 
     /**
      * Get block price

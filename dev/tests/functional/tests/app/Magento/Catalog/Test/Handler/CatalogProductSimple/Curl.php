@@ -126,8 +126,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
 
         if (!empty($fields['category_ids'])) {
             $categoryIds = [];
-            foreach ($fields['category_ids'] as $categoryData) {
-                $categoryIds[] = $categoryData['id'];
+            /** @var InjectableFixture $fixture */
+            foreach ($fixture->getDataFieldConfig('category_ids')['source']->getCategories() as $category) {
+                /** @var CatalogCategory $category */
+                $categoryIds[] = $category->getId();
             }
             $fields['category_ids'] = $categoryIds;
         }

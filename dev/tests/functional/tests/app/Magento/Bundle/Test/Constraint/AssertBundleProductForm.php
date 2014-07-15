@@ -31,7 +31,6 @@ class AssertBundleProductForm extends AssertProductForm
      * @var array
      */
     protected $specialArray = [
-        'price_view' => [],
         'special_from_date' => [
             'type' => 'date'
         ],
@@ -53,52 +52,31 @@ class AssertBundleProductForm extends AssertProductForm
         CatalogProductIndex $productGrid,
         CatalogProductEdit $productPage
     ) {
-        $this->formattingOptions += [
-            'selection_qty' => [
-                'decimals' => 4,
-                'dec_point' => '.',
-                'thousands_sep' => ''
-            ],
-            'selection_price_value' => [
-                'decimals' => 2,
-                'dec_point' => '.',
-                'thousands_sep' => ''
-            ]
-        ];
-
         $filter = ['sku' => $product->getSku()];
-        $productGrid->open()->getProductGrid()->searchAndOpen($filter);
+        $productGrid->open();
+        $productGrid->getProductGrid()->searchAndOpen($filter);
 
         $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->prepareSpecialPriceArray($this->prepareFixtureData($product));
-
-        $fixtureData['bundle_selections'] = $this->prepareBundleOptions(
-            $fixtureData['bundle_selections']['bundle_options']
-        );
-
-        $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($errors),
-            "These data must be equal to each other:\n" . implode("\n", $errors)
-        );
+        $fixtureData = $this->prepareFixtureData($product->getData());
+        $errors = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**
-     * Prepare Bundle Options array from preset
+     * Prepares fixture data for comparison
      *
-     * @param array $bundleSelections
+     * @param array $data
+     * @param array $sortFields [optional]
      * @return array
      */
-    protected function prepareBundleOptions(array $bundleSelections)
+    protected function prepareFixtureData(array $data, array $sortFields = [])
     {
-        foreach ($bundleSelections as &$item) {
-            foreach ($item['assigned_products'] as &$selection) {
-                $selection['data']['getProductName'] = $selection['search_data']['name'];
-                $selection = $selection['data'];
-            }
-        }
+        $data = $this->prepareSpecialPriceArray($data);
+        $data['bundle_selections'] = $this->prepareBundleOptions(
+            $data['bundle_selections']['bundle_options']
+        );
 
-        return $bundleSelections;
+        return parent::prepareFixtureData($data, $sortFields);
     }
 
     /**
@@ -118,5 +96,23 @@ class AssertBundleProductForm extends AssertProductForm
             }
         }
         return $fields;
+    }
+
+    /**
+     * Prepare Bundle Options array from preset
+     *
+     * @param array $bundleSelections
+     * @return array
+     */
+    protected function prepareBundleOptions(array $bundleSelections)
+    {
+        foreach ($bundleSelections as &$item) {
+            foreach ($item['assigned_products'] as &$selection) {
+                $selection['data']['getProductName'] = $selection['search_data']['name'];
+                $selection = $selection['data'];
+            }
+        }
+
+        return $bundleSelections;
     }
 }

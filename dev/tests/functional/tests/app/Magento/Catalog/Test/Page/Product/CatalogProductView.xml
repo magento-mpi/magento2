@@ -77,7 +77,7 @@
     <block>
         <name>titleBlock</name>
         <class>Magento\Theme\Test\Block\Html\Title</class>
-        <locator>.page.title h1.title</locator>
+        <locator>.page-title h1.title .base</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

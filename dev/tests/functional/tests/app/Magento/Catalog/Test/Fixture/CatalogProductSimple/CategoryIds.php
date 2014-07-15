@@ -51,6 +51,9 @@ class CategoryIds implements FixtureInterface
         ) {
             /** @var CatalogCategory $category */
             $category = $data['category'];
+            if (!$category->hasData('id')) {
+                $category->persist();
+            }
             $this->data[] = $category->getName();
             $this->categories[] = $category;
         } elseif (isset($data['presets'])) {

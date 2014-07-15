@@ -35,7 +35,39 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
             'price_type',
             'sku',
         ],
+        'Area' => [
+            'price_type',
+            'sku',
+        ],
         'Drop-down' => [
+            'price_type',
+            'sku',
+        ],
+        'File' => [
+            'price_type',
+            'sku',
+        ],
+        'Radio Buttons' => [
+            'price_type',
+            'sku',
+        ],
+        'Checkbox' => [
+            'price_type',
+            'sku',
+        ],
+        'Multiple Select' => [
+            'price_type',
+            'sku',
+        ],
+        'Date' => [
+            'price_type',
+            'sku',
+        ],
+        'Date & Time' => [
+            'price_type',
+            'sku',
+        ],
+        'Time' => [
             'price_type',
             'sku',
         ]
@@ -79,7 +111,9 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
 
         $actualPrice = $actualPrice ? $actualPrice : $product->getPrice();
         foreach ($customOptions as $customOption) {
-            $skippedField = $this->skippedFieldOptions[$customOption['type']];
+            $skippedField = isset($this->skippedFieldOptions[$customOption['type']])
+                ? $this->skippedFieldOptions[$customOption['type']]
+                : [];
             foreach ($customOption['options'] as &$option) {
                 // recalculate percent price
                 if ('Percent' == $option['price_type']) {

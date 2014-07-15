@@ -28,7 +28,7 @@ class CatalogProductView extends ParentCatalogProductView
         $this->_blocks['groupedViewBlock'] = [
             'name' => 'groupedViewBlock',
             'class' => 'Magento\GroupedProduct\Test\Block\Catalog\Product\View',
-            'locator' => '.product.info.main',
+            'locator' => '.product-info-main',
             'strategy' => 'css selector',
         ];
         parent::_init();

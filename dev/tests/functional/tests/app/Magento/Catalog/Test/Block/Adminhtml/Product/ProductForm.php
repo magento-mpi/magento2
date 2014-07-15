@@ -10,10 +10,10 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
+use Mtf\Fixture\DataFixture;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Mtf\Fixture\InjectableFixture;
+use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
@@ -114,10 +114,17 @@ class ProductForm extends FormTabs
         Element $element = null
     ) {
         $tabs = $this->getFieldsByTabs($fixture);
+        $categoryName = null;
+
         if ($category) {
             $categoryName = ($category instanceof InjectableFixture )
                 ? $category->getName()
                 : $category->getCategoryName();
+        } elseif ($fixture instanceof DataFixture) {
+            /** @var Product $fixture */
+            $categoryName = $fixture->getCategoryName();
+        }
+        if ($categoryName) {
             $tabs['product-details']['category_ids']['value'] = $categoryName;
         }
 

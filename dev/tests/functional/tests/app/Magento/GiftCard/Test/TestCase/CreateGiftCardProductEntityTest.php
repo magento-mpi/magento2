@@ -48,7 +48,7 @@ class CreateGiftCardProductEntityTest extends Injectable
         CatalogProductNew $productNew
     ) {
         $productIndex->open();
-        $productIndex->getProductBlock()->addProduct('giftcard');
+        $productIndex->getGridPageActionBlock()->addProduct('giftcard');
         $productNew->getForm()->fill($product);
         $productNew->getFormAction()->save();
     }

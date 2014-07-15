@@ -14,6 +14,10 @@
         <strategy>css selector</strategy>
         <wrapper>product</wrapper>
         <fields>
+            <status>
+                <selector>.product-actions .switcher</selector>
+                <class>Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\ProductOnlineSwitcher</class>
+            </status>
             <attribute_set_id>
                 <selector>#product-template-suggest-container</selector>
                 <class>Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\AttributeSet</class>
@@ -28,6 +32,10 @@
             <is_virtual>
                 <input>checkbox</input>
             </is_virtual>
+            <category_ids>
+                <selector>#attribute-category_ids-container</selector>
+                <class>Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\CategoryIds</class>
+            </category_ids>
             <quantity_and_stock_status composite="1">
                 <qty>
                     <selector>#qty</selector>

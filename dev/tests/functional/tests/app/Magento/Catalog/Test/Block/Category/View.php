@@ -21,7 +21,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $description = '.category.description';
+    protected $description = '.category-description';
 
     /**
      * Get description

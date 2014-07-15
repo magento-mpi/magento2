@@ -282,7 +282,7 @@ class CustomOptions implements FixtureInterface
                     'options' => [
                         [
                             'price' => 10,
-                            'price_type' => 'Percent',
+                            'price_type' => 'Fixed',
                             'sku' => 'sku_area_row_%isolation%',
                             'max_characters' => '10'
                         ]
@@ -312,19 +312,19 @@ class CustomOptions implements FixtureInterface
                             'title' => '10 percent',
                             'price' => 10,
                             'price_type' => 'Percent',
-                            'sku' => 'sku_drop_down_row%isolation%'
+                            'sku' => 'sku_drop_down_row_1_%isolation%'
                         ],
                         [
                             'title' => '20 percent',
                             'price' => 20,
                             'price_type' => 'Percent',
-                            'sku' => 'sku_drop_down_row%isolation%'
+                            'sku' => 'sku_drop_down_row_2_%isolation%'
                         ],
                         [
                             'title' => '30 fixed',
                             'price' => 30,
                             'price_type' => 'Fixed',
-                            'sku' => 'sku_drop_down_row%isolation%'
+                            'sku' => 'sku_drop_down_row_3_%isolation%'
                         ]
                     ]
                 ],

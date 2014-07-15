@@ -43,28 +43,42 @@ class CustomOptions extends Form
      *
      * @var string
      */
-    protected $required = '//self::*[contains(@class,"required")]';
+    protected $required = './self::*[contains(@class,"required")]';
 
     /**
-     * Selector for price notice of "Field" option
+     * Selector for price notice of option
      *
      * @var string
      */
     protected $priceNotice = './/*[@class="price-notice"]';
 
     /**
-     * Selector for max characters of "Field" option
+     * Selector for max characters of option
      *
      * @var string
      */
     protected $maxCharacters = './/div[@class="control"]/p[@class="note"]/strong';
 
     /**
-     * Selector for select element of drop-down option
+     * Selector for label of option value element
      *
      * @var string
      */
-    protected $dropdownSelect = './/div[@class="control"]/select';
+    protected $optionLabel = './/div[@class="control"]//label[contains(@for, "options_")][%d]';
+
+    /**
+     * Select note of option by number
+     *
+     * @var string
+     */
+    protected $noteByNumber = './/*[@class="note"][%d]/strong';
+
+    /**
+     * Selector for select element of option
+     *
+     * @var string
+     */
+    protected $selectOption = './/div[@class="control"]/select';
 
     /**
      * Selector for option of select element
@@ -90,7 +104,7 @@ class CustomOptions extends Form
     /**
      * Get product options
      *
-     * @param FixtureInterface|null $product
+     * @param FixtureInterface|null $product [optional]
      * @return array
      * @throws \Exception
      */
@@ -161,8 +175,7 @@ class CustomOptions extends Form
      */
     protected function getFieldData(Element $option)
     {
-        $priceNotice = $option->find($this->priceNotice, Locator::SELECTOR_XPATH)->getText();
-        $price = preg_replace('/[^0-9\.]/', '', $priceNotice);
+        $price = $this->getOptionPriceNotice($option);
         $maxCharacters = $option->find($this->maxCharacters, Locator::SELECTOR_XPATH);
 
         return [
@@ -176,6 +189,39 @@ class CustomOptions extends Form
     }
 
     /**
+     * Get data of "Area" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getAreaData(Element $option)
+    {
+        return $this->getFieldData($option);
+    }
+
+    /**
+     * Get data of "File" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getFileData(Element $option)
+    {
+        $price = $this->getOptionPriceNotice($option);
+
+        return [
+            'options' => [
+                [
+                    'price' => floatval($price),
+                    'file_extension' => $this->getOptionNotice($option, 1),
+                    'image_size_x' => preg_replace('/[^0-9]/', '', $this->getOptionNotice($option, 2)),
+                    'image_size_y' => preg_replace('/[^0-9]/', '', $this->getOptionNotice($option, 3)),
+                ]
+            ]
+        ];
+    }
+
+    /**
      * Get data of "Drop-down" custom option
      *
      * @param Element $option
@@ -183,24 +229,165 @@ class CustomOptions extends Form
      */
     protected function getDropdownData(Element $option)
     {
-        $select = $option->find($this->dropdownSelect, Locator::SELECTOR_XPATH, 'select');
-        $listSelectOptions = [];
+        // Skip "Choose option ..."(option #1)
+        return $this->getSelectData($option, 2);
+    }
 
-        $count = 2;
+    /**
+     * Get data of "Multiple Select" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getMultipleSelectData(Element $option)
+    {
+        return $this->getSelectData($option, 1);
+    }
+
+    /**
+     * Get data of "Radio Buttons" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getRadioButtonsData(Element $option)
+    {
+        $listOptions = [];
+
+        $count = 1;
+        $option = $option->find(sprintf($this->optionLabel, $count), Locator::SELECTOR_XPATH);
+        while ($option->isVisible()) {
+            $listOptions[] = $this->parseOptionText($option->getText());
+            ++$count;
+            $option = $option->find(sprintf($this->optionLabel, $count), Locator::SELECTOR_XPATH);
+        }
+
+        return [
+            'options' => $listOptions
+        ];
+    }
+
+    /**
+     * Get data of "Checkbox" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getCheckboxData(Element $option)
+    {
+        return $this->getRadioButtonsData($option);
+    }
+
+    /**
+     * Get data of "Date" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getDateData(Element $option)
+    {
+        $price = $this->getOptionPriceNotice($option);
+
+        return [
+            'options' => [
+                [
+                    'price' => floatval($price)
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Get data of "Date & Time" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getDateTimeData(Element $option)
+    {
+        return $this->getDateData($option);
+    }
+
+    /**
+     * Get data of "Time" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getTimeData(Element $option)
+    {
+        return $this->getDateData($option);
+    }
+
+    /**
+     * Get data of select custom option
+     *
+     * @param Element $option
+     * @param int $firstElement
+     * @return array
+     */
+    protected function getSelectData(Element $option, $firstElement = 1)
+    {
+        $select = $option->find($this->selectOption, Locator::SELECTOR_XPATH, 'select');
+        $listOptions = [];
+
+        $count = $firstElement;
         $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
         while ($selectOption->isVisible()) {
-            $optionData = explode('+', $selectOption->getText());
-            $listSelectOptions[] = [
-                'title' => trim($optionData[0]),
-                'price' => isset($optionData[1]) ? preg_replace('/[^0-9\.]/', '', $optionData[1]) : '',
-            ];
-
+            $listOptions[] = $this->parseOptionText($selectOption->getText());
             ++$count;
             $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
         }
 
         return [
-            'options' => $listSelectOptions
+            'options' => $listOptions
+        ];
+    }
+
+    /**
+     * Get price from price-notice of custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    protected function getOptionPriceNotice(Element $option)
+    {
+        $priceNotice = $option->find($this->priceNotice, Locator::SELECTOR_XPATH);
+        if (!$priceNotice->isVisible()) {
+            return null;
+        }
+        return preg_replace('/[^0-9\.]/', '', $priceNotice->getText());
+    }
+
+    /**
+     * Get notice of option by number
+     *
+     * @param Element $option
+     * @param int $number
+     * @return mixed
+     */
+    protected function getOptionNotice(Element $option, $number)
+    {
+        $note = $option->find(sprintf($this->noteByNumber, $number), Locator::SELECTOR_XPATH);
+        return $note->isVisible() ? $note->getText() : null;
+    }
+
+    /**
+     * Parse option text to title and price
+     *
+     * @param $optionText
+     * @return array
+     */
+    protected function parseOptionText($optionText) {
+        preg_match('/\+?.([0-9.]+)$/', $optionText, $match);
+        $optionPrice = isset($match[1]) ? $match[1] : 0;
+        $optionTitle = isset($match[0])
+            ? substr($optionText, 0, strlen($optionText) - strlen($match[0]))
+            : $optionText;
+
+        return [
+            'title' => trim($optionTitle),
+            'price' => $optionPrice
         ];
     }
 
@@ -310,12 +497,7 @@ class CustomOptions extends Form
      */
     protected function optionNameConvert($optionName)
     {
-        $optionName = str_replace(' & ', '', $optionName);
-        if ($end = strpos($optionName, ' ')) {
-            $optionName = substr($optionName, 0, $end);
-        } elseif ($end = strpos($optionName, '-')) {
-            $optionName = substr($optionName, 0, $end) . ucfirst(substr($optionName, ($end + 1)));
-        }
-        return lcfirst($optionName);
+        $type = preg_replace('/[^a-zA-Z]/', '', $optionName);
+        return ucfirst(strtolower($type));
     }
 }

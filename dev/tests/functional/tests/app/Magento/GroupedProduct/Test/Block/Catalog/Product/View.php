@@ -35,7 +35,7 @@ class View extends ParentView
      *
      * @var string
      */
-    protected $formatSpecialPrice = ".product.info.main tr:nth-child(%row-number%) .price-box";
+    protected $formatSpecialPrice = ".product-info-main tr:nth-child(%row-number%) .price-box";
 
     /**
      * Get grouped product block
