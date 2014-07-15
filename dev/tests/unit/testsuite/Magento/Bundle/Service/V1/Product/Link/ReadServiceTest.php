@@ -90,7 +90,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['getTypeInstance', 'getStoreId', '__wakeup'])
+            ->setMethods(['getTypeInstance', 'getStoreId', 'getTypeId', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -123,6 +123,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->productRepository->expects($this->any())->method('get')->with($this->equalTo($productSku))
             ->will($this->returnValue($this->product));
 
+        $this->product->expects($this->once())->method('getTypeId')->will($this->returnValue('bundle'));
+
         $this->productType->expects($this->once())->method('setStoreFilter')->with(
             $this->equalTo($this->storeId),
             $this->product
@@ -146,10 +148,26 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([$this->metadata], $this->model->getChildren($productSku));
     }
 
-    public function getOptions()
+    /**
+     * @expectedException \Magento\Webapi\Exception
+     * @expectedExceptionCode 403
+     */
+    public function testGetChildrenException()
     {
-        $this->product->expects($this->once())->method('getTypeInstance')->will($this->returnValue($this->productType));
+        $productSku = 'productSku';
+
+        $this->productRepository->expects($this->once())->method('get')->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->product));
+
+        $this->product->expects($this->once())->method('getTypeId')->will($this->returnValue('simple'));
+
+        $this->assertEquals([$this->metadata], $this->model->getChildren($productSku));
+    }
+
+    private function getOptions()
+    {
         $this->product->expects($this->once())->method('getStoreId')->will($this->returnValue($this->storeId));
+        $this->product->expects($this->any())->method('getTypeInstance')->will($this->returnValue($this->productType));
 
         $this->productType->expects($this->once())->method('setStoreFilter')
             ->with($this->equalTo($this->storeId), $this->equalTo($this->product));
