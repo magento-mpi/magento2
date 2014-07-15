@@ -183,6 +183,12 @@ class ObjectManager
         $builderObject = $reflectionClass->newInstanceArgs($constructArguments);
 
         $objectFactory->expects($this->_testObject->any())
+            ->method('populateWithArray')
+            ->will($this->_testObject->returnSelf());
+        $objectFactory->expects($this->_testObject->any())
+            ->method('populate')
+            ->will($this->_testObject->returnSelf());
+        $objectFactory->expects($this->_testObject->any())
             ->method('create')
             ->will($this->_testObject->returnCallback(
                 function ($className, $arguments) {
@@ -227,7 +233,11 @@ class ObjectManager
                 if ($parameter->getClass()) {
                     $argClassName = $parameter->getClass()->getName();
                 }
-                $object = $this->_createArgumentMock($argClassName, $arguments);
+                if (is_subclass_of($argClassName, '\Magento\Framework\Service\Data\AbstractObjectBuilder')) {
+                    $object = $this->getBuilder($argClassName, $arguments);
+                } else {
+                    $object = $this->_createArgumentMock($argClassName, $arguments);
+                }
             } catch (\ReflectionException $e) {
                 $parameterString = $parameter->__toString();
                 $firstPosition = strpos($parameterString, '<required>');

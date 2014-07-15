@@ -197,16 +197,14 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      */
     protected function _setDataValues(array $data)
     {
-        $appliedTaxDataObjects = [];
-
         if (isset($data[Item::KEY_APPLIED_TAXES])) {
+            $appliedTaxDataObjects = [];
             $appliedTaxes = $data[Item::KEY_APPLIED_TAXES];
             foreach ($appliedTaxes as $appliedTax) {
                 $appliedTaxDataObjects[] = $this->appliedTaxBuilder->populateWithArray($appliedTax)->create();
             }
+            $data[Item::KEY_APPLIED_TAXES] = $appliedTaxDataObjects;
         }
-
-        $data[Item::KEY_APPLIED_TAXES] = $appliedTaxDataObjects;
 
         return parent::_setDataValues($data);
     }

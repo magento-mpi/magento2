@@ -220,8 +220,8 @@ abstract class AbstractCalculator
     /**
      * Check if tax rate is same as store tax rate
      *
-     * @param $rate
-     * @param $storeRate
+     * @param float $rate
+     * @param float $storeRate
      * @return bool
      */
     protected function isSameRateAsStore($rate, $storeRate)
