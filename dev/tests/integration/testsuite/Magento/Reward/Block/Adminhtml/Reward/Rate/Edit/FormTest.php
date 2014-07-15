@@ -51,7 +51,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareFormMultipleStore()
     {
-        $this->markTestIncomplete('Test used wrong area, as area was not set to layout previously');
         $this->_block->toHtml();
         $form = $this->_block->getForm();
         $this->assertInstanceOf('Magento\Framework\Data\Form', $form);

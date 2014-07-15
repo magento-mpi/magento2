@@ -41,13 +41,13 @@ class Details extends \Magento\Backend\Block\Widget\Container
     protected $_userFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\User\Model\UserFactory $userFactory,
         array $data = array()
@@ -66,7 +66,7 @@ class Details extends \Magento\Backend\Block\Widget\Container
     protected function _construct()
     {
         parent::_construct();
-        $this->_addButton(
+        $this->buttonList->add(
             'back',
             array(
                 'label' => __('Back'),
