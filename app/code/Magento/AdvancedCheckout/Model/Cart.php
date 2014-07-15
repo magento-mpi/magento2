@@ -587,23 +587,18 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             } else {
                 $itemPrice = null;
             }
-            $noDiscount = !isset($info['use_discount']);
 
             if (empty($info['action']) || !empty($info['configured'])) {
                 if ($item) {
                     $item->setQty($itemQty);
                     $item->setCustomPrice($itemPrice);
                     $item->setOriginalCustomPrice($itemPrice);
-                    $item->setNoDiscount($noDiscount);
                     $item->getProduct()->setIsSuperMode(true);
                     $item->checkData();
                 }
             } else {
                 $this->moveQuoteItem($item->getId(), $info['action'], $itemQty);
             }
-        }
-        if ($this->_needCollectCart === true) {
-            $this->getCustomerCart()->collectTotals()->save();
         }
         $this->setRecollect(true);
 
