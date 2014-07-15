@@ -25,8 +25,10 @@
 </div>
 <?php elseif ($this->getDisplayIfEmpty()): ?>
 <div class="product-reviews-summary short empty">
-    <a class="action add" href="<?php echo $urlForm; ?>">
-        <?php echo __('Be the first to review this product') ?>
-    </a>
+    <div class="reviews-actions">
+        <a class="action add" href="<?php echo $urlForm; ?>">
+            <?php echo __('Be the first to review this product') ?>
+        </a>
+    </div>
 </div>
 <?php endif; ?>
