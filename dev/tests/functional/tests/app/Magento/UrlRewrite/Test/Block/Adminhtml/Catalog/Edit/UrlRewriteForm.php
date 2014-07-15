@@ -10,31 +10,41 @@ namespace Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit;
 
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\Form as FormWidget;
+use Magento\Backend\Test\Block\Widget\Form;
 
 /**
- * Class Form
+ * Class UrlRewriteForm
  * Catalog URL rewrite edit form
  */
-class Form extends FormWidget
+class UrlRewriteForm extends Form
 {
     /**
      * Fill the root form
      *
      * @param FixtureInterface $fixture
      * @param Element|null $element
+     * @param array $replace [optional]
      * @return $this
      */
-    public function fill(FixtureInterface $fixture, Element $element = null)
-    {
+    public function fill(
+        FixtureInterface $fixture,
+        Element $element = null,
+        array $replace = []
+    ) {
         $data = $fixture->getData();
-        $getData = $this->getData();
-        if (!$getData['target_path']) {
+        if (!empty($this->getData()['target_path']) && !isset($data['target_path'])) {
             $entity = $fixture->getDataFieldConfig('id_path')['source']->getEntity();
             $data['target_path'] = $entity->hasData('identifier')
                 ? $entity->getIdentifier()
                 : $entity->getUrlKey() . '.html';
         }
+
+        foreach ($replace as $key => $pairs) {
+            if (isset($data[$key])) {
+                $data[$key] = str_replace(array_keys($pairs), $pairs, $data[$key]);
+            }
+        }
+
         // TODO: delete line after removing old fixture
         $fields = isset($data['fields']) ? $data['fields'] : $data;
         $mapping = $this->dataMapping($fields);
