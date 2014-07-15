@@ -41,9 +41,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $contextMock = $this->getMock('\Magento\Framework\Model\Context', ['getEventDispatcher'], [], '', false);
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
-        $contextMock->expects($this->any())->method('getEventDispatcher')->will($this->returnValue($eventManagerMock));
         $this->productWebsiteFactory = $this->getMock(
             '\Magento\Catalog\Model\Product\WebsiteFactory',
             ['create'],
@@ -87,7 +85,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManager->getObject(
             '\Magento\Catalog\Model\Product\Action',
             [
-                'context' => $contextMock,
+                'eventDispatcher' => $eventManagerMock,
                 'resource' => $this->resource,
                 'productWebsiteFactory' => $this->productWebsiteFactory,
                 'indexIndexer' => $this->indexIndexer,
