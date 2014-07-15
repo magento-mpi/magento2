@@ -37,7 +37,10 @@ class WriteService implements WriteServiceInterface
         $product = $this->productRepository->get($productSku);
 
         if ($product->getTypeId() != Configurable::TYPE_CODE) {
-            throw new Exception('Configurable product SKU is expected', Exception::HTTP_FORBIDDEN);
+            throw new Exception(
+                sprintf('Product with specified sku: %s is not a configurable product', $productSku),
+                Exception::HTTP_FORBIDDEN
+            );
         }
 
         $options = $product->getTypeInstance()->getUsedProducts($product);

@@ -45,7 +45,10 @@ class WriteService implements WriteServiceInterface
         $product = $this->productRepository->get($productSku);
 
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-            throw new Exception('Bundle product SKU is expected', Exception::HTTP_FORBIDDEN);
+            throw new Exception(
+                sprintf('Product with specified sku: %s is not a bundle product', $productSku),
+                Exception::HTTP_FORBIDDEN
+            );
         }
 
         $excludeSelectionIds = array();
