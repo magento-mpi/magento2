@@ -86,12 +86,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     *
-     */
     public function testGetChildrenException()
     {
-
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->getMock();
