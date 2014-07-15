@@ -164,12 +164,18 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                         'region'      => ['region_id' => $postCode],
                         'postcode'    => $postCode
                     ],
-                    'customer_tax_class_id' => $customerTaxClassId,
+                    'customer_tax_class_key' => [
+                        'type' => 'id',
+                        'value' => $customerTaxClassId,
+                    ],
                     'items'                 => [
                         [
                             'code'              => $sku,
                             'type'              => 'product',
-                            'tax_class_id'      => $productTaxClassId,
+                            'tax_class_key'      => [
+                                'type' => 'id',
+                                'value' => $productTaxClassId,
+                            ],
                             'unit_price'        => $price,
                             'quantity'          => 1,
                             'tax_included'      => 1,
