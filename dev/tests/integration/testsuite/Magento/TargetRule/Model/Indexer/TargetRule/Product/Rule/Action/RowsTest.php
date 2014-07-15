@@ -10,9 +10,6 @@
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action;
 
-/**
- * Full reindex Test
- */
 class RowsTest extends \PHPUnit_Framework_TestCase
 {
     /**

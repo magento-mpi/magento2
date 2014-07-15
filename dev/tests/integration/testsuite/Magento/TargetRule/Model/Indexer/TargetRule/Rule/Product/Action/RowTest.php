@@ -10,9 +10,6 @@
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Action;
 
-/**
- * Full reindex Test
- */
 class RowTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -46,7 +43,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_processor->getIndexer()->isScheduled());
 
         $data = array(
-            'name' => 'rule',
+            'name' => 'Target Rule',
             'is_active' => '1',
             'apply_to' => 1,
             'use_customer_segment' => '0',

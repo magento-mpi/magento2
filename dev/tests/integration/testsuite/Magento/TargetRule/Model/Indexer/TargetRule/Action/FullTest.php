@@ -10,9 +10,6 @@
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Action;
 
-/**
- * Full reindex Test
- */
 class FullTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -36,9 +33,8 @@ class FullTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Covers Magento/TargetRule/view/frontend/catalog/product/list/related.html
-     * Checks if related products are displayed
-     *
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
      * @magentoDataFixture Magento/TargetRule/_files/related.php
      */
