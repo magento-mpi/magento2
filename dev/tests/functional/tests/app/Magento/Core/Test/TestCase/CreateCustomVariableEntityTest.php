@@ -8,30 +8,27 @@
 
 namespace Magento\Core\Test\TestCase;
 
+use Mtf\TestCase\Injectable;
 use Magento\Core\Test\Fixture\SystemVariable;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
-use Mtf\Fixture\FixtureFactory;
-use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for DeleteSystemVariableEntity
+ * Test Creation for CreateCustomVariableEntity
  *
  * Test Flow:
- * Preconditions:
- * 1. Custom Variable is created
- *
  * Steps:
  * 1. Login to backend.
  * 2. Navigate to System->Other Settings->Custom Variables.
- * 3. Open Variable.
- * 4. Click 'Delete' button.
- * 5. Perform asserts.
+ * 3. Click on 'Add new variable' button.
+ * 4. Fill in all data according to data set.
+ * 5. Click 'Save' button.
+ * 6. Perform all asserts.
  *
  * @group Variables_(PS)
- * @ZephyrId MAGETWO-25535
+ * @ZephyrId MAGETWO-23293
  */
-class DeleteSystemVariableEntityTest extends Injectable
+class CreateCustomVariableEntityTest extends Injectable
 {
     /**
      * Custom System Variable grid page
@@ -65,21 +62,15 @@ class DeleteSystemVariableEntityTest extends Injectable
     /**
      * Delete Custom System Variable Entity test
      *
-     * @param SystemVariable $systemVariable
+     * @param SystemVariable $customVariable
      * @return void
      */
-    public function test(SystemVariable $systemVariable)
+    public function test(SystemVariable $customVariable)
     {
-        // Precondition
-        $systemVariable->persist();
-
         // Steps
-        $filter = [
-            'code' => $systemVariable->getCode(),
-            'name' => $systemVariable->getName(),
-        ];
         $this->systemVariableIndexPage->open();
-        $this->systemVariableIndexPage->getSystemVariableGrid()->searchAndOpen($filter);
-        $this->systemVariableNewPage->getFormPageActions()->delete();
+        $this->systemVariableIndexPage->getGridPageActions()->addNew();
+        $this->systemVariableNewPage->getSystemVariableForm()->fill($customVariable);
+        $this->systemVariableNewPage->getFormPageActions()->save();
     }
 }

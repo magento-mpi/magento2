@@ -28,4 +28,14 @@
         <area>adminhtml</area>
         <class>Magento\Cms\Test\Page\Adminhtml\CmsNew</class>
     </cmsNew>
+    <cmsBlockIndex>
+        <mca>cms/block/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex</class>
+    </cmsBlockIndex>
+    <cmsBlockEdit>
+        <mca>cms/block/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsBlockEdit</class>
+    </cmsBlockEdit>
 </page>
