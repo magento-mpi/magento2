@@ -8,7 +8,6 @@
 namespace Magento\Bundle\Service\V1\Product\Link;
 
 use Magento\Bundle\Model\Option;
-use Magento\Bundle\Model\Product\Type\Interceptor;
 use Magento\Bundle\Service\V1\Data\Product\Link\MetadataConverter;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
@@ -66,7 +65,7 @@ class ReadService implements ReadServiceInterface
      */
     private function getOptions(Product $product)
     {
-        /** @var Interceptor $productTypeInstance */
+        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
         $productTypeInstance = $product->getTypeInstance();
         $productTypeInstance->setStoreFilter(
             $product->getStoreId(),
