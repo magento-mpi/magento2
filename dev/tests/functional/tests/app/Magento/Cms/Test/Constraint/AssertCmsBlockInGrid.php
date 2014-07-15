@@ -37,8 +37,8 @@ class AssertCmsBlockInGrid extends AbstractConstraint
     {
         $cmsBlockIndex->open();
         $data = $cmsBlock->getData();
-        if (isset($data['store_id'])) {
-            $storeId = is_array($data['store_id']) ? reset($data['store_id']) : $data['store_id'];
+        if (isset($data['stores'])) {
+            $storeId = is_array($data['stores']) ? reset($data['stores']) : $data['stores'];
             $parts = explode("/", $storeId);
         }
 
@@ -49,7 +49,7 @@ class AssertCmsBlockInGrid extends AbstractConstraint
             'store_id' => end($parts),
         ];
 
-        // add from_date & to_date to filter if there are ones
+        // add creation_time & update_time to filter if there are ones
         if (isset($data['creation_time'])) {
             $filter['creation_time_from'] = date("M j, Y", strtotime($cmsBlock->getCreationTime()));
         }
@@ -67,7 +67,7 @@ class AssertCmsBlockInGrid extends AbstractConstraint
             . (isset($filter['creation_time_from'])
                 ? ('creation_time \'' . $filter['creation_time_from'] . '\', ')
                 : '')
-            . (isset($filter['update_time_from']) ? ('update_time \'' . $filter['update_time_from'] . '\', ') : '')
+            . (isset($filter['update_time_from']) ? ('update_time \'' . $filter['update_time_from'] . '\'') : '')
             . 'is absent in CMS Block grid.'
         );
     }

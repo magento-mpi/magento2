@@ -42,11 +42,11 @@ class Curl extends AbstractCurl implements CmsBlockInterface
     ];
 
     /**
-     * Mapping values for Store Views
+     * Mapping values for Stores
      *
      * @var array
      */
-    protected $storeIds = [
+    protected $stores = [
         'All Store Views' => 0
     ];
 
@@ -66,7 +66,7 @@ class Curl extends AbstractCurl implements CmsBlockInterface
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("CMS Block entity creating  by curl handler was not successful!");
+            throw new \Exception("CMS Block entity creating by curl handler was not successful! Response: $response");
         }
 
         $url = 'cms/block/index/sort/creation_time/dir/desc';
@@ -79,19 +79,18 @@ class Curl extends AbstractCurl implements CmsBlockInterface
     /**
      * Prepare data from text to values
      *
-     * @param $fixture
+     * @param FixtureInterface $fixture
      * @return array
      */
     protected function prepareData($fixture)
     {
         $data = $this->replaceMappingData($fixture->getData());
-        if (isset($data['store_id'])) {
-            $storeIds = [];
-            foreach ($data['store_id'] as $storeId) {
-                $storeIds[] = isset($this->storeIds[$storeId]) ? $this->storeIds[$storeId] : $storeId;
+        if (isset($data['stores'])) {
+            $stores = [];
+            foreach ($data['stores'] as $store) {
+                $stores[] = isset($this->stores[$store]) ? $this->stores[$store] : $store;
             }
-            $data['store_id'] = $storeIds;
-            $data['stores'] = $data['store_id'];
+            $data['stores'] = $stores;
         }
 
         return $data;

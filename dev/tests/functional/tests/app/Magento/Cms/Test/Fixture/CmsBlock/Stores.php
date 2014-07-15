@@ -12,12 +12,12 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class StoreId
+ * Class Stores
  *
  * Data keys:
  *  - dataSet
  */
-class StoreId implements FixtureInterface
+class Stores implements FixtureInterface
 {
     /**
      * Array with store names

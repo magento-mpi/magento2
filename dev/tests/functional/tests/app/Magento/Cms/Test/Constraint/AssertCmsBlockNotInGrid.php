@@ -14,8 +14,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
 
 /**
  * Class AssertCmsBlockNotInGrid
- * Assert that created CMS block can't be found in grid via:
- * title, identifier, store view, status, created and modified date
+ * Assert that created CMS block can't be found in grid
  */
 class AssertCmsBlockNotInGrid extends AbstractConstraint
 {
@@ -36,9 +35,12 @@ class AssertCmsBlockNotInGrid extends AbstractConstraint
      */
     public function processAssert(CmsBlock $cmsBlock, CmsBlockIndex $cmsBlockIndex)
     {
+        $cmsBlockIndex->open();
         $data = $cmsBlock->getData();
-        $storeId = is_array($data['store_id']) ? reset($data['store_id']) : $data['store_id'];
-        $parts = explode("/", $storeId);
+        if (isset($data['stores'])) {
+            $storeId = is_array($data['stores']) ? reset($data['stores']) : $data['stores'];
+            $parts = explode("/", $storeId);
+        }
 
         $filter = [
             'title' => $data['title'],
@@ -49,10 +51,10 @@ class AssertCmsBlockNotInGrid extends AbstractConstraint
 
         // add creation_time & update_time to filter if there are ones
         if (isset($data['creation_time'])) {
-            $filter['creation_time'] = date("M j, Y", strtotime($cmsBlock->getCreationTime()));
+            $filter['creation_time_from'] = date("M j, Y", strtotime($cmsBlock->getCreationTime()));
         }
         if (isset($data['update_time'])) {
-            $filter['update_time'] = date("M j, Y", strtotime($cmsBlock->getUpdateTime()));
+            $filter['update_time_from'] = date("M j, Y", strtotime($cmsBlock->getUpdateTime()));
         }
 
         \PHPUnit_Framework_Assert::assertFalse(
@@ -62,8 +64,10 @@ class AssertCmsBlockNotInGrid extends AbstractConstraint
             . 'identifier \'' . $filter['identifier'] . '\', '
             . 'store view \'' . $filter['store_id'] . '\', '
             . 'status \'' . $filter['is_active'] . '\', '
-            . (isset($filter['creation_time']) ? ('creation_time \'' . $filter['creation_time'] . '\', ') : '')
-            . (isset($filter['update_time']) ? ('update_time \'' . $filter['update_time'] . '\', ') : '')
+            . (isset($filter['creation_time_from'])
+                ? ('creation_time \'' . $filter['creation_time_from'] . '\', ')
+                : '')
+            . (isset($filter['update_time_from']) ? ('update_time \'' . $filter['update_time_from'] . '\'') : '')
             . 'exists in CMS Block grid.'
         );
     }
