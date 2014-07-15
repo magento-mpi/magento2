@@ -32,6 +32,19 @@ class AssertProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Error messages
+     *
+     * @var array
+     */
+    protected $errorsMessages = [
+        'name' => '- product name on product view page is not correct.',
+        'sku' => '- product sku on product view page is not correct.',
+        'regular_price' => '- product regular price on product view page is not correct.',
+        'short_description' => '- product short description on product view page is not correct.',
+        'description' => '- product description on product view page is not correct.'
+    ];
+
+    /**
      * Assertion that the product page is displayed correctly
      *
      * @param CatalogProductView $catalogProductView
@@ -46,58 +59,84 @@ class AssertProductPage extends AbstractConstraint
         $catalogProductView->init($product);
         $catalogProductView->open();
 
+        $data = $this->prepareData($catalogProductView);
         //Process assertions
-        $this->assertOnProductView($catalogProductView);
+        $this->assertOnProductView($catalogProductView, $data);
+    }
+
+    /**
+     * Prepare array for assert
+     *
+     * @param CatalogProductView $catalogProductView
+     * @return array
+     */
+    protected function prepareData(CatalogProductView $catalogProductView)
+    {
+        $viewBlock = $catalogProductView->getViewBlock();
+        $price = $viewBlock->getProductPriceBlock()->getPrice();
+
+        $data = [
+            'onPage' => [
+                'name' => $viewBlock->getProductName(),
+                'sku' => $viewBlock->getProductSku(),
+            ],
+            'fixture' => [
+                'name' => $this->product->getName(),
+                'sku' => $this->product->getSku(),
+            ]
+        ];
+
+        list($priceOnPage, $priceFixture) = $this->preparePrice($price);
+        $data['onPage'] += $priceOnPage;
+        $data['fixture'] += $priceFixture;
+
+        if ($productShortDescription = $this->product->getShortDescription()) {
+            $data['fixture']['short_description'] = $productShortDescription;
+            $data['onPage']['short_description'] = $viewBlock->getProductShortDescription();
+        }
+        if ($productDescription = $this->product->getDescription()) {
+            $data['fixture']['description'] = $productDescription;
+            $data['onPage']['description'] = $viewBlock->getProductDescription();
+        }
+
+        return $data;
+    }
+
+    /**
+     * Prepare Price data
+     *
+     * @param array $price
+     * @return array
+     */
+    protected function preparePrice($price)
+    {
+        return [
+            ['regular_price' => $price['price_regular_price']],
+            ['regular_price' => number_format($this->product->getPrice(), 2)]
+        ];
     }
 
     /**
      * Assert prices on the product view page
      *
      * @param CatalogProductView $catalogProductView
+     * @param array $data
      * @return void
      */
-    protected function assertOnProductView(CatalogProductView $catalogProductView)
+    protected function assertOnProductView(CatalogProductView $catalogProductView, array $data)
     {
-        $viewBlock = $catalogProductView->getViewBlock();
-        $price = $viewBlock->getProductPriceBlock()->getPrice();
-        $errorsMessages = [
-            'name'              => '- product name on product view page is not correct.',
-            'sku'               => '- product sku on product view page is not correct.',
-            'regular_price'     => '- product regular price on product view page is not correct.',
-            'short_description' => '- product short description on product view page is not correct.',
-            'description'       => '- product description on product view page is not correct.'
-        ];
-        $dataOnPage = [
-            'name'          => $viewBlock->getProductName(),
-            'sku'           => $viewBlock->getProductSku(),
-            'regular_price' => $price['price_regular_price']
-        ];
-        $compareData = [
-            'name'          => $this->product->getName(),
-            'sku'           => $this->product->getSku(),
-            'regular_price' => number_format($this->product->getData('price'), 2),
+        $price = $catalogProductView->getViewBlock()->getProductPriceBlock()->getPrice();
 
-        ];
-
-        if ($productShortDescription = $this->product->getShortDescription()) {
-            $compareData['short_description'] = $productShortDescription;
-            $dataOnPage['short_description'] = $viewBlock->getProductShortDescription();
-        }
-        if ($productDescription = $this->product->getDescription()) {
-            $compareData['description'] = $productDescription;
-            $dataOnPage['description'] = $viewBlock->getProductDescription();
-        }
-
-        $badValues = array_diff($dataOnPage, $compareData);
-        $errorsMessages = array_merge(
+        $badValues = array_diff($data['onPage'], $data['fixture']);
+        $this->errorsMessages = array_merge(
             $this->assertSpecialPrice($price),
-            array_intersect_key($errorsMessages, array_keys($badValues))
+            array_intersect_key($this->errorsMessages, array_keys($badValues))
         );
 
         \PHPUnit_Framework_Assert::assertTrue(
-            empty($errorsMessages),
+            empty($this->errorsMessages),
             PHP_EOL . 'Found the following errors:' . PHP_EOL
-            . implode(' ' . PHP_EOL, $errorsMessages)
+            . implode(' ' . PHP_EOL, $this->errorsMessages)
         );
     }
 

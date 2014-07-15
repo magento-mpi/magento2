@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <dropDown>
+            <selector>//select</selector>
+            <input>select</input>
+        </dropDown>
+        <multiple>
+            <selector>//select</selector>
+            <input>multiselect</input>
+        </multiple>
+        <checkbox>
+            <selector>//div[label[span[contains(text(), "%product_name%")]]]/input</selector>
+            <input>checkbox</input>
+        </checkbox>
+        <radio>
+            <selector>//div[label[span[contains(text(), "%product_name%")]]]/input</selector>
+            <input>checkbox</input>
+        </radio>
+        <date>
+            <selector />
+            <input>select</input>
+        </date>
+        <dateTime>
+            <selector />
+            <input>select</input>
+        </dateTime>
+        <time>
+            <selector />
+            <input>select</input>
+        </time>
+        <area>
+            <selector>//textarea</selector>
+        </area>
+        <file>
+            <selector>//input</selector>
+        </file>
+        <field>
+            <selector>//input</selector>
+        </field>
+    </fields>
+</mapping>

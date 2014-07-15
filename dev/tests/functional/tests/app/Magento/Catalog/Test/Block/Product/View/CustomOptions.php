@@ -8,17 +8,17 @@
 
 namespace Magento\Catalog\Test\Block\Product\View;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class Custom Options
- * Block of custom options product
+ * Form of custom options product
  *
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
-class CustomOptions extends Block
+class CustomOptions extends Form
 {
     /**
      * Regexp price pattern
@@ -88,7 +88,7 @@ class CustomOptions extends Block
      *
      * @var string
      */
-    protected $selectByTitleLocator = '//*[*[@class="product-options-wrapper"]//span[text()="%s"]]//select';
+    protected $selectByTitleLocator = '//div[label[span[contains(text(),"%s")]]]';
 
     /**
      * Bundle field CSS locator
@@ -174,6 +174,65 @@ class CustomOptions extends Block
     }
 
     /**
+     * Fill custom options
+     *
+     * @param array $customOptions
+     * @return void
+     */
+    public function fillCustomOptions(array $customOptions)
+    {
+        $type = $this->optionNameConvert($customOptions['type']);
+        $customOptions += $this->dataMapping([$type => '']);
+
+        $isDate = $customOptions['type'] == 'Date' ||
+            $customOptions['type'] == 'Time' ||
+            $customOptions['type'] == 'Date & Time';
+        $isChecked = $customOptions['type'] == 'Checkbox' || $customOptions['type'] == 'Radio Buttons';
+
+        if ($isDate) {
+            $customOptions['value'] = explode('/', $customOptions['value'][0]);
+            $customOptions['dateSelector'] = $this->setDateTypeSelector(count($customOptions['value']));
+        }
+
+        foreach ($customOptions['value'] as $key => $attributeValue) {
+            $selector = $customOptions[$type]['selector'];
+            if ($isDate) {
+                $selector .= $customOptions['dateSelector'][$key];
+            } elseif ($isChecked) {
+                $selector = str_replace('%product_name%', $attributeValue, $selector);
+                $attributeValue = 'Yes';
+            }
+
+            $select = $this->_rootElement->find(
+                sprintf($this->selectByTitleLocator, $customOptions['title']) . $selector,
+                Locator::SELECTOR_XPATH,
+                $customOptions[$type]['input']
+            );
+            $select->setValue($attributeValue);
+        }
+    }
+
+    /**
+     * Set item data type selector
+     *
+     * @param int $count
+     * @return array
+     */
+    protected function setDateTypeSelector($count)
+    {
+        $result = [];
+        $parent = '';
+        for ($i = 0; $i < $count; $i++) {
+            if (!(($i + 1) % 4)) {
+                $parent = '//span';
+            }
+            $result[$i] = $parent . '//select[' . ($i % 3 + 1) . ']';
+        }
+
+        return $result;
+    }
+
+    /**
      * Choose custom option in a drop down
      *
      * @param string $productOption
@@ -187,5 +246,22 @@ class CustomOptions extends Block
             'select'
         );
         $select->setValue($productOption);
+    }
+
+    /**
+     * Convert option name
+     *
+     * @param string $optionName
+     * @return string
+     */
+    protected function optionNameConvert($optionName)
+    {
+        $optionName = str_replace(' & ', '', $optionName);
+        if ($end = strpos($optionName, ' ')) {
+            $optionName = substr($optionName, 0, $end);
+        } elseif ($end = strpos($optionName, '-')) {
+            $optionName = substr($optionName, 0, $end) . ucfirst(substr($optionName, ($end + 1)));
+        }
+        return lcfirst($optionName);
     }
 }
