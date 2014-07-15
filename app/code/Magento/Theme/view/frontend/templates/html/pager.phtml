@@ -19,22 +19,24 @@
     <div class="pager">
     <?php endif ?>
 
-    <?php if($this->getShowAmounts()): ?>
-    <p class="amount">
-        <?php if($this->getLastPageNum()>1): ?>
-            <?php echo __('Items %1 to %2 of %3 total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
-        <?php elseif ($this->getLastPageNum() == 1): ?>
-            <?php echo __('%1 Item', $this->getTotalNum()) ?>
-        <?php else: ?>
-            <?php echo __('%1 Item(s)', $this->getTotalNum()) ?>
-        <?php endif; ?>
-    </p>
-    <?php endif ?>
+        <?php if($this->getShowAmounts()): ?>
+        <p class="toolbar-amount">
+            <span class="toolbar-number">
+            <?php if($this->getLastPageNum()>1): ?>
+                <?php echo __('Items %1 to %2 of %3 total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
+            <?php elseif ($this->getLastPageNum() == 1): ?>
+                <?php echo __('%1 Item', $this->getTotalNum()) ?>
+            <?php else: ?>
+                <?php echo __('%1 Item(s)', $this->getTotalNum()) ?>
+            <?php endif; ?>
+            </span>
+        </p>
+        <?php endif ?>
 
         <?php if($this->isShowPerPage()): ?>
             <div class="limiter">
-                <strong class="label"><?php echo __('Show') ?></strong>
-                <select id="limiter" data-mage-redirect="{'event':'change'}">
+                <strong class="limiter-label"><?php echo __('Show') ?></strong>
+                <select id="limiter" data-mage-redirect="{'event':'change'}" class="limiter-options">
                     <?php foreach ($this->getAvailableLimit() as $_key => $_limit): ?>
                     <option value="<?php echo $this->getLimitUrl($_key) ?>"<?php if ($this->isLimitCurrent($_key)): ?>
                             selected="selected"<?php endif ?>>
@@ -42,7 +44,7 @@
                     </option>
                     <?php endforeach; ?>
                 </select>
-                <span class="text"><?php echo __('per page') ?></span>
+                <span class="limiter-text"><?php echo __('per page') ?></span>
             </div>
         <?php endif ?>
 
