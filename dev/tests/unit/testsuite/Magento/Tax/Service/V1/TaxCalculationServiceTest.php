@@ -75,7 +75,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($storeMock));
-        $calculatorMock = $this->getMockBuilder('\Magento\Tax\Model\Calculation\AbstractBasedCalculator')
+        $calculatorMock = $this->getMockBuilder('\Magento\Tax\Model\Calculation\AbstractCalculator')
             ->disableOriginalConstructor()->setMethods(['calculate'])->getMockForAbstractClass();
         $this->calculatorFactory->expects($this->any())
             ->method('create')
