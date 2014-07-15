@@ -12,9 +12,9 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Model\Calculation\RateFactory;
+use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Model\Calculation\Rate as RateModel;
 use Magento\Tax\Model\Calculation\RateRegistry;
-use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\Resource\Calculation\Rate\Collection;
@@ -137,7 +137,10 @@ class TaxRateService implements TaxRateServiceInterface
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($sortOrders as $field => $direction) {
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+                $collection->addOrder(
+                    $this->translateField($field),
+                    $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                );
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -239,9 +242,6 @@ class TaxRateService implements TaxRateServiceInterface
         $exception = new InputException();
         if (!\Zend_Validate::is(trim($taxRate->getCountryId()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'country_id']);
-        }
-        if (!\Zend_Validate::is(trim($taxRate->getRegionId()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'region_id']);
         }
         if (!\Zend_Validate::is(trim($taxRate->getPercentageRate()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'percentage_rate']);

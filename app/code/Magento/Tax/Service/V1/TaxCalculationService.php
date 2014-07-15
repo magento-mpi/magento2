@@ -8,10 +8,14 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Resource\Sales\Order\Tax;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
+use Magento\Tax\Service\V1\Data\TaxClass;
+use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax;
 use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate;
@@ -82,6 +86,27 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     private $parentToChildren;
 
     /**
+     * Tax Class Service
+     *
+     * @var TaxClassService
+     */
+    protected $taxClassService;
+
+    /**
+     * Search Criteria Builder
+     *
+     * @var SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
+     * Filter Builder
+     *
+     * @var FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
      * Calculator Factory
      *
      * @var CalculatorFactory
@@ -97,6 +122,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param TaxDetailsBuilder $taxDetailsBuilder
      * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
      * @param StoreManagerInterface $storeManager
+     * @param TaxClassService $taxClassService
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param FilterBuilder $filterBuilder
      */
     public function __construct(
         Calculation $calculation,
@@ -104,7 +132,10 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Tax\Model\Config $config,
         TaxDetailsBuilder $taxDetailsBuilder,
         TaxDetailsItemBuilder $taxDetailsItemBuilder,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        TaxClassService $taxClassService,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        FilterBuilder $filterBuilder
     ) {
         $this->calculationTool = $calculation;
         $this->calculatorFactory = $calculatorFactory;
@@ -112,6 +143,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsBuilder = $taxDetailsBuilder;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->storeManager = $storeManager;
+        $this->taxClassService = $taxClassService;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
     }
 
     /**
@@ -143,7 +177,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $storeId,
             $quoteDetails->getBillingAddress(),
             $quoteDetails->getShippingAddress(),
-            $quoteDetails->getCustomerTaxClassId()
+            $this->getTaxClassId($quoteDetails->getCustomerTaxClassKey(), 'customer')
         );
 
         $processedItems = [];
@@ -305,5 +339,36 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             return $parentQuantity * $item->getQuantity();
         }
         return $item->getQuantity();
+    }
+
+    /**
+     * Get tax class id
+     *
+     * @param TaxClassKey|null $taxClassKey
+     * @param string $taxClassType
+     * @return int|null
+     */
+    protected function getTaxClassId($taxClassKey, $taxClassType = 'product')
+    {
+        if (!empty($taxClassKey)) {
+            switch ($taxClassKey->getType()) {
+                case TaxClassKey::TYPE_ID:
+                    return $taxClassKey->getValue();
+                case TaxClassKey::TYPE_NAME:
+                    $searchCriteria = $this->searchCriteriaBuilder->addFilter(
+                        [$this->filterBuilder->setField(TaxClass::KEY_TYPE)->setValue($taxClassType)->create()]
+                    )->addFilter(
+                        [
+                            $this->filterBuilder->setField(TaxClass::KEY_NAME)
+                            ->setValue($taxClassKey->getValue())
+                            ->create()
+                        ]
+                    )->create();
+                    $taxClasses = $this->taxClassService->searchTaxClass($searchCriteria)->getItems();
+                    return $taxClasses[0]->getClassId();
+                default:
+            }
+        }
+        return null;
     }
 }

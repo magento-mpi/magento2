@@ -18,7 +18,9 @@ class UnitBasedCalculator extends AbstractCalculator
      */
     protected function calculateWithTaxInPrice(QuoteDetailsItem $item, $quantity)
     {
-        $taxRateRequest = $this->getAddressRateRequest()->setProductClassId($item->getTaxClassId());
+        $taxRateRequest = $this->getAddressRateRequest()->setProductClassId(
+            $this->getTaxClassId($item->getTaxClassKey())
+        );
         $rate = $this->calculationTool->getRate($taxRateRequest);
         $storeRate = $storeRate = $this->calculationTool->getStoreRate($taxRateRequest, $this->storeId);
 
@@ -76,7 +78,9 @@ class UnitBasedCalculator extends AbstractCalculator
      */
     protected function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity)
     {
-        $taxRateRequest = $this->getAddressRateRequest()->setProductClassId($item->getTaxClassId());
+        $taxRateRequest = $this->getAddressRateRequest()->setProductClassId(
+            $this->getTaxClassId($item->getTaxClassKey())
+        );
         $rate = $this->calculationTool->getRate($taxRateRequest);
         $appliedRates = $this->calculationTool->getAppliedRates($taxRateRequest);
 

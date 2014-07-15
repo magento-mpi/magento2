@@ -116,7 +116,6 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         $expectedErrorMessages = [
             'country_id is a required field.',
-            'region_id is a required field.',
             'percentage_rate is a required field.',
             'code is a required field.'
         ];
