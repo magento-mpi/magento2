@@ -197,7 +197,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      *
      * @param QuoteDetailsItem $item
      * @param Calculation\AbstractBasedCalculator $calculator
-     * @return TaxDetailsItem|null
+     * @return TaxDetailsItem
      */
     protected function processItem(
         QuoteDetailsItem $item,
@@ -260,8 +260,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             + $item->getDiscountTaxCompensationAmount();
 
         $itemAppliedTaxes = $item->getAppliedTaxes();
-        if (!isset($taxDetailsData[TaxDetails::KEY_APPLIED_TAXES])) {
-            $taxDetailsData[TaxDetails::KEY_APPLIED_TAXES] = [];
+        if (is_null($itemAppliedTaxes)) {
+            return $taxDetailsData;
         }
         $appliedTaxes = $taxDetailsData[TaxDetails::KEY_APPLIED_TAXES];
         foreach ($itemAppliedTaxes as $taxId => $itemAppliedTax) {
