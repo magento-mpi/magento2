@@ -32,8 +32,9 @@ class StatusTest extends \PHPUnit_Framework_TestCase
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->collection = $this->getMock(
-            '\Magento\Eav\Model\Entity\Collection\AbstractCollection',
+            '\Magento\Catalog\Model\Resource\Product\Collection',
             array(
+                '__wakeup',
                 'getSelect',
                 'joinLeft',
                 'order',
@@ -46,19 +47,20 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->attributeModel = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('__wakeup',
+            '\Magento\Catalog\Model\Entity\Attributee',
+            array(
+                '__wakeup',
                 'getAttributeCode',
                 'getBackend',
                 'getId',
-                'isScopeGlobal'
+                'isScopeGlobal',
             ),
             array(),
             '',
             false
         );
         $this->backendAttributeModel = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend', array('getTable'), array(), '', false);
+            '\Magento\Catalog\Model\Product\Attribute\Backend\Sku', array('__wakeup', 'getTable'), array(), '', false);
         $this->status = $this->objectManagerHelper->getObject(
             'Magento\Catalog\Model\Product\Attribute\Source\Status'
         );
