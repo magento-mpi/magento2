@@ -70,6 +70,8 @@ app/design/frontend/Magento/blank/Magento_GiftRegistry
 app/design/frontend/Magento/blank/Magento_GroupedProduct
 app/design/frontend/Magento/blank/Magento_MultipleWishlist
 app/design/frontend/Magento/blank/Magento_VersionsCms
+app/design/frontend/Magento/blank/Magento_GiftWrapping
+app/design/frontend/Magento/luma
 app/design/install/Magento/enterprise
 
 app/etc/enterprise
@@ -97,8 +99,6 @@ downloader/app/Magento/Downloader/Model/Config/Enterprise.php
 downloader/skin/install/images/enterprise.gif
 downloader/template/enterprise
 
-dev/tools/xml/logging.xslt
-dev/tools/xml/transform_logging.php
 lib/internal/Apache
 pub/errors/enterprise
 dev/tools/performance_toolkit
@@ -120,9 +120,13 @@ dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ValidateOrd
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CrosssellTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/RelatedProductTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/UpsellTest.php
+dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteProductEntityTest
+dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteProductEntityTest.php
 dev/tests/functional/tests/app/Magento/CatalogEvent
 dev/tests/functional/tests/app/Magento/CatalogRule
 dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchTest.php
+dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchEntityResultsTest
+dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchEntityResultsTest.php
 dev/tests/functional/tests/app/Magento/Centinel
 dev/tests/functional/tests/app/Magento/Checkout/Test/Block/Onepage
 dev/tests/functional/tests/app/Magento/Checkout/Test/Fixture

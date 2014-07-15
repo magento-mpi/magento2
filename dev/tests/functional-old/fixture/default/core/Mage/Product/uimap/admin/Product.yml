@@ -50,7 +50,7 @@ manage_products:
         buttons:
             add_new_product: //*[@data-ui-id='products-list-add-new-button']
             add_new_product_split: //*[@data-ui-id='products-list-add-new-button']
-            add_new_product_split_select: //*[@data-ui-id='products-list-add-new-button-dropdown']
+            add_new_product_split_select: //*[@data-ui-id='products-list-add-new-product-button-dropdown']
             add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
         messages: &productMesssages
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedProducts% record(s) have been deleted.')]

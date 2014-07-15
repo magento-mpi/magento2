@@ -9,13 +9,13 @@
 .form.giftregistry.share,
 .form.giftregistry.edit {
     &:extend(.add-recipients all);
-    .actions.toolbar:not(:last-child) {
+    .actions-toolbar:not(:last-child) {
         margin-bottom: @indent-xl-base;
     }
 }
 
 .form.giftregistry.items {
-    .actions.toolbar {
+    .actions-toolbar {
         &:extend(.reset-left-margin all);
     }
 }
@@ -29,9 +29,8 @@
 }
 
 .form.giftregistry .fieldset {
-    .cart.summary & {
+    .cart-summary & {
         margin: 15px 0 25px;
-
         .field {
             margin: 0 0 10px;
 
@@ -39,6 +38,10 @@
                 float: none;
                 width: auto;
             }
+        }
+        .action.primary {
+            &:extend(.abstract-revert-secondary-color all);
+            &:extend(.abstract-revert-secondary-size all);
         }
     }
 }

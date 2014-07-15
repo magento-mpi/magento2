@@ -29,7 +29,7 @@ body {
 //
 //    Header
 //--------------------------------------
-.page.header {
+.page-header {
     .css(background-color, @header-bg-color);
     border-bottom: 1px solid @border-color-base;
     margin-bottom: 20px;
@@ -39,10 +39,6 @@ body {
     &.content {
         padding-top: 10px;
         position: relative;
-        padding-right: 90px;
-    }
-    .switcher {
-        display: none;
     }
 }
 
@@ -60,7 +56,7 @@ body {
 }
 
 .page.main {
-    > .page.title {
+    > .page-title {
         margin-bottom: @indent-xl-base;
         .title + .action {
             margin-top: @indent-l-base;
@@ -70,20 +66,6 @@ body {
 
 .action.skip {
     .visually-hidden();
-}
-
-.action.toggle.nav {
-    .icon-font(
-        @icon-menu,
-        @_icon-font-size: 28px
-    );
-    .icon-text-hide();
-    position: absolute;
-    top: 12px;
-    left: 15px;
-    font-size: 0;
-    z-index: 14;
-    cursor: pointer;
 }
 
 //
@@ -108,9 +90,6 @@ body {
         .actions {
             margin-top: @indent-s-base;
         }
-        .action.allow {
-            .button-primary();
-        }
     }
     &.demo {
         .message(@_message-type: global-caution);
@@ -125,17 +104,19 @@ body {
 
 @footer-bg-color: false;
 
-.footer {
-    &.page {
+.page-footer {
         margin-top: 25px;
         .css(background-color, @footer-bg-color);
     }
+
+.footer {
     &.content {
         padding-top: 25px;
         padding-bottom: 25px;
         border-top: 1px solid @border-color-base;
         ul {
-            .list-reset-styles(0, 0 50px 0 0);
+            &:extend(.reset-list all);
+            padding: 0 50px 0 0;
         }
         .links {
             display: inline-block;
@@ -151,9 +132,6 @@ body {
             margin: 0 0 30px 0;
         }
     }
-    .copyright {
-        .clearer();
-    }
     .copyright,
     .bugs {
         display: block;
@@ -161,8 +139,8 @@ body {
     }
 }
 
-.page.header,
-.page.footer {
+.page-header,
+.page-footer {
     .switcher {
         margin-right: 10px;
         .options {
@@ -203,7 +181,28 @@ body {
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .page.header {
+    .header {
+        &.panel {
+            > .header.links {
+                float: right;
+                .list-inline();
+                > li {
+                    margin: 0 0 0 15px;
+                    &.welcome,
+                    a {
+                        line-height: 1.4;
+                    }
+                }
+                margin-left: auto;
+            }
+        }
+        &.content {
+            padding: 30px 20px 0;
+            &:extend(.add-clearfix-desktop all);
+        }
+    }
+
+    .page-header {
         border: 0;
         margin-bottom: 0;
         .panel.wrapper {
@@ -220,7 +219,7 @@ body {
     }
 
     .page.main {
-        > .page.title {
+        > .page-title {
             margin-bottom: @indent-l-base;
             .title {
                 display: inline-block;
@@ -232,42 +231,6 @@ body {
         }
     }
 
-    .header {
-        &.panel {
-            > .header.links {
-                float: right;
-                position: relative;
-                left: 0;
-                background: none;
-                height: auto;
-                width: auto;
-                -webkit-box-shadow: none;
-                box-shadow: none;
-                .list-inline();
-                > li {
-                    margin: 0 0 0 15px;
-                    &.welcome,
-                    a {
-                        line-height: 1.4;
-                    }
-                }
-                margin-left: auto;
-                a {
-                    .link();
-                }
-            }
-        }
-        &.content {
-            padding: 30px 20px 0;
-            &:extend(.add-clearfix-desktop all);
-        }
-        .links,
-        .switcher,
-        .panel {
-            display: block;
-        }
-    }
-
     .logo {
         margin: -8px auto 25px 0;
         img {
@@ -275,13 +238,12 @@ body {
         }
     }
 
-    .page.wrapper {
+    .page-wrapper {
         position: relative;
         width: 100%;
         float: right;
         margin: 0;
         .transition(margin .3s ease-out 0);
-        left: 0 !important;
     }
 
     .footer {
@@ -295,9 +257,9 @@ body {
                 vertical-align: top;
             }
         }
-    }
-    .action.toggle.nav {
-        display: none;  
+        .copyright {
+            &:extend(.add-clearfix all);
+        }
     }
 }
 
