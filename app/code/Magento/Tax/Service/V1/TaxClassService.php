@@ -18,6 +18,7 @@ use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionFactory;
 use Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder;
 use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Tax class service.
@@ -146,6 +147,8 @@ class TaxClassService implements TaxClassServiceInterface
 
         try {
             $taxClassModel->delete();
+        } catch (LocalizedException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return false;
         }
