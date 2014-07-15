@@ -85,7 +85,6 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers _getWebsitesMap
      * @dataProvider dataProviderCallbackValidateProduct
      * @param bool $validate
      */

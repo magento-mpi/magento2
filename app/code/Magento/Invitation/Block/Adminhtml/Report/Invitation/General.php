@@ -22,6 +22,6 @@ class General extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_blockGroup = 'Magento_Invitation';
         $this->_headerText = __('General');
         parent::_construct();
-        $this->_removeButton('add');
+        $this->buttonList->remove('add');
     }
 }
