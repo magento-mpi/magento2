@@ -30,14 +30,14 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     protected $_localeCurrency;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,

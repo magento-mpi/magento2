@@ -73,19 +73,14 @@
                 <input>select</input>
             </simple_free_shipping>
             <actions_serialized>
-                <selector>#rule_conditions_fieldset</selector>
+                <selector>#rule_actions_fieldset</selector>
                 <input>conditions</input>
             </actions_serialized>
         </fields>
     </actions>
     <labels>
-        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <class>\Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Labels</class>
         <selector>#promo_catalog_edit_tabs_labels_section</selector>
         <strategy>css selector</strategy>
-        <fields>
-            <store_labels>
-                <selector>[name="store_labels[0]"]</selector>
-            </store_labels>
-        </fields>
     </labels>
 </tabs>

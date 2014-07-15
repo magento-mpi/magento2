@@ -145,7 +145,7 @@
         <div class="field confirm required">
             <label class="label" for="billing:confirm_password"><span><?php echo __('Confirm Password') ?></span></label>
             <div class="control">
-                <input type="password" name="billing[confirm_password]" title="<?php echo __('Confirm Password') ?>" id="billing:confirm_password" class="input-text" data-validate="{required:true, 'validate-cpassword':true}"/>
+                <input type="password" name="billing[confirm_password]" title="<?php echo __('Confirm Password') ?>" id="billing:confirm_password" class="input-text" data-validate="{required:true, 'validate-cpassword':true, equalTo:'#billing\\:customer_password'}"/>
             </div>
         </div>
         <?php endif; ?>
@@ -175,7 +175,7 @@
 <?php if (!$this->canShip()): ?>
     <input type="hidden" name="billing[use_for_shipping]" value="1"/>
 <?php endif; ?>
-<div class="actions toolbar buttons-set form-buttons btn-only" id="billing-buttons-container">
+<div class="actions-toolbar buttons-set form-buttons btn-only" id="billing-buttons-container">
     <div class="primary"><button data-role="opc-continue" type="button" class="button action continue primary"><span><?php echo __('Continue') ?></span></button></div>
     <span id="billing-please-wait" class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Loading next step...') ?>">
         <span><?php echo __('Loading next step...') ?></span>

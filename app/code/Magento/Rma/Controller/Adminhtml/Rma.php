@@ -699,8 +699,6 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function loadNewAttributesAction()
     {
-        $response = false;
-        $orderId = $this->getRequest()->getParam('order_id');
         $productId = $this->getRequest()->getParam('product_id');
 
         /** @var $rma_item \Magento\Rma\Model\Item */
@@ -708,18 +706,20 @@ class Rma extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_rma_item', $rma_item);
 
         $this->_view->loadLayout();
-        $response = $this->_view->getLayout()->getBlock(
-            'magento_rma_edit_item'
-        )->setProductId(
-            intval($productId)
-        )->initForm()->toHtml();
+        $form = $this->_view->getLayout()
+            ->getBlock('magento_rma_edit_item')
+            ->setProductId(intval($productId))
+            ->initForm();
+        if ($form->hasNewAttributes()) {
+            $response = $form->toHtml();
 
-        if (is_array($response)) {
-            $this->getResponse()->representJson(
-                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
-            );
-        } else {
-            $this->getResponse()->setBody($response);
+            if (is_array($response)) {
+                $this->getResponse()->representJson(
+                    $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+                );
+            } else {
+                $this->getResponse()->setBody($response);
+            }
         }
     }
 

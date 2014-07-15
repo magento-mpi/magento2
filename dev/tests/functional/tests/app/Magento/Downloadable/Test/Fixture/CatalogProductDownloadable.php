@@ -8,10 +8,10 @@
 
 namespace Magento\Downloadable\Test\Fixture;
 
-use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
 use Mtf\System\Event\EventManagerInterface;
 
@@ -27,12 +27,14 @@ class CatalogProductDownloadable extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Downloadable\Test\Repository\DownloadableProduct';
+    protected $repositoryClass = 'Magento\Downloadable\Test\Repository\CatalogProductDownloadable';
 
+    // @codingStandardsIgnoreStart
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Downloadable\Test\Handler\Curl\CreateDownloadable';
+    protected $handlerInterface = 'Magento\Downloadable\Test\Handler\CatalogProductDownloadable\CatalogProductDownloadableInterface';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Constructor
@@ -71,7 +73,6 @@ class CatalogProductDownloadable extends InjectableFixture
         if (!isset($this->data['url_key']) && isset($this->data['name'])) {
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
         }
-
     }
 
     protected $dataConfig = [
@@ -79,7 +80,7 @@ class CatalogProductDownloadable extends InjectableFixture
             'type' => 'downloadable',
             'set' => '4',
         ],
-        'input_prefix' => 'product',
+        'input_prefix' => 'product'
     ];
 
     protected $defaultDataSet = [
@@ -89,8 +90,10 @@ class CatalogProductDownloadable extends InjectableFixture
         'tax_class_id' => ['dataSet' => 'Taxable Goods'],
         'description' => 'This is description for downloadable product',
         'short_description' => 'This is short description for downloadable product',
-        'quantity_and_stock_status_qty' => '1',
-        'quantity_and_stock_status' => 'In Stock',
+        'quantity_and_stock_status' => [
+            'qty' => 1.0000,
+            'is_in_stock' => 'In Stock',
+        ],
         'is_virtual' => 'Yes',
         'downloadable_links' => ['preset' => 'default'],
     ];
@@ -101,7 +104,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CategoryIds'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds'
     ];
 
     protected $cost = [
@@ -184,7 +187,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
     ];
 
     protected $has_options = [
@@ -371,8 +374,14 @@ class CatalogProductDownloadable extends InjectableFixture
         'group' => 'advanced-inventory',
     ];
 
-    protected $stock_data_min_qty= [
-        'attribute_code' => 'stock_data_min_qty',
+    protected $stock_data = [
+        'attribute_code' => 'stock_data',
+        'input' => 'text',
+        'group' => 'advanced-inventory',
+    ];
+
+    protected $stock_data_min_qty = [
+        'attribute_code' => 'stock_data',
         'input' => 'text',
         'group' => 'advanced-inventory',
     ];
@@ -395,15 +404,6 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '1',
         'input' => 'select',
-        'group' => 'product-details',
-    ];
-
-    protected $qty = [
-        'attribute_code' => 'qty',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '1',
-        'input' => 'text',
         'group' => 'product-details',
     ];
 
@@ -448,6 +448,13 @@ class CatalogProductDownloadable extends InjectableFixture
         'group' => 'autosettings'
     ];
 
+    protected $downloadable = [
+        'attribute_code' => 'downloadable',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'downloadable_information',
+    ];
+
     protected $downloadable_links = [
         'attribute_code' => 'downloadable_items',
         'backend_type' => 'text',
@@ -455,8 +462,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'default_value' => 'dafault',
         'input' => 'text',
         'group' => 'downloadable_information',
-        'fixture' => 'Magento\Downloadable\Test\Fixture\CatalogProductDownloadable\Links'
-
+        'source' => 'Magento\Downloadable\Test\Fixture\CatalogProductDownloadable\Links'
     ];
 
     protected $downloadable_sample = [
@@ -466,8 +472,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'default_value' => 'dafault',
         'input' => 'text',
         'group' => 'downloadable_information',
-        'fixture' => 'Magento\Downloadable\Test\Fixture\CatalogProductDownloadable\Samples'
-
+        'source' => 'Magento\Downloadable\Test\Fixture\CatalogProductDownloadable\Samples'
     ];
 
     protected $sku = [
@@ -525,6 +530,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '1',
         'input' => 'select',
+        'group' => 'product-details'
     ];
 
     protected $tax_class_id = [
@@ -560,7 +566,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'default_value' => 'default',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
     ];
 
     protected $updated_at = [
@@ -610,6 +616,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '4',
         'input' => 'select',
+        'group' => 'autosettings'
     ];
 
     protected $weight = [
@@ -618,6 +625,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'weight',
+        'group' => 'product-details'
     ];
 
     protected $custom_options = [
@@ -626,12 +634,23 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => 'default',
         'group' => 'customer-options',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions'
     ];
 
     protected $id = [
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
+    ];
+
+    protected $is_virtual = [
+        'attribute_code' => 'is_virtual',
+        'backend_type' => 'virtual',
+        'group' => 'product-details',
+    ];
+
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual'
     ];
 
     public function getCategoryIds()

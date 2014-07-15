@@ -28,6 +28,8 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
             __DIR__ . '/../../../_files/adminhtml_rma_edit.xml',
             $layoutArguments
         );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->addSharedInstance($layout, 'Magento\TestFramework\View\Layout');
         $layout->getUpdate()->addHandle('adminhtml_rma_edit')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('magento_rma_edit_tab_items');

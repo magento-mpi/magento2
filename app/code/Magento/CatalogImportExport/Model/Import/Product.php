@@ -459,6 +459,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $dateTime;
 
     /**
+     * @var \Magento\Indexer\Model\Indexer
+     */
+    protected $newIndexer;
+
+    /**
      * @var \Magento\Framework\Logger
      */
     private $_logger;
@@ -496,6 +501,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Indexer\Model\Indexer $newIndexer
      * @param array $data
      */
     public function __construct(
@@ -526,6 +532,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Logger $logger,
+        \Magento\Indexer\Model\Indexer $newIndexer,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -546,6 +553,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_stockResItemFac = $stockResItemFac;
         $this->_localeDate = $localeDate;
         $this->dateTime = $dateTime;
+        $this->newIndexer = $newIndexer;
         $this->_logger = $logger;
         parent::__construct($coreData, $importExportData, $importData, $config, $resource, $resourceHelper, $string);
         $this->_optionEntity = isset(
@@ -628,12 +636,12 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $this->_deleteProducts();
         } else {
             $this->_saveProducts();
-            $this->_saveStockItem();
-            $this->_saveLinks();
-            $this->getOptionEntity()->importData();
-            foreach ($this->_productTypeModels as $productType => $productTypeModel) {
+            foreach ($this->_productTypeModels as $productTypeModel) {
                 $productTypeModel->saveData();
             }
+            $this->_saveLinks();
+            $this->_saveStockItem();
+            $this->getOptionEntity()->importData();
         }
         $this->_eventManager->dispatch('catalog_product_import_finish_before', array('adapter' => $this));
         return true;
@@ -1293,6 +1301,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                                 'attribute_set_id' => $this->_newSku[$rowSku]['attr_set_id'],
                                 'type_id' => $this->_newSku[$rowSku]['type_id'],
                                 'sku' => $rowSku,
+                                'has_options' => isset($rowData['has_options']) ? $rowData['has_options'] : 0,
                                 'created_at' => $this->dateTime->now(),
                                 'updated_at' => $this->dateTime->now()
                             );
@@ -1732,10 +1741,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         /** @var $stockResource \Magento\CatalogInventory\Model\Resource\Stock\Item */
         $stockResource = $this->_stockResItemFac->create();
         $entityTable = $stockResource->getMainTable();
-
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
-            $stockData = [];
-
+            $stockData = array();
+            $productIdsToReindex = array();
             // Format bunch to stock data rows
             foreach ($bunch as $rowNum => $rowData) {
                 if (!$this->isRowAllowedToImport($rowData, $rowNum)) {
@@ -1748,6 +1756,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
                 $row = array();
                 $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
+                $productIdsToReindex[] = $row['product_id'];
                 $row['stock_id'] = \Magento\CatalogInventory\Model\Stock\Item::DEFAULT_STOCK_ID;
 
                 $stockItemDo = $this->stockItemService->getStockItem($row['product_id']);
@@ -1759,6 +1768,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     array_intersect_key($rowData, $this->defaultStockData),
                     $row
                 );
+
+                $row = $this->stockItemService->processIsInStock($row);
 
                 if ($this->stockItemService->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
                     if ($this->stockItemService->verifyNotification($row['product_id'])) {
@@ -1781,6 +1792,10 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             // Insert rows
             if (!empty($stockData)) {
                 $this->_connection->insertOnDuplicate($entityTable, $stockData);
+            }
+
+            if ($productIdsToReindex) {
+                $this->newIndexer->load('catalog_product_category')->reindexList($productIdsToReindex);
             }
         }
         return $this;
@@ -1977,7 +1992,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $rowNum,
                 !isset($this->_oldSku[$sku])
             );
-            if (!$rowAttributesValid && self::SCOPE_DEFAULT == $rowScope && !isset($this->_oldSku[$sku])) {
+            if (!$rowAttributesValid && self::SCOPE_DEFAULT == $rowScope) {
                 // mark SCOPE_DEFAULT row as invalid for future child rows if product not in DB already
                 $sku = false;
             }

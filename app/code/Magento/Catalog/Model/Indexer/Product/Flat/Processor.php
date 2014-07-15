@@ -7,17 +7,12 @@
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
-class Processor
+class Processor extends \Magento\Indexer\Model\Indexer\AbstractProcessor
 {
     /**
      * Indexer ID
      */
     const INDEXER_ID = 'catalog_product_flat';
-
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $_indexer;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\State
@@ -34,19 +29,6 @@ class Processor
     ) {
         $this->_indexer = $indexerFactory->create();
         $this->_state = $state;
-    }
-
-    /**
-     * Get indexer instance
-     *
-     * @return \Magento\Indexer\Model\Indexer
-     */
-    public function getIndexer()
-    {
-        if (!$this->_indexer->getId()) {
-            $this->_indexer->load(self::INDEXER_ID);
-        }
-        return $this->_indexer;
     }
 
     /**
