@@ -13,9 +13,11 @@
 ?>
 <?php $_items = $this->getItems(); ?>
 <?php if(count($_items)): ?>
-    <div class="toolbar downloadable-products-toolbar top">
-        <?php echo $this->getChildHtml('pager'); ?>
-    </div>
+    <?php if ($this->getChildHtml('pager')): ?>
+        <div class="toolbar downloadable-products-toolbar top">
+            <?php echo $this->getChildHtml('pager'); ?>
+        </div>
+    <?php endif; ?>
     <div class="table-wrapper downloadable-products">
         <table id="my-downloadable-products-table" class="data table table-downloadable-products">
             <caption class="table caption"><?php echo __('Downloadable Products') ?></caption>
@@ -48,9 +50,11 @@
             </tbody>
         </table>
     </div>
-    <div class="toolbar downloadable-products-toolbar bottom">
-        <?php echo $this->getChildHtml('pager'); ?>
-    </div>
+    <?php if ($this->getChildHtml('pager')): ?>
+        <div class="toolbar downloadable-products-toolbar bottom">
+            <?php echo $this->getChildHtml('pager'); ?>
+        </div>
+    <?php endif; ?>
 <?php else: ?>
     <div class="message info empty"><span><?php echo __('You have not purchased any downloadable products yet.'); ?></span></div>
 <?php endif; ?>

@@ -10,9 +10,11 @@
 <?php $entityCollection = $this->getEntityCollection(); ?>
 
 <?php if ($entityCollection->getSize()):?>
-    <div class="toolbar giftregistry-toolbar top">
-        <?php echo $this->getChildHtml('pager'); ?>
-    </div>
+    <?php if ($this->getChildHtml('pager')): ?>
+        <div class="toolbar giftregistry-toolbar top">
+            <?php echo $this->getChildHtml('pager'); ?>
+        </div>
+    <?php endif;?>
 
     <div class="table-wrapper giftregistry">
         <table id="giftregistry-table" class="data table table-giftregistry">
@@ -42,9 +44,11 @@
             </tbody>
         </table>
     </div>
-    <div class="toolbar giftregistry-toolbar bottom">
-        <?php echo $this->getChildHtml('pager'); ?>
-    </div>
+    <?php if ($this->getChildHtml('pager')): ?>
+        <div class="toolbar giftregistry-toolbar bottom">
+            <?php echo $this->getChildHtml('pager'); ?>
+        </div>
+    <?php endif;?>
 <?php else:?>
     <div class="message info empty"><span><?php echo __('No gift registries have been created.'); ?></span></div>
 <?php endif;?>

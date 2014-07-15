@@ -16,7 +16,9 @@
 
     <?php $gridElements = $this->getGridElements(); ?>
     <?php if ($gridElements): ?>
-        <div class="toolbar recurring-payments-toolbar top"><?php echo $this->getChildHtml('pager'); ?></div>
+        <?php if ($this->getChildHtml('pager')): ?>
+            <div class="toolbar recurring-payments-toolbar top"><?php echo $this->getChildHtml('pager'); ?></div>
+        <?php endif; ?>
         <div class="table-wrapper recurring-payments">
             <table id="<?php echo $this->getGridHtmlId() ?>" class="data table table-recurring-payments">
                 <caption class="table caption"><?php echo __('Recurring Payments') ?></caption>
@@ -57,7 +59,9 @@
                 </tbody>
             </table>
         </div>
-        <div class="toolbar recurring-payments-toolbar bottom"><?php echo $this->getChildHtml('pager'); ?></div>
+        <?php if ($this->getChildHtml('pager')): ?>
+            <div class="toolbar recurring-payments-toolbar bottom"><?php echo $this->getChildHtml('pager'); ?></div>
+        <?php endif;?>
     <?php else: ?>
         <div class="message info empty"><span><?php echo $this->escapeHtml($this->getEmptyGridMessage()); ?></span></div>
     <?php endif; ?>

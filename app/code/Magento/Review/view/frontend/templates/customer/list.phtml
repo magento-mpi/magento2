@@ -7,9 +7,11 @@
  */
 ?>
 <?php if( $this->getCollection() && $this->count()): ?>
-    <div class="toolbar products-reviews-toolbar top">
-        <?php echo $this->getToolbarHtml() ?>
-    </div>
+    <?php if ($this->getToolbarHtml()): ?>
+        <div class="toolbar products-reviews-toolbar top">
+            <?php echo $this->getToolbarHtml() ?>
+        </div>
+    <?php endif; ?>
     <div class="table-wrapper reviews">
         <table class="data table table-reviews" id="my-reviews-table">
             <caption class="table caption"><?php echo __('Product Reviews') ?></caption>
@@ -54,9 +56,11 @@
             </tbody>
         </table>
     </div>
-    <div class="toolbar products-reviews-toolbar bottom">
-        <?php echo $this->getToolbarHtml() ?>
-    </div>
+    <?php if ($this->getToolbarHtml()): ?>
+        <div class="toolbar products-reviews-toolbar bottom">
+            <?php echo $this->getToolbarHtml() ?>
+        </div>
+    <?php endif; ?>
 <?php else: ?>
     <div class="message info empty"><span><?php echo __('You have submitted no reviews.') ?></span></div>
 <?php endif; ?>
