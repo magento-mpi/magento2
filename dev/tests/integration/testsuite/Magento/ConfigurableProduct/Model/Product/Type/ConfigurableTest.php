@@ -158,9 +158,6 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetParentIdsByChild()
     {
-        $attributes = $this->_model->getConfigurableAttributesAsArray($this->_product);
-        $attribute = reset($attributes);
-        $optionValueId = $attribute['values'][0]['value_index'];
         $result = $this->_model->getParentIdsByChild(10);
         // fixture
         $this->assertEquals(array(1), $result);
