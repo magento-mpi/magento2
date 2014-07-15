@@ -14,7 +14,7 @@ use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Service\V1\Data\TaxClass;
 
 /**
- * Class Registry for the ClassModel models
+ * Registry for the tax class models
  */
 class ClassModelRegistry
 {
@@ -33,16 +33,17 @@ class ClassModelRegistry
     private $taxClassRegistryById = [];
 
     /**
+     * Initialize dependencies
+     *
      * @param TaxClassModelFactory $taxClassModelFactory
      */
-    public function __construct(
-        TaxClassModelFactory $taxClassModelFactory
-    ) {
+    public function __construct(TaxClassModelFactory $taxClassModelFactory)
+    {
         $this->taxClassModelFactory = $taxClassModelFactory;
     }
 
     /**
-     * Add Tax Class Model Model to registry
+     * Add tax class model to the registry
      *
      * @param TaxClassModel $taxClassModel
      * @return void
@@ -53,7 +54,7 @@ class ClassModelRegistry
     }
 
     /**
-     * Retrieve Tax Class Model Model from registry given an id
+     * Retrieve tax class model from the registry
      *
      * @param int $taxClassId
      * @return TaxClassModel
@@ -75,7 +76,7 @@ class ClassModelRegistry
     }
 
     /**
-     * Remove an instance of the Tax Class Model from the registry
+     * Remove an instance of the tax class model from the registry
      *
      * @param int $taxClassId
      * @return void
