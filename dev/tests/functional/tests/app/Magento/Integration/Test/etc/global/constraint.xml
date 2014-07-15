@@ -30,4 +30,18 @@
             <integration class="Magento\Integration\Test\Fixture\Integration" />
         </require>
     </assertIntegrationForm>
+    <assertIntegrationSuccessDeleteMessage module="Magento_Integration">
+        <severeness>low</severeness>
+        <require>
+            <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
+            <integration class="Magento\Integration\Test\Fixture\Integration" />
+        </require>
+    </assertIntegrationSuccessDeleteMessage>
+    <assertIntegrationNotInGrid module="Magento_Integration">
+        <severeness>high</severeness>
+        <require>
+            <integrationIndex class="Magento\Integration\Test\Page\Adminhtml\IntegrationIndex" />
+            <integration class="Magento\Integration\Test\Fixture\Integration" />
+        </require>
+    </assertIntegrationNotInGrid>
 </constraint>

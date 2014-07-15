@@ -16,6 +16,11 @@ use Mtf\Fixture\InjectableFixture;
  */
 class Integration extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\Integration\Test\Handler\Integration\IntegrationInterface';
+
     protected $defaultDataSet = [
         'name' => 'default_integration_%isolation%',
         'email' => 'test_%isolation%@example.com',
