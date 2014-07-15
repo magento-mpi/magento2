@@ -1190,7 +1190,7 @@ class Payment extends \Magento\Payment\Model\Info
         } else {
             if ($this->getIsFraudDetected()) {
                 $message = __(
-                    'Order is suspended as its authorizing amount %s is suspected to be fraudulent.',
+                    'Order is suspended as its authorizing amount %1 is suspected to be fraudulent.',
                     $this->_formatPrice($amount, $this->getCurrencyCode())
                 );
             } else {
