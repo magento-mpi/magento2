@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Sales\Model\Quote\Item;
 
 use \Magento\Catalog\Model\Product;
@@ -8,6 +14,11 @@ use \Magento\Store\Model\StoreManagerInterface;
 use \Magento\Framework\App\State;
 use \Magento\Framework\Object;
 
+/**
+ * Class Processor
+ *  - initializes quote item with store_id and qty data
+ *  - updates quote item qty and custom price data
+ */
 class Processor
 {
     /**
