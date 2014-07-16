@@ -66,7 +66,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $quoteDetailsData
      * @param array $taxDetailsData
-     *
+     * @param string $calculateCallback Name of a function within this test class which will be executed to create
+     *      a tax details item.
+     * @return void
      * @dataProvider calculateTaxProvider
      */
     public function testCalculateTax($quoteDetailsData, $taxDetailsData, $calculateCallback = 'createTaxDetailsItem')
