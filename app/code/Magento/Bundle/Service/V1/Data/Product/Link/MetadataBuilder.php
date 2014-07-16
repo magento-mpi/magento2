@@ -67,4 +67,22 @@ class MetadataBuilder extends AbstractObjectBuilder
     {
         return $this->_set(Metadata::IS_DEFAULT, (bool)$value);
     }
+
+    /**
+     * @param float $value
+     * @return $this
+     */
+    public function setPrice($value)
+    {
+        return $this->_set(Metadata::PRICE, $value);
+    }
+
+    /**
+     * @param int $value
+     * @return $this
+     */
+    public function setPriceType($value)
+    {
+        return $this->_set(Metadata::PRICE_TYPE, $value);
+    }
 }

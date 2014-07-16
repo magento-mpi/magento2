@@ -35,7 +35,12 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertArrayHasKey('option_id', $result[0]);
         $this->assertArrayHasKey('default', $result[0]);
         $this->assertArrayHasKey('defined', $result[0]);
+        $this->assertArrayHasKey('price', $result[0]);
+        $this->assertArrayHasKey('price_type', $result[0]);
+
         unset($result[0]['option_id'], $result[0]['default'], $result[0]['defined']);
+        unset($result[0]['price'], $result[0]['price_type']);
+
         ksort($result[0]);
         ksort($expected[0]);
         $this->assertEquals($expected, $result);
