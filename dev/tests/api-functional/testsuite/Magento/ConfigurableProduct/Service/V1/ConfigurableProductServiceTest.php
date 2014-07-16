@@ -15,7 +15,7 @@ class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\Web
 {
     const SERVICE_NAME = 'configurableProductConfigurableProductServiceV1';
     const SERVICE_VERSION = 'V1';
-    const RESOURCE_PATH = '/V1/configurableProduct/variation';
+    const RESOURCE_PATH = '/V1/configurable-products/variation';
 
     /**
      * @magentoApiDataFixture Magento/ConfigurableProduct/_files/configurable_attribute.php
