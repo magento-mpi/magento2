@@ -8,6 +8,8 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\ConfigurableProduct\Service\V1\Product\Link\WriteServiceInterface" type="Magento\ConfigurableProduct\Service\V1\Product\Link\WriteService" />
+    <preference for="Magento\ConfigurableProduct\Service\V1\ConfigurableProductServiceInterface" type="Magento\ConfigurableProduct\Service\V1\ConfigurableProductService" />
     <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\Option">
         <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin\ConfigurableProduct" sortOrder="50" />
     </type>

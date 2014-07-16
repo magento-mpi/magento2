@@ -22,14 +22,15 @@ $options = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $options->setAttributeFilter($attribute->getId());
 
 $attributeValues = array();
-$productIds = array();
+$productIds = array(10, 20);
 foreach ($options as $option) {
     /** @var $product \Magento\Catalog\Model\Product */
     $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
+    $productId = array_shift($productIds);
     $product->setTypeId(
         \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
     )->setId(
-        $option->getId() * 10
+        $productId
     )->setAttributeSetId(
         $installer->getAttributeSetId('catalog_product', 'Default')
     )->setWebsiteIds(
@@ -37,7 +38,7 @@ foreach ($options as $option) {
     )->setName(
         'Configurable Option' . $option->getId()
     )->setSku(
-        'simple_' . $option->getId()
+        'simple_' . $productId
     )->setPrice(
         10
     )->setTestConfigurable(
