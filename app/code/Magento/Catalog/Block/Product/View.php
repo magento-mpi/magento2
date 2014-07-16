@@ -31,13 +31,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     protected $string;
 
     /**
-     * Tax calculation
-     *
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $_taxCalculation;
-
-    /**
      * Product factory
      *
      * @var \Magento\Catalog\Model\ProductFactory
@@ -84,7 +77,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
@@ -98,7 +90,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
@@ -111,7 +102,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_productFactory = $productFactory;
-        $this->_taxCalculation = $taxCalculation;
         $this->productTypeConfig = $productTypeConfig;
         $this->string = $string;
         $this->_localeFormat = $localeFormat;
