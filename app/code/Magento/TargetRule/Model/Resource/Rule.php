@@ -167,20 +167,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $matchedProductIds = $object->getMatchingProductIds();
         $this->bindRuleToEntity($object->getId(), $matchedProductIds, 'product');
 
-        $typeId = !$object->isObjectNew() && $object->getOrigData(
-            'apply_to'
-        ) != $object->getData(
-            'apply_to'
-        ) ? null : $object->getData(
-            'apply_to'
-        );
-
-        $this->_indexer->processEntityAction(
-            new \Magento\Framework\Object(array('type_id' => $typeId)),
-            \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
-            \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
-        );
-
         if ($this->moduleManager->isEnabled('Magento_PageCache')) {
             $productIds = array_unique(array_merge($productIdsBeforeUnbind, $matchedProductIds));
             $this->context->registerEntities(Product::CACHE_TAG, $productIds);
@@ -198,12 +184,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      */
     protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $object)
     {
-        $this->_indexer->processEntityAction(
-            new \Magento\Framework\Object(array('type_id' => $object->getData('apply_to'))),
-            \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
-            \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
-        );
-
         parent::_beforeDelete($object);
         return $this;
     }

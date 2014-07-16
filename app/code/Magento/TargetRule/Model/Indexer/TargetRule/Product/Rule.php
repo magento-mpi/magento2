@@ -35,9 +35,14 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
     protected $_ruleProductProcessor;
 
     /**
-     * @var Rule\Processor
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor
      */
     protected $_productRuleProcessor;
+
+    /**
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean
+     */
+    protected $_productRuleIndexerClean;
 
     /**
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\Row $productRuleIndexerRow
@@ -45,19 +50,22 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Action\Full $productRuleIndexerFull
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductProcessor
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleProcessor
+     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean $productRuleIndexerClean
      */
     public function __construct(
         \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\Row $productRuleIndexerRow,
         \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\Rows $productRuleIndexerRows,
         \Magento\TargetRule\Model\Indexer\TargetRule\Action\Full $productRuleIndexerFull,
         \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductProcessor,
-        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleProcessor
+        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleProcessor,
+        \Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean $productRuleIndexerClean
     ) {
         $this->_productRuleIndexerRow = $productRuleIndexerRow;
         $this->_productRuleIndexerRows = $productRuleIndexerRows;
         $this->_productRuleIndexerFull = $productRuleIndexerFull;
         $this->_ruleProductProcessor = $ruleProductProcessor;
         $this->_productRuleProcessor = $productRuleProcessor;
+        $this->_productRuleIndexerClean = $productRuleIndexerClean;
     }
 
     /**
@@ -107,5 +115,15 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
     public function executeRow($productId)
     {
         $this->_productRuleIndexerRow->execute($productId);
+    }
+
+    /**
+     * Execute clean index
+     *
+     * @return void
+     */
+    public function cleanByCron()
+    {
+        $this->_productRuleIndexerClean->execute();
     }
 }

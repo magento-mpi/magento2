@@ -40,21 +40,37 @@ abstract class AbstractAction
     protected $_resource;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\RuleFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory
      * @param \Magento\TargetRule\Model\Resource\Index $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\RuleFactory $ruleFactory,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory,
-        \Magento\TargetRule\Model\Resource\Index $resource
+        \Magento\TargetRule\Model\Resource\Index $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->_resource = $resource;
         $this->_ruleCollectionFactory = $ruleCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_localeDate = $localeDate;
     }
     /**
      * Execute action for given ids
@@ -95,6 +111,25 @@ abstract class AbstractAction
 
         foreach ($ruleCollection as $rule) {
             $indexResource->saveProductIndex($rule);
+        }
+    }
+
+    /**
+     * Clean all
+     *
+     * @return void
+     */
+    protected function _cleanAll()
+    {
+        $websites = $this->_storeManager->getWebsites();
+        foreach ($websites as $website) {
+            /* @var $website \Magento\Store\Model\Website */
+            $store = $website->getDefaultStore();
+            $date = $this->_localeDate->scopeDate($store);
+            if ($date->equals(0, \Zend_Date::HOUR)) {
+                $storeIds = $website->getStoreIds();
+                $this->_cleanIndex(null, $storeIds);
+            }
         }
     }
 
