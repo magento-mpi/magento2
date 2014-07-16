@@ -11,7 +11,7 @@
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Action;
 
 /**
- * Class Full reindex action
+ * Class Clean index action
  *
  * @package Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Action
  */
