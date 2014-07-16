@@ -39,6 +39,16 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      */
     protected $categoryIndexer;
 
+    /**
+     * @var \Magento\Eav\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eavConfig;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Eav\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eavAttribute;
+
     public function setUp()
     {
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
@@ -81,6 +91,20 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->eavConfig = $this->getMock(
+            '\Magento\Eav\Model\Config',
+            ['__wakeup', 'getAttribute'],
+            [],
+            '',
+            false
+        );
+        $this->eavAttribute = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Eav\Attribute',
+            ['__wakeup', 'isIndexable'],
+            [],
+            '',
+            false
+        );
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             '\Magento\Catalog\Model\Product\Action',
@@ -90,6 +114,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                 'productWebsiteFactory' => $this->productWebsiteFactory,
                 'indexIndexer' => $this->indexIndexer,
                 'categoryIndexer' => $this->categoryIndexer,
+                'eavConfig' => $this->eavConfig
             ]
         );
     }
@@ -126,6 +151,14 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('reindexList')
             ->will($this->returnValue($productIds));
+        $this->eavConfig
+            ->expects($this->any())
+            ->method('getAttribute')
+            ->will($this->returnValue($this->eavAttribute));
+        $this->eavAttribute
+            ->expects($this->any())
+            ->method('isIndexable')
+            ->will($this->returnValue(false));
         $this->assertEquals($this->model, $this->model->updateAttributes($productIds, $attrData, $storeId));
         $this->assertEquals($this->model->getDataByKey('product_ids'), $productIdsUnique);
         $this->assertEquals($this->model->getDataByKey('attributes_data'), $attrData);
