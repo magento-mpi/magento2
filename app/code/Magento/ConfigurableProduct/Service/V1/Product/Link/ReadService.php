@@ -36,7 +36,7 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getChildren($productId)
     {

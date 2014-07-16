@@ -82,8 +82,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $products = $this->object->getChildren($productId);
         $this->assertCount(1, $products);
         $this->assertEquals($productDto, $products[0]);
-
-
     }
 
     public function testGetChildrenException()
