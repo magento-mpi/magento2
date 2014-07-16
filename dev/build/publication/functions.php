@@ -44,14 +44,13 @@ function getTopMarkdownSection($contents)
     if (!isset($parts[1])) {
         throw new Exception("No commit message found in the changelog file.");
     }
-    list($title, $body) = $parts;
-    if (!preg_match('/^\d+\.\d+\.\d+(\-(dev|alpha|beta|rc)\.\d+(\.dev)?)?$/', $title)) {
-        throw new Exception("No version found on top of the changelog file.");
-    }
+    list($version, $body) = $parts;
+    $version = trim($version);
+    \Magento\Tools\Composer\Package\Version::validate($version);
     $body = explode("\n", trim($body));
     array_pop($body);
     $body = implode("\n", $body);
-    return $title . $body;
+    return $version . "\n" . $body;
 }
 
 /*

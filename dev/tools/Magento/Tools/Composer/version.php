@@ -17,8 +17,7 @@ require __DIR__ . '/Package/Collection.php';
 $usage = "Usage: php -f version.php -- --version=2.1.3 [--dependent=<exact|wildcard>] [--dir=/path/to/work/dir]
 --version - set the specified version value to all the components. Possible formats:
     x.y.z
-    x.y.z-<alpha|beta|rc>.n
-    x.y.z-dev.n.dev
+    x.y.z-<alpha|beta|rc>n
 --dependent - in all the dependent components, set a version of depenency
   exact - set exactly the same version as specified
   wildcard - use the specified version, but replace last number with a wildcard - e.g. 1.2.*
@@ -30,12 +29,7 @@ try {
     if (!isset($opt['version'])) {
         throw new \InvalidArgumentException('Version number must be specified.');
     }
-    $dev = 'dev\.\d+\.dev';
-    $preRelease = '(alpha|beta|rc)\.\d+';
-    if (!preg_match('/^\d+\.\d+\.\d+(\-(' . $dev . '|' . $preRelease .'))?$/', $opt['version'])) {
-        throw new \InvalidArgumentException('Wrong format of version number');
-    }
-    $collection = new Collection(isset($opt['dependent']) ? $opt['dependent'] : false);
+    $collection = new Collection($opt['version'], isset($opt['dependent']) ? $opt['dependent'] : false);
     if (isset($opt['dir'])) {
         if (!is_dir($opt['dir'])) {
             throw new \InvalidArgumentException("The specified directory doesn't exist: '{$opt['dir']}'");
@@ -61,7 +55,7 @@ try {
     }
     $packages = $collection->getPackages();
     foreach (array_keys($packages) as $packageName) {
-        $collection->setVersion($packageName, $opt['version']);
+        $collection->setVersion($packageName);
     }
     foreach ($packages as $package) {
         $file = $package->getFile();

@@ -29,6 +29,11 @@ class Collection
     private $packages = [];
 
     /**
+     * @var string
+     */
+    private $version;
+
+    /**
      * Which way to update dependent components
      *
      * @var string
@@ -38,10 +43,13 @@ class Collection
     /**
      * Constructor
      *
+     * @param string $version
      * @param string $updateDependent
      */
-    public function __construct($updateDependent = self::UPDATE_DEPENDENT_NONE)
+    public function __construct($version, $updateDependent = self::UPDATE_DEPENDENT_NONE)
     {
+        Version::validate($version);
+        $this->version = $version;
         $this->updateDependent = $updateDependent;
         $this->getDependentVersion();
     }
@@ -79,14 +87,13 @@ class Collection
      * Set a version to the package and optionally propagate the version in any other packages that depend on it
      *
      * @param string $packageName
-     * @param string $version
      * @return void
      */
-    public function setVersion($packageName, $version)
+    public function setVersion($packageName)
     {
         $package = $this->getPackage($packageName);
-        $package->set('version', $version);
-        $dependentVersion = $this->getDependentVersion($version);
+        $package->set('version', $this->version);
+        $dependentVersion = $this->getDependentVersion($this->version);
         if ($dependentVersion) {
             $this->massUpdateByKey($packageName, $dependentVersion);
         }
