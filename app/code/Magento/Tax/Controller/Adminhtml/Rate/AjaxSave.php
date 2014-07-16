@@ -1,0 +1,59 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Tax\Controller\Adminhtml\Rate;
+
+class AjaxSave extends \Magento\Tax\Controller\Adminhtml\Rate
+{
+    /**
+     * Save Tax Rate via AJAX
+     *
+     * @return void
+     */
+    public function execute()
+    {
+        $responseContent = '';
+        try {
+            $rateData = $this->_processRateData($this->getRequest()->getPost());
+            $rate = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->setData($rateData)->save();
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array(
+                    'success' => true,
+                    'error_message' => '',
+                    'tax_calculation_rate_id' => $rate->getId(),
+                    'code' => $rate->getCode()
+                )
+            );
+        } catch (\Magento\Framework\Model\Exception $e) {
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array(
+                    'success' => false,
+                    'error_message' => $e->getMessage(),
+                    'tax_calculation_rate_id' => '',
+                    'code' => ''
+                )
+            );
+        } catch (\Exception $e) {
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array(
+                    'success' => false,
+                    'error_message' => __('Something went wrong saving this rate.'),
+                    'tax_calculation_rate_id' => '',
+                    'code' => ''
+                )
+            );
+        }
+        $this->getResponse()->representJson($responseContent);
+    }
+}

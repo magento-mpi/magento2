@@ -762,7 +762,7 @@ return array(
     array('Mage_Core_Block_Template_Facade'),
     array('Mage_Core_Block_Template_Smarty'),
     array('Mage_Core_Block_Template_Zend'),
-    array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\App\Router\DefaultRouter'),
+    array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\App\Router'),
     array('Mage_Core_Model_Convert'),
     array('Mage_Core_Model_Config_Fieldset', 'Magento\Core\Model\Fieldset\Config'),
     array('Mage_Core_Model_Config_Options', 'Magento\Framework\App\Filesystem'),
