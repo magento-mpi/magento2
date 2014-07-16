@@ -66,8 +66,7 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
             );
 
             if ($result !== true) {
-                return 'Bundle item option "' . $item['assigned_products']['name'] .
-                    '" data on product page is not equals to fixture preset.';
+                return $result;
             }
         }
         return null;

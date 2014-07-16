@@ -127,6 +127,13 @@ class View extends Block
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
 
     /**
+     * Selector for price block
+     *
+     * @var string
+     */
+    protected $priceBlockSelector = '//*[contains(@class,"price-box price-final_price") and p]';
+
+    /**
      * 'Add to Compare' button
      *
      * @var string
@@ -153,7 +160,7 @@ class View extends Block
     protected function getPriceBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find('.product-info-main .price-box')
+            $this->_rootElement->find($this->priceBlockSelector, Locator::SELECTOR_XPATH)
         );
     }
 

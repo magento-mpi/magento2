@@ -614,6 +614,11 @@ class CatalogProductGrouped extends InjectableFixture
         return $this->getData('short_description');
     }
 
+    public function getPrice()
+    {
+        return $this->getData('price');
+    }
+
     public function getSpecialPrice()
     {
         return $this->getData('special_price');
