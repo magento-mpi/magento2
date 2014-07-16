@@ -22,6 +22,8 @@ $options = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $options->setAttributeFilter($attribute->getId());
 
 $attributeValues = array();
+$productIds = array();
+$attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
 $productIds = array(10, 20);
 foreach ($options as $option) {
     /** @var $product \Magento\Catalog\Model\Product */
@@ -32,7 +34,7 @@ foreach ($options as $option) {
     )->setId(
         $productId
     )->setAttributeSetId(
-        $installer->getAttributeSetId('catalog_product', 'Default')
+        $attributeSetId
     )->setWebsiteIds(
         array(1)
     )->setName(
@@ -67,7 +69,7 @@ $product->setTypeId(
 )->setId(
     1
 )->setAttributeSetId(
-    $installer->getAttributeSetId('catalog_product', 'Default')
+    $attributeSetId
 )->setWebsiteIds(
     array(1)
 )->setName(
