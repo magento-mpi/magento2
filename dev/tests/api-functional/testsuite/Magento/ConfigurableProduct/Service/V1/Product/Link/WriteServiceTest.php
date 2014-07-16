@@ -48,7 +48,7 @@ class WriteServiceTest extends WebapiAbstract
         $childSku = $product->getSku();
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/children',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/child',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [

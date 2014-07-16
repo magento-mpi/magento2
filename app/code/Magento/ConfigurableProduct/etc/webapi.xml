@@ -27,7 +27,7 @@
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
-    <route url="/V1/configurable-products/:productSku/children" method="POST">
+    <route url="/V1/configurable-products/:productSku/child" method="POST">
         <service class="Magento\ConfigurableProduct\Service\V1\Product\Link\WriteServiceInterface" method="addChild" />
         <resources>
             <resource ref="Magento_Catalog::products" />
