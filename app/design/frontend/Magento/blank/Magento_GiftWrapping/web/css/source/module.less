@@ -44,6 +44,24 @@
     }
 }
 
+.table-order-items {
+    .gift-wrapping {
+        margin: 20px 0;
+        .title {
+            float: none;
+        }
+        .content {
+            &:extend(.add-clearfix all);
+            > img {
+                float: left;
+                margin: 0 10px 0 0;
+                max-height: 50px;
+                max-width: 50px;
+            }
+        }
+    }
+}
+
 .responsive(@break) when (@break = @break-point-1) {
     .opc-wrapper {
         .gift-wrapping {
