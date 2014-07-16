@@ -9,6 +9,7 @@
 namespace Magento\ConfigurableProduct\Service\V1;
 
 use Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -16,6 +17,9 @@ class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\Web
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/configurableProduct/variation';
 
+    /**
+     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/configurable_attribute.php
+     */
     public function testGetVariation()
     {
         $serviceInfo = [
@@ -29,19 +33,23 @@ class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\Web
                 'operation' => self::SERVICE_NAME . 'GenerateVariation'
             ]
         ];
-
+        /** @var \Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface $attributeService */
+        $attributeService = Bootstrap::getObjectManager()
+            ->get('\Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface');
+        $attribute = $attributeService->info('test_configurable');
+        $attributeOptionValue = $attribute->getOptions()[0]->getValue();
         $data = [
-            "product" => [
-                "sku" => "test",
-                "price" => 10.0
+            'product' => [
+                'sku' => 'test',
+                'price' => 10.0
             ],
-            "configurableAttributes" => [
+            'configurableAttributes' => [
                 [
-                    "attribute_id" => 174,
-                    "values" => [
+                    'attribute_id' => $attribute->getAttributeId(),
+                    'values' => [
                         [
-                            "index" => 14,
-                            "price" => 100.0
+                            'index' => $attributeOptionValue,
+                            'price' => 100.0
                         ]
                     ]
                 ]
@@ -50,17 +58,14 @@ class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\Web
         ];
         $actual = $this->_webApiCall($serviceInfo, $data);
 
-        /**
-         * Validate that product type links provided by Magento_GroupedProduct module are present
-         */
         $expectedItems = [
             [
-                "sku" => "test",
-                "price" => 110,
-                "custom_attributes" => [
+                'sku' => 'test',
+                'price' => 110,
+                'custom_attributes' => [
                     [
-                        "attribute_code" => "dd",
-                        "value" => "14"
+                        'attribute_code' => 'test_configurable',
+                        'value' => $attributeOptionValue
                     ]
                 ]
             ]
