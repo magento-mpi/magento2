@@ -9,6 +9,7 @@
 namespace Magento\Cms\Test\Block\Adminhtml\Wysiwyg;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Config
@@ -16,6 +17,13 @@ use Mtf\Block\Block;
  */
 class Config extends Block
 {
+    /**
+     * Variable link selector
+     *
+     * @var string
+     */
+    protected $variableSelector = '//a[contains(text(),"%s")]';
+
     /**
      * Selector for getting all variables in list
      *
@@ -40,5 +48,16 @@ class Config extends Block
         }
 
         return $values;
+    }
+
+    /**
+     * Select variable by name
+     *
+     * @param string $variableName
+     * @return void
+     */
+    public function selectVariableByName($variableName)
+    {
+        $this->_rootElement->find(sprintf($this->variableSelector, $variableName), Locator::SELECTOR_XPATH)->click();
     }
 }

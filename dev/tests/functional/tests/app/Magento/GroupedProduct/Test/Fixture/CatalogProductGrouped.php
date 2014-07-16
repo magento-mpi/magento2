@@ -459,7 +459,14 @@ class CatalogProductGrouped extends InjectableFixture
     protected $website_ids = [
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
-        'default_value' => 'Main Website',
+        'default_value' => ['Main Website'],
+        'group' => 'websites',
+    ];
+
+    protected $price = [
+        'attribute_code' => 'price',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price',
     ];
 
     public function getCategoryIds()

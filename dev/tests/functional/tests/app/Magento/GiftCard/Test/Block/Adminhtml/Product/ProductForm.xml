@@ -27,6 +27,18 @@
             </allow_open_amount>
         </fields>
     </product-details>
+    <autosettings>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#product_info_tabs_autosettings</selector>
+        <strategy>css selector</strategy>
+        <wrapper>product</wrapper>
+        <fields>
+            <gift_wrapping_price>
+                <selector>#gift_wrapping_price</selector>
+                <strategy>css selector</strategy>
+            </gift_wrapping_price>
+        </fields>
+    </autosettings>
     <giftcard>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#product_info_tabs_product-details</selector>
@@ -40,6 +52,14 @@
             <is_redeemable>
                 <input>select</input>
             </is_redeemable>
+            <news_from_date>
+                <selector>#news_from_date</selector>
+                <strategy>css selector</strategy>
+            </news_from_date>
+            <news_to_date>
+                <selector>#news_to_date</selector>
+                <strategy>css selector</strategy>
+            </news_to_date>
             <use_config_lifetime>
                 <selector>#giftcard_use_config_lifetime</selector>
                 <input>checkbox</input>

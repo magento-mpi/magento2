@@ -42,9 +42,10 @@ class Data extends \Magento\Wishlist\Helper\Data
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Store\Model\StoreManagerInterfac $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
+     * @param \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
@@ -58,6 +59,7 @@ class Data extends \Magento\Wishlist\Helper\Data
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
+        \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
@@ -72,7 +74,8 @@ class Data extends \Magento\Wishlist\Helper\Data
             $wishlistFactory,
             $storeManager,
             $postDataHelper,
-            $customerViewHelper
+            $customerViewHelper,
+            $wishlistProvider
         );
     }
 

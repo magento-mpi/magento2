@@ -79,7 +79,7 @@ class UpdateSimpleProductEntityTest extends Injectable
      * @param CatalogProductEdit $editProductPage
      * @param CatalogCategory $category
      * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @return void
      */
     public function __inject(
         CatalogProductIndex $productGrid,

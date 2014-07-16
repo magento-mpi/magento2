@@ -365,7 +365,8 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product-details'
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price',
     ];
 
     protected $stock_data = [
@@ -626,7 +627,9 @@ class CatalogProductDownloadable extends InjectableFixture
 
     protected $website_ids = [
         'attribute_code' => 'website_ids',
-        'backend_type' => 'virtual'
+        'backend_type' => 'virtual',
+        'default_value' => ['Main Website'],
+        'group' => 'websites',
     ];
 
     public function getCategoryIds()

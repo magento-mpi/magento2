@@ -62,6 +62,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
     protected $_taxData;
 
     /**
+     * Tax calculation
+     *
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $calculation;
+
+    /**
      * Engine provider
      *
      * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
@@ -110,6 +117,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -121,6 +129,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         \Magento\Framework\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -130,6 +139,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
+        $this->calculation = $calculation;
         $this->_scopeConfig = $scopeConfig;
         $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
@@ -390,7 +400,34 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
     public function getTaxInfluence()
     {
         if (is_null($this->_taxInfluence)) {
-            $this->_taxInfluence = (bool)$this->_taxData->getPriceTaxSql('price', 'tax');
+            $effectiveRates = [];
+            if ($this->_taxData->priceIncludesTax() || !$this->_taxData->displayPriceExcludingTax()) {
+                $request = $this->calculation->getDefaultRateRequest();
+                $defaultRates = $this->calculation->getRatesForAllProductTaxClasses($request);
+                // Remove rate 0
+                $defaultRates = array_filter($defaultRates);
+
+                $request = $this->calculation->getRateRequest();
+                $currentRates = $this->calculation->getRatesForAllProductTaxClasses($request);
+                // Remove rate 0
+                $currentRates = array_filter($currentRates);
+
+                if ($this->_taxData->priceIncludesTax()) {
+                    if ($defaultRates) {
+                        $effectiveRates = array_merge($effectiveRates, $defaultRates);
+                    }
+                    if (!$this->_taxData->displayPriceExcludingTax() && $currentRates) {
+                        $effectiveRates = array_merge($effectiveRates, $defaultRates);
+                    }
+                } else {
+                    if ($this->_taxData->displayPriceIncludingTax()) {
+                        if ($currentRates) {
+                            $effectiveRates = array_merge($effectiveRates, $defaultRates);
+                        }
+                    }
+                }
+            }
+            $this->_taxInfluence = !empty($effectiveRates);
         }
 
         return $this->_taxInfluence;

@@ -32,4 +32,14 @@ class View extends Block
     {
         return $this->_rootElement->find($this->description)->getText();
     }
+
+    /**
+     * Get Category Content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->_rootElement->getText();
+    }
 }

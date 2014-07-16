@@ -122,11 +122,6 @@ abstract class AbstractCentinelPaymentsTest extends Functional
     {
         //Order placed
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
-        $this->assertContains(
-            'Your order has been received.',
-            $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.'
-        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
 
         //Check order data on backend

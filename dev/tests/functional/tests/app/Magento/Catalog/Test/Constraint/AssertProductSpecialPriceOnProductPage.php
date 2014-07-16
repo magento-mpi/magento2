@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 /**
  * Class AssertProductSpecialPriceOnProductPage
  */
-class AssertSpecialPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
+class AssertProductSpecialPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
 {
     /**
      * Constraint severeness

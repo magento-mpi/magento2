@@ -85,6 +85,13 @@ class View extends Block
     protected $productPrice = '.price-box .price';
 
     /**
+     * Bundle options block
+     *
+     * @var string
+     */
+    protected $bundleBlock = '#product-options-wrapper';
+
+    /**
      * Click for Price link on Product page
      *
      * @var string
@@ -120,11 +127,30 @@ class View extends Block
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
 
     /**
-     * This member holds the class name of the tier price block.
+     * Selector for price block
      *
      * @var string
      */
     protected $priceBlock = '.product-info-main .price-box';
+
+    /**
+     * 'Add to Compare' button
+     *
+     * @var string
+     */
+    protected $clickAddToCompare = '.action.tocompare';
+
+    /**
+     * Get bundle options block
+     *
+     * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
+     */
+    public function getBundleBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
+            $this->_rootElement->find($this->bundleBlock)
+        );
+    }
 
     /**
      * Get block price
@@ -133,9 +159,7 @@ class View extends Block
      */
     protected function getPriceBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find($this->priceBlock)
-        );
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice($this->_rootElement->find($this->priceBlock));
     }
 
     /**
@@ -321,7 +345,7 @@ class View extends Block
     public function fillOptions(FixtureInterface $product)
     {
         $configureButton = $this->_rootElement->find($this->customizeButton);
-        $configureSection = $this->_rootElement->find('.product-options-wrapper');
+        $configureSection = $this->_rootElement->find('.product.options.wrapper');
 
         if ($configureButton->isVisible()) {
             $configureButton->click();
@@ -417,6 +441,16 @@ class View extends Block
      */
     public function stockAvailability()
     {
-        return $this->_rootElement->find($this->stockAvailability)->getText();
+        return strtolower($this->_rootElement->find($this->stockAvailability)->getText());
+    }
+
+    /**
+     * Click "Add to Compare" button
+     *
+     * @return void
+     */
+    public function clickAddToCompare()
+    {
+        $this->_rootElement->find($this->clickAddToCompare, Locator::SELECTOR_CSS)->click();
     }
 }

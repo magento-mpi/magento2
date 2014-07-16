@@ -39,6 +39,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 560.00, 'preset' => '-'],
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'website_ids' => ['Main Website'],
+            'visibility' => 'Catalog, Search',
         ];
 
         $this->_data['100_dollar_product'] = [

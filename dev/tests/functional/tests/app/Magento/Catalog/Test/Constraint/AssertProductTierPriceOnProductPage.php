@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Block\Product\View;
 /**
  * Class AssertProductTierPriceOnProductPage
  */
-class AssertTierPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
+class AssertProductTierPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -46,8 +46,10 @@ class AssertTierPriceOnProductPage extends AbstractConstraint implements AssertP
      * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
-    {
+    public function processAssert(
+        CatalogProductView $catalogProductView,
+        FixtureInterface $product
+    ) {
         // TODO fix initialization url for frontend page
         //Open product view page
         $catalogProductView->init($product);

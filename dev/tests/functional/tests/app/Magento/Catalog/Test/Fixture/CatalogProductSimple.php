@@ -309,22 +309,6 @@ class CatalogProductSimple extends InjectableFixture
         'group' => 'product-details',
     ];
 
-    protected $news_from_date = [
-        'attribute_code' => 'news_from_date',
-        'backend_type' => 'datetime',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'date',
-    ];
-
-    protected $news_to_date = [
-        'attribute_code' => 'news_to_date',
-        'backend_type' => 'datetime',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'date',
-    ];
-
     protected $old_id = [
         'attribute_code' => 'old_id',
         'backend_type' => 'int',
@@ -572,6 +556,24 @@ class CatalogProductSimple extends InjectableFixture
         'group' => 'autosettings',
     ];
 
+    protected $news_from_date = [
+        'attribute_code' => 'news_from_date',
+        'backend_type' => 'datetime',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'date',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
+    ];
+
+    protected $news_to_date = [
+        'attribute_code' => 'news_to_date',
+        'backend_type' => 'datetime',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'date',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -700,16 +702,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getName()
     {
         return $this->getData('name');
-    }
-
-    public function getNewsFromDate()
-    {
-        return $this->getData('news_from_date');
-    }
-
-    public function getNewsToDate()
-    {
-        return $this->getData('news_to_date');
     }
 
     public function getOldId()
@@ -860,5 +852,15 @@ class CatalogProductSimple extends InjectableFixture
     public function getIsReturnable()
     {
         return $this->getData('is_returnable');
+    }
+
+    public function getNewsFromDate()
+    {
+        return $this->getData('news_from_date');
+    }
+
+    public function getNewsToDate()
+    {
+        return $this->getData('news_to_date');
     }
 }

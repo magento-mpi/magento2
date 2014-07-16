@@ -57,6 +57,9 @@ class CatalogProductBundle extends InjectableFixture
         $dataSet = '',
         $persist = false
     ) {
+        if (!isset($data['url_key']) && isset($data['name'])) {
+            $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
+        }
         parent::__construct(
             $configuration,
             $repositoryFactory,
@@ -67,10 +70,6 @@ class CatalogProductBundle extends InjectableFixture
             $dataSet,
             $persist
         );
-
-        if (!isset($this->data['url_key']) && isset($this->data['name'])) {
-            $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
-        }
     }
 
     protected $dataConfig = [
@@ -341,8 +340,26 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product-details',
         'source' => 'Magento\Bundle\Test\Fixture\CatalogProductBundle\Price',
+        'group' => 'product-details'
+    ];
+
+    protected $price_from = [
+        'attribute_code' => 'price_from',
+        'backend_type' => 'decimal',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'price',
+        'group' => 'product-details'
+    ];
+
+    protected $price_to = [
+        'attribute_code' => 'price_to',
+        'backend_type' => 'decimal',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'price',
+        'group' => 'product-details'
     ];
 
     protected $price_type = [
@@ -387,6 +404,18 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+    ];
+
+    protected $use_config_manage_stock = [
+        'attribute_code' => 'use_config_manage_stock',
+        'input' => 'checkbox',
+        'group' => 'advanced-inventory'
+    ];
+
+    protected $manage_stock = [
+        'attribute_code' => 'manage_stock',
+        'input' => 'select',
+        'group' => 'advanced-inventory',
     ];
 
     protected $shipment_type = [
@@ -606,7 +635,9 @@ class CatalogProductBundle extends InjectableFixture
 
     protected $website_ids = [
         'attribute_code' => 'website_ids',
-        'group' => 'product-details'
+        'backend_type' => 'virtual',
+        'default_value' => ['Main Website'],
+        'group' => 'websites',
     ];
 
     public function getCategoryIds()
@@ -757,6 +788,16 @@ class CatalogProductBundle extends InjectableFixture
     public function getPrice()
     {
         return $this->getData('price');
+    }
+
+    public function getPriceFrom()
+    {
+        return $this->getData('price_from');
+    }
+
+    public function getPriceTo()
+    {
+        return $this->getData('price_to');
     }
 
     public function getPriceType()

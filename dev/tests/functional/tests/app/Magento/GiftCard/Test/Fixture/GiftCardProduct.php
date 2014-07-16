@@ -114,6 +114,7 @@ class GiftCardProduct extends CatalogProductSimple
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
+        'group' => 'autosettings'
     ];
 
     protected $is_redeemable = [
