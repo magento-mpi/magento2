@@ -8,6 +8,10 @@
 /** @var $options \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
+/** @var \Magento\Eav\Model\Config $eavConfig */
+$eavConfig = $objectManager->get('Magento\Eav\Model\Config');
+$attribute = $eavConfig->getAttribute('catalog_product', 'test_configurable');
+
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $objectManager->create(
     'Magento\Catalog\Model\Resource\Setup',
