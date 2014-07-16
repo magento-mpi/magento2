@@ -10,7 +10,7 @@ namespace Magento\GroupedProduct\Test\Constraint;
 
 use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
 use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Constraint\AssertSpecialPriceOnProductPage;
+use Magento\Catalog\Test\Constraint\AssertProductSpecialPriceOnProductPage;
 
 /**
  * Class AssertSpecialPriceOnGroupedProductPage
@@ -43,13 +43,13 @@ class AssertSpecialPriceOnGroupedProductPage extends AbstractAssertPriceOnGroupe
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductGrouped $product
-     * @param AssertSpecialPriceOnProductPage $specialPrice
+     * @param AssertProductSpecialPriceOnProductPage $specialPrice
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CatalogProductGrouped $product,
-        AssertSpecialPriceOnProductPage $specialPrice
+        AssertProductSpecialPriceOnProductPage $specialPrice
     ) {
         $this->processAssertPrice($product, $catalogProductView, $specialPrice);
     }

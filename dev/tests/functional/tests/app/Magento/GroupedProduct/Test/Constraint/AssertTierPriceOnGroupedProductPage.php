@@ -10,7 +10,7 @@ namespace Magento\GroupedProduct\Test\Constraint;
 
 use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
 use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Constraint\AssertTierPriceOnProductPage;
+use Magento\Catalog\Test\Constraint\AssertProductTierPriceOnProductPage;
 
 /**
  * Class AssertTierPriceOnGroupedProductPage
@@ -43,13 +43,13 @@ class AssertTierPriceOnGroupedProductPage extends AbstractAssertPriceOnGroupedPr
      *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductGrouped $product
-     * @param AssertTierPriceOnProductPage $tierPrice
+     * @param AssertProductTierPriceOnProductPage $tierPrice
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CatalogProductGrouped $product,
-        AssertTierPriceOnProductPage $tierPrice
+        AssertProductTierPriceOnProductPage $tierPrice
     ) {
         $this->processAssertPrice($product, $catalogProductView, $tierPrice, 'Tier');
     }

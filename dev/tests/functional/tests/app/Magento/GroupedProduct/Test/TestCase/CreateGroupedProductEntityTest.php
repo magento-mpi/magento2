@@ -88,7 +88,7 @@ class CreateGroupedProductEntityTest extends Injectable
     {
         //Steps
         $this->catalogProductIndex->open();
-        $this->catalogProductIndex->getProductBlock()->addProduct('grouped');
+        $this->catalogProductIndex->getGridPageActionBlock()->addProduct('grouped');
         $productBlockForm = $this->catalogProductNew->getForm();
         $productBlockForm->fillProduct($product, $category);
         $this->catalogProductNew->getFormAction()->save();

@@ -73,14 +73,14 @@ class Bundle extends Block
      *
      * @var string
      */
-    protected $typeRadio = '//input[contains(@class,"radio")]';
+    protected $typeRadio = './/input[contains(@class,"radio")]';
 
     /**
      * Selector Checkbox type
      *
      * @var string
      */
-    protected $typeCheckbox = '//input[contains(@class,"checkbox")]';
+    protected $typeCheckbox = './/input[contains(@class,"checkbox")]';
 
     /**
      * Selector bundle option block for fill
@@ -142,7 +142,7 @@ class Bundle extends Block
             Locator::SELECTOR_XPATH
         );
         if (!$option->isVisible()) {
-            return "This" . $fields['title'] . " Option does not equal to fixture option type.";
+            return 'This "' . $fields['title'] . '" Option does not equal to fixture option type.';
         }
 
         $formatRequired = sprintf(

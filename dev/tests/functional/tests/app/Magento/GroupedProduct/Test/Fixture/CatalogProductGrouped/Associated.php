@@ -55,9 +55,11 @@ class Associated implements FixtureInterface
             $this->data = $this->getPreset($this->currentPreset);
         }
 
-        $data['products'] = explode(',', $data['products']);
-        if (!empty($data['products'])) {
-            foreach ($data['products'] as $key => $product) {
+        if (!empty($this->data['products'])) {
+            $this->data['products'] = is_array($this->data['products'])
+                ? $this->data['products']
+                : explode(',', $this->data['products']);
+            foreach ($this->data['products'] as $key => $product) {
                 list($fixture, $dataSet) = explode('::', $product);
                 /** @var $productFixture InjectableFixture */
                 $productFixture = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
@@ -125,13 +127,13 @@ class Associated implements FixtureInterface
                         'id' => '%id%',
                         'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 5,
+                        'qty' => 2,
                     ],
                     [
                         'id' => '%id%',
                         'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 6,
+                        'qty' => 2,
                     ],
                 ],
                 'products' => [
@@ -145,13 +147,13 @@ class Associated implements FixtureInterface
                         'id' => '%id%',
                         'name' => '%item1_virtual::getProductName%',
                         'position' => '%position%',
-                        'qty' => 5,
+                        'qty' => 2,
                     ],
                     [
                         'id' => '%id%',
                         'name' => '%item1_virtual::getProductName%',
                         'position' => '%position%',
-                        'qty' => 3,
+                        'qty' => 2,
                     ],
                 ],
                 'products' => [
