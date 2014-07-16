@@ -15,4 +15,10 @@
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
+    <route url="/V1/configurableProduct/variation" method="PUT">
+        <service class="Magento\ConfigurableProduct\Service\V1\ConfigurableProductServiceInterface" method="generateVariation" />
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
 </routes>
