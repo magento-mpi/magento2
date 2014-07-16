@@ -246,11 +246,9 @@ class Config extends Widget implements TabInterface
                         $attributes[$key] = array_replace_recursive($attribute, $configurableData[$key]);
                         $attributes[$key]['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
-                            isset(
-                                $configurableData[$key]['values']
-                            ) ? array_filter(
-                                $configurableData[$key]['values']
-                            ) : array()
+                            isset($configurableData[$key]['values'])
+                                ? array_filter($configurableData[$key]['values'])
+                                : array()
                         );
                     }
                 }

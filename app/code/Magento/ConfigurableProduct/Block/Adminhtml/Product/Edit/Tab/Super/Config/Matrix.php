@@ -181,11 +181,9 @@ class Matrix extends \Magento\Backend\Block\Template
                         $attributes[$key] = array_replace_recursive($attribute, $configurableData[$key]);
                         $attributes[$key]['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
-                            isset(
-                                $configurableData[$key]['values']
-                            ) ? array_filter(
-                                $configurableData[$key]['values']
-                            ) : array()
+                            isset($configurableData[$key]['values'])
+                                ? array_filter($configurableData[$key]['values'])
+                                : array()
                         );
                     }
                 }
