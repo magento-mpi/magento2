@@ -9,18 +9,20 @@
  */
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin;
 
+use \Magento\ImportExport\Model\Import as ImportModel;
+
 class Import extends AbstractPlugin
 {
     /**
      * Invalidate target rule indexer
      *
-     * @param \Magento\ImportExport\Model\Import $subject
+     * @param ImportModel $subject
      * @param bool $result
      * @return bool
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $result)
+    public function afterImportSource(ImportModel $subject, $result)
     {
         $this->invalidateIndexer();
         return $result;

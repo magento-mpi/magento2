@@ -22,7 +22,7 @@ class Container
      *
      * @param string $indexerIdString
      *
-     * @retrun void
+     * @return void
      */
     public function setFullReindexPassed($indexerIdString)
     {

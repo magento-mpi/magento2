@@ -143,6 +143,7 @@ abstract class AbstractAction
      * Reindex rule by ID
      *
      * @param int $ruleId
+     * @return void
      */
     protected function _reindexByRuleId($ruleId)
     {
@@ -161,5 +162,4 @@ abstract class AbstractAction
         $this->_resource->cleanIndex($typeId, $store);
         return $this;
     }
-
 }
