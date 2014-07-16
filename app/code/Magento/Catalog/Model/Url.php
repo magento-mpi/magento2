@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Model;
 /**
- * TODO: decomposition (MAGETWO-26225)
+ * TODO: decomposition (MAGETWO-25952)
  */
 class Url
 {

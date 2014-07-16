@@ -19,7 +19,7 @@ use Magento\UrlRedirect\Service\V1\UrlMatcherInterface;
 class CategoryUrlGenerator implements CategoryUrlGeneratorInterface
 {
     /**
-     * TODO: think about better place for this const (MAGETWO-26225)
+     * TODO: think about better place for this const (MAGETWO-25952)
      *
      * Entity type
      */
@@ -77,7 +77,7 @@ class CategoryUrlGenerator implements CategoryUrlGeneratorInterface
 
     /**
      * {@inheritdoc}
-     * TODO: fix service parameter (MAGETWO-26225)
+     * TODO: fix service parameter (MAGETWO-25952)
      */
     public function generate($category)
     {

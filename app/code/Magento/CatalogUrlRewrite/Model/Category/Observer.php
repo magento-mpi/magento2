@@ -64,7 +64,7 @@ class Observer
         /** @var \Magento\Catalog\Model\Category $category */
         $category = $observer->getEvent()->getCategory();
 
-        // TODO: create new observer for generation and saving category url path (MAGETWO-26225)
+        // TODO: create new observer for generation and saving category url path (MAGETWO-25952)
         if (!$category->getUrlPath() || $category->getOrigData('url_key') != $category->getData('url_key')) {
             $category->setUrlPath($this->catalogUrlRewriteHelper->generateCategoryUrlKeyPath($category));
         }
@@ -72,7 +72,7 @@ class Observer
         if (!$this->catalogUrlRewriteHelper->isRootCategory($category)
             && $category->getOrigData('url_key') != $category->getData('url_key')
         ) {
-            // TODO: fix service parameter (MAGETWO-26225)
+            // TODO: fix service parameter (MAGETWO-25952)
             $this->urlSave->save($this->categoryUrlGenerator->generate($category));
 
             $products = $category->getProductCollection()
@@ -80,11 +80,11 @@ class Observer
                 ->addAttributeToSelect('url_path');
 
             foreach ($products as $product) {
-                // TODO: Is product url path can be empty? (MAGETWO-26225)
+                // TODO: Is product url path can be empty? (MAGETWO-25952)
 
                 $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
 
-                // TODO: hack for obtaining data from changed categories. Replace on Service Data Object (MAGETWO-26225)
+                // TODO: hack for obtaining data from changed categories. Replace on Service Data Object (MAGETWO-25952)
                 $this->urlSave->save($this->productUrlGenerator->generateWithChangedCategories(
                     $product,
                     [$category->getId() => $category])
