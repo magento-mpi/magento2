@@ -45,7 +45,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             ],
             'configurableAttributes' => [
                 [
-                    'attribute_id' => $attribute->getAttributeId(),
+                    'attribute_id' => 'test_configurable',
                     'values' => [
                         [
                             'index' => $attributeOptionValue,
@@ -60,8 +60,10 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $expectedItems = [
             [
-                'sku' => 'test',
+                'sku' => 'test-',
                 'price' => 110,
+                'name' => '-',
+                'visibility' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE,
                 'custom_attributes' => [
                     [
                         'attribute_code' => 'test_configurable',

@@ -25,7 +25,7 @@ class ConfigurableAttribute extends \Magento\Framework\Service\Data\Eav\Abstract
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getAttributeId()
     {

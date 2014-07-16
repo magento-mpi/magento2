@@ -85,10 +85,12 @@ class ReadService implements ReadServiceInterface
     private function populateProductVariation(Product $product, $variations, $attributes)
     {
         $products = [];
-        foreach ($variations as $variation) {
+        foreach ($variations as $attributeId =>$variation) {
             $price = $product->getPrice();
             $this->productBuilder->populate($product);
+            $suffix = '';
             foreach ($variation as $attributeId => $valueInfo) {
+                $suffix .= '-' . $valueInfo['value'];
                 $this->productBuilder->setCustomAttribute(
                     $attributes[$attributeId]['attribute_code'],
                     $valueInfo['value']
@@ -98,6 +100,9 @@ class ReadService implements ReadServiceInterface
                     * $priceInfo['pricing_value'];
             }
             $this->productBuilder->setPrice($price);
+            $this->productBuilder->setName($product->getName() . $suffix);
+            $this->productBuilder->setSku($product->getSku() . $suffix);
+            $this->productBuilder->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
             $products[] = $this->productBuilder->create();
         }
         return $products;
