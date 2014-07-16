@@ -19,7 +19,7 @@ class ConfigurableAttributeBuilder extends \Magento\Framework\Service\Data\Abstr
     }
 
     /**
-     * @param int $value 
+     * @param string $value
      * @return self 
      */
     public function setAttributeId($value)

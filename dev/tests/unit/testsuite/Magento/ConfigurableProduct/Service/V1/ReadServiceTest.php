@@ -7,15 +7,15 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1;
 
-use Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface;
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Catalog\Service\V1\Data\Product;
 use Magento\Catalog\Service\V1\Data\ProductBuilder;
+use Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface;
 use Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
-class ConfigurableProductServiceTest extends \PHPUnit_Framework_TestCase
+class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ConfigurableProductService */
+    /** @var ReadService */
     protected $object;
 
     /** @var ObjectManagerHelper */
@@ -51,7 +51,7 @@ class ConfigurableProductServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->object = $this->objectManagerHelper->getObject(
-            'Magento\ConfigurableProduct\Service\V1\ConfigurableProductService',
+            'Magento\ConfigurableProduct\Service\V1\ReadService',
             [
                 'attributeReadService' => $this->attributeReadService,
                 'variationMatrix' => $this->variationMatrix,
@@ -62,8 +62,7 @@ class ConfigurableProductServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $productData
-     * @param array $configurableAttribute
-     *
+     * @param array $configurableAttributeData
      * @dataProvider productVariationDataProvider
      */
     public function testGenerateVariation($productData, $configurableAttributeData)
@@ -85,26 +84,32 @@ class ConfigurableProductServiceTest extends \PHPUnit_Framework_TestCase
         $options = null;
         $this->variationMatrix->expects($this->any())
             ->method('getVariations')
-            ->with([
-                $configurableAttributeData['attribute_id'] => [
-                    "attribute_id" => $configurableAttributeData['attribute_id'],
-                    "values" => $configurableAttributeData['values'],
-                    "options" => $options,
-                    "attribute_code" => $attributeCode,
-                ]
-            ])
-            ->will($this->returnValue([
+            ->with(
                 [
                     $configurableAttributeData['attribute_id'] => [
-                        'value' => '14',
-                        'label' => 'dd',
-                        'price' => [
-                            'value_index' => 14,
-                            'pricing_value' => 10,
+                        "attribute_id" => $configurableAttributeData['attribute_id'],
+                        "values" => $configurableAttributeData['values'],
+                        "options" => $options,
+                        "attribute_code" => $attributeCode,
+                    ]
+                ]
+            )
+            ->will(
+                $this->returnValue(
+                    [
+                        [
+                            $configurableAttributeData['attribute_id'] => [
+                                'value' => '14',
+                                'label' => 'dd',
+                                'price' => [
+                                    'value_index' => 14,
+                                    'pricing_value' => 10,
+                                ],
+                            ],
                         ],
-                    ],
-                ],
-            ]));
+                    ]
+                )
+            );
 
         $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
             ->disableOriginalConstructor()
@@ -113,7 +118,9 @@ class ConfigurableProductServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getPrice')
             ->will($this->returnValue(100));
 
-        $configurableAttribute  = $this->getMockBuilder('Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute')
+        $configurableAttribute = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute'
+        )
             ->disableOriginalConstructor()
             ->getMock();
         $configurableAttribute->expects($this->any())
@@ -167,5 +174,4 @@ class ConfigurableProductServiceTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
-    
-} 
+}

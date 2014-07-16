@@ -22,7 +22,7 @@
         </resources>
     </route>
     <route url="/V1/configurable-products/variation" method="PUT">
-        <service class="Magento\ConfigurableProduct\Service\V1\ConfigurableProductServiceInterface" method="generateVariation" />
+        <service class="Magento\ConfigurableProduct\Service\V1\ReadServiceInterface" method="generateVariation" />
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>

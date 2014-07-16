@@ -11,9 +11,9 @@ namespace Magento\ConfigurableProduct\Service\V1;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
 
-class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
+class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'configurableProductConfigurableProductServiceV1';
+    const SERVICE_NAME = 'configurableProductReadServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/configurable-products/variation';
 
@@ -45,7 +45,7 @@ class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\Web
             ],
             'configurableAttributes' => [
                 [
-                    'attribute_id' => $attribute->getAttributeId(),
+                    'attribute_id' => 'test_configurable',
                     'values' => [
                         [
                             'index' => $attributeOptionValue,
@@ -60,8 +60,10 @@ class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\Web
 
         $expectedItems = [
             [
-                'sku' => 'test',
+                'sku' => 'test-',
                 'price' => 110,
+                'name' => '-',
+                'visibility' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE,
                 'custom_attributes' => [
                     [
                         'attribute_code' => 'test_configurable',

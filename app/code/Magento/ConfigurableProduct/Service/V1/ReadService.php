@@ -9,10 +9,10 @@ namespace Magento\ConfigurableProduct\Service\V1;
 
 use Magento\Catalog\Service\V1\Data\Product;
 use Magento\Catalog\Service\V1\Data\ProductBuilder;
-use Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface;
+use Magento\Catalog\Service\V1\Product\Attribute;
 use Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix;
 
-class ConfigurableProductService implements ConfigurableProductServiceInterface
+class ReadService implements ReadServiceInterface
 {
     /**
      * @var VariationMatrix
@@ -25,15 +25,17 @@ class ConfigurableProductService implements ConfigurableProductServiceInterface
     private $productBuilder;
 
     /**
-     * @var ReadServiceInterface
+     * @var Attribute\ReadServiceInterface
      */
     private $attributeReadService;
 
     /**
+     * @param Attribute\ReadServiceInterface $attributeReadService
+     * @param ProductBuilder $productBuilder
      * @param VariationMatrix $variationMatrix
      */
     public function __construct(
-        ReadServiceInterface $attributeReadService,
+        Attribute\ReadServiceInterface $attributeReadService,
         ProductBuilder $productBuilder,
         VariationMatrix $variationMatrix
     ) {
@@ -83,10 +85,12 @@ class ConfigurableProductService implements ConfigurableProductServiceInterface
     private function populateProductVariation(Product $product, $variations, $attributes)
     {
         $products = [];
-        foreach ($variations as $variation) {
+        foreach ($variations as $attributeId =>$variation) {
             $price = $product->getPrice();
             $this->productBuilder->populate($product);
+            $suffix = '';
             foreach ($variation as $attributeId => $valueInfo) {
+                $suffix .= '-' . $valueInfo['value'];
                 $this->productBuilder->setCustomAttribute(
                     $attributes[$attributeId]['attribute_code'],
                     $valueInfo['value']
@@ -96,6 +100,9 @@ class ConfigurableProductService implements ConfigurableProductServiceInterface
                     * $priceInfo['pricing_value'];
             }
             $this->productBuilder->setPrice($price);
+            $this->productBuilder->setName($product->getName() . $suffix);
+            $this->productBuilder->setSku($product->getSku() . $suffix);
+            $this->productBuilder->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
             $products[] = $this->productBuilder->create();
         }
         return $products;

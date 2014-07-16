@@ -7,7 +7,7 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1;
 
-interface ConfigurableProductServiceInterface
+interface ReadServiceInterface
 {
     /**
      * Generate variation based on same product
