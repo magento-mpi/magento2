@@ -9,7 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="gift_options">
-        <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info" name="wrapping_order_create_info" template="order/create/info.phtml"/>
+        <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info" name="wrapping_order_create_info" template="order/create/info.phtml">
+            <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info\Content" name="wrapping.order.create.info.content" template="order/create/info/wrapping.phtml"/>
+        </block>
     </referenceBlock>
     <referenceBlock name="popup_window">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Items" name="wrapping_order_create_items" template="order/create/items.phtml"/>
