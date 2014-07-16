@@ -11,7 +11,7 @@ namespace Magento\Tax\Service\V1;
 interface TaxCalculationServiceInterface
 {
     /**#@+
-     * Type of calcuation used
+     * Type of calculation used
      */
     const CALC_UNIT_BASE = 'UNIT_BASE_CALCULATION';
     const CALC_ROW_BASE = 'ROW_BASE_CALCULATION';
