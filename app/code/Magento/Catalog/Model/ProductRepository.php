@@ -41,15 +41,13 @@ class ProductRepository
     public function get($sku, $editMode = false)
     {
         if (!isset($this->instances[$sku])) {
-            $product = $this->productFactory->create();
-            $productId = $product->getIdBySku($sku);
-            if (!$productId) {
+            $product = $this->productFactory->create()->loadByAttribute('sku', $sku);
+            if (!$product || !$product->getId()) {
                 throw new NoSuchEntityException('Requested product doesn\'t exist');
             }
             if ($editMode) {
                 $product->setData('_edit_mode', true);
             }
-            $product->load($productId);
             $this->instances[$sku] = $product;
         }
         return $this->instances[$sku];

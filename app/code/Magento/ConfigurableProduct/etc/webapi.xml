@@ -15,13 +15,13 @@
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
-    <route url="/V1/configurable-products/:productSku/children/:childSku" method="DELETE">
+    <route url="/V1/configurable-products/:productSku/child/:childSku" method="DELETE">
         <service class="Magento\ConfigurableProduct\Service\V1\Product\Link\WriteServiceInterface" method="removeChild"/>
         <resources>
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
-    <route url="/V1/configurableProduct/variation" method="PUT">
+    <route url="/V1/configurable-products/variation" method="PUT">
         <service class="Magento\ConfigurableProduct\Service\V1\ConfigurableProductServiceInterface" method="generateVariation" />
         <resources>
             <resource ref="Magento_Catalog::products" />

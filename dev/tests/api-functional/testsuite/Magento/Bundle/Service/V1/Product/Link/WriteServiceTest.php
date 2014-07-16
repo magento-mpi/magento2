@@ -31,7 +31,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
     protected function removeChild($productSku, $optionId, $childSku)
     {
-        $resourcePath = self::RESOURCE_PATH . '%s/options/%s/children/%s';
+        $resourcePath = self::RESOURCE_PATH . '%s/options/%s/child/%s';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => sprintf($resourcePath, $productSku, $optionId, $childSku),
