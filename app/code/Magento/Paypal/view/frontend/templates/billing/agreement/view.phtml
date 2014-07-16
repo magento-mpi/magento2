@@ -7,8 +7,8 @@
  */
 ?>
 <?php /* @var $this \Magento\Paypal\Block\Billing\Agreement\View */ ?>
-<div class="block billing-agreements-view">
-    <div class="title">
+<div class="block block-billing-agreements-view">
+    <div class="block-title">
         <strong><?php echo __('Billing Agreement # %1', $this->escapeHtml($this->getReferenceId())) ?></strong>
         <?php if ($this->getCanCancel()): ?>
             <button type="button" title="<?php echo __('Cancel') ?>" class="secondary action cancel" onclick="if( confirm('<?php echo __('Are you sure you want to do this?') ?>') ) { window.location.href = '<?php echo $this->getCancelUrl() ?>'; } return false;">
@@ -16,8 +16,8 @@
             </button>
         <?php endif; ?>
     </div>
-    <div class="content">
-        <h2 class="subtitle caption"><?php echo __('Agreement Information') ?></h2>
+    <div class="block-title"><strong><?php echo __('Agreement Information') ?></strong></div>
+    <div class="block-content">
         <div class="table-wrapper billing-agreements-view">
             <table class="data table table-billing-agreements-view">
                 <caption class="table caption"><?php echo __('Agreement Information') ?></caption>

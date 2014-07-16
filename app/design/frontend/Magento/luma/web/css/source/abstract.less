@@ -130,11 +130,7 @@
                 clear: both;
             }
         }
-        .field {
-            width: auto;
-            padding: 0;
         }
-    }
     .blocks-2columns-reverse {
         width: 48.8%;
         &:nth-child(1) {
@@ -307,10 +303,7 @@
                  .control {
                     width: auto;
                 }
-                &:nth-last-child(2) {
-                    margin-bottom: 0;
                 }
-            }
             .additional {
                 .action.remove {
                     &:extend(.action-remove-desktop all);
@@ -433,10 +426,18 @@
     .form-field-column-2 {
         .fieldset {
             .field {
+                &:nth-last-child(1),
+                &:nth-last-child(2) {
+                    margin-bottom: 0;
+                }
                 .form-field-column(@_column: true);
+                .field {
+                    width: 100%;
+                    padding: 0;
             }
         }
     }
+}
 }
 
 //
@@ -722,5 +723,54 @@
             @_icon-font-content: @icon-up,
             @_icon-font-position: after
         );
+    }
+}
+
+//
+//    Forms: margin-bottom for small forms
+//--------------------------------------
+.abstract-forms-margin-small {
+    .css(margin-bottom, @indent-base);
+}
+
+//
+//    Forms: margin-bottom for small forms
+//--------------------------------------
+.abstract-rating-summary {
+    .rating {
+        &-summary {
+            display: table-row;
+        }
+        &-label {
+            display: table-cell;
+            vertical-align: top;
+            padding-top: 1px;
+            padding-right: @indent-m-base;
+            padding-bottom: @indent-xs-base;
+        }
+        &-result {
+            vertical-align: top;
+            display: table-cell;
+        }
+    }
+}
+
+//
+//    Account pages: actions
+//--------------------------------------
+.abstract-account-actions {
+    &:extend(.abstract-account-actions all);
+    &:after {
+        content: "";
+        display: inline-block;
+        height: 12px;
+        margin: 0 10px;
+        border-left: 1px @color-primary-light solid;
+        vertical-align: -1px;
+    }
+    &:last-child {
+        &:after {
+            display: none;
+        }
     }
 }

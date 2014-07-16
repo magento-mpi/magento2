@@ -30,12 +30,12 @@
             <div class="title">
                 <strong><?php echo ($this->isReviewOwner()) ? __('Your Review') : __('Review'); ?></strong>
             </div>
-            <div class="ratings-summary items">
+            <div class="customer-review-rating">
                 <?php foreach ($this->getRating() as $_rating): ?>
                 <?php if($_rating->getPercent()): ?>
                     <?php $rating = ceil($_rating->getPercent()) ?>
                     <div class="rating-summary item">
-                        <span class="label"><span><?php echo $this->escapeHtml($_rating->getRatingCode()) ?>:</span></span>
+                        <span class="rating-label"><span><?php echo $this->escapeHtml($_rating->getRatingCode()) ?></span></span>
                         <div class="rating-result" title="<?php echo $rating; ?>%">
                             <span style="width:<?php echo $rating; ?>%">
                                 <span><?php echo $rating; ?>%</span>

@@ -88,6 +88,9 @@
             border-bottom: 1px solid #c9c9c9;
             padding: @indent-base 0;
         }
+        .limiter {
+            display: none;
+        }
     }
     &-add {
         .block-title {
@@ -161,22 +164,7 @@
         display: table;
         max-width: 100%;
         margin-bottom: @indent-s-base;
-        .rating {
-            &-summary {
-                display: table-row;
-            }
-            &-label {
-                display: table-cell;
-                vertical-align: top;
-                padding-top: 1px;
-                padding-right: @indent-m-base;
-                padding-bottom: @indent-xs-base;
-            }
-            &-result {
-                vertical-align: top;
-                display: table-cell;
-            }
-        }
+        &:extend(.abstract-rating-summary all);
     }
     &-author {
         display: inline;
@@ -392,7 +380,7 @@
         .title {
             &:extend(.abstract-account-title all);
         }
-        .ratings-summary.items {
+        .customer-review-rating {
             .css(margin-bottom, @indent-base);
             .item {
                 .css(margin-bottom, @indent-s-base);
@@ -400,6 +388,7 @@
                     margin-bottom: 0;
                 }
             }
+            &:extend(.abstract-rating-summary all);
         }
         .review-title {
             .heading(h3);

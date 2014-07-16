@@ -51,12 +51,45 @@
     }
 }
 
+.form-giftregistry-create { 
+    .fieldset {
+        &:extend(.abstract-forms-margin-small all);
+    }
+}
+
 .form-giftregistry-edit {
    .giftregistry-type {
         .css(margin-bottom, @indent-l-base);
         .css(margin-top, -@indent-m-base);
    }
    .field.date {
+        .control {
+            position: relative;
+            &:extend(.add-box-sizing all);
+            .icon-font(
+                @_icon-font-content: @icon-calendar,
+                @_icon-font-color: @color-primary-lighter,
+                @_icon-font-size: 23px,
+                @_icon-font-line-height: 23px,
+                @_icon-font-display: block
+            );
+            &:before {
+                position: absolute;
+                top: 5px;
+                .css(left, @indent-s-base);
+                margin-left: 90%;
+                z-index: 0;
+            }
+        }
+
+        img {
+            opacity: 0; 
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            width: 20px;
+            vertical-align: middle;
+        }
         input {
             width: 90%;
             .css(margin-right, @indent-s-base);
@@ -104,6 +137,13 @@
         &:extend(.form-field-column-2 all);
         .fieldset .field {
            width: 45%;
+        }
+    }
+    .form-giftregistry-edit {
+        .fieldset.shipping_address {
+            .fieldset {
+                margin-top: @form-field-vertical-indent;
+            }
         }
     }
     .form-giftregistry-create {

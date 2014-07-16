@@ -22,8 +22,12 @@
                 </p>
             </div>
             <div class="box-actions">
-                <a class="action edit" href="<?php echo $this->getUrl('customer/account/edit') ?>"><span><?php echo __('Edit') ?></span></a>
-                <a href="<?php echo $this->getChangePasswordUrl() ?>" class="action change-password"><?php echo __('Change Password') ?></a>
+                <a class="action edit" href="<?php echo $this->getUrl('customer/account/edit') ?>">
+                    <span><?php echo __('Edit') ?></span>
+                </a>
+                <a href="<?php echo $this->getChangePasswordUrl() ?>" class="action change-password">
+                    <?php echo __('Change Password') ?>
+                </a>
             </div>
         </div>
         <?php if( $this->isNewsletterEnabled() ): ?>
