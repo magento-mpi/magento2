@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="formkey"/>
-    <update handle="adminhtml_customersegment_block"/>
+    <update handle="customersegment_index_block"/>
     <referenceContainer name="content">
         <block class="Magento\CustomerSegment\Block\Adminhtml\Customersegment" name="customersegment.container"/>
     </referenceContainer>

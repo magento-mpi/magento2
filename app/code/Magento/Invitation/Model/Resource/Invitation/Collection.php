@@ -15,6 +15,33 @@ namespace Magento\Invitation\Model\Resource\Invitation;
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
+     * @var \Magento\Invitation\Model\Invitation\Status
+     */
+    protected $status;
+
+    /**
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Invitation\Model\Invitation\Status $status
+     * @param \Zend_Db_Adapter_Abstract $connection
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Invitation\Model\Invitation\Status $status,
+        $connection = null,
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->status = $status;
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
+    }
+
+    /**
      * Fields mapping 
      *
      * @var array
@@ -113,7 +140,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addCanBeSentFilter()
     {
-        return $this->addFieldToFilter('status', \Magento\Invitation\Model\Invitation::STATUS_NEW);
+        return $this->addFieldToFilter('status', array("in" => $this->status->getCanBeSentStatuses()));
     }
 
     /**
@@ -123,14 +150,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addCanBeCanceledFilter()
     {
-        return $this->addFieldToFilter(
-            'status',
-            array(
-                'nin' => array(
-                    \Magento\Invitation\Model\Invitation::STATUS_CANCELED,
-                    \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED
-                )
-            )
-        );
+        return $this->addFieldToFilter('status', array("in" => $this->status->getCanBeCancelledStatuses()));
     }
 }

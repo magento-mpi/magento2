@@ -34,14 +34,14 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_operationFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Framework\Registry $registry,
@@ -98,7 +98,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             throw new \Magento\Framework\Model\Exception(__('Please correct the scheduled operation type.'));
         }
 
-        $this->_updateButton(
+        $this->buttonList->update(
             'delete',
             'onclick',
             'deleteConfirm(\'' . $this->_importExportData->getConfirmationDeleteMessage(

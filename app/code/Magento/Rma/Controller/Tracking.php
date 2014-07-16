@@ -7,8 +7,6 @@
  */
 namespace Magento\Rma\Controller;
 
-use Magento\Framework\App\Action\NotFoundException;
-
 class Tracking extends \Magento\Framework\App\Action\Action
 {
     /**
@@ -38,52 +36,6 @@ class Tracking extends \Magento\Framework\App\Action\Action
         $this->_coreRegistry = $coreRegistry;
         $this->_fileResponseFactory = $fileResponseFactory;
         parent::__construct($context);
-    }
-
-    /**
-     * Popup action
-     * Shows tracking info if it's present, otherwise redirects to 404
-     *
-     * @return void
-     * @throws NotFoundException
-     */
-    public function popupAction()
-    {
-        /** @var $shippingInfoModel \Magento\Rma\Model\Shipping\Info */
-        $shippingInfoModel = $this->_objectManager->create('Magento\Rma\Model\Shipping\Info');
-        $shippingInfoModel->loadByHash($this->getRequest()->getParam('hash'));
-
-        $this->_coreRegistry->register('rma_current_shipping', $shippingInfoModel);
-        if (count($shippingInfoModel->getTrackingInfo()) == 0) {
-            throw new NotFoundException();
-        }
-        $this->_view->loadLayout();
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Tracking Information'));
-        }
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Popup package action
-     * Shows package info if it's present, otherwise redirects to 404
-     *
-     * @return void
-     * @throws NotFoundException
-     */
-    public function packageAction()
-    {
-        /** @var $shippingInfoModel \Magento\Rma\Model\Shipping\Info */
-        $shippingInfoModel = $this->_objectManager->create('Magento\Rma\Model\Shipping\Info');
-        $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
-
-        $this->_coreRegistry->register('rma_package_shipping', $shippingInfoModel);
-        if (!$shippingInfoModel->getPackages()) {
-            throw new NotFoundException();
-        }
-        $this->_view->loadLayout();
-        $this->_view->renderLayout();
     }
 
     /**
@@ -143,104 +95,5 @@ class Tracking extends \Magento\Framework\App\Action\Action
             $this->_redirect('*/*/returns');
         }
         return false;
-    }
-
-    /**
-     * Print label for one specific shipment
-     *
-     * @return \Magento\Framework\App\ResponseInterface|void
-     * @throws \Magento\Framework\App\Action\NotFoundException
-     */
-    public function printLabelAction()
-    {
-        try {
-            $data = $this->_objectManager->get(
-                'Magento\Rma\Helper\Data'
-            )->decodeTrackingHash(
-                $this->getRequest()->getParam('hash')
-            );
-
-            $rmaIncrementId = '';
-            if ($data['key'] == 'rma_id') {
-                $this->_loadValidRma($data['id']);
-                if ($this->_coreRegistry->registry('current_rma')) {
-                    $rmaIncrementId = $this->_coreRegistry->registry('current_rma')->getIncrementId();
-                }
-            }
-            /** @var $shippingInfoModel \Magento\Rma\Model\Shipping\Info */
-            $shippingInfoModel = $this->_objectManager->create('Magento\Rma\Model\Shipping\Info');
-            $model = $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
-            /** @var $shipping \Magento\Rma\Model\Shipping */
-            $shipping = $this->_objectManager->create('Magento\Rma\Model\Shipping');
-            $labelContent = $model->getShippingLabel();
-            if ($labelContent) {
-                $pdfContent = null;
-                if (stripos($labelContent, '%PDF-') !== false) {
-                    $pdfContent = $labelContent;
-                } else {
-                    $pdf = new \Zend_Pdf();
-                    $page = $shipping->createPdfPageFromImageString($labelContent);
-                    if (!$page) {
-                        $this->messageManager->addError(
-                            __(
-                                "We don't recognize or support the file extension in shipment %1.",
-                                $shipping->getIncrementId()
-                            )
-                        );
-                    }
-                    $pdf->pages[] = $page;
-                    $pdfContent = $pdf->render();
-                }
-
-                return $this->_fileResponseFactory->create(
-                    'ShippingLabel(' . $rmaIncrementId . ').pdf',
-                    $pdfContent,
-                    \Magento\Framework\App\Filesystem::VAR_DIR,
-                    'application/pdf'
-                );
-            }
-        } catch (\Magento\Framework\Model\Exception $e) {
-            $this->messageManager->addError($e->getMessage());
-        } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
-        }
-        throw new NotFoundException();
-    }
-
-    /**
-     * Create pdf document with information about packages
-     *
-     * @return void
-     */
-    public function packagePrintAction()
-    {
-        /** @var $rmaHelper \Magento\Framework\Stdlib\DateTime\DateTime */
-        $rmaHelper = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
-        $data = $rmaHelper->decodeTrackingHash($this->getRequest()->getParam('hash'));
-        if ($data['key'] == 'rma_id') {
-            $this->_loadValidRma($data['id']);
-        }
-
-        /** @var $shippingInfoModel \Magento\Rma\Model\Shipping\Info */
-        $shippingInfoModel = $this->_objectManager->create('Magento\Rma\Model\Shipping\Info');
-        $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
-        if ($shippingInfoModel) {
-            /** @var $orderPdf \Magento\Shipping\Model\Order\Pdf\Packaging */
-            $orderPdf = $this->_objectManager->create('Magento\Shipping\Model\Order\Pdf\Packaging');
-            $block = $this->_view->getLayout()->getBlockSingleton(
-                'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
-            );
-            $orderPdf->setPackageShippingBlock($block);
-            $pdf = $orderPdf->getPdf($shippingInfoModel);
-            /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
-            $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
-            $this->_fileResponseFactory->create(
-                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
-                $pdf->render(),
-                \Magento\Framework\App\Filesystem::VAR_DIR,
-                'application/pdf'
-            );
-        }
     }
 }

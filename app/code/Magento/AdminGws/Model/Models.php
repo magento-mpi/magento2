@@ -12,7 +12,7 @@ use Magento\Framework\Model\Exception;
 /**
  * Models limiter
  */
-class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
+class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implements CallbackProcessorInterface
 {
     /**
      * Admin gws data

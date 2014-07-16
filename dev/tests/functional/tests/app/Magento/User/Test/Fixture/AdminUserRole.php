@@ -78,12 +78,13 @@ class AdminUserRole extends InjectableFixture
         'input' => '',
     ];
 
-    protected $role_name = [
-        'attribute_code' => 'role_name',
+    protected $rolename = [
+        'attribute_code' => 'rolename',
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'role-info'
     ];
 
     protected $user_type = [
@@ -97,11 +98,20 @@ class AdminUserRole extends InjectableFixture
     protected $resource_access = [
         'attribute_code' => 'resource_access',
         'backend_type' => 'virtual',
+        'group' => 'role-resources'
     ];
 
     protected $roles_resources = [
         'attribute_code' => 'roles_resources',
         'backend_type' => 'virtual',
+        'group' => 'role-resources'
+    ];
+
+    protected $in_role_users = [
+        'attribute_code' => 'in_role_users',
+        'backend_type' => 'virtual',
+        'group' => 'in_role_users',
+        'source' => 'Magento\User\Test\Fixture\AdminUserRole\InRoleUsers',
     ];
 
     public function getRoleId()
@@ -136,7 +146,7 @@ class AdminUserRole extends InjectableFixture
 
     public function getRoleName()
     {
-        return $this->getData('role_name');
+        return $this->getData('rolename');
     }
 
     public function getUserType()
@@ -167,5 +177,10 @@ class AdminUserRole extends InjectableFixture
     public function getRolesResources()
     {
         return $this->getData('roles_resources');
+    }
+
+    public function getInRoleUsers()
+    {
+        return $this->getData('in_role_users');
     }
 }

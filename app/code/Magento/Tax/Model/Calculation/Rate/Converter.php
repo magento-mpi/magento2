@@ -75,7 +75,7 @@ class Converter
             $this->taxRateDataObjectBuilder->setCode($rateModel->getCode());
         }
         if ($rateModel->getRate()) {
-            $this->taxRateDataObjectBuilder->setPercentageRate($rateModel->getRate());
+            $this->taxRateDataObjectBuilder->setPercentageRate((float)$rateModel->getRate());
         }
         if ($rateModel->getZipIsRange()) {
             $zipRange = $this->zipRangeDataObjectBuilder->populateWithArray([])
