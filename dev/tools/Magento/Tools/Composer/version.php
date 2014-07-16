@@ -15,7 +15,10 @@ require __DIR__ . '/Package/Package.php';
 require __DIR__ . '/Package/Collection.php';
 
 $usage = "Usage: php -f version.php -- --version=2.1.3 [--dependent=<exact|wildcard>] [--dir=/path/to/work/dir]
---version - set the specified version value to all the components. Format: 'x.y.z' or 'x.y.z-stability.n'
+--version - set the specified version value to all the components. Possible formats:
+    x.y.z
+    x.y.z-<alpha|beta|rc>.n
+    x.y.z-dev.n.dev
 --dependent - in all the dependent components, set a version of depenency
   exact - set exactly the same version as specified
   wildcard - use the specified version, but replace last number with a wildcard - e.g. 1.2.*
@@ -27,7 +30,9 @@ try {
     if (!isset($opt['version'])) {
         throw new \InvalidArgumentException('Version number must be specified.');
     }
-    if (!preg_match('/^\d+\.\d+\.\d+(\-(?:dev|alpha|beta|rc)\.\d+)?$/', $opt['version'], $matches)) {
+    $dev = 'dev\.\d+\.dev';
+    $preRelease = '(alpha|beta|rc)\.\d+';
+    if (!preg_match('/^\d+\.\d+\.\d+(\-(' . $dev . '|' . $preRelease .'))?$/', $opt['version'])) {
         throw new \InvalidArgumentException('Wrong format of version number');
     }
     $collection = new Collection(isset($opt['dependent']) ? $opt['dependent'] : false);

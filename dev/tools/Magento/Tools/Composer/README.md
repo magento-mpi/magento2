@@ -39,7 +39,10 @@ Go through all composer.json files of Magento components and set their version. 
 
 ```shell
 > php -f version.php -- --version=2.1.3 [--dependent=<exact|wildcard>] [--dir=/path/to/work/dir]
---version - set the specified version value to all the components. Format: 'x.y.z' or 'x.y.z-stability.n'
+--version - set the specified version value to all the components. Possible formats:
+    x.y.z
+    x.y.z-<alpha|beta|rc>.n
+    x.y.z-dev.n.dev
 --dependent - in all the dependent components, set a version of depenency
   exact - set exactly the same version as specified
   wildcard - use the specified version, but replace last number with a wildcard - e.g. 1.2.*
