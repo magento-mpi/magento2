@@ -48,6 +48,8 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      * @param FixtureInterface $product
      * @param CatalogCategory $category
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
@@ -72,7 +74,7 @@ class AssertProductVisibleInCategory extends AbstractConstraint
         $stockStatus = isset($quantityAndStockStatus['is_in_stock'])
             ? $quantityAndStockStatus['is_in_stock']
             : null;
-        if ($product->getVisibility() === 'Search' || $stockStatus === 'Out of Stock') {
+        if (($product->getVisibility() === 'Search') || ($stockStatus === 'Out of Stock')) {
             $isProductVisible = !$isProductVisible;
             $this->errorMessage = 'Product found in this category.';
             $this->successfulMessage = 'Asserts that the product could not be found in this category.';

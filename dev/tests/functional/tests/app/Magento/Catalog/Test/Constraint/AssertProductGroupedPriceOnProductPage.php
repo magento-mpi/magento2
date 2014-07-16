@@ -74,17 +74,17 @@ class AssertProductGroupedPriceOnProductPage extends AbstractConstraint implemen
         $customerGroup = 'NOT LOGGED IN'
     ) {
         $fields = $product->getData();
-        $groupPrice['onPage'] = $catalogProductView->{'get' . $block . 'ViewBlock'}()->getProductPrice();
-        $groupPrice['onPage'] = isset($groupPrice['onPage']['price_special_price'])
-            ? $groupPrice['onPage']['price_special_price']
+        $productPrice = $catalogProductView->{'get' . $block . 'ViewBlock'}()->getProductPrice();
+        $specialPrice = isset($productPrice['price_special_price'])
+            ? $productPrice['price_special_price']
             : null;
 
-        $groupPrice['fixture'] = number_format(
+        $price = number_format(
             $fields['group_price'][array_search($customerGroup, $fields['group_price'])]['price'],
             2
         );
 
-        \PHPUnit_Framework_Assert::assertEquals($groupPrice['fixture'], $groupPrice['onPage'], $this->errorMessage);
+        \PHPUnit_Framework_Assert::assertEquals($price, $specialPrice, $this->errorMessage);
     }
 
     /**
