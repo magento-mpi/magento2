@@ -192,7 +192,7 @@ class Observer
             $forbiddenActionNames
         ) &&
             (!$this->_canEditSalesRules &&
-            $controllerAction instanceof \Magento\CatalogRule\Controller\Adminhtml\Promo\Quote ||
+            $controllerAction instanceof \Magento\SalesRule\Controller\Adminhtml\Promo\Quote ||
             !$this->_canEditCatalogRules &&
             $controllerAction instanceof \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog ||
             $this->_isEnterpriseReminderEnabled &&

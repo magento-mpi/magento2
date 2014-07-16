@@ -302,7 +302,7 @@ return array(
         '\Magento\Framework\App\Filesystem::getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR)::search())'
     ),
     array('cloneIndexTable', 'Magento\Index\Model\Resource\AbstractResource'),
-    array('collectRoutes', 'Magento\Backend\App\Router\DefaultRouter'),
+    array('collectRoutes', 'Magento\Backend\App\Router'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),
     array('composeLocaleHierarchy', 'Magento\Translation\Helper\Data'),
     array('convertOldTaxData', 'Magento\Tax\Model\Resource\Setup'),

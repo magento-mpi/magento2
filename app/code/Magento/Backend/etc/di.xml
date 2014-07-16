@@ -29,7 +29,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Backend\App\Router\DefaultRouter">
+    <type name="Magento\Backend\App\Router">
         <arguments>
             <argument name="routerId" xsi:type="string">admin</argument>
         </arguments>
@@ -122,7 +122,7 @@
             <argument name="identifier" xsi:type="string">Magento_Adminhtml::all</argument>
         </arguments>
     </type>
-    <type name="Magento\Backend\Controller\Adminhtml\Index">
+    <type name="Magento\Backend\Controller\Adminhtml\Index\GlobalSearch">
         <arguments>
             <argument name="searchModules" xsi:type="array">
                 <item name="products" xsi:type="array">
