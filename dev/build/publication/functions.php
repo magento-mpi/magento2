@@ -45,7 +45,7 @@ function getTopMarkdownSection($contents)
         throw new Exception("No commit message found in the changelog file.");
     }
     list($title, $body) = $parts;
-    if (!preg_match('/^\d+\.\d+\.\d+(\-(?:dev|alpha|beta|rc)\.\d+)?$/', $title)) {
+    if (!preg_match('/^\d+\.\d+\.\d+(\-(dev|alpha|beta|rc)\.\d+(\.dev)?)?$/', $title)) {
         throw new Exception("No version found on top of the changelog file.");
     }
     $body = explode("\n", trim($body));
