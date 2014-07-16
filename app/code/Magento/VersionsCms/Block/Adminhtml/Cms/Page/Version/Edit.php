@@ -40,13 +40,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_cmsConfig;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
@@ -68,7 +68,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         // Add 'new button' depending on permission
         if ($this->_cmsConfig->canCurrentUserSaveVersion()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'new',
                 array(
                     'label' => __('Save as new version.'),
@@ -85,7 +85,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 )
             );
 
-            $this->_addButton(
+            $this->buttonList->add(
                 'new_revision',
                 array(
                     'label' => __('New Revision...'),
@@ -105,7 +105,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         // Only owner and publisher can save version
         if (($isOwner || $isPublisher) && $this->_cmsConfig->canCurrentUserSaveVersion()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'saveandcontinue',
                 array(
                     'label' => __('Save and continue edit.'),

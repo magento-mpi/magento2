@@ -80,6 +80,12 @@ class Rating extends InjectableFixture
         'group' => 'rating_information',
     ];
 
+    protected $options = [
+        'attribute_code' => 'options',
+        'backend_type' => 'virtual',
+        'group' => 'rating_information',
+    ];
+
     public function getRatingId()
     {
         return $this->getData('rating_id');
@@ -108,5 +114,10 @@ class Rating extends InjectableFixture
     public function getStores()
     {
         return $this->getData('stores');
+    }
+
+    public function getOptions()
+    {
+        return $this->getData('options');
     }
 }
