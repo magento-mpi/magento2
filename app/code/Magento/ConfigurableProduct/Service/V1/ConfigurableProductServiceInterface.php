@@ -1,0 +1,23 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\ConfigurableProduct\Service\V1;
+
+interface ConfigurableProductServiceInterface
+{
+    /**
+     * Generate variation based on same product
+     *
+     * @param \Magento\Catalog\Service\V1\Data\Product $product
+     * @param \Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute[] $configurableAttributes
+     * @return \Magento\Catalog\Service\V1\Data\Product[]
+     */
+    public function generateVariation(
+        \Magento\Catalog\Service\V1\Data\Product $product,
+        $configurableAttributes
+    );
+}
