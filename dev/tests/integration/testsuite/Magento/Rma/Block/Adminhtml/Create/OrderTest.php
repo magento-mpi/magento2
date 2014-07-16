@@ -20,6 +20,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             __DIR__ . '/../../../_files/adminhtml_rma_chooseorder.xml',
             $layoutArguments
         );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->addSharedInstance($layout, 'Magento\TestFramework\View\Layout');
+
         $layout->getUpdate()->addHandle('adminhtml_rma_chooseorder')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('rma_create_order');

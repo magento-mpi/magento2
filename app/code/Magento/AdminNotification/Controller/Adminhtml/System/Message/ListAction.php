@@ -1,0 +1,33 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\AdminNotification\Controller\Adminhtml\System\Message;
+
+class ListAction extends \Magento\Backend\App\AbstractAction
+{
+    /**
+     * @return void
+     */
+    public function execute()
+    {
+        $severity = $this->getRequest()->getParam('severity');
+        $messageCollection = $this->_objectManager->get(
+            'Magento\AdminNotification\Model\Resource\System\Message\Collection'
+        );
+        if ($severity) {
+            $messageCollection->setSeverity($severity);
+        }
+        $result = array();
+        foreach ($messageCollection->getItems() as $item) {
+            $result[] = array('severity' => $item->getSeverity(), 'text' => $item->getText());
+        }
+        $this->getResponse()->representJson(
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+        );
+    }
+}

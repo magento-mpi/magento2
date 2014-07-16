@@ -8,7 +8,7 @@
  */
 -->
 <root>
-    <group name="group_one">
+    <group name="group_one" processor="processor_class">
         <callback class="class_one" method="method_one" />
         <callback class="class_two" method="method_two" />
     </group>

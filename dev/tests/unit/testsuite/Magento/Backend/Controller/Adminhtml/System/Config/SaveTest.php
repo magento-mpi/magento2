@@ -185,7 +185,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($backendConfigMock)
         );
 
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 
     public function testIndexActionWithNotAllowedSection()
@@ -206,7 +206,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($backendConfigMock)
         );
 
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 
     public function testIndexActionSaveState()
@@ -227,7 +227,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($data)
         );
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 
     public function testIndexActionGetGroupForSave()
@@ -278,7 +278,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         );
         $backendConfigMock->expects($this->once())->method('save');
 
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 
     public function testIndexActionSaveAdvanced()
@@ -304,6 +304,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $backendConfigMock->expects($this->once())->method('save');
 
         $this->_cacheMock->expects($this->once())->method('clean')->with(\Zend_Cache::CLEANING_MODE_ALL);
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 }
