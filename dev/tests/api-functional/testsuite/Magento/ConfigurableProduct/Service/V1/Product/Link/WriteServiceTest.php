@@ -22,10 +22,13 @@ class WriteServiceTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/configurable-products';
 
+    /**
+     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
+     */
     public function testAddChild()
     {
         $productSku = 'configurable';
-        $childSku = 40;
+        $childSku = '';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/children',
