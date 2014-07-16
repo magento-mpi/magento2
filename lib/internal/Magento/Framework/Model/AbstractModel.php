@@ -657,7 +657,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      *
      * @return $this
      */
-    final public function clearInstance()
+    public function clearInstance()
     {
         $this->_clearReferences();
         $this->_eventManager->dispatch($this->_eventPrefix . '_clear', $this->_getEventData());

@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\View\File\Collector;
 
-use Magento\Framework\Filesystem\Directory\Read,
-    Magento\Framework\View\File\Factory;
+use Magento\Framework\Filesystem\Directory\Read;
+use Magento\Framework\View\File\Factory;
 
 class ThemeModularTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,10 +32,17 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
     {
         $this->directory = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Read',
-            array('getAbsolutePath', 'search'), array(), '', false
+            array('getAbsolutePath', 'search'),
+            array(),
+            '',
+            false
         );
         $filesystem = $this->getMock(
-            'Magento\Framework\App\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false
+            'Magento\Framework\App\Filesystem',
+            array('getDirectoryRead', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
@@ -43,7 +50,9 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->directory));
         $this->fileFactory = $this->getMock('Magento\Framework\View\File\Factory', array(), array(), '', false);
         $this->model = new \Magento\Framework\View\File\Collector\ThemeModular(
-            $filesystem, $this->fileFactory, 'subdir'
+            $filesystem,
+            $this->fileFactory,
+            'subdir'
         );
     }
 

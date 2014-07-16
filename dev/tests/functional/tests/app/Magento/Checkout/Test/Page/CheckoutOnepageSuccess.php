@@ -29,14 +29,14 @@ class CheckoutOnepageSuccess extends Page
      *
      * @var string
      */
-    protected $successBlock = '//div[contains(@class, "checkout success")]';
+    protected $successBlock = '//div[contains(@class, "checkout-success")]';
 
     /**
      * Page title block
      *
      * @var string
      */
-    protected $titleBlock = '.page.title';
+    protected $titleBlock = '.page-title';
 
     /**
      * Custom constructor

@@ -275,4 +275,16 @@ class StockItemService implements StockItemServiceInterface
         }
         return $result;
     }
+
+    /**
+     * @param int $stockData
+     * @return array
+     */
+    public function processIsInStock($stockData)
+    {
+        $stockItem = $this->stockItemRegistry->retrieve($stockData['product_id']);
+        $stockItem->setData($stockData);
+        $stockItem->processIsInStock();
+        return $stockItem->getData();
+    }
 }

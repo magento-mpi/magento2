@@ -368,25 +368,6 @@ class Observer
     }
 
     /**
-     * Emulate customer wishlist (add, delete, etc)
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function emulateWishlist($observer)
-    {
-        if (!$this->_mPersistentData->canProcess($observer) || !$this->_isPersistent() || !$this->_isWishlistPersist()
-        ) {
-            return;
-        }
-
-        $controller = $observer->getEvent()->getControllerAction();
-        if ($controller instanceof \Magento\Wishlist\Controller\Index) {
-            $controller->skipAuthentication();
-        }
-    }
-
-    /**
      * Set persistent data into quote
      *
      * @param EventObserver $observer

@@ -21,7 +21,7 @@ class CmsNew extends BackendPage
     protected $_blocks = [
         'pageForm' => [
             'name' => 'pageForm',
-            'class' => 'Magento\Cms\Test\Block\Adminhtml\Page\PageForm',
+            'class' => 'Magento\Cms\Test\Block\Adminhtml\Page\Edit\PageForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -34,7 +34,7 @@ class CmsNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\Cms\Test\Block\Adminhtml\Page\PageForm
+     * @return \Magento\Cms\Test\Block\Adminhtml\Page\Edit\PageForm
      */
     public function getPageForm()
     {
