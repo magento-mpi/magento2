@@ -15,6 +15,7 @@ use Magento\Tax\Service\V1\Data\TaxClassKey;
 
 /**
  * Test for \Magento\Tax\Service\V1\TaxClassService
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -654,8 +655,9 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->searchCriteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder')
-            ->disableOriginalConstructor()
+        $this->searchCriteriaBuilderMock = $this->getMockBuilder(
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+        )->disableOriginalConstructor()
             ->getMock();
 
         $taxClassService = $this->objectManager->getObject(
