@@ -53,12 +53,12 @@ class Plugin
     /**
      * Add messages when order paid with gift card
      *
-     * @param \Magento\Sales\Controller\Adminhtml\Order\Edit $subject
+     * @param \Magento\Sales\Controller\Adminhtml\Order\Edit\Index $subject
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeIndexAction(\Magento\Sales\Controller\Adminhtml\Order\Edit $subject)
+    public function beforeExecute(\Magento\Sales\Controller\Adminhtml\Order\Edit\Index $subject)
     {
         $giftCards = $this->giftCardAccountData->getCards($this->sessionQuote->getOrder());
         if (!empty($giftCards)) {

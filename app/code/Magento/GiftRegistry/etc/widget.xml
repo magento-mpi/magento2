@@ -27,10 +27,10 @@
             </parameter>
         </parameters>
         <containers>
-            <container name="left">
+            <container name="sidebar.main">
                 <template name="default" value="default_template" />
             </container>
-            <container name="right">
+            <container name="sidebar.additional">
                 <template name="default" value="default_template" />
             </container>
         </containers>

@@ -21,12 +21,12 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -59,15 +59,15 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $editMode = $this->_coreRegistry->registry('edit_mode');
         if ($editMode == 'edit') {
-            $this->_updateButton('save', 'onclick', 'formType.save(false)');
-            $this->_updateButton('save', 'data_attribute', null);
-            $this->_addButton(
+            $this->buttonList->update('save', 'onclick', 'formType.save(false)');
+            $this->buttonList->update('save', 'data_attribute', null);
+            $this->buttonList->add(
                 'save_and_edit_button',
                 array('label' => __('Save and Continue Edit'), 'onclick' => 'formType.save(true)', 'class' => 'save')
             );
 
             if ($this->_getFormType()->getIsSystem()) {
-                $this->_removeButton('delete');
+                $this->buttonList->remove('delete');
             }
 
             $this->_headerText = __('Edit Form Type "%1"', $this->_getFormType()->getCode());

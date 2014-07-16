@@ -89,7 +89,7 @@ class LogReportTest extends Functional
             'actionGroup' => 'System Configuration',
             'action' => 'Save',
             'result' => 'Success',
-            'fullActionName' => 'adminhtml_system_config_save_index',
+            'fullActionName' => 'adminhtml_system_config_save',
         );
         $logReportPage->getLogGridBlock()->isRowVisible($configActionLog);
 
