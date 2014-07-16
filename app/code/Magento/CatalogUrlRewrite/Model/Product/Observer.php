@@ -60,7 +60,7 @@ class Observer
             $product->setUrlPath($this->catalogUrlRewriteHelper->generateProductUrlKeyPath($product));
         }
 
-        if ($product->getOrigData('url_key') != $product->getData('url_key')) {
+        if (!$product->getData('url_key') || $product->getOrigData('url_key') != $product->getData('url_key')) {
             // TODO: fix service parameter (MAGETWO-26225)
             $this->urlSave->save($this->productUrlGenerator->generate($product));
         }

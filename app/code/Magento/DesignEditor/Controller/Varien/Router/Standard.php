@@ -33,11 +33,6 @@ class Standard extends \Magento\Core\App\Router\Base
     protected $_routerList;
 
     /**
-     * @var \Magento\UrlRewrite\App\Request\RewriteService
-     */
-    protected $_urlRewriteService;
-
-    /**
      * @var \Magento\DesignEditor\Helper\Data
      */
     protected $_designEditorHelper;
@@ -129,9 +124,6 @@ class Standard extends \Magento\Core\App\Router\Base
 
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
-
-        // apply rewrites
-        $this->_urlRewriteService->applyRewrites($request);
 
         // match routers
         $controller = null;

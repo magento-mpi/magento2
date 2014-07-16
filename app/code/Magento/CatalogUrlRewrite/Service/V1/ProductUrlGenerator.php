@@ -148,6 +148,9 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
                 $category = $this->changedCategories[$category->getId()];
             }
 
+            if ($category->getParentId() == 1){
+                continue;
+            }
             $urls[] = $this->createUrlRewrite(
                 $storeId,
                 $this->catalogUrlRewriteHelper->getProductUrlKeyPathWithCategory($this->product, $category, $storeId),
