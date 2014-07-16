@@ -91,6 +91,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxDetailsData, $taxDetails->__toArray());
     }
 
+    /**
+     * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function calculateTaxProvider()
     {
         return [
