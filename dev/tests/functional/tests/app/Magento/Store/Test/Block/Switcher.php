@@ -31,4 +31,14 @@ class Switcher extends Block
         $this->_rootElement->find($this->dropDownButton)->click();
         $this->_rootElement->find($name, Locator::SELECTOR_LINK_TEXT)->click();
     }
+
+    /**
+     * Get store
+     *
+     * @return string
+     */
+    public function getStoreView()
+    {
+        return $this->_rootElement->find($this->dropDownButton)->getText();
+    }
 }

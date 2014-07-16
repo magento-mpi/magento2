@@ -23,10 +23,16 @@
     <assertSystemVariableInGrid module="Magento_Core">
         <severeness>low</severeness>
     </assertSystemVariableInGrid>
-    <assertSystemVariableInFooter module="Magento_Core">
+    <assertSystemVariableInPageStoreview module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableInFooter>
+    </assertSystemVariableInPageStoreview>
     <assertSystemVariableNotInCmsPageForm module="Magento_Core">
         <severeness>low</severeness>
     </assertSystemVariableNotInCmsPageForm>
+    <assertCustomVariableForm module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableForm>
+    <assertSystemVariableInPage module="Magento_Core">
+        <severeness>low</severeness>
+    </assertSystemVariableInPage>
 </constraint>

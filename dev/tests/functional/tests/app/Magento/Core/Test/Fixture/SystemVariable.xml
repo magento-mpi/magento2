@@ -65,6 +65,11 @@
             <default_value />
             <input />
         </html_value>
+        <use_default_value>
+            <attribute_code>use_default_value</attribute_code>
+            <backend_type>virtual</backend_type>
+            <input>select</input>
+        </use_default_value>
     </fields>
     <handler_interface>Magento\Core\Test\Handler\SystemVariable\SystemVariableInterface</handler_interface>
 </fixture>
