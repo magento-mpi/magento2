@@ -10,6 +10,13 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 interface WriteServiceInterface
 {
     /**
+     * @param  string $productSku
+     * @param  string $childSku
+     * @return bool
+     */
+    public function addChild($productSku, $childSku);
+
+    /**
      * Remove configurable product option
      *
      * @param string $productSku
