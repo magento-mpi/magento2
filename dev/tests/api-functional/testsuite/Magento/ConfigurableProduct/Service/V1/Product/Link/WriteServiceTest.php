@@ -58,7 +58,7 @@ class WriteServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'AddChild'
             ]
         ];
-        $res = $this->_webApiCall($serviceInfo, ['childSku' => $childSku]);
+        $res = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'childSku' => $childSku]);
         $this->assertTrue($res);
     }
 }

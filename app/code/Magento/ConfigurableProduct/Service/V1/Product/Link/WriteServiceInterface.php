@@ -12,7 +12,7 @@ interface WriteServiceInterface
     /**
      * @param  string $productSku
      * @param  string $childSku
-     * @return string
+     * @return bool
      */
     public function addChild($productSku, $childSku);
 }
