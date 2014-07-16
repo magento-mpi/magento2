@@ -102,9 +102,9 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
-                'service' => self::SERVICE_READ_NAME,
+                'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'addChild'
+                'operation' => self::SERVICE_NAME . 'addChild'
             ]
         ];
         return $this->_webApiCall(
