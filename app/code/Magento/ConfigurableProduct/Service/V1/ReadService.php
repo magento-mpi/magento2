@@ -9,10 +9,10 @@ namespace Magento\ConfigurableProduct\Service\V1;
 
 use Magento\Catalog\Service\V1\Data\Product;
 use Magento\Catalog\Service\V1\Data\ProductBuilder;
-use Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface;
+use Magento\Catalog\Service\V1\Product\Attribute;
 use Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix;
 
-class ConfigurableProductService implements ConfigurableProductServiceInterface
+class ReadService implements ReadServiceInterface
 {
     /**
      * @var VariationMatrix
@@ -25,15 +25,17 @@ class ConfigurableProductService implements ConfigurableProductServiceInterface
     private $productBuilder;
 
     /**
-     * @var ReadServiceInterface
+     * @var Attribute\ReadServiceInterface
      */
     private $attributeReadService;
 
     /**
+     * @param Attribute\ReadServiceInterface $attributeReadService
+     * @param ProductBuilder $productBuilder
      * @param VariationMatrix $variationMatrix
      */
     public function __construct(
-        ReadServiceInterface $attributeReadService,
+        Attribute\ReadServiceInterface $attributeReadService,
         ProductBuilder $productBuilder,
         VariationMatrix $variationMatrix
     ) {

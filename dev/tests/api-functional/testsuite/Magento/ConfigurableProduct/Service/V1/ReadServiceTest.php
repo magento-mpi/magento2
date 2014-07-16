@@ -11,9 +11,9 @@ namespace Magento\ConfigurableProduct\Service\V1;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
 
-class ConfigurableProductServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
+class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'configurableProductConfigurableProductServiceV1';
+    const SERVICE_NAME = 'configurableProductReadServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/configurable-products/variation';
 
