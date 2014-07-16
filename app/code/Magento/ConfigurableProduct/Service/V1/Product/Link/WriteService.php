@@ -65,7 +65,7 @@ class WriteService implements WriteServiceInterface
     {
         $product = $this->productRepository->get($productSku);
 
-        if ($product->getTypeId() != Configurable::TYPE_CODE) {
+        if ($product->getTypeId() != \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             throw new Exception(
                 sprintf('Product with specified sku: %s is not a configurable product', $productSku),
                 Exception::HTTP_FORBIDDEN
