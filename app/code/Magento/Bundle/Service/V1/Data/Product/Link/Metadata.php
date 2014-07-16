@@ -26,6 +26,10 @@ class Metadata extends AbstractObject
 
     const IS_DEFAULT = 'default';
 
+    const PRICE = 'price';
+
+    const PRICE_TYPE = 'price_type';
+
     /**
      * @return string|null
      */
@@ -72,5 +76,21 @@ class Metadata extends AbstractObject
     public function isDefault()
     {
         return (bool)$this->_get(self::IS_DEFAULT);
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->_get(self::PRICE);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPriceType()
+    {
+        return $this->_get(self::PRICE_TYPE);
     }
 }

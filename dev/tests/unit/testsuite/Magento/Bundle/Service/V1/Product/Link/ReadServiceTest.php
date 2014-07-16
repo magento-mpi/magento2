@@ -142,7 +142,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->option->expects($this->any())->method('getSelections')->will($this->returnValue([$this->product]));
 
         $this->metadataConverter->expects($this->once())->method('createDataFromModel')
-            ->with($this->equalTo($this->product))
+            ->with($this->equalTo($this->product), $this->equalTo($this->product))
             ->will($this->returnValue($this->metadata));
 
         $this->assertEquals([$this->metadata], $this->model->getChildren($productSku));

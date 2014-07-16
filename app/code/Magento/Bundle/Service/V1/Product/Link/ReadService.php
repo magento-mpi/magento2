@@ -52,8 +52,9 @@ class ReadService implements ReadServiceInterface
 
         $childrenList = [];
         foreach ($this->getOptions($product) as $option) {
+            /** @var \Magento\Catalog\Model\Product $selection */
             foreach ($option->getSelections() as $selection) {
-                $childrenList[] = $this->metadataConverter->createDataFromModel($selection);
+                $childrenList[] = $this->metadataConverter->createDataFromModel($selection, $product);
             }
         }
 
