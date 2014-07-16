@@ -154,15 +154,12 @@ class Page extends \Magento\Backend\App\Action
                 array('page' => $model, 'request' => $this->getRequest())
             );
 
-            //validating
             if (!$this->_validatePostData($data)) {
                 $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current' => true));
                 return;
             }
 
-            // try to save it
             try {
-                // save the data
                 $model->save();
 
                 // display success message
@@ -174,7 +171,6 @@ class Page extends \Magento\Backend\App\Action
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current' => true));
                     return;
                 }
-                // go to grid
                 $this->_redirect('*/*/');
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
