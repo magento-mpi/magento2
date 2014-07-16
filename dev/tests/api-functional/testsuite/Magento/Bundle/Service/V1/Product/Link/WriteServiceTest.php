@@ -71,7 +71,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $linkedProduct = [
             'sku' => 'virtual-product',
             'position' => '1',
-            'isDefault' => 1,
+            'default' => 1,
             'priceType' => 2,
             'priceValue' => 151.34,
             'quantity' => 8,

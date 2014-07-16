@@ -18,7 +18,7 @@ class ProductLink extends \Magento\Framework\Service\Data\Eav\AbstractObject
      */
     const SKU = 'product_sku';
     const POSITION = 'position';
-    const IS_DEFAULT = 'is_default';
+    const IS_DEFAULT = 'default';
     const PRICE_TYPE = 'slection_price_type';
     const PRICE_VALUE = 'slection_price_value';
     const QUANTITY = 'selection_qty';
