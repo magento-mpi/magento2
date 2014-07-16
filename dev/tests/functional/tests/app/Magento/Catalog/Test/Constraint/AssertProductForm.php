@@ -29,6 +29,11 @@ class AssertProductForm extends AbstractConstraint
             'dec_point' => '.',
             'thousands_sep' => ''
         ],
+        'special_price' => [
+            'decimals' => 2,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
         'qty' => [
             'decimals' => 4,
             'dec_point' => '.',
@@ -68,8 +73,8 @@ class AssertProductForm extends AbstractConstraint
         $fixtureData = $this->prepareFixtureData($product);
 
         $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($errors),
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $errors,
             "These data must be equal to each other:\n" . implode("\n", $errors)
         );
     }
@@ -118,6 +123,8 @@ class AssertProductForm extends AbstractConstraint
      */
     protected function compareArray(array $fixtureData, array $formData)
     {
+        $fixtureData = $this->dataSort($fixtureData);
+        $formData = $this->dataSort($formData);
         $errors = [];
         $keysDiff = array_diff(array_keys($formData), array_keys($fixtureData));
         if (!empty($keysDiff)) {
@@ -129,19 +136,45 @@ class AssertProductForm extends AbstractConstraint
                 && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
             ) {
                 $errors = array_merge($errors, $innerErrors);
+            } elseif (!isset($formData[$key])) {
+                $errors = array_merge(
+                    $errors,
+                    ["- error key -> '{$key}' : error value ->  '{$value}' is not contained in the form"]
+                );
             } elseif ($value != $formData[$key]) {
                 $fixtureValue = empty($value) ? '<empty-value>' : $value;
                 $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
                 $errors = array_merge(
                     $errors,
-                    [
-                        "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
-                    ]
+                    ["- error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"]
                 );
             }
         }
 
         return $errors;
+    }
+
+    /**
+     * Data sort by value
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function dataSort(array $data)
+    {
+        $scalarValues = [];
+        $arrayValues = [];
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $arrayValues[$key] = $this->dataSort($value);
+            } else {
+                $scalarValues[$key] = $value;
+            }
+        }
+        asort($scalarValues);
+        ksort($arrayValues);
+
+        return $scalarValues + $arrayValues;
     }
 
     /**
