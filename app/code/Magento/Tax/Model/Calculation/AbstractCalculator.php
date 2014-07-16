@@ -9,8 +9,6 @@ namespace Magento\Tax\Model\Calculation;
 
 use Magento\Tax\Model\Calculation;
 use Magento\Customer\Service\V1\Data\Address;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
@@ -115,25 +113,9 @@ abstract class AbstractCalculator
     protected $taxClassService;
 
     /**
-     * Search Criteria Builder
-     *
-     * @var SearchCriteriaBuilder
-     */
-    protected $searchCriteriaBuilder;
-
-    /**
-     * Filter Builder
-     *
-     * @var FilterBuilder
-     */
-    protected $filterBuilder;
-
-    /**
      * Constructor
      *
      * @param TaxClassService $taxClassService
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param FilterBuilder $filterBuilder
      * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
      * @param Calculation $calculationTool
      * @param \Magento\Tax\Model\Config $config
@@ -142,8 +124,6 @@ abstract class AbstractCalculator
      */
     public function __construct(
         TaxClassService $taxClassService,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        FilterBuilder $filterBuilder,
         TaxDetailsItemBuilder $taxDetailsItemBuilder,
         Calculation $calculationTool,
         \Magento\Tax\Model\Config $config,
@@ -151,8 +131,6 @@ abstract class AbstractCalculator
         \Magento\Framework\Object $addressRateRequest = null
     ) {
         $this->taxClassService = $taxClassService;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->calculationTool = $calculationTool;
         $this->config = $config;
@@ -424,36 +402,5 @@ abstract class AbstractCalculator
         $customerTax = $this->calculationTool->calcTaxAmount($priceExclTax, $customerRate, false, false);
         $customerPriceInclTax = $this->calculationTool->round($priceExclTax + $customerTax);
         return $customerPriceInclTax;
-    }
-
-    /**
-     * Get tax class id
-     *
-     * @param TaxClassKey|null $taxClassKey
-     * @param string $taxClassType
-     * @return int|null
-     */
-    protected function getTaxClassId($taxClassKey, $taxClassType = 'product')
-    {
-        if (!empty($taxClassKey)) {
-            switch ($taxClassKey->getType()) {
-                case TaxClassKey::TYPE_ID:
-                    return $taxClassKey->getValue();
-                case TaxClassKey::TYPE_NAME:
-                    $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-                        [$this->filterBuilder->setField(TaxClass::KEY_TYPE)->setValue($taxClassType)->create()]
-                    )->addFilter(
-                            [
-                                $this->filterBuilder->setField(TaxClass::KEY_NAME)
-                                    ->setValue($taxClassKey->getValue())
-                                    ->create()
-                            ]
-                        )->create();
-                    $taxClasses = $this->taxClassService->searchTaxClass($searchCriteria)->getItems();
-                    return $taxClasses[0]->getClassId();
-                default:
-            }
-        }
-        return null;
     }
 }

@@ -11,7 +11,7 @@ use Magento\Tax\Model\Calculation;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 
-abstract class AggregateCalculator extends AbstractCalculator
+abstract class AbstractAggregateCalculator extends AbstractCalculator
 {
     /**
      * {@inheritdoc}
@@ -19,7 +19,7 @@ abstract class AggregateCalculator extends AbstractCalculator
     protected function calculateWithTaxInPrice(QuoteDetailsItem $item, $quantity)
     {
         $taxRateRequest = $this->getAddressRateRequest()->setProductClassId(
-            $this->getTaxClassId($item->getTaxClassKey())
+            $this->taxClassService->getTaxClassId($item->getTaxClassKey())
         );
         $rate = $this->calculationTool->getRate($taxRateRequest);
         $storeRate = $storeRate = $this->calculationTool->getStoreRate($taxRateRequest, $this->storeId);
@@ -85,7 +85,7 @@ abstract class AggregateCalculator extends AbstractCalculator
     protected function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity)
     {
         $taxRateRequest = $this->getAddressRateRequest()->setProductClassId(
-            $this->getTaxClassId($item->getTaxClassKey())
+            $this->taxClassService->getTaxClassId($item->getTaxClassKey())
         );
         $rate = $this->calculationTool->getRate($taxRateRequest);
         $appliedRates = $this->calculationTool->getAppliedRates($taxRateRequest);

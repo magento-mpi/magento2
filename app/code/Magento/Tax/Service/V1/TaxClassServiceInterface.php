@@ -60,4 +60,13 @@ interface TaxClassServiceInterface
      * @throws \Magento\Framework\Exception\InputException
      */
     public function searchTaxClass(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+
+    /**
+     * Get tax class id
+     *
+     * @param TaxClassKey|null $taxClassKey
+     * @param string $taxClassType
+     * @return int|null
+     */
+    public function getTaxClassId($taxClassKey, $taxClassType = TaxClass::TYPE_PRODUCT);
 }
