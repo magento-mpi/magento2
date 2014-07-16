@@ -31,13 +31,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Constructor
      *
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Reminder\Helper\Data $reminderData
      * @param Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Reminder\Helper\Data $reminderData,
         Registry $registry,
         array $data = array()
@@ -74,7 +74,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                     $limit
                 );
             }
-            $this->_addButton(
+            $this->buttonList->add(
                 'run_now',
                 array(
                     'label' => __('Run Now'),
@@ -84,7 +84,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             );
         }
 
-        $this->_addButton(
+        $this->buttonList->add(
             'save_and_continue_edit',
             array(
                 'class' => 'save',

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/product/view">
+    <block>
+        <name>groupedViewBlock</name>
+        <class>Magento\GroupedProduct\Test\Block\Catalog\Product\View</class>
+        <locator>.product-info-main</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

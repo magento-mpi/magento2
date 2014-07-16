@@ -75,11 +75,31 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     ];
 
     /**
+     * Placeholder for price data sent Curl
+     *
+     * @var array
+     */
+    protected $priceData = [
+        'website' => [
+            'name' => 'website_id',
+            'data' => [
+                'All Websites [USD]' => 0
+            ]
+        ],
+        'customer_group' => [
+            'name' => 'cust_group',
+            'data' => [
+                'ALL GROUPS' => 32000,
+                'NOT LOGGED IN' => 0
+            ]
+        ]
+    ];
+
+    /**
      * Post request for creating simple product
      *
      * @param FixtureInterface|null $fixture [optional]
      * @return array
-     * @throws \Exception
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -123,9 +143,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param FixtureInterface $fixture
      * @param string|null $prefix [optional]
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
@@ -145,7 +162,14 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             }
             $fields['category_ids'] = $categoryIds;
         }
-
+        
+        if (isset($fields['tier_price'])) {
+            $fields['tier_price'] = $this->preparePriceData($fields['tier_price']);
+        }
+        if (isset($fields['group_price'])) {
+            $fields['group_price'] = $this->preparePriceData($fields['group_price']);
+        }
+        
         if (!empty($fields['website_ids'])) {
             foreach ($fields['website_ids'] as &$value) {
                 $value = isset($this->mappingData['website_ids'][$value])
@@ -163,13 +187,11 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             $fields['attribute_set_id'] = $attributeSetId;
         }
 
-        $fields = $this->prepareStockData($fields);
-
         return $prefix ? [$prefix => $fields] : $fields;
     }
 
     /**
-     * Preparation of stock data
+     * Preparation of tier price data
      *
      * @param array $fields
      * @return array
@@ -177,32 +199,16 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function prepareStockData(array $fields)
+    protected function preparePriceData(array $fields)
     {
-        if (isset($fields['quantity_and_stock_status']) && !is_array($fields['quantity_and_stock_status'])) {
-            $fields['quantity_and_stock_status'] = [
-                'qty' => $fields['qty'],
-                'is_in_stock' => $fields['quantity_and_stock_status']
-            ];
+        foreach ($fields as &$field) {
+            foreach ($this->priceData as $key => $data) {
+                $field[$data['name']] = $this->priceData[$key]['data'][$field[$key]];
+                unset($field[$key]);
+            }
+            $field['delete'] = '';
         }
-
-        if (!isset($fields['stock_data']['is_in_stock'])) {
-            $fields['stock_data']['is_in_stock'] = isset($fields['quantity_and_stock_status']['is_in_stock'])
-                ? $fields['quantity_and_stock_status']['is_in_stock']
-                : (isset($fields['inventory_manage_stock']) ? $fields['inventory_manage_stock'] : null);
-        }
-        if (!isset($fields['stock_data']['qty'])) {
-            $fields['stock_data']['qty'] = isset($fields['quantity_and_stock_status']['qty'])
-                ? $fields['quantity_and_stock_status']['qty']
-                : null;
-        }
-
-        if (!isset($fields['stock_data']['manage_stock'])) {
-            $fields['stock_data']['manage_stock'] = (int)(!empty($fields['stock_data']['qty'])
-                || !empty($fields['stock_data']['is_in_stock']));
-        }
-
-        return $this->filter($fields);
+        return $fields;
     }
 
     /**

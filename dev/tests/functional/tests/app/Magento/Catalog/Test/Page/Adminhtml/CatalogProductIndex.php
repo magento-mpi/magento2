@@ -31,9 +31,9 @@ class CatalogProductIndex extends BackendPage
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'productBlock' => [
-            'name' => 'productBlock',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product',
+        'gridPageActionBlock' => [
+            'name' => 'gridPageActionBlock',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\GridPageAction',
             'locator' => '#add_new_product',
             'strategy' => 'css selector',
         ],
@@ -41,12 +41,6 @@ class CatalogProductIndex extends BackendPage
             'name' => 'accessDeniedBlock',
             'class' => 'Magento\Backend\Test\Block\Denied',
             'locator' => '[id="page:main-container"]',
-            'strategy' => 'css selector',
-        ],
-        'FormPageActions' => [
-            'name' => 'GridPageActions',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
-            'locator' => '#add_new_product',
             'strategy' => 'css selector',
         ],
     ];
@@ -68,11 +62,11 @@ class CatalogProductIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\GridPageAction
      */
-    public function getProductBlock()
+    public function getGridPageActionBlock()
     {
-        return $this->getBlockInstance('productBlock');
+        return $this->getBlockInstance('gridPageActionBlock');
     }
 
     /**

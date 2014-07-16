@@ -7,11 +7,18 @@
  */
 return array(
     'callback_class_must_be_unique' => array(
-        '<?xml version="1.0"?><config><group name="collection_load_before"><callback class="class_one" ' .
+        '<?xml version="1.0"?><config><group name="collection_load_before" processor="c"><callback class="class_one" ' .
         'method="methodOne"/><callback class="class_one" method="methodTwo"/></group></config>',
         array(
             "Element 'callback': Duplicate key-sequence ['class_one'] in unique identity-constraint " .
             "'uniqueCallbackClass'."
+        )
+    ),
+    'missed_group_processor' => array(
+        '<?xml version="1.0"?><config><group name="collection_load_before"><callback class="class_one" ' .
+        'method="methodOne"/></group></config>',
+        array(
+            "Element 'group': The attribute 'processor' is required but missing."
         )
     ),
     'level_name_must_be_unique' => array(
@@ -35,21 +42,22 @@ return array(
         )
     ),
     'group_name_must_be_unique' => array(
-        '<?xml version="1.0"?><config><group name="collection_load_before"><callback class="class_one" ' .
+        '<?xml version="1.0"?><config><group name="collection_load_before" processor="c"><callback class="class_one" ' .
         'method="methodOne"/><callback class="class_two" method="methodTwo"/></group><group name= ' .
-        '"collection_load_before"><callback class="class_two" method="methodOne"/></group></config>',
+        '"collection_load_before" processor="c"><callback class="class_two" method="methodOne"/></group></config>',
         array(
             "Element 'group': Duplicate key-sequence ['collection_load_before'] in unique identity-constraint " .
             "'uniqueGroupName'."
         )
     ),
     'group_name_is_required' => array(
-        '<?xml version="1.0"?><config><group><callback class="class_one" method="methodOne"/></group></config>',
+        '<?xml version="1.0"?><config><group processor="c"><callback class="class_one" method="methodOne"/></group>' .
+        '</config>',
         array("Element 'group': The attribute 'name' is required but missing.")
     ),
     'callback_method_and_class_are_required' => array(
-        '<?xml version="1.0"?><config><group name="name"><callback class="class_one"/><callback method="method"/>' .
-        '</group></config>',
+        '<?xml version="1.0"?><config><group name="name" processor="c"><callback class="class_one"/>' .
+        '<callback method="method"/></group></config>',
         array(
             "Element 'callback': The attribute 'method' is required but missing.",
             "Element 'callback': The attribute" . " 'class' is required but missing."
@@ -82,7 +90,7 @@ return array(
         )
     ),
     'method_with_invalid_value' => array(
-        '<?xml version="1.0"?><config><group name="collection_load_before"><callback class="class_one" ' .
+        '<?xml version="1.0"?><config><group name="collection_load_before" processor="c"><callback class="class_one" ' .
         'method="method12"/><callback class="class_two" method="methodTwo"/></group></config>',
         array(
             "Element 'callback', attribute 'method': [facet 'pattern'] The value 'method12' is not accepted by the " .

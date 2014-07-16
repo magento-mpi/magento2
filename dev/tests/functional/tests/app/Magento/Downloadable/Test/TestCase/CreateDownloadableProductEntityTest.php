@@ -72,6 +72,7 @@ class CreateDownloadableProductEntityTest extends Injectable
      * @param CatalogCategory $category
      * @param CatalogProductIndex $catalogProductIndexNewPage
      * @param CatalogProductNew $catalogProductNewPage
+     * @return void
      */
     public function __inject(
         CatalogCategory $category,
@@ -88,11 +89,12 @@ class CreateDownloadableProductEntityTest extends Injectable
      *
      * @param CatalogProductDownloadable $product
      * @param CatalogCategory $category
+     * @return void
      */
     public function testCreateDownloadableProduct(CatalogProductDownloadable $product, CatalogCategory $category)
     {
         $this->catalogProductIndex->open();
-        $this->catalogProductIndex->getProductBlock()->addProduct('downloadable');
+        $this->catalogProductIndex->getGridPageActionBlock()->addProduct('downloadable');
         $productBlockForm = $this->catalogProductNew->getForm();
         $productBlockForm->fillProduct($product, $category);
         $this->catalogProductNew->getFormAction()->save();
