@@ -100,10 +100,31 @@ class FileResolver implements FileResolverInterface
         // Collect files by /app/code/{modulePath}/sql/*/ pattern
         $files = $this->getFiles($this->config->getMagentoModulePath() . $modulePath . '/sql/*/');
         foreach ($files as $file) {
-            $pieces = explode('/', rtrim($file, '/ '));
+            $pieces = explode('/', rtrim($this->fixSeparator($file), '/'));
             $codes[] = array_pop($pieces);
         }
 
         return array_shift($codes);
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    public function getAbsolutePath($path)
+    {
+        return $this->config->getMagentoModulePath() . ltrim($this->fixSeparator($path), '/');
+    }
+
+    /**
+     * Fixes path separator
+     * Utility method.
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function fixSeparator($path)
+    {
+        return str_replace('\\', '/', $path);
     }
 }

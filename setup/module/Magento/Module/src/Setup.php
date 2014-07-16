@@ -56,30 +56,6 @@ class Setup implements SetupInterface
     protected $setupCache = array();
 
     /**
-     * Modules configuration
-     *
-     * @var \Magento\Framework\App\Resource
-     */
-    protected $resourceModel;
-
-    /**
-     * Modules configuration reader
-     *
-     * @var \Magento\Framework\Module\Dir\Reader
-     */
-    protected $modulesReader;
-
-    /**
-     * @var \Magento\Framework\Event\ManagerInterface
-     */
-    protected $eventManager;
-
-    /**
-     * @var \Magento\Framework\Logger
-     */
-    protected $logger;
-
-    /**
      * @var ResourceInterface
      */
     protected $resource;
@@ -92,49 +68,29 @@ class Setup implements SetupInterface
     protected $filesystem;
 
     /**
-     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
+     * @var \Magento\Module\Setup\FileResolver
      */
-    protected $modulesDir;
-
-    /**
-     * @var Dir
-     */
-    protected $dir;
+    protected $setupFileResolver;
 
     /**
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
-     * @param Dir $dir
      * @param FileResolver $setupFileResolver
      * @param $moduleName
+     * @param array $connectionConfig
      */
     public function __construct(
         AdapterInterface $connection,
         ModuleListInterface $moduleList,
-        //Dir $dir,
         FileResolver $setupFileResolver,
-        $moduleName
+        $moduleName,
+        array $connectionConfig = array()
     ) {
-        $this->connection = $connection->getConnection(
-            [
-                'host' => '127.0.0.1',
-                'user' => 'root',
-                'password' => '01031983',
-                'name' => 'magento2_local',
-            ]
-        );
+        $this->connection = $connection->getConnection($connectionConfig);
         $this->moduleConfig = $moduleList->getModule($moduleName);
         $this->resource = new Resource($this->connection);
-        //$this->dir = $dir;
         $this->setupFileResolver = $setupFileResolver;
         $this->resourceName = $setupFileResolver->getResourceCode($moduleName);
-        /**$this->_eventManager = $context->getEventManager();
-        $this->_resourceModel = $context->getResourceModel();
-        $this->_logger = $context->getLogger();
-        $this->_modulesReader = $context->getModulesReader();
-        $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
-        $this->filesystem = $context->getFilesystem();
-        $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);*/
     }
 
     /**
@@ -297,12 +253,6 @@ class Setup implements SetupInterface
     {
         $modName = (string)$this->moduleConfig['name'];
 
-/*        $filesDir = $this->dir->getDir($modName, 'sql') . '/' . $this->resourceName;
-        $modulesDirPath = $this->modulesDir->getRelativePath($filesDir);
-        if (!$this->modulesDir->isDirectory($modulesDirPath) || !$this->modulesDir->isReadable($modulesDirPath)) {
-            return array();
-        }
-*/
         $dbFiles = array();
         $typeFiles = array();
         $regExpDb = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
@@ -310,9 +260,9 @@ class Setup implements SetupInterface
         foreach ($this->setupFileResolver->get($modName) as $file) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
-                $dbFiles[$matches[1]] = $this->modulesDir->getAbsolutePath($file);
-            } else if (preg_match($regExpType, $file, $matches)) {
-                $typeFiles[$matches[1]] = $this->modulesDir->getAbsolutePath($file);
+                $dbFiles[$matches[1]] = $this->setupFileResolver->getAbsolutePath($file);
+            } elseif (preg_match($regExpType, $file, $matches)) {
+                $typeFiles[$matches[1]] = $this->setupFileResolver->getAbsolutePath($file);
             }
         }
 
@@ -660,14 +610,5 @@ class Setup implements SetupInterface
     public function afterApplyAllUpdates()
     {
         return $this;
-    }
-
-
-    /**
-     * @return \Magento\Filesystem\Filesystem
-     */
-    public function getFilesystem()
-    {
-        return $this->filesystem;
     }
 }
