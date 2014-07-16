@@ -1283,8 +1283,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     public function addProduct(
         \Magento\Catalog\Model\Product $product,
         $request = null,
-        $processMode = \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL)
-    {
+        $processMode = \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL
+    ) {
         if ($request === null) {
             $request = 1;
         }
