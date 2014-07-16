@@ -27,7 +27,7 @@ class AssertProductInStock extends AbstractConstraint
     /**
      * Text value for checking Stock Availability
      */
-    const STOCK_AVAILABILITY = 'IN STOCK';
+    const STOCK_AVAILABILITY = 'in stock';
 
     /**
      * Assert that In Stock status is displayed on product page

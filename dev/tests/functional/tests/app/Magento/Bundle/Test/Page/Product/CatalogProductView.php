@@ -28,7 +28,7 @@ class CatalogProductView extends ParentCatalogProductView
         $this->_blocks['bundleViewBlock'] = [
             'name' => 'bundleViewBlock',
             'class' => 'Magento\Bundle\Test\Block\Catalog\Product\View',
-            'locator' => '#maincontent',
+            'locator' => '.bundle-options-container',
             'strategy' => 'css selector',
         ];
         parent::_init();

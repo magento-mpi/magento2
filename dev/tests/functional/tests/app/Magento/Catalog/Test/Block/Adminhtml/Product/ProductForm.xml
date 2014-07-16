@@ -38,10 +38,10 @@
             </category_ids>
             <quantity_and_stock_status composite="1">
                 <qty>
-                    <selector>#qty</selector>
+                    <selector>[name="product[quantity_and_stock_status][qty]"]</selector>
                 </qty>
                 <is_in_stock>
-                    <selector>#quantity_and_stock_status</selector>
+                    <selector>[name="product[quantity_and_stock_status][is_in_stock]"]</selector>
                     <input>select</input>
                 </is_in_stock>
             </quantity_and_stock_status>

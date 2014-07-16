@@ -55,9 +55,7 @@ class AssertProductVisibleInCategory extends AbstractConstraint
         FixtureInterface $product,
         CatalogCategory $category = null
     ) {
-        $categoryName = $category
-            ? $category->getName()
-            : $product->getCategoryIds()[0];
+        $categoryName = $category ? $category->getName() : $product->getCategoryIds()[0];
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
 

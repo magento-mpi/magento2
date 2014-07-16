@@ -111,42 +111,6 @@ class ProductForm extends ParentForm
     }
 
     /**
-     * Initialization categories before use in the form of
-     *
-     * @param CatalogCategory $category
-     * @return void
-     */
-    public function setCategory(CatalogCategory $category)
-    {
-        $this->category = $category;
-    }
-
-    /**
-     * Fill the product form
-     *
-     * @param FixtureInterface $fixture
-     * @param Element|null $element
-     * @return $this
-     */
-    public function fill(FixtureInterface $fixture, Element $element = null)
-    {
-        parent::fillProduct(
-            $fixture,
-            isset($this->category) ? $this->category : null
-        );
-        if ($fixture->getAttributeOptions()) {
-            $this->_rootElement->find($this->productDetailsTab)->click();
-            $this->clickCreateNewVariationSet();
-            $attributeBlockForm = $this->getConfigurableAttributeEditBlock();
-            $attributeBlockForm->fillAttributeOption($fixture->getAttributeOptions());
-        }
-        if ($fixture->getConfigurableOptions()) {
-            $this->browser->switchToFrame();
-            $this->variationsFill($fixture->getConfigurableOptions());
-        }
-    }
-
-    /**
      * Save product
      *
      * @param FixtureInterface $fixture

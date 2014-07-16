@@ -21,6 +21,8 @@ class CustomOptions extends Form
 {
     /**
      * Selector for options context
+     *
+     * @var string
      */
     protected $optionsContext = '#product-options-wrapper > fieldset';
 
@@ -229,8 +231,9 @@ class CustomOptions extends Form
      */
     protected function getDropdownData(Element $option)
     {
+        $select = $option->find($this->selectOption, Locator::SELECTOR_XPATH, 'select');
         // Skip "Choose option ..."(option #1)
-        return $this->getSelectData($option, 2);
+        return $this->getSelectOptionsData($select, 2);
     }
 
     /**
@@ -241,7 +244,8 @@ class CustomOptions extends Form
      */
     protected function getMultipleSelectData(Element $option)
     {
-        return $this->getSelectData($option, 1);
+        $multiselect = $option->find($this->selectOption, Locator::SELECTOR_XPATH, 'multiselect');
+        return $this->getSelectOptionsData($multiselect, 1);
     }
 
     /**
@@ -320,23 +324,22 @@ class CustomOptions extends Form
     }
 
     /**
-     * Get data of select custom option
+     * Get data from option of select and multiselect
      *
-     * @param Element $option
-     * @param int $firstElement
+     * @param Element $element
+     * @param int $firstOption
      * @return array
      */
-    protected function getSelectData(Element $option, $firstElement = 1)
+    protected function getSelectOptionsData(Element $element, $firstOption = 1)
     {
-        $select = $option->find($this->selectOption, Locator::SELECTOR_XPATH, 'select');
         $listOptions = [];
 
-        $count = $firstElement;
-        $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
+        $count = $firstOption;
+        $selectOption = $element->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
         while ($selectOption->isVisible()) {
             $listOptions[] = $this->parseOptionText($selectOption->getText());
             ++$count;
-            $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
+            $selectOption = $element->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
         }
 
         return [
@@ -375,10 +378,11 @@ class CustomOptions extends Form
     /**
      * Parse option text to title and price
      *
-     * @param $optionText
+     * @param string $optionText
      * @return array
      */
-    protected function parseOptionText($optionText) {
+    protected function parseOptionText($optionText)
+    {
         preg_match('/\+?.([0-9.]+)$/', $optionText, $match);
         $optionPrice = isset($match[1]) ? $match[1] : 0;
         $optionTitle = isset($match[0])

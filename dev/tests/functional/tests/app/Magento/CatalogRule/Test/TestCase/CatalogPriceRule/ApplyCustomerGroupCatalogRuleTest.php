@@ -22,8 +22,10 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 {
     /**
      *  Variable for discount amount converted to decimal form
+     *
+     * @var float
      */
-    private $discountDecimal;
+    protected $discountDecimal;
 
     /**
      * Fixture of catalog price rule

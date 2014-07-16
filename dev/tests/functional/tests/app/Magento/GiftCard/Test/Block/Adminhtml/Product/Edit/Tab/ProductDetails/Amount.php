@@ -69,12 +69,8 @@ class Amount extends AbstractElement
      */
     public function setValue($values)
     {
-        if (!is_array($values)) {
-            throw new \Exception('Values must be array.');
-        }
-
         $this->clearAmount();
-        foreach ($values as $number => $amountData) {
+        foreach ((array)$values as $number => $amountData) {
             /* Throw exception if isn't exist previous amount. */
             if (1 < $number && !$this->isAmountVisible($number - 1)) {
                 throw new \Exception("Invalid argument: can't fill amount #{$number}");

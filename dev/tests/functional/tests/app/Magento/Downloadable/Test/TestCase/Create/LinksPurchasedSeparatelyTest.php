@@ -48,7 +48,7 @@ class LinksPurchasedSeparatelyTest extends Functional
         $productBlockForm = $createProductPageNew->getForm();
 
         $category = $this->product->getCategories()['category'];
-        $productBlockForm->fillProduct($this->product, $category);
+        $productBlockForm->fill($this->product, null, $category);
         $createProductPageNew->getFormAction()->save();
 
         $createProductPageNew->getMessagesBlock()->assertSuccessMessage();

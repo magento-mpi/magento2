@@ -10,7 +10,6 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element;
-use Mtf\Fixture\DataFixture;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\Product;
@@ -24,55 +23,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
  */
 class ProductForm extends FormTabs
 {
-    /**
-     * New variation set button selector
-     *
-     * @var string
-     */
-    protected $newVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
-
-    /**
-     * Category name selector
-     *
-     * @var string
-     */
-    protected $categoryName = '//*[contains(@class, "mage-suggest-choice")]/*[text()="%categoryName%"]';
-
-    /**
-     * 'Advanced Settings' tab
-     *
-     * @var string
-     */
-    protected $advancedSettings = '#product_info_tabs-advanced [data-role="trigger"]';
-
-    /**
-     * Advanced tab list
-     *
-     * @var string
-     */
-    protected $advancedTabList = '#product_info_tabs-advanced[role="tablist"]';
-
-    /**
-     * Advanced tab panel
-     *
-     * @var string
-     */
-    protected $advancedTabPanel = './/*[role="tablist"]//ul[!contains(@style,"overflow")]';
-
-    /**
-     * CSS locator button status of the product
-     *
-     * @var string
-     */
-    protected $onlineSwitcher = '#product-online-switcher%s + [for="product-online-switcher"]';
-
-    /**
-     * Category fixture
-     *
-     * @var CatalogCategory
-     */
-    protected $category;
-
     /**
      * Attribute on the Product page
      *
@@ -119,46 +69,23 @@ class ProductForm extends FormTabs
     /**
      * Fill the product form
      *
-     * @param FixtureInterface $fixture
-     * @param FixtureInterface|null $category
-     * @param Element|null $element
-     * @return $this
+     * @param FixtureInterface $product
+     * @param Element|null $element [optional]
+     * @param FixtureInterface|null $category [optional]
+     * @return FormTabs
      */
-    public function fillProduct(
-        FixtureInterface $fixture,
-        FixtureInterface $category = null,
-        Element $element = null
-    ) {
-        $tabs = $this->getFieldsByTabs($fixture);
-        $categoryName = null;
+    public function fill(FixtureInterface $product, Element $element = null, FixtureInterface $category = null)
+    {
+        $tabs = $this->getFieldsByTabs($product);
 
         if ($category) {
-            $categoryName = ($category instanceof InjectableFixture )
+            $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture )
                 ? $category->getName()
                 : $category->getCategoryName();
-        } elseif ($fixture instanceof DataFixture) {
-            /** @var Product $fixture */
-            $categoryName = $fixture->getCategoryName();
-        }
-        if ($categoryName) {
-            $tabs['product-details']['category_ids']['value'] = $categoryName;
         }
 
         $this->showAdvancedSettings();
         return parent::fillTabs($tabs, $element);
-    }
-
-    /**
-     * Fill the product form
-     *
-     * @param FixtureInterface $product
-     * @param Element|null $element
-     * @return FormTabs
-     */
-    public function fill(FixtureInterface $product, Element $element = null)
-    {
-        $this->showAdvancedSettings();
-        return parent::fill($product, $element);
     }
 
     /**
