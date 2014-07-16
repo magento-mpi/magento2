@@ -42,7 +42,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>text</input>
-            <group>product-details</group>
+            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds</fixture>
         </category_ids>
         <created_at>
             <attribute_code>created_at</attribute_code>
@@ -224,6 +224,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>date</input>
+            <source>Magento\Backend\Test\Fixture\Date</source>
         </news_from_date>
         <news_to_date>
             <attribute_code>news_to_date</attribute_code>
@@ -231,6 +232,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>date</input>
+            <source>Magento\Backend\Test\Fixture\Date</source>
         </news_to_date>
         <old_id>
             <attribute_code>old_id</attribute_code>
@@ -437,6 +439,11 @@
             <is_required>0</is_required>
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</source>
         </custom_options>
+        <price>
+            <attribute_code>price</attribute_code>
+            <backend_type>virtual</backend_type>
+            <source>'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</source>
+        </price>
     </fields>
     <data_set>
         <sku></sku>

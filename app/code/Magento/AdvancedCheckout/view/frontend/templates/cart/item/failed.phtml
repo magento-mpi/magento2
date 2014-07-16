@@ -11,8 +11,12 @@
  */
 
 /** @var $this \Magento\Checkout\Block\Cart\Item\Renderer */
+
+/** @var \Magento\Sales\Model\Quote\Item $_item */
 $_item = $this->getItem();
-$displayBothPrices = $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices();
+
+/** @var \Magento\Tax\Helper\Data $helper */
+$helper = $this->helper('Magento\Tax\Helper\Data');
 $additionalInfoBlock = $this->getProductAdditionalInformationBlock();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $maxQuantity = -1;
@@ -47,7 +51,14 @@ $qtyDisabled = !$this->hasProductUrl() ||
                 <?php endif;?>
             </div>
         </td>
-        <td class="col price"<?php if ($displayBothPrices): ?> colspan="2"<?php endif; ?>></td>
+        <?php if ($helper->displayPriceExcludingTax() || $helper->displayBothPrices()): ?>
+            <?php $priceExcludingTax = $helper->getPrice($_item->getProduct(), $_item->getBasePrice(), false);?>
+            <td class="col price"><?php echo $this->convertPrice($priceExcludingTax, true);?></td>
+        <?php endif;?>
+        <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
+            <?php $priceIncludingTax = $helper->getPrice($_item->getProduct(), $_item->getBasePrice(), true);?>
+            <td class="col price"><?php echo $this->convertPrice($priceIncludingTax, true);?></td>
+        <?php endif;?>
         <td class="col qty">
             <?php $validateItemQuantityCheck = false; ?>
             <div class="control qty">

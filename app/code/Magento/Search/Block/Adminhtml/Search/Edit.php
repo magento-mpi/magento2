@@ -26,6 +26,6 @@ class Edit extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_headerText = __('Related Search Terms');
         $this->_addButtonLabel = __('Add New Search Term');
         parent::_construct();
-        $this->_removeButton('add');
+        $this->buttonList->remove('add');
     }
 }

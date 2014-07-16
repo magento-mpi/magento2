@@ -97,4 +97,12 @@
     <assertCmsPageNotInGrid module="Magento_Cms">
         <severeness>low</severeness>
     </assertCmsPageNotInGrid>
+    <assertUrlRewriteCmsPageRedirect module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsPage class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <urlRewrite class="Magento\Cms\Test\Fixture\UrlRewrite"/>
+            <browser class="Mtf\Client\Browser"/>
+        </require>
+    </assertUrlRewriteCmsPageRedirect>
 </constraint>
