@@ -99,6 +99,7 @@ class Url extends \Magento\Framework\Object
      */
     public function getUrlRewrite()
     {
+        // TODO: need to be refactored (MAGETWO-26225)
         return $this->_urlRewrite;
     }
 

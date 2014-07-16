@@ -12,7 +12,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model;
-
+/**
+ * TODO: decomposition (MAGETWO-26225)
+ */
 class Url
 {
     /**

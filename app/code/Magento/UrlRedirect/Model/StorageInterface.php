@@ -7,7 +7,7 @@
  */
 namespace Magento\UrlRedirect\Model;
 
-// TODO: structure layer knows about service layer(and version)
+// TODO: structure layer knows about service layer(and version) (MAGETWO-26225)
 use Magento\UrlRedirect\Service\V1\Data\Filter;
 
 /**

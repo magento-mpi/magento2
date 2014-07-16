@@ -7,8 +7,9 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
-use Magento\Framework\Event\Observer as EventObserver;
+use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGeneratorInterface;
+use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRedirect\Service\V1\UrlSaveInterface;
 
 class Observer
@@ -16,21 +17,31 @@ class Observer
     /**
      * @var ProductUrlGeneratorInterface
      */
-    protected $urlGenerator;
+    protected $productUrlGenerator;
 
     /**
-     * @var \Magento\UrlRedirect\Service\V1\UrlSaveInterface
+     * @var UrlSaveInterface
      */
     protected $urlSave;
 
     /**
-     * @param ProductUrlGeneratorInterface $urlGenerator
-     * @param UrlSaveInterface $urlSave
+     * @var CatalogUrlRewriteHelper
      */
-    public function __construct(ProductUrlGeneratorInterface $urlGenerator, UrlSaveInterface $urlSave)
-    {
-        $this->urlGenerator = $urlGenerator;
+    protected $catalogUrlRewriteHelper;
+
+    /**
+     * @param ProductUrlGeneratorInterface $productUrlGenerator
+     * @param UrlSaveInterface $urlSave
+     * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
+     */
+    public function __construct(
+        ProductUrlGeneratorInterface $productUrlGenerator,
+        UrlSaveInterface $urlSave,
+        CatalogUrlRewriteHelper $catalogUrlRewriteHelper
+    ) {
+        $this->productUrlGenerator = $productUrlGenerator;
         $this->urlSave = $urlSave;
+        $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;
     }
 
     /**
@@ -41,13 +52,17 @@ class Observer
      */
     public function processUrlRewriteSaving(EventObserver $observer)
     {
-        /** @var $product \Magento\Catalog\Model\Product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $observer->getEvent()->getProduct();
 
+        // TODO: create new observer for generation and saving product url path (MAGETWO-26225)
+        if (!$product->getUrlPath() || $product->getOrigData('url_key') != $product->getData('url_key')) {
+            $product->setUrlPath($this->catalogUrlRewriteHelper->generateProductUrlKeyPath($product));
+        }
+
         if ($product->getOrigData('url_key') != $product->getData('url_key')) {
-            // TODO: fix service parameter
-            $urls = $this->urlGenerator->generate($product);
-            $this->urlSave->save($urls);
+            // TODO: fix service parameter (MAGETWO-26225)
+            $this->urlSave->save($this->productUrlGenerator->generate($product));
         }
     }
 }

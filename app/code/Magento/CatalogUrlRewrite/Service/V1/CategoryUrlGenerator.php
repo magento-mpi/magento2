@@ -15,17 +15,15 @@ use Magento\UrlRedirect\Service\V1\UrlMatcherInterface;
 
 /**
  * Product Generator
- *
- * TODO: abstract class
  */
-class ProductUrlGenerator implements ProductUrlGeneratorInterface
+class CategoryUrlGenerator implements CategoryUrlGeneratorInterface
 {
     /**
      * TODO: think about better place for this const (MAGETWO-26225)
      *
      * Entity type
      */
-    const ENTITY_TYPE_PRODUCT = 'product';
+    const ENTITY_TYPE_CATEGORY = 'category';
 
     /**
      * @var FilterFactory
@@ -50,19 +48,14 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
     protected $catalogUrlRewriteHelper;
 
     /**
-     * @var \Magento\Catalog\Model\Product
+     * @var \Magento\Catalog\Model\Category
      */
-    protected $product;
+    protected $category;
 
     /**
      * @var null|\Magento\Catalog\Model\Resource\Category\Collection
      */
     protected $categories;
-
-    /**
-     * @var \Magento\Catalog\Model\Category[]
-     */
-    protected $changedCategories;
 
     /**
      * @param FilterFactory $filterFactory
@@ -86,41 +79,30 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      * {@inheritdoc}
      * TODO: fix service parameter (MAGETWO-26225)
      */
-    public function generate($product)
+    public function generate($category)
     {
-        $this->product = $product;
-        $storeId = $this->product->getStoreId();
+        $this->category = $category;
+        $storeId = $this->category->getStoreId();
 
-        // TODO: Check this logic (MAGETWO-26225)
         $urls = $this->catalogUrlRewriteHelper->isDefaultStore($storeId)
             ? $this->generateForDefaultStore() : $this->generateForStore($storeId);
 
-        $this->product = null;
-        $this->categories = null;
+        $this->category = null;
         return $urls;
-    }
-
-    /**
-     * {@inheritdoc}
-     *  TODO: hack for obtaining data from changed categories. Replace on Service Data Object (MAGETWO-26225)
-     */
-    public function generateWithChangedCategories($product, $changedCategories)
-    {
-        $this->changedCategories = $changedCategories;
-
-        return $this->generate($product);
     }
 
     /**
      * Generate list of urls for default store
      *
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return UrlRewrite[]
      */
     protected function generateForDefaultStore()
     {
         $urls = [];
         foreach ($this->storeManager->getStores() as $store) {
-            if ($this->catalogUrlRewriteHelper->isNeedCreateUrlRewrite($store->getStoreId(), $this->product->getId())) {
+            if (
+                $this->catalogUrlRewriteHelper->isNeedCreateUrlRewrite($store->getStoreId(), $this->category->getId())
+            ) {
                 $urls = array_merge($urls, $this->generateForStore($store->getStoreId()));
             }
         }
@@ -131,29 +113,16 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      * Generate list of urls per store
      *
      * @param int $storeId
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return UrlRewrite[]
      */
     protected function generateForStore($storeId)
     {
         $urls[] = $this->createUrlRewrite(
             $storeId,
-            $this->catalogUrlRewriteHelper->getProductUrlKeyPath($this->product, $storeId),
-            $this->catalogUrlRewriteHelper->getProductCanonicalUrlPath($this->product)
+            $this->catalogUrlRewriteHelper->getCategoryUrlKeyPath($this->category),
+            $this->catalogUrlRewriteHelper->getCategoryCanonicalUrlPath($this->category)
         );
 
-        // TODO: check if $category is not in this tore view (MAGETWO-26225)
-        foreach ($this->getCategories() as $category) {
-            // TODO: hack for obtaining data from changed categories. Replace on Service Data Object (MAGETWO-26225)
-            if (isset($this->changedCategories[$category->getId()])) {
-                $category = $this->changedCategories[$category->getId()];
-            }
-
-            $urls[] = $this->createUrlRewrite(
-                $storeId,
-                $this->catalogUrlRewriteHelper->getProductUrlKeyPathWithCategory($this->product, $category, $storeId),
-                $this->catalogUrlRewriteHelper->getProductCanonicalUrlPathWithCategory($this->product, $category)
-            );
-        }
         return array_merge($urls, $this->generateRewritesBasedOnCurrentRewrites($storeId));
     }
 
@@ -168,20 +137,17 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
         $urls = [];
         foreach ($this->urlMatcher->findAllByFilter($this->createCurrentUrlRewritesFilter($storeId)) as $url) {
             $targetPath = null;
-            // TODO: 'Create Permanent Redirect for old URL' for products thorough category page (MAGETWO-26225)
             if ($url->getRedirectType()) {
-                // TODO: this is wrong logic (MAGETWO-26225)
                 $targetPath = str_replace(
-                    $this->product->getOrigData('url_key'),
-                    $this->product->getData('url_key'),
+                    $this->category->getOrigData('url_key'),
+                    $this->category->getData('url_key'),
                     $url->getTargetPath()
                 );
                 $redirectType = $url->getRedirectType();
-            } elseif ($this->product->getData('save_rewrites_history')) {
-                // TODO: this is wrong logic (MAGETWO-26225)
+            } elseif ($this->category->getData('save_rewrites_history')) {
                 $targetPath = str_replace(
-                    $this->product->getOrigData('url_key'),
-                    $this->product->getData('url_key'),
+                    $this->category->getOrigData('url_key'),
+                    $this->category->getData('url_key'),
                     $url->getRequestPath()
                 );
                 $redirectType = OptionProvider::PERMANENT;
@@ -204,24 +170,9 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
         $filter = $this->filterFactory->create();
 
         $filter->setStoreId($storeId);
-        $filter->setEntityId($this->product->getId());
-        $filter->setEntityType(self::ENTITY_TYPE_PRODUCT);
+        $filter->setEntityId($this->category->getId());
+        $filter->setEntityType(self::ENTITY_TYPE_CATEGORY);
         return $filter;
-    }
-
-    /**
-     * Get categories assigned to product
-     *
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
-     */
-    protected function getCategories()
-    {
-        if (!$this->categories) {
-            $this->categories = $this->product->getCategoryCollection();
-            $this->categories->addAttributeToSelect('url_key');
-            $this->categories->addAttributeToSelect('url_path');
-        }
-        return $this->categories;
     }
 
     /**
@@ -231,13 +182,13 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      * @param string $requestPath
      * @param string $targetPath
      * @param string|null $redirectType Null or one of OptionProvider const
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite
+     * @return UrlRewrite
      */
     protected function createUrlRewrite($storeId, $requestPath, $targetPath, $redirectType = null)
     {
         return $this->catalogUrlRewriteHelper->createUrlRewrite(
-            self::ENTITY_TYPE_PRODUCT,
-            $this->product->getId(),
+            self::ENTITY_TYPE_CATEGORY,
+            $this->category->getId(),
             $storeId,
             $requestPath,
             $targetPath,
