@@ -85,11 +85,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->messageManager->expects($this->never())->method('addNotice');
         $this->messageManager->expects($this->never())->method('addError');
 
-        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit')
+        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit\Index')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->plugin->beforeIndexAction($controllerOrderEdit);
+        $this->plugin->beforeExecute($controllerOrderEdit);
     }
 
     public function testBeforeIndexActionStoreCreditEnable()
@@ -103,11 +103,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->with('We will refund the gift card amount to your customer’s store credit');
         $this->messageManager->expects($this->never())->method('addError');
 
-        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit')
+        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit\Index')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->plugin->beforeIndexAction($controllerOrderEdit);
+        $this->plugin->beforeExecute($controllerOrderEdit);
     }
 
     public function testBeforeIndexActionStoreCreditDisabled()
@@ -123,10 +123,10 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->method('addError')
             ->with('Please enable Store Credit to refund the gift card amount to your customer');
 
-        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit')
+        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit\Index')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->plugin->beforeIndexAction($controllerOrderEdit);
+        $this->plugin->beforeExecute($controllerOrderEdit);
     }
 }

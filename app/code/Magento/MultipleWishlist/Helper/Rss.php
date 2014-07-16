@@ -26,6 +26,7 @@ class Rss extends \Magento\Rss\Helper\WishlistRss
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
+     * @param \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param Data $multiplewishlistHelperData
      */
@@ -39,6 +40,7 @@ class Rss extends \Magento\Rss\Helper\WishlistRss
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
+        \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         Data $multiplewishlistHelperData
     ) {
@@ -54,6 +56,7 @@ class Rss extends \Magento\Rss\Helper\WishlistRss
             $storeManager,
             $postDataHelper,
             $customerViewHelper,
+            $wishlistProvider,
             $customerBuilder
         );
     }
