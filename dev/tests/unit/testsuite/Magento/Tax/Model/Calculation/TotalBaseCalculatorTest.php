@@ -14,10 +14,10 @@ use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 
 /**
- * Class RowBaseCalculatorTest
+ * Class TotalBaseCalculatorTest
  *
  */
-class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
+class TotalBaseCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     const STORE_ID = 2300;
     const QUANTITY = 1;
@@ -42,8 +42,8 @@ class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
 
     protected $addressRateRequest;
 
-    /** @var RowBaseCalculator */
-    protected $rowBaseCalculator;
+    /** @var TotalBaseCalculator */
+    protected $totalBaseCalculator;
 
 
     public function setUp()
@@ -64,8 +64,8 @@ class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
 
         $this->addressRateRequest = new \Magento\Framework\Object();
 
-        $this->rowBaseCalculator = $this->objectManager->getObject(
-            'Magento\Tax\Model\Calculation\RowBaseCalculator',
+        $this->totalBaseCalculator = $this->objectManager->getObject(
+            'Magento\Tax\Model\Calculation\TotalBaseCalculator',
             [
                 'taxDetailsItemBuilder' => $this->mockTaxItemDetailsBuilder,
                 'calculationTool' => $this->mockCalculationTool,
@@ -142,7 +142,7 @@ class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
         $this->mockTaxItemDetailsBuilder->expects($this->once())
             ->method('create')
             ->will($this->returnValue($expectedReturnValue));
-        $this->assertSame($expectedReturnValue, $this->rowBaseCalculator->calculate($mockItem, 1));
+        $this->assertSame($expectedReturnValue, $this->totalBaseCalculator->calculate($mockItem, 1));
     }
 
     public function testCalculateWithTaxNotInPrice()
@@ -207,7 +207,7 @@ class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($expectedReturnValue));
 
-        $this->assertSame($expectedReturnValue, $this->rowBaseCalculator->calculate($mockItem, 1));
+        $this->assertSame($expectedReturnValue, $this->totalBaseCalculator->calculate($mockItem, 1));
     }
 
     /**
