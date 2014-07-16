@@ -188,27 +188,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->_controller->execute();
     }
 
-    public function testIndexActionWithNotAllowedSection()
-    {
-        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
-
-        $backendConfigMock = $this->getMock('Magento\Backend\Model\Config', array(), array(), '', false, false);
-        $backendConfigMock->expects($this->never())->method('save');
-        $this->_eventManagerMock->expects($this->never())->method('dispatch');
-        $this->messageManagerMock->expects($this->never())->method('addSuccess');
-        $this->messageManagerMock->expects($this->once())->method('addException');
-
-        $this->_configFactoryMock->expects(
-            $this->any()
-        )->method(
-            'create'
-        )->will(
-            $this->returnValue($backendConfigMock)
-        );
-
-        $this->_controller->execute();
-    }
-
     public function testIndexActionSaveState()
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
