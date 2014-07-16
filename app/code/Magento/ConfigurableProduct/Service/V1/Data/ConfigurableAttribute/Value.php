@@ -6,7 +6,7 @@ namespace Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Value extends \Magento\Framework\Service\Data\Eav\AbstractObject
+class Value extends \Magento\Framework\Service\Data\AbstractObject
 {
     const INDEX = 'value_index';
     const PRICE = 'pricing_value';

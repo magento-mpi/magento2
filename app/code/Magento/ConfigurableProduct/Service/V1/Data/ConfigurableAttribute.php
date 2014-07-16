@@ -7,7 +7,7 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
-class ConfigurableAttribute extends \Magento\Framework\Service\Data\Eav\AbstractObject {
+class ConfigurableAttribute extends \Magento\Framework\Service\Data\AbstractObject {
 
     const ID = 'id';
     const LABEL = 'label';
