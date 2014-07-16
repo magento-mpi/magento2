@@ -22,7 +22,7 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testAddChild()
     {
-        $productSku = 'bundle';
+        $productSku = 'bundle-product';
         $children = $this->getChildren($productSku);
 
         $optionId = $children[0]['option_id'];
