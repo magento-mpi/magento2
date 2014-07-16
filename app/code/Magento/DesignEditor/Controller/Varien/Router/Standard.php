@@ -124,6 +124,7 @@ class Standard extends \Magento\Core\App\Router\Base
 
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
+        // $this->_urlRewriteService->applyRewrites($request); @TODO MAGETWO-25952
 
         // match routers
         $controller = null;

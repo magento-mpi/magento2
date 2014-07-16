@@ -148,7 +148,7 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
                 $category = $this->changedCategories[$category->getId()];
             }
 
-            if ($category->getParentId() == 1){
+            if ($this->catalogUrlRewriteHelper->isRootCategory($category)){
                 continue;
             }
             $urls[] = $this->createUrlRewrite(

@@ -24,8 +24,8 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
     /** @var \Magento\Framework\App\ResponseInterface */
     protected $response;
 
-    /** @var \Magento\UrlRedirect\Service\V1\UrlManager */
-    protected $urlManager;
+    /** @var \Magento\UrlRedirect\Service\V1\UrlMatcherInterface */
+    protected $urlMatcher;
 
     /**
      * @param \Magento\Framework\App\ActionFactory $actionFactory
@@ -33,7 +33,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
-     * @param \Magento\UrlRedirect\Service\V1\UrlManager $urlManager
+     * @param \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
      */
     public function __construct(
         \Magento\Framework\App\ActionFactory $actionFactory,
@@ -41,39 +41,38 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
         \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
-        \Magento\UrlRedirect\Service\V1\UrlManager $urlManager
+        \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
     ) {
         parent::__construct($actionFactory);
         $this->url = $url;
         $this->appState = $appState;
         $this->storeManager = $storeManager;
         $this->response = $response;
-        $this->urlManager = $urlManager;
+        $this->urlMatcher = $urlMatcher;
     }
 
     /**
      * Validate and Match Cms Page and modify request
      *
      * @param \Magento\Framework\App\RequestInterface $request
-     * @return bool
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @return mixed
      */
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
         if (!$this->appState->isInstalled()) {
             $this->response->setRedirect($this->url->getUrl('install'))->sendResponse();
-            exit;
+            return null;
         }
 
         $identifier = trim($request->getPathInfo(), '/');
-        $urlRewrite = $this->urlManager->match($identifier, $this->storeManager->getStore()->getId());
+        $urlRewrite = $this->urlMatcher->match($identifier, $this->storeManager->getStore()->getId());
         if ($urlRewrite === null) {
             return null;
         }
 
         $redirectType = $urlRewrite->getRedirectType();
         if ($redirectType) {
+            //@TODO MAGETWO-25952 Change constant values to redirect code
             $redirectCode = $redirectType == \Magento\UrlRedirect\Model\OptionProvider::PERMANENT ? 301 : 302;
             $this->response->setRedirect($urlRewrite->getTargetPath(), $redirectCode);
             $request->setDispatched(true);

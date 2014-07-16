@@ -64,13 +64,8 @@ class Observer
         /** @var \Magento\Catalog\Model\Category $category */
         $category = $observer->getEvent()->getCategory();
 
-        // TODO: create new observer for generation and saving category url path (MAGETWO-25952)
-        if (!$category->getUrlPath() || $category->getOrigData('url_key') != $category->getData('url_key')) {
-            $category->setUrlPath($this->catalogUrlRewriteHelper->generateCategoryUrlKeyPath($category));
-        }
-
         if (!$this->catalogUrlRewriteHelper->isRootCategory($category)
-            && $category->getOrigData('url_key') != $category->getData('url_key')
+            && (!$category->getData('url_key') || $category->getOrigData('url_key') != $category->getData('url_key'))
         ) {
             // TODO: fix service parameter (MAGETWO-25952)
             $this->urlSave->save($this->categoryUrlGenerator->generate($category));
