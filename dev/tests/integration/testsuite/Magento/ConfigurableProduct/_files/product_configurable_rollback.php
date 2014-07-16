@@ -18,6 +18,11 @@ $installer = $objectManager->create(
     array('resourceName' => 'catalog_setup')
 );
 
+/** @var \Magento\Framework\Registry $registry */
+$registry = $objectManager->get('Magento\Framework\Registry');
+$registry->unregister('isSecureArea');
+$registry->register('isSecureArea', true);
+
 /* Create simple products per each option */
 $options = $objectManager->create(
     'Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection'
