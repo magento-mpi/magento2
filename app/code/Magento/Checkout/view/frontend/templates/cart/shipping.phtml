@@ -41,7 +41,7 @@
             <div class="field postcode<?php if ($this->isZipCodeRequired()) echo ' required' ?>">
                 <label for="postcode" class="label"><span><?php echo __('Zip/Postal Code') ?></span></label>
                 <div class="control">
-                    <input class="input-text" data-validate="{<?php if ($this->isZipCodeRequired()):?> 'required-entry':true,<?php endif;?>'validate-zip':true}" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->escapeHtml($this->getEstimatePostcode()) ?>" />
+                    <input class="input-text" data-validate="{<?php if ($this->isZipCodeRequired()):?> 'required-entry':true,<?php endif;?>'validate-zip-international':true}" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->escapeHtml($this->getEstimatePostcode()) ?>" />
                 </div>
             </div>
             <div class="actions-toolbar">
