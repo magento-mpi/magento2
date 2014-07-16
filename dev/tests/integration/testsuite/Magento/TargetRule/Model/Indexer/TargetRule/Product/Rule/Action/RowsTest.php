@@ -54,35 +54,30 @@ class RowsTest extends \PHPUnit_Framework_TestCase
         $this->_product->setId(
             3
         )->setTypeId(
-                \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-            )->setAttributeSetId(
-                4
-            )->setWebsiteIds(
-                array
-                (\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Store\Model\StoreManagerInterface')
-                    ->getStore()
-                    ->getWebsiteId()
-                )
-            )->setSku(
-                'simple_product_3'
-            )->setName(
-                'Simple Product 3 Name'
-            )->setDescription(
-                'Simple Product 3 Full Description'
-            )->setShortDescription(
-                'Simple Product 3 Short Description'
-            )->setPrice(
-                987.65
-            )->setTaxClassId(
-                2
-            )->setStockData(
-                array('use_config_manage_stock' => 1, 'qty' => 24, 'is_in_stock' => 1)
-            )->setVisibility(
-                \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
-            )->setStatus(
-                \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
-            )->save();
+            \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
+        )->setAttributeSetId(
+            4
+        )->setWebsiteIds(
+            array(1)
+        )->setSku(
+            'simple_product_3'
+        )->setName(
+            'Simple Product 3 Name'
+        )->setDescription(
+            'Simple Product 3 Full Description'
+        )->setShortDescription(
+            'Simple Product 3 Short Description'
+        )->setPrice(
+            987.65
+        )->setTaxClassId(
+            2
+        )->setStockData(
+            array('use_config_manage_stock' => 1, 'qty' => 24, 'is_in_stock' => 1)
+        )->setVisibility(
+            \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
+        )->setStatus(
+            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+        )->save();
 
         $this->_processor->reindexList(array(2,3));
 
