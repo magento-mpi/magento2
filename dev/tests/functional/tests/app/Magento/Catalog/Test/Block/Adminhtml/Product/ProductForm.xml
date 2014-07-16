@@ -28,6 +28,10 @@
             <is_virtual>
                 <input>checkbox</input>
             </is_virtual>
+            <category_ids>
+                <selector>#attribute-category_ids-container</selector>
+                <class>Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\CategoryIds</class>
+            </category_ids>
             <quantity_and_stock_status composite="1">
                 <qty>
                     <selector>#qty</selector>

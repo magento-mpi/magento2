@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 /**
  * Class AssertProductGroupedPriceOnProductPage
  */
-class AssertProductGroupedPriceOnProductPage extends AbstractConstraint
+class AssertProductGroupedPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -23,6 +23,13 @@ class AssertProductGroupedPriceOnProductPage extends AbstractConstraint
      * @var string
      */
     protected $severeness = 'low';
+
+    /**
+     * Error message
+     *
+     * @var string
+     */
+    protected $errorMessage = 'That displayed grouped price on product page is NOT equal to one, passed from fixture.';
 
     /**
      * Assert that displayed grouped price on product page equals passed from fixture
@@ -35,38 +42,49 @@ class AssertProductGroupedPriceOnProductPage extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
-        $groupPrice = $this->getGroupedPrice($catalogProductView, $product);
-        \PHPUnit_Framework_Assert::assertEquals(
-            $groupPrice['fixture'],
-            $groupPrice['onPage'],
-            'Assert that displayed grouped price on product page NOT equals passed from fixture.'
-        );
+
+        //Process assertions
+        $this->assertPrice($product, $catalogProductView);
     }
 
     /**
-     * Get grouped price with fixture product and product page
+     * Set $errorMessage for grouped price assert
      *
-     * @param CatalogProductView $catalogProductView
-     * @param FixtureInterface $product
-     * @param string $customerGroup
-     * @return array
+     * @param string $errorMessage
+     * @return void
      */
-    protected function getGroupedPrice(
-        CatalogProductView $catalogProductView,
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
+    }
+
+    /**
+     * Verify product special price on product view page
+     *
+     * @param FixtureInterface $product
+     * @param CatalogProductView $catalogProductView
+     * @param string $block [optional]
+     * @param string $customerGroup [optional]
+     * @return void
+     */
+    public function assertPrice(
         FixtureInterface $product,
+        CatalogProductView $catalogProductView,
+        $block = '',
         $customerGroup = 'NOT LOGGED IN'
     ) {
         $fields = $product->getData();
-        $groupPrice['onPage'] = $catalogProductView->getViewBlock()->getProductPrice();
+        $groupPrice['onPage'] = $catalogProductView->{'get' . $block . 'ViewBlock'}()->getProductPrice();
         $groupPrice['onPage'] = isset($groupPrice['onPage']['price_special_price'])
             ? $groupPrice['onPage']['price_special_price']
             : null;
+
         $groupPrice['fixture'] = number_format(
             $fields['group_price'][array_search($customerGroup, $fields['group_price'])]['price'],
             2
         );
 
-        return $groupPrice;
+        \PHPUnit_Framework_Assert::assertEquals($groupPrice['fixture'], $groupPrice['onPage'], $this->errorMessage);
     }
 
     /**

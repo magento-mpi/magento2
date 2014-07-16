@@ -22,6 +22,7 @@
             <default_value></default_value>
             <input>text</input>
             <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds</fixture>
+            <group>product-details</group>
         </category_ids>
         <color>
             <attribute_code>color</attribute_code>

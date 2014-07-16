@@ -155,12 +155,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
                 : $taxClassId;
         }
 
-        if (!empty($fields['category_ids'])) {
-            $categoryIds = [];
-            foreach ($fields['category_ids'] as $categoryData) {
-                $categoryIds[] = $categoryData['id'];
-            }
-            $fields['category_ids'] = $categoryIds;
+        $fields['category_ids'] = [];
+        if ($fixture->hasData('category_ids')) {
+            $categoryIds = $fixture->getDataFieldConfig('category_ids')['source'];
+            $fields['category_ids'] = $categoryIds->getIds();
         }
         
         if (isset($fields['tier_price'])) {
