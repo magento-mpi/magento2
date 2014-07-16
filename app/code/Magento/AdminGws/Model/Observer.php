@@ -35,7 +35,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * @var \Magento\AdminGws\Model\ConfigInterface
      */
-    protected $_config;
+    protected $config;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -63,11 +63,6 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_aclBuilder;
 
     /**
-     * @var \Magento\Framework\ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
      * @var \Magento\User\Model\Resource\Role\Collection
      */
     protected $_userRoles;
@@ -78,17 +73,22 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $string;
 
     /**
-     * @param \Magento\AdminGws\Model\Role $role
+ * @var \Magento\AdminGws\Model\CallbackInvoker
+ */
+    protected $callbackInvoker;
+
+    /**
+     * @param Role $role
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Framework\Acl\Builder $aclBuilder
-     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\User\Model\Resource\Role\Collection $userRoles
      * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
-     * @param \Magento\AdminGws\Model\ConfigInterface $config
+     * @param ConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\Stdlib\String $string
+     * @param CallbackInvoker $callbackInvoker
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -97,25 +97,25 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Framework\Acl\Builder $aclBuilder,
-        \Magento\Framework\ObjectManager $objectManager,
         \Magento\User\Model\Resource\Role\Collection $userRoles,
         \Magento\Store\Model\Resource\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\ConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\Stdlib\String $string
+        \Magento\Framework\Stdlib\String $string,
+        \Magento\AdminGws\Model\CallbackInvoker $callbackInvoker
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_systemStore = $systemStore;
         $this->_aclBuilder = $aclBuilder;
-        $this->_objectManager = $objectManager;
         $this->_userRoles = $userRoles;
         $this->_storeGroupCollection = $storeGroups;
         parent::__construct($role);
-        $this->_config = $config;
+        $this->config = $config;
         $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->string = $string;
+        $this->callbackInvoker = $callbackInvoker;
     }
 
     /**
@@ -407,7 +407,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _denyAclLevelRules($level)
     {
-        foreach ($this->_config->getDeniedAclResources($level) as $rule) {
+        foreach ($this->config->getDeniedAclResources($level) as $rule) {
             $this->_aclBuilder->getAcl()->deny($this->_backendAuthSession->getUser()->getAclRole(), $rule);
         }
         return $this;
@@ -425,10 +425,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $collection = $observer->getEvent()->getCollection();
-        if (!($callback = $this->_pickCallback('collection_load_before', $collection))) {
+        if (!($callback = $this->config->getCallbackForObject($collection, 'collection_load_before'))) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Collections', $collection);
+        $this->callbackInvoker->invoke($callback, $this->config->getGroupProcessor('collection_load_before'), $collection);
     }
 
     /**
@@ -443,10 +443,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $model = $observer->getEvent()->getObject();
-        if (!($callback = $this->_pickCallback('model_save_before', $model))) {
+        if (!($callback = $this->config->getCallbackForObject($model, 'model_save_before'))) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
+        $this->callbackInvoker->invoke($callback, $this->config->getGroupProcessor('model_save_before'), $model);
     }
 
     /**
@@ -461,10 +461,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $model = $observer->getEvent()->getObject();
-        if (!($callback = $this->_pickCallback('model_load_after', $model))) {
+        if (!($callback = $this->config->getCallbackForObject($model, 'model_load_after'))) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
+        $this->callbackInvoker->invoke($callback, $this->config->getGroupProcessor('model_load_after'), $model);
     }
 
     /**
@@ -480,10 +480,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         $model = $observer->getEvent()->getObject();
-        if (!($callback = $this->_pickCallback('model_delete_before', $model))) {
+        if (!($callback = $this->config->getCallbackForObject($model, 'model_delete_before'))) {
             return;
         }
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
+        $this->callbackInvoker->invoke($callback, $this->config->getGroupProcessor('model_delete_before'), $model);
     }
 
     /**
@@ -503,14 +503,12 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
-            foreach ($this->_config->getCallbacks('controller_predispatch') as $actionName => $method) {
+            foreach ($this->config->getCallbacks('controller_predispatch') as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
                 if ($action) {
-                    $this->_controllersMap['full'][$module][$controller][$action] = $this->_recognizeCallbackString(
-                        $method
-                    );
+                    $this->_controllersMap['full'][$module][$controller][$action] = $method;
                 } else {
-                    $this->_controllersMap['partial'][$module][$controller] = $this->_recognizeCallbackString($method);
+                    $this->_controllersMap['partial'][$module][$controller] = $method;
                 }
             }
         }
@@ -539,9 +537,9 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         if ($callback) {
-            $this->_invokeCallback(
+            $this->callbackInvoker->invoke(
                 $callback,
-                'Magento\AdminGws\Model\Controllers',
+                $this->config->getGroupProcessor('controller_predispatch'),
                 $observer->getEvent()->getControllerAction()
             );
         }
@@ -561,100 +559,11 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!($block = $observer->getEvent()->getBlock())) {
             return;
         }
-        if (!($callback = $this->_pickCallback('block_html_before', $block))) {
+        if (!($callback = $this->config->getCallbackForObject($block, 'block_html_before'))) {
             return;
         }
         /* the $observer is used intentionally */
-        $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Blocks', $observer);
-    }
-
-    /**
-     * Get a limiter callback for an instance from mappers configuration
-     *
-     * @param string $callbackGroup (collection, model)
-     * @param object $instance
-     * @return void|string|bool
-     */
-    public function _pickCallback($callbackGroup, $instance)
-    {
-        if (!($instanceClass = get_class($instance))) {
-            return;
-        }
-
-        // gather callbacks from mapper configuration
-        if (!isset($this->_callbacks[$callbackGroup])) {
-            $this->_callbacks[$callbackGroup] = array();
-            foreach ($this->_config->getCallbacks($callbackGroup) as $className => $callback) {
-                $className = $this->string->upperCaseWords($className);
-
-                /*
-                 * Second parameter passed as FALSE to prevent usage of __autoload function
-                 * which will result in not including new class file and search only by already included
-                 *
-                 * Note: Commented bc in case of Models this will result in not working
-                 * observers for those models. In first call of this function observers for models will be not
-                 * added into _callbacks bc their class are not loaded (included) yet.
-                 *
-                 * So in result there will be garbage (non existing classes) in _callbacks
-                 * but it will be initialized faster without __autoload calls.
-                 */
-                //if (class_exists($className, false)) {
-                if ($className) {
-                    $className = str_replace('_', '\\', $className);
-                    $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
-                }
-            }
-        }
-
-        /**
-         * Determine callback for current instance
-         * Explicit class name has priority before inherited classes
-         */
-        $result = false;
-        if (isset($this->_callbacks[$callbackGroup][$instanceClass])) {
-            $result = $this->_callbacks[$callbackGroup][$instanceClass];
-        } else {
-            foreach ($this->_callbacks[$callbackGroup] as $className => $callback) {
-                if ($instance instanceof $className) {
-                    $result = $callback;
-                    break;
-                }
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Seek for factory class name in specified callback string
-     *
-     * @param string $callbackString
-     * @return string|array
-     */
-    protected function _recognizeCallbackString($callbackString)
-    {
-        if (preg_match('/^([^:]+?)::([^:]+?)$/', $callbackString, $matches)) {
-            array_shift($matches);
-            return $matches;
-        }
-        return $callbackString;
-    }
-
-    /**
-     * Invoke specified callback depending on whether it is a string or array
-     *
-     * @param string|array $callback
-     * @param string $defaultFactoryClassName
-     * @param object $passThroughObject
-     * @return void
-     */
-    protected function _invokeCallback($callback, $defaultFactoryClassName, $passThroughObject)
-    {
-        $class = $defaultFactoryClassName;
-        $method = $callback;
-        if (is_array($callback)) {
-            list($class, $method) = $callback;
-        }
-        $this->_objectManager->get($class)->{$method}($passThroughObject);
+        $this->callbackInvoker->invoke($callback, $this->config->getGroupProcessor('block_html_before'), $observer);
     }
 
     /**

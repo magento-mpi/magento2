@@ -26,7 +26,6 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      */
     protected $severeness = 'low';
 
-
     /**
      * Displays an error message
      *
@@ -64,10 +63,11 @@ class AssertProductVisibleInCategory extends AbstractConstraint
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         }
 
-        $isInStock = $product->getQuantityAndStockStatus();
-        if ($product->getVisibility() === 'Search'
-            || (isset($isInStock['is_in_stock']) && $isInStock['is_in_stock'] === 'Out of Stock')
-        ) {
+        $quantityAndStockStatus = $product->getQuantityAndStockStatus();
+        $stockStatus = isset($quantityAndStockStatus['is_in_stock'])
+            ? $quantityAndStockStatus['is_in_stock']
+            : null;
+        if ($product->getVisibility() === 'Search' || $stockStatus === 'Out of Stock') {
             $isProductVisible = !$isProductVisible;
             $this->errorMessage = 'Product found in this category.';
             $this->successfulMessage = 'Asserts that the product could not be found in this category.';
