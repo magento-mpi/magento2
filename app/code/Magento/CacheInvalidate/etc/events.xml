@@ -38,7 +38,7 @@
     <event name="controller_action_postdispatch_adminhtml_system_currency_saveRates">
         <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
     </event>
-    <event name="controller_action_postdispatch_adminhtml_system_config_save_index">
+    <event name="controller_action_postdispatch_adminhtml_system_config_save">
         <observer name="flush_varnish_pagecache" instance="Magento\CacheInvalidate\Model\Observer" method="invalidateVarnish" />
     </event>
     <event name="controller_action_postdispatch_adminhtml_catalog_product_action_attribute_save">

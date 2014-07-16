@@ -709,3 +709,4 @@ order-header,order-header
 "Default Status",默认状态
 "State Code and Title","State Code and Title"
 "PDF Packing Slips",PDF版包裹清单
+"Status can't be unassigned, because it is used by existing order(s).","Status can't be unassigned, because it is used by existing order(s)."

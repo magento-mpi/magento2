@@ -14,12 +14,17 @@ namespace Magento\Rma\Controller\Adminhtml;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class RmaTest extends \PHPUnit_Framework_TestCase
+abstract class RmaTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var string
+     */
+    protected $name = '';
+
     /**
      * @var \Magento\Rma\Controller\Adminhtml\Rma
      */
-    protected $controllerMock;
+    protected $action;
 
     /**
      * @var \Magento\Framework\App\Request\Http
@@ -96,6 +101,19 @@ class RmaTest extends \PHPUnit_Framework_TestCase
      */
     protected $titleMock;
 
+    /**
+     * @var \Magento\Framework\Data\Form|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $formMock;
+
+    /**
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $helperMock;
+
+    /**
+     * test setUp
+     */
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -103,8 +121,9 @@ class RmaTest extends \PHPUnit_Framework_TestCase
         $backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', [], [], '', false);
         $this->viewMock = $this->getMock('Magento\Framework\App\ViewInterface', [], [], '', false);
         $this->titleMock = $this->getMock('Magento\Framework\App\Action\Title', [], [], '', false);
+        $this->formMock = $this->getMock('Magento\Framework\Data\Form', ['hasNewAttributes', 'toHtml'], [], '', false);
+        $this->helperMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->initMocks();
-
         $contextMock->expects($this->once())
             ->method('getRequest')
             ->will($this->returnValue($this->requestMock));
@@ -133,8 +152,8 @@ class RmaTest extends \PHPUnit_Framework_TestCase
             ->method('getTitle')
             ->will($this->returnValue($this->titleMock));
 
-        $this->controllerMock = $objectManager->getObject(
-            'Magento\Rma\Controller\Adminhtml\Rma',
+        $this->action = $objectManager->getObject(
+            '\\Magento\\Rma\\Controller\\Adminhtml\\Rma\\' . $this->name,
             [
                 'context' => $contextMock,
                 'coreRegistry' => $this->coreRegistryMock
@@ -214,72 +233,6 @@ class RmaTest extends \PHPUnit_Framework_TestCase
             );
     }
 
-    public function testIndexAction()
-    {
-        $layoutMock = $this->getMock(
-            'Magento\Framework\View\Layout',
-            ['renderLayout', 'getBlock'],
-            [],
-            '',
-            false
-        );
-        $blockMock = $this->getMock('Magento\Backend\Block\Menu', ['setActive', 'getMenuModel'], [], '', false);
-        $menuModelMock = $this->getMock('Magento\Backend\Model\Menu', [], [], '', false);
-        $this->viewMock->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($layoutMock));
-        $layoutMock->expects($this->once())
-            ->method('getBlock')
-            ->with('menu')
-            ->will($this->returnValue($blockMock));
-        $blockMock->expects($this->once())
-            ->method('setActive')
-            ->with('Magento_Rma::sales_magento_rma_rma');
-        $blockMock->expects($this->once())
-            ->method('getMenuModel')
-            ->will($this->returnValue($menuModelMock));
-        $menuModelMock->expects($this->once())
-            ->method('getParentItems')
-            ->will($this->returnValue([]));
-        $this->titleMock->expects($this->once())
-            ->method('add')
-            ->with(__('Returns'));
-        $this->viewMock->expects($this->once())
-            ->method('renderLayout');
-
-        $this->assertNull($this->controllerMock->indexAction());
-    }
-
-    public function testSaveNewAction()
-    {
-        $dateTimeModelMock = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', [], [], '', false);
-        $commentText = 'some comment';
-        $visibleOnFront = true;
-
-        $this->initRequestData($commentText, $visibleOnFront);
-
-        $this->objectManagerMock->expects($this->once())
-            ->method('get')
-            ->with('Magento\Framework\Stdlib\DateTime\DateTime')
-            ->will($this->returnValue($dateTimeModelMock));
-        $this->coreRegistryMock->expects($this->once())
-            ->method('registry')
-            ->with('current_order')
-            ->will($this->returnValue($this->orderMock));
-        $this->rmaModelMock->expects($this->once())
-            ->method('saveRma')
-            ->will($this->returnSelf());
-        $this->statusHistoryMock->expects($this->once())->method('sendNewRmaEmail');
-        $this->statusHistoryMock->expects($this->once())
-            ->method('saveComment')
-            ->with($commentText, $visibleOnFront, true);
-        $this->messageManagerMock->expects($this->once())
-            ->method('addSuccess')
-            ->with(__('You submitted the RMA request.'));
-
-        $this->assertNull($this->controllerMock->saveNewAction());
-    }
-
     protected function initRequestData($commentText = '', $visibleOnFront = true)
     {
         $rmaConfirmation = true;
@@ -300,137 +253,5 @@ class RmaTest extends \PHPUnit_Framework_TestCase
                     ]
                 )
             );
-    }
-
-    public function testSaveAction()
-    {
-        $rmaId = 1;
-        $commentText = 'some comment';
-        $visibleOnFront = true;
-
-        $this->requestMock->expects($this->any())
-            ->method('getParam')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        ['rma_id', null, $rmaId]
-                    ]
-                )
-            );
-        $this->initRequestData($commentText, $visibleOnFront);
-
-        $this->rmaCollectionMock->expects($this->once())
-            ->method('addAttributeToFilter')
-            ->with('rma_entity_id', $rmaId)
-            ->will($this->returnValue([$this->rmaItemMock]));
-        $this->rmaItemMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($rmaId));
-        $this->rmaModelMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($rmaId));
-        $this->rmaModelMock->expects($this->any())
-            ->method('setStatus')
-            ->will($this->returnSelf());
-        $this->rmaModelMock->expects($this->once())
-            ->method('saveRma')
-            ->will($this->returnSelf());
-        $this->statusHistoryMock->expects($this->once())
-            ->method('setRma')
-            ->with($this->rmaModelMock);
-        $this->statusHistoryMock->expects($this->once())->method('sendAuthorizeEmail');
-        $this->statusHistoryMock->expects($this->once())
-            ->method('saveSystemComment');
-
-        $this->assertNull($this->controllerMock->saveAction());
-    }
-
-    public function testCloseAction()
-    {
-        $entityId = 1;
-        $this->requestMock->expects($this->any())
-            ->method('getParam')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        ['entity_id', null, $entityId]
-                    ]
-                )
-            );
-        $this->rmaModelMock->expects($this->once())
-            ->method('load')
-            ->with($entityId)
-            ->will($this->returnSelf());
-        $this->rmaModelMock->expects($this->once())
-            ->method('canClose')
-            ->will($this->returnValue(true));
-        $this->rmaModelMock->expects($this->once())
-            ->method('close')
-            ->will($this->returnSelf());
-        $this->statusHistoryMock->expects($this->once())
-            ->method('setRma')
-            ->with($this->rmaModelMock);
-        $this->statusHistoryMock->expects($this->once())
-            ->method('saveSystemComment');
-
-        $this->assertNull($this->controllerMock->closeAction());
-    }
-
-
-    public function testAddCommentAction()
-    {
-        $commentText = 'some comment';
-        $visibleOnFront = true;
-        $blockContents = [
-            $commentText
-        ];
-        $layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
-        $blockMock = $this->getMock('Magento\Framework\View\Element\BlockInterface', [], [], '', false);
-        $coreHelperMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
-
-        $this->requestMock->expects($this->once())
-            ->method('getPost')
-            ->will(
-                $this->returnValue(
-                    [
-                        'comment' => $commentText,
-                        'is_visible_on_front' => $visibleOnFront,
-                        'is_customer_notified' => true
-                    ]
-                )
-            );
-        $this->coreRegistryMock->expects($this->once())
-            ->method('registry')
-            ->with('current_rma')
-            ->will($this->returnValue($this->rmaModelMock));
-        $this->statusHistoryMock->expects($this->once())
-            ->method('setRma')
-            ->with($this->rmaModelMock);
-        $this->statusHistoryMock->expects($this->once())
-            ->method('setComment')
-            ->with($commentText);
-        $this->viewMock->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($layoutMock));
-        $layoutMock->expects($this->once())
-            ->method('getBlock')
-            ->with('comments_history')
-            ->will($this->returnValue($blockMock));
-        $blockMock->expects($this->once())
-            ->method('toHtml')
-            ->will($this->returnValue($blockContents));
-        $this->objectManagerMock->expects($this->once())
-            ->method('get')
-            ->with('Magento\Core\Helper\Data')
-            ->will($this->returnValue($coreHelperMock));
-        $coreHelperMock->expects($this->once())
-            ->method('jsonEncode')
-            ->will($this->returnValue($commentText));
-
-        $this->responseMock->expects($this->once())
-            ->method('representJson')
-            ->with($commentText);
-
-        $this->assertNull($this->controllerMock->addCommentAction());
     }
 }

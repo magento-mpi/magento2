@@ -252,7 +252,12 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($productMock), $this->equalTo($storeId))
             ->will($this->returnValue(true));
 
+        $returnableItems = $this->resourceModel->getReturnableItems($orderId);
         $result = $this->resourceModel->getOrderItems($orderId);
+
+        foreach ($result as $item) {
+            $this->assertEquals($item->getAvailableQty(), $returnableItems[$item->getId()]);
+        }
         $this->assertEquals($orderItemsCollectionMock, $result);
     }
 
@@ -371,7 +376,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $adapterMock->expects($this->any())
             ->method('select')
             ->will($this->returnValue($selectMock));
-        $adapterMock->expects($this->once())
+        $adapterMock->expects($this->atLeastOnce())
             ->method('fetchPairs')
             ->will($this->returnValue($data));
 

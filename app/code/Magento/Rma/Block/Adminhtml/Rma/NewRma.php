@@ -24,13 +24,13 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Registry $registry,
         array $data = array()
@@ -53,8 +53,8 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        $this->_updateButton('reset', 'label', __('Cancel'));
-        $this->_updateButton('reset', 'class', 'cancel');
+        $this->buttonList->update('reset', 'label', __('Cancel'));
+        $this->buttonList->update('reset', 'class', 'cancel');
 
         $link = $this->getUrl('adminhtml/*/');
         $order = $this->_coreRegistry->registry('current_order');
@@ -74,13 +74,13 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
         }
 
         if ($this->_rmaData->canCreateRma($orderId, true)) {
-            $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
-            $this->_updateButton('save', 'label', __('Submit Returns'));
+            $this->buttonList->update('reset', 'onclick', "setLocation('" . $link . "')");
+            $this->buttonList->update('save', 'label', __('Submit Returns'));
         } else {
-            $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
-            $this->_removeButton('save');
+            $this->buttonList->update('reset', 'onclick', "setLocation('" . $link . "')");
+            $this->buttonList->remove('save');
         }
-        $this->_removeButton('back');
+        $this->buttonList->remove('back');
     }
 
     /**

@@ -1,0 +1,66 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
+
+use Magento\Backend\App\Action;
+
+class NewAction extends \Magento\Backend\App\Action
+{
+    /**
+     * @var \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader
+     */
+    protected $creditmemoLoader;
+
+    /**
+     * @param Action\Context $context
+     * @param \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader
+     */
+    public function __construct(
+        Action\Context $context,
+        \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader $creditmemoLoader
+    ) {
+        $this->creditmemoLoader = $creditmemoLoader;
+        parent::__construct($context);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magento_Sales::sales_creditmemo');
+    }
+
+    /**
+     * Creditmemo create page
+     *
+     * @return void
+     */
+    public function execute()
+    {
+        $this->_title->add(__('Credit Memos'));
+        if ($creditmemo = $this->creditmemoLoader->load($this->_request)) {
+            if ($creditmemo->getInvoice()) {
+                $this->_title->add(__("New Memo for #%1", $creditmemo->getInvoice()->getIncrementId()));
+            } else {
+                $this->_title->add(__("New Memo"));
+            }
+
+            if ($comment = $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true)) {
+                $creditmemo->setCommentText($comment);
+            }
+
+            $this->_view->loadLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_view->renderLayout();
+        } else {
+            $this->_forward('noroute');
+        }
+    }
+}

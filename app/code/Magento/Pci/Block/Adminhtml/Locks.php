@@ -20,6 +20,6 @@ class Locks extends \Magento\Backend\Block\Widget\Grid\Container
     protected function _construct()
     {
         parent::_construct();
-        $this->_removeButton('add');
+        $this->buttonList->remove('add');
     }
 }

@@ -26,6 +26,7 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
      */
     public function testCoincidenceNonEnglishFiles($placePath)
     {
+        $this->markTestSkipped('MAGETWO-26083');
         $files = $this->getCsvFiles($placePath);
 
         $failures = array();

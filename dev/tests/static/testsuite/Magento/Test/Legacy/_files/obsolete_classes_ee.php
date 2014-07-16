@@ -130,4 +130,5 @@ return array(
     ['Magento\Pci\Helper\Data'],
     ['Magento\SalesArchive\Helper\Data'],
     ['Magento\WebsiteRestriction\Helper\Data'],
+    array('Magento\CustomerCustomAttributes\Block\Account\RegisterLink'),
 );

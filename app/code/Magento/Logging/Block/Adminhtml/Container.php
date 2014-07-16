@@ -25,7 +25,7 @@ class Container extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_controller = 'adminhtml_' . $action;
 
         parent::_construct();
-        $this->_removeButton('add');
+        $this->buttonList->remove('add');
     }
 
     /**

@@ -93,7 +93,6 @@ State,Provincie
 "Maximum zip code length is 9.","Maximum zip code length is 9."
 "Zip code should not contain characters other than digits.","Zip code should not contain characters other than digits."
 "Range To should be equal or greater than Range From.","Range To should be equal or greater than Range From."
-"The tax rate cannot be removed. It exists in a tax rule.","The tax rate cannot be removed. It exists in a tax rule."
 "This class no longer exists.","This class no longer exists."
 "You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.","You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first."
 "You cannot delete this tax class because it is used in existing %1(s).","You cannot delete this tax class because it is used in existing %1(s)."
@@ -103,7 +102,6 @@ State,Provincie
 "No (price without tax)","No (price without tax)"
 "Yes (only price with tax)","Yes (only price with tax)"
 "Both (without and with tax)","Both (without and with tax)"
-"Something went wrong saving this tax class because a class with the same name already exists.","Something went wrong saving this tax class because a class with the same name already exists."
 "Grand Total (Excl. Tax)","Totaal (Ex. Belasting)"
 "Grand Total (Incl. Tax)","Totaal (Incl. Belasting)"
 "Shipping (Excl. Tax)","Verzending (Excl. Belasting)"
@@ -119,7 +117,6 @@ State,Provincie
 "Warning tax discount configuration might result in different discounts
                                 than a customer might expect. ","Warning tax discount configuration might result in different discounts
                                 than a customer might expect. "
-"Warning tax configuration can result in unexpected FPT prices on applicable devices. ","Warning tax configuration can result in unexpected FPT prices on applicable devices. "
 "Please see <a href=""%1"">documentation</a> for more details. ","Please see <a href=""%1"">documentation</a> for more details. "
 "Click here to go to <a href=""%1"">Tax Configuration</a> and change your settings.","Click here to go to <a href=""%1"">Tax Configuration</a> and change your settings."
 "customer group","customer group"
