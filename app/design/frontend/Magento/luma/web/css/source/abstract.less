@@ -336,7 +336,7 @@
     .visually-hidden();
 }
 
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .visually-hidden-mobile {
         .visually-hidden();
     } 
@@ -360,7 +360,7 @@
     }
 }
 
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .add-clearfix-mobile {
         .clearfix();
     }
@@ -505,7 +505,7 @@
 //
 //    Vertical Table
 //--------------------------------------
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .table-vertical-mobile  {
         .table-responsive();
         tbody > tr {
@@ -617,7 +617,7 @@
 //
 //    Account pages: margin for table
 //--------------------------------------
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .abstract-account-table-margin-mobile {
         .css(margin-top, -@indent-base);
     }
@@ -631,7 +631,7 @@
 //
 //    Account pages: table col actions
 //--------------------------------------
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .abstract-account-col-actions {
         padding-top: 9px;
         padding-bottom: 15px;
@@ -644,7 +644,7 @@
 //
 //    Account pages: table border
 //--------------------------------------
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .abstract-account-table-border {
         border-top: 1px solid @account-title-border-color;
     }

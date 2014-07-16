@@ -92,7 +92,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .table-wrapper.orders-recent {
         &:extend(.abstract-account-table-margin-mobile all);
     }

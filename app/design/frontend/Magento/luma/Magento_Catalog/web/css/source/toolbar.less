@@ -33,7 +33,7 @@
             position: static;
         }
     }
-
+    text-align: center;
     padding: @indent-s-base;
     &:extend(.add-clearfix all);
     &-amount {
@@ -46,12 +46,11 @@
             display: none;
             .products.wrapper ~ & {
                 display: block;
-                margin-bottom: @indent-m-base;
             }
         }
-        .products.wrapper ~ & {
-            text-align: center;
-        }
+    }
+    .pages {
+        margin-bottom: @indent-m-base;
     }
 }
 

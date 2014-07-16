@@ -86,8 +86,6 @@
             margin-top: 0;
         }
         .toolbar {
-            //background: transparent;
-            margin-bottom: @indent-base;
             &.top {
                 display: none;
             }
@@ -299,7 +297,6 @@
                 }
             }
         }
-
         .data.table {
             .table-bordered(
                 @_type: light,
@@ -307,7 +304,6 @@
             );
             margin-bottom: 0;
         }
-
         .block.account-nav {
              .title {
                 &:extend(.visually-hidden-desktop all);
@@ -316,6 +312,23 @@
         .data.table {
             .col.total {
                 text-align: right;
+            }
+        }
+        .toolbar {
+            position: relative;
+            .toolbar-amount,
+            .limiter {
+                position: relative;
+                z-index: 1;
+            }
+            .toolbar-amount {
+                padding: 7px 0 0;
+                line-height: normal;
+            }
+            .pages {
+                position: absolute;
+                z-index: 0;
+                width: 100%;
             }
         }
     }
@@ -373,7 +386,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .account {
         .data.table {
             &:extend(.table-vertical-mobile all);

@@ -67,7 +67,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .table-wrapper.giftregistry {
         &:extend(.abstract-account-table-border all);
     }

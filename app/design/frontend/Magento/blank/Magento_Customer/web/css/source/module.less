@@ -303,7 +303,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     .account {
         .data.table {
             &:extend(.table-vertical-mobile all);
