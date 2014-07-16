@@ -40,10 +40,10 @@ class ReadServiceTest extends WebapiAbstract
             $this->assertContains('simple_', $product['sku']);
 
             $this->assertArrayHasKey('status', $product);
-            $this->assertContains('1', $product['status']);
+            $this->assertEquals('1', $product['status']);
 
             $this->assertArrayHasKey('visibility', $product);
-            $this->assertContains('1', $product['visibility']);
+            $this->assertEquals('1', $product['visibility']);
         }
     }
 
