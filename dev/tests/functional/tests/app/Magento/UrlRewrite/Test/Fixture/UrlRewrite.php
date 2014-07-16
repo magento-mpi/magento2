@@ -46,6 +46,7 @@ class UrlRewrite extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '1',
         'default_value' => 'Default Store View',
+        'source' => 'Magento\UrlRewrite\Test\Fixture\UrlRewrite\StoreId',
         'input' => 'select',
     ];
 
