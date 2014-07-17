@@ -52,6 +52,13 @@ class Options extends \Magento\Framework\View\Element\Template
     protected $_coreData;
 
     /**
+     * Checkout types for order level and item level
+     *
+     * @var array
+     */
+    protected $checkoutItems;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
@@ -59,6 +66,7 @@ class Options extends \Magento\Framework\View\Element\Template
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Model\CartFactory $checkoutCartFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param array $checkoutItems
      * @param array $data
      */
     public function __construct(
@@ -69,6 +77,7 @@ class Options extends \Magento\Framework\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\CartFactory $checkoutCartFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        array $checkoutItems,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -77,6 +86,7 @@ class Options extends \Magento\Framework\View\Element\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCartFactory = $checkoutCartFactory;
         $this->_productFactory = $productFactory;
+        $this->checkoutItems = $checkoutItems;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -109,9 +119,9 @@ class Options extends \Magento\Framework\View\Element\Template
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => 'giftwrapping-${_id_}', 'class' => 'select')
+            array('id' => 'giftwrapping-${_type_}-${_id_}', 'class' => 'select')
         )->setName(
-            'giftwrapping[${_id_}][design]'
+            'giftwrapping[${_type_}][${_id_}][design]'
         )->setExtraParams(
             'data-addr-id="${_blockId_}"'
         )->setOptions(
@@ -157,6 +167,7 @@ class Options extends \Magento\Framework\View\Element\Template
     public function getDesignsInfo()
     {
         $data = array();
+        /** @var $item \Magento\GiftWrapping\Model\Wrapping */
         foreach ($this->getDesignCollection()->getItems() as $item) {
             $temp = array();
             foreach ($this->getQuote()->getAllShippingAddresses() as $address) {
@@ -203,6 +214,23 @@ class Options extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * Provide variable name for input items
+     *
+     * @param $level string; 'order_level' and 'item_level' are expected
+     * @throws \InvalidArgumentException
+     * @return string|null
+     */
+    public function getCheckoutTypeVariable($level)
+    {
+        $checkoutType = $this->getQuote()->getIsMultiShipping() ? 'multishipping' : 'onepage';
+        if (array_key_exists($level, $this->checkoutItems[$checkoutType])) {
+            return $this->checkoutItems[$checkoutType][$level];
+        }
+
+        throw new \InvalidArgumentException('Invalid level: ' . $level);
+    }
+
+    /**
      * Process items
      *
      * @param array $items
@@ -212,6 +240,7 @@ class Options extends \Magento\Framework\View\Element\Template
      */
     protected function _processItems($items, $shippingAddress, &$data)
     {
+        /** @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($items as $item) {
             if ($item->getParentItem()) {
                 continue;
