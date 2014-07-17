@@ -359,13 +359,19 @@ class TaxRuleService implements TaxRuleServiceInterface
             foreach ($customerTaxClassIds as $customerTaxClassId) {
                 try {
                     $taxClass = $this->taxClassService->getTaxClass($customerTaxClassId);
-                    if (!($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)) {
+                    if (is_null($taxClass) || !($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)) {
                         $exception->addError(InputException::INVALID_FIELD_VALUE,
-                            ['fieldName' =>TaxRule::CUSTOMER_TAX_CLASS_IDS]);
+                            [
+                                'fieldName' => TaxRule::CUSTOMER_TAX_CLASS_IDS,
+                                'value'     => $customerTaxClassId,
+                            ]);
                     }
                 } catch (NoSuchEntityException $e) {
                     $exception->addError(InputException::INVALID_FIELD_VALUE,
-                        ['fieldName' =>TaxRule::CUSTOMER_TAX_CLASS_IDS]);
+                        [
+                            'fieldName' => TaxRule::CUSTOMER_TAX_CLASS_IDS,
+                            'value'     => $customerTaxClassId,
+                        ]);
                 }
             }
         }
@@ -378,13 +384,19 @@ class TaxRuleService implements TaxRuleServiceInterface
             foreach ($productTaxClassIds as $productTaxClassId) {
                 try {
                     $taxClass = $this->taxClassService->getTaxClass($productTaxClassId);
-                    if (!($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_PRODUCT)) {
+                    if (is_null($taxClass) || !($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_PRODUCT)) {
                         $exception->addError(InputException::INVALID_FIELD_VALUE,
-                            ['fieldName' =>TaxRule::PRODUCT_TAX_CLASS_IDS]);
+                            [
+                                'fieldName' => TaxRule::PRODUCT_TAX_CLASS_IDS,
+                                'value'     => $productTaxClassId,
+                            ]);
                     }
                 } catch (NoSuchEntityException $e) {
                     $exception->addError(InputException::INVALID_FIELD_VALUE,
-                        ['fieldName' =>TaxRule::PRODUCT_TAX_CLASS_IDS]);
+                        [
+                            'fieldName' => TaxRule::PRODUCT_TAX_CLASS_IDS,
+                            'value'     => $productTaxClassId,
+                        ]);
                 }
             }
         }
