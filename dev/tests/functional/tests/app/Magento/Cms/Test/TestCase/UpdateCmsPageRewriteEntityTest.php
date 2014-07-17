@@ -139,18 +139,19 @@ class UpdateCmsPageRewriteEntityTest extends Injectable
     /**
      * Delete Store after test
      *
-     * @return void
+     * @return void|null
      */
     public function tearDown()
     {
-        if (!in_array($this->storeName, $this->skippedStores)) {
-            $tmp = explode("/", $this->storeName);
-            $filter['store_title'] = end($tmp);
-            $this->storeIndex->open();
-            $this->storeIndex->getStoreGrid()->searchAndOpen($filter);
-            $this->storeNew->getFormPageActions()->delete();
-            $this->storeDelete->getStoreForm()->fillForm(['create_backup' => 'No']);
-            $this->storeDelete->getFormPageActions()->delete();
+        if (in_array($this->storeName, $this->skippedStores)) {
+            return;
         }
+        $tmp = explode("/", $this->storeName);
+        $filter['store_title'] = end($tmp);
+        $this->storeIndex->open();
+        $this->storeIndex->getStoreGrid()->searchAndOpen($filter);
+        $this->storeNew->getFormPageActions()->delete();
+        $this->storeDelete->getStoreForm()->fillForm(['create_backup' => 'No']);
+        $this->storeDelete->getFormPageActions()->delete();
     }
 }

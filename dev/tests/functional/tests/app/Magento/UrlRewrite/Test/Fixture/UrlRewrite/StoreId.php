@@ -43,7 +43,9 @@ class StoreId implements FixtureInterface
         if (preg_match('`%(.*?)%`', $data, $store)) {
             /** @var Store $storeFixture */
             $storeFixture = $fixtureFactory->createByCode('store', ['dataSet' => $store[1]]);
-            $storeFixture->persist();
+            if (!$storeFixture->hasData('store_id')) {
+                $storeFixture->persist();
+            }
             $data = str_replace('%' . $store[1] . '%', $storeFixture->getName(), $data);
         }
         $this->data = $data;

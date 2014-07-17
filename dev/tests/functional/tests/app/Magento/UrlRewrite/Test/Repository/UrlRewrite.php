@@ -33,7 +33,7 @@ class UrlRewrite extends AbstractRepository
         ];
 
         $this->_data['custom_rewrite_wishlist'] = [
-            'store_id' => 'Default Store View',
+            'store_id' => 'Main Website/Main Website Store/Default Store View',
             'request_path' => 'wishlist/%isolation%',
             'target_path' => 'http://google.com',
             'options' => 'Temporary (302)',
