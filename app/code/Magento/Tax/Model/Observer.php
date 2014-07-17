@@ -207,37 +207,6 @@ class Observer
     }
 
     /**
-     * Add tax percent values to product collection items
-     *
-     * @param   \Magento\Framework\Event\Observer $observer
-     * @return  $this
-     */
-    public function addTaxPercentToProductCollection($observer)
-    {
-        $helper = $this->_taxData;
-        $collection = $observer->getEvent()->getCollection();
-        $store = $collection->getStoreId();
-        if (!$helper->needPriceConversion($store)) {
-            return $this;
-        }
-
-        if ($collection->requireTaxPercent()) {
-            $request = $this->_calculation->getRateRequest();
-            foreach ($collection as $item) {
-                if (null === $item->getTaxClassId()) {
-                    $item->setTaxClassId($item->getMinimalTaxClassId());
-                }
-                if (!isset($classToRate[$item->getTaxClassId()])) {
-                    $request->setProductClassId($item->getTaxClassId());
-                    $classToRate[$item->getTaxClassId()] = $this->_calculation->getRate($request);
-                }
-                $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
-            }
-        }
-        return $this;
-    }
-
-    /**
      * Refresh sales tax report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule

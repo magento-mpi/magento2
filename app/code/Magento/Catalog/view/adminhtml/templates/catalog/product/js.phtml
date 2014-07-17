@@ -5,6 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var \Magento\Catalog\Block\Adminhtml\Product\Edit\Js $this */
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -23,7 +25,7 @@ function registerTaxRecalcs() {
 }
 
 var priceFormat = <?php echo $this->helper('Magento\Tax\Helper\Data')->getPriceFormat($this->getStore()); ?>;
-var taxRates = <?php echo $this->helper('Magento\Tax\Helper\Data')->getAllRatesByProductClass($this->getStore()); ?>;
+var taxRates = <?php echo $this->getAllRatesByProductClassJson(); ?>;
 
 function recalculateTax() {
     if (typeof dynamicTaxes == 'undefined') {

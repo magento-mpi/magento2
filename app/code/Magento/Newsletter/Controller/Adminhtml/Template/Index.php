@@ -1,0 +1,34 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Newsletter\Controller\Adminhtml\Template;
+
+class Index extends \Magento\Newsletter\Controller\Adminhtml\Template
+{
+    /**
+     * View Templates list
+     *
+     * @return void
+     */
+    public function execute()
+    {
+        $this->_setTitle();
+
+        if ($this->getRequest()->getQuery('ajax')) {
+            $this->_forward('grid');
+            return;
+        }
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
+        $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
+        $this->_addContent(
+            $this->_view->getLayout()->createBlock('Magento\Newsletter\Block\Adminhtml\Template', 'template')
+        );
+        $this->_view->renderLayout();
+    }
+}
