@@ -24,7 +24,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  * Class AssertCartPriceRuleApplying
  * Abstract class for implementing assert applying
  */
-abstract class AssertCustomerSegmentPriceRuleApplying extends AbstractConstraint
+abstract class AbstractAssertCustomerSegmentPriceRuleApplying extends AbstractConstraint
 {
     /**
      * Page CheckoutCart

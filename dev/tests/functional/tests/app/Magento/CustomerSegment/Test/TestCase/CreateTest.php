@@ -45,30 +45,31 @@ class CreateTest extends Functional
         // pages & blocks
         $customerSegmentPage = Factory::getPageFactory()->getCustomersegmentIndex();
         $customerSegmentCreatePage = Factory::getPageFactory()->getCustomersegmentIndexNew();
-        $newCustomerSegmentForm = $customerSegmentCreatePage->getNewCustomerSegmentForm();
-        $messagesBlock = $customerSegmentCreatePage->getMessagesBlock();
+        $newCustomerSegmentForm = $customerSegmentCreatePage->getFormTabs();
+        $messagesBlock = $customerSegmentPage->getMessagesBlock();
         // begin steps to add a customer segment
-        $customerSegmentForm = $customerSegmentPage->getCustomerSegmentGridBlock();
         $customerSegmentPage->open();
-        $customerSegmentForm->addNewSegment();
+        $customerSegmentPage->getPageActionsBlock()->addNew();
         // fill General Properties
         $newCustomerSegmentForm->fill($customerSegmentFixture);
-        $customerSegmentCreatePage->getActions()->saveAndContinue();
-        $messagesBlock->assertSuccessMessage();
-        // open conditions tab
-        $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('conditions');
+        $customerSegmentCreatePage->getPageMainActions()->saveAndContinue();
+        $customerSegmentCreatePage->getMessagesBlock()->assertSuccessMessage();
+        // save conditions tab
+        $objectManager = Factory::getObjectManager();
+        $fixtureConditions = $objectManager->create('\Magento\CustomerSegment\Test\Fixture\CustomerSegment',
+            ['dataSet' => 'retailer']
+        );
+        $customerSegmentCreatePage->getFormTabs()->openTab('conditions');
         // add condition
-        $addWidget = $customerSegmentCreatePage->getConditions();
-        $addWidget->addCustomerGroupCondition($conditionType, $conditionValue);
-        $saveWidget = $customerSegmentCreatePage->getSave();
-        $saveWidget->clickSaveAndContinue();
+        $newCustomerSegmentForm->fill($fixtureConditions);
+        $customerSegmentCreatePage->getPageMainActions()->saveAndContinue();
 
         $conditionMessagesBlock = $customerSegmentCreatePage->getMessagesBlock();
         $conditionMessagesBlock->assertSuccessMessage();
         // open matched customers tab
-        $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('matched_customers');
+        $customerSegmentCreatePage->getFormTabs()->openTab('matched_customers');
         // verify matched customers
-        $customerGridBlock = $customerSegmentCreatePage->getCustomerGridBlock();
+        $customerGridBlock = $customerSegmentCreatePage->getFormTabs()->getMatchedCustomers()->getCustomersGrid();
         $customerGridBlock->search(array('email' => $customerFixture->getEmail()));
         $this->assertEquals(
             $customerFixture->getEmail(),

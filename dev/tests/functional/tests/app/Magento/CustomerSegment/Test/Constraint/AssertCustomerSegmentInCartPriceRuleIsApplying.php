@@ -12,7 +12,7 @@ namespace Magento\CustomerSegment\Test\Constraint;
  * Class AssertCustomerSegmentInCartPriceRule
  * Assert that shopping cart subtotal not equals with grand total
  */
-class AssertCustomerSegmentInCartPriceRuleIsApplying extends AssertCustomerSegmentPriceRuleApplying
+class AssertCustomerSegmentInCartPriceRuleIsApplying extends AbstractAssertCustomerSegmentPriceRuleApplying
 {
     /**
      * Constraint severeness
@@ -38,9 +38,9 @@ class AssertCustomerSegmentInCartPriceRuleIsApplying extends AssertCustomerSegme
         }
 
         \PHPUnit_Framework_Assert::assertNotEquals(
-            $totalBlock->getSubtotal(),
-            $grandTotal,
-            'Catalog Price Rule is not applied on product in shopping cart. Price is equals.'
+            (int) $totalBlock->getSubtotal(),
+            (int) $grandTotal,
+            'Catalog Price Rule is not applied on product in shopping cart.'
         );
     }
 

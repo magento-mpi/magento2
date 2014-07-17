@@ -12,7 +12,7 @@ namespace Magento\CustomerSegment\Test\Constraint;
  * Class AssertCustomerSegmentInCartPriceRuleIsNotApplying
  * Assert that Catalog Price Rule is not applied on product(s) in shopping cart according to rule condition
  */
-class AssertCustomerSegmentInCartPriceRuleIsNotApplying extends AssertCustomerSegmentPriceRuleApplying
+class AssertCustomerSegmentInCartPriceRuleIsNotApplying extends AbstractAssertCustomerSegmentPriceRuleApplying
 {
     /**
      * Constraint severeness

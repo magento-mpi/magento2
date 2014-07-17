@@ -16,7 +16,7 @@ use Mtf\Page\BackendPage;
  */
 class CustomerSegmentIndex extends BackendPage
 {
-    const MCA = 'customersegment';
+    const MCA = 'customersegment/index';
 
     protected $_blocks = [
         'pageActionsBlock' => [

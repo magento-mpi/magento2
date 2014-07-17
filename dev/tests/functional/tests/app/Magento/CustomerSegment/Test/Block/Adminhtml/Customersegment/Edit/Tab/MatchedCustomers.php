@@ -13,7 +13,7 @@ use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class MatchedCustomers
- * Matched customers form block
+ * Matched customers tab
  */
 class MatchedCustomers extends Tab
 {
@@ -25,7 +25,7 @@ class MatchedCustomers extends Tab
     protected $gridPath = '#segmentGrid';
 
     /**
-     * Get Category edit form
+     * Get Customer Segment edit form
      *
      * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Detail\Grid
      */

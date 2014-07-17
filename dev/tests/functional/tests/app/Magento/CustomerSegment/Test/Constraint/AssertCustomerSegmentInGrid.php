@@ -14,7 +14,7 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 
 /**
  * Class AssertCustomerSegmentInGrid
- * Assert that created customer segment presents in grid and has correct 'Segment','Status','Website'
+ * Assert that created customer segment presents in grid
  */
 class AssertCustomerSegmentInGrid extends AbstractConstraint
 {

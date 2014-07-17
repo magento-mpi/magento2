@@ -16,7 +16,7 @@ use Mtf\Page\BackendPage;
  */
 class CustomerSegmentNew extends BackendPage
 {
-    const MCA = 'customersegment/index/new/index';
+    const MCA = 'customersegment/index/new';
 
     protected $_blocks = [
         'customerSegmentForm' => [
@@ -29,6 +29,12 @@ class CustomerSegmentNew extends BackendPage
             'name' => 'pageMainActions',
             'class' => 'Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\FormPageActions',
             'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '.messages .messages',
             'strategy' => 'css selector',
         ],
     ];
@@ -47,5 +53,13 @@ class CustomerSegmentNew extends BackendPage
     public function getPageMainActions()
     {
         return $this->getBlockInstance('pageMainActions');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }

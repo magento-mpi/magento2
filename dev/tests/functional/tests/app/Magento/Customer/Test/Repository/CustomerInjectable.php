@@ -32,7 +32,7 @@ class CustomerInjectable extends AbstractRepository
             'password_confirmation' => '123123q',
         ];
 
-        $this->_data['johndoe_with_addresses'] = [
+        $this->_data['johndoe'] = [
             'firstname' => 'John',
             'lastname' => 'Doe',
             'email' => 'JohnDoe_%isolation%@example.com',

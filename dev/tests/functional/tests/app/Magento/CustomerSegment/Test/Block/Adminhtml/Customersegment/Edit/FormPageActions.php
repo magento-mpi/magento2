@@ -12,11 +12,10 @@ use Magento\Backend\Test\Block\FormPageActions as ParentFormPageActions;
 
 /**
  * Class FormPageActions
- * Backend CustomerSegment form
+ * Form page actions
  */
 class FormPageActions extends ParentFormPageActions
 {
-
     /**
      * "Save and Continue Edit" button
      *

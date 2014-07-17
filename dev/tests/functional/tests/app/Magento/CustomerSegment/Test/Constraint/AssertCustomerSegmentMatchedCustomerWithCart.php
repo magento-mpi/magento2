@@ -10,10 +10,9 @@ namespace Magento\CustomerSegment\Test\Constraint;
 
 /**
  * Class AssertCustomerSegmentMatchedCustomerWithCart
- * Assert that grid on 'Matched Customer' tab contains customer according to conditions,
- * assert number of matched customer near 'Matched Customer(%number%)' should be equal row in grid
+ * Matched Customer' tab contains customer according to conditions
  */
-class AssertCustomerSegmentMatchedCustomerWithCart extends AssertCustomerSegmentPriceRuleApplying
+class AssertCustomerSegmentMatchedCustomerWithCart extends AbstractAssertCustomerSegmentPriceRuleApplying
 {
     /**
      * Constraint severeness
@@ -23,9 +22,9 @@ class AssertCustomerSegmentMatchedCustomerWithCart extends AssertCustomerSegment
     protected $severeness = 'low';
 
     /**
-     * Assert that grid on 'Matched Customer' tab contains customer according to conditions(it need save condition before
-     * verification), assert number of matched customer near 'Matched Customer(%number%)' should be equal row in grid
-     * with adding product to shopping cart
+     * Assert that grid on 'Matched Customer' tab contains customer according to conditions(it need save condition
+     * before verification), assert number of matched customer near 'Matched Customer(%number%)' should be equal row
+     * in grid with adding product to shopping cart
      *
      * @return void
      */
@@ -40,14 +39,14 @@ class AssertCustomerSegmentMatchedCustomerWithCart extends AssertCustomerSegment
         $customerSegmentGrid = $formTabs->getMatchedCustomers()->getCustomersGrid();
         $formTabs->openTab('matched_customers');
 
-        if ($customerSegmentGrid->isRowVisible(['email' => $this->customer->getEmail()])) {
+        if (!$customerSegmentGrid->isRowVisible(['email' => $this->customer->getEmail()])) {
             $errors .= "Customer is absent in grid.\n";
         }
 
         $customerSegmentGrid->resetFilter();
         $totalOnTab = $formTabs->getNumberOfCustomersOnTabs();
         $totalInGrid = $customerSegmentGrid->getTotalRecords();
-        if ( $totalOnTab == $totalInGrid) {
+        if ($totalOnTab != $totalInGrid) {
             $errors .= 'Wrong count of records is displayed.'
                 . "\nExpected: " . $totalInGrid
                 . "\nActual: " . $totalOnTab;
@@ -63,6 +62,6 @@ class AssertCustomerSegmentMatchedCustomerWithCart extends AssertCustomerSegment
      */
     public function toString()
     {
-        return 'Customer in Customer Segment grid. Number of matched customer equal row in grid.';
+        return 'Customer is present in Customer Segment grid. Number of matched customer equals to rows in grid.';
     }
 }

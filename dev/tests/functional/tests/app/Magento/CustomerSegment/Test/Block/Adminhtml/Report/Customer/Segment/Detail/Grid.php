@@ -10,13 +10,13 @@
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Detail;
 
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class MatchedCustomerGrid
  * Backend segment matched customer grid
  */
-class Grid extends ParentGrid
+class Grid extends AbstractGrid
 {
     /**
      * XPath for segment grid row

@@ -29,8 +29,7 @@ class AssertCustomerSegmentMatchedCustomer extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that grid on 'Matched Customer' tab contains customer according to conditions,
-     * assert number of matched customer near 'Matched Customer(%number%)' should be equal row in grid
+     * Assert that grid on 'Matched Customer' tab contains customer according to conditions
      *
      * @param CustomerInjectable $customer
      * @param CustomerSegment $customerSegment
@@ -72,6 +71,6 @@ class AssertCustomerSegmentMatchedCustomer extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer in Customer Segment grid. Number of matched customer equal row in grid.';
+        return 'Customer is present in Customer Segment grid. Number of matched customer equals to rows in grid.';
     }
 }

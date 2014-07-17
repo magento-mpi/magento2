@@ -25,6 +25,8 @@ class Chooser extends Grid
     protected $selectItem = 'tbody tr .checkbox';
 
     /**
+     * Chooser grid mapping
+     *
      * @var array
      */
     protected $filters = [

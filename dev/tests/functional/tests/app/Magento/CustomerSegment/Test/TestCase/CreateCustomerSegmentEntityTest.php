@@ -18,7 +18,6 @@ use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
 use Mtf\TestCase\Injectable;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
@@ -38,14 +37,13 @@ use Mtf\Fixture\FixtureFactory;
  * 1. Login to backend as admin
  * 2. Navigate to CUSTOMERS->Segment
  * 3. Click 'Add Segment' button
- * 4. Fill all fields accoding to dataSet and click 'Save and Continue Edit' button
+ * 4. Fill all fields according to dataSet and click 'Save and Continue Edit' button
  * 5. Navigate to Conditions tab
  * 6. Add specific test condition according to dataSet
  * 7. Navigate to MARKETING->Cart Price Rule and click "+"
  * 8. Fill all required data according to dataSet and save rule
- * 9. Login to front-end as test customer(if dataset contains set for customers, else skip this step customer is guest)
- * 10. Add test product to cart and navigate to shopping cart
- * 11. Perform assertions
+ * 9. Login to front-end as test customer(if dataSet contains set for customers, else skip this step customer is guest)
+ * 10. Perform assertions
  *
  * @group Customer_Segments_(CS)
  * @ZephyrId MAGETWO-25691
@@ -109,6 +107,13 @@ class CreateCustomerSegmentEntityTest extends Injectable
     protected $salesRule;
 
     /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * Inject pages
      *
      * @param PromoQuoteIndex $promoQuoteIndex
@@ -117,6 +122,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
      * @param CustomerSegmentNew $customerSegmentNew
      * @param CustomerIndex $customerIndexPage
      * @param CmsIndex $cmsIndex
+     * @param FixtureFactory $fixtureFactory
      * @param CustomerIndexEdit $customerIndexEditPage
      * @return void
      */
@@ -127,6 +133,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
         CustomerSegmentNew $customerSegmentNew,
         CustomerIndex $customerIndexPage,
         CmsIndex $cmsIndex,
+        FixtureFactory $fixtureFactory,
         CustomerIndexEdit $customerIndexEditPage
     ) {
         $this->customerSegmentIndex = $customerSegmentIndex;
@@ -136,7 +143,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
         $this->customerIndexPage = $customerIndexPage;
         $this->customerIndexEditPage = $customerIndexEditPage;
         $this->cmsIndex = $cmsIndex;
-
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
@@ -147,8 +154,6 @@ class CreateCustomerSegmentEntityTest extends Injectable
      * @param CustomerSegment $customerSegment
      * @param CustomerSegment $customerSegmentConditions
      * @param array $salesRule
-     * @param CatalogProductSimple $product
-     * @param FixtureFactory $fixtureFactory
      * @param AssertCustomerSegmentSuccessSaveMessage $assertCustomerSegmentSuccessSaveMessage
      * @return void
      */
@@ -158,8 +163,6 @@ class CreateCustomerSegmentEntityTest extends Injectable
         CustomerSegment $customerSegment,
         CustomerSegment $customerSegmentConditions,
         array $salesRule,
-        CatalogProductSimple $product,
-        FixtureFactory $fixtureFactory,
         AssertCustomerSegmentSuccessSaveMessage $assertCustomerSegmentSuccessSaveMessage
     ) {
         //Preconditions
@@ -170,7 +173,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
         $this->customerIndexEditPage->getCustomerForm()->updateCustomer($customer, $address);
         $this->customerIndexEditPage->getPageActionsBlock()->save();
 
-        // Prepare data
+        //Prepare data
         $replace = [
             'conditions' => [
                 '%email%' => $customer->getEmail(),
@@ -193,9 +196,22 @@ class CreateCustomerSegmentEntityTest extends Injectable
         $this->customerSegmentNew->getPageMainActions()->save();
 
         \PHPUnit_Framework_Assert::assertThat($this->getName(), $assertCustomerSegmentSuccessSaveMessage);
+        $this->createCartPriceRule($salesRule, $customerSegment);
+    }
 
-        $salesRule['conditions_serialized'] = '[Customer Segment|matches|%chooser%' . $customerSegment->getName() . ']';
-        $this->salesRule = $fixtureFactory->createByCode('salesRuleInjectable', ['data' => $salesRule]);
+    /**
+     * Create catalog price rule
+     *
+     * @param array $salesRule
+     * @param CustomerSegment $customerSegment
+     * @return void
+     */
+    protected function createCartPriceRule($salesRule, CustomerSegment $customerSegment)
+    {
+        $salesRule['conditions_serialized'] =
+            str_replace('%customerSegmentName%', $customerSegment->getName(), $salesRule['conditions_serialized']);
+
+        $this->salesRule = $this->fixtureFactory->createByCode('salesRuleInjectable', ['data' => $salesRule]);
         $this->promoQuoteIndex->open();
         $this->promoQuoteIndex->getGridPageActions()->addNew();
         $this->promoQuoteEdit->getSalesRuleForm()->fill($this->salesRule);

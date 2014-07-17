@@ -12,6 +12,7 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab\MatchedCustomers;
 
 /**
  * Class CustomerSegmentForm
@@ -35,7 +36,7 @@ class CustomerSegmentForm extends FormTabs
     /**
      * Get Matched Customers tab
      *
-     * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab\MatchedCustomers
+     * @return MatchedCustomers
      */
     public function getMatchedCustomers()
     {

@@ -9,21 +9,14 @@
 
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment;
 
-use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class Grid
  * Backend customer segment grid
  */
-class Grid extends \Magento\Backend\Test\Block\Widget\Grid
+class Grid extends AbstractGrid
 {
-    /**
-     * 'Add New' segment button
-     *
-     * @var string
-     */
-    protected $addNewSegment = "//button[@id='add']";
-
     /**
      * Locator value for link in action column
      *
@@ -47,14 +40,4 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
             'input' => 'select',
         ],
     ];
-
-    /**
-     * Add new segment
-     *
-     * @return void
-     */
-    public function addNewSegment()
-    {
-        $this->_rootElement->find($this->addNewSegment, Locator::SELECTOR_XPATH)->click();
-    }
 }

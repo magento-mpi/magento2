@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="customersegment" >
+<page mca="customersegment/index" >
     <block>
         <name>pageActionsBlock</name>
         <class>Magento\Backend\Test\Block\GridPageActions</class>

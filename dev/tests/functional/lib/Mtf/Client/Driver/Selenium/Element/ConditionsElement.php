@@ -51,13 +51,6 @@ class ConditionsElement extends AbstractElement
      *
      * @var string
      */
-    protected $chooser = '%chooser%';
-
-    /**
-     * Identification for chooser grid
-     *
-     * @var string
-     */
     protected $chooserLocator = '.rule-chooser-trigger';
 
     /**
@@ -163,13 +156,6 @@ class ConditionsElement extends AbstractElement
     protected $loader = './/ancestor::body/div[@id="loading-mask"]';
 
     /**
-     * Path to chooser grid class
-     *
-     * @var string
-     */
-    protected $chooserGrid = 'Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Grid\Chooser';
-
-    /**
      * Chooser grid locator
      *
      * @var string
@@ -267,16 +253,17 @@ class ConditionsElement extends AbstractElement
             $param = $this->findNextParam($element);
             $param->find('a')->click();
 
-            if (strpos($rule, $this->chooser) !== false) {
+            if (preg_match('`%(.*?)%`', $rule, $chooserGrid)) {
+                $chooserConfig = explode('#', $chooserGrid[1]);
                 $param->find($this->chooserLocator)->click();
-                $rule = str_replace($this->chooser, '', $rule);
+                $rule = preg_replace('`%(.*?)%`', '', $rule);
                 $grid = ObjectManager::getInstance()->create(
-                    $this->chooserGrid,
+                    str_replace('/', '\\', $chooserConfig[0]),
                     [
                         'element' => $this->find($this->chooserGridLocator)
                     ]
                 );
-                $grid->searchAndSelect(['name' => $rule]);
+                $grid->searchAndSelect([$chooserConfig[1] => $rule]);
                 continue;
             }
 

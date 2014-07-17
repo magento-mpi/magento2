@@ -55,38 +55,6 @@ class AssertCustomerSegmentForm extends AbstractAssertForm
     }
 
     /**
-     * Verifying that form is filled right
-     *
-     * @param array $formData
-     * @param array $fixtureData
-     * @return array $errorMessage
-     */
-    protected function verifyForm(array $formData, array $fixtureData)
-    {
-        $errorMessage = [];
-
-        foreach ($fixtureData as $key => $value) {
-            if (is_array($value)) {
-                $diff = array_diff($value, $formData[$key]);
-                $diff = array_merge($diff, array_diff($formData[$key], $value));
-                if (!empty($diff)) {
-                    $errorMessage[] = "Data in " . $key . " field not equal."
-                        . "\nExpected: " . implode(", ", $value)
-                        . "\nActual: " . implode(", ", $formData[$key]);
-                }
-            } else {
-                if ($value !== $formData[$key]) {
-                    $errorMessage[] = "Data in " . $key . " field not equal."
-                        . "\nExpected: " . $value
-                        . "\nActual: " . $formData[$key];
-                }
-            }
-        }
-
-        return $errorMessage;
-    }
-
-    /**
      * Returns a string representation of the object
      *
      * @return string
