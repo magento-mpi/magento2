@@ -13,6 +13,7 @@ namespace Magento\Tools\Composer\Package;
 require __DIR__ . '/Package/Reader.php';
 require __DIR__ . '/Package/Package.php';
 require __DIR__ . '/Package/Collection.php';
+require __DIR__ . '/Package/Version.php';
 
 $usage = "Usage: php -f version.php -- --version=2.1.3 [--dependent=<exact|wildcard>] [--dir=/path/to/work/dir]
 --version - set the specified version value to all the components. Possible formats:
@@ -29,7 +30,8 @@ try {
     if (!isset($opt['version'])) {
         throw new \InvalidArgumentException('Version number must be specified.');
     }
-    $collection = new Collection($opt['version'], isset($opt['dependent']) ? $opt['dependent'] : false);
+    Version::validate($opt['version']);
+    $collection = new Collection(isset($opt['dependent']) ? $opt['dependent'] : false);
     if (isset($opt['dir'])) {
         if (!is_dir($opt['dir'])) {
             throw new \InvalidArgumentException("The specified directory doesn't exist: '{$opt['dir']}'");
@@ -55,7 +57,7 @@ try {
     }
     $packages = $collection->getPackages();
     foreach (array_keys($packages) as $packageName) {
-        $collection->setVersion($packageName);
+        $collection->setVersion($packageName, $opt['version']);
     }
     foreach ($packages as $package) {
         $file = $package->getFile();

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Tools\Composer\Package;
 
 /**
@@ -15,6 +14,8 @@ namespace Magento\Tools\Composer\Package;
 class Version
 {
     /**
+     * Assert that a version has appropriate format
+     *
      * @param string $version
      * @throws \InvalidArgumentException
      */

@@ -91,4 +91,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             [Collection::UPDATE_DEPENDENT_WILDCARD, '2.0.*', '2.0.*', '1.0.0'],
         ];
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Wrong format of version number '10.0.0-alpha.87'
+     */
+    public function testSetVersionInvalidFormat()
+    {
+        $this->object->setVersion('...', '10.0.0-alpha.87');
+    }
 }
