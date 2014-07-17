@@ -51,6 +51,6 @@ class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'That message is appeared on "Compare Products" page.';
+        return 'The message appears on "Compare Products" page.';
     }
 }

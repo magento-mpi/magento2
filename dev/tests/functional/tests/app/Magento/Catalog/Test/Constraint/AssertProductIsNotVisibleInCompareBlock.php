@@ -15,6 +15,7 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
 
 /**
  * Class AssertProductIsNotVisibleInCompareBlock
+ * Assert the product is not displayed on Compare Products block on my account page
  */
 class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
 {
@@ -42,6 +43,7 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
         FixtureInterface $product = null,
         $countProducts
     ) {
+        $cmsIndex->open();
         $cmsIndex->getLinksBlock()->openLink("My Account");
         $name = $countProducts > 1 ? $product->getName() : '';
         $success = $name !== '' ? true : self::SUCCESS_MESSAGE;
@@ -57,6 +59,6 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
      */
     public function toString()
     {
-        return 'That message is appeared on Compare Products block on my account page.';
+        return 'The message appeared on Compare Products block on my account page.';
     }
 }

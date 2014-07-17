@@ -40,7 +40,7 @@
     </block>
     <block>
         <name>compareProductsBlock</name>
-        <class>Magento\Catalog\Test\Block\Product\Compare\ListCompare</class>
+        <class>Magento\Catalog\Test\Block\Product\Compare\Sidebar</class>
         <locator>.block.compare</locator>
         <strategy>css selector</strategy>
     </block>

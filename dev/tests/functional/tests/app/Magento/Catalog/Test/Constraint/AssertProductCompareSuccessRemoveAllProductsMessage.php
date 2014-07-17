@@ -16,9 +16,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  */
 class AssertProductCompareSuccessRemoveAllProductsMessage extends AbstractConstraint
 {
-    /**
-     * Text value to be checked
-     */
     const SUCCESS_MESSAGE = 'You cleared the comparison list.';
 
     /**

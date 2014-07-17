@@ -8,11 +8,8 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Core\Test\Fixture\ConfigData;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Test creation for Clear All CompareProducts
@@ -25,7 +22,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  *
  * Steps:
  * 1. Login to frontend.
- * 2. Add to Compare Product $products (as flow can be used MTA-54)
+ * 2. Add to Compare Product $products
  * 3. Navigate to My Account page
  * 4. Click "Clear All" icon under the left menu tabs
  * 5. Perform assertions
@@ -36,41 +33,14 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class ClearAllCompareProductsTest extends AbstractCompareProductsTest
 {
     /**
-     * Customer account page
-     *
-     * @var CustomerAccountIndex
-     */
-    protected $customerAccountIndex;
-
-    /**
-     * Injection data
-     *
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountIndex $customerAccountIndex
-     * @param CatalogProductView $catalogProductView
-     * @param CustomerAccountLogin $customerAccountLogin
-     * @return void
-     */
-    public function __inject(
-        CmsIndex $cmsIndex,
-        CustomerAccountIndex $customerAccountIndex,
-        CatalogProductView $catalogProductView,
-        CustomerAccountLogin $customerAccountLogin
-    ) {
-        $this->cmsIndex = $cmsIndex;
-        $this->catalogProductView = $catalogProductView;
-        $this->customerAccountLogin = $customerAccountLogin;
-        $this->customerAccountIndex = $customerAccountIndex;
-    }
-
-    /**
      * Test creation for clear all compare products
      *
      * @param string $products
      * @param ConfigData $config
+     * @param CustomerAccountIndex $customerAccountIndex
      * @return void
      */
-    public function test($products, ConfigData $config)
+    public function test($products, ConfigData $config, CustomerAccountIndex $customerAccountIndex)
     {
         $config->persist();
         //Steps
@@ -81,6 +51,6 @@ class ClearAllCompareProductsTest extends AbstractCompareProductsTest
         $this->addProducts($products);
 
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
-        $this->customerAccountIndex->getCompareProductsBlock()->clickClearAll();
+        $customerAccountIndex->getCompareProductsBlock()->clickClearAll();
     }
 }

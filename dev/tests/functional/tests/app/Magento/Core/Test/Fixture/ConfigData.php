@@ -33,4 +33,9 @@ class ConfigData extends InjectableFixture
         'attribute_code' => 'section',
         'backend_type' => 'virtual',
     ];
+
+    public function getSection()
+    {
+        return $this->getData('section');
+    }
 }
