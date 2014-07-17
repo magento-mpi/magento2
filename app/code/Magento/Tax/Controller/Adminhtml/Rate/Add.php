@@ -33,19 +33,19 @@ class Add extends \Magento\Tax\Controller\Adminhtml\Rate
             __('Manage Tax Rates'),
             $this->getUrl('tax/rate')
         )->_addBreadcrumb(
-                __('New Tax Rate'),
-                __('New Tax Rate')
-            )->_addContent(
-                $this->_view->getLayout()->createBlock(
-                    'Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save'
-                )->assign(
-                        'header',
-                        __('Add New Tax Rate')
-                    )->assign(
-                        'form',
-                        $this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Form', 'tax_rate_form')
-                    )
-            );
+            __('New Tax Rate'),
+            __('New Tax Rate')
+        )->_addContent(
+            $this->_view->getLayout()->createBlock(
+                'Magento\Tax\Block\Adminhtml\Rate\Toolbar\Save'
+            )->assign(
+                'header',
+                __('Add New Tax Rate')
+            )->assign(
+                'form',
+                $this->_view->getLayout()->createBlock('Magento\Tax\Block\Adminhtml\Rate\Form', 'tax_rate_form')
+            )
+        );
         $this->_view->renderLayout();
     }
 }
