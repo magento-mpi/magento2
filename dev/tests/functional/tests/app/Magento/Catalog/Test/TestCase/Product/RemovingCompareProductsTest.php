@@ -9,10 +9,7 @@
 namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
@@ -57,37 +54,22 @@ class RemovingCompareProductsTest extends AbstractCompareProductsTest
     }
 
     /**
-     * Injection data
-     *
-     * @param CmsIndex $cmsIndex
-     * @param CatalogProductCompare $catalogProductCompare
-     * @param CatalogProductView $catalogProductView
-     * @param CustomerAccountLogin $customerAccountLogin
-     * @return void
-     */
-    public function __inject(
-        CmsIndex $cmsIndex,
-        CatalogProductCompare $catalogProductCompare,
-        CatalogProductView $catalogProductView,
-        CustomerAccountLogin $customerAccountLogin
-    ) {
-        $this->cmsIndex = $cmsIndex;
-        $this->catalogProductCompare = $catalogProductCompare;
-        $this->catalogProductView = $catalogProductView;
-        $this->customerAccountLogin = $customerAccountLogin;
-    }
-
-    /**
      * Test creation for adding compare products
      *
      * @param string $products
      * @param string $removeProductIndex
      * @param string $isCustomerLoggedIn
+     * @param CatalogProductCompare $catalogProductCompare
      * @return array
      */
-    public function test($products, $removeProductIndex, $isCustomerLoggedIn)
-    {
+    public function test(
+        $products,
+        $removeProductIndex,
+        $isCustomerLoggedIn,
+        CatalogProductCompare $catalogProductCompare
+    ) {
         //Steps
+        $this->catalogProductCompare = $catalogProductCompare;
         $this->cmsIndex->open();
         if ($isCustomerLoggedIn == 'Yes') {
             $this->loginCustomer($this->customer);
@@ -95,20 +77,9 @@ class RemovingCompareProductsTest extends AbstractCompareProductsTest
         $this->products = $this->createProducts($products);
         $this->addProducts($this->products);
         $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
-        $this->removeProduct($removeProductIndex);
+        $this->catalogProductCompare->getCompareProductsBlock()->removeProduct($removeProductIndex);
 
-        return ['product' => $this->products[$removeProductIndex], 'countProducts' => count($this->products)];
-    }
-
-    /**
-     * Remove product from compare product list
-     *
-     * @param int $removeProduct
-     * @return void
-     */
-    protected function removeProduct($removeProduct)
-    {
-        $this->catalogProductCompare->getCompareProductsBlock()->removeProduct($removeProduct + 2);
+        return ['product' => $this->products[$removeProductIndex - 1], 'countProducts' => count($this->products)];
     }
 
     /**
@@ -121,7 +92,7 @@ class RemovingCompareProductsTest extends AbstractCompareProductsTest
         if (count($this->products) > 1) {
             $this->cmsIndex->open();
             $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
-            for ($i = 1; $i < count($this->products); $i++) {
+            while ($this->catalogProductCompare->getCompareProductsBlock()->hasProduct()) {
                 $this->catalogProductCompare->getCompareProductsBlock()->removeProduct();
             }
         }

@@ -65,7 +65,7 @@ class ListCompare extends Block
      *
      * @var string
      */
-    protected $removeButton = 'thead td:nth-child(%d) a.action.delete';
+    protected $removeButton = './/thead//td[%d]//a[contains(@class,"action delete")]';
 
     /**
      * Selector for empty message
@@ -135,12 +135,23 @@ class ListCompare extends Block
     /**
      * Remove product from compare product list
      *
-     * @param int $index
+     * @param int $index [optional]
      * @return void
      */
-    public function removeProduct($index = 2)
+    public function removeProduct($index = 1)
     {
-        $this->_rootElement->find(sprintf($this->removeButton, $index))->click();
+        $this->_rootElement->find(sprintf($this->removeButton, $index), Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
+     * Has product in compare product list
+     *
+     * @param int $index [optional]
+     * @return bool
+     */
+    public function hasProduct($index = 1)
+    {
+        return $this->_rootElement->find(sprintf($this->removeButton, $index), Locator::SELECTOR_XPATH)->isVisible();
     }
 
     /**

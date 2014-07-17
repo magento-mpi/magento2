@@ -33,19 +33,19 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountIndex $customerAccountIndex
-     * @param FixtureInterface $product
-     * @param int $countProducts
+     * @param int $countProducts [optional]
+     * @param FixtureInterface $product [optional]
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CustomerAccountIndex $customerAccountIndex,
-        FixtureInterface $product = null,
-        $countProducts
+        $countProducts = null,
+        FixtureInterface $product = null
     ) {
         $cmsIndex->open();
         $cmsIndex->getLinksBlock()->openLink("My Account");
-        $name = $countProducts > 1 ? $product->getName() : '';
+        $name = $countProducts > 1 && $product !== null ? $product->getName() : '';
         $success = $name !== '' ? true : self::SUCCESS_MESSAGE;
         $actual = $customerAccountIndex->getCompareProductsBlock()->productIsNotInBlock($name);
 
@@ -59,6 +59,6 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
      */
     public function toString()
     {
-        return 'The message appeared on Compare Products block on my account page.';
+        return 'The message appears on Compare Products block on my account page.';
     }
 }

@@ -63,7 +63,7 @@ class CmsIndex extends FrontendPage
         'compareProductsBlock' => [
             'name' => 'compareProductsBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Compare\Sidebar',
-            'locator' => '.column.right.sidebar',
+            'locator' => '.sidebar.sidebar-additional',
             'strategy' => 'css selector',
         ],
     ];
