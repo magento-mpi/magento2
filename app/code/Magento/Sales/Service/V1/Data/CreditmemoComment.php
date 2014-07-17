@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Service\Data;
+namespace Magento\Sales\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObject as DataObject;
 
 /**
- * Class OrderStatusHistory
+ * Class CreditmemoComment
  */
-class OrderStatusHistory extends DataObject
+class CreditmemoComment extends DataObject
 {
     /**
      * int
@@ -42,17 +42,7 @@ class OrderStatusHistory extends DataObject
     /**
      * string
      */
-    const STATUS = 'status';
-
-    /**
-     * string
-     */
     const CREATED_AT = 'created_at';
-
-    /**
-     * string
-     */
-    const ENTITY_NAME = 'entity_name';
 
     /**
      * Returns comment
@@ -85,16 +75,6 @@ class OrderStatusHistory extends DataObject
     }
 
     /**
-     * Returns entity_name
-     *
-     * @return string
-     */
-    public function getEntityName()
-    {
-        return $this->_get(self::ENTITY_NAME);
-    }
-
-    /**
      * Returns is_customer_notified
      *
      * @return int
@@ -122,15 +102,5 @@ class OrderStatusHistory extends DataObject
     public function getParentId()
     {
         return $this->_get(self::PARENT_ID);
-    }
-
-    /**
-     * Returns status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->_get(self::STATUS);
     }
 }

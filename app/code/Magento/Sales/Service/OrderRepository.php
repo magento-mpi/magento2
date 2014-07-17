@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Service;
+namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Model\OrderFactory;
 use Magento\Sales\Model\Order;

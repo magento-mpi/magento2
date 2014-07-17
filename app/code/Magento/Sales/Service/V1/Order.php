@@ -1,13 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: sivashchenko
- * Date: 7/14/14
- * Time: 5:37 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Sales\Service\V1\Order;
-
 
 class Order {
 

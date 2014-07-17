@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Service\Data;
+namespace Magento\Sales\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObject as DataObject;
 
 /**
- * Class ShipmentItem
+ * Class ShipmentTrack
  */
-class ShipmentItem extends DataObject
+class ShipmentTrack extends DataObject
 {
 
     /**
@@ -28,16 +28,6 @@ class ShipmentItem extends DataObject
     /**
      * float
      */
-    const ROW_TOTAL = 'row_total';
-
-    /**
-     * float
-     */
-    const PRICE = 'price';
-
-    /**
-     * float
-     */
     const WEIGHT = 'weight';
 
     /**
@@ -48,17 +38,12 @@ class ShipmentItem extends DataObject
     /**
      * int
      */
-    const PRODUCT_ID = 'product_id';
-
-    /**
-     * int
-     */
-    const ORDER_ITEM_ID = 'order_item_id';
+    const ORDER_ID = 'order_id';
 
     /**
      * string
      */
-    const ADDITIONAL_DATA = 'additional_data';
+    const TRACK_NUMBER = 'track_number';
 
     /**
      * string
@@ -68,21 +53,41 @@ class ShipmentItem extends DataObject
     /**
      * string
      */
-    const NAME = 'name';
+    const TITLE = 'title';
 
     /**
      * string
      */
-    const SKU = 'sku';
+    const CARRIER_CODE = 'carrier_code';
 
     /**
-     * Returns additional_data
+     * string
+     */
+    const CREATED_AT = 'created_at';
+
+    /**
+     * string
+     */
+    const UPDATED_AT = 'updated_at';
+
+    /**
+     * Returns carrier_code
      *
      * @return string
      */
-    public function getAdditionalData()
+    public function getCarrierCode()
     {
-        return $this->_get(self::ADDITIONAL_DATA);
+        return $this->_get(self::CARRIER_CODE);
+    }
+
+    /**
+     * Returns created_at
+     *
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->_get(self::CREATED_AT);
     }
 
     /**
@@ -106,23 +111,13 @@ class ShipmentItem extends DataObject
     }
 
     /**
-     * Returns name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->_get(self::NAME);
-    }
-
-    /**
-     * Returns order_item_id
+     * Returns order_id
      *
      * @return int
      */
-    public function getOrderItemId()
+    public function getOrderId()
     {
-        return $this->_get(self::ORDER_ITEM_ID);
+        return $this->_get(self::ORDER_ID);
     }
 
     /**
@@ -136,26 +131,6 @@ class ShipmentItem extends DataObject
     }
 
     /**
-     * Returns price
-     *
-     * @return float
-     */
-    public function getPrice()
-    {
-        return $this->_get(self::PRICE);
-    }
-
-    /**
-     * Returns product_id
-     *
-     * @return int
-     */
-    public function getProductId()
-    {
-        return $this->_get(self::PRODUCT_ID);
-    }
-
-    /**
      * Returns qty
      *
      * @return float
@@ -166,23 +141,33 @@ class ShipmentItem extends DataObject
     }
 
     /**
-     * Returns row_total
-     *
-     * @return float
-     */
-    public function getRowTotal()
-    {
-        return $this->_get(self::ROW_TOTAL);
-    }
-
-    /**
-     * Returns sku
+     * Returns title
      *
      * @return string
      */
-    public function getSku()
+    public function getTitle()
     {
-        return $this->_get(self::SKU);
+        return $this->_get(self::TITLE);
+    }
+
+    /**
+     * Returns track_number
+     *
+     * @return string
+     */
+    public function getTrackNumber()
+    {
+        return $this->_get(self::TRACK_NUMBER);
+    }
+
+    /**
+     * Returns updated_at
+     *
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->_get(self::UPDATED_AT);
     }
 
     /**

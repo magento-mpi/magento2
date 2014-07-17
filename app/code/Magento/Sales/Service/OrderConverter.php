@@ -1,14 +1,15 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: akaplya
- * Date: 17.07.14
- * Time: 11:35
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
-namespace Magento\Sales\Service;
+namespace Magento\Sales\Service\V1;
 
-use Magento\Sales\Service\Data\OrderBuilder;
+use Magento\Sales\Service\V1\Data\OrderBuilder;
+use Magento\Sales\Service\V1\Data\Order;
 
 class OrderConverter
 {
@@ -34,13 +35,33 @@ class OrderConverter
         $this->orderBuilder = $orderBuilder;
     }
 
-    public function toModel($dto)
+
+    /**
+     * Convert a order model to a order data entity
+     *
+     * @param \Magento\Sales\Model\Order $productModel
+     * @return \Magento\Sales\Service\V1\Data\Order
+     */
+    public function createOrderDataFromModel(\Magento\Sales\Model\Order $productModel)
     {
-        return ;
+        $orderDto = $this->orderBuilder->populateWithArray($productModel->getData())->create();
+        $orderDto['order_item'] = $orderItemDto;
     }
 
-    public function toDto($model)
+    /**
+     * Convert from DataObject to Model
+     *
+     * @param Order $orderDataObject
+     * @return \Magento\Sales\Model\Order
+     */
+    public function toModel(Order $orderDataObject)
     {
-        return ;
+        $order = null;
+        if ($orderDataObject->getId()) {
+            $order = $this->orderRepository->get($orderDataObject->getId());
+            $order->setData($orderDataObject->getData());
+        }
+
+        return $order;
     }
 }
