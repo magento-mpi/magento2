@@ -127,10 +127,11 @@ abstract class AbstractCompareProductsTest extends Injectable
     protected function createProducts($products)
     {
         $products = explode(',', $products);
-        foreach ($products as &$product) {
+        foreach ($products as $key => $product) {
             list($fixture, $dataSet) = explode('::', $product);
             $product = $this->fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
             $product->persist();
+            $products[$key] = $product;
         }
         return $products;
     }

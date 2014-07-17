@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Block\Product\Compare;
 
-use Magento\Catalog\Test\Block\Product\Compare\ListCompare;
 use Mtf\Client\Element;
 
 /**
