@@ -83,7 +83,8 @@ class TaxRuleServiceTest extends WebapiAbstract
                 'priority' => 5,
                 'customer_tax_class_ids' => [3],
                 'product_tax_class_ids' => [2],
-                'tax_rate_ids' => [1, 2]
+                'tax_rate_ids' => [1, 2],
+                'calculate_subtotal' => 1
             ]
         ];
         $taxRuleData = $this->_webApiCall($serviceInfo, $requestData);
@@ -108,7 +109,8 @@ class TaxRuleServiceTest extends WebapiAbstract
                 'priority' => 5,
                 'customer_tax_class_ids' => [3],
                 'product_tax_class_ids' => [2],
-                'tax_rate_ids' => [1, 2]
+                'tax_rate_ids' => [1, 2],
+                'calculate_subtotal' => 0
             ]
         ];
 
@@ -164,7 +166,8 @@ class TaxRuleServiceTest extends WebapiAbstract
             'sort_order' => '0',
             'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
             'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-            'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
+            'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
+            'calculate_subtotal' => 0
         ];
         $requestData = ['ruleId' => $taxRuleId];
         $result = $this->_webApiCall($serviceInfo, $requestData);
@@ -214,7 +217,8 @@ class TaxRuleServiceTest extends WebapiAbstract
                 'priority' => 5,
                 'customer_tax_class_ids' => [3],
                 'product_tax_class_ids' => [2],
-                'tax_rate_ids' => [1, 2]
+                'tax_rate_ids' => [1, 2],
+                'calculate_subtotal' => 1
             ]
         ];
         $serviceInfo = [

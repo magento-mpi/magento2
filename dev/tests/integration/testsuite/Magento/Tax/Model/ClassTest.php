@@ -32,7 +32,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
             \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER
         )->getFirstItem();
 
-        $this->setExpectedException('Magento\Framework\Model\Exception');
+        $this->setExpectedException('Magento\Framework\Exception\CouldNotDeleteException');
         $model->delete();
     }
 
@@ -74,7 +74,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
             $model->getId()
         )->save();
 
-        $this->setExpectedException('Magento\Framework\Model\Exception');
+        $this->setExpectedException('Magento\Framework\Exception\CouldNotDeleteException');
         $model->delete();
     }
 
@@ -115,7 +115,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\Tax\Model\ClassModel */
         $model = $this->_objectManager->create('Magento\Tax\Model\ClassModel')->load($customerClasses[0]);
         $this->setExpectedException(
-            'Magento\Framework\Model\Exception',
+            'Magento\Framework\Exception\CouldNotDeleteException',
             'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.'
         );
@@ -137,7 +137,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\Tax\Model\ClassModel */
         $model = $this->_objectManager->create('Magento\Tax\Model\ClassModel')->load($productClasses[0]);
         $this->setExpectedException(
-            'Magento\Framework\Model\Exception',
+            'Magento\Framework\Exception\CouldNotDeleteException',
             'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.'
         );
