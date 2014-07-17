@@ -56,20 +56,18 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'inputData' => (new \Magento\Framework\Object())->setContentHeight('5'),
-                'expectedResult' => [
-                    "Please enter correct value for 'Content Height' field with units [px,pc,pt,ex,em,mm,cm,in,%]."
-                ]
+                'expectedResult' => true
             ],
             [
                 'inputData' => (new \Magento\Framework\Object())->setContentHeight('px'),
                 'expectedResult' => [
-                    "Please enter correct value for 'Content Height' field with units [px,pc,pt,ex,em,mm,cm,in,%]."
+                    "Please input a valid CSS-height. For example 100px or 77pt or 20em or .5ex or 50%."
                 ]
             ],
             [
                 'inputData' => (new \Magento\Framework\Object())->setContentHeight('abracadabra'),
                 'expectedResult' => [
-                    "Please enter correct value for 'Content Height' field with units [px,pc,pt,ex,em,mm,cm,in,%]."
+                    "Please input a valid CSS-height. For example 100px or 77pt or 20em or .5ex or 50%."
                 ]
             ],
         ];

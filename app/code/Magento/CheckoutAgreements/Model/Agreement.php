@@ -27,6 +27,13 @@ namespace Magento\CheckoutAgreements\Model;
 class Agreement extends \Magento\Framework\Model\AbstractModel
 {
     /**
+     * Allowed CSS units for height field
+     *
+     * @var array
+     */
+    protected $allowedCssUnits = array('px', 'pc', 'pt', 'ex', 'em', 'mm', 'cm', 'in', '%');
+
+    /**
      * @return void
      */
     protected function _construct()
@@ -42,12 +49,34 @@ class Agreement extends \Magento\Framework\Model\AbstractModel
     {
         $errors = [];
 
-        if ($agreementData->getContentHeight() !== ''
-            && !preg_match('/^[0-9]*\.*[0-9]+(px|pc|pt|ex|em|mm|cm|in|%)$/', $agreementData->getContentHeight())
+        $contentHeight = $agreementData->getContentHeight();
+        if ($contentHeight !== ''
+            && !preg_match('/^[0-9]*\.*[0-9]+(' . implode("|", $this->allowedCssUnits) . ')?$/', $contentHeight)
         ) {
-            $errors[] = "Please enter correct value for 'Content Height' field with units [px,pc,pt,ex,em,mm,cm,in,%].";
+            $errors[] = "Please input a valid CSS-height. For example 100px or 77pt or 20em or .5ex or 50%.";
         }
 
         return (count($errors)) ? $errors : true;
+    }
+
+    /**
+     * Processing object before save data
+     *
+     * @return $this
+     */
+    protected function _beforeSave()
+    {
+        if ($this->getContentHeight() == 0) {
+            $this->setContentHeight(''); //converting zero Content-Height
+        }
+
+        if ($this->getContentHeight()
+            && !preg_match('/('. implode("|", $this->allowedCssUnits) . ')/', $this->getContentHeight())
+        ) {
+            $contentHeight = $this->getContentHeight() . 'px'; //setting default units for Content-Height
+            $this->setContentHeight($contentHeight);
+        }
+
+        return parent::_beforeSave();
     }
 }
