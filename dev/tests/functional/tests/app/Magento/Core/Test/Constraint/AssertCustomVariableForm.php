@@ -9,15 +9,16 @@
 namespace Magento\Core\Test\Constraint;
 
 use Magento\Store\Test\Fixture\Store;
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\Core\Test\Fixture\SystemVariable;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
 
 /**
  * Class AssertCustomVariableForm
+ * Check that data at the form corresponds to the fixture data
  */
-class AssertCustomVariableForm extends AbstractConstraint
+class AssertCustomVariableForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -29,47 +30,48 @@ class AssertCustomVariableForm extends AbstractConstraint
     /**
      * Assert that data at the form corresponds to the fixture data
      *
-     * @param SystemVariable $customVariable
+     * @param SystemVariable $systemVariable
      * @param SystemVariableIndex $systemVariableIndex
      * @param SystemVariableNew $systemVariableNew
      * @param Store $storeOrigin
-     * @param SystemVariable $customVariableOrigin
+     * @param SystemVariable $systemVariableOrigin
      * @return void
      */
     public function processAssert(
-        SystemVariable $customVariable,
+        SystemVariable $systemVariable,
         SystemVariableIndex $systemVariableIndex,
         SystemVariableNew $systemVariableNew,
         Store $storeOrigin = null,
-        SystemVariable $customVariableOrigin = null
+        SystemVariable $systemVariableOrigin = null
     ) {
-        $data = ($customVariableOrigin === null)
-            ? $customVariable->getData()
-            : array_merge($customVariableOrigin->getData(), $customVariable->getData());
+        $data = ($systemVariableOrigin === null)
+            ? $systemVariable->getData()
+            : array_merge($systemVariableOrigin->getData(), $systemVariable->getData());
 
         if ($data['html_value'] == '') {
-            $data['html_value'] = $customVariableOrigin->getHtmlValue();
+            $data['html_value'] = $systemVariableOrigin->getHtmlValue();
             $data['use_default_value'] = 'Yes';
         }
         $data['plain_value'] = ($data['plain_value'] == '')
-            ? $customVariableOrigin->getPlainValue()
+            ? $systemVariableOrigin->getPlainValue()
             : $data['plain_value'];
 
         $filter = ['code' => $data['code']];
-        $systemVariableIndex->open();
-        $systemVariableIndex->getSystemVariableGrid()->searchAndOpen($filter);
+        $this->openVariable($systemVariableIndex, $filter);
+
         if ($storeOrigin !== null) {
             $systemVariableNew->getFormPageActions()->selectStoreView($storeOrigin->getStoreId());
+            $diff = $this->getDataFromForm($systemVariableNew, $systemVariable, $data, false);
+            $this->checkForm($diff);
         }
 
-        $formData = $systemVariableNew->getSystemVariableForm()->getData($customVariable);
-        unset($data['variable_id']);
-
-        $diff = $this->verifyData($formData, $data);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($diff),
-            implode(' ', $diff)
-        );
+        if ($systemVariableOrigin !== null) {
+            $data['html_value'] = $systemVariableOrigin->getHtmlValue();
+            $data['plain_value'] = $systemVariableOrigin->getPlainValue();
+            $this->openVariable($systemVariableIndex, $filter);
+            $diff = $this->getDataFromForm($systemVariableNew, $systemVariable, $data, true);
+            $this->checkForm($diff);
+        }
     }
 
     /**
@@ -77,9 +79,11 @@ class AssertCustomVariableForm extends AbstractConstraint
      *
      * @param array $formData
      * @param array $fixtureData
+     * @param bool $isStrict
+     * @param bool $isPrepareError
      * @return array
      */
-    protected function verifyData(array $formData, array $fixtureData)
+    protected function verifyData(array $formData, array $fixtureData, $isStrict = false, $isPrepareError = true)
     {
         $errorMessage = [];
         foreach ($fixtureData as $key => $value) {
@@ -103,6 +107,58 @@ class AssertCustomVariableForm extends AbstractConstraint
             }
         }
         return $errorMessage;
+    }
+
+    /**
+     * Open variable on Backend
+     *
+     * @param SystemVariableIndex $systemVariableIndex
+     * @param array $filter
+     * @return void
+     */
+    protected function openVariable(SystemVariableIndex $systemVariableIndex, $filter)
+    {
+        $systemVariableIndex->open();
+        $systemVariableIndex->getSystemVariableGrid()->searchAndOpen($filter);
+    }
+
+    /**
+     * Check variable Form
+     *
+     * @param array $diff
+     * @return void
+     */
+    protected function checkForm($diff)
+    {
+        \PHPUnit_Framework_Assert::assertTrue(
+            empty($diff),
+            implode(' ', $diff)
+        );
+    }
+
+    /**
+     * Get data from variable form
+     *
+     * @param SystemVariableNew $systemVariableNew
+     * @param SystemVariable $systemVariable
+     * @param array $data
+     * @param bool $useDefaultValue
+     * @return array
+     */
+
+    protected function getDataFromForm(
+        SystemVariableNew $systemVariableNew,
+        SystemVariable $systemVariable,
+        $data,
+        $useDefaultValue
+    ) {
+        $formData = $systemVariableNew->getSystemVariableForm()->getData($systemVariable);
+        unset($data['variable_id']);
+        if ($useDefaultValue) {
+            unset($data['use_default_value']);
+        }
+
+        return $this->verifyData($formData, $data);
     }
 
     /**

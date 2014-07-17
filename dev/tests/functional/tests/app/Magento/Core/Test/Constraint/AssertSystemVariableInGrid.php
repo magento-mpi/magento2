@@ -30,16 +30,16 @@ class AssertSystemVariableInGrid extends AbstractConstraint
      * Assert custom variable is displayed on backend in custom variable grid
      *
      * @param SystemVariableIndex $systemVariableIndexNew
-     * @param SystemVariable $customVariable
+     * @param SystemVariable $systemVariable
      * @return void
      */
     public function processAssert(
         SystemVariableIndex $systemVariableIndexNew,
-        SystemVariable $customVariable
+        SystemVariable $systemVariable
     ) {
         $filter = [
-            'code' => $customVariable->getCode(),
-            'name' => $customVariable->getName(),
+            'code' => $systemVariable->getCode(),
+            'name' => $systemVariable->getName(),
         ];
 
         $systemVariableIndexNew->open();

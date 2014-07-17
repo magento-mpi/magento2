@@ -62,15 +62,15 @@ class CreateCustomVariableEntityTest extends Injectable
     /**
      * Delete Custom System Variable Entity test
      *
-     * @param SystemVariable $customVariable
+     * @param SystemVariable $systemVariable
      * @return void
      */
-    public function test(SystemVariable $customVariable)
+    public function test(SystemVariable $systemVariable)
     {
         // Steps
         $this->systemVariableIndexPage->open();
         $this->systemVariableIndexPage->getGridPageActions()->addNew();
-        $this->systemVariableNewPage->getSystemVariableForm()->fill($customVariable);
+        $this->systemVariableNewPage->getSystemVariableForm()->fill($systemVariable);
         $this->systemVariableNewPage->getFormPageActions()->save();
     }
 }

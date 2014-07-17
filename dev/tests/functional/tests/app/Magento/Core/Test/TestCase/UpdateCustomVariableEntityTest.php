@@ -20,8 +20,8 @@ use Magento\Store\Test\Fixture\Store;
  *
  * Test Flow:
  * Preconditions:
- * Custom system variable is created ("custom_variable" SystemVariables )
- * Additional Non Default Storeview is created
+ * 1. Custom system variable is created.
+ * 2. Additional Non Default Storeview is created.
  *
  * Steps:
  * 1. Login to backend.
@@ -54,57 +54,67 @@ class UpdateCustomVariableEntityTest extends Injectable
     protected $systemVariableNewPage;
 
     /**
+     * Prepare data
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function __prepare(FixtureFactory $fixtureFactory)
+    {
+        $storeOrigin = $fixtureFactory->createByCode('store', ['dataSet' => 'german']);
+        $storeOrigin->persist();
+
+        return [
+            'storeOrigin' => $storeOrigin
+        ];
+    }
+
+
+    /**
      * Injection data
      *
      * @param SystemVariableIndex $systemVariableIndex
      * @param SystemVariableNew $systemVariableNew
-     * @param FixtureFactory $fixtureFactory
+     * @param SystemVariable $systemVariableOrigin
      * @return array
      */
     public function __inject(
         SystemVariableIndex $systemVariableIndex,
         SystemVariableNew $systemVariableNew,
-        FixtureFactory $fixtureFactory
+        SystemVariable $systemVariableOrigin
     ) {
         $this->systemVariableIndexPage = $systemVariableIndex;
         $this->systemVariableNewPage = $systemVariableNew;
 
-        $customVariableOrigin = $fixtureFactory->createByCode('systemVariable', ['dataSet' => 'custom_variable']);
-        $customVariableOrigin->persist();
+        $systemVariableOrigin->persist();
 
-        $storeOrigin = $fixtureFactory->createByCode('store', ['dataSet' => 'german']);
-        $storeOrigin->persist();
-
-        return [
-            'customVariableOrigin' => $customVariableOrigin,
-            'storeOrigin' => $storeOrigin
-        ];
+        return ['systemVariableOrigin' => $systemVariableOrigin];
     }
 
     /**
      * Update Custom System Variable Entity test
      *
-     * @param SystemVariable $customVariable
-     * @param SystemVariable $customVariableOrigin
+     * @param SystemVariable $systemVariable
+     * @param SystemVariable $systemVariableOrigin
      * @param Store $storeOrigin
      * @param $saveAction
      * @return void
      */
     public function test(
-        SystemVariable $customVariable,
-        SystemVariable $customVariableOrigin,
+        SystemVariable $systemVariable,
+        SystemVariable $systemVariableOrigin,
         Store $storeOrigin,
         $saveAction
     ) {
         $filter = [
-            'code' => $customVariableOrigin->getCode(),
+            'code' => $systemVariableOrigin->getCode(),
         ];
 
         // Steps
         $this->systemVariableIndexPage->open();
         $this->systemVariableIndexPage->getSystemVariableGrid()->searchAndOpen($filter);
         $this->systemVariableNewPage->getFormPageActions()->selectStoreView($storeOrigin->getData('store_id'));
-        $this->systemVariableNewPage->getSystemVariableForm()->fill($customVariable);
+        $this->systemVariableNewPage->getSystemVariableForm()->fill($systemVariable);
         $this->systemVariableNewPage->getFormPageActions()->$saveAction();
     }
 }

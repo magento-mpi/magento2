@@ -25,13 +25,6 @@ class SystemVariable extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = [
-            'variable[code]' => 'variableCode%isolation%',
-            'variable[name]' => 'variableName%isolation%',
-            'variable[html_value]' => '',
-            'variable[plain_value]' => ''
-        ];
-
         $this->_data['custom_variable'] = [
             'variable[code]' => 'variableCode%isolation%',
             'variable[name]' => 'variableName%isolation%',

@@ -11,6 +11,7 @@ namespace Magento\Core\Test\Constraint;
 use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Store\Test\Fixture\Store;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Core\Test\Fixture\SystemVariable;
 
@@ -27,25 +28,29 @@ class AssertSystemVariableInPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Add created variable to page and assert that Custom Variable is displayed on frontend in page and has
+     * Add created variable to page and assert that Custom Variable is displayed on frontend page and has
      * correct data according to dataset.
      *
-     * @param SystemVariable $customVariable
+     * @param SystemVariable $systemVariable
      * @param CmsIndex $cmsIndex
-     * @param SystemVariable $customVariableOrigin
+     * @param \Magento\Core\Test\Fixture\SystemVariable $variable
      * @param FixtureFactory $fixtureFactory
      * @param Browser $browser
+     * @param Store $storeOrigin
+     * @param SystemVariable $systemVariableOrigin
      * @return void
      */
     public function processAssert(
-        SystemVariable $customVariable,
+        SystemVariable $systemVariable,
         CmsIndex $cmsIndex,
+        SystemVariable $variable,
         FixtureFactory $fixtureFactory,
         Browser $browser,
-        SystemVariable $customVariableOrigin = null
+        Store $storeOrigin = null,
+        SystemVariable $systemVariableOrigin = null
     ) {
 
-        $content = '{{customVar code=' . $customVariable->getCode() . '}}';
+        $content = '{{customVar code=' . $systemVariable->getCode() . '}}';
         $cmsPage = $fixtureFactory->createByCode(
             'cmsPage',
             [
@@ -57,26 +62,43 @@ class AssertSystemVariableInPage extends AbstractConstraint
         $url = $_ENV['app_frontend_url'] . $cmsPage->getIdentifier();
         $browser->open($url);
 
-        if ($cmsIndex->getStoreSwitcherBlock()->isVisible()
-            && ($cmsIndex->getStoreSwitcherBlock()->getStoreView() !== 'Default Store View')
-        ) {
-            $cmsIndex->getStoreSwitcherBlock()->selectStoreView('Default Store View');
-        }
+        $cmsIndex->getStoreSwitcherBlock()->selectStoreView('Default Store View');
 
-        $htmlValue = ($customVariableOrigin == null)
-            ? $customVariable->getHtmlValue()
-            : $customVariableOrigin->getHtmlValue();
+        $htmlValue = ($systemVariableOrigin == null)
+            ? $systemVariable->getHtmlValue()
+            : $systemVariableOrigin->getHtmlValue();
         $htmlValue = strip_tags($htmlValue);
-
         $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
+        $this->checkVariable($htmlValue, $pageContent);
 
+        if ($storeOrigin !== null) {
+            $cmsIndex->getStoreSwitcherBlock()->selectStoreView($storeOrigin->getName());
+        }
+        $htmlValue = strip_tags($systemVariable->getHtmlValue());
+        if ($htmlValue === '') {
+            $htmlValue = strip_tags($variable->getHtmlValue());
+        }
+        $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
+        $this->checkVariable($htmlValue, $pageContent);
+    }
+
+    /**
+     * Check Variable on frontend page
+     *
+     * @param string $htmlValue
+     * @param string $pageContent
+     * @return void
+     */
+    protected function checkVariable($htmlValue, $pageContent)
+    {
         \PHPUnit_Framework_Assert::assertEquals(
             $htmlValue,
             $pageContent,
-            'Wrong text is displayed.'
+            'Wrong content is displayed on frontend page'
             . "\nExpected: " . $htmlValue
             . "\nActual: " . $pageContent
         );
+
     }
 
     /**
@@ -86,6 +108,6 @@ class AssertSystemVariableInPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Custom Variable is displayed on frontend page in default storeview.';
+        return 'Custom Variable is displayed on frontend page';
     }
 }
