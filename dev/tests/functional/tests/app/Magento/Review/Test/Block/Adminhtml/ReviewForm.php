@@ -37,7 +37,7 @@ class ReviewForm extends Form
      *
      * @var string
      */
-    protected $saveButton = '[data-ui-id$=save-button]';
+    protected $saveButton = '[data-ui-id$=save-button-button]';
 
     /**
      * Selector for single rating

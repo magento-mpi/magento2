@@ -12,15 +12,15 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Price
- *
  * Data keys:
  *  - preset (Price verification preset name)
  *  - value (Price value)
- *
  */
 class Price implements FixtureInterface
 {
     /**
+     * Current preset
+     *
      * Prepared dataSet data
      *
      * @var array
@@ -40,15 +40,14 @@ class Price implements FixtureInterface
     protected $currentPreset;
 
     /**
+     * @constructor
      * @param array $params
      * @param array $data
      */
     public function __construct(array $params, array $data = [])
     {
         $this->params = $params;
-        if (isset($data['value'])) {
-            $this->data = $data['value'];
-        }
+        $this->data = (isset($data['value']) && $data['value'] != '-') ? $data['value'] : null;
         if (isset($data['preset'])) {
             $this->currentPreset = $data['preset'];
         }
@@ -88,29 +87,77 @@ class Price implements FixtureInterface
     }
 
     /**
+     * Get preset array
+     *
      * @return array|null
      */
     public function getPreset()
     {
         $presets = [
             'MAGETWO-23066' => [
-                'price_from' => '$115.00',
-                'price_to' => '$120.00',
+                'price_from' => '115.00',
+                'price_to' => '120.00',
                 'cart_price' => '145.00'
             ],
             'MAGETWO-23069' => [
-                'price_from' => '$115.00',
-                'price_to' => '$120.00',
+                'price_from' => '115.00',
+                'price_to' => '120.00',
                 'cart_price' => '126.00'
             ],
             'MAGETWO-23070' => [
-                'price_from' => '$40.00',
-                'price_to' => '$100.00',
+                'price_from' => '40.00',
+                'price_to' => '100.00',
                 'cart_price' => '100.00'
             ],
             'MAGETWO-23061' => [
-                'price_from' => '$32.00',
-                'price_to' => '$80.00',
+                'price_from' => '32.00',
+                'price_to' => '80.00',
+                'cart_price' => '80.00'
+            ],
+            'dynamic-200' => [
+                'price_from' => '200.00',
+                'price_to' => '500.00',
+                'cart_price' => '400.00'
+            ],
+            'fixed-24' => [
+                'price_from' => '96.00',
+                'cart_price' => '248.00'
+            ],
+            'fixed-1' => [
+                'price_from' => '1.00',
+                'price_to' => '10.00',
+                'cart_price' => '80.00'
+            ],
+            'dynamic-8' => [
+                'price_from' => '8.00',
+                'price_to' => '20.00',
+                'cart_price' => '80.00'
+            ],
+            'dynamic-32' => [
+                'price_from' => '32.00',
+                'price_to' => '80.00',
+                'cart_price' => '80.00'
+            ],
+            'dynamic-40' => [
+                'price_from' => '40.00',
+                'price_to' => '100.00',
+                'cart_price' => '100.00'
+            ],
+            'dynamic-50' => [
+                'price_from' => 'As low as $50.00',
+            ],
+            'fixed-115' => [
+                'price_from' => '115.00',
+                'price_to' => '120.00',
+                'cart_price' => '145.00'
+            ],
+            'fixed-126' => [
+                'price_from' => '115.00',
+                'price_to' => '120.00',
+                'cart_price' => '126.00'
+            ],
+            'fixed-15' => [
+                'price_from' => '15.00',
                 'cart_price' => '80.00'
             ],
             'default_fixed' => [
@@ -120,11 +167,9 @@ class Price implements FixtureInterface
                 'compare_price' => '560.00'
             ],
         ];
-
         if (!isset($presets[$this->currentPreset])) {
             return null;
         }
-
         return $presets[$this->currentPreset];
     }
 }

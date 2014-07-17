@@ -21,12 +21,12 @@ class View extends \Magento\Backend\Block\Widget\Container
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -44,7 +44,7 @@ class View extends \Magento\Backend\Block\Widget\Container
         $invitation = $this->getInvitation();
         $this->_headerText = __('View Invitation for %1 (ID: %2)', $invitation->getEmail(), $invitation->getId());
         $this->getLayout()->getBlock('page-title')->setPageTitle($this->_headerText);
-        $this->_addButton(
+        $this->buttonList->add(
             'back',
             array(
                 'label' => __('Back'),
@@ -58,7 +58,7 @@ class View extends \Magento\Backend\Block\Widget\Container
                 'invitations/*/massCancel',
                 array('_query' => array('invitations' => array($invitation->getId())))
             );
-            $this->_addButton(
+            $this->buttonList->add(
                 'cancel',
                 array(
                     'label' => __('Discard Invitation'),
@@ -71,7 +71,7 @@ class View extends \Magento\Backend\Block\Widget\Container
             );
         }
         if ($invitation->canMessageBeUpdated()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'save_message_button',
                 array(
                     'label' => __('Save Invitation'),
@@ -87,7 +87,7 @@ class View extends \Magento\Backend\Block\Widget\Container
                 'invitations/*/massResend',
                 array('_query' => http_build_query(array('invitations' => array($invitation->getId()))))
             );
-            $this->_addButton(
+            $this->buttonList->add(
                 'resend',
                 array('label' => __('Send Invitation'), 'onclick' => "setLocation('{$massResendUrl}')"),
                 -1

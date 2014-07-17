@@ -35,14 +35,14 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Constructor
      *
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $viewHelper,
@@ -66,7 +66,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $customerId = $this->getCustomerId();
 
         if ($customerId && $this->_authorization->isAllowed('Magento_Sales::create')) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'order',
                 array(
                     'label' => __('Create Order'),
@@ -79,21 +79,21 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        $this->_updateButton('save', 'label', __('Save Customer'));
-        $this->_updateButton('delete', 'label', __('Delete Customer'));
+        $this->buttonList->update('save', 'label', __('Save Customer'));
+        $this->buttonList->update('delete', 'label', __('Delete Customer'));
 
         if ($customerId && !$this->_customerAccountService->canModify($customerId)) {
-            $this->_removeButton('save');
-            $this->_removeButton('reset');
+            $this->buttonList->remove('save');
+            $this->buttonList->remove('reset');
         }
 
         if (!$customerId || !$this->_customerAccountService->canDelete($customerId)) {
-            $this->_removeButton('delete');
+            $this->buttonList->remove('delete');
         }
 
         if ($customerId) {
             $url = $this->getUrl('customer/index/resetPassword', array('customer_id' => $customerId));
-            $this->_addButton(
+            $this->buttonList->add(
                 'reset_password',
                 array(
                     'label' => __('Reset Password'),
@@ -175,7 +175,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         $customerId = $this->getCustomerId();
         if (!$customerId || $this->_customerAccountService->canModify($customerId)) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'save_and_continue',
                 array(
                     'label' => __('Save and Continue Edit'),

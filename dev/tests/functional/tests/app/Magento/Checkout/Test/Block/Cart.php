@@ -77,7 +77,14 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $cartItem = '//tr[normalize-space(td)="%s"]';
+    protected $cartItem = '//tr[td//*[normalize-space(text()) = "%s"]]';
+
+    /**
+     * Get bundle options
+     *
+     * @var string
+     */
+    protected $bundleOptions = '//dl[contains(@class, "cart item options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
      * Get sub-total for the specified item in the cart
@@ -316,5 +323,19 @@ class Cart extends Block
     {
         preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
         return (isset($matches[1])) ? $matches[1] : null;
+    }
+
+    /**
+     * Get item Bundle options
+     *
+     * @param int $index
+     * @param int $itemIndex
+     * @param string $currency
+     * @return string
+     */
+    public function getPriceBundleOptions($index, $itemIndex = 1, $currency = '$')
+    {
+        $formatPrice = sprintf($this->bundleOptions, $index, $itemIndex);
+        return trim($this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText(), $currency);
     }
 }

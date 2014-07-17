@@ -8,10 +8,10 @@
 
 namespace Magento\Downloadable\Test\Constraint;
 
-use Magento\Catalog\Test\Constraint\AssertProductForm;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Catalog\Test\Constraint\AssertProductForm;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Class AssertDownloadableProductForm

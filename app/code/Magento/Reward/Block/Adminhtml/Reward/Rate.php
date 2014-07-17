@@ -25,6 +25,6 @@ class Rate extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_controller = 'adminhtml_reward_rate';
         $this->_headerText = __('Reward Exchange Rates');
         parent::_construct();
-        $this->_updateButton('add', 'label', __('Add New Rate'));
+        $this->buttonList->update('add', 'label', __('Add New Rate'));
     }
 }

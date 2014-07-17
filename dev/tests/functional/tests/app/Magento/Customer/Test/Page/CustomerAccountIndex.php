@@ -29,7 +29,7 @@ class CustomerAccountIndex extends FrontendPage
         'dashboardAddress' => [
             'name' => 'dashboardAddress',
             'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Address',
-            'locator' => '.block.dashboard.addresses',
+            'locator' => '.block.addresses',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
@@ -42,6 +42,12 @@ class CustomerAccountIndex extends FrontendPage
             'name' => 'accountMenuBlock',
             'class' => 'Magento\Customer\Test\Block\Account\Links',
             'locator' => '.nav.items',
+            'strategy' => 'css selector',
+        ],
+        'infoBlock' => [
+            'name' => 'infoBlock',
+            'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Info',
+            'locator' => '.column.main',
             'strategy' => 'css selector',
         ],
         'compareProductsBlock' => [
@@ -84,6 +90,16 @@ class CustomerAccountIndex extends FrontendPage
     public function getAccountMenuBlock()
     {
         return $this->getBlockInstance('accountMenuBlock');
+    }
+
+    /**
+     * Get Account Info Block
+     *
+     * @return \Magento\Customer\Test\Block\Account\Dashboard\Info
+     */
+    public function getInfoBlock()
+    {
+        return $this->getBlockInstance('infoBlock');
     }
 
     /**

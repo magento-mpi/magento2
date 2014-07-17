@@ -29,12 +29,12 @@ class Detail extends \Magento\Backend\Block\Widget\Container
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -57,7 +57,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
         }
 
         $backUrl = $this->_txn->getOrderUrl() ? $this->_txn->getOrderUrl() : $this->getUrl('sales/*/');
-        $this->_addButton(
+        $this->buttonList->add(
             'back',
             array('label' => __('Back'), 'onclick' => "setLocation('{$backUrl}')", 'class' => 'back')
         );
@@ -67,7 +67,7 @@ class Detail extends \Magento\Backend\Block\Widget\Container
         ) && $this->_txn->getOrderPaymentObject()->getMethodInstance()->canFetchTransactionInfo()
         ) {
             $fetchUrl = $this->getUrl('sales/*/fetch', array('_current' => true));
-            $this->_addButton(
+            $this->buttonList->add(
                 'fetch',
                 array('label' => __('Fetch'), 'onclick' => "setLocation('{$fetchUrl}')", 'class' => 'button')
             );
