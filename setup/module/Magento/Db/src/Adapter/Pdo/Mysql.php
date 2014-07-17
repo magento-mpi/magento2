@@ -1132,19 +1132,27 @@ class Mysql extends Adapter implements AdapterInterface
      */
     public function describeTable($tableName, $schemaName = null)
     {
-        $ddl = parent::describeTable($tableName, $schemaName);
-        /**
-         * Remove bug in some MySQL versions, when int-column without default value is described as:
-         * having default empty string value
-         */
-        $affected = array('tinyint', 'smallint', 'mediumint', 'int', 'bigint');
-        foreach ($ddl as $key => $columnData) {
-            if (($columnData['DEFAULT'] === '') && (array_search($columnData['DATA_TYPE'], $affected) !== false)) {
-                $ddl[$key]['DEFAULT'] = null;
-            }
+        $desc = [];
+        $ddl = new \Zend\Db\Metadata\Metadata($this);
+        $ddlTable = $ddl->getTable($tableName, $schemaName);
+        foreach ($ddlTable->getColumns() as $ddlColumn) {
+            $desc[$ddlColumn->getName()] = array(
+                'SCHEMA_NAME'      => null,
+                'TABLE_NAME'       => $tableName,
+                'COLUMN_NAME'      => $ddlColumn->getName(),
+                'COLUMN_POSITION'  => $ddlColumn->getOrdinalPosition(),
+                'DATA_TYPE'        => $ddlColumn->getDataType(),
+                'DEFAULT'          => $ddlColumn->getColumnDefault(),
+                'NULLABLE'         => $ddlColumn->isNullable(),
+                'LENGTH'           => $ddlColumn->getN,
+                'SCALE'            => $ddlColumn->getNumericScale(),
+                'PRECISION'        => $ddlColumn->getNumericPrecision(),
+                'UNSIGNED'         => $ddlColumn->isNumericUnsigned(),
+            );
+
         }
 
-        return $ddl;
+        return $desc;
     }
 
     /**
