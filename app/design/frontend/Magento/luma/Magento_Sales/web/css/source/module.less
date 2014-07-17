@@ -67,10 +67,39 @@
                     background: none;
                 }
             }
+            td {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            .col.label {
+                font-weight: @font-weight-bold;
+                padding-bottom: 5px;
+            }
+            > .item-options td {
+                padding-top: 0;
+                padding-bottom: 5px;
+            }
+        }
+        .product-item-name {
+            margin: 0 0 10px;
         }
         .item.options {
+            dt {
+                margin: 0;
+            }
             dd {
-                margin-left: 0;
+                margin: 0 0 15px;
+            }
+            &.links {
+                dt {
+                    display: inline-block;
+                    &:after {
+                        content: ": ";
+                    }
+                }
+                dd {
+                    margin: 0;
+                }
             }
         }
     }
@@ -83,6 +112,9 @@
         &.price,
         &.subtotal {
             &:extend(.abstract-incl-excl-tax all);
+        }
+        &.name {
+            padding-top: 16px;
         }
     }
     .cart-tax-total {
@@ -112,6 +144,10 @@
             }
         }
     }
+
+    .action.print {
+        display: none;
+    }
 }
 
 .block-order-details {
@@ -125,6 +161,7 @@
             margin: 0 0 20px;
         }
     }
+
     &-view {
         .block-content .box {
             margin-bottom: 30px;
@@ -147,6 +184,15 @@
                     }
                 }
             }
+        }
+    }
+
+    &-additional {
+        .order-details-items & {
+            margin: 40px 0 0;
+        }
+        + .actions-toolbar {
+            display: none;
         }
     }
 }
@@ -301,16 +347,6 @@
                 &.track {
                     float: right;
                 }
-                &.print {
-                    float: right;
-                    &:extend(.abstract-action-print all);
-                }
-            }
-        }
-        .actions-toolbar {
-            .action.print {
-                float: right;
-                &:extend(.abstract-action-print all);
             }
         }
         .col {
@@ -323,8 +359,14 @@
             }
         }
         tfoot {
+            .amount,
             .mark {
                 text-align: right;
+            }
+        }
+        &.ordered {
+            .order-title {
+                display: none;
             }
         }
     }
@@ -351,10 +393,6 @@
         }
     }
     .order-details-items {
-        .order-title .action.print,
-        .actions-toolbar .action.print {
-            display: none;
-        }
         .items-qty {
             display: inline-block;
             vertical-align: top;
