@@ -31,7 +31,7 @@ class Sidebar extends ListCompare
     protected $productName = 'li.item.odd.last strong.name a';
 
     /**
-     * Selector for  "Clear All" button
+     * Selector for "Clear All" button
      *
      * @var string
      */
