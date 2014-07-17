@@ -20,12 +20,12 @@ class Tax extends \Magento\Backend\App\Action
     /**
      * @var \Magento\Tax\Service\V1\TaxClassServiceInterface
      */
-    private $taxClassService;
+    protected $taxClassService;
 
     /**
      * @var \Magento\Tax\Service\V1\Data\TaxClassBuilder
      */
-    private $taxClassBuilder;
+    protected $taxClassBuilder;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
@@ -40,84 +40,6 @@ class Tax extends \Magento\Backend\App\Action
         $this->taxClassService = $taxClassService;
         $this->taxClassBuilder = $taxClassBuilder;
         parent::__construct($context);
-    }
-
-    /**
-     * Save Tax Class via AJAX
-     *
-     * @return void
-     */
-    public function ajaxSaveAction()
-    {
-        try {
-            $taxClassId = (int)$this->getRequest()->getPost('class_id') ?: null;
-
-            $taxClass = $this->taxClassBuilder
-                ->setClassType((string)$this->getRequest()->getPost('class_type'))
-                ->setClassName($this->_processClassName((string)$this->getRequest()->getPost('class_name')))
-                ->create();
-            if ($taxClassId) {
-                $this->taxClassService->updateTaxClass($taxClassId, $taxClass);
-            } else {
-                $taxClassId = $this->taxClassService->createTaxClass($taxClass);
-            }
-
-            $responseContent = $this->_objectManager->get(
-                'Magento\Core\Helper\Data'
-            )->jsonEncode(
-                array(
-                    'success' => true,
-                    'error_message' => '',
-                    'class_id' => $taxClassId,
-                    'class_name' => $taxClass->getClassName()
-                )
-            );
-        } catch (\Magento\Framework\Exception\LocalizedException $e) {
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-                array('success' => false, 'error_message' => $e->getMessage(), 'class_id' => '', 'class_name' => '')
-            );
-        } catch (\Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-                array(
-                    'success' => false,
-                    'error_message' => __('Something went wrong saving this tax class.'),
-                    'class_id' => '',
-                    'class_name' => ''
-                )
-            );
-        }
-        $this->getResponse()->representJson($responseContent);
-    }
-
-    /**
-     * Delete Tax Class via AJAX
-     *
-     * @return void
-     */
-    public function ajaxDeleteAction()
-    {
-        $classId = (int)$this->getRequest()->getParam('class_id');
-        try {
-            $this->taxClassService->deleteTaxClass($classId);
-            $responseContent = $this->_objectManager->get(
-                'Magento\Core\Helper\Data'
-            )->jsonEncode(
-                array('success' => true, 'error_message' => '')
-            );
-        } catch (\Magento\Framework\Exception\LocalizedException $e) {
-            $responseContent = $this->_objectManager->get(
-                'Magento\Core\Helper\Data'
-            )->jsonEncode(
-                array('success' => false, 'error_message' => $e->getMessage())
-            );
-        } catch (\Exception $e) {
-            $responseContent = $this->_objectManager->get(
-                'Magento\Core\Helper\Data'
-            )->jsonEncode(
-                array('success' => false, 'error_message' => __('Something went wrong deleting this tax class.'))
-            );
-        }
-        $this->getResponse()->representJson($responseContent);
     }
 
     /**
@@ -144,25 +66,5 @@ class Tax extends \Magento\Backend\App\Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Tax::manage_tax');
-    }
-
-    /**
-     * Set tax ignore notification flag and redirect back
-     *
-     * @return \Magento\Framework\App\ResponseInterface
-     */
-    public function ignoreTaxNotificationAction()
-    {
-        $section = $this->getRequest()->getParam('section');
-        if ($section) {
-            try {
-                $path = 'tax/notification/ignore_' . $section;
-                $this->_objectManager->get('\Magento\Core\Model\Resource\Config')->saveConfig($path, 1, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, 0);
-            } catch (Exception $e) {
-                $this->messageManager->addError($e->getMessage());
-            }
-        }
-
-        $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
     }
 }
