@@ -274,6 +274,12 @@
     }
 }
 
+.responsive-smaller(@break) when (@break = @break-point-0) {
+    .add-clearfix-mobile {
+        .clearfix();
+    }
+}
+
 //
 //    Box-sizing
 //--------------------------------------

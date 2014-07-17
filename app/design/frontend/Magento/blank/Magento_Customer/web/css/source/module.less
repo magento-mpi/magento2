@@ -75,9 +75,11 @@
         h2 {
             margin-top: 0;
         }
-        .products.toolbar {
-            background: transparent;
-            margin-bottom: @indent-base;
+        .toolbar {
+            text-align: center;
+            .limiter-options {
+                width: auto;
+            }
         }
         .block:not(.widget) {
             .block-title {
@@ -279,6 +281,29 @@
                 margin-bottom: 0;
             }
         }
+        .toolbar {
+            position: relative;
+            margin-bottom: @indent-base;
+            &:extend(.add-clearfix-desktop all);
+            .toolbar-amount,
+            .limiter {
+                position: relative;
+                z-index: 1;
+            }
+            .limiter {
+                float: right;
+            }
+            .toolbar-amount {
+                padding: 7px 0 0;
+                line-height: normal;
+                float: left;
+            }
+            .pages {
+                position: absolute;
+                z-index: 0;
+                width: 100%;
+            }
+        }
     }
 
     .block-addresses-list {
@@ -313,6 +338,13 @@
                 &:before {
                     &:extend(.visually-hidden-mobile all);
                 }
+            }
+        }
+        .toolbar {
+            .toolbar-amount,
+            .limiter,
+            .pages {
+                margin-bottom: 25px;
             }
         }
     }
