@@ -43,6 +43,7 @@
                             $linkAnchorText = $this->getObjectData($row, "{$index}_link_text");
                             $linkText = $linkUrl ? ($linkAnchorText ? $linkAnchorText : $value) : '';
                             $linkFormat = $linkUrl ? '<a href="%s">%s</a>' : '';
+                            $title = $this->getObjectData($column, 'title');
                             ?>
                             <td data-th="<?php echo $title ? $this->escapeHtml($title) : '&nbsp;' ?>" <?php echo $this->getObjectData($row, 'is_amount') ? ' class="col qty"' : '' ?>>
                                 <?php
