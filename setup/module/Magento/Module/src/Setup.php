@@ -344,23 +344,14 @@ class Setup implements SetupInterface
                         break;
                 }
 
-                $bDir = '/home/nas/projects/magento2/setup';
-                var_dump($result);
                 if ($result) {
                     $this->_setResourceVersion($actionType, $file['toVersion']);
-                    file_put_contents($bDir . '/install.log', file_get_contents($bDir . '/install.log') . PHP_EOL . $fileName);
+                    //@todo log
                 } else {
-                    file_put_contents($bDir . '/install.log', file_get_contents($bDir . '/install.log') . PHP_EOL . "Failed resource setup: {$fileName}");
+                    //@todo log "Failed resource setup: {$fileName}";
                 }
             } catch (\Exception $e) {
                 throw new \Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
-                $bDir = '/home/nas/projects/magento2/setup';
-                file_put_contents(
-                    $bDir . '/install.log',
-                    file_get_contents($bDir . '/install.log')
-                    . PHP_EOL
-                    . sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e
-                );
             }
             $version = $file['toVersion'];
         }

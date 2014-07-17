@@ -5573,7 +5573,7 @@ $table = $installer->getConnection()->newTable(
     'order_status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     50,
-    array('nullable' => false, 'default' => ''),
+    array('nullable' => false, 'default' => false),
     'Order Status'
 )->addColumn(
     'orders_count',
@@ -5656,7 +5656,7 @@ $table = $installer->getConnection()->newTable(
     'order_status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     50,
-    array('nullable' => false, 'default' => ''),
+    array('nullable' => false, 'default' => false),
     'Order Status'
 )->addColumn(
     'orders_count',
@@ -5911,7 +5911,7 @@ $table = $installer->getConnection()->newTable(
     'order_status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     50,
-    array('nullable' => false, 'default' => ''),
+    array('nullable' => false, 'default' => false),
     'Order Status'
 )->addColumn(
     'orders_count',

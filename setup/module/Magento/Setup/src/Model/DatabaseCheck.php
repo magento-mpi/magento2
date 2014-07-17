@@ -8,7 +8,7 @@
 
 namespace Magento\Setup\Model;
 
-use Magento\Db\Adapter\Pdo\Mysql;
+use Magento\Framework\DB\Adapter\Pdo\Mysql;
 
 class DatabaseCheck
 {

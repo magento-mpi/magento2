@@ -7,7 +7,7 @@
  */
 namespace Magento\Module\Setup\Connection;
 
-use Magento\Db\Adapter\Pdo\Mysql;
+use Magento\Framework\DB\Adapter\Pdo\Mysql;
 
 class Adapter implements AdapterInterface
 {

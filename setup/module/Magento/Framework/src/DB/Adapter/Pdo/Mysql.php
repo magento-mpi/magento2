@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Db\Adapter\Pdo;
+namespace Magento\Framework\DB\Adapter\Pdo;
 
 use Magento\Filesystem\Filesystem;
 use Magento\Framework\DB\Adapter\AdapterInterface;
@@ -306,6 +306,9 @@ class Mysql extends Adapter implements AdapterInterface
 
     public function fetchAll($sql, $bind = array(), $fetchMode = null)
     {
+        if ($sql instanceof \Zend\Db\Sql\Select) {
+            $sql = $sql->getSqlString($this->getPlatform());
+        }
         return $this->query($sql);
     }
 
@@ -329,7 +332,7 @@ class Mysql extends Adapter implements AdapterInterface
             if (empty($field)) {
                 return $row;
             } else {
-                return isset($row[$field]) ? $row[$field] : false;
+                return isset($row[0][$field]) ? $row[0][$field] : false;
             }
         } else {
             return false;
@@ -367,7 +370,6 @@ class Mysql extends Adapter implements AdapterInterface
         $parametersOrQueryMode = self::QUERY_MODE_EXECUTE,
         ResultSet\ResultSetInterface $resultPrototype = null
     ) {
-        var_dump($sql);
         return parent::query($sql, $parametersOrQueryMode, $resultPrototype);
     }
 
@@ -1132,7 +1134,13 @@ class Mysql extends Adapter implements AdapterInterface
         $desc = [];
         $ddl = new \Zend\Db\Metadata\Metadata($this);
         $ddlTable = $ddl->getTable($tableName, $schemaName);
+        $constraints = $ddlTable->getConstraints();
+
         foreach ($ddlTable->getColumns() as $ddlColumn) {
+            $primary = false;
+            foreach ($constraints as $constraint) {
+                $primary = in_array($ddlColumn->getName(), $constraint->getColumns()) && $constraint->isPrimaryKey();
+            }
             $desc[$ddlColumn->getName()] = array(
                 'SCHEMA_NAME'      => null,
                 'TABLE_NAME'       => $tableName,
@@ -1145,6 +1153,9 @@ class Mysql extends Adapter implements AdapterInterface
                 'SCALE'            => $ddlColumn->getNumericScale(),
                 'PRECISION'        => $ddlColumn->getNumericPrecision(),
                 'UNSIGNED'         => $ddlColumn->isNumericUnsigned(),
+                'PRIMARY'          => $primary,
+                'PRIMARY_POSITION' => 0,
+                'IDENTITY'         => false,
             );
 
         }
@@ -1792,6 +1803,10 @@ class Mysql extends Adapter implements AdapterInterface
             $after = $options['AFTER'];
         }
 
+        if ($cDefault instanceof \Zend\Db\Sql\Expression) {
+            $cDefault = $cDefault->getExpression();
+        }
+
         return sprintf(
             '%s%s%s%s%s COMMENT %s %s',
             $cType,
@@ -2049,10 +2064,10 @@ class Mysql extends Adapter implements AdapterInterface
 
         $query = sprintf(
             'ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName)),
+            $this->getPlatform()->quoteIdentifierChain($tableName),
             $this->quoteIdentifier($fkName),
             $this->quoteIdentifier($columnName),
-            $this->getPlatform()->quoteIdentifierChain(array($refSchemaName, $refTableName)),
+            $this->getPlatform()->quoteIdentifierChain($refTableName),
             $this->quoteIdentifier($refColumnName)
         );
 

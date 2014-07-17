@@ -38,7 +38,7 @@ $table = $installer->getConnection()->newTable(
     'type_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false, 'default' => \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE),
+    array('nullable' => false, 'default' => 'simple'),
     'Type ID'
 )->addColumn(
     'sku',

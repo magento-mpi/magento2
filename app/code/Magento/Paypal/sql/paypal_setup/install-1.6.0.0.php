@@ -265,7 +265,7 @@ $table = $installer->getConnection()->newTable(
     'gross_transaction_currency',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     3,
-    array('default' => ''),
+    array('default' => false),
     'Gross Transaction Currency'
 )->addColumn(
     'fee_debit_or_credit',

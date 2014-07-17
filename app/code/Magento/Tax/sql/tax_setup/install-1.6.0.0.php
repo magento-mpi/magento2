@@ -30,7 +30,7 @@ $table = $installer->getConnection()->newTable(
     'class_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     8,
-    array('nullable' => false, 'default' => \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER),
+    array('nullable' => false, 'default' => 'CUSTOMER'),
     'Class Type'
 )->setComment(
     'Tax Class'
