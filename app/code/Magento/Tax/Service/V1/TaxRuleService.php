@@ -9,11 +9,13 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
@@ -70,6 +72,10 @@ class TaxRuleService implements TaxRuleServiceInterface
     protected $searchCriteriaBuilder;
 
     /**
+     * @var TaxClassService
+     */
+    protected $taxClassService;
+    /**
      * @param TaxRuleBuilder $taxRuleBuilder
      * @param TaxRuleConverter $converter
      * @param TaxRuleRegistry $taxRuleRegistry
@@ -78,6 +84,7 @@ class TaxRuleService implements TaxRuleServiceInterface
      * @param FilterBuilder $filterBuilder
      * @param TaxRateServiceInterface $taxRateService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param TaxClassService $taxClassService
      */
     public function __construct(
         TaxRuleBuilder $taxRuleBuilder,
@@ -87,7 +94,8 @@ class TaxRuleService implements TaxRuleServiceInterface
         TaxRuleModelFactory $taxRuleModelFactory,
         FilterBuilder $filterBuilder,
         TaxRateServiceInterface $taxRateService,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        TaxClassService $taxClassService
     ) {
         $this->taxRuleBuilder = $taxRuleBuilder;
         $this->converter = $converter;
@@ -97,6 +105,7 @@ class TaxRuleService implements TaxRuleServiceInterface
         $this->filterBuilder = $filterBuilder;
         $this->taxRateService = $taxRateService;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->taxClassService = $taxClassService;
     }
 
     /**
@@ -341,14 +350,45 @@ class TaxRuleService implements TaxRuleServiceInterface
         if (!\Zend_Validate::is(trim($rule->getCode()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::CODE]);
         }
+
         // customer tax class ids is required
         if (($rule->getCustomerTaxClassIds() === null) || !$rule->getCustomerTaxClassIds()) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::CUSTOMER_TAX_CLASS_IDS]);
+        } else { // see if the customer tax class ids exist
+            $customerTaxClassIds = $rule->getCustomerTaxClassIds();
+            foreach ($customerTaxClassIds as $customerTaxClassId) {
+                try {
+                    $taxClass = $this->taxClassService->getTaxClass($customerTaxClassId);
+                    if (!($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)) {
+                        $exception->addError(InputException::INVALID_FIELD_VALUE,
+                            ['fieldName' =>TaxRule::CUSTOMER_TAX_CLASS_IDS]);
+                    }
+                } catch (NoSuchEntityException $e) {
+                    $exception->addError(InputException::INVALID_FIELD_VALUE,
+                        ['fieldName' =>TaxRule::CUSTOMER_TAX_CLASS_IDS]);
+                }
+            }
         }
+
         // product tax class ids is required
         if (($rule->getProductTaxClassIds() === null) || !$rule->getProductTaxClassIds()) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::PRODUCT_TAX_CLASS_IDS]);
+        } else { // see if the product tax class ids exist
+            $productTaxClassIds = $rule->getProductTaxClassIds();
+            foreach ($productTaxClassIds as $productTaxClassId) {
+                try {
+                    $taxClass = $this->taxClassService->getTaxClass($productTaxClassId);
+                    if (!($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_PRODUCT)) {
+                        $exception->addError(InputException::INVALID_FIELD_VALUE,
+                            ['fieldName' =>TaxRule::PRODUCT_TAX_CLASS_IDS]);
+                    }
+                } catch (NoSuchEntityException $e) {
+                    $exception->addError(InputException::INVALID_FIELD_VALUE,
+                        ['fieldName' =>TaxRule::PRODUCT_TAX_CLASS_IDS]);
+                }
+            }
         }
+
         // tax rate ids is required
         if (($rule->getTaxRateIds() === null) || !$rule->getTaxRateIds()) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::TAX_RATE_IDS]);
