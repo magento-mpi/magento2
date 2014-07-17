@@ -27,6 +27,7 @@ try {
     $opt->parse();
 
     $version = $opt->getOption('v');
+    \Magento\Tools\Composer\Package\Version::validate($version);
     if ($opt->getOption('d')) {
         $workingDir = realpath($opt->getOption('d'));
     } else {
