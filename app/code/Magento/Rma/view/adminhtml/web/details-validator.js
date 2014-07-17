@@ -35,7 +35,7 @@
                     });
                     return isValid;
                 },
-                $.mage.__("Fill out the popup form.")
+                $.mage.__("Click Details for more required fields.")
             );
         });
     });
