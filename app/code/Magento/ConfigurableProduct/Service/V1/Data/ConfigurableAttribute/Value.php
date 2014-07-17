@@ -1,5 +1,6 @@
 <?php
 namespace Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute;
+
 /**
  * {license_notice}
  *

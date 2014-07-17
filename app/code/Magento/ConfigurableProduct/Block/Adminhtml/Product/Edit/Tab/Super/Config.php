@@ -247,8 +247,8 @@ class Config extends Widget implements TabInterface
                         $attributes[$key]['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
                             isset($configurableData[$key]['values'])
-                                ? array_filter($configurableData[$key]['values'])
-                                : array()
+                            ? array_filter($configurableData[$key]['values'])
+                            : array()
                         );
                     }
                 }

@@ -80,6 +80,7 @@ class VariationMatrix
      * @param int $attributesCount
      * @param array $variationalAttributes
      * @param array $currentVariation
+     * @return void
      */
     private function incrementVariationalIndex($attributesCount, $variationalAttributes, &$currentVariation)
     {
@@ -90,4 +91,4 @@ class VariationMatrix
             }
         }
     }
-} 
+}

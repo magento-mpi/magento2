@@ -61,11 +61,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $productData
      * @param array $configurableAttributeData
      * @dataProvider productVariationDataProvider
      */
-    public function testGenerateVariation($productData, $configurableAttributeData)
+    public function testGenerateVariation($configurableAttributeData)
     {
         $attributeCode = 'code';
         $attribute = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata')
@@ -158,10 +157,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                [
-                    "sku" => "test",
-                    "price" => 10.0
-                ],
                 [
                     "attribute_id" => 174,
                     "values" => [
