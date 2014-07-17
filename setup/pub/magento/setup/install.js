@@ -47,7 +47,7 @@ angular.module('install', ['ngStorage'])
                 'config': $localStorage.config
             };
             progress.post(data);
-            $scope.checkProgress();
+            //$scope.checkProgress();
         };
     }])
     .service('progress', ['$http', function ($http) {

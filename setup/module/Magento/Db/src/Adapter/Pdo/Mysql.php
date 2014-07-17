@@ -306,11 +306,7 @@ class Mysql extends Adapter implements AdapterInterface
 
     public function fetchAll($sql, $bind = array(), $fetchMode = null)
     {
-        $result = [];
-        while (($row = $this->rawFetchRow($sql))) {
-            $result[] = $row;
-        }
-        return $result;
+        return $this->query($sql);
     }
 
     /**
@@ -371,6 +367,7 @@ class Mysql extends Adapter implements AdapterInterface
         $parametersOrQueryMode = self::QUERY_MODE_EXECUTE,
         ResultSet\ResultSetInterface $resultPrototype = null
     ) {
+        var_dump($sql);
         return parent::query($sql, $parametersOrQueryMode, $resultPrototype);
     }
 
@@ -1144,7 +1141,7 @@ class Mysql extends Adapter implements AdapterInterface
                 'DATA_TYPE'        => $ddlColumn->getDataType(),
                 'DEFAULT'          => $ddlColumn->getColumnDefault(),
                 'NULLABLE'         => $ddlColumn->isNullable(),
-                'LENGTH'           => $ddlColumn->getN,
+                'LENGTH'           => $ddlColumn->getCharacterMaximumLength(),
                 'SCALE'            => $ddlColumn->getNumericScale(),
                 'PRECISION'        => $ddlColumn->getNumericPrecision(),
                 'UNSIGNED'         => $ddlColumn->isNumericUnsigned(),
