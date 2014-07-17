@@ -223,7 +223,7 @@ class File implements DriverInterface
         clearstatcache();
         $globPattern = rtrim($path, '/') . '/' . ltrim($pattern, '/');
         $result = @glob($globPattern, GLOB_BRACE);
-        return is_array($result) ? $result : array();
+        return is_array($result) ? $result : [];
     }
 
     /**
