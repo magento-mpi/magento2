@@ -509,14 +509,6 @@
 .responsive-smaller(@break) when (@break = @break-point-0) {
     .table-vertical-mobile  {
         .table-responsive();
-        tbody > tr {
-            > td {
-            }
-            &:not(:last-child) {
-                td:last-child {
-                }
-            }
-        }
     }
 }
 
@@ -616,6 +608,13 @@
 }
 
 //
+//    Account pages: block line-height
+//--------------------------------------
+.abstract-account-block-line-height {
+    line-height: 24px;
+}
+
+//
 //    Account pages: margin for table
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @break-point-0) {
@@ -635,7 +634,6 @@
 .responsive-smaller(@break) when (@break = @break-point-0) {
     .abstract-account-col-actions {
         padding-top: 9px;
-        padding-bottom: 15px;
         &:before {
             .visually-hidden();
         }

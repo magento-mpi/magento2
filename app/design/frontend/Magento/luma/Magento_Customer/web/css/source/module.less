@@ -51,6 +51,9 @@
             }
         }
     }
+    address {
+        &:extend(.abstract-account-block-line-height all);
+    }
 }
 
 .form-address-edit {
@@ -70,7 +73,7 @@
 .box-information,
 .box-newsletter {
     .box-content {
-        line-height: 24px;
+        &:extend(.abstract-account-block-line-height all);
     }
 }
 
@@ -401,6 +404,14 @@
     .account {
         .data.table {
             &:extend(.table-vertical-mobile all);
+            td {
+                &:first-child {
+                    padding-top: 15px;
+                }
+                &:last-child {
+                    padding-bottom: 15px;
+                }
+            }
         }
         .column.main {
             .block:not(.widget) {
