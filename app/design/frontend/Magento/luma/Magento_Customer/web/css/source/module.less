@@ -324,6 +324,9 @@
             .col.total {
                 text-align: right;
             }
+            .col.actions {
+                white-space: nowrap;
+            }
         }
         .toolbar {
             position: relative;
@@ -436,7 +439,7 @@
         .block.account-nav {
             margin-left: -@layout-width-xs-indent;
             margin-right: -@layout-width-xs-indent;
-            margin-top: -@indent-base;
+            margin-top: -(@indent-base + 1);
             .content {
                 display: none;
                 &-toggled {
@@ -462,7 +465,7 @@
             display: block;
             cursor: pointer;
             float: right;
-            margin: -55px 10px 0 0;
+            margin: 5px 10px 0 0;
             position: relative;
             > span {
                 .icon-font(
@@ -504,7 +507,7 @@
             background: @page-bg-color;
             border: @border-width-base solid @border-color-base;
             .css(box-shadow, @dropdown-list-shadow);
-            margin: -13px 0 0;
+            margin: -12px 0 0;
             padding: 15px 20px 20px;
             position: absolute;
             z-index: 3;
