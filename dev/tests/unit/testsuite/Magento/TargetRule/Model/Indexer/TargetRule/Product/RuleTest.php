@@ -33,6 +33,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     protected $_actionFull;
 
+    /**
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_actionClean;
+
     public function setUp()
     {
         $this->_ruleProductProcessor = $this->getMock(
@@ -70,12 +75,20 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->_actionClean = $this->getMock(
+            '\Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean',
+            [],
+            [],
+            '',
+            false
+        );
         $this->_ruleIndexer = new \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule(
             $actionRow,
             $actionRows,
             $this->_actionFull,
             $this->_ruleProductProcessor,
-            $this->_productRuleProcessor
+            $this->_productRuleProcessor,
+            $this->_actionClean
         );
     }
 
