@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Db\Ddl;
+namespace Magento\Framework\DB\Ddl;
 
 use Zend\Db\Exception\ErrorException;
 

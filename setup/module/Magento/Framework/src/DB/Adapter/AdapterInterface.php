@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Db\Adapter;
+namespace Magento\Framework\DB\Adapter;
 
-use Magento\Db\Ddl\Table;
+use Magento\Framework\DB\Ddl\Table;
 
 /**
  * Magento Database Adapter Interface

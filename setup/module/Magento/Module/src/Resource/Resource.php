@@ -9,7 +9,7 @@ namespace Magento\Module\Resource;
 
 use Zend\Db\Sql\Sql;
 use Zend\Db\ResultSet;
-use Magento\Db\Adapter\AdapterInterface;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Module\ResourceInterface;
 
 /**

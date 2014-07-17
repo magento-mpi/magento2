@@ -15,7 +15,7 @@ class Adapter implements AdapterInterface
      * Get connection
      *
      * @param array $config
-     * @return \Magento\Db\Adapter\AdapterInterface|null
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|null
      */
     public function getConnection(array $config = array())
     {

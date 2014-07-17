@@ -8,8 +8,8 @@
 namespace Magento\Db\Adapter\Pdo;
 
 use Magento\Filesystem\Filesystem;
-use Magento\Db\Adapter\AdapterInterface;
-use Magento\Db\Ddl\Table;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\DB\Ddl\Table;
 use Magento\Db\ExpressionConverter;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\Driver\StatementInterface;
@@ -304,6 +304,15 @@ class Mysql extends Adapter implements AdapterInterface
         return $result;
     }
 
+    public function fetchAll($sql, $bind = array(), $fetchMode = null)
+    {
+        $result = [];
+        while (($row = $this->rawFetchRow($sql))) {
+            $result[] = $row;
+        }
+        return $result;
+    }
+
     /**
      * Run RAW query and Fetch First row
      *
@@ -314,10 +323,8 @@ class Mysql extends Adapter implements AdapterInterface
     public function rawFetchRow($sql, $field = null)
     {
         $result = $this->rawQuery($sql);
-        if (!$result) {
-            return false;
-        }
-        if ($result instanceof ResultSet\ResultSetInterface) {
+
+        if ($result instanceof ResultSet\ResultSetInterface && $result->count()) {
             $resultSet = new ResultSet\ResultSet;
             $resultSet->initialize($result);
 
@@ -328,6 +335,8 @@ class Mysql extends Adapter implements AdapterInterface
             } else {
                 return isset($row[$field]) ? $row[$field] : false;
             }
+        } else {
+            return false;
         }
     }
 
@@ -384,7 +393,7 @@ class Mysql extends Adapter implements AdapterInterface
             if (isset($foreignKeys[$key])) {
                 $sql = sprintf(
                     'ALTER TABLE %s DROP FOREIGN KEY %s',
-                    $this->getPlatform()->quoteIdentifierChain($this->_getTableName($tableName, $schemaName)),
+                    $this->getPlatform()->quoteIdentifierChain($this->_getTableName($tableName)),
                     $this->quoteIdentifier($foreignKeys[$key]['FK_NAME'])
                 );
                 $this->rawQuery($sql);
@@ -492,7 +501,7 @@ class Mysql extends Adapter implements AdapterInterface
 
         $sql = sprintf(
             'ALTER TABLE %s ADD COLUMN %s %s %s',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName)),
+            $this->getPlatform()->quoteIdentifierChain($tableName),
             $this->quoteIdentifier($columnName),
             $definition,
             $primaryKey
@@ -541,7 +550,7 @@ class Mysql extends Adapter implements AdapterInterface
         $alterDrop[] = 'DROP COLUMN ' . $this->quoteIdentifier($columnName);
         $sql = sprintf(
             'ALTER TABLE %s %s',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName)),
+            $this->getPlatform()->quoteIdentifierChain($tableName),
             implode(', ', $alterDrop)
         );
 
@@ -606,7 +615,7 @@ class Mysql extends Adapter implements AdapterInterface
 
         $sql = sprintf(
             'ALTER TABLE %s CHANGE COLUMN %s %s %s',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName)),
+            $this->getPlatform()->quoteIdentifierChain($tableName),
             $this->quoteIdentifier($oldColumnName),
             $this->quoteIdentifier($newColumnName),
             $definition
@@ -643,7 +652,7 @@ class Mysql extends Adapter implements AdapterInterface
 
         $sql = sprintf(
             'ALTER TABLE %s MODIFY COLUMN %s %s',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName)),
+            $this->getPlatform()->quoteIdentifierChain($tableName),
             $this->quoteIdentifier($columnName),
             $definition
         );
@@ -683,7 +692,12 @@ class Mysql extends Adapter implements AdapterInterface
      */
     public function getCreateTable($tableName, $schemaName = null)
     {
-        $sql = 'SHOW CREATE TABLE ' . $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName));
+        if ($schemaName) {
+            $table = array($schemaName, $tableName);
+        } else {
+            $table = $tableName;
+        }
+        $sql = 'SHOW CREATE TABLE ' . $this->getPlatform()->quoteIdentifierChain($table);
         $ddl = $this->rawFetchRow($sql, 'Create Table');
 
         return $ddl;
@@ -856,8 +870,9 @@ class Mysql extends Adapter implements AdapterInterface
 
         $sql = sprintf(
             'SHOW INDEX FROM %s',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName))
+            $this->getPlatform()->quoteIdentifierChain($tableName)
         );
+
         foreach ($this->fetchAll($sql) as $row) {
             $fieldKeyName   = 'Key_name';
             $fieldNonUnique = 'Non_unique';
@@ -1059,6 +1074,9 @@ class Mysql extends Adapter implements AdapterInterface
      */
     public function quoteInto($text, $value, $type = null, $count = null)
     {
+        if ($value instanceof \Zend\Db\Sql\Expression) {
+            $value = $value->getExpression();
+        }
         if ($count === null) {
             return str_replace('?', $this->quote($value, $type), $text);
         } else {
@@ -1181,7 +1199,7 @@ class Mysql extends Adapter implements AdapterInterface
     }
 
     /**
-     * Create \Magento\Db\Ddl\Table object by data from describe table
+     * Create \Magento\Framework\DB\Ddl\Table object by data from describe table
      *
      * @param string $tableName
      * @param string $newTableName
@@ -1325,7 +1343,7 @@ class Mysql extends Adapter implements AdapterInterface
      */
     public function changeTableEngine($tableName, $engine, $schemaName = null)
     {
-        $table = $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName));
+        $table = $this->getPlatform()->quoteIdentifierChain($tableName);
         $sql   = sprintf('ALTER TABLE %s ENGINE=%s', $table, $engine);
 
         return $this->query($sql);
@@ -1341,7 +1359,7 @@ class Mysql extends Adapter implements AdapterInterface
      */
     public function changeTableComment($tableName, $comment, $schemaName = null)
     {
-        $table = $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName));
+        $table = $this->getPlatform()->quoteIdentifierChain($tableName);
         $sql   = sprintf("ALTER TABLE %s COMMENT='%s'", $table, $comment);
 
         return $this->query($sql);
@@ -1412,7 +1430,6 @@ class Mysql extends Adapter implements AdapterInterface
             implode(",\n", $sqlFragment),
             implode(" ", $tableOptions)
         );
-
         return $this->query($sql);
     }
 
@@ -1433,7 +1450,7 @@ class Mysql extends Adapter implements AdapterInterface
         $tableOptions   = $this->_getOptionsDefinition($table);
         $sql = sprintf(
             "CREATE TEMPORARY TABLE %s (\n%s\n) %s",
-            $this->gtePlatform()->quoteIdentifier($table->getName()),
+            $this->getPlatform()->quoteIdentifier($table->getName()),
             implode(",\n", $sqlFragment),
             implode(" ", $tableOptions)
         );
@@ -1546,7 +1563,7 @@ class Mysql extends Adapter implements AdapterInterface
                     $columns[] = $column;
                 }
                 $indexName = isset($indexData['INDEX_NAME'])
-                    ? $this->gtePlatform()->quoteIdentifier($indexData['INDEX_NAME'])
+                    ? $this->getPlatform()->quoteIdentifier($indexData['INDEX_NAME'])
                     : '';
                 $definition[] = sprintf(
                     '  %s %s (%s)',
@@ -1736,7 +1753,7 @@ class Mysql extends Adapter implements AdapterInterface
          *  We need to avoid "double-quoting" here
          */
         if ($cDefault !== null && strlen($cDefault)) {
-            $cDefault = str_replace("'", '', $cDefault);
+            $cDefault = $this->quote(str_replace("'", '', $cDefault));
         }
 
         // prepare default value string
@@ -1775,7 +1792,7 @@ class Mysql extends Adapter implements AdapterInterface
             $cType,
             $cUnsigned ? ' UNSIGNED' : '',
             $cNullable ? ' NULL' : ' NOT NULL',
-            $cDefault !== false ? $this->quoteInto(' default ?', $cDefault) : '',
+            $cDefault !== false ? ' default ' . $cDefault : '',
             $cIdentity ? ' auto_increment' : '',
             $this->quote($comment),
             $after ? 'AFTER ' . $this->quoteIdentifier($after) : ''
@@ -1791,7 +1808,7 @@ class Mysql extends Adapter implements AdapterInterface
      */
     public function dropTable($tableName, $schemaName = null)
     {
-        $table = $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName));
+        $table = $this->getPlatform()->quoteIdentifierChain($tableName);
         $query = 'DROP TABLE IF EXISTS ' . $table;
         $this->query($query);
 
@@ -1807,7 +1824,7 @@ class Mysql extends Adapter implements AdapterInterface
      */
     public function dropTemporaryTable($tableName, $schemaName = null)
     {
-        $table = $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName));
+        $table = $this->getPlatform()->quoteIdentifierChain($tableName);
         $query = 'DROP TEMPORARY TABLE IF EXISTS ' . $table;
         $this->query($query);
 
@@ -1896,7 +1913,7 @@ class Mysql extends Adapter implements AdapterInterface
         $columns = $this->describeTable($tableName, $schemaName);
         $keyList = $this->getIndexList($tableName, $schemaName);
 
-        $query = sprintf('ALTER TABLE %s', $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName)));
+        $query = sprintf('ALTER TABLE %s', $this->getPlatform()->quoteIdentifierChain($tableName));
         if (isset($keyList[strtoupper($indexName)])) {
             if ($keyList[strtoupper($indexName)]['INDEX_TYPE'] == AdapterInterface::INDEX_TYPE_PRIMARY) {
                 $query .= ' DROP PRIMARY KEY,';
@@ -1984,7 +2001,7 @@ class Mysql extends Adapter implements AdapterInterface
         }
         $sql = sprintf(
             'ALTER TABLE %s %s',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName)),
+            $this->getPlatform()->quoteIdentifierChain($tableName),
             $cond
         );
 
@@ -2386,7 +2403,7 @@ class Mysql extends Adapter implements AdapterInterface
     {
         $query     = sprintf(
             'ALTER TABLE %s DISABLE KEYS',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName))
+            $this->getPlatform()->quoteIdentifierChain($tableName)
         );
         $this->query($query);
 
@@ -2405,7 +2422,7 @@ class Mysql extends Adapter implements AdapterInterface
         $tableName = $this->_getTableName($tableName, $schemaName);
         $query     = sprintf(
             'ALTER TABLE %s ENABLE KEYS',
-            $this->getPlatform()->quoteIdentifierChain(array($schemaName, $tableName))
+            $this->getPlatform()->quoteIdentifierChain($tableName)
         );
         $this->query($query);
 
@@ -2594,11 +2611,11 @@ class Mysql extends Adapter implements AdapterInterface
     /**
      * Create trigger
      *
-     * @param \Magento\Db\Ddl\Trigger $trigger
+     * @param \Magento\Framework\DB\Ddl\Trigger $trigger
      * @throws ErrorException
      * @return StatementInterface
      */
-    public function createTrigger(\Magento\Db\Ddl\Trigger $trigger)
+    public function createTrigger(\Magento\Framework\DB\Ddl\Trigger $trigger)
     {
         if (!$trigger->getStatements()) {
             throw new ErrorException(sprintf(__('Trigger %s has not statements available'), $trigger->getName()));
@@ -2707,9 +2724,9 @@ class Mysql extends Adapter implements AdapterInterface
         $sql = new Sql($this);
         $update = $sql->update($this->_getTableName($table));
         $update->where($where);
-
-        $statement = $sql->prepareStatementForSqlObject($update);
-        $result = $statement->execute($bind);
+        $update->set($bind);
+        $updateString = $sql->getSqlStringForSqlObject($update);
+        $result = $this->query($updateString);
         return $result->count();
     }
 

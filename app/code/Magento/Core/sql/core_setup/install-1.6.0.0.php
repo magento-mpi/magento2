@@ -239,7 +239,7 @@ $table = $installer->getConnection()->newTable(
     'string',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false, 'default' => \Magento\Framework\TranslateInterface::DEFAULT_STRING),
+    array('nullable' => false, 'default' => 'Translate String'),
     'Translation String'
 )->addColumn(
     'store_id',

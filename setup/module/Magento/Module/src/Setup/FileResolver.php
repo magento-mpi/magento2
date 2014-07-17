@@ -59,7 +59,7 @@ class FileResolver implements FileResolverInterface
             $paths[] = $this->getRelativePath($file);
         }
 
-        return $this->iteratorFactory->create($this->config->getMagentoBasePath(), $paths);
+        return $paths;
     }
 
     /**
@@ -113,7 +113,7 @@ class FileResolver implements FileResolverInterface
      */
     public function getAbsolutePath($path)
     {
-        return $this->config->getMagentoModulePath() . ltrim($this->fixSeparator($path), '/');
+        return $this->config->getMagentoBasePath() . '/' . ltrim($this->fixSeparator($path), '/');
     }
 
     /**

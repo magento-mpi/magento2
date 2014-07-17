@@ -46,7 +46,9 @@ class StartController extends AbstractActionController
     public function indexAction()
     {
         $data = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
-        $this->setupFactory->setConfig($data);
+        if (isset($data['db'])) {
+            $this->setupFactory->setConfig($data['db']);
+        }
         $moduleNames = array_keys($this->moduleList);
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);

@@ -8,14 +8,7 @@ angular.module('install', ['ngStorage'])
             $scope.console = $scope.console === false;
         };
 
-        $scope.start = function () {
-            var data = {
-                'db': $localStorage.db,
-                'admin': $localStorage.admin,
-                'store': $localStorage.store,
-                'config': $localStorage.config
-            };
-            progress.post(data);
+        $scope.checkProgress = function () {
             $scope.isStart = true;
             $scope.disabled = true;
             progress.get(function (response) {
@@ -34,7 +27,7 @@ angular.module('install', ['ngStorage'])
                         $scope.nextState();
                     } else {
                         $timeout(function() {
-                            $scope.start();
+                            $scope.checkProgress();
                         }, 2500);
                     }
                 } else {
@@ -44,6 +37,17 @@ angular.module('install', ['ngStorage'])
                     $scope.disabled = false;
                 }
             });
+        };
+
+        $scope.start = function () {
+            var data = {
+                'db': $localStorage.db,
+                'admin': $localStorage.admin,
+                'store': $localStorage.store,
+                'config': $localStorage.config
+            };
+            progress.post(data);
+            $scope.checkProgress();
         };
     }])
     .service('progress', ['$http', function ($http) {

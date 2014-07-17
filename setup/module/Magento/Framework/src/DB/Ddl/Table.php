@@ -12,9 +12,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Db\Ddl;
+namespace Magento\Framework\DB\Ddl;
 
-use Magento\Db\Adapter\AdapterInterface;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Zend\Db\Exception\ErrorException;
 
 class Table
