@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * Test Flow:
  *
  * Precondition:
- * Category is created.
- * Virtual product is created and assigned to created category.
+ * 1. Category is created.
+ * 2. Virtual product is created and assigned to created category.
  *
  * Steps:
  * 1. Login to backend.
@@ -79,7 +79,7 @@ class UpdateVirtualProductEntityTest extends Injectable
      * @param CatalogProductEdit $editProductPage
      * @param CatalogCategory $category
      * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @return void
      */
     public function __inject(
         CatalogProductIndex $productGrid,
@@ -112,11 +112,10 @@ class UpdateVirtualProductEntityTest extends Injectable
      */
     public function test(CatalogProductVirtual $product)
     {
-        $filter = ['sku' => $this->product->getSku()];
-        $this->productGrid->open()->getProductGrid()->searchAndOpen($filter);
-        $productBlockForm = $this->editProductPage->getForm();
-
-        $productBlockForm->fillProduct($product);
+        // Steps
+        $this->productGrid->open();
+        $this->productGrid->getProductGrid()->searchAndOpen(['sku' => $this->product->getSku()]);
+        $this->editProductPage->getForm()->fillProduct($product);
         $this->editProductPage->getFormAction()->save();
     }
 }
