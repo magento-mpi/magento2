@@ -274,6 +274,8 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             'empty fields' => [
                 [],
                 [
+                    'sort_order is a required field.',
+                    'priority is a required field.',
                     'code is a required field.',
                     'customer_tax_class_ids is a required field.',
                     'product_tax_class_ids is a required field.',
