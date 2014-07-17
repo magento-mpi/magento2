@@ -10,6 +10,7 @@ namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Service\V1\Data\OrderBuilder;
 use Magento\Sales\Service\V1\Data\Order;
+use Magento\Sales\Model\OrderRepository;
 
 class OrderConverter
 {
@@ -45,7 +46,8 @@ class OrderConverter
     public function createOrderDataFromModel(\Magento\Sales\Model\Order $productModel)
     {
         $orderDto = $this->orderBuilder->populateWithArray($productModel->getData())->create();
-        $orderDto['order_item'] = $orderItemDto;
+        //$orderDto['order_item'] = $orderItemDto;
+        return $orderDto;
     }
 
     /**
@@ -57,8 +59,8 @@ class OrderConverter
     public function toModel(Order $orderDataObject)
     {
         $order = null;
-        if ($orderDataObject->getId()) {
-            $order = $this->orderRepository->get($orderDataObject->getId());
+        if ($orderDataObject->getIncrementId()) {
+            $order = $this->orderRepository->get($orderDataObject->getIncrementId());
             $order->setData($orderDataObject->getData());
         }
 
