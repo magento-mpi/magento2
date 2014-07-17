@@ -66,4 +66,16 @@ class Billing extends Form
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible($this->waitElement);
     }
+
+    /**
+     * Check if Customer custom Attribute visible
+     *
+     * @param string $attributeCode
+     * @return bool
+     */
+    public function isCustomerAttributeVisible($attributeCode)
+    {
+        $selector = "[name='billing[$attributeCode]']";
+        return $this->_rootElement->find($selector)->isVisible();
+    }
 }

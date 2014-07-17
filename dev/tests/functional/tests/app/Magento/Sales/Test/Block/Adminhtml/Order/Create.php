@@ -234,4 +234,16 @@ class Create extends Block
     {
         $this->getTotalsBlock()->submitOrder();
     }
+
+    /**
+     * Check if Customer custom Attribute visible
+     *
+     * @param string $attributeCode
+     * @return bool
+     */
+    public function isCustomerAttributeVisible($attributeCode)
+    {
+        $selector = "[name='order[account][$attributeCode]']";
+        return $this->_rootElement->find($selector)->isVisible();
+    }
 }

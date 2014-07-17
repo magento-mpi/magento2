@@ -65,7 +65,7 @@ class Login extends Form
     /**
      * Perform guest checkout
      */
-    private function guestCheckout()
+    public function guestCheckout()
     {
         $this->_rootElement->find($this->guestCheckout, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();

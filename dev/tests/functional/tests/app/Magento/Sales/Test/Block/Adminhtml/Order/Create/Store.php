@@ -43,9 +43,9 @@ class Store extends Block
     /**
      * Select store view for order based on Order fixture
      *
-     * @param Order $fixture
+     * @param Order|null $fixture
      */
-    public function selectStoreView(Order $fixture)
+    public function selectStoreView(Order $fixture = null)
     {
         if ($this->isVisible()) {
             $selector = '//label[text()="' . $fixture->getStoreViewName() . '"]/preceding-sibling::*';

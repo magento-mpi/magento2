@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <properties>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#customer_attribute_tabs_general</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <frontend_label>
+                <selector>[name^='frontend_label']</selector>
+            </frontend_label>
+            <attribute_code>
+                <selector>[name="attribute_code"]</selector>
+            </attribute_code>
+            <frontend_input>
+                <selector>[name="frontend_input"]</selector>
+                <input>select</input>
+            </frontend_input>
+            <scope_is_required>
+                <selector>[name="scope_is_required"]</selector>
+                <input>select</input>
+            </scope_is_required>
+            <is_used_for_customer_segment>
+                <selector>[name="is_used_for_customer_segment"]</selector>
+                <input>select</input>
+            </is_used_for_customer_segment>
+            <scope_default_value_text>
+                <selector>[name="scope_default_value_text"]</selector>
+            </scope_default_value_text>
+            <scope_date_range_min>
+                <selector>[name="scope_date_range_min"]</selector>
+                <input>datepicker</input>
+            </scope_date_range_min>
+            <scope_date_range_max>
+                <selector>[name="scope_date_range_max"]</selector>
+                <input>datepicker</input>
+            </scope_date_range_max>
+            <input_validation>
+                <selector>[name="input_validation"]</selector>
+                <input>select</input>
+            </input_validation>
+            <min_text_length>
+                <selector>[name="min_text_length"]</selector>
+            </min_text_length>
+            <max_text_length>
+                <selector>[name="max_text_length"]</selector>
+            </max_text_length>
+            <input_filter>
+                <selector>[name="input_filter"]</selector>
+                <input>select</input>
+            </input_filter>
+            <scope_multiline_count>
+                <selector>[name="scope_multiline_count"]</selector>
+            </scope_multiline_count>
+            <max_file_size>
+                <selector>[name="max_file_size"]</selector>
+            </max_file_size>
+            <file_extensions>
+                <selector>[name="file_extensions"]</selector>
+            </file_extensions>
+            <max_image_width>
+                <selector>[name="max_image_width"]</selector>
+            </max_image_width>
+            <max_image_heght>
+                <selector>[name="max_image_heght"]</selector>
+            </max_image_heght>
+            <scope_is_visible>
+                <selector>[name="scope_is_visible"]</selector>
+                <input>select</input>
+            </scope_is_visible>
+            <used_in_forms>
+                <selector>[name="used_in_forms[]"]</selector>
+                <input>multiselectgrouplist</input>
+            </used_in_forms>
+            <sort_order>
+                <selector>[name="sort_order"]</selector>
+            </sort_order>
+        </fields>
+    </properties>
+    <manage_label>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#customer_attribute_tabs_options</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <frontend_label>
+                <selector>[name^='frontend_label']</selector>
+            </frontend_label>
+        </fields>
+    </manage_label>
+    <manage_options>
+        <class>\Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\Tab\Options</class>
+        <selector>#customer_attribute_tabs_options</selector>
+        <strategy>css selector</strategy>
+    </manage_options>
+</tabs>

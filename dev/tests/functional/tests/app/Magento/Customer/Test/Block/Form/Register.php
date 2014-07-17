@@ -40,4 +40,16 @@ class Register extends Form
         }
         $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
     }
+
+    /**
+     * Check if Customer custom Attribute visible
+     *
+     * @param string $attributeCode
+     * @return bool
+     */
+    public function isCustomerAttributeVisible($attributeCode)
+    {
+        $selector = "[name='$attributeCode']";
+        return $this->_rootElement->find($selector)->isVisible();
+    }
 }
