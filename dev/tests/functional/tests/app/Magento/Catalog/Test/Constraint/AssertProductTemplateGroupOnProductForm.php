@@ -19,6 +19,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertProductTemplateGroupOnProductForm
+ * Check that created product template displays in product template suggest container dropdown and
+ * can be used for new created product
  */
 class AssertProductTemplateGroupOnProductForm extends AbstractConstraint
 {
@@ -38,7 +40,6 @@ class AssertProductTemplateGroupOnProductForm extends AbstractConstraint
      * @param CatalogProductEdit $productEdit
      * @param CatalogProductIndex $productGrid
      * @param CatalogAttributeSet $attributeSet
-     * @param CatalogAttributeSet $attributeSetOriginal
      * @param CatalogProductNew $newProductPage
      * @param CatalogProductAttribute $productAttributeOriginal
      * @return void
@@ -50,8 +51,7 @@ class AssertProductTemplateGroupOnProductForm extends AbstractConstraint
         CatalogProductIndex $productGrid,
         CatalogAttributeSet $attributeSet,
         CatalogProductNew $newProductPage,
-        CatalogProductAttribute $productAttributeOriginal,
-        CatalogAttributeSet $attributeSetOriginal = null
+        CatalogProductAttribute $productAttributeOriginal
     ) {
 
         $productGrid->open();
@@ -69,10 +69,9 @@ class AssertProductTemplateGroupOnProductForm extends AbstractConstraint
             ]
         );
         $productBlockForm->fillProduct($productSimple);
-        $newProductPage->getFormAction()->save();
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $productEdit->getForm()->checkCustomTab($attributeSet->getGroup()),
+            $productEdit->getForm()->isTabVisible($attributeSet->getGroup()),
             "Product Group is absent on Product form tabs."
         );
 

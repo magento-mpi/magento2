@@ -22,14 +22,14 @@ class GridPageAction extends ParentGridPageActions
      *
      * @var string
      */
-    protected $toggleButton = '[data-ui-id=products-list-add-new-product-button-dropdown]';
+    protected $toggleButton = '[data-ui-id="products-list-add-new-button-dropdown"]';
 
     /**
      * Product type item
      *
      * @var string
      */
-    protected $productItem = '[data-ui-id=products-list-add-new-product-button-item-%productType%]';
+    protected $productItem = '[data-ui-id="products-list-add-new-button-item-%productType%"]';
 
     /**
      * Add product using split button

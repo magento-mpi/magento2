@@ -11,7 +11,7 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main;
 use Mtf\Block\Form as AbstractForm;
 
 /**
- * Class Form
+ * Class EditForm
  * Attribute Set form
  */
 class EditForm extends AbstractForm

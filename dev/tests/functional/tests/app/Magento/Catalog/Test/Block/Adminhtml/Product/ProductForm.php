@@ -101,7 +101,6 @@ class ProductForm extends FormTabs
      */
     protected $variationsTab = '#product_info_tabs_super_config_content .title';
 
-
     /**
      * Custom Tab locator
      *
@@ -394,7 +393,7 @@ class ProductForm extends FormTabs
      * @param string $tabName
      * @return bool
      */
-    public function checkCustomTab($tabName)
+    public function isTabVisible($tabName)
     {
         $tabName = strtolower($tabName);
 

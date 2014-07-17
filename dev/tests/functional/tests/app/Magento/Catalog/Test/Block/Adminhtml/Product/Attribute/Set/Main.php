@@ -110,13 +110,12 @@ class Main extends Block
      * Add attribute set group to Attribute Set
      *
      * @param string $groupName
-     * @return bool
+     * @return void
      */
     public function addAttributeSetGroup($groupName)
     {
-        $this->_rootElement->find($this->addGroupButton, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->addGroupButton)->click();
         $this->_rootElement->setAlertText($groupName);
         $this->_rootElement->acceptAlert();
-
     }
 }

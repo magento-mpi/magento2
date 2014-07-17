@@ -11,7 +11,6 @@ namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetAdd;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 
@@ -19,13 +18,13 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
  * Test Creation for UpdateAttributeSetTest
  *
  * Preconditions:
- * 1. An attribute is created according to attached ProductAttribute.php
- * 2. An attribute template is created according to attached ProductTemplate.php
+ * 1. An attribute is created
+ * 2. An attribute template is created
  *
  * Test Flow:
  * 1. Log in to Backend.
  * 2. Navigate to Stores > Attributes > Product Template.
- * 3. Open created Product Template according to attached ProductTemplate.php.
+ * 3. Open created Product Template.
  * 4. Click 'Add New' button to create new group
  * 5. Add created Product Attribute to created group.
  * 6. Fill out other fields data according to data set.
