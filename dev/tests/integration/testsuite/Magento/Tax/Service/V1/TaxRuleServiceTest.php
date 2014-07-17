@@ -418,6 +418,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                     'tax_rate_ids' => array_values($this->taxRates),
                     'sort_order' => 0,
                     'priority' => 0,
+                    'calculate_subtotal' => 1,
                 ],
                 [
                     'code' => 'Higher Rate Rule',
@@ -426,6 +427,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                     'tax_rate_ids' => array_values($higherRates),
                     'sort_order' => 0,
                     'priority' => 0,
+                    'calculate_subtotal' => 1,
                 ],
                 [
                     'code' => 'Highest Rate',
@@ -434,6 +436,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                     'tax_rate_ids' => array_values($higherRates),
                     'sort_order' => 1,
                     'priority' => 1,
+                    'calculate_subtotal' => 0,
                 ],
             ]);
 

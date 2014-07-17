@@ -119,6 +119,17 @@ class QuoteDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Set customer id
+     *
+     * @param int $customerId
+     * @return $this
+     */
+    public function setCustomerId($customerId)
+    {
+        return $this->_set(QuoteDetails::KEY_CUSTOMER_ID, $customerId);
+    }
+
+    /**
      * Set quote items
      *
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\Item[]|null $items

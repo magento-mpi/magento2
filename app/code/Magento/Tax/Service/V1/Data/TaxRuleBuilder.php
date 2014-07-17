@@ -13,7 +13,7 @@ use Magento\Framework\Service\Data\ObjectFactory;
 /**
  * Builder for the TaxRule Service Data Object
  *
- * @method TaxRule create()
+ * @method \Magento\Tax\Service\V1\Data\TaxRule create()
  */
 class TaxRuleBuilder extends AbstractObjectBuilder
 {
@@ -100,7 +100,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
      */
     public function setPriority($priority)
     {
-        return $this->_set(TaxRule::PRIORITY, $priority);
+        return $this->_set(TaxRule::PRIORITY, (int)$priority);
     }
 
     /**
@@ -111,6 +111,17 @@ class TaxRuleBuilder extends AbstractObjectBuilder
      */
     public function setSortOrder($sortOrder)
     {
-        return $this->_set(TaxRule::SORT_ORDER, $sortOrder);
+        return $this->_set(TaxRule::SORT_ORDER, (int)$sortOrder);
+    }
+
+    /**
+     * Set calculate subtotal.
+     *
+     * @param int $calculateSubtotal
+     * @return $this
+     */
+    public function setCalculateSubtotal($calculateSubtotal)
+    {
+        return $this->_set(TaxRule::CALCULATE_SUBTOTAL, (int)$calculateSubtotal);
     }
 }

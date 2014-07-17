@@ -5,9 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Model\Resource;
 
-use Magento\Core\Model\EntityFactory;
+namespace Magento\Framework\Service;
+
+use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\Service\V1\Data\Filter;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
@@ -15,7 +16,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception;
 
 /**
- * Base for customer service collections
+ * Base for service collections
  */
 abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collection
 {
@@ -46,12 +47,12 @@ abstract class AbstractServiceCollection extends \Magento\Framework\Data\Collect
     protected $searchCriteriaBuilder;
 
     /**
-     * @param EntityFactory $entityFactory
+     * @param EntityFactoryInterface $entityFactory
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        EntityFactory $entityFactory,
+        EntityFactoryInterface $entityFactory,
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder
     ) {

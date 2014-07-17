@@ -9,7 +9,6 @@ namespace Magento\Tax\Helper;
 
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
-use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
@@ -49,13 +48,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var Config
      */
     protected $_config;
-
-    /**
-     * Tax calculator
-     *
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $_calculation;
 
     /**
      * Postcode cut to this length when creating search templates
@@ -156,7 +148,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Config $taxConfig
-     * @param Calculation $calculation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -175,7 +166,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Config $taxConfig,
-        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
@@ -193,7 +183,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
-        $this->_calculation = $calculation;
         $this->_storeManager = $storeManager;
         $this->_localeFormat = $localeFormat;
         $this->_attributeFactory = $attributeFactory;
@@ -483,36 +472,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $priceFormat['pattern'] = $this->_storeManager->getStore($store)->getCurrentCurrency()->getOutputFormat();
         }
         return $this->_coreData->jsonEncode($priceFormat);
-    }
-
-    /**
-     * Get all tax rates JSON for all product tax classes of specific store
-     *
-     * @param null|string|bool|int|Store $store
-     * @return string
-     * @deprecated
-     */
-    public function getAllRatesByProductClass($store = null)
-    {
-        return $this->_getAllRatesByProductClass($store);
-    }
-
-    /**
-     * Get all tax rates JSON for all product tax classes of specific store
-     *
-     * @param null|string|bool|int|Store $store
-     * @return string
-     * @deprecated
-     */
-    protected function _getAllRatesByProductClass($store = null)
-    {
-        $result = array();
-        $defaultRate = $this->_calculation->getDefaultRateRequest($store);
-        $rates = $this->_calculation->getRatesForAllProductTaxClasses($defaultRate);
-        foreach ($rates as $class => $rate) {
-            $result["value_{$class}"] = $rate;
-        }
-        return $this->_coreData->jsonEncode($result);
     }
 
     /**
