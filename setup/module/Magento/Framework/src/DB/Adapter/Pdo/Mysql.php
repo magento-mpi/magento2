@@ -1279,7 +1279,9 @@ class Mysql extends Adapter implements AdapterInterface
 
         // Set additional options
         $tableData = $this->showTableStatus($tableName);
-        $table->setOption('type', $tableData['Engine']);
+        if (isset($tableData['Engine'])) {
+            $table->setOption('type', $tableData['Engine']);
+        }
 
         return $table;
     }
