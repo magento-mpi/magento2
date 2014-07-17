@@ -13,6 +13,9 @@ namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Con
 
 use Magento\Catalog\Model\Product;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Matrix extends \Magento\Backend\Block\Template
 {
     /**
@@ -149,8 +152,8 @@ class Matrix extends \Magento\Backend\Block\Template
                         $attributes[$key]['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
                             isset($configurableData[$key]['values'])
-                                ? array_filter($configurableData[$key]['values'])
-                                : array()
+                            ? array_filter($configurableData[$key]['values'])
+                            : array()
                         );
                     }
                 }

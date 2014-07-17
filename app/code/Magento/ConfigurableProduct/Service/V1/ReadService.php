@@ -78,14 +78,14 @@ class ReadService implements ReadServiceInterface
      * Populate product with variation of attributes
      *
      * @param Product $product
-     * @param $variations
-     * @param $attributes
+     * @param array $variations
+     * @param array $attributes
      * @return array
      */
     private function populateProductVariation(Product $product, $variations, $attributes)
     {
         $products = [];
-        foreach ($variations as $attributeId =>$variation) {
+        foreach ($variations as $attributeId => $variation) {
             $price = $product->getPrice();
             $this->productBuilder->populate($product);
             $suffix = '';
