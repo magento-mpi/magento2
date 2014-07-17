@@ -15,6 +15,10 @@
     }
 })(function ($) {
     "use strict";
+    var rma = window.rma;
+    if (rma === undefined) {
+        return;
+    }
     rma.addLoadProductsCallback(function () {
         $('[class^="rma-action-links-"]').each(function (el, val) {
             var className = false;

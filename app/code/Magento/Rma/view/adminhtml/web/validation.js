@@ -28,8 +28,8 @@
             this.check(elements[i]);
         }
         this.showErrors();
-        for (var i = 0; lastElements[i]; i++) {
-            this.check(lastElements[i]);
+        for (var j = 0; lastElements[j]; j++) {
+            this.check(lastElements[j]);
         }
         return this.valid();
     };
