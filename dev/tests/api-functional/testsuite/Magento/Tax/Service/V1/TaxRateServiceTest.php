@@ -275,9 +275,9 @@ class TaxRateServiceTest extends WebapiAbstract
 
         $result = $this->_webApiCall($serviceInfo, ['rateId' => $taxRateId]);
         $expectedRateData = [
-            'id' => '2',
+            'id' => 2,
             'country_id' => 'US',
-            'region_id' => '43',
+            'region_id' => 43,
             'postcode' => '*',
             'code' => 'US-NY-*-Rate 1',
             'percentage_rate' => 8.375,
@@ -418,9 +418,11 @@ class TaxRateServiceTest extends WebapiAbstract
                 'id' => $rates['codeUs12']->getId(),
                 'country_id' => $rates['codeUs12']->getTaxCountryId(),
                 'region_id' => $rates['codeUs12']->getTaxRegionId(),
+                'region_name' => $rates['codeUs12']->getRegionName(),
                 'postcode' => $rates['codeUs12']->getTaxPostcode(),
                 'code' =>  $rates['codeUs12']->getCode(),
                 'percentage_rate' =>  $rates['codeUs12']->getRate(),
+                'titles' =>  [],
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
@@ -464,16 +466,22 @@ class TaxRateServiceTest extends WebapiAbstract
             [
                 'id' => $rates['codeCz2']->getId(),
                 'country_id' => $rates['codeCz2']->getTaxCountryId(),
+                'region_id' => 0,
+                'region_name' => $rates['codeCz2']->getRegionName(),
                 'postcode' => $rates['codeCz2']->getTaxPostcode(),
                 'code' =>  $rates['codeCz2']->getCode(),
                 'percentage_rate' =>  $rates['codeCz2']->getRate(),
+                'titles' =>  [],
             ],
             [
                 'id' => $rates['codeCz1']->getId(),
                 'country_id' => $rates['codeCz1']->getTaxCountryId(),
+                'region_id' => 0,
+                'region_name' => $rates['codeCz1']->getRegionName(),
                 'postcode' => $rates['codeCz1']->getTaxPostcode(),
                 'code' =>  $rates['codeCz1']->getCode(),
                 'percentage_rate' =>  $rates['codeCz1']->getRate(),
+                'titles' =>  [],
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
@@ -557,10 +565,11 @@ class TaxRateServiceTest extends WebapiAbstract
 
         $taxRateUs12 = array(
             'tax_country_id' => 'US',
-            'tax_region_id' => '12',
+            'tax_region_id' => 12,
             'tax_postcode' => '*',
             'code' => 'codeUs12',
-            'rate' => '22'
+            'rate' => 22,
+            'region_name' => 'CA'
         );
         $rates['codeUs12'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->setData($taxRateUs12)
@@ -568,20 +577,20 @@ class TaxRateServiceTest extends WebapiAbstract
 
         $taxRateUs14 = array(
             'tax_country_id' => 'US',
-            'tax_region_id' => '14',
+            'tax_region_id' => 14,
             'tax_postcode' => '*',
             'code' => 'codeUs14',
-            'rate' => '22'
+            'rate' => 22
         );
         $rates['codeUs14'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->setData($taxRateUs14)
             ->save();
         $taxRateBr13 = array(
             'tax_country_id' => 'BR',
-            'tax_region_id' => '13',
+            'tax_region_id' => 13,
             'tax_postcode' => '*',
             'code' => 'codeBr13',
-            'rate' => '7.5'
+            'rate' => 7.5
         );
         $rates['codeBr13'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->setData($taxRateBr13)
@@ -591,7 +600,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'tax_country_id' => 'CZ',
             'tax_postcode' => '110 00',
             'code' => 'codeCz1',
-            'rate' => '1.1'
+            'rate' => 1.1
         );
         $rates['codeCz1'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->setData($taxRateCz1)
@@ -600,7 +609,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'tax_country_id' => 'CZ',
             'tax_postcode' => '250 00',
             'code' => 'codeCz2',
-            'rate' => '2.2'
+            'rate' => 2.2,
         );
         $rates['codeCz2'] = $objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->setData($taxRateCz2)
