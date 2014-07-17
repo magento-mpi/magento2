@@ -135,51 +135,6 @@ class InvoiceItem extends DataObject
     const BASE_HIDDEN_TAX_AMOUNT = 'base_hidden_tax_amount';
 
     /**
-     * float
-     */
-    const BASE_WEEE_TAX_APPLIED_AMOUNT = 'base_weee_tax_applied_amount';
-
-    /**
-     * float
-     */
-    const BASE_WEEE_TAX_APPLIED_ROW_AMNT = 'base_weee_tax_applied_row_amnt';
-
-    /**
-     * float
-     */
-    const WEEE_TAX_APPLIED_AMOUNT = 'weee_tax_applied_amount';
-
-    /**
-     * float
-     */
-    const WEEE_TAX_APPLIED_ROW_AMOUNT = 'weee_tax_applied_row_amount';
-
-    /**
-     * string
-     */
-    const WEEE_TAX_APPLIED = 'weee_tax_applied';
-
-    /**
-     * float
-     */
-    const WEEE_TAX_DISPOSITION = 'weee_tax_disposition';
-
-    /**
-     * float
-     */
-    const WEEE_TAX_ROW_DISPOSITION = 'weee_tax_row_disposition';
-
-    /**
-     * float
-     */
-    const BASE_WEEE_TAX_DISPOSITION = 'base_weee_tax_disposition';
-
-    /**
-     * float
-     */
-    const BASE_WEEE_TAX_ROW_DISPOSITION = 'base_weee_tax_row_disposition';
-
-    /**
      * Returns additional_data
      *
      * @return string
@@ -267,46 +222,6 @@ class InvoiceItem extends DataObject
     public function getBaseTaxAmount()
     {
         return $this->_get(self::BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns base_weee_tax_applied_amount
-     *
-     * @return float
-     */
-    public function getBaseWeeeTaxAppliedAmount()
-    {
-        return $this->_get(self::BASE_WEEE_TAX_APPLIED_AMOUNT);
-    }
-
-    /**
-     * Returns base_weee_tax_applied_row_amnt
-     *
-     * @return float
-     */
-    public function getBaseWeeeTaxAppliedRowAmnt()
-    {
-        return $this->_get(self::BASE_WEEE_TAX_APPLIED_ROW_AMNT);
-    }
-
-    /**
-     * Returns base_weee_tax_disposition
-     *
-     * @return float
-     */
-    public function getBaseWeeeTaxDisposition()
-    {
-        return $this->_get(self::BASE_WEEE_TAX_DISPOSITION);
-    }
-
-    /**
-     * Returns base_weee_tax_row_disposition
-     *
-     * @return float
-     */
-    public function getBaseWeeeTaxRowDisposition()
-    {
-        return $this->_get(self::BASE_WEEE_TAX_ROW_DISPOSITION);
     }
 
     /**
@@ -457,55 +372,5 @@ class InvoiceItem extends DataObject
     public function getTaxAmount()
     {
         return $this->_get(self::TAX_AMOUNT);
-    }
-
-    /**
-     * Returns weee_tax_applied
-     *
-     * @return string
-     */
-    public function getWeeeTaxApplied()
-    {
-        return $this->_get(self::WEEE_TAX_APPLIED);
-    }
-
-    /**
-     * Returns weee_tax_applied_amount
-     *
-     * @return float
-     */
-    public function getWeeeTaxAppliedAmount()
-    {
-        return $this->_get(self::WEEE_TAX_APPLIED_AMOUNT);
-    }
-
-    /**
-     * Returns weee_tax_applied_row_amount
-     *
-     * @return float
-     */
-    public function getWeeeTaxAppliedRowAmount()
-    {
-        return $this->_get(self::WEEE_TAX_APPLIED_ROW_AMOUNT);
-    }
-
-    /**
-     * Returns weee_tax_disposition
-     *
-     * @return float
-     */
-    public function getWeeeTaxDisposition()
-    {
-        return $this->_get(self::WEEE_TAX_DISPOSITION);
-    }
-
-    /**
-     * Returns weee_tax_row_disposition
-     *
-     * @return float
-     */
-    public function getWeeeTaxRowDisposition()
-    {
-        return $this->_get(self::WEEE_TAX_ROW_DISPOSITION);
     }
 }

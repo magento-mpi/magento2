@@ -14,320 +14,52 @@ use Magento\Framework\Service\Data\AbstractObject as DataObject;
  */
 class Invoice extends DataObject
 {
-    /**
-     * int
-     */
     const ENTITY_ID = 'entity_id';
-
-    /**
-     * int
-     */
     const STORE_ID = 'store_id';
-
-    /**
-     * float
-     */
     const BASE_GRAND_TOTAL = 'base_grand_total';
-
-    /**
-     * float
-     */
     const SHIPPING_TAX_AMOUNT = 'shipping_tax_amount';
-
-    /**
-     * float
-     */
     const TAX_AMOUNT = 'tax_amount';
-
-    /**
-     * float
-     */
     const BASE_TAX_AMOUNT = 'base_tax_amount';
-
-    /**
-     * float
-     */
     const STORE_TO_ORDER_RATE = 'store_to_order_rate';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_TAX_AMOUNT = 'base_shipping_tax_amount';
-
-    /**
-     * float
-     */
     const BASE_DISCOUNT_AMOUNT = 'base_discount_amount';
-
-    /**
-     * float
-     */
     const BASE_TO_ORDER_RATE = 'base_to_order_rate';
-
-    /**
-     * float
-     */
     const GRAND_TOTAL = 'grand_total';
-
-    /**
-     * float
-     */
     const SHIPPING_AMOUNT = 'shipping_amount';
-
-    /**
-     * float
-     */
     const SUBTOTAL_INCL_TAX = 'subtotal_incl_tax';
-
-    /**
-     * float
-     */
     const BASE_SUBTOTAL_INCL_TAX = 'base_subtotal_incl_tax';
-
-    /**
-     * float
-     */
     const STORE_TO_BASE_RATE = 'store_to_base_rate';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_AMOUNT = 'base_shipping_amount';
-
-    /**
-     * float
-     */
     const TOTAL_QTY = 'total_qty';
-
-    /**
-     * float
-     */
     const BASE_TO_GLOBAL_RATE = 'base_to_global_rate';
-
-    /**
-     * float
-     */
     const SUBTOTAL = 'subtotal';
-
-    /**
-     * float
-     */
     const BASE_SUBTOTAL = 'base_subtotal';
-
-    /**
-     * float
-     */
     const DISCOUNT_AMOUNT = 'discount_amount';
-
-    /**
-     * int
-     */
     const BILLING_ADDRESS_ID = 'billing_address_id';
-
-    /**
-     * int
-     */
     const IS_USED_FOR_REFUND = 'is_used_for_refund';
-
-    /**
-     * int
-     */
     const ORDER_ID = 'order_id';
-
-    /**
-     * int
-     */
     const EMAIL_SENT = 'email_sent';
-
-    /**
-     * int
-     */
     const CAN_VOID_FLAG = 'can_void_flag';
-
-    /**
-     * int
-     */
     const STATE = 'state';
-
-    /**
-     * int
-     */
     const SHIPPING_ADDRESS_ID = 'shipping_address_id';
-
-    /**
-     * string
-     */
     const STORE_CURRENCY_CODE = 'store_currency_code';
-
-    /**
-     * string
-     */
     const TRANSACTION_ID = 'transaction_id';
-
-    /**
-     * string
-     */
     const ORDER_CURRENCY_CODE = 'order_currency_code';
-
-    /**
-     * string
-     */
     const BASE_CURRENCY_CODE = 'base_currency_code';
-
-    /**
-     * string
-     */
     const GLOBAL_CURRENCY_CODE = 'global_currency_code';
-
-    /**
-     * string
-     */
     const INCREMENT_ID = 'increment_id';
-
-    /**
-     * string
-     */
     const CREATED_AT = 'created_at';
-
-    /**
-     * string
-     */
     const UPDATED_AT = 'updated_at';
-
-    /**
-     * float
-     */
     const HIDDEN_TAX_AMOUNT = 'hidden_tax_amount';
-
-    /**
-     * float
-     */
     const BASE_HIDDEN_TAX_AMOUNT = 'base_hidden_tax_amount';
-
-    /**
-     * float
-     */
     const SHIPPING_HIDDEN_TAX_AMOUNT = 'shipping_hidden_tax_amount';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_HIDDEN_TAX_AMNT = 'base_shipping_hidden_tax_amnt';
-
-    /**
-     * float
-     */
     const SHIPPING_INCL_TAX = 'shipping_incl_tax';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_INCL_TAX = 'base_shipping_incl_tax';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_REFUNDED = 'base_total_refunded';
-
-    /**
-     * string
-     */
     const DISCOUNT_DESCRIPTION = 'discount_description';
-
-    /**
-     * float
-     */
-    const BASE_CUSTOMER_BALANCE_AMOUNT = 'base_customer_balance_amount';
-
-    /**
-     * float
-     */
-    const CUSTOMER_BALANCE_AMOUNT = 'customer_balance_amount';
-
-    /**
-     * float
-     */
-    const BASE_GIFT_CARDS_AMOUNT = 'base_gift_cards_amount';
-
-    /**
-     * float
-     */
-    const GIFT_CARDS_AMOUNT = 'gift_cards_amount';
-
-    /**
-     * float
-     */
-    const GW_BASE_PRICE = 'gw_base_price';
-
-    /**
-     * float
-     */
-    const GW_PRICE = 'gw_price';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_PRICE = 'gw_items_base_price';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_PRICE = 'gw_items_price';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_PRICE = 'gw_card_base_price';
-
-    /**
-     * float
-     */
-    const GW_CARD_PRICE = 'gw_card_price';
-
-    /**
-     * float
-     */
-    const GW_BASE_TAX_AMOUNT = 'gw_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_TAX_AMOUNT = 'gw_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_TAX_AMOUNT = 'gw_items_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_TAX_AMOUNT = 'gw_items_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_TAX_AMOUNT = 'gw_card_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_CARD_TAX_AMOUNT = 'gw_card_tax_amount';
-
-    /**
-     * float
-     */
-    const BASE_REWARD_CURRENCY_AMOUNT = 'base_reward_currency_amount';
-
-    /**
-     * float
-     */
-    const REWARD_CURRENCY_AMOUNT = 'reward_currency_amount';
-
-    /**
-     * int
-     */
-    const REWARD_POINTS_BALANCE = 'reward_points_balance';
+    const ITEMS = 'items';
+    const COMMENTS = 'comments';
 
     /**
      * Returns base_currency_code
@@ -340,16 +72,6 @@ class Invoice extends DataObject
     }
 
     /**
-     * Returns base_customer_balance_amount
-     *
-     * @return float
-     */
-    public function getBaseCustomerBalanceAmount()
-    {
-        return $this->_get(self::BASE_CUSTOMER_BALANCE_AMOUNT);
-    }
-
-    /**
      * Returns base_discount_amount
      *
      * @return float
@@ -357,16 +79,6 @@ class Invoice extends DataObject
     public function getBaseDiscountAmount()
     {
         return $this->_get(self::BASE_DISCOUNT_AMOUNT);
-    }
-
-    /**
-     * Returns base_gift_cards_amount
-     *
-     * @return float
-     */
-    public function getBaseGiftCardsAmount()
-    {
-        return $this->_get(self::BASE_GIFT_CARDS_AMOUNT);
     }
 
     /**
@@ -387,16 +99,6 @@ class Invoice extends DataObject
     public function getBaseHiddenTaxAmount()
     {
         return $this->_get(self::BASE_HIDDEN_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns base_reward_currency_amount
-     *
-     * @return float
-     */
-    public function getBaseRewardCurrencyAmount()
-    {
-        return $this->_get(self::BASE_REWARD_CURRENCY_AMOUNT);
     }
 
     /**
@@ -530,16 +232,6 @@ class Invoice extends DataObject
     }
 
     /**
-     * Returns customer_balance_amount
-     *
-     * @return float
-     */
-    public function getCustomerBalanceAmount()
-    {
-        return $this->_get(self::CUSTOMER_BALANCE_AMOUNT);
-    }
-
-    /**
      * Returns discount_amount
      *
      * @return float
@@ -580,16 +272,6 @@ class Invoice extends DataObject
     }
 
     /**
-     * Returns gift_cards_amount
-     *
-     * @return float
-     */
-    public function getGiftCardsAmount()
-    {
-        return $this->_get(self::GIFT_CARDS_AMOUNT);
-    }
-
-    /**
      * Returns global_currency_code
      *
      * @return string
@@ -607,126 +289,6 @@ class Invoice extends DataObject
     public function getGrandTotal()
     {
         return $this->_get(self::GRAND_TOTAL);
-    }
-
-    /**
-     * Returns gw_base_price
-     *
-     * @return float
-     */
-    public function getGwBasePrice()
-    {
-        return $this->_get(self::GW_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwBaseTaxAmount()
-    {
-        return $this->_get(self::GW_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_card_base_price
-     *
-     * @return float
-     */
-    public function getGwCardBasePrice()
-    {
-        return $this->_get(self::GW_CARD_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_card_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwCardBaseTaxAmount()
-    {
-        return $this->_get(self::GW_CARD_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_card_price
-     *
-     * @return float
-     */
-    public function getGwCardPrice()
-    {
-        return $this->_get(self::GW_CARD_PRICE);
-    }
-
-    /**
-     * Returns gw_card_tax_amount
-     *
-     * @return float
-     */
-    public function getGwCardTaxAmount()
-    {
-        return $this->_get(self::GW_CARD_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_items_base_price
-     *
-     * @return float
-     */
-    public function getGwItemsBasePrice()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_items_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwItemsBaseTaxAmount()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_items_price
-     *
-     * @return float
-     */
-    public function getGwItemsPrice()
-    {
-        return $this->_get(self::GW_ITEMS_PRICE);
-    }
-
-    /**
-     * Returns gw_items_tax_amount
-     *
-     * @return float
-     */
-    public function getGwItemsTaxAmount()
-    {
-        return $this->_get(self::GW_ITEMS_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_price
-     *
-     * @return float
-     */
-    public function getGwPrice()
-    {
-        return $this->_get(self::GW_PRICE);
-    }
-
-    /**
-     * Returns gw_tax_amount
-     *
-     * @return float
-     */
-    public function getGwTaxAmount()
-    {
-        return $this->_get(self::GW_TAX_AMOUNT);
     }
 
     /**
@@ -777,26 +339,6 @@ class Invoice extends DataObject
     public function getOrderId()
     {
         return $this->_get(self::ORDER_ID);
-    }
-
-    /**
-     * Returns reward_currency_amount
-     *
-     * @return float
-     */
-    public function getRewardCurrencyAmount()
-    {
-        return $this->_get(self::REWARD_CURRENCY_AMOUNT);
-    }
-
-    /**
-     * Returns reward_points_balance
-     *
-     * @return int
-     */
-    public function getRewardPointsBalance()
-    {
-        return $this->_get(self::REWARD_POINTS_BALANCE);
     }
 
     /**
@@ -957,5 +499,25 @@ class Invoice extends DataObject
     public function getUpdatedAt()
     {
         return $this->_get(self::UPDATED_AT);
+    }
+
+    /**
+     * Returns invoice items
+     *
+     * @return InvoiceItem[]
+     */
+    public function getItems()
+    {
+        return $this->_get(self::ITEMS);
+    }
+
+    /**
+     * Return invoice comments
+     *
+     * @return InvoiceComment[]
+     */
+    public function getComments()
+    {
+        return $this->_get(self::COMMENTS);
     }
 }

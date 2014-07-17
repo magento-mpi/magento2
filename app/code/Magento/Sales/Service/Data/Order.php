@@ -14,1011 +14,144 @@ use Magento\Framework\Service\Data\AbstractObject as DataObject;
  */
 class Order extends DataObject
 {
-    /**
-     * int
-     */
     const ENTITY_ID = 'entity_id';
-
-    /**
-     * string
-     */
     const STATE = 'state';
-
-    /**
-     * string
-     */
     const STATUS = 'status';
-
-    /**
-     * string
-     */
     const COUPON_CODE = 'coupon_code';
-
-    /**
-     * string
-     */
     const PROTECT_CODE = 'protect_code';
-
-    /**
-     * string
-     */
     const SHIPPING_DESCRIPTION = 'shipping_description';
-
-    /**
-     * int
-     */
     const IS_VIRTUAL = 'is_virtual';
-
-    /**
-     * int
-     */
     const STORE_ID = 'store_id';
-
-    /**
-     * int
-     */
     const CUSTOMER_ID = 'customer_id';
-
-    /**
-     * float
-     */
     const BASE_DISCOUNT_AMOUNT = 'base_discount_amount';
-
-    /**
-     * float
-     */
     const BASE_DISCOUNT_CANCELED = 'base_discount_canceled';
-
-    /**
-     * float
-     */
     const BASE_DISCOUNT_INVOICED = 'base_discount_invoiced';
-
-    /**
-     * float
-     */
     const BASE_DISCOUNT_REFUNDED = 'base_discount_refunded';
-
-    /**
-     * float
-     */
     const BASE_GRAND_TOTAL = 'base_grand_total';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_AMOUNT = 'base_shipping_amount';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_CANCELED = 'base_shipping_canceled';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_INVOICED = 'base_shipping_invoiced';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_REFUNDED = 'base_shipping_refunded';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_TAX_AMOUNT = 'base_shipping_tax_amount';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_TAX_REFUNDED = 'base_shipping_tax_refunded';
-
-    /**
-     * float
-     */
     const BASE_SUBTOTAL = 'base_subtotal';
-
-    /**
-     * float
-     */
     const BASE_SUBTOTAL_CANCELED = 'base_subtotal_canceled';
-
-    /**
-     * float
-     */
     const BASE_SUBTOTAL_INVOICED = 'base_subtotal_invoiced';
-
-    /**
-     * float
-     */
     const BASE_SUBTOTAL_REFUNDED = 'base_subtotal_refunded';
-
-    /**
-     * float
-     */
     const BASE_TAX_AMOUNT = 'base_tax_amount';
-
-    /**
-     * float
-     */
     const BASE_TAX_CANCELED = 'base_tax_canceled';
-
-    /**
-     * float
-     */
     const BASE_TAX_INVOICED = 'base_tax_invoiced';
-
-    /**
-     * float
-     */
     const BASE_TAX_REFUNDED = 'base_tax_refunded';
-
-    /**
-     * float
-     */
     const BASE_TO_GLOBAL_RATE = 'base_to_global_rate';
-
-    /**
-     * float
-     */
     const BASE_TO_ORDER_RATE = 'base_to_order_rate';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_CANCELED = 'base_total_canceled';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_INVOICED = 'base_total_invoiced';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_INVOICED_COST = 'base_total_invoiced_cost';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_OFFLINE_REFUNDED = 'base_total_offline_refunded';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_ONLINE_REFUNDED = 'base_total_online_refunded';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_PAID = 'base_total_paid';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_QTY_ORDERED = 'base_total_qty_ordered';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_REFUNDED = 'base_total_refunded';
-
-    /**
-     * float
-     */
     const DISCOUNT_AMOUNT = 'discount_amount';
-
-    /**
-     * float
-     */
     const DISCOUNT_CANCELED = 'discount_canceled';
-
-    /**
-     * float
-     */
     const DISCOUNT_INVOICED = 'discount_invoiced';
-
-    /**
-     * float
-     */
     const DISCOUNT_REFUNDED = 'discount_refunded';
-
-    /**
-     * float
-     */
     const GRAND_TOTAL = 'grand_total';
-
-    /**
-     * float
-     */
     const SHIPPING_AMOUNT = 'shipping_amount';
-
-    /**
-     * float
-     */
     const SHIPPING_CANCELED = 'shipping_canceled';
-
-    /**
-     * float
-     */
     const SHIPPING_INVOICED = 'shipping_invoiced';
-
-    /**
-     * float
-     */
     const SHIPPING_REFUNDED = 'shipping_refunded';
-
-    /**
-     * float
-     */
     const SHIPPING_TAX_AMOUNT = 'shipping_tax_amount';
-
-    /**
-     * float
-     */
     const SHIPPING_TAX_REFUNDED = 'shipping_tax_refunded';
-
-    /**
-     * float
-     */
     const STORE_TO_BASE_RATE = 'store_to_base_rate';
-
-    /**
-     * float
-     */
     const STORE_TO_ORDER_RATE = 'store_to_order_rate';
-
-    /**
-     * float
-     */
     const SUBTOTAL = 'subtotal';
-
-    /**
-     * float
-     */
     const SUBTOTAL_CANCELED = 'subtotal_canceled';
-
-    /**
-     * float
-     */
     const SUBTOTAL_INVOICED = 'subtotal_invoiced';
-
-    /**
-     * float
-     */
     const SUBTOTAL_REFUNDED = 'subtotal_refunded';
-
-    /**
-     * float
-     */
     const TAX_AMOUNT = 'tax_amount';
-
-    /**
-     * float
-     */
     const TAX_CANCELED = 'tax_canceled';
-
-    /**
-     * float
-     */
     const TAX_INVOICED = 'tax_invoiced';
-
-    /**
-     * float
-     */
     const TAX_REFUNDED = 'tax_refunded';
-
-    /**
-     * float
-     */
     const TOTAL_CANCELED = 'total_canceled';
-
-    /**
-     * float
-     */
     const TOTAL_INVOICED = 'total_invoiced';
-
-    /**
-     * float
-     */
     const TOTAL_OFFLINE_REFUNDED = 'total_offline_refunded';
-
-    /**
-     * float
-     */
     const TOTAL_ONLINE_REFUNDED = 'total_online_refunded';
-
-    /**
-     * float
-     */
     const TOTAL_PAID = 'total_paid';
-
-    /**
-     * float
-     */
     const TOTAL_QTY_ORDERED = 'total_qty_ordered';
-
-    /**
-     * float
-     */
     const TOTAL_REFUNDED = 'total_refunded';
-
-    /**
-     * int
-     */
     const CAN_SHIP_PARTIALLY = 'can_ship_partially';
-
-    /**
-     * int
-     */
     const CAN_SHIP_PARTIALLY_ITEM = 'can_ship_partially_item';
-
-    /**
-     * int
-     */
     const CUSTOMER_IS_GUEST = 'customer_is_guest';
-
-    /**
-     * int
-     */
     const CUSTOMER_NOTE_NOTIFY = 'customer_note_notify';
-
-    /**
-     * int
-     */
     const BILLING_ADDRESS_ID = 'billing_address_id';
-
-    /**
-     * int
-     */
     const CUSTOMER_GROUP_ID = 'customer_group_id';
-
-    /**
-     * int
-     */
     const EDIT_INCREMENT = 'edit_increment';
-
-    /**
-     * int
-     */
     const EMAIL_SENT = 'email_sent';
-
-    /**
-     * int
-     */
     const FORCED_SHIPMENT_WITH_INVOICE = 'forced_shipment_with_invoice';
-
-    /**
-     * int
-     */
     const PAYMENT_AUTH_EXPIRATION = 'payment_auth_expiration';
-
-    /**
-     * int
-     */
     const QUOTE_ADDRESS_ID = 'quote_address_id';
-
-    /**
-     * int
-     */
     const QUOTE_ID = 'quote_id';
-
-    /**
-     * int
-     */
     const SHIPPING_ADDRESS_ID = 'shipping_address_id';
-
-    /**
-     * float
-     */
     const ADJUSTMENT_NEGATIVE = 'adjustment_negative';
-
-    /**
-     * float
-     */
     const ADJUSTMENT_POSITIVE = 'adjustment_positive';
-
-    /**
-     * float
-     */
     const BASE_ADJUSTMENT_NEGATIVE = 'base_adjustment_negative';
-
-    /**
-     * float
-     */
     const BASE_ADJUSTMENT_POSITIVE = 'base_adjustment_positive';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_DISCOUNT_AMOUNT = 'base_shipping_discount_amount';
-
-    /**
-     * float
-     */
     const BASE_SUBTOTAL_INCL_TAX = 'base_subtotal_incl_tax';
-
-    /**
-     * float
-     */
     const BASE_TOTAL_DUE = 'base_total_due';
-
-    /**
-     * float
-     */
     const PAYMENT_AUTHORIZATION_AMOUNT = 'payment_authorization_amount';
-
-    /**
-     * float
-     */
     const SHIPPING_DISCOUNT_AMOUNT = 'shipping_discount_amount';
-
-    /**
-     * float
-     */
     const SUBTOTAL_INCL_TAX = 'subtotal_incl_tax';
-
-    /**
-     * float
-     */
     const TOTAL_DUE = 'total_due';
-
-    /**
-     * float
-     */
     const WEIGHT = 'weight';
-
-    /**
-     * datetime
-     */
     const CUSTOMER_DOB = 'customer_dob';
-
-    /**
-     * string
-     */
     const INCREMENT_ID = 'increment_id';
-
-    /**
-     * string
-     */
     const APPLIED_RULE_IDS = 'applied_rule_ids';
-
-    /**
-     * string
-     */
     const BASE_CURRENCY_CODE = 'base_currency_code';
-
-    /**
-     * string
-     */
     const CUSTOMER_EMAIL = 'customer_email';
-
-    /**
-     * string
-     */
     const CUSTOMER_FIRSTNAME = 'customer_firstname';
-
-    /**
-     * string
-     */
     const CUSTOMER_LASTNAME = 'customer_lastname';
-
-    /**
-     * string
-     */
     const CUSTOMER_MIDDLENAME = 'customer_middlename';
-
-    /**
-     * string
-     */
     const CUSTOMER_PREFIX = 'customer_prefix';
-
-    /**
-     * string
-     */
     const CUSTOMER_SUFFIX = 'customer_suffix';
-
-    /**
-     * string
-     */
     const CUSTOMER_TAXVAT = 'customer_taxvat';
-
-    /**
-     * string
-     */
     const DISCOUNT_DESCRIPTION = 'discount_description';
-
-    /**
-     * string
-     */
     const EXT_CUSTOMER_ID = 'ext_customer_id';
-
-    /**
-     * string
-     */
     const EXT_ORDER_ID = 'ext_order_id';
-
-    /**
-     * string
-     */
     const GLOBAL_CURRENCY_CODE = 'global_currency_code';
-
-    /**
-     * string
-     */
     const HOLD_BEFORE_STATE = 'hold_before_state';
-
-    /**
-     * string
-     */
     const HOLD_BEFORE_STATUS = 'hold_before_status';
-
-    /**
-     * string
-     */
     const ORDER_CURRENCY_CODE = 'order_currency_code';
-
-    /**
-     * string
-     */
     const ORIGINAL_INCREMENT_ID = 'original_increment_id';
-
-    /**
-     * string
-     */
     const RELATION_CHILD_ID = 'relation_child_id';
-
-    /**
-     * string
-     */
     const RELATION_CHILD_REAL_ID = 'relation_child_real_id';
-
-    /**
-     * string
-     */
     const RELATION_PARENT_ID = 'relation_parent_id';
-
-    /**
-     * string
-     */
     const RELATION_PARENT_REAL_ID = 'relation_parent_real_id';
-
-    /**
-     * string
-     */
     const REMOTE_IP = 'remote_ip';
-
-    /**
-     * string
-     */
     const SHIPPING_METHOD = 'shipping_method';
-
-    /**
-     * string
-     */
     const STORE_CURRENCY_CODE = 'store_currency_code';
-
-    /**
-     * string
-     */
     const STORE_NAME = 'store_name';
-
-    /**
-     * string
-     */
     const X_FORWARDED_FOR = 'x_forwarded_for';
-
-    /**
-     * string
-     */
     const CUSTOMER_NOTE = 'customer_note';
-
-    /**
-     * string
-     */
     const CREATED_AT = 'created_at';
-
-    /**
-     * string
-     */
     const UPDATED_AT = 'updated_at';
-
-    /**
-     * int
-     */
     const TOTAL_ITEM_COUNT = 'total_item_count';
-
-    /**
-     * int
-     */
     const CUSTOMER_GENDER = 'customer_gender';
-
-    /**
-     * float
-     */
     const HIDDEN_TAX_AMOUNT = 'hidden_tax_amount';
-
-    /**
-     * float
-     */
     const BASE_HIDDEN_TAX_AMOUNT = 'base_hidden_tax_amount';
-
-    /**
-     * float
-     */
     const SHIPPING_HIDDEN_TAX_AMOUNT = 'shipping_hidden_tax_amount';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_HIDDEN_TAX_AMNT = 'base_shipping_hidden_tax_amnt';
-
-    /**
-     * float
-     */
     const HIDDEN_TAX_INVOICED = 'hidden_tax_invoiced';
-
-    /**
-     * float
-     */
     const BASE_HIDDEN_TAX_INVOICED = 'base_hidden_tax_invoiced';
-
-    /**
-     * float
-     */
     const HIDDEN_TAX_REFUNDED = 'hidden_tax_refunded';
-
-    /**
-     * float
-     */
     const BASE_HIDDEN_TAX_REFUNDED = 'base_hidden_tax_refunded';
-
-    /**
-     * float
-     */
     const SHIPPING_INCL_TAX = 'shipping_incl_tax';
-
-    /**
-     * float
-     */
     const BASE_SHIPPING_INCL_TAX = 'base_shipping_incl_tax';
-
-    /**
-     * string
-     */
-    const COUPON_RULE_NAME = 'coupon_rule_name';
-
-    /**
-     * float
-     */
-    const BASE_CUSTOMER_BALANCE_AMOUNT = 'base_customer_balance_amount';
-
-    /**
-     * float
-     */
-    const CUSTOMER_BALANCE_AMOUNT = 'customer_balance_amount';
-
-    /**
-     * float
-     */
-    const BASE_CUSTOMER_BALANCE_INVOICED = 'base_customer_balance_invoiced';
-
-    /**
-     * float
-     */
-    const CUSTOMER_BALANCE_INVOICED = 'customer_balance_invoiced';
-
-    /**
-     * float
-     */
-    const BASE_CUSTOMER_BALANCE_REFUNDED = 'base_customer_balance_refunded';
-
-    /**
-     * float
-     */
-    const CUSTOMER_BALANCE_REFUNDED = 'customer_balance_refunded';
-
-    /**
-     * float
-     */
-    const BS_CUSTOMER_BAL_TOTAL_REFUNDED = 'bs_customer_bal_total_refunded';
-
-    /**
-     * float
-     */
-    const CUSTOMER_BAL_TOTAL_REFUNDED = 'customer_bal_total_refunded';
-
-    /**
-     * string
-     */
-    const GIFT_CARDS = 'gift_cards';
-
-    /**
-     * float
-     */
-    const BASE_GIFT_CARDS_AMOUNT = 'base_gift_cards_amount';
-
-    /**
-     * float
-     */
-    const GIFT_CARDS_AMOUNT = 'gift_cards_amount';
-
-    /**
-     * float
-     */
-    const BASE_GIFT_CARDS_INVOICED = 'base_gift_cards_invoiced';
-
-    /**
-     * float
-     */
-    const GIFT_CARDS_INVOICED = 'gift_cards_invoiced';
-
-    /**
-     * float
-     */
-    const BASE_GIFT_CARDS_REFUNDED = 'base_gift_cards_refunded';
-
-    /**
-     * float
-     */
-    const GIFT_CARDS_REFUNDED = 'gift_cards_refunded';
-
-    /**
-     * int
-     */
-    const GIFT_MESSAGE_ID = 'gift_message_id';
-
-    /**
-     * int
-     */
-    const GW_ID = 'gw_id';
-
-    /**
-     * int
-     */
-    const GW_ALLOW_GIFT_RECEIPT = 'gw_allow_gift_receipt';
-
-    /**
-     * int
-     */
-    const GW_ADD_CARD = 'gw_add_card';
-
-    /**
-     * float
-     */
-    const GW_BASE_PRICE = 'gw_base_price';
-
-    /**
-     * float
-     */
-    const GW_PRICE = 'gw_price';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_PRICE = 'gw_items_base_price';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_PRICE = 'gw_items_price';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_PRICE = 'gw_card_base_price';
-
-    /**
-     * float
-     */
-    const GW_CARD_PRICE = 'gw_card_price';
-
-    /**
-     * float
-     */
-    const GW_BASE_TAX_AMOUNT = 'gw_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_TAX_AMOUNT = 'gw_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_TAX_AMOUNT = 'gw_items_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_TAX_AMOUNT = 'gw_items_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_TAX_AMOUNT = 'gw_card_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_CARD_TAX_AMOUNT = 'gw_card_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_BASE_PRICE_INVOICED = 'gw_base_price_invoiced';
-
-    /**
-     * float
-     */
-    const GW_PRICE_INVOICED = 'gw_price_invoiced';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_PRICE_INVOICED = 'gw_items_base_price_invoiced';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_PRICE_INVOICED = 'gw_items_price_invoiced';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_PRICE_INVOICED = 'gw_card_base_price_invoiced';
-
-    /**
-     * float
-     */
-    const GW_CARD_PRICE_INVOICED = 'gw_card_price_invoiced';
-
-    /**
-     * float
-     */
-    const GW_BASE_TAX_AMOUNT_INVOICED = 'gw_base_tax_amount_invoiced';
-
-    /**
-     * float
-     */
-    const GW_TAX_AMOUNT_INVOICED = 'gw_tax_amount_invoiced';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_TAX_INVOICED = 'gw_items_base_tax_invoiced';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_TAX_INVOICED = 'gw_items_tax_invoiced';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_TAX_INVOICED = 'gw_card_base_tax_invoiced';
-
-    /**
-     * float
-     */
-    const GW_CARD_TAX_INVOICED = 'gw_card_tax_invoiced';
-
-    /**
-     * float
-     */
-    const GW_BASE_PRICE_REFUNDED = 'gw_base_price_refunded';
-
-    /**
-     * float
-     */
-    const GW_PRICE_REFUNDED = 'gw_price_refunded';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_PRICE_REFUNDED = 'gw_items_base_price_refunded';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_PRICE_REFUNDED = 'gw_items_price_refunded';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_PRICE_REFUNDED = 'gw_card_base_price_refunded';
-
-    /**
-     * float
-     */
-    const GW_CARD_PRICE_REFUNDED = 'gw_card_price_refunded';
-
-    /**
-     * float
-     */
-    const GW_BASE_TAX_AMOUNT_REFUNDED = 'gw_base_tax_amount_refunded';
-
-    /**
-     * float
-     */
-    const GW_TAX_AMOUNT_REFUNDED = 'gw_tax_amount_refunded';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_TAX_REFUNDED = 'gw_items_base_tax_refunded';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_TAX_REFUNDED = 'gw_items_tax_refunded';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_TAX_REFUNDED = 'gw_card_base_tax_refunded';
-
-    /**
-     * float
-     */
-    const GW_CARD_TAX_REFUNDED = 'gw_card_tax_refunded';
-
-    /**
-     * int
-     */
-    const PAYPAL_IPN_CUSTOMER_NOTIFIED = 'paypal_ipn_customer_notified';
-
-    /**
-     * int
-     */
-    const REWARD_POINTS_BALANCE = 'reward_points_balance';
-
-    /**
-     * float
-     */
-    const BASE_REWARD_CURRENCY_AMOUNT = 'base_reward_currency_amount';
-
-    /**
-     * float
-     */
-    const REWARD_CURRENCY_AMOUNT = 'reward_currency_amount';
-
-    /**
-     * float
-     */
-    const BASE_RWRD_CRRNCY_AMT_INVOICED = 'base_rwrd_crrncy_amt_invoiced';
-
-    /**
-     * float
-     */
-    const RWRD_CURRENCY_AMOUNT_INVOICED = 'rwrd_currency_amount_invoiced';
-
-    /**
-     * float
-     */
-    const BASE_RWRD_CRRNCY_AMNT_REFNDED = 'base_rwrd_crrncy_amnt_refnded';
-
-    /**
-     * float
-     */
-    const RWRD_CRRNCY_AMNT_REFUNDED = 'rwrd_crrncy_amnt_refunded';
-
-    /**
-     * int
-     */
-    const REWARD_POINTS_BALANCE_REFUND = 'reward_points_balance_refund';
-
-    /**
-     * int
-     */
-    const REWARD_POINTS_BALANCE_REFUNDED = 'reward_points_balance_refunded';
-
-    /**
-     * int
-     */
-    const REWARD_SALESRULE_POINTS = 'reward_salesrule_points';
-
+    const ITEMS = 'items';
+    const BILLING_ADDRESS = 'items'; 
+    const SHIPPING_ADDRESS = 'items'; 
+    const PAYMENTS = 'items';
     /**
      * Returns adjustment_negative
      *
@@ -1080,36 +213,6 @@ class Order extends DataObject
     }
 
     /**
-     * Returns base_customer_balance_amount
-     *
-     * @return float
-     */
-    public function getBaseCustomerBalanceAmount()
-    {
-        return $this->_get(self::BASE_CUSTOMER_BALANCE_AMOUNT);
-    }
-
-    /**
-     * Returns base_customer_balance_invoiced
-     *
-     * @return float
-     */
-    public function getBaseCustomerBalanceInvoiced()
-    {
-        return $this->_get(self::BASE_CUSTOMER_BALANCE_INVOICED);
-    }
-
-    /**
-     * Returns base_customer_balance_refunded
-     *
-     * @return float
-     */
-    public function getBaseCustomerBalanceRefunded()
-    {
-        return $this->_get(self::BASE_CUSTOMER_BALANCE_REFUNDED);
-    }
-
-    /**
      * Returns base_discount_amount
      *
      * @return float
@@ -1150,36 +253,6 @@ class Order extends DataObject
     }
 
     /**
-     * Returns base_gift_cards_amount
-     *
-     * @return float
-     */
-    public function getBaseGiftCardsAmount()
-    {
-        return $this->_get(self::BASE_GIFT_CARDS_AMOUNT);
-    }
-
-    /**
-     * Returns base_gift_cards_invoiced
-     *
-     * @return float
-     */
-    public function getBaseGiftCardsInvoiced()
-    {
-        return $this->_get(self::BASE_GIFT_CARDS_INVOICED);
-    }
-
-    /**
-     * Returns base_gift_cards_refunded
-     *
-     * @return float
-     */
-    public function getBaseGiftCardsRefunded()
-    {
-        return $this->_get(self::BASE_GIFT_CARDS_REFUNDED);
-    }
-
-    /**
      * Returns base_grand_total
      *
      * @return float
@@ -1217,36 +290,6 @@ class Order extends DataObject
     public function getBaseHiddenTaxRefunded()
     {
         return $this->_get(self::BASE_HIDDEN_TAX_REFUNDED);
-    }
-
-    /**
-     * Returns base_reward_currency_amount
-     *
-     * @return float
-     */
-    public function getBaseRewardCurrencyAmount()
-    {
-        return $this->_get(self::BASE_REWARD_CURRENCY_AMOUNT);
-    }
-
-    /**
-     * Returns base_rwrd_crrncy_amnt_refnded
-     *
-     * @return float
-     */
-    public function getBaseRwrdCrrncyAmntRefnded()
-    {
-        return $this->_get(self::BASE_RWRD_CRRNCY_AMNT_REFNDED);
-    }
-
-    /**
-     * Returns base_rwrd_crrncy_amt_invoiced
-     *
-     * @return float
-     */
-    public function getBaseRwrdCrrncyAmtInvoiced()
-    {
-        return $this->_get(self::BASE_RWRD_CRRNCY_AMT_INVOICED);
     }
 
     /**
@@ -1550,16 +593,6 @@ class Order extends DataObject
     }
 
     /**
-     * Returns bs_customer_bal_total_refunded
-     *
-     * @return float
-     */
-    public function getBsCustomerBalTotalRefunded()
-    {
-        return $this->_get(self::BS_CUSTOMER_BAL_TOTAL_REFUNDED);
-    }
-
-    /**
      * Returns can_ship_partially
      *
      * @return int
@@ -1590,16 +623,6 @@ class Order extends DataObject
     }
 
     /**
-     * Returns coupon_rule_name
-     *
-     * @return string
-     */
-    public function getCouponRuleName()
-    {
-        return $this->_get(self::COUPON_RULE_NAME);
-    }
-
-    /**
      * Returns created_at
      *
      * @return string
@@ -1607,46 +630,6 @@ class Order extends DataObject
     public function getCreatedAt()
     {
         return $this->_get(self::CREATED_AT);
-    }
-
-    /**
-     * Returns customer_balance_amount
-     *
-     * @return float
-     */
-    public function getCustomerBalanceAmount()
-    {
-        return $this->_get(self::CUSTOMER_BALANCE_AMOUNT);
-    }
-
-    /**
-     * Returns customer_balance_invoiced
-     *
-     * @return float
-     */
-    public function getCustomerBalanceInvoiced()
-    {
-        return $this->_get(self::CUSTOMER_BALANCE_INVOICED);
-    }
-
-    /**
-     * Returns customer_balance_refunded
-     *
-     * @return float
-     */
-    public function getCustomerBalanceRefunded()
-    {
-        return $this->_get(self::CUSTOMER_BALANCE_REFUNDED);
-    }
-
-    /**
-     * Returns customer_bal_total_refunded
-     *
-     * @return float
-     */
-    public function getCustomerBalTotalRefunded()
-    {
-        return $this->_get(self::CUSTOMER_BAL_TOTAL_REFUNDED);
     }
 
     /**
@@ -1900,56 +883,6 @@ class Order extends DataObject
     }
 
     /**
-     * Returns gift_cards
-     *
-     * @return string
-     */
-    public function getGiftCards()
-    {
-        return $this->_get(self::GIFT_CARDS);
-    }
-
-    /**
-     * Returns gift_cards_amount
-     *
-     * @return float
-     */
-    public function getGiftCardsAmount()
-    {
-        return $this->_get(self::GIFT_CARDS_AMOUNT);
-    }
-
-    /**
-     * Returns gift_cards_invoiced
-     *
-     * @return float
-     */
-    public function getGiftCardsInvoiced()
-    {
-        return $this->_get(self::GIFT_CARDS_INVOICED);
-    }
-
-    /**
-     * Returns gift_cards_refunded
-     *
-     * @return float
-     */
-    public function getGiftCardsRefunded()
-    {
-        return $this->_get(self::GIFT_CARDS_REFUNDED);
-    }
-
-    /**
-     * Returns gift_message_id
-     *
-     * @return int
-     */
-    public function getGiftMessageId()
-    {
-        return $this->_get(self::GIFT_MESSAGE_ID);
-    }
-
-    /**
      * Returns global_currency_code
      *
      * @return string
@@ -1967,396 +900,6 @@ class Order extends DataObject
     public function getGrandTotal()
     {
         return $this->_get(self::GRAND_TOTAL);
-    }
-
-    /**
-     * Returns gw_add_card
-     *
-     * @return int
-     */
-    public function getGwAddCard()
-    {
-        return $this->_get(self::GW_ADD_CARD);
-    }
-
-    /**
-     * Returns gw_allow_gift_receipt
-     *
-     * @return int
-     */
-    public function getGwAllowGiftReceipt()
-    {
-        return $this->_get(self::GW_ALLOW_GIFT_RECEIPT);
-    }
-
-    /**
-     * Returns gw_base_price
-     *
-     * @return float
-     */
-    public function getGwBasePrice()
-    {
-        return $this->_get(self::GW_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_base_price_invoiced
-     *
-     * @return float
-     */
-    public function getGwBasePriceInvoiced()
-    {
-        return $this->_get(self::GW_BASE_PRICE_INVOICED);
-    }
-
-    /**
-     * Returns gw_base_price_refunded
-     *
-     * @return float
-     */
-    public function getGwBasePriceRefunded()
-    {
-        return $this->_get(self::GW_BASE_PRICE_REFUNDED);
-    }
-
-    /**
-     * Returns gw_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwBaseTaxAmount()
-    {
-        return $this->_get(self::GW_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_base_tax_amount_invoiced
-     *
-     * @return float
-     */
-    public function getGwBaseTaxAmountInvoiced()
-    {
-        return $this->_get(self::GW_BASE_TAX_AMOUNT_INVOICED);
-    }
-
-    /**
-     * Returns gw_base_tax_amount_refunded
-     *
-     * @return float
-     */
-    public function getGwBaseTaxAmountRefunded()
-    {
-        return $this->_get(self::GW_BASE_TAX_AMOUNT_REFUNDED);
-    }
-
-    /**
-     * Returns gw_card_base_price
-     *
-     * @return float
-     */
-    public function getGwCardBasePrice()
-    {
-        return $this->_get(self::GW_CARD_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_card_base_price_invoiced
-     *
-     * @return float
-     */
-    public function getGwCardBasePriceInvoiced()
-    {
-        return $this->_get(self::GW_CARD_BASE_PRICE_INVOICED);
-    }
-
-    /**
-     * Returns gw_card_base_price_refunded
-     *
-     * @return float
-     */
-    public function getGwCardBasePriceRefunded()
-    {
-        return $this->_get(self::GW_CARD_BASE_PRICE_REFUNDED);
-    }
-
-    /**
-     * Returns gw_card_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwCardBaseTaxAmount()
-    {
-        return $this->_get(self::GW_CARD_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_card_base_tax_invoiced
-     *
-     * @return float
-     */
-    public function getGwCardBaseTaxInvoiced()
-    {
-        return $this->_get(self::GW_CARD_BASE_TAX_INVOICED);
-    }
-
-    /**
-     * Returns gw_card_base_tax_refunded
-     *
-     * @return float
-     */
-    public function getGwCardBaseTaxRefunded()
-    {
-        return $this->_get(self::GW_CARD_BASE_TAX_REFUNDED);
-    }
-
-    /**
-     * Returns gw_card_price
-     *
-     * @return float
-     */
-    public function getGwCardPrice()
-    {
-        return $this->_get(self::GW_CARD_PRICE);
-    }
-
-    /**
-     * Returns gw_card_price_invoiced
-     *
-     * @return float
-     */
-    public function getGwCardPriceInvoiced()
-    {
-        return $this->_get(self::GW_CARD_PRICE_INVOICED);
-    }
-
-    /**
-     * Returns gw_card_price_refunded
-     *
-     * @return float
-     */
-    public function getGwCardPriceRefunded()
-    {
-        return $this->_get(self::GW_CARD_PRICE_REFUNDED);
-    }
-
-    /**
-     * Returns gw_card_tax_amount
-     *
-     * @return float
-     */
-    public function getGwCardTaxAmount()
-    {
-        return $this->_get(self::GW_CARD_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_card_tax_invoiced
-     *
-     * @return float
-     */
-    public function getGwCardTaxInvoiced()
-    {
-        return $this->_get(self::GW_CARD_TAX_INVOICED);
-    }
-
-    /**
-     * Returns gw_card_tax_refunded
-     *
-     * @return float
-     */
-    public function getGwCardTaxRefunded()
-    {
-        return $this->_get(self::GW_CARD_TAX_REFUNDED);
-    }
-
-    /**
-     * Returns gw_id
-     *
-     * @return int
-     */
-    public function getGwId()
-    {
-        return $this->_get(self::GW_ID);
-    }
-
-    /**
-     * Returns gw_items_base_price
-     *
-     * @return float
-     */
-    public function getGwItemsBasePrice()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_items_base_price_invoiced
-     *
-     * @return float
-     */
-    public function getGwItemsBasePriceInvoiced()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_PRICE_INVOICED);
-    }
-
-    /**
-     * Returns gw_items_base_price_refunded
-     *
-     * @return float
-     */
-    public function getGwItemsBasePriceRefunded()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_PRICE_REFUNDED);
-    }
-
-    /**
-     * Returns gw_items_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwItemsBaseTaxAmount()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_items_base_tax_invoiced
-     *
-     * @return float
-     */
-    public function getGwItemsBaseTaxInvoiced()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_TAX_INVOICED);
-    }
-
-    /**
-     * Returns gw_items_base_tax_refunded
-     *
-     * @return float
-     */
-    public function getGwItemsBaseTaxRefunded()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_TAX_REFUNDED);
-    }
-
-    /**
-     * Returns gw_items_price
-     *
-     * @return float
-     */
-    public function getGwItemsPrice()
-    {
-        return $this->_get(self::GW_ITEMS_PRICE);
-    }
-
-    /**
-     * Returns gw_items_price_invoiced
-     *
-     * @return float
-     */
-    public function getGwItemsPriceInvoiced()
-    {
-        return $this->_get(self::GW_ITEMS_PRICE_INVOICED);
-    }
-
-    /**
-     * Returns gw_items_price_refunded
-     *
-     * @return float
-     */
-    public function getGwItemsPriceRefunded()
-    {
-        return $this->_get(self::GW_ITEMS_PRICE_REFUNDED);
-    }
-
-    /**
-     * Returns gw_items_tax_amount
-     *
-     * @return float
-     */
-    public function getGwItemsTaxAmount()
-    {
-        return $this->_get(self::GW_ITEMS_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_items_tax_invoiced
-     *
-     * @return float
-     */
-    public function getGwItemsTaxInvoiced()
-    {
-        return $this->_get(self::GW_ITEMS_TAX_INVOICED);
-    }
-
-    /**
-     * Returns gw_items_tax_refunded
-     *
-     * @return float
-     */
-    public function getGwItemsTaxRefunded()
-    {
-        return $this->_get(self::GW_ITEMS_TAX_REFUNDED);
-    }
-
-    /**
-     * Returns gw_price
-     *
-     * @return float
-     */
-    public function getGwPrice()
-    {
-        return $this->_get(self::GW_PRICE);
-    }
-
-    /**
-     * Returns gw_price_invoiced
-     *
-     * @return float
-     */
-    public function getGwPriceInvoiced()
-    {
-        return $this->_get(self::GW_PRICE_INVOICED);
-    }
-
-    /**
-     * Returns gw_price_refunded
-     *
-     * @return float
-     */
-    public function getGwPriceRefunded()
-    {
-        return $this->_get(self::GW_PRICE_REFUNDED);
-    }
-
-    /**
-     * Returns gw_tax_amount
-     *
-     * @return float
-     */
-    public function getGwTaxAmount()
-    {
-        return $this->_get(self::GW_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_tax_amount_invoiced
-     *
-     * @return float
-     */
-    public function getGwTaxAmountInvoiced()
-    {
-        return $this->_get(self::GW_TAX_AMOUNT_INVOICED);
-    }
-
-    /**
-     * Returns gw_tax_amount_refunded
-     *
-     * @return float
-     */
-    public function getGwTaxAmountRefunded()
-    {
-        return $this->_get(self::GW_TAX_AMOUNT_REFUNDED);
     }
 
     /**
@@ -2470,16 +1013,6 @@ class Order extends DataObject
     }
 
     /**
-     * Returns paypal_ipn_customer_notified
-     *
-     * @return int
-     */
-    public function getPaypalIpnCustomerNotified()
-    {
-        return $this->_get(self::PAYPAL_IPN_CUSTOMER_NOTIFIED);
-    }
-
-    /**
      * Returns protect_code
      *
      * @return string
@@ -2557,76 +1090,6 @@ class Order extends DataObject
     public function getRemoteIp()
     {
         return $this->_get(self::REMOTE_IP);
-    }
-
-    /**
-     * Returns reward_currency_amount
-     *
-     * @return float
-     */
-    public function getRewardCurrencyAmount()
-    {
-        return $this->_get(self::REWARD_CURRENCY_AMOUNT);
-    }
-
-    /**
-     * Returns reward_points_balance
-     *
-     * @return int
-     */
-    public function getRewardPointsBalance()
-    {
-        return $this->_get(self::REWARD_POINTS_BALANCE);
-    }
-
-    /**
-     * Returns reward_points_balance_refund
-     *
-     * @return int
-     */
-    public function getRewardPointsBalanceRefund()
-    {
-        return $this->_get(self::REWARD_POINTS_BALANCE_REFUND);
-    }
-
-    /**
-     * Returns reward_points_balance_refunded
-     *
-     * @return int
-     */
-    public function getRewardPointsBalanceRefunded()
-    {
-        return $this->_get(self::REWARD_POINTS_BALANCE_REFUNDED);
-    }
-
-    /**
-     * Returns reward_salesrule_points
-     *
-     * @return int
-     */
-    public function getRewardSalesrulePoints()
-    {
-        return $this->_get(self::REWARD_SALESRULE_POINTS);
-    }
-
-    /**
-     * Returns rwrd_crrncy_amnt_refunded
-     *
-     * @return float
-     */
-    public function getRwrdCrrncyAmntRefunded()
-    {
-        return $this->_get(self::RWRD_CRRNCY_AMNT_REFUNDED);
-    }
-
-    /**
-     * Returns rwrd_currency_amount_invoiced
-     *
-     * @return float
-     */
-    public function getRwrdCurrencyAmountInvoiced()
-    {
-        return $this->_get(self::RWRD_CURRENCY_AMOUNT_INVOICED);
     }
 
     /**
@@ -3027,5 +1490,25 @@ class Order extends DataObject
     public function getXForwardedFor()
     {
         return $this->_get(self::X_FORWARDED_FOR);
+    }
+
+    public function getItems()
+    {
+        return $this->_get(self::ITEMS);
+    }
+
+    public function getBillingAddress()
+    {
+        return $this->_get(self::BILLING_ADDRESS);
+    }
+
+    public function getShippingAddress()
+    {
+        return $this->_get(self::SHIPPING_ADDRESS);
+    }
+
+    public function getPayments()
+    {
+        return $this->_get(self::PAYMENTS);
     }
 }

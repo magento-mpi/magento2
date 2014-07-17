@@ -145,11 +145,6 @@ class OrderAddress extends DataObject
     const VAT_REQUEST_SUCCESS = 'vat_request_success';
 
     /**
-     * int
-     */
-    const GIFTREGISTRY_ITEM_ID = 'giftregistry_item_id';
-
-    /**
      * Returns address_type
      *
      * @return string
@@ -247,16 +242,6 @@ class OrderAddress extends DataObject
     public function getFirstname()
     {
         return $this->_get(self::FIRSTNAME);
-    }
-
-    /**
-     * Returns giftregistry_item_id
-     *
-     * @return int
-     */
-    public function getGiftregistryItemId()
-    {
-        return $this->_get(self::GIFTREGISTRY_ITEM_ID);
     }
 
     /**

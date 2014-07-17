@@ -14,365 +14,75 @@ use Magento\Framework\Service\Data\AbstractObject as DataObject;
  */
 class OrderItem extends DataObject
 {
-    /**
-     * int
-     */
     const ITEM_ID = 'item_id';
-
-    /**
-     * int
-     */
     const ORDER_ID = 'order_id';
-
-    /**
-     * int
-     */
     const PARENT_ITEM_ID = 'parent_item_id';
-
-    /**
-     * int
-     */
     const QUOTE_ITEM_ID = 'quote_item_id';
-
-    /**
-     * int
-     */
     const STORE_ID = 'store_id';
-
-    /**
-     * string
-     */
     const CREATED_AT = 'created_at';
-
-    /**
-     * string
-     */
     const UPDATED_AT = 'updated_at';
-
-    /**
-     * int
-     */
     const PRODUCT_ID = 'product_id';
-
-    /**
-     * string
-     */
     const PRODUCT_TYPE = 'product_type';
-
-    /**
-     * string
-     */
     const PRODUCT_OPTIONS = 'product_options';
-
-    /**
-     * float
-     */
     const WEIGHT = 'weight';
-
-    /**
-     * int
-     */
     const IS_VIRTUAL = 'is_virtual';
-
-    /**
-     * string
-     */
     const SKU = 'sku';
-
-    /**
-     * string
-     */
     const NAME = 'name';
-
-    /**
-     * string
-     */
     const DESCRIPTION = 'description';
-
-    /**
-     * string
-     */
     const APPLIED_RULE_IDS = 'applied_rule_ids';
-
-    /**
-     * string
-     */
     const ADDITIONAL_DATA = 'additional_data';
-
-    /**
-     * int
-     */
     const IS_QTY_DECIMAL = 'is_qty_decimal';
-
-    /**
-     * int
-     */
     const NO_DISCOUNT = 'no_discount';
-
-    /**
-     * float
-     */
     const QTY_BACKORDERED = 'qty_backordered';
-
-    /**
-     * float
-     */
     const QTY_CANCELED = 'qty_canceled';
-
-    /**
-     * float
-     */
     const QTY_INVOICED = 'qty_invoiced';
-
-    /**
-     * float
-     */
     const QTY_ORDERED = 'qty_ordered';
-
-    /**
-     * float
-     */
     const QTY_REFUNDED = 'qty_refunded';
-
-    /**
-     * float
-     */
     const QTY_SHIPPED = 'qty_shipped';
-
-    /**
-     * float
-     */
     const BASE_COST = 'base_cost';
-
-    /**
-     * float
-     */
     const PRICE = 'price';
-
-    /**
-     * float
-     */
     const BASE_PRICE = 'base_price';
-
-    /**
-     * float
-     */
     const ORIGINAL_PRICE = 'original_price';
-
-    /**
-     * float
-     */
     const BASE_ORIGINAL_PRICE = 'base_original_price';
-
-    /**
-     * float
-     */
     const TAX_PERCENT = 'tax_percent';
-
-    /**
-     * float
-     */
     const TAX_AMOUNT = 'tax_amount';
-
-    /**
-     * float
-     */
     const BASE_TAX_AMOUNT = 'base_tax_amount';
-
-    /**
-     * float
-     */
     const TAX_INVOICED = 'tax_invoiced';
-
-    /**
-     * float
-     */
     const BASE_TAX_INVOICED = 'base_tax_invoiced';
-
-    /**
-     * float
-     */
     const DISCOUNT_PERCENT = 'discount_percent';
-
-    /**
-     * float
-     */
     const DISCOUNT_AMOUNT = 'discount_amount';
-
-    /**
-     * float
-     */
     const BASE_DISCOUNT_AMOUNT = 'base_discount_amount';
-
-    /**
-     * float
-     */
     const DISCOUNT_INVOICED = 'discount_invoiced';
-
-    /**
-     * float
-     */
     const BASE_DISCOUNT_INVOICED = 'base_discount_invoiced';
-
-    /**
-     * float
-     */
     const AMOUNT_REFUNDED = 'amount_refunded';
-
-    /**
-     * float
-     */
     const BASE_AMOUNT_REFUNDED = 'base_amount_refunded';
-
-    /**
-     * float
-     */
     const ROW_TOTAL = 'row_total';
-
-    /**
-     * float
-     */
     const BASE_ROW_TOTAL = 'base_row_total';
-
-    /**
-     * float
-     */
     const ROW_INVOICED = 'row_invoiced';
-
-    /**
-     * float
-     */
     const BASE_ROW_INVOICED = 'base_row_invoiced';
-
-    /**
-     * float
-     */
     const ROW_WEIGHT = 'row_weight';
-
-    /**
-     * float
-     */
     const BASE_TAX_BEFORE_DISCOUNT = 'base_tax_before_discount';
-
-    /**
-     * float
-     */
     const TAX_BEFORE_DISCOUNT = 'tax_before_discount';
-
-    /**
-     * string
-     */
     const EXT_ORDER_ITEM_ID = 'ext_order_item_id';
-
-    /**
-     * int
-     */
     const LOCKED_DO_INVOICE = 'locked_do_invoice';
-
-    /**
-     * int
-     */
     const LOCKED_DO_SHIP = 'locked_do_ship';
-
-    /**
-     * float
-     */
     const PRICE_INCL_TAX = 'price_incl_tax';
-
-    /**
-     * float
-     */
     const BASE_PRICE_INCL_TAX = 'base_price_incl_tax';
-
-    /**
-     * float
-     */
     const ROW_TOTAL_INCL_TAX = 'row_total_incl_tax';
-
-    /**
-     * float
-     */
     const BASE_ROW_TOTAL_INCL_TAX = 'base_row_total_incl_tax';
-
-    /**
-     * float
-     */
     const HIDDEN_TAX_AMOUNT = 'hidden_tax_amount';
-
-    /**
-     * float
-     */
     const BASE_HIDDEN_TAX_AMOUNT = 'base_hidden_tax_amount';
-
-    /**
-     * float
-     */
     const HIDDEN_TAX_INVOICED = 'hidden_tax_invoiced';
-
-    /**
-     * float
-     */
     const BASE_HIDDEN_TAX_INVOICED = 'base_hidden_tax_invoiced';
-
-    /**
-     * float
-     */
     const HIDDEN_TAX_REFUNDED = 'hidden_tax_refunded';
-
-    /**
-     * float
-     */
     const BASE_HIDDEN_TAX_REFUNDED = 'base_hidden_tax_refunded';
-
-    /**
-     * int
-     */
     const IS_NOMINAL = 'is_nominal';
-
-    /**
-     * float
-     */
     const TAX_CANCELED = 'tax_canceled';
-
-    /**
-     * float
-     */
     const HIDDEN_TAX_CANCELED = 'hidden_tax_canceled';
-
-    /**
-     * float
-     */
     const TAX_REFUNDED = 'tax_refunded';
-
-    /**
-     * float
-     */
     const BASE_TAX_REFUNDED = 'base_tax_refunded';
-
-    /**
-     * float
-     */
     const DISCOUNT_REFUNDED = 'discount_refunded';
-
-    /**
-     * float
-     */
     const BASE_DISCOUNT_REFUNDED = 'base_discount_refunded';
-
-    /**
-     * int
-     */
-    const GIFT_MESSAGE_ID = 'gift_message_id';
-
-    /**
-     * int
-     */
-    const GIFT_MESSAGE_AVAILABLE = 'gift_message_available';
-
-    /**
-     * int
-     */
-    const GIFTREGISTRY_ITEM_ID = 'giftregistry_item_id';
 
     /**
      * int
@@ -837,36 +547,6 @@ class OrderItem extends DataObject
     public function getFreeShipping()
     {
         return $this->_get(self::FREE_SHIPPING);
-    }
-
-    /**
-     * Returns giftregistry_item_id
-     *
-     * @return int
-     */
-    public function getGiftregistryItemId()
-    {
-        return $this->_get(self::GIFTREGISTRY_ITEM_ID);
-    }
-
-    /**
-     * Returns gift_message_available
-     *
-     * @return int
-     */
-    public function getGiftMessageAvailable()
-    {
-        return $this->_get(self::GIFT_MESSAGE_AVAILABLE);
-    }
-
-    /**
-     * Returns gift_message_id
-     *
-     * @return int
-     */
-    public function getGiftMessageId()
-    {
-        return $this->_get(self::GIFT_MESSAGE_ID);
     }
 
     /**
