@@ -35,4 +35,7 @@
             <argument name="context" xsi:type="object">Magento\MultipleWishlist\Block\Context</argument>
         </arguments>
     </type>
+    <type name="Magento\MultipleWishlist\Controller\IndexInterface">
+        <plugin name="multiple_enabled_filter" type="Magento\MultipleWishlist\Controller\Index\Plugin" sortOrder="20"/>
+    </type>
 </config>

@@ -1,0 +1,34 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Review\Controller\Adminhtml\Product;
+
+class Pending extends \Magento\Review\Controller\Adminhtml\Product
+{
+    /**
+     * @return void
+     */
+    public function execute()
+    {
+        $this->_title->add(__('Customer Reviews'));
+
+        $this->_title->add(__('Pending Reviews'));
+
+        if ($this->getRequest()->getParam('ajax')) {
+            $this->_coreRegistry->register('usePendingFilter', true);
+            return $this->_forward('reviewGrid');
+        }
+
+        $this->_view->loadLayout();
+
+        $this->_coreRegistry->register('usePendingFilter', true);
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Review\Block\Adminhtml\Main'));
+
+        $this->_view->renderLayout();
+    }
+}
