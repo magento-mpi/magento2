@@ -10,7 +10,6 @@ namespace Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Fixture\InjectableFixture;
 use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
 /**
@@ -60,7 +59,12 @@ class Bundle extends Tab
             return $this;
         }
         foreach ($fields['bundle_selections']['value']['bundle_options'] as $key => $bundleOption) {
-            $this->_rootElement->find($this->addNewOption)->click();
+            $itemOption = $this->_rootElement->find(sprintf($this->openOption, $key));
+            if ($itemOption->isVisible()) {
+                $itemOption->click();
+            } else {
+                $this->_rootElement->find($this->addNewOption)->click();
+            }
             $this->getBundleOptionBlock($key)->fillBundleOption($bundleOption);
         }
         return $this;

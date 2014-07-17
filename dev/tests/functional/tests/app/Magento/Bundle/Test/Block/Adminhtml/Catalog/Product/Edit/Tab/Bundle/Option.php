@@ -32,7 +32,7 @@ class Option extends Form
      *
      * @var string
      */
-    protected $selectionBlock = 'tr[id^="bundle_selection_row_"]:nth-child(%d)';
+    protected $selectionBlock = './/tr[contains(@id, "bundle_selection_row_")][not(@style="display: none;")][%d]';
 
     /**
      * 'Add Products to Option' button
@@ -54,6 +54,13 @@ class Option extends Form
      * @var string
      */
     protected $title = '[name$="[title]"]';
+
+    /**
+     * Remove selection button selector
+     *
+     * @var string
+     */
+    protected $removeSelection = '[class = "action- scalable delete icon-btn"]';
 
     /**
      * Get grid for assigning products for bundle option
@@ -78,7 +85,7 @@ class Option extends Form
     {
         return $this->blockFactory->create(
             'Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection',
-            ['element' => $this->_rootElement->find(sprintf($this->selectionBlock, $rowIndex))]
+            ['element' => $this->_rootElement->find(sprintf($this->selectionBlock, $rowIndex), Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -106,6 +113,12 @@ class Option extends Form
     {
         $mapping = $this->dataMapping($fields);
         $this->_fill($mapping);
+        $selections = $this->_rootElement->find($this->removeSelection)->getElements();
+        if (count($selections)) {
+            foreach ($selections as $itemSelection) {
+                $itemSelection->click();
+            }
+        }
         foreach ($fields['assigned_products'] as $key => $field) {
             $this->_rootElement->find($this->addProducts)->click();
             $searchBlock = $this->getSearchGridBlock();

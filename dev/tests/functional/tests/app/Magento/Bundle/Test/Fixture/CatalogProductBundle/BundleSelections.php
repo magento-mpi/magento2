@@ -151,7 +151,7 @@ class BundleSelections implements FixtureInterface
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ]
                 ]
             ],
@@ -188,7 +188,7 @@ class BundleSelections implements FixtureInterface
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                 ]
             ],
@@ -225,7 +225,7 @@ class BundleSelections implements FixtureInterface
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                 ]
             ],
@@ -343,19 +343,19 @@ class BundleSelections implements FixtureInterface
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                 ]
             ],
@@ -457,19 +457,19 @@ class BundleSelections implements FixtureInterface
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                 ]
             ],
@@ -533,11 +533,11 @@ class BundleSelections implements FixtureInterface
                 'products' => [
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ],
                     [
                         'catalogProductSimple::default',
-                        'catalogProductSimple::default'
+                        'catalogProductSimple::100_dollar_product'
                     ]
                 ]
             ],

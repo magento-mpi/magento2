@@ -59,28 +59,28 @@ class Bundle extends Block
      *
      * @var string
      */
-    protected $typeDropDown = '//select[contains(@class,"bundle-option-select")]';
+    protected $typeDropDown = './/select[contains(@class,"bundle-option-select")]';
 
     /**
      * Selector Multiselect type
      *
      * @var string
      */
-    protected $typeMultiple = '//select[contains(@class,"multiselect")]';
+    protected $typeMultiple = './/select[contains(@class,"multiselect")]';
 
     /**
      * Selector RadioButton type
      *
      * @var string
      */
-    protected $typeRadio = '//input[contains(@class,"radio")]';
+    protected $typeRadio = './/input[contains(@class,"radio")]';
 
     /**
      * Selector Checkbox type
      *
      * @var string
      */
-    protected $typeCheckbox = '//input[contains(@class,"checkbox")]';
+    protected $typeCheckbox = './/input[contains(@class,"checkbox")]';
 
     /**
      * Selector bundle option block for fill
@@ -142,7 +142,7 @@ class Bundle extends Block
             Locator::SELECTOR_XPATH
         );
         if (!$option->isVisible()) {
-            return "This" . $fields['title'] . " Option does not equal to fixture option type.";
+            return 'This "' . $fields['title'] . '" Option does not equal to fixture option type.';
         }
 
         $formatRequired = sprintf(
