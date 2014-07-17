@@ -232,13 +232,11 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         $product = $this->getProduct();
         $defaultTax = $this->taxCalculationService->getDefaultCalculatedRate(
             $product->getTaxClassId(),
-            $customerId,
-            null
+            $customerId
         );
         $currentTax = $this->taxCalculationService->getCalculatedRate(
             $product->getTaxClassId(),
-            $customerId,
-            null
+            $customerId
         );
 
         $tierPrices = array();
