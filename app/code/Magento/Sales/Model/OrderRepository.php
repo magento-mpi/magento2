@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Service\V1;
+namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\OrderFactory;
 use Magento\Sales\Model\Order;
@@ -48,7 +48,7 @@ class OrderRepository
         if (!$orderId) {
             throw new NoSuchEntityException('Requested product doesn\'t exist');
         }
-        if (isset($this->registry[$orderId])) {
+        if (!isset($this->registry[$orderId])) {
             $this->registry[$orderId] = $this->orderFactory->create()->load($orderId);
         }
         return $this->registry[$orderId];
