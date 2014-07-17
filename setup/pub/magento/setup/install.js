@@ -1,6 +1,6 @@
 'use strict';
-angular.module('install', [])
-    .controller('installController', ['$scope', '$sce', '$timeout', 'progress', function ($scope, $sce, $timeout, progress) {
+angular.module('install', ['ngStorage'])
+    .controller('installController', ['$scope', '$sce', '$timeout', '$localStorage', 'progress', function ($scope, $sce, $timeout, $localStorage, progress) {
         $scope.isStart = false;
         $scope.console = false;
         $scope.disabled = false;
@@ -9,6 +9,13 @@ angular.module('install', [])
         };
 
         $scope.start = function () {
+            var data = {
+                'db': $localStorage.db,
+                'admin': $localStorage.admin,
+                'store': $localStorage.store,
+                'config': $localStorage.config
+            };
+            progress.post(data);
             $scope.isStart = true;
             $scope.disabled = true;
             progress.get(function (response) {
@@ -43,6 +50,9 @@ angular.module('install', [])
         return {
             get: function (callback) {
                 $http.get('install/progress').then(callback);
+            },
+            post: function (data) {
+                $http.post('install/start', data);
             }
         };
     }]);

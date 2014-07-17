@@ -19,6 +19,7 @@ return [
             'Magento\Setup\Controller\Success\EncryptionController',
             'Magento\Setup\Controller\InstallController',
             'Magento\Setup\Controller\Install\ProgressController',
+            'Magento\Setup\Controller\Install\StartController',
             'Magento\Setup\Controller\IndexController',
             'Magento\Setup\Controller\LandingController',
             'Magento\Setup\Controller\EnvironmentController',
