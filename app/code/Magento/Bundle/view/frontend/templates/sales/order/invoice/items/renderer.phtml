@@ -33,14 +33,14 @@
     <?php endif; ?>
     <tr<?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?> id="order-item-row-<?php echo $_item->getId() ?>">
     <?php if (!$_item->getOrderItem()->getParentItem()): ?>
-        <td class="col name">
+        <td class="col name" data-th="<?php echo $this->escapeHtml(__('Product Name')); ?>">
             <strong class="product name product-item-name"><?php echo $this->escapeHtml($_item->getName()) ?></strong>
         </td>
     <?php else: ?>
         <td class="col value"><?php echo $this->getValueHtml($_item) ?></td>
     <?php endif; ?>
-    <td class="col sku"><?php echo $this->escapeHtml($_item->getSku()) ?></td>
-    <td class="col price">
+    <td class="col sku" data-th="<?php echo $this->escapeHtml(__('SKU')); ?>"><?php echo $this->escapeHtml($_item->getSku()) ?></td>
+    <td class="col price" data-th="<?php echo $this->escapeHtml(__('Price')); ?>">
         <?php if ($this->canShowPriceInfo($_item)): ?>
             <?php if ($this->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices() || $this->helper('Magento\Tax\Helper\Data')->displaySalesPriceInclTax()): ?>
                 <span class="incl tax" data-th="<?php echo $this->escapeHtml(__('Incl. Tax')); ?>">
@@ -132,14 +132,14 @@
             &nbsp;
         <?php endif; ?>
     </td>
-    <td class="col qty">
+    <td class="col qty" data-th="<?php echo $this->escapeHtml(__('Qty Invoiced')); ?>">
         <?php if ($this->canShowPriceInfo($_item)): ?>
             <?php echo $_item->getQty()*1 ?>
         <?php else: ?>
             &nbsp;
         <?php endif; ?>
     </td>
-    <td class="col subtotal">
+    <td class="col subtotal" data-th="<?php echo $this->escapeHtml(__('Subtotal')); ?>">
         <?php if ($this->canShowPriceInfo($_item)): ?>
             <?php if ($this->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices() || $this->helper('Magento\Tax\Helper\Data')->displaySalesPriceInclTax()): ?>
                 <span class="incl tax" data-th="<?php echo $this->escapeHtml(__('Incl. Tax')); ?>">

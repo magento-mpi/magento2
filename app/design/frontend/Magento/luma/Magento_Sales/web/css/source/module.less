@@ -57,13 +57,31 @@
             display: none;
         }
     }
-    .col {
-        &.name {
-            padding-left: 0;
+    .table-order-items {
+        tbody {
+            & + tbody {
+                border-top: 1px solid @border-color-base;
+            }
+            .account & {
+                tr:nth-child(even) td {
+                    background: none;
+                }
+            }
         }
+        .item.options {
+            dd {
+                margin-left: 0;
+            }
+        }
+    }
+    thead {
+        .col.qty {
+            text-align: center;
+        }
+    }
+    .col {
         &.price,
         &.subtotal {
-            text-align: center;
             &:extend(.abstract-incl-excl-tax all);
         }
     }
@@ -74,16 +92,25 @@
         td {
             background: @sidebar-background;
         }
-        .mark {
-            text-align: right;
-        }
     }
     .action.show {
         &:extend(.abstract-toggling-title all);
         border-bottom: @border-width-base solid @border-color-base;
+        color: @color-primary;
     }
     .product-item-name {
         .font-size(18);
+    }
+    .items-qty {
+        &:extend(.reset-list all);
+        .item {
+            white-space: nowrap;
+        }
+        .title {
+            &:after {
+                content: ": ";
+            }
+        }
     }
 }
 
@@ -286,6 +313,20 @@
                 &:extend(.abstract-action-print all);
             }
         }
+        .col {
+            &.name {
+                padding-left: 0;
+            }
+            &.price,
+            &.subtotal {
+                text-align: center;
+            }
+        }
+        tfoot {
+            .mark {
+                text-align: right;
+            }
+        }
     }
 }
 
@@ -305,11 +346,28 @@
                 &:extend(.abstract-account-col-actions all);
             }
         }
+        .data.table.table-order-items tfoot tr td {
+            display: table-cell;
+        }
     }
     .order-details-items {
         .order-title .action.print,
         .actions-toolbar .action.print {
             display: none;
+        }
+        .items-qty {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .col {
+            &.price,
+            &.subtotal {
+                .incl.tax,
+                .excl.tax,
+                .incl.tax + .excl.tax {
+                    display: inline-block;
+                }
+            }
         }
     }
 }
