@@ -16,7 +16,7 @@
             <block class="Magento\Sales\Block\Order\Link" name="sales.order.info.links.information">
                 <arguments>
                     <argument name="path" xsi:type="string">sales/order/view</argument>
-                    <argument name="label" xsi:type="string">Order Information</argument>
+                    <argument name="label" xsi:type="string">Items Ordered</argument>
                 </arguments>
             </block>
             <block class="Magento\Sales\Block\Order\Link" name="sales.order.info.links.invoice">

@@ -73,11 +73,20 @@
             }
             .col.label {
                 font-weight: @font-weight-bold;
-                padding-bottom: 5px;
-            }
-            > .item-options td {
                 padding-top: 0;
                 padding-bottom: 5px;
+            }
+            > .item-parent {
+                td {
+                    padding-bottom: 5px;
+                }
+                + tr td {
+                    padding-top: 5px;
+                }
+            }
+            .item-options td {
+                padding-top: 0;
+                padding-bottom: 15px;
             }
         }
         .product-item-name {
@@ -103,6 +112,7 @@
             }
         }
     }
+
     thead {
         .col.qty {
             text-align: center;
@@ -370,17 +380,44 @@
             }
         }
     }
+    .table-order-items {
+        tbody {
+            .col {
+                &.label,
+                &.value {
+                    padding-left: 0;
+                }
+            }
+        }
+        &.invoice,
+        &.shipment {
+            .col.qty {
+                text-align: center;
+            }
+        }
+        &.creditmemo {
+            .col.qty,
+            .col.discount{
+                text-align: center;
+            }
+            .col.total {
+                text-align: right;
+            }
+        }
+    }
 }
 
 //
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @break-point-0) {
-    .table-wrapper.orders-recent {
-        &:extend(.abstract-account-table-margin-mobile all);
-    }
-    .table-wrapper.orders-history {
-        &:extend(.abstract-account-table-border all);
+    .table-wrapper {
+        &.orders-recent {
+            &:extend(.abstract-account-table-margin-mobile all);
+        }
+        &.orders-history {
+            &:extend(.abstract-account-table-border all);
+        }
     }
     .account {
         .table-order-items {
@@ -390,6 +427,18 @@
         }
         .data.table.table-order-items tfoot tr td {
             display: table-cell;
+        }
+
+        .page-title {
+            .title {
+                display: block;
+            }
+            .order-status {
+                margin: -20px 0 0;
+            }
+            .order-date {
+                margin-top: -5px;
+            }
         }
     }
     .order-details-items {
