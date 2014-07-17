@@ -15,6 +15,7 @@ use Magento\Tools\Di\Compiler\Directory;
 use Magento\Tools\Di\Code\Scanner;
 use Magento\Tools\Di\Definition\Compressor;
 use Magento\Tools\Di\Definition\Serializer;
+use Magento\Framework\Service\Code\Generator\Builder;
 
 $filePatterns = array('php' => '/.*\.php$/', 'di' => '/\/etc\/([a-zA-Z_]*\/di|di)\.xml$/');
 $codeScanDir = realpath($rootDir . '/app');
@@ -82,7 +83,8 @@ try {
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Framework\Interception\Code\Generator\Interceptor',
             Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
-            Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
+            Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
+            Builder::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\Builder',
         )
     );
     foreach (array('php', 'additional') as $type) {
