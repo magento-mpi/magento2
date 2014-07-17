@@ -162,6 +162,9 @@ class Setup implements SetupInterface
      */
     public function applyUpdates()
     {
+        if (!$this->resourceName) {
+            return $this;
+        }
         $dbVer = $this->resource->getDbVersion($this->resourceName);
         $configVer = $this->moduleConfig['schema_version'];
 
