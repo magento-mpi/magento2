@@ -108,7 +108,7 @@ class TaxRule extends AbstractObject
     /**
      * Get calculate subtotal.
      *
-     * @return int|null
+     * @return bool|null
      */
     public function getCalculateSubtotal()
     {

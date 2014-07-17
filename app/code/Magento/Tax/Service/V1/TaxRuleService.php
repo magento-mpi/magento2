@@ -242,6 +242,10 @@ class TaxRuleService implements TaxRuleServiceInterface
     {
         $exception = new InputException();
 
+        // SortOrder is required and must be 0 or greater
+        if (!\Zend_Validate::is(trim($rule->getSortOrder()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::SORT_ORDER]);
+        }
         if (!\Zend_Validate::is(trim($rule->getSortOrder()), 'GreaterThan', [-1])) {
             $exception->addError(
                 InputException::INVALID_FIELD_MIN_VALUE,
@@ -249,6 +253,10 @@ class TaxRuleService implements TaxRuleServiceInterface
             );
         }
 
+        // Priority is required and must be 0 or greater
+        if (!\Zend_Validate::is(trim($rule->getPriority()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::PRIORITY]);
+        }
         if (!\Zend_Validate::is(trim($rule->getPriority()), 'GreaterThan', [-1])) {
             $exception->addError(
                 InputException::INVALID_FIELD_MIN_VALUE,
