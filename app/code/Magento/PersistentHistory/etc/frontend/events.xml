@@ -24,51 +24,6 @@
         <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateCustomer" />
         <observer name="persistent_customer" disabled="true" />
     </event>
-    <event name="controller_action_predispatch_wishlist_index_index">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_remove">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_add">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_cart">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_allcart">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_configure">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_update">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_updateItemOptions">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_createwishlist">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_editwishlist">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_deletewishlist">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_copyitem">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_copyitems">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_moveitems">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
-    <event name="controller_action_predispatch_wishlist_index_moveitem">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="emulateWishlist" />
-    </event>
     <event name="sales_quote_save_before">
         <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="setQuotePersistentData" />
     </event>

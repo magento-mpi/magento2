@@ -124,10 +124,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Make sure the System Configuration pages are used in proper scopes
      *
-     * @param \Magento\Backend\App\Action $controller
      * @return void
      */
-    public function validateSystemConfig($controller)
+    public function validateSystemConfig()
     {
         // allow specific store view scope
         $storeCode = $this->_request->getParam('store');
@@ -204,10 +203,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Validate catalog product edit page
      *
-     * @param \Magento\Backend\App\Action $controller
      * @return void
      */
-    public function validateCatalogProductEdit($controller)
+    public function validateCatalogProductEdit()
     {
         // redirect from disallowed scope
         if (!$this->_isAllowedStoreInRequest()) {
@@ -218,15 +216,14 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Validate catalog product review save, edit action
      *
-     * @param \Magento\Backend\App\Action $controller
      * @return void
      */
-    public function validateCatalogProductReview($controller)
+    public function validateCatalogProductReview()
     {
         $reviewStores = $this->_objectManager->create(
             'Magento\Review\Model\Review'
         )->load(
-            $controller->getRequest()->getParam('id')
+            $this->_request->getParam('id')
         )->getStores();
 
         $storeIds = $this->_role->getStoreIds();
@@ -307,26 +304,25 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Prevent viewing wrong categories and creation pages
      *
-     * @param \Magento\Backend\App\Action $controller
      * @return void
      */
-    public function validateCatalogCategories($controller)
+    public function validateCatalogCategories()
     {
         $forward = false;
-        switch ($controller->getRequest()->getActionName()) {
+        switch ($this->_request->getActionName()) {
             case 'add':
                 /**
                  * adding is not allowed from beginning if user has scope specified permissions
                  */
                 $forward = true;
-                $parentId = $controller->getRequest()->getParam('parent');
+                $parentId = $this->_request->getParam('parent');
                 if ($parentId) {
                     $forward = !$this->_validateCatalogSubCategoryAddPermission($parentId);
                 }
                 break;
             case 'edit':
-                if (!$controller->getRequest()->getParam('id')) {
-                    $parentId = $controller->getRequest()->getParam('parent');
+                if (!$this->_request->getParam('id')) {
+                    $parentId = $this->_request->getParam('parent');
                     if ($parentId) {
                         $forward = !$this->_validateCatalogSubCategoryAddPermission($parentId);
                     } else {
@@ -337,7 +333,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
                     $category = $this->_objectManager->create(
                         'Magento\Catalog\Model\Category'
                     )->load(
-                        $controller->getRequest()->getParam('id')
+                        $this->_request->getParam('id')
                     );
                     if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
                         // no viewing wrong categories
@@ -351,8 +347,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         if ($forward) {
             $firstRootId = current(array_keys($this->_role->getAllowedRootCategories()));
             if ($firstRootId) {
-                $controller->getRequest()->setParam('id', $firstRootId);
-                $controller->getRequest()->setParam('clear', 1);
+                $this->_request->setParam('id', $firstRootId);
+                $this->_request->setParam('clear', 1);
                 return $this->_forward('edit');
             }
             $this->_forward();
@@ -398,10 +394,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Disallow viewing wrong catalog events or viewing them in disallowed scope
      *
-     * @param \Magento\Backend\App\Action $controller
      * @return void
      */
-    public function validateCatalogEventEdit($controller)
+    public function validateCatalogEventEdit()
     {
         if (!$this->_request->getParam('id') && $this->_role->getIsWebsiteLevel()) {
             return;
@@ -440,7 +435,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
      * @param \Magento\Backend\App\Action $controller
      * @return void
      */
-    public function validateSalesOrderCreation($controller)
+    public function validateSalesOrderCreation()
     {
         if (!$this->_role->getWebsiteIds()) {
             return $this->_forward();
@@ -592,7 +587,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     {
         $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = $this->_backendUrl->getUrl('adminhtml/*/denied');
+            $url = $this->_backendUrl->getUrl('adminhtml/denied');
         } elseif (is_array($url)) {
             $url = $this->_backendUrl->getUrl(array_shift($url), $url);
         } elseif (false === strpos($url, 'http', 0)) {
@@ -1327,10 +1322,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Block editing of RMA attributes on disallowed websites
      *
-     * @param \Magento\Backend\App\Action $controller
      * @return bool|string
      */
-    public function validateRmaAttributeEditAction($controller)
+    public function validateRmaAttributeEditAction()
     {
         $websiteCode = $this->_request->getParam('website');
 
@@ -1379,10 +1373,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Block deleting of options of attributes for all GWS enabled users
      *
-     * @param \Magento\Backend\App\Action $controller
      * @return bool|string
      */
-    public function validateRmaAttributeSaveAction($controller)
+    public function validateRmaAttributeSaveAction()
     {
         $option = $this->_request->getPost('option');
         if (!empty($option['delete'])) {
@@ -1390,6 +1383,6 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
             $this->_request->setPost('option', $option);
         }
 
-        return $this->validateRmaAttributeEditAction($controller);
+        return $this->validateRmaAttributeEditAction();
     }
 }

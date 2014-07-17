@@ -11,14 +11,14 @@ namespace Magento\Tax\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
-use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Model\Calculation\TaxRuleRegistry;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
-use Magento\Framework\Model\Exception as ModelException;
+use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 use Magento\Tax\Model\Resource\Calculation\Rule\Collection;
+use Magento\Framework\Model\Exception as ModelException;
 
 /**
  * TaxRuleService implementation.
@@ -163,8 +163,22 @@ class TaxRuleService implements TaxRuleServiceInterface
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = $this->translateField($filter->getField());
+            $field = $this->translateField($filter->getField());
+            $fields[] = $field;
             $conditions[] = [$condition => $filter->getValue()];
+            switch ($field) {
+                case 'rate.tax_calculation_rate_id':
+                    $collection->joinCalculationData('rate');
+                    break;
+
+                case 'ctc.customer_tax_class_id':
+                    $collection->joinCalculationData('ctc');
+                    break;
+
+                case 'ptc.product_tax_class_id':
+                    $collection->joinCalculationData('ptc');
+                    break;
+            }
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
@@ -228,10 +242,6 @@ class TaxRuleService implements TaxRuleServiceInterface
     {
         $exception = new InputException();
 
-        // SortOrder is required and must be 0 or greater
-        if (!\Zend_Validate::is(trim($rule->getSortOrder()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::SORT_ORDER]);
-        }
         if (!\Zend_Validate::is(trim($rule->getSortOrder()), 'GreaterThan', [-1])) {
             $exception->addError(
                 InputException::INVALID_FIELD_MIN_VALUE,
@@ -239,10 +249,6 @@ class TaxRuleService implements TaxRuleServiceInterface
             );
         }
 
-        // Priority is required and must be 0 or greater
-        if (!\Zend_Validate::is(trim($rule->getPriority()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::PRIORITY]);
-        }
         if (!\Zend_Validate::is(trim($rule->getPriority()), 'GreaterThan', [-1])) {
             $exception->addError(
                 InputException::INVALID_FIELD_MIN_VALUE,
