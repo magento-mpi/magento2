@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Enterprise checkout index controller
  *
@@ -38,54 +37,5 @@ class Sku extends \Magento\Framework\App\Action\Action
             return $this->_redirect('customer/account');
         }
         return parent::dispatch($request);
-    }
-
-    /**
-     * View Order by SKU page in 'My Account' section
-     *
-     * @return void
-     */
-    public function indexAction()
-    {
-        $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages();
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Order by SKU'));
-        }
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Upload file Action
-     *
-     * @return void
-     */
-    public function uploadFileAction()
-    {
-        /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
-        $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
-        $rows = $helper->isSkuFileUploaded($this->getRequest()) ? $helper->processSkuFileUploading() : array();
-
-        $items = $this->getRequest()->getPost('items');
-        if (!is_array($items)) {
-            $items = array();
-        }
-        foreach ($rows as $row) {
-            $items[] = $row;
-        }
-
-        $this->getRequest()->setParam('items', $items);
-        $this->_forward('advancedAdd', 'cart');
-    }
-
-    /**
-     * Get checkout session model instance
-     *
-     * @return \Magento\Checkout\Model\Session
-     */
-    protected function _getSession()
-    {
-        return $this->_objectManager->get('Magento\Checkout\Model\Session');
     }
 }

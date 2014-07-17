@@ -144,6 +144,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             'product' => $this->productMock,
             'defaultTax' => 99.10,
             'currentTax' => 99.10,
+            'customerId' => 1,
             'includeTax' => true,
             'showIncludeTax' => true,
             'showBothPrices' => true
@@ -152,7 +153,8 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->plugin->afterPrepareAdjustmentConfig($this->attributePriceMock, [
             'product' => $this->productMock,
             'defaultTax' => 0,
-            'currentTax' => 0
+            'currentTax' => 0,
+            'customerId' => 1,
         ]));
     }
 }
