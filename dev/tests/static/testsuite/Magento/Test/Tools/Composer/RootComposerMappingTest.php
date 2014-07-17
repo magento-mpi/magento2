@@ -24,26 +24,25 @@ class RootComposerMappingTest extends \PHPUnit_Framework_TestCase
         $reader = new Reader(BP . '/dev/tools/Magento/Tools/Composer');
         $patterns = $reader->getPatterns();
         $counter = 0;
-        for ($i = 0; $i < count($patterns); $i++) {
+        $count = count($patterns);
+        for ($i = 0; $i < $count; $i++) {
             if (file_exists(BP . '/' . $patterns[$i])) {
                 $counter++;
             }
         }
 
-        $this->assertEquals(count($patterns), $counter);
+        $this->assertEquals($count, $counter);
 
         //Checking existence of customizable paths
-        $paths = file(
-            BP . '/dev/tools/Magento/Tools/Composer/etc/magento_customizable_paths.txt',
-            FILE_IGNORE_NEW_LINES
-        );
+        $customizablePaths = $reader->getCustomizablePaths();
         $counter = 0;
-        for ($i = 0; $i < count($paths); $i++) {
-            if (file_exists(BP . '/' . str_replace('*', '', $paths[$i]))) {
+        $count = count($customizablePaths);
+        for ($i = 0; $i < $count; $i++) {
+            if (file_exists(BP . '/' . str_replace('*', '', $customizablePaths[$i]))) {
                 $counter++;
             }
         }
 
-        $this->assertEquals(count($paths), $counter);
+        $this->assertEquals($count, $counter);
     }
 }

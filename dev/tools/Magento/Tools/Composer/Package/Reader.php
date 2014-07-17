@@ -113,6 +113,16 @@ class Reader
     }
 
     /**
+     * Read the list of customizable paths
+     *
+     * @return string[]
+     */
+    public function getCustomizablePaths()
+    {
+        return $this->customizablePaths;
+    }
+
+    /**
      * Gets mapping list for root composer.json file to be used by marshalling tool
      *
      * @return array
@@ -139,31 +149,60 @@ class Reader
     private function getCompleteMappingInfo()
     {
         $result = [];
+
         $excludes = $this->patterns;
+        $excludesCombinations = [];
         $counter = count($excludes);
         for ($i = 0; $i < $counter; $i++) {
+            $splitArray = explode("/", $excludes[$i]);
+            $temp = '';
+            for ($j = 0; $j < count(($splitArray)); $j++) {
+                $temp .= '/' . $splitArray[$j];
+                $excludesCombinations[] =  str_replace('\\', '/', $this->rootDir) . $temp;
+
+            }
             $excludes[$i] = str_replace('\\', '/', $this->rootDir) . '/' . $excludes[$i];
         }
-        $customizableLocationList = $this->customizablePaths;
-        $counter = count($customizableLocationList);
+
+        $pathList = $this->customizablePaths;
+        $counter = count($pathList);
         for ($i = 0; $i < $counter; $i++) {
-            $customizableLocationList[$i] = str_replace('\\', '/',
-                    $this->rootDir) . '/' . $customizableLocationList[$i];
+            $locations = glob(str_replace('\\', '/', $this->rootDir) . '/' . $pathList[$i]);
+            $allFiles = true;
+            foreach ($locations as $location) {
+                if ((is_dir($location)) && (!in_array($location, array('.', '..')))) {
+                    $excludes[] = $location . '/';
+                    $allFiles = false;
+                    $location = str_replace(str_replace('\\', '/', $this->rootDir) . '/', '', $location);
+                    $splitArray = explode("/", $location);
+                    $temp = '';
+                    for ($j = 0; $j < (count(($splitArray)) - 1); $j++) {
+                        $temp .= '/' . $splitArray[$j];
+                        $excludesCombinations[] =  str_replace('\\', '/', $this->rootDir) . $temp;
+                    }
+                }
+            }
+            if ($allFiles === true) {
+                $excludesCombinations[] = str_replace('\\', '/', $this->rootDir)
+                    . '/' . str_replace('/*', '', $pathList[$i]);
+            }
+            $pathList[$i] = str_replace('\\', '/', $this->rootDir) . '/' . $pathList[$i];
         }
+
         $directory = new \RecursiveDirectoryIterator($this->rootDir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $directory = new ExcludeFilter($directory, $excludes);
         $files = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
+
         foreach ($files as $file) {
             $file = str_replace('\\', '/', realpath($file));
             if (in_array(substr($file, strrpos($file, '/') + 1), array('.', '..'))) {
                 continue;
             }
-            if (!$this->checkExistence($customizableLocationList, $excludes, $file)) {
+            if (!in_array($file, $excludesCombinations)) {
                 $result[] = str_replace(str_replace('\\', '/', $this->rootDir) . '/', '', $file);
             }
         }
 
-        sort($result);
         return $result;
     }
 
@@ -177,47 +216,18 @@ class Reader
     {
         $result = [];
         $index = 0;
-        for ($i=0; $i < count($mappingList); $i++) {
+        $counter = count($mappingList);
+        for ($i = 0; $i < $counter; $i++) {
             if ($i === 0) {
                 $result[] = $mappingList[$i];
                 continue;
             }
-            if (strpos($mappingList[$i], $mappingList[$index]) !== false) {
-                if (substr_count($mappingList[$i], '/') === substr_count($mappingList[$index], '/')) {
-                    $result[] = $mappingList[$i];
-                    $index = $i;
-                }
-            } else {
+            if (!(strpos($mappingList[$i] . '/', $mappingList[$index] . '/', 0) !== false)) {
                 $result[] = $mappingList[$i];
                 $index = $i;
             }
         }
 
         return $result;
-    }
-
-    /**
-     * Check existence of a path in exempt list
-     *
-     * @param array $customizableLocationList
-     * @param array $excludes
-     * @param string $file
-     * @return boolean
-     */
-    private function checkExistence($customizableLocationList, $excludes, $file)
-    {
-        foreach ($customizableLocationList as $path) {
-            if ((strpos($path, $file) !== false) || ((strpos(str_replace('*', '', $path), $file)) !== false)) {
-                return true;
-            }
-        }
-
-        foreach ($excludes as $path) {
-            if (strpos($path, $file) !== false) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
