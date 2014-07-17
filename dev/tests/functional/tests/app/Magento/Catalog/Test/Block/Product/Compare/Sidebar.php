@@ -8,14 +8,14 @@
 
 namespace Magento\Catalog\Test\Block\Product\Compare;
 
-use Mtf\Block\Block;
+use Magento\Catalog\Test\Block\Product\Compare\ListCompare;
 use Mtf\Client\Element;
 
 /**
  * Class Sidebar
  * Compare product block on cms page
  */
-class Sidebar extends Block
+class Sidebar extends ListCompare
 {
     /**
      * Selector for empty message
@@ -30,6 +30,13 @@ class Sidebar extends Block
      * @var string
      */
     protected $productName = 'li.item.odd.last strong.name a';
+
+    /**
+     * Selector for  "Clear All" button
+     *
+     * @var string
+     */
+    protected $clearAll = '#compare-clear-all';
 
     /**
      * Get compare products block content
@@ -48,5 +55,16 @@ class Sidebar extends Block
             $result[] = $element->getText();
         }
         return $result;
+    }
+
+    /**
+     * Click "Clear All" on "My Account" page
+     *
+     * @return void
+     */
+    public function clickClearAll()
+    {
+        $this->_rootElement->find($this->clearAll)->click();
+        $this->_rootElement->acceptAlert();
     }
 }

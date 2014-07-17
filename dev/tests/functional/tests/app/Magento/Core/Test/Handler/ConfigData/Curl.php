@@ -22,6 +22,19 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 class Curl extends AbstractCurl implements ConfigDataInterface
 {
     /**
+     * Mapping values for data.
+     *
+     * @var array
+     */
+    protected $mappingData = [
+        'scope' => [
+            'Website' => 'website',
+            'Store' => 'group',
+            'Store View' => 'store',
+        ],
+    ];
+
+    /**
      * Post request for setting configuration attribute
      *
      * @param FixtureInterface|null $fixture [optional]
@@ -34,7 +47,6 @@ class Curl extends AbstractCurl implements ConfigDataInterface
             $this->applyConfigSettings($item, $scope);
         }
     }
-
 
     /**
      * Prepare POST data for setting configuration attribute
@@ -49,7 +61,10 @@ class Curl extends AbstractCurl implements ConfigDataInterface
         if (isset($fields['section'])) {
             foreach ($fields['section'] as $itemSection) {
                 list($scope, $group, $field) = explode('/', $itemSection['path']);
-                $result[$scope]['groups'][$group]['fields'][$field]['value'] = $itemSection['value'];
+                $value = isset($this->mappingData[$field])
+                    ? $this->mappingData[$field][$itemSection['value']]
+                    : $itemSection['value'];
+                $result[$scope]['groups'][$group]['fields'][$field]['value'] = $value;
             }
         }
         return $result;
@@ -88,6 +103,6 @@ class Curl extends AbstractCurl implements ConfigDataInterface
      */
     protected function getUrl($section)
     {
-        return $_ENV['app_backend_url'] . 'admin/system_config_save/index/section/' . $section;
+        return $_ENV['app_backend_url'] . 'admin/system_config/save/section/' . $section;
     }
 }

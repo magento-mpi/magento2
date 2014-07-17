@@ -61,13 +61,6 @@ class ListCompare extends Block
     protected $removeButton = 'a.action.delete';
 
     /**
-     * Selector for  "Clear All" button
-     *
-     * @var string
-     */
-    protected $clearAll = 'a.action.clear';
-
-    /**
      * Selector for empty message
      *
      * @var string
@@ -140,17 +133,6 @@ class ListCompare extends Block
     public function removeProduct()
     {
         $this->_rootElement->find($this->removeButton)->click();
-    }
-
-    /**
-     * Click " Clear All" on "My Account" page
-     *
-     * @return void
-     */
-    public function clickClearAll()
-    {
-        $this->_rootElement->find($this->clearAll)->click();
-        $this->_rootElement->acceptAlert();
     }
 
     /**

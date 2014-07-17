@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
  * Class AbstractCompareProductsTest
  * Abstract class for compare products class
  */
-class AbstractCompareProductsTest extends Injectable
+abstract class AbstractCompareProductsTest extends Injectable
 {
     /**
      * Array products

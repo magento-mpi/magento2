@@ -8,9 +8,6 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 use Magento\Catalog\Test\Constraint\AssertProductCompareSuccessAddMessage;
 
