@@ -459,34 +459,30 @@ class Observer
     {
         /* @var $creditmemo \Magento\Sales\Model\Order\Creditmemo */
         $creditmemo = $observer->getEvent()->getCreditmemo();
-        $items = array();
-        $productIds = array();
+        $itemsToUpdate = [];
         foreach ($creditmemo->getAllItems() as $item) {
-            /* @var $item \Magento\Sales\Model\Order\Creditmemo\Item */
-            $returnToStock = false;
-            if ($item->hasBackToStock()) {
-                if ($item->getBackToStock() && $item->getQty()) {
-                    $returnToStock = true;
-                }
-            } elseif ($this->_catalogInventoryData->isAutoReturnEnabled()) {
-                $returnToStock = true;
-            }
-            if ($returnToStock) {
-                $parentOrderId = $item->getOrderItem()->getParentItemId();
+            $qty = $item->getQty();
+            if (($item->getBackToStock() && $qty) || $this->_catalogInventoryData->isAutoReturnEnabled()) {
+                $productId = $item->getProductId();
+                $parentItemId = $item->getOrderItem()->getParentItemId();
                 /* @var $parentItem \Magento\Sales\Model\Order\Creditmemo\Item */
-                $parentItem = $parentOrderId ? $creditmemo->getItemByOrderId($parentOrderId) : false;
-                $qty = $parentItem ? $parentItem->getQty() * $item->getQty() : $item->getQty();
-                if (isset($items[$item->getProductId()])) {
-                    $items[$item->getProductId()]['qty'] += $qty;
+                $parentItem = $parentItemId ? $creditmemo->getItemByOrderId($parentItemId) : false;
+                $qty = $parentItem ? $parentItem->getQty() * $qty : $qty;
+                if (isset($itemsToUpdate[$productId]['qty'])) {
+                    $itemsToUpdate[$productId]['qty'] += $qty;
                 } else {
-                    $items[$item->getProductId()] = array('qty' => $qty, 'item' => null);
+                    $itemsToUpdate[$productId] = ['qty' => $qty, 'item' => null];
                 }
-                $productIds[]= $item->getProductId();
             }
         }
-        $this->_stock->revertProductsSale($items);
-        $this->_stockIndexerProcessor->reindexList($productIds);
-        $this->_priceIndexer->reindexList($productIds);
+
+        if (!empty($itemsToUpdate)) {
+            $this->_stock->revertProductsSale($itemsToUpdate);
+
+            $updatedItemIds = array_keys($itemsToUpdate);
+            $this->_stockIndexerProcessor->reindexList($updatedItemIds);
+            $this->_priceIndexer->reindexList($updatedItemIds);
+        }
     }
 
     /**

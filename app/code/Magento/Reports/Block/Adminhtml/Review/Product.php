@@ -23,6 +23,6 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_controller = 'adminhtml_review_product';
         $this->_headerText = __('Products Reviews');
         parent::_construct();
-        $this->_removeButton('add');
+        $this->buttonList->remove('add');
     }
 }

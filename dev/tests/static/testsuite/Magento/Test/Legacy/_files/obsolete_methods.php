@@ -302,7 +302,7 @@ return array(
         '\Magento\Framework\App\Filesystem::getDirectoryRead(\Magento\Framework\App\Filesystem::VAR_DIR)::search())'
     ),
     array('cloneIndexTable', 'Magento\Index\Model\Resource\AbstractResource'),
-    array('collectRoutes', 'Magento\Backend\App\Router\DefaultRouter'),
+    array('collectRoutes', 'Magento\Backend\App\Router'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),
     array('composeLocaleHierarchy', 'Magento\Translation\Helper\Data'),
     array('convertOldTaxData', 'Magento\Tax\Model\Resource\Setup'),
@@ -613,6 +613,7 @@ return array(
     array('getTagsByType', 'Magento\Framework\App\CacheInterface', 'Magento_Cache_Frontend_Decorator_TagScope::getTag()'),
     array('getTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
     array('getTaxRatesByProductClass', '', '_getAllRatesByProductClass'),
+    array('getAllRatesByProductClass', 'Magento\Tax\Helper\Data'),
     array(
         'getTemplateProcessor',
         'Magento\Newsletter\Helper\Data',
@@ -1305,6 +1306,8 @@ return array(
     array('shouldEscapeMessage', 'Magento\Framework\View\Block\Messages'),
     array('isPathInDirectory', 'Magento\Framework\Filesystem\Directory\ReadInterface'),
     array('isSuper', '\Magento\Catalog\Model\Product'),
+    array('getCustomerTaxClassWithDefault', '\Magento\Tax\Model\Calculation\Rule'),
+    array('getProductTaxClassWithDefault', '\Magento\Tax\Model\Calculation\Rule'),
     array('isSuperGroup', '\Magento\Catalog\Model\Product'),
     array('isGrouped', '\Magento\Catalog\Model\Product'),
     array('isSuperConfig', '\Magento\Catalog\Model\Product'),
@@ -1622,6 +1625,7 @@ return array(
     array('getLimitVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('validatePHPVersion', 'Magento\Framework\Connect\Validator'),
     array('getOrderUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getAllOptionsForClass', 'Magento\Tax\Model\Calculation\Rule'),
     array('getModeUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
@@ -1777,5 +1781,6 @@ return array(
         'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource',
         'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource::getFlatColumns'
     ],
+    ['addProductAdvanced', '\Magento\Sales\Model\Quote'],
     ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
 );

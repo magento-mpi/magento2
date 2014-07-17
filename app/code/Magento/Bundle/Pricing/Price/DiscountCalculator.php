@@ -24,7 +24,7 @@ class DiscountCalculator
      */
     public function calculateDiscount(Product $product, $value = null)
     {
-        if (!$value) {
+        if (is_null($value)) {
             $value = $product->getPriceInfo()->getPrice(FinalPrice::PRICE_CODE)->getValue();
         }
 

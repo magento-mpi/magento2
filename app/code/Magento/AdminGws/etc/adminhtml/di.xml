@@ -15,4 +15,8 @@
     <type name="Magento\Catalog\Model\Product\Action">
         <plugin name="admingws_product_action_plugin" type="Magento\AdminGws\Model\Plugin\ProductAction"/>
     </type>
+    <type name="Magento\Backend\Block\Widget\ContainerInterface">
+        <plugin name="admin_gws" type="Magento\AdminGws\Model\Block\Container\Plugin" />
+    </type>
 </config>
+

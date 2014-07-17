@@ -40,6 +40,8 @@ class CreateAdminUserRoleEntityTest extends Injectable
     protected $userRoleEditRole;
 
     /**
+     * Setup data for test
+     *
      * @param UserRoleIndex $userRoleIndex
      * @param UserRoleEditRole $userRoleEditRole
      */
