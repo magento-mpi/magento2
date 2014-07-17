@@ -19,24 +19,25 @@ class Save extends \Magento\Tax\Controller\Adminhtml\Rule
     {
         $postData = $this->getRequest()->getPost();
         if ($postData) {
-
-            $ruleModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rule');
-            $ruleModel->setData($postData);
-            $ruleModel->setCalculateSubtotal($this->getRequest()->getParam('calculate_subtotal', 0));
-
+            $postData['calculate_subtotal'] = $this->getRequest()->getParam('calculate_subtotal', 0);
+            $taxRule = $this->populateTaxRule($postData);
             try {
-                $ruleModel->save();
+                if ($taxRule->getId()) {
+                    $this->ruleService->updateTaxRule($taxRule);
+                } else {
+                    $taxRule = $this->ruleService->createTaxRule($taxRule);
+                }
 
                 $this->messageManager->addSuccess(__('The tax rule has been saved.'));
 
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('tax/*/edit', array('rule' => $ruleModel->getId()));
+                    $this->_redirect('tax/*/edit', array('rule' => $taxRule->getId()));
                     return;
                 }
 
                 $this->_redirect('tax/*/');
                 return;
-            } catch (\Magento\Framework\Model\Exception $e) {
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Something went wrong saving this tax rule.'));

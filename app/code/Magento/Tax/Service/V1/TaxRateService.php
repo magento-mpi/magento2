@@ -12,13 +12,13 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Model\Calculation\RateFactory;
+use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Model\Calculation\Rate as RateModel;
 use Magento\Tax\Model\Calculation\RateRegistry;
-use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
-use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\Resource\Calculation\Rate\Collection;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 
 /**
  * Handles tax rate CRUD operations
@@ -127,7 +127,9 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function searchTaxRates(SearchCriteria $searchCriteria)
     {
+        /** @var \Magento\Tax\Model\Resource\Calculation\Rate\Collection $collection */
         $collection = $this->rateFactory->create()->getCollection();
+        $collection->joinRegionTable();
 
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
@@ -169,8 +171,10 @@ class TaxRateService implements TaxRateServiceInterface
     {
         $this->validate($taxRate);
         $taxRateModel = $this->converter->createTaxRateModel($taxRate);
+        $taxRateTitles = $this->converter->createTitleArrayFromServiceObject($taxRate);
         try {
             $taxRateModel->save();
+            $taxRateModel->saveTitles($taxRateTitles);
         } catch (ModelException $e) {
             if ($e->getCode() == ModelException::ERROR_CODE_ENTITY_ALREADY_EXISTS) {
                 throw new InputException($e->getMessage());
@@ -219,8 +223,10 @@ class TaxRateService implements TaxRateServiceInterface
                 return 'tax_' . $field;
             case TaxRateDataObject::KEY_PERCENTAGE_RATE:
                 return 'rate';
+            case TaxRateDataObject::KEY_REGION_NAME:
+                return 'region_table.code';
             default:
-                return $field;
+                return "main_table." . $field;
         }
     }
 
@@ -239,9 +245,6 @@ class TaxRateService implements TaxRateServiceInterface
         $exception = new InputException();
         if (!\Zend_Validate::is(trim($taxRate->getCountryId()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'country_id']);
-        }
-        if (!\Zend_Validate::is(trim($taxRate->getRegionId()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'region_id']);
         }
         if (!\Zend_Validate::is(trim($taxRate->getPercentageRate()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'percentage_rate']);
@@ -267,10 +270,6 @@ class TaxRateService implements TaxRateServiceInterface
                 $exception->addError('Range To should be equal or greater than Range From.');
             }
 
-        } else {
-            if (!\Zend_Validate::is(trim($taxRate->getPostcode()), 'NotEmpty')) {
-                $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'postcode']);
-            }
         }
         if ($exception->wasErrorAdded()) {
             throw $exception;

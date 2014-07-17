@@ -20,30 +20,29 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rule
         $this->_title->add(__('Tax Rules'));
 
         $taxRuleId = $this->getRequest()->getParam('rule');
-        $ruleModel = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rule');
+        $this->_coreRegistry->register('tax_rule_id', $taxRuleId);
+        /** @var \Magento\Backend\Model\Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         if ($taxRuleId) {
-            $ruleModel->load($taxRuleId);
-            if (!$ruleModel->getId()) {
-                $this->_objectManager->get('Magento\Backend\Model\Session')->unsRuleData();
+            try {
+                $taxRule = $this->ruleService->getTaxRule($taxRuleId);
+                $pageTitle = sprintf("%s", $taxRule->getCode());
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $backendSession->unsRuleData();
                 $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('tax/*/');
                 return;
             }
+        } else {
+            $pageTitle = __('New Tax Rule');
         }
-
-        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getRuleData(true);
+        $this->_title->add($pageTitle);
+        $data = $backendSession->getRuleData(true);
         if (!empty($data)) {
-            $ruleModel->setData($data);
+            $this->_coreRegistry->register('tax_rule_form_data', $data);
         }
-
-        $this->_title->add($ruleModel->getId() ? sprintf("%s", $ruleModel->getCode()) : __('New Tax Rule'));
-
-        $this->_coreRegistry->register('tax_rule', $ruleModel);
-
-        $this->_initAction()->_addBreadcrumb(
-            $taxRuleId ? __('Edit Rule') : __('New Rule'),
-            $taxRuleId ? __('Edit Rule') : __('New Rule')
-        );
+        $breadcrumb = $taxRuleId ? __('Edit Rule') : __('New Rule');
+        $this->_initAction()->_addBreadcrumb($breadcrumb, $breadcrumb);
         $this->_view->renderLayout();
     }
 }
