@@ -50,6 +50,11 @@ abstract class AbstractAction
     protected $_localeDate;
 
     /**
+     * @var array
+     */
+    protected $_isIndexCleaned = [];
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\RuleFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory
@@ -182,6 +187,8 @@ abstract class AbstractAction
      */
     protected function _reindexByRuleId($ruleId)
     {
+        // remove old cache index data
+        $this->_cleanIndex();
         $this->_resource->saveProductIndex($this->_ruleFactory->create()->load($ruleId));
     }
 
@@ -194,7 +201,35 @@ abstract class AbstractAction
      */
     protected function _cleanIndex($typeId = null, $store = null)
     {
-        $this->_resource->cleanIndex($typeId, $store);
+        if (!$this->_isIndexCleaned($typeId, $store)) {
+            $this->_resource->cleanIndex($typeId, $store);
+        }
+        return $this;
+    }
+
+    /**
+     * Is index cleaned
+     *
+     * @param null|int $typeId
+     * @param null|int $store
+     * @return bool
+     */
+    protected function _isIndexCleaned($typeId = null, $store = null)
+    {
+        return isset( $this->_isIndexCleaned[$typeId][$store]) ?  $this->_isIndexCleaned[$typeId][$store] : false;
+    }
+
+    /**
+     * Set index cleaned flag
+     *
+     * @param null|int $typeId
+     * @param null|int $store
+     * @param bool $flag
+     * @return $this
+     */
+    protected function _setIndexCleaned($typeId = null, $store = null, $flag = true)
+    {
+        $this->_isIndexCleaned[$typeId][$store] = $flag;
         return $this;
     }
 }
