@@ -13,15 +13,16 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class ChosenOption
+ * Widget Chosen Option
  */
 class ChosenOption extends Element
 {
-     /**
+    /**
      * Select page button selector
      *
      * @var string
      */
-    protected $selectButton = '//ancestor::body//div[@class="control"]//button';
+    protected $selectButton = '//ancestor::body//button[contains(@class,"btn-chooser")]';
 
     /**
      * Magento varienLoader.js loader
@@ -30,33 +31,35 @@ class ChosenOption extends Element
      */
     protected $loaderOld = '//ancestor::body/div[@id="loading-mask"]';
 
+    // @codingStandardsIgnoreStart
     /**
-     * Select page block selector
+     * Select block selector
      *
      * @var string
      */
-    protected $pageBlock = "./ancestor::body/div[div/span[contains(text(),'Select Page...')]]";
-
-     /**
-     * Select block block selector
-     *
-     * @var string
-     */
-    protected $blockSelectBlock = "./ancestor::body/div[div/span[contains(text(),'Select Block...')]]";
+    protected $selectBlock = "//ancestor::body//div[contains(@style,'display: block')]//*[contains(@id,'responseCntoptions')]";
+    // @codingStandardsIgnoreEnd
 
     /**
-     * Select category block selector
+     * Page widget chooser block class
      *
      * @var string
      */
-    protected $categorySelectBlock = "./ancestor::body/div[div/span[contains(text(),'Select Category...')]]";
+    protected $pageWidgetChooserBlockClass = 'Magento\Cms\Test\Block\Adminhtml\Page\Widget\Chooser';
 
     /**
-     * Select category block selector
+     * Category widget chooser block class
      *
      * @var string
      */
-    protected $productSelectBlock = "./ancestor::body/div[div/span[contains(text(),'Select Product...')]]";
+    protected $categoryWidgetChooserBlockClass = '\Magento\Catalog\Test\Block\Adminhtml\Category\Widget\Chooser';
+
+    /**
+     * Product widget chooser block class
+     *
+     * @var string
+     */
+    protected $productWidgetChooserBlockClass = '\Magento\Catalog\Test\Block\Adminhtml\Product\Widget\Chooser';
 
     /**
      * Select widget options
@@ -68,17 +71,22 @@ class ChosenOption extends Element
     {
         $this->clickSelectButton();
         if (isset($value['filter_url_key'])) {
-            $this->getSelectPageGridBlock()->searchAndOpen(['chooser_identifier' => $value['filter_url_key']]);
+            $this->getClassBlock($this->pageWidgetChooserBlockClass)
+                ->searchAndOpen(['chooser_identifier' => $value['filter_url_key']]);
         }
         if (isset($value['filter_identifier'])) {
-            $this->getSelectBlockGridBlock()->searchAndOpen(['chooser_identifier' => $value['filter_identifier']]);
+            $this->getClassBlock($this->pageWidgetChooserBlockClass)
+                ->searchAndOpen(['chooser_identifier' => $value['filter_identifier']]);
         }
         if (isset($value['category_path'])) {
             if (isset($value['filter_sku'])) {
-                $this->getSelectProductCategoryBlock()->selectCategoryByName($value['category_path']);
-                $this->getSelectProductGridBlock()->searchAndOpen(['chooser_sku' => $value['filter_sku']]);
+                $this->getClassBlock($this->categoryWidgetChooserBlockClass)
+                    ->selectCategoryByName($value['category_path']);
+                $this->getClassBlock($this->productWidgetChooserBlockClass)
+                    ->searchAndOpen(['chooser_sku' => $value['filter_sku']]);
             } else {
-                $this->getSelectCategoryBlock()->selectCategoryByName($value['category_path']);
+                $this->getClassBlock($this->categoryWidgetChooserBlockClass)
+                    ->selectCategoryByName($value['category_path']);
             }
         }
     }
@@ -112,77 +120,16 @@ class ChosenOption extends Element
     }
 
     /**
-     * Get select page grid block
+     * Get block by class
      *
-     * @return \Magento\Cms\Test\Block\Adminhtml\Page\Widget\Chooser
+     * @param string $class
+     * @return mixed
      */
-    public function getSelectPageGridBlock()
+    protected function getClassBlock($class)
     {
-        $block = \Mtf\ObjectManager::getInstance()->create(
-            'Magento\Cms\Test\Block\Adminhtml\Page\Widget\Chooser',
-            ['element' => $this->find($this->pageBlock, Locator::SELECTOR_XPATH)]
+        return \Mtf\ObjectManager::getInstance()->create(
+            $class,
+            ['element' => $this->find($this->selectBlock, Locator::SELECTOR_XPATH)]
         );
-
-        return $block;
-    }
-
-    /**
-    * Get select block grid block
-    *
-    * @return \Magento\Cms\Test\Block\Adminhtml\Page\Widget\Chooser
-    */
-    public function getSelectBlockGridBlock()
-    {
-        $block = \Mtf\ObjectManager::getInstance()->create(
-            'Magento\Cms\Test\Block\Adminhtml\Page\Widget\Chooser',
-            ['element' => $this->find($this->blockSelectBlock, Locator::SELECTOR_XPATH)]
-        );
-
-        return $block;
-    }
-
-    /**
-     * Get select category block
-     *
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Widget\Chooser
-     */
-    public function getSelectCategoryBlock()
-    {
-        $block = \Mtf\ObjectManager::getInstance()->create(
-            '\Magento\Catalog\Test\Block\Adminhtml\Category\Widget\Chooser',
-            ['element' => $this->find($this->categorySelectBlock, Locator::SELECTOR_XPATH)]
-        );
-
-        return $block;
-    }
-
-    /**
-     * Get select product category block
-     *
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Widget\Chooser
-     */
-    public function getSelectProductCategoryBlock()
-    {
-        $block = \Mtf\ObjectManager::getInstance()->create(
-            '\Magento\Catalog\Test\Block\Adminhtml\Category\Widget\Chooser',
-            ['element' => $this->find($this->productSelectBlock, Locator::SELECTOR_XPATH)]
-        );
-
-        return $block;
-    }
-
-    /**
-     * Get select product grid block
-     *
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Widget\Chooser
-     */
-    public function getSelectProductGridBlock()
-    {
-        $block = \Mtf\ObjectManager::getInstance()->create(
-            '\Magento\Catalog\Test\Block\Adminhtml\Product\Widget\Chooser',
-            ['element' => $this->find($this->productSelectBlock, Locator::SELECTOR_XPATH)]
-        );
-
-        return $block;
     }
 }

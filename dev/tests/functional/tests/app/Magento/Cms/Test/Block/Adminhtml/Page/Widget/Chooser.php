@@ -16,6 +16,11 @@ use Magento\Backend\Test\Block\Widget\Grid;
  */
 class Chooser extends Grid
 {
+    /**
+     * Filters array mapping
+     *
+     * @var array
+     */
     protected $filters = [
         'chooser_identifier' => [
             'selector' => 'input[name="chooser_identifier"]'
@@ -27,5 +32,5 @@ class Chooser extends Grid
      *
      * @var string
      */
-    protected $editLink = 'tr[title="#"] td';
+    protected $editLink = 'tbody tr .col-chooser_title';
 }

@@ -27,20 +27,17 @@ class CreateInstance extends Curl
      *
      * @param FixtureInterface $fixture [optional]
      * @throws \Exception
-     * @return null|string instance id
+     * @return null|array instance id
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $fixture->getData('fields');
-        $fields = array();
-        foreach ($data as $key => $field) {
-            $fields[$key] = $field['value'];
-        }
-
-        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $fixture->getData('type') .
-                '/theme_id/' . $fixture->getData('theme');
+        $data = $fixture->getData();
+        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $fixture->getData('code') .
+                '/theme_id/' . $fixture->getData('theme_id');
+        unset($data['code']);
+        unset($data['theme_id']);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
 
@@ -51,6 +48,6 @@ class CreateInstance extends Curl
         if (preg_match_all('/\/widget_instance\/edit\/instance_id\/(\d+)/', $response, $matches)) {
             $id = $matches[1][count($matches[1]) - 1];
         }
-        return $id;
+        return ['id' => $id];
     }
 }

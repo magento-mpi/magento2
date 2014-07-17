@@ -33,4 +33,15 @@ class Page extends Block
     {
         return $this->_rootElement->find($this->cmsPageContentClass)->getText();
     }
+
+    /**
+     * Check is visible widget selector
+     *
+     * @param $widgetSelector
+     * @return bool
+     */
+    public function widgetSelectorIsVisible($widgetSelector)
+    {
+        return $this->_rootElement->find($widgetSelector)->isVisible();
+    }
 }

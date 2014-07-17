@@ -16,6 +16,11 @@ use Magento\Backend\Test\Block\Widget\Grid;
  */
 class Chooser extends Grid
 {
+    /**
+     * Filters array mapping
+     *
+     * @var array
+     */
     protected $filters = [
         'chooser_sku' => [
             'selector' => 'input[name="chooser_sku"]'
@@ -27,5 +32,5 @@ class Chooser extends Grid
      *
      * @var string
      */
-    protected $editLink = 'td[class*=col-sku]';
+    protected $editLink = 'td.col-sku';
 }

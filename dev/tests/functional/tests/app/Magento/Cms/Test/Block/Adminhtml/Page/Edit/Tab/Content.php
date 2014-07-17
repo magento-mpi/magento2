@@ -104,12 +104,12 @@ class Content extends Tab
     /**
      * Get widget block
      *
-     * @return \Magento\Widget\Test\Block\Adminhtml\Widget
+     * @return \Magento\Widget\Test\Block\Adminhtml\WidgetForm
      */
     public function getWidgetBlock()
     {
         $widgetBlock = $this->blockFactory->create(
-            'Magento\Widget\Test\Block\Adminhtml\Widget',
+            'Magento\Widget\Test\Block\Adminhtml\WidgetForm',
             ['element' => $this->_rootElement->find($this->widgetBlock, Locator::SELECTOR_XPATH)]
         );
 
@@ -129,16 +129,13 @@ class Content extends Tab
         if (isset($fields['content_heading']['value'])) {
             $element->find($this->contentHeading)->setValue($fields['content_heading']['value']);
         }
-        $widgets = $fields['content']['value']['widget']['preset'];
-        if (isset($widgets) && $widgets != '-') {
-            foreach ($widgets as $widget) {
+        if (isset($fields['content']['value']['widget']['preset'])) {
+            foreach ($fields['content']['value']['widget']['preset'] as $widget) {
                 $this->clickInsertWidget();
                 $this->getWidgetBlock()->addWidget($widget);
             }
         }
-        if (isset($fields['content']['value']['variable']) &&
-            $fields['content']['value']['variable'] != '-'
-        ) {
+        if (isset($fields['content']['value']['variable'])) {
             $this->clickInsertVariable();
             $config = $this->getWysiwygConfig();
             $config->selectVariableByName($fields['content']['value']['variable']);

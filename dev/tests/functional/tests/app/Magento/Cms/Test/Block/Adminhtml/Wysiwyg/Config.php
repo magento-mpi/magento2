@@ -29,7 +29,7 @@ class Config extends Block
      *
      * @var string
      */
-    protected $variableSelector = '//a[contains(text(),"%s")]';
+    protected $variableSelector = '//*[@class="insert-variable"]//a[contains(text(),"%s")]';
 
     /**
      * Returns array with all variables
@@ -53,7 +53,7 @@ class Config extends Block
     /**
      * Select variable by name
      *
-     * @param $variableName
+     * @param string $variableName
      * @return void
      */
     public function selectVariableByName($variableName)

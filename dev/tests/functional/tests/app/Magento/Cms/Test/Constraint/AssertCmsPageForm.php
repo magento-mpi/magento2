@@ -9,7 +9,7 @@
 namespace Magento\Cms\Test\Constraint;
 
 use Magento\Cms\Test\Fixture\CmsPage;
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 
@@ -17,7 +17,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
  * Class AssertCmsPageForm
  * Assert that displayed CMS page data on edit page equals passed from fixture
  */
-class AssertCmsPageForm extends AbstractConstraint
+class AssertCmsPageForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -59,7 +59,7 @@ class AssertCmsPageForm extends AbstractConstraint
         $cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
 
         $cmsFormData = $cmsNew->getPageForm()->getData();
-        $fixtureData = $cmsOriginal != null
+        $fixtureData = $cmsOriginal !== null
             ? array_merge($cmsOriginal->getData(), $cms->getData())
             : $cms->getData();
         $dataDiff = $this->verifyForm($cmsFormData, $fixtureData);
@@ -83,6 +83,9 @@ class AssertCmsPageForm extends AbstractConstraint
         $errorMessage = [];
         $formData['store_id'] = implode('/', $formData['store_id']);
         foreach ($fixtureData as $key => $value) {
+            if ($key == 'page_id') {
+                continue;
+            }
             if ($value !== $formData[$key] && !in_array($key, $this->skippedFields)) {
                 $errorMessage[] = "Data in " . $key . " field not equal."
                     . "\nExpected: " . $value

@@ -29,6 +29,19 @@ class AssertCmsPagePreview extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Widgets selectors
+     *
+     * @var array
+     */
+    protected $widgetSelectors = [
+        'CMS Page Link' => '.widget.widget-cms-link',
+        'Catalog Category Link' => '.widget.category.link',
+        'Catalog Product Link' => '.widget.product.link',
+        'Recently Compared Products' => '.block.compare',
+        'Recently Viewed Products' => '.block.viewed.links'
+    ];
+
+    /**
      * Assert that content of created cms page displayed in section 'maincontent' and equals passed from fixture.
      *
      * @param CmsIndex $cmsIndex
@@ -53,14 +66,14 @@ class AssertCmsPagePreview extends AbstractConstraint
         $fixtureContent = $cms->getContent();
         \PHPUnit_Framework_Assert::assertContains(
             $fixtureContent['content'],
-            $frontendCmsPageContent = $frontCmsPage->getCmsPageBlock()->getPageContent(),
+            $frontCmsPage->getCmsPageBlock()->getPageContent(),
             'Wrong content is displayed.'
         );
         if (isset($fixtureContent['widget'])) {
             $widgetSelectors = $this->getWidgetsSelectors($fixtureContent['widget']);
-            foreach($widgetSelectors as $widgetType => $widgetSelector){
+            foreach ($widgetSelectors as $widgetType => $widgetSelector) {
                 \PHPUnit_Framework_Assert::assertTrue(
-                    $frontCmsPage->widgetSelectorIsVisible($widgetSelector),
+                    $frontCmsPage->getCmsPageBlock()->widgetSelectorIsVisible($widgetSelector),
                     'Widget \'' . $widgetType . '\' is not displayed.'
                 );
             }
@@ -77,29 +90,15 @@ class AssertCmsPagePreview extends AbstractConstraint
     /**
      * Get widgets selectors
      *
-     * @param $contentWidgets
+     * @param array $contentWidgets
      * @return array
      */
     protected function getWidgetsSelectors($contentWidgets)
     {
         $widgetSelectors = [];
         foreach ($contentWidgets['preset'] as $widget) {
-            switch ($widget['widget_type']) {
-                case 'CMS Page Link':
-                    $widgetSelectors[$widget['widget_type']] = '.widget.widget-cms-link';
-                    break;
-                case 'Catalog Category Link':
-                    $widgetSelectors[$widget['widget_type']] = '.widget.category.link';
-                    break;
-                case 'Catalog Product Link':
-                    $widgetSelectors[$widget['widget_type']] = '.widget.product.link';
-                    break;
-                case 'Recently Compared Products':
-                    $widgetSelectors[$widget['widget_type']] = '.block.compare';
-                    break;
-                case 'Recently Viewed Products':
-                    $widgetSelectors[$widget['widget_type']] = '.block.viewed.links';
-                    break;
+            if (isset($this->widgetSelectors[$widget['widget_type']])) {
+                $widgetSelectors[$widget['widget_type']] = $this->widgetSelectors[$widget['widget_type']];
             }
         }
 
@@ -113,6 +112,6 @@ class AssertCmsPagePreview extends AbstractConstraint
      */
     public function toString()
     {
-        return 'CMS Page displayed equals data from fixture.';
+        return 'CMS Page content equals to data from fixture.';
     }
 }

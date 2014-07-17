@@ -14,7 +14,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 
 /**
- * Test Creation for Create CmsPageEntity
+ * Test Creation for CreateCmsPageEntity
  *
  * Test Flow:
  * Steps:

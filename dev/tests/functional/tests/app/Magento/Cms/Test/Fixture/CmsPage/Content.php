@@ -13,20 +13,24 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
 
 /**
- * Class Options
- * Prepare Manage Options for attribute
+ * Class Content
+ * Prepare content for cms page
  */
 class Content implements FixtureInterface
 {
     /**
+     * Content data
+     *
      * @var array
      */
     protected $data = [];
 
     /**
-     * @var FixtureFactory
+     * Fixture params
+     *
+     * @var array
      */
-    protected $fixtureFactory;
+    protected $params;
 
     /**
      * @constructor
@@ -34,15 +38,16 @@ class Content implements FixtureInterface
      * @param array $data
      * @param FixtureFactory $fixtureFactory
      */
-    public function __construct(array $params, array $data = [], FixtureFactory $fixtureFactory)
+    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
         $this->data = $data;
-        $this->fixtureFactory = $fixtureFactory;
-        if (isset($data['widget']['preset']) && $data['widget']['preset'] != '-') {
+        if (isset($data['widget']['preset'])) {
             $this->data['widget']['preset'] = $this->getPreset($data['widget']['preset']);
             foreach ($this->data['widget']['preset'] as $key => $widget) {
-                if ($widget['widget_type'] == 'Catalog Category Link') {
+                if (isset($widget['chosen_option']['category_path'])
+                    && !isset($widget['chosen_option']['filter_sku'])
+                ) {
                     $category = $fixtureFactory->createByCode(
                         'catalogCategory',
                         ['dataSet' => $widget['chosen_option']['category_path']]
@@ -51,11 +56,12 @@ class Content implements FixtureInterface
                     $categoryName = $category->getData('name');
                     $this->data['widget']['preset'][$key]['chosen_option']['category_path'] = $categoryName;
                 }
-                if ($widget['widget_type'] == 'Catalog Product Link') {
+                if (isset($widget['chosen_option']['category_path']) && isset($widget['chosen_option']['filter_sku'])) {
                     /** @var CatalogProductSimple $product */
                     $product = $fixtureFactory->createByCode(
                         'catalogProductSimple',
-                        ['dataSet' => $widget['chosen_option']['category_path']]);
+                        ['dataSet' => $widget['chosen_option']['category_path']]
+                    );
                     $product->persist();
                     $categoryName = $product->getCategoryIds()[0]['name'];
                     $productSku = $product->getData('sku');
@@ -81,6 +87,8 @@ class Content implements FixtureInterface
      *
      * @param string|null $key
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

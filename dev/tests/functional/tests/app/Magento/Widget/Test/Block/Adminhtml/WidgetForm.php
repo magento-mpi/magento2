@@ -13,16 +13,16 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Widget
- * Widget block
+ * Backend add widget block form
  */
-class Widget extends Form
+class WidgetForm extends Form
 {
     /**
      * Widget type selector
      *
      * @var string
      */
-    protected $widgetType = '//select[@id="select_widget_type"]';
+    protected $widgetType = '[name="widget_type"]';
 
     /**
      * Insert widget button selector
@@ -55,12 +55,12 @@ class Widget extends Form
     /**
      * Select widget type
      *
-     * @param $type
+     * @param string $type
      * @return void
      */
     protected function selectWidgetType($type)
     {
-        $this->_rootElement->find($this->widgetType, Locator::SELECTOR_XPATH, 'select')->setValue($type);
+        $this->_rootElement->find($this->widgetType, Locator::SELECTOR_CSS, 'select')->setValue($type);
         $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
     }
 

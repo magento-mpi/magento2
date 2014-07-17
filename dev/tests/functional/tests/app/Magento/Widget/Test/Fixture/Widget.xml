@@ -30,7 +30,7 @@
         <chosen_option>
             <attribute_code>chosen_option</attribute_code>
             <backend_type>virtual</backend_type>
-            <source>Magento\Widget\Test\Fixture\WidgetInjectable\ChosenOption</source>
+            <source>Magento\Widget\Test\Fixture\Widget\ChosenOption</source>
         </chosen_option>
         <display_type>
             <attribute_code>display_type</attribute_code>
@@ -54,7 +54,27 @@
             <attribute_code>page_size</attribute_code>
             <backend_type>varchar</backend_type>
         </page_size>
+        <code>
+            <attribute_code>code</attribute_code>
+            <backend_type>virtual</backend_type>
+        </code>
+        <theme_id>
+            <attribute_code>theme_id</attribute_code>
+            <backend_type>virtual</backend_type>
+        </theme_id>
+        <store_ids>
+            <attribute_code>store_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+        </store_ids>
+        <widget_instance>
+            <attribute_code>widget_instance</attribute_code>
+            <backend_type>virtual</backend_type>
+        </widget_instance>
+        <parameters>
+            <attribute_code>parameters</attribute_code>
+            <backend_type>virtual</backend_type>
+        </parameters>
     </fields>
     <repository_class>Magento\Widget\Test\Repository\Widget</repository_class>
-    <handler_interface>Magento\Widget\Test\Handler\Widget\WidgetInterface</handler_interface>
+    <handler_interface>Magento\Widget\Test\Handler\Curl\CreateInstance</handler_interface>
 </fixture>

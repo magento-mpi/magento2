@@ -34,7 +34,8 @@ class CmsPage extends InjectableFixture
         'store_id' => 'All Store Views',
         'is_active' => 'Published',
         'under_version_control' => 'No',
-        'content' => ['Text %isolation%'],
+        'content' => [
+            'content' => 'Text %isolation%']
     ];
 
     protected $page_id = [

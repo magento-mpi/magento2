@@ -14,6 +14,7 @@ use Magento\Cms\Test\Fixture\CmsPage;
 
 /**
  * Class AssertCmsPageInGrid
+ * Assert that CMS page present in grid and can be found by title
  */
 class AssertCmsPageInGrid extends AbstractConstraint
 {
@@ -36,8 +37,9 @@ class AssertCmsPageInGrid extends AbstractConstraint
         $filter = [
             'title' => $cms->getTitle(),
         ];
+        $cmsIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsIndex->open()->getCmsPageGridBlock()->isRowVisible($filter),
+            $cmsIndex->getCmsPageGridBlock()->isRowVisible($filter),
             'Cms page \'' . $cms->getTitle() . '\' is not present in pages grid.'
         );
     }

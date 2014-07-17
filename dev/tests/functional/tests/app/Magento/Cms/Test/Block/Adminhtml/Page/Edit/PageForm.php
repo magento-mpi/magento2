@@ -8,8 +8,8 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
+use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
@@ -35,7 +35,7 @@ class PageForm extends FormTabs
     protected $contentForm = "#page_content";
 
     /**
-     * Select page button selector
+     * Current published revision link selector
      *
      * @var string
      */
@@ -89,47 +89,31 @@ class PageForm extends FormTabs
     }
 
     /**
-     * Get data of the tabs
+     * Open tab
      *
-     * @param FixtureInterface|null $fixture
-     * @param Element|null $element
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param string $tabName
+     * @return Tab
      */
-    public function getData(FixtureInterface $fixture = null, Element $element = null)
+    public function openTab($tabName)
     {
-        $data = [];
-
-        if (null === $fixture) {
-            foreach ($this->tabs as $tabName => $tab) {
-                if (isset($data['under_version_control'])
-                    && $data['under_version_control'] == 'Yes'
-                    && $tabName == 'content'
-                ) {
-                    $this->clickCurrentlyPublishedRevision();
-                    $this->reinitRootElement();
-                }
-                $this->openTab($tabName);
-                $tabData = $this->getTabElement($tabName)->getDataFormTab();
-                $data = array_merge($data, $tabData);
-            }
+        $selector = $this->tabs[$tabName]['selector'];
+        $strategy = isset($this->tabs[$tabName]['strategy'])
+            ? $this->tabs[$tabName]['strategy']
+            : Locator::SELECTOR_CSS;
+        $tab = $this->_rootElement->find($selector, $strategy);
+        if ($tabName == 'content' && !$tab->isVisible()) {
+            $this->clickCurrentlyPublishedRevision();
+            $this->reinitRootElement();
+            $this->openTab($tabName);
         } else {
-            $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
-            $tabsFields = $isHasData ? $this->getFieldsByTabs($fixture) : [];
-            foreach ($tabsFields as $tabName => $fields) {
-                $this->openTab($tabName);
-                $tabData = $this->getTabElement($tabName)->getDataFormTab($fields, $this->_rootElement);
-                $data = array_merge($data, $tabData);
-            }
+            $tab->click();
         }
 
-        return $data;
+        return $this;
     }
 
     /**
-     * Clicking to Currently Published Revision link
+     * Click on 'Currently Published Revision' link
      *
      * @return void
      */
