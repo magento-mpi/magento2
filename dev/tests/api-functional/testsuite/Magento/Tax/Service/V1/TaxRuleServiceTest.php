@@ -30,11 +30,6 @@ class TaxRuleServiceTest extends WebapiAbstract
     /** @var \Magento\Tax\Model\Calculation\Rule[] */
     private $fixtureTaxRules;
 
-    /**
-     * @var TaxRuleServiceInterface
-     */
-    private $taxRuleService;
-
     /** @var FilterBuilder */
     private $filterBuilder;
 
@@ -185,8 +180,8 @@ class TaxRuleServiceTest extends WebapiAbstract
         $expectedRuleData = [
             'id' => $taxRuleId,
             'code' => 'Test Rule Duplicate',
-            'priority' => '0',
-            'sort_order' => '0',
+            'priority' => 0,
+            'sort_order' => 0,
             'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
             'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
             'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
@@ -234,8 +229,9 @@ class TaxRuleServiceTest extends WebapiAbstract
             [
                 'id' => $fixtureRule->getId(),
                 'code' => 'Test Rule',
-                'priority' => '0',
-                'sort_order' => '0',
+                'priority' => 0,
+                'sort_order' => 0,
+                'calculate_subtotal' => 0,
                 'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
                 'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
                 'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
@@ -283,8 +279,9 @@ class TaxRuleServiceTest extends WebapiAbstract
             [
                 'id' => $fixtureRule->getId(),
                 'code' => 'Test Rule',
-                'priority' => '0',
-                'sort_order' => '0',
+                'priority' => 0,
+                'sort_order' => 0,
+                'calculate_subtotal' => 0,
                 'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
                 'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
                 'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
@@ -292,8 +289,9 @@ class TaxRuleServiceTest extends WebapiAbstract
             [
                 'id' => $this->getFixtureTaxRules()[0]->getId(),
                 'code' => 'Test Rule Duplicate',
-                'priority' => '0',
-                'sort_order' => '0',
+                'priority' => 0,
+                'sort_order' => 0,
+                'calculate_subtotal' => 0,
                 'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
                 'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
                 'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
