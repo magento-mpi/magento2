@@ -12,6 +12,7 @@ namespace Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Calculation;
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
+use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder;
 
 /**
  * Class RowBaseCalculatorTest
@@ -20,13 +21,6 @@ use Magento\Tax\Service\V1\Data\QuoteDetails;
 class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     const STORE_ID = 2300;
-    const QUANTITY = 1;
-    const UNIT_PRICE = 500;
-    const RATE = 10;
-    const STORE_RATE = 11;
-
-    const CODE = 'CODE';
-    const TYPE = 'TYPE';
 
     /** @var objectManager */
     protected $objectManager;
@@ -40,7 +34,23 @@ class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Tax\Model\Config | \PHPUnit_Framework_MockObject_MockObject */
     protected $mockConfig;
 
+    /** @var $mockItem \Magento\Tax\Service\V1\Data\QuoteDetails\Item | \PHPUnit_Framework_MockObject_MockObject */
+    protected $mockItem;
+
+    /** @var $mockAppliedTaxBuilder AppliedTaxBuilder | \PHPUnit_Framework_MockObject_MockObject */
+    protected $mockAppliedTaxBuilder;
+
+    /** @var $mockAppliedTaxRateBuilder AppliedTaxBuilder | \PHPUnit_Framework_MockObject_MockObject */
+    protected $mockAppliedTaxRateBuilder;
+
+    /** @var \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax | \PHPUnit_Framework_MockObject_MockObject */
+    protected $mockAppliedTax;
+
     protected $addressRateRequest;
+
+    /** @var RowBaseAndTotalBaseCalculatorTestHelper */
+    protected $rowBaseAndTotalBaseCalculatorHelper;
+
 
     /** @var RowBaseCalculator */
     protected $rowBaseCalculator;
@@ -62,8 +72,26 @@ class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->addressRateRequest = new \Magento\Framework\Object();
+        $this->mockItem = $this->getMockBuilder('Magento\Tax\Service\V1\Data\QuoteDetails\Item')
+            ->disableOriginalConstructor()
+            ->getMock();
 
+        $this->mockAppliedTaxRateBuilder = $this->getMockBuilder(
+            'Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRateBuilder'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->mockAppliedTaxBuilder = $this->getMockBuilder(
+            'Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->mockAppliedTax = $this->getMockBuilder(
+            'Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax'
+        )->disableOriginalConstructor()
+            ->getMock();
+
+        $this->mockAppliedTax->expects($this->any())->method('getTaxRateKey')->will($this->returnValue('taxKey'));
         $this->rowBaseCalculator = $this->objectManager->getObject(
             'Magento\Tax\Model\Calculation\RowBaseCalculator',
             [
@@ -74,164 +102,37 @@ class RowBaseCalculatorTest extends \PHPUnit_Framework_TestCase
                 'addressRateRequest' => $this->addressRateRequest
             ]
         );
+        $this->rowBaseAndTotalBaseCalculatorHelper = new RowBaseAndTotalBaseCalculatorTestHelper(
+            $this->objectManager,
+            $this->mockTaxItemDetailsBuilder,
+            $this->mockCalculationTool,
+            $this->mockConfig,
+            $this->mockItem,
+            $this->mockAppliedTaxBuilder,
+            $this->mockAppliedTaxRateBuilder,
+            $this->mockAppliedTax
+        );
     }
 
     public function testCalculateWithTaxInPrice()
     {
-        $mockItem = $this->getMockItem();
-        $mockItem->expects($this->once())
-            ->method('getTaxIncluded')
-            ->will($this->returnValue(true));
-
-        $this->mockCalculationTool->expects($this->once())
-            ->method('getRate')
-            ->with($this->addressRateRequest)
-            ->will($this->returnValue(1.2));
-
-        $this->mockCalculationTool->expects($this->atLeastOnce())
-            ->method('round')
-            ->withAnyParameters()
-            ->will($this->returnValue(1.1));
-
-        $this->mockCalculationTool->expects($this->once())
-            ->method('getStoreRate')
-            ->withAnyParameters()
-            ->will($this->returnValue(1.2));
-
-        $this->mockCalculationTool->expects($this->atLeastOnce())
-            ->method('calcTaxAmount')
-            ->withAnyParameters()
-            ->will($this->returnValue(1.1));
-
-        $this->mockConfig->expects($this->once())
-            ->method('applyTaxAfterDiscount')
-            ->will($this->returnValue(true));
-
-        $mockItem->expects($this->once())
-            ->method('getDiscountAmount')
-            ->will($this->returnValue(1));
-
-        $this->mockCalculationTool->expects($this->once())
-            ->method('getAppliedRates')
-            ->with($this->addressRateRequest)
-            ->will($this->returnValue([]));
-
-
-        $mockAppliedTaxRateBuilder = $this->getMockBuilder('Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('getAppliedTaxBuilder')
-            ->will($this->returnValue($mockAppliedTaxRateBuilder));
-
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('setCode')
-            ->with(self::CODE);
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('setType')
-            ->with(self::TYPE);
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('setRowTax')
-            ->with(1.1);
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('setTaxPercent')
-            ->with(1.2);
-
+        $this->rowBaseAndTotalBaseCalculatorHelper->getMocks(true);
 
         $expectedReturnValue = 'SOME RETURN OBJECT';
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($expectedReturnValue));
-        $this->assertSame($expectedReturnValue, $this->rowBaseCalculator->calculate($mockItem, 1));
+        $this->assertSame(
+            $expectedReturnValue,
+            $this->rowBaseAndTotalBaseCalculatorHelper->calculate($this->rowBaseCalculator)
+        );
     }
 
     public function testCalculateWithTaxNotInPrice()
     {
-        $mockItem = $this->getMockItem();
-        $mockItem->expects($this->once())
-            ->method('getTaxIncluded')
-            ->will($this->returnValue(false));
-
-        $this->mockConfig->expects($this->once())
-            ->method('applyTaxAfterDiscount')
-            ->will($this->returnValue(true));
-
-        $this->mockCalculationTool->expects($this->atLeastOnce())
-            ->method('round')
-            ->withAnyParameters()
-            ->will($this->returnValue(1.3));
-
-
-        $this->mockCalculationTool->expects($this->atLeastOnce())
-            ->method('calcTaxAmount')
-            ->withAnyParameters()
-            ->will($this->returnValue(1.5));
-
-        $this->mockConfig->expects($this->once())
-            ->method('applyTaxAfterDiscount')
-            ->will($this->returnValue(true));
-
-        $mockItem->expects($this->once())
-            ->method('getDiscountAmount')
-            ->will($this->returnValue(1));
-
-        $this->mockCalculationTool->expects($this->once())
-            ->method('getAppliedRates')
-            ->withAnyParameters()
-            ->will($this->returnValue([['id' => 0, 'percent' => 0, 'rates' => []]]));
-        $this->mockCalculationTool->expects($this->once())
-            ->method('getRate')
-            ->with($this->addressRateRequest)
-            ->will($this->returnValue(self::RATE));
-
-        $mockAppliedTaxRateBuilder = $this->getMockBuilder('Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('getAppliedTaxBuilder')
-            ->will($this->returnValue($mockAppliedTaxRateBuilder));
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('setType')
-            ->with(self::TYPE);
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('setCode')
-            ->with(self::CODE);
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('setRowTax')
-            ->with(1.3);
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('setTaxPercent')
-            ->with(self::RATE);
+        $this->rowBaseAndTotalBaseCalculatorHelper->getMocks(false);
         $expectedReturnValue = 'SOME RETURN OBJECT';
-        $this->mockTaxItemDetailsBuilder->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($expectedReturnValue));
 
-        $this->assertSame($expectedReturnValue, $this->rowBaseCalculator->calculate($mockItem, 1));
-    }
-
-    /**
-     * @return \Magento\Tax\Service\V1\Data\QuoteDetails\Item|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getMockItem()
-    {
-        /** @var $mockItem \Magento\Tax\Service\V1\Data\QuoteDetails\Item | \PHPUnit_Framework_MockObject_MockObject */
-        $mockItem = $this->getMockBuilder('Magento\Tax\Service\V1\Data\QuoteDetails\Item')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockItem->expects($this->once())
-            ->method('getDiscountAmount')
-            ->will($this->returnValue(1));
-        $mockItem->expects($this->once())
-            ->method('getCode')
-            ->will($this->returnValue(self::CODE));
-        $mockItem->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue(self::TYPE));
-        $mockItem->expects($this->once())
-            ->method('getUnitPrice')
-            ->will($this->returnValue(self::UNIT_PRICE));
-
-        return $mockItem;
+        $this->assertSame(
+            $expectedReturnValue,
+            $this->rowBaseAndTotalBaseCalculatorHelper->calculate($this->rowBaseCalculator)
+        );
     }
 }
