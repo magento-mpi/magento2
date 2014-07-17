@@ -60,7 +60,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ProductDataObject::SKU => ProductDataObject::SKU . 'value',
             ProductDataObject::PRICE => ProductDataObject::PRICE . 'value',
             ProductDataObject::STATUS => ProductDataObject::STATUS . 'dataValue',
-            ProductDataObject::ID => 'entity_id' . 'value',
             ProductDataObject::STORE_ID => ProductDataObject::STORE_ID . 'value'
         ];
         $this->productBuilder->expects($this->once())
