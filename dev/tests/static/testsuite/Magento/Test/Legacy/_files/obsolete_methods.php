@@ -1777,4 +1777,6 @@ return array(
     ['prepareValueForDuplicate', 'Magento\Catalog\Model\Product\Option\Value'],
     ['prepareOptionForDuplicate', '\Magento\Catalog\Model\Product\Option'],
     ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
+    ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation']
 );

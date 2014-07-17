@@ -645,28 +645,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Gets rates for all the product tax classes
-     *
-     * @param \Magento\Framework\Object $request
-     * @return array
-     */
-    public function getRatesForAllProductTaxClasses($request)
-    {
-        return $this->_getRates($request, 'product_class_id', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT);
-    }
-
-    /**
-     * Gets rates for all the customer tax classes
-     *
-     * @param \Magento\Framework\Object $request
-     * @return array
-     */
-    public function getRatesForAllCustomerTaxClasses($request)
-    {
-        return $this->_getRates($request, 'customer_class_id', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER);
-    }
-
-    /**
      * Get information about tax rates applied to request
      *
      * @param   \Magento\Framework\Object $request
