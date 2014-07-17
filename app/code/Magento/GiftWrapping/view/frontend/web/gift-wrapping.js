@@ -186,6 +186,7 @@
             var instance = e.data,
                 $this = $(this),
                 designLayer = $this.siblings('div'),
+                //trimming first array index from input name like giftwrapping[quote][1][design]
                 selectType = e.currentTarget.name.split(']')[0].split('[')[1],
                 prefixToTrim = instance.options.giftWrappingSelectPrefix + selectType + '-',
                 designBlockId = $this.prop('id').replace(prefixToTrim, '');

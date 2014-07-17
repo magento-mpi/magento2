@@ -81,8 +81,8 @@ class Observer extends \Magento\Framework\Object
             return $this;
         }
         // types are 'quote', 'quote_item', etc
-        foreach ($giftMessages as $type => $giftmessageEntities) {
-            foreach ($giftmessageEntities as $entityId => $message) {
+        foreach ($giftMessages as $type => $giftMessageEntities) {
+            foreach ($giftMessageEntities as $entityId => $message) {
                 $giftMessage = $this->_messageFactory->create();
                 switch ($type) {
                     case 'quote':

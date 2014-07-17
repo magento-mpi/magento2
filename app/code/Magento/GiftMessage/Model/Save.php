@@ -92,15 +92,15 @@ class Save extends \Magento\Framework\Object
      */
     public function saveAllInOrder()
     {
-        $giftmessages = $this->getGiftmessages();
+        $giftMessages = $this->getGiftmessages();
 
-        if (!is_array($giftmessages)) {
+        if (!is_array($giftMessages)) {
             return $this;
         }
 
         // types are 'quote', 'quote_item', etc
-        foreach ($giftmessages as $type => $giftmessageEntities) {
-            foreach ($giftmessageEntities as $entityId => $giftmessage) {
+        foreach ($giftMessages as $type => $giftMessageEntities) {
+            foreach ($giftMessageEntities as $entityId => $giftmessage) {
                 $this->_saveOne($entityId, $giftmessage, $type);
             }
         }
