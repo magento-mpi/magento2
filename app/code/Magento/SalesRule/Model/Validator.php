@@ -75,6 +75,17 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      */
     protected $rulesApplier;
 
+    /**
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param Resource\Rule\CollectionFactory $collectionFactory
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param Utility $utility
+     * @param RulesApplier $rulesApplier
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
@@ -109,12 +120,14 @@ class Validator extends \Magento\Framework\Model\AbstractModel
 
         $key = $websiteId . '_' . $customerGroupId . '_' . $couponCode;
         if (!isset($this->_rules[$key])) {
-            $this->_rules[$key] = $this->_collectionFactory->create()->setValidationFilter(
-                $websiteId,
-                $customerGroupId,
-                $couponCode
-            )->addFieldToFilter('is_active', 1)
-            ->load();
+            $this->_rules[$key] = $this->_collectionFactory->create()
+                ->setValidationFilter(
+                    $websiteId,
+                    $customerGroupId,
+                    $couponCode
+                )
+                ->addFieldToFilter('is_active', 1)
+                ->load();
         }
         return $this;
     }
@@ -234,11 +247,11 @@ class Validator extends \Magento\Framework\Model\AbstractModel
             switch ($rule->getSimpleAction()) {
                 case \Magento\SalesRule\Model\Rule::TO_PERCENT_ACTION:
                     $rulePercent = max(0, 100 - $rule->getDiscountAmount());
-                    // break is intentionally omitted
+                // break is intentionally omitted
                 case \Magento\SalesRule\Model\Rule::BY_PERCENT_ACTION:
                     $discountAmount = ($shippingAmount - $address->getShippingDiscountAmount()) * $rulePercent / 100;
                     $baseDiscountAmount = ($baseShippingAmount -
-                        $address->getBaseShippingDiscountAmount()) * $rulePercent / 100;
+                            $address->getBaseShippingDiscountAmount()) * $rulePercent / 100;
                     $discountPercent = min(100, $address->getShippingDiscountPercent() + $rulePercent);
                     $address->setShippingDiscountPercent($discountPercent);
                     break;
@@ -309,8 +322,8 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         }
 
         foreach ($this->_getRules() as $rule) {
-            if (\Magento\SalesRule\Model\Rule::CART_FIXED_ACTION == $rule->getSimpleAction(
-                ) && $this->validatorUtility->canProcessRule($rule,$address)
+            if (\Magento\SalesRule\Model\Rule::CART_FIXED_ACTION == $rule->getSimpleAction()
+                && $this->validatorUtility->canProcessRule($rule, $address)
             ) {
                 $ruleTotalItemsPrice = 0;
                 $ruleTotalBaseItemsPrice = 0;

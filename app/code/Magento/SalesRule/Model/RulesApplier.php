@@ -32,7 +32,7 @@ class RulesApplier
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\SalesRule\Model\Utility $utility
      */
-    public function __construct (
+    public function __construct(
         \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\SalesRule\Model\Utility $utility
@@ -43,6 +43,8 @@ class RulesApplier
     }
 
     /**
+     * Apply rules to current order item
+     *
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param \Magento\SalesRule\Model\Resource\Rule\Collection $rules
      * @param bool $skipValidation
@@ -56,7 +58,7 @@ class RulesApplier
         /* @var $rule \Magento\SalesRule\Model\Rule */
         foreach ($rules as $rule) {
             if (!$this->validatorUtility->canProcessRule($rule, $address)) {
-                    continue;
+                continue;
             }
 
             if (!$skipValidation && !$rule->getActions()->validate($item)) {
@@ -88,8 +90,10 @@ class RulesApplier
         $label = '';
         if ($ruleLabel) {
             $label = $ruleLabel;
-        } else if (strlen($address->getCouponCode())) {
-            $label = $address->getCouponCode();
+        } else {
+            if (strlen($address->getCouponCode())) {
+                $label = $address->getCouponCode();
+            }
         }
 
         if (strlen($label)) {

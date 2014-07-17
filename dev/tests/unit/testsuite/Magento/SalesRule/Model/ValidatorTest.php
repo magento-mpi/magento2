@@ -135,14 +135,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $rulesApplier = $this->getMock(
-            'Magento\SalesRule\Model\Validator\RulesApplier',
-            ['applyRules', '__wakeup'],
-            [],
-            '',
-            false
-        );
-
         /** @var \Magento\Sales\Model\Quote\Item\AbstractItem|\PHPUnit_Framework_MockObject_MockObject $item */
         $item = $this->getMock('Magento\Sales\Model\Quote\Item', array('__wakeup'), array(), '', false);
 
@@ -224,12 +216,15 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $validator->setSkipActionsValidation(true);
 
         // 3. Set expectations
-        $rulesApplier->expects($this->once())->method('applyRules')->with(
-            $this->equalTo($item),
-            $this->equalTo($rules),
-            $this->anything(),
-            $this->anything()
-        )->will($this->returnValue($expectedRuleIds));
+        $rulesApplier->expects($this->once())
+            ->method('applyRules')
+            ->with(
+                $this->equalTo($item),
+                $this->equalTo($rules),
+                $this->anything(),
+                $this->anything()
+            )
+            ->will($this->returnValue($expectedRuleIds));
         $rulesApplier->expects($this->once())->method('setAppliedRuleIds')->with($this->anything(), $expectedRuleIds);
 
         // 4. Run tested method again

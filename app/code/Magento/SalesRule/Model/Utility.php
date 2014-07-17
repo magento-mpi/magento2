@@ -249,4 +249,4 @@ class Utility
         }
         return $a;
     }
-} 
+}
