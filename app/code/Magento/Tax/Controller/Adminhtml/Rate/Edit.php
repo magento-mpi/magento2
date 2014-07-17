@@ -8,6 +8,9 @@
  */
 namespace Magento\Tax\Controller\Adminhtml\Rate;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Tax\Controller\RegistryConstants;
+
 class Edit extends \Magento\Tax\Controller\Adminhtml\Rate
 {
     /**
@@ -20,17 +23,15 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rate
         $this->_title->add(__('Tax Zones and Rates'));
 
         $rateId = (int)$this->getRequest()->getParam('rate');
-        $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load($rateId);
-        if (!$rateModel->getId()) {
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_TAX_RATE_ID, $rateId);
+        try {
+            $taxRateDataObject = $this->_taxRateService->getTaxRate($rateId);
+        } catch (NoSuchEntityException $e) {
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             return;
         }
 
-        if ($rateModel->getZipIsRange() && !$rateModel->hasTaxPostcode()) {
-            $rateModel->setTaxPostcode($rateModel->getZipFrom() . '-' . $rateModel->getZipTo());
-        }
-
-        $this->_title->add(sprintf("%s", $rateModel->getCode()));
+        $this->_title->add(sprintf("%s", $taxRateDataObject->getCode()));
 
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),

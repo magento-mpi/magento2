@@ -8,6 +8,8 @@
  */
 namespace Magento\Tax\Controller\Adminhtml\Rate;
 
+use Magento\Tax\Controller\RegistryConstants;
+
 class Add extends \Magento\Tax\Controller\Adminhtml\Rate
 {
     /**
@@ -17,17 +19,14 @@ class Add extends \Magento\Tax\Controller\Adminhtml\Rate
      */
     public function execute()
     {
-        $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load(null);
-
         $this->_title->add(__('Tax Zones and Rates'));
 
         $this->_title->add(__('New Tax Rate'));
 
-        $rateModel->setData($this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true));
-
-        if ($rateModel->getZipIsRange() && !$rateModel->hasTaxPostcode()) {
-            $rateModel->setTaxPostcode($rateModel->getZipFrom() . '-' . $rateModel->getZipTo());
-        }
+        $this->_coreRegistry->register(
+            RegistryConstants::CURRENT_TAX_RATE_FORM_DATA,
+            $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true)
+        );
 
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),
