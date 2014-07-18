@@ -8,14 +8,14 @@
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Types;
 
-class LoadAttributeSetsAction extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Types
+class LoadAttributeSets extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Types
 {
     /**
      * Get available attribute sets
      *
      * @return void
      */
-    protected function execute()
+    public function execute()
     {
         try {
             $this->getResponse()->setBody(
