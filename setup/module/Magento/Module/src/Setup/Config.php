@@ -85,6 +85,8 @@ class Config
         $this->configData['date'] = self::TMP_INSTALL_DATE_VALUE;
         $this->configData['key'] = self::TMP_ENCRYPT_KEY_VALUE;
 
+        $this->checkData();
+
         $contents = $this->configDirectory->readFile('local.xml.template');
         foreach ($this->configData as $index => $value) {
             $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
@@ -135,10 +137,40 @@ class Config
         $result['db_pass'] = isset($source['db']['password']) ? $source['db']['password'] : '';
         $result['db_prefix'] = isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
         $result['session_save'] = 'files';
-        $result['backend_frontname'] = isset($source['config']['address']['admin']) ? $source['config']['address']['admin'] : '';
+        $result['backend_frontname'] = isset($source['config']['address']['admin'])
+            ? $source['config']['address']['admin']
+            : '';
         $result['db_model'] = '';
         $result['db_init_statements'] = '';
 
+        $result['admin_username'] = isset($source['admin']['username']) ? $source['admin']['username'] : '';
+        $result['admin_password'] = isset($source['admin']['password']) ? $source['admin']['password'] : '';
+        $result['admin_email'] = isset($source['admin']['email']) ? $source['admin']['email'] : '';
+
         return $result;
+    }
+
+    /**
+     * Check database connection data
+     *
+     * @throws \Exception
+     */
+    protected function checkData()
+    {
+        if (!isset($this->configData['db_name']) || empty($this->configData['db_name'])) {
+            throw new \Exception('The Database Name field cannot be empty.');
+        }
+        //make all table prefix to lower letter
+        if ($this->configData['db_prefix'] != '') {
+            $this->configData['db_prefix'] = strtolower($this->configData['db_prefix']);
+        }
+        //check table prefix
+        if ($this->configData['db_prefix'] != '') {
+            if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $this->configData['db_prefix'])) {
+                throw new \Exception(
+                    'The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); the first character should be a letter.'
+                );
+            }
+        }
     }
 }

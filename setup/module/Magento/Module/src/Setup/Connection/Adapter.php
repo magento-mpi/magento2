@@ -22,9 +22,9 @@ class Adapter implements AdapterInterface
         return new Mysql(
             [
                 'driver'         => "Pdo",
-                'dsn'            => "mysql:dbname=" . $config['name']. ";host=" .$config['host'],
-                'username'       => $config['user'],
-                'password'       => isset($config['password']) ? $config['password'] : null,
+                'dsn'            => "mysql:dbname=" . $config['db_name'] . ";host=" . $config['db_host'],
+                'username'       => $config['db_user'],
+                'password'       => isset($config['db_pass']) ? $config['db_pass'] : null,
                 'driver_options' => [
                     \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"]
             ]

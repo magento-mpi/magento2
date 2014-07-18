@@ -70,7 +70,7 @@ class SetupFactory
      */
     public function create($moduleName)
     {
-        return new Setup(
+        $setup =  new Setup(
             $this->adapter,
             $this->moduleList,
             $this->fileResolver,
@@ -78,5 +78,8 @@ class SetupFactory
             $moduleName,
             $this->configuration
         );
+        $setup->setTablePrefix($this->configuration['db_prefix']);
+
+        return $setup;
     }
 }

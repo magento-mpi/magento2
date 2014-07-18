@@ -69,7 +69,7 @@ class Setup implements SetupInterface
     protected $filesystem;
 
     /**
-     * @var \Magento\Module\Setup\FileResolver
+     * @var SetupFileResolver
      */
     protected $setupFileResolver;
 
@@ -77,6 +77,11 @@ class Setup implements SetupInterface
      * @var Logger
      */
     protected $logger;
+
+    /**
+     * @var string
+     */
+    protected $tablePrefix;
 
     /**
      * @param AdapterInterface $connection
@@ -126,6 +131,18 @@ class Setup implements SetupInterface
     }
 
     /**
+     * Set table prefix
+     *
+     * @param string $tablePrefix
+     * @return void
+     */
+    public function setTablePrefix($tablePrefix)
+    {
+        $this->tablePrefix = $tablePrefix;
+        $this->resource->setTablePrefix($this->tablePrefix);
+    }
+
+    /**
      * Get table name (validated by db adapter) by table placeholder
      *
      * @param string|array $tableName
@@ -133,6 +150,11 @@ class Setup implements SetupInterface
      */
     public function getTable($tableName)
     {
+        $tablePrefix = (string)$this->tablePrefix;
+        if ($tablePrefix && strpos($tableName, $tablePrefix) !== 0) {
+            $tableName = $tablePrefix . $tableName;
+        }
+
         $cacheKey = $this->getTableCacheName($tableName);
         if (!isset($this->tables[$cacheKey])) {
             $this->tables[$cacheKey] = $this->connection->getTableName($tableName);

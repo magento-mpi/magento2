@@ -26,6 +26,11 @@ class Resource implements ResourceInterface
      */
     protected static $versions = null;
 
+    /**
+     * Table prefix
+     * @var string
+     */
+    protected $tablePrefix;
 
     /**
      * @param AdapterInterface $adapter
@@ -33,6 +38,17 @@ class Resource implements ResourceInterface
     public function __construct(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
+    }
+
+    /**
+     * Set table prefix
+     *
+     * @param string $tablePrefix
+     * @return void
+     */
+    public function setTablePrefix($tablePrefix)
+    {
+        $this->tablePrefix = $tablePrefix;
     }
 
     protected function loadVersionDb()
@@ -89,6 +105,6 @@ class Resource implements ResourceInterface
 
     protected function getMainTable()
     {
-        return $this->adapter->getTableName(self::MAIN_TABLE);
+        return $this->adapter->getTableName($this->tablePrefix . self::MAIN_TABLE);
     }
 }

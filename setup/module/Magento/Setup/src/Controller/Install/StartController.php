@@ -83,15 +83,13 @@ class StartController extends AbstractActionController
     {
         $this->logger->clear();
 
-
         $data = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
 
         $this->config->setConfigData($data);
         $this->config->install();
 
-        if (isset($data['db'])) {
-            $this->setupFactory->setConfig($data['db']);
-        }
+        $this->setupFactory->setConfig($this->config->getConfigData());
+
         $moduleNames = array_keys($this->moduleList);
         foreach ($moduleNames as $moduleName) {
             $setup = $this->setupFactory->create($moduleName);
@@ -149,7 +147,7 @@ class StartController extends AbstractActionController
         $setup->addConfigData('currency/options/allow', $currencyCode);
 
         // Create administrator account
-        $this->adminAccountFactory->setConfig($data);
+        $this->adminAccountFactory->setConfig($this->config->getConfigData());
         $adminAccount = $this->adminAccountFactory->create();
         $adminAccount->save();
 
