@@ -165,7 +165,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $quoteDetails->getBillingAddress(),
             $quoteDetails->getShippingAddress(),
             $this->taxClassService->getTaxClassId($quoteDetails->getCustomerTaxClassKey(), 'customer'),
-			$quoteDetails->getCustomerId()
+            $quoteDetails->getCustomerId()
         );
 
         $processedItems = [];

@@ -57,7 +57,7 @@ class QuoteDetails extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get customer id
      *
-     * @return id|null
+     * @return int|null
      */
     public function getCustomerId()
     {
