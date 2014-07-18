@@ -82,32 +82,6 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
     }
 
     /**
-     * Check if specified section allowed in ACL
-     *
-     * Will forward to deniedAction(), if not allowed.
-     *
-     * @param string $sectionId
-     * @throws \Exception
-     * @return bool
-     * @throws NotFoundException
-     */
-    protected function _isSectionAllowed($sectionId)
-    {
-        try {
-            if (false == $this->_configStructure->getElement($sectionId)->isAllowed()) {
-                throw new \Exception('');
-            }
-            return true;
-        } catch (\Zend_Acl_Exception $e) {
-            throw new NotFoundException();
-        } catch (\Exception $e) {
-            $this->deniedAction();
-            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
-            return false;
-        }
-    }
-
-    /**
      * Save state of configuration field sets
      *
      * @param array $configState

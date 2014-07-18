@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Paypal\Controller;
+namespace Magento\Paypal\Controller\Ipn;
 
-class IpnTest extends \PHPUnit_Framework_TestCase
+class IndexTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Ipn */
+    /** @var Index */
     protected $model;
 
     /** @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
@@ -30,7 +30,7 @@ class IpnTest extends \PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManagerHelper->getObject(
-            'Magento\Paypal\Controller\Ipn',
+            'Magento\Paypal\Controller\Ipn\Index',
             [
                 'logger' => $this->logger,
                 'request' => $this->request,
@@ -46,6 +46,6 @@ class IpnTest extends \PHPUnit_Framework_TestCase
         $this->request->expects($this->once())->method('getPost')->will($this->throwException($exception));
         $this->logger->expects($this->once())->method('logException')->with($this->identicalTo($exception));
         $this->response->expects($this->once())->method('setHttpResponseCode')->with(500);
-        $this->model->indexAction();
+        $this->model->execute();
     }
 }
