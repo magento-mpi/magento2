@@ -87,7 +87,7 @@ angular.module('readiness-check', [])
         };
 
         $scope.updateOnProcessed = function(value) {
-            $scope.hasErrors = $scope.hasErrors || (value != 'success');
+            $rootScope.hasErrors = $scope.hasErrors || (value != 'success');
         };
 
         $scope.updateOnError = function(obj) {
