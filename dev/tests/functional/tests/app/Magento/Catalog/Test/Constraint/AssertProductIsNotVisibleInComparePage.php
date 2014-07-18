@@ -32,15 +32,19 @@ class AssertProductIsNotVisibleInComparePage extends AbstractConstraint
      *
      * @param CatalogProductCompare $comparePage
      * @param FixtureInterface $product
-     * @param int $countProducts
+     * @param int $countProducts [optional]
      * @return void
      */
-    public function processAssert(CatalogProductCompare $comparePage, FixtureInterface $product, $countProducts)
+    public function processAssert(CatalogProductCompare $comparePage, FixtureInterface $product, $countProducts = 0)
     {
         $comparePage->open();
-        $name = $countProducts > 1 ? $product->getName() : '';
-        $success = $name !== '' ? true : self::SUCCESS_MESSAGE;
-        $actual = $comparePage->getCompareProductsBlock()->productIsNotInBlock($name);
+        $compareBlock = $comparePage->getCompareProductsBlock();
+
+        if ($countProducts > 1) {
+            list($success, $actual) = [true, $compareBlock->productIsNotVisibleInCompareBlock($product->getName())];
+        } else {
+            list($success, $actual) = [self::SUCCESS_MESSAGE, $compareBlock->getEmptyMessage()];
+        }
 
         \PHPUnit_Framework_Assert::assertEquals($success, $actual, 'The product displays on Compare Products page.');
     }

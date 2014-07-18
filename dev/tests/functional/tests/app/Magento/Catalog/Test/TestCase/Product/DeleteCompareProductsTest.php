@@ -30,7 +30,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
  * @group Compare_Products_(MX)
  * @ZephyrId MAGETWO-26161
  */
-class DeleteCompareProducts extends AbstractCompareProductsTest
+class DeleteCompareProductsTest extends AbstractCompareProductsTest
 {
     /**
      * Catalog product compare page

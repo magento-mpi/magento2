@@ -162,28 +162,38 @@ class ListCompare extends Block
      * @param int $index [optional]
      * @return bool
      */
-    public function  isProductVisible($index = 1)
+    public function isProductVisible($index = 1)
     {
         return $this->_rootElement->find(sprintf($this->removeButton, $index), Locator::SELECTOR_XPATH)->isVisible();
     }
 
     /**
-     * Get empty message on compare product block
+     * Verify product not visible in compare product block
      *
      * @param string $productName
      * @return string|bool
      */
-    public function productIsNotInBlock($productName = '')
+    public function productIsNotVisibleInCompareBlock($productName = '')
+    {
+        $nameSelector = $this->nameSelector . sprintf($this->productName, $productName);
+        $searchProduct = $this->_rootElement->find($nameSelector, Locator::SELECTOR_XPATH);
+        if ($searchProduct->isVisible()) {
+            return $searchProduct->getText();
+        }
+        return true;
+    }
+
+    /**
+     * Get empty message on compare product block
+     *
+     * @return string|bool
+     */
+    public function getEmptyMessage()
     {
         $isEmpty = $this->_rootElement->find($this->isEmpty);
         if ($isEmpty->isVisible()) {
             return $isEmpty->getText();
         }
-        $nameSelector = $this->nameSelector . sprintf($this->productName, $productName);
-        $isVisible = $this->_rootElement->find($nameSelector, Locator::SELECTOR_XPATH)->isVisible();
-        if ($productName !== '' && $isVisible) {
-            return $this->_rootElement->find($nameSelector, Locator::SELECTOR_XPATH)->getText();
-        }
-        return true;
+        return false;
     }
 }

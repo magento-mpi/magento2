@@ -13,7 +13,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
  * Class AssertProductCompareRemoveLastProductMessage
- * After removing last product message is appeared on "Compare Products" page
+ * Assert message on "Compare Products" page after removing product
  */
 class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
 {
@@ -35,7 +35,7 @@ class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
     public function processAssert(CatalogProductCompare $comparePage)
     {
         $comparePage->open();
-        $actualMessage = $comparePage->getCompareProductsBlock()->productIsNotInBlock();
+        $actualMessage = $comparePage->getCompareProductsBlock()->getEmptyMessage();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,
