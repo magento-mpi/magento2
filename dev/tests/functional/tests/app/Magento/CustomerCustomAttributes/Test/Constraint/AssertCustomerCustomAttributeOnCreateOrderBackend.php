@@ -45,6 +45,7 @@ class AssertCustomerCustomAttributeOnCreateOrderBackend extends AbstractConstrai
         $salesOrder->open();
         $salesOrder->getOrderActionsBlock()->add();
         $salesOrderCreateIndex->getCustomerBlock()->selectCustomer($customer);
+        $salesOrderCreateIndex->getStoreBlock()->selectStoreView();
         $attributeCode = $customerAttribute->getAttributeCode();
         \PHPUnit_Framework_Assert::assertTrue(
             $salesOrderCreateIndex->getCreateBlock()->isCustomerAttributeVisible($attributeCode),
