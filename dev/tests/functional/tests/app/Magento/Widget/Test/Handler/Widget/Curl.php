@@ -10,7 +10,7 @@
 namespace Magento\Widget\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Handler\Curl;
+use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
@@ -20,7 +20,7 @@ use Mtf\System\Config;
  * Curl handler for creating widgetInstance/frontendApp
  *
  */
-class CreateInstance extends Curl
+class Curl extends AbstractCurl
 {
     /**
      * Post request for creating widget instance

@@ -9,6 +9,7 @@
 namespace Magento\Cms\Test\Fixture\CmsPage;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
 
@@ -48,11 +49,14 @@ class Content implements FixtureInterface
                 if (isset($widget['chosen_option']['category_path'])
                     && !isset($widget['chosen_option']['filter_sku'])
                 ) {
+                    /** @var CatalogCategory $category */
                     $category = $fixtureFactory->createByCode(
                         'catalogCategory',
                         ['dataSet' => $widget['chosen_option']['category_path']]
                     );
-                    $category->persist();
+                    if (!$category->hasData('id')) {
+                        $category->persist();
+                    }
                     $categoryName = $category->getData('name');
                     $this->data['widget']['preset'][$key]['chosen_option']['category_path'] = $categoryName;
                 }
@@ -62,7 +66,9 @@ class Content implements FixtureInterface
                         'catalogProductSimple',
                         ['dataSet' => $widget['chosen_option']['category_path']]
                     );
-                    $product->persist();
+                    if (!$product->hasData('id')) {
+                        $product->persist();
+                    }
                     $categoryName = $product->getCategoryIds()[0]['name'];
                     $productSku = $product->getData('sku');
                     $this->data['widget']['preset'][$key]['chosen_option']['category_path'] = $categoryName;

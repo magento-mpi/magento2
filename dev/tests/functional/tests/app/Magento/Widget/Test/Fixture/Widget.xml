@@ -74,7 +74,11 @@
             <attribute_code>parameters</attribute_code>
             <backend_type>virtual</backend_type>
         </parameters>
+        <id>
+            <attribute_code>id</attribute_code>
+            <backend_type>virtual</backend_type>
+        </id>
     </fields>
     <repository_class>Magento\Widget\Test\Repository\Widget</repository_class>
-    <handler_interface>Magento\Widget\Test\Handler\Curl\CreateInstance</handler_interface>
+    <handler_interface>Magento\Widget\Test\Handler\Widget\WidgetInterface</handler_interface>
 </fixture>

@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Widget
- *
- * @package Magento\Widget\Test\Fixture
  */
 class Widget extends InjectableFixture
 {
@@ -25,7 +23,7 @@ class Widget extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Widget\Test\Handler\Curl\CreateInstance';
+    protected $handlerInterface = 'Magento\Widget\Test\Handler\Widget\WidgetInterface';
 
     protected $defaultDataSet = [
     ];

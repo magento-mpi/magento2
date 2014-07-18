@@ -29,19 +29,6 @@ class AssertCmsPagePreview extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Widgets selectors
-     *
-     * @var array
-     */
-    protected $widgetSelectors = [
-        'CMS Page Link' => '.widget.widget-cms-link',
-        'Catalog Category Link' => '.widget.category.link',
-        'Catalog Product Link' => '.widget.product.link',
-        'Recently Compared Products' => '.block.compare',
-        'Recently Viewed Products' => '.block.viewed.links'
-    ];
-
-    /**
      * Assert that content of created cms page displayed in section 'maincontent' and equals passed from fixture.
      *
      * @param CmsIndex $cmsIndex
@@ -70,11 +57,10 @@ class AssertCmsPagePreview extends AbstractConstraint
             'Wrong content is displayed.'
         );
         if (isset($fixtureContent['widget'])) {
-            $widgetSelectors = $this->getWidgetsSelectors($fixtureContent['widget']);
-            foreach ($widgetSelectors as $widgetType => $widgetSelector) {
+            foreach ($fixtureContent['widget']['preset'] as $widget) {
                 \PHPUnit_Framework_Assert::assertTrue(
-                    $frontCmsPage->getCmsPageBlock()->widgetSelectorIsVisible($widgetSelector),
-                    'Widget \'' . $widgetType . '\' is not displayed.'
+                    $frontCmsPage->getCmsPageBlock()->isWidgetVisible($widget['widget_type']),
+                    'Widget \'' . $widget['widget_type'] . '\' is not displayed.'
                 );
             }
         }
@@ -85,24 +71,6 @@ class AssertCmsPagePreview extends AbstractConstraint
                 'Wrong title is displayed.'
             );
         }
-    }
-
-    /**
-     * Get widgets selectors
-     *
-     * @param array $contentWidgets
-     * @return array
-     */
-    protected function getWidgetsSelectors($contentWidgets)
-    {
-        $widgetSelectors = [];
-        foreach ($contentWidgets['preset'] as $widget) {
-            if (isset($this->widgetSelectors[$widget['widget_type']])) {
-                $widgetSelectors[$widget['widget_type']] = $this->widgetSelectors[$widget['widget_type']];
-            }
-        }
-
-        return $widgetSelectors;
     }
 
     /**

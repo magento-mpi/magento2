@@ -62,6 +62,17 @@ class ChosenOption extends Element
     protected $productWidgetChooserBlockClass = '\Magento\Catalog\Test\Block\Adminhtml\Product\Widget\Chooser';
 
     /**
+     * Entity chooser block class mapping
+     *
+     * @var array
+     */
+    protected $chooserClasses = [
+        'page' => 'Magento\Cms\Test\Block\Adminhtml\Page\Widget\Chooser',
+        'category' => 'Magento\Catalog\Test\Block\Adminhtml\Category\Widget\Chooser',
+        'product' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Widget\Chooser'
+    ];
+
+    /**
      * Select widget options
      *
      * @param string $value
@@ -71,21 +82,21 @@ class ChosenOption extends Element
     {
         $this->clickSelectButton();
         if (isset($value['filter_url_key'])) {
-            $this->getClassBlock($this->pageWidgetChooserBlockClass)
+            $this->getClassBlock($this->chooserClasses['page'])
                 ->searchAndOpen(['chooser_identifier' => $value['filter_url_key']]);
         }
         if (isset($value['filter_identifier'])) {
-            $this->getClassBlock($this->pageWidgetChooserBlockClass)
+            $this->getClassBlock($this->chooserClasses['page'])
                 ->searchAndOpen(['chooser_identifier' => $value['filter_identifier']]);
         }
         if (isset($value['category_path'])) {
             if (isset($value['filter_sku'])) {
-                $this->getClassBlock($this->categoryWidgetChooserBlockClass)
+                $this->getClassBlock($this->chooserClasses['category'])
                     ->selectCategoryByName($value['category_path']);
-                $this->getClassBlock($this->productWidgetChooserBlockClass)
+                $this->getClassBlock($this->chooserClasses['product'])
                     ->searchAndOpen(['chooser_sku' => $value['filter_sku']]);
             } else {
-                $this->getClassBlock($this->categoryWidgetChooserBlockClass)
+                $this->getClassBlock($this->chooserClasses['category'])
                     ->selectCategoryByName($value['category_path']);
             }
         }
@@ -110,7 +121,7 @@ class ChosenOption extends Element
     protected function waitLoader()
     {
         $browser = $this;
-        $loaderSelector = '//ancestor::body/div[@id="loading-mask"]';
+        $loaderSelector = $this->loaderOld;
         $this->waitUntil(
             function () use ($browser, $loaderSelector) {
                 $loader = $browser->find($loaderSelector);

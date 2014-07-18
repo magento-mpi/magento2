@@ -9,7 +9,6 @@
 namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
 use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
@@ -42,27 +41,12 @@ class PageForm extends FormTabs
     protected $currentlyPublishedRevision = '#page_published_revision_link';
 
     /**
-     * Fill the page form
-     *
-     * @param FixtureInterface $fixture
-     * @param Element|null $element
-     * @return FormTabs
-     */
-    public function fill(FixtureInterface $fixture, Element $element = null)
-    {
-        // Open "Content" tab and toggle the editor to make visible and available to interact
-        $this->toggleEditor();
-        return parent::fill($fixture);
-    }
-
-    /**
      * Page Content Show/Hide Editor toggle button
      *
      * @return void
      */
     protected function toggleEditor()
     {
-        $this->openTab('content');
         $content = $this->_rootElement->find($this->contentForm, Locator::SELECTOR_CSS);
         $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
         if (!$content->isVisible() && $toggleButton->isVisible()) {
@@ -77,7 +61,6 @@ class PageForm extends FormTabs
      */
     public function getSystemVariables()
     {
-        $this->toggleEditor();
         $this->openTab('content');
         /** @var \Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\Content $contentTab */
         $contentTab = $this->getTabElement('content');
@@ -101,10 +84,15 @@ class PageForm extends FormTabs
             ? $this->tabs[$tabName]['strategy']
             : Locator::SELECTOR_CSS;
         $tab = $this->_rootElement->find($selector, $strategy);
-        if ($tabName == 'content' && !$tab->isVisible()) {
-            $this->clickCurrentlyPublishedRevision();
-            $this->reinitRootElement();
-            $this->openTab($tabName);
+        if ($tabName == 'content') {
+            if (!$tab->isVisible()) {
+                $this->clickCurrentlyPublishedRevision();
+                $this->reinitRootElement();
+                $this->openTab($tabName);
+            } else {
+                $tab->click();
+                $this->toggleEditor();
+            }
         } else {
             $tab->click();
         }

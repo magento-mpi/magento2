@@ -13,7 +13,6 @@ use Mtf\Block\Block;
 /**
  * Class Page
  * Cms Page block for the content on the frontend.
- *
  */
 class Page extends Block
 {
@@ -23,6 +22,19 @@ class Page extends Block
      * @var string
      */
     protected $cmsPageContentClass = ".column.main";
+
+    /**
+     * Widgets selectors
+     *
+     * @var array
+     */
+    protected $widgetSelectors = [
+        'CMS Page Link' => '.widget.widget-cms-link',
+        'Catalog Category Link' => '.widget.category.link',
+        'Catalog Product Link' => '.widget.product.link',
+        'Recently Compared Products' => '.block.compare',
+        'Recently Viewed Products' => '.block.viewed.links'
+    ];
 
     /**
      * Get page content text
@@ -37,11 +49,15 @@ class Page extends Block
     /**
      * Check is visible widget selector
      *
-     * @param $widgetSelector
+     * @param $widgetType
      * @return bool
      */
-    public function widgetSelectorIsVisible($widgetSelector)
+    public function isWidgetVisible($widgetType)
     {
-        return $this->_rootElement->find($widgetSelector)->isVisible();
+        if (isset($this->widgetSelectors[$widgetType])) {
+            return $this->_rootElement->find($this->widgetSelectors[$widgetType])->isVisible();
+        } else {
+            return true;
+        }
     }
 }

@@ -59,41 +59,12 @@ class AssertCmsPageForm extends AbstractAssertForm
         $cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
 
         $cmsFormData = $cmsNew->getPageForm()->getData();
+        $cmsFormData['store_id'] = implode('/', $cmsFormData['store_id']);
         $fixtureData = $cmsOriginal !== null
             ? array_merge($cmsOriginal->getData(), $cms->getData())
             : $cms->getData();
-        $dataDiff = $this->verifyForm($cmsFormData, $fixtureData);
-
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($dataDiff),
-            'CMS Page data not equals to passed from fixture.'
-            . "\nLog:\n" . implode(";\n", $dataDiff)
-        );
-    }
-
-    /**
-     * Verifying that form is filled right
-     *
-     * @param array $formData
-     * @param array $fixtureData
-     * @return array $errorMessage
-     */
-    protected function verifyForm(array $formData, array $fixtureData)
-    {
-        $errorMessage = [];
-        $formData['store_id'] = implode('/', $formData['store_id']);
-        foreach ($fixtureData as $key => $value) {
-            if ($key == 'page_id') {
-                continue;
-            }
-            if ($value !== $formData[$key] && !in_array($key, $this->skippedFields)) {
-                $errorMessage[] = "Data in " . $key . " field not equal."
-                    . "\nExpected: " . $value
-                    . "\nActual: " . $formData[$key];
-            }
-        }
-
-        return $errorMessage;
+        $errors = $this->verifyData($fixtureData,$cmsFormData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors,$errors);
     }
 
     /**
