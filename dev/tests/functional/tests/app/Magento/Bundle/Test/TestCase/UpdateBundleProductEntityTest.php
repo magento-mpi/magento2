@@ -51,14 +51,16 @@ class UpdateBundleProductEntityTest extends Injectable
     protected $catalogProductEdit;
 
     /**
-     * Filling objects of the class
+     * Injection data
      *
      * @param CatalogProductIndex $catalogProductIndexNewPage
      * @param CatalogProductEdit $catalogProductEditPage
      * @return void
      */
-    public function __inject(CatalogProductIndex $catalogProductIndexNewPage,CatalogProductEdit $catalogProductEditPage)
-    {
+    public function __inject(
+        CatalogProductIndex $catalogProductIndexNewPage,
+        CatalogProductEdit $catalogProductEditPage
+    ) {
         $this->catalogProductIndex = $catalogProductIndexNewPage;
         $this->catalogProductEdit = $catalogProductEditPage;
     }
@@ -68,7 +70,7 @@ class UpdateBundleProductEntityTest extends Injectable
      *
      * @param CatalogProductBundle $product
      * @param CatalogProductBundle $originalProduct
-     * @return array
+     * @return void
      */
     public function test(CatalogProductBundle $product, CatalogProductBundle $originalProduct)
     {
@@ -76,9 +78,7 @@ class UpdateBundleProductEntityTest extends Injectable
         $this->catalogProductIndex->open();
         $filter = ['sku' => $originalProduct->getSku()];
         $this->catalogProductIndex->getProductGrid()->searchAndOpen($filter);
-        $this->catalogProductEdit->getForm()->fillProduct($product);
+        $this->catalogProductEdit->getForm()->fill($product);
         $this->catalogProductEdit->getFormAction()->save();
-
-        return ['originalProduct' => $originalProduct];
     }
 }

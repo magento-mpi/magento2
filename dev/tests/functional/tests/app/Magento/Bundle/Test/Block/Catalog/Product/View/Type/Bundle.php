@@ -135,7 +135,7 @@ class Bundle extends Block
             Locator::SELECTOR_XPATH
         );
         if (!$option->isVisible()) {
-            return 'This "' . $fields['title'] . '" Option does not equal to fixture option type.';
+            return 'That "' . $fields['title'] . '" Option does not equal to fixture option type.';
         }
 
         $formatRequired = sprintf(

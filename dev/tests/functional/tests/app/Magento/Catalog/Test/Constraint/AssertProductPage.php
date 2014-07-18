@@ -78,7 +78,7 @@ class AssertProductPage extends AbstractConstraint
     protected function prepareData(CatalogProductView $catalogProductView)
     {
         $viewBlock = $catalogProductView->getViewBlock();
-        $priceBlock = $viewBlock->getProductPriceBlock();
+        $price = $viewBlock->getProductPriceBlock()->getPrice();
         $data = [
             'onPage' => [
                 'name' => $viewBlock->getProductName(),
@@ -90,12 +90,10 @@ class AssertProductPage extends AbstractConstraint
             ]
         ];
 
-        if ($this->product->hasData('price')) {
-            $data['fixture']['regular_price'] = number_format($this->product->getPrice(), 2);
-            $data['onPage']['regular_price'] = $priceBlock->isVisible()
-                ? $priceBlock->getPrice()['price_regular_price']
-                : null;
-        }
+        list($priceOnPage, $priceFixture) = $this->preparePrice($price);
+        $data['onPage'] += $priceOnPage;
+        $data['fixture'] += $priceFixture;
+
         if ($productShortDescription = $this->product->getShortDescription()) {
             $data['fixture']['short_description'] = $productShortDescription;
             $data['onPage']['short_description'] = $viewBlock->getProductShortDescription();
@@ -106,6 +104,20 @@ class AssertProductPage extends AbstractConstraint
         }
 
         return $data;
+    }
+
+    /**
+     * Prepare Price data
+     *
+     * @param array $price
+     * @return array
+     */
+    protected function preparePrice($price)
+    {
+        return [
+            ['regular_price' => $price['price_regular_price']],
+            ['regular_price' => number_format($this->product->getPrice(), 2)]
+        ];
     }
 
     /**

@@ -93,18 +93,17 @@ class AssertBundlePriceType extends AbstractConstraint
         $optionPrice = [];
         foreach ($fillData['bundle_options'] as $key => $data) {
             $subProductPrice = 0;
-            foreach ($bundleData['bundle_selections']['products'][$key] as $itemProduct) {
+            foreach ($bundleData['bundle_selections']['products'][$key] as $productKey => $itemProduct) {
                 if (strpos($itemProduct->getName(), $data['value']['name']) !== false) {
+                    $data['value']['key'] = $productKey;
                     $subProductPrice = $itemProduct->getPrice();
                 }
             }
+
             $optionPrice[$key]['price'] = $this->productPriceType == 'Fixed'
                 ? number_format(
-                    $bundleData['bundle_selections']['bundle_options'][$key]['assigned_products']
-                    [array_search(
-                        $data['value']['name'],
-                        $bundleData['bundle_selections']['bundle_options'][$key]['assigned_products']
-                    )]['data']['selection_price_value'],
+                    $bundleData['bundle_selections']['bundle_options'][$key]['assigned_products'][$data['value']['key']]
+                    ['data']['selection_price_value'],
                     2
                 )
                 : number_format($subProductPrice, 2);

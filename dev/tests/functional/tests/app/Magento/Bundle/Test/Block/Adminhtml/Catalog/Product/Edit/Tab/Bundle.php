@@ -19,7 +19,7 @@ use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 class Bundle extends Tab
 {
     /**
-     * 'Create New Option' button
+     * Selector for 'Create New Option' button
      *
      * @var string
      */
@@ -95,25 +95,5 @@ class Bundle extends Tab
         }
 
         return $newFields;
-    }
-
-    /**
-     * Update bundle options
-     *
-     * @param array $fields
-     * @param Element|null $element
-     * @return void
-     */
-    public function updateFormTab(array $fields, Element $element = null)
-    {
-        if (!isset($fields['bundle_selections'])) {
-            return;
-        }
-        $blocksNumber = 0;
-        foreach ($fields['bundle_selections']['value']['bundle_options'] as $bundleOption) {
-            $bundleOptionsBlock = $this->getBundleOptionBlock($blocksNumber++, $element);
-            $bundleOptionsBlock->expand();
-            $bundleOptionsBlock->updateBundleOption($bundleOption, $element);
-        }
     }
 }
