@@ -11,6 +11,7 @@ use Magento\Module\Setup\Connection\AdapterInterface;
 use Magento\Module\Setup\FileResolver;
 use Magento\Module\Resource\Resource;
 use Magento\Module\Updater\SetupInterface;
+use Magento\Setup\Model\Logger;
 
 class Setup implements SetupInterface
 {
@@ -73,9 +74,15 @@ class Setup implements SetupInterface
     protected $setupFileResolver;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
      * @param FileResolver $setupFileResolver
+     * @param Logger $logger
      * @param $moduleName
      * @param array $connectionConfig
      */
@@ -83,9 +90,11 @@ class Setup implements SetupInterface
         AdapterInterface $connection,
         ModuleListInterface $moduleList,
         FileResolver $setupFileResolver,
+        Logger $logger,
         $moduleName,
         array $connectionConfig = array()
     ) {
+        $this->logger = $logger;
         $this->connection = $connection->getConnection($connectionConfig);
         $this->moduleConfig = $moduleList->getModule($moduleName);
         $this->resource = new Resource($this->connection);
@@ -351,6 +360,7 @@ class Setup implements SetupInterface
                     //@todo log "Failed resource setup: {$fileName}";
                 }
             } catch (\Exception $e) {
+                $this->logger->logError($e);
                 throw new \Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
             }
             $version = $file['toVersion'];

@@ -7,6 +7,8 @@
  */
 namespace Magento\Setup\Controller\Install;
 
+use Magento\Module\ModuleListInterface;
+use Magento\Setup\Model\Logger;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
@@ -18,11 +20,24 @@ class ProgressController extends AbstractActionController
     protected $json;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    protected $moduleList;
+
+    /**
      * @param JsonModel $view
+     * @param ModuleListInterface $moduleList
+     * @param Logger $logger
      */
     public function __construct(
-        JsonModel $view
+        JsonModel $view,
+        ModuleListInterface $moduleList,
+        Logger $logger
     ) {
+        $this->moduleList = $moduleList;
+        $this->logger = $logger;
         $this->json = $view;
     }
 
@@ -31,19 +46,18 @@ class ProgressController extends AbstractActionController
      */
     public function indexAction()
     {
+        $moduleCount = count($this->moduleList->getModules());
+        $log = $this->logger->get();
+        $progress = 0;
+        if (!empty($log)) {
+            $progress = round(count($log)/$moduleCount*100);
+        }
+
         return $this->json->setVariables(
             array(
-                'progress' => 75,
-                'success' => true,
-                'console' => array(
-                    'log msg 1',
-                    'log msg 2',
-                    'log msg 3',
-                    'log msg 4',
-                    'log msg 5',
-                    'log msg 6',
-                    'log msg 7',
-                )
+                'progress' => $progress,
+                'success' => !$this->logger->hasError(),
+                'console' => $log
             )
         );
     }
