@@ -79,6 +79,8 @@ class InRoleUsers implements FixtureInterface
      *
      * @param string $key [optional]
      * @return array|null
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

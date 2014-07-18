@@ -21,8 +21,8 @@ class CatalogProductCompare extends FrontendPage
     protected $_blocks = [
         'compareProductsBlock' => [
             'name' => 'compareProductsBlock',
-            'class' => 'Magento\Catalog\Test\Block\Product\Compare\ListCompare\Interceptor',
-            'locator' => '.column.main',
+            'class' => 'Magento\Catalog\Test\Block\Product\Compare\ListCompare',
+            'locator' => '#product-comparison',
             'strategy' => 'css selector',
         ],
     ];
@@ -30,7 +30,7 @@ class CatalogProductCompare extends FrontendPage
     /**
      * Get compare products block
      *
-     * @return \Magento\Catalog\Test\Block\Product\Compare\ListCompare\Interceptor
+     * @return \Magento\Catalog\Test\Block\Product\Compare\ListCompare
      */
     public function getCompareProductsBlock()
     {

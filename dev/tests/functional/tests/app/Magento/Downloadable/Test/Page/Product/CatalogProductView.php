@@ -29,7 +29,7 @@ class CatalogProductView extends ParentCatalogProductView
         $this->_blocks['downloadableViewBlock'] = [
             'name' => 'downloadableViewBlock',
             'class' => 'Magento\Downloadable\Test\Block\Catalog\Product\View',
-            'locator' => '.product.info.main',
+            'locator' => '.product-info-main',
             'strategy' => 'css selector',
         ];
         parent::_init();

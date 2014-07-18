@@ -21,6 +21,8 @@ class GiftCardProduct extends AbstractRepository
      *
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -28,7 +30,6 @@ class GiftCardProduct extends AbstractRepository
             'name' => 'Test product giftcard %isolation%',
             'sku' => 'sku_test_product_giftcard_%isolation%',
             'giftcard_type' => 'Virtual',
-            'category_ids' => ['presets' => 'default'],
             'giftcard_amounts' => [
                 [
                     'website_id' => 'All Websites [USD]',
@@ -45,7 +46,6 @@ class GiftCardProduct extends AbstractRepository
             ],
             'status' => 'Product online',
             'use_config_is_redeemable' => 'Yes',
-            'lifetime' => 5,
             'use_config_lifetime' => 'Yes',
             'allow_message' => 'Yes',
             'use_config_allow_message' => 'Yes',
@@ -53,11 +53,9 @@ class GiftCardProduct extends AbstractRepository
             'use_config_email_template' => 'Yes',
             'visibility' => 'Catalog, Search',
             'url_key' => 'test-product-giftcard-%isolation%',
-            'news_from_date' => ['pattern' => 'm/d/Y -5 days'],
-            'news_to_date' => ['pattern' => 'm/d/Y +5 days'],
             'use_config_gift_message_available' => 'Yes',
             'use_config_gift_wrapping_available' => 'Yes',
-            'gift_wrapping_price' => 100,
+            'gift_wrapping_price' => 100.00,
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default']
         ];

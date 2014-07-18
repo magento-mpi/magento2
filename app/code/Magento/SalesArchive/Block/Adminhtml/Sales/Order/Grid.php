@@ -18,12 +18,12 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order
     protected $orderCollection;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         array $data = array()
     ) {

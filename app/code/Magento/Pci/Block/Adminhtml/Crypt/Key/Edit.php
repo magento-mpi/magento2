@@ -35,7 +35,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         \Magento\Framework\Object::__construct();
-        $this->_addButton(
+        $this->buttonList->add(
             'save',
             array(
                 'label' => __('Change Encryption Key'),

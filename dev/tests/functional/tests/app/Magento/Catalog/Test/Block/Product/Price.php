@@ -243,20 +243,22 @@ class Price extends Block
     /**
      * Get price from
      *
-     * @return array|string
+     * @param string $currency
+     * @return string
      */
-    public function getPriceFrom()
+    public function getPriceFrom($currency = '$')
     {
-        return $this->_rootElement->find($this->priceFromSelector)->getText();
+        return trim($this->_rootElement->find($this->priceFromSelector)->getText(), $currency);
     }
 
     /**
      * Get price to
      *
-     * @return array|string
+     * @param string $currency
+     * @return string
      */
-    public function getPriceTo()
+    public function getPriceTo($currency = '$')
     {
-        return $this->_rootElement->find($this->priceToSelector)->getText();
+        return trim($this->_rootElement->find($this->priceToSelector)->getText(), $currency);
     }
 }

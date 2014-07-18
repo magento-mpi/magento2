@@ -29,13 +29,13 @@ class CustomerAccountIndex extends FrontendPage
         'dashboardAddress' => [
             'name' => 'dashboardAddress',
             'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Address',
-            'locator' => '.block.dashboard.addresses',
+            'locator' => '.block.addresses',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
             'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
-            'locator' => '.page.title',
+            'locator' => '.page-title',
             'strategy' => 'css selector',
         ],
         'accountMenuBlock' => [
@@ -44,10 +44,10 @@ class CustomerAccountIndex extends FrontendPage
             'locator' => '.nav.items',
             'strategy' => 'css selector',
         ],
-        'compareProductsBlock' => [
-            'name' => 'compareProductsBlock',
-            'class' => 'Magento\Catalog\Test\Block\Product\Compare\ListCompare\Interceptor',
-            'locator' => '.block.compare',
+        'infoBlock' => [
+            'name' => 'infoBlock',
+            'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Info',
+            'locator' => '.column.main',
             'strategy' => 'css selector',
         ],
     ];
@@ -87,12 +87,12 @@ class CustomerAccountIndex extends FrontendPage
     }
 
     /**
-     * Get compare products block
+     * Get Account Info Block
      *
-     * @return \Magento\Catalog\Test\Block\Product\Compare\ListCompare\Interceptor
+     * @return \Magento\Customer\Test\Block\Account\Dashboard\Info
      */
-    public function getCompareProductsBlock()
+    public function getInfoBlock()
     {
-        return $this->getBlockInstance('compareProductsBlock');
+        return $this->getBlockInstance('infoBlock');
     }
 }
