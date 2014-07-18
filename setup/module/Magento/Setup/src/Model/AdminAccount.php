@@ -72,7 +72,7 @@ class AdminAccount
             'extra' => serialize(null),
             'is_active' => 1,
         ];
-        $this->connection->insert('admin_user', $adminData);
+        $this->connection->insert('admin_user', $adminData, true);
         $adminId = $this->connection->getDriver()->getLastGeneratedValue();
 
         $roleData = [
