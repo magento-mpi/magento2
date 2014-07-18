@@ -10,12 +10,8 @@ namespace Magento\Core\Test\TestCase;
 
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Store\Test\Fixture\Store;
 use Magento\Core\Test\Fixture\SystemVariable;
-use Magento\Backend\Test\Page\Adminhtml\StoreNew;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
-use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 

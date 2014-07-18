@@ -8,30 +8,30 @@
  */
 -->
 <constraint>
-    <assertSystemVariableSuccessDeleteMessage module="Magento_Core">
+    <assertCustomVariableSuccessDeleteMessage module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableSuccessDeleteMessage>
-    <assertSystemVariableNotInGrid module="Magento_Core">
+    </assertCustomVariableSuccessDeleteMessage>
+    <assertCustomVariableNotInGrid module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableNotInGrid>
-    <assertSystemVariableNotInCmsPageForm module="Magento_Core">
+    </assertCustomVariableNotInGrid>
+    <assertCustomVariableNotInCmsPageForm module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableNotInCmsPageForm>
-    <assertSystemVariableSuccessSaveMessage module="Magento_Core">
+    </assertCustomVariableNotInCmsPageForm>
+    <assertCustomVariableSuccessSaveMessage module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableSuccessSaveMessage>
-    <assertSystemVariableInGrid module="Magento_Core">
+    </assertCustomVariableSuccessSaveMessage>
+    <assertCustomVariableInGrid module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableInGrid>
-    <assertSystemVariableInPageStoreview module="Magento_Core">
+    </assertCustomVariableInGrid>
+    <assertCustomVariableInPageStoreview module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableInPageStoreview>
-    <assertSystemVariableNotInCmsPageForm module="Magento_Core">
+    </assertCustomVariableInPageStoreview>
+    <assertCustomVariableNotInCmsPageForm module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableNotInCmsPageForm>
-    <assertSystemVariableForm module="Magento_Core">
+    </assertCustomVariableNotInCmsPageForm>
+    <assertCustomVariableForm module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableForm>
+    </assertCustomVariableForm>
     <assertSystemVariableInPage module="Magento_Core">
         <severeness>low</severeness>
     </assertSystemVariableInPage>

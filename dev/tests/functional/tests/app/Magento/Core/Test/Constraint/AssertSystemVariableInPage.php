@@ -62,10 +62,9 @@ class AssertSystemVariableInPage extends AbstractConstraint
 
         $cmsIndex->getStoreSwitcherBlock()->selectStoreView('Default Store View');
 
-        $htmlValue = ($customVariableOrigin == null)
-            ? $customVariable->getHtmlValue()
-            : $customVariableOrigin->getHtmlValue();
-        $htmlValue = strip_tags($htmlValue);
+        $htmlValue = ($customVariableOrigin !== null)
+            ? $this->getHtmlValue($customVariable, $customVariableOrigin)
+            : strip_tags($customVariable->getHtmlValue());
         $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
         $this->checkVariable($htmlValue, $pageContent);
 
@@ -78,6 +77,29 @@ class AssertSystemVariableInPage extends AbstractConstraint
             $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
             $this->checkVariable($htmlValue, $pageContent);
         }
+    }
+
+    /**
+     * Get html value
+     *
+     * @param SystemVariable $customVariable
+     * @param SystemVariable $customVariableOrigin
+     * @return string
+     */
+    protected function getHtmlValue(SystemVariable $customVariable, SystemVariable $customVariableOrigin)
+    {
+        $data = array_merge($customVariableOrigin->getData(), $customVariable->getData());
+        if ($customVariable->getHtmlValue() == "" && $customVariableOrigin->getHtmlValue() == "") {
+            $htmlValue = ($data['plain_value'] == "")
+                ? $customVariableOrigin->getPlainValue()
+                : $data['plain_value'];
+        } else {
+            $htmlValue = ($customVariableOrigin == null)
+                ? $customVariable->getHtmlValue()
+                : $customVariableOrigin->getHtmlValue();
+            $htmlValue = strip_tags($htmlValue);
+        }
+        return $htmlValue;
     }
 
     /**

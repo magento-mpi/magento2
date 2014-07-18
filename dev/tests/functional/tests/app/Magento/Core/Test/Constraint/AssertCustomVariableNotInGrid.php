@@ -13,9 +13,9 @@ use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertSystemVariableNotInGrid
+ * Class AssertCustomVariableNotInGrid
  */
-class AssertSystemVariableNotInGrid extends AbstractConstraint
+class AssertCustomVariableNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness

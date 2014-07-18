@@ -15,6 +15,13 @@ namespace Mtf\Constraint;
 abstract class AbstractAssertForm extends AbstractConstraint
 {
     /**
+     * Skipped fields for verify data
+     *
+     * @var array
+     */
+    protected $skippedFields = [];
+
+    /**
      * Verify fixture and form data
      *
      * @param array $fixtureData
@@ -31,6 +38,9 @@ abstract class AbstractAssertForm extends AbstractConstraint
         $errors = [];
 
         foreach ($fixtureData as $key => $value) {
+            if (in_array($key, $this->skippedFields)){
+                continue;
+            }
             $formValue = isset($formData[$key]) ? $formData[$key] : null;
             if (is_numeric($formValue)) {
                 $formValue = floatval($formValue);

@@ -39,6 +39,13 @@ class FormPageActions extends AbstractFormPageActions
     protected $storeView = './/*/a[contains(text(),"%s")]';
 
     /**
+     * All Store View locator
+     *
+     * @var string
+     */
+    protected $allStoreView = './/*/ul[contains(@class,"dropdown-menu")]//*/span[contains(text(),"%s")]';
+
+    /**
      * Select Store View
      *
      * @param string $storeName
@@ -48,7 +55,9 @@ class FormPageActions extends AbstractFormPageActions
     public function selectStoreView($storeName)
     {
         $this->_rootElement->find($this->storeViewButton)->click();
-        $selector = sprintf($this->storeView, $storeName);
+        $selector = ($storeName == 'All Store Views')
+            ? sprintf($this->allStoreView, $storeName)
+            : sprintf($this->storeView, $storeName);
         if ($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible()) {
             $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         } else {
