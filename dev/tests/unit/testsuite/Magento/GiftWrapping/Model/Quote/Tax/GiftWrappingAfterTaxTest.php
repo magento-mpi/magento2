@@ -8,9 +8,9 @@
 namespace Magento\GiftWrapping\Model\Quote\Tax;
 
 /**
- * Test class for \Magento\GiftWrapping\Model\Quote\Tax\Giftwrapping
+ * Test class for \Magento\GiftWrapping\Model\Quote\Tax\GiftwrappingAfterTax
  */
-class GiftWrappingTest extends \PHPUnit_Framework_TestCase
+class GiftWrappingAfterTaxTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\GiftWrapping\Model\Wrapping
@@ -28,10 +28,9 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
     public function testCollectQuote()
     {
         $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', array(), array(), '', false);
-        $helperMock->expects($this->any())->method('getWrappingTaxClass')->will($this->returnValue(2));
         $addressMock = $this->_prepareData();
 
-        $model = new \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping($helperMock);
+        $model = new \Magento\GiftWrapping\Model\Total\Quote\Tax\GiftwrappingAfterTax($helperMock);
         $model->collect($addressMock);
     }
 
@@ -69,12 +68,30 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
                 'setGwItemsBaseTaxAmount',
                 'setGwItemsTaxAmount',
                 'getExtraTaxableDetails',
+                'getGWItemCodeToItemMapping',
             ),
             array(),
             '',
             false
         );
 
+        $input = [
+            'item_gw' => [
+                'item_gw1' => [
+                    [
+                        'code' => 'item_gw1',
+                        'base_row_tax' => 20,
+                        'row_tax' => 10,
+                    ],
+                ],
+            ],
+        ];
+        $this->_addressMock->expects($this->once())->method('getExtraTaxableDetails')->will($this->returnValue($input));
+        $item = new \Magento\Framework\Object();
+        $this->_addressMock
+            ->expects($this->once())
+            ->method('getGWItemCodeToItemMapping')
+            ->will($this->returnValue(['item_gw1' => $item]));
         $storeMock->expects($this->any())->method('convertPrice')->will($this->returnValue(10));
         $product->expects($this->any())->method('isVirtual')->will($this->returnValue(false));
         $quote = new \Magento\Framework\Object(
@@ -82,31 +99,15 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
                 'isMultishipping' => false,
                 'store' => $storeMock,
                 'billingAddress' => null,
-                'customerTaxClassId' => null,
-                'tax_class_id' => 2,
+                'customerTaxClassId' => null
             )
         );
 
         $this->_wrappingMock->expects($this->any())->method('load')->will($this->returnSelf());
         $this->_wrappingMock->expects($this->any())->method('getBasePrice')->will($this->returnValue(6));
 
-        $item = $this->getMock(
-            '\Magento\Sales\Model\Quote\Item',
-            [
-                'setAssociatedTaxables',
-                '__wakeup',
-                'setProduct',
-                'getProduct',
-                'getQty',
-            ],
-            array(),
-            '',
-            false
-        );
         $product->setGiftWrappingPrice(10);
-        $item->setGwId(1)->setGwPrice(5)->setGwBasePrice(10);
-        $item->expects($this->any())->method('getProduct')->will($this->returnValue($product));
-        $item->expects($this->any())->method('getQty')->will($this->returnValue(2));
+        $item->setProduct($product)->setQty(2)->setGwId(1)->setGwPrice(5)->setGwBasePrice(10);
         $this->_addressMock->expects(
             $this->any()
         )->method(
@@ -123,18 +124,8 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array($item))
         );
 
-        $expected = [
-            [
-                'type' => 'item_gw',
-                'code' => 'item_gw1',
-                'unit_price' => 5,
-                'base_unit_price' => 10,
-                'quantity' => 2,
-                'tax_class_id' => 2,
-                'price_includes_tax' => false,
-            ],
-        ];
-        $item->expects($this->once())->method('setAssociatedTaxables')->with($expected);
+        $this->_addressMock->expects($this->once())->method('setGwItemsBaseTaxAmount')->with(20);
+        $this->_addressMock->expects($this->once())->method('setGwItemsTaxAmount')->with(10);
         return $this->_addressMock;
     }
 }
