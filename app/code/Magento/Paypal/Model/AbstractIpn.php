@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Paypal\Model;
+
+use \Magento\Paypal\UnavailableException;
 
 class AbstractIpn
 {
@@ -95,6 +98,20 @@ class AbstractIpn
         } catch (\Exception $e) {
             $this->_addDebugData('http_error', array('error' => $e->getMessage(), 'code' => $e->getCode()));
             throw $e;
+        }
+
+        /*
+         * Handle errors on PayPal side.
+         */
+        $responseCode = \Zend_Http_Response::extractCode($postbackResult);
+        if (empty($postbackResult) || in_array($responseCode, array('500', '502', '503'))) {
+            if (empty($postbackResult)) {
+                $reason = 'Empty response.';
+            } else {
+                $reason = 'Response code: ' . $responseCode . '.';
+            }
+            $this->_debugData['exception'] = 'PayPal IPN postback failure. ' . $reason;
+            throw new UnavailableException($reason);
         }
 
         $response = preg_split('/^\r?$/m', $postbackResult, 2);
