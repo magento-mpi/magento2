@@ -77,6 +77,13 @@ class Create extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
+     * Locator for customer attribute on New Order page
+     *
+     * @var string
+     */
+    protected $customerAttribute = "[name='order[account][%s]']";
+
+    /**
      * Getter for order selected products grid
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
@@ -243,7 +250,6 @@ class Create extends Block
      */
     public function isCustomerAttributeVisible($attributeCode)
     {
-        $selector = "[name='order[account][$attributeCode]']";
-        return $this->_rootElement->find($selector)->isVisible();
+        return $this->_rootElement->find(sprintf($this->customerAttribute, $attributeCode))->isVisible();
     }
 }

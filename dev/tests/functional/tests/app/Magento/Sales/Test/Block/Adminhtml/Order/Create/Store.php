@@ -47,10 +47,12 @@ class Store extends Block
      */
     public function selectStoreView(Order $fixture = null)
     {
-        if ($this->isVisible()) {
-            $selector = '//label[text()="' . $fixture->getStoreViewName() . '"]/preceding-sibling::*';
-            $this->_rootElement->find($selector, Locator::SELECTOR_XPATH, 'checkbox')->setValue('Yes');
-            $this->getTemplateBlock()->waitLoader();
+        if (!$this->isVisible()) {
+            return;
         }
+        $storeName = $fixture->getStoreViewName() == null ? 'Default Store View' : $fixture->getStoreViewName();
+        $selector = '//label[text()="' . $storeName . '"]/preceding-sibling::*';
+        $this->_rootElement->find($selector, Locator::SELECTOR_XPATH, 'checkbox')->setValue('Yes');
+        $this->getTemplateBlock()->waitLoader();
     }
 }

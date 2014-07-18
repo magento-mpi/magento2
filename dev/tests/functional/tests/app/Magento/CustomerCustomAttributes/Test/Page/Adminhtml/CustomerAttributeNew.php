@@ -32,7 +32,7 @@ class CustomerAttributeNew extends BackendPage
             'strategy' => 'css selector',
         ],
     ];
-    // @codingStandardsIgnoreStart
+    // @codingStandardsIgnoreEnd
 
     /**
      * @return \Magento\Backend\Test\Block\FormPageActions
@@ -50,5 +50,5 @@ class CustomerAttributeNew extends BackendPage
     {
         return $this->getBlockInstance('customerCustomAttributesForm');
     }
-    // @codingStandardsIgnoreStart
+    // @codingStandardsIgnoreEnd
 }

@@ -21,14 +21,14 @@ use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
 abstract class AbstractCustomerCustomAttributesEntityTest extends Injectable
 {
     /**
-     * Page CustomerAttributeIndex
+     * Backend page with the list of customer attributes
      *
      * @var CustomerAttributeIndex
      */
     protected $customerAttributeIndex;
 
     /**
-     * Page CustomerAttributeNew
+     * Backend page with new customer attribute form
      *
      * @var CustomerAttributeNew
      */

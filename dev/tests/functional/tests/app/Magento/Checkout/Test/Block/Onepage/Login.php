@@ -14,7 +14,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
 /**
  * Class Login
  * One page checkout status login block
- *
  */
 class Login extends Form
 {
@@ -50,6 +49,7 @@ class Login extends Form
      * Select how to perform checkout whether guest or registered customer
      *
      * @param Checkout $fixture
+     * @return void
      */
     public function checkoutMethod(Checkout $fixture)
     {
@@ -76,6 +76,8 @@ class Login extends Form
 
     /**
      * Register customer during checkout
+     *
+     * @return void
      */
     private function registerCustomer()
     {
@@ -88,6 +90,7 @@ class Login extends Form
      * Login customer during checkout
      *
      * @param Checkout $fixture
+     * @return void
      */
     private function loginCustomer(Checkout $fixture)
     {

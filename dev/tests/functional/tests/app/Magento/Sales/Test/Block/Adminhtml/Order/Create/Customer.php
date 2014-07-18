@@ -46,6 +46,7 @@ class Customer extends Grid
      * Select customer if it is present in fixture or click create new customer button
      *
      * @param FixtureInterface $fixture
+     * @return void
      */
     public function selectCustomer(FixtureInterface $fixture)
     {

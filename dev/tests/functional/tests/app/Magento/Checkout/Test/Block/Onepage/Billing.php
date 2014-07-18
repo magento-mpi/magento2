@@ -16,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
 /**
  * Class Billing
  * One page checkout status billing block
- *
  */
 class Billing extends Form
 {
@@ -45,6 +44,7 @@ class Billing extends Form
      * Fill billing address
      *
      * @param Checkout $fixture
+     * @return void
      */
     public function fillBilling(Checkout $fixture)
     {
@@ -60,6 +60,8 @@ class Billing extends Form
 
     /**
      * Click continue on billing information block
+     *
+     * @return void
      */
     public function clickContinue()
     {
