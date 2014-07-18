@@ -13,6 +13,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
  * Class AssertProductCompareRemoveLastProductMessage
+ * After removing last product message is appeared on "Compare Products" page
  */
 class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
 {
@@ -26,7 +27,7 @@ class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * After removing last product message is appeared on "Compare Products" page.
+     * After removing last product message is appeared on "Compare Products" page
      *
      * @param CatalogProductCompare $comparePage
      * @return void
@@ -51,6 +52,6 @@ class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'The message appears on "Compare Products" page.';
+        return 'After removing last product the message appears on "Compare Products" page.';
     }
 }

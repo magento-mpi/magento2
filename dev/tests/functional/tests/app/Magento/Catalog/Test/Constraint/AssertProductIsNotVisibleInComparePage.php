@@ -14,6 +14,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
  * Class AssertProductIsNotVisibleInComparePage
+ * Assert the product is not displayed on Compare Products page
  */
 class AssertProductIsNotVisibleInComparePage extends AbstractConstraint
 {
@@ -41,7 +42,7 @@ class AssertProductIsNotVisibleInComparePage extends AbstractConstraint
         $success = $name !== '' ? true : self::SUCCESS_MESSAGE;
         $actual = $comparePage->getCompareProductsBlock()->productIsNotInBlock($name);
 
-        \PHPUnit_Framework_Assert::assertEquals($success, $actual, 'Wrong success message is displayed.');
+        \PHPUnit_Framework_Assert::assertEquals($success, $actual, 'The product displays on Compare Products page.');
     }
 
     /**

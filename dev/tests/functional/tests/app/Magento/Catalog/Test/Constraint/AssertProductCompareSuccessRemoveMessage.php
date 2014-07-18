@@ -14,6 +14,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
  * Class AssertProductCompareSuccessRemoveMessage
+ * Assert message is appeared on "Compare Products" block on myAccount page
  */
 class AssertProductCompareSuccessRemoveMessage extends AbstractConstraint
 {

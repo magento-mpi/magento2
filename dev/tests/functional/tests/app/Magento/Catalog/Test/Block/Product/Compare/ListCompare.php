@@ -144,12 +144,25 @@ class ListCompare extends Block
     }
 
     /**
-     * Has product in compare product list
+     * Remove all products from compare product list
+     *
+     * @return void
+     */
+    public function removeAllProducts()
+    {
+        while ($this->isProductVisible()) {
+            $this->removeProduct();
+            $this->reinitRootElement();
+        }
+    }
+
+    /**
+     * Visible product in compare product list
      *
      * @param int $index [optional]
      * @return bool
      */
-    public function hasProduct($index = 1)
+    public function  isProductVisible($index = 1)
     {
         return $this->_rootElement->find(sprintf($this->removeButton, $index), Locator::SELECTOR_XPATH)->isVisible();
     }

@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
  * 2. Customer created
  *
  * Steps:
- * 1. Add to Compare Product $products (as flow can be used MTA-54)
+ * 1. Add to Compare Product $products
  * 2. Navigate to Compare Product page
  * 3. Click (X) icon near the $product from dataset
  * 4. Perform assertions
@@ -30,7 +30,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
  * @group Compare_Products_(MX)
  * @ZephyrId MAGETWO-26161
  */
-class RemovingCompareProductsTest extends AbstractCompareProductsTest
+class DeleteCompareProducts extends AbstractCompareProductsTest
 {
     /**
      * Catalog product compare page
@@ -54,7 +54,7 @@ class RemovingCompareProductsTest extends AbstractCompareProductsTest
     }
 
     /**
-     * Test creation for adding compare products
+     * Test creation for delete product from compare products list
      *
      * @param string $products
      * @param string $removeProductIndex
@@ -92,9 +92,7 @@ class RemovingCompareProductsTest extends AbstractCompareProductsTest
         if (count($this->products) > 1) {
             $this->cmsIndex->open();
             $this->cmsIndex->getLinksBlock()->openLink("Compare Products");
-            while ($this->catalogProductCompare->getCompareProductsBlock()->hasProduct()) {
-                $this->catalogProductCompare->getCompareProductsBlock()->removeProduct();
-            }
+            $this->catalogProductCompare->getCompareProductsBlock()->removeAllProducts();
         }
     }
 }

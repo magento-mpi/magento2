@@ -40,7 +40,7 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
     public function processAssert(
         CmsIndex $cmsIndex,
         CustomerAccountIndex $customerAccountIndex,
-        $countProducts = null,
+        $countProducts = 0,
         FixtureInterface $product = null
     ) {
         $cmsIndex->open();
@@ -49,7 +49,11 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
         $success = $name !== '' ? true : self::SUCCESS_MESSAGE;
         $actual = $customerAccountIndex->getCompareProductsBlock()->productIsNotInBlock($name);
 
-        \PHPUnit_Framework_Assert::assertEquals($success, $actual, 'Wrong success message is displayed.');
+        \PHPUnit_Framework_Assert::assertEquals(
+            $success,
+            $actual,
+            'The product displays on Compare Products block on my account page.'
+        );
     }
 
     /**
