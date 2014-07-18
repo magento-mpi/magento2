@@ -9,12 +9,12 @@
 -->
 <tabs>
     <general_properties>
-        <class>\Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit\Tab\General</class>
+        <class>\Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab\General</class>
         <selector>#magento_customersegment_segment_tabs_general_section</selector>
         <strategy>css selector</strategy>
     </general_properties>
     <conditions>
-        <class>\Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit\Tab\Conditions</class>
+        <class>\Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab\Conditions</class>
         <selector>#magento_customersegment_segment_tabs_conditions_section</selector>
         <strategy>css selector</strategy>
     </conditions>
