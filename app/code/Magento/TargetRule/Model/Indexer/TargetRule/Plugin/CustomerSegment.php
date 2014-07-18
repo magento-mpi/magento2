@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin;
+namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
 
 class CustomerSegment extends AbstractPlugin
 {
@@ -19,7 +19,7 @@ class CustomerSegment extends AbstractPlugin
      */
     public function afterDelete(\Magento\CustomerSegment\Model\Segment $customerSegment)
     {
-        $this->invalidateIndexer();
+        $this->invalidateIndexers();
         return $customerSegment;
     }
 
@@ -32,7 +32,7 @@ class CustomerSegment extends AbstractPlugin
     public function afterSave(\Magento\CustomerSegment\Model\Segment $customerSegment)
     {
         if (!$customerSegment->isObjectNew()) {
-            $this->invalidateIndexer();
+            $this->invalidateIndexers();
         }
         return $customerSegment;
     }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin;
+namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
 
 class Category extends AbstractPlugin
 {
@@ -19,7 +19,7 @@ class Category extends AbstractPlugin
      */
     public function afterDelete(\Magento\Catalog\Model\Category $category)
     {
-        $this->invalidateIndexer();
+        $this->invalidateIndexers();
         return $category;
     }
 
@@ -33,7 +33,7 @@ class Category extends AbstractPlugin
     {
         $isChangedProductList = $category->getData('is_changed_product_list');
         if ($isChangedProductList) {
-            $this->invalidateIndexer();
+            $this->invalidateIndexers();
         }
         return $category;
     }

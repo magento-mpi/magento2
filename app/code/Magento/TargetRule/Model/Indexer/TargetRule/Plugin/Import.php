@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin;
+namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
 
 use \Magento\ImportExport\Model\Import as ImportModel;
 
@@ -24,7 +24,7 @@ class Import extends AbstractPlugin
      */
     public function afterImportSource(ImportModel $subject, $result)
     {
-        $this->invalidateIndexer();
+        $this->invalidateIndexers();
         return $result;
     }
 }

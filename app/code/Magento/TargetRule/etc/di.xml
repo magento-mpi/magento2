@@ -33,13 +33,22 @@
         </arguments>
     </type>
     <type name="Magento\ImportExport\Model\Import">
-        <plugin name="targetRuleImportInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin\Import" />
+        <plugin name="targetRuleImportInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Plugin\Import" />
     </type>
     <type name="Magento\Catalog\Model\Category">
-        <plugin name="targetRuleCategoryInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin\Category" />
+        <plugin name="targetRuleCategoryInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Plugin\Category" />
     </type>
     <type name="Magento\CustomerSegment\Model\Segment">
-        <plugin name="targetRuleCustomerSegmentInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Plugin\CustomerSegment" />
+        <plugin name="targetRuleCustomerSegmentInvalidate" type="Magento\TargetRule\Model\Indexer\TargetRule\Plugin\CustomerSegment" />
+    </type>
+    <type name="Magento\Store\Model\Resource\Store">
+        <plugin name="invalidateTargetRuleOnStoreViewChange" type="Magento\TargetRule\Model\Indexer\TargetRule\Plugin\Store"/>
+    </type>
+    <type name="Magento\Store\Model\Resource\Group">
+        <plugin name="invalidateTargetRuleOnStoreGroupChange" type="Magento\TargetRule\Model\Indexer\TargetRule\Plugin\StoreGroup"/>
+    </type>
+    <type name="Magento\Eav\Model\Entity\Attribute\Set">
+        <plugin name="invalidateTargetRuleOnDeleteAttributeSet" type="Magento\TargetRule\Model\Indexer\TargetRule\Plugin\AttributeSet"/>
     </type>
     <type name="Magento\TargetRule\Model\Indexer\TargetRule\AbstractProcessor">
         <arguments>
