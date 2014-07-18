@@ -40,6 +40,13 @@ class ProductForm extends ParentForm
     protected $newAttributeFrame = '#create_new_attribute_container';
 
     /**
+     * New variation set button selector
+     *
+     * @var string
+     */
+    protected $newVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
+
+    /**
      * Variations tab selector
      *
      * @var string

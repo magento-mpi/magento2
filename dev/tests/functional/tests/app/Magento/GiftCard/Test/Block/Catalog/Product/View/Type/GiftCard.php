@@ -105,7 +105,7 @@ class GiftCard extends Block
 
         /* Skip option #0("Choose amount...") */
         $options = $giftcardAmount->find('.//option', Locator::SELECTOR_XPATH)->getElements();
-        for ($i = 1, $length = count($options); $i <= $length; $i++) {
+        for ($i = 1, $length = count($options); $i < $length; $i++) {
             $values[] = $options[$i]->getValue();
         }
         return $values;
