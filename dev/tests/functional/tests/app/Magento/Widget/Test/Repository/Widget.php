@@ -65,9 +65,11 @@ class Widget extends AbstractRepository
                     ]
                 ]
             ],
+            //TODO 'parameters' array should be deleted while creating functional test for widget (MTA-296)
             'parameters' => [
                 'display_mode' => 'catalogrule'
             ],
+            //TODO 'theme_id' should be specified via UI and data source should be used
             'theme_id' => '2'
         ];
     }
