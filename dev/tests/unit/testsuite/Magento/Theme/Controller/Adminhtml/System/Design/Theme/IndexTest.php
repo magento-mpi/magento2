@@ -17,7 +17,11 @@ class IndexTest extends \Magento\Theme\Controller\Adminhtml\System\Design\ThemeT
 
     public function testIndexAction()
     {
-        $menuModel = $this->getMock('\Magento\Backend\Model\Menu', array(), array(), '', false);
+        $menuModel = $this->getMock(
+            'Magento\Backend\Model\Menu',
+            [],
+            [$this->getMock('Magento\Framework\Logger', [], [], '', false)]
+        );
         $menuModel->expects($this->once())
             ->method('getParentItems')
             ->with($this->equalTo('Magento_Theme::system_design_theme'))
