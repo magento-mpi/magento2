@@ -46,14 +46,38 @@ class Select extends DefaultValidator
             return false;
         }
 
+        $storeId = $option->getProduct()->getStoreId();
         foreach ($option->getData('values') as $value) {
-            $type = isset($value['price_type']) ? $value['price_type'] : '';
-            $price = isset($value['price']) ? $value['price'] : 0;
-            $title = isset($value['title']) ? $value['title'] : '';
-            if (!$this->isInRange($type, $this->priceTypes) || $this->isNegative($price) || $this->isEmpty($title)) {
+            $type = isset($value['price_type']) ? $value['price_type'] : null;
+            $price = isset($value['price']) ? $value['price'] : null;
+            $title = isset($value['title']) ? $value['title'] : null;
+            if (!$this->isValidOptionPrice($type, $price, $storeId)
+                || !$this->isValidOptionTitle($title, $storeId)
+            ) {
                 return false;
             }
         }
+        return true;
+    }
+
+    /**
+     * Validate option price
+     *
+     * @param $priceType
+     * @param $price
+     * @param $storeId
+     * @return bool
+     */
+    protected function isValidOptionPrice($priceType, $price, $storeId)
+    {
+        // we should be able to remove website values for default store fallback
+        if ($storeId > 0 && $priceType === null && $price === null) {
+            return true;
+        }
+        if (!$this->isInRange($priceType, $this->priceTypes) || $this->isNegative($price)) {
+            return false;
+        }
+
         return true;
     }
 }
