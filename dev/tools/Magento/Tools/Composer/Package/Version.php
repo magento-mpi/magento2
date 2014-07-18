@@ -17,6 +17,7 @@ class Version
      * Assert that a version has appropriate format
      *
      * @param string $version
+     * @return void
      * @throws \InvalidArgumentException
      */
     public static function validate($version)
