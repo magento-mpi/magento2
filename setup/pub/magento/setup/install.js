@@ -59,10 +59,7 @@ angular.module('install', ['ngStorage'])
             },
             post: function (data) {
                 $http.post('install/start', data).success(function (response) {
-                    $localStorage.config.encrypt.key = response.data.key;
-//                    if (response.data.success) {
-//                        $scope.nextState();
-//                    }
+                    $localStorage.config.encrypt.key = response.key;
                 });
             }
         };
