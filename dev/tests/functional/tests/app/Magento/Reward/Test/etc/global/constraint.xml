@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertRewardSubscriptionSaveMessage module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customerAccountIndex class="Magento\Reward\Test\Page\RewardCustomerInfo" />
+        </require>
+    </assertRewardSubscriptionSaveMessage>
+    <assertRewardSubscriptionOnBackend module="Magento_Reward">
+        <severeness>low</severeness>
+    </assertRewardSubscriptionOnBackend>
+</constraint>

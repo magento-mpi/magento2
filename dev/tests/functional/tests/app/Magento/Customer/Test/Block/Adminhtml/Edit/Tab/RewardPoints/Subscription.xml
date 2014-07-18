@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <wrapper>reward</wrapper>
+    <fields>
+        <reward_update_notification>
+            <input>checkbox</input>
+        </reward_update_notification>
+        <reward_warning_notification>
+            <input>checkbox</input>
+        </reward_warning_notification>
+    </fields>
+</mapping>
