@@ -42,8 +42,7 @@ use Mtf\Fixture\FixtureFactory;
  * 6. Add specific test condition according to dataSet
  * 7. Navigate to MARKETING->Cart Price Rule and click "+"
  * 8. Fill all required data according to dataSet and save rule
- * 9. Login to front-end as test customer(if dataSet contains set for customers, else skip this step customer is guest)
- * 10. Perform assertions
+ * 9. Perform assertions
  *
  * @group Customer_Segments_(CS)
  * @ZephyrId MAGETWO-25691
@@ -229,8 +228,6 @@ class CreateCustomerSegmentEntityTest extends Injectable
         $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => $this->salesRule->getName()]);
         $this->promoQuoteEdit->getFormPageActions()->delete();
         $this->cmsIndex->open();
-        if ($this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log Out");
-        }
+        $this->cmsIndex->getLinksBlock()->openLink("Log Out");
     }
 }

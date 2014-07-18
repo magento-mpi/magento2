@@ -17,6 +17,8 @@ class CreateTest extends Functional
 {
     /**
      * Login to backend as a precondition to test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -26,6 +28,7 @@ class CreateTest extends Functional
     /**
      * New Customer Segment creation for specific Customer Group
      *
+     * @return void
      * @ZephyrId MAGETWO-12393
      */
     public function testCreateCustomerSegment()
@@ -40,13 +43,10 @@ class CreateTest extends Functional
         // data
         $customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentGeneralProperties();
         $conditionsFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions();
-        $conditionType = $conditionsFixture->getConditionType();
-        $conditionValue = $conditionsFixture->getConditionValue();
         // pages & blocks
         $customerSegmentPage = Factory::getPageFactory()->getCustomersegmentIndex();
         $customerSegmentCreatePage = Factory::getPageFactory()->getCustomersegmentIndexNew();
         $newCustomerSegmentForm = $customerSegmentCreatePage->getFormTabs();
-        $messagesBlock = $customerSegmentPage->getMessagesBlock();
         // begin steps to add a customer segment
         $customerSegmentPage->open();
         $customerSegmentPage->getPageActionsBlock()->addNew();
@@ -56,8 +56,9 @@ class CreateTest extends Functional
         $customerSegmentCreatePage->getMessagesBlock()->assertSuccessMessage();
         // save conditions tab
         $objectManager = Factory::getObjectManager();
-        $fixtureConditions = $objectManager->create('\Magento\CustomerSegment\Test\Fixture\CustomerSegment',
-            ['dataSet' => 'retailer']
+        $fixtureConditions = $objectManager->create(
+            '\Magento\CustomerSegment\Test\Fixture\CustomerSegment',
+            ['data' => ['conditions_serialized' => '[Group|is|Retailer]']]
         );
         $customerSegmentCreatePage->getFormTabs()->openTab('conditions');
         // add condition

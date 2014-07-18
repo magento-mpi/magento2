@@ -38,8 +38,8 @@ class AssertCustomerSegmentInCartPriceRuleIsApplying extends AbstractAssertCusto
         }
 
         \PHPUnit_Framework_Assert::assertNotEquals(
-            (int) $totalBlock->getSubtotal(),
-            (int) $grandTotal,
+            $totalBlock->getSubtotal(),
+            $grandTotal,
             'Catalog Price Rule is not applied on product in shopping cart.'
         );
     }

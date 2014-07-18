@@ -25,7 +25,9 @@ class Grid extends AbstractGrid
     protected $editLink = 'td[class*=col-grid_segment_name]';
 
     /**
-     * {@inheritdoc}
+     * Filters array mapping
+     *
+     * @var array
      */
     protected $filters = [
         'grid_segment_name' => [

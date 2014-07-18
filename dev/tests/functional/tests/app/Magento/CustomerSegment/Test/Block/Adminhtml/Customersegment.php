@@ -19,6 +19,8 @@ class Customersegment extends Block
 {
     /**
      * Click save and continue button on form
+     *
+     * @return void
      */
     public function clickSaveAndContinue()
     {

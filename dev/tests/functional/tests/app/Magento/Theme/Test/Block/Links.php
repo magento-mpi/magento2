@@ -41,7 +41,10 @@ class Links extends Block
      */
     public function openLink($linkTitle)
     {
-        $this->_rootElement->find(sprintf($this->link, $linkTitle), Locator::SELECTOR_XPATH)->click();
+        $link = $this->_rootElement->find(sprintf($this->link, $linkTitle), Locator::SELECTOR_XPATH);
+        if ($link->isVisible()) {
+            $link->click();
+        }
     }
 
     /**

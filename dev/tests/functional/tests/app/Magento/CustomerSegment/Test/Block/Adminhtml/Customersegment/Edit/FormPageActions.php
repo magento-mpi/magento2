@@ -17,7 +17,7 @@ use Magento\Backend\Test\Block\FormPageActions as ParentFormPageActions;
 class FormPageActions extends ParentFormPageActions
 {
     /**
-     * "Save and Continue Edit" button
+     * Save and Continue Edit button
      *
      * @var string
      */

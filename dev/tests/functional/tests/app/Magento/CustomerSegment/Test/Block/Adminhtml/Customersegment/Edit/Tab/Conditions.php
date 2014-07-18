@@ -56,6 +56,7 @@ class Conditions extends Tab
      *
      * @param string $type
      * @param string $value
+     * @return void
      */
     public function addCustomerGroupCondition($type, $value)
     {
