@@ -234,12 +234,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $storeId = $this->storeManager->getStore()->getStoreId();
         }
         if (!$isDefault) {
-            $addressRequestObject = $this->calculator->getRateRequest(null, null, null, $storeId, $customerId);
+            $addressRequestObject = $this->calculationTool->getRateRequest(null, null, null, $storeId, $customerId);
         } else {
-            $addressRequestObject = $this->calculator->getDefaultRateRequest($storeId, $customerId);
+            $addressRequestObject = $this->calculationTool->getDefaultRateRequest($storeId, $customerId);
         }
         $addressRequestObject->setProductClassId($productTaxClassID);
-        return $this->calculator->getRate($addressRequestObject);
+        return $this->calculationTool->getRate($addressRequestObject);
     }
 
     /**
