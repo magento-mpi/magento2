@@ -218,7 +218,6 @@ class ProductForm extends FormTabs
         )->isExistAttributeInSearchResult($productAttribute);
     }
 
-
     /**
      * Open Variations tab on Product form
      *
