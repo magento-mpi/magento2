@@ -8,6 +8,7 @@
 
 namespace Magento\Setup\Model;
 
+use Magento\Framework\Math\Random;
 use Magento\Module\Setup\Connection\AdapterInterface;
 
 class AdminAccountFactory
@@ -23,12 +24,20 @@ class AdminAccountFactory
     protected $configuration = [];
 
     /**
+     * @var Random
+     */
+    protected $random;
+
+    /**
      * @param AdapterInterface $connection
+     * @param Random $random
      */
     public function __construct(
-        AdapterInterface $connection
+        AdapterInterface $connection,
+        Random $random
     ) {
         $this->adapter = $connection;
+        $this->random = $random;
     }
 
     /**
@@ -46,6 +55,7 @@ class AdminAccountFactory
     {
         return new AdminAccount(
             $this->adapter,
+            $this->random,
             $this->configuration
         );
     }
