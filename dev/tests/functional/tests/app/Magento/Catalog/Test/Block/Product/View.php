@@ -54,7 +54,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productName = '.page-title .title';
+    protected $productName = '.page-title.product h1.title .base';
 
     /**
      * Product sku element

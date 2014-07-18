@@ -24,14 +24,7 @@ class Bundle extends Block
      *
      * @var string
      */
-    protected $bundleBlock = '//*[@id="product-options-wrapper"]//fieldset[contains(@class,"bundle")]/div[%d]';
-
-    /**
-     * Label item option
-     *
-     * @var string
-     */
-    protected $labelOptions = '/label/span[text() = "';
+    protected $bundleBlock = './div[%d]';
 
     /**
      * Label item option
@@ -45,28 +38,28 @@ class Bundle extends Block
      *
      * @var string
      */
-    protected $optionSelect = '//select/option[@value != ""][%d][contains(text(), "%s")]';
+    protected $optionSelect = './/select/option[@value != ""][%d][contains(text(), "%s")]';
 
     /**
      * Label item option
      *
      * @var string
      */
-    protected $optionLabel = '//div[%d][contains(@class, "field")]//*[contains(text(), "%s")]';
+    protected $optionLabel = './/div[%d][contains(@class, "field")]//*[contains(text(), "%s")]';
 
     /**
      * Selector DropDown type
      *
      * @var string
      */
-    protected $typeDropDown = '//select[contains(@class,"bundle-option-select")]';
+    protected $typeDropDown = './/select[contains(@class,"bundle-option-select")]';
 
     /**
      * Selector Multiselect type
      *
      * @var string
      */
-    protected $typeMultiple = '//select[contains(@class,"multiselect")]';
+    protected $typeMultiple = './/select[contains(@class,"multiselect")]';
 
     /**
      * Selector RadioButton type
@@ -87,7 +80,7 @@ class Bundle extends Block
      *
      * @var string
      */
-    protected $bundleOptionBlock = '//div[label[span[contains(text(), "%s")]]]';
+    protected $bundleOptionBlock = './/div[label[span[contains(text(), "%s")]]]';
 
     /**
      * Fill bundle option on frontend add click "Add to cart" button

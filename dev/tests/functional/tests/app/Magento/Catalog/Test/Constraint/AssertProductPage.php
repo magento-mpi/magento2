@@ -60,8 +60,13 @@ class AssertProductPage extends AbstractConstraint
         $catalogProductView->open();
 
         $data = $this->prepareData($catalogProductView);
-        //Process assertions
-        $this->assertOnProductView($catalogProductView, $data);
+        $badValues = array_diff($data['onPage'], $data['fixture']);
+        $errors = array_intersect_key($this->errorsMessages, array_keys($badValues));
+        $errors += $this->verifySpecialPrice($catalogProductView);
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $errors,
+            PHP_EOL . 'Found the following errors:' . PHP_EOL . implode(' ' . PHP_EOL, $this->errorsMessages)
+        );
     }
 
     /**
@@ -73,8 +78,7 @@ class AssertProductPage extends AbstractConstraint
     protected function prepareData(CatalogProductView $catalogProductView)
     {
         $viewBlock = $catalogProductView->getViewBlock();
-        $price = $viewBlock->getProductPriceBlock()->getPrice();
-
+        $priceBlock = $viewBlock->getProductPriceBlock();
         $data = [
             'onPage' => [
                 'name' => $viewBlock->getProductName(),
@@ -86,10 +90,12 @@ class AssertProductPage extends AbstractConstraint
             ]
         ];
 
-        list($priceOnPage, $priceFixture) = $this->preparePrice($price);
-        $data['onPage'] += $priceOnPage;
-        $data['fixture'] += $priceFixture;
-
+        if ($this->product->hasData('price')) {
+            $data['fixture']['regular_price'] = number_format($this->product->getPrice(), 2);
+            $data['onPage']['regular_price'] = $priceBlock->isVisible()
+                ? $priceBlock->getPrice()['price_regular_price']
+                : null;
+        }
         if ($productShortDescription = $this->product->getShortDescription()) {
             $data['fixture']['short_description'] = $productShortDescription;
             $data['onPage']['short_description'] = $viewBlock->getProductShortDescription();
@@ -103,52 +109,17 @@ class AssertProductPage extends AbstractConstraint
     }
 
     /**
-     * Prepare Price data
-     *
-     * @param array $price
-     * @return array
-     */
-    protected function preparePrice($price)
-    {
-        return [
-            ['regular_price' => $price['price_regular_price']],
-            ['regular_price' => number_format($this->product->getPrice(), 2)]
-        ];
-    }
-
-    /**
-     * Assert prices on the product view page
-     *
-     * @param CatalogProductView $catalogProductView
-     * @param array $data
-     * @return void
-     */
-    protected function assertOnProductView(CatalogProductView $catalogProductView, array $data)
-    {
-        $price = $catalogProductView->getViewBlock()->getProductPriceBlock()->getPrice();
-
-        $badValues = array_diff($data['onPage'], $data['fixture']);
-        $this->errorsMessages = array_merge(
-            $this->assertSpecialPrice($price),
-            array_intersect_key($this->errorsMessages, array_keys($badValues))
-        );
-
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($this->errorsMessages),
-            PHP_EOL . 'Found the following errors:' . PHP_EOL
-            . implode(' ' . PHP_EOL, $this->errorsMessages)
-        );
-    }
-
-    /**
      * Checking the special product price
      *
-     * @param array $price
+     * @param CatalogProductView $catalogProductView
      * @return array
      */
-    protected function assertSpecialPrice(array $price)
+    protected function verifySpecialPrice(CatalogProductView $catalogProductView)
     {
+        $priceBlock = $catalogProductView->getViewBlock()->getProductPriceBlock();
+        $price = $priceBlock->isVisible() ? $priceBlock->getPrice() : ['price_special_price' => null];
         $priceComparing = false;
+
         if ($specialPrice = $this->product->getSpecialPrice()) {
             $priceComparing = $specialPrice;
         }

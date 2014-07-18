@@ -68,7 +68,6 @@ class StoreTree extends Element
             ++$count;
             $website = $this->find(sprintf($this->selectedWebsite, $count), Locator::SELECTOR_XPATH);
         }
-
         return $values;
     }
 }

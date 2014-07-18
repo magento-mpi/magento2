@@ -8,6 +8,12 @@
  */
 -->
 <constraint>
+    <assertGiftCardProductAddToCartForm module="Magento_GiftCard">
+        <severeness>high</severeness>
+    </assertGiftCardProductAddToCartForm>
+    <assertGiftCardProductForm module="Magento_GiftCard">
+        <severeness>middle</severeness>
+    </assertGiftCardProductForm>
     <assertGiftCardDuplicatedInGrid module="Magento_GiftCard">
         <severeness>high</severeness>
         <require>
