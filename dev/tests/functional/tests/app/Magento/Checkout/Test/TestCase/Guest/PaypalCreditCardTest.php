@@ -94,7 +94,7 @@ class PaypalCreditCardTest extends Functional
         if ($fixture->getCommentHistory()) {
             $expectedAuthorizedAmount = $fixture->getCommentHistory();
         } else {
-            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
+            $expectedAuthorizedAmount = 'Authorized amount of $' . $fixture->getGrandTotal();
         }
         $this->assertContains(
             $expectedAuthorizedAmount,

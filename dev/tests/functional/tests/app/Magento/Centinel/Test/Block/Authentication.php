@@ -11,6 +11,9 @@ namespace Magento\Centinel\Test\Block;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Client\Driver\Selenium\Browser;
+use Mtf\Client\Element;
+use Mtf\Block\BlockFactory;
 
 /**
  * Class Authentication
@@ -32,6 +35,22 @@ class Authentication extends Block
      * @var string
      */
     protected $password = '[name="external.field.password"]';
+
+    /**
+     * 3D Secure frame locator
+     *
+     * @var Locator
+     */
+    protected $centinelFrame = '#centinel-authenticate-iframe';
+
+    /**
+     * @param Element $element
+     * @param BlockFactory $blockFactory
+     * @param Browser $browser
+     */
+    public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser){
+        $this->browser->switchToFrame(new Locator($this->centinelFrame));
+    }
 
     /**
      * Fill in and submit verification form

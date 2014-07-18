@@ -233,6 +233,22 @@ class CustomerInjectable extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $reward_points_delta = [
+        'attribute_code' => 'reward_points_delta',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $store_credit = [
+        'attribute_code' => 'store_credit',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $address = [
+        'attribute_code' => 'address',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address'
+    ];
+
     public function getConfirmation()
     {
         return $this->getData('confirmation');
@@ -351,5 +367,20 @@ class CustomerInjectable extends InjectableFixture
     public function getPasswordConfirmation()
     {
         return $this->getData('password_confirmation');
+    }
+
+    public function getRewardPointsDelta()
+    {
+        return $this->getData('reward_points_delta');
+    }
+
+    public function getStoreCredit()
+    {
+        return $this->getData('store_credit');
+    }
+
+    public function getAddress()
+    {
+        return $this->getData('address');
     }
 }

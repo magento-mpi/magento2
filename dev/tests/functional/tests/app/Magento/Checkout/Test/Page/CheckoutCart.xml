@@ -44,4 +44,10 @@
         <locator>.block.discount</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>proceedToCheckoutBlock</name>
+        <class>Magento\Checkout\Test\Block\Cart\ProceedToCheckout</class>
+        <locator>ul.checkout.methods.items</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

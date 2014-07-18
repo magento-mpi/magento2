@@ -55,7 +55,7 @@ class CreateOrder extends Ui
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         $checkoutOnePageSuccess = Factory::getPageFactory()->getCheckoutOnepageSuccess();
-        return $checkoutOnePageSuccess->isSuccessBlockVisible()
+        return $checkoutOnePageSuccess->getSuccessBlock()->isVisible()
             ? $checkoutOnePageSuccess->getSuccessBlock()->getOrderId($fixture)
             : false;
     }

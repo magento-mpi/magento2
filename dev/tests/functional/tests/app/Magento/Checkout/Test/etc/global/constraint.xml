@@ -20,4 +20,16 @@
     <assertSubtotalInShoppingCart module="Magento_Checkout">
         <severeness>low</severeness>
     </assertSubtotalInShoppingCart>
+    <assertOrderPlacedSuccessMessage module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertOrderPlacedSuccessMessage>
+    <assertOrderStatus module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertOrderStatus>
+    <assertOrderButtonsAvailable module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertOrderButtonsAvailable>
+    <assertOrderGrandTotal module="Magento_Checkout">
+        <severeness>low</severeness>
+    </assertOrderGrandTotal>
 </constraint>

@@ -39,7 +39,7 @@ class SalesOrderView extends Page
     protected $orderHistoryBlock = '.order-comments-history';
 
     /**
-     * Order information block
+     * Account information block
      *
      * @var string
      */

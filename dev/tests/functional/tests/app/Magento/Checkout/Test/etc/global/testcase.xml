@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<testcases>
+  <testcase module="Magento_Checkout">
+    <id>MTA-39</id>
+    <ticketId>MTA-39</ticketId>
+    <name>OnePageCheckoutWithinOfflinePaymentMethodsTest</name>
+    <description>Test Creation for OnePageCheckout within offline Payment Methods</description>
+    <module>Checkout</module>
+    <components>
+      <component>Offline Payment Methods (CS)</component>
+      <component>One Page Checkout (CS)</component>
+    </components>
+    <steps>
+      <step>+Precondition:+</step>
+      <step>shipping method is configured (Flat Rate, Free Shipping)</step>
+      <step>customer is registered according to "customer/dataSet"</step>
+      <step>gift card account is created according to dataset/giftCardAccount</step>
+      <step>reward points exchange rates are configured according to rewardExchangeRates.php </step>
+      <step/>
+      <step> Go to Frontend</step>
+      <step> Add Products to the cart</step>
+      <step> Apply discount coupon or add gift card according to dataset, click the *Proceed to Checkout* button</step>
+      <step> if $checkoutMethod =  login</step>
+      <step> login as customer</step>
+      <step>    elseif $checkoutMethod =  register</step>
+      <step> select the *Register* option button and click the *Continue* button</step>
+      <step> elseif $checkoutMethod =  guest</step>
+      <step> select the *Checkout as Guest* option button and click the *Continue* button</step>
+      <step> fill billing information according to "customer/dataSet"</step>
+      <step> select the *Ship to this address* option button,  click the *Continue* button</step>
+      <step> select shipping method from preconditions, click the *Continue* button</step>
+      <step> if $checkoutMethod =  login</step>
+      <step> select *Use my reward points* and *Use Store Credit* checkboxes</step>
+      <step> select payment method according to dataset, click the *Continue* button</step>
+      <step> Call assertOrderTotal</step>
+      <step> click the *Place Order* button</step>
+      <step> Perform assertions</step>
+    </steps>
+  </testcase>
+</testcases>

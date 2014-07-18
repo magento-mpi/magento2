@@ -8,10 +8,13 @@
 
 namespace Magento\Checkout\Test\Block\Onepage;
 
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Billing
@@ -45,6 +48,7 @@ class Billing extends Form
      * Fill billing address
      *
      * @param Checkout $fixture
+     * @return void
      */
     public function fillBilling(Checkout $fixture)
     {
@@ -60,10 +64,29 @@ class Billing extends Form
 
     /**
      * Click continue on billing information block
+     *
+     * @return void
      */
     public function clickContinue()
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible($this->waitElement);
+    }
+
+    /**
+     * Fill billing information
+     *
+     * @param CustomerInjectable $customer
+     * @return void
+     */
+    public function fillBillingAddress(CustomerInjectable $customer)
+    {
+        $address = $customer->hasData('address')
+            ? $customer->getDataFieldConfig('address')['source']->getAddress()
+            : null;
+        parent::fill($customer);
+        if ($address instanceof AddressInjectable) {
+            parent::fill($address);
+        }
     }
 }

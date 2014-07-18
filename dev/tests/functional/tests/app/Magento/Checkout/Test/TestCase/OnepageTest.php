@@ -60,6 +60,11 @@ class OnepageTest extends Functional
 
         //Verify order in Backend
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->assertContains(
+            'Thank you for your purchase!',
+            $successPage->getSuccessBlock()->getSuccessMessage(),
+            'Order success page was not opened.'
+        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
@@ -97,7 +102,7 @@ class OnepageTest extends Functional
         if ($fixture->getCommentHistory()) {
             $expectedAuthorizedAmount = $fixture->getCommentHistory();
         } else {
-            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
+            $expectedAuthorizedAmount = 'Authorized amount of $' . $fixture->getGrandTotal();
         }
         $this->assertContains(
             $expectedAuthorizedAmount,

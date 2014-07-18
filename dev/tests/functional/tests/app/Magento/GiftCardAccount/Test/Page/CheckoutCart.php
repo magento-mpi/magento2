@@ -32,7 +32,27 @@ class CheckoutCart extends AbstractCheckoutCart
             'locator' => '.page.messages',
             'strategy' => 'css selector',
         ],
+        'proceedToCheckoutBlock' => [
+            'name' => 'proceedToCheckoutBlock',
+            'class' => 'Magento\Checkout\Test\Block\Cart\ProceedToCheckout',
+            'locator' => 'ul.checkout.methods.items',
+            'strategy' => 'css selector',
+        ],
+        'cartBlock' => [
+            'name' => 'cartBlock',
+            'class' => 'Magento\Checkout\Test\Block\Cart',
+            'locator' => '//div[contains(@class, "cart container")]',
+            'strategy' => 'xpath',
+        ],
     ];
+
+    /**
+     * @return \Magento\Checkout\Test\Block\Cart
+     */
+    public function getCartBlock()
+    {
+        return $this->getBlockInstance('cartBlock');
+    }
 
     /**
      * @return \Magento\GiftCardAccount\Test\Block\Checkout\Cart\Giftcardaccount
@@ -48,5 +68,13 @@ class CheckoutCart extends AbstractCheckoutCart
     public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\Checkout\Test\Block\Cart\ProceedToCheckout
+     */
+    public function getProceedToCheckoutBlock()
+    {
+        return $this->getBlockInstance('proceedToCheckoutBlock');
     }
 }

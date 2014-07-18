@@ -103,6 +103,13 @@ class Actions extends Block
     protected $refundOffline = '.submit-button';
 
     /**
+     * General button selector
+     *
+     * @var string
+     */
+    protected $button = 'button[title="%s"]';
+
+    /**
      * Ship order
      *
      * @return void
@@ -220,5 +227,17 @@ class Actions extends Block
     public function refundOffline()
     {
         $this->_rootElement->find($this->refundOffline, Locator::SELECTOR_CSS)->click();
+    }
+
+
+    /**
+     * Check if action button is visible
+     *
+     * @param $buttonTitle
+     * @return bool
+     */
+    public function isActionButtonVisible($buttonTitle)
+    {
+        return $this->_rootElement->find(sprintf($this->button, $buttonTitle))->isVisible();
     }
 }

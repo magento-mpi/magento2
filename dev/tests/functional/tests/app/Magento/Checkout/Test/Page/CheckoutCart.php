@@ -57,6 +57,12 @@ class CheckoutCart extends FrontendPage
             'locator' => '.block.discount',
             'strategy' => 'css selector',
         ],
+        'proceedToCheckoutBlock' => [
+            'name' => 'proceedToCheckoutBlock',
+            'class' => 'Magento\Checkout\Test\Block\Cart\ProceedToCheckout',
+            'locator' => 'ul.checkout.methods.items',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -105,5 +111,13 @@ class CheckoutCart extends FrontendPage
     public function getDiscountCodesBlock()
     {
         return $this->getBlockInstance('discountCodesBlock');
+    }
+
+    /**
+     * @return \Magento\Checkout\Test\Block\Cart\ProceedToCheckout
+     */
+    public function getProceedToCheckoutBlock()
+    {
+        return $this->getBlockInstance('proceedToCheckoutBlock');
     }
 }

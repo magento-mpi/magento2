@@ -41,6 +41,13 @@ class Success extends Block
     protected $continueShopping = '.action.continue';
 
     /**
+     * Success message selector
+     *
+     * @var string
+     */
+    protected $successMessage = '[data-ui-id="page-title"]';
+
+    /**
      * Get id for placed order
      *
      * @param Checkout $fixture
@@ -66,10 +73,20 @@ class Success extends Block
      *
      * @return string
      */
-    protected function getGuestOrderId()
+    public function getGuestOrderId()
     {
         $orderString = $this->_rootElement->find($this->orderIdGuest, Locator::SELECTOR_XPATH)->getText();
         preg_match('/[\d]+/', $orderString, $orderId);
         return end($orderId);
+    }
+
+    /**
+     * Get success message
+     *
+     * @return array|string
+     */
+    public function getSuccessMessage()
+    {
+        return $this->_rootElement->find($this->successMessage)->getText();
     }
 }

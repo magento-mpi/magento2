@@ -40,6 +40,13 @@ class Grid extends GridInterface
     protected $purchasePointOptionGroup = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]/optgroup';
 
     /**
+     * Order Id td selector
+     *
+     * @var string
+     */
+    protected $editLink = 'td[data-column="action"] a';
+
+    /**
      * {@inheritdoc}
      */
     protected $filters = array(

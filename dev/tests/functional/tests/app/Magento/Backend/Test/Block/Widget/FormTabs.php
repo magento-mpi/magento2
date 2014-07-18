@@ -9,6 +9,7 @@
 namespace Magento\Backend\Test\Block\Widget;
 
 use Mtf\Block\Mapper;
+use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Client\Element;
 use Mtf\Util\XmlConverter;
 use Mtf\Util\Iterator\File;
@@ -47,16 +48,18 @@ class FormTabs extends Form
      * @param Element $element
      * @param Mapper $mapper
      * @param BlockFactory $blockFactory
+     * @param Browser $browser
      * @param XmlConverter $xmlConverter
      */
     public function __construct(
         Element $element,
         Mapper $mapper,
         BlockFactory $blockFactory,
+        Browser $browser,
         XmlConverter $xmlConverter
     ) {
         $this->xmlConverter = $xmlConverter;
-        parent::__construct($element, $blockFactory, $mapper);
+        parent::__construct($element, $blockFactory, $mapper, $browser);
     }
 
     /**

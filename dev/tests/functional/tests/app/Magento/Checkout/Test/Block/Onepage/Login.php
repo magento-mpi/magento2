@@ -7,6 +7,7 @@
  */
 namespace Magento\Checkout\Test\Block\Onepage;
 
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
@@ -14,7 +15,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
 /**
  * Class Login
  * One page checkout status login block
- *
  */
 class Login extends Form
 {
@@ -50,6 +50,7 @@ class Login extends Form
      * Select how to perform checkout whether guest or registered customer
      *
      * @param Checkout $fixture
+     * @return void
      */
     public function checkoutMethod(Checkout $fixture)
     {
@@ -64,8 +65,10 @@ class Login extends Form
 
     /**
      * Perform guest checkout
+     *
+     * @return void
      */
-    private function guestCheckout()
+    public function guestCheckout()
     {
         $this->_rootElement->find($this->guestCheckout, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
@@ -74,8 +77,10 @@ class Login extends Form
 
     /**
      * Register customer during checkout
+     *
+     * @return void
      */
-    private function registerCustomer()
+    public function registerCustomer()
     {
         $this->_rootElement->find($this->registerCustomer, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
@@ -86,10 +91,24 @@ class Login extends Form
      * Login customer during checkout
      *
      * @param Checkout $fixture
+     * @return void
      */
-    private function loginCustomer(Checkout $fixture)
+    public function loginCustomer(Checkout $fixture)
     {
         $customer = $fixture->getCustomer();
+        $this->fill($customer);
+        $this->_rootElement->find($this->login, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementNotVisible('.loading-mask');
+    }
+
+    /**
+     * Login customer during checkout
+     *
+     * @param CustomerInjectable $customer
+     * @return void
+     */
+    public function loginAsCustomer(CustomerInjectable $customer)
+    {
         $this->fill($customer);
         $this->_rootElement->find($this->login, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('.loading-mask');

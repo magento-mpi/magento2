@@ -192,6 +192,11 @@ class AddressInjectable extends InjectableFixture
         'input' => 'text',
     ];
 
+    protected $email = [
+        'attribute_code' => 'email',
+        'backend_type' => 'virtual',
+    ];
+
     public function getCity()
     {
         return $this->getData('city');
@@ -285,5 +290,10 @@ class AddressInjectable extends InjectableFixture
     public function getVatRequestSuccess()
     {
         return $this->getData('vat_request_success');
+    }
+
+    public function getEmail()
+    {
+        return $this->getData('email');
     }
 }

@@ -26,7 +26,7 @@ class GuestPayPalPayflowPro extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$156.81'
+                'grand_total' => '156.81'
             )
         );
     }

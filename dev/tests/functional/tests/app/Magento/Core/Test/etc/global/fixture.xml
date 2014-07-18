@@ -16,4 +16,6 @@
         </entities>
         <collection>Magento\Core\Model\Resource\Variable\Collection</collection>
     </systemVariable>
+    <configData module="Magento_Core">
+    </configData>
 </fixture>

@@ -62,4 +62,30 @@ class Method extends Block
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible($this->waitElement);
     }
+
+    /**
+     * Select shipping
+     *
+     * @param array $shipping
+     * @return void
+     */
+    public function selectShipping(array $shipping)
+    {
+        $carrierSelector = str_replace(' ', '', 'dd.' . strtolower($shipping['carrier']));
+        if ($this->_rootElement->find($carrierSelector)->find('[name="shipping_method"]')->isVisible()) {
+            $this->_rootElement->find($carrierSelector)->find('[name="shipping_method"]')->click();
+        }
+        $this->submit();
+    }
+
+    /**
+     * Click continue button
+     *
+     * @return void
+     */
+    public function submit()
+    {
+        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementNotVisible($this->waitElement);
+    }
 }

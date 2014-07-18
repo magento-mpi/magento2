@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <exchangeRate module="Magento_Reward">
+        <type>flat</type>
+        <entity_type>magento_reward_rate</entity_type>
+        <collection>Magento\Reward\Model\Resource\Reward\Rate\Collection</collection>
+        <fields>
+            <value>
+                <attribute_code>value</attribute_code>
+                <backend_type>virtual</backend_type>
+            </value>
+            <equal_value>
+                <attribute_code>equal_value</attribute_code>
+                <backend_type>virtual</backend_type>
+            </equal_value>
+        </fields>
+    </exchangeRate>
+</fixture>

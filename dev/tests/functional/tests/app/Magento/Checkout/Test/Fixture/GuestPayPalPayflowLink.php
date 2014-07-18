@@ -40,7 +40,7 @@ class GuestPayPalPayflowLink extends Checkout
     {
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$156.81',
+                'grand_total' => '156.81',
                 'comment_history' => 'Authorized amount of $156.81'
             )
         );

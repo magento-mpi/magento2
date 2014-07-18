@@ -41,6 +41,16 @@ class Methods extends Form
     protected $waitElement = '.loading-mask';
 
     /**
+     * Array with store credit and reward points selectors
+     *
+     * @var array
+     */
+    protected $pointsSelectors = [
+        'storeCredit' => '#customerbalance-available-amount',
+        'rewardPoints' => '[name="payment[use_reward_points]"]',
+    ];
+
+    /**
      * Select payment method
      *
      * @param Checkout $fixture
@@ -58,7 +68,8 @@ class Methods extends Form
             $formBlock = new $paymentFormClass(
                 $this->_rootElement->find('#payment_form_' . $paymentCode),
                 $this->blockFactory,
-                $this->mapper
+                $this->mapper,
+                $this->browser
             );
             $formBlock->fill($fixture);
         }
@@ -68,11 +79,40 @@ class Methods extends Form
     }
 
     /**
+     * Select payment method
+     *
+     * @param $paymentCode
+     */
+    public function clickOnPaymentMethod($paymentCode)
+    {
+        $this->applyCustomerPoints();
+        $this->_rootElement->find(sprintf($this->paymentMethod, $paymentCode), Locator::SELECTOR_CSS)->click();
+        if ($paymentCode == 'purchaseorder' && $this->_rootElement->find('#po_number')->isVisible()) {
+            $this->_rootElement->find('#po_number')->setValue(rand(1000000, 9999999));
+        }
+    }
+
+    /**
      * Press "Continue" button
      */
     public function pressContinue()
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible($this->waitElement);
+    }
+
+    /**
+     * Apply reward points or store credit
+     *
+     * @return void
+     */
+    protected function applyCustomerPoints()
+    {
+        foreach ($this->pointsSelectors as $selector) {
+            $checkBox = $this->_rootElement->find($selector);
+            if ($checkBox->isVisible()) {
+                $checkBox->click();
+            }
+        }
     }
 }

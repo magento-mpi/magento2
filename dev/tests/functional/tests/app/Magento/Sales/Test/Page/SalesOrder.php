@@ -8,7 +8,7 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Mtf\Page\Page;
+use Mtf\Page\BackendPage;
 use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Sales\Order\Grid;
 use Magento\Core\Test\Block\Messages;
@@ -22,7 +22,7 @@ use Mtf\Client\Element\Locator;
  * Manage orders page
  *
  */
-class SalesOrder extends Page
+class SalesOrder extends BackendPage
 {
     /**
      * URL for manage orders page
