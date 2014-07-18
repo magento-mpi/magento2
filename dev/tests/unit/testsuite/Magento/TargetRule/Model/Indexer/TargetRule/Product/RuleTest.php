@@ -99,7 +99,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->_ruleProductProcessor->expects($this->once())
             ->method('isFullReindexPassed')
             ->will($this->returnValue(false));
-        $this->_productRuleProcessor->expects($this->once())
+        $this->_ruleProductProcessor->expects($this->once())
             ->method('setFullReindexPassed');
         $this->_ruleIndexer->executeFull();
     }
@@ -111,7 +111,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->_ruleProductProcessor->expects($this->once())
             ->method('isFullReindexPassed')
             ->will($this->returnValue(true));
-        $this->_productRuleProcessor->expects($this->never())
+        $this->_ruleProductProcessor->expects($this->never())
             ->method('setFullReindexPassed');
         $this->_ruleIndexer->executeFull();
     }

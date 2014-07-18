@@ -89,7 +89,7 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
     {
         if (!$this->_ruleProductProcessor->isFullReindexPassed()) {
             $this->_productRuleIndexerFull->execute();
-            $this->_productRuleProcessor->setFullReindexPassed();
+            $this->_ruleProductProcessor->setFullReindexPassed();
         }
     }
 

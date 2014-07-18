@@ -81,7 +81,7 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Framew
     {
         if (!$this->_productRuleProcessor->isFullReindexPassed()) {
             $this->_ruleProductIndexerFull->execute();
-            $this->_ruleProductProcessor->setFullReindexPassed();
+            $this->_productRuleProcessor->setFullReindexPassed();
         }
     }
 
