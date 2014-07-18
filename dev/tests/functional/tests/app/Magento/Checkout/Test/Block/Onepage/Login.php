@@ -64,6 +64,8 @@ class Login extends Form
 
     /**
      * Perform guest checkout
+     *
+     * @return void
      */
     public function guestCheckout()
     {

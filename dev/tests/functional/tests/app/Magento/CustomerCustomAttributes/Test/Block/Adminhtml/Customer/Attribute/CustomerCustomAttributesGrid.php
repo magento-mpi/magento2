@@ -9,13 +9,13 @@
 namespace Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute;
 
 use Mtf\Client\Element;
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
  * Class CustomerCustomAttributesGrid
  * Adminhtml CustomerCustomAttributes block management grid
  */
-class CustomerCustomAttributesGrid extends GridInterface
+class CustomerCustomAttributesGrid extends Grid
 {
     /**
      * An element locator which allows to select first entity in grid

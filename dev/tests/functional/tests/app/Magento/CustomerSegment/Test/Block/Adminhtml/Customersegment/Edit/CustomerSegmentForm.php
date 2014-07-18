@@ -12,6 +12,7 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 use Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab\MatchedCustomers;
 
 /**
@@ -20,6 +21,20 @@ use Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab\Matche
  */
 class CustomerSegmentForm extends FormTabs
 {
+    /**
+     * Add button
+     *
+     * @var string
+     */
+    protected $addButton = '.rule-param-new-child a';
+
+    /**
+     * Locator for Customer Segment Conditions
+     *
+     * @var string
+     */
+    protected $conditionFormat = '//*[@id="conditions__1__new_child"]//option[contains(.,"%s")]';
+
     /**
      * Get number of customer on navigation tabs
      *
@@ -81,5 +96,25 @@ class CustomerSegmentForm extends FormTabs
             }
         }
         return $tabs;
+    }
+
+    /**
+     * Check if customer attribute is available in conditions of customer segment
+     *
+     * @param  CustomerCustomAttribute $customerAttribute
+     * @return bool
+     */
+    public function inConditions(CustomerCustomAttribute $customerAttribute)
+    {
+        $this->_rootElement->find($this->addButton, Locator::SELECTOR_CSS)->click();
+        $frontendLabel = $customerAttribute->getFrontendLabel();
+        $condition = $this->_rootElement->find(
+            sprintf($this->conditionFormat, $frontendLabel),
+            Locator::SELECTOR_XPATH
+        )->getValue();
+        $pieces = explode("|", $condition);
+        $formAttributeCode = end($pieces);
+        $fixtureAttributeCode = $customerAttribute->getAttributeCode();
+        return ($formAttributeCode == $fixtureAttributeCode);
     }
 }

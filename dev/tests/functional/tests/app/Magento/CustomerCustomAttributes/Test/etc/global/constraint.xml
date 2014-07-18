@@ -59,4 +59,13 @@
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
         </require>
     </assertCustomerCustomAttributeOnCreateOrderBackend>
+    <assertCustomerCustomAttributeInCustomerSegment module="Magento_CustomerCustomAttributes">
+        <severeness>low</severeness>
+        <require>
+            <customerSegment class="Magento\CustomerSegment\Test\Fixture\CustomerSegment" />
+            <customerSegmentNew class="Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew" />
+            <customerSegmentIndex class="Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex" />
+            <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
+        </require>
+    </assertCustomerCustomAttributeInCustomerSegment>
 </constraint>

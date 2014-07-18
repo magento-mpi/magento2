@@ -44,13 +44,7 @@ class AssertCustomerCustomAttributeOnCreateOrderBackend extends AbstractConstrai
     ) {
         $salesOrder->open();
         $salesOrder->getOrderActionsBlock()->add();
-//        $filter = [
-//            'email' => $customer->getEmail(),
-//        ];
         $salesOrderCreateIndex->getCustomerBlock()->selectCustomer($customer);
-//        $salesOrderCreateIndex->getCustomerBlock()->searchAndOpen($filter);
-//        $salesOrderCreateIndex->getCustomerBlock()->waitForElementNotVisible('//ancestor::body//*/div[@class="loader"]');
-//        $salesOrderCreateIndex->getCreateBlock()->waitForElementVisible('form[id="edit_form"]');
         $attributeCode = $customerAttribute->getAttributeCode();
         \PHPUnit_Framework_Assert::assertTrue(
             $salesOrderCreateIndex->getCreateBlock()->isCustomerAttributeVisible($attributeCode),
