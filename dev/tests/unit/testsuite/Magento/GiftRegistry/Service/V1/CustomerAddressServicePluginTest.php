@@ -49,7 +49,8 @@ class CustomerAddressServicePluginTest extends \PHPUnit_Framework_TestCase
         $serviceMock = $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
         $this->assertEquals(
             $dataObjectMock,
-            $this->plugin->aroundGetAddress($serviceMock, function() {}, $addressId)
+            $this->plugin->aroundGetAddress($serviceMock, function () {
+            }, $addressId)
         );
     }
 
