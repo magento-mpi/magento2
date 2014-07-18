@@ -273,7 +273,7 @@ class TaxClassService implements TaxClassServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getTaxClassId($taxClassKey, $taxClassType = TaxClass::TYPE_PRODUCT)
+    public function getTaxClassId($taxClassKey, $taxClassType = TaxClassServiceInterface::TYPE_PRODUCT)
     {
         if (!empty($taxClassKey)) {
             switch ($taxClassKey->getType()) {
