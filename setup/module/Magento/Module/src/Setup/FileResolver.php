@@ -12,7 +12,6 @@ use Zend\Stdlib\Glob;
 use Magento\Config\FileResolverInterface;
 use Magento\Config\FileIteratorFactory;
 use Magento\Config\ConfigFactory;
-use Magento\Config\Config;
 
 class FileResolver implements FileResolverInterface
 {

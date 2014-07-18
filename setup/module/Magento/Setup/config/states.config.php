@@ -20,6 +20,7 @@ return [
             'title'       => 'Landing',
             'controller'  => 'landingController',
             'main'        => true,
+            'default'     => true,
             'order'       => 0,
         ],
         [

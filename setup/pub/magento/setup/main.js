@@ -58,7 +58,7 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
                 self.states = data.nav;
                 data.nav.forEach(function (item) {
                     app.stateProvider.state(item.id, item);
-                    if (item.main) {
+                    if (item.default) {
                         self.mainState = item;
                     }
 
