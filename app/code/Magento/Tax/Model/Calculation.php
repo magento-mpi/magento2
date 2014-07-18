@@ -624,27 +624,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Gets the tax rates by type
-     *
-     * @param \Magento\Framework\Object $request
-     * @param string|array $fieldName
-     * @param string|array $type
-     * @return array
-     */
-    protected function _getRates($request, $fieldName, $type)
-    {
-        $result = array();
-        /** @var $classes \Magento\Tax\Model\Resource\TaxClass\Collection */
-        $classes = $this->_classesFactory->create();
-        $classes->addFieldToFilter('class_type', $type)->load();
-        foreach ($classes as $class) {
-            $request->setData($fieldName, $class->getId());
-            $result[$class->getId()] = $this->getRate($request);
-        }
-        return $result;
-    }
-
-    /**
      * Get information about tax rates applied to request
      *
      * @param   \Magento\Framework\Object $request
