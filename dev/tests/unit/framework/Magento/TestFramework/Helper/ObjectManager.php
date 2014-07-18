@@ -13,10 +13,6 @@ namespace Magento\TestFramework\Helper;
 
 class ObjectManager
 {
-    const ONCE = 'once';
-    const MOCK_METHOD_NAME = 'mock_method_name';
-    const MOCK_VALUE = 'mock_value';
-    const WITH_ARGUMENT = 'with_argument';
     /**
      * Special cases configuration
      *
@@ -101,10 +97,10 @@ class ObjectManager
         $resourceMock->expects(
             $this->_testObject->any()
         )->method(
-                'getIdFieldName'
-            )->will(
-                $this->_testObject->returnValue('id')
-            );
+            'getIdFieldName'
+        )->will(
+            $this->_testObject->returnValue('id')
+        );
 
         return $resourceMock;
     }
@@ -124,10 +120,10 @@ class ObjectManager
         $translator->expects(
             $this->_testObject->any()
         )->method(
-                'translate'
-            )->will(
-                $this->_testObject->returnCallback($translateCallback)
-            );
+            'translate'
+        )->will(
+            $this->_testObject->returnCallback($translateCallback)
+        );
         return $translator;
     }
 
@@ -194,14 +190,12 @@ class ObjectManager
             ->will($this->_testObject->returnSelf());
         $objectFactory->expects($this->_testObject->any())
             ->method('create')
-            ->will(
-                $this->_testObject->returnCallback(
-                    function ($className, $arguments) {
-                        $reflectionClass = new \ReflectionClass($className);
-                        return $reflectionClass->newInstanceArgs($arguments);
-                    }
-                )
-            );
+            ->will($this->_testObject->returnCallback(
+                function ($className, $arguments) {
+                    $reflectionClass = new \ReflectionClass($className);
+                    return $reflectionClass->newInstanceArgs($arguments);
+                }
+            ));
 
         return $builderObject;
     }
@@ -275,10 +269,10 @@ class ObjectManager
         $mock->expects(
             $this->_testObject->any()
         )->method(
-                'getIterator'
-            )->will(
-                $this->_testObject->returnValue($iterator)
-            );
+            'getIterator'
+        )->will(
+            $this->_testObject->returnValue($iterator)
+        );
         return $mock;
     }
 
@@ -299,32 +293,6 @@ class ObjectManager
         } else {
             $object = $this->_createArgumentMock($argClassName, $arguments);
             return $object;
-        }
-    }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $mockObject
-     * @param array $mockMap
-     */
-    public function mockReturnValues($mockObject, $mockMap)
-    {
-        foreach ($mockMap as $valueMap) {
-
-            if (isset($valueMap[self::WITH_ARGUMENT])) {
-                $mockObject->expects(
-                    $valueMap[self::ONCE] == true ? $this->_testObject->once() : $this->_testObject->atLeastOnce()
-                )->method($valueMap[self::MOCK_METHOD_NAME])->with($valueMap[self::WITH_ARGUMENT])
-                    ->will(
-                        $this->_testObject->returnValue($valueMap[self::MOCK_VALUE])
-                    );
-            } else {
-                $mockObject->expects(
-                    $valueMap[self::ONCE] == true ? $this->_testObject->once() : $this->_testObject->atLeastOnce()
-                )->method($valueMap[self::MOCK_METHOD_NAME])->withAnyParameters()
-                    ->will(
-                        $this->_testObject->returnValue($valueMap[self::MOCK_VALUE])
-                    );
-            }
         }
     }
 }
