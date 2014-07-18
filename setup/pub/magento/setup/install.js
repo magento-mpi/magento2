@@ -28,7 +28,7 @@ angular.module('install', ['ngStorage'])
                     } else {
                         $timeout(function() {
                             $scope.checkProgress();
-                        }, 2500);
+                        }, 1500);
                     }
                 } else {
                     $scope.progress = 100;

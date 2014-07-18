@@ -13,7 +13,7 @@
 </div>
 
 <div ng-show="isStart" ng-init="errorStatus='<?php echo $this->translate('Sorry we can not install Magento right now.'); ?>'">
-    <div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;">{{progressText}}</div></div>
+    <div class="progress"><div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;">{{progressText}}</div></div>
     <div ng-show="error" class="error-container">
         <span class="glyphicon glyphicon-remove-sign "></span>
         <span><?php echo $this->translate('We don\'t know the exact reason. Check the console log for errors before trying again.'); ?></span>
