@@ -6,13 +6,12 @@
  * @license     {license_link}
  */
 
-/* Create attribute */
-/** @var $installer \Magento\Catalog\Model\Resource\Setup */
-$installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-    'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
-);
-
-/* Assign attribute to attribute set */
-$installer->removeAttribute('catalog_product', 'test_configurable');
-$installer->cleanCache();
+/** @var \Magento\Eav\Model\Config $eavConfig */
+$eavConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config');
+$attribute = $eavConfig->getAttribute('catalog_product', 'test_configurable');
+if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+    && $attribute->getId()
+) {
+    $attribute->delete();
+}
+$eavConfig->clear();

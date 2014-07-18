@@ -373,6 +373,7 @@ return array(
     array('getAllOrderEntityIds', 'Magento\Rss\Model\Resource\Order'),
     array('getAllOrderEntityTypeIds', 'Magento\Rss\Model\Resource\Order'),
     array('getAnonSuffix'),
+    ['getAttributesById', 'Magento\Eav\Model\Entity\AbstractEntity'],
     array('getAttributeDataModelFactory', 'Magento\Eav\Model\Validator\Attribute\Data'),
     array('getAttributes', 'Magento\Customer\Helper\Address'),
     array('getAttributesJson', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config', 'getAttributes'),
