@@ -248,7 +248,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassName = 'Get Me';
         $taxClassDataObject = $this->taxClassBuilder
             ->setClassName($taxClassName)
-            ->setClassType(TaxClassDataObject::TYPE_CUSTOMER)
+            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
         /** @var \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder */
@@ -261,7 +261,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         )->create();
         $this->assertEquals(
             $taxClassId,
-            $this->taxClassService->getTaxClassId($taxClassKeyTypeId, TaxClassDataObject::TYPE_CUSTOMER)
+            $this->taxClassService->getTaxClassId($taxClassKeyTypeId, TaxClassServiceInterface::TYPE_CUSTOMER)
         );
         $taxClassKeyTypeName = $taxClassKeyBuilder->populateWithArray(
             [
@@ -271,12 +271,12 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         )->create();
         $this->assertEquals(
             $taxClassId,
-            $this->taxClassService->getTaxClassId($taxClassKeyTypeId, TaxClassDataObject::TYPE_CUSTOMER)
+            $this->taxClassService->getTaxClassId($taxClassKeyTypeId, TaxClassServiceInterface::TYPE_CUSTOMER)
         );
         $this->assertNull($this->taxClassService->getTaxClassId(null));
         $this->assertEquals(
             null,
-            $this->taxClassService->getTaxClassId($taxClassKeyTypeName, TaxClassDataObject::TYPE_PRODUCT)
+            $this->taxClassService->getTaxClassId($taxClassKeyTypeName, TaxClassServiceInterface::TYPE_PRODUCT)
         );
     }
 }
