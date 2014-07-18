@@ -50,16 +50,16 @@ angular.module('install', ['ngStorage'])
             $scope.checkProgress();
         };
     }])
-    .service('progress', ['$http', '$scope', function ($http, $scope) {
+    .service('progress', ['$http', function ($http) {
         return {
             get: function (callback) {
                 $http.get('install/progress').then(callback);
             },
             post: function (data) {
                 $http.post('install/start', data).success(function (response) {
-                    if (response.data.success) {
-                        $scope.nextState();
-                    }
+//                    if (response.data.success) {
+//                        $scope.nextState();
+//                    }
                 });
             }
         };
