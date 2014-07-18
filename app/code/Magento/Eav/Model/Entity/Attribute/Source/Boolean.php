@@ -166,30 +166,31 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             $tableName = $attributeCode . '_t';
             $collection->getSelect()
                 ->joinLeft(
-                array($tableName => $attributeTable),
-                "e.entity_id={$tableName}.entity_id"
+                    array($tableName => $attributeTable),
+                    "e.entity_id={$tableName}.entity_id"
                     . " AND {$tableName}.attribute_id='{$attributeId}'"
                     . " AND {$tableName}.store_id='0'",
-                array()
-            );
+                    array()
+                );
             $valueExpr = $tableName . '.value';
         } else {
             $valueTable1 = $attributeCode . '_t1';
             $valueTable2 = $attributeCode . '_t2';
             $collection->getSelect()
                 ->joinLeft(
-                array($valueTable1 => $attributeTable),
-                "e.entity_id={$valueTable1}.entity_id"
+                    array($valueTable1 => $attributeTable),
+                    "e.entity_id={$valueTable1}.entity_id"
                     . " AND {$valueTable1}.attribute_id='{$attributeId}'"
                     . " AND {$valueTable1}.store_id='0'",
-                array())
+                    array()
+                )
                 ->joinLeft(
-                array($valueTable2 => $attributeTable),
-                "e.entity_id={$valueTable2}.entity_id"
+                    array($valueTable2 => $attributeTable),
+                    "e.entity_id={$valueTable2}.entity_id"
                     . " AND {$valueTable2}.attribute_id='{$attributeId}'"
                     . " AND {$valueTable2}.store_id='{$collection->getStoreId()}'",
-                array()
-            );
+                    array()
+                );
             $valueExpr = $collection->getConnection()->getCheckSql(
                 $valueTable2 . '.value_id > 0',
                 $valueTable2 . '.value',
