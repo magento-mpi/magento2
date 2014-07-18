@@ -10,6 +10,7 @@ namespace Magento\Setup\Controller\Install;
 use Magento\Module\ModuleListInterface;
 use Magento\Module\Setup\Config;
 use Magento\Module\SetupFactory;
+use Magento\Setup\Model\AdminAccountFactory;
 use Magento\Setup\Model\Logger;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -38,9 +39,15 @@ class StartController extends AbstractActionController
     protected $config;
 
     /**
+     * @var AdminAccountFactory
+     */
+    protected $adminAccountFactory;
+
+    /**
      * @param JsonModel $view
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
+     * @param AdminAccountFactory $adminAccountFactory
      * @param Logger $logger
      * @param Config $config
      */
@@ -48,6 +55,7 @@ class StartController extends AbstractActionController
         JsonModel $view,
         ModuleListInterface $moduleList,
         SetupFactory $setupFactory,
+        AdminAccountFactory $adminAccountFactory,
         Logger $logger,
         Config $config
     ) {
@@ -56,6 +64,7 @@ class StartController extends AbstractActionController
         $this->moduleList = $moduleList->getModules();
         $this->setupFactory = $setupFactory;
         $this->config = $config;
+        $this->adminAccountFactory = $adminAccountFactory;
     }
 
     /**
@@ -91,6 +100,11 @@ class StartController extends AbstractActionController
         curl_setopt($cHandle, CURLOPT_URL, $magentoUrl);
         curl_exec($cHandle);
         curl_close($cHandle);
+
+        // Create administrator account
+        $this->adminAccountFactory->setConfig($data);
+        $adminAccount = $this->adminAccountFactory->create();
+        $adminAccount->save();
 
         $this->json->setVariable('success', true);
         return $this->json;
