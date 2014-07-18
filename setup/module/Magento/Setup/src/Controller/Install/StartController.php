@@ -7,6 +7,7 @@
  */
 namespace Magento\Setup\Controller\Install;
 
+use Magento\Framework\Math\Random;
 use Magento\Module\ModuleListInterface;
 use Magento\Module\Setup\Config;
 use Magento\Module\SetupFactory;
@@ -44,11 +45,17 @@ class StartController extends AbstractActionController
     protected $adminAccountFactory;
 
     /**
+     * @var Random
+     */
+    protected $random;
+
+    /**
      * @param JsonModel $view
      * @param ModuleListInterface $moduleList
      * @param SetupFactory $setupFactory
      * @param AdminAccountFactory $adminAccountFactory
      * @param Logger $logger
+     * @param Random $random
      * @param Config $config
      */
     public function __construct(
@@ -57,6 +64,7 @@ class StartController extends AbstractActionController
         SetupFactory $setupFactory,
         AdminAccountFactory $adminAccountFactory,
         Logger $logger,
+        Random $random,
         Config $config
     ) {
         $this->logger = $logger;
@@ -65,6 +73,7 @@ class StartController extends AbstractActionController
         $this->setupFactory = $setupFactory;
         $this->config = $config;
         $this->adminAccountFactory = $adminAccountFactory;
+        $this->random = $random;
     }
 
     /**
@@ -90,8 +99,6 @@ class StartController extends AbstractActionController
             $this->logger->logSuccess($moduleName);
         }
 
-        $this->config->replaceTmpInstallDate(date('r'));
-
         $magentoUrl = isset($data['config']['address']['web'])
             ? $data['config']['address']['web']
             : '';
@@ -106,7 +113,17 @@ class StartController extends AbstractActionController
         $adminAccount = $this->adminAccountFactory->create();
         $adminAccount->save();
 
+        if ($data['config']['encrypt']['type'] == 'magento') {
+            $key = md5($this->random->getRandomString(10));
+        } else {
+            $key = $data['config']['encrypt']['key'];
+        }
+        $this->config->replaceTmpEncryptKey($key);
+
+        $this->config->replaceTmpInstallDate(date('r'));
+
         $this->json->setVariable('success', true);
+        $this->json->setVariable('key', $key);
         return $this->json;
     }
 }

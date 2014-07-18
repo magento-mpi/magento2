@@ -50,13 +50,14 @@ angular.module('install', ['ngStorage'])
             $scope.checkProgress();
         };
     }])
-    .service('progress', ['$http', function ($http) {
+    .service('progress', ['$http', '$localStorage', function ($http, $localStorage) {
         return {
             get: function (callback) {
                 $http.get('install/progress').then(callback);
             },
             post: function (data) {
                 $http.post('install/start', data).success(function (response) {
+                    $localStorage.config.encrypt.key = response.data.key;
 //                    if (response.data.success) {
 //                        $scope.nextState();
 //                    }

@@ -34,7 +34,6 @@ class FileResolver implements FileResolverInterface
     /**
      * @param FileIteratorFactory $iteratorFactory
      * @param ConfigFactory $configFactory
-     * @internal param Config $config
      */
     public function __construct(
         FileIteratorFactory $iteratorFactory,
