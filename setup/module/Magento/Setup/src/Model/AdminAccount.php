@@ -9,14 +9,14 @@
 namespace Magento\Setup\Model;
 
 use Magento\Framework\Math\Random;
-use Magento\Module\Setup\Connection\AdapterInterface;
+use Magento\Module\Setup;
 
 class AdminAccount
 {
     /**
-     * @var AdapterInterface
+     * @var Seyup
      */
-    protected $connection;
+    protected $setup;
 
     /**
      * @var []
@@ -29,16 +29,16 @@ class AdminAccount
     protected $random;
 
     /**
-     * @param AdapterInterface $connection
+     * @param Setup $setup
      * @param Random $random
      * @param array $config
      */
     public function __construct(
-        AdapterInterface $connection,
+        Setup $setup,
         Random $random,
         array $config = array()
     ) {
-        $this->connection = $connection->getConnection($config);
+        $this->setup  = $setup;
         $this->config = $config;
         $this->random = $random;
     }
@@ -72,8 +72,12 @@ class AdminAccount
             'extra' => serialize(null),
             'is_active' => 1,
         ];
-        $this->connection->insert('admin_user', $adminData, true);
-        $adminId = $this->connection->getDriver()->getLastGeneratedValue();
+        $this->setup->getConnection()->insert(
+            $this->setup->getTable('admin_user'),
+            $adminData,
+            true
+        );
+        $adminId = $this->setup->getConnection()->getDriver()->getLastGeneratedValue();
 
         $roleData = [
             'parent_id' => 1,
@@ -83,6 +87,10 @@ class AdminAccount
             'user_id' => $adminId,
             'role_name' => $this->config['admin_username'],
         ];
-        $this->connection->insert('admin_role', $roleData);
+        $this->setup->getConnection()->insert(
+            $this->setup->getTable('admin_role'),
+            $roleData,
+            true
+        );
     }
 }

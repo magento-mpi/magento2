@@ -148,7 +148,7 @@ class StartController extends AbstractActionController
 
         // Create administrator account
         $this->adminAccountFactory->setConfig($this->config->getConfigData());
-        $adminAccount = $this->adminAccountFactory->create();
+        $adminAccount = $this->adminAccountFactory->create($setup);
         $adminAccount->save();
 
         $this->logger->logSuccess('Admin User');
