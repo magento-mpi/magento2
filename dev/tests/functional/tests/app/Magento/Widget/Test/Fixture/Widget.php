@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Widget
- *
- * @package Magento\Widget\Test\Fixture
  */
 class Widget extends InjectableFixture
 {

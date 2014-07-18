@@ -35,6 +35,13 @@ class Content implements FixtureInterface
     protected $params;
 
     /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * @constructor
      * @param array $params
      * @param array $data
@@ -42,6 +49,7 @@ class Content implements FixtureInterface
      */
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
+        $this->fixtureFactory = $fixtureFactory;
         $this->params = $params;
         $this->data = $data;
         if (isset($data['widget']['preset'])) {
@@ -50,52 +58,82 @@ class Content implements FixtureInterface
                 if (isset($widget['chosen_option']['category_path'])
                     && !isset($widget['chosen_option']['filter_sku'])
                 ) {
-                    /** @var CatalogCategory $category */
-                    $category = $fixtureFactory->createByCode(
-                        'catalogCategory',
-                        ['dataSet' => $widget['chosen_option']['category_path']]
-                    );
-                    if (!$category->hasData('id')) {
-                        $category->persist();
-                    }
+                    $category = $this->createCategory($widget);
                     $categoryName = $category->getData('name');
                     $this->data['widget']['preset'][$key]['chosen_option']['category_path'] = $categoryName;
                 }
                 if (isset($widget['chosen_option']['category_path']) && isset($widget['chosen_option']['filter_sku'])) {
-                    /** @var CatalogProductSimple $product */
-                    $product = $fixtureFactory->createByCode(
-                        'catalogProductSimple',
-                        ['dataSet' => $widget['chosen_option']['category_path']]
-                    );
-                    if (!$product->hasData('id')) {
-                        $product->persist();
-                    }
+                    $product = $this->createProduct($widget);
                     $categoryName = $product->getCategoryIds()[0]['name'];
                     $productSku = $product->getData('sku');
                     $this->data['widget']['preset'][$key]['chosen_option']['category_path'] = $categoryName;
                     $this->data['widget']['preset'][$key]['chosen_option']['filter_sku'] = $productSku;
                 }
                 if ($widget['widget_type'] == 'Catalog New Products List') {
-                    /** @var CatalogProductSimple $product */
-                    $product = $fixtureFactory->createByCode(
-                        'catalogProductSimple',
-                        ['dataSet' => 'default']
-                    );
-                    if (!$product->hasData('id')) {
-                        $product->persist();
-                    }
+                    $this->createProduct();
                 }
                 if ($widget['widget_type'] == 'CMS Static Block') {
-                    /** @var CmsBlock $block */
-                    $block = $fixtureFactory->createByCode($widget['chosen_option']['filter_identifier']);
-                    if (!$block->hasData('block_id')) {
-                        $block->persist();
-                    }
+                    $block = $this->createBlock($widget);
                     $blockIdentifier = $block->getIdentifier();
                     $this->data['widget']['preset'][$key]['chosen_option']['filter_identifier'] = $blockIdentifier;
                 }
             }
         }
+    }
+
+    /**
+     * Create category
+     *
+     * @param array $widget
+     * @return CatalogCategory
+     */
+    protected function createCategory($widget)
+    {
+        /** @var CatalogCategory $category */
+        $category = $this->fixtureFactory->createByCode(
+            'catalogCategory',
+            ['dataSet' => $widget['chosen_option']['category_path']]
+        );
+        if (!$category->hasData('id')) {
+            $category->persist();
+        }
+
+        return $category;
+    }
+
+    /**
+     * Create product
+     *
+     * @param array|null $widget [optional]
+     * @return CatalogProductSimple
+     */
+    protected function createProduct($widget = null)
+    {
+        $dataSet = $widget === null ? 'default' : $widget['chosen_option']['category_path'];
+        /** @var CatalogProductSimple $product */
+        $product = $this->fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => $dataSet]);
+        if (!$product->hasData('id')) {
+            $product->persist();
+        }
+
+        return $product;
+    }
+
+    /**
+     * Create block
+     *
+     * @param array $widget
+     * @return CmsBlock
+     */
+    protected function createBlock($widget)
+    {
+        /** @var CmsBlock $block */
+        $block = $this->fixtureFactory->createByCode($widget['chosen_option']['filter_identifier']);
+        if (!$block->hasData('block_id')) {
+            $block->persist();
+        }
+
+        return $block;
     }
 
     /**
