@@ -23,7 +23,11 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $productFactoryMock = $this->getMock(
-            'Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false
+            'Magento\Catalog\Model\ProductFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $productFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->productMock));
@@ -35,26 +39,26 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateThrowsExceptionIfNoSuchProduct()
     {
-        $this->productMock->expects($this->once())->method('loadByAttribute')->with('sku', 'test_sku')
-            ->will($this->returnValue(false));
+        $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
+            ->will($this->returnValue(null));
         $this->model->get('test_sku');
     }
 
     public function testCreateCreatesProduct()
     {
-        $this->productMock->expects($this->once())->method('loadByAttribute')->with('sku', 'test_sku')
-            ->will($this->returnSelf());
-        $this->productMock->expects($this->once())->method('getId')->will($this->returnValue('test_id'));
+        $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
+            ->will($this->returnValue('test_id'));
+        $this->productMock->expects($this->once())->method('load')->with('test_id');
         $this->assertSame($this->productMock, $this->model->get('test_sku'));
         $this->assertSame($this->productMock, $this->model->get('test_sku'));
     }
 
     public function testCreateCreatesProductInEditMode()
     {
-        $this->productMock->expects($this->once())->method('loadByAttribute')->with('sku', 'test_sku')
-            ->will($this->returnSelf());
-        $this->productMock->expects($this->once())->method('getId')->will($this->returnValue('test_id'));
+        $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
+            ->will($this->returnValue('test_id'));
         $this->productMock->expects($this->once())->method('setData')->with('_edit_mode', true);
+        $this->productMock->expects($this->once())->method('load')->with('test_id');
         $this->assertSame($this->productMock, $this->model->get('test_sku', true));
     }
 } 

@@ -298,7 +298,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $eavConfig->expects($this->any())->method('getAttribute')->will(
             $this->returnCallback(
                 function ($entityType, $attributeCode) use ($attributes) {
-                    return isset($attributes[$attributeCode]) ? $attributes[$attributeCode] : null;
+                    return $entityType && isset($attributes[$attributeCode]) ? $attributes[$attributeCode] : null;
                 }
             )
         );
