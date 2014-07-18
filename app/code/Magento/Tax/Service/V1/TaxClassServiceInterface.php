@@ -76,5 +76,5 @@ interface TaxClassServiceInterface
      * @param string $taxClassType
      * @return int|null
      */
-    public function getTaxClassId($taxClassKey, $taxClassType = \Magento\Tax\Service\V1\Data\TaxClass::TYPE_PRODUCT);
+    public function getTaxClassId($taxClassKey, $taxClassType = self::TYPE_PRODUCT);
 }
