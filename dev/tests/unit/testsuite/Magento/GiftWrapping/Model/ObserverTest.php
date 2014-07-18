@@ -45,6 +45,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock->expects($this->once())->method('getShippingAddress')->will($this->returnValue(false));
         $quoteMock->expects($this->once())->method('addData')->will($this->returnSelf());
+        $quoteMock->expects($this->never())->method('getAddressById');
         $this->_model->checkoutProcessWrappingInfo($observer);
     }
 
@@ -111,13 +112,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
         $event = new \Magento\Framework\Event(['request' => $requestMock]);
-        $observer = new \Magento\Framework\Object(['event' => $event]);
+        $observerMock = $this->getMock('\Magento\Framework\Object', ['getEvent'], [], '', false);
+        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $requestMock->expects($this->once())
             ->method('getParam')
             ->with('giftwrapping')
             ->will($this->returnValue(false));
-        $this->assertEquals($this->_model, $this->_model->checkoutProcessWrappingInfo($observer));
+        $this->assertEquals($this->_model, $this->_model->checkoutProcessWrappingInfo($observerMock));
     }
 
     /**

@@ -51,7 +51,6 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         $checkoutSessionMock = $this->getMock('\Magento\Checkout\Model\Session', [], [], '', false);
         $checkoutSessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($this->quoteMock));
 
-
         $this->block = $this->objectManager->getObject(
             '\Magento\GiftWrapping\Block\Checkout\Options',
             [
@@ -62,7 +61,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getCheckoutTypeVariableProvider
+     * @dataProvider getCheckoutTypeVariableDataProvider
      * @param bool $isMultiShipping
      * @param string $level
      * @param string $expectedResult
@@ -76,7 +75,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->block->getCheckoutTypeVariable($level));
     }
 
-    public function getCheckoutTypeVariableProvider()
+    public function getCheckoutTypeVariableDataProvider()
     {
         return [
             'onepage_order_level' => [false, 'order_level', 'quote'],
@@ -86,12 +85,11 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testGetCheckoutTypeVariableException()
     {
+        $level = 'wrong_level';
         $this->quoteMock->expects($this->once())->method('getIsMultiShipping')->will($this->returnValue(false));
-        $this->block->getCheckoutTypeVariable('wrong_level');
+        $this->setExpectedException('InvalidArgumentException', 'Invalid level: ' . $level);
+        $this->block->getCheckoutTypeVariable($level);
     }
 }
