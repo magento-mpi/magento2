@@ -9,16 +9,16 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
+use Magento\Tax\Model\ClassModelRegistry;
 use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionFactory;
-use Magento\Tax\Service\V1\Data\SearchResultsBuilder;
+use Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder;
 use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
+use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Tax class service.
@@ -31,7 +31,7 @@ class TaxClassService implements TaxClassServiceInterface
     protected $taxClassCollectionFactory;
 
     /**
-     * @var SearchResultsBuilder
+     * @var TaxClassSearchResultsBuilder
      */
     protected $searchResultsBuilder;
 
@@ -41,9 +41,9 @@ class TaxClassService implements TaxClassServiceInterface
     protected $converter;
 
     /**
-     * @var TaxClassModelFactory
+     * @var ClassModelRegistry
      */
-    protected $taxClassModelFactory;
+    protected $classModelRegistry;
 
     const CLASS_ID_NOT_ALLOWED = 'class_id is not expected for this request.';
 
@@ -51,20 +51,20 @@ class TaxClassService implements TaxClassServiceInterface
      * Initialize dependencies.
      *
      * @param TaxClassCollectionFactory $taxClassCollectionFactory
-     * @param TaxClassModelFactory $taxClassModelFactory
-     * @param SearchResultsBuilder $searchResultsBuilder
+     * @param TaxClassSearchResultsBuilder $searchResultsBuilder
      * @param Converter $converter
+     * @param ClassModelRegistry $classModelRegistry
      */
     public function __construct(
         TaxClassCollectionFactory $taxClassCollectionFactory,
-        TaxClassModelFactory $taxClassModelFactory,
-        SearchResultsBuilder $searchResultsBuilder,
-        Converter $converter
+        TaxClassSearchResultsBuilder $searchResultsBuilder,
+        Converter $converter,
+        ClassModelRegistry $classModelRegistry
     ) {
         $this->taxClassCollectionFactory = $taxClassCollectionFactory;
-        $this->taxClassModelFactory = $taxClassModelFactory;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->converter = $converter;
+        $this->classModelRegistry = $classModelRegistry;
     }
 
     /**
@@ -90,6 +90,7 @@ class TaxClassService implements TaxClassServiceInterface
                 throw $e;
             }
         }
+        $this->classModelRegistry->registerTaxClass($taxModel);
         return $taxModel->getId();
     }
 
@@ -98,10 +99,7 @@ class TaxClassService implements TaxClassServiceInterface
      */
     public function getTaxClass($taxClassId)
     {
-        $taxClassModel = $this->taxClassModelFactory->create()->load($taxClassId);
-        if (!$taxClassModel->getId()) {
-            throw NoSuchEntityException::singleField(TaxClassDataObject::KEY_ID, $taxClassId);
-        }
+        $taxClassModel = $this->classModelRegistry->retrieve($taxClassId);
         return $this->converter->createTaxClassData($taxClassModel);
     }
 
@@ -120,10 +118,7 @@ class TaxClassService implements TaxClassServiceInterface
             throw InputException::invalidFieldValue('taxClassId', $taxClassId);
         }
 
-        $originalTaxClassModel = $this->taxClassModelFactory->create()->load($taxClassId);
-        if (!$originalTaxClassModel->getId()) {
-            throw NoSuchEntityException::singleField('taxClassId', $taxClassId);
-        }
+        $originalTaxClassModel = $this->classModelRegistry->retrieve($taxClassId);
 
         $taxClassModel = $this->converter->createTaxClassModel($taxClass);
         $taxClassModel->setId($taxClassId);
@@ -138,6 +133,7 @@ class TaxClassService implements TaxClassServiceInterface
         } catch (\Exception $e) {
             return false;
         }
+        $this->classModelRegistry->registerTaxClass($taxClassModel);
 
         return true;
     }
@@ -147,16 +143,16 @@ class TaxClassService implements TaxClassServiceInterface
      */
     public function deleteTaxClass($taxClassId)
     {
-        $taxClassModel = $this->taxClassModelFactory->create()->load($taxClassId);
-        if (!$taxClassModel->getId()) {
-            throw NoSuchEntityException::singleField('taxClassId', $taxClassId);
-        }
+        $taxClassModel = $this->classModelRegistry->retrieve($taxClassId);
 
         try {
             $taxClassModel->delete();
+        } catch (CouldNotDeleteException $e) {
+            throw $e;
         } catch (\Exception $e) {
             return false;
         }
+        $this->classModelRegistry->remove($taxClassId);
 
         return true;
     }
@@ -179,8 +175,8 @@ class TaxClassService implements TaxClassServiceInterface
         $classType = $taxClass->getClassType();
         if (!\Zend_Validate::is(trim($classType), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassDataObject::KEY_TYPE]);
-        } else if ($classType !== TaxClassDataObject::TYPE_CUSTOMER
-            && $classType !== TaxClassDataObject::TYPE_PRODUCT
+        } else if ($classType !== TaxClassServiceInterface::TYPE_CUSTOMER
+            && $classType !== TaxClassServiceInterface::TYPE_PRODUCT
         ) {
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE,
@@ -197,7 +193,7 @@ class TaxClassService implements TaxClassServiceInterface
      * Retrieve tax classes which match a specific criteria.
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Tax\Service\V1\Data\SearchResults containing Data\TaxClass
+     * @return \Magento\Tax\Service\V1\Data\TaxClassSearchResults containing Data\TaxClass
      * @throws \Magento\Framework\Exception\InputException
      */
     public function searchTaxClass(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)

@@ -76,10 +76,11 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($historyCollection));
 
-        $subject = $this->getMock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History', [], [], '', false);
+        $subject = $this->getMock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History', ['getOrder'], [], '', false);
         $subject->expects($this->once())
             ->method('getOrder')
             ->will($this->returnSelf());
+
 
         $this->assertEquals($expected, $this->historyPlugin->afterGetFullHistory($subject, $original));
     }
@@ -208,4 +209,4 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
             ->method('getCreatedAtDate');
         return $comment;
     }
-} 
+}

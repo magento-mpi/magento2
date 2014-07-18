@@ -10,7 +10,7 @@ namespace Magento\AdminGws\Model;
 /**
  * Collections limiter model
  */
-class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
+class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver implements CallbackProcessorInterface
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface

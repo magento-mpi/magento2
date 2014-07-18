@@ -46,17 +46,17 @@ class AssertBundleInCart extends AbstractConstraint
         $catalogProductView->getViewBlock()->clickCustomize();
 
         $optionsBlock = $catalogProductView->getCustomOptionsBlock();
-        /** @var \Magento\Bundle\Test\Fixture\Bundle\Selections $selectionsFixture */
+        /** @var \Magento\Bundle\Test\Fixture\CatalogProductBundle\BundleSelections $selectionsFixture */
         $selectionsFixture = $bundle->getDataFieldConfig('bundle_selections')['source'];
         $bundleOptions = $selectionsFixture->getSelectionForCheckout();
-        if ($bundleOptions) {
+        if (!empty($bundleOptions)) {
             $catalogProductView->getViewBlock()->getBundleBlock()->fillBundleOptions($bundleOptions);
         }
         $productOptions = $bundle->getCustomOptions();
-        if ($productOptions) {
+        if (!empty($productOptions)) {
             $options = $optionsBlock->getOptions();
             $key = $productOptions[0]['title'];
-            $optionsBlock->selectProductCustomOption($options[$key][1]);
+            $optionsBlock->selectProductCustomOption(reset($options[$key]['value']));
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 

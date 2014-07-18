@@ -37,13 +37,13 @@
             </parameter>
         </parameters>
         <containers>
-            <container name="left">
+            <container name="sidebar.main">
                 <template name="lister" value="default" />
             </container>
             <container name="content">
                 <template name="lister" value="default" />
             </container>
-            <container name="right">
+            <container name="sidebar.additional">
                 <template name="lister" value="default" />
             </container>
         </containers>

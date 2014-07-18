@@ -109,7 +109,7 @@ class CheckMoneyOrderTest extends Functional
     {
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
         $this->assertContains(
-            'Your order has been received.',
+            'Thank you for your purchase!',
             $successPage->getTitleBlock()->getTitle(),
             'Order success page was not opened.'
         );

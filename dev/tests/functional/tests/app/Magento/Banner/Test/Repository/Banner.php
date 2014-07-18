@@ -12,7 +12,6 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class Banner Repository
- *
  */
 class Banner extends AbstractRepository
 {
