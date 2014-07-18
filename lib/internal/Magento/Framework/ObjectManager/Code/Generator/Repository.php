@@ -106,7 +106,7 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
         $body = "if (!\$id) {\n"
         . "\tthrow new \\Magento\Framework\Exception\NoSuchEntityException('Requested product doesn\\'t exist');\n"
         . "}\n"
-        . "if (isset(\$this->registry[\$id])) {\n"
+        . "if (!isset(\$this->registry[\$id])) {\n"
         . "\t\$this->registry[\$id] = \$this->"
         . $this->_getSourceFactoryPropertyName()
         . "->create()->load(\$id);\n"
