@@ -41,7 +41,7 @@ class CreateCustomerCustomAttributesEntityTest extends AbstractCustomerCustomAtt
         $this->customerAttributeNew->getFormPageActions()->save();
 
         // Prepare data for tear down
-        $this->customerCustomAttributes = $customerAttribute;
+        $this->customerCustomAttribute = $customerAttribute;
 
         return ['customerAttribute' => $customerAttribute];
     }

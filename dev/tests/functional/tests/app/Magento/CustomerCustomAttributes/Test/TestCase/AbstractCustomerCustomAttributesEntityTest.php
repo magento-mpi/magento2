@@ -39,7 +39,7 @@ abstract class AbstractCustomerCustomAttributesEntityTest extends Injectable
      *
      * @var CustomerCustomAttribute
      */
-    protected $customerCustomAttributes;
+    protected $customerCustomAttribute;
 
     /**
      * Preparing customer
@@ -77,14 +77,9 @@ abstract class AbstractCustomerCustomAttributesEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $this->customerCustomAttributes = (is_array($this->customerCustomAttributes))
-            ? $this->customerCustomAttributes
-            : [$this->customerCustomAttributes];
-        foreach ($this->customerCustomAttributes as $customerCustomAttribute) {
-            $filter = ['frontend_label' => $customerCustomAttribute->getFrontendLabel()];
-            $this->customerAttributeIndex->open();
-            $this->customerAttributeIndex->getCustomerCustomAttributesGrid()->searchAndOpen($filter);
-            $this->customerAttributeNew->getFormPageActions()->delete();
-        }
+        $filter = ['frontend_label' => $this->customerCustomAttribute->getFrontendLabel()];
+        $this->customerAttributeIndex->open();
+        $this->customerAttributeIndex->getCustomerCustomAttributesGrid()->searchAndOpen($filter);
+        $this->customerAttributeNew->getFormPageActions()->delete();
     }
 }
