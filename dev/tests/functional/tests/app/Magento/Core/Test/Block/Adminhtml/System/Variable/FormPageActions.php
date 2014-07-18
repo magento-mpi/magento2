@@ -9,6 +9,7 @@
 namespace Magento\Core\Test\Block\Adminhtml\System\Variable;
 
 use Magento\Backend\Test\Block\FormPageActions as AbstractFormPageActions;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class FormPageActions
@@ -31,20 +32,27 @@ class FormPageActions extends AbstractFormPageActions
     protected $storeViewButton = '.store-switcher [data-toggle="dropdown"]';
 
     /**
+     * Store View locator
+     *
+     * @var string
+     */
+    protected $storeView = './/*/a[contains(text(),"%s")]';
+
+    /**
      * Select Store View
      *
-     * @param int $storeId
+     * @param string $storeName
      * @throws \Exception
      * @return void
      */
-    public function selectStoreView($storeId)
+    public function selectStoreView($storeName)
     {
         $this->_rootElement->find($this->storeViewButton)->click();
-        $selector = "[data-value='$storeId']";
-        if ($this->_rootElement->find($selector)->isVisible()) {
-            $this->_rootElement->find($selector)->click();
+        $selector = sprintf($this->storeView, $storeName);
+        if ($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible()) {
+            $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         } else {
-            throw new \Exception('Store View with name \'' . $storeId . '\'is not visible!');
+            throw new \Exception('Store View with name \'' . $storeName . '\' is not visible!');
         }
         $this->_rootElement->acceptAlert();
     }

@@ -29,9 +29,9 @@
     <assertSystemVariableNotInCmsPageForm module="Magento_Core">
         <severeness>low</severeness>
     </assertSystemVariableNotInCmsPageForm>
-    <assertCustomVariableForm module="Magento_Core">
+    <assertSystemVariableForm module="Magento_Core">
         <severeness>low</severeness>
-    </assertCustomVariableForm>
+    </assertSystemVariableForm>
     <assertSystemVariableInPage module="Magento_Core">
         <severeness>low</severeness>
     </assertSystemVariableInPage>

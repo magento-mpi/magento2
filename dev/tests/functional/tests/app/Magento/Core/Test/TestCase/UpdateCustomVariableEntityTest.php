@@ -8,12 +8,16 @@
 
 namespace Magento\Core\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Core\Test\Fixture\SystemVariable;
-use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
-use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
 use Magento\Store\Test\Fixture\Store;
+use Magento\Core\Test\Fixture\SystemVariable;
+use Magento\Backend\Test\Page\Adminhtml\StoreNew;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
+use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
+use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
+use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 
 /**
  * Test Creation for CreateCustomVariableEntity
@@ -54,67 +58,89 @@ class UpdateCustomVariableEntityTest extends Injectable
     protected $systemVariableNewPage;
 
     /**
+     * Store Name
+     *
+     * @var array
+     */
+    public static $storeName;
+
+    /**
      * Prepare data
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param Store $storeOrigin
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(Store $storeOrigin)
     {
-        $storeOrigin = $fixtureFactory->createByCode('store', ['dataSet' => 'german']);
         $storeOrigin->persist();
+        self::$storeName = $storeOrigin->getName();
 
-        return [
-            'storeOrigin' => $storeOrigin
-        ];
+        return ['storeOrigin' => $storeOrigin];
     }
-
 
     /**
      * Injection data
      *
      * @param SystemVariableIndex $systemVariableIndex
      * @param SystemVariableNew $systemVariableNew
-     * @param SystemVariable $systemVariableOrigin
+     * @param SystemVariable $customVariableOrigin
      * @return array
      */
     public function __inject(
         SystemVariableIndex $systemVariableIndex,
         SystemVariableNew $systemVariableNew,
-        SystemVariable $systemVariableOrigin
+        SystemVariable $customVariableOrigin
     ) {
         $this->systemVariableIndexPage = $systemVariableIndex;
         $this->systemVariableNewPage = $systemVariableNew;
 
-        $systemVariableOrigin->persist();
+        $customVariableOrigin->persist();
 
-        return ['systemVariableOrigin' => $systemVariableOrigin];
+        return ['customVariableOrigin' => $customVariableOrigin];
     }
 
     /**
      * Update Custom System Variable Entity test
      *
-     * @param SystemVariable $systemVariable
-     * @param SystemVariable $systemVariableOrigin
+     * @param SystemVariable $customVariable
+     * @param SystemVariable $customVariableOrigin
      * @param Store $storeOrigin
      * @param $saveAction
      * @return void
      */
     public function test(
-        SystemVariable $systemVariable,
-        SystemVariable $systemVariableOrigin,
+        SystemVariable $customVariable,
+        SystemVariable $customVariableOrigin,
         Store $storeOrigin,
         $saveAction
     ) {
         $filter = [
-            'code' => $systemVariableOrigin->getCode(),
+            'code' => $customVariableOrigin->getCode(),
         ];
 
         // Steps
         $this->systemVariableIndexPage->open();
         $this->systemVariableIndexPage->getSystemVariableGrid()->searchAndOpen($filter);
-        $this->systemVariableNewPage->getFormPageActions()->selectStoreView($storeOrigin->getData('store_id'));
-        $this->systemVariableNewPage->getSystemVariableForm()->fill($systemVariable);
+        $this->systemVariableNewPage->getFormPageActions()->selectStoreView($storeOrigin->getData('name'));
+        $this->systemVariableNewPage->getSystemVariableForm()->fill($customVariable);
         $this->systemVariableNewPage->getFormPageActions()->$saveAction();
+    }
+
+    /**
+     * Delete Store after test
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        $filter['store_title'] = self::$storeName;
+        $storeIndex = ObjectManager::getInstance()->create('Magento\Backend\Test\Page\Adminhtml\StoreIndex');
+        $storeIndex->open();
+        $storeIndex->getStoreGrid()->searchAndOpen($filter);
+        $storeNew = ObjectManager::getInstance()->create('Magento\Backend\Test\Page\Adminhtml\StoreNew');
+        $storeNew->getFormPageActions()->delete();
+        $storeDelete = ObjectManager::getInstance()->create('Magento\Backend\Test\Page\Adminhtml\StoreDelete');
+        $storeDelete->getStoreForm()->fillForm(['create_backup' => 'No']);
+        $storeDelete->getFormPageActions()->delete();
     }
 }

@@ -28,9 +28,7 @@ class Switcher extends Block
      */
     public function selectStoreView($name)
     {
-        if ($this->_rootElement->find($this->dropDownButton)->isVisible()
-            && ($this->getStoreView() !== $name)
-        ) {
+        if ($this->_rootElement->find($this->dropDownButton)->isVisible() && ($this->getStoreView() !== $name)) {
             $this->_rootElement->find($this->dropDownButton)->click();
             $this->_rootElement->find($name, Locator::SELECTOR_LINK_TEXT)->click();
         }

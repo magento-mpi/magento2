@@ -15,10 +15,10 @@ use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
 
 /**
- * Class AssertCustomVariableForm
+ * Class AssertSystemVariableForm
  * Check that data at the form corresponds to the fixture data
  */
-class AssertCustomVariableForm extends AbstractAssertForm
+class AssertSystemVariableForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -30,83 +30,54 @@ class AssertCustomVariableForm extends AbstractAssertForm
     /**
      * Assert that data at the form corresponds to the fixture data
      *
-     * @param SystemVariable $systemVariable
+     * @param SystemVariable $customVariable
      * @param SystemVariableIndex $systemVariableIndex
      * @param SystemVariableNew $systemVariableNew
      * @param Store $storeOrigin
-     * @param SystemVariable $systemVariableOrigin
+     * @param SystemVariable $customVariableOrigin
      * @return void
      */
     public function processAssert(
-        SystemVariable $systemVariable,
+        SystemVariable $customVariable,
         SystemVariableIndex $systemVariableIndex,
         SystemVariableNew $systemVariableNew,
         Store $storeOrigin = null,
-        SystemVariable $systemVariableOrigin = null
+        SystemVariable $customVariableOrigin = null
     ) {
-        $data = ($systemVariableOrigin === null)
-            ? $systemVariable->getData()
-            : array_merge($systemVariableOrigin->getData(), $systemVariable->getData());
-
+        $data = ($customVariableOrigin === null)
+            ? $customVariable->getData()
+            : array_merge($customVariableOrigin->getData(), $customVariable->getData());
+        $dataOrigin = $data;
         if ($data['html_value'] == '') {
-            $data['html_value'] = $systemVariableOrigin->getHtmlValue();
+            $data['html_value'] = $customVariableOrigin->getHtmlValue();
             $data['use_default_value'] = 'Yes';
         }
         $data['plain_value'] = ($data['plain_value'] == '')
-            ? $systemVariableOrigin->getPlainValue()
+            ? $customVariableOrigin->getPlainValue()
             : $data['plain_value'];
 
         $filter = ['code' => $data['code']];
         $this->openVariable($systemVariableIndex, $filter);
 
         if ($storeOrigin !== null) {
-            $systemVariableNew->getFormPageActions()->selectStoreView($storeOrigin->getStoreId());
-            $diff = $this->getDataFromForm($systemVariableNew, $systemVariable, $data, false);
+            $systemVariableNew->getFormPageActions()->selectStoreView($storeOrigin->getName());
+            $diff = $this->getDataFromForm($systemVariableNew, $customVariable, $data, false);
             $this->checkForm($diff);
         }
 
-        if ($systemVariableOrigin !== null) {
-            $data['html_value'] = $systemVariableOrigin->getHtmlValue();
-            $data['plain_value'] = $systemVariableOrigin->getPlainValue();
+        if ($customVariableOrigin !== null) {
+            $data['html_value'] = $customVariableOrigin->getHtmlValue();
+            $data['plain_value'] = $customVariableOrigin->getPlainValue();
             $this->openVariable($systemVariableIndex, $filter);
-            $diff = $this->getDataFromForm($systemVariableNew, $systemVariable, $data, true);
+            $diff = $this->getDataFromForm($systemVariableNew, $customVariable, $data, true);
             $this->checkForm($diff);
         }
-    }
 
-    /**
-     * Check if arrays have equal values
-     *
-     * @param array $formData
-     * @param array $fixtureData
-     * @param bool $isStrict
-     * @param bool $isPrepareError
-     * @return array
-     */
-    protected function verifyData(array $formData, array $fixtureData, $isStrict = false, $isPrepareError = true)
-    {
-        $errorMessage = [];
-        foreach ($fixtureData as $key => $value) {
-            if ($key == 'conditions') {
-                continue;
-            }
-            if (is_array($value)) {
-                $diff = array_diff($value, $formData[$key]);
-                $diff = array_merge($diff, array_diff($formData[$key], $value));
-                if (!empty($diff)) {
-                    $errorMessage[] = "Data in " . $key . " field not equal."
-                        . "\nExpected: " . implode(", ", $value)
-                        . "\nActual: " . implode(", ", $formData[$key]);
-                }
-            } else {
-                if ($value !== $formData[$key]) {
-                    $errorMessage[] = "Data in " . $key . " field not equal."
-                        . "\nExpected: " . $value
-                        . "\nActual: " . $formData[$key];
-                }
-            }
+        if ($storeOrigin == null && $customVariableOrigin == null) {
+            $this->openVariable($systemVariableIndex, $filter);
+            $diff = $this->getDataFromForm($systemVariableNew, $customVariable, $dataOrigin, false);
+            $this->checkForm($diff);
         }
-        return $errorMessage;
     }
 
     /**
@@ -132,7 +103,8 @@ class AssertCustomVariableForm extends AbstractAssertForm
     {
         \PHPUnit_Framework_Assert::assertTrue(
             empty($diff),
-            implode(' ', $diff)
+            'Variable data at the form corresponds to the fixture data.'
+            . "\nLog:\n" . implode(";\n", $diff)
         );
     }
 
@@ -140,7 +112,7 @@ class AssertCustomVariableForm extends AbstractAssertForm
      * Get data from variable form
      *
      * @param SystemVariableNew $systemVariableNew
-     * @param SystemVariable $systemVariable
+     * @param SystemVariable $customVariable
      * @param array $data
      * @param bool $useDefaultValue
      * @return array
@@ -148,17 +120,17 @@ class AssertCustomVariableForm extends AbstractAssertForm
 
     protected function getDataFromForm(
         SystemVariableNew $systemVariableNew,
-        SystemVariable $systemVariable,
+        SystemVariable $customVariable,
         $data,
         $useDefaultValue
     ) {
-        $formData = $systemVariableNew->getSystemVariableForm()->getData($systemVariable);
+        $formData = $systemVariableNew->getSystemVariableForm()->getData($customVariable);
         unset($data['variable_id']);
         if ($useDefaultValue) {
             unset($data['use_default_value']);
         }
 
-        return $this->verifyData($formData, $data);
+        return $this->verifyData($formData, $data, false, false);
     }
 
     /**

@@ -31,31 +31,29 @@ class AssertSystemVariableInPage extends AbstractConstraint
      * Add created variable to page and assert that Custom Variable is displayed on frontend page and has
      * correct data according to dataset.
      *
-     * @param SystemVariable $systemVariable
+     * @param SystemVariable $customVariable
      * @param CmsIndex $cmsIndex
-     * @param \Magento\Core\Test\Fixture\SystemVariable $variable
+     * @param SystemVariable $variable
      * @param FixtureFactory $fixtureFactory
      * @param Browser $browser
      * @param Store $storeOrigin
-     * @param SystemVariable $systemVariableOrigin
+     * @param SystemVariable $customVariableOrigin
      * @return void
      */
     public function processAssert(
-        SystemVariable $systemVariable,
+        SystemVariable $customVariable,
         CmsIndex $cmsIndex,
         SystemVariable $variable,
         FixtureFactory $fixtureFactory,
         Browser $browser,
         Store $storeOrigin = null,
-        SystemVariable $systemVariableOrigin = null
+        SystemVariable $customVariableOrigin = null
     ) {
-
-        $content = '{{customVar code=' . $systemVariable->getCode() . '}}';
         $cmsPage = $fixtureFactory->createByCode(
             'cmsPage',
             [
                 'dataSet' => 'default',
-                'data' => ['content' => $content],
+                'data' => ['content' => '{{customVar code=' . $customVariable->getCode() . '}}'],
             ]
         );
         $cmsPage->persist();
@@ -64,22 +62,22 @@ class AssertSystemVariableInPage extends AbstractConstraint
 
         $cmsIndex->getStoreSwitcherBlock()->selectStoreView('Default Store View');
 
-        $htmlValue = ($systemVariableOrigin == null)
-            ? $systemVariable->getHtmlValue()
-            : $systemVariableOrigin->getHtmlValue();
+        $htmlValue = ($customVariableOrigin == null)
+            ? $customVariable->getHtmlValue()
+            : $customVariableOrigin->getHtmlValue();
         $htmlValue = strip_tags($htmlValue);
         $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
         $this->checkVariable($htmlValue, $pageContent);
 
         if ($storeOrigin !== null) {
             $cmsIndex->getStoreSwitcherBlock()->selectStoreView($storeOrigin->getName());
+            $htmlValue = strip_tags($customVariable->getHtmlValue());
+            if ($htmlValue === '') {
+                $htmlValue = strip_tags($variable->getHtmlValue());
+            }
+            $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
+            $this->checkVariable($htmlValue, $pageContent);
         }
-        $htmlValue = strip_tags($systemVariable->getHtmlValue());
-        if ($htmlValue === '') {
-            $htmlValue = strip_tags($variable->getHtmlValue());
-        }
-        $pageContent = $cmsIndex->getMainContentBlock()->getPageContent();
-        $this->checkVariable($htmlValue, $pageContent);
     }
 
     /**
