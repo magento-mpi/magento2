@@ -132,6 +132,8 @@ class Reader
         $mappingList = $this->getCompleteMappingInfo();
 
         $modifiedMappingList = $this->getConciseMappingInfo($mappingList);
+        //adding this manually as we have yet not created the composer.json
+        $modifiedMappingList[] = "composer.json";
 
         $mappings = array();
         foreach ($modifiedMappingList as $path) {
@@ -150,44 +152,11 @@ class Reader
     {
         $result = [];
 
-        $excludes = $this->patterns;
-        $excludesCombinations = [];
-        $counter = count($excludes);
-        for ($i = 0; $i < $counter; $i++) {
-            $splitArray = explode("/", $excludes[$i]);
-            $temp = '';
-            for ($j = 0; $j < count(($splitArray)); $j++) {
-                $temp .= '/' . $splitArray[$j];
-                $excludesCombinations[] =  str_replace('\\', '/', $this->rootDir) . $temp;
+        list($excludesCombinationsComponents, $excludesComponents) = $this->getExcludeCombinationsComponents();
+        list($excludesCombinationsCustoms, $excludesCustoms) = $this->getExcludeCombinationsCustomPaths();
 
-            }
-            $excludes[$i] = str_replace('\\', '/', $this->rootDir) . '/' . $excludes[$i];
-        }
-
-        $pathList = $this->customizablePaths;
-        $counter = count($pathList);
-        for ($i = 0; $i < $counter; $i++) {
-            $locations = glob(str_replace('\\', '/', $this->rootDir) . '/' . $pathList[$i]);
-            $allFiles = true;
-            foreach ($locations as $location) {
-                if ((is_dir($location)) && (!in_array($location, array('.', '..')))) {
-                    $excludes[] = $location . '/';
-                    $allFiles = false;
-                    $location = str_replace(str_replace('\\', '/', $this->rootDir) . '/', '', $location);
-                    $splitArray = explode("/", $location);
-                    $temp = '';
-                    for ($j = 0; $j < (count(($splitArray)) - 1); $j++) {
-                        $temp .= '/' . $splitArray[$j];
-                        $excludesCombinations[] =  str_replace('\\', '/', $this->rootDir) . $temp;
-                    }
-                }
-            }
-            if ($allFiles === true) {
-                $excludesCombinations[] = str_replace('\\', '/', $this->rootDir)
-                    . '/' . str_replace('/*', '', $pathList[$i]);
-            }
-            $pathList[$i] = str_replace('\\', '/', $this->rootDir) . '/' . $pathList[$i];
-        }
+        $excludesCombinations = array_merge($excludesCombinationsComponents, $excludesCombinationsCustoms);
+        $excludes = array_merge($excludesComponents, $excludesCustoms);
 
         $directory = new \RecursiveDirectoryIterator($this->rootDir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $directory = new ExcludeFilter($directory, $excludes);
@@ -215,19 +184,93 @@ class Reader
     private function getConciseMappingInfo($mappingList)
     {
         $result = [];
-        $index = 0;
-        $counter = count($mappingList);
-        for ($i = 0; $i < $counter; $i++) {
-            if ($i === 0) {
-                $result[] = $mappingList[$i];
-                continue;
+
+        if (empty($mappingList)) {
+            return [];
+        }
+        $lastAdded = $mappingList[0];
+        $result[] = $lastAdded;
+        foreach ($mappingList as $item) {
+            if (strpos($item . '/', $lastAdded . '/', 0) === false) {
+                $result[] = $item;
+                $lastAdded = $item;
             }
-            if (!(strpos($mappingList[$i] . '/', $mappingList[$index] . '/', 0) !== false)) {
-                $result[] = $mappingList[$i];
-                $index = $i;
+        }
+        return $result;
+    }
+
+    /**
+     * Gets paths that should be excluded for Composer components with combinations
+     *
+     * @return list
+     */
+    private function getExcludeCombinationsComponents()
+    {
+        $excludesCombinations = [];
+
+        $excludes = $this->patterns;
+        $counter = count($excludes);
+        for ($i = 0; $i < $counter; $i++) {
+            $splitArray = explode("/", $excludes[$i]);
+            $count = count($splitArray);
+            $path = '';
+            for ($j = 0; $j < ($count - 1); $j++) {
+                $path .= '/' . $splitArray[$j];
+            }
+            $locations = scandir(str_replace('\\', '/', $this->rootDir) . '/' . $path);
+            $found = false;
+            foreach ($locations as $location) {
+                if (!in_array($location, array('.', '..', $splitArray[$count -1]))) {
+                    $found = true;
+                }
+            }
+            $splitArray = explode("/", $excludes[$i]);
+            if ($found === false) {
+                $count = count($splitArray) - 2;
+            } else {
+                $count = count($splitArray);
+            }
+            $path = '';
+            for ($j = 0; $j < $count; $j++) {
+                $path .= '/' . $splitArray[$j];
+                $excludesCombinations[] =  str_replace('\\', '/', $this->rootDir) . $path;
+            }
+            $excludes[$i] = str_replace('\\', '/', $this->rootDir) . '/' . $excludes[$i];
+        }
+
+        return array($excludesCombinations, $excludes);
+    }
+
+    /**
+     * Gets paths that should be excluded as customizable locations with combinations
+     *
+     * @return list
+     */
+    private function getExcludeCombinationsCustomPaths()
+    {
+        $excludesCombinations = [];
+
+        $rootPath = str_replace('\\', '/', $this->rootDir);
+        $pathList = $this->customizablePaths;
+        $counter = count($pathList);
+        for ($i = 0; $i < $counter; $i++) {
+            $fullPath = str_replace('\\', '/', $this->rootDir) . '/' . str_replace('*', '', $pathList[$i]);
+            $locations = scandir($fullPath);
+            foreach ($locations as $location) {
+                if (!in_array($location, array('.', '..'))) {
+                    if (is_dir($fullPath . $location)) {
+                        $excludes[] = $fullPath . $location . '/';
+                    }
+                    $splitArray = explode("/", str_replace('*', '', $pathList[$i]) . $location);
+                    $path = '';
+                    for ($j = 0; $j < (count($splitArray) - 1); $j++) {
+                        $path .= '/' . $splitArray[$j];
+                        $excludesCombinations[] =  str_replace('\\', '/', $this->rootDir) . $path;
+                    }
+                }
             }
         }
 
-        return $result;
+        return array($excludesCombinations, $excludes);
     }
 }
