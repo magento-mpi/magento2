@@ -1,6 +1,6 @@
 'use strict';
 angular.module('install', ['ngStorage'])
-    .controller('installController', ['$scope', '$sce', '$timeout', '$localStorage', 'progress', function ($scope, $sce, $timeout, $localStorage, progress) {
+    .controller('installController', ['$scope', '$sce', '$timeout', '$localStorage', '$rootScope', 'progress', function ($scope, $sce, $timeout, $localStorage, $rootScope, progress) {
         $scope.isStart = false;
         $scope.console = false;
         $scope.disabled = false;
@@ -35,6 +35,7 @@ angular.module('install', ['ngStorage'])
                     $scope.progressText = $scope.errorStatus;
                     $scope.error = true;
                     $scope.disabled = false;
+                    $rootScope.isMenuEnabled = true;
                 }
             });
         };
@@ -46,6 +47,7 @@ angular.module('install', ['ngStorage'])
                 'store': $localStorage.store,
                 'config': $localStorage.config
             };
+            $rootScope.isMenuEnabled = false;
             progress.post(data);
             $scope.checkProgress();
         };

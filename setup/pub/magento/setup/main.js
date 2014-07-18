@@ -1,9 +1,10 @@
 'use strict';
 var main = angular.module('main', []);
-main.controller('navigationController', ['$scope', '$state', 'navigationService', function ($scope, $state, navigationService) {
+main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navigationService', function ($scope, $state, $rootScope, navigationService) {
     navigationService.load();
+    $rootScope.isMenuEnabled = true;
     $scope.itemStatus = function (order) {
-        return $state.$current.order <= order;
+        return $state.$current.order <= order || !$rootScope.isMenuEnabled;
     };
 }])
 .controller('mainController', [
@@ -36,7 +37,7 @@ main.controller('navigationController', ['$scope', '$state', 'navigationService'
                 $scope.$broadcast('validate-' + $state.current.id);
             }
             return $scope.valid;
-        }
+        };
 
         // Listens on 'validation-response' event, dispatched by descendant controller
         $scope.$on('validation-response', function(event, data) {

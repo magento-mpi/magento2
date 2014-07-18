@@ -52,6 +52,8 @@ class ProgressController extends AbstractActionController
         if (!empty($log)) {
             $progress = round(count($log)/$moduleCount*90);
         }
+        $progress += 5;
+        $progress = strpos(end($log), 'Admin User') ? 100 : $progress;
 
         return $this->json->setVariables(
             array(

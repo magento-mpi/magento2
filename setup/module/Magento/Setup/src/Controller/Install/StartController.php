@@ -99,6 +99,8 @@ class StartController extends AbstractActionController
             $this->logger->logSuccess($moduleName);
         }
 
+        $this->logger->logSuccess('Artifact');
+
         $magentoUrl = isset($data['config']['address']['web'])
             ? $data['config']['address']['web']
             : '';
@@ -108,10 +110,14 @@ class StartController extends AbstractActionController
         curl_exec($cHandle);
         curl_close($cHandle);
 
+        $this->logger->logSuccess('Data Upgrades');
+
         // Create administrator account
         $this->adminAccountFactory->setConfig($data);
         $adminAccount = $this->adminAccountFactory->create();
         $adminAccount->save();
+
+        $this->logger->logSuccess('Admin User');
 
         if ($data['config']['encrypt']['type'] == 'magento') {
             $key = md5($this->random->getRandomString(10));

@@ -129,13 +129,13 @@ class Config
     protected function convert(array $source = array())
     {
         $result = array();
-        $result['db_host'] = $source['db']['host']?:'';
-        $result['db_name'] = $source['db']['name']?:'';
-        $result['db_user'] = $source['db']['user']?:'';
-        $result['db_pass'] = $source['db']['password']?:'';
-        $result['db_prefix'] = $source['db']['tablePrefix']?:'';
+        $result['db_host'] = isset($source['db']['host']) ? $source['db']['host'] : '';
+        $result['db_name'] = isset($source['db']['name']) ? $source['db']['name'] : '';
+        $result['db_user'] = isset($source['db']['user']) ? $source['db']['user'] :'';
+        $result['db_pass'] = isset($source['db']['password']) ? $source['db']['password'] : '';
+        $result['db_prefix'] = isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
         $result['session_save'] = 'files';
-        $result['backend_frontname'] = $source['config']['address']['admin']?:'';
+        $result['backend_frontname'] = isset($source['config']['address']['admin']) ? $source['config']['address']['admin'] : '';
         $result['db_model'] = '';
         $result['db_init_statements'] = '';
 
