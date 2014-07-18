@@ -47,21 +47,22 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
         $cmsIndex->getLinksBlock()->openLink("My Account");
         $compareBlock = $customerAccountIndex->getCompareProductsBlock();
 
-        if ($countProducts > 1 && $product !== null) {
-            list($success, $actual) = [true, $compareBlock->productIsNotVisibleInCompareBlock($product->getName())];
+        if (($countProducts > 1) && ($product !== null)) {
+            \PHPUnit_Framework_Assert::assertFalse(
+                $compareBlock->isProductVisibleInCompareBlock($product->getName()),
+                'The product displays on Compare Products block on my account page.'
+            );
         } else {
-            list($success, $actual) = [self::SUCCESS_MESSAGE, $compareBlock->getEmptyMessage()];
+            \PHPUnit_Framework_Assert::assertEquals(
+                self::SUCCESS_MESSAGE,
+                $compareBlock->getEmptyMessage(),
+                'The product displays on Compare Products block on my account page.'
+            );
         }
-
-        \PHPUnit_Framework_Assert::assertEquals(
-            $success,
-            $actual,
-            'The product displays on Compare Products block on my account page.'
-        );
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

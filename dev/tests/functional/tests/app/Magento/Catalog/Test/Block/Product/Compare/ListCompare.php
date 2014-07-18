@@ -168,23 +168,20 @@ class ListCompare extends Block
     }
 
     /**
-     * Verify product not visible in compare product block
+     * Verify product is visible in compare product block
      *
      * @param string $productName
-     * @return string|bool
+     * @return bool
      */
-    public function productIsNotVisibleInCompareBlock($productName = '')
+    public function isProductVisibleInCompareBlock($productName = '')
     {
         $nameSelector = $this->nameSelector . sprintf($this->productName, $productName);
-        $searchProduct = $this->_rootElement->find($nameSelector, Locator::SELECTOR_XPATH);
-        if ($searchProduct->isVisible()) {
-            return $searchProduct->getText();
-        }
-        return true;
+        return $this->_rootElement->find($nameSelector, Locator::SELECTOR_XPATH)->isVisible();
     }
 
     /**
      * Get empty message on compare product block
+     * Returns message absence of compared products or false, if the message isn't visible
      *
      * @return string|bool
      */
