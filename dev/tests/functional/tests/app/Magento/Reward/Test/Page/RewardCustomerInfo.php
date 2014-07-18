@@ -33,7 +33,7 @@ class RewardCustomerInfo extends FrontendPage
         'rewardPointsBlock' => [
             'name' => 'rewardPointsBlock',
             'class' => 'Magento\Reward\Test\Block\Customer\RewardPoints',
-            'locator' => '//*[@class="columns"]/div[div[contains(@class, "block reward")]]',
+            'locator' => '//div[div[contains(@class, "block reward")]]',
             'strategy' => 'xpath',
         ],
     ];
