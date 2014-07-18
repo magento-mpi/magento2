@@ -1776,6 +1776,11 @@ return array(
     ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
     ['prepareValueForDuplicate', 'Magento\Catalog\Model\Product\Option\Value'],
     ['prepareOptionForDuplicate', '\Magento\Catalog\Model\Product\Option'],
+    [
+        'getFlatColums',
+        'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource',
+        'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource::getFlatColumns'
+    ],
     ['addProductAdvanced', '\Magento\Sales\Model\Quote'],
     ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
 );
