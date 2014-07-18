@@ -46,6 +46,7 @@ class ProgressController extends AbstractActionController
      */
     public function indexAction()
     {
+        //@todo I fix it
         $moduleCount = count($this->moduleList->getModules());
         $log = $this->logger->get();
         $progress = 0;
@@ -54,6 +55,10 @@ class ProgressController extends AbstractActionController
         }
         $progress += 5;
         $progress = strpos(end($log), 'Admin User') ? 100 : $progress;
+
+        if ($progress == 100) {
+            $this->logger->clear();
+        }
 
         return $this->json->setVariables(
             array(
