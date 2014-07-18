@@ -40,4 +40,14 @@ interface ReadInterface
      * @return bool
      */
     public function isDirectory($path = null);
+
+    /**
+     * Retrieve file contents from given path
+     *
+     * @param string $path
+     * @param string|null $flag
+     * @param resource|null $context
+     * @return string
+     */
+    public function readFile($path, $flag = null, $context = null);
 }

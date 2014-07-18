@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Db;
+namespace Magento\Framework\DB;
 
 class ExpressionConverter
 {

@@ -39,7 +39,9 @@ class File implements DriverInterface
         clearstatcache();
         $result = @file_exists($path);
         if ($result === null) {
-            throw new FilesystemException(sprintf('Error occurred during execution %s', $this->getWarningMessage()));
+            throw new FilesystemException(
+                sprintf('Error occurred during execution %s', $this->getWarningMessage())
+            );
         }
         return $result;
     }
@@ -56,7 +58,9 @@ class File implements DriverInterface
         clearstatcache();
         $result = @is_readable($path);
         if ($result === null) {
-            throw new FilesystemException(sprintf('Error occurred during execution %s', $this->getWarningMessage()));
+            throw new FilesystemException(
+                sprintf('Error occurred during execution %s', $this->getWarningMessage())
+            );
         }
         return $result;
     }
@@ -73,7 +77,9 @@ class File implements DriverInterface
         clearstatcache();
         $result = @is_dir($path);
         if ($result === null) {
-            throw new FilesystemException(sprintf('Error occurred during execution %s', $this->getWarningMessage()));
+            throw new FilesystemException(
+                sprintf('Error occurred during execution %s', $this->getWarningMessage())
+            );
         }
         return $result;
     }
@@ -90,7 +96,9 @@ class File implements DriverInterface
         clearstatcache();
         $result = @is_writable($path);
         if ($result === null) {
-            throw new FilesystemException(sprintf('Error occurred during execution %s', $this->getWarningMessage()));
+            throw new FilesystemException(
+                sprintf('Error occurred during execution %s', $this->getWarningMessage())
+            );
         }
         return $result;
     }
@@ -115,5 +123,24 @@ class File implements DriverInterface
     protected function fixSeparator($path)
     {
         return str_replace('\\', '/', $path);
+    }
+
+    /**
+     * Change permissions of given path
+     *
+     * @param string $path
+     * @param int $permissions
+     * @return bool
+     * @throws FilesystemException
+     */
+    public function changePermissions($path, $permissions)
+    {
+        $result = @chmod($path, $permissions);
+        if (!$result) {
+            throw new FilesystemException(
+                sprintf('Cannot change permissions for path "%s" %s', $path, $this->getWarningMessage())
+            );
+        }
+        return $result;
     }
 }

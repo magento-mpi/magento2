@@ -54,4 +54,13 @@ interface DriverInterface
      * @return mixed
      */
     public function getAbsolutePath($basePath, $path);
+
+    /**
+     * Change permissions of given path
+     *
+     * @param string $path
+     * @param int $permissions
+     * @return bool
+     */
+    public function changePermissions($path, $permissions);
 }

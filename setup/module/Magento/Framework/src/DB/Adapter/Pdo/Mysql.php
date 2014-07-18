@@ -10,7 +10,7 @@ namespace Magento\Framework\DB\Adapter\Pdo;
 use Magento\Filesystem\Filesystem;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table;
-use Magento\Db\ExpressionConverter;
+use Magento\Framework\DB\ExpressionConverter;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Driver;
@@ -115,7 +115,7 @@ class Mysql extends Adapter implements AdapterInterface
      *
      * @var string
      */
-    protected $_debugFile           = 'var/debug/pdo_mysql.log';
+    protected $_debugFile           = '/debug/pdo_mysql.log';
 
     /**
      * Filesystem class
@@ -159,21 +159,6 @@ class Mysql extends Adapter implements AdapterInterface
      * @var string[]
      */
     protected $_ddlRoutines = array('alt', 'cre', 'ren', 'dro', 'tru');
-
-    /**
-     * Allowed interval units array
-     *
-     * @var array
-     */
-    protected $_intervalUnits = array(
-        self::INTERVAL_YEAR     => 'YEAR',
-        self::INTERVAL_MONTH    => 'MONTH',
-        self::INTERVAL_DAY      => 'DAY',
-        self::INTERVAL_HOUR     => 'HOUR',
-        self::INTERVAL_MINUTE   => 'MINUTE',
-        self::INTERVAL_SECOND   => 'SECOND',
-    );
-
 
     /**
      * @var String
@@ -1052,12 +1037,7 @@ class Mysql extends Adapter implements AdapterInterface
     protected function _debugWriteToFile($str)
     {
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
-
-        $stream = $this->_filesystem->getDirectoryWrite(Filesystem::ROOT_DIR)->openFile($this->_debugFile, 'a');
-        $stream->lock();
-        $stream->write($str);
-        $stream->unlock();
-        $stream->close();
+        $this->_filesystem->getDirectoryWrite('var')->writeFile($this->_debugFile, $str, FILE_APPEND | LOCK_EX);
     }
 
     /**

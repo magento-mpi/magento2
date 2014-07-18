@@ -8,6 +8,7 @@
 namespace Magento\Filesystem\Directory;
 
 use Magento\Filesystem\Driver\DriverInterface;
+use Magento\Filesystem\FilesystemException;
 
 class Read implements ReadInterface
 {
@@ -42,7 +43,7 @@ class Read implements ReadInterface
      *
      * @param array $config
      * @return void
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     protected function setProperties(array $config)
     {
@@ -68,7 +69,7 @@ class Read implements ReadInterface
      *
      * @param string $path [optional]
      * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function isExist($path = null)
     {
@@ -80,7 +81,7 @@ class Read implements ReadInterface
      *
      * @param string $path
      * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function isReadable($path = null)
     {
@@ -96,5 +97,26 @@ class Read implements ReadInterface
     public function isDirectory($path = null)
     {
         return $this->driver->isDirectory($this->driver->getAbsolutePath($this->path, $path));
+    }
+
+    /**
+     * Retrieve file contents from given path
+     *
+     * @param string $path
+     * @param string|null $flag
+     * @param resource|null $context
+     * @return string
+     * @throws FilesystemException
+     */
+    public function readFile($path, $flag = null, $context = null)
+    {
+        clearstatcache();
+        $result = @file_get_contents($this->getAbsolutePath($path), $flag, $context);
+        if (false === $result) {
+            throw new FilesystemException(
+                sprintf('Cannot read contents from file "%s"', $path)
+            );
+        }
+        return $result;
     }
 }
