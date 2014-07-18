@@ -1,6 +1,7 @@
 'use strict';
 angular.module('install', ['ngStorage'])
     .controller('installController', ['$scope', '$sce', '$timeout', '$localStorage', '$rootScope', 'progress', function ($scope, $sce, $timeout, $localStorage, $rootScope, progress) {
+        $scope.finished = false;
         $scope.isStart = false;
         $scope.console = false;
         $scope.disabled = false;
@@ -23,13 +24,11 @@ angular.module('install', ['ngStorage'])
                     $scope.progress = response.data.progress;
                     $scope.progressText = response.data.progress + '%';
 
-                    if ($scope.progress == 100) {
-                        $scope.nextState();
-                    } else {
-                        $timeout(function() {
+                    $timeout(function() {
+                        if (!$scope.finished) {
                             $scope.checkProgress();
-                        }, 1500);
-                    }
+                        }
+                    }, 1500);
                 } else {
                     $scope.progress = 100;
                     $scope.progressText = $scope.errorStatus;
@@ -48,19 +47,23 @@ angular.module('install', ['ngStorage'])
                 'config': $localStorage.config
             };
             $rootScope.isMenuEnabled = false;
-            progress.post(data);
+            progress.post(data, function (response) {
+                $localStorage.config.encrypt.key = response.key;
+                if (response.success) {
+                    $scope.finished = true;
+                    $scope.nextState();
+                }
+            });
             $scope.checkProgress();
         };
     }])
-    .service('progress', ['$http', '$localStorage', function ($http, $localStorage) {
+    .service('progress', ['$http', function ($http) {
         return {
             get: function (callback) {
                 $http.get('install/progress').then(callback);
             },
-            post: function (data) {
-                $http.post('install/start', data).success(function (response) {
-                    $localStorage.config.encrypt.key = response.key;
-                });
+            post: function (data, callback) {
+                $http.post('install/start', data).success(callback);
             }
         };
     }]);

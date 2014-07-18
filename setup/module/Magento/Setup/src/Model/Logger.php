@@ -88,7 +88,7 @@ class Logger
 
     public function clear()
     {
-        unlink($this->logFile);
+        @unlink($this->logFile);
     }
 }
  
