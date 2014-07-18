@@ -13,4 +13,6 @@ $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create
     array('resourceName' => 'catalog_setup')
 );
 
+/* Assign attribute to attribute set */
 $installer->removeAttribute('catalog_product', 'test_configurable');
+$installer->cleanCache();

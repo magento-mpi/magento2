@@ -23,29 +23,22 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
+     */
+    public function testRemoveChild()
+    {
+        $productSku = 'configurable';
+        $childSku = 'simple_10';
+        $this->assertTrue($this->removeChild($productSku, $childSku));
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      * @magentoApiDataFixture Magento/ConfigurableProduct/_files/delete_association.php
      */
     public function testAddChild()
     {
-
-        /** @var \Magento\Eav\Model\Config $eavConfig */
-        $eavConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config');
-        $attribute = $eavConfig->getAttribute('catalog_product', 'test_configurable');
-
-        /** @var $options \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection */
-        $options = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection'
-        );
-        $options->setAttributeFilter($attribute->getId());
-        $option = $options->getFirstItem();
-
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-        $product->load($option->getId() * 10);
-
-
         $productSku = 'configurable';
-        $childSku = $product->getSku();
+        $childSku = 'simple_10';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/child',
@@ -61,19 +54,9 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertTrue($res);
     }
 
-    /**
-     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
-     */
-    public function testRemoveChild()
-    {
-        $productSku = 'configurable';
-        $childSku = 'simple_10';
-        $this->assertTrue($this->removeChild($productSku, $childSku));
-    }
-
     protected function removeChild($productSku, $childSku)
     {
-        $resourcePath = self::RESOURCE_PATH . '%s/child/%s';
+        $resourcePath = self::RESOURCE_PATH . '/%s/child/%s';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => sprintf($resourcePath, $productSku, $childSku),

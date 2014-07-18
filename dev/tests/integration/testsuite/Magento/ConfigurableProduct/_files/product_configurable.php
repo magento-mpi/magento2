@@ -52,6 +52,7 @@ foreach ($options as $option) {
     )->setStockData(
         array('use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1)
     )->save();
+
     $attributeValues[] = array(
         'label' => 'test',
         'attribute_id' => $attribute->getId(),
