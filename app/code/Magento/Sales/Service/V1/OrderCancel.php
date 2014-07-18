@@ -21,20 +21,12 @@ class OrderGet
     protected $orderRepository;
 
     /**
-     * @var OrderMapper
-     */
-    protected $orderMapper;
-
-    /**
      * @param OrderRepository $orderRepository
-     * @param OrderMapper $orderMapper
      */
     public function __construct(
-        OrderRepository $orderRepository,
-        OrderMapper $orderMapper
+        OrderRepository $orderRepository
     ) {
         $this->orderRepository = $orderRepository;
-        $this->orderMapper = $orderMapper;
     }
 
     /**
@@ -46,6 +38,6 @@ class OrderGet
      */
     public function invoke($id)
     {
-        return $this->orderMapper->extractDto($this->orderRepository->get($id));
+        return (bool)$this->orderRepository->get($id)->cancel();
     }
 }
