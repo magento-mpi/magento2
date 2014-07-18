@@ -16,9 +16,9 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Core\Test\Fixture\SystemVariable;
 
 /**
- * Class AssertSystemVariableInPage
+ * Class AssertCustomVariableInPage
  */
-class AssertSystemVariableInPage extends AbstractConstraint
+class AssertCustomVariableInPage extends AbstractConstraint
 {
     /**
      * Constraint severeness

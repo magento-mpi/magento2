@@ -32,7 +32,7 @@
     <assertCustomVariableForm module="Magento_Core">
         <severeness>low</severeness>
     </assertCustomVariableForm>
-    <assertSystemVariableInPage module="Magento_Core">
+    <assertCustomVariableInPage module="Magento_Core">
         <severeness>low</severeness>
-    </assertSystemVariableInPage>
+    </assertCustomVariableInPage>
 </constraint>
