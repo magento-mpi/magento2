@@ -53,13 +53,9 @@
 
 .responsive(@break) when (@break = @break-point-1) {
     .opc-wrapper {
-        .gift-wrapping {
-            .nested {
-                &:extend(add-clearfix-desktop all);
-            }
-        }
         .data.table {
             .gift-wrapping {
+                .nested,
                 .content {
                     &:extend(.add-clearfix-desktop all);
                 }

@@ -46,14 +46,14 @@
 
 .form-address-edit {
     #region_id {
-		display: none;
-	}
+        display: none;
+    }
 }
 
-.form-edit-account{
-    .fieldset.password{
+.form-edit-account {
+    .fieldset.password {
         display: none;
-	}
+    }
 }
 
 .box-address-billing,
@@ -272,31 +272,28 @@
                 }
             }
         }
-        .table-wrapper {
-            .data.table {
-                .table-bordered(
-                    @_type: light,
-                    @_border-width: 1px
-                );
-                margin-bottom: 0;
-            }
+        .data.table {
+            .table-bordered(
+                @_type: light,
+                @_border-width: 1px
+            );
+            margin-bottom: 0;
         }
         .toolbar {
             position: relative;
             margin-bottom: @indent-base;
             &:extend(.add-clearfix-desktop all);
-            .toolbar-amount,
             .limiter {
+                float: right;
                 position: relative;
                 z-index: 1;
             }
-            .limiter {
-                float: right;
-            }
             .toolbar-amount {
-                padding: 7px 0 0;
-                line-height: normal;
                 float: left;
+                line-height: normal;
+                padding: 7px 0 0;
+                position: relative;
+                z-index: 1;
             }
             .pages {
                 position: absolute;
