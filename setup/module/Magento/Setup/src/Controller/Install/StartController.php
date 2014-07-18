@@ -83,6 +83,16 @@ class StartController extends AbstractActionController
 
         $this->config->replaceTmpInstallDate(date('r'));
 
+        $magentoUrl = isset($data['config']['address']['web'])
+            ? $data['config']['address']['web']
+            : '';
+
+        $cHandle = curl_init();
+        curl_setopt($cHandle, CURLOPT_URL, $magentoUrl);
+        curl_exec($cHandle);
+        curl_close($cHandle);
+
+        $this->json->setVariable('success', true);
         return $this->json;
     }
 }
