@@ -30,7 +30,7 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
         'store_id' => ['Default Store View' => 1],
         'options' => [
             'Temporary (302)' => 'R',
-            'Temporary (301)' => 'RP',
+            'Permanent (301)' => 'RP',
             'No' => ''
         ]
     ];
@@ -58,7 +58,7 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
         $response = $curl->read();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Product creation by curl handler was not successful! Response: $response");
+            throw new \Exception("URL Rewrite creation by curl handler was not successful! Response: $response");
         }
         $curl->close();
     }

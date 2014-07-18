@@ -18,6 +18,13 @@ use Mtf\Client\Element\Locator;
 class Config extends Block
 {
     /**
+     * Variable link selector
+     *
+     * @var string
+     */
+    protected $variableSelector = '//a[contains(text(),"%s")]';
+
+    /**
      * Selector for getting all variables in list
      *
      * @var string

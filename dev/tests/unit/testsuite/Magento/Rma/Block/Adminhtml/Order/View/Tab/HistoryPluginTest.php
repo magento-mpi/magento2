@@ -81,6 +81,7 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
             ->method('getOrder')
             ->will($this->returnSelf());
 
+
         $this->assertEquals($expected, $this->historyPlugin->afterGetFullHistory($subject, $original));
     }
 
@@ -208,4 +209,4 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
             ->method('getCreatedAtDate');
         return $comment;
     }
-} 
+}

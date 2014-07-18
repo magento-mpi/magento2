@@ -49,13 +49,13 @@ class Edit extends \Magento\Backend\Block\Widget\Container
     protected $_rewriteFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         array $data = array()
@@ -124,7 +124,7 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addResetButton()
     {
-        $this->_addButton(
+        $this->buttonList->add(
             'reset',
             array(
                 'label' => __('Reset'),
@@ -142,7 +142,7 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addBackButton()
     {
-        $this->_addButton(
+        $this->buttonList->add(
             'back',
             array(
                 'label' => __('Back'),
@@ -161,7 +161,7 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _updateBackButtonLink($link)
     {
-        $this->_updateButton('back', 'onclick', 'setLocation(\'' . $link . '\')');
+        $this->buttonList->update('back', 'onclick', 'setLocation(\'' . $link . '\')');
     }
 
     /**
@@ -171,7 +171,7 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addDeleteButton()
     {
-        $this->_addButton(
+        $this->buttonList->add(
             'delete',
             array(
                 'label' => __('Delete'),
@@ -194,7 +194,7 @@ class Edit extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addSaveButton()
     {
-        $this->_addButton(
+        $this->buttonList->add(
             'save',
             array(
                 'label' => __('Save'),

@@ -45,7 +45,7 @@ class BundleDynamicTest extends Functional
         $productForm = $createProductPage->getForm();
         //Steps
         $manageProductsGrid->open();
-        $manageProductsGrid->getProductBlock()->addProduct('bundle');
+        $manageProductsGrid->getGridPageActionBlock()->addProduct('bundle');
         $productForm->fillProduct($bundle);
         $createProductPage->getFormAction()->save();
         //Verification

@@ -56,6 +56,9 @@ class Associated implements FixtureInterface
         }
 
         if (!empty($this->data['products'])) {
+            $this->data['products'] = is_array($this->data['products'])
+                ? $this->data['products']
+                : explode(',', $this->data['products']);
             foreach ($this->data['products'] as $key => $product) {
                 list($fixture, $dataSet) = explode('::', $product);
                 /** @var $productFixture InjectableFixture */
@@ -69,6 +72,7 @@ class Associated implements FixtureInterface
 
             $assignedProducts = & $this->data['assigned_products'];
             foreach (array_keys($assignedProducts) as $key) {
+                $assignedProducts[$key]['name'] = $this->data['products'][$key]->getName();
                 $assignedProducts[$key]['id'] = $this->data['products'][$key]->getId();
                 $assignedProducts[$key]['position'] = $key + 1;
             }
@@ -121,14 +125,16 @@ class Associated implements FixtureInterface
                 'assigned_products' => [
                     [
                         'id' => '%id%',
+                        'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 5
+                        'qty' => 2,
                     ],
                     [
                         'id' => '%id%',
+                        'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 6
-                    ]
+                        'qty' => 2,
+                    ],
                 ],
                 'products' => [
                     'catalogProductSimple::default',
@@ -139,14 +145,16 @@ class Associated implements FixtureInterface
                 'assigned_products' => [
                     [
                         'id' => '%id%',
+                        'name' => '%item1_virtual::getProductName%',
                         'position' => '%position%',
-                        'qty' => 5
+                        'qty' => 2,
                     ],
                     [
                         'id' => '%id%',
+                        'name' => '%item1_virtual::getProductName%',
                         'position' => '%position%',
-                        'qty' => 6
-                    ]
+                        'qty' => 2,
+                    ],
                 ],
                 'products' => [
                     'catalogProductVirtual::default',
@@ -154,11 +162,9 @@ class Associated implements FixtureInterface
                 ],
             ]
         ];
-
         if (!isset($presets[$name])) {
             return null;
         }
-
         return $presets[$name];
     }
 }
