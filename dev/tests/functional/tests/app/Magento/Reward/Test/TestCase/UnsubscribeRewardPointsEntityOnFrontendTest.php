@@ -89,7 +89,7 @@ class UnsubscribeRewardPointsEntityOnFrontendTest extends Injectable
         $this->customerAccountLogin->open();
         $this->customerAccountLogin->getLoginBlock()->login($customer);
         $this->rewardCustomerInfo->getAccountMenuBlock()->openMenuItem('Reward Points');
-        $this->rewardCustomerInfo->getRewardPointsBlock()->getSubscriptionBlock()->fill($reward);
-        $this->rewardCustomerInfo->getRewardPointsBlock()->getSubscriptionBlock()->clickSaveButton();
+        $this->rewardCustomerInfo->getRewardPointsBlock()->getSubscriptionForm()->fill($reward);
+        $this->rewardCustomerInfo->getRewardPointsBlock()->getSubscriptionForm()->clickSaveButton();
     }
 }

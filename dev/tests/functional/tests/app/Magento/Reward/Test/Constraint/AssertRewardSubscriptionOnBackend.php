@@ -50,7 +50,7 @@ class AssertRewardSubscriptionOnBackend extends AbstractAssertForm
         $customerIndexEdit->getCustomerForm()->openTab('reward_points');
         /** @var RewardPoints $rewardPointsTab */
         $rewardPointsTab = $customerIndexEdit->getCustomerForm()->getTabElement('reward_points');
-        $formData = $rewardPointsTab->getSubscriptionBlock()->getData();
+        $formData = $rewardPointsTab->getSubscriptionForm()->getData();
         $fixtureData = $reward->getData();
         $error = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertEmpty(

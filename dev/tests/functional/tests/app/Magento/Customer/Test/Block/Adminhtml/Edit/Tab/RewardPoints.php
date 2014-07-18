@@ -22,18 +22,18 @@ class RewardPoints extends Tab
      *
      * @var string
      */
-    protected $subscriptionBlock = '#reward_notification_fieldset';
+    protected $subscriptionForm = '#reward_notification_fieldset';
 
     /**
-     * Return reward points subscription block
+     * Return reward points subscription form
      *
      * @return Subscription
      */
-    public function getSubscriptionBlock()
+    public function getSubscriptionForm()
     {
         return $this->blockFactory->create(
             '\Magento\Customer\Test\Block\Adminhtml\Edit\Tab\RewardPoints\Subscription',
-            ['element' => $this->_rootElement->find($this->subscriptionBlock)]
+            ['element' => $this->_rootElement->find($this->subscriptionForm)]
         );
     }
 }

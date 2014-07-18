@@ -27,7 +27,7 @@ class AssertRewardSubscriptionSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that reward points subscription settings success save message is present on page.
+     * Assert that reward points subscription settings success save message is present on page
      *
      * @param RewardCustomerInfo $rewardCustomerInfo
      * @return void

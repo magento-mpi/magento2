@@ -16,5 +16,11 @@
     </assertRewardSubscriptionSaveMessage>
     <assertRewardSubscriptionOnBackend module="Magento_Reward">
         <severeness>low</severeness>
+        <require>
+            <customerInjectable class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <customerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+            <customerIndexEdit class="Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
     </assertRewardSubscriptionOnBackend>
 </constraint>

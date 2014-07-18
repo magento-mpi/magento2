@@ -22,18 +22,18 @@ class RewardPoints extends Block
      *
      * @var string
      */
-    protected $subscriptionBlock = '#form-validate';
+    protected $subscriptionForm = '#form-validate';
 
     /**
-     * Return reward points subscription block
+     * Return reward points subscription form
      *
      * @return Subscription
      */
-    public function getSubscriptionBlock()
+    public function getSubscriptionForm()
     {
         return $this->blockFactory->create(
             '\Magento\Reward\Test\Block\Customer\RewardPoints\Subscription',
-            ['element' => $this->_rootElement->find($this->subscriptionBlock)]
+            ['element' => $this->_rootElement->find($this->subscriptionForm)]
         );
     }
 }
