@@ -145,5 +145,4 @@ class Package
             $target->{$property} = $value;
         }
     }
-
 }

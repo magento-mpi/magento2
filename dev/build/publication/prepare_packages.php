@@ -11,7 +11,7 @@
 
 // get CLI options, define variables
 define(
-'SYNOPSIS',
+    'SYNOPSIS',
 <<<SYNOPSIS
 php -f publish.php --
     --edition="ce|ee"
@@ -64,7 +64,7 @@ try {
     execVerbose("git clone %s %s", $sourceDir, $sourceSkeletonDir);
     execVerbose(
         'php -f ' . __DIR__
-            . '/../../tools/Magento/Tools/Composer/create-skeleton.php -- --edition=%s --version=%s --dir=%s',
+        . '/../../tools/Magento/Tools/Composer/create-skeleton.php -- --edition=%s --version=%s --dir=%s',
         $edition,
         $version,
         $sourceSkeletonDir

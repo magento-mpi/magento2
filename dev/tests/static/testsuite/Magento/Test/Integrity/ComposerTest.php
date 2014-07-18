@@ -128,15 +128,14 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertDependsOnFramework($json->require);
                 break;
             case 'magento2-theme':
-            case 'magento2-theme': // break is intentionally omitted
-                $this->assertRegExp('/^magento\/theme\-([a-z0-9_]+)+$/', $json->name);
+                $this->assertRegExp('/^magento\/theme-(?:adminhtml|frontend)(\-[a-z0-9_]+)+$/', $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertThemeVersionInSync($dir, $json->version);
                 break;
-            case 'magento2-framework':
+            case 'magento2-library':
                 $this->assertDependsOnPhp($json->require);
-                $this->assertRegExp('/^magento\/library$/', $json->name);
+                $this->assertRegExp('/^magento\/framework$/', $json->name);
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown package type {$packageType}");
