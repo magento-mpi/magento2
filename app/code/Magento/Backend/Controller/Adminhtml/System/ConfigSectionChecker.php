@@ -20,7 +20,8 @@ class ConfigSectionChecker
     /**
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      */
-    public function __construct(\Magento\Backend\Model\Config\Structure $configStructure) {
+    public function __construct(\Magento\Backend\Model\Config\Structure $configStructure)
+    {
         $this->_configStructure = $configStructure;
     }
 

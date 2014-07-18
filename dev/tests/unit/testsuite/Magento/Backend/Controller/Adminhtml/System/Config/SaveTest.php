@@ -59,6 +59,9 @@ class SaveTest extends \PHPUnit_Framework_TestCase
      */
     protected $_sectionCheckerMock;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false, false);
