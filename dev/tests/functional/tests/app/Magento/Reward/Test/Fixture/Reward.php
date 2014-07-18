@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Reward
+ * Reward point fixture
  */
 class Reward extends InjectableFixture
 {

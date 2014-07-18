@@ -34,13 +34,11 @@ class AssertRewardSubscriptionSaveMessage extends AbstractConstraint
      */
     public function processAssert(RewardCustomerInfo $rewardCustomerInfo)
     {
-        $actualMessage = $rewardCustomerInfo->getMessages()->getSuccessMessages();
+        $actualMessage = $rewardCustomerInfo->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_SAVE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_SAVE_MESSAGE
-            . "\nActual: " . $actualMessage
         );
     }
 

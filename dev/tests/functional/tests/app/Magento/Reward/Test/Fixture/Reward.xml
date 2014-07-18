@@ -26,7 +26,7 @@
         <customer_id>
             <attribute_code>customer_id</attribute_code>
             <backend_type>int</backend_type>
-            <is_required></is_required />
+            <is_required />
             <default_value>0</default_value>
             <input />
         </customer_id>

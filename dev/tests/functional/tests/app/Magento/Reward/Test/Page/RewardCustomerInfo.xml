@@ -9,7 +9,7 @@
 -->
 <page mca="reward/customer/info" >
     <block>
-        <name>messages</name>
+        <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>.page.messages</locator>
         <strategy>css selector</strategy>
@@ -23,7 +23,7 @@
     <block>
         <name>rewardPointsBlock</name>
         <class>Magento\Reward\Test\Block\Customer\RewardPoints</class>
-        <locator>//*[@class="columns"]/div[div[contains(@class, "block reward")]]</locator>
+        <locator>//div[div[contains(@class, "block reward")]]</locator>
         <strategy>xpath</strategy>
     </block>
 </page>

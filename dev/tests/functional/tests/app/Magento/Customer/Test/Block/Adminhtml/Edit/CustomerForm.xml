@@ -33,9 +33,4 @@
         <selector>#customer_info_tabs_addresses</selector>
         <strategy>css selector</strategy>
     </addresses>
-    <reward_points>
-        <class>\Magento\Customer\Test\Block\Adminhtml\Edit\Tab\RewardPoints</class>
-        <selector>#customer_info_tabs_customer_edit_tab_reward</selector>
-        <strategy>css selector</strategy>
-    </reward_points>
 </tabs>

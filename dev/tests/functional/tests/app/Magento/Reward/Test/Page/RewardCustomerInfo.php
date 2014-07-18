@@ -18,8 +18,8 @@ class RewardCustomerInfo extends FrontendPage
     const MCA = 'reward/customer/info';
 
     protected $_blocks = [
-        'messages' => [
-            'name' => 'messages',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.page.messages',
             'strategy' => 'css selector',
@@ -41,9 +41,9 @@ class RewardCustomerInfo extends FrontendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessages()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messages');
+        return $this->getBlockInstance('messagesBlock');
     }
 
     /**

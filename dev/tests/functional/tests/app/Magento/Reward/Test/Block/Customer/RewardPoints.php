@@ -8,12 +8,13 @@
 
 namespace Magento\Reward\Test\Block\Customer;
 
+use Magento\Reward\Test\Fixture\Reward;
 use Mtf\Block\Block;
 use Magento\Reward\Test\Block\Customer\RewardPoints\Subscription;
 
 /**
  * Class RewardPoints
- * Reward Points block
+ * Reward Points block in customer My account on frontend
  */
 class RewardPoints extends Block
 {
@@ -29,11 +30,23 @@ class RewardPoints extends Block
      *
      * @return Subscription
      */
-    public function getSubscriptionForm()
+    protected function getSubscriptionForm()
     {
         return $this->blockFactory->create(
             '\Magento\Reward\Test\Block\Customer\RewardPoints\Subscription',
             ['element' => $this->_rootElement->find($this->subscriptionForm)]
         );
+    }
+
+    /**
+     * Update subscription on customer frontend account
+     *
+     * @param Reward $reward
+     * @return void
+     */
+    public function updateSubscription(Reward $reward)
+    {
+        $this->getSubscriptionForm()->fill($reward);
+        $this->getSubscriptionForm()->clickSaveButton();
     }
 }

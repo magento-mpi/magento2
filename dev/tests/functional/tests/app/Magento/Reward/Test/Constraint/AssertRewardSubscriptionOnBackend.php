@@ -13,7 +13,6 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Reward\Test\Fixture\Reward;
 use Mtf\Constraint\AbstractAssertForm;
-use Magento\Customer\Test\Block\Adminhtml\Edit\Tab\RewardPoints;
 
 /**
  * Class AssertRewardSubscriptionOnBackend
@@ -47,10 +46,7 @@ class AssertRewardSubscriptionOnBackend extends AbstractAssertForm
         $filter = ['email' => $customer->getEmail()];
         $customerIndex->open();
         $customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
-        $customerIndexEdit->getCustomerForm()->openTab('reward_points');
-        /** @var RewardPoints $rewardPointsTab */
-        $rewardPointsTab = $customerIndexEdit->getCustomerForm()->getTabElement('reward_points');
-        $formData = $rewardPointsTab->getSubscriptionForm()->getData();
+        $formData = $customerIndexEdit->getCustomerForm()->getData();
         $fixtureData = $reward->getData();
         $error = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertEmpty(
@@ -66,6 +62,6 @@ class AssertRewardSubscriptionOnBackend extends AbstractAssertForm
      */
     public function toString()
     {
-        return 'Customer reward subscriptions checkboxes are empty.';
+        return 'Customer reward subscriptions checkboxes are unchecked.';
     }
 }
