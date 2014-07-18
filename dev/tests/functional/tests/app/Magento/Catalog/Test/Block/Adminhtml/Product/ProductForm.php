@@ -388,7 +388,7 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Check custom tab on Product form
+     * Check tab visibility on Product form
      *
      * @param string $tabName
      * @return bool
