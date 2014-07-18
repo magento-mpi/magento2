@@ -32,7 +32,7 @@ class UrlRewriteForm extends Form
         array $replace = []
     ) {
         $data = $fixture->getData();
-        if (!empty($this->getData()['target_path']) && !isset($data['target_path'])) {
+        if (empty($this->getData()['target_path']) && !isset($data['target_path'])) {
             $entity = $fixture->getDataFieldConfig('id_path')['source']->getEntity();
             $data['target_path'] = $entity->hasData('identifier')
                 ? $entity->getIdentifier()

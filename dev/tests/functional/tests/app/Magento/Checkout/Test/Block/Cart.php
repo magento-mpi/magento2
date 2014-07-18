@@ -77,7 +77,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $cartItem = '//tr[td//*[normalize-space(text()) = "%s"]]';
+    protected $cartItem = '//tr[normalize-space(td)="%s"]';
 
     /**
      * Get bundle options

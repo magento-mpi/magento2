@@ -73,7 +73,7 @@ class CreateBundle extends Curl
      */
     protected function _prepareData(array $params, $prefix = null)
     {
-        $data = [];
+        $data = array();
         foreach ($params as $key => $values) {
             if ($key == 'bundle_selections') {
                 $data = array_merge($data, $this->_getBundleData($values['value']));
@@ -119,22 +119,22 @@ class CreateBundle extends Curl
      */
     protected function _getBundleData(array $params)
     {
-        $data = [];
+        $data = [
+            'bundle_options' => [],
+            'bundle_selections' => []
+        ];
         $index = 0;
         foreach ($params['bundle_options'] as $option) {
             $data['bundle_options'][] = [
-                'title' => $this->_getValue($option['title']),
-                'type' => $this->_getValue($option['type']),
-                'required' => $this->_getValue($option['required']),
+                'title' => $option['title'],
+                'type' => $option['type'],
+                'required' => $option['required'],
                 'delete' => '',
                 'position' => $index
             ];
 
             $position = 0;
             foreach ($option['assigned_products'] as $assignedProduct) {
-                foreach ($assignedProduct['data'] as &$itemData) {
-                    $itemData = $this->_getValue($itemData);
-                }
                 $assignedProduct['data'] += [
                     'delete' => '',
                     'position' => ++$position
@@ -155,7 +155,7 @@ class CreateBundle extends Curl
      */
     protected function _getUrl(array $config)
     {
-        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : [];
+        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
         $params = '';
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
@@ -171,9 +171,9 @@ class CreateBundle extends Curl
      */
     protected function _getSelections(array $products)
     {
-        $data = [];
+        $data = array();
         foreach ($products as $product) {
-            $product = isset($product['data']) ? $product['data'] : [];
+            $product = isset($product['data']) ? $product['data'] : array();
             $data[] = $this->_prepareData($product) + ['delete' => ''];
         }
         return $data;
@@ -198,7 +198,7 @@ class CreateBundle extends Curl
         $url = $this->_getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
 
