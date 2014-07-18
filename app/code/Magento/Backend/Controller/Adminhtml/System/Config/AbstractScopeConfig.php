@@ -10,7 +10,7 @@ namespace Magento\Backend\Controller\Adminhtml\System\Config;
 
 use Magento\Backend\Controller\Adminhtml\System\ConfigSectionChecker;
 
-abstract class AbstractConfig extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
+abstract class AbstractScopeConfig extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 {
     /**
      * @var \Magento\Backend\Model\Config

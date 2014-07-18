@@ -8,7 +8,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Config;
 
-class State extends AbstractConfig
+class State extends AbstractScopeConfig
 {
     /**
      * Save fieldset state through AJAX
