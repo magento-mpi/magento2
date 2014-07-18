@@ -46,7 +46,7 @@ class Logger
     public function logSuccess($moduleName)
     {
         $this->open();
-        fwrite($this->resource, '[SUCCESS] ' . $moduleName . ' ... installed' . PHP_EOL);
+        fwrite($this->resource, '<span class="text-success">[SUCCESS] ' . $moduleName . ' ... installed</span>' . PHP_EOL);
         $this->close();
     }
 
@@ -56,7 +56,7 @@ class Logger
     public function logError(\Exception $e)
     {
         $this->open();
-        fwrite($this->resource, '[ERROR] ' . $e . PHP_EOL);
+        fwrite($this->resource, '<span class="text-danger">[ERROR] ' . $e . '<span>' . PHP_EOL);
         $this->close();
     }
 
