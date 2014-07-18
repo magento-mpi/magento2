@@ -8,8 +8,9 @@
 namespace Magento\Weee\Model\Total\Quote;
 
 use Magento\Tax\Model\Calculation;
+use Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector as CTC;
 
-class WeeeTest extends \PHPUnit_Framework_TestCase
+class WeeeTaxTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Setup tax helper with an array of methodName, returnValue
@@ -108,9 +109,11 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      * Setup address mock
      *
      * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Item $itemMock
+     * @param boolean $isWeeeTaxable
+     * @param array   $itemData
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function setupAddressMock($itemMock)
+    protected function setupAddressMock($itemMock, $isWeeeTaxable, $itemData)
     {
         $addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
@@ -118,11 +121,41 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 '__wakeup',
                 'getAllNonNominalItems',
                 'getQuote',
+                'getWeeeCodeToItemMap',
+                'getExtraTaxableDetails',
             ],
             [],
             '',
             false
         );
+
+        $map = [];
+        $extraDetails = [];
+        if ($isWeeeTaxable) {
+            $code = 'weee1-myWeeeCode';
+            $map = [$code => $itemMock];
+            $extraDetails = [
+                'weee' => [
+                    'sequence-1' => [
+                        [
+                            CTC::KEY_TAX_DETAILS_TYPE => 'weee',
+                            CTC::KEY_TAX_DETAILS_CODE => $code,
+                            CTC::KEY_TAX_DETAILS_PRICE_EXCL_TAX => $itemData['weee_tax_applied_amount'],
+                            CTC::KEY_TAX_DETAILS_BASE_PRICE_EXCL_TAX => $itemData['base_weee_tax_applied_amount'],
+                            CTC::KEY_TAX_DETAILS_PRICE_INCL_TAX => $itemData['weee_tax_applied_amount_incl_tax'],
+                            CTC::KEY_TAX_DETAILS_BASE_PRICE_INCL_TAX =>
+                                $itemData['base_weee_tax_applied_amount_incl_tax'],
+                            CTC::KEY_TAX_DETAILS_ROW_TOTAL => $itemData['weee_tax_applied_row_amount'],
+                            CTC::KEY_TAX_DETAILS_BASE_ROW_TOTAL => $itemData['base_weee_tax_applied_row_amnt'],
+                            CTC::KEY_TAX_DETAILS_ROW_TOTAL_INCL_TAX =>
+                                $itemData['weee_tax_applied_row_amount_incl_tax'],
+                            CTC::KEY_TAX_DETAILS_BASE_ROW_TOTAL_INCL_TAX =>
+                                $itemData['base_weee_tax_applied_row_amnt_incl_tax'],
+                        ]
+                    ]
+                ]
+            ];
+        }
 
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $storeMock = $this->getMock('Magento\Store\Model\Store', ['__wakeup', 'convertPrice'], [], '', false);
@@ -131,6 +164,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
 
         $addressMock->expects($this->any())->method('getAllNonNominalItems')->will($this->returnValue([$itemMock]));
         $addressMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
+        $addressMock->expects($this->any())->method('getWeeeCodeToItemMap')->will($this->returnValue($map));
+        $addressMock->expects($this->any())->method('getExtraTaxableDetails')->will($this->returnValue($extraDetails));
 
         return $addressMock;
     }
@@ -139,7 +174,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      * Verify that correct fields of item has been set
      *
      * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Item $item
-     * @param $itemData
+     * @param array $itemData
      */
     public function verifyItem(\Magento\Sales\Model\Quote\Item $item, $itemData)
     {
@@ -152,7 +187,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      * Verify that correct fields of address has been set
      *
      * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Address $address
-     * @param $addressData
+     * @param array $addressData
      */
     public function verifyAddress(\Magento\Sales\Model\Quote\Address $address, $addressData)
     {
@@ -175,7 +210,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
     public function testCollect($taxConfig, $weeeConfig, $taxRates, $itemData, $itemQty, $addressData = [])
     {
         $itemMock = $this->setupItemMock($itemQty);
-        $addressMock = $this->setupAddressMock($itemMock);
+        $addressMock = $this->setupAddressMock($itemMock, $weeeConfig['isTaxable'], $itemData);
 
         $taxHelper = $this->setupTaxHelper($taxConfig);
         $weeeHelper = $this->setupWeeeHelper($weeeConfig);
@@ -188,7 +223,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
         ];
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->weeeCollector = $helper->getObject('Magento\Weee\Model\Total\Quote\Weee', $arguments);
+        $this->weeeCollector = $helper->getObject('Magento\Weee\Model\Total\Quote\WeeeTax', $arguments);
 
         $this->weeeCollector->collect($addressMock);
 
@@ -206,12 +241,10 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      */
     public function collectDataProvider()
     {
-        $data = [];
+        // 1. When the Weee is not taxable, this collector does not change the item or the address data
+        // 2. If the Weee amount is included in the subtotal, then it is not included in the 'weee_amount' field
 
-        // 1. This collector does not compute tax.  Instead it sets up various fields for the tax calculation
-        // 2. When the Weee is not taxable, this collector will change the address data as follows:
-        // 2a. If Weee is included in the subtotal, the 'subtotal' fields are populated
-        // 2b. Otherwise the 'weee_amount' fields are populated
+        $data = [];
 
         $data['price_incl_tax_weee_taxable_unit_included_in_subtotal'] = [
             'tax_config' => [
@@ -237,10 +270,10 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'customer_tax_rate' => 8.25,
             ],
             'item' => [
-                'weee_tax_applied_amount' => 10,
-                'base_weee_tax_applied_amount' => 10,
-                'weee_tax_applied_row_amount' => 20,
-                'base_weee_tax_applied_row_amnt' => 20,
+                'weee_tax_applied_amount' => 9.24,
+                'base_weee_tax_applied_amount' => 9.24,
+                'weee_tax_applied_row_amount' => 18.48,
+                'base_weee_tax_applied_row_amnt' => 18.48,
                 'weee_tax_applied_amount_incl_tax' => 10,
                 'base_weee_tax_applied_amount_incl_tax' => 10,
                 'weee_tax_applied_row_amount_incl_tax' => 20,
@@ -248,8 +281,12 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             ],
             'item_qty' => 2,
             'address_data' => [
+                'subtotal' => 18.48,
+                'base_subtotal' => 18.48,
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
+                'weee_amount' => 0,
+                'base_weee_amount' => 0,
             ]
         ];
 
@@ -277,10 +314,10 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'customer_tax_rate' => 8.25,
             ],
             'item' => [
-                'weee_tax_applied_amount' => 10,
-                'base_weee_tax_applied_amount' => 10,
-                'weee_tax_applied_row_amount' => 20,
-                'base_weee_tax_applied_row_amnt' => 20,
+                'weee_tax_applied_amount' => 9.24,
+                'base_weee_tax_applied_amount' => 9.24,
+                'weee_tax_applied_row_amount' => 18.48,
+                'base_weee_tax_applied_row_amnt' => 18.48,
                 'weee_tax_applied_amount_incl_tax' => 10,
                 'base_weee_tax_applied_amount_incl_tax' => 10,
                 'weee_tax_applied_row_amount_incl_tax' => 20,
@@ -288,8 +325,12 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             ],
             'item_qty' => 2,
             'address_data' => [
+                'subtotal' => 0,
+                'base_subtotal' => 0,
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
+                'weee_amount' => 18.48,
+                'base_weee_amount' => 18.48,
             ]
         ];
 
@@ -321,15 +362,19 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'base_weee_tax_applied_amount' => 10,
                 'weee_tax_applied_row_amount' => 20,
                 'base_weee_tax_applied_row_amnt' => 20,
-                'weee_tax_applied_amount_incl_tax' => 10,
-                'base_weee_tax_applied_amount_incl_tax' => 10,
-                'weee_tax_applied_row_amount_incl_tax' => 20,
-                'base_weee_tax_applied_row_amnt_incl_tax' => 20,
+                'weee_tax_applied_amount_incl_tax' => 10.83,
+                'base_weee_tax_applied_amount_incl_tax' => 10.83,
+                'weee_tax_applied_row_amount_incl_tax' => 21.66,
+                'base_weee_tax_applied_row_amnt_incl_tax' => 21.66,
             ],
             'item_qty' => 2,
             'address_data' => [
-                'subtotal_incl_tax' => 20,
-                'base_subtotal_incl_tax' => 20,
+                'subtotal' => 20,
+                'base_subtotal' => 20,
+                'subtotal_incl_tax' => 21.66,
+                'base_subtotal_incl_tax' => 21.66,
+                'weee_amount' => 0,
+                'base_weee_amount' => 0,
             ]
         ];
 
@@ -357,27 +402,11 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'customer_tax_rate' => 8.25,
             ],
             'item' => [
-                'weee_tax_applied_amount' => 10,
-                'base_weee_tax_applied_amount' => 10,
-                'weee_tax_applied_row_amount' => 20,
-                'base_weee_tax_applied_row_amnt' => 20,
-                'weee_tax_applied_amount_incl_tax' => 10,
-                'base_weee_tax_applied_amount_incl_tax' => 10,
-                'weee_tax_applied_row_amount_incl_tax' => 20,
-                'base_weee_tax_applied_row_amnt_incl_tax' => 20,
             ],
             'item_qty' => 2,
-            'address_data' => [
-                'subtotal_incl_tax' => 20,
-                'base_subtotal_incl_tax' => 20,
-                'subtotal' => 20,
-                'base_subtotal' => 20,
-                'weee_amount' => 0,
-                'base_weee_amount' => 0,
-            ]
         ];
 
-        $data['price_excl_tax_weee_non_taxable_unit_included_in_subtotal'] = [
+        $data['price_excl_tax_weee_non_taxable_unit_include_in_subtotal'] = [
             'tax_config' => [
                 'priceIncludesTax' => false,
                 'getCalculationAgorithm' => Calculation::CALC_UNIT_BASE,
@@ -401,27 +430,10 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'customer_tax_rate' => 8.25,
             ],
             'item' => [
-                'weee_tax_applied_amount' => 10,
-                'base_weee_tax_applied_amount' => 10,
-                'weee_tax_applied_row_amount' => 20,
-                'base_weee_tax_applied_row_amnt' => 20,
-                'weee_tax_applied_amount_incl_tax' => 10,
-                'base_weee_tax_applied_amount_incl_tax' => 10,
-                'weee_tax_applied_row_amount_incl_tax' => 20,
-                'base_weee_tax_applied_row_amnt_incl_tax' => 20,
             ],
             'item_qty' => 2,
-            'address_data' => [
-                'subtotal_incl_tax' => 20,
-                'base_subtotal_incl_tax' => 20,
-                'subtotal' => 20,
-                'base_subtotal' => 20,
-                'weee_amount' => 0,
-                'base_weee_amount' => 0,
-            ]
         ];
-
-        $data['price_incl_tax_weee_taxable_row_included_in_subtotal'] = [
+        $data['price_incl_tax_weee_taxable_row_include_in_subtotal'] = [
             'tax_config' => [
                 'priceIncludesTax' => true,
                 'getCalculationAgorithm' => Calculation::CALC_ROW_BASE,
@@ -445,10 +457,10 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'customer_tax_rate' => 8.25,
             ],
             'item' => [
-                'weee_tax_applied_amount' => 10,
-                'base_weee_tax_applied_amount' => 10,
-                'weee_tax_applied_row_amount' => 20,
-                'base_weee_tax_applied_row_amnt' => 20,
+                'weee_tax_applied_amount' => 9.24,
+                'base_weee_tax_applied_amount' => 9.24,
+                'weee_tax_applied_row_amount' => 18.48,
+                'base_weee_tax_applied_row_amnt' => 18.48,
                 'weee_tax_applied_amount_incl_tax' => 10,
                 'base_weee_tax_applied_amount_incl_tax' => 10,
                 'weee_tax_applied_row_amount_incl_tax' => 20,
@@ -456,12 +468,16 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             ],
             'item_qty' => 2,
             'address_data' => [
+                'subtotal' => 18.48,
+                'base_subtotal' => 18.48,
                 'subtotal_incl_tax' => 20,
                 'base_subtotal_incl_tax' => 20,
+                'weee_amount' => 0,
+                'base_weee_amount' => 0,
             ]
         ];
 
-        $data['price_excl_tax_weee_taxable_row_included_in_subtotal'] = [
+        $data['price_excl_tax_weee_taxable_row_include_in_subtotal'] = [
             'tax_config' => [
                 'priceIncludesTax' => false,
                 'getCalculationAgorithm' => Calculation::CALC_ROW_BASE,
@@ -489,19 +505,23 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'base_weee_tax_applied_amount' => 10,
                 'weee_tax_applied_row_amount' => 20,
                 'base_weee_tax_applied_row_amnt' => 20,
-                'weee_tax_applied_amount_incl_tax' => 10,
-                'base_weee_tax_applied_amount_incl_tax' => 10,
-                'weee_tax_applied_row_amount_incl_tax' => 20,
-                'base_weee_tax_applied_row_amnt_incl_tax' => 20,
+                'weee_tax_applied_amount_incl_tax' => 10.83,
+                'base_weee_tax_applied_amount_incl_tax' => 10.83,
+                'weee_tax_applied_row_amount_incl_tax' => 21.65,
+                'base_weee_tax_applied_row_amnt_incl_tax' => 21.65,
             ],
             'item_qty' => 2,
             'address_data' => [
-                'subtotal_incl_tax' => 20,
-                'base_subtotal_incl_tax' => 20,
+                'subtotal' => 20,
+                'base_subtotal' => 20,
+                'subtotal_incl_tax' => 21.65,
+                'base_subtotal_incl_tax' => 21.65,
+                'weee_amount' => 0,
+                'base_weee_amount' => 0,
             ]
         ];
 
-        $data['price_incl_tax_weee_non_taxable_row_included_in_subtotal'] = [
+        $data['price_incl_tax_weee_non_taxable_row_include_in_subtotal'] = [
             'tax_config' => [
                 'priceIncludesTax' => true,
                 'getCalculationAgorithm' => Calculation::CALC_ROW_BASE,
@@ -525,68 +545,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'customer_tax_rate' => 8.25,
             ],
             'item' => [
-                'weee_tax_applied_amount' => 10,
-                'base_weee_tax_applied_amount' => 10,
-                'weee_tax_applied_row_amount' => 20,
-                'base_weee_tax_applied_row_amnt' => 20,
-                'weee_tax_applied_amount_incl_tax' => 10,
-                'base_weee_tax_applied_amount_incl_tax' => 10,
-                'weee_tax_applied_row_amount_incl_tax' => 20,
-                'base_weee_tax_applied_row_amnt_incl_tax' => 20,
             ],
             'item_qty' => 2,
-            'address_data' => [
-                'subtotal_incl_tax' => 20,
-                'base_subtotal_incl_tax' => 20,
-                'subtotal' => 20,
-                'base_subtotal' => 20,
-                'weee_amount' => 0,
-                'base_weee_amount' => 0,
-            ]
-        ];
-
-        $data['price_excl_tax_weee_non_taxable_row_included_in_subtotal'] = [
-            'tax_config' => [
-                'priceIncludesTax' => false,
-                'getCalculationAgorithm' => Calculation::CALC_ROW_BASE,
-            ],
-            'weee_config' => [
-                'isEnabled' => true,
-                'includeInSubtotal' => true,
-                'isTaxable' => false,
-                'getApplied' => [],
-                'getProductWeeeAttributes' => [
-                    new \Magento\Framework\Object(
-                        [
-                            'name' => 'Recycling Fee',
-                            'amount' => 10,
-                        ]
-                    ),
-                ],
-            ],
-            'tax_rates' => [
-                'store_tax_rate' => 8.25,
-                'customer_tax_rate' => 8.25,
-            ],
-            'item' => [
-                'weee_tax_applied_amount' => 10,
-                'base_weee_tax_applied_amount' => 10,
-                'weee_tax_applied_row_amount' => 20,
-                'base_weee_tax_applied_row_amnt' => 20,
-                'weee_tax_applied_amount_incl_tax' => 10,
-                'base_weee_tax_applied_amount_incl_tax' => 10,
-                'weee_tax_applied_row_amount_incl_tax' => 20,
-                'base_weee_tax_applied_row_amnt_incl_tax' => 20,
-            ],
-            'item_qty' => 2,
-            'address_data' => [
-                'subtotal_incl_tax' => 20,
-                'base_subtotal_incl_tax' => 20,
-                'subtotal' => 20,
-                'base_subtotal' => 20,
-                'weee_amount' => 0,
-                'base_weee_amount' => 0,
-            ]
         ];
 
         $data['price_excl_tax_weee_non_taxable_row_not_included_in_subtotal'] = [
@@ -613,24 +573,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'customer_tax_rate' => 8.25,
             ],
             'item' => [
-                'weee_tax_applied_amount' => 10,
-                'base_weee_tax_applied_amount' => 10,
-                'weee_tax_applied_row_amount' => 20,
-                'base_weee_tax_applied_row_amnt' => 20,
-                'weee_tax_applied_amount_incl_tax' => 10,
-                'base_weee_tax_applied_amount_incl_tax' => 10,
-                'weee_tax_applied_row_amount_incl_tax' => 20,
-                'base_weee_tax_applied_row_amnt_incl_tax' => 20,
             ],
             'item_qty' => 2,
-            'address_data' => [
-                'subtotal_incl_tax' => 20,
-                'base_subtotal_incl_tax' => 20,
-                'subtotal' => 0,
-                'base_subtotal' => 0,
-                'weee_amount' => 20,
-                'base_weee_amount' => 20,
-            ]
         ];
 
         return $data;

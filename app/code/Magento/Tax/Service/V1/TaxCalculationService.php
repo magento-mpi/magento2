@@ -449,7 +449,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsItemBuilder->setType($item->getType());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
-
+        $this->taxDetailsItemBuilder->setAssociatedItemCode($item->getAssociatedItemCode());
         $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
         return $this->taxDetailsItemBuilder->create();
     }
@@ -695,6 +695,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsItemBuilder->setType($item->getType());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
+        $this->taxDetailsItemBuilder->setAssociatedItemCode($item->getAssociatedItemCode());
 
         $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
         return $this->taxDetailsItemBuilder->create();
