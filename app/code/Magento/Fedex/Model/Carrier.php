@@ -562,7 +562,17 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
             }
 
             // Order is important
-            foreach (array('RATED_ACCOUNT_SHIPMENT', 'RATED_LIST_SHIPMENT', 'RATED_LIST_PACKAGE') as $rateType) {
+            $ratesOrder = [
+                'RATED_ACCOUNT_PACKAGE',
+                'PAYOR_ACCOUNT_PACKAGE',
+                'RATED_ACCOUNT_SHIPMENT',
+                'PAYOR_ACCOUNT_SHIPMENT',
+                'RATED_LIST_PACKAGE',
+                'PAYOR_LIST_PACKAGE',
+                'RATED_LIST_SHIPMENT',
+                'PAYOR_LIST_SHIPMENT'
+            ];
+            foreach ($ratesOrder as $rateType) {
                 if (!empty($rateTypeAmounts[$rateType])) {
                     $amount = $rateTypeAmounts[$rateType];
                     break;
