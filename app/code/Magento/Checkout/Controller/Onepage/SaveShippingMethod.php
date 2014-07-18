@@ -1,0 +1,49 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Checkout\Controller\Onepage;
+
+class SaveShippingMethod extends \Magento\Checkout\Controller\Onepage
+{
+    /**
+     * Shipping method save action
+     *
+     * @return void
+     */
+    public function execute()
+    {
+        if ($this->_expireAjax()) {
+            return;
+        }
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getPost('shipping_method', '');
+            $result = $this->getOnepage()->saveShippingMethod($data);
+            // $result will contain error data if shipping method is empty
+            if (!$result) {
+                $this->_eventManager->dispatch(
+                    'checkout_controller_onepage_save_shipping_method',
+                    array('request' => $this->getRequest(), 'quote' => $this->getOnepage()->getQuote())
+                );
+                $this->getOnepage()->getQuote()->collectTotals();
+                $this->getResponse()->representJson(
+                    $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+                );
+
+                $result['goto_section'] = 'payment';
+                $result['update_section'] = array(
+                    'name' => 'payment-method',
+                    'html' => $this->_getPaymentMethodsHtml()
+                );
+            }
+            $this->getOnepage()->getQuote()->collectTotals()->save();
+            $this->getResponse()->representJson(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+            );
+        }
+    }
+}

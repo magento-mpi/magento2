@@ -252,7 +252,6 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $taxRate = $this->taxRateBuilder
             ->setId(2)
             ->setCode('Rate-Code')
-            ->setCountryId('US')
             ->setPercentageRate(0.1)
             ->setRegionId('TX')
             ->create();
@@ -305,7 +304,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         $collectionMock = $this->getMockBuilder('Magento\Tax\Model\Resource\Calculation\Rate\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(['addFieldToFilter', 'getSize', 'load'])
+            ->setMethods(['addFieldToFilter', 'getSize', 'load', 'joinRegionTable'])
             ->getMock();
 
         $this->mockReturnValue($collectionMock, ['getSize' => 0]);
@@ -340,7 +339,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         $collectionMock = $this->getMockBuilder('Magento\Tax\Model\Resource\Calculation\Rate\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(['addFieldToFilter', 'getSize', 'load', 'getIterator'])
+            ->setMethods(['addFieldToFilter', 'getSize', 'load', 'getIterator', 'joinRegionTable'])
             ->getMock();
 
         $this->mockReturnValue(

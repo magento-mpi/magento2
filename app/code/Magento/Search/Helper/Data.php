@@ -7,6 +7,8 @@
  */
 namespace Magento\Search\Helper;
 
+use Magento\Customer\Helper\Session\CurrentCustomer;
+
 /**
  * Enterprise search helper
  */
@@ -114,6 +116,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
     protected $_languages;
 
     /**
+     * @var CurrentCustomer
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
@@ -124,6 +131,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $supportedLanguages
+     * @param CurrentCustomer $currentCustomer
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -135,6 +143,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        CurrentCustomer $currentCustomer,
         array $supportedLanguages = array()
     ) {
         $this->_engineProvider = $engineProvider;
@@ -146,6 +155,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         $this->dateTime = $dateTime;
         $this->_languages = $supportedLanguages;
         $this->_localeResolver = $localeResolver;
+        $this->currentCustomer = $currentCustomer;
         parent::__construct($context);
     }
 
@@ -342,7 +352,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_' . $field;
 
-            $format = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_localeDate->getDateFormat(
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+            );
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!$this->dateTime->isEmptyDate($val)) {
@@ -402,12 +414,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         if (is_null($this->_taxInfluence)) {
             $effectiveRates = [];
             if ($this->_taxData->priceIncludesTax() || !$this->_taxData->displayPriceExcludingTax()) {
-                $request = $this->calculation->getDefaultRateRequest();
+                $request = $this->calculation->getDefaultRateRequest(null, $this->currentCustomer->getCustomerId());
                 $defaultRates = $this->calculation->getRatesForAllProductTaxClasses($request);
                 // Remove rate 0
                 $defaultRates = array_filter($defaultRates);
-
-                $request = $this->calculation->getRateRequest();
+                //Inject customer from session. This will be replaced eventually by tax calculation service
+                $request = $this->calculation->getRateRequest(
+                    null,
+                    null,
+                    null,
+                    null,
+                    $this->currentCustomer->getCustomerId()
+                );
                 $currentRates = $this->calculation->getRatesForAllProductTaxClasses($request);
                 // Remove rate 0
                 $currentRates = array_filter($currentRates);

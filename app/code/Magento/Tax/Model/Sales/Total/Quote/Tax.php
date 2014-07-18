@@ -458,8 +458,8 @@ class Tax extends AbstractTotal
         } else {
             $quoteItem->setDiscountCalculationPrice($itemTaxDetails->getPrice());
             $quoteItem->setBaseDiscountCalculationPrice($baseItemTaxDetails->getPrice());
-        }
 
+        }
         return $this;
     }
 
