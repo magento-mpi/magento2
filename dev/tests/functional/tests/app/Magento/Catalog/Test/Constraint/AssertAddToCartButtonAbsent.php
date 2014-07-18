@@ -89,7 +89,7 @@ class AssertAddToCartButtonAbsent extends AbstractConstraint
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName(
-            $this->product->getCategoryIds()[0]['name']
+            $this->product->getCategoryIds()[0]
         );
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogCategoryView->getListProductBlock()->checkAddToCardButton(),
@@ -106,7 +106,7 @@ class AssertAddToCartButtonAbsent extends AbstractConstraint
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName(
-            $this->product->getCategoryIds()[0]['name']
+            $this->product->getCategoryIds()[0]
         );
         $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->product->getName());
         \PHPUnit_Framework_Assert::assertFalse(

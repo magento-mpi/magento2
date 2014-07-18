@@ -44,6 +44,15 @@
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
     </assertProductVisibleInCategory>
+    <assertProductNotVisibleInCategory module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <category class="Magento\Catalog\Test\Fixture\CatalogCategory" />
+            <product class="Mtf\Fixture\FixtureInterface" />
+        </require>
+    </assertProductNotVisibleInCategory>
     <assertProductSearchableBySku module="Magento_Catalog">
         <severeness>low</severeness>
         <require>

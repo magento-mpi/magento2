@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture;
@@ -29,6 +30,13 @@ class ApplyCatalogPriceRuleTest extends Functional
      * @var float
      */
     private $discountRate;
+
+    /**
+     * Id of catalog price rule
+     *
+     * @var int
+     */
+    protected $catalogPriceRuleId;
 
     /**
      * Apply Catalog Price Rule to Products
@@ -68,6 +76,9 @@ class ApplyCatalogPriceRuleTest extends Functional
         $categoryIds = $configurable->getCategoryIds();
         $catalogPriceRuleId = $this->createNewCatalogPriceRule($categoryIds[0]);
 
+        // Prepare data for tear down
+        $this->catalogPriceRuleId = $catalogPriceRuleId;
+
         // Update Banner with related Catalog Price Rule
         $banner->relateCatalogPriceRule($catalogPriceRuleId);
         $banner->persist();
@@ -84,6 +95,7 @@ class ApplyCatalogPriceRuleTest extends Functional
 
     /**
      * Create and Apply new Catalog Price Rule
+     *
      * @param string $categoryId
      * @return string $catalogPriceRuleId
      */
@@ -144,7 +156,9 @@ class ApplyCatalogPriceRuleTest extends Functional
 
     /**
      * Add products to cart
+     *
      * @param Product[] $products
+     * @return void
      */
     protected function verifyAddProducts(array $products)
     {
@@ -191,7 +205,9 @@ class ApplyCatalogPriceRuleTest extends Functional
 
     /**
      * Process Magento Checkout
+     *
      * @param CheckMoneyOrderFlat $fixture
+     * @return void
      */
     protected function checkoutProcess(CheckMoneyOrderFlat $fixture)
     {
@@ -212,7 +228,9 @@ class ApplyCatalogPriceRuleTest extends Functional
 
     /**
      * This method verifies information on the storefront.
+     *
      * @param Product[] $products
+     * @return void
      */
     protected function verifyPriceRules(array $products)
     {
@@ -245,6 +263,7 @@ class ApplyCatalogPriceRuleTest extends Functional
      * This method verifies special prices on the category page.
      *
      * @param Product[] $products
+     * @return void
      */
     protected function verifyCategoryPrices(array $products)
     {
@@ -260,5 +279,26 @@ class ApplyCatalogPriceRuleTest extends Functional
                 'Displayed price does not match expected price.'
             );
         }
+    }
+
+    /**
+     * Clear data after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        if (!$this->catalogPriceRuleId) {
+            return;
+        }
+
+        // Open Catalog Price Rule page
+        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();
+        $catalogRulePage->open();
+        $catalogRulePage->getCatalogRuleGrid()->searchAndOpen(['rule_id' => $this->catalogPriceRuleId]);
+
+        // Delete Catalog Price Rule
+        $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
+        $catalogRuleCreatePage->getFormPageActions()->delete();
     }
 }

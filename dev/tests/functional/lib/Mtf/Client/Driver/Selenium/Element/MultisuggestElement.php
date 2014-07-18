@@ -53,9 +53,10 @@ class MultisuggestElement extends SuggestElement
      */
     public function setValue($values)
     {
-        $values = is_array($values) ? $values : [$values];
+        $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
+
         $this->clear();
-        foreach ($values as $value) {
+        foreach ((array)$values as $value) {
             if (!$this->isChoice($value)) {
                 parent::setValue($value);
             }
@@ -69,6 +70,8 @@ class MultisuggestElement extends SuggestElement
      */
     public function getValue()
     {
+        $this->_eventManager->dispatchEvent(['get_value'], [(string) $this->_locator]);
+
         $listChoice = $this->find($this->listChoice, Locator::SELECTOR_XPATH);
         $choices = $listChoice->find($this->choiceValue, Locator::SELECTOR_XPATH)->getElements();
         $values = [];

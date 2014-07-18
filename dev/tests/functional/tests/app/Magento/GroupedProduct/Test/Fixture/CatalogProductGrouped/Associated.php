@@ -55,8 +55,8 @@ class Associated implements FixtureInterface
             $this->data = $this->getPreset($this->currentPreset);
         }
 
-        $data['products'] = explode(',', $data['products']);
         if (!empty($data['products'])) {
+            $data['products'] = explode(',', $data['products']);
             foreach ($data['products'] as $key => $product) {
                 list($fixture, $dataSet) = explode('::', $product);
                 /** @var $productFixture InjectableFixture */
