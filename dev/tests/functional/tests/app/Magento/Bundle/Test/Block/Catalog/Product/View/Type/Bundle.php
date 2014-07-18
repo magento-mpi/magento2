@@ -59,14 +59,14 @@ class Bundle extends Block
      *
      * @var string
      */
-    protected $typeDropDown = '//select[contains(@class,"bundle-option-select")]';
+    protected $typeDropDown = './/select[contains(@class,"bundle-option-select")]';
 
     /**
      * Selector Multiselect type
      *
      * @var string
      */
-    protected $typeMultiple = '//select[contains(@class,"multiselect")]';
+    protected $typeMultiple = './/select[contains(@class,"multiselect")]';
 
     /**
      * Selector RadioButton type

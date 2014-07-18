@@ -53,7 +53,7 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
     ) {
         $this->attribute = !is_null($productAttribute) ? $productAttribute : $attribute;
         $productGrid->open();
-        $productGrid->getProductBlock()->addProduct('configurable');
+        $productGrid->getGridPageActionBlock()->addProduct('configurable');
 
         $productConfigurable = $fixtureFactory->createByCode(
             'catalogProductConfigurable',
