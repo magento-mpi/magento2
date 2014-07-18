@@ -60,7 +60,7 @@ class CalculatorFactory
         Address $billingAddress = null,
         Address $shippingAddress = null,
         $customerTaxClassId = null,
-        $customerId
+        $customerId = null
     ) {
         switch ($type) {
             case self::CALC_UNIT_BASE:
@@ -85,6 +85,9 @@ class CalculatorFactory
         }
         if (null != $customerTaxClassId) {
             $calculator->setCustomerTaxClassId($customerTaxClassId);
+        }
+        if (null != $customerId) {
+            $calculator->setCustomerId($customerTaxClassId);
         }
         return $calculator;
     }

@@ -31,6 +31,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
      * @param Address $billingAddress
      * @param Address $shippingAddress
      * @param null|int $customerTaxClassId
+     * @param null|int $customerId
      * @param \Magento\Tax\Model\Calculation\AbstractCalculator $expectedInstanceType
      *  expected type of calculator instance
      *
@@ -42,6 +43,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
         $billingAddress,
         $shippingAddress,
         $customerTaxClassId,
+        $customerId,
         $expectedInstanceType
     ) {
         $instanceMock = $this->getMockBuilder($expectedInstanceType)->disableOriginalConstructor()->getMock();
@@ -89,9 +91,19 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 ->method('setCustomerTaxClassId');
         }
 
+        // Verify customerId is set correctly if passed in
+        if ($customerId != null) {
+            $instanceMock->expects($this->once())
+                ->method('setCustomerId')
+                ->with($customerId);
+        } else {
+            $instanceMock->expects($this->never())
+                ->method('setCustomerId');
+        }
+
         // Call create()
         $calculator = $calculatorFactory
-            ->create($type, $storeId, $billingAddress, $shippingAddress, $customerTaxClassId);
+            ->create($type, $storeId, $billingAddress, $shippingAddress, $customerTaxClassId, $customerId);
 
         // Verify correct type is returned
         $this->assertInstanceOf($expectedInstanceType, $calculator);
@@ -118,12 +130,14 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 null,
+                null,
                 'Magento\Tax\Model\Calculation\UnitBaseCalculator'
             ],
             'Row HasBilling' => [
                 CalculatorFactory::CALC_ROW_BASE,
                 2,
                 $billingAddressMock,
+                null,
                 null,
                 null,
                 'Magento\Tax\Model\Calculation\RowBaseCalculator'
@@ -134,6 +148,7 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 123,
+                null,
                 'Magento\Tax\Model\Calculation\RowBaseCalculator'
             ],
             'Total HasShipping' => [
@@ -142,13 +157,24 @@ class CalculatorFactoryTest extends \PHPUnit_Framework_TestCase
                 null,
                 $shippingAddressMock,
                 null,
+                null,
                 'Magento\Tax\Model\Calculation\TotalBaseCalculator'
             ],
-            'Total HasShipping HasBilling HasCustomer' => [
+            'Total HasShipping HasBilling HasCustomerTaxClassId' => [
                 CalculatorFactory::CALC_TOTAL_BASE,
                 1,
                 $billingAddressMock,
                 $shippingAddressMock,
+                1,
+                null,
+                'Magento\Tax\Model\Calculation\TotalBaseCalculator'
+            ],
+            'Total HasShipping HasBilling HasCustomerTaxClassId, HasCustomer' => [
+                CalculatorFactory::CALC_TOTAL_BASE,
+                1,
+                $billingAddressMock,
+                $shippingAddressMock,
+                1,
                 1,
                 'Magento\Tax\Model\Calculation\TotalBaseCalculator'
             ],
