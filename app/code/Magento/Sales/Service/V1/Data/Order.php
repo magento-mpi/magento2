@@ -149,9 +149,9 @@ class Order extends DataObject
     const SHIPPING_INCL_TAX = 'shipping_incl_tax';
     const BASE_SHIPPING_INCL_TAX = 'base_shipping_incl_tax';
     const ITEMS = 'items';
-    const BILLING_ADDRESS = 'items'; 
-    const SHIPPING_ADDRESS = 'items'; 
-    const PAYMENTS = 'items';
+    const BILLING_ADDRESS = 'billing_address';
+    const SHIPPING_ADDRESS = 'shipping_address';
+    const PAYMENTS = 'payments';
     /**
      * Returns adjustment_negative
      *
