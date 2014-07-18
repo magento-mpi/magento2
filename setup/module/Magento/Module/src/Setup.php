@@ -8,7 +8,7 @@
 namespace Magento\Module;
 
 use Magento\Module\Setup\Connection\AdapterInterface;
-use Magento\Module\Setup\FileResolver;
+use Magento\Module\Setup\FileResolver as SetupFileResolver;
 use Magento\Module\Resource\Resource;
 use Magento\Module\Updater\SetupInterface;
 use Magento\Setup\Model\Logger;
@@ -81,7 +81,7 @@ class Setup implements SetupInterface
     /**
      * @param AdapterInterface $connection
      * @param ModuleListInterface $moduleList
-     * @param FileResolver $setupFileResolver
+     * @param SetupFileResolver $setupFileResolver
      * @param Logger $logger
      * @param $moduleName
      * @param array $connectionConfig
@@ -89,7 +89,7 @@ class Setup implements SetupInterface
     public function __construct(
         AdapterInterface $connection,
         ModuleListInterface $moduleList,
-        FileResolver $setupFileResolver,
+        SetupFileResolver $setupFileResolver,
         Logger $logger,
         $moduleName,
         array $connectionConfig = array()
@@ -623,5 +623,17 @@ class Setup implements SetupInterface
     public function afterApplyAllUpdates()
     {
         return $this;
+    }
+
+    public function addConfigData($key, $value)
+    {
+        $this->getConnection()->insert(
+            $this->getTable('core_config_data'),
+            array(
+                'path'  => $key,
+                'value' => $value
+            ),
+            true
+        );
     }
 }

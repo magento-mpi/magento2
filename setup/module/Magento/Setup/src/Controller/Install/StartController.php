@@ -112,6 +112,42 @@ class StartController extends AbstractActionController
 
         $this->logger->logSuccess('Data Upgrades');
 
+        // Set data to config
+        $setup->addConfigData(
+            'web/seo/use_rewrites',
+            isset($data['config']['rewrites']['allowed']) ? $data['config']['rewrites']['allowed'] : 0
+        );
+        $setup->addConfigData(
+            'web/unsecure/base_url',
+            isset($data['config']['address']['web']) ? $data['config']['address']['web'] : '{{unsecure_base_url}}'
+        );
+        $setup->addConfigData(
+            'web/secure/use_in_frontend',
+            isset($data['config']['https']['front']) ? $data['config']['https']['front'] : 0
+        );
+        $setup->addConfigData(
+            'web/secure/base_url',
+            isset($data['config']['address']['web']) ? $data['config']['address']['web'] : '{{secure_base_url}}'
+        );
+        $setup->addConfigData(
+            'web/secure/use_in_adminhtml',
+            isset($data['config']['https']['admin']) ? $data['config']['https']['admin'] : 0
+        );
+        $setup->addConfigData(
+            'general/locale/code',
+            isset($data['store']['language']) ? $data['store']['language'] : 'en_US'
+        );
+        $setup->addConfigData(
+            'general/locale/timezone',
+            isset($data['store']['timezone']) ? $data['store']['timezone'] : 'America/Los_Angeles'
+        );
+
+        $currencyCode = isset($data['store']['currency']) ? $data['store']['currency'] : 'USD';
+
+        $setup->addConfigData('currency/options/base', $currencyCode);
+        $setup->addConfigData('currency/options/default', $currencyCode);
+        $setup->addConfigData('currency/options/allow', $currencyCode);
+
         // Create administrator account
         $this->adminAccountFactory->setConfig($data);
         $adminAccount = $this->adminAccountFactory->create();

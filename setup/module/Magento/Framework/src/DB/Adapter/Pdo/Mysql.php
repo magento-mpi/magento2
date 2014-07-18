@@ -2737,15 +2737,25 @@ class Mysql extends Adapter implements AdapterInterface
      *
      * @param mixed $table The table to insert data into.
      * @param array $bind Column-value pairs.
+     * @param boolean $onDuplicate
      * @return int The number of affected rows.
      */
-    public function insert($table, array $bind)
+    public function insert($table, array $bind, $onDuplicate = false)
     {
         $sql = new Sql($this);
         $insert = $sql->insert($this->_getTableName($table));
         $insert->values($bind);
 
         $sqlString = $sql->getSqlStringForSqlObject($insert);
+        if ($onDuplicate) {
+            $sqlString .= ' ON DUPLICATE KEY UPDATE ';
+            $parts = [];
+            foreach (array_keys($bind) as $filed) {
+                $parts[] = $this->quoteIdentifier($filed) . '=VALUES(' . $this->quoteIdentifier($filed) . ')';
+            }
+            $sqlString .= implode(', ', $parts);
+        }
+
         $result = $this->query($sqlString);
         return $result->count();
     }
