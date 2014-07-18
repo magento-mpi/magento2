@@ -12,6 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Widget
+ *
+ * @package Magento\Widget\Test\Fixture
  */
 class Widget extends InjectableFixture
 {
@@ -102,6 +104,11 @@ class Widget extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $id = [
+        'attribute_code' => 'id',
+        'backend_type' => 'virtual',
+    ];
+
     public function getAnchorText()
     {
         return $this->getData('anchor_text');
@@ -170,5 +177,10 @@ class Widget extends InjectableFixture
     public function getParameters()
     {
         return $this->getData('parameters');
+    }
+
+    public function getId()
+    {
+        return $this->getData('id');
     }
 }

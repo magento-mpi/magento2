@@ -10,6 +10,7 @@ namespace Magento\Cms\Test\Fixture\CmsPage;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Cms\Test\Fixture\CmsBlock;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
 
@@ -73,6 +74,25 @@ class Content implements FixtureInterface
                     $productSku = $product->getData('sku');
                     $this->data['widget']['preset'][$key]['chosen_option']['category_path'] = $categoryName;
                     $this->data['widget']['preset'][$key]['chosen_option']['filter_sku'] = $productSku;
+                }
+                if ($widget['widget_type'] == 'Catalog New Products List') {
+                    /** @var CatalogProductSimple $product */
+                    $product = $fixtureFactory->createByCode(
+                        'catalogProductSimple',
+                        ['dataSet' => 'default']
+                    );
+                    if (!$product->hasData('id')) {
+                        $product->persist();
+                    }
+                }
+                if ($widget['widget_type'] == 'CMS Static Block') {
+                    /** @var CmsBlock $block */
+                    $block = $fixtureFactory->createByCode($widget['chosen_option']['filter_identifier']);
+                    if (!$block->hasData('block_id')) {
+                        $block->persist();
+                    }
+                    $blockIdentifier = $block->getIdentifier();
+                    $this->data['widget']['preset'][$key]['chosen_option']['filter_identifier'] = $blockIdentifier;
                 }
             }
         }
@@ -145,7 +165,7 @@ class Content implements FixtureInterface
                     'widget_type' => 'CMS Static Block',
                     'template' => 'CMS Static Block Default Template',
                     'chosen_option' => [
-                        'filter_identifier' => 'catalog_events_lister'
+                        'filter_identifier' => 'cmsBlock'
                     ]
                 ],
                 'widget_3' => [

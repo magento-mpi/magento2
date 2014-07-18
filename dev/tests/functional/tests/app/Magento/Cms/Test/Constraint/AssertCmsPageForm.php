@@ -63,8 +63,8 @@ class AssertCmsPageForm extends AbstractAssertForm
         $fixtureData = $cmsOriginal !== null
             ? array_merge($cmsOriginal->getData(), $cms->getData())
             : $cms->getData();
-        $errors = $this->verifyData($fixtureData,$cmsFormData);
-        \PHPUnit_Framework_Assert::assertEmpty($errors,$errors);
+        $errors = $this->verifyData($fixtureData, $cmsFormData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**

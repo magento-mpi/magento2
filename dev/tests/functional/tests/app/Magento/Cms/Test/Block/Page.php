@@ -33,7 +33,9 @@ class Page extends Block
         'Catalog Category Link' => '.widget.category.link',
         'Catalog Product Link' => '.widget.product.link',
         'Recently Compared Products' => '.block.compare',
-        'Recently Viewed Products' => '.block.viewed.links'
+        'Recently Viewed Products' => '.block.viewed.links',
+        'Catalog New Products List' => '.widget.new',
+        'CMS Static Block' => '.widget.static.block'
     ];
 
     /**
@@ -49,15 +51,16 @@ class Page extends Block
     /**
      * Check is visible widget selector
      *
-     * @param $widgetType
+     * @param string $widgetType
      * @return bool
+     * @throws \Exception
      */
     public function isWidgetVisible($widgetType)
     {
         if (isset($this->widgetSelectors[$widgetType])) {
             return $this->_rootElement->find($this->widgetSelectors[$widgetType])->isVisible();
         } else {
-            return true;
+            throw new \Exception('Determine how to find the widget on the page.');
         }
     }
 }
