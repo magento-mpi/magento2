@@ -156,6 +156,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 1.5,
@@ -223,6 +224,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 22.0,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 22' => [
                             'amount' => 4.4,
@@ -287,6 +289,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 1.5,
@@ -312,6 +315,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 16.6,
@@ -398,6 +402,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 1.5,
@@ -562,6 +567,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'type',
                 'tax_percent' => 0,
                 'discount_tax_compensation_amount' => 0,
+                'associated_item_code' => null,
                 'applied_taxes' => [],
             ],
         ];
@@ -578,6 +584,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'type',
                 'tax_percent' => 7.5,
                 'discount_tax_compensation_amount' => 0,
+                'associated_item_code' => null,
                 'applied_taxes' => $itemAppliedTaxes,
             ],
         ];
@@ -676,6 +683,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'type',
                 'tax_percent' => 0,
                 'discount_tax_compensation_amount' => 0,
+                'associated_item_code' => null,
                 'applied_taxes' => [],
             ],
         ];
@@ -706,6 +714,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'type',
                 'tax_percent' => 7.5,
                 'discount_tax_compensation_amount' => 0,
+                'associated_item_code' => null,
                 'applied_taxes' => [
                     'US - 42 - 7.5' => [
                         'amount' => 0.7,
@@ -836,6 +845,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'type',
                 'tax_percent' => 0,
                 'discount_tax_compensation_amount' => 0,
+                'associated_item_code' => null,
                 'applied_taxes' => [],
             ],
         ];
@@ -851,6 +861,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'type',
                 'tax_percent' => 7.5,
                 'discount_tax_compensation_amount' => 0,
+                'associated_item_code' => null,
                 'applied_taxes' => [
                     'US - 42 - 7.5' => [
                         'amount' => 1.2,
@@ -965,6 +976,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 0.75,
@@ -1021,6 +1033,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 0.7,
@@ -1080,6 +1093,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 22.0,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 22' => [
                             'amount' => 0.6,
@@ -1144,6 +1158,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 0.75,
@@ -1169,6 +1184,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 16.5,
@@ -1235,6 +1251,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 0.68,
@@ -1260,6 +1277,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 16.73,
@@ -1345,6 +1363,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 7.5,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 7.5' => [
                             'amount' => 18.51,
@@ -1370,6 +1389,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 22,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 22' => [
                             'amount' => 8.76,
@@ -1520,6 +1540,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 25.7075,
                     'discount_tax_compensation_amount' => 1.03,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 8.25US - 42 - 5 - 55555' => [
                             'amount' => 1.71,
@@ -1562,6 +1583,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 25.7075,
                     'discount_tax_compensation_amount' => 2.05,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 8.25US - 42 - 5 - 55555' => [
                             'amount' => 7.8,
@@ -1604,6 +1626,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'type' => 'product',
                     'tax_percent' => 25.7075,
                     'discount_tax_compensation_amount' => 0,
+                    'associated_item_code' => null,
                     'applied_taxes' => [
                         'US - 42 - 8.25US - 42 - 5 - 55555' => [
                             'amount' => 12.59,

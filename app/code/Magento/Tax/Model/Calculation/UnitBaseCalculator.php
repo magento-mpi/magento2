@@ -68,6 +68,7 @@ class UnitBaseCalculator extends AbstractCalculator
         $this->taxDetailsItemBuilder->setRowTotal($price * $quantity);
         $this->taxDetailsItemBuilder->setRowTotalInclTax($priceInclTax * $quantity);
         $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
+        $this->taxDetailsItemBuilder->setAssociatedItemCode($item->getAssociatedItemCode());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
         return $this->taxDetailsItemBuilder->create();
@@ -134,6 +135,7 @@ class UnitBaseCalculator extends AbstractCalculator
         $this->taxDetailsItemBuilder->setRowTotal($price * $quantity);
         $this->taxDetailsItemBuilder->setRowTotalInclTax($priceInclTax * $quantity);
         $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
+        $this->taxDetailsItemBuilder->setAssociatedItemCode($item->getAssociatedItemCode());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
         return $this->taxDetailsItemBuilder->create();

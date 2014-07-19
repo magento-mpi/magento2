@@ -29,6 +29,8 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     const KEY_DISCOUNT_AMOUNT = 'discount_amount';
 
     const KEY_PARENT_CODE = 'parent_code';
+
+    const KEY_ASSOCIATED_ITEM_CODE = 'association_code';
     /**#@-*/
 
     /**
@@ -119,5 +121,15 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     public function getParentCode()
     {
         return $this->_get(self::KEY_PARENT_CODE);
+    }
+
+    /**
+     * Get associated item code if this item is associated with another item, null otherwise
+     *
+     * @return mixed|null
+     */
+    public function getAssociatedItemCode()
+    {
+        return $this->_get(self::KEY_ASSOCIATED_ITEM_CODE);
     }
 }

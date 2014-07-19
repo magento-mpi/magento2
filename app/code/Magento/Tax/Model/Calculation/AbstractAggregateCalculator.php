@@ -74,6 +74,7 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
         $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
         $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
         $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
+        $this->taxDetailsItemBuilder->setAssociatedItemCode($item->getAssociatedItemCode());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
         return $this->taxDetailsItemBuilder->create();
@@ -146,6 +147,7 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
         $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
         $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
         $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
+        $this->taxDetailsItemBuilder->setAssociatedItemCode($item->getAssociatedItemCode());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
         return $this->taxDetailsItemBuilder->create();
