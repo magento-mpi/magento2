@@ -269,8 +269,12 @@ class TaxRateService implements TaxRateServiceInterface
             if ($zipRangeFromTo['zip_from'] > $zipRangeFromTo['zip_to']) {
                 $exception->addError('Range To should be equal or greater than Range From.');
             }
-
+        } else {
+            if (!\Zend_Validate::is(trim($taxRate->getPostcode()), 'NotEmpty')) {
+                $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'postcode']);
+            }
         }
+
         if ($exception->wasErrorAdded()) {
             throw $exception;
         }

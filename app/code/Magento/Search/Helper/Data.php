@@ -8,6 +8,8 @@
 namespace Magento\Search\Helper;
 
 use Magento\Customer\Helper\Session\CurrentCustomer;
+use Magento\Tax\Model\TaxClass\Source\Product as ProductTaxClassSource;
+use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 
 /**
  * Enterprise search helper
@@ -64,11 +66,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
     protected $_taxData;
 
     /**
-     * Tax calculation
+     * Product tax class source helper
      *
-     * @var \Magento\Tax\Model\Calculation
+     * @var ProductTaxClassSource
      */
-    protected $calculation;
+    protected $productTaxClassSource;
+
+    /**
+     * Tax calculation service
+     *
+     * @var TaxCalculationServiceInterface
+     */
+    protected $taxCalculationService;
 
     /**
      * Engine provider
@@ -124,7 +133,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param ProductTaxClassSource $productTaxClassSource
+     * @param TaxCalculationServiceInterface $taxCalculationService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -137,7 +147,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         \Magento\Framework\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Tax\Model\Calculation $calculation,
+        ProductTaxClassSource $productTaxClassSource,
+        TaxCalculationServiceInterface $taxCalculationService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -148,7 +159,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
-        $this->calculation = $calculation;
+        $this->productTaxClassSource = $productTaxClassSource;
+        $this->taxCalculationService = $taxCalculationService;
         $this->_scopeConfig = $scopeConfig;
         $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
@@ -414,20 +426,24 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         if (is_null($this->_taxInfluence)) {
             $effectiveRates = [];
             if ($this->_taxData->priceIncludesTax() || !$this->_taxData->displayPriceExcludingTax()) {
-                $request = $this->calculation->getDefaultRateRequest(null, $this->currentCustomer->getCustomerId());
-                $defaultRates = $this->calculation->getRatesForAllProductTaxClasses($request);
+                $defaultRates = array();
+                $currentRates = array();
+                foreach ($this->productTaxClassSource->getAllOptions() as $productTaxClass) {
+                    $productTaxClassId = $productTaxClass['value'];
+                    $customerId = $this->currentCustomer->getCustomerId();
+                    $defaultRates[$productTaxClassId] = $this->taxCalculationService
+                        ->getDefaultCalculatedRate(
+                            $productTaxClassId,
+                            $customerId
+                        );
+                    $currentRates[$productTaxClassId] = $this->taxCalculationService
+                        ->getCalculatedRate(
+                            $productTaxClassId,
+                            $customerId
+                        );
+                }
                 // Remove rate 0
                 $defaultRates = array_filter($defaultRates);
-                //Inject customer from session. This will be replaced eventually by tax calculation service
-                $request = $this->calculation->getRateRequest(
-                    null,
-                    null,
-                    null,
-                    null,
-                    $this->currentCustomer->getCustomerId()
-                );
-                $currentRates = $this->calculation->getRatesForAllProductTaxClasses($request);
-                // Remove rate 0
                 $currentRates = array_filter($currentRates);
 
                 if ($this->_taxData->priceIncludesTax()) {

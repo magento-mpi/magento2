@@ -1783,4 +1783,6 @@ return array(
     ],
     ['addProductAdvanced', '\Magento\Sales\Model\Quote'],
     ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
+    ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation']
 );
