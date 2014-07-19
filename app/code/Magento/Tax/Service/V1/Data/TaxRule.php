@@ -58,7 +58,7 @@ class TaxRule extends AbstractObject
     /**
      * Get customer tax class id
      *
-     * @return int[]|null
+     * @return int[]
      */
     public function getCustomerTaxClassIds()
     {
@@ -68,7 +68,7 @@ class TaxRule extends AbstractObject
     /**
      * Get product tax class id
      *
-     * @return int[]|null
+     * @return int[]
      */
     public function getProductTaxClassIds()
     {
@@ -78,7 +78,7 @@ class TaxRule extends AbstractObject
     /**
      * Get tax rate ids
      *
-     * @return string[]|null
+     * @return int[]
      */
     public function getTaxRateIds()
     {

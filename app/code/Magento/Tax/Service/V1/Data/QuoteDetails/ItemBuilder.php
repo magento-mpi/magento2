@@ -15,6 +15,37 @@ namespace Magento\Tax\Service\V1\Data\QuoteDetails;
 class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
+     * TaxClassKey data object builder
+     *
+     * @var \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder
+     */
+    protected $taxClassKeyBuilder;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
+     */
+    public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
+    ) {
+        parent::__construct($objectFactory);
+        $this->taxClassKeyBuilder = $taxClassKeyBuilder;
+    }
+
+    /**
+     * Get tax class key builder
+     *
+     * @return \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder
+     */
+    public function getTaxClassKeyBuilder()
+    {
+        return $this->taxClassKeyBuilder;
+    }
+
+    /**
      * Set code (sku or shipping code)
      *
      * @param string $code
@@ -37,14 +68,14 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * Set tax class id
+     * Set tax class key
      *
-     * @param int $taxClassId
+     * @param \Magento\Tax\Service\V1\Data\TaxClassKey $taxClassKey
      * @return $this
      */
-    public function setTaxClassId($taxClassId)
+    public function setTaxClassKey($taxClassKey)
     {
-        return $this->_set(Item::KEY_TAX_CLASS_ID, $taxClassId);
+        return $this->_set(Item::KEY_TAX_CLASS_KEY, $taxClassKey);
     }
 
     /**
@@ -122,5 +153,19 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     public function setAssociatedItemCode($code)
     {
         return $this->_set(Item::KEY_ASSOCIATED_ITEM_CODE, $code);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _setDataValues(array $data)
+    {
+        if (array_key_exists(Item::KEY_TAX_CLASS_KEY, $data)) {
+            $data[Item::KEY_TAX_CLASS_KEY] = $this->taxClassKeyBuilder->populateWithArray(
+                $data[Item::KEY_TAX_CLASS_KEY]
+            )->create();
+        }
+
+        return parent::_setDataValues($data);
     }
 }
