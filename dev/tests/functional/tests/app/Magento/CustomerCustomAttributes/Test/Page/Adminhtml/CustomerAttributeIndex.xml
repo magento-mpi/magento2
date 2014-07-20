@@ -23,7 +23,7 @@
     <block>
         <name>customerCustomAttributesGrid</name>
         <class>Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\CustomerCustomAttributesGrid</class>
-        <locator>[id="page:main-container"]</locator>
+        <locator>[id="customerAttributeGrid"]</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

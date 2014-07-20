@@ -39,8 +39,8 @@ class AssertCustomerCustomAttributeOnCustomerRegister extends AbstractConstraint
         $pageCustomerAccountCreate->open();
         $attributeCode = $customerAttribute->getAttributeCode();
         \PHPUnit_Framework_Assert::assertTrue(
-            $pageCustomerAccountCreate->getRegisterForm()->isCustomerAttributeVisible($attributeCode),
-            'Customer Custom Attribute with attribute code: \'' . $attributeCode . '\' '
+            $pageCustomerAccountCreate->getRegisterForm()->isCustomerAttributeVisible($customerAttribute),
+            'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is absent during register customer on frontend.'
         );
     }

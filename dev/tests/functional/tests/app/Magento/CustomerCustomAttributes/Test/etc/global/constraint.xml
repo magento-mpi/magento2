@@ -25,11 +25,9 @@
         <severeness>low</severeness>
         <require>
             <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex"/>
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart"/>
             <checkoutOnepage class="Magento\Checkout\Test\Page\CheckoutOnepage"/>
             <pageCatalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView"/>
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
         </require>
     </assertCustomerCustomAttributeOnCheckoutRegister>

@@ -14,7 +14,7 @@ use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class Options
- * Options form
+ * Manage Options form on New Customer Attribute Page
  */
 class Options extends Tab
 {
@@ -44,7 +44,14 @@ class Options extends Tab
      *
      * @var string
      */
-    protected $draggableColumn = './ancestor::body//td[@class="col-draggable"]';
+    protected $draggableColumn = './../../td[@class="col-draggable"]';
+
+    /**
+     * Selector for option row
+     *
+     * @var string
+     */
+    protected $optionRowSelector = '//*[@id="manage-options-panel"]//tbody/tr[%d]';
 
     /**
      * Fill 'Options' tab & drag and drop options
@@ -56,32 +63,50 @@ class Options extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        foreach ($fields['options']['value'] as $field) {
+        $fixtureOptions = $fields['options']['value'];
+        foreach ($fixtureOptions as $key => $option) {
             $this->_rootElement->find($this->addOption)->click();
             $this->blockFactory->create(
                 'Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\Tab\Options\Option',
-                ['element' => $this->_rootElement->find('.ui-sortable tr:last-child')]
-            )->fillOptions($field);
+                [
+                    'element' => $this->_rootElement->find(
+                            sprintf($this->optionRowSelector, $key + 1),
+                            Locator::SELECTOR_XPATH
+                        )
+                ]
+            )->fillOptions($option);
         }
 
-        $elements = $this->_rootElement->find($this->optionSelector, Locator::SELECTOR_CSS)->getElements();
+        $optionElements = $this->_rootElement->find($this->optionSelector, Locator::SELECTOR_CSS)->getElements();
 
-        // dragAndDrop options according to order from fixture
-        foreach ($fields['options']['value'] as $option) {
-            if ($option['order'] > count($elements)) {
+        $this->sortOptions($fixtureOptions, $optionElements);
+
+        return $this;
+    }
+
+    /**
+     * Sort options according to fixture order
+     *
+     * @param array $fixtureOptions
+     * @param array $optionElements
+     * @throws \Exception
+     * @return void
+     */
+    protected function sortOptions(array $fixtureOptions, array $optionElements)
+    {
+        foreach ($fixtureOptions as $fixtureOption) {
+            if ($fixtureOption['order'] > count($optionElements)) {
                 throw new \Exception("Order number of options from fixture is greater than form options number.");
             }
             $target = $this->_rootElement->find(
-                sprintf($this->targetElement, $option['order']),
+                sprintf($this->targetElement, $fixtureOption['order']),
                 Locator::SELECTOR_XPATH
             );
-            foreach ($elements as $element) {
-                if ($element->getValue() == $option['admin']) {
-                    $element->find($this->draggableColumn, Locator::SELECTOR_XPATH)->dragAndDrop($target);
+            foreach ($optionElements as $optionElement) {
+                if ($optionElement->getValue() === $fixtureOption['admin']) {
+                    $optionElement->find($this->draggableColumn, Locator::SELECTOR_XPATH)->dragAndDrop($target);
                 }
             }
         }
-
-        return $this;
     }
 }

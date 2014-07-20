@@ -26,13 +26,6 @@ class Actions extends Block
     protected $back = '#back';
 
     /**
-     * 'Add' button
-     *
-     * @var string
-     */
-    protected $add = '#add';
-
-    /**
      * 'Edit' button
      *
      * @var string
@@ -137,16 +130,6 @@ class Actions extends Block
     public function back()
     {
         $this->_rootElement->find($this->back)->click();
-    }
-
-    /**
-     * Click on 'Create New Order' button
-     *
-     * @return void
-     */
-    public function add()
-    {
-        $this->_rootElement->find($this->add)->click();
     }
 
     /**

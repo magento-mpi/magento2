@@ -53,9 +53,11 @@ class Customer extends Grid
         if (empty($fixture)) {
             $this->_rootElement->find($this->createNewCustomer)->click();
         } else {
-            $this->searchAndOpen(array(
-                'email' => $fixture->getEmail()
-            ));
+            $this->searchAndOpen(
+                [
+                    'email' => $fixture->getEmail()
+                ]
+            );
         }
         $this->getTemplateBlock()->waitLoader();
     }

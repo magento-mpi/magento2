@@ -101,10 +101,10 @@ class CustomerSegmentForm extends FormTabs
     /**
      * Check if customer attribute is available in conditions of customer segment
      *
-     * @param  CustomerCustomAttribute $customerAttribute
+     * @param CustomerCustomAttribute $customerAttribute
      * @return bool
      */
-    public function inConditions(CustomerCustomAttribute $customerAttribute)
+    public function isAttributeInConditions(CustomerCustomAttribute $customerAttribute)
     {
         $this->_rootElement->find($this->addButton, Locator::SELECTOR_CSS)->click();
         $frontendLabel = $customerAttribute->getFrontendLabel();

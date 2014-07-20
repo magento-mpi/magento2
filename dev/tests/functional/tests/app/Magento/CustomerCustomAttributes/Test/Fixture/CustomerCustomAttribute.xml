@@ -20,93 +20,93 @@
             <attribute_code>attribute_id</attribute_code>
             <backend_type>smallint</backend_type>
             <is_required>1</is_required>
-            <default_value></default_value>
-            <input></input>
+            <default_value />
+            <input />
         </attribute_id>
         <entity_type_id>
             <attribute_code>entity_type_id</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
-            <input></input>
+            <input />
         </entity_type_id>
         <attribute_code>
             <attribute_code>attribute_code</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
             <group>properties</group>
         </attribute_code>
         <attribute_model>
             <attribute_code>attribute_model</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </attribute_model>
         <backend_model>
             <attribute_code>backend_model</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </backend_model>
         <backend_type>
             <attribute_code>backend_type</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>static</default_value>
-            <input></input>
+            <input />
         </backend_type>
         <backend_table>
             <attribute_code>backend_table</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </backend_table>
         <frontend_model>
             <attribute_code>frontend_model</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </frontend_model>
         <frontend_input>
             <attribute_code>frontend_input</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>select</input>
             <group>properties</group>
         </frontend_input>
         <frontend_label>
             <attribute_code>frontend_label</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
             <group>properties</group>
         </frontend_label>
         <frontend_class>
             <attribute_code>frontend_class</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </frontend_class>
         <source_model>
             <attribute_code>source_model</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </source_model>
         <is_required>
             <attribute_code>is_required</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
             <input>select</input>
             <group>properties</group>
@@ -114,101 +114,101 @@
         <scope_is_required>
             <attribute_code>scope_is_required</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>select</input>
             <group>properties</group>
         </scope_is_required>
         <is_user_defined>
             <attribute_code>is_user_defined</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
-            <input></input>
+            <input />
         </is_user_defined>
         <default_value>
             <attribute_code>default_value</attribute_code>
             <backend_type>text</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </default_value>
         <is_unique>
             <attribute_code>is_unique</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
-            <input></input>
+            <input />
         </is_unique>
         <note>
             <attribute_code>note</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </note>
         <is_visible>
             <attribute_code>is_visible</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>1</default_value>
-            <input></input>
+            <input />
         </is_visible>
         <input_filter>
             <attribute_code>input_filter</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </input_filter>
         <manage_title>
             <attribute_code>manage_title</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
             <group>manage_options</group>
         </manage_title>
         <multiline_count>
             <attribute_code>multiline_count</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>1</default_value>
-            <input></input>
+            <input />
         </multiline_count>
         <validate_rules>
             <attribute_code>validate_rules</attribute_code>
             <backend_type>text</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </validate_rules>
         <is_system>
             <attribute_code>is_system</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
-            <input></input>
+            <input />
         </is_system>
         <sort_order>
             <attribute_code>sort_order</attribute_code>
             <backend_type>int</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
-            <input></input>
+            <input />
             <group>properties</group>
         </sort_order>
         <data_model>
             <attribute_code>data_model</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </data_model>
         <is_used_for_customer_segment>
             <attribute_code>is_used_for_customer_segment</attribute_code>
             <backend_type>int</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
             <input>select</input>
             <group>properties</group>
@@ -216,16 +216,16 @@
         <scope_default_value_text>
             <attribute_code>scope_default_value_text</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
         </scope_default_value_text>
         <scope_date_range_min>
             <attribute_code>scope_date_range_min</attribute_code>
             <backend_type>timestamp</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
             <source>Magento\Backend\Test\Fixture\Date</source>
@@ -233,8 +233,8 @@
         <scope_date_range_max>
             <attribute_code>scope_date_range_max</attribute_code>
             <backend_type>timestamp</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
             <source>Magento\Backend\Test\Fixture\Date</source>
@@ -242,82 +242,91 @@
         <input_validation>
             <attribute_code>input_validation</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>select</input>
             <group>properties</group>
         </input_validation>
         <min_text_length>
             <attribute_code>min_text_length</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
         </min_text_length>
         <max_text_length>
             <attribute_code>max_text_length</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
         </max_text_length>
         <scope_multiline_count>
             <attribute_code>scope_multiline_count</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
         </scope_multiline_count>
         <max_file_size>
             <attribute_code>max_file_size</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
         </max_file_size>
         <file_extensions>
             <attribute_code>file_extensions</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
         </file_extensions>
         <max_image_width>
             <attribute_code>max_image_width</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
         </max_image_width>
         <max_image_heght>
             <attribute_code>max_image_heght</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>text</input>
             <group>properties</group>
         </max_image_heght>
         <scope_is_visible>
             <attribute_code>scope_is_visible</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>select</input>
             <group>properties</group>
         </scope_is_visible>
         <used_in_forms>
             <attribute_code>used_in_forms</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
+            <is_required />
+            <default_value />
             <input>multiselectgrouplist</input>
             <group>properties</group>
         </used_in_forms>
+        <options>
+            <attribute_code>options</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required />
+            <default_value />
+            <input />
+            <group>manage_options</group>
+            <source>Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Options</source>
+        </options>
     </fields>
 </fixture>

@@ -31,25 +31,25 @@ class CustomerCustomAttributesGrid extends Grid
      */
     protected $filters = [
         'attribute_code' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-text-filter-attribute-code"]'
+            'selector' => 'input[name="attribute_code"]'
         ],
         'frontend_label' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-text-1-filter-frontend-label"]',
+            'selector' => 'input[name="frontend_label"]',
         ],
         'is_required' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-select-extended-filter-is-required"]',
+            'selector' => 'select[name="is_required"]',
             'input' => 'select',
         ],
         'is_user_defined' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-select-extended-1-filter-is-user-defined"]',
+            'selector' => 'select[name="is_user_defined"]',
             'input' => 'select',
         ],
         'is_visible' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-select-extended-2-filter-is-visible"]',
+            'selector' => 'select[name="is_visible"]',
             'input' => 'select',
         ],
         'sort_order' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-text-2-filter-sort-order"]',
+            'selector' => 'input[name="sort_order"]',
         ],
     ];
 }

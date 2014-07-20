@@ -12,6 +12,7 @@ use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Sales\Test\Fixture\Order;
+use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class Create
@@ -245,11 +246,13 @@ class Create extends Block
     /**
      * Check if Customer custom Attribute visible
      *
-     * @param string $attributeCode
+     * @param CustomerCustomAttribute $customerAttribute
      * @return bool
      */
-    public function isCustomerAttributeVisible($attributeCode)
+    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
     {
-        return $this->_rootElement->find(sprintf($this->customerAttribute, $attributeCode))->isVisible();
+        return $this->_rootElement->find(
+            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
+        )->isVisible();
     }
 }

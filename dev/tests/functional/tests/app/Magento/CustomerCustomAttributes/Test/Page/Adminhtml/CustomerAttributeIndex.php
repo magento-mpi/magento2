@@ -34,11 +34,11 @@ class CustomerAttributeIndex extends BackendPage
         'customerCustomAttributesGrid' => [
             'name' => 'customerCustomAttributesGrid',
             'class' => 'Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\CustomerCustomAttributesGrid',
-            'locator' => '[id="page:main-container"]',
+            'locator' => '[id="customerAttributeGrid"]',
             'strategy' => 'css selector',
         ],
     ];
-    // @codingStandardsIgnoreStart
+    // @codingStandardsIgnoreEnd
 
     /**
      * @return \Magento\Core\Test\Block\Messages

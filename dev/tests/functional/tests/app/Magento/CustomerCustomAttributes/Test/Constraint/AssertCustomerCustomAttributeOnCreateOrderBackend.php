@@ -43,13 +43,12 @@ class AssertCustomerCustomAttributeOnCreateOrderBackend extends AbstractConstrai
         CustomerInjectable $customer
     ) {
         $salesOrder->open();
-        $salesOrder->getOrderActionsBlock()->add();
+        $salesOrder->getGridPageActions()->addNew();
         $salesOrderCreateIndex->getCustomerBlock()->selectCustomer($customer);
         $salesOrderCreateIndex->getStoreBlock()->selectStoreView();
-        $attributeCode = $customerAttribute->getAttributeCode();
         \PHPUnit_Framework_Assert::assertTrue(
-            $salesOrderCreateIndex->getCreateBlock()->isCustomerAttributeVisible($attributeCode),
-            'Customer Custom Attribute with attribute code: \'' . $attributeCode . '\' '
+            $salesOrderCreateIndex->getCreateBlock()->isCustomerAttributeVisible($customerAttribute),
+            'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is absent during creating order on backend.'
         );
     }

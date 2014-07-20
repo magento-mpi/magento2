@@ -27,7 +27,7 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 class CreateCustomerCustomAttributesEntityTest extends AbstractCustomerCustomAttributesEntityTest
 {
     /**
-     * Create Customer customer Attribute
+     * Create custom Customer Attribute
      *
      * @param CustomerCustomAttribute $customerAttribute
      * @return array
