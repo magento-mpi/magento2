@@ -8,7 +8,6 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
-
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
