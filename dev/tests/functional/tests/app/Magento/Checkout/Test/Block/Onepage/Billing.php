@@ -81,7 +81,6 @@ class Billing extends Form
      * Check if Customer custom Attribute visible
      *
      * @param CustomerCustomAttribute $customerAttribute
-     * @internal param $ string $attributeCode* string $attributeCode
      * @return bool
      */
     public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)

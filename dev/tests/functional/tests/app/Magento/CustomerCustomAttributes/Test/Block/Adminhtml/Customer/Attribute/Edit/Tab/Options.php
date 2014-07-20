@@ -70,9 +70,9 @@ class Options extends Tab
                 'Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\Tab\Options\Option',
                 [
                     'element' => $this->_rootElement->find(
-                            sprintf($this->optionRowSelector, $key + 1),
-                            Locator::SELECTOR_XPATH
-                        )
+                        sprintf($this->optionRowSelector, $key + 1),
+                        Locator::SELECTOR_XPATH
+                    )
                 ]
             )->fillOptions($option);
         }

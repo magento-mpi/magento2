@@ -8,10 +8,11 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
@@ -31,7 +32,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
     /**
      * Assert that created customer attribute is available during register customer on checkout
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param CatalogProductSimple $productSimple
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
      * @param CatalogProductView $catalogProductViewPage
@@ -39,14 +40,13 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
      * @return void
      */
     public function processAssert(
-        FixtureFactory $fixtureFactory,
+        CatalogProductSimple $productSimple,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
         CatalogProductView $catalogProductViewPage,
         CustomerCustomAttribute $customerAttribute
     ) {
         // Precondition
-        $productSimple = $fixtureFactory->createByCode('catalogProductSimple');
         $productSimple->persist();
 
         // Steps
