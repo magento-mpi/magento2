@@ -55,8 +55,6 @@ class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
             $browser->getUrl(),
             $_ENV['app_frontend_url'] . $url,
             'URL rewrite CMS Page redirect false.'
-            . "\nExpected: " . $_ENV['app_frontend_url'] . $url
-            . "\nActual: " . $browser->getUrl()
         );
     }
 
