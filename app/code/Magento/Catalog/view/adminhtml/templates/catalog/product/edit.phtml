@@ -73,7 +73,7 @@ jQuery(function($) {
                 div.innerHTML = isString ? source : $(source).clone().wrap('<p>').parent().html();
                 scripts = div.getElementsByTagName('script');
                 scriptsLength = scripts.length;
-                for (i = 0; i < scriptsLength; i++) {
+                for (var i = 0; i < scriptsLength; i++) {
                     scripts[i].type = callback(scripts[i].type);
                 }
                 return isString ? div.innerHTML : $(div.innerHTML);
@@ -305,8 +305,7 @@ jQuery(function($) {
 
             //add new fieldsets or reorder
             $newPage.find('#product_info_tabs .fieldset.user-defined').each(function(index, newFieldset) {
-                var fieldsetContainer, newFieldsetContainer, sourceContainer, destinationContainer,
-                    newFieldsetContainerIndex;
+                var fieldsetContainer, newFieldsetContainer, sourceContainer, destinationContainer;
                 newFieldsetContainer = $(newFieldset).parents('[data-ui-id*=-tab-content-]').first();
                 if ($page.find('[data-ui-id=' + newFieldsetContainer.data('uiId') + ']').length === 0) {
                     fieldsetContainer = newFieldsetContainer
