@@ -25,4 +25,5 @@
             <argument name="storage" xsi:type="object">Magento\Checkout\Model\Session\Storage</argument>
         </arguments>
     </type>
+    <preference for="Magento\Checkout\Service\V1\Items\ReadServiceInterface" type="Magento\Checkout\Service\V1\Items\ReadService" />
 </config>
