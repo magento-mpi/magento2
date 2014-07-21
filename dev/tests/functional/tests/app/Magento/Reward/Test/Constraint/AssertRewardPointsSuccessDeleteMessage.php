@@ -39,8 +39,6 @@ class AssertRewardPointsSuccessDeleteMessage extends AbstractConstraint
             self::DELETE_MESSAGE,
             $deletesMessage,
             'Wrong delete message is displayed.'
-            . "\nExpected: " . self::DELETE_MESSAGE
-            . "\nActual: " . $deletesMessage
         );
     }
 

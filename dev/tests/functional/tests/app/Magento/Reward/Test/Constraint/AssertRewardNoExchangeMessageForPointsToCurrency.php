@@ -37,7 +37,7 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param RewardCustomerInfo $rewardCustomerInfo
-     * @param \Magento\Reward\Test\Fixture\Reward $reward
+     * @param Reward $reward
      * @return void
      */
     public function processAssert(

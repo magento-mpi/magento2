@@ -64,16 +64,15 @@ class Curl extends AbstractCurl implements RewardInterface
             throw new \Exception("Exchange Rate creation by curl handler was not successful! Response: $response");
         }
 
-        return ['rate_id' => $this->getRateId($response)];
+        return ['rate_id' => $this->getRateId()];
     }
 
     /**
      * Get Reward exchange rate id
      *
-     * @param $response
      * @return string|null
      */
-    protected function getRateId($response)
+    protected function getRateId()
     {
         $url = $_ENV['app_backend_url'] . 'admin/reward_rate/index/sort/rate_id/dir/desc/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
