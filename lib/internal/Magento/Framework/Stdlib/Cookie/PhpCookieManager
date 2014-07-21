@@ -17,6 +17,18 @@ namespace Magento\Framework\Stdlib;
  */
 class PhpCookieManager implements CookieManager
 {
+    /**
+     * @var CookieScope
+     */
+    private $scope;
+
+    /**
+     * @param CookieScope $scope
+     */
+    public function __construct(CookieScope $scope)
+    {
+        $this->scope = $scope;
+    }
 
     /**
      * Set a value in a private cookie with the given $name $value pairing.
@@ -81,5 +93,31 @@ class PhpCookieManager implements CookieManager
     public function deleteCookie($name)
     {
         // TODO: Implement deleteCookie() method.
+    }
+
+    /**
+     * Merges the input override metadata with any defaults set on this CookieManager, and then returns a CookieMetadata
+     * object representing the merged values.
+     *
+     * @param SensitiveCookieMetadata|null $override
+     * @return SensitiveCookieMetadata
+     */
+    private function getSensitiveCookieMetadata(SensitiveCookieMetadata $override)
+    {
+        // TODO: Implement getSensitiveCookieMetadata
+        return $override;
+    }
+
+    /**
+     * Merges the input override metadata with any defaults set on this CookieManager, and then returns a CookieMetadata
+     * object representing the merged values.
+     *
+     * @param PublicCookieMetadata|null $override
+     * @return PublicCookieMetadata
+     */
+    private function getPublicCookieMetadata(PublicCookieMetadata $override)
+    {
+        // TODO: Implement getPublicCookieMetadata
+        return $override;
     }
 }
