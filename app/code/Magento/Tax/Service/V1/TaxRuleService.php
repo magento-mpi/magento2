@@ -360,14 +360,14 @@ class TaxRuleService implements TaxRuleServiceInterface
                 try {
                     $taxClass = $this->taxClassService->getTaxClass($customerTaxClassId);
                     if (is_null($taxClass) || !($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)) {
-                        $exception->addError(InputException::INVALID_FIELD_VALUE,
+                        $exception->addError(NoSuchEntityException::MESSAGE_SINGLE_FIELD,
                             [
                                 'fieldName' => TaxRule::CUSTOMER_TAX_CLASS_IDS,
                                 'value'     => $customerTaxClassId,
                             ]);
                     }
                 } catch (NoSuchEntityException $e) {
-                    $exception->addError(InputException::INVALID_FIELD_VALUE,
+                    $exception->addError(NoSuchEntityException::MESSAGE_SINGLE_FIELD,
                         [
                             'fieldName' => TaxRule::CUSTOMER_TAX_CLASS_IDS,
                             'value'     => $customerTaxClassId,
@@ -385,14 +385,14 @@ class TaxRuleService implements TaxRuleServiceInterface
                 try {
                     $taxClass = $this->taxClassService->getTaxClass($productTaxClassId);
                     if (is_null($taxClass) || !($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_PRODUCT)) {
-                        $exception->addError(InputException::INVALID_FIELD_VALUE,
+                        $exception->addError(NoSuchEntityException::MESSAGE_SINGLE_FIELD,
                             [
                                 'fieldName' => TaxRule::PRODUCT_TAX_CLASS_IDS,
                                 'value'     => $productTaxClassId,
                             ]);
                     }
                 } catch (NoSuchEntityException $e) {
-                    $exception->addError(InputException::INVALID_FIELD_VALUE,
+                    $exception->addError(NoSuchEntityException::MESSAGE_SINGLE_FIELD,
                         [
                             'fieldName' => TaxRule::PRODUCT_TAX_CLASS_IDS,
                             'value'     => $productTaxClassId,

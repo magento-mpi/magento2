@@ -234,11 +234,12 @@ class TaxRuleServiceTest extends WebapiAbstract
             [
                 'id' => $fixtureRule->getId(),
                 'code' => 'Test Rule',
-                'priority' => '0',
-                'sort_order' => '0',
+                'priority' => 0,
+                'sort_order' => 0,
                 'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
                 'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
+                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
+                'calculate_subtotal' => 0,
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
@@ -283,20 +284,22 @@ class TaxRuleServiceTest extends WebapiAbstract
             [
                 'id' => $fixtureRule->getId(),
                 'code' => 'Test Rule',
-                'priority' => '0',
-                'sort_order' => '0',
+                'priority' => 0,
+                'sort_order' => 0,
                 'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
                 'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
+                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
+                'calculate_subtotal' => 0,
             ],
             [
                 'id' => $this->getFixtureTaxRules()[0]->getId(),
                 'code' => 'Test Rule Duplicate',
-                'priority' => '0',
-                'sort_order' => '0',
+                'priority' => 0,
+                'sort_order' => 0,
                 'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
                 'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
+                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
+                'calculate_subtotal' => 0,
             ],
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
