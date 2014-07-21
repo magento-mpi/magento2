@@ -49,7 +49,7 @@ class DiffTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender($rowData, $expectedResult)
     {
-        $this->_column->method('getIndex')->will($this->returnValue('result_data'));
+        $this->_column->expects($this->once())->method('getIndex')->will($this->returnValue('result_data'));
         $this->assertContains($expectedResult, $this->_object->render(new \Magento\Framework\Object($rowData)));
     }
     

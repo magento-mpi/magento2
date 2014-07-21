@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../lib/internal/Magento/Framework/App/Language/package.xsd">
+    <code>nl_NL</code>
+    <vendor>magento</vendor>
+    <package>nl_nl</package>
+</language>
