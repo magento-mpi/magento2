@@ -8,60 +8,29 @@
 
 namespace Magento\Cms\Test\Page;
 
-use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
-use Mtf\Fixture\FixtureInterface;
-use Magento\Cms\Test\Block\Page;
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CmsPage
- * Cms Page for the frontend
- *
  */
-class CmsPage extends \Mtf\Page\Page
+class CmsPage extends FrontendPage
 {
-    /**
-     * Used only for page factory method creation
-     */
     const MCA = 'cms/page';
 
-    /**
-     * Frontend Cms Page class
-     *
-     * @var string
-     */
-    protected $cmsPageClass = '.page.main';
+    protected $_blocks = [
+        'cmsPageBlock' => [
+            'name' => 'cmsPageBlock',
+            'class' => 'Magento\Cms\Test\Block\Page',
+            'locator' => '.page.main',
+            'strategy' => 'css selector',
+        ],
+    ];
 
     /**
-     * Page initialization for building dynamically named Cms Page
-     *
-     * @param FixtureInterface|\Magento\Cms\Test\Fixture\CmsPage $fixture
-     * @return void
-     */
-    public function init(FixtureInterface $fixture)
-    {
-        $this->_url = $_ENV['app_frontend_url'] . $fixture->getIdentifier();
-    }
-
-    /**
-     * Get frontend Cms Page block
-     *
-     * @return Page
+     * @return \Magento\Cms\Test\Block\Page
      */
     public function getCmsPageBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCmsPage(
-            $this->_browser->find($this->cmsPageClass, Locator::SELECTOR_CSS)
-        );
-    }
-
-    /**
-     * Select last opened window
-     *
-     * @return Page
-     */
-    public function selectWindow()
-    {
-        $this->_browser->selectWindow();
+        return $this->getBlockInstance('cmsPageBlock');
     }
 }

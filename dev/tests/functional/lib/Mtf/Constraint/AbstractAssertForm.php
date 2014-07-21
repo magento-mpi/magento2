@@ -32,6 +32,9 @@ abstract class AbstractAssertForm extends AbstractConstraint
      * @param bool $isStrict
      * @param bool $isPrepareError
      * @return array|string
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function verifyData(array $fixtureData, array $formData, $isStrict = false, $isPrepareError = true)
     {

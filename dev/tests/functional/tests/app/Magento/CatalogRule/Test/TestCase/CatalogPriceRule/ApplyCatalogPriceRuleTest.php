@@ -69,7 +69,8 @@ class ApplyCatalogPriceRuleTest extends Functional
         $banner->persist();
 
         // Create Frontend App
-        $frontendApp = Factory::getFixtureFactory()->getMagentoWidgetBannerRotatorWidget();
+        $objectManager = Factory::getObjectManager();
+        $frontendApp = $objectManager->create('\Magento\Widget\Test\Fixture\Widget', ['dataSet' => 'banner_rotator']);
         $frontendApp->persist();
 
         // Create new Catalog Price Rule
