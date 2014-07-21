@@ -5,23 +5,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi\Model\Authz;
 
-use Magento\Authz\Model\UserLocatorInterface;
+namespace Magento\Webapi\Model\Authorization;
+
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Webapi\Controller\Request;
 use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
+use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
+use Magento\Webapi\Controller\Request;
 
-/**
- * Web API user locator.
- */
-class UserLocator implements UserLocatorInterface
+class OauthUserContext implements UserContextInterface
 {
-    /** @var Request */
+    /**
+     * @var Request
+     */
     protected $_request;
 
-    /** @var IntegrationFactory */
+    /**
+     * @var IntegrationFactory
+     */
     protected $_integrationFactory;
+
+    /**
+     * @var RoleCollectionFactory
+     */
+    protected $_roleCollectionFactory;
 
     /**
      * Initialize dependencies.
@@ -29,10 +37,14 @@ class UserLocator implements UserLocatorInterface
      * @param Request $request
      * @param IntegrationFactory $integrationFactory
      */
-    public function __construct(Request $request, IntegrationFactory $integrationFactory)
-    {
+    public function __construct(
+        Request $request,
+        IntegrationFactory $integrationFactory,
+        RoleCollectionFactory $roleCollectionFactory
+    ) {
         $this->_request = $request;
         $this->_integrationFactory = $integrationFactory;
+        $this->_roleCollectionFactory = $roleCollectionFactory;
     }
 
     /**
