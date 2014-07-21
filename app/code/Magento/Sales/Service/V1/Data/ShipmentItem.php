@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\V1\Service\Data;
+namespace Magento\Sales\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObject as DataObject;
 

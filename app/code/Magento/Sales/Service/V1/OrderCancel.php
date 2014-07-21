@@ -11,9 +11,9 @@ use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Service\V1\Data\OrderMapper;
 
 /**
- * Class OrderGet
+ * Class OrderCancel
  */
-class OrderGet
+class OrderCancel
 {
     /**
      * @var OrderRepository
@@ -23,16 +23,15 @@ class OrderGet
     /**
      * @param OrderRepository $orderRepository
      */
-    public function __construct(
-        OrderRepository $orderRepository
-    ) {
+    public function __construct(OrderRepository $orderRepository)
+    {
         $this->orderRepository = $orderRepository;
     }
 
     /**
      * Invoke getOrder service
      *
-     * @param $id
+     * @param int $id
      * @return \Magento\Framework\Service\Data\AbstractObject
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */

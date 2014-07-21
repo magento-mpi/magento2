@@ -18,6 +18,12 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
     const ENTITY_TYPE = 'repository';
 
     /**
+     * No Such Entity Exception
+     */
+    const NO_SUCH_ENTITY_EXCEPTION = '\\Magento\Framework\Exception\NoSuchEntityException';
+    const SEARCH_CRITERIA = '\\Magento\Framework\Service\V1\Data\SearchCriteria';
+
+    /**
      * Retrieve class properties
      *
      * @return array
@@ -40,12 +46,31 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
                 ]
             ],
             [
+                'name' => $this->_getSourceCollectionFactoryPropertyName(),
+                'visibility' => 'protected',
+                'docblock' => [
+                    'shortDescription' =>  'Collection Factory',
+                    'tags' => [
+                        [
+                            'name' => 'var',
+                            'description' =>
+                                $this->_getCollectionFactoryClassName()
+                        ]
+                    ]
+                ]
+            ],
+            [
                 'name' => 'registry',
                 'visibility' => 'protected',
                 'defaultValue' => [],
                 'docblock' => [
                     'shortDescription' => $this->_getSourceClassName() . '[]',
-                    'tags' => [['name' => 'var', 'description' => 'array']]
+                    'tags' => [
+                        [
+                            'name' => 'var',
+                            'description' => 'array'
+                        ]
+                    ]
                 ]
             ]
         ];
@@ -53,7 +78,7 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
     }
 
     /**
-     * Returns source factory property Name
+     * Returns source factory property name
      *
      * @return string
      */
@@ -61,6 +86,28 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
     {
         $parts = explode('\\', $this->_getSourceClassName());
         return lcfirst(end($parts)) . 'Factory';
+    }
+
+    /**
+     * Returns source collection factory property name
+     * @return string
+     */
+    protected function _getSourceCollectionFactoryPropertyName()
+    {
+        $parts = explode('\\', $this->_getSourceClassName());
+        return lcfirst(end($parts)) . 'CollectionFactory';
+    }
+
+    /**
+     * Returns collection factory class name
+     */
+    protected function _getCollectionFactoryClassName()
+    {
+        $parts = explode('\\', $this->_getSourceClassName());
+        $className = '\\Resource\\' . end($parts) . '\\CollectionFactory';
+        array_pop($parts);
+        return '\\' . implode('\\', $parts) . $className;
+
     }
 
     /**
@@ -77,10 +124,18 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
                     'name' => $this->_getSourceFactoryPropertyName(),
                     'type' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()) . 'Factory'
                 ],
+                [
+                    'name' => $this->_getSourceCollectionFactoryPropertyName(),
+                    'type' => $this->_getCollectionFactoryClassName(),
+                ],
             ],
             'body' => "\$this->"
                 . $this->_getSourceFactoryPropertyName()
-                . " = \$" . $this->_getSourceFactoryPropertyName() . ';',
+                . " = \$" . $this->_getSourceFactoryPropertyName() . ";\n"
+                . "\$this->"
+                . $this->_getSourceCollectionFactoryPropertyName()
+                . " = \$" . $this->_getSourceCollectionFactoryPropertyName() . ";"
+            ,
             'docblock' => [
                 'shortDescription' => ucfirst(static::ENTITY_TYPE) . ' constructor',
                 'tags' => [
@@ -88,6 +143,11 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
                         'name' => 'param',
                         'description' => '\\' . $this->_getSourceClassName()
                             . " \$" . $this->_getSourceFactoryPropertyName()
+                    ],
+                    [
+                        'name' => 'param',
+                        'description' => $this->_getCollectionFactoryClassName()
+                            . " \$" . $this->_getSourceCollectionFactoryPropertyName()
                     ]
                 ]
             ]
@@ -95,27 +155,29 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
     }
 
     /**
-     * Returns list of methods for class generator
+     * Returns get() method
      *
-     * @return array
+     * @return string
      */
-    protected function _getClassMethods()
+    protected function _getGetMethod()
     {
-        $construct = $this->_getDefaultConstructorDefinition();
-
         $body = "if (!\$id) {\n"
-        . "\tthrow new \\Magento\Framework\Exception\NoSuchEntityException('Requested product doesn\\'t exist');\n"
-        . "}\n"
-        . "if (!isset(\$this->registry[\$id])) {\n"
-        . "\t\$this->registry[\$id] = \$this->"
-        . $this->_getSourceFactoryPropertyName()
-        . "->create()->load(\$id);\n"
-        . "}\n"
-        . "return \$this->registry[\$id];";
-
-        $get = [
+            . "    throw new " . self::NO_SUCH_ENTITY_EXCEPTION . "('Requested product doesn\\'t exist');\n"
+            . "}\n"
+            . "if (!isset(\$this->registry[\$id])) {\n"
+            . "    \$this->registry[\$id] = \$this->"
+            . $this->_getSourceFactoryPropertyName()
+            . "->create()->load(\$id);\n"
+            . "}\n"
+            . "return \$this->registry[\$id];";
+        return [
             'name' => 'get',
-            'parameters' => [['name' => 'id', 'type' => 'int']],
+            'parameters' => [
+                [
+                    'name' => 'id',
+                    'type' => 'int'
+                ]
+            ],
             'body' => $body,
             'docblock' => [
                 'shortDescription' => 'load entity',
@@ -130,12 +192,106 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
                     ],
                     [
                         'name' => 'throws',
-                        'description' => '\\Magento\Framework\Exception\NoSuchEntityException',
+                        'description' => self::NO_SUCH_ENTITY_EXCEPTION,
                     ]
                 ]
             ]
         ];
-        return array($construct, $get);
+    }
+
+    /**
+     * Returns register() method
+     *
+     * @return string
+     */
+    protected function _getRegisterMethod()
+    {
+        $body = "if (\$object->getId() && !isset(\$this->registry[\$object->getId()])) {\n"
+            . "    \$object->load(\$object->getId());\n"
+            . "    \$this->registry[\$object->getId()] = \$object;\n"
+            . "}\nreturn \$this;";
+        return [
+            'name' => 'register',
+            'parameters' => [
+                [
+                    'name' => 'object',
+                    'type' => $this->_getFullyQualifiedClassName($this->_getSourceClassName())
+                ]
+            ],
+            'body' => $body,
+            'docblock' => [
+                'shortDescription' => 'Register entity',
+                'tags' => [
+                    [
+                        'name' => 'param',
+                        'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()) . ' $object'
+                    ],
+                    [
+                        'name' => 'return',
+                        'description' => $this->_getFullyQualifiedClassName($this->_getResultClassName()),
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Returns get() method
+     *
+     * @return string
+     */
+    protected function _getFindMethod()
+    {
+        $body = "\$collection = \$this->" . $this->_getSourceCollectionFactoryPropertyName() . "->create();\n"
+        . "foreach(\$criteria->getFilterGroups() as \$filterGroup) {\n"
+        . "    foreach (\$filterGroup->getFilters() as \$filter) {\n"
+        . "        \$condition = \$filter->getConditionType() ? \$filter->getConditionType() : 'eq';\n"
+        . "        \$collection->addFieldToFilter(\$filter->getField(), [\$condition => \$filter->getValue()]);\n"
+        . "    }\n"
+        . "}\n"
+        . "foreach (\$collection as \$object) {\n"
+        . "    \$this->register(\$object);\n"
+        . "}\n"
+        . "\$objectIds = \$collection->getAllIds();\n"
+        . "return array_intersect_key(\$this->registry, array_flip(\$objectIds));\n";
+        return [
+            'name' => 'find',
+            'parameters' => [
+                [
+                    'name' => 'criteria',
+                    'type' => self::SEARCH_CRITERIA
+                ]
+            ],
+            'body' => $body,
+            'docblock' => [
+                'shortDescription' => 'Find entities by criteria',
+                'tags' => [
+                    [
+                        'name' => 'param',
+                        'description' => self::SEARCH_CRITERIA . '  $criteria'
+                    ],
+                    [
+                        'name' => 'return',
+                        'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()) . '[]',
+                    ],
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Returns list of methods for class generator
+     *
+     * @return array
+     */
+    protected function _getClassMethods()
+    {
+        return [
+            $this->_getDefaultConstructorDefinition(),
+            $this->_getGetMethod(),
+            $this->_getRegisterMethod(),
+            $this->_getFindMethod()
+        ];
     }
 
     /**
