@@ -33,6 +33,7 @@ class Grid extends ParentGrid
 
     /**
      * Filters array mapping
+     * Filters array mapping
      *
      * @var array
      */

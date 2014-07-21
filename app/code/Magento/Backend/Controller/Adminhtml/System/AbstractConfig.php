@@ -47,28 +47,10 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
      */
     public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
-        $section = null;
         if (!$request->getParam('section')) {
-            $section = $this->_configStructure->getFirstSection();
-            $request->setParam('section', $section->getId());
-        } else {
-            if (!$this->isSectionAllowed($request->getParam('section'))) {
-                $this->deniedAction();
-                $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
-            }
+            $request->setParam('section', $this->_configStructure->getFirstSection()->getId());
         }
         return parent::dispatch($request);
-    }
-
-    /**
-     * Proxy for checking section
-     *
-     * @param string $sectionId
-     * @return bool
-     */
-    protected function isSectionAllowed($sectionId)
-    {
-        return $this->_sectionChecker->isSectionAllowed($sectionId);
     }
 
     /**
@@ -78,7 +60,9 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_Adminhtml::config');
+        $sectionId = $this->_request->getParam('section');
+        return $this->_authorization->isAllowed('Magento_Adminhtml::config')
+            || $this->_configStructure->getElement($sectionId)->isAllowed();
     }
 
     /**
