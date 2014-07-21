@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Stdlib;
 
-class SensitiveCookieMetadata
+class SensitiveCookieMetadata extends AbstractCookieMetaData
 {
 
 }
