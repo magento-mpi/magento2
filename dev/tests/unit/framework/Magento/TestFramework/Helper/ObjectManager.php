@@ -183,6 +183,12 @@ class ObjectManager
         $builderObject = $reflectionClass->newInstanceArgs($constructArguments);
 
         $objectFactory->expects($this->_testObject->any())
+            ->method('populateWithArray')
+            ->will($this->_testObject->returnSelf());
+        $objectFactory->expects($this->_testObject->any())
+            ->method('populate')
+            ->will($this->_testObject->returnSelf());
+        $objectFactory->expects($this->_testObject->any())
             ->method('create')
             ->will($this->_testObject->returnCallback(
                 function ($className, $arguments) {
@@ -227,7 +233,7 @@ class ObjectManager
                 if ($parameter->getClass()) {
                     $argClassName = $parameter->getClass()->getName();
                 }
-                $object = $this->_createArgumentMock($argClassName, $arguments);
+                $object = $this->_getMockObject($argClassName, $arguments);
             } catch (\ReflectionException $e) {
                 $parameterString = $parameter->__toString();
                 $firstPosition = strpos($parameterString, '<required>');
@@ -268,5 +274,25 @@ class ObjectManager
             $this->_testObject->returnValue($iterator)
         );
         return $mock;
+    }
+
+    /**
+     * Helper function that creates a mock object for a given class name.
+     *
+     * Will return a real object in some cases to assist in testing.
+     *
+     * @param string $argClassName
+     * @param array $arguments
+     * @return null|object|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function _getMockObject($argClassName, array $arguments)
+    {
+        if (is_subclass_of($argClassName, '\Magento\Framework\Service\Data\AbstractObjectBuilder')) {
+            $object = $this->getBuilder($argClassName, $arguments);
+            return $object;
+        } else {
+            $object = $this->_createArgumentMock($argClassName, $arguments);
+            return $object;
+        }
     }
 }

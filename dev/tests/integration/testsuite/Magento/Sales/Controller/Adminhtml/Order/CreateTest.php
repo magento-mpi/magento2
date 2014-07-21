@@ -190,7 +190,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
             ->loadArea('adminhtml');
 
         $this->dispatch('backend/sales/order_create/save');
-        $this->assertEquals('denied', $this->getRequest()->getActionName());
+        $this->assertEquals('403', $this->getResponse()->getHttpResponseCode());
     }
 }
 
@@ -205,6 +205,6 @@ class AuthorizationMock extends \Magento\Framework\Authorization
      */
     public function isAllowed($resource, $privilege = null)
     {
-        return $resource == 'Magento_Customer::manage' ? false : parent::isAllowed($resource, $privilege);
+        return $resource == 'Magento_Sales::create' ? false : parent::isAllowed($resource, $privilege);
     }
 }

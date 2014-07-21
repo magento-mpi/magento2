@@ -44,13 +44,13 @@ class Edit extends \Magento\Backend\Block\Widget\Container
     protected $_rewriteFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\UrlRedirect\Model\UrlRedirectFactory $rewriteFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\UrlRedirect\Model\UrlRedirectFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         array $data = array()

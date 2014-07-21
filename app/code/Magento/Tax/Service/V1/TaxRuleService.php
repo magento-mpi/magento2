@@ -9,16 +9,18 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Model\Exception as ModelException;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
+use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Model\Calculation\TaxRuleRegistry;
+use Magento\Tax\Model\Resource\Calculation\Rule\Collection;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
-use Magento\Framework\Model\Exception as ModelException;
-use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
-use Magento\Tax\Model\Resource\Calculation\Rule\Collection;
 
 /**
  * TaxRuleService implementation.
@@ -53,24 +55,48 @@ class TaxRuleService implements TaxRuleServiceInterface
     protected $taxRuleModelFactory;
 
     /**
+     * @var FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
+     * @var TaxRateServiceInterface
+     */
+    protected $taxRateService;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
      * @param TaxRuleBuilder $taxRuleBuilder
      * @param TaxRuleConverter $converter
      * @param TaxRuleRegistry $taxRuleRegistry
      * @param Data\TaxRuleSearchResultsBuilder $taxRuleSearchResultsBuilder
      * @param TaxRuleModelFactory $taxRuleModelFactory
+     * @param FilterBuilder $filterBuilder
+     * @param TaxRateServiceInterface $taxRateService
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         TaxRuleBuilder $taxRuleBuilder,
         TaxRuleConverter $converter,
         TaxRuleRegistry $taxRuleRegistry,
         Data\TaxRuleSearchResultsBuilder $taxRuleSearchResultsBuilder,
-        TaxRuleModelFactory $taxRuleModelFactory
+        TaxRuleModelFactory $taxRuleModelFactory,
+        FilterBuilder $filterBuilder,
+        TaxRateServiceInterface $taxRateService,
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->taxRuleBuilder = $taxRuleBuilder;
         $this->converter = $converter;
         $this->taxRuleRegistry = $taxRuleRegistry;
         $this->taxRuleSearchResultsBuilder = $taxRuleSearchResultsBuilder;
         $this->taxRuleModelFactory = $taxRuleModelFactory;
+        $this->filterBuilder = $filterBuilder;
+        $this->taxRateService = $taxRateService;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
@@ -123,16 +149,27 @@ class TaxRuleService implements TaxRuleServiceInterface
         $this->taxRuleSearchResultsBuilder->setSearchCriteria($searchCriteria);
         $collection = $this->taxRuleModelFactory->create()->getCollection();
 
+        $fields = [];
+
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
+            foreach ($group->getFilters() as $filter) {
+                $fields[] = $this->translateField($filter->getField());
+            }
         }
+        if ($fields) {
+            if (in_array('cd.customer_tax_class_id', $fields) || in_array('cd.product_tax_class_id', $fields)) {
+                $collection->joinCalculationData('cd');
+            }
+        }
+
         $this->taxRuleSearchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
-            foreach ($sortOrders as $field => $direction) {
-                $field = $this->translateField($field);
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            foreach ($sortOrders as $sortField => $direction) {
+                $sortField = $this->translateField($sortField);
+                $collection->addOrder($sortField, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
@@ -150,6 +187,44 @@ class TaxRuleService implements TaxRuleServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $productTaxClassId)
+    {
+        $this->searchCriteriaBuilder->addFilter(
+            [
+                $this->filterBuilder
+                    ->setField(TaxRule::CUSTOMER_TAX_CLASS_IDS)
+                    ->setValue([$customerTaxClassId])
+                    ->create(),
+            ]
+        );
+
+        $this->searchCriteriaBuilder->addFilter(
+            [
+                $this->filterBuilder
+                    ->setField(TaxRule::PRODUCT_TAX_CLASS_IDS)
+                    ->setValue([$productTaxClassId])
+                    ->create(),
+            ]
+        );
+
+
+        $searchResults = $this->searchTaxRules($this->searchCriteriaBuilder->create());
+        $taxRules = $searchResults->getItems();
+        $rates = [];
+        foreach ($taxRules as $taxRule) {
+            $rateIds = $taxRule->getTaxRateIds();
+            if (!empty($rateIds)) {
+                foreach ($rateIds as $rateId) {
+                    $rates[] = $this->taxRateService->getTaxRate($rateId);
+                }
+            }
+        }
+        return $rates;
+    }
+
+    /**
      * Helper function that adds a FilterGroup to the collection.
      *
      * @param FilterGroup $filterGroup
@@ -163,8 +238,22 @@ class TaxRuleService implements TaxRuleServiceInterface
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = $this->translateField($filter->getField());
+            $field = $this->translateField($filter->getField());
+            $fields[] = $field;
             $conditions[] = [$condition => $filter->getValue()];
+            switch ($field) {
+                case 'rate.tax_calculation_rate_id':
+                    $collection->joinCalculationData('rate');
+                    break;
+
+                case 'ctc.customer_tax_class_id':
+                    $collection->joinCalculationData('ctc');
+                    break;
+
+                case 'ptc.product_tax_class_id':
+                    $collection->joinCalculationData('ptc');
+                    break;
+            }
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
@@ -182,6 +271,12 @@ class TaxRuleService implements TaxRuleServiceInterface
         switch ($field) {
             case TaxRule::ID:
                 return 'tax_calculation_rule_id';
+            case TaxRule::TAX_RATE_IDS:
+                return 'tax_calculation_rate_id';
+            case TaxRule::CUSTOMER_TAX_CLASS_IDS:
+                return 'cd.customer_tax_class_id';
+            case TaxRule::PRODUCT_TAX_CLASS_IDS:
+                return 'cd.product_tax_class_id';
             case TaxRule::SORT_ORDER:
                 return 'position';
             default:

@@ -47,4 +47,47 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\A
     {
         return $this->get('acl/' . $level, array());
     }
+
+    /**
+     * Get group processor
+     *
+     * @param string $groupName
+     * @return string|null
+     */
+    public function getGroupProcessor($groupName)
+    {
+        return $this->get('processors/' . $groupName);
+    }
+
+    /**
+     * Get callback for the object
+     *
+     * @param object $object
+     * @param string $callbackGroup
+     * @return string|null
+     */
+    public function getCallbackForObject($object, $callbackGroup)
+    {
+        $output = null;
+        $objectClass = get_class($object);
+
+        if (!$objectClass) {
+            return $output;
+        }
+
+        /**
+         * Determine callback for current instance
+         * Explicit class name has priority before inherited classes
+         */
+        $output = $this->get('callbacks/' . $callbackGroup . '/' . $objectClass, null);
+        if (!$output) {
+            foreach ($this->get('callbacks/' . $callbackGroup, array()) as $className => $callback) {
+                if ($object instanceof $className) {
+                    $output = $callback;
+                    break;
+                }
+            }
+        }
+        return $output;
+    }
 }

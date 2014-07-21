@@ -35,7 +35,7 @@ class Form extends \Magento\UrlRedirect\Block\Edit\Form
     protected $_categoryFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\UrlRedirect\Model\OptionProviderFactory $optionFactory
@@ -50,7 +50,7 @@ class Form extends \Magento\UrlRedirect\Block\Edit\Form
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\UrlRedirect\Model\OptionProviderFactory $optionFactory,

@@ -11,11 +11,11 @@
  * @see \Magento\GiftCardAccount\Block\Account\Redeem
  */
 ?>
-<div class="giftcardaccount">
+<div class="giftcard-account">
     <span id="gc-please-wait" class="please-wait load indicator" data-text="<?php echo __('Please wait, loading...') ?>">
         <span><?php echo __('Please wait, loading...') ?></span>
     </span>
-    <form class="form giftcard redeem" id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"
+    <form class="form form-giftcard-redeem" id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"
         data-mage-init='{"giftCard": {"giftCardCodeSelector": "#giftcard-code", "checkStatus": ".action.check",
             "giftCardStatusUrl": "<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>",
             "giftCardStatusId": "#giftcard-balance-lookup", "giftCardSpinnerId": "#gc-please-wait", "messages": ".page.messages .messages"}}'>

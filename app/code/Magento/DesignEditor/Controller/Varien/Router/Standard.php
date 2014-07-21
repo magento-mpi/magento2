@@ -14,11 +14,6 @@ namespace Magento\DesignEditor\Controller\Varien\Router;
 class Standard extends \Magento\Core\App\Router\Base
 {
     /**
-     * @var \Magento\Framework\ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
      * Routers that must not been matched
      *
      * @var string[]
@@ -48,6 +43,7 @@ class Standard extends \Magento\Core\App\Router\Base
     protected $_session;
 
     /**
+     * @param \Magento\Framework\App\Router\ActionList $actionList
      * @param \Magento\Framework\App\ActionFactory $actionFactory
      * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
@@ -60,7 +56,7 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param string $routerId
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @param \Magento\Framework\App\RouterListInterface $routerList
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService
      * @param \Magento\DesignEditor\Helper\Data $designEditorHelper
      * @param \Magento\DesignEditor\Model\State $designEditorState
      * @param \Magento\Backend\Model\Auth\Session $session
@@ -68,6 +64,7 @@ class Standard extends \Magento\Core\App\Router\Base
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Framework\App\Router\ActionList $actionList,
         \Magento\Framework\App\ActionFactory $actionFactory,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Framework\App\ResponseFactory $responseFactory,
@@ -80,12 +77,13 @@ class Standard extends \Magento\Core\App\Router\Base
         $routerId,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
         \Magento\Framework\App\RouterListInterface $routerList,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService,
         \Magento\DesignEditor\Helper\Data $designEditorHelper,
         \Magento\DesignEditor\Model\State $designEditorState,
         \Magento\Backend\Model\Auth\Session $session
     ) {
         parent::__construct(
+            $actionList,
             $actionFactory,
             $defaultPath,
             $responseFactory,
@@ -129,7 +127,7 @@ class Standard extends \Magento\Core\App\Router\Base
         // match routers
         $controller = null;
         $routers = $this->_getMatchedRouters();
-        /** @var $router \Magento\Framework\App\Router\AbstractRouter */
+        /** @var $router \Magento\Framework\App\RouterInterface */
         foreach ($routers as $router) {
             /** @var $controller \Magento\Framework\App\Action\AbstractAction */
             $controller = $router->match($request);

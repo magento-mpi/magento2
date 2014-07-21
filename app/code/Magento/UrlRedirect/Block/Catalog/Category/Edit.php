@@ -18,14 +18,14 @@ class Edit extends \Magento\UrlRedirect\Block\Edit
     protected $_categoryFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\UrlRedirect\Model\UrlRedirectFactory $rewriteFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\UrlRedirect\Model\UrlRedirectFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,

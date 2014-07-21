@@ -22,12 +22,12 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -54,7 +54,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         /** @var $segment \Magento\CustomerSegment\Model\Segment */
         $segment = $this->_coreRegistry->registry('current_customer_segment');
         if ($segment && $segment->getId()) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'match_customers',
                 array(
                     'label' => __('Refresh Segment Data'),
@@ -64,7 +64,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             );
         }
 
-        $this->_addButton(
+        $this->buttonList->add(
             'save_and_continue_edit',
             array(
                 'class' => 'save',

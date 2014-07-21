@@ -9,10 +9,11 @@ namespace Magento\Tax\Helper;
 
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
-use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
+use Magento\Tax\Service\V1\Data\TaxClassKey;
+use Magento\Tax\Service\V1\Data\TaxClassKeyBuilder;
 use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 
@@ -47,13 +48,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var Config
      */
     protected $_config;
-
-    /**
-     * Tax calculator
-     *
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $_calculation;
 
     /**
      * Postcode cut to this length when creating search templates
@@ -142,12 +136,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $addressConverter;
 
     /**
+     * TaxClassKey builder
+     *
+     * @var TaxClassKeyBuilder
+     */
+    protected $taxClassKeyBuilder;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Config $taxConfig
-     * @param Calculation $calculation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -156,6 +156,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
+     * @param TaxClassKeyBuilder $taxClassKeyBuilder
      * @param TaxCalculationServiceInterface $taxCalculationService
      * @param AddressConverter $addressConverter
      */
@@ -165,7 +166,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Config $taxConfig,
-        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
@@ -174,6 +174,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
+        TaxClassKeyBuilder $taxClassKeyBuilder,
         TaxCalculationServiceInterface $taxCalculationService,
         AddressConverter $addressConverter
     ) {
@@ -182,7 +183,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
-        $this->_calculation = $calculation;
         $this->_storeManager = $storeManager;
         $this->_localeFormat = $localeFormat;
         $this->_attributeFactory = $attributeFactory;
@@ -191,6 +191,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_localeResolver = $localeResolver;
         $this->quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
+        $this->taxClassKeyBuilder = $taxClassKeyBuilder;
         $this->taxCalculationService = $taxCalculationService;
         $this->addressConverter = $addressConverter;
     }
@@ -474,36 +475,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Get all tax rates JSON for all product tax classes of specific store
-     *
-     * @param null|string|bool|int|Store $store
-     * @return string
-     * @deprecated
-     */
-    public function getAllRatesByProductClass($store = null)
-    {
-        return $this->_getAllRatesByProductClass($store);
-    }
-
-    /**
-     * Get all tax rates JSON for all product tax classes of specific store
-     *
-     * @param null|string|bool|int|Store $store
-     * @return string
-     * @deprecated
-     */
-    protected function _getAllRatesByProductClass($store = null)
-    {
-        $result = array();
-        $defaultRate = $this->_calculation->getDefaultRateRequest($store);
-        $rates = $this->_calculation->getRatesForAllProductTaxClasses($defaultRate);
-        foreach ($rates as $class => $rate) {
-            $result["value_{$class}"] = $rate;
-        }
-        return $this->_coreData->jsonEncode($result);
-    }
-
-    /**
      * Get unrounded product price
      *
      * @param   \Magento\Catalog\Model\Product $product
@@ -595,16 +566,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $item = $this->quoteDetailsItemBuilder->setQuantity(1)
                 ->setCode($product->getSku())
                 ->setShortDescription($product->getShortDescription())
-                ->setTaxClassId($product->getTaxClassId())
-                ->setTaxIncluded($priceIncludesTax)
+                ->setTaxClassKey(
+                    $this->taxClassKeyBuilder->setType(TaxClassKey::TYPE_ID)
+                        ->setValue($product->getTaxClassId())->create()
+                )->setTaxIncluded($priceIncludesTax)
                 ->setType('product')
                 ->setUnitPrice($price)
                 ->create();
             $quoteDetails = $this->quoteDetailsBuilder
                 ->setShippingAddress($shippingAddressDataObject)
                 ->setBillingAddress($billingAddressDataObject)
-                ->setCustomerTaxClassId($ctc)
-                ->setItems([$item])
+                ->setCustomerTaxClassKey(
+                    $this->taxClassKeyBuilder->setType(TaxClassKey::TYPE_ID)
+                        ->setValue($ctc)->create()
+                )->setItems([$item])
                 ->create();
 
             $storeId = null;
