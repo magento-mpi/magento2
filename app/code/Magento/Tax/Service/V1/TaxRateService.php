@@ -10,14 +10,14 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Model\Exception as ModelException;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Tax\Model\Calculation\Rate as RateModel;
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Model\Calculation\RateFactory;
-use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
-use Magento\Tax\Model\Calculation\Rate as RateModel;
 use Magento\Tax\Model\Calculation\RateRegistry;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\Resource\Calculation\Rate\Collection;
-use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 
 /**
@@ -139,7 +139,10 @@ class TaxRateService implements TaxRateServiceInterface
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($sortOrders as $field => $direction) {
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+                $collection->addOrder(
+                    $this->translateField($field),
+                    $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                );
             }
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());

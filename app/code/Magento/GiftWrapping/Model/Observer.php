@@ -83,6 +83,7 @@ class Observer
      * Process gift wrapping options on checkout proccess
      *
      * @param \Magento\Framework\Object $observer
+     * @throws \InvalidArgumentException
      * @return $this
      */
     public function checkoutProcessWrappingInfo($observer)
@@ -90,15 +91,16 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         $giftWrappingInfo = $request->getParam('giftwrapping');
 
-        if (is_array($giftWrappingInfo)) {
-            $quote = $observer->getEvent()->getQuote();
-            $giftOptionsInfo = $request->getParam('giftoptions');
-            foreach ($giftWrappingInfo as $entityId => $data) {
-                $info = array();
-                if (!is_array($giftOptionsInfo) || empty($giftOptionsInfo[$entityId]['type'])) {
-                    continue;
-                }
-                switch ($giftOptionsInfo[$entityId]['type']) {
+        if (!is_array($giftWrappingInfo)) {
+            return $this;
+        }
+        $quote = $observer->getEvent()->getQuote();
+        foreach ($giftWrappingInfo as $type => $wrappingEntities) {
+            if (!is_array($wrappingEntities)) {
+                throw new \InvalidArgumentException('Invalid entity by index ' . $type);
+            }
+            foreach ($wrappingEntities as $entityId => $data) {
+                switch ((string)$type) {
                     case 'quote':
                         $entity = $quote;
                         $this->_saveOrderInfo($entity, $data);
@@ -112,13 +114,19 @@ class Observer
                         $this->_saveOrderInfo($entity, $data);
                         break;
                     case 'quote_address_item':
+                        $giftOptionsInfo = $request->getParam('giftoptions');
+                        if (!is_array($giftOptionsInfo) || empty($giftOptionsInfo)) {
+                            throw new \InvalidArgumentException('Invalid "giftoptions" parameter');
+                        }
                         $entity = $quote->getAddressById(
-                            $giftOptionsInfo[$entityId]['address']
+                            $giftOptionsInfo[$type][$entityId]['address']
                         )->getItemById(
                             $entityId
                         );
                         $this->_saveItemInfo($entity, $data);
                         break;
+                    default:
+                        throw new \InvalidArgumentException('Invalid wrapping type:' . $type);
                 }
             }
         }
@@ -136,10 +144,9 @@ class Observer
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
         $request = $observer->getEvent()->getRequest();
         if (isset($request['giftwrapping'])) {
-            $info = array();
-            foreach ($request['giftwrapping'] as $entityId => $data) {
-                if (isset($data['type'])) {
-                    switch ($data['type']) {
+            foreach ($request['giftwrapping'] as $entityType => $entityData) {
+                foreach ($entityData as $entityId => $data) {
+                    switch ($entityType) {
                         case 'quote':
                             $entity = $quote;
                             $this->_saveOrderInfo($entity, $data);

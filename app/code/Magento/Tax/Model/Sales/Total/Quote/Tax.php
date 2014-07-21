@@ -16,6 +16,7 @@ use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as ItemDataObject;
+use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 
 /**
@@ -197,7 +198,12 @@ class Tax extends CommonTaxCollector
             $itemBuilder->setCode($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_CODE]);
             $itemBuilder->setType($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TYPE]);
             $itemBuilder->setQuantity($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_QUANTITY]);
-            $itemBuilder->setTaxClassId($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID]);
+            $itemBuilder->setTaxClassKey(
+                $itemBuilder->getTaxClassKeyBuilder()
+                    ->setType(TaxClassKey::TYPE_ID)
+                    ->setValue($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID])
+                    ->create()
+            );
             if ($useBaseCurrency) {
                 $unitPrice = $extraTaxable[self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE];
             } else {

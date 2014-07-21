@@ -16,6 +16,7 @@ use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as ItemDataObject;
+use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as ItemTaxDetails;
@@ -189,7 +190,12 @@ class CommonTaxCollector extends AbstractTotal
         }
         $itemBuilder->setCode($item->getTaxCalculationItemId());
         $itemBuilder->setQuantity($item->getQty());
-        $itemBuilder->setTaxClassId($item->getProduct()->getTaxClassId());
+        $itemBuilder->setTaxClassKey(
+            $itemBuilder->getTaxClassKeyBuilder()
+                ->setType(TaxClassKey::TYPE_ID)
+                ->setValue($item->getProduct()->getTaxClassId())
+                ->create()
+        );
 
         $itemBuilder->setTaxIncluded($priceIncludesTax);
         $itemBuilder->setType(self::ITEM_TYPE_PRODUCT);
@@ -241,7 +247,12 @@ class CommonTaxCollector extends AbstractTotal
             $itemBuilder->setCode($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_CODE]);
             $itemBuilder->setType($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TYPE]);
             $itemBuilder->setQuantity($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_QUANTITY]);
-            $itemBuilder->setTaxClassId($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID]);
+            $itemBuilder->setTaxClassKey(
+                $itemBuilder->getTaxClassKeyBuilder()
+                    ->setType(TaxClassKey::TYPE_ID)
+                    ->setValue($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID])
+                    ->create()
+            );
             if ($useBaseCurrency) {
                 $unitPrice = $extraTaxable[self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE];
             } else {
@@ -371,7 +382,12 @@ class CommonTaxCollector extends AbstractTotal
                     $itemBuilder->setDiscountAmount($address->getShippingDiscountAmount());
                 }
             }
-            $itemBuilder->setTaxClassId($this->_config->getShippingTaxClass($this->_store));
+            $itemBuilder->setTaxClassKey(
+                $itemBuilder->getTaxClassKeyBuilder()
+                    ->setType(TaxClassKey::TYPE_ID)
+                    ->setValue($this->_config->getShippingTaxClass($this->_store))
+                    ->create()
+            );
             $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($this->_store));
             return $itemBuilder->create();
         }
@@ -395,8 +411,12 @@ class CommonTaxCollector extends AbstractTotal
         $this->populateAddressData($this->quoteDetailsBuilder, $address);
 
         //Set customer tax class
-        $this->quoteDetailsBuilder->setCustomerTaxClassId($address->getQuote()->getCustomerTaxClassId());
-
+        $this->quoteDetailsBuilder->setCustomerTaxClassKey(
+            $this->quoteDetailsBuilder->getTaxClassKeyBuilder()
+                ->setType(TaxClassKey::TYPE_ID)
+                ->setValue($address->getQuote()->getCustomerTaxClassId())
+                ->create()
+        );
         $this->quoteDetailsBuilder->setItems($itemDataObjects);
 
         $quoteDetails = $this->quoteDetailsBuilder->create();
