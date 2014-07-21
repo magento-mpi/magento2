@@ -45,7 +45,7 @@ class RequiredFieldsTest extends Functional
         $productForm = $createProductPage->getProductForm();
         //Steps
         $manageProductsGrid->open();
-        $manageProductsGrid->getProductBlock()->addProduct('giftcard');
+        $manageProductsGrid->getGridPageActionBlock()->addProduct('giftcard');
         $productForm->fill($giftcard);
         $createProductPage->getFormAction()->save();
         //Verification

@@ -54,7 +54,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
     ) {
 
         $productGrid->open();
-        $productGrid->getProductBlock()->addProduct('simple');
+        $productGrid->getGridPageActionBlock()->addProduct('simple');
         $productBlockForm = $newProductPage->getForm();
 
         /**@var CatalogProductSimple $catalogProductSimple */

@@ -42,7 +42,7 @@ class LinksPurchasedSeparatelyTest extends Functional
     {
         $createProductPage = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage->open();
-        $createProductPage->getProductBlock()->addProduct('downloadable');
+        $createProductPage->getGridPageActionBlock()->addProduct('downloadable');
 
         $createProductPageNew = Factory::getPageFactory()->getCatalogProductNew();
         $productBlockForm = $createProductPageNew->getForm();

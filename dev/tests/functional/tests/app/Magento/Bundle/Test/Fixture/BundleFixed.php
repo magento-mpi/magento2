@@ -12,7 +12,6 @@ use Mtf\Factory\Factory;
 
 /**
  * Class BundleFixed
- * Fixture for Bundle fixed
  */
 class BundleFixed extends Bundle
 {
@@ -28,9 +27,7 @@ class BundleFixed extends Bundle
                 'price_from' => 110,
                 'price_to' => 120
             ),
-            'selection' => array(
-                'bundle_item_0' => 'assigned_product_0'
-            )
+            'selection' => array(0)
         );
         parent::_initData();
         $this->_data['fields'] = array_merge_recursive(
@@ -83,65 +80,37 @@ class BundleFixed extends Bundle
                 ),
                 'bundle_selections' => array(
                     'value' => array(
-                        'bundle_options' => [
-                            [
-                                'title' => array(
-                                    'value' => 'Drop-down Option'
-                                ),
-                                'type' => array(
-                                    'value' => 'Drop-down',
-                                    'input_value' => 'select'
-                                ),
-                                'required' => array(
-                                    'value' => 'Yes',
-                                    'input_value' => '1'
-                                ),
+                        'bundle_options' => array(
+                            array(
+                                'title' => 'Drop-down Option',
+                                'type' => 'Drop-down',
+                                'required' => 'Yes',
                                 'assigned_products' => array(
-                                    [
+                                    array(
                                         'search_data' => array(
                                             'name' => '%item1_simple1::getName%',
                                         ),
                                         'data' => array(
-                                            'selection_price_value' => array(
-                                                'value' => 10
-                                            ),
-                                            'selection_price_type' => array(
-                                                'value' => 'Fixed',
-                                                'input' => 'select',
-                                                'input_value' => 0
-                                            ),
-                                            'selection_qty' => array(
-                                                'value' => 1
-                                            ),
-                                            'product_id' => array(
-                                                'value' => '%item1_simple1::getProductId%'
-                                            )
+                                            'selection_price_value' => 10,
+                                            'selection_price_type' => 'Fixed',
+                                            'selection_qty' => 1,
+                                            'product_id' => '%item1_simple1::getProductId%'
                                         )
-                                    ],
-                                    [
+                                    ),
+                                    array(
                                         'search_data' => array(
                                             'name' => '%item1_virtual2::getName%',
                                         ),
                                         'data' => array(
-                                            'selection_price_value' => array(
-                                                'value' => 20
-                                            ),
-                                            'selection_price_type' => array(
-                                                'value' => 'Percent',
-                                                'input' => 'select',
-                                                'input_value' => 1
-                                            ),
-                                            'selection_qty' => array(
-                                                'value' => 1
-                                            ),
-                                            'product_id' => array(
-                                                'value' => '%item1_virtual2::getProductId%'
-                                            )
+                                            'selection_price_value' => 20,
+                                            'selection_price_type' => 'Percent',
+                                            'selection_qty' => 1,
+                                            'product_id' => '%item1_virtual2::getProductId%'
                                         )
-                                    ]
+                                    )
                                 )
-                            ]
-                        ]
+                            )
+                        )
                     ),
                     'group' => static::GROUP
                 )

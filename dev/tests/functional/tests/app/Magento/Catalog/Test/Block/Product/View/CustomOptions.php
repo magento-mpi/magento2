@@ -88,7 +88,7 @@ class CustomOptions extends Form
      *
      * @var string
      */
-    protected $selectByTitleLocator = '//div[label[span[contains(text(),"%s")]]]';
+    protected $selectByTitleLocator = '//*[*[@class="product-options-wrapper"]//span[text()="%s"]]//select';
 
     /**
      * Bundle field CSS locator

@@ -44,7 +44,7 @@ class AssertProductAttributeAbsenceInVariationsSearch extends AbstractConstraint
         CatalogProductNew $newProductPage
     ) {
         $productGrid->open();
-        $productGrid->getProductBlock()->addProduct('simple');
+        $productGrid->getGridPageActionBlock()->addProduct('simple');
         $productEdit->getForm()->openVariationsTab();
         \PHPUnit_Framework_Assert::assertFalse(
             $newProductPage->getForm()->checkAttributeInVariationsSearchAttributeForm($productAttribute),

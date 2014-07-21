@@ -32,7 +32,7 @@ class Option extends Form
      *
      * @var string
      */
-    protected $selectionBlock = 'tr[id^="bundle_selection_row_"]:nth-child(%d)';
+    protected $selectionBlock = './/tr[contains(@id, "bundle_selection_row_")][not(@style="display: none;")][%d]';
 
     /**
      * 'Add Products to Option' button
@@ -78,7 +78,7 @@ class Option extends Form
     {
         return $this->blockFactory->create(
             'Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection',
-            ['element' => $this->_rootElement->find(sprintf($this->selectionBlock, $rowIndex))]
+            ['element' => $this->_rootElement->find(sprintf($this->selectionBlock, $rowIndex), Locator::SELECTOR_XPATH)]
         );
     }
 
