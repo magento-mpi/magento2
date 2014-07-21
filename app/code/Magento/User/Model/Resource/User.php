@@ -7,8 +7,8 @@
  */
 namespace Magento\User\Model\Resource;
 
-use Magento\User\Model\Acl\Role\Group as RoleGroup;
-use Magento\User\Model\Acl\Role\User as RoleUser;
+use Magento\Authorization\Model\Acl\Role\Group as RoleGroup;
+use Magento\Authorization\Model\Acl\Role\User as RoleUser;
 use Magento\User\Model\User as ModelUser;
 
 /**
@@ -24,7 +24,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Role model
      *
-     * @var \Magento\User\Model\RoleFactory
+     * @var \Magento\Authorization\Model\RoleFactory
      */
     protected $_roleFactory;
 
@@ -38,13 +38,13 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Acl\CacheInterface $aclCache
-     * @param \Magento\User\Model\RoleFactory $roleFactory
+     * @param \Magento\Authorization\Model\RoleFactory $roleFactory
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Acl\CacheInterface $aclCache,
-        \Magento\User\Model\RoleFactory $roleFactory,
+        \Magento\Authorization\Model\RoleFactory $roleFactory,
         \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
@@ -197,7 +197,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _createUserRole($parentId, ModelUser $user)
     {
         if ($parentId > 0) {
-            /** @var \Magento\User\Model\Role $parentRole */
+            /** @var \Magento\Authorization\Model\Role $parentRole */
             $parentRole = $this->_roleFactory->create()->load($parentId);
         } else {
             $role = new \Magento\Framework\Object();

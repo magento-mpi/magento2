@@ -8,7 +8,7 @@
  */
 namespace Magento\User\Controller\Adminhtml\User\Role;
 
-use \Magento\User\Model\Acl\Role\Group as RoleGroup;
+use Magento\Authorization\Model\Acl\Role\Group as RoleGroup;
 
 class SaveRole extends \Magento\User\Controller\Adminhtml\User\Role
 {

@@ -13,13 +13,14 @@ namespace Magento\User\Model;
 class RoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\User\Model\Role
+     * @var \Magento\Authorization\Model\Role
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Authorization\Model\Role');
     }
 
     public function testGetUsersCollection()

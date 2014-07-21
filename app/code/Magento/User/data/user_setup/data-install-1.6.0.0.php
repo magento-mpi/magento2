@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-use Magento\User\Model\Acl\Role\Group as RoleGroup;
+use Magento\Authorization\Model\Acl\Role\Group as RoleGroup;
 
 /**
  * Save administrators group role and rules
  */
 
-/** @var \Magento\User\Model\Resource\Setup $this */
+/** @var \Magento\Authorization\Model\Resource\Setup $this */
 
 $roleCollection = $this->createRoleCollection()->addFieldToFilter(
     'parent_id',
@@ -66,7 +66,7 @@ if ($rulesCollection->count() == 0) {
         )
     )->save();
 } else {
-    /** @var \Magento\User\Model\Rules $rule */
+    /** @var \Magento\Authorization\Model\Rules $rule */
     foreach ($rulesCollection as $rule) {
         $rule->setData('resource_id', 'Magento_Adminhtml::all')->save();
     }

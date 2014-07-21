@@ -13,14 +13,14 @@ namespace Magento\User\Model;
 class RulesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\User\Model\Rules
+     * @var \Magento\Authorization\Model\Rules
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\User\Model\Rules'
+            'Magento\Authorization\Model\Rules'
         );
     }
 
@@ -51,7 +51,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\User\Model\Rules::saveRel
+     * @covers \Magento\Authorization\Model\Rules::saveRel
      * @magentoDbIsolation enabled
      */
     public function testSetAllowForAllResources()
