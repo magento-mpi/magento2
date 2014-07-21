@@ -30,6 +30,8 @@ abstract class AbstractCookieMetaData
     }
 
     /**
+     * Get the domain for the cookie
+     *
      * @return String|null
      */
     public function getDomain()
@@ -48,6 +50,8 @@ abstract class AbstractCookieMetaData
     }
 
     /**
+     * Get the path of the cookie
+     *
      * @return String|null
      */
     public function getPath()
