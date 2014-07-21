@@ -32,6 +32,9 @@
 @price-size: 22px;
 @price-size-desktop: 36px;
 
+@button-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 1), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
+@button-shadow-active: inset 0px 1px 0px 0px fade(@border-color-base, 80), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
+
 body {
     .css(background-color, @page-bg-color);
 }
@@ -42,7 +45,7 @@ body {
 .page-header {
     .css(background-color, @header-bg-color);
     border-bottom: 1px solid @border-color-base;
-    margin-bottom: 20px;
+    margin-bottom: @indent-base;
     .panel.wrapper {
         .css(background-color, @header-panel-bg-color);
         .css(color, @header-panel-text-color);
