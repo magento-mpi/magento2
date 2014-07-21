@@ -25,6 +25,8 @@ use Magento\Framework\Exception\InputException;
 
 /**
  * Class CustomerAccountServiceTest
+ * 
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CustomerAccountServiceTest extends WebapiAbstract
 {
@@ -729,6 +731,56 @@ class CustomerAccountServiceTest extends WebapiAbstract
         //Verify if the customer is updated
         $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $this->assertEquals($lastName . "Updated", $customerDetails->getCustomer()->getLastname());
+    }
+
+    /**
+     * Verify expected behavior when the website id is not set
+     */
+    public function testUpdateCustomerNoWebsiteId()
+    {
+        $customerData = $this->_createSampleCustomer();
+        $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
+        $lastName = $customerDetails->getCustomer()->getLastname();
+
+        $updatedCustomer = $this->customerBuilder->populate($customerDetails->getCustomer())->setLastname(
+            $lastName . "Updated"
+        )->create();
+
+        $updatedCustomerDetails = $this->customerDetailsBuilder->populate($customerDetails)->setCustomer(
+            $updatedCustomer
+        )->setAddresses($customerDetails->getAddresses())->create();
+
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'UpdateCustomer'
+            ]
+        ];
+        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
+        unset($customerDetailsAsArray['customer']['website_id']);
+        $requestData = ['customerDetails' => $customerDetailsAsArray];
+
+        $expectedMessage = '"Associate to Website" is a required value.';
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception.");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_INTERNAL_ERROR, $e->getCode());
+        }
     }
 
     public function testUpdateCustomerException()
