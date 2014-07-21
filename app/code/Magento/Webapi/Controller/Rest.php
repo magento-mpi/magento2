@@ -8,7 +8,7 @@
 namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Service\Data\AbstractObject;
 use Magento\Framework\Service\Data\Eav\AbstractObject as EavAbstractObject;
@@ -58,8 +58,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     /** @var  \Magento\Framework\Oauth\Helper\Request */
     protected $_oauthHelper;
 
-    /** @var AuthorizationService */
-    protected $_authorizationService;
+    /** @var AuthorizationInterface */
+    protected $_authorization;
 
     /** @var ServiceArgsSerializer */
     protected $_serializer;
@@ -96,7 +96,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\Oauth\OauthInterface $oauthService
      * @param \Magento\Framework\Oauth\Helper\Request $oauthHelper
-     * @param AuthorizationService $authorizationService
+     * @param AuthorizationInterface $authorization
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
      * @param PathProcessor $pathProcessor
@@ -116,7 +116,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Oauth\OauthInterface $oauthService,
         \Magento\Framework\Oauth\Helper\Request $oauthHelper,
-        AuthorizationService $authorizationService,
+        AuthorizationInterface $authorization,
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,
         PathProcessor $pathProcessor,
@@ -132,7 +132,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->_layout = $layout;
         $this->_oauthService = $oauthService;
         $this->_oauthHelper = $oauthHelper;
-        $this->_authorizationService = $authorizationService;
+        $this->_authorization = $authorization;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
         $this->_pathProcessor = $pathProcessor;
@@ -305,10 +305,25 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         }
 
         $route = $this->_getCurrentRoute();
-
-        if (!$this->_authorizationService->isAllowed($route->getAclResources(), $userIdentifier)) {
+        if (!$this->isAllowed($route->getAclResources())) {
             $params = ['resources' => implode(', ', $route->getAclResources())];
             throw new AuthorizationException(AuthorizationException::NOT_AUTHORIZED, $params);
         }
+    }
+
+    /**
+     * Check if all ACL resources are allowed to be accessed by current API user.
+     *
+     * @param string[] $aclResources
+     * @return bool
+     */
+    protected function isAllowed($aclResources)
+    {
+        foreach ($aclResources as $resource) {
+            if (!$this->_authorization->isAllowed($resource)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -39,18 +39,6 @@ interface AuthorizationV1Interface
     public function grantAllPermissions(UserIdentifier $userIdentifier);
 
     /**
-     * Check if the user has permission to access the requested resources.
-     *
-     * Access is prohibited if there is a lack of permissions to any of the requested resources.
-     *
-     * @param string|string[] $resources Single resource or a list of resources
-     * @param UserIdentifier|null $userIdentifier Context of current user is used by default
-     * @return bool
-     * @throws NoSuchEntityException
-     */
-    public function isAllowed($resources, UserIdentifier $userIdentifier = null);
-
-    /**
      * Get a list of resources available to the specified user.
      *
      * @param UserIdentifier $userIdentifier

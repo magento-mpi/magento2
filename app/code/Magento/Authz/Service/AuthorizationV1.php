@@ -107,19 +107,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * {@inheritdoc}
      */
-    public function isAllowed($resources, UserIdentifier $userIdentifier = null)
-    {
-        $resources = is_array($resources) ? $resources : [$resources];
-        $userIdentifier = $userIdentifier ? $userIdentifier : $this->_userIdentifier;
-        if ($this->_isAnonymousOrSelfAllowed($resources, $userIdentifier)) {
-            return true;
-        }
-        return $this->_isUserWithRoleAllowed($resources, $userIdentifier);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function grantPermissions(UserIdentifier $userIdentifier, array $resources)
     {
         try {
