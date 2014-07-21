@@ -26,7 +26,7 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     public function __construct(Context $context, \Magento\Captcha\Helper\Data $captchaHelper)
     {
-        $this->captchaHelper;
+        $this->captchaHelper = $captchaHelper;
         parent::__construct($context);
     }
 

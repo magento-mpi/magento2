@@ -8,6 +8,8 @@
  */
 namespace Magento\Tax\Controller\Adminhtml\Rate;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class Save extends \Magento\Tax\Controller\Adminhtml\Rate
 {
     /**
@@ -21,21 +23,25 @@ class Save extends \Magento\Tax\Controller\Adminhtml\Rate
         if ($ratePost) {
             $rateId = $this->getRequest()->getParam('tax_calculation_rate_id');
             if ($rateId) {
-                $rateModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rate')->load($rateId);
-                if (!$rateModel->getId()) {
+                try {
+                    $this->_taxRateService->getTaxRate($rateId);
+                } catch (NoSuchEntityException $e) {
                     unset($ratePost['tax_calculation_rate_id']);
                 }
             }
 
-            $rateModel = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->setData($ratePost);
-
             try {
-                $rateModel->save();
+                $taxData = $this->populateTaxRateData($ratePost);
+                if (isset($ratePost['tax_calculation_rate_id'])) {
+                    $this->_taxRateService->updateTaxRate($taxData);
+                } else {
+                    $this->_taxRateService->createTaxRate($taxData);
+                }
 
                 $this->messageManager->addSuccess(__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 return true;
-            } catch (\Magento\Framework\Model\Exception $e) {
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($ratePost);
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {

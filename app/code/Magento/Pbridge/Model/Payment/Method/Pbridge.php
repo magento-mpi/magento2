@@ -501,8 +501,10 @@ class Pbridge extends AbstractMethod
 
         if ($authTransactionId = $payment->getParentTransactionId()) {
             $request = $this->_getApiRequest();
-            $request->setData('transaction_id', $authTransactionId);
-
+            $request->addData([
+                'transaction_id' => $authTransactionId,
+                'amount' => $payment->getOrder()->getBaseTotalDue()
+            ]);
             $this->_getApi()->doVoid($request);
         } else {
             throw new Exception(__('You need an authorization transaction to void.'));

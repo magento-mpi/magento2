@@ -322,7 +322,7 @@ AddBySku.prototype = {
      */
     configure : function (id, sku)
     {
-        var productRow = $('sku_errors_table').select('div#sku_' + sku)[0];
+        var productRow = $('sku_errors_table').select('div[id=sku_' + sku + ']')[0];
         var noticeElement = productRow.select('.notice');
         var productQtyElement = productRow.up('tr').select('input[name=qty]')[0];
 

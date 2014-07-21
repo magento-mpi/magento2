@@ -24,7 +24,7 @@ class ImportPost extends \Magento\Tax\Controller\Adminhtml\Rate
                 $importHandler->importFromCsvFile($this->getRequest()->getFiles('import_rates_file'));
 
                 $this->messageManager->addSuccess(__('The tax rate has been imported.'));
-            } catch (\Magento\Framework\Model\Exception $e) {
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Invalid file upload attempt'));
