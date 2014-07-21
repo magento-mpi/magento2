@@ -102,6 +102,13 @@ class ProductForm extends FormTabs
     protected $variationsTab = '#product_info_tabs_super_config_content .title';
 
     /**
+     * Custom Tab locator
+     *
+     * @var string
+     */
+    protected $customTab = './/*/a[contains(@id,"product_info_tabs_%s")]';
+
+    /**
      * Fill the product form
      *
      * @param FixtureInterface $fixture
@@ -368,7 +375,6 @@ class ProductForm extends FormTabs
         )->isExistAttributeInSearchResult($productAttribute);
     }
 
-
     /**
      * Open Variations tab on Product form
      *
@@ -379,5 +385,30 @@ class ProductForm extends FormTabs
         if (!$this->_rootElement->find($this->variationsAttributeSearch, Locator::SELECTOR_CSS)->isVisible()) {
             $this->_rootElement->find($this->variationsTab, Locator::SELECTOR_CSS)->click();
         }
+    }
+
+    /**
+     * Check tab visibility on Product form
+     *
+     * @param string $tabName
+     * @return bool
+     */
+    public function isTabVisible($tabName)
+    {
+        $tabName = strtolower($tabName);
+
+        return $this->_rootElement->find(sprintf($this->customTab, $tabName), Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Open custom tab on Product form
+     *
+     * @param string $tabName
+     * @return void
+     */
+    public function openCustomTab($tabName)
+    {
+        $tabName = strtolower($tabName);
+        $this->_rootElement->find(sprintf($this->customTab, $tabName), Locator::SELECTOR_XPATH)->click();
     }
 }

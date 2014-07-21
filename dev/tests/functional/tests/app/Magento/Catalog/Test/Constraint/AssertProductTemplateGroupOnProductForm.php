@@ -18,10 +18,11 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
- * Class AssertProductTemplateOnProductForm
- * Check Attribute Set and Product Attribute on Product form
+ * Class AssertProductTemplateGroupOnProductForm
+ * Check that created product template displays in product template suggest container dropdown and
+ * can be used for new created product
  */
-class AssertProductTemplateOnProductForm extends AbstractConstraint
+class AssertProductTemplateGroupOnProductForm extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -39,9 +40,8 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
      * @param CatalogProductEdit $productEdit
      * @param CatalogProductIndex $productGrid
      * @param CatalogAttributeSet $attributeSet
-     * @param CatalogAttributeSet $attributeSetOriginal
      * @param CatalogProductNew $newProductPage
-     * @param CatalogProductAttribute $productAttribute
+     * @param CatalogProductAttribute $productAttributeOriginal
      * @return void
      */
     public function processAssert
@@ -51,8 +51,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
         CatalogProductIndex $productGrid,
         CatalogAttributeSet $attributeSet,
         CatalogProductNew $newProductPage,
-        CatalogProductAttribute $productAttribute,
-        CatalogAttributeSet $attributeSetOriginal = null
+        CatalogProductAttribute $productAttributeOriginal
     ) {
 
         $productGrid->open();
@@ -70,35 +69,26 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
             ]
         );
         $productBlockForm->fillProduct($productSimple);
-        $newProductPage->getFormAction()->save();
 
-        $formData = $productEdit->getForm()->getData($productSimple);
-        $formAttributeSet = $formData['attribute_set_id'];
-        \PHPUnit_Framework_Assert::assertEquals(
-            $attributeSet->getAttributeSetName(),
-            $formAttributeSet,
-            'Attribute Set not found on Product form.'
-            . "\nExpected: " . $attributeSet->getAttributeSetName()
-            . "\nActual: " . $formAttributeSet
+        \PHPUnit_Framework_Assert::assertTrue(
+            $productEdit->getForm()->isTabVisible($attributeSet->getGroup()),
+            "Product Group is absent on Product form tabs."
         );
 
-        if ($attributeSetOriginal === null) {
-            $productEdit->getForm()->openTab('product-details');
-
-            \PHPUnit_Framework_Assert::assertTrue(
-                $productEdit->getForm()->checkAttributeLabel($productAttribute),
-                "Product Attribute is absent on Product form."
-            );
-        }
+        $productEdit->getForm()->openCustomTab($attributeSet->getGroup());
+        \PHPUnit_Framework_Assert::assertTrue(
+            $productEdit->getForm()->checkAttributeLabel($productAttributeOriginal),
+            "Product Attribute is absent on Product form."
+        );
     }
 
     /**
-     * Text of Product Attribute and Attribute Set are present on the Product form.
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'Product Attribute and Attribute Set are present on the Product form.';
+        return 'Product Group and Product Attribute are present on the Product form.';
     }
 }
