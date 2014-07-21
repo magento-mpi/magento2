@@ -7,6 +7,8 @@
  */
 namespace Magento\GiftCard\Model\Source;
 
+use Magento\Framework\DB\Ddl\Table;
+
 class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
@@ -84,16 +86,20 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      *
      * @return array
      */
-    public function getFlatColums()
+    public function getFlatColumns()
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
-        $column = array('unsigned' => true, 'default' => null, 'extra' => null);
 
-        $column['type'] = \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT;
-        $column['nullable'] = true;
-        $column['comment'] = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
-
-        return array($attributeCode => $column);
+        return [
+            $attributeCode => [
+                'unsigned' => true,
+                'default' => null,
+                'extra' => null,
+                'type' => Table::TYPE_SMALLINT,
+                'nullable' => true,
+                'comment' => 'Enterprise Giftcard Type ' . $attributeCode . ' column',
+            ],
+        ];
     }
 
     /**

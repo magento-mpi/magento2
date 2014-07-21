@@ -15,20 +15,20 @@
     <?php echo $this->getChildHtml('list_before')?>
 
     <?php if (count($this->getInvitationCollection())): ?>
-        <div class="wrapper table invitations">
-            <table class="data table invitations" id="invitations-list-table">
+        <div class="table-wrapper invitations">
+            <table class="data table table-invitations" id="invitations-list-table">
                 <caption class="table caption"><?php echo __('My Invitations'); ?></caption>
                 <thead>
                     <tr>
-                        <th class="col email"><?php echo __('Email'); ?></th>
-                        <th class="col status"><?php echo __('Status'); ?></th>
+                        <th scope="col" class="col email"><?php echo __('Email'); ?></th>
+                        <th scope="col" class="col status"><?php echo __('Status'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($this->getInvitationCollection() as $invitation): ?>
                     <tr>
-                        <td class="col email"><?php echo $this->escapeHtml($invitation->getEmail()); ?></td>
-                        <td class="col status"> <?php echo $this->helper('Magento\Invitation\Helper\Data')->getInvitationStatusText($invitation);?></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Email')); ?>" class="col email"><?php echo $this->escapeHtml($invitation->getEmail()); ?></td>
+                        <td data-th="<?php echo $this->escapeHtml(__('Status')); ?>" class="col status"> <?php echo $this->helper('Magento\Invitation\Helper\Data')->getInvitationStatusText($invitation);?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
