@@ -146,10 +146,6 @@ class Save extends AbstractConfig
     public function execute()
     {
         try {
-            if (false == $this->isSectionAllowed($this->getRequest()->getParam('section'))) {
-                throw new \Exception(__('This section is not allowed.'));
-            }
-
             // custom save logic
             $this->_saveSection();
             $section = $this->getRequest()->getParam('section');
