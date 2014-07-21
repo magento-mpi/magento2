@@ -53,7 +53,7 @@ function getTopMarkdownSection($contents)
     return $version . "\n" . $body;
 }
 
-/*
+/**
  * Get Magento user name for public GitHub repository
  *
  * @return string
@@ -63,7 +63,7 @@ function getGitUsername()
     return 'mage2-team';
 }
 
-/*
+/**
  * Get Magento user e-mail for public GitHub repository
  *
  * @return string
