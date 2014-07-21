@@ -201,6 +201,12 @@ class GiftCardProduct extends CatalogProductSimple
         'group' => 'giftcard',
     ];
 
+    protected $price = [
+        'attribute_code' => 'price',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\GiftCard\Test\Fixture\GiftCardProduct\Price',
+    ];
+
     public function getAllowMessage()
     {
         return $this->getData('allow_message');

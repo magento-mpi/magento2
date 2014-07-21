@@ -25,6 +25,12 @@ class CatalogProductCompare extends FrontendPage
             'locator' => '.column.main',
             'strategy' => 'css selector',
         ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '.page.messages .messages',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -35,5 +41,15 @@ class CatalogProductCompare extends FrontendPage
     public function getCompareProductsBlock()
     {
         return $this->getBlockInstance('compareProductsBlock');
+    }
+
+    /**
+     * Get message block
+     *
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }

@@ -40,11 +40,18 @@ class ListCompare extends Block
     protected $nameSelector = './/*[contains(@class, "product name")]/a';
 
     /**
+     * Selector for search product via name
+     *
+     * @var string
+     */
+    protected $productName = '[normalize-space(text()) = "%s"]';
+
+    /**
      * Selector by price product
      *
      * @var string
      */
-    protected $priceSelector = './/span[@class="price"]/span';
+    protected $priceSelector = './/div[contains(@class,"price-box")]';
 
     /**
      * Selector by sku product
@@ -58,7 +65,7 @@ class ListCompare extends Block
      *
      * @var string
      */
-    protected $removeButton = 'a.action.delete';
+    protected $removeButton = './/thead//td[%d]//a[contains(@class,"action delete")]';
 
     /**
      * Selector for empty message
@@ -75,14 +82,20 @@ class ListCompare extends Block
      * @param string $currency
      * @return string
      */
-    public function getProductInfo($index, $attributeKey, $currency = '$')
+    public function getProductInfo($index, $attributeKey, $currency = ' $')
     {
         $infoBlock = $this->getCompareProductInfo($index);
         if ($attributeKey == 'price') {
-            if (!$infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->isVisible()) {
-                $this->priceSelector = './/span[@class="price"]';
+            $price = $infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->getText();
+            preg_match_all('`([a-z]+).*?([\d\.]+)`i', $price, $prices);
+            if (!empty($prices[0])) {
+                $resultPrice = [];
+                foreach ($prices[1] as $key => $value) {
+                    $resultPrice['price_' . lcfirst($value)] = $prices[2][$key];
+                }
+                return $resultPrice;
             }
-            return trim($infoBlock->find($this->priceSelector, Locator::SELECTOR_XPATH)->getText(), $currency);
+            return trim($price, $currency);
         } else {
             return $infoBlock->find($this->nameSelector, Locator::SELECTOR_XPATH)->getText();
         }
@@ -128,20 +141,62 @@ class ListCompare extends Block
     /**
      * Remove product from compare product list
      *
+     * @param int $index [optional]
      * @return void
      */
-    public function removeProduct()
+    public function removeProduct($index = 1)
     {
-        $this->_rootElement->find($this->removeButton)->click();
+        $this->_rootElement->find(sprintf($this->removeButton, $index), Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
+     * Remove all products from compare product list
+     *
+     * @return void
+     */
+    public function removeAllProducts()
+    {
+        while ($this->isProductVisible()) {
+            $this->removeProduct();
+            $this->reinitRootElement();
+        }
+    }
+
+    /**
+     * Visible product in compare product list
+     *
+     * @param int $index [optional]
+     * @return bool
+     */
+    public function isProductVisible($index = 1)
+    {
+        return $this->_rootElement->find(sprintf($this->removeButton, $index), Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Verify product is visible in compare product block
+     *
+     * @param string $productName
+     * @return bool
+     */
+    public function isProductVisibleInCompareBlock($productName = '')
+    {
+        $nameSelector = $this->nameSelector . sprintf($this->productName, $productName);
+        return $this->_rootElement->find($nameSelector, Locator::SELECTOR_XPATH)->isVisible();
     }
 
     /**
      * Get empty message on compare product block
+     * Returns message absence of compared products or false, if the message isn't visible
      *
-     * @return string
+     * @return string|bool
      */
     public function getEmptyMessage()
     {
-        return $this->_rootElement->find($this->isEmpty)->getText();
+        $isEmpty = $this->_rootElement->find($this->isEmpty);
+        if ($isEmpty->isVisible()) {
+            return $isEmpty->getText();
+        }
+        return false;
     }
 }

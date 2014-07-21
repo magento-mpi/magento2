@@ -363,6 +363,27 @@
     <assertProductCompareSuccessAddMessage module="Magento_Catalog">
         <severeness>high</severeness>
     </assertProductCompareSuccessAddMessage>
+    <assertProductCompareSuccessRemoveMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductCompareSuccessRemoveMessage>
+    <assertProductCompareSuccessRemoveAllProductsMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductCompareSuccessRemoveAllProductsMessage>
+    <assertProductCompareItemsLinkIsAbsent module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareItemsLinkIsAbsent>
+    <assertProductCompareRemoveLastProductMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareRemoveLastProductMessage>
+    <assertProductIsNotVisibleInCompareBlock module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductIsNotVisibleInCompareBlock>
+    <assertProductCompareSuccessRemoveMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareSuccessRemoveMessage>
+    <assertProductIsNotVisibleInComparePage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductIsNotVisibleInComparePage>
     <assertProductAttributeAbsenceInTemplateGroups module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductAttributeAbsenceInTemplateGroups>

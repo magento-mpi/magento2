@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
@@ -32,30 +33,41 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountIndex $customerAccountIndex
+     * @param int $countProducts [optional]
+     * @param FixtureInterface $product [optional]
      * @return void
      */
-    public function processAssert(CmsIndex $cmsIndex, CustomerAccountIndex $customerAccountIndex)
-    {
+    public function processAssert(
+        CmsIndex $cmsIndex,
+        CustomerAccountIndex $customerAccountIndex,
+        $countProducts = 0,
+        FixtureInterface $product = null
+    ) {
         $cmsIndex->open();
         $cmsIndex->getLinksBlock()->openLink("My Account");
-        $actualMessage = $customerAccountIndex->getCompareProductsBlock()->getEmptyMessage();
+        $compareBlock = $customerAccountIndex->getCompareProductsBlock();
 
-        \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
-            $actualMessage,
-            'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
-            . "\nActual: " . $actualMessage
-        );
+        if (($countProducts > 1) && ($product !== null)) {
+            \PHPUnit_Framework_Assert::assertFalse(
+                $compareBlock->isProductVisibleInCompareBlock($product->getName()),
+                'The product displays on Compare Products block on my account page.'
+            );
+        } else {
+            \PHPUnit_Framework_Assert::assertEquals(
+                self::SUCCESS_MESSAGE,
+                $compareBlock->getEmptyMessage(),
+                'The product displays on Compare Products block on my account page.'
+            );
+        }
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'The message appeared on Compare Products block on my account page.';
+        return 'The message appears on Compare Products block on my account page.';
     }
 }
