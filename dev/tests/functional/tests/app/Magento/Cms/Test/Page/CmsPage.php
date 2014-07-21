@@ -40,7 +40,7 @@ class CmsPage extends \Mtf\Page\Page
      */
     public function init(FixtureInterface $fixture)
     {
-        $this->_url = $_ENV['app_frontend_url'] . $fixture->getIdentifier() . '/?___store=default';
+        $this->_url = $_ENV['app_frontend_url'] . $fixture->getIdentifier();
     }
 
     /**

@@ -8,15 +8,16 @@
 
 namespace Magento\Core\Test\Constraint;
 
-use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 
 /**
- * Class AssertSystemVariableSuccessDeleteMessage
+ * Class AssertCustomVariableSuccessSaveMessage
+ * Check success delete message is correct after Custom System Variable deleted
  */
-class AssertSystemVariableSuccessDeleteMessage extends AbstractConstraint
+class AssertCustomVariableSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'You deleted the custom variable.';
+    const SUCCESS_SAVE_MESSAGE = 'You saved the custom variable.';
 
     /**
      * Constraint severeness
@@ -35,10 +36,10 @@ class AssertSystemVariableSuccessDeleteMessage extends AbstractConstraint
     {
         $actualMessage = $systemVariableIndexPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_DELETE_MESSAGE,
+            self::SUCCESS_SAVE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
+            . "\nExpected: " . self::SUCCESS_SAVE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }
@@ -50,6 +51,6 @@ class AssertSystemVariableSuccessDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Custom System Variable success delete message is correct.';
+        return 'Custom Variable success save message is correct.';
     }
 }

@@ -13,9 +13,9 @@ use Magento\Core\Test\Fixture\SystemVariable;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertSystemVariableNotInCmsPageForm
+ * Class AssertCustomVariableNotInCmsPageForm
  */
-class AssertSystemVariableNotInCmsPageForm extends AbstractConstraint
+class AssertCustomVariableNotInCmsPageForm extends AbstractConstraint
 {
     /**
      * Constraint severeness

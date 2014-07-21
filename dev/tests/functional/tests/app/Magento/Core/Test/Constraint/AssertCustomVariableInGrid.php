@@ -13,11 +13,11 @@ use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertSystemVariableInGrid
+ * Class AssertCustomVariableInGrid
  * Check that created custom variable is displayed on backend in custom variable grid and has correct data
  * according to dataset
  */
-class AssertSystemVariableInGrid extends AbstractConstraint
+class AssertCustomVariableInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness

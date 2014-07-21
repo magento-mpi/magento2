@@ -29,7 +29,7 @@
     <block>
         <name>footerBlock</name>
         <class>Magento\Theme\Test\Block\Html\Footer</class>
-        <locator>footer.page-footer</locator>
+        <locator>footer.page.footer</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
