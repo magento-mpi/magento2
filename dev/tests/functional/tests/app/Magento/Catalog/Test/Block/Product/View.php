@@ -64,7 +64,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productName = '.page-title .title';
+    protected $productName = '.page-title.product h1.title .base';
 
     /**
      * Product sku element
@@ -141,7 +141,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $priceBlockSelector = '//*[contains(@class,"price-box price-final_price")]';
+    protected $priceBlock = '.product-info-main .price-box';
 
     /**
      * 'Add to Compare' button
@@ -169,9 +169,7 @@ class View extends Block
      */
     protected function getPriceBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find($this->priceBlockSelector, Locator::SELECTOR_XPATH)
-        );
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice($this->_rootElement->find($this->priceBlock));
     }
 
     /**

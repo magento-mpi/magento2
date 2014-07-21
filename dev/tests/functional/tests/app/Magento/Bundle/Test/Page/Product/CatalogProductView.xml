@@ -11,7 +11,7 @@
     <block>
         <name>bundleViewBlock</name>
         <class>Magento\Bundle\Test\Block\Catalog\Product\View</class>
-        <locator>#maincontent</locator>
+        <locator>.bundle-options-container</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

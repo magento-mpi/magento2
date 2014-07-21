@@ -46,7 +46,7 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
      * @param FixtureInterface $product
-     * @param CatalogCategory $category
+     * @param CatalogCategory|null $category
      * @return void
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -55,10 +55,9 @@ class AssertProductVisibleInCategory extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
         FixtureInterface $product,
-        CatalogCategory $category
+        CatalogCategory $category = null
     ) {
         $categoryName = $product->hasData('category_ids') ? $product->getCategoryIds()[0] : $category->getName();
-
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
 

@@ -69,7 +69,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
                 ],
             ]
         );
-        $productBlockForm->fillProduct($productSimple);
+        $productBlockForm->fill($productSimple);
         $newProductPage->getFormAction()->save();
 
         $formData = $productEdit->getForm()->getData($productSimple);

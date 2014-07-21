@@ -14,6 +14,10 @@
         <strategy>css selector</strategy>
         <wrapper>product</wrapper>
         <fields>
+            <status>
+                <selector>.product-actions .switcher</selector>
+                <class>Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\ProductOnlineSwitcher</class>
+            </status>
             <attribute_set_id>
                 <selector>#product-template-suggest-container</selector>
                 <class>Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\AttributeSet</class>
@@ -34,10 +38,10 @@
             </category_ids>
             <quantity_and_stock_status composite="1">
                 <qty>
-                    <selector>#qty</selector>
+                    <selector>[name="product[quantity_and_stock_status][qty]"]</selector>
                 </qty>
                 <is_in_stock>
-                    <selector>#quantity_and_stock_status</selector>
+                    <selector>[name="product[quantity_and_stock_status][is_in_stock]"]</selector>
                     <input>select</input>
                 </is_in_stock>
             </quantity_and_stock_status>
@@ -103,7 +107,13 @@
             <visibility>
                 <input>select</input>
             </visibility>
-            <short_description />
+            <short_description>
+                <selector>#short_description</selector>
+                <input>textarea</input>
+            </short_description>
+            <is_returnable>
+                <input>select</input>
+            </is_returnable>
             <url_key/>
             <gift_message_available>
                 <input>select</input>

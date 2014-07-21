@@ -29,6 +29,24 @@ class GiftCardProduct extends CatalogProductSimple
      */
     protected $handlerInterface = 'Magento\GiftCard\Test\Handler\GiftCardProduct\GiftCardProductInterface';
 
+    /**
+     * @var array
+     */
+    protected $defaultDataSet = [
+        'name' => 'Test product giftcard %isolation%',
+        'sku' => 'sku_test_product_giftcard_%isolation%',
+        'giftcard_type' => 'Virtual',
+        'giftcard_amounts' => [
+            1 => ['price' => 120,],
+            2 => ['price' => 150,]
+        ],
+        'quantity_and_stock_status' => [
+            'qty' => 333.0000,
+            'is_in_stock' => 'In Stock',
+        ],
+        'attribute_set_id' => ['dataSet' => 'default']
+    ];
+
     protected $dataConfig = [
         'create_url_params' => [
             'type' => 'giftcard',
@@ -36,6 +54,7 @@ class GiftCardProduct extends CatalogProductSimple
         ],
         'input_prefix' => 'product',
     ];
+
     protected $allow_message = [
         'attribute_code' => 'allow_message',
         'backend_type' => 'int',
@@ -131,6 +150,7 @@ class GiftCardProduct extends CatalogProductSimple
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
+        'group' => 'product-details',
     ];
 
     protected $related_tgtr_position_behavior = [
