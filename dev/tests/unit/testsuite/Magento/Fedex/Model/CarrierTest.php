@@ -117,14 +117,17 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCollectRates()
+    /**
+     * @dataProvider collectRatesDataProvider
+     */
+    public function testCollectRatesRateAmountOriginBased($amount, $rateType, $expected)
     {
         $netAmount = new \Magento\Framework\Object([]);
-        $netAmount->Amount = 10.0;
+        $netAmount->Amount = $amount;
 
         $totalNetCharge = new \Magento\Framework\Object([]);
         $totalNetCharge->TotalNetCharge = $netAmount;
-        $totalNetCharge->RateType = 'PAYOR_ACCOUNT_PACKAGE';
+        $totalNetCharge->RateType = $rateType;
 
         $ratedShipmentDetail = new \Magento\Framework\Object([]);
         $ratedShipmentDetail->ShipmentRateDetail = $totalNetCharge;
@@ -142,7 +145,21 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         );
         $request = $this->getMock('Magento\Sales\Model\Quote\Address\RateRequest', [], [], '', false);
         foreach ($this->_model->collectRates($request)->getAllRates() as $allRates) {
-            $this->assertEquals(10, $allRates->getData('cost'));
+            $this->assertEquals($expected, $allRates->getData('cost'));
         }
+    }
+
+    public function collectRatesDataProvider()
+    {
+        return [
+            [10.0, 'RATED_ACCOUNT_PACKAGE', 10],
+            [11.50, 'PAYOR_ACCOUNT_PACKAGE', 11.5],
+            [100.01, 'RATED_ACCOUNT_SHIPMENT', 100.01],
+            [32.2, 'PAYOR_ACCOUNT_SHIPMENT', 32.2],
+            [15.0, 'RATED_LIST_PACKAGE', 15],
+            [123.25, 'PAYOR_LIST_PACKAGE', 123.25],
+            [12.12, 'RATED_LIST_SHIPMENT', 12.12],
+            [38.9, 'PAYOR_LIST_SHIPMENT', 38.9],
+        ];
     }
 }
