@@ -22,7 +22,7 @@ class CatalogProductCompare extends FrontendPage
         'compareProductsBlock' => [
             'name' => 'compareProductsBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Compare\ListCompare',
-            'locator' => '#product-comparison',
+            'locator' => '.column.main',
             'strategy' => 'css selector',
         ],
     ];

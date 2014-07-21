@@ -397,4 +397,16 @@
     <assertProductTemplateGroupOnProductForm module="Magento_Catalog">
         <severeness>high</severeness>
     </assertProductTemplateGroupOnProductForm>
+    <assertProductCompareSuccessRemoveAllProductsMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductCompareSuccessRemoveAllProductsMessage>
+    <assertProductCompareItemsLinkIsAbsent module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareItemsLinkIsAbsent>
+    <assertProductCompareRemoveLastProductMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareRemoveLastProductMessage>
+    <assertProductIsNotVisibleInCompareBlock module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductIsNotVisibleInCompareBlock>
 </constraint>

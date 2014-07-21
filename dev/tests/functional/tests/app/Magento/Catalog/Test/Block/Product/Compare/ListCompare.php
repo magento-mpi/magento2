@@ -61,6 +61,13 @@ class ListCompare extends Block
     protected $removeButton = 'a.action.delete';
 
     /**
+     * Selector for empty message
+     *
+     * @var string
+     */
+    protected $isEmpty = 'p.empty';
+
+    /**
      * Get product info
      *
      * @param int $index
@@ -126,5 +133,15 @@ class ListCompare extends Block
     public function removeProduct()
     {
         $this->_rootElement->find($this->removeButton)->click();
+    }
+
+    /**
+     * Get empty message on compare product block
+     *
+     * @return string
+     */
+    public function getEmptyMessage()
+    {
+        return $this->_rootElement->find($this->isEmpty)->getText();
     }
 }
