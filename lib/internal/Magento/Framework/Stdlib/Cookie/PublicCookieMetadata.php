@@ -26,7 +26,7 @@ class PublicCookieMetadata
     protected $secure;
 
     /**
-     * Set expire time
+     * Set expire time in seconds
      *
      * @param int $duration
      */
@@ -36,6 +36,8 @@ class PublicCookieMetadata
     }
 
     /**
+     * Get expire time in seconds
+     *
      * @return int|null
      */
     public function getDuration()
@@ -54,6 +56,8 @@ class PublicCookieMetadata
     }
 
     /**
+     * Get HTTPOnly flag
+     *
      * @return bool|null
      */
     public function getHttpOnly()
@@ -62,7 +66,7 @@ class PublicCookieMetadata
     }
 
     /**
-     * Set Whether the cookie is only available under HTTPS
+     * Set whether the cookie is only available under HTTPS
      *
      * @param bool $secure
      */
@@ -72,6 +76,8 @@ class PublicCookieMetadata
     }
 
     /**
+     * Get whether the cookie is only available under HTTPS
+     *
      * @return bool|null
      */
     public function getSecure()
