@@ -37,6 +37,23 @@ class UrlrewriteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Clear created objects
+     */
+    protected function tearDown()
+    {
+        unset($this->_model);
+        unset($this->_cmsPage);
+    }
+
+    /**
+     * Test generateIdPath
+     */
+    public function testGenerateIdPath()
+    {
+        $this->assertEquals('cms_page/3', $this->_model->generateIdPath($this->_cmsPage));
+    }
+
+    /**
      * Test generateTargetPath
      */
     public function testGenerateTargetPath()

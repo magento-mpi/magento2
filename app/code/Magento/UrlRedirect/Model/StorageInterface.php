@@ -7,7 +7,6 @@
  */
 namespace Magento\UrlRedirect\Model;
 
-// TODO: structure layer knows about service layer(and version) (MAGETWO-25952)
 use Magento\UrlRedirect\Service\V1\Data\Filter;
 
 /**
@@ -35,6 +34,7 @@ interface StorageInterface
      * Add multiple urls to storage
      *
      * @param array $urls
+     * @return void
      */
     public function addMultiple(array $urls);
 
@@ -42,6 +42,7 @@ interface StorageInterface
      * Delete data from storage by specific filter
      *
      * @param Filter $filter
+     * @return void
      */
     public function deleteByFilter(Filter $filter);
 }

@@ -19,6 +19,6 @@ class Urlrewrite extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('url_rewrite', 'url_rewrite_id');
+        $this->_init('cms_url_rewrite', 'cms_rewrite_id');
     }
 }

@@ -234,8 +234,18 @@ class TunnelTest extends \PHPUnit_Framework_TestCase
             $response = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
             $response->headersSentThrowsException = false;
         }
+        $rewriteFactory = $this->getMock(
+            'Magento\UrlRewrite\Model\UrlRewriteFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $varienFront = $helper->getObject('Magento\Framework\App\FrontController');
+        $varienFront = $helper->getObject(
+            'Magento\Framework\App\FrontController',
+            array('rewriteFactory' => $rewriteFactory)
+        );
 
         $arguments = array(
             'request' => $request,

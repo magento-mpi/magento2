@@ -306,13 +306,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function joinUrlRewrite()
     {
-        /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
-         */
-        return $this;
         $storeId = $this->_storeManager->getStore()->getId();
         $this->joinTable(
-            'url_rewrite',
+            'core_url_rewrite',
             'category_id=entity_id',
             array('request_path'),
             "{{table}}.is_system=1" .
@@ -321,6 +317,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             " AND id_path LIKE 'category/%'",
             'left'
         );
+        return $this;
     }
 
     /**

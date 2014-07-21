@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Urlrewrites edit container
+ *
+ * @see \Magento\Backend\Block\Urlrewrite\Edit
+ */
+?>
+<?php echo $this->getChildHtml() ?>
+
+<?php if ($this->getChildBlock('form')): ?>
+<script type="text/javascript">
+    jQuery('#edit_form').mage('form')
+        .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+</script>
+<?php endif; ?>

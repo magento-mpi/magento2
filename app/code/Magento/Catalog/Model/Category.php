@@ -179,6 +179,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory
      * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
@@ -199,6 +200,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory,
         \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
         \Magento\Framework\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
@@ -215,6 +217,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $this->_treeModel = $categoryTreeResource;
         $this->_categoryTreeFactory = $categoryTreeFactory;
         $this->_categoryFactory = $categoryFactory;
+        $this->_urlRewriteFactory = $urlRewriteFactory;
         $this->_storeCollectionFactory = $storeCollectionFactory;
         $this->_url = $url;
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -549,21 +552,18 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
                 return $this->getData('url');
             }
 
-            /**
-             * @TODO: Refactor accordingly in MAGETWO-25952
-             */
-//            $rewrite = $this->getUrlRewrite();
-//            if ($this->getStoreId()) {
-//                $rewrite->setStoreId($this->getStoreId());
-//            }
-//            $idPath = 'category/' . $this->getId();
-//            $rewrite->loadByIdPath($idPath);
-//
-//            if ($rewrite->getId()) {
-//                $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
-//                \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
-//                return $this->getData('url');
-//            }
+            $rewrite = $this->getUrlRewrite();
+            if ($this->getStoreId()) {
+                $rewrite->setStoreId($this->getStoreId());
+            }
+            $idPath = 'category/' . $this->getId();
+            $rewrite->loadByIdPath($idPath);
+
+            if ($rewrite->getId()) {
+                $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
+                \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
+                return $this->getData('url');
+            }
 
             \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
 

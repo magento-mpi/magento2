@@ -46,7 +46,6 @@ class Observer
         /** @var $cmsPage \Magento\Cms\Model\Page */
         $cmsPage = $observer->getEvent()->getObject();
         if ($cmsPage->getOrigData('identifier') !== $cmsPage->getData('identifier')) {
-            // TODO: fix service parameter
             $urls = $this->urlGenerator->generate($cmsPage);
             try {
                 $this->urlSave->save($urls);

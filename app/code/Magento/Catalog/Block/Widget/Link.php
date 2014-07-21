@@ -44,12 +44,15 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\UrlRewrite\Model\Resource\UrlRewrite $urlRewrite
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\UrlRewrite\Model\Resource\UrlRewrite $urlRewrite,
         array $data = array()
     ) {
+        $this->_urlRewrite = $urlRewrite;
         parent::__construct($context, $data);
     }
 

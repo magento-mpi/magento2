@@ -12,6 +12,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\UrlRedirect\Model\OptionProvider;
 use Magento\UrlRedirect\Service\V1\Data\FilterFactory;
 use Magento\UrlRedirect\Service\V1\UrlMatcherInterface;
+use Magento\UrlRedirect\Service\V1\Data\UrlRewrite;
 
 /**
  * Product Generator
@@ -19,8 +20,6 @@ use Magento\UrlRedirect\Service\V1\UrlMatcherInterface;
 class CategoryUrlGenerator implements CategoryUrlGeneratorInterface
 {
     /**
-     * TODO: think about better place for this const (MAGETWO-25952)
-     *
      * Entity type
      */
     const ENTITY_TYPE_CATEGORY = 'category';
@@ -77,7 +76,6 @@ class CategoryUrlGenerator implements CategoryUrlGeneratorInterface
 
     /**
      * {@inheritdoc}
-     * TODO: fix service parameter (MAGETWO-25952)
      */
     public function generate($category)
     {
@@ -100,9 +98,10 @@ class CategoryUrlGenerator implements CategoryUrlGeneratorInterface
     {
         $urls = [];
         foreach ($this->storeManager->getStores() as $store) {
-            if (
-                $this->catalogUrlRewriteHelper->isNeedCreateUrlRewrite($store->getStoreId(), $this->category->getId())
-            ) {
+            if ($this->catalogUrlRewriteHelper->isNeedCreateUrlRewrite(
+                $store->getStoreId(),
+                $this->category->getId()
+            )) {
                 $urls = array_merge($urls, $this->generateForStore($store->getStoreId()));
             }
         }

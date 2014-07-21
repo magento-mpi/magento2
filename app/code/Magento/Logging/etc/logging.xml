@@ -133,14 +133,14 @@
             </events>
         </group>
         <group name="core_urlrewrites">
-            <label translate="true">URL Rewrites</label>
+            <label translate="true">URL Redirects</label>
             <expected_models>
-                <expected_model class="Magento\UrlRedirect\Model\UrlRedirect" />
+                <expected_model class="Magento\UrlRewrite\Model\UrlRewrite" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_urlRedirect_edit" action_alias="view" />
-                <event controller_action="adminhtml_urlRedirect_save" action_alias="save" />
-                <event controller_action="adminhtml_urlRedirect_delete" action_alias="delete" />
+                <event controller_action="adminhtml_urlrewrite_edit" action_alias="view" />
+                <event controller_action="adminhtml_urlrewrite_save" action_alias="save" />
+                <event controller_action="adminhtml_urlrewrite_delete" action_alias="delete" />
             </events>
         </group>
         <group name="catalogsearch">

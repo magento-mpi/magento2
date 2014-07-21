@@ -123,7 +123,6 @@ class Data
      */
     public function getProductCanonicalUrlPath(Product $product)
     {
-        // TODO: see $product->getUrlModel() (MAGETWO-25952)
         return 'catalog/product/view/id/' . $product->getId();
     }
 
@@ -142,8 +141,6 @@ class Data
     /**
      * Get product url key path
      *
-     * TODO: decomposition of url model (MAGETWO-25952)
-     *
      * @param Product $product
      * @param int $storeId
      * @return string
@@ -155,8 +152,6 @@ class Data
 
     /**
      * Get product url key path with category
-     *
-     * TODO: decomposition of url model (MAGETWO-25952)
      *
      * @param Product $product
      * @param Category $category
@@ -171,8 +166,6 @@ class Data
 
     /**
      * Get canonical category url
-     *
-     * TODO: see \Magento\Catalog\Model\Category::getCategoryIdUrl() (MAGETWO-25952)
      *
      * @param Category $category
      * @return string
@@ -209,8 +202,6 @@ class Data
     /**
      * Generate category url key path
      *
-     * TODO: it is draft method, do not use in production (MAGETWO-25952)
-     *
      * @param \Magento\Catalog\Model\Category $category
      * @return string
      */
@@ -227,15 +218,11 @@ class Data
     /**
      * Generate product url key path
      *
-     * TODO: it is draft method, do not use in production (MAGETWO-25952)
-     *
      * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function generateProductUrlKeyPath($product)
     {
-        // TODO: product prefix (MAGETWO-25952)
-
         $urlKey = $product->getUrlKey() == ''
             ? $product->formatUrlKey($product->getName())
             : $product->formatUrlKey($product->getUrlKey());

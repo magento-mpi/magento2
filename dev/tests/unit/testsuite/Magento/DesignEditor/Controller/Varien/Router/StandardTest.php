@@ -53,7 +53,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         $matchedValue = null
     ) {
         $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $routers);
-        $this->markTestIncomplete('MAGETWO-16036: corresponding DesignEditor logic must be adopted to new UrlRewrite');
+
         $this->assertEquals($matchedValue, $this->_model->match($request));
         if ($isVde && $isLoggedIn) {
             $this->assertEquals(self::TEST_PATH, $request->getPathInfo());
