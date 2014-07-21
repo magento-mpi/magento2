@@ -11,8 +11,6 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
 
-use Magento\Framework\App\Action\NotFoundException;
-
 abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
 {
     /**
@@ -21,15 +19,24 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
     protected $_configStructure;
 
     /**
+     * @var ConfigSectionChecker
+     */
+    protected $_sectionChecker;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param ConfigSectionChecker $sectionChecker
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Backend\Model\Config\Structure $configStructure
+        \Magento\Backend\Model\Config\Structure $configStructure,
+        ConfigSectionChecker $sectionChecker
     ) {
         parent::__construct($context);
         $this->_configStructure = $configStructure;
+        $this->_sectionChecker = $sectionChecker;
+
     }
 
     /**

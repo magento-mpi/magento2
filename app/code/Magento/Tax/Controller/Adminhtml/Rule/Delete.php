@@ -18,21 +18,16 @@ class Delete extends \Magento\Tax\Controller\Adminhtml\Rule
     public function execute()
     {
         $ruleId = (int)$this->getRequest()->getParam('rule');
-        $ruleModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rule')->load($ruleId);
-        if (!$ruleModel->getId()) {
-            $this->messageManager->addError(__('This rule no longer exists'));
-            $this->_redirect('tax/*/');
-            return;
-        }
-
         try {
-            $ruleModel->delete();
-
+            $this->ruleService->deleteTaxRule($ruleId);
             $this->messageManager->addSuccess(__('The tax rule has been deleted.'));
             $this->_redirect('tax/*/');
-
             return;
-        } catch (\Magento\Framework\Model\Exception $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->messageManager->addError(__('This rule no longer exists.'));
+            $this->_redirect('tax/*/');
+            return;
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Something went wrong deleting this tax rule.'));

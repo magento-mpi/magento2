@@ -17,7 +17,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
-    protected $_config;
+    protected $config;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -27,7 +27,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
-        $this->_config = $config;
+        $this->config = $config;
         parent::__construct($context);
     }
 
@@ -38,7 +38,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAllowedSelectionTypes()
     {
-        $configData = $this->_config->getType('bundle');
-        return isset($configData['allowed_selection_types']) ? $configData['allowed_selection_types'] : array();
+        $configData = $this->config->getType(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
+
+        return isset($configData['allowed_selection_types']) ? $configData['allowed_selection_types'] : [];
     }
 }

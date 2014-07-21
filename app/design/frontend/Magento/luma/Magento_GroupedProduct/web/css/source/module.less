@@ -6,7 +6,7 @@
 //  * @license     {license_link}
 //  */
 
-.wrapper.table.grouped {
+.table-wrapper.grouped {
     margin-left: -@layout-width-xs-indent;
     margin-right: -@layout-width-xs-indent;
     width: auto;
@@ -52,7 +52,7 @@
     .col.qty {
         .control.qty {
             .qty {
-                &:extend(.input-qty all);
+                &:extend(.abstract-input-qty all);
             }
         }
     }
@@ -79,7 +79,7 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .wrapper.table.grouped {
+    .table-wrapper.grouped {
         margin-left: 0;
         margin-right: 0;
     }

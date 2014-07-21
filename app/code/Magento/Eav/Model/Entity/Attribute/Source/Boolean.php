@@ -92,16 +92,21 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      *
      * @return array
      */
-    public function getFlatColums()
+    public function getFlatColumns()
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
-        $column = array('unsigned' => false, 'default' => null, 'extra' => null);
-        $column['type'] = \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT;
-        $column['length'] = 1;
-        $column['nullable'] = true;
-        $column['comment'] = $attributeCode . ' column';
 
-        return array($attributeCode => $column);
+        return [
+            $attributeCode => [
+                'unsigned' => false,
+                'default' => null,
+                'extra' => null,
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                'length' => 1,
+                'nullable' => true,
+                'comment' => $attributeCode . ' column',
+            ],
+        ];
     }
 
     /**
