@@ -15,6 +15,7 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Checkout\Test\Block\Onepage\Link;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Cart
@@ -41,21 +42,21 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $itemSubTotalSelector = '//td[@class="col subtotal excl tax"]//span[@class="price"]';
+    protected $itemSubTotalSelector = '//td[@class="col subtotal"]//*[@class="excl tax"]//span[@class="price"]';
 
     /**
      * Cart item unit price xpath selector
      *
      * @var string
      */
-    protected $itemUnitPriceSelector = '//td[@class="col price excl tax"]//span[@class="price"]';
+    protected $itemUnitPriceSelector = '//td[@class="col price"]//*[@class="excl tax"]//span[@class="price"]';
 
     /**
      * Unit Price value
      *
      * @var string
      */
-    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
+    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price"]/*[@class="excl tax"]/span';
 
     /**
      * 'Update Shopping Cart' button
@@ -106,7 +107,7 @@ class Cart extends Block
     /**
      * Get unit price for the specified item in the cart
      *
-     * @param Product $product
+     * @param FixtureInterface $product
      * @param string $currency
      * @return float
      */
@@ -242,12 +243,12 @@ class Cart extends Block
     /**
      * Return the name of the specified product.
      *
-     * @param Product $product
+     * @param FixtureInterface $product
      * @return string
      */
     private function getProductName($product)
     {
-        $productName = $product->getProductName();
+        $productName = $product->getName();
         if ($product instanceof ConfigurableProduct) {
             $productOptions = $product->getProductOptions();
             if (!empty($productOptions)) {

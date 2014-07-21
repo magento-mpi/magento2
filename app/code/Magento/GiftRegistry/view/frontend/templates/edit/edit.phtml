@@ -10,13 +10,13 @@
 <form action="<?php echo $this->getUrl('*/*/editPost'); ?>"
       method="post"
       id="form-validate"
-      class="form giftregistry edit validation"
+      class="form form-giftregistry-edit validation"
       data-hasrequired="<?php echo __('* Required Fields') ?>"
       data-mage-init='{"validation":{}}'>
     <?php echo $this->getBlockHtml('formkey')?>
     <?php echo $this->getChildHtml(); ?>
 
-    <div class="actions toolbar">
+    <div class="actions-toolbar">
         <div class="primary">
             <button type="submit" id="submit.save" title="<?php echo __('Save') ?>" class="action primary save">
                 <span><?php echo __('Save') ?></span>

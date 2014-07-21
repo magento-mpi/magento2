@@ -69,9 +69,9 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
-        $editForm->openRoleTab();
-        $rolesGrid = $editForm->getRolesGrid();
-        $rolesGrid->searchAndOpen(['role_name'=>$data['rolename']]);
+        $editForm->openTab('user-role');
+        $rolesGrid = $editUser->getRolesGrid();
+        $rolesGrid->searchAndSelect(['rolename' => $data['rolename']]);
         $editUser->getPageActions()->save();
 
         //Verification
@@ -82,7 +82,6 @@ class UserWithRestrictedRoleTest extends Functional
         $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
-        //Factory::getApp()->magentoBackendLoginUser($userFixture);
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($userFixture);
         $loginPage->getLoginBlock()->submit();
@@ -91,7 +90,7 @@ class UserWithRestrictedRoleTest extends Functional
 
         //Verify that only Sales resource is available.
         $this->assertTrue(
-            $salesPage->getNavigationMenuBlock()->assertNavigationMenuItemsCount(1),
+            count($dashboard->getMenuBlock()->getTopMenuItems()) == 1,
             "You have access not only for Sales resource"
         );
 
@@ -147,9 +146,9 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
-        $editForm->openRoleTab();
-        $rolesGrid = $editForm->getRolesGrid();
-        $rolesGrid->searchAndOpen(['role_name'=>$data['rolename']]);
+        $editForm->openTab('user-role');
+        $rolesGrid = $editUser->getRolesGrid();
+        $rolesGrid->searchAndSelect(['rolename' => $data['rolename']]);
         $editUser->getPageActions()->save();
 
         //Verification
@@ -160,7 +159,6 @@ class UserWithRestrictedRoleTest extends Functional
         $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
-        //Factory::getApp()->magentoBackendLoginUser($userFixture);
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($userFixture);
         $loginPage->getLoginBlock()->submit();
@@ -169,7 +167,7 @@ class UserWithRestrictedRoleTest extends Functional
 
         //Verify that only Sales resource is available.
         $this->assertTrue(
-            $salesPage->getNavigationMenuBlock()->assertNavigationMenuItemsCount(1),
+            count($dashboard->getMenuBlock()->getTopMenuItems()) == 1,
             "You have access not only for Sales resource"
         );
 

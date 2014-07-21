@@ -24,12 +24,12 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -62,7 +62,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         );
 
         if (!$statusIsClosed) {
-            $this->_addButton(
+            $this->buttonList->add(
                 'save_and_edit_button',
                 array(
                     'label' => __('Save and Continue Edit'),
@@ -76,7 +76,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 100
             );
 
-            $this->_addButton(
+            $this->buttonList->add(
                 'close',
                 array(
                     'label' => __('Close'),
@@ -87,11 +87,11 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 )
             );
         } else {
-            $this->_removeButton('save');
-            $this->_removeButton('reset');
+            $this->buttonList->remove('save');
+            $this->buttonList->remove('reset');
         }
 
-        $this->_addButton(
+        $this->buttonList->add(
             'print',
             array(
                 'label' => __('Print'),
@@ -101,7 +101,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             101
         );
 
-        $this->_removeButton('delete');
+        $this->buttonList->remove('delete');
     }
 
     /**

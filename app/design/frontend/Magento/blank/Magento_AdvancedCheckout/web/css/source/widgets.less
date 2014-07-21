@@ -7,7 +7,8 @@
 //  */
 
 .widget.addbysku {
-    .column.sidebar & {
+    .sidebar-main &,
+    .sidebar-additional & {
         .fieldset {
             margin-bottom: 0;
             > .fields .field {
@@ -22,7 +23,7 @@
                 }
                 &.qty {
                     .qty {
-                        &:extend(.input-qty all);
+                        &:extend(.abstract-input-qty all);
                     }
                 }
             }
@@ -54,7 +55,8 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .widget.block.addbysku {
-        .column.sidebar & {
+        .sidebar-main &,
+        .sidebar-additional & {
         }
     }
 }

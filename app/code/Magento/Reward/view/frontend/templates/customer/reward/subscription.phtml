@@ -12,7 +12,7 @@
  * @see \Magento\Reward\Block\Customer\Reward\Settings
  */
 ?>
-<form class="form reward settings" action="<?php echo $this->getUrl('reward/customer/saveSettings') ?>" method="post" id="form-validate">
+<form class="form reward-settings" action="<?php echo $this->getUrl('reward/customer/saveSettings') ?>" method="post" id="form-validate">
     <?php echo $this->getBlockHtml('formkey')?>
     <fieldset class="fieldset">
         <legend class="legend"><span><?php echo __('Email Notification Settings'); ?></span></legend><br />
@@ -25,7 +25,7 @@
             <label class="label" for="subscribe_warnings"><span><?php echo __('Subscribe for points expiration notifications') ?></span></label>
         </div>
     </fieldset>
-    <div class="actions toolbar">
+    <div class="actions-toolbar">
         <div class="primary">
             <button type="submit" class="action save primary" title="<?php echo __('Save Subscription Settings') ?>"><span><?php echo __('Save Subscription Settings') ?></span></button>
         </div>

@@ -10,10 +10,12 @@
 <?php $_returns = $this->getReturns(); ?>
 <?php echo $this->getChildHtml('info');?>
 <?php if($_returns->getSize()): ?>
-    <div class="toolbar">
-        <?php echo $this->getPagerHtml(); ?>
-    </div>
-    <table class="data table returns" id="my-returns-table">
+    <?php if ($this->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar top">
+            <?php echo $this->getPagerHtml(); ?>
+        </div>
+    <?php endif ?>
+    <table class="data table table-returns" id="my-returns-table">
         <thead>
             <tr>
                 <th class="col id"><?php echo __('Return #') ?></th>
@@ -38,9 +40,11 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="toolbar">
-        <?php echo $this->getPagerHtml(); ?>
-    </div>
+    <?php if ($this->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom">
+            <?php echo $this->getPagerHtml(); ?>
+        </div>
+    <?php endif ?>
 <?php else: ?>
     <div class="message info empty"><span><?php echo __('You have placed no returns.'); ?></span></div>
 <?php endif ?>

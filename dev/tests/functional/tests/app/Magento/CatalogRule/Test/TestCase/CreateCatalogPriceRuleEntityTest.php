@@ -30,16 +30,17 @@ class CreateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
      * Create Catalog Price Rule
      *
      * @param CatalogRule $catalogPriceRule
+     * @return void
      */
     public function testCreateCatalogPriceRule(CatalogRule $catalogPriceRule)
     {
-        //Steps
+        // Steps
         $this->catalogRuleIndex->open();
         $this->catalogRuleIndex->getGridPageActions()->addNew();
         $this->catalogRuleNew->getEditForm()->fill($catalogPriceRule);
         $this->catalogRuleNew->getFormPageActions()->save();
 
         // Prepare data for tear down
-        $this->prepareTearDown($catalogPriceRule);
+        $this->catalogRules = $catalogPriceRule;
     }
 }

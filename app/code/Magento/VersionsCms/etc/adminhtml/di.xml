@@ -16,7 +16,7 @@
             <argument name="authorization" xsi:type="object">Magento\Framework\Authorization\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision">
+    <type name="Magento\VersionsCms\Controller\Adminhtml\Cms\Page\RevisionInterface">
         <plugin name="designLoader" type="Magento\VersionsCms\App\Action\Plugin\Design" />
     </type>
 </config>

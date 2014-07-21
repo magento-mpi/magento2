@@ -8,16 +8,49 @@
  */
 -->
 <constraint>
-    <cmsPageDuplicateError module="Magento_Cms">
+    <assertCmsPageDuplicateErrorMessage module="Magento_Cms">
         <severeness>low</severeness>
         <require>
-            <cmsPageGrid class="Magento\Cms\Test\Page\AdminHtml\CmsPageGrid" />
+            <cmsPageGrid class="Magento\Cms\Test\Page\Adminhtml\CmsPageGrid" />
         </require>
-    </cmsPageDuplicateError>
-    <cmsPageSaveSuccess module="Magento_Cms">
+    </assertCmsPageDuplicateErrorMessage>
+    <assertCmsPageSuccessSaveMessage module="Magento_Cms">
         <severeness>low</severeness>
         <require>
-            <cmsPageGrid class="Magento\Cms\Test\Page\AdminHtml\CmsPageGrid" />
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
-    </cmsPageSaveSuccess>
+    </assertCmsPageSuccessSaveMessage>
+    <assertCmsPageDisabledOnFrontend module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage" />
+            <browser class="Mtf\Client\Driver\Selenium\Browser" />
+            <frontCmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+        </require>
+    </assertCmsPageDisabledOnFrontend>
+    <assertCmsPageForm module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+            <cmsNew class="Magento\Cms\Test\Page\Adminhtml\CmsNew" />
+            <cms class="Magento\Cms\Test\Fixture\CmsPage" />
+        </require>
+    </assertCmsPageForm>
+    <assertCmsPagePreview module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+            <browser class="Mtf\Client\Driver\Selenium\Browser" />
+            <frontCmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <frontCmsPage class="Magento\Cms\Test\Page\Adminhtml\CmsPage" />
+            <cms class="Magento\Cms\Test\Fixture\CmsPage" />
+        </require>
+    </assertCmsPagePreview>
+    <assertCmsPageDeleteMessage module="Magento_Cms">
+        <severeness>low</severeness>
+    </assertCmsPageDeleteMessage>
+    <assertCmsPageNotInGrid module="Magento_Cms">
+        <severeness>low</severeness>
+    </assertCmsPageNotInGrid>
 </constraint>

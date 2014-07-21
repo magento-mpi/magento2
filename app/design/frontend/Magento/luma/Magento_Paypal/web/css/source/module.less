@@ -1,0 +1,57 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+//
+//    PayPal checkout button
+//--------------------------------------
+
+.paypal {
+    display: inline-block;
+    vertical-align: top;
+    .minicart &,
+    .cart-summary & {
+        display: block;
+    }
+    img {
+        display: block;
+        margin: 5px auto 0;
+    }
+    .opc & {
+        vertical-align: middle;
+    }
+}
+
+//
+//    Account
+//--------------------------------------
+.table-wrapper.billing-agreements {
+    margin-bottom: @indent-xl-base;
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @break-point-0) {
+    .table-wrapper.billing-agreements,
+    .table-wrapper.billing-agreements-related {
+        &:extend(.abstract-account-table-border all);
+    }
+    .account {
+        .table-billing-agreements,
+        .table-billing-agreements-related {
+            .col.actions {
+                &:extend(.abstract-account-col-actions all);
+            }
+        }
+    }
+    .form-new-agreement {
+        select {
+            width: auto;
+        }
+    }
+}

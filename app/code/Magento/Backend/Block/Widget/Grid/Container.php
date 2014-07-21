@@ -142,7 +142,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addNewButton()
     {
-        $this->_addButton(
+        $this->addButton(
             'add',
             array(
                 'label' => $this->getAddButtonLabel(),
@@ -157,7 +157,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
      */
     protected function _addBackButton()
     {
-        $this->_addButton(
+        $this->addButton(
             'back',
             array(
                 'label' => $this->getBackButtonLabel(),

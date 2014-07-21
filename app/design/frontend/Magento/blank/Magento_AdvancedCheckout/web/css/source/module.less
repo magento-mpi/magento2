@@ -21,7 +21,7 @@
                  .control {
                     width: 50%;
                     .qty {
-                        &:extend(.input-qty all);
+                        &:extend(.abstract-input-qty all);
                     }
                 }
             }
@@ -43,7 +43,7 @@
         }
     }
     .form {
-        > .actions.toolbar {
+        > .actions-toolbar {
             position: relative;
             padding-top: 50px;
             .action.add {
@@ -74,8 +74,11 @@
                     &:extend(.action-remove-desktop all);
                 }
             }
-            .actions.toolbar {
+            .actions-toolbar {
                 > .secondary {
+                    > .hidden {
+                        display: none;
+                    }
                     float: left;
                 }
             }

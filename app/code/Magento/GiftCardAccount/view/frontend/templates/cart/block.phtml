@@ -31,10 +31,10 @@
                 <div class="field">
                     <label class="label" for="giftcard-code"><span><?php echo __('Enter the gift card code') ?></span></label>
                     <div class="control">
-                        <input class="input-text" type="text" id="giftcard-code" name="giftcard_code" data-validate="{'required-entry':true}" value="" />
+                        <input class="input-text" type="text" id="giftcard-code" name="giftcard_code" data-validate="{'required-entry':true}" value="" placeholder="<?php echo $this->escapeHtml(__('Enter the gift card code'));?>" />
                     </div>
                 </div>
-                <div class="actions toolbar">
+                <div class="actions-toolbar">
                     <div class="primary">
                         <button class="action add primary" type="submit" value="<?php echo __('Add Gift Card') ?>">
                             <span><?php echo __('Add Gift Card') ?></span>

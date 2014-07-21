@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Tax\Model\Calculation;
+
+use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Tax Rate Model
@@ -169,7 +172,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     protected function _beforeDelete()
     {
         if ($this->_isInRule()) {
-            throw new \Magento\Framework\Model\Exception(__('The tax rate cannot be removed. It exists in a tax rule.'));
+            throw new CouldNotDeleteException('The tax rate cannot be removed. It exists in a tax rule.');
         }
         return parent::_beforeDelete();
     }

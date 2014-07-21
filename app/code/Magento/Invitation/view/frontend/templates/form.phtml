@@ -10,7 +10,7 @@
 <?php echo $this->getChildHtml('form_before')?>
 <?php $maxPerSend = $this->getMaxInvitationsPerSend(); ?>
 <?php if ($maxPerSend): ?>
-    <form id="invitationForm" action="" method="post" class="form add invitations" data-mage-init='{"validation": {}}' data-hasrequired="<?php echo __('* Required Fields') ?>">
+    <form id="invitationForm" action="" method="post" class="form form-add-invitations" data-mage-init='{"validation": {}}' data-hasrequired="<?php echo __('* Required Fields') ?>">
         <fieldset class="fieldset">
             <legend class="legend"><span><?php echo __('Invite your friends by entering their email addresses.'); ?></span></legend>
             <br>
@@ -31,7 +31,7 @@
                 </div>
             <?php endif;?>
         </fieldset>
-        <div class="actions toolbar">
+        <div class="actions-toolbar">
             <div class="primary">
                 <button class="action submit primary" type="submit"><span><?php echo __('Send Invitations') ?></span></button>
             </div>

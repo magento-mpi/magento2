@@ -10,25 +10,33 @@
     .table-bordered(
         @_type: horizontal
     );
-    td {
-        vertical-align: middle;
-    }
     .product.name {
         font-weight: @font-weight-base;
     }
-    .price-box .price {
-        font-weight: @font-weight-base;
-        font-size: @font-size-base;
+    .price-box {
+        .price {
+            font-size: @font-size-base; 
+        }
     }
     .col.qty {
-        .stock.unavailable {
-            margin: 0;
-            white-space: nowrap;
-        }
         .control.qty {
             .qty {
-                &:extend(.input-qty all);
+                &:extend(.abstract-input-qty all);
             }
+        }
+    }
+    .stock.unavailable {
+        margin: 0;
+        white-space: nowrap;
+        text-transform: none;
+        font-weight: normal;
+    }
+    .row-tier-price {
+        td {
+            border-top: 0;
+        }
+        .prices.tier.items {
+            margin: 0 -10px 10px;
         }
     }
 }

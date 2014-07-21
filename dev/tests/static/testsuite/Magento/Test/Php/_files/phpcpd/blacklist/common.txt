@@ -1,4 +1,3 @@
-Find/Feed/Block/Adminhtml
 Magento/Adminhtml
 Magento/Authorizenet/Model
 Magento/Backend
@@ -118,6 +117,7 @@ var/generation
 Magento/Newsletter/Block/Adminhtml/Template/Grid/Renderer
 Magento/Newsletter/Model/Template/Filter
 Magento/Newsletter/Model/Resource/Subscriber
+Magento/Tax/Service/V1/Data
 Magento/CatalogInventory/Model/Resource/Stock/Item
 lib/internal/Magento/Framework/Filesystem/Driver
 Magento/OfflineShipping/Model/Carrier
@@ -125,3 +125,4 @@ Magento/Usps/Model/Carrier
 Magento/Dhl/Model
 Magento/Shipping/Model
 Magento/Catalog/Service/V1/Category
+Magento/UrlRedirect/Model

@@ -54,6 +54,14 @@ class SaveTest extends \PHPUnit_Framework_TestCase
      */
     protected $_responseMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_sectionCheckerMock;
+
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false, false);
@@ -135,6 +143,14 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             'messageManager' => $this->messageManagerMock
         );
 
+        $this->_sectionCheckerMock = $this->getMock(
+            'Magento\Backend\Controller\Adminhtml\System\ConfigSectionChecker',
+            array(),
+            array(),
+            '',
+            false
+        );
+
         $context = $helper->getObject('Magento\Backend\App\Action\Context', $arguments);
         $this->_controller = $this->getMock(
             'Magento\Backend\Controller\Adminhtml\System\Config\Save',
@@ -142,6 +158,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             array(
                 $context,
                 $configStructureMock,
+                $this->_sectionCheckerMock,
                 $this->_configFactoryMock,
                 $this->_cacheMock,
                 new \Magento\Framework\Stdlib\String()
@@ -151,7 +168,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
     public function testIndexActionWithAllowedSection()
     {
-        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_sectionCheckerMock->expects($this->any())->method('isSectionAllowed')->will($this->returnValue(true));
         $this->messageManagerMock->expects($this->once())->method('addSuccess')->with('You saved the configuration.');
 
         $groups = array('some_key' => 'some_value');
@@ -185,12 +202,12 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($backendConfigMock)
         );
 
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 
     public function testIndexActionWithNotAllowedSection()
     {
-        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
+        $this->_sectionCheckerMock->expects($this->any())->method('isSectionAllowed')->will($this->returnValue(false));
 
         $backendConfigMock = $this->getMock('Magento\Backend\Model\Config', array(), array(), '', false, false);
         $backendConfigMock->expects($this->never())->method('save');
@@ -206,12 +223,12 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($backendConfigMock)
         );
 
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 
     public function testIndexActionSaveState()
     {
-        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
+        $this->_sectionCheckerMock->expects($this->any())->method('isSectionAllowed')->will($this->returnValue(false));
         $data = array('some_key' => 'some_value');
 
         $userMock = $this->getMock('Magento\User\Model\User', array(), array(), '', false, false);
@@ -227,12 +244,12 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($data)
         );
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 
     public function testIndexActionGetGroupForSave()
     {
-        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_sectionCheckerMock->expects($this->any())->method('isSectionAllowed')->will($this->returnValue(true));
 
         $fixturePath = __DIR__ . '/_files/';
         $groups = require_once $fixturePath . 'groups_array.php';
@@ -278,12 +295,12 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         );
         $backendConfigMock->expects($this->once())->method('save');
 
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 
     public function testIndexActionSaveAdvanced()
     {
-        $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_sectionCheckerMock->expects($this->any())->method('isSectionAllowed')->will($this->returnValue(true));
 
         $requestParamMap = array(
             array('section', null, 'advanced'),
@@ -304,6 +321,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $backendConfigMock->expects($this->once())->method('save');
 
         $this->_cacheMock->expects($this->once())->method('clean')->with(\Zend_Cache::CLEANING_MODE_ALL);
-        $this->_controller->indexAction();
+        $this->_controller->execute();
     }
 }

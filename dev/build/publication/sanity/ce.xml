@@ -233,18 +233,6 @@
             <path>dev/tools/Magento/Tools/Migration/factory_table_names/blacklist_ce.php</path>
         </item>
         <item>
-            <word>Enterprise</word>
-            <path>dev/tools/Magento/Tools/Translate/config.inc.php</path>
-        </item>
-        <item>
-            <word>Enterprise</word>
-            <path>dev/tools/Magento/Tools/Translate/ModuleTranslations.php</path>
-        </item>
-        <item>
-            <word>Enterprise</word>
-            <path>dev/tools/Magento/Tools/Translate/generate_emailtemplates.php</path>
-        </item>
-        <item>
             <!-- License replacement tool does not process *.txt files currently -->
             <word>{copyright}</word>
             <word>{license_link}</word>
@@ -254,12 +242,12 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>CustomerBalance</word>
-            <path>app/code/Magento/Sales/Controller/Adminhtml/Order/Creditmemo.php</path>
+            <path>app/code/Magento/Sales/Controller/Adminhtml/Order/Creditmemo/Save.php</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>CustomerBalance</word>
-            <path>dev/tests/unit/testsuite/Magento/Sales/Controller/Adminhtml/Order/CreditmemoTest.php</path>
+            <path>dev/tests/unit/testsuite/Magento/Sales/Controller/Adminhtml/Order/Creditmemo/SaveTest.php</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->

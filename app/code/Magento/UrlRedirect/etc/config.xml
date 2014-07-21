@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
+    <default>
+        <url_rewrite>
+            <entity_types>
+                <product>
+                    <generator>Magento\Framework\Object</generator>
+                </product>
+                <category>
+                    <generator>Magento\Framework\Object</generator>
+                </category>
+                <cms-page>
+                    <generator>Magento\Framework\Object</generator>
+                </cms-page>
+            </entity_types>
+        </url_rewrite>
+    </default>
+</config>

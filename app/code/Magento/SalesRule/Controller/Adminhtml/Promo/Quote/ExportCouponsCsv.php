@@ -1,0 +1,33 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\SalesRule\Controller\Adminhtml\Promo\Quote;
+
+class ExportCouponsCsv extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
+{
+    /**
+     * Export coupon codes as CSV file
+     *
+     * @return \Magento\Framework\App\ResponseInterface|null
+     */
+    public function execute()
+    {
+        $this->_initRule();
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
+        if ($rule->getId()) {
+            $fileName = 'coupon_codes.csv';
+            $content = $this->_view->getLayout()->createBlock(
+                'Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid'
+            )->getCsvFile();
+            return $this->_fileFactory->create($fileName, $content, \Magento\Framework\App\Filesystem::VAR_DIR);
+        } else {
+            $this->_redirect('sales_rule/*/detail', array('_current' => true));
+            return;
+        }
+    }
+}

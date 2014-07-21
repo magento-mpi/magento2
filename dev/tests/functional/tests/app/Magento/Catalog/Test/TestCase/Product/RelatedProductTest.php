@@ -84,23 +84,23 @@ class RelatedProductTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->init($product);
         $productPage->open();
-        $this->assertEquals($product->getProductName(), $productPage->getViewBlock()->getProductName());
+        $this->assertEquals($product->getName(), $productPage->getViewBlock()->getProductName());
 
         /** @var \Magento\Catalog\Test\Block\Product\ProductList\Related $relatedBlock */
         $relatedBlock = $productPage->getRelatedProductBlock();
         //Verify related simple2 and configurable on Simple1 product page
-        $this->assertTrue($relatedBlock->isRelatedProductVisible($simple2->getProductName()));
-        $this->assertTrue($relatedBlock->isRelatedProductSelectable($simple2->getProductName()));
-        $this->assertTrue($relatedBlock->isRelatedProductVisible($configurable->getProductName()));
-        $this->assertFalse($relatedBlock->isRelatedProductSelectable($configurable->getProductName()));
+        $this->assertTrue($relatedBlock->isRelatedProductVisible($simple2->getName()));
+        $this->assertTrue($relatedBlock->isRelatedProductSelectable($simple2->getName()));
+        $this->assertTrue($relatedBlock->isRelatedProductVisible($configurable->getName()));
+        $this->assertFalse($relatedBlock->isRelatedProductSelectable($configurable->getName()));
         //Open and verify configurable page
-        $relatedBlock->openRelatedProduct($configurable->getProductName());
-        $this->assertEquals($configurable->getProductName(), $productPage->getViewBlock()->getProductName());
+        $relatedBlock->openRelatedProduct($configurable->getName());
+        $this->assertEquals($configurable->getName(), $productPage->getViewBlock()->getProductName());
         //Verify related simple2 on Configurable product page and add to cart it
         $relatedBlock = $productPage->getRelatedProductBlock();
-        $this->assertTrue($relatedBlock->isRelatedProductVisible($simple2->getProductName()));
-        $this->assertTrue($relatedBlock->isRelatedProductSelectable($simple2->getProductName()));
-        $relatedBlock->selectProductForAddToCart($simple2->getProductName());
+        $this->assertTrue($relatedBlock->isRelatedProductVisible($simple2->getName()));
+        $this->assertTrue($relatedBlock->isRelatedProductSelectable($simple2->getName()));
+        $relatedBlock->selectProductForAddToCart($simple2->getName());
         $productPage->getViewBlock()->addToCart($configurable);
 
         //Verify that both configurable product and simple product 2 are added to shopping cart

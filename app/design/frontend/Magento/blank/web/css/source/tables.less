@@ -6,8 +6,9 @@
 //  * @license     {license_link}
 //  */
 
-.wrapper.table {
+.table-wrapper {
     .table-overflow();
+    position: relative; // to hide unnecessary horizontal scrollbar in Safari
     > table {
         .table-caption(@_table-caption-hide: true);
     }
@@ -18,7 +19,9 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .wrapper.table {
+    .table-wrapper {
+        overflow-y: visible;
+        overflow-x: visible;
         > table {
             > thead,
             > tbody,
@@ -26,7 +29,7 @@
                 > tr {
                     > th,
                     > td {
-                        white-space: normal;
+                        //white-space: normal;
                     }
                 }
             }

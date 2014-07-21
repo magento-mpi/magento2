@@ -1,7 +1,5 @@
 <?php
 /**
- * URL Rewrite Model
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +8,8 @@
 namespace Magento\UrlRewrite\Model;
 
 /**
+ * URL Rewrite Model
+ *
  * @method \Magento\UrlRewrite\Model\UrlRewrite setStoreId(int $value)
  * @method int getCategoryId()
  * @method \Magento\UrlRewrite\Model\UrlRewrite setCategoryId(int $value)
@@ -30,10 +30,19 @@ namespace Magento\UrlRewrite\Model;
  */
 class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 {
+    /**
+     * Rewrite type category
+     */
     const TYPE_CATEGORY = 1;
 
+    /**
+     * Rewrite type product
+     */
     const TYPE_PRODUCT = 2;
 
+    /**
+     * Custom rewrite type
+     */
     const TYPE_CUSTOM = 3;
 
     /**
@@ -161,11 +170,11 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
         $loadTags = is_array($tags) ? $tags : explode(',', $tags);
 
         $search = $this->getResourceCollection();
-        foreach ($loadTags as $k => $t) {
-            if (!is_numeric($k)) {
-                $t = $k . '=' . $t;
+        foreach ($loadTags as $key => $tag) {
+            if (!is_numeric($key)) {
+                $tag = $key . '=' . $tag;
             }
-            $search->addTagsFilter($t);
+            $search->addTagsFilter($tag);
         }
         if (!is_null($this->getStoreId())) {
             $search->addStoreFilter($this->getStoreId());
@@ -203,12 +212,12 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 
         $addTags = is_array($tags) ? $tags : explode(',', $tags);
 
-        foreach ($addTags as $k => $t) {
-            if (!is_numeric($k)) {
-                $t = $k . '=' . $t;
+        foreach ($addTags as $key => $tag) {
+            if (!is_numeric($key)) {
+                $tag = $key . '=' . $tag;
             }
-            if (!in_array($t, $curTags)) {
-                $curTags[] = $t;
+            if (!in_array($tag, $curTags)) {
+                $curTags[] = $tag;
             }
         }
 
@@ -227,14 +236,14 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 
         $removeTags = is_array($tags) ? $tags : explode(',', $tags);
 
-        foreach ($removeTags as $k => $t) {
-            if (!is_numeric($k)) {
-                $t = $k . '=' . $t;
+        foreach ($removeTags as $key => $tag) {
+            if (!is_numeric($key)) {
+                $tag = $key . '=' . $tag;
             }
 
-            $key = array_search($t, $curTags);
-            if ($key) {
-                unset($curTags[$key]);
+            $tagKey = array_search($tag, $curTags);
+            if ($tagKey) {
+                unset($curTags[$tagKey]);
             }
         }
 
@@ -322,23 +331,19 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
             $targetUrl = $request->getBaseUrl() . '/' . $this->getTargetPath();
         }
         $isRedirectOption = $this->hasOption('R');
+        $isStoreInUrl = $this->_scopeConfig->getValue(
+            \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if ($this->_scopeConfig->getValue(
-                'web/url/use_store',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ) && ($storeCode = $this->_storeManager->getStore()->getCode())
-            ) {
+            if ($isStoreInUrl && ($storeCode = $this->_storeManager->getStore()->getCode())) {
                 $targetUrl = $request->getBaseUrl() . '/' . $storeCode . '/' . $this->getTargetPath();
             }
 
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
-        if ($this->_scopeConfig->getValue(
-            'web/url/use_store',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) && ($storeCode = $this->_storeManager->getStore()->getCode())
-        ) {
+        if ($isStoreInUrl && ($storeCode = $this->_storeManager->getStore()->getCode())) {
             $targetUrl = $request->getBaseUrl() . '/' . $storeCode . '/' . $this->getTargetPath();
         }
 
@@ -362,7 +367,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
             $queryParams = array();
             parse_str($_SERVER['QUERY_STRING'], $queryParams);
             $hasChanges = false;
-            foreach ($queryParams as $key => $value) {
+            foreach (array_keys($queryParams) as $key) {
                 if (substr($key, 0, 3) === '___') {
                     unset($queryParams[$key]);
                     $hasChanges = true;
