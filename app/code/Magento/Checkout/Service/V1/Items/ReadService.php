@@ -42,10 +42,10 @@ class ReadService implements ReadServiceInterface
     public function itemsList($cartId)
     {
         $output = [];
-        /** @var  \Magento\Sales\Model\Quote\Item $quote */
+        /** @var  \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId);
 
-        /** @var  \Magento\Catalog\Model\Product $item */
+        /** @var  \Magento\Sales\Model\Quote\Item  $item */
         foreach ($quote->getAllItems() as $item) {
             $data = [
                 Items::SKU => $item->getSku(),
