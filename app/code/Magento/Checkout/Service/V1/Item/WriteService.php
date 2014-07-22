@@ -31,25 +31,26 @@ class WriteService implements WriteServiceInterface
     protected $productLoader;
 
     /**
-     * @var \Magento\Checkout\Model\Cart
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $cart;
+    protected $storeManager;
 
     /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param ItemBuilder $itemBuilder
      * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
         ItemBuilder $itemBuilder,
         \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader,
-        \Magento\Checkout\Model\Cart $cart
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->quoteLoader = $quoteLoader;
         $this->itemBuilder = $itemBuilder;
         $this->productLoader = $productLoader;
-        $this->cart = $cart;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -57,13 +58,19 @@ class WriteService implements WriteServiceInterface
      */
     public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Item $data)
     {
+        $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId);
+        $quote = $this->quoteLoader->load($cartId, $storeId);
 
         $product = $this->productLoader->load($data->getSku());
 
         try {
-            $quote->addProduct($product);
+            $quote->addProduct($product, $data->getQty());
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not add item to quote');
+        }
+        try {
+            $quote->collectTotals()->save();
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not add item to quote');
         }
