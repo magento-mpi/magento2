@@ -116,6 +116,8 @@ app/code/Magento/Shipping/Model/Resource/Order
 app/code/Magento/Theme
 app/code/Magento/Webapi
 app/code/Magento/GroupedProduct
+app/code/Magento/CatalogUrlRewrite
+app/code/Magento/CmsUrlRewrite
 app/code/Magento/UrlRewrite
 app/code/Magento/Wishlist/Block/Link.php
 dev/shell
