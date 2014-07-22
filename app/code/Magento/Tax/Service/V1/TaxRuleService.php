@@ -370,11 +370,8 @@ class TaxRuleService implements TaxRuleServiceInterface
                     }
                 } catch (NoSuchEntityException $e) {
                     $exception->addError(
-                        NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                        [
-                            'fieldName' => TaxRule::CUSTOMER_TAX_CLASS_IDS,
-                            'value'     => $customerTaxClassId,
-                        ]
+                        $e->getRawMessage(),
+                        $e->getParameters()
                     );
                 }
             }
@@ -399,11 +396,8 @@ class TaxRuleService implements TaxRuleServiceInterface
                     }
                 } catch (NoSuchEntityException $e) {
                     $exception->addError(
-                        NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                        [
-                            'fieldName' => TaxRule::PRODUCT_TAX_CLASS_IDS,
-                            'value'     => $productTaxClassId,
-                        ]
+                        $e->getRawMessage(),
+                        $e->getParameters()
                     );
                 }
             }
