@@ -86,7 +86,11 @@ class DefaultValidator extends \Magento\Framework\Validator\AbstractValidator
      */
     protected function validateOptionRequiredFields(Option $option)
     {
-        $storeId = $option->getProduct()->getStoreId();
+        $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+        $product = $option->getProduct();
+        if ($product) {
+            $storeId = $product->getStoreId();
+        }
         $title = $option->getTitle();
         return $this->isValidOptionTitle($title, $storeId) && !$this->isEmpty($option->getType());
     }
@@ -101,7 +105,7 @@ class DefaultValidator extends \Magento\Framework\Validator\AbstractValidator
     protected function isValidOptionTitle($title, $storeId)
     {
         // we should be able to set null title for not default store (used for deletion from store view)
-        if ($storeId > 0 && $title === null) {
+        if ($storeId > \Magento\Store\Model\Store::DEFAULT_STORE_ID && $title === null) {
             return true;
         }
         if ($this->isEmpty($title)) {

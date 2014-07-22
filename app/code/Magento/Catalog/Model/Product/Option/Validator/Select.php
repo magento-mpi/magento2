@@ -46,7 +46,10 @@ class Select extends DefaultValidator
             return false;
         }
 
-        $storeId = $option->getProduct()->getStoreId();
+        $storeId = $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+        if ($option->getProduct()) {
+            $storeId = $option->getProduct()->getStoreId();
+        }
         foreach ($option->getData('values') as $value) {
             $type = isset($value['price_type']) ? $value['price_type'] : null;
             $price = isset($value['price']) ? $value['price'] : null;
@@ -71,7 +74,7 @@ class Select extends DefaultValidator
     protected function isValidOptionPrice($priceType, $price, $storeId)
     {
         // we should be able to remove website values for default store fallback
-        if ($storeId > 0 && $priceType === null && $price === null) {
+        if ($storeId > \Magento\Store\Model\Store::DEFAULT_STORE_ID && $priceType === null && $price === null) {
             return true;
         }
         if (!$this->isInRange($priceType, $this->priceTypes) || $this->isNegative($price)) {

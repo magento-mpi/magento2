@@ -102,9 +102,14 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+    }
 
+    /**
+     * @covers Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper::initialize
+     */
+    public function testInitialize()
+    {
         $this->websiteMock->expects($this->once())->method('getId')->will($this->returnValue($this->websiteId));
-
         $this->storeMock->expects($this->once())->method('getWebsite')->will($this->returnValue($this->websiteMock));
 
         $this->storeManagerMock->expects(
@@ -125,13 +130,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             $this->productLinksMock,
             $this->jsHelperMock
         );
-    }
 
-    /**
-     * @covers Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper::initialize
-     */
-    public function testInitialize()
-    {
         $productData = array(
             'stock_data' => array('stock_data'),
             'url_key_create_redirect' => true,
@@ -162,6 +161,16 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         $this->requestMock->expects(
             $this->at(3)
+        )->method(
+            'getPost'
+        )->with(
+            'options_use_default'
+        )->will(
+            $this->returnValue(true)
+        );
+
+        $this->requestMock->expects(
+            $this->at(4)
         )->method(
             'getPost'
         )->with(
@@ -227,5 +236,56 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('setCanSaveCustomOptions')->with(true);
 
         $this->assertEquals($this->productMock, $this->helper->initialize($this->productMock));
+    }
+
+    /**
+     * Data provider for testMergeProductOptions
+     *
+     * @return array
+     */
+    public function mergeProductOptionsDataProvider()
+    {
+        return [
+            [
+                null,
+                [],
+                [],
+            ],
+            [
+                ['key' => 'val'],
+                null,
+                ['key' => 'val'],
+            ],
+            [
+                ['key' => ['key' => 'val']],
+                ['key' => ['key' => 'val2' , 'key2' => 'val2']],
+                ['key' => ['key' => 'val2' , 'key2' => 'val2']],
+            ],
+            [
+                ['key' => ['key' => 'val', 'another_key' => 'another_value']],
+                ['key' => ['key' => 'val2' , 'key2' => 'val2']],
+                ['key' => ['key' => 'val2' , 'another_key' => 'another_value', 'key2' => 'val2', ]],
+            ],
+        ];
+    }
+
+    /**
+     * @param array $productOptions
+     * @param array $defaultOptions
+     * @param array $expectedResults
+     * @dataProvider mergeProductOptionsDataProvider
+     */
+    public function testMergeProductOptions($productOptions, $defaultOptions, $expectedResults)
+    {
+        $this->jsHelperMock = $this->getMock('\Magento\Backend\Helper\Js', [], [], '', false);
+        $this->helper = new Helper(
+            $this->requestMock,
+            $this->storeManagerMock,
+            $this->stockFilterMock,
+            $this->productLinksMock,
+            $this->jsHelperMock
+        );
+        $result = $this->helper->mergeProductOptions($productOptions, $defaultOptions);
+        $this->assertEquals($expectedResults, $result);
     }
 }

@@ -129,6 +129,7 @@ class Helper
                 $this->request->getPost('options_use_default')
             );
             $product->setProductOptions($options);
+            $a = var_export($options, true);
         }
 
         $product->setCanSaveCustomOptions(

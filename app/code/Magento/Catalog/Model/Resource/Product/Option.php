@@ -65,6 +65,11 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $this->_init('catalog_product_option', 'option_id');
     }
 
+    public function save(\Magento\Framework\Model\AbstractModel $data)
+    {
+        parent::save($data);
+    }
+
     /**
      * Save options store data
      *
@@ -239,8 +244,14 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $writeAdapter = $this->_getWriteAdapter();
         $titleTableName = $this->getTable('catalog_product_option_title');
         foreach([\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId()] as $storeId) {
+            $existInCurrentStore = $this->getColFromOptionTable($titleTableName, (int)$object->getId(), (int)$storeId);
+            $existInDefaultStore = $this->getColFromOptionTable(
+                $titleTableName,
+                (int)$object->getId(),
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            );
             if ($object->getTitle()) {
-                if ($this->getColFromOptionTable($titleTableName, $object->getId(), $storeId)) {
+                if ($existInCurrentStore) {
                     if ($object->getStoreId() == $storeId) {
                         $data = $this->_prepareDataForTable(
                             new \Magento\Framework\Object(array('title' => $object->getTitle())),
@@ -256,13 +267,10 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                         );
                     }
                 } else {
-                    $existInDefaultStore = $this->getColFromOptionTable(
-                        $titleTableName,
-                        $object->getId(),
-                        \Magento\Store\Model\Store::DEFAULT_STORE_ID
-                    );
                     // we should insert record into not default store only of if it does not exist in default store
-                    if ($storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID || !$existInDefaultStore) {
+                    if (($storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID && !$existInDefaultStore)
+                        || ($storeId != \Magento\Store\Model\Store::DEFAULT_STORE_ID && !$existInCurrentStore)
+                    ) {
                         $data = $this->_prepareDataForTable(
                             new \Magento\Framework\Object(
                                 array(
@@ -277,7 +285,9 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     }
                 }
             } else {
-                if ($object->getId() && $object->getStoreId() > 0 && $storeId) {
+                if ($object->getId() && $object->getStoreId() > \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                    && $storeId
+                ) {
                     $writeAdapter->delete(
                         $titleTableName,
                         array(

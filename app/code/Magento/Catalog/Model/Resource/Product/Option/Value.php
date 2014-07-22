@@ -133,7 +133,7 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-        if ($object->getStoreId() != '0'
+        if ($object->getStoreId() != \Magento\Store\Model\Store::DEFAULT_STORE_ID
             && $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE
             && $object->getPrice()
             && $priceType
@@ -228,9 +228,14 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 (int)$storeId
             );
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
-
+            $existInCurrentStore = $this->getOptionIdFromOptionTable($titleTable, (int)$object->getId(), (int)$storeId);
+            $existInDefaultStore = $this->getOptionIdFromOptionTable(
+                $titleTable,
+                (int)$object->getId(),
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            );
             if ($object->getTitle()) {
-                if ($optionTypeId) {
+                if ($existInCurrentStore) {
                     if ($storeId == $object->getStoreId()) {
                         $where = array(
                             'option_type_id = ?' => (int)$optionTypeId,
@@ -240,15 +245,22 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
                         $this->_getWriteAdapter()->update($titleTable, $bind, $where);
                     }
                 } else {
-                    $bind = array(
-                        'option_type_id' => (int)$object->getId(),
-                        'store_id' => $storeId,
-                        'title' => $object->getTitle()
-                    );
-                    $this->_getWriteAdapter()->insert($titleTable, $bind);
+                    // we should insert record into not default store only of if it does not exist in default store
+                    if (($storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID && !$existInDefaultStore)
+                        || ($storeId != \Magento\Store\Model\Store::DEFAULT_STORE_ID && !$existInCurrentStore)
+                    ) {
+                        $bind = array(
+                            'option_type_id' => (int)$object->getId(),
+                            'store_id' => $storeId,
+                            'title' => $object->getTitle()
+                        );
+                        $this->_getWriteAdapter()->insert($titleTable, $bind);
+                    }
                 }
             } else {
-                if ($optionTypeId && $object->getStoreId() > 0 && $storeId) {
+                if ($optionTypeId && $object->getStoreId() > \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                    && $storeId
+                ) {
                     $where = array(
                         'option_type_id = ?' => (int)$optionTypeId,
                         'store_id = ?' => $storeId,
@@ -257,6 +269,30 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 }
             }
         }
+    }
+
+    /**
+     * Get first col from from first row for option table
+     *
+     * @param $tableName
+     * @param $optionId
+     * @param $storeId
+     * @return string
+     */
+    protected function getOptionIdFromOptionTable($tableName, $optionId, $storeId)
+    {
+        $readAdapter = $this->_getReadAdapter();
+        $select = $readAdapter->select()->from(
+            $tableName,
+            array('option_type_id')
+        )->where(
+            'option_type_id = ?',
+            $optionId
+        )->where(
+            'store_id = ?',
+            (int)$storeId
+        );
+        return $readAdapter->fetchOne($select);
     }
 
 
