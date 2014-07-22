@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>orderStatusForm</name>
-        <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\Form</class>
+        <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardForm</class>
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>

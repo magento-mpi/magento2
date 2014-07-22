@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class ExchangeRateIndex
+ * Exchange Rate Index page
  */
 class ExchangeRateIndex extends BackendPage
 {
@@ -27,7 +28,7 @@ class ExchangeRateIndex extends BackendPage
         'exchangeRateGrid' => [
             'name' => 'exchangeRateGrid',
             'class' => 'Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid',
-            'locator' => '[id="page:main-container"]',
+            'locator' => '#rewardRatesGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [

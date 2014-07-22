@@ -20,9 +20,9 @@ class RewardCustomerInfo extends FrontendPage
     protected $_blocks = [
         'rewardPointsBlock' => [
             'name' => 'rewardPointsBlock',
-            'class' => 'Magento\Reward\Test\Block\Customer\RewardPoints',
-            'locator' => '//*[@class="columns"]/div[div[contains(@class, "block reward")]]',
-            'strategy' => 'xpath',
+            'class' => 'Magento\Reward\Test\Block\Customer\Reward',
+            'locator' => '.block-reward-info',
+            'strategy' => 'css selector',
             ],
         'messagesBlock' => [
             'name' => 'messagesBlock',
@@ -45,7 +45,7 @@ class RewardCustomerInfo extends FrontendPage
     ];
 
     /**
-     * @return \Magento\Reward\Test\Block\Customer\RewardPoints
+     * @return \Magento\Reward\Test\Block\Customer\Reward
      */
     public function getRewardPointsBlock()
     {

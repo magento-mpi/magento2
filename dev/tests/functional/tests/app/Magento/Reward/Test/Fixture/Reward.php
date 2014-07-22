@@ -26,7 +26,6 @@ class Reward extends InjectableFixture
      */
     protected $handlerInterface = 'Magento\Reward\Test\Handler\Reward\RewardInterface';
 
-{
     protected $defaultDataSet = [
         'website_id' => 'Main Website',
         'customer_group_id' => 'All Customer Groups',
@@ -89,6 +88,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'source' => 'Magento\Reward\Test\Fixture\Reward\CustomerGroup'
     ];
 
     protected $direction = [

@@ -29,7 +29,8 @@ use Mtf\TestCase\Injectable;
  * 3. Click on the exchange rate from preconditions.
  * 4. Click on the "Delete" button
  * 5. Perform appropriate assertions.
- * @group Product_Attributes_(MX), Reward_Points_(CS)
+ *
+ * @group  Reward_Points_(CS)
  * @ZephyrId MAGETWO-26344
  */
 class ExchangeRateDeletionForRewardPointsEntityTest extends Injectable
@@ -52,12 +53,12 @@ class ExchangeRateDeletionForRewardPointsEntityTest extends Injectable
      * Preparing magento instance for whole test
      *
      * @param FixtureFactory $fixtureFactory
+     * @param CustomerInjectable $customer
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(FixtureFactory $fixtureFactory, CustomerInjectable $customer)
     {
         $configuration = $fixtureFactory->createByCode('configData', ['dataSet' => 'reward_purchase']);
-        $customer = $fixtureFactory->createByCode('customerInjectable');
         $configuration->persist();
         $customer->persist();
 
@@ -78,8 +79,8 @@ class ExchangeRateDeletionForRewardPointsEntityTest extends Injectable
 
         // Check that Reward exchange Rates Grid is empty. Delete any rate if it exists
         $exchangeRateIndex->open();
-        while ($exchangeRateIndex->getExchangeRateGrid()->getFirstRow()->isVisible()) {
-            $exchangeRateIndex->getExchangeRateGrid()->getFirstRow()->click();
+        while ($exchangeRateIndex->getExchangeRateGrid()->isFirstRowVisible()) {
+            $exchangeRateIndex->getExchangeRateGrid()->clickOnFirstRow();
             $exchangeRateNew->getFormPageActions()->delete();
         }
     }
@@ -88,10 +89,9 @@ class ExchangeRateDeletionForRewardPointsEntityTest extends Injectable
      * Run Test Creation for Exchange Rate Deletion for RewardPointsEntity
      *
      * @param Reward $reward
-     * @param CustomerInjectable $customer
      * @return void
      */
-    public function test(Reward $reward, CustomerInjectable $customer)
+    public function test(Reward $reward)
     {
         // Preconditions
         $reward->persist();

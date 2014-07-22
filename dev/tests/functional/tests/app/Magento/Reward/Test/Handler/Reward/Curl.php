@@ -17,6 +17,7 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
+ * Curl creation of reward points exchange rate
  */
 class Curl extends AbstractCurl implements RewardInterface
 {
@@ -29,12 +30,6 @@ class Curl extends AbstractCurl implements RewardInterface
         'website_id' => [
             'All Websites' => 0,
             'Main Website' => 1,
-        ],
-        'customer_group_id' => [
-            'All Customer Groups' => 0,
-            'General' => 1,
-            'Wholesale' => 2,
-            'Retailer' => 3,
         ],
         'direction' => [
             'Points to Currency' => 1,
@@ -51,7 +46,13 @@ class Curl extends AbstractCurl implements RewardInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
+        /**
+         * @var \Magento\Reward\Test\Fixture\Reward $fixture
+         */
         $data['rate'] = $this->replaceMappingData($fixture->getData());
+        $data['rate']['customer_group_id'] = $fixture->getDataFieldConfig('customer_group_id')['source']
+            ->getCustomerGroup()
+            ->getCustomerGroupId();
 
         $url = $_ENV['app_backend_url'] . 'admin/reward_rate/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());

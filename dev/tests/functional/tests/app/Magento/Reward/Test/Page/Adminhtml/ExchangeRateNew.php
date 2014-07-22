@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class ExchangeRateNew
+ * Exchange Rate New Page
  */
 class ExchangeRateNew extends BackendPage
 {
@@ -26,7 +27,7 @@ class ExchangeRateNew extends BackendPage
         ],
         'orderStatusForm' => [
             'name' => 'orderStatusForm',
-            'class' => 'Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\Form',
+            'class' => 'Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
@@ -41,7 +42,7 @@ class ExchangeRateNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\Form
+     * @return \Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardForm
      */
     public function getOrderStatusForm()
     {

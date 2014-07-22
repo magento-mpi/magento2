@@ -17,7 +17,7 @@
     <block>
         <name>exchangeRateGrid</name>
         <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid</class>
-        <locator>[id="page:main-container"]</locator>
+        <locator>#rewardRatesGrid</locator>
         <strategy>css selector</strategy>
     </block>
     <block>

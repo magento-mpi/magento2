@@ -17,6 +17,7 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
+ * Class ApplyConfig
  * Curl handler for persisting Magento configuration
  */
 class ApplyConfig extends Curl
@@ -26,7 +27,6 @@ class ApplyConfig extends Curl
      *
      * @param FixtureInterface $fixture
      * @return mixed|void
-     * @SuppressWarnings
      */
     public function persist(FixtureInterface $fixture = null)
     {

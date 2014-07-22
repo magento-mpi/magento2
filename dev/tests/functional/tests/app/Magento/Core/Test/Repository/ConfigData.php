@@ -21,6 +21,7 @@ class ConfigData extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
+     * @SuppressWarnings
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -361,7 +362,7 @@ class ConfigData extends AbstractRepository
         $this->_data['reward_purchase'] = [
             'section' => [
                 [
-                    'path' => 'magento_reward/order/value',
+                    'path' => 'magento_reward/points/order',
                     'scope' => 'magento_reward',
                     'scope_id' => '1',
                     'value' => '1',
@@ -372,7 +373,7 @@ class ConfigData extends AbstractRepository
         $this->_data['reward_purchase_rollback'] = [
             'section' => [
                 [
-                    'path' => 'magento_reward/order/value',
+                    'path' => 'magento_reward/points/order',
                     'scope' => 'magento_reward',
                     'scope_id' => '1',
                     'value' => '0',

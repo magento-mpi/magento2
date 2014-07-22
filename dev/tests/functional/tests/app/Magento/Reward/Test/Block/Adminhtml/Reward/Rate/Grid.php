@@ -8,15 +8,21 @@
 
 namespace Magento\Reward\Test\Block\Adminhtml\Reward\Rate;
 
-use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class Grid
  * Adminhtml Reward Exchange Rate management grid
  */
-class Grid extends ParentGrid
+class Grid extends AbstractGrid
 {
+    /**
+     * Edit link selector
+     *
+     * @var string
+     */
     protected $editLink = 'td[data-column="rate_id"]';
+
     /**
      * Initialize block elements
      *
@@ -44,12 +50,24 @@ class Grid extends ParentGrid
     protected $firstRow = '[data-role="row"] td[data-column="rate_id"]';
 
     /**
-     * Get first exchange rate
+     * Click on first exchange rate
      *
-     * @return \Mtf\Client\Element
+     * @return void
      */
-    public function getFirstRow()
+    public function clickOnFirstRow()
     {
-        return $this->_rootElement->find($this->firstRow);
+        if ($this->isFirstRowVisible()) {
+            $this->_rootElement->find($this->firstRow)->click();
+        }
+    }
+
+    /**
+     * Is first row visible
+     *
+     * @return bool
+     */
+    public function isFirstRowVisible()
+    {
+        return $this->_rootElement->find($this->firstRow)->isVisible();
     }
 }

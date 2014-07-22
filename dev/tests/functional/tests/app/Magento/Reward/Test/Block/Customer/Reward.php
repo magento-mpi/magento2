@@ -8,7 +8,7 @@
 
 namespace Magento\Reward\Test\Block\Customer;
 
-use Magento\Reward\Test\Fixture\Reward;
+use Magento\Reward\Test\Fixture\Reward as RewardFixture;
 use Mtf\Block\Block;
 use Magento\Reward\Test\Block\Customer\RewardPoints\Subscription;
 
@@ -16,7 +16,7 @@ use Magento\Reward\Test\Block\Customer\RewardPoints\Subscription;
  * Class RewardPoints
  * Reward Points block in customer My account on frontend
  */
-class RewardPoints extends Block
+class Reward extends Block
 {
     /**
      * Reward points subscription selector
@@ -51,12 +51,19 @@ class RewardPoints extends Block
     }
 
     /**
+     * Reward info selector
+     *
+     * @var string
+     */
+    protected $rewardInfo = '.reward-rates';
+
+    /**
      * Returns Reward points balance Information
      *
      * @return array|string
      */
     public function getBalanceInformation()
     {
-        return $this->_rootElement->find('.reward.info')->getText();
+        return $this->_rootElement->find($this->rewardInfo)->getText();
     }
 }
