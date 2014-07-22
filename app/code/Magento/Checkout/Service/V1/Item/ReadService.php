@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Service\V1\Items;
+namespace Magento\Checkout\Service\V1\Item;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Checkout\Service\V1\Data\ItemsBuilder as ItemsBuilder;
-use \Magento\Checkout\Service\V1\Data\Items as Items;
+use \Magento\Checkout\Service\V1\Data\ItemBuilder as ItemBuilder;
+use \Magento\Checkout\Service\V1\Data\Item as Item;
 
 class ReadService implements ReadServiceInterface
 {
@@ -20,26 +20,26 @@ class ReadService implements ReadServiceInterface
     protected $quoteLoader;
 
     /**
-     * @var ItemsBuilder
+     * @var ItemBuilder
      */
-    protected $itemsBuilder;
+    protected $itemBuilder;
 
     /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
-     * @param ItemsBuilder $itemsBuilder
+     * @param ItemBuilder $itemBuilder
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
-        ItemsBuilder $itemsBuilder
+        ItemBuilder $itemBuilder
     ) {
         $this->quoteLoader = $quoteLoader;
-        $this->itemsBuilder = $itemsBuilder;
+        $this->itemBuilder = $itemBuilder;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function itemsList($cartId)
+    public function getList($cartId)
     {
         $output = [];
         /** @var  \Magento\Sales\Model\Quote $quote */
@@ -48,14 +48,14 @@ class ReadService implements ReadServiceInterface
         /** @var  \Magento\Sales\Model\Quote\Item  $item */
         foreach ($quote->getAllItems() as $item) {
             $data = [
-                Items::SKU => $item->getSku(),
-                Items::NAME => $item->getName(),
-                Items::PRICE => $item->getPrice(),
-                Items::QTY => $item->getQty(),
-                Items::TYPE => $item->getProductType()
+                Item::SKU => $item->getSku(),
+                Item::NAME => $item->getName(),
+                Item::PRICE => $item->getPrice(),
+                Item::QTY => $item->getQty(),
+                Item::TYPE => $item->getProductType()
             ];
 
-            $output[] = $this->itemsBuilder->populateWithArray($data)->create();
+            $output[] = $this->itemBuilder->populateWithArray($data)->create();
         }
         return $output;
     }

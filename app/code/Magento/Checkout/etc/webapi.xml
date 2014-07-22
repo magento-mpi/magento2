@@ -10,7 +10,7 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <route url="/V1/carts/:cartId/items" method="GET">
-        <service class="Magento\Checkout\Service\V1\Items\ReadServiceInterface" method="itemsList"/>
+        <service class="Magento\Checkout\Service\V1\Item\ReadServiceInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>

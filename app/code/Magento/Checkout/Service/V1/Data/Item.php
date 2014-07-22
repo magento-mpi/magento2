@@ -11,7 +11,7 @@ namespace Magento\Checkout\Service\V1\Data;
 /**
  * @codeCoverageIgnore
  */
-class Items extends \Magento\Framework\Service\Data\AbstractObject
+class Item extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
      * Constants defined for keys of array
@@ -51,7 +51,7 @@ class Items extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
     public function getPrice()
     {

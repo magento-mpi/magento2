@@ -17,7 +17,6 @@ class QuoteLoader
      */
     protected $quoteFactory;
 
-
     /**
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      */

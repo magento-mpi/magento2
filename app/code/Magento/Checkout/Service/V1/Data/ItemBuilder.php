@@ -11,7 +11,7 @@ namespace Magento\Checkout\Service\V1\Data;
 /**
  * @codeCoverageIgnore
  */
-class ItemsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param string $value
@@ -19,7 +19,7 @@ class ItemsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      */
     public function setSku($value)
     {
-        $this->_set(Items::SKU, $value);
+        $this->_set(Item::SKU, $value);
         return $this;
     }
 
@@ -29,7 +29,7 @@ class ItemsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      */
     public function setQty($value)
     {
-        $this->_set(Items::QTY, $value);
+        $this->_set(Item::QTY, $value);
         return $this;
     }
 
@@ -39,27 +39,27 @@ class ItemsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      */
     public function setName($value)
     {
-        $this->_set(Items::NAME, $value);
+        $this->_set(Item::NAME, $value);
         return $this;
     }
 
     /**
-     * @param int $value
+     * @param float $value
      * @return $this
      */
     public function setPrice($value)
     {
-        $this->_set(Items::PRICE, $value);
+        $this->_set(Item::PRICE, $value);
         return $this;
     }
 
     /**
-     * @param int $value
+     * @param string $value
      * @return $this
      */
     public function setType($value)
     {
-        $this->_set(Items::TYPE, $value);
+        $this->_set(Item::TYPE, $value);
         return $this;
     }
 
