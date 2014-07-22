@@ -36,11 +36,13 @@ class AssertSearchTermNotOnFrontend extends AbstractConstraint
      */
     public function processAssert(CmsIndex $cmsIndex, Browser $browser, CatalogSearchQuery $searchTerm)
     {
-        $cmsIndex->open()->getSearchBlock()->search($searchTerm->getQueryText());
+        $queryText = $searchTerm->getQueryText();
+        $cmsIndex->open()->getSearchBlock()->search($queryText);
         \PHPUnit_Framework_Assert::assertNotEquals(
             $browser->getUrl(),
             $searchTerm->getRedirect(),
             'Url in the browser corresponds to Url in fixture (redirect has been performed).'
+            . PHP_EOL . 'Search term: "' . $queryText . '"'
         );
     }
 
