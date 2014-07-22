@@ -36,6 +36,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
      * @param CheckoutOnepage $checkoutOnepage
      * @param CatalogProductView $catalogProductViewPage
      * @param CustomerCustomAttribute $customerAttribute
+     * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
      */
     public function processAssert(
@@ -43,12 +44,14 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
         CatalogProductView $catalogProductViewPage,
-        CustomerCustomAttribute $customerAttribute
+        CustomerCustomAttribute $customerAttribute,
+        CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
         // Precondition
         $productSimple->persist();
 
         // Steps
+        $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
         $catalogProductViewPage->init($productSimple);
         $catalogProductViewPage->open();
         $catalogProductViewPage->getViewBlock()->clickAddToCartButton();

@@ -36,6 +36,7 @@ class AssertCustomerCustomAttributeOnCustomerEditPage extends AbstractConstraint
      * @param CustomerCustomAttribute $customerAttribute
      * @param CustomerAccountEdit $customerAccountEdit
      * @param CustomerInjectable $customer
+     * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
      */
     public function processAssert(
@@ -43,8 +44,10 @@ class AssertCustomerCustomAttributeOnCustomerEditPage extends AbstractConstraint
         CustomerAccountIndex $customerAccountIndex,
         CustomerCustomAttribute $customerAttribute,
         CustomerAccountEdit $customerAccountEdit,
-        CustomerInjectable $customer
+        CustomerInjectable $customer,
+        CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
+        $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
         $customerAccountLogin->open();
         $customerAccountLogin->getLoginBlock()->fill($customer);
         $customerAccountLogin->getLoginBlock()->submit();
