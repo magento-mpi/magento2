@@ -15,7 +15,7 @@ use Magento\TestFramework\Helper\ObjectManager;
  */
 class SensitiveCookieMetadataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  SensitiveCookieMetadata */
+    /** @var SensitiveCookieMetadata */
     private $sensitiveCookieMetadata;
 
     public function setUp()
