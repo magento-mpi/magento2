@@ -9,6 +9,10 @@ namespace Magento\Framework\Stdlib\Cookie;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Test SensitiveCookieMetaData
+ *
+ */
 class SensitiveCookieMetadataTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  SensitiveCookieMetadata */
