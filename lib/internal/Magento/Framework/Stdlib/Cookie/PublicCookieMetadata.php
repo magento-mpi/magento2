@@ -30,7 +30,7 @@ class PublicCookieMetadata extends AbstractCookieMetaData
     private $secure;
 
     /**
-     * Set expire time in seconds
+     * Set the number of seconds until the cookie expires
      *
      * @param int $duration
      */
@@ -40,7 +40,7 @@ class PublicCookieMetadata extends AbstractCookieMetaData
     }
 
     /**
-     * Get expire time in seconds
+     * Get the number of seconds until the cookie expires
      *
      * @return int|null
      */
