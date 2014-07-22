@@ -10,9 +10,13 @@ namespace Magento\Framework\Stdlib\Cookie;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Test PublicCookieMetadata
+ *
+ */
 class PublicCookieMetadataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  PublicCookieMetadata */
+    /** @var PublicCookieMetadata */
     private $publicCookieMetadata;
 
     public function setUp()
