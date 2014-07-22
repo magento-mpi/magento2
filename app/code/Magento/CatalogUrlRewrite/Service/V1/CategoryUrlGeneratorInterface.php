@@ -14,6 +14,7 @@ interface CategoryUrlGeneratorInterface
 {
     /**
      * Generate list of urls
+     * TODO: fix service parameter (MAGETWO-25952)
      *
      * @param \Magento\Catalog\Model\Category $category
      * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]

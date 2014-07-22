@@ -10,7 +10,7 @@
 <fixture class="Magento\UrlRewrite\Test\Fixture\UrlRewrite">
     <module>Magento_Backend</module>
     <type>virtual</type>
-    <entity_type>core_url_rewrite</entity_type>
+    <entity_type>url_rewrite</entity_type>
     <collection>Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection</collection>
     <identifier>request_path</identifier>
     <fields>

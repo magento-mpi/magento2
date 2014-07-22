@@ -14,11 +14,6 @@ namespace Magento\DesignEditor\Controller\Varien\Router;
 class Standard extends \Magento\Core\App\Router\Base
 {
     /**
-     * @var \Magento\Framework\ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
      * Routers that must not been matched
      *
      * @var string[]
@@ -31,11 +26,6 @@ class Standard extends \Magento\Core\App\Router\Base
      * @var \Magento\Framework\App\RouterListInterface
      */
     protected $_routerList;
-
-    /**
-     * @var \Magento\UrlRewrite\App\Request\RewriteService
-     */
-    protected $_urlRewriteService;
 
     /**
      * @var \Magento\DesignEditor\Helper\Data
@@ -106,7 +96,6 @@ class Standard extends \Magento\Core\App\Router\Base
             $routerId,
             $nameBuilder
         );
-        $this->_urlRewriteService = $urlRewriteService;
         $this->_routerList = $routerList;
         $this->_designEditorHelper = $designEditorHelper;
         $this->_state = $designEditorState;
@@ -133,9 +122,7 @@ class Standard extends \Magento\Core\App\Router\Base
 
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
-
-        // apply rewrites
-        $this->_urlRewriteService->applyRewrites($request);
+        // $this->_urlRewriteService->applyRewrites($request); @TODO MAGETWO-25952
 
         // match routers
         $controller = null;

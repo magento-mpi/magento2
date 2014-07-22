@@ -49,6 +49,7 @@ class CmsPageUrlGenerator implements CmsPageUrlGeneratorInterface
 
     /**
      * {@inheritdoc}
+     * TODO: fix service parameter
      */
     public function generate($cmsPage)
     {

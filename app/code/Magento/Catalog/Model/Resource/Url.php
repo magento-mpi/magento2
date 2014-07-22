@@ -118,7 +118,7 @@ class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('core_url_rewrite', 'url_rewrite_id');
+        $this->_init('url_rewrite', 'url_rewrite_id');
     }
 
     /**
@@ -1481,7 +1481,7 @@ class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $conditions = array('store_id = ?' => $storeId, 'request_path = ?' => $requestPath);
         if ($rp) {
-            $conditions['options = ?'] = 'RP';
+            $conditions['options = ?'] = \Magento\UrlRedirect\Model\OptionProvider::PERMANENT;
         }
         $this->_getWriteAdapter()->delete($this->getMainTable(), $conditions);
     }

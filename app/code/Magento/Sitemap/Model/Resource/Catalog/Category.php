@@ -99,10 +99,13 @@ class Category extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $this->_select = $this->_getWriteAdapter()->select()->from(
             array('e' => $this->getMainTable()),
             array($this->getIdFieldName(), 'updated_at')
-        )->joinLeft(
-            array('ur' => $this->getTable('core_url_rewrite')),
-            join(' AND ', $urConditions),
-            array('url' => 'request_path')
+        /**
+         * @TODO: Refactor accordingly in MAGETWO-25952
+         */
+//        )->joinLeft(
+//            array('ur' => $this->getTable('url_rewrite')),
+//            join(' AND ', $urConditions),
+//            array('url' => 'request_path')
         )->where(
             'e.path LIKE ?',
             $categoryRow['path'] . '/%'

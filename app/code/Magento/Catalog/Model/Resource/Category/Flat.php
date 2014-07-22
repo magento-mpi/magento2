@@ -251,16 +251,19 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
                 'is_active',
                 'is_anchor'
             )
-        )->joinLeft(
-            array('url_rewrite' => $this->getTable('core_url_rewrite')),
-            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND ' . $_conn->quoteInto(
-                'url_rewrite.product_id IS NULL AND url_rewrite.store_id=? AND ',
-                $storeId
-            ) . $_conn->prepareSqlCondition(
-                'url_rewrite.id_path',
-                array('like' => 'category/%')
-            ),
-            array('request_path' => 'url_rewrite.request_path')
+        /**
+         * @TODO: Refactor accordingly in MAGETWO-25952
+         */
+//        )->joinLeft(
+//            array('url_rewrite' => $this->getTable('url_rewrite')),
+//            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND ' . $_conn->quoteInto(
+//                'url_rewrite.product_id IS NULL AND url_rewrite.store_id=? AND ',
+//                $storeId
+//            ) . $_conn->prepareSqlCondition(
+//                'url_rewrite.id_path',
+//                array('like' => 'category/%')
+//            ),
+//            array('request_path' => 'url_rewrite.request_path')
         )->where(
             'main_table.is_active = ?',
             '1'
@@ -509,16 +512,19 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
         $select = $read->select()->from(
             array('main_table' => $this->getMainStoreTable($category->getStoreId())),
             array('main_table.entity_id', 'main_table.name')
-        )->joinLeft(
-            array('url_rewrite' => $this->getTable('core_url_rewrite')),
-            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND ' . $read->quoteInto(
-                'url_rewrite.product_id IS NULL AND url_rewrite.store_id=? AND ',
-                $category->getStoreId()
-            ) . $read->prepareSqlCondition(
-                'url_rewrite.id_path',
-                array('like' => 'category/%')
-            ),
-            array('request_path' => 'url_rewrite.request_path')
+        /**
+         * @TODO: Refactor accordingly in MAGETWO-25952
+         */
+//        )->joinLeft(
+//            array('url_rewrite' => $this->getTable('url_rewrite')),
+//            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND ' . $read->quoteInto(
+//                'url_rewrite.product_id IS NULL AND url_rewrite.store_id=? AND ',
+//                $category->getStoreId()
+//            ) . $read->prepareSqlCondition(
+//                'url_rewrite.id_path',
+//                array('like' => 'category/%')
+//            ),
+//            array('request_path' => 'url_rewrite.request_path')
         )->where(
             'main_table.entity_id IN (?)',
             array_reverse(explode(',', $category->getPathInStore()))

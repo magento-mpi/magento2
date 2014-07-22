@@ -55,11 +55,13 @@ class Observer
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $observer->getEvent()->getProduct();
 
+        // TODO: create new observer for generation and saving product url path (MAGETWO-25952)
         if (!$product->getUrlPath() || $product->getOrigData('url_key') != $product->getData('url_key')) {
             $product->setUrlPath($this->catalogUrlRewriteHelper->generateProductUrlKeyPath($product));
         }
 
         if (!$product->getData('url_key') || $product->getOrigData('url_key') != $product->getData('url_key')) {
+            // TODO: fix service parameter (MAGETWO-25952)
             $this->urlSave->save($this->productUrlGenerator->generate($product));
         }
     }

@@ -1206,15 +1206,17 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function joinUrlRewrite()
     {
+        /**
+         * @TODO: Refactor accordingly in MAGETWO-25952
+         */
+        return $this;
         $this->joinTable(
-            'core_url_rewrite',
+            'url_rewrite',
             'entity_id=entity_id',
             array('request_path'),
             '{{table}}.type = ' . \Magento\UrlRewrite\Model\UrlRewrite::TYPE_PRODUCT,
             'left'
         );
-
-        return $this;
     }
 
     /**
@@ -1260,8 +1262,12 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             return;
         }
 
+        /**
+         * @TODO: Refactor accordingly in MAGETWO-25952
+         */
+        return;
         $select = $this->getConnection()->select()->from(
-            $this->getTable('core_url_rewrite'),
+            $this->getTable('url_rewrite'),
             array('product_id', 'request_path')
         )->where(
             'store_id = ?',
