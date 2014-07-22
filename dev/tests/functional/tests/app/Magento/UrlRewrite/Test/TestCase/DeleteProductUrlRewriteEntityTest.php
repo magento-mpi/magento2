@@ -24,12 +24,12 @@ use Mtf\TestCase\Injectable;
  *
  * Test Flow:
  * 1. Login to backend.
- * 2. Navigate to MARKETING > URL Redirects.
+ * 2. Navigate to MARKETING > URL Rewrites.
  * 3. Click Redirect from grid.
  * 4. Click 'Delete' button.
  * 5. Perform asserts.
  *
- * @group URL_Rewrites_(PS)
+ * @group URL_Rewrites_(MX)
  * @ZephyrId  MAGETWO-23287
  */
 class DeleteProductUrlRewriteEntityTest extends Injectable
@@ -76,7 +76,7 @@ class DeleteProductUrlRewriteEntityTest extends Injectable
         // Steps
         $this->urlRewriteIndex->open();
         $filter = ['request_path' => $productRedirect->getRequestPath()];
-        $this->urlRewriteIndex->getUrlRedirectGrid()->searchAndOpen($filter);
+        $this->urlRewriteIndex->getUrlRewriteGrid()->searchAndOpen($filter);
         $this->urlRewriteEdit->getPageMainActions()->delete();
     }
 }

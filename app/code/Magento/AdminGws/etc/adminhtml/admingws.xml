@@ -153,7 +153,7 @@
         <callback class="adminhtml__catalog_event__edit" method="validateCatalogEventEdit" />
         <callback class="adminhtml__sales_order_create__" method="validateSalesOrderCreation" />
         <callback class="adminhtml__system_store__" method="validateSystemStore" />
-        <callback class="adminhtml__urlrewrite__edit" method="validateUrlRewriteEditAction" />
+        <callback class="adminhtml__url_rewrite__edit" method="validateUrlRewriteEditAction" />
         <callback class="adminhtml__system_currency__" method="validateManageCurrencyRates" />
         <callback class="adminhtml__system_email_template__" method="validateTransactionalEmails" />
         <callback class="adminhtml__sales_order__view" method="validateSalesOrderViewAction" />

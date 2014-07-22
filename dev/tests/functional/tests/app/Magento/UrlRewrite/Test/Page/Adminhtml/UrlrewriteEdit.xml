@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/urlrewrite/edit">
+<page mca="admin/url_rewrite/edit">
     <block>
         <name>treeBlock</name>
         <class>Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Tree</class>

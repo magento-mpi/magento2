@@ -1481,7 +1481,7 @@ class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $conditions = array('store_id = ?' => $storeId, 'request_path = ?' => $requestPath);
         if ($rp) {
-            $conditions['options = ?'] = \Magento\UrlRedirect\Model\OptionProvider::PERMANENT;
+            $conditions['options = ?'] = \Magento\UrlRewrite\Model\OptionProvider::PERMANENT;
         }
         $this->_getWriteAdapter()->delete($this->getMainTable(), $conditions);
     }

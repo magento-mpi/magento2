@@ -9,7 +9,7 @@ namespace Magento\CmsUrlRewrite\Model;
 
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\CmsUrlRewrite\Service\V1\CmsPageUrlGeneratorInterface;
-use Magento\UrlRedirect\Service\V1\UrlSaveInterface;
+use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
 use Magento\Framework\Model\Exception;
 
 class Observer
@@ -20,7 +20,7 @@ class Observer
     protected $urlGenerator;
 
     /**
-     * @var \Magento\UrlRedirect\Service\V1\UrlSaveInterface
+     * @var \Magento\UrlRewrite\Service\V1\UrlSaveInterface
      */
     protected $urlSave;
 

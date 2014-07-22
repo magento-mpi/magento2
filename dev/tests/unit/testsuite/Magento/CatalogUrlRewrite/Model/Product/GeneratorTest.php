@@ -10,6 +10,7 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\CatalogUrlRewrite\Service\V1\Storage\Data\Product;
+use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGenerator;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,16 +29,16 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Catalog\Helper\Product|\PHPUnit_Framework_MockObject_MockObject */
     protected $catalogProductHelperMock;
 
-    /** @var \Magento\UrlRedirect\Service\V1\Storage\Data\Converter|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\UrlRewrite\Service\V1\Storage\Data\Converter|\PHPUnit_Framework_MockObject_MockObject */
     protected $converterMock;
 
-    /** @var \Magento\UrlRedirect\Service\V1\StorageInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\UrlRewrite\Service\V1\StorageInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storageMock;
 
-    /** @var \Magento\UrlRedirect\Service\V1\Storage\Data\FilterFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\UrlRewrite\Service\V1\Storage\Data\FilterFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $filterFactoryMock;
 
-    /** @var \Magento\UrlRedirect\Service\V1\Storage\Data\Filter|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\UrlRewrite\Service\V1\Storage\Data\Filter|\PHPUnit_Framework_MockObject_MockObject */
     protected $filterMock;
 
     protected function setUp()
@@ -47,12 +48,12 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->catalogProductHelperMock = $this->getMock('Magento\Catalog\Helper\Product', [], [], '', false);
-        $this->converterMock = $this->getMock('Magento\UrlRedirect\Service\V1\Storage\Data\Converter', [], [], '',
+        $this->converterMock = $this->getMock('Magento\UrlRewrite\Service\V1\Storage\Data\Converter', [], [], '',
             false);
 
-        $this->storageMock = $this->getMock('Magento\UrlRedirect\Service\V1\StorageInterface');
-        $this->filterMock = $this->getMock('Magento\UrlRedirect\Service\V1\Storage\Data\Filter');
-        $this->filterFactoryMock = $this->getMock('Magento\UrlRedirect\Service\V1\Storage\Data\FilterFactory',
+        $this->storageMock = $this->getMock('Magento\UrlRewrite\Service\V1\StorageInterface');
+        $this->filterMock = $this->getMock('Magento\UrlRewrite\Service\V1\Storage\Data\Filter');
+        $this->filterFactoryMock = $this->getMock('Magento\UrlRewrite\Service\V1\Storage\Data\FilterFactory',
             ['create']);
         $this->filterFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->filterMock));
 
@@ -77,7 +78,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         return [
             [1, 'banana', 'apple', '.html', 1, null, null, [
                 [
-                    'entity_type' => Product::TYPE,
+                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -87,7 +88,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ]],
             [1, 'banana', 'apple', '.html', 1, null, null, [
                 [
-                    'entity_type' => Product::TYPE,
+                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -97,7 +98,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ]],
             [1, 'banana', 'apple', '.html', 1, 1, 'category-one', [
                 [
-                    'entity_type' => Product::TYPE,
+                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -105,7 +106,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                     'redirect_type' => '',
                 ],
                 [
-                    'entity_type' => Product::TYPE,
+                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'category-one/banana.html',
@@ -181,9 +182,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function generateWithRedirectDataProvider()
     {
         return [
-            [1, 'banana', 'apple', '.html', 1, 'apple.html', 'some-target-path', Product::TYPE, [
+            [1, 'banana', 'apple', '.html', 1, 'apple.html',
+                'some-target-path', ProductUrlGenerator::ENTITY_TYPE_PRODUCT, [
                 [
-                    'entity_type' => Product::TYPE,
+                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -191,7 +193,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                     'redirect_type' => '',
                 ],
                 [
-                    'entity_type' => Product::TYPE_REDIRECT,
+                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'apple.html',
@@ -200,9 +202,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             ],
-            [1, 'banana', 'apple', '.html', 1, 'some-request-path', 'apple.html', Product::TYPE_REDIRECT, [
+            [1, 'banana', 'apple', '.html', 1,
+                'some-request-path', 'apple.html', ProductUrlGenerator::ENTITY_TYPE_PRODUCT, [
                 [
-                    'entity_type' => Product::TYPE,
+                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -210,7 +213,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                     'redirect_type' => '',
                 ],
                 [
-                    'entity_type' => Product::TYPE_REDIRECT,
+                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'some-request-path',

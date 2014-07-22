@@ -11,7 +11,7 @@ use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\CatalogUrlRewrite\Service\V1\CategoryUrlGeneratorInterface;
 use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGeneratorInterface;
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRedirect\Service\V1\UrlSaveInterface;
+use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
 
 class Observer
 {

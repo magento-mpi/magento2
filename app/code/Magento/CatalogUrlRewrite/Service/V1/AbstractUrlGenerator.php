@@ -10,11 +10,11 @@ namespace Magento\CatalogUrlRewrite\Service\V1;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\UrlRedirect\Model\OptionProvider;
-use Magento\UrlRedirect\Service\V1\Data\Converter;
-use Magento\UrlRedirect\Service\V1\Data\FilterFactory;
-use Magento\UrlRedirect\Service\V1\Data\UrlRewrite;
-use Magento\UrlRedirect\Service\V1\UrlMatcherInterface;
+use Magento\UrlRewrite\Model\OptionProvider;
+use Magento\UrlRewrite\Service\V1\Data\Converter;
+use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
 /**
  * Product Generator

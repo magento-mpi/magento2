@@ -8,11 +8,11 @@
 namespace Magento\CatalogUrlRewrite\Service\V1;
 
 use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
-use Magento\UrlRedirect\Model\OptionProvider;
-use Magento\UrlRedirect\Service\V1\Data\Converter;
-use Magento\UrlRedirect\Service\V1\Data\FilterFactory;
-use Magento\UrlRedirect\Service\V1\Data\UrlRewrite;
-use Magento\UrlRedirect\Service\V1\UrlMatcherInterface;
+use Magento\UrlRewrite\Model\OptionProvider;
+use Magento\UrlRewrite\Service\V1\Data\Converter;
+use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
 /**
  * Product Generator
@@ -109,7 +109,7 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
     /**
      * Generate list of urls for global scope
      *
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     protected function generateForGlobalScope()
     {
@@ -126,7 +126,7 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      * Generate list of urls for specific store view
      *
      * @param int $storeId
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     protected function generateForSpecificStoreView($storeId)
     {
@@ -141,7 +141,7 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      * Generate list based on store view
      *
      * @param int $storeId
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     protected function generateRewritesBasedOnStoreView($storeId)
     {
@@ -156,7 +156,7 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      * Generate list based on categories
      *
      * @param int $storeId
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     protected function generateRewritesBasedOnCategories($storeId)
     {
@@ -183,11 +183,11 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      * Generate list based on current rewrites
      *
      * @param int $storeId
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     protected function generateRewritesBasedOnCurrentRewrites($storeId)
     {
-        /** @var \Magento\UrlRedirect\Service\V1\Data\Filter $filter */
+        /** @var \Magento\UrlRewrite\Service\V1\Data\Filter $filter */
         $filter = $this->filterFactory->create();
 
         $filter->setStoreId($storeId);
@@ -256,7 +256,7 @@ class ProductUrlGenerator implements ProductUrlGeneratorInterface
      * @param string $requestPath
      * @param string $targetPath
      * @param string|null $redirectType Null or one of OptionProvider const
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite
      */
     protected function createUrlRewrite($storeId, $requestPath, $targetPath, $redirectType = null)
     {

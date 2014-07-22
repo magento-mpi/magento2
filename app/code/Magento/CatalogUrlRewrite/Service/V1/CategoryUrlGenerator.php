@@ -9,9 +9,9 @@ namespace Magento\CatalogUrlRewrite\Service\V1;
 
 use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\UrlRedirect\Model\OptionProvider;
-use Magento\UrlRedirect\Service\V1\Data\FilterFactory;
-use Magento\UrlRedirect\Service\V1\UrlMatcherInterface;
+use Magento\UrlRewrite\Model\OptionProvider;
+use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
+use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
 /**
  * Product Generator
@@ -162,11 +162,11 @@ class CategoryUrlGenerator implements CategoryUrlGeneratorInterface
 
     /**
      * @param int $storeId
-     * @return \Magento\UrlRedirect\Service\V1\Data\Filter
+     * @return \Magento\UrlRewrite\Service\V1\Data\Filter
      */
     protected function createCurrentUrlRewritesFilter($storeId)
     {
-        /** @var \Magento\UrlRedirect\Service\V1\Data\Filter $filter */
+        /** @var \Magento\UrlRewrite\Service\V1\Data\Filter $filter */
         $filter = $this->filterFactory->create();
 
         $filter->setStoreId($storeId);

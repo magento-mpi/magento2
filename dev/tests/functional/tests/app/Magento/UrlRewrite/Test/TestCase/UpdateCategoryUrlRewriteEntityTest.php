@@ -26,13 +26,13 @@ use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
  *
  * Steps:
  * 1. Log in to backend as Admin.
- * 2. Go to the Marketing-> SEO & Search->URL Redirects.
+ * 2. Go to the Marketing-> SEO & Search->URL Rewrites.
  * 3. Click Category URL Rewrite from grid.
  * 4. Edit test value(s) according to dataSet.
  * 5. Click 'Save' button.
  * 6. Perform all asserts.
  *
- * @group URL_Rewrites_(PS)
+ * @group URL_Rewrites_(MX)
  * @ZephyrId MAGETWO-24838
  */
 class UpdateCategoryUrlRewriteEntityTest extends Injectable
@@ -93,7 +93,7 @@ class UpdateCategoryUrlRewriteEntityTest extends Injectable
         //Steps
         $this->urlRewriteIndex->open();
         $filter = ['request_path' => $categoryRedirect->getRequestPath()];
-        $this->urlRewriteIndex->getUrlRedirectGrid()->searchAndOpen($filter);
+        $this->urlRewriteIndex->getUrlRewriteGrid()->searchAndOpen($filter);
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
     }

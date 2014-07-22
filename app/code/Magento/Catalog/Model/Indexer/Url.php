@@ -104,7 +104,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function getDescription()
     {
-        return __('Index product and categories URL Redirects');
+        return __('Index product and categories URL Rewrites');
     }
 
     /**

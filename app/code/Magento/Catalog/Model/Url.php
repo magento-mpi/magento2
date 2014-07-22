@@ -1021,7 +1021,7 @@ class Url
             $rewriteData['request_path'] = $rewrite->getRequestPath();
             $rewriteData['id_path'] = $this->generateUniqueIdPath();
             $rewriteData['is_system'] = 0;
-            $rewriteData['options'] = \Magento\UrlRedirect\Model\OptionProvider::PERMANENT;
+            $rewriteData['options'] = \Magento\UrlRewrite\Model\OptionProvider::PERMANENT;
             // Redirect = Permanent
             $this->getResource()->saveRewriteHistory($rewriteData);
         }

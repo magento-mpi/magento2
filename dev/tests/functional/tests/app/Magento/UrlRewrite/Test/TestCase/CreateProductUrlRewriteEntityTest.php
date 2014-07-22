@@ -32,7 +32,7 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit;
  * 7. Fill data according to dataSet
  * 8. Perform all assertions
  *
- * @group URL_Rewrites_(PS)
+ * @group URL_Rewrites_(MX)
  * @ZephyrId MAGETWO-25150
  */
 class CreateProductUrlRewriteEntityTest extends Injectable

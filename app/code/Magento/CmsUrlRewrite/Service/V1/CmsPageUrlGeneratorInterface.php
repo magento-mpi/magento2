@@ -17,7 +17,7 @@ interface CmsPageUrlGeneratorInterface
      * TODO: fix service parameter
      *
      * @param \Magento\Cms\Model\Page $cmsPage
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     public function generate($cmsPage);
 }

@@ -52,7 +52,7 @@ class CategoryTest extends Injectable
             $urlRewriteIndexPage->getMessagesBlock()->getSuccessMessages()
         );
 
-        $this->assertUrlRedirect(
+        $this->assertUrlRewrite(
             $_ENV['app_frontend_url'] . $urlRewriteCategory->getRewrittenRequestPath(),
             $_ENV['app_frontend_url'] . $urlRewriteCategory->getOriginalRequestPath()
         );
@@ -66,7 +66,7 @@ class CategoryTest extends Injectable
      * @param string $targetUrl
      * @param string $message
      */
-    protected function assertUrlRedirect($requestUrl, $targetUrl, $message = '')
+    protected function assertUrlRewrite($requestUrl, $targetUrl, $message = '')
     {
         $browser = Factory::getClientBrowser();
         $browser->open($requestUrl);

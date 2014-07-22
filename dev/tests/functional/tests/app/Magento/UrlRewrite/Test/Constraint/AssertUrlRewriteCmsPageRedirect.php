@@ -15,7 +15,7 @@ use Magento\Cms\Test\Fixture\CmsPage;
 
 /**
  * Class AssertUrlRewriteCmsPageRedirect
- * Assert that created CMS Page URL Redirect lead to appropriate page in frontend
+ * Assert that created CMS Page URL Rewrite lead to appropriate page in frontend
  */
 class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
 {
@@ -34,7 +34,7 @@ class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
     protected $url = 'cms/page/view/page_id/';
 
     /**
-     * Assert that created CMS Page URL Redirect lead to appropriate page in frontend
+     * Assert that created CMS Page URL Rewrite lead to appropriate page in frontend
      *
      * @param UrlRewrite $urlRewrite
      * @param CmsPage $cmsPage
@@ -61,12 +61,12 @@ class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
     }
 
     /**
-     * URL Redirect lead to appropriate page in frontend
+     * URL Rewrite lead to appropriate page in frontend
      *
      * @return string
      */
     public function toString()
     {
-        return 'URL Redirect lead to appropriate page in frontend.';
+        return 'URL Rewrite lead to appropriate page in frontend.';
     }
 }

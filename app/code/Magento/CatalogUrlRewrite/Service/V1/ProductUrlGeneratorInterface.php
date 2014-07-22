@@ -17,7 +17,7 @@ interface ProductUrlGeneratorInterface
      * TODO: fix service parameter (@TODO: UrlRewrite)
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     public function generate($product);
 
@@ -26,7 +26,7 @@ interface ProductUrlGeneratorInterface
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Category[] $changedCategories
-     * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     public function generateWithChangedCategories($product, $changedCategories);
 }
