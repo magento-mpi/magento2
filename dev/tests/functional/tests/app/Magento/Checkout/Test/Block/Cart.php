@@ -42,7 +42,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $itemSubTotalSelector = './/td[@class="col subtotal excl tax"]//span[@class="price"]';
+    protected $itemSubTotalSelector = '//td[@class="col subtotal excl tax"]//span[contains(@class,"price")]';
 
     /**
      * Cart item unit price xpath selector
@@ -77,7 +77,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $cartItem = './/tr[td//*[normalize-space(text()) = "%s"]]';
+    protected $cartItem = './/tr[td//*[contains(.,"%s")]]';
 
     /**
      * Get bundle options
@@ -259,7 +259,7 @@ class Cart extends Block
         if ($product instanceof ConfigurableProduct) {
             $productOptions = $product->getProductOptions();
             if (!empty($productOptions)) {
-                $productName = $productName . ' ' . key($productOptions) . ' ' . current($productOptions);
+                $productName = $productName . '")] and *[contains(.,"' . current($productOptions);
             }
         }
         return $productName;
