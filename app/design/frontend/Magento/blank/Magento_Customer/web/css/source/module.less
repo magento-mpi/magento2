@@ -212,7 +212,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .login.container {
         &:extend(.add-clearfix-desktop all);
         .block {
@@ -325,7 +325,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .account {
         .data.table {
             &:extend(.table-vertical-mobile all);

@@ -171,7 +171,7 @@
     }
 }
 
-.responsive-smaller (@break) when (@break = @break-point-0) {
+.responsive-smaller (@break) when (@break = @screen-s) {
     .products-list .product {
         &-item {
             table-layout: fixed;
@@ -183,7 +183,7 @@
     }
 }
 
-.responsive(@break) when (@break = @break-point-0) {
+.responsive(@break) when (@break = @screen-s) {
     .product {
         &-item {
             .products-grid & {
@@ -223,7 +223,7 @@
     }
 }
 
-.responsive(@break) when (@break = @break-point-0) {
+.responsive(@break) when (@break = @screen-s) {
     .products-grid .product-item { width: 100%/3 }
     .layout-1 .products-grid .product-item { width: 100%/3 }
     .layout-3 .products-grid .product-item { width: 100%/3 }
@@ -232,12 +232,12 @@
     .page-products.layout-1 .products-grid .product-item { width: 100%/3 }
     .page-products.layout-3 .products-grid .product-item { width: 100%/3 }
 }
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .page-products .products-grid .product-item { width: 100%/3 }
     .page-products.layout-1 .products-grid .product-item { width: 100%/4 }
     .page-products.layout-3 .products-grid .product-item { width: 100%/2 }
 }
-.responsive(@break) when (@break = @break-point-2) {
+.responsive(@break) when (@break = @screen-l) {
 
     .products-grid .product-item { width: 100%/5 }
     .layout-1 .products-grid .product-item { width: 100%/6 }
@@ -247,4 +247,3 @@
     .page-products.layout-1 .products-grid .product-item { width: 100%/5 }
     .page-products.layout-3 .products-grid .product-item { width: 100%/4 }
 }
-

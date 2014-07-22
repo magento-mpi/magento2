@@ -310,7 +310,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-1) {
+.responsive-smaller(@break) when (@break = @screen-m) {
     .cart {
         &.table-wrapper {
             thead {
@@ -355,7 +355,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .cart {
         &-container {
             &:extend(.add-clearfix-desktop all);
