@@ -8,22 +8,22 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
-class PublicCookieMetadata
+class PublicCookieMetadata extends AbstractCookieMetaData
 {
     /**
      * @var  int
      */
-    protected $duration;
+    private $duration;
 
     /**
      * @var  bool
      */
-    protected $httpOnly;
+    private $httpOnly;
 
     /*
      * @var bool
      */
-    protected $secure;
+    private $secure;
 
     /**
      * Set expire time in seconds
