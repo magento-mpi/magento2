@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Stdlib;
+namespace Magento\Framework\Stdlib\Cookie;
 
 /**
  * CookieManager helps manage the setting, retrieving and deleting of cookies.
