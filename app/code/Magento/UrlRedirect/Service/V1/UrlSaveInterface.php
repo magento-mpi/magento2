@@ -16,6 +16,7 @@ interface UrlSaveInterface
      * Save url rewrites. Return number of saved urls
      *
      * @param \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[] $urls
+     * @return void
      */
     public function save(array $urls);
 }

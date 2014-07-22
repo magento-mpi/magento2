@@ -35,6 +35,7 @@ interface StorageInterface
      * Add multiple urls to storage
      *
      * @param array $urls
+     * @return void
      */
     public function addMultiple(array $urls);
 
@@ -42,6 +43,7 @@ interface StorageInterface
      * Delete data from storage by specific filter
      *
      * @param Filter $filter
+     * @return void
      */
     public function deleteByFilter(Filter $filter);
 }

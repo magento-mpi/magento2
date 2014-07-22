@@ -10,7 +10,7 @@ namespace Magento\UrlRedirect\Controller;
 /**
  * UrlRedirect Controller Router
  */
-class Router extends \Magento\Framework\App\Router\AbstractRouter
+class Router implements \Magento\Framework\App\RouterInterface
 {
     /** @var \Magento\Framework\UrlInterface */
     protected $url;
