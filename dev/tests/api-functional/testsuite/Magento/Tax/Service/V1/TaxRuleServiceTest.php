@@ -283,19 +283,9 @@ class TaxRuleServiceTest extends WebapiAbstract
         /** @var \Magento\Framework\Service\V1\Data\SearchResults $searchResults */
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
 
-        $this->assertEquals(3, $searchResults['total_count']);
+        $this->assertEquals(2, $searchResults['total_count']);
 
         $expectedRuleData = [
-            [
-                'id' => '2',
-                'code' => 'Test Rule 0.19365000 1406039100',
-                'customer_tax_class_ids' => [3],
-                'product_tax_class_ids' => [2],
-                'tax_rate_ids' => [1, 2],
-                'priority' => 5,
-                'sort_order' => 10,
-                'calculate_subtotal' => 0,
-            ],
             [
                 'id' => $fixtureRule->getId(),
                 'code' => 'Test Rule',
