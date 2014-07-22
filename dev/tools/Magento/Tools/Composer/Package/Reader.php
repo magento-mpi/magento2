@@ -231,7 +231,7 @@ class Reader
         $excludesCombinations = [];
 
         //Dealing components list
-        $components = $this->patterns;;
+        $components = $this->patterns;
         foreach ($components as $component) {
             $splitArray = explode('/', $component);
             $pathCombination = '';
