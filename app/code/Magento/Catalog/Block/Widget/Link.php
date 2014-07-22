@@ -38,6 +38,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
     /**
      * Url rewrite
      *
+     * @TODO: UrlRewrite
      * @var \Magento\UrlRewrite\Model\Resource\UrlRewrite
      */
     protected $_urlRewrite;

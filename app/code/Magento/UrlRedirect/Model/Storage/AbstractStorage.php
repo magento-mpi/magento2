@@ -9,7 +9,7 @@ namespace Magento\UrlRedirect\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\UrlRedirect\Model\StorageInterface;
-// TODO: structure layer knows about service layer(and version) (MAGETWO-25952)
+// TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRedirect\Service\V1\Data\Converter;
 use Magento\UrlRedirect\Service\V1\Data\Filter;
 

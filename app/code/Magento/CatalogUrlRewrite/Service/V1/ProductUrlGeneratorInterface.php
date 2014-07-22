@@ -14,7 +14,7 @@ interface ProductUrlGeneratorInterface
 {
     /**
      * Generate list of urls
-     * TODO: fix service parameter (MAGETWO-25952)
+     * TODO: fix service parameter (@TODO: UrlRewrite)
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return \Magento\UrlRedirect\Service\V1\Data\UrlRewrite[]
@@ -22,7 +22,7 @@ interface ProductUrlGeneratorInterface
     public function generate($product);
 
     /**
-     * TODO: hack for obtaining data from changed categories. Replace on Service Data Object (MAGETWO-25952)
+     * TODO: hack for obtaining data from changed categories. Replace on Service Data Object (@TODO: UrlRewrite)
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Category[] $changedCategories

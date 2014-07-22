@@ -71,6 +71,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * URL rewrite model
      *
+     * @TODO: UrlRewrite
      * @var \Magento\UrlRewrite\Model\UrlRewrite
      */
     protected $_urlRewrite;
@@ -134,6 +135,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Url rewrite factory
      *
+     * @TODO: UrlRewrite
      * @var \Magento\UrlRewrite\Model\UrlRewriteFactory
      */
     protected $_urlRewriteFactory;
@@ -282,6 +284,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Get url rewrite model
      *
+     * @TODO: UrlRewrite
      * @return \Magento\UrlRewrite\Model\UrlRewrite
      */
     public function getUrlRewrite()
@@ -550,7 +553,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
             }
 
             /**
-             * @TODO: Refactor accordingly in MAGETWO-25952
+             * @TODO: UrlRewrite
              */
 //            $rewrite = $this->getUrlRewrite();
 //            if ($this->getStoreId()) {

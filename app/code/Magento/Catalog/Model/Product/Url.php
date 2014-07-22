@@ -28,6 +28,7 @@ class Url extends \Magento\Framework\Object
     /**
      * Static URL Rewrite Instance
      *
+     * @TODO: UrlRewrite
      * @var \Magento\UrlRewrite\Model\UrlRewrite
      */
     protected $_urlRewrite;
@@ -95,11 +96,12 @@ class Url extends \Magento\Framework\Object
     /**
      * Retrieve URL Rewrite Instance
      *
+     * @TODO: UrlRewrite
      * @return \Magento\UrlRewrite\Model\UrlRewrite
      */
     public function getUrlRewrite()
     {
-        // TODO: need to be refactored (MAGETWO-25952)
+        // @TODO: UrlRewrite
         return $this->_urlRewrite;
     }
 

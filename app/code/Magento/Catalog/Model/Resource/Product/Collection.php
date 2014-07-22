@@ -1207,7 +1207,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function joinUrlRewrite()
     {
         /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
+         * @TODO: UrlRewrite
          */
         return $this;
         $this->joinTable(
@@ -1263,7 +1263,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
 
         /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
+         * @TODO: UrlRewrite
          */
         return;
         $select = $this->getConnection()->select()->from(

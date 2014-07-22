@@ -19,6 +19,7 @@ if ($cmsPage->isObjectNew()) {
     $cmsPage->save();
 }
 
+return; // @TODO: UrlRewrite
 // create URL rewrite
 /** @var $rewrite \Magento\UrlRewrite\Model\UrlRewrite */
 $rewrite = $objectManager->create('Magento\UrlRewrite\Model\UrlRewrite');

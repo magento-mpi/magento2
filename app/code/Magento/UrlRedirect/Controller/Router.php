@@ -72,7 +72,7 @@ class Router implements \Magento\Framework\App\RouterInterface
 
         $redirectType = $urlRewrite->getRedirectType();
         if ($redirectType) {
-            //@TODO MAGETWO-25952 Change constant values to redirect code
+            //@TODO: UrlRewrite Change constant values to redirect code
             $redirectCode = $redirectType == \Magento\UrlRedirect\Model\OptionProvider::PERMANENT ? 301 : 302;
             $this->response->setRedirect($urlRewrite->getTargetPath(), $redirectCode);
             $request->setDispatched(true);

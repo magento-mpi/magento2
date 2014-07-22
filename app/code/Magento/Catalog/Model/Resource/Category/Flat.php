@@ -252,7 +252,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
                 'is_anchor'
             )
         /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
+         * @TODO: UrlRewrite
          */
 //        )->joinLeft(
 //            array('url_rewrite' => $this->getTable('url_rewrite')),
@@ -513,7 +513,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
             array('main_table' => $this->getMainStoreTable($category->getStoreId())),
             array('main_table.entity_id', 'main_table.name')
         /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
+         * @TODO: UrlRewrite
          */
 //        )->joinLeft(
 //            array('url_rewrite' => $this->getTable('url_rewrite')),

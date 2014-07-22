@@ -100,7 +100,7 @@ class Category extends \Magento\Framework\Model\Resource\Db\AbstractDb
             array('e' => $this->getMainTable()),
             array($this->getIdFieldName(), 'updated_at')
         /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
+         * @TODO: UrlRewrite
          */
 //        )->joinLeft(
 //            array('ur' => $this->getTable('url_rewrite')),

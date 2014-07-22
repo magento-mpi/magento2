@@ -56,7 +56,6 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param string $routerId
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      * @param \Magento\Framework\App\RouterListInterface $routerList
-     * @param \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService
      * @param \Magento\DesignEditor\Helper\Data $designEditorHelper
      * @param \Magento\DesignEditor\Model\State $designEditorState
      * @param \Magento\Backend\Model\Auth\Session $session
@@ -77,7 +76,6 @@ class Standard extends \Magento\Core\App\Router\Base
         $routerId,
         \Magento\Framework\Code\NameBuilder $nameBuilder,
         \Magento\Framework\App\RouterListInterface $routerList,
-        \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService,
         \Magento\DesignEditor\Helper\Data $designEditorHelper,
         \Magento\DesignEditor\Model\State $designEditorState,
         \Magento\Backend\Model\Auth\Session $session
@@ -122,7 +120,7 @@ class Standard extends \Magento\Core\App\Router\Base
 
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
-        // $this->_urlRewriteService->applyRewrites($request); @TODO MAGETWO-25952
+        // $this->_urlRewriteService->applyRewrites($request); @TODO: UrlRewrite
 
         // match routers
         $controller = null;

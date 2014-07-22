@@ -67,7 +67,7 @@ class Observer
         if (!$this->catalogUrlRewriteHelper->isRootCategory($category)
             && (!$category->getData('url_key') || $category->getOrigData('url_key') != $category->getData('url_key'))
         ) {
-            // TODO: fix service parameter (MAGETWO-25952)
+            // TODO: fix service parameter (@TODO: UrlRewrite)
             $this->urlSave->save($this->categoryUrlGenerator->generate($category));
 
             $products = $category->getProductCollection()
@@ -75,11 +75,12 @@ class Observer
                 ->addAttributeToSelect('url_path');
 
             foreach ($products as $product) {
-                // TODO: Is product url path can be empty? (MAGETWO-25952)
+                // TODO: Is product url path can be empty? (@TODO: UrlRewrite)
 
                 $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
 
-                // TODO: hack for obtaining data from changed categories. Replace on Service Data Object (MAGETWO-25952)
+                // TODO: hack for obtaining data from changed categories.
+                // Replace on Service Data Object (@TODO: UrlRewrite)
                 $this->urlSave->save($this->productUrlGenerator->generateWithChangedCategories(
                     $product,
                     [$category->getId() => $category])

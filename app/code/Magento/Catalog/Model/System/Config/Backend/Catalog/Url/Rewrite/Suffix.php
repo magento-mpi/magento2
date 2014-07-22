@@ -16,6 +16,7 @@ class Suffix extends \Magento\Framework\App\Config\Value
     /**
      * Core url rewrite
      *
+     * @TODO: UrlRewrite
      * @var \Magento\UrlRewrite\Helper\UrlRewrite
      */
     protected $_coreUrlRewrite = null;

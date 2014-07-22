@@ -267,7 +267,7 @@ class Product extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'e.entity_id = w.product_id',
             array()
         /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
+         * @TODO: UrlRewrite
          */
 //        )->joinLeft(
 //            array('ur' => $this->getTable('url_rewrite')),

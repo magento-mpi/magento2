@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Model;
 /**
- * TODO: decomposition (MAGETWO-25952)
+ * @TODO: UrlRewrite
  */
 class Url
 {

@@ -114,7 +114,7 @@ class Page extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         /**
-         * @TODO: MAGETWO-25952 check functional parity of new implementation with old one
+         * @TODO: UrlRewrite check functional parity of new implementation with old one
          */
 //        if (!$this->getIsUniquePageToStores($object)) {
 //            throw new \Magento\Framework\Model\Exception(__('A page URL key for specified store already exists.'));

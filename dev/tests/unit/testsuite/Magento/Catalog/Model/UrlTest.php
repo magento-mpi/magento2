@@ -150,6 +150,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        // @TODO: UrlRewrite
         $this->_rewriteModel = $this->getMock(
             'Magento\UrlRewrite\Model\UrlRewrite',
             array(

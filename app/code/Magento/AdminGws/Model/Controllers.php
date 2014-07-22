@@ -941,7 +941,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         $id = $this->_request->getParam('id');
         if ($id) {
             /**
-             * @TODO: Refactor accordingly in MAGETWO-25952
+             * @TODO: UrlRewrite
              */
             return true;
             $object = $this->_objectManager->create('Magento\UrlRewrite\Model\UrlRewrite')->load($id);

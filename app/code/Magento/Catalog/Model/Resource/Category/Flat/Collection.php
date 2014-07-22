@@ -320,7 +320,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addUrlRewriteToResult()
     {
         /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
+         * @TODO: UrlRewrite
          */
         return $this;
         $storeId = $this->_storeManager->getStore()->getId();

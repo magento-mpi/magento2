@@ -307,7 +307,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function joinUrlRewrite()
     {
         /**
-         * @TODO: Refactor accordingly in MAGETWO-25952
+         * @TODO: UrlRewrite
          */
         return $this;
         $storeId = $this->_storeManager->getStore()->getId();

@@ -27,6 +27,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             array('translitUrl')
         )->getMock();
 
+        // @TODO: UrlRewrite
         $rewriteFactory = $this->getMockBuilder(
             'Magento\UrlRewrite\Model\UrlRewriteFactory'
         )->disableOriginalConstructor()->setMethods(
