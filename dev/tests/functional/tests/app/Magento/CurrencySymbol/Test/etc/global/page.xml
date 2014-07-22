@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <adminSystemCurrencySymbolIndex>
+        <mca>admin/system_currencysymbol/index</mca>
+    <area>adminhtml</area>
+        <class>Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencySymbolIndex</class>
+    </adminSystemCurrencySymbolIndex>
+</page>
