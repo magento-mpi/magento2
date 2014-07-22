@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <customerAttributeIndex>
+        <mca>admin/customer_attribute</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex</class>
+    </customerAttributeIndex>
+    <customerAttributeNew>
+        <mca>admin/customer_attribute/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew</class>
+    </customerAttributeNew>
+</page>

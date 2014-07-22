@@ -11,6 +11,7 @@ namespace Magento\Customer\Test\Block\Form;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
+use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class Register
@@ -27,6 +28,13 @@ class Register extends Form
     protected $submit = '.action.submit';
 
     /**
+     * Locator for customer attribute on New Order page
+     *
+     * @var string
+     */
+    protected $customerAttribute = "[name='%s']";
+
+    /**
      * Create new customer account and fill billing address if it exists
      *
      * @param FixtureInterface $fixture
@@ -39,5 +47,18 @@ class Register extends Form
             $this->fill($address);
         }
         $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Check if Customer custom Attribute visible
+     *
+     * @param CustomerCustomAttribute $customerAttribute
+     * @return bool
+     */
+    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
+    {
+        return $this->_rootElement->find(
+            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
+        )->isVisible();
     }
 }

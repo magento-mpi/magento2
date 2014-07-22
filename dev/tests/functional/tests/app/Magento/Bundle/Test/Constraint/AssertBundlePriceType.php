@@ -41,12 +41,14 @@ class AssertBundlePriceType extends AbstractConstraint
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $product
      * @param CheckoutCart $checkoutCartView
+     * @param CatalogProductBundle $originalProduct [optional]
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
         CatalogProductBundle $product,
-        CheckoutCart $checkoutCartView
+        CheckoutCart $checkoutCartView,
+        CatalogProductBundle $originalProduct = null
     ) {
         $checkoutCartView->open()->getCartBlock()->clearShoppingCart();
         //Open product view page
@@ -54,7 +56,7 @@ class AssertBundlePriceType extends AbstractConstraint
         $catalogProductView->open();
 
         //Process assertions
-        $this->assertPrice($product, $catalogProductView, $checkoutCartView);
+        $this->assertPrice($product, $catalogProductView, $checkoutCartView, $originalProduct);
     }
 
     /**
@@ -63,17 +65,21 @@ class AssertBundlePriceType extends AbstractConstraint
      * @param CatalogProductBundle $product
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCartView
+     * @param CatalogProductBundle $originalProduct [optional]
      * @return void
      */
     protected function assertPrice(
         CatalogProductBundle $product,
         CatalogProductView $catalogProductView,
-        CheckoutCart $checkoutCartView
+        CheckoutCart $checkoutCartView,
+        CatalogProductBundle $originalProduct = null
     ) {
         $customerGroup = 'NOT LOGGED IN';
         $catalogProductView->getViewBlock()->clickCustomize();
         $bundleData = $product->getData();
-        $this->productPriceType = $product->getPriceType();
+        $this->productPriceType = $originalProduct !== null
+            ? $originalProduct->getPriceType()
+            : $product->getPriceType();
         $fillData = $product->getDataFieldConfig('checkout_data')['source']->getPreset();
         $bundleBlock = $catalogProductView->getBundleViewBlock()->getBundleBlock();
         $bundleBlock->addToCart($fillData, $catalogProductView);
@@ -87,18 +93,17 @@ class AssertBundlePriceType extends AbstractConstraint
         $optionPrice = [];
         foreach ($fillData['bundle_options'] as $key => $data) {
             $subProductPrice = 0;
-            foreach ($bundleData['bundle_selections']['products'][$key] as $itemProduct) {
+            foreach ($bundleData['bundle_selections']['products'][$key] as $productKey => $itemProduct) {
                 if (strpos($itemProduct->getName(), $data['value']['name']) !== false) {
+                    $data['value']['key'] = $productKey;
                     $subProductPrice = $itemProduct->getPrice();
                 }
             }
+
             $optionPrice[$key]['price'] = $this->productPriceType == 'Fixed'
                 ? number_format(
-                    $bundleData['bundle_selections']['bundle_options'][$key]['assigned_products']
-                    [array_search(
-                        $data['value']['name'],
-                        $bundleData['bundle_selections']['bundle_options'][$key]['assigned_products']
-                    )]['data']['selection_price_value'],
+                    $bundleData['bundle_selections']['bundle_options'][$key]['assigned_products'][$data['value']['key']]
+                    ['data']['selection_price_value'],
                     2
                 )
                 : number_format($subProductPrice, 2);

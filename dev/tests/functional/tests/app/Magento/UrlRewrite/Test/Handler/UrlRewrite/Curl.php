@@ -47,14 +47,14 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
      *
      * @param FixtureInterface $fixture
      * @throws \Exception
-     * @return mixed|void
+     * @return void
      */
     public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . $this->url . $fixture->getIdPath();
         $data = $this->replaceMappingData($fixture->getData());
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
