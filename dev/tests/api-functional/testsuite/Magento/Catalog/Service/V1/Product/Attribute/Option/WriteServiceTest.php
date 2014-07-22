@@ -7,10 +7,10 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
+use Magento\Catalog\Service\V1\Product\Attribute\ReadServiceTest as AttrReadServiceTest;
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Catalog\Service\V1\Product\Attribute\ReadServiceTest as AttrReadServiceTest;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -22,11 +22,15 @@ class WriteServiceTest extends WebapiAbstract
         'soap' => ['service' => self::SERVICE_NAME, 'serviceVersion' => self::SERVICE_VERSION]
     ];
 
+    /**
+     * @magentoApiDataFixture Magento/Catalog/Model/Product/Attribute/_files/select_attribute.php
+     */
     public function testAddOption()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $testAttributeCode = 'color';
-        $serviceInfo = array_merge_recursive(self::$serviceInfo,
+        $testAttributeCode = 'select_attribute';
+        $serviceInfo = array_merge_recursive(
+            self::$serviceInfo,
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/options',
@@ -72,7 +76,8 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertNotEmpty($attributeData['options'][1]['value']);
         $optionId = $attributeData['options'][1]['value'];
 
-        $serviceInfo = array_merge_recursive(self::$serviceInfo,
+        $serviceInfo = array_merge_recursive(
+            self::$serviceInfo,
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $attributeCode . '/options/' . $optionId,
@@ -81,7 +86,7 @@ class WriteServiceTest extends WebapiAbstract
                 'soap' => ['operation' => self::SERVICE_NAME . 'removeOption']
             ]
         );
-        $this->assertTrue($this->_webApiCall($serviceInfo, ['id' => $attributeCode , 'optionId' => $optionId]));
+        $this->assertTrue($this->_webApiCall($serviceInfo, ['id' => $attributeCode, 'optionId' => $optionId]));
         $attributeData = $this->getAttributeInfo($attributeCode);
         $this->assertTrue(is_array($attributeData['options']));
         $this->assertArrayNotHasKey(1, $attributeData['options']);

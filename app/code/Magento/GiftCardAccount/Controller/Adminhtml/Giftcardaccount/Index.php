@@ -32,7 +32,7 @@ class Index extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccoun
             $url = $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->getUrl('adminhtml/*/generate');
             $notice = __(
                 'Code Pool used: <b>%1%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.',
-                $usage->getPercent(),
+                round($usage->getPercent(), 2),
                 $usage->getFree(),
                 $usage->getTotal(),
                 $url
