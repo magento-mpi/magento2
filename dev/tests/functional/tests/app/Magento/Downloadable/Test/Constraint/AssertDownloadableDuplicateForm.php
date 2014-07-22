@@ -42,13 +42,10 @@ class AssertDownloadableDuplicateForm extends AssertProductDuplicateForm
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
         $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->convertDownloadableArray($this->prepareFixtureData($product));
-        $errors = $this->compareArray($fixtureData, $formData);
+        $fixtureData = $this->convertDownloadableArray($this->prepareFixtureData($product->getData()));
+        $errors = $this->verifyData($fixtureData, $formData);
 
-        \PHPUnit_Framework_Assert::assertEmpty(
-            $errors,
-            "Duplicated downloadable product data is not equal to expected:\n" . implode("\n", $errors)
-        );
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**
