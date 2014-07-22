@@ -418,9 +418,11 @@ class TaxRateServiceTest extends WebapiAbstract
                 'id' => $rates['codeUs12']->getId(),
                 'country_id' => $rates['codeUs12']->getTaxCountryId(),
                 'region_id' => $rates['codeUs12']->getTaxRegionId(),
+                'region_name' => 'CA',
                 'postcode' => $rates['codeUs12']->getTaxPostcode(),
                 'code' =>  $rates['codeUs12']->getCode(),
-                'percentage_rate' =>  $rates['codeUs12']->getRate(),
+                'percentage_rate' => ((float) $rates['codeUs12']->getRate()),
+                'titles' => [],
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
@@ -466,14 +468,20 @@ class TaxRateServiceTest extends WebapiAbstract
                 'country_id' => $rates['codeCz2']->getTaxCountryId(),
                 'postcode' => $rates['codeCz2']->getTaxPostcode(),
                 'code' =>  $rates['codeCz2']->getCode(),
-                'percentage_rate' =>  $rates['codeCz2']->getRate(),
+                'percentage_rate' =>  ((float) $rates['codeCz2']->getRate()),
+                'region_id' => '0',
+                'region_name' => null,
+                'titles' => [],
             ],
             [
                 'id' => $rates['codeCz1']->getId(),
                 'country_id' => $rates['codeCz1']->getTaxCountryId(),
                 'postcode' => $rates['codeCz1']->getTaxPostcode(),
-                'code' =>  $rates['codeCz1']->getCode(),
-                'percentage_rate' =>  $rates['codeCz1']->getRate(),
+                'code' => $rates['codeCz1']->getCode(),
+                'percentage_rate' => ((float) $rates['codeCz1']->getRate()),
+                'region_id' => '0',
+                'region_name' => null,
+                'titles' => [],
             ]
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
