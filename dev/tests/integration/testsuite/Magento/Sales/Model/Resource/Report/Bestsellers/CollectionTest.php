@@ -68,8 +68,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function tableForPeriodDataProvider()
     {
-        $dateNow = date('YYYY-MM-DD', time());
-        $dateYearAgo = date('YYYY-MM-DD', strtotime($dateNow . ' -1 year'));
+        $dateNow = date('Y-m-d', time());
+        $dateYearAgo = date('Y-m-d', strtotime($dateNow . ' -1 year'));
         return array(
             [
                 'period'    => 'year',
