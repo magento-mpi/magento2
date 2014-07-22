@@ -21,7 +21,6 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        /** @var \Magento\Framework\Stdlib\PhpCookieManager */
         $this->cookieManager = $objectManager->getObject('Magento\Framework\Stdlib\Cookie\PhpCookieManager');
     }
 
