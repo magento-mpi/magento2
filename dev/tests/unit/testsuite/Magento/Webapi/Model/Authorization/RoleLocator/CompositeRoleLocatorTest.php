@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Authorization\RoleLocator\Composite;
+namespace Magento\Webapi\Model\Authorization\CompositeRoleLocator;
 
 use Magento\Framework\Authorization\RoleLocator;
-use Magento\Webapi\Model\Authorization\RoleLocator\Composite as CompositeRoleLocator;
+use Magento\Webapi\Model\Authorization\CompositeRoleLocator;
 
-class CompositeTest extends \PHPUnit_Framework_TestCase
+class CompositeRoleLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CompositeRoleLocator
@@ -83,7 +83,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     protected function verifyRoleLocatorIsAdded($model, $roleLocatorMock)
     {
         $roleLocators = new \ReflectionProperty(
-            'Magento\Webapi\Model\Authorization\RoleLocator\Composite',
+            'Magento\Webapi\Model\Authorization\CompositeRoleLocator',
             'roleLocators'
         );
         $roleLocators->setAccessible(true);

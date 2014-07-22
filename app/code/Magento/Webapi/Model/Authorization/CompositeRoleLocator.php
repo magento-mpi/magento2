@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Authorization\RoleLocator;
+namespace Magento\Webapi\Model\Authorization;
 
 use Magento\Framework\Authorization\RoleLocator;
 
-class Composite implements \Magento\Framework\Authorization\RoleLocator
+class CompositeRoleLocator implements \Magento\Framework\Authorization\RoleLocator
 {
     /**
      * @var RoleLocator[]
@@ -33,7 +33,7 @@ class Composite implements \Magento\Framework\Authorization\RoleLocator
      * Add role locator.
      *
      * @param RoleLocator $roleLocator
-     * @return Composite
+     * @return CompositeRoleLocator
      */
     public function add(RoleLocator $roleLocator)
     {
