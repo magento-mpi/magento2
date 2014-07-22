@@ -390,6 +390,40 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRuleService->createTaxRule($taxRule);
     }
 
+    public function testCreateTaxRuleInvalidTaxClassIds()
+    {
+        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $taxRule = $taxRuleBuilder
+            ->setId(2)
+            ->setCode('code')
+            ->setCustomerTaxClassIds([2])
+            ->setProductTaxClassIds([3])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+
+        try {
+            //Tax rule service call
+            $this->taxRuleService->createTaxRule($taxRule);
+            $this->fail('Did not throw expected InputException');
+        } catch (InputException $e) {
+            $expectedCustomerTaxClassIdParams = [
+                'fieldName' => $taxRule::CUSTOMER_TAX_CLASS_IDS,
+                'value'     => 2,
+            ];
+            $expectedProductTaxClassIdParams = [
+                'fieldName' => $taxRule::PRODUCT_TAX_CLASS_IDS,
+                'value'    => 3,
+            ];
+
+            $actualErrors = $e->getErrors();
+            $this->assertEquals(2, count($actualErrors));
+            $this->assertEquals($expectedCustomerTaxClassIdParams, $actualErrors[0]->getParameters());
+            $this->assertEquals($expectedProductTaxClassIdParams, $actualErrors[1]->getParameters());
+        }
+    }
+
     public function testSearchTaxRulesEmptyResult()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject |
