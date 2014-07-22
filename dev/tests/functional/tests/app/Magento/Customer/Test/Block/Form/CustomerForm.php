@@ -9,6 +9,7 @@
 namespace Magento\Customer\Test\Block\Form;
 
 use Mtf\Block\Form;
+use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class CustomerForm
@@ -24,6 +25,13 @@ class CustomerForm extends Form
     protected $saveButton = '[type="submit"]';
 
     /**
+     * Locator for customer attribute on Edit Account Information page
+     *
+     * @var string
+     */
+    protected $customerAttribute = "[name='%s[]']";
+
+    /**
      * Click on save button
      *
      * @return void
@@ -31,5 +39,18 @@ class CustomerForm extends Form
     public function submit()
     {
         $this->_rootElement->find($this->saveButton)->click();
+    }
+
+    /**
+     * Check if Customer custom Attribute visible
+     *
+     * @param CustomerCustomAttribute $customerAttribute
+     * @return bool
+     */
+    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
+    {
+        return $this->_rootElement->find(
+            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
+        )->isVisible();
     }
 }

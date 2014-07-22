@@ -9,30 +9,30 @@
 -->
 <mapping strict="0">
     <fields>
-        <dropDown>
+        <dropdown>
             <selector>//select</selector>
             <input>select</input>
-        </dropDown>
-        <multiple>
+        </dropdown>
+        <multipleselect>
             <selector>//select</selector>
             <input>multiselect</input>
-        </multiple>
+        </multipleselect>
         <checkbox>
             <selector>//div[label[span[contains(text(), "%product_name%")]]]/input</selector>
             <input>checkbox</input>
         </checkbox>
-        <radio>
+        <radiobuttons>
             <selector>//div[label[span[contains(text(), "%product_name%")]]]/input</selector>
             <input>checkbox</input>
-        </radio>
+        </radiobuttons>
         <date>
             <selector />
             <input>select</input>
         </date>
-        <dateTime>
+        <datetime>
             <selector />
             <input>select</input>
-        </dateTime>
+        </datetime>
         <time>
             <selector />
             <input>select</input>

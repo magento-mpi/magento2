@@ -17,7 +17,7 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 class Grid extends GridInterface
 {
     /**
-     * 'Add Selected Products' button
+     * Selector for 'Add Selected Products' button
      *
      * @var string
      */

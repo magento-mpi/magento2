@@ -46,28 +46,27 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
      * @param FixtureInterface $product
-     * @param CatalogCategory $category
+     * @param CatalogCategory|null $category
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
         FixtureInterface $product,
-        CatalogCategory $category
+        CatalogCategory $category = null
     ) {
+        $categoryName = $product->hasData('category_ids') ? $product->getCategoryIds()[0] : $category->getName();
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
+        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
 
         $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         while (!$isProductVisible && $catalogCategoryView->getToolbar()->nextPage()) {
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         }
 
-        $quantityAndStockStatus = $product->getQuantityAndStockStatus();
-        $stockStatus = isset($quantityAndStockStatus['is_in_stock'])
-            ? $quantityAndStockStatus['is_in_stock']
-            : null;
-        if ($product->getVisibility() === 'Search' || $stockStatus === 'Out of Stock') {
+        if (($product->getVisibility() === 'Search') || ($this->getStockStatus($product) === 'Out of Stock')) {
             $isProductVisible = !$isProductVisible;
             $this->errorMessage = 'Product found in this category.';
             $this->successfulMessage = 'Asserts that the product could not be found in this category.';
@@ -77,6 +76,18 @@ class AssertProductVisibleInCategory extends AbstractConstraint
             $isProductVisible,
             $this->errorMessage
         );
+    }
+
+    /**
+     * Getting is in stock status
+     *
+     * @param FixtureInterface $product
+     * @return string|null
+     */
+    protected function getStockStatus(FixtureInterface $product)
+    {
+        $quantityAndStockStatus = $product->getQuantityAndStockStatus();
+        return isset($quantityAndStockStatus['is_in_stock']) ? $quantityAndStockStatus['is_in_stock'] : null;
     }
 
     /**

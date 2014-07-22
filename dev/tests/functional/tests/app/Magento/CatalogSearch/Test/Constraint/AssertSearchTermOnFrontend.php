@@ -76,13 +76,15 @@ class AssertSearchTermOnFrontend extends AbstractConstraint
      */
     protected function checkSuggestSearch(CatalogSearchQuery $searchTerm)
     {
+        $queryText = $searchTerm->getQueryText();
+        $this->searchBlock->fillSearch($queryText);
         if ($searchTerm->hasData('num_results')) {
             $isVisible = $this->searchBlock->isSuggestSearchVisible(
-                $searchTerm->getQueryText(),
+                $queryText,
                 $searchTerm->getNumResults()
             );
         } else {
-            $isVisible = $this->searchBlock->isSuggestSearchVisible($searchTerm->getQueryText());
+            $isVisible = $this->searchBlock->isSuggestSearchVisible($queryText);
         }
 
         return $isVisible ? [] : ['- block "Suggest Search" when searching was not found'];

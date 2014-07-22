@@ -127,13 +127,13 @@ class Associated implements FixtureInterface
                         'id' => '%id%',
                         'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 2,
+                        'qty' => 5,
                     ],
                     [
                         'id' => '%id%',
                         'name' => '%item1_simple::getProductName%',
                         'position' => '%position%',
-                        'qty' => 2,
+                        'qty' => 6,
                     ],
                 ],
                 'products' => [
@@ -147,13 +147,13 @@ class Associated implements FixtureInterface
                         'id' => '%id%',
                         'name' => '%item1_virtual::getProductName%',
                         'position' => '%position%',
-                        'qty' => 2,
+                        'qty' => 5,
                     ],
                     [
                         'id' => '%id%',
                         'name' => '%item1_virtual::getProductName%',
                         'position' => '%position%',
-                        'qty' => 2,
+                        'qty' => 3,
                     ],
                 ],
                 'products' => [
