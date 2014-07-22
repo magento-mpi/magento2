@@ -161,7 +161,6 @@ class Order extends \Magento\Backend\App\Action
         $order = $this->_initOrder();
         if ($order) {
             try {
-                $order->sendNewOrderEmail();
                 $this->_objectManager->create('Magento\Sales\Model\Notifier')
                     ->notify($order);
                 $this->messageManager->addSuccess(__('You sent the order email.'));

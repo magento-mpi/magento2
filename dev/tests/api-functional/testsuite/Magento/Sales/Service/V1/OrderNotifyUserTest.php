@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Sales\Service\V1;
 
 use Magento\TestFramework\TestCase\WebapiAbstract,
@@ -20,18 +19,20 @@ class OrderNotifyUserTest extends WebapiAbstract
 
     public function testOrderNotifyUser()
     {
+        $orderId = 1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/1/emails',
+                'resourcePath' => '/V1/orders/'. $orderId . '/emails',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'invoke'
-//            ]
+            'soap' => [
+                'service' => 'salesOrderNotifyUserServiceV1',
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'invoke'
+            ]
         ];
-        $result = $this->_webApiCall($serviceInfo, ['id' => 1]);
+        $requestData = ['id' => $orderId];
+        $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($result);
     }
 
