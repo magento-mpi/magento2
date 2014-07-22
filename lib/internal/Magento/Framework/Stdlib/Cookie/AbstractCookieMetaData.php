@@ -7,6 +7,10 @@
  */
 namespace Magento\Framework\Stdlib\Cookie;
 
+/**
+ * Class AbstractCookieMetaData
+ *
+ */
 abstract class AbstractCookieMetaData
 {
     /**
