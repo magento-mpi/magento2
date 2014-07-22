@@ -40,7 +40,7 @@ class AssertSearchTermNotOnFrontend extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertNotEquals(
             $browser->getUrl(),
             $searchTerm->getRedirect(),
-            'Url in the browser corresponds to Url in fixture (performed redirect).'
+            'Url in the browser corresponds to Url in fixture (redirect has been performed).'
         );
     }
 
@@ -51,6 +51,6 @@ class AssertSearchTermNotOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Redirect by search term is not satisfied.';
+        return 'Search term was successfully removed (redirects to the specified URL was not performed).';
     }
 }

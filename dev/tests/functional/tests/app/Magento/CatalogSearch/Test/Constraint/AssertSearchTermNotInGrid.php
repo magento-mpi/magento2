@@ -45,10 +45,11 @@ class AssertSearchTermNotInGrid extends AbstractConstraint
             'display_in_terms' => strtolower($searchTerm->getDisplayInTerms())
         ];
 
+        $grid->search($filters);
         unset($filters['store_id']);
         \PHPUnit_Framework_Assert::assertFalse(
-            $grid->isRowVisible($filters),
-            'Search term was found on the grid.'
+            $grid->isRowVisible($filters, false),
+            'Search term was found in grid.'
         );
     }
 
@@ -59,6 +60,6 @@ class AssertSearchTermNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Search term is not display on the grid.';
+        return 'Search term was not found in grid.';
     }
 }

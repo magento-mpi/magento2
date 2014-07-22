@@ -42,8 +42,6 @@ class AssertSearchTermSuccessDeleteMessage extends AbstractConstraint
             self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
-            . "\nActual: " . $actualMessage
         );
     }
 

@@ -28,7 +28,7 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
  * 4. Click "Delete Search" button
  * 5. Perform all assertions
  *
- * @group Search Terms (MX)
+ * @group Search_Terms_(MX)
  * @ZephyrId MAGETWO-26491
  */
 class DeleteSearchTermEntityTest extends Injectable
@@ -61,7 +61,7 @@ class DeleteSearchTermEntityTest extends Injectable
     }
 
     /**
-     * Run edit search term test
+     * Run delete search term entity test
      *
      * @param CatalogSearchQuery $searchTerm
      * @return void
