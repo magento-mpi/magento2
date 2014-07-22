@@ -12,6 +12,7 @@
   * [#584] (https://github.com/magento/magento2/issues/584) -- Merge and minify js - Exception
   * [#585] (https://github.com/magento/magento2/pull/585) -- Add forgotten return statement
   * [#592] (https://github.com/magento/magento2/issues/592) -- Module name pattern
+  * [#618] (https://github.com/magento/magento2/issues/618) -- Fix of unit tests failure on Travis CI
 * Tax calculation updates:
   * Separate and display Weee line item totals from Tax
 * Fixed bugs:
@@ -30,18 +31,16 @@
   * Fixed an issue when configurable product was out of stock in Google Shopping while being in stock in the Magento backend
   * Fixed an issue when swipe gesture in menu widget was not supported on mobile
   * Fixed an issue when it was impossible to enter alpha-numeric zip code on the stage of  estimating shipping and tax rates
-  * Fixed an issue when it was impossible to edit gift card account
   * Fixed an issue when custom price was not applied when editing an order
-  * Fixed an issue when  items were  not returned to stock after unsuccessful order was placed
+  * Fixed an issue when items were not returned to stock after unsuccessful order was placed
   * Fixed an issue when error message appeared "Cannot save the credit memo” while creating credit memo
   * Fixed an issue when Catalog price rule was not shown for the product if price was less than a discount
 * Indexer implementation:
   * Implemented a new Stock indexer
   * Implemented a new EAV indexer
-  * Fixed failed L1 plan on phpunit 4.1.0
-  * Minor updates for integration test framework
-  * Split action controllers classes into action classes
-  * Added public MTF repository to the packagist.org
+* Minor updates for integration test framework
+* Split action controllers classes into action classes
+* Added public MTF repository to the packagist.org
 * Added the following functional tests:
   * Create Admin User
   * Create Category
