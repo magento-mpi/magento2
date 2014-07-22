@@ -27,13 +27,14 @@ class QuoteLoader
 
     /**
      * @param int $cartId
+     * @param int $storeId
      * @return \Magento\Sales\Model\Quote
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function load($cartId)
+    public function load($cartId, $storeId)
     {
         $quote = $this->quoteFactory->create();
-        $quote->load($cartId);
+        $quote->setStoreId($storeId)->load($cartId);
         if (!$quote->getId()) {
             throw NoSuchEntityException::singleField('cartId', $cartId);
         }

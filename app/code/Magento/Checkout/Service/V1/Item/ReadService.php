@@ -25,15 +25,23 @@ class ReadService implements ReadServiceInterface
     protected $itemBuilder;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param ItemBuilder $itemBuilder
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
-        ItemBuilder $itemBuilder
+        ItemBuilder $itemBuilder,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->quoteLoader = $quoteLoader;
         $this->itemBuilder = $itemBuilder;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -42,8 +50,9 @@ class ReadService implements ReadServiceInterface
     public function getList($cartId)
     {
         $output = [];
+        $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteLoader->load($cartId);
+        $quote = $this->quoteLoader->load($cartId, $storeId);
 
         /** @var  \Magento\Sales\Model\Quote\Item  $item */
         foreach ($quote->getAllItems() as $item) {
