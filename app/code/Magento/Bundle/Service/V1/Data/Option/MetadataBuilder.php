@@ -68,4 +68,15 @@ class MetadataBuilder extends AbstractObjectBuilder
     {
         return $this->_set(Metadata::POSITION, $value);
     }
+
+    /**
+     * Set product
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setSku($value)
+    {
+        return $this->_set(Metadata::SKU, $value);
+    }
 }

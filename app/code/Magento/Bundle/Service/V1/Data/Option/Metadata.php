@@ -24,6 +24,8 @@ class Metadata extends AbstractObject
 
     const POSITION = 'position';
 
+    const SKU = 'sku';
+
     /**
      * Get option id
      *
@@ -72,5 +74,15 @@ class Metadata extends AbstractObject
     public function getPosition()
     {
         return $this->_get(self::POSITION);
+    }
+
+    /**
+     * Get product sku
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        return $this->_get(self::SKU);
     }
 }
