@@ -99,7 +99,7 @@ class RequiredFieldsTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getName(), $productViewBlock->getProductName());
         $giftCardBlock = $productPage->getGiftCardBlock();
-        $this->assertTrue($giftCardBlock->isOpenAmount(), 'Open Amount field is absent');
+        $this->assertTrue($giftCardBlock->isAmountInputVisible(), 'Open Amount field is absent');
         $this->assertTrue($giftCardBlock->isGiftCardNotPhysical(), 'Fields are not corresponded to Virtual Card');
     }
 }

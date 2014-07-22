@@ -31,7 +31,6 @@ class AssertBundleProductForm extends AssertProductForm
      * @var array
      */
     protected $specialArray = [
-        'price_view' => [],
         'special_from_date' => [
             'type' => 'date'
         ],
@@ -53,34 +52,49 @@ class AssertBundleProductForm extends AssertProductForm
         CatalogProductIndex $productGrid,
         CatalogProductEdit $productPage
     ) {
-        $this->formattingOptions += [
-            'selection_qty' => [
-                'decimals' => 4,
-                'dec_point' => '.',
-                'thousands_sep' => ''
-            ],
-            'selection_price_value' => [
-                'decimals' => 2,
-                'dec_point' => '.',
-                'thousands_sep' => ''
-            ]
-        ];
-
         $filter = ['sku' => $product->getSku()];
-        $productGrid->open()->getProductGrid()->searchAndOpen($filter);
+        $productGrid->open();
+        $productGrid->getProductGrid()->searchAndOpen($filter);
 
         $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->prepareSpecialPriceArray($this->prepareFixtureData($product));
+        $fixtureData = $this->prepareFixtureData($product->getData());
+        $errors = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
+    }
 
-        $fixtureData['bundle_selections'] = $this->prepareBundleOptions(
-            $fixtureData['bundle_selections']['bundle_options']
+    /**
+     * Prepares fixture data for comparison
+     *
+     * @param array $data
+     * @param array $sortFields [optional]
+     * @return array
+     */
+    protected function prepareFixtureData(array $data, array $sortFields = [])
+    {
+        $data = $this->prepareSpecialPriceArray($data);
+        $data['bundle_selections'] = $this->prepareBundleOptions(
+            $data['bundle_selections']['bundle_options']
         );
 
-        $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($errors),
-            "These data must be equal to each other:\n" . implode("\n", $errors)
-        );
+        return parent::prepareFixtureData($data, $sortFields);
+    }
+
+    /**
+     * Prepare special price array for Bundle product
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function prepareSpecialPriceArray(array $fields)
+    {
+        foreach ($this->specialArray as $key => $value) {
+            if (array_key_exists($key, $fields)) {
+                if (isset($value['type']) && $value['type'] == 'date') {
+                    $fields[$key] = vsprintf('%d/%d/%d', explode('/', $fields[$key]));
+                }
+            }
+        }
+        return $fields;
     }
 
     /**
@@ -99,24 +113,5 @@ class AssertBundleProductForm extends AssertProductForm
         }
 
         return $bundleSelections;
-    }
-
-    /**
-     * Prepare special price array for Bundle product
-     *
-     * @param array $fields
-     * @return array
-     */
-    protected function prepareSpecialPriceArray(array $fields)
-    {
-        foreach ($this->specialArray as $key => $value) {
-            if (array_key_exists($key, $fields)) {
-                if (isset($value['type']) && $value['type'] == 'date') {
-                    $fields[$key] = vsprintf('%d/%d/%d', explode('/', $fields[$key]));
-                }
-                $fields[$key] = [$key => $fields[$key]];
-            }
-        }
-        return $fields;
     }
 }

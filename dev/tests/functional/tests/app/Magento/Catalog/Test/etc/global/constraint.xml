@@ -44,6 +44,15 @@
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
     </assertProductVisibleInCategory>
+    <assertProductNotVisibleInCategory module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <category class="Magento\Catalog\Test\Fixture\CatalogCategory" />
+            <product class="Mtf\Fixture\FixtureInterface" />
+        </require>
+    </assertProductNotVisibleInCategory>
     <assertProductSearchableBySku module="Magento_Catalog">
         <severeness>low</severeness>
         <require>
@@ -339,18 +348,6 @@
     <assertProductNotInGrid module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductNotInGrid>
-    <assertProductTemplateSuccessDeleteMessage module="Magento_Catalog">
-        <severeness>high</severeness>
-    </assertProductTemplateSuccessDeleteMessage>
-    <assertProductTemplateNotInGrid module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertProductTemplateNotInGrid>
-    <assertProductNotInGrid module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertProductNotInGrid>
-    <assertProductNotSearchableBySku module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertProductNotSearchableBySku>
     <assertProductCompareItemsLink module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductCompareItemsLink>
@@ -363,6 +360,27 @@
     <assertProductCompareSuccessAddMessage module="Magento_Catalog">
         <severeness>high</severeness>
     </assertProductCompareSuccessAddMessage>
+    <assertProductCompareSuccessRemoveMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductCompareSuccessRemoveMessage>
+    <assertProductCompareSuccessRemoveAllProductsMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductCompareSuccessRemoveAllProductsMessage>
+    <assertProductCompareItemsLinkIsAbsent module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareItemsLinkIsAbsent>
+    <assertProductCompareRemoveLastProductMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareRemoveLastProductMessage>
+    <assertProductIsNotVisibleInCompareBlock module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductIsNotVisibleInCompareBlock>
+    <assertProductCompareSuccessRemoveMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareSuccessRemoveMessage>
+    <assertProductIsNotVisibleInComparePage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductIsNotVisibleInComparePage>
     <assertProductAttributeAbsenceInTemplateGroups module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductAttributeAbsenceInTemplateGroups>
@@ -394,4 +412,19 @@
     <assertProductForm module="Magento_Catalog">
         <severeness>high</severeness>
     </assertProductForm>
+    <assertProductTemplateGroupOnProductForm module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateGroupOnProductForm>
+    <assertProductCompareSuccessRemoveAllProductsMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductCompareSuccessRemoveAllProductsMessage>
+    <assertProductCompareItemsLinkIsAbsent module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareItemsLinkIsAbsent>
+    <assertProductCompareRemoveLastProductMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductCompareRemoveLastProductMessage>
+    <assertProductIsNotVisibleInCompareBlock module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductIsNotVisibleInCompareBlock>
 </constraint>

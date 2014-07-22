@@ -87,6 +87,7 @@ class SalesRuleInjectable extends InjectableFixture
         'attribute_code' => 'conditions_serialized',
         'backend_type' => 'mediumtext',
         'group' => 'conditions',
+        'source' => 'Magento\SalesRule\Test\Fixture\SalesRuleInjectable\ConditionsSerialized'
     ];
 
     protected $actions_serialized = [

@@ -54,4 +54,18 @@
             <browser class="Mtf\Client\Browser" />
         </require>
     </assertSearchTermOnFrontend>
+    <assertSearchTermSuccessSaveMessage  module="Magento_CatalogSearch">
+        <severeness>high</severeness>
+        <require>
+            <indexPage class="Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex" />
+        </require>
+    </assertSearchTermSuccessSaveMessage>
+    <assertSearchTermSynonymOnFrontend  module="Magento_CatalogSearch">
+        <severeness>high</severeness>
+        <require>
+            <searchTerm class="Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <browser class="Mtf\Client\Browser" />
+        </require>
+    </assertSearchTermSynonymOnFrontend>
 </constraint>

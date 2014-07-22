@@ -24,6 +24,18 @@ class CatalogSearchIndex extends BackendPage
             'locator' => '#catalog_search_grid',
             'strategy' => 'css selector',
         ],
+        'gridPageActions' => [
+            'name' => 'gridPageActions',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
+            'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -32,5 +44,21 @@ class CatalogSearchIndex extends BackendPage
     public function getGrid()
     {
         return $this->getBlockInstance('grid');
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\GridPageActions
+     */
+    public function getGridPageActions()
+    {
+        return $this->getBlockInstance('gridPageActions');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }

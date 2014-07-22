@@ -104,6 +104,7 @@ class CatalogProductVirtual extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
+        'group' => 'product-details',
     ];
 
     protected $color = [

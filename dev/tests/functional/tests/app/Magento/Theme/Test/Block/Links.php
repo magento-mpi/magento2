@@ -41,7 +41,10 @@ class Links extends Block
      */
     public function openLink($linkTitle)
     {
-        $this->_rootElement->find(sprintf($this->link, $linkTitle), Locator::SELECTOR_XPATH)->click();
+        $link = $this->_rootElement->find(sprintf($this->link, $linkTitle), Locator::SELECTOR_XPATH);
+        if ($link->isVisible()) {
+            $link->click();
+        }
     }
 
     /**
@@ -58,13 +61,17 @@ class Links extends Block
     /**
      * Get the number of products added to compare list
      *
-     * @return string
+     * @return string|bool
      */
     public function getQtyInCompareList()
     {
-        $items = $this->_rootElement->find($this->qtyCompareProducts)->getText();
-        preg_match_all('/^\d+/', $items, $matches);
-        return $matches[0][0];
+        $compareProductLink = $this->_rootElement->find($this->qtyCompareProducts);
+        if ($compareProductLink->isVisible()) {
+            preg_match_all('/^\d+/', $compareProductLink->getText(), $matches);
+            return $matches[0][0];
+        } else {
+            return false;
+        }
     }
 
     /**
