@@ -7,9 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Option;
 
-use Magento\Bundle\Model\Option\Repository as OptionRepository;
 use Magento\Bundle\Service\V1\Data\Option\MetadataConverter;
-use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -25,19 +23,12 @@ class ReadService implements ReadServiceInterface
      */
     private $metadataConverter;
 
-    /**
-     * @var ProductFactory
-     */
-    private $productFactory;
-
     public function __construct(
         MetadataConverter $metadataConverter,
-        ProductRepository $productRepository,
-        ProductFactory $productFactory
+        ProductRepository $productRepository
     ) {
         $this->metadataConverter = $metadataConverter;
         $this->productRepository = $productRepository;
-        $this->productFactory = $productFactory;
     }
 
     /**
