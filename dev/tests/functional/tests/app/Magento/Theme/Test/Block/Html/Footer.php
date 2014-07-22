@@ -29,7 +29,7 @@ class Footer extends Block
      *
      * @var string
      */
-    protected $variableSelector = '//div[contains(@class, "links")]/*[.="%s"]';
+    protected $variableSelector = './/div[contains(@class, "links")]/*[text()="%s"]';
 
     /**
      * Click on link by name
@@ -48,13 +48,13 @@ class Footer extends Block
     }
 
     /**
-     * Check Variable visibility by name
+     * Check Variable visibility by html value
      *
-     * @param string $name
+     * @param string $htmlValue
      * @return bool
      */
-    public function checkVariable($name)
+    public function checkVariable($htmlValue)
     {
-        return $this->_rootElement->find(sprintf($this->variableSelector, $name), Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find(sprintf($this->variableSelector, $htmlValue), Locator::SELECTOR_XPATH)->isVisible();
     }
 }

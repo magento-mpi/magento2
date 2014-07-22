@@ -15,6 +15,12 @@
         <strategy>xpath</strategy>
     </block>
     <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.page.messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
         <name>accountMenuBlock</name>
         <class>Magento\Customer\Test\Block\Account\Links</class>
         <locator>.nav.items</locator>

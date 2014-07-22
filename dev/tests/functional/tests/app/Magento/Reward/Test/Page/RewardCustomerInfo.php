@@ -23,6 +23,12 @@ class RewardCustomerInfo extends FrontendPage
             'class' => 'Magento\Reward\Test\Block\Customer\RewardPoints',
             'locator' => '//*[@class="columns"]/div[div[contains(@class, "block reward")]]',
             'strategy' => 'xpath',
+            ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '.page.messages',
+            'strategy' => 'css selector',
         ],
         'accountMenuBlock' => [
             'name' => 'accountMenuBlock',
@@ -35,7 +41,7 @@ class RewardCustomerInfo extends FrontendPage
             'class' => 'Magento\Theme\Test\Block\Html\Title',
             'locator' => '.page-title',
             'strategy' => 'css selector',
-        ],
+            ],
     ];
 
     /**
@@ -44,6 +50,14 @@ class RewardCustomerInfo extends FrontendPage
     public function getRewardPointsBlock()
     {
         return $this->getBlockInstance('rewardPointsBlock');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 
     /**

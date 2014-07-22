@@ -14,7 +14,6 @@ use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class Bundle
- * Fixture for Bundle edit
  */
 class Bundle extends Product
 {
@@ -71,11 +70,11 @@ class Bundle extends Product
     public function getBundleOptions()
     {
         $options = array();
-        $bundleOptions = $this->getData('fields/bundle_selections/value/bundle_options');
-        foreach ($bundleOptions as $optionData) {
-            $optionName = $optionData['title']['value'];
+        $bundleOptions = $this->getData('fields/bundle_selections/value');
+        foreach ($bundleOptions['bundle_options'] as $optionData) {
+            $optionName = $optionData['title'];
             foreach ($optionData['assigned_products'] as $productData) {
-                $options[$optionName] = $productData['search_data']['name'];
+                $options[$optionName][] = $productData['search_data']['name'];
             }
         }
         return $options;
@@ -100,21 +99,20 @@ class Bundle extends Product
     public function getSelectionData()
     {
         $options = $this->getData('checkout/selection');
-        $selectionData = array();
+        $selectionData = [];
         foreach ($options as $option => $selection) {
-            $selectionItem['type'] = $this->getData(
-                'fields/bundle_selections/value/bundle_options/' . $option . '/type/input_value'
+            $fieldPrefix = 'fields/bundle_selections/value/bundle_options/';
+            $selectionItem['type'] = $this->getData($fieldPrefix . $option . '/type');
+            $selectionItem['title'] = $this->getData($fieldPrefix . $option . '/title');
+            $selectionItem['value']['qty'] = $this->getData(
+                $fieldPrefix . $option . '/assigned_products/' . $selection . '/data/selection_qty'
             );
-            $selectionItem['qty'] = $this->getData(
-                'fields/bundle_selections/value/bundle_options/' . $option
-                . '/assigned_products/' . $selection . '/data/selection_qty/value'
-            );
-            $selectionItem['value'] = $this->getData(
-                'fields/bundle_selections/value/bundle_options/' . $option . '/assigned_products/' . $selection
-                . '/search_data/name'
+            $selectionItem['value']['name'] = $this->getData(
+                $fieldPrefix . $option . '/assigned_products/' . $selection . '/search_data/name'
             );
             $selectionData[] = $selectionItem;
         }
+
         return $selectionData;
     }
 

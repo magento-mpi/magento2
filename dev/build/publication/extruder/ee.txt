@@ -108,11 +108,6 @@ dev/tests/functional/tests/app/Magento/Authorizenet
 dev/tests/functional/tests/app/Magento/Banner
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Layer
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/Flat
-dev/tests/functional/tests/app/Magento/Bundle/Test/Constraint
-dev/tests/functional/tests/app/Magento/Bundle/Test/TestCase/CreateBundleEntityTest
-dev/tests/functional/tests/app/Magento/Bundle/Test/TestCase/CreateBundleEntityTest.php
-dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleProductEntityTest
-dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleProductEntityTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapConfigurableTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapTest.php
 dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/OutOfStockTest.php

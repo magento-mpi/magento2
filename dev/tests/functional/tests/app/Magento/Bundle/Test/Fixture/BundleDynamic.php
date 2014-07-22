@@ -12,7 +12,6 @@ use Mtf\Factory\Factory;
 
 /**
  * Class BundleDynamic
- * Fixture for Bundle dynamic
  */
 class BundleDynamic extends Bundle
 {
@@ -26,9 +25,7 @@ class BundleDynamic extends Bundle
                 'price_from' => 10,
                 'price_to' => 15
             ),
-            'selection' => array(
-                'bundle_item_0' => 'assigned_product_0'
-            )
+            'selection' => array(0)
         );
         parent::_initData();
         $this->_data['fields'] = array_merge_recursive(
@@ -67,49 +64,33 @@ class BundleDynamic extends Bundle
                 ),
                 'bundle_selections' => array(
                     'value' => array(
-                        'bundle_options' => [
-                            [
-                                'title' => array(
-                                    'value' => 'Drop-down Option'
-                                ),
-                                'type' => array(
-                                    'value' => 'Drop-down',
-                                    'input_value' => 'select'
-                                ),
-                                'required' => array(
-                                    'value' => 'Yes',
-                                    'input_value' => '1'
-                                ),
+                        'bundle_options' => array(
+                            array(
+                                'title' => 'Drop-down Option',
+                                'type' => 'Drop-down',
+                                'required' => 'Yes',
                                 'assigned_products' => array(
-                                    [
+                                    array(
                                         'search_data' => array(
                                             'name' => '%item1_simple1::getName%',
                                         ),
                                         'data' => array(
-                                            'selection_qty' => array(
-                                                'value' => 1
-                                            ),
-                                            'product_id' => array(
-                                                'value' => '%item1_simple1::getProductId%'
-                                            )
+                                            'selection_qty' => 1,
+                                            'product_id' => '%item1_simple1::getProductId%'
                                         )
-                                    ],
-                                    [
+                                    ),
+                                    array(
                                         'search_data' => array(
                                             'name' => '%item1_virtual2::getName%',
                                         ),
                                         'data' => array(
-                                            'selection_qty' => array(
-                                                'value' => 1
-                                            ),
-                                            'product_id' => array(
-                                                'value' => '%item1_virtual2::getProductId%'
-                                            )
+                                            'selection_qty' => 1,
+                                            'product_id' => '%item1_virtual2::getProductId%'
                                         )
-                                    ]
+                                    )
                                 )
-                            ]
-                        ]
+                            )
+                        )
                     ),
                     'group' => static::GROUP
                 )

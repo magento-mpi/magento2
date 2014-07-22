@@ -124,7 +124,7 @@ class CheckoutData extends AbstractCheckoutData
                 'custom_options' => [
                     [
                         'type' => 'Field',
-                        'title' => 'custom option Field',
+                        'title' => 'custom option field',
                         'value' => ['Field'],
                     ],
                     [

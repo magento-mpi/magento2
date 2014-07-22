@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Reward
+ * Reward point fixture
  */
 class Reward extends InjectableFixture
 {
@@ -25,6 +26,7 @@ class Reward extends InjectableFixture
      */
     protected $handlerInterface = 'Magento\Reward\Test\Handler\Reward\RewardInterface';
 
+{
     protected $defaultDataSet = [
         'website_id' => 'Main Website',
         'customer_group_id' => 'All Customer Groups',
