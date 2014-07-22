@@ -18,6 +18,11 @@ interface ReadServiceInterface
     public function get($productSku, $optionId);
 
     /**
+     * @return \Magento\Bundle\Service\V1\Data\Option\Type\Metadata[]
+     */
+    public function getTypes();
+
+    /**
      * @param string $productSku
      * @return \Magento\Bundle\Service\V1\Data\Option\Metadata[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException

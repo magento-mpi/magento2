@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\AbstractObjectBuilder;
 class MetadataBuilder extends AbstractObjectBuilder
 {
     /**
-     * Get option id
+     * Set option id
      *
      * @param int $value
      * @return $this
@@ -26,7 +26,7 @@ class MetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Get option title
+     * Set option title
      *
      * @param string $value
      * @return $this
@@ -37,7 +37,7 @@ class MetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Get is required option
+     * Set is required option
      *
      * @param bool $value
      * @return $this
@@ -48,7 +48,7 @@ class MetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Get input type
+     * Set input type
      *
      * @param string $value
      * @return $this
@@ -59,7 +59,7 @@ class MetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Get option position
+     * Set option position
      *
      * @param int $value
      * @return $this

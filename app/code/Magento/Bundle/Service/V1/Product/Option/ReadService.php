@@ -7,7 +7,11 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Option;
 
+use Magento\Bundle\Model\OptionFactory;
+use Magento\Bundle\Model\Source\Option\Type;
 use Magento\Bundle\Service\V1\Data\Option\MetadataConverter;
+use Magento\Bundle\Service\V1\Data\Option\Type\Metadata as OptionTypeMetadata;
+use Magento\Bundle\Service\V1\Data\Option\Type\MetadataBuilder as OptionTypeMetadataBuilder;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -23,10 +27,45 @@ class ReadService implements ReadServiceInterface
      */
     private $metadataConverter;
 
-    public function __construct(MetadataConverter $metadataConverter, ProductRepository $productRepository)
-    {
+    /**
+     * @var Type
+     */
+    private $optionTypes;
+
+    /**
+     * @var OptionTypeMetadataBuilder
+     */
+    private $typeMetadataBuilder;
+
+    public function __construct(
+        MetadataConverter $metadataConverter,
+        ProductRepository $productRepository,
+        Type $optionTypes,
+        OptionTypeMetadataBuilder $typeMetadataBuilder
+    ) {
         $this->metadataConverter = $metadataConverter;
         $this->productRepository = $productRepository;
+        $this->optionTypes = $optionTypes;
+        $this->typeMetadataBuilder = $typeMetadataBuilder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTypes()
+    {
+        $optionList = $this->optionTypes->toOptionArray();
+
+        /** @var OptionTypeMetadata[] $optionTypeMetadataList */
+        $optionTypeMetadataList = [];
+        foreach ($optionList as $option) {
+            $typeArray = [
+                OptionTypeMetadata::LABEL => __($option['label']),
+                OptionTypeMetadata::CODE => __($option['value'])
+            ];
+            $optionTypeMetadataList[] = $this->typeMetadataBuilder->populateWithArray($typeArray)->create();
+        }
+        return $optionTypeMetadataList;
     }
 
     /**
@@ -65,6 +104,7 @@ class ReadService implements ReadServiceInterface
         foreach ($optionCollection as $option) {
             $optionMetadataList[] = $this->metadataConverter->createDataFromModel($option);
         }
+        $optionMetadataList['types'] = $this->optionTypes->toOptionArray();
         return $optionMetadataList;
     }
 

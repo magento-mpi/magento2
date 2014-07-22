@@ -33,6 +33,12 @@
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
+    <route url="/V1/bundle-products/:productSku/option/types" method="GET">
+        <service class="Magento\Bundle\Service\V1\Product\Option\ReadServiceInterface" method="getTypes" />
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
     <route url="/V1/bundle-products/:productSku/option/:optionId" method="GET">
         <service class="Magento\Bundle\Service\V1\Product\Option\ReadServiceInterface" method="get" />
         <resources>
