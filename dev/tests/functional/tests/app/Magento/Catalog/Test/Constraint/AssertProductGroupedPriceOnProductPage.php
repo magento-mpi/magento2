@@ -10,6 +10,7 @@ namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Catalog\Test\Block\Product\View;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
@@ -30,6 +31,13 @@ class AssertProductGroupedPriceOnProductPage extends AbstractConstraint implemen
      * @var string
      */
     protected $errorMessage = 'That displayed grouped price on product page is NOT equal to one, passed from fixture.';
+
+    /**
+     * Customer group
+     *
+     * @var string
+     */
+    protected $customerGroup;
 
     /**
      * Assert that displayed grouped price on product page equals passed from fixture
@@ -73,18 +81,31 @@ class AssertProductGroupedPriceOnProductPage extends AbstractConstraint implemen
         $block = '',
         $customerGroup = 'NOT LOGGED IN'
     ) {
-        $fields = $product->getData();
-        $productPrice = $catalogProductView->{'get' . $block . 'ViewBlock'}()->getProductPrice();
-        $specialPrice = isset($productPrice['price_special_price'])
-            ? $productPrice['price_special_price']
-            : null;
+        $this->customerGroup = $customerGroup;
+        $groupPrice = $this->getGroupedPrice($catalogProductView->{'get' . $block . 'ViewBlock'}(), $product);
+        \PHPUnit_Framework_Assert::assertEquals($groupPrice['fixture'], $groupPrice['onPage'], $this->errorMessage);
+    }
 
-        $price = number_format(
-            $fields['group_price'][array_search($customerGroup, $fields['group_price'])]['price'],
+    /**
+     * Get grouped price with fixture product and product page
+     *
+     * @param View $view
+     * @param FixtureInterface $product
+     * @return array
+     */
+    protected function getGroupedPrice(View $view, FixtureInterface $product)
+    {
+        $fields = $product->getData();
+        $groupPrice['onPage'] = $view->getProductPrice();
+        $groupPrice['onPage'] = isset($groupPrice['onPage']['price_special_price'])
+            ? $groupPrice['onPage']['price_special_price']
+            : null;
+        $groupPrice['fixture'] = number_format(
+            $fields['group_price'][array_search($this->customerGroup, $fields['group_price'])]['price'],
             2
         );
 
-        \PHPUnit_Framework_Assert::assertEquals($price, $specialPrice, $this->errorMessage);
+        return $groupPrice;
     }
 
     /**

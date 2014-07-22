@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Test\Handler\Curl;
+namespace Magento\Widget\Test\Handler\Widget;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
