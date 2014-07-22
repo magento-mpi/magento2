@@ -44,7 +44,8 @@ class CreateSimpleWithCustomOptionsAndCategoryTest extends Functional
         $productForm = $createProductPage->getForm();
         //Steps
         $createProductPage->open();
-        $productForm->fill($product);
+        $category = $product->getCategories()['category'];
+        $productForm->fill($product, null, $category);
         $createProductPage->getFormAction()->save();
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
