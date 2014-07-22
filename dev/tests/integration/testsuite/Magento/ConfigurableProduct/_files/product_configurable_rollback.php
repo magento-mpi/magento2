@@ -14,11 +14,20 @@ $registry->register('isSecureArea', true);
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-$product->load(10)->delete();
+$product->load(10);
+if ($product->getId()) {
+    $product->delete();
+}
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-$product->load(20)->delete();
+$product->load(20);
+if ($product->getId()) {
+    $product->delete();
+}
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-$product->load(1)->delete();
+$product->load(1);
+if ($product->getId()) {
+    $product->delete();
+}
 
 
 $registry->unregister('isSecureArea');

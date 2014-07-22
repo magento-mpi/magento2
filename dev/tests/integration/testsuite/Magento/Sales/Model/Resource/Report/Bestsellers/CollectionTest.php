@@ -47,18 +47,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testTableSelection($period, $expectedTable, $dateFrom, $dateTo)
     {
+        $dbTableName = $this->_collection->getTable($expectedTable);
         $this->_collection->setPeriod($period);
         $this->_collection->setDateRange($dateFrom, $dateTo);
         $this->_collection->load();
-
         $from = $this->_collection->getSelect()->getPart('from');
 
-        $this->assertArrayHasKey($expectedTable, $from);
+        $this->assertArrayHasKey($dbTableName, $from);
 
-        $this->assertArrayHasKey('tableName', $from[$expectedTable]);
-        $actualTable = $from[$expectedTable]['tableName'];
+        $this->assertArrayHasKey('tableName', $from[$dbTableName]);
+        $actualTable = $from[$dbTableName]['tableName'];
 
-        $this->assertEquals($expectedTable, $actualTable);
+        $this->assertEquals($dbTableName, $actualTable);
     }
 
     /**
