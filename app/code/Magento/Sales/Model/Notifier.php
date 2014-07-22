@@ -34,16 +34,21 @@ class Notifier extends \Magento\Framework\Model\AbstractModel
      */
     public function notify(\Magento\Sales\Model\Order $order)
     {
-        if ($order->sendNewOrderEmail()) {
-            $historyItem = $this->historyCollectionFactory->create()->getUnnotifiedForInstance(
-                $order,
-                \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME
-            );
-            if ($historyItem) {
-                $historyItem->setIsCustomerNotified(1);
-                $historyItem->save();
+        try {
+            $order->sendNewOrderEmail();
+            if ($order->getEmailSent()) {
+                $historyItem = $this->historyCollectionFactory->create()->getUnnotifiedForInstance(
+                    $order,
+                    \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME
+                );
+                if ($historyItem) {
+                    $historyItem->setIsCustomerNotified(1);
+                    $historyItem->save();
+                }
+                return true;
             }
-            return true;
+        } catch (\Magento\Framework\Mail\Exception $e) {
+
         }
         return false;
     }
