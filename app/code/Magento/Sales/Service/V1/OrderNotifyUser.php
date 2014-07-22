@@ -8,12 +8,11 @@
 namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Model\OrderRepository;
-use Magento\Sales\Service\V1\Data\OrderMapper;
 
 /**
  * Class OrderNotifyUser
  */
-class OrderNotifyUser
+class OrderNotifyUser implements OrderNotifyUserInterface
 {
     /**
      * @var OrderRepository
@@ -38,11 +37,10 @@ class OrderNotifyUser
     }
 
     /**
-     * Invoke getOrder service
+     * Invoke notifyUser service
      *
-     * @param $id
+     * @param int $id
      * @return \Magento\Framework\Service\Data\AbstractObject
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function invoke($id)
     {
