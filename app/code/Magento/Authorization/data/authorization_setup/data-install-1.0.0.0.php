@@ -13,22 +13,12 @@ use Magento\Authorization\Model\Acl\Role\Group as RoleGroup;
 
 /** @var \Magento\Authorization\Model\Resource\Setup $this */
 
-$roleCollection = $this->createRoleCollection()->addFieldToFilter(
-    'parent_id',
-    0
-)->addFieldToFilter(
-    'tree_level',
-    1
-)->addFieldToFilter(
-    'role_type',
-    RoleGroup::ROLE_TYPE
-)->addFieldToFilter(
-    'user_id',
-    0
-)->addFieldToFilter(
-    'role_name',
-    'Administrators'
-);
+$roleCollection = $this->createRoleCollection()
+    ->addFieldToFilter('parent_id', 0)
+    ->addFieldToFilter('tree_level', 1)
+    ->addFieldToFilter('role_type', RoleGroup::ROLE_TYPE)
+    ->addFieldToFilter('user_id', 0)
+    ->addFieldToFilter('role_name', 'Administrators');
 
 if ($roleCollection->count() == 0) {
     $admGroupRole = $this->createRole()->setData(
@@ -48,13 +38,9 @@ if ($roleCollection->count() == 0) {
     }
 }
 
-$rulesCollection = $this->createRulesCollection()->addFieldToFilter(
-    'role_id',
-    $admGroupRole->getId()
-)->addFieldToFilter(
-    'resource_id',
-    'all'
-);
+$rulesCollection = $this->createRulesCollection()
+    ->addFieldToFilter('role_id', $admGroupRole->getId())
+    ->addFieldToFilter('resource_id', 'all');
 
 if ($rulesCollection->count() == 0) {
     $this->createRules()->setData(
