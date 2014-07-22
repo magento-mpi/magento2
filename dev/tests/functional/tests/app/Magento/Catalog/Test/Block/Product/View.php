@@ -141,7 +141,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $priceBlock = '.product-info-main .price-box';
+    protected $priceBlock = '.price-box .price';
 
     /**
      * 'Add to Compare' button

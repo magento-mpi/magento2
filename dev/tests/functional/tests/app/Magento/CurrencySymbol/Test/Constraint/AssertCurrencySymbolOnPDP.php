@@ -44,7 +44,7 @@ class AssertCurrencySymbolOnPDP extends AbstractConstraint
         CatalogProductView $catalogProductView,
         CurrencySymbolEntity $currencySymbol
     ) {
-        $categoryName = $product->getCategoryIds()[0]['name'];
+        $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());

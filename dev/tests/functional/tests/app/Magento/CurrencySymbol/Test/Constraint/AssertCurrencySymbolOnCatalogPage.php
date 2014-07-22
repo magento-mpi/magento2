@@ -41,7 +41,7 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
         CatalogProductSimple $product,
         CurrencySymbolEntity $currencySymbol
     ) {
-        $categoryName = $product->getCategoryIds()[0]['name'];
+        $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $price = $catalogCategoryView->getListProductBlock()->getPrice($product->getId());
