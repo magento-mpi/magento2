@@ -8,6 +8,10 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
+/**
+ * Class PublicCookieMetadata
+ *
+ */
 class PublicCookieMetadata extends AbstractCookieMetaData
 {
     /**
