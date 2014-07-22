@@ -249,6 +249,21 @@ body {
 }
 
 //
+//    Navigation
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .nav-sections .switcher-trigger strong:after {
+        font-size: 16px;
+        right: -25px;
+        top: 2px;
+    }
+    .navigation .parent .level-top:after {
+        font-size: 16px;
+        top: 7px;
+        right: 10px;
+    }
+}
+//
 //    Layered navigation
 //--------------------------------------
 
