@@ -41,7 +41,7 @@ class ReadService implements ReadServiceInterface
         $productTypeInstance = $product->getTypeInstance();
         $optionCollection = $productTypeInstance->getOptionsCollection($product);
 
-        /** @var \Magento\Bundle\Service\V1\Data\Option\Metadata[] $optionMetadataList */
+        /** @var \Magento\Bundle\Service\V1\Data\Option\Metadata $optionMetadataList */
         $optionMetadataList = null;
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
