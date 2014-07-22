@@ -14,7 +14,7 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
 
 /**
  * Class AssertSearchTermMassActionsNotInGrid
- * Assert that after mass delete a search term on grid page not displayed
+ * Assert that after mass delete search terms on grid page are not displayed
  */
 class AssertSearchTermMassActionsNotInGrid extends AbstractConstraint
 {
@@ -26,7 +26,7 @@ class AssertSearchTermMassActionsNotInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after mass delete a search term on grid page not displayed
+     * Assert that after mass delete search terms on grid page are not displayed
      *
      * @param array $searchTerms
      * @param CatalogSearchIndex $indexPage
@@ -51,6 +51,6 @@ class AssertSearchTermMassActionsNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Search term was not found in grid.';
+        return 'Search terms were not found in grid.';
     }
 }

@@ -13,7 +13,7 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
 
 /**
  * Class AssertSearchTermSuccessMassDeleteMessage
- * Assert that success message is displayed after search term mass deleted
+ * Assert that success message is displayed after search terms were mass deleted
  */
 class AssertSearchTermSuccessMassDeleteMessage extends AbstractConstraint
 {
@@ -30,7 +30,7 @@ class AssertSearchTermSuccessMassDeleteMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that success message is displayed after search term mass deleted
+     * Assert that success message is displayed after search terms were mass deleted
      *
      * @param array $searchTerms
      * @param CatalogSearchIndex $indexPage
@@ -54,6 +54,6 @@ class AssertSearchTermSuccessMassDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Search term success delete message is present.';
+        return 'Search terms success delete message is present.';
     }
 }

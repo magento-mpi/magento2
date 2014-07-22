@@ -42,7 +42,7 @@ class MassDeleteSearchTermEntityTest extends Injectable
     protected $indexPage;
 
     /**
-     * Inject pages
+     * Inject page
      *
      * @param CatalogSearchIndex $indexPage
      * @return void
@@ -56,6 +56,7 @@ class MassDeleteSearchTermEntityTest extends Injectable
      * Run mass delete search term entity test
      *
      * @param string $searchTerms
+     * @param FixtureFactory $fixtureFactory
      * @return array
      */
     public function test($searchTerms, FixtureFactory $fixtureFactory)

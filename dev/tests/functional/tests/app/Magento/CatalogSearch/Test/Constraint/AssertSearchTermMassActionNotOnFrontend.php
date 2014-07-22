@@ -54,6 +54,6 @@ class AssertSearchTermMassActionNotOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Search term was successfully removed (redirects to the specified URL was not performed).';
+        return 'All search terms were successfully removed (redirects to the specified URL was not performed).';
     }
 }

@@ -32,6 +32,7 @@ class AssertSearchSynonymMassActionNotOnFrontend extends AbstractConstraint
      * @param array $searchTerms
      * @param CmsIndex $cmsIndex
      * @param Browser $browser
+     * @param AssertSearchSynonymNotOnFrontend $assertSearchSynonymNotOnFrontend
      * @return void
      */
     public function processAssert(
@@ -41,7 +42,6 @@ class AssertSearchSynonymMassActionNotOnFrontend extends AbstractConstraint
         AssertSearchSynonymNotOnFrontend $assertSearchSynonymNotOnFrontend
     ) {
         foreach ($searchTerms as $term) {
-            /** @var CatalogSearchQuery $term */
             $assertSearchSynonymNotOnFrontend->processAssert($cmsIndex, $browser, $term);
         }
     }
@@ -53,6 +53,6 @@ class AssertSearchSynonymMassActionNotOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Search term was successfully removed (redirect by the synonym was not performed).';
+        return 'All search terms were successfully removed (redirect by the synonym was not performed).';
     }
 }
