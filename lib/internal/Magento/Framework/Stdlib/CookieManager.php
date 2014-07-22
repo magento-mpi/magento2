@@ -11,9 +11,9 @@ namespace Magento\Framework\Stdlib;
 /**
  * CookieManager helps manage the setting, retrieving and deleting of cookies.
  *
- * To aid in security, the cookie manager will make it possible for the application to indicate if the cookie contains
- * sensitive data so that extra protection can be added to the contents of the cookie as well as how the browser
- * stores the cookie.
+ * The cookie manager will make it possible for an application to indicate if a cookie contains sensitive data,
+ * this will allow extra protection to be added to the contents of the cookie as well sending directives to the browser
+ * about how the cookie should be stored and whether JavaScript can access the cookie.
  */
 interface CookieManager
 {
