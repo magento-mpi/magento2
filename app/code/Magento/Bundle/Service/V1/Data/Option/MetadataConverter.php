@@ -9,6 +9,9 @@ namespace Magento\Bundle\Service\V1\Data\Option;
 
 use Magento\Bundle\Model\Option;
 
+/**
+ * @codeCoverageIgnore
+ */
 class MetadataConverter
 {
     /**
