@@ -5,19 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Stdlib;
+namespace Magento\Framework\Stdlib\Cookie;
 
 abstract class AbstractCookieMetaData
 {
     /**
      * @var String
      */
-    protected $domain;
+    private $domain;
 
     /**
      * @var String;
      */
-    protected $path;
+    private $path;
 
     /**
      * Set the domain for the cookie
