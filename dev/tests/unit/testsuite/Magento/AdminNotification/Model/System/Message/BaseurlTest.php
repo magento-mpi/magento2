@@ -103,7 +103,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
     public function testGetSeverity()
     {
         $this->assertEquals(
-            \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL,
+            \Magento\Framework\App\Notification\MessageInterface::SEVERITY_CRITICAL,
             $this->_model->getSeverity(),
             'Invalid message severity type'
         );
