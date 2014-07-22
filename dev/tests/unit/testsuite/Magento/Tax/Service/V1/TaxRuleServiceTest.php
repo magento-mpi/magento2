@@ -285,7 +285,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $taxRule = $taxRuleBuilder
-            ->setId(2)
             ->setCode('code')
             ->setCustomerTaxClassIds([3])
             ->setProductTaxClassIds([2])
@@ -348,7 +347,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             ],
             'negative fields' => [
                 [
-                    'id' => 3,
                     'customer_tax_class_ids' => [3],
                     'product_tax_class_ids' => [2],
                     'tax_rate_ids' => [1],
@@ -371,7 +369,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $taxRule = $taxRuleBuilder
-            ->setId(2)
             ->setCode('code')
             ->setCustomerTaxClassIds([3])
             ->setProductTaxClassIds([2])
