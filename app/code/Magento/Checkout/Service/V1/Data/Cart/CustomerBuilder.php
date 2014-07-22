@@ -116,7 +116,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     /**
      * Set customer date of birth
      *
-     * @param mixed|null $value
+     * @param string|null $value
      * @return $this
      */
     public function setDob($value)
@@ -163,7 +163,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      * @param string $value
      * @return $this
      */
-    public function getPasswordHash($value)
+    public function setPasswordHash($value)
     {
         return $this->_set(Customer::PASSWORD_HASH, $value);
     }
@@ -174,9 +174,9 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      * @param string $value
      * @return $this
      */
-    public function getTaxVat($value)
+    public function setTaxVat($value)
     {
-        return $this->_get(Customer::TAXVAT, $value);
+        return $this->_set(Customer::TAXVAT, $value);
     }
 
     /**
@@ -185,9 +185,9 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      * @param string $value
      * @return $this
      */
-    public function getGender($value)
+    public function setGender($value)
     {
-        return $this->_get(Customer::GENDER, $value);
+        return $this->_set(Customer::GENDER, $value);
     }
 
 }

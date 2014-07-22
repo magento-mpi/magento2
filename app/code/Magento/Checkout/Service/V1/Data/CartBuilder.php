@@ -119,7 +119,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      * @param double $value
      * @return $this
      */
-    public function setItemsQuantity($value)
+    public function setItemsQty($value)
     {
         return $this->_set(Cart::ITEMS_QUANTITY, $value);
     }

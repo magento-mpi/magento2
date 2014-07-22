@@ -1,0 +1,211 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Checkout\Service\V1\Cart;
+
+use \Magento\Framework\Service\V1\Data\SearchCriteria;
+use \Magento\Sales\Model\QuoteFactory;
+use \Magento\Sales\Model\Quote;
+use \Magento\Sales\Model\Resource\Quote\Collection as QuoteCollection;
+
+use \Magento\Framework\Exception\NoSuchEntityException;
+use \Magento\Framework\Exception\InputException;
+use \Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use \Magento\Checkout\Service\V1\Data\CartBuilder;
+use \Magento\Checkout\Service\V1\Data\CartSearchResultsBuilder;
+use \Magento\Checkout\Service\V1\Data\Cart\TotalsBuilder;
+use \Magento\Checkout\Service\V1\Data\Cart\CustomerBuilder;
+use \Magento\Checkout\Service\V1\Data\Cart;
+use \Magento\Checkout\Service\V1\Data\Cart\Totals;
+use \Magento\Checkout\Service\V1\Data\Cart\Customer;
+
+class ReadService implements ReadServiceInterface
+{
+    /**
+     * @var QuoteFactory
+     */
+    private $quoteFactory;
+
+    /**
+     * @var CartBuilder
+     */
+    private $cartBuilder;
+
+    /**
+     * @var QuoteCollection
+     */
+    private $quoteCollection;
+
+    /**
+     * @var CartSearchResultsBuilder
+     */
+    private $searchResultsBuilder;
+
+    /**
+     * @var CustomerBuilder
+     */
+    private $customerBuilder;
+
+    /**
+     * @var TotalsBuilder
+     */
+    private $totalsBuilder;
+
+    /**
+     * @param QuoteFactory $quoteFactory
+     * @param QuoteCollection $quoteCollection
+     * @param CartBuilder $cartBuilder
+     * @param CartSearchResultsBuilder $searchResultsBuilder
+     * @param TotalsBuilder $totalsBuilder
+     * @param CustomerBuilder $customerBuilder
+     */
+    public function __construct(
+        QuoteFactory $quoteFactory,
+        QuoteCollection $quoteCollection,
+        CartBuilder $cartBuilder,
+        CartSearchResultsBuilder $searchResultsBuilder,
+        TotalsBuilder $totalsBuilder,
+        CustomerBuilder $customerBuilder
+    ) {
+        $this->quoteFactory = $quoteFactory;
+        $this->quoteCollection = $quoteCollection;
+        $this->cartBuilder = $cartBuilder;
+        $this->searchResultsBuilder = $searchResultsBuilder;
+        $this->totalsBuilder = $totalsBuilder;
+        $this->customerBuilder = $customerBuilder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCart($cartId)
+    {
+        $quote = $this->quoteFactory->create()->load($cartId);
+        if ($quote->getId() != $cartId) {
+            throw new NoSuchEntityException('There is no cart with provided ID.');
+        }
+        return $this->createCartDataObject($quote);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCartList(SearchCriteria $searchCriteria)
+    {
+        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
+
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $this->quoteCollection);
+        }
+
+        $this->searchResultsBuilder->setTotalCount($this->quoteCollection->getSize());
+        $sortOrders = $searchCriteria->getSortOrders();
+        if ($sortOrders) {
+            foreach ($sortOrders as $field => $direction) {
+                $this->quoteCollection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            }
+        }
+        $this->quoteCollection->setCurPage($searchCriteria->getCurrentPage());
+        $this->quoteCollection->setPageSize($searchCriteria->getPageSize());
+
+        $cartList = [];
+        /** @var Quote $quote */
+        foreach ($this->quoteCollection as $quote) {
+            $cartList[] = $this->createCartDataObject($quote);
+        }
+        $this->searchResultsBuilder->setItems($cartList);
+
+        return $this->searchResultsBuilder->create();
+    }
+
+    /**
+     * Create cart data object based on given quote
+     *
+     * @param Quote $quote
+     * @return Cart
+     */
+    protected function createCartDataObject(Quote $quote)
+    {
+        $this->cartBuilder->populateWithArray(array(
+            Cart::ID => $quote->getId(),
+            Cart::STORE_ID  => $quote->getStoreId(),
+            Cart::CREATED_AT  => $quote->getCreatedAt(),
+            Cart::UPDATED_AT  => $quote->getUpdatedAt(),
+            Cart::CONVERTED_AT => $quote->getConvertedAt(),
+            Cart::IS_ACTIVE => $quote->getIsActive(),
+            Cart::IS_VIRTUAL => $quote->getIsVirtual(),
+            Cart::ITEMS_COUNT => $quote->getItemsCount(),
+            Cart::ITEMS_QUANTITY => $quote->getItemsQty(),
+            Cart::CHECKOUT_METHOD => $quote->getCheckoutMethod(),
+            Cart::RESERVED_ORDER_ID => $quote->getReservedOrderId(),
+            Cart::ORIG_ORDER_ID => $quote->getOrigOrderId(),
+        ));
+
+        $this->totalsBuilder->populateWithArray(array(
+            Totals::BASE_GRAND_TOTAL => $quote->getBaseGrandTotal(),
+            Totals::GRAND_TOTAL => $quote->getGrandTotal(),
+            Totals::BASE_SUBTOTAL => $quote->getBaseSubtotal(),
+            Totals::SUBTOTAL => $quote->getSubtotal(),
+            Totals::BASE_SUBTOTAL_WITH_DISCOUNT => $quote->getBaseSubtotalWithDiscount(),
+            Totals::SUBTOTAL_WITH_DISCOUNT => $quote->getSubtotalWithDiscount(),
+        ));
+
+        $this->customerBuilder->populateWithArray(array(
+            Customer::ID => $quote->getCustomerId(),
+            Customer::EMAIL => $quote->getCustomerEmail(),
+            Customer::GROUP_ID => $quote->getCustomerId(),
+            Customer::TAX_CLASS_ID => $quote->getCustomerTaxClassId(),
+            Customer::PREFIX => $quote->getCustomerPrefix(),
+            Customer::FIRST_NAME => $quote->getCustomerFirstname(),
+            Customer::MIDDLE_NAME => $quote->getCustomerMiddlename(),
+            Customer::LAST_NAME => $quote->getCustomerLastname(),
+            Customer::SUFFIX => $quote->getCustomerSuffix(),
+            Customer::DOB => $quote->getCustomerDob(),
+            Customer::NOTE => $quote->getCustomerNote(),
+            Customer::NOTE_NOTIFY => $quote->getCustomerNoteNotify(),
+            Customer::IS_GUEST => $quote->getCustomerIsGuest(),
+            Customer::GENDER => $quote->getCustomerGender(),
+            Customer::TAXVAT => $quote->getCustomerTaxvat(),
+        ));
+
+        $this->cartBuilder->setCustomer($this->customerBuilder->create());
+        $this->cartBuilder->setTotals($this->totalsBuilder->create());
+        return $this->cartBuilder->create();
+    }
+
+    /**
+     * Add FilterGroup to the given quote collection.
+     *
+     * @param FilterGroup $filterGroup
+     * @param QuoteCollection $collection
+     * @return void
+     * @throws InputException
+     */
+    protected function addFilterGroupToCollection(FilterGroup $filterGroup, QuoteCollection $collection)
+    {
+        $validSearchFields = array(
+            'id', 'store_id', 'created_at', 'updated_at', 'converted_at', 'is_active', 'is_virtual', 'items_count',
+            'items_qty', 'checkout_method', 'reserved_order_id', 'orig_order_id', 'base_grand_total', 'grand_total',
+            'base_subtotal', 'subtotal', 'base_subtotal_with_discount', 'subtotal_with_discount', 'customer_is_guest',
+            'customer_id', 'customer_group_id', 'customer_id', 'customer_tax_class_id', 'customer_email',
+        );
+        $fields = [];
+        $conditions = [];
+        foreach ($filterGroup->getFilters() as $filter) {
+            $field = $filter->getField();
+            if (!in_array($field, $validSearchFields)) {
+                throw new InputException("Field '{$field}' cannot be used for search.");
+            }
+            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+            $fields[] = $field;
+            $conditions[] = array($condition => $filter->getValue());
+        }
+        if ($fields) {
+            $collection->addFieldToFilter($fields, $conditions);
+        }
+    }
+}

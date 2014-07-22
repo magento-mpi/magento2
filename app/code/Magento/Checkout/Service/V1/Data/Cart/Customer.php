@@ -14,37 +14,37 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  */
 class Customer extends \Magento\Framework\Service\Data\AbstractObject
 {
-    CONST ID = 'customer_id';
+    CONST ID = 'id';
 
-    CONST TAX_CLASS_ID = 'customer_tax_class_id';
+    CONST TAX_CLASS_ID = 'tax_class_id';
 
-    CONST GROUP_ID = 'customer_group_id';
+    CONST GROUP_ID = 'group_id';
 
-    CONST EMAIL = 'customer_email';
+    CONST EMAIL = 'email';
 
-    CONST PREFIX = 'customer_prefix';
+    CONST PREFIX = 'prefix';
 
-    CONST FIRST_NAME = 'customer_firstname';
+    CONST FIRST_NAME = 'first_name';
 
-    CONST MIDDLE_NAME = 'customer_middlename';
+    CONST MIDDLE_NAME = 'middle_name';
 
-    CONST LAST_NAME = 'customer_lastname';
+    CONST LAST_NAME = 'last_name';
 
-    CONST SUFFIX = 'customer_suffix';
+    CONST SUFFIX = 'suffix';
 
-    CONST DOB = 'customer_dob';
+    CONST DOB = 'dob';
 
-    CONST NOTE = 'customer_note';
+    CONST NOTE = 'note';
 
-    CONST NOTE_NOTIFY = 'customer_note_notify';
+    CONST NOTE_NOTIFY = 'note_notify';
 
-    CONST IS_GUEST = 'customer_is_guest';
+    CONST IS_GUEST = 'is_guest';
 
     CONST PASSWORD_HASH = 'password_hash';
 
-    CONST TAXVAT = 'customer_taxvat';
+    CONST TAXVAT = 'taxvat';
 
-    CONST GENDER = 'customer_gender';
+    CONST GENDER = 'gender';
 
 
     /**
@@ -140,7 +140,7 @@ class Customer extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get customer date of birth
      *
-     * @return mixed|null
+     * @return string|null
      */
     public function getDob()
     {

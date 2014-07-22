@@ -153,7 +153,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return double|null
      */
-    public function getItemsQuantity()
+    public function getItemsQty()
     {
         return $this->_get(self::ITEMS_QUANTITY);
     }
