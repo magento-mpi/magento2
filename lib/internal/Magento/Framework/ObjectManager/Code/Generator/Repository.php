@@ -104,9 +104,12 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
     protected function _getCollectionFactoryClassName()
     {
         $parts = explode('\\', $this->_getSourceClassName());
-        $className = '\\Resource\\' . end($parts) . '\\CollectionFactory';
-        array_pop($parts);
-        return '\\' . implode('\\', $parts) . $className;
+        $parts = array_reverse($parts);
+        $className = '\\' . array_pop($parts) . '\\' . array_pop($parts) . '\\' . array_pop($parts) . '\\Resource\\';
+        $parts = array_reverse($parts);
+//        $className = '\\Resource\\' . end($parts) . '\\CollectionFactory';
+
+        return $className . implode('\\', $parts) . '\\CollectionFactory';
 
     }
 

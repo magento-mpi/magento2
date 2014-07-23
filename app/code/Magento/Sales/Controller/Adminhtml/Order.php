@@ -161,17 +161,8 @@ class Order extends \Magento\Backend\App\Action
         $order = $this->_initOrder();
         if ($order) {
             try {
-                $order->sendNewOrderEmail();
-                $historyItem = $this->_objectManager->create(
-                    'Magento\Sales\Model\Resource\Order\Status\History\Collection'
-                )->getUnnotifiedForInstance(
-                    $order,
-                    \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME
-                );
-                if ($historyItem) {
-                    $historyItem->setIsCustomerNotified(1);
-                    $historyItem->save();
-                }
+                $this->_objectManager->create('Magento\Sales\Model\Notifier')
+                    ->notify($order);
                 $this->messageManager->addSuccess(__('You sent the order email.'));
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

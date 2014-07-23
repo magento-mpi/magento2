@@ -33,4 +33,10 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/orders/:id/emails" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderNotifyUser" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
 </routes>

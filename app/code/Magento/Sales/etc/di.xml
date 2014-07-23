@@ -67,4 +67,5 @@
             </argument>
         </arguments>
     </type>
+    <preference for="Magento\Sales\Service\V1\OrderNotifyUserInterface" type="Magento\Sales\Service\V1\OrderNotifyUser" />
 </config>
