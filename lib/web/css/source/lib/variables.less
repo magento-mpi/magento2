@@ -9,7 +9,7 @@
 //    Typography
 //--------------------------------------
 
-//  Base
+// Base
 @font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 @font-family-serif: Georgia, 'Times New Roman', Times, serif;
 @font-family-monospace: Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -68,9 +68,7 @@
 @border-color-base: darken(@page-bg-color, 18%);
 @border-width-base: 1px;
 
-
-//Links
-
+// Links
 @link-color: #1979c3;
 @link-text-decoration: none;
 
@@ -84,8 +82,8 @@
 @link-text-decoration-active: underline;
 
 // Lists
-@list-color-base: ''; //@text-color
-@list-font-size-base: false; //@font-size-base
+@list-color-base: ''; // @text-color
+@list-font-size-base: false; // @font-size-base
 @list-margin-top: 0;
 @list-margin-bottom: @indent-m-base;
 @list-item-margin-top: 0;
@@ -103,12 +101,12 @@
 @p-margin-top: 0;
 @p-margin-bottom: @indent-s-base;
 
-//Headings
-@heading-font-family-base: false; //@font-family-base
+// Headings
+@heading-font-family-base: false; // @font-family-base
 @heading-font-weight-base: @font-weight-light;
 @heading-line-height-base: 1.1;
-@heading-color-base: false; //@text-color
-@heading-font-style-base: false; //@font-style-base
+@heading-color-base: false; // @text-color
+@heading-font-style-base: false; // @font-style-base
 @heading-margin-top-base: @indent-base;
 @heading-margin-bottom-base: @indent-base;
 
@@ -184,9 +182,7 @@
 @kbd-color: @color-primary-darker;
 @kbd-bg: @panel-bg;
 
-
 // Blockquote
-
 @blockquote-font-size: @font-size-base;
 @blockquote-font-style: @font-style-emphasis;
 @blockquote-border-color: @border-color-base;
@@ -199,7 +195,6 @@
 @cite-font-style: @font-style-base;
 
 // Misc
-
 @hr-border-color: @border-color-base;
 @hr-border-style: solid;
 @hr-border-width: 1px;
@@ -230,7 +225,7 @@
 @table-border-width: @border-width-base;
 @table-border-style: solid;
 
-@table-caption-hide: false; //Default value false, set true to hide caption
+@table-caption-hide: false; // Default value false, set true to hide caption
 @table-caption-font-size: @font-size-l;
 @table-caption-color: @text-color-intense;
 @table-caption-font-family: false;
@@ -406,8 +401,6 @@
 @submenu-desktop-item-border-active: '';
 @submenu-desktop-item-color-active: '';
 @submenu-desktop-item-text-decoration-active: '';
-
-
 
 //
 //    Sections variables
@@ -978,7 +971,7 @@
 
 // Fieldset
 @form-fieldset-border: 0;
-@form-fieldset-margin: 0 0 40px; //30px 10px 30px 30px
+@form-fieldset-margin: 0 0 40px;
 @form-fieldset-padding: 0;
 @form-fieldset-legend-color: false;
 @form-fieldset-legend-font-size: 20px;
@@ -986,7 +979,7 @@
 @form-fieldset-legend-font-weight: false;
 @form-fieldset-legend-font-style: false;
 @form-fieldset-legend-line-height: 1.2;
-@form-fieldset-legend-margin: 0 0 25px 0; //0 0 25px @form-field-type-inline-label-width
+@form-fieldset-legend-margin: 0 0 25px; //0 0 25px @form-field-type-inline-label-width
 @form-fieldset-legend-padding: 0;
 @form-fieldset-legend-width: false; //@form-field-type-inline-control-width
 
@@ -997,11 +990,11 @@
 @form-field-column: false;
 @form-field-column-padding: 0 12px 0 0;
 @form-field-column-number: 2;
-@form-field-vertical-indent: 29px;
-@form-field-additional-vertical-indent: @form-field-vertical-indent;
+@form-field-vertical-indent: 20px;
+@form-field-additional-vertical-indent: @form-field-vertical-indent/2;
 @form-field-type-block-margin: 0 0 @form-field-vertical-indent;
 @form-field-type-inline-margin: 0 0 @form-field-vertical-indent;
-// form field label
+// Form field label
 @form-field-label-align: false;
 @form-field-label-color: false;
 @form-field-label-font-size: false;

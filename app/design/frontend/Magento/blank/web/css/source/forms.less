@@ -55,8 +55,6 @@ div.mage-error[generated] {
     margin-top: 7px;
 }
 
-// TEMP
-
 .field .tooltip {
     .tooltip(right);
     .tooltip-content {
@@ -66,7 +64,9 @@ div.mage-error[generated] {
 }
 
 input:focus ~ .tooltip .tooltip-content,
-select:focus ~ .tooltip .tooltip-content { display: block; }
+select:focus ~ .tooltip .tooltip-content {
+    display: block;
+}
 
 //
 //    Desktop
@@ -78,6 +78,7 @@ select:focus ~ .tooltip .tooltip-content { display: block; }
         }
         > .field {
             .form-field-type-revert();
+            margin: 0 0 29px;
         }
     }
 }
