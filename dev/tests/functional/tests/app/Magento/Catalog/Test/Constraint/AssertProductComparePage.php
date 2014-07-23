@@ -50,6 +50,8 @@ class AssertProductComparePage extends AbstractConstraint
      * @param CatalogProductCompare $comparePage
      * @param CmsIndex $cmsIndex
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         array $products,

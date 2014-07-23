@@ -74,6 +74,8 @@ class AssertIntegrationForm extends AbstractAssertForm
      * @param array $formData
      * @param array $fixtureData
      * @return array $errorMessages
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function verifyForm(array $formData, array $fixtureData)
     {
