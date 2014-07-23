@@ -45,16 +45,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productType= $this->getMockBuilder('Magento\Bundle\Model\Product\Type')
+        $this->productType = $this->getMockBuilder('Magento\Bundle\Model\Product\Type')
             ->setMethods(['getOptionsCollection'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['__wakeup', 'getTypeId', 'getTypeInstance'])
+            ->setMethods(['__wakeup', 'getTypeId'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->product->expects($this->any())->method('getTypeInstance')->will($this->returnValue($this->productType));
 
         $this->option = $this->getMockBuilder('Magento\Bundle\Model\Option')
             ->setMethods(['__wakeup', 'getId', 'delete'])
@@ -63,7 +62,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->model = $objectManager->getObject(
             'Magento\Bundle\Service\V1\Product\Option\WriteService',
-            ['productRepository' => $this->productRepository]
+            ['productRepository' => $this->productRepository, 'type' => $this->productType]
         );
     }
 

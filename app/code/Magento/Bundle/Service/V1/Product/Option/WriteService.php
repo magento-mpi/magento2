@@ -7,6 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Option;
 
+use Magento\Bundle\Model\Product\Type;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -18,11 +19,21 @@ class WriteService implements WriteServiceInterface
      * @var ProductRepository
      */
     private $productRepository;
+    /**
+     * @var Type
+     */
+    private $type;
 
+    /**
+     * @param ProductRepository $productRepository
+     * @param Type $type
+     */
     public function __construct(
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        Type $type
     ) {
         $this->productRepository = $productRepository;
+        $this->type = $type;
     }
 
     /**
@@ -31,9 +42,7 @@ class WriteService implements WriteServiceInterface
     public function remove($productSku, $optionId)
     {
         $product = $this->getProduct($productSku);
-        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
-        $productTypeInstance = $product->getTypeInstance();
-        $optionCollection = $productTypeInstance->getOptionsCollection($product);
+        $optionCollection = $this->type->getOptionsCollection($product);
 
         /** @var \Magento\Bundle\Model\Option $removeOption */
         $removeOption = null;
