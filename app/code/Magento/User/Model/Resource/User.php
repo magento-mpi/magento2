@@ -133,7 +133,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $adapter = $this->_getReadAdapter();
 
             $select = $adapter->select();
-            $select->from($this->getTable('admin_role'))->where('parent_id > :parent_id')->where('user_id = :user_id');
+            $select->from($this->getTable('authorization_role'))->where('parent_id > :parent_id')->where('user_id = :user_id');
 
             $binds = array('parent_id' => 0, 'user_id' => $userId);
 
@@ -184,7 +184,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function _clearUserRoles(ModelUser $user)
     {
         $conditions = array('user_id = ?' => (int)$user->getId());
-        $this->_getWriteAdapter()->delete($this->getTable('admin_role'), $conditions);
+        $this->_getWriteAdapter()->delete($this->getTable('authorization_role'), $conditions);
     }
 
     /**
@@ -216,8 +216,8 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 )
             );
 
-            $insertData = $this->_prepareDataForTable($data, $this->getTable('admin_role'));
-            $this->_getWriteAdapter()->insert($this->getTable('admin_role'), $insertData);
+            $insertData = $this->_prepareDataForTable($data, $this->getTable('authorization_role'));
+            $this->_getWriteAdapter()->insert($this->getTable('authorization_role'), $insertData);
             $this->_aclCache->clean();
         }
     }
@@ -254,7 +254,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $conditions = array('user_id = ?' => $uid);
 
             $adapter->delete($this->getMainTable(), $conditions);
-            $adapter->delete($this->getTable('admin_role'), $conditions);
+            $adapter->delete($this->getTable('authorization_role'), $conditions);
         } catch (\Magento\Framework\Model\Exception $e) {
             throw $e;
             return false;
@@ -279,7 +279,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
             return array();
         }
 
-        $table = $this->getTable('admin_role');
+        $table = $this->getTable('authorization_role');
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()->from(
@@ -323,7 +323,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $condition = array('user_id = ?' => (int)$user->getId(), 'parent_id = ?' => (int)$user->getRoleId());
 
-        $dbh->delete($this->getTable('admin_role'), $condition);
+        $dbh->delete($this->getTable('authorization_role'), $condition);
         return $this;
     }
 
@@ -336,7 +336,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function roleUserExists(\Magento\Framework\Model\AbstractModel $user)
     {
         if ($user->getUserId() > 0) {
-            $roleTable = $this->getTable('admin_role');
+            $roleTable = $this->getTable('authorization_role');
 
             $dbh = $this->_getReadAdapter();
 

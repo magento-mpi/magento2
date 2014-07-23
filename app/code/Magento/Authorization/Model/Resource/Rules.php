@@ -64,7 +64,7 @@ class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('admin_rule', 'rule_id');
+        $this->_init('authorization_rule', 'rule_id');
     }
 
     /**

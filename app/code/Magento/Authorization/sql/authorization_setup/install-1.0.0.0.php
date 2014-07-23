@@ -6,16 +6,27 @@
  * @license     {license_link}
  */
 
-$installer = $this;
 /* @var $installer \Magento\Framework\Module\Setup */
+$installer = $this;
+
 $installer->startSetup();
 
-/**
- * Create table 'admin_role'
- */
-if (!$installer->getConnection()->isTableExists($installer->getTable('admin_role'))) {
+if ($installer->getConnection()->isTableExists($installer->getTable('admin_role'))) {
+    /**
+     * Rename existing 'admin_role' table into 'authorization_role' (to avoid forcing Magento re-installation)
+     * TODO: This conditional logic can be removed some time after pull request is delivered to the mainline
+     */
+    $installer->getConnection()->renameTable(
+        $installer->getTable('admin_role'),
+        $installer->getTable('authorization_role')
+    );
+
+} else if (!$installer->getConnection()->isTableExists($installer->getTable('authorization_role'))) {
+    /**
+     * Create table 'authorization_role'
+     */
     $table = $installer->getConnection()->newTable(
-        $installer->getTable('admin_role')
+        $installer->getTable('authorization_role')
     )->addColumn(
         'role_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -65,22 +76,33 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_role
         array('nullable' => true, 'default' => null),
         'Role Name'
     )->addIndex(
-        $installer->getIdxName('admin_role', array('parent_id', 'sort_order')),
+        $installer->getIdxName('authorization_role', array('parent_id', 'sort_order')),
         array('parent_id', 'sort_order')
     )->addIndex(
-        $installer->getIdxName('admin_role', array('tree_level')),
+        $installer->getIdxName('authorization_role', array('tree_level')),
         array('tree_level')
     )->setComment(
         'Admin Role Table'
     );
     $installer->getConnection()->createTable($table);
 }
-/**
- * Create table 'admin_rule'
- */
-if (!$installer->getConnection()->isTableExists($installer->getTable('admin_rule'))) {
+
+if ($installer->getConnection()->isTableExists($installer->getTable('admin_rule'))) {
+    /**
+     * Rename existing 'admin_rule' table into 'authorization_rule' (to avoid forcing Magento re-installation)
+     * TODO: This conditional logic can be removed some time after pull request is delivered to the mainline
+     */
+    $installer->getConnection()->renameTable(
+        $installer->getTable('admin_rule'),
+        $installer->getTable('authorization_rule')
+    );
+
+} else if (!$installer->getConnection()->isTableExists($installer->getTable('authorization_rule'))) {
+    /**
+     * Create table 'authorization_rule'
+     */
     $table = $installer->getConnection()->newTable(
-        $installer->getTable('admin_rule')
+        $installer->getTable('authorization_rule')
     )->addColumn(
         'rule_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -112,15 +134,15 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_rule
         array(),
         'Permission'
     )->addIndex(
-        $installer->getIdxName('admin_rule', array('resource_id', 'role_id')),
+        $installer->getIdxName('authorization_rule', array('resource_id', 'role_id')),
         array('resource_id', 'role_id')
     )->addIndex(
-        $installer->getIdxName('admin_rule', array('role_id', 'resource_id')),
+        $installer->getIdxName('authorization_rule', array('role_id', 'resource_id')),
         array('role_id', 'resource_id')
     )->addForeignKey(
-        $installer->getFkName('admin_rule', 'role_id', 'admin_role', 'role_id'),
+        $installer->getFkName('authorization_rule', 'role_id', 'authorization_role', 'role_id'),
         'role_id',
-        $installer->getTable('admin_role'),
+        $installer->getTable('authorization_role'),
         'role_id',
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE

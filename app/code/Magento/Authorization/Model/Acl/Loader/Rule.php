@@ -37,7 +37,7 @@ class Rule implements \Magento\Framework\Acl\LoaderInterface
      */
     public function populateAcl(\Magento\Framework\Acl $acl)
     {
-        $ruleTable = $this->_resource->getTableName("admin_rule");
+        $ruleTable = $this->_resource->getTableName("authorization_rule");
 
         $adapter = $this->_resource->getConnection('core_read');
 

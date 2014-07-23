@@ -57,7 +57,7 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getTableName'
         )->with(
-            $this->equalTo('admin_role')
+            $this->equalTo('authorization_role')
         )->will(
             $this->returnArgument(1)
         );

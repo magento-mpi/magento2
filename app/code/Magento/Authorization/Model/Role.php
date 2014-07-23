@@ -32,7 +32,7 @@ class Role extends \Magento\Framework\Model\AbstractModel
     /**
      * @var string
      */
-    protected $_eventPrefix = 'admin_roles';
+    protected $_eventPrefix = 'authorization_roles';
 
     /**
      * @var \Magento\User\Model\Resource\Role\User\CollectionFactory

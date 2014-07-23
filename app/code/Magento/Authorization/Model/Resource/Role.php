@@ -62,10 +62,10 @@ class Role extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('admin_role', 'role_id');
+        $this->_init('authorization_role', 'role_id');
 
         $this->_usersTable = $this->getTable('admin_user');
-        $this->_ruleTable = $this->getTable('admin_rule');
+        $this->_ruleTable = $this->getTable('authorization_rule');
     }
 
     /**

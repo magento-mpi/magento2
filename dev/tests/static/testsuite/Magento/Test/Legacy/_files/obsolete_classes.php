@@ -2435,8 +2435,6 @@ return array(
     ['Magento\AclFactory', 'Magento\Framework\AclFactory'],
     ['Magento\AppInterface', 'Magento\Framework\AppInterface'],
     ['Magento\Archive', 'Magento\Framework\Archive'],
-    ['Magento\Authorization', 'Magento\Framework\Authorization'],
-    ['Magento\AuthorizationInterface', 'Magento\Framework\AuthorizationInterface'],
     ['Magento\Event', 'Magento\Framework\Event'],
     ['Magento\EventFactory', 'Magento\Framework\EventFactory'],
     ['Magento\Exception', 'Magento\Framework\Exception'],

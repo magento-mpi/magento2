@@ -23,7 +23,7 @@ class Setup extends \Magento\Framework\Module\Setup
     protected $_roleCollectionFactory;
 
     /**
-     * Factory for user rules model
+     * Factory for rules model
      *
      * @var \Magento\Authorization\Model\RulesFactory
      */
@@ -60,7 +60,7 @@ class Setup extends \Magento\Framework\Module\Setup
         \Magento\Authorization\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
         \Magento\Authorization\Model\RoleFactory $roleFactory,
         \Magento\Authorization\Model\RulesFactory $rulesFactory,
-        $moduleName = 'Magento_User',
+        $moduleName = 'Magento_Authorization',
         $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_roleCollectionFactory = $roleCollectionFactory;
