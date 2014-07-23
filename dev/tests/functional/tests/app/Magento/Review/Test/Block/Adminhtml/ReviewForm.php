@@ -8,9 +8,11 @@
 
 namespace Magento\Review\Test\Block\Adminhtml;
 
+use Magento\Review\Test\Fixture\ReviewInjectable;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Form;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Edit
@@ -52,6 +54,13 @@ class ReviewForm extends Form
      * @var string
      */
     protected $checkedRating = 'input[id$="_%d"]:checked + label';
+
+    /**
+     * Rating selector
+     *
+     * @var string
+     */
+    protected $rating = './/*[@data-widget="ratingControl"]//label[contains(@for, "%s_%s")]';
 
     /**
      * Get data from 'Posted By' field
@@ -123,5 +132,50 @@ class ReviewForm extends Form
         }
 
         return $ratingVote;
+    }
+
+    /**
+     * Fill the review form
+     *
+     * @param FixtureInterface $review
+     * @param Element|null $element
+     * @return $this
+     */
+    public function fill(FixtureInterface $review, Element $element = null)
+    {
+        parent::fill($review, $element);
+        if ($review instanceof ReviewInjectable) {
+            $this->fillRatings($review);
+        }
+    }
+
+    /**
+     * Fill ratings on the review form
+     *
+     * @param ReviewInjectable $review
+     * @return void
+     */
+    protected function fillRatings(ReviewInjectable $review)
+    {
+        if (!$review->hasData('ratings')) {
+            return;
+        }
+
+        foreach ($review->getRatings() as $rating) {
+            $this->setRating($rating['title'], $rating['rating']);
+        }
+    }
+
+    /**
+     * Set rating vote by rating code
+     *
+     * @param string $ratingCode
+     * @param string $ratingVote
+     * @return void
+     */
+    protected function setRating($ratingCode, $ratingVote)
+    {
+        $ratingSelector = sprintf($this->rating, $ratingCode, $ratingVote);
+        $this->_rootElement->find($ratingSelector, Locator::SELECTOR_XPATH)->click();
     }
 }

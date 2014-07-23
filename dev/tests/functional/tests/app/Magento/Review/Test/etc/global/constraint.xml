@@ -38,7 +38,10 @@
     <assertProductRatingOnReviewPage module="Magento_Review">
         <severeness>middle</severeness>
     </assertProductRatingOnReviewPage>
-    <assertProductRatingInProductPage module="Magento_Review">
+    <assertReviewBackendCreationSuccessMessage module="Magento_Review">
         <severeness>middle</severeness>
-    </assertProductRatingInProductPage>
+    </assertReviewBackendCreationSuccessMessage>
+    <assertProductReviewBackendCreationSuccessMessage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductReviewBackendCreationSuccessMessage>
 </constraint>

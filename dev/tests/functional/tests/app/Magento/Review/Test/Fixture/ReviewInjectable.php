@@ -141,6 +141,14 @@ class ReviewInjectable extends InjectableFixture
         'source' => 'Magento\Review\Test\Fixture\ReviewInjectable\Ratings',
     ];
 
+    protected $select_stores = [
+        'attribute_code' => 'select_stores',
+        'backend_type' => 'virtual',
+        'is_required' => '1',
+        'default_value' => '0',
+        'input' => 'multiselectgrouplist',
+    ];
+
     public function getReviewId()
     {
         return $this->getData('review_id');
@@ -199,5 +207,10 @@ class ReviewInjectable extends InjectableFixture
     public function getRatings()
     {
         return $this->getData('ratings');
+    }
+
+    public function getSelectStores()
+    {
+        return $this->getData('select_stores');
     }
 }

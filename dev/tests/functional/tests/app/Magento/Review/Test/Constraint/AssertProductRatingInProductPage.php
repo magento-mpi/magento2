@@ -43,8 +43,10 @@ class AssertProductRatingInProductPage extends AbstractConstraint
     ) {
         $catalogProductView->init($product);
         $catalogProductView->open();
-        $catalogProductView->getReviewSummaryBlock()->getAddReviewLink()->click();
-
+        $reviewSummaryBlock = $catalogProductView->getReviewSummaryBlock();
+        if ($reviewSummaryBlock->isVisible()) {
+            $reviewSummaryBlock->getAddReviewLink()->click();
+        }
         $rating = $productRating ? $productRating : $review->getDataFieldConfig('ratings')['source']->getRatings()[0];
         $reviewForm = $catalogProductView->getReviewFormBlock();
         \PHPUnit_Framework_Assert::assertTrue(
