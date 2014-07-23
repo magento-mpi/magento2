@@ -17,34 +17,35 @@ class AjaxSave extends \Magento\Tax\Controller\Adminhtml\Tax
      */
     public function execute()
     {
-        $responseContent = '';
         try {
-            $classData = array(
-                'class_id' => (int)$this->getRequest()->getPost('class_id') ?: null, // keep null for new tax classes
-                'class_type' => $this->_processClassType((string)$this->getRequest()->getPost('class_type')),
-                'class_name' => $this->_processClassName((string)$this->getRequest()->getPost('class_name'))
-            );
-            $class = $this->_objectManager->create('Magento\Tax\Model\ClassModel')->setData($classData)->save();
+            $taxClassId = (int)$this->getRequest()->getPost('class_id') ?: null;
+
+            $taxClass = $this->taxClassBuilder
+                ->setClassType((string)$this->getRequest()->getPost('class_type'))
+                ->setClassName($this->_processClassName((string)$this->getRequest()->getPost('class_name')))
+                ->create();
+            if ($taxClassId) {
+                $this->taxClassService->updateTaxClass($taxClassId, $taxClass);
+            } else {
+                $taxClassId = $this->taxClassService->createTaxClass($taxClass);
+            }
+
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
                 array(
                     'success' => true,
                     'error_message' => '',
-                    'class_id' => $class->getId(),
-                    'class_name' => $class->getClassName()
+                    'class_id' => $taxClassId,
+                    'class_name' => $taxClass->getClassName()
                 )
             );
-        } catch (\Magento\Framework\Model\Exception $e) {
-            $responseContent = $this->_objectManager->get(
-                'Magento\Core\Helper\Data'
-            )->jsonEncode(
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
                 array('success' => false, 'error_message' => $e->getMessage(), 'class_id' => '', 'class_name' => '')
             );
         } catch (\Exception $e) {
-            $responseContent = $this->_objectManager->get(
-                'Magento\Core\Helper\Data'
-            )->jsonEncode(
+            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
                 array(
                     'success' => false,
                     'error_message' => __('Something went wrong saving this tax class.'),

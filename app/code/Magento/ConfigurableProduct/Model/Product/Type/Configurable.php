@@ -343,7 +343,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Retrieve configurable attributes data
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return array
+     * @return \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute[]
      */
     public function getConfigurableAttributes($product)
     {
@@ -439,11 +439,9 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             }
 
             $usedProducts = array();
-            $collection = $this->getUsedProductCollection(
-                $product
-            )->addAttributeToSelect(
-                '*'
-            )->addFilterByRequiredOptions();
+            $collection = $this->getUsedProductCollection($product)->addAttributeToSelect('*')
+                ->addFilterByRequiredOptions()
+                ->setStoreId($product->getStoreId());
 
             if (is_array($requiredAttributeIds)) {
                 foreach ($requiredAttributeIds as $attributeId) {

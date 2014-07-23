@@ -219,6 +219,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
             $formatType = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
         }
 
+        $date = $this->_localeDate->date(strtotime($value), null, null, false);
         $calendar = $this->getLayout()->createBlock(
             'Magento\GiftRegistry\Block\Customer\Date'
         )->setId(
@@ -226,7 +227,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         )->setName(
             $name
         )->setValue(
-            $this->formatDate($value, $formatType)
+            $this->formatDate($date, $formatType)
         )->setClass(
             $class . ' product-custom-option datetime-picker input-text validate-date'
         )->setImage(

@@ -49,7 +49,7 @@ class Price extends Block
      *
      * @var string
      */
-    protected $priceMap = '.old.price .price';
+    protected $priceMap = '.old.price .price .price';
 
     /**
      * Actual Price

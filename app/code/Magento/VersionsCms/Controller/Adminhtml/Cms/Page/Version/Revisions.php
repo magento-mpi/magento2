@@ -54,7 +54,7 @@ class Revisions extends \Magento\Backend\App\Action
     {
         $this->versionProvider->get($this->_request->getParam('version_id'));
         $this->_title->add(__('Pages'));
-        $this->pageLoader->load();
+        $this->pageLoader->load($this->_request->getParam('page_id'));
 
         $this->_view->loadLayout();
         $this->_view->renderLayout();
