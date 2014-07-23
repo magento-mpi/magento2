@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Stdlib;
+namespace Magento\Framework\Stdlib\Cookie;
 
-class SensitiveCookieMetadata extends AbstractCookieMetaData
+class SensitiveCookieMetadata extends AbstractCookieMetadata
 {
 
 }

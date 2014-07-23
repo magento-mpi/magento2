@@ -5,57 +5,113 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Stdlib;
 
-abstract class AbstractCookieMetaData
+namespace Magento\Framework\Stdlib\Cookie;
+
+abstract class AbstractCookieMetadata
 {
-    /**
-     * @var String
+    /**#@+
+     * Constant for metadata value key.
      */
-    protected $domain;
+    const KEY_DOMAIN = 'domain';
+    const KEY_PATH = 'path';
+    /**#@-*/
 
     /**
-     * @var String;
+     * Store the metadata in array format to distinguish between null values and no value set.
+     *
+     * @var array
      */
-    protected $path;
+    private $metadata;
+
+    /**
+     * @param array $metadata
+     */
+    public function __construct($metadata = null)
+    {
+        if (is_null($metadata)) {
+            $metadata = [];
+        }
+        $this->metadata = $metadata;
+    }
+
+    /**
+     * Returns an array representation of this metadata.
+     *
+     * If a value has not yet been set then the key will not show up in the array.
+     *
+     * @return array
+     */
+    public function __toArray()
+    {
+        return $this->metadata;
+    }
 
     /**
      * Set the domain for the cookie
      *
-     * @param String $domain
+     * @param string $domain
+     * @return void
      */
     public function setDomain($domain)
     {
-        $this->domain = $domain;
+        $this->set(self::KEY_DOMAIN, $domain);
     }
 
     /**
      * Get the domain for the cookie
      *
-     * @return String|null
+     * @return string|null
      */
     public function getDomain()
     {
-        return $this->domain;
+        return $this->get(self::KEY_DOMAIN);
     }
 
     /**
      * Set path of the cookie
      *
-     * @param String $path
+     * @param string $path
+     * @return void
      */
     public function setPath($path)
     {
-        $this->path = $path;
+        $this->set(self::KEY_PATH, $path);
     }
 
     /**
      * Get the path of the cookie
      *
-     * @return String|null
+     * @return string|null
      */
     public function getPath()
     {
-        return $this->path;
+        return $this->get(self::KEY_PATH);
+    }
+
+    /**
+     * Get a value from the metadata storage.
+     *
+     * @param string $name
+     * @return int|float|string|bool|null
+     */
+    protected function get($name)
+    {
+        if (isset($this->metadata[$name])) {
+            return $this->metadata[$name];
+        }
+        return null;
+    }
+
+    /**
+     * Set a value to the metadata storage.
+     *
+     * @param string $name
+     * @param int|float|string|bool|null $value
+     * @return void
+     */
+    protected function set($name, $value)
+    {
+        $this->metadata[$name] = $value;
     }
 }

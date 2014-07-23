@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Stdlib;
+namespace Magento\Framework\Stdlib\Cookie;
 
 
 class FailureToSendException extends \Exception

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Stdlib;
+namespace Magento\Framework\Stdlib\Cookie;
 
 /**
  * CookieManager helps manage the setting, retrieving and deleting of cookies.
@@ -95,29 +95,4 @@ class PhpCookieManager implements CookieManager
         // TODO: Implement deleteCookie() method.
     }
 
-    /**
-     * Merges the input override metadata with any defaults set on this CookieManager, and then returns a CookieMetadata
-     * object representing the merged values.
-     *
-     * @param SensitiveCookieMetadata|null $override
-     * @return SensitiveCookieMetadata
-     */
-    private function getSensitiveCookieMetadata(SensitiveCookieMetadata $override)
-    {
-        // TODO: Implement getSensitiveCookieMetadata
-        return $override;
-    }
-
-    /**
-     * Merges the input override metadata with any defaults set on this CookieManager, and then returns a CookieMetadata
-     * object representing the merged values.
-     *
-     * @param PublicCookieMetadata|null $override
-     * @return PublicCookieMetadata
-     */
-    private function getPublicCookieMetadata(PublicCookieMetadata $override)
-    {
-        // TODO: Implement getPublicCookieMetadata
-        return $override;
-    }
 }

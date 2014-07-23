@@ -6,53 +6,52 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Stdlib;
+namespace Magento\Framework\Stdlib\Cookie;
 
-class PublicCookieMetadata
+class PublicCookieMetadata extends AbstractCookieMetadata
 {
-    /**
-     * @var  int
+    /**#@+
+     * Constant for metadata value key.
      */
-    protected $duration;
+    const KEY_SECURE = 'secure';
+    const KEY_HTTP_ONLY = 'http_only';
+    const KEY_DURATION = 'duration';
+    /**#@-*/
 
     /**
-     * @var  bool
-     */
-    protected $httpOnly;
-
-    /*
-     * @var bool
-     */
-    protected $secure;
-
-    /**
-     * Set expire time in seconds
+     * Set cookie duration in seconds.
      *
-     * @param int $duration
+     * The cookie duration can be translated into an expiration date at the time the cookie is sent.
+     *
+     * @param int $duration Time in seconds.
+     * @return void
      */
     public function setDuration($duration)
     {
-        $this->duration = $duration;
+        $this->set(self::KEY_DURATION, $duration);
     }
 
     /**
-     * Get expire time in seconds
+     * Get cookie duration in seconds.
      *
-     * @return int|null
+     * The cookie duration can be translated into an expiration date at the time the cookie is sent.
+     *
+     * @return int|null Time in seconds.
      */
     public function getDuration()
     {
-        return $this->duration;
+        return $this->get(self::KEY_DURATION);
     }
 
     /**
      * Set HTTPOnly flag
      *
      * @param bool $httpOnly
+     * @return void;
      */
     public function setHttpOnly($httpOnly)
     {
-        $this->httpOnly = $httpOnly;
+        $this->set(self::KEY_HTTP_ONLY, $httpOnly);
     }
 
     /**
@@ -62,17 +61,18 @@ class PublicCookieMetadata
      */
     public function getHttpOnly()
     {
-        return $this->httpOnly;
+        return $this->get(self::KEY_HTTP_ONLY);
     }
 
     /**
      * Set whether the cookie is only available under HTTPS
      *
      * @param bool $secure
+     * @return void;
      */
     public function setSecure($secure)
     {
-        $this->secure = $secure;
+        $this->set(self::KEY_SECURE, $secure);
     }
 
     /**
@@ -82,6 +82,6 @@ class PublicCookieMetadata
      */
     public function getSecure()
     {
-        return $this->secure;
+        return $this->get(self::KEY_SECURE);
     }
 }
