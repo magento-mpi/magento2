@@ -43,8 +43,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Oauth\OauthInterface */
     protected $_oauthServiceMock;
 
-    /** @var \Magento\Authz\Service\AuthorizationV1Interface */
-    protected $_authzServiceMock;
+    /** @var \Magento\Framework\AuthorizationInterface */
+    protected $_authorizationMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -84,7 +84,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $this->_oauthServiceMock = $this->getMockBuilder('\Magento\Framework\Oauth\OauthInterface')
             ->setMethods(['validateAccessTokenRequest'])->getMockForAbstractClass();
-        $this->_authzServiceMock = $this->getMockBuilder('Magento\Authz\Service\AuthorizationV1Interface')
+        $this->_authorizationMock = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')
             ->disableOriginalConstructor()->getMock();
     }
 
@@ -113,7 +113,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
                     'appState' => $this->_appStateMock,
                     'layout' => $layoutMock,
                     'oauthService' => $this->_oauthServiceMock,
-                    'authorizationService' => $this->_authzServiceMock,
+                    'authorization' => $this->_authorizationMock,
                     'serializer' => $this->serializerMock,
                     'errorProcessor' => $errorProcessorMock,
                     'areaList' => $this->areaListMock
@@ -155,9 +155,10 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue([]));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRoute));
         $this->_routeMock->expects($this->once())->method('getParameters')->will($this->returnValue([]));
+        $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['1']));
         $this->_requestMock->expects($this->any())->method('getRequestData')->will($this->returnValue([]));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRequest));
-        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->serializerMock->expects($this->any())->method('getInputData')->will($this->returnValue([]));
         $this->_restController->dispatch($this->_requestMock);
         $this->assertFalse($this->_responseMock->isException());
@@ -182,8 +183,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue([]));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
+        $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['1']));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
-        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
 
         // Override default prepareResponse. It should never be called in this case
         $this->_responseMock->expects($this->never())->method('prepareResponse');
@@ -198,7 +200,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     public function testAuthorizationFailed()
     {
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
-        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(false));
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(false));
         $this->_oauthServiceMock->expects(
             $this->any())->method('validateAccessTokenRequest')->will($this->returnValue('fred')
         );
@@ -223,8 +225,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
     public function testOverrideParams($requestData, $parameters, $expectedOverriddenParams)
     {
         $this->_routeMock->expects($this->once())->method('getParameters')->will($this->returnValue($parameters));
+        $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['1']));
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
-        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('getRequestData')->will($this->returnValue($requestData));
 
         // serializer should expect overridden params
