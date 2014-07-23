@@ -22,7 +22,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setId($value)
     {
-        return $this->_set(self::ID, $value);
+        return $this->_set(Customer::ID, $value);
     }
 
     /**
@@ -33,7 +33,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setTaxClassId($value)
     {
-        return $this->_set(self::TAX_CLASS_ID, $value);
+        return $this->_set(Customer::TAX_CLASS_ID, $value);
     }
 
     /**
@@ -44,7 +44,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setGroupId($value)
     {
-        return $this->_set(self::GROUP_ID, $value);
+        return $this->_set(Customer::GROUP_ID, $value);
     }
 
     /**
@@ -55,7 +55,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setEmail($value)
     {
-        return $this->_set(self::EMAIL, $value);
+        return $this->_set(Customer::EMAIL, $value);
     }
 
     /**
@@ -66,7 +66,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setPrefix($value)
     {
-        return $this->_set(self::PREFIX, $value);
+        return $this->_set(Customer::PREFIX, $value);
     }
 
     /**
@@ -77,7 +77,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setFirstName($value)
     {
-        return $this->_set(self::FIRST_NAME, $value);
+        return $this->_set(Customer::FIRST_NAME, $value);
     }
 
     /**
@@ -88,7 +88,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setMiddleName($value)
     {
-        return $this->_set(self::MIDDLE_NAME, $value);
+        return $this->_set(Customer::MIDDLE_NAME, $value);
     }
 
     /**
@@ -99,7 +99,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setLastName($value)
     {
-        return $this->_set(self::LAST_NAME, $value);
+        return $this->_set(Customer::LAST_NAME, $value);
     }
 
     /**
@@ -110,7 +110,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setSuffix($value)
     {
-        return $this->_set(self::SUFFIX, $value);
+        return $this->_set(Customer::SUFFIX, $value);
     }
 
     /**
@@ -121,7 +121,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setDob($value)
     {
-        return $this->_set(self::DOB, $value);
+        return $this->_set(Customer::DOB, $value);
     }
 
     /**
@@ -132,7 +132,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setNote($value)
     {
-        return $this->_set(self::NOTE, $value);
+        return $this->_set(Customer::NOTE, $value);
     }
 
     /**
@@ -143,7 +143,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setNoteNotify($value)
     {
-        return $this->_set(self::NOTE_NOTIFY, $value);
+        return $this->_set(Customer::NOTE_NOTIFY, $value);
     }
 
     /**
@@ -154,7 +154,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setIsGuest($value)
     {
-        return (bool)$this->_set(self::IS_GUEST, $value);
+        return (bool)$this->_set(Customer::IS_GUEST, $value);
     }
 
     /**
@@ -165,7 +165,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function getPasswordHash($value)
     {
-        return $this->_set(self::PASSWORD_HASH, $value);
+        return $this->_set(Customer::PASSWORD_HASH, $value);
     }
 
     /**
@@ -176,7 +176,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function getTaxVat($value)
     {
-        return $this->_get(self::TAXVAT, $value);
+        return $this->_get(Customer::TAXVAT, $value);
     }
 
     /**
@@ -187,7 +187,7 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function getGender($value)
     {
-        return $this->_get(self::GENDER, $value);
+        return $this->_get(Customer::GENDER, $value);
     }
 
 }

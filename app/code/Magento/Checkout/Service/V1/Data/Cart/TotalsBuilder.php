@@ -20,9 +20,9 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param double|null $value
      * @return $this
      */
-    public function getGrandTotal($value)
+    public function setGrandTotal($value)
     {
-        return $this->_set(self::GRAND_TOTAL, $value);
+        return $this->_set(Totals::GRAND_TOTAL, $value);
     }
 
     /**
@@ -31,9 +31,9 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param double|null $value
      * @return $this
      */
-    public function getBaseGrandTotal($value)
+    public function setBaseGrandTotal($value)
     {
-        return $this->_set(self::BASE_GRAND_TOTAL, $value);
+        return $this->_set(Totals::BASE_GRAND_TOTAL, $value);
     }
 
     /**
@@ -42,9 +42,9 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param double|null $value
      * @return $this
      */
-    public function getSubtotal($value)
+    public function setSubtotal($value)
     {
-        return $this->_set(self::SUBTOTAL, $value);
+        return $this->_set(Totals::SUBTOTAL, $value);
     }
 
     /**
@@ -53,9 +53,9 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param double|null $value
      * @return $this
      */
-    public function getBaseSubtotal($value)
+    public function setBaseSubtotal($value)
     {
-        return $this->_set(self::BASE_SUBTOTAL, $value);
+        return $this->_set(Totals::BASE_SUBTOTAL, $value);
     }
 
     /**
@@ -64,9 +64,9 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param double|null $value
      * @return $this
      */
-    public function getSubtotalWithDiscount($value)
+    public function setSubtotalWithDiscount($value)
     {
-        return $this->_set(self::SUBTOTAL_WITH_DISCOUNT, $value);
+        return $this->_set(Totals::SUBTOTAL_WITH_DISCOUNT, $value);
     }
 
     /**
@@ -75,8 +75,8 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param double|null $value
      * @return $this
      */
-    public function getBaseSubtotalWithDiscount($value)
+    public function setBaseSubtotalWithDiscount($value)
     {
-        return $this->_set(self::BASE_SUBTOTAL_WITH_DISCOUNT, $value);
+        return $this->_set(Totals::BASE_SUBTOTAL_WITH_DISCOUNT, $value);
     }
 }
