@@ -120,6 +120,13 @@ abstract class Grid extends Block
     protected $waitForSelectorVisible = true;
 
     /**
+     * Selector for status select
+     *
+     * @var string
+     */
+    protected $status = '#status';
+
+    /**
      * Get backend abstract block
      *
      * @return \Magento\Backend\Test\Block\Template
@@ -232,19 +239,19 @@ abstract class Grid extends Block
      * Perform selected massaction over checked items
      *
      * @param string $actionType
-     * @param array $items [optional]
+     * @param array $items
+     * @param string $typeStatus [optional]
      * @param bool $acceptAlert [optional]
      */
-    protected function massaction($actionType, array $items = [], $acceptAlert = false)
+    protected function massaction($actionType, array $items, $typeStatus = '', $acceptAlert = false)
     {
-        if ($items) {
-            foreach ($items as $item) {
-                $this->searchAndSelect($item);
-            }
-        } else {
-            $this->_rootElement->find($this->selectAll, Locator::SELECTOR_CSS)->click();
+        foreach ($items as $item) {
+            $this->searchAndSelect($item);
         }
         $this->_rootElement->find($this->massactionSelect, Locator::SELECTOR_CSS, 'select')->setValue($actionType);
+        if ($typeStatus != '') {
+            $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue($typeStatus);
+        }
         $this->massActionSubmit($acceptAlert);
     }
 
@@ -269,7 +276,7 @@ abstract class Grid extends Block
      */
     public function delete($items = [])
     {
-        $this->massaction('Delete', $items, true);
+        $this->massaction('Delete', $items, '', true);
     }
 
     /**

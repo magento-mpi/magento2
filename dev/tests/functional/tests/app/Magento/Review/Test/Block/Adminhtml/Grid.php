@@ -37,36 +37,19 @@ class Grid extends GridAbstract
     ];
 
     /**
-     * Selector for action select
-     *
-     * @var string
-     */
-    protected $action = '#reviwGrid_massaction-select';
-
-    /**
-     * Selector for status select
-     *
-     * @var string
-     */
-    protected $status = '#status';
-
-    /**
      * Review actions
      *
      * @param string $reviewGridActions
+     * @param array $items
      * @param string $reviewGridStatus
-     * @param bool $acceptAlert [optional]
      * @return void
      */
-    public function actions($reviewGridActions, $reviewGridStatus, $acceptAlert = false)
+    public function actions($reviewGridActions, array $items, $reviewGridStatus)
     {
-        $this->_rootElement->find($this->action, Locator::SELECTOR_CSS, 'select')->setValue($reviewGridActions);
-        if ($reviewGridStatus != '-') {
-            $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue($reviewGridStatus);
-        }
         if ($reviewGridActions == 'Delete') {
-            $acceptAlert = true;
+            $this->delete($items);
+        } else {
+            $this->massaction($reviewGridActions, $items, $reviewGridStatus);
         }
-        $this->massActionSubmit($acceptAlert);
     }
 }

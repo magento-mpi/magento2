@@ -55,9 +55,9 @@ class MassActionsProductReviewEntityTest extends Injectable
     {
         $product->persist();
         $review->persist();
-        $this->review =  $review;
+        $this->review = $review;
 
-        return['product' => $product, 'review' => $review];
+        return ['product' => $product, 'review' => $review];
     }
 
     /**
@@ -74,15 +74,17 @@ class MassActionsProductReviewEntityTest extends Injectable
     /**
      * Creation for MassActions ProductReviewEntity
      *
-     * @param string $reviewGridActions
-     * @param string $reviewGridStatus
+     * @param string $gridActions
+     * @param string $gridStatus
      * @return void
      */
-    public function test($reviewGridActions, $reviewGridStatus)
+    public function test($gridActions, $gridStatus)
     {
         $this->reviewIndex->open();
-        $grid = $this->reviewIndex->getReviewGrid();
-        $grid->searchAndSelect(['title' => $this->review->getTitle()]);
-        $grid->actions($reviewGridActions, $reviewGridStatus);
+        $this->reviewIndex->getReviewGrid()->actions(
+            $gridActions,
+            [['title' => $this->review->getTitle()]],
+            $gridStatus
+        );
     }
 }
