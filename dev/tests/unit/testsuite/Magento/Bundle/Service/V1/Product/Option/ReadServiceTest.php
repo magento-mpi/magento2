@@ -22,9 +22,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     private $productRepository;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Data\Option\MetadataConverter|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Bundle\Service\V1\Data\Product\OptionConverter|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $metadataConverter;
+    private $optionConverter;
 
     /**
      * @var \Magento\Bundle\Model\Product\Type|\PHPUnit_Framework_MockObject_MockObject
@@ -39,12 +39,12 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Bundle\Model\Option|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $option;
+    private $optionModel;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Data\Option\Metadata|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Bundle\Service\V1\Data\Product\Option|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $metadata;
+    private $option;
 
     public function setUp()
     {
@@ -55,7 +55,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productType= $this->getMockBuilder('Magento\Bundle\Model\Product\Type')
+        $this->productType = $this->getMockBuilder('Magento\Bundle\Model\Product\Type')
             ->setMethods(['getOptionsCollection'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -64,25 +64,28 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['__wakeup', 'getTypeId', 'getTypeInstance'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->product->expects($this->any())->method('getTypeInstance')->will($this->returnValue($this->productType));
 
-        $this->option = $this->getMockBuilder('Magento\Bundle\Model\Option')
+        $this->optionModel = $this->getMockBuilder('Magento\Bundle\Model\Option')
             ->setMethods(['__wakeup', 'getId'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->metadataConverter = $this->getMockBuilder('\Magento\Bundle\Service\V1\Data\Option\MetadataConverter')
+        $this->optionConverter = $this->getMockBuilder('\Magento\Bundle\Service\V1\Data\Product\OptionConverter')
             ->setMethods(['createDataFromModel'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->metadata = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Option\Metadata')
+        $this->option = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Option')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->model = $objectManager->getObject(
             'Magento\Bundle\Service\V1\Product\Option\ReadService',
-            ['metadataConverter' => $this->metadataConverter, 'productRepository' => $this->productRepository]
+            [
+                'optionConverter' => $this->optionConverter,
+                'productRepository' => $this->productRepository,
+                'type' => $this->productType
+            ]
         );
     }
 
@@ -100,15 +103,15 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->option]));
+            ->will($this->returnValue([$this->optionModel]));
 
-        $this->metadataConverter->expects($this->once())->method('createDataFromModel')
-            ->with($this->equalTo($this->option), $this->equalTo($this->product))
-            ->will($this->returnValue($this->metadata));
+        $this->optionConverter->expects($this->once())->method('createDataFromModel')
+            ->with($this->equalTo($this->optionModel), $this->equalTo($this->product))
+            ->will($this->returnValue($this->option));
 
-        $this->option->expects($this->once())->method('getId')->will($this->returnValue($optionId));
+        $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId));
 
-        $this->assertEquals($this->metadata, $this->model->get($productSku, $optionId));
+        $this->assertEquals($this->option, $this->model->get($productSku, $optionId));
     }
 
     /**
@@ -128,9 +131,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->option]));
+            ->will($this->returnValue([$this->optionModel]));
 
-        $this->option->expects($this->once())->method('getId')->will($this->returnValue($optionId + 1));
+        $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId + 1));
 
         $this->model->get($productSku, $optionId);
     }
@@ -148,13 +151,13 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->option]));
+            ->will($this->returnValue([$this->optionModel]));
 
-        $this->metadataConverter->expects($this->once())->method('createDataFromModel')
-            ->with($this->equalTo($this->option), $this->equalTo($this->product))
-            ->will($this->returnValue($this->metadata));
+        $this->optionConverter->expects($this->once())->method('createDataFromModel')
+            ->with($this->equalTo($this->optionModel), $this->equalTo($this->product))
+            ->will($this->returnValue($this->option));
 
-        $this->assertEquals([$this->metadata], $this->model->getList($productSku));
+        $this->assertEquals([$this->option], $this->model->getList($productSku));
     }
 
     /**
