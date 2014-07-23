@@ -68,7 +68,7 @@ class AssertProductTemplateGroupOnProductForm extends AbstractConstraint
                 ],
             ]
         );
-        $productBlockForm->fillProduct($productSimple);
+        $productBlockForm->fill($productSimple);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $productEdit->getForm()->isTabVisible($attributeSet->getGroup()),

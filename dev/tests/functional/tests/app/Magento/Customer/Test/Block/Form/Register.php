@@ -11,7 +11,6 @@ namespace Magento\Customer\Test\Block\Form;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class Register
