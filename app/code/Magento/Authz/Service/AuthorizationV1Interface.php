@@ -8,7 +8,6 @@
 namespace Magento\Authz\Service;
 
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -49,16 +48,6 @@ interface AuthorizationV1Interface
      * @throws NoSuchEntityException
      */
     public function isAllowed($resources, UserIdentifier $userIdentifier = null);
-
-    /**
-     * Get a list of resources available to the specified user.
-     *
-     * @param UserIdentifier $userIdentifier
-     * @return string[]
-     * @throws AuthorizationException
-     * @throws LocalizedException
-     */
-    public function getAllowedResources(UserIdentifier $userIdentifier);
 
     /**
      * Remove user role and associated permissions.

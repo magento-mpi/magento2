@@ -11,6 +11,7 @@ use Magento\Authz\Model\UserIdentifier;
 use Magento\Authz\Model\UserIdentifier\Factory as UserIdentifierFactory;
 use Magento\Integration\Model\Integration as IntegrationModel;
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationInterface;
+use Magento\Authorization\Model\Acl\AclRetriever;
 
 /**
  * Plugin for \Magento\Integration\Service\V1\Integration.
@@ -23,16 +24,23 @@ class IntegrationServiceV1
     /** @var UserIdentifierFactory */
     protected $_userIdentifierFactory;
 
+    /** @var  AclRetriever */
+    protected $aclRetriever;
+
     /**
      * Initialize dependencies.
      *
      * @param AuthorizationInterface $authzService
      * @param UserIdentifierFactory $userIdentifierFactory
      */
-    public function __construct(AuthorizationInterface $authzService, UserIdentifierFactory $userIdentifierFactory)
-    {
+    public function __construct(
+        AuthorizationInterface $authzService,
+        UserIdentifierFactory $userIdentifierFactory,
+        AclRetriever $aclRetriever
+    ) {
         $this->_authzService = $authzService;
         $this->_userIdentifierFactory = $userIdentifierFactory;
+        $this->aclRetriever  = $aclRetriever;
     }
 
     /**
@@ -90,7 +98,7 @@ class IntegrationServiceV1
     {
         if ($integration->getId()) {
             $userIdentifier = $this->_createUserIdentifier($integration->getId());
-            $integration->setData('resource', $this->_authzService->getAllowedResources($userIdentifier));
+            $integration->setData('resource', $this->aclRetriever->getAllowedResourcesByUser($userIdentifier));
         }
     }
 

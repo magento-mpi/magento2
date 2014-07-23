@@ -11,7 +11,6 @@ use Magento\Authz\Model\UserIdentifier;
 use Magento\Framework\Acl;
 use Magento\Framework\Acl\Builder as AclBuilder;
 use Magento\Framework\Acl\RootResource as RootAclResource;
-use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Logger;
@@ -140,43 +139,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
     public function grantAllPermissions(UserIdentifier $userIdentifier)
     {
         $this->grantPermissions($userIdentifier, array($this->_rootAclResource->getId()));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAllowedResources(UserIdentifier $userIdentifier)
-    {
-        if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_GUEST) {
-            return [self::PERMISSION_ANONYMOUS];
-        } elseif ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_CUSTOMER) {
-            return [self::PERMISSION_SELF];
-        }
-        $allowedResources = [];
-        try {
-            $role = $this->_getUserRole($userIdentifier);
-            if (!$role) {
-                throw new AuthorizationException('The role associated with the specified user cannot be found.');
-            }
-            $rulesCollection = $this->_rulesCollectionFactory->create();
-            $rulesCollection->getByRoles($role->getId())->load();
-            $acl = $this->_aclBuilder->getAcl();
-            /** @var \Magento\User\Model\Rules $ruleItem */
-            foreach ($rulesCollection->getItems() as $ruleItem) {
-                $resourceId = $ruleItem->getResourceId();
-                if ($acl->has($resourceId) && $acl->isAllowed($role->getId(), $resourceId)) {
-                    $allowedResources[] = $resourceId;
-                }
-            }
-        } catch (AuthorizationException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            throw new LocalizedException(
-                'Error happened while getting a list of allowed resources. Check exception log for details.'
-            );
-        }
-        return $allowedResources;
     }
 
     /**

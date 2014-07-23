@@ -7,6 +7,8 @@
  */
 namespace Magento\User\Block\Role\Tab;
 
+use Magento\Authz\Model\UserIdentifier;
+
 /**
  * Rolesedit Tab Display Block.
  *
@@ -36,9 +38,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     /**
      * Acl builder
      *
-     * @var \Magento\Framework\Acl\Builder
+     * @var \Magento\Authorization\Model\Acl\AclRetriever
      */
-    protected $_aclBuilder;
+    protected $_aclRetriever;
 
     /**
      * Acl resource provider
@@ -54,7 +56,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
-     * @param \Magento\Framework\Acl\Builder $aclBuilder
+     * @param \Magento\Authorization\Model\Acl\AclRetriever $aclRetriever
      * @param \Magento\Framework\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
@@ -63,12 +65,12 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
-        \Magento\Framework\Acl\Builder $aclBuilder,
+        \Magento\Authorization\Model\Acl\AclRetriever $aclRetriever,
         \Magento\Framework\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Integration\Helper\Data $integrationData,
         array $data = array()
     ) {
-        $this->_aclBuilder = $aclBuilder;
+        $this->_aclRetriever = $aclRetriever;
         $this->_rootResource = $rootResource;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
@@ -126,20 +128,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
         parent::_construct();
 
         $rid = $this->_request->getParam('rid', false);
-
-        $acl = $this->_aclBuilder->getAcl();
-        $rulesSet = $this->_rulesCollectionFactory->create()->getByRoles($rid)->load();
-
-        $selectedResourceIds = array();
-
-        foreach ($rulesSet->getItems() as $item) {
-            $itemResourceId = $item->getResource_id();
-            if ($acl->has($itemResourceId) && $item->getPermission() == 'allow') {
-                $selectedResourceIds[] = $itemResourceId;
-            }
-        }
-
-        $this->setSelectedResources($selectedResourceIds);
+        $this->setSelectedResources($this->_aclRetriever->getAllowedResourcesByRole($rid));
     }
 
     /**
