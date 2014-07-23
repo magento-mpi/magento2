@@ -21,17 +21,25 @@ class Observer
     /**
      * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor
      */
+    protected $_productRuleIndexerProcessor;
+
+    /**
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule
+     */
     protected $_productRuleIndexer;
 
     /**
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleIndexer
+     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleIndexerProcessor
+     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule $productRuleIndexer
      */
     public function __construct(
         \Magento\Index\Model\Indexer $indexer,
-        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleIndexer
+        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleIndexerProcessor,
+        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule $productRuleIndexer
     ) {
         $this->_indexer = $indexer;
+        $this->_productRuleIndexerProcessor = $productRuleIndexerProcessor;
         $this->_productRuleIndexer = $productRuleIndexer;
     }
 
@@ -68,7 +76,21 @@ class Observer
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
 
-        $this->_productRuleIndexer->reindexRow($product->getId());
+        $this->_productRuleIndexerProcessor->reindexRow($product->getId());
+    }
+
+    /**
+     * Process event on 'delete_commit_after' event
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return void
+     */
+    public function catalogProductDeleteCommitAfter(\Magento\Framework\Event\Observer $observer)
+    {
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $observer->getEvent()->getProduct();
+
+        $this->_productRuleIndexer->cleanAfterProductDelete($product->getId());
     }
 
     /**
@@ -82,7 +104,7 @@ class Observer
         if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled' &&
             $observer->getDataObject()->isValueChanged()
         ) {
-            $this->_productRuleIndexer->markIndexerAsInvalid();
+            $this->_productRuleIndexerProcessor->markIndexerAsInvalid();
         }
         return $this;
     }
