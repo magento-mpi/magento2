@@ -13,7 +13,7 @@ use Magento\Sales\Service\V1\Data\OrderMapper;
 /**
  * Class OrderGet
  */
-class OrderGet
+class OrderGet implements OrderGetInterface
 {
     /**
      * @var OrderRepository
@@ -40,7 +40,7 @@ class OrderGet
     /**
      * Invoke getOrder service
      *
-     * @param $id
+     * @param int $id
      * @return \Magento\Framework\Service\Data\AbstractObject
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */

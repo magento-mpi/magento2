@@ -13,7 +13,7 @@ use Magento\Sales\Service\V1\Data\OrderMapper;
 /**
  * Class OrderCancel
  */
-class OrderCancel
+class OrderCancel implements OrderCancelInterface
 {
     /**
      * @var OrderRepository

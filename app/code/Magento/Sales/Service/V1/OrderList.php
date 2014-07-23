@@ -15,7 +15,7 @@ use Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder;
 /**
  * Class OrderList
  */
-class OrderList
+class OrderList implements OrderListInterface
 {
     /**
      * @var OrderRepository
