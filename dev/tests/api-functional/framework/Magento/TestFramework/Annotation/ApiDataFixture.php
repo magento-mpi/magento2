@@ -96,10 +96,16 @@ class ApiDataFixture
      */
     protected function _applyOneFixture($fixture)
     {
-        if (is_callable($fixture)) {
-            call_user_func($fixture);
-        } else {
-            require $fixture;
+        try {
+            if (is_callable($fixture)) {
+                call_user_func($fixture);
+            } else {
+                require $fixture;
+            }
+        } catch (\Exception $e) {
+            echo 'Exception occurred when running the '
+            . (is_array($fixture) || is_scalar($fixture) ? json_encode($fixture) : 'callback')
+            . ' fixture: ', PHP_EOL, $e;
         }
         $this->_appliedFixtures[] = $fixture;
     }

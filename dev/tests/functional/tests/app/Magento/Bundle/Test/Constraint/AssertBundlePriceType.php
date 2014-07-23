@@ -67,6 +67,8 @@ class AssertBundlePriceType extends AbstractConstraint
      * @param CheckoutCart $checkoutCartView
      * @param CatalogProductBundle $originalProduct [optional]
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function assertPrice(
         CatalogProductBundle $product,
@@ -128,7 +130,7 @@ class AssertBundlePriceType extends AbstractConstraint
     }
 
     /**
-     * Prepare special price array for Bundle product
+     * Returns a string representation of the object
      *
      * @return string
      */

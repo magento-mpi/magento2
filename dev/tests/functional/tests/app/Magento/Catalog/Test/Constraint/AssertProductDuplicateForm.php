@@ -18,6 +18,29 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class AssertProductDuplicateForm extends AssertProductForm
 {
     /**
+     * Formatting options for numeric values
+     *
+     * @var array
+     */
+    protected $formattingOptions = [
+        'price' => [
+            'decimals' => 2,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
+        'qty' => [
+            'decimals' => 4,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
+        'weight' => [
+            'decimals' => 4,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ]
+    ];
+
+    /**
      * Constraint severeness
      *
      * @var string
@@ -41,25 +64,22 @@ class AssertProductDuplicateForm extends AssertProductForm
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
         $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->prepareFixtureData($product);
+        $fixtureData = $this->prepareFixtureData($product->getData());
 
-        $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertEmpty(
-            $errors,
-            "Duplicated product data is not equal to expected:\n" . implode("\n", $errors)
-        );
+        $errors = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**
-     * Prepares and returns data to the fixture, ready for comparison
+     * Prepares fixture data for comparison
      *
-     * @param FixtureInterface $product
+     * @param array $data
+     * @param array $sortFields [optional]
      * @return array
      */
-    protected function prepareFixtureData(FixtureInterface $product)
+    protected function prepareFixtureData(array $data, array $sortFields = [])
     {
-        $compareData = $product->getData();
-        $compareData = array_filter($compareData);
+        $compareData = array_filter($data);
 
         array_walk_recursive(
             $compareData,

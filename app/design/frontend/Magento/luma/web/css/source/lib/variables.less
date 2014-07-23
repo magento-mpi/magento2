@@ -41,7 +41,7 @@
 @font-size-base: unit((@font-size-root / 100) * 16 * @font-size-base-ratio, px); // Also used in: @loader-text-font-size
 @font-size-xl: ceil(1.5 * @font-size-base);  // 21px
 @font-size-l: ceil(1.25 * @font-size-base);
-@font-size-s: ceil(0.85 * @font-size-base); // Also used in: Breadcrumbs and in Small button
+@font-size-s: ceil(0.85 * @font-size-base);  // Also used in: Breadcrumbs and in Small button
 @font-size-xs: floor(0.75 * @font-size-base);
 
 @font-weight-base: 400;
@@ -218,7 +218,7 @@
 //--------------------------------------
 @table-width: 100%;
 @table-margin-bottom: false;
-@table-bg: transparent;
+@table-bg: false;
 @table-head-bg: @table-bg;
 @table-foot-bg: @table-bg;
 @table-td-bg: @table-bg;
@@ -234,29 +234,29 @@
 @table-caption-hide: false; //Default value false, set true to hide caption
 @table-caption-font-size: @font-size-l;
 @table-caption-color: @text-color-intense;
-@table-caption-font-family: @font-family-base;
-@table-caption-font-weight: @font-weight-base;
-@table-caption-font-style: @font-style-base;
-@table-caption-line-height: @line-height-base;
+@table-caption-font-family: false;
+@table-caption-font-weight: false;
+@table-caption-font-style: false;
+@table-caption-line-height: false;
 @table-caption-alignment: left;
 @table-caption-margin-top: @indent-base;
 @table-caption-margin-bottom: @indent-s-base;
 
-@table-td-font-size: @font-size-base;
-@table-td-color: @text-color;
-@table-td-font-family: @font-family-base;
-@table-td-font-weight: @font-weight-base;
-@table-td-line-height: @line-height-base;
-@table-td-font-style: @font-style-base;
+@table-td-font-size: false;
+@table-td-color: false;
+@table-td-font-family: false;
+@table-td-font-weight: false;
+@table-td-line-height: false;
+@table-td-font-style: false;
 
-@table-th-font-size: @font-size-base;
+@table-th-font-size: false;
 @table-th-color: @text-color-intense;
-@table-th-font-family: @font-family-base;
+@table-th-font-family: false;
 @table-th-font-weight: @font-weight-bold;
-@table-th-line-height: @line-height-base;
-@table-th-font-style: @font-style-base;
+@table-th-line-height: false;
+@table-th-font-style: false;
 
-@table-cell-bg-stripped: lighten(@table-cell-bg-hover, 15%);
+@table-cell-bg-stripped: @table-cell-bg-hover;
 @table-cell-bg-hover: @panel-bg;
 @table-cell-color-stripped: @table-td-color;
 
@@ -416,7 +416,7 @@
 @tab-control-height: @indent-base*2;
 @tab-control-font-size: @font-size-base;
 @tab-control-font-family: false;
-@tab-control-font-weight: @font-weight-semibold;
+@tab-control-font-weight: @font-weight-base;
 @tab-control-font-style: false;
 @tab-control-line-height: @tab-control-height;
 
@@ -660,6 +660,8 @@
 @icon-edit: '\e601';
 @icon-help: '\e623';
 @icon-print: '\e624';
+@icon-star-empty: '\e625';
+@icon-download: '\e626';
 
 //
 //    Messages variables
@@ -990,7 +992,7 @@
 @form-field-column: false;
 @form-field-column-padding: 0 12px 0 0;
 @form-field-column-number: 2;
-@form-field-vertical-indent: 25px;
+@form-field-vertical-indent: 20px;
 @form-field-additional-vertical-indent: 10px;
 @form-field-type-block-margin: 0 0 @form-field-vertical-indent;
 @form-field-type-inline-margin: 0 0 @form-field-vertical-indent;
@@ -1165,8 +1167,8 @@
 @rating-icon-count: 5;
 @rating-icon-content: @icon-star;
 @rating-icon-font: @icon-font;
-@rating-icon-font-size: 14px;
-@rating-icon-letter-spacing: 0;
+@rating-icon-font-size: 16px;
+@rating-icon-letter-spacing: 2px;
 @rating-icon-color: #c7c7c7;
 @rating-icon-color-active: #ff5501;
 @rating-label-hide: false;
@@ -1260,7 +1262,7 @@
 @actions-toolbar-margin: false; // Also used in: @popup-actions-toolbar-margins
 @actions-toolbar-padding: false; // Also used in: @popup-actions-toolbar-padding
 @actions-toolbar-actions-margin: false; // Also used in: @popup-actions-toolbar-actions-margin
-@actions-toolbar-primary-actions-margin: 0 35px 0 0; // Also used in: @popup-actions-toolbar-primary-actions-margin
+@actions-toolbar-primary-actions-margin: 0 15px 0 0; // Also used in: @popup-actions-toolbar-primary-actions-margin
 @actions-toolbar-secondary-actions-margin: false; // Also used in: @popup-actions-toolbar-secondary-actions-margin
 @actions-toolbar-actions-links-margin-top: false; // Also used in: @popup-actions-toolbar-actions-links-margin-top
 @actions-toolbar-primary-actions-links-margin-top: false; // Also used in: @popup-actions-primary-toolbar-actions-links-margin-top

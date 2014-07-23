@@ -126,6 +126,9 @@ class Bundle extends Block
      * @param array $fields
      * @param int $index
      * @return bool|string
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function displayedBundleItemOption(array $fields, $index)
     {

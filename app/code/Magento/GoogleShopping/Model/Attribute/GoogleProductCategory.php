@@ -32,7 +32,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Data $googleShoppingHelper
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
@@ -45,7 +45,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Data $googleShoppingHelper,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
@@ -60,7 +60,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
             $context,
             $registry,
             $productFactory,
-            $gsData,
+            $googleShoppingHelper,
             $gsProduct,
             $catalogPrice,
             $resource,

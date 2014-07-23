@@ -42,7 +42,7 @@ class CmsForm extends Form
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
         $this->hideEditor();
-        return parent::fill($fixture);
+        return parent::fill($fixture, $element);
     }
 
     /**

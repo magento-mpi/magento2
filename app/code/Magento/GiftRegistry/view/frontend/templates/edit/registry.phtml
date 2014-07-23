@@ -10,15 +10,14 @@
 <input type="hidden" name="entity_id" id="entity_id" value="<?php echo $this->getEntity()->getEntityId(); ?>" />
 <input type="hidden" name="type_id" id="type_id" value="<?php echo $this->getTypeId(); ?>" />
 
+<p class="giftregistry-type">
+    <span class="label"><?php echo __('Type:') ?></span>
+    <strong><?php echo $this->getTypeLabel(); ?></strong>
+</p>
+
 <fieldset class="fieldset">
     <legend class="legend"><span><?php echo __('General Information') ?></span></legend>
 
-    <div class="field type">
-        <label class="label"><span><?php echo __('Gift Registry Type:') ?></span></label>
-        <div class="control">
-            <strong><?php echo $this->getTypeLabel(); ?></strong>
-        </div>
-    </div>
     <div class="field event required">
         <label for="title" class="label"><span><?php echo __('Event') ?></span></label>
         <div class="control">

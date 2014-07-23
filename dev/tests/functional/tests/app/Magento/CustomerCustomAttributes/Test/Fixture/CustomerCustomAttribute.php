@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CustomerCustomAttribute
  * Fixture with all necessary data for custom Customer Attribute creation on backend
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CustomerCustomAttribute extends InjectableFixture
 {
