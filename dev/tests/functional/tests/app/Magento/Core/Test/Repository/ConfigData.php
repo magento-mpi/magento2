@@ -46,5 +46,25 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+        $this->_data['config_currency_symbols'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'currency',
+                    'scope_id' => '1',
+                    'value' => ['USD', 'UAH'],
+                ],
+            ]
+        ];
+        $this->_data['config_currency_symbols_default'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'currency',
+                    'scope_id' => '1',
+                    'value' => ['USD'],
+                ],
+            ]
+        ];
     }
 }

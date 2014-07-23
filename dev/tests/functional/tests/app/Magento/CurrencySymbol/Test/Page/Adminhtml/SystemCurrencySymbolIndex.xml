@@ -22,7 +22,7 @@
     </block>
     <block>
         <name>pageActions</name>
-        <class>Magento\Backend\Test\Block\GridPageActions</class>
+        <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\FormPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>

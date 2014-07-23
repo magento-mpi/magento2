@@ -8,6 +8,9 @@
 
 namespace Magento\CurrencySymbol\Test\TestCase;
 
+use Magento\Core\Test\Fixture\ConfigData;
+use Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencyIndex;
+use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -48,6 +51,25 @@ class EditCurrencySymbolEntityTest extends Injectable
     protected $currencySymbolDefault;
 
     /**
+     * Prepare data
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @param SystemCurrencyIndex $currencyIndex
+     * @return array
+     */
+    public function __prepare(FixtureFactory $fixtureFactory, SystemCurrencyIndex $currencyIndex)
+    {
+        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'config_currency_symbols']);
+        $config->persist();
+
+        $currencyIndex->open();
+        $currencyIndex->getGridPageActions()->clickImportButton();
+        $currencyIndex->getMainPageActions()->saveCurrentRate();
+
+        return ['config' => $config];
+    }
+
+    /**
      * Injection data
      *
      * @param SystemCurrencySymbolIndex $currencySymbolIndex
@@ -77,14 +99,18 @@ class EditCurrencySymbolEntityTest extends Injectable
      * Edit Currency Symbol Entity test
      *
      * @param CurrencySymbolEntity $currencySymbol
+     * @param ConfigData $config
      * @return void
      */
-    public function test(CurrencySymbolEntity $currencySymbol)
+    public function test(CurrencySymbolEntity $currencySymbol, ConfigData $config)
     {
+        $customCurrencyData = $config->getData();
+        $customCurrency = $customCurrencyData['section'][0]['value'][1];
         // Steps
         $this->currencySymbolIndex->open();
+        $this->currencySymbolIndex->getCurrencySymbolForm()->initCurrency($customCurrency);
         $this->currencySymbolIndex->getCurrencySymbolForm()->fill($currencySymbol);
-        $this->currencySymbolIndex->getFormPageActions()->save();
+        $this->currencySymbolIndex->getPageActions()->save();
     }
 
     /**
@@ -92,10 +118,10 @@ class EditCurrencySymbolEntityTest extends Injectable
      *
      * @return void
      */
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
-        $this->currencySymbolIndex->open();
-        $this->currencySymbolIndex->getCurrencySymbolForm()->fill($this->currencySymbolDefault);
-        $this->currencySymbolIndex->getFormPageActions()->save();
+        $fixtureFactory = ObjectManager::getInstance()->create('Mtf\Fixture\FixtureFactory');
+        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'config_currency_symbols_default']);
+        $config->persist();
     }
 }

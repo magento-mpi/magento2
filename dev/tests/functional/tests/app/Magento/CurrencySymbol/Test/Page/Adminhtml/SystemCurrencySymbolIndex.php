@@ -32,8 +32,8 @@ class SystemCurrencySymbolIndex extends BackendPage
             'locator' => '.grid',
             'strategy' => 'css selector',
         ],
-        'formPageActions' => [
-            'name' => 'formPageActions',
+        'pageActions' => [
+            'name' => 'pageActions',
             'class' => 'Magento\CurrencySymbol\Test\Block\Adminhtml\System\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
@@ -59,8 +59,8 @@ class SystemCurrencySymbolIndex extends BackendPage
     /**
      * @return \Magento\CurrencySymbol\Test\Block\Adminhtml\System\FormPageActions
      */
-    public function getFormPageActions()
+    public function getPageActions()
     {
-        return $this->getBlockInstance('formPageActions');
+        return $this->getBlockInstance('pageActions');
     }
 }

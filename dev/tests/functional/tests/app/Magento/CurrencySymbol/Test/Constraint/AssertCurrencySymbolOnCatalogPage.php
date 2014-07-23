@@ -10,6 +10,7 @@ namespace Magento\CurrencySymbol\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity;
@@ -33,16 +34,22 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductSimple $product
      * @param CurrencySymbolEntity $currencySymbol
+     * @param ConfigData $config
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $product,
-        CurrencySymbolEntity $currencySymbol
-    ) {
+        CurrencySymbolEntity $currencySymbol,
+        ConfigData $config
+    )
+    {
         $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
+        $customCurrencyData = $config->getData();
+        $customCurrency = $customCurrencyData['section'][0]['value'][1];
+        $cmsIndex->getCurrencyBlock()->switchCurrency($customCurrency);
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $price = $catalogCategoryView->getListProductBlock()->getPrice($product->getId());
         preg_match('`(.*?)\d`', $price, $matches);

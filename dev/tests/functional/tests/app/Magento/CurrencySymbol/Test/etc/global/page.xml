@@ -13,4 +13,10 @@
     <area>adminhtml</area>
         <class>Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencySymbolIndex</class>
     </adminSystemCurrencySymbolIndex>
+
+    <adminSystemCurrencyIndex>
+        <mca>admin/system_currency/index</mca>
+    <area>adminhtml</area>
+        <class>Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencyIndex</class>
+    </adminSystemCurrencyIndex>
 </page>

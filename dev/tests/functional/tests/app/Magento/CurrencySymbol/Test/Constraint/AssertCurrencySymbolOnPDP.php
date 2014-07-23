@@ -10,6 +10,7 @@ namespace Magento\CurrencySymbol\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
@@ -35,6 +36,7 @@ class AssertCurrencySymbolOnPDP extends AbstractConstraint
      * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
      * @param CurrencySymbolEntity $currencySymbol
+     * @param ConfigData $config
      * @return void
      */
     public function processAssert(
@@ -42,10 +44,15 @@ class AssertCurrencySymbolOnPDP extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $product,
         CatalogProductView $catalogProductView,
-        CurrencySymbolEntity $currencySymbol
-    ) {
+        CurrencySymbolEntity $currencySymbol,
+        ConfigData $config
+    )
+    {
         $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
+        $customCurrencyData = $config->getData();
+        $customCurrency = $customCurrencyData['section'][0]['value'][1];
+        $cmsIndex->getCurrencyBlock()->switchCurrency($customCurrency);
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());
         $price = $catalogProductView->getViewBlock()->getProductPrice();
