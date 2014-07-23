@@ -39,7 +39,6 @@ class ReadService implements ReadServiceInterface
     public function get($productSku, $optionId)
     {
         $product = $this->getProduct($productSku);
-
         /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
         $productTypeInstance = $product->getTypeInstance();
         $optionCollection = $productTypeInstance->getOptionsCollection($product);
