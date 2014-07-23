@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Authorization\Model\CompositeUserContext;
+namespace Magento\Authorization\Model;
 
 use Magento\Authorization\Model\CompositeUserContext;
 
