@@ -10,8 +10,8 @@ namespace Magento\Webapi\Model;
 
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Authorization\RoleLocator;
-use Magento\User\Model\Role;
-use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
+use Magento\Authorization\Model\Role;
+use Magento\Authorization\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 
 class WebapiRoleLocator implements RoleLocator
 {
