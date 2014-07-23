@@ -23,18 +23,18 @@ class Grid extends GridAbstract
      *
      * @var array
      */
-    protected $filters = array(
-        'review_id' => array(
+    protected $filters = [
+        'review_id' => [
             'selector' => '#reviwGrid_filter_review_id',
-        ),
-        'title' => array(
+        ],
+        'title' => [
             'selector' => '#reviwGrid_filter_title',
-        ),
-        'status' => array(
+        ],
+        'status' => [
             'selector' => '#reviwGrid_filter_status',
             'input' => 'select',
-        ),
-    );
+        ],
+    ];
 
     /**
      * Selector for action select

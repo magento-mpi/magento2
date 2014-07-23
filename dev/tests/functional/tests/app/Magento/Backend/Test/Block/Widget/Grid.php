@@ -26,7 +26,7 @@ abstract class Grid extends Block
      *
      * @var array
      */
-    protected $filters = array();
+    protected $filters = [];
 
     /**
      * Locator value for 'Search' button
@@ -232,10 +232,10 @@ abstract class Grid extends Block
      * Perform selected massaction over checked items
      *
      * @param string $actionType
-     * @param array $items
-     * @param bool $acceptAlert
+     * @param array $items [optional]
+     * @param bool $acceptAlert [optional]
      */
-    protected function massaction($actionType, array $items = array(), $acceptAlert = false)
+    protected function massaction($actionType, array $items = [], $acceptAlert = false)
     {
         if ($items) {
             foreach ($items as $item) {
@@ -265,9 +265,9 @@ abstract class Grid extends Block
     /**
      * Delete selected items in grid
      *
-     * @param array $items
+     * @param array $items [optional]
      */
-    public function delete($items = array())
+    public function delete($items = [])
     {
         $this->massaction('Delete', $items, true);
     }

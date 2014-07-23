@@ -13,10 +13,13 @@ use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 
 /**
  * Class AssertProductReviewMassActionDeleteSuccessMessage
- * Assert success message appears after deletion via massactions
+ * Assert success message appears after deletion via mass actions
  */
 class AssertProductReviewMassActionDeleteSuccessMessage extends AbstractConstraint
 {
+    /**
+     * Message that appears after deletion via mass actions
+     */
     const SUCCESS_MESSAGE = 'A total of 1 record(s) have been deleted.';
 
     /**
@@ -27,17 +30,16 @@ class AssertProductReviewMassActionDeleteSuccessMessage extends AbstractConstrai
     protected $severeness = 'high';
 
     /**
-     * Assert that success message is displayed after deletion via massactions
+     * Assert that success message is displayed after deletion via mass actions
      *
      * @param ReviewIndex $reviewIndex
      * @return void
      */
     public function processAssert(ReviewIndex $reviewIndex)
     {
-        $actualMessage = $reviewIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
-            $actualMessage,
+            $reviewIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
     }
@@ -49,6 +51,6 @@ class AssertProductReviewMassActionDeleteSuccessMessage extends AbstractConstrai
      */
     public function toString()
     {
-        return 'Review success message appears after deletion via massactions is present.';
+        return 'Review success message appears after deletion via mass actions is present.';
     }
 }

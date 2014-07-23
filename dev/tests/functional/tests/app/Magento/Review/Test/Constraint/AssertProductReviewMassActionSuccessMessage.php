@@ -13,10 +13,13 @@ use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 
 /**
  * Class AssertProductReviewMassActionSuccessMessage
- * Assert success message appears after updated via massactions
+ * Assert success message appears after updated via mass actions
  */
 class AssertProductReviewMassActionSuccessMessage extends AbstractConstraint
 {
+    /**
+     * Message that appears after updates via mass actions
+     */
     const SUCCESS_MESSAGE = 'A total of 1 record(s) have been updated.';
 
     /**
@@ -27,17 +30,16 @@ class AssertProductReviewMassActionSuccessMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that success message is displayed after updated via massactions
+     * Assert that success message is displayed after updated via mass actions
      *
      * @param ReviewIndex $reviewIndex
      * @return void
      */
     public function processAssert(ReviewIndex $reviewIndex)
     {
-        $actualMessage = $reviewIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
-            $actualMessage,
+            $reviewIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
     }
@@ -49,6 +51,6 @@ class AssertProductReviewMassActionSuccessMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Review success message appears after updated via massactions is present.';
+        return 'Review success message appears after updated via mass actions is present.';
     }
 }
