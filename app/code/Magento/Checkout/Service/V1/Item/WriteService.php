@@ -59,7 +59,7 @@ class WriteService implements WriteServiceInterface
     public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Cart\Item $data)
     {
         $qty = $data->getQty();
-        if (!is_double($qty) || $qty <= 0) {
+        if (!is_numeric($qty) || $qty <= 0) {
             throw InputException::invalidFieldValue('qty', $qty);
         }
         $storeId = $this->storeManager->getStore()->getId();
@@ -83,7 +83,7 @@ class WriteService implements WriteServiceInterface
     public function updateItem($cartId, $itemSku, \Magento\Checkout\Service\V1\Data\Cart\Item $data)
     {
         $qty = $data->getQty();
-        if (!is_double($qty) || $qty <= 0) {
+        if (!is_numeric($qty) || $qty <= 0) {
             throw InputException::invalidFieldValue('qty', $qty);
         }
         $storeId = $this->storeManager->getStore()->getId();
@@ -99,7 +99,7 @@ class WriteService implements WriteServiceInterface
         try {
             $quote->collectTotals()->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not update item to quote');
+            throw new CouldNotSaveException('Could not update quote item');
         }
         return true;
     }
