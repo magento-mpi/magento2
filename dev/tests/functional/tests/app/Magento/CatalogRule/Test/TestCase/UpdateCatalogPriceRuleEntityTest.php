@@ -11,6 +11,7 @@ namespace Magento\CatalogRule\Test\TestCase;
 use Mtf\Fixture\FixtureFactory;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
 
 /**
  * Test Creation for UpdateCatalogPriceRuleEntity
@@ -68,10 +69,20 @@ class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
         // Preconditions
         $catalogPriceRuleOriginal->persist();
 
-        // Prepare data
-        $replace = $saveAction == 'saveAndApply'
-            ? ['conditions' => ['conditions' => ['%category_1%' => $product->getCategoryIds()[0]['id']]]]
-            : [];
+        //Prepare data
+        if ($saveAction == 'saveAndApply') {
+            /** @var CategoryIds $sourceCategories */
+            $sourceCategories = $product->getDataFieldConfig('category_ids')['source'];
+            $replace = [
+                'conditions' => [
+                    'conditions' => [
+                        '%category_1%' => $sourceCategories->getIds()[0]
+                    ]
+                ]
+            ];
+        } else {
+            $replace = [];
+        }
         $filter = [
             'name' => $catalogPriceRuleOriginal->getName(),
             'rule_id' => $catalogPriceRuleOriginal->getId()

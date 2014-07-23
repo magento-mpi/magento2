@@ -36,7 +36,7 @@ class AssertTierPriceOnBundleProductPage extends AssertProductTierPriceOnProduct
      *
      * @var int
      */
-    protected $decimals = 4;
+    protected $priceFormat = 4;
 
     /**
      * Assertion that tier prices are displayed correctly
@@ -54,6 +54,6 @@ class AssertTierPriceOnBundleProductPage extends AssertProductTierPriceOnProduct
         $viewBlock->clickCustomize();
 
         //Process assertions
-        $this->assertTierPrice($product, $catalogProductView);
+        $this->assertPrice($product, $catalogProductView);
     }
 }

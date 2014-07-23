@@ -60,11 +60,11 @@ class GiftCardProduct extends AbstractRepository
             'attribute_set_id' => ['dataSet' => 'default']
         ];
 
-        $this->_data['giftcard_with_price'] = [
+        $this->_data['giftcard_product_with_price'] = [
             'name' => 'Test product giftcard %isolation%',
             'sku' => 'sku_test_product_giftcard_%isolation%',
             'giftcard_type' => 'Virtual',
-            'price' => ['value' => 120.00, 'preset' => '-'],
+            'price' => ['value' => '-', 'preset' => 'price_from-120'],
             'giftcard_amounts' => [
                 [
                     'website_id' => 'All Websites [USD]',

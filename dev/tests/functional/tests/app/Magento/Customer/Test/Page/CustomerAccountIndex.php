@@ -50,6 +50,12 @@ class CustomerAccountIndex extends FrontendPage
             'locator' => '.column.main',
             'strategy' => 'css selector',
         ],
+        'compareProductsBlock' => [
+            'name' => 'compareProductsBlock',
+            'class' => 'Magento\Catalog\Test\Block\Product\Compare\Sidebar',
+            'locator' => '.block.compare',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -94,5 +100,15 @@ class CustomerAccountIndex extends FrontendPage
     public function getInfoBlock()
     {
         return $this->getBlockInstance('infoBlock');
+    }
+
+    /**
+     * Get compare products block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\Compare\Sidebar
+     */
+    public function getCompareProductsBlock()
+    {
+        return $this->getBlockInstance('compareProductsBlock');
     }
 }
