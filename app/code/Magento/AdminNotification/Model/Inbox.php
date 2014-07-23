@@ -7,6 +7,8 @@
  */
 namespace Magento\AdminNotification\Model;
 
+use \Magento\Framework\App\Notification\MessageInterface;
+
 /**
  * AdminNotification Inbox model
  *
@@ -31,14 +33,6 @@ namespace Magento\AdminNotification\Model;
  */
 class Inbox extends \Magento\Framework\Model\AbstractModel
 {
-    const SEVERITY_CRITICAL = 1;
-
-    const SEVERITY_MAJOR = 2;
-
-    const SEVERITY_MINOR = 3;
-
-    const SEVERITY_NOTICE = 4;
-
     /**
      * @return void
      */
@@ -56,10 +50,10 @@ class Inbox extends \Magento\Framework\Model\AbstractModel
     public function getSeverities($severity = null)
     {
         $severities = array(
-            self::SEVERITY_CRITICAL => __('critical'),
-            self::SEVERITY_MAJOR => __('major'),
-            self::SEVERITY_MINOR => __('minor'),
-            self::SEVERITY_NOTICE => __('notice')
+            MessageInterface::SEVERITY_CRITICAL => __('critical'),
+            MessageInterface::SEVERITY_MAJOR => __('major'),
+            MessageInterface::SEVERITY_MINOR => __('minor'),
+            MessageInterface::SEVERITY_NOTICE => __('notice')
         );
 
         if (!is_null($severity)) {
@@ -102,7 +96,8 @@ class Inbox extends \Magento\Framework\Model\AbstractModel
      */
     public function parse(array $data)
     {
-        return $this->getResource()->parse($this, $data);
+        $this->getResource()->parse($this, $data);
+        return $this;
     }
 
     /**
@@ -151,7 +146,7 @@ class Inbox extends \Magento\Framework\Model\AbstractModel
      */
     public function addCritical($title, $description, $url = '', $isInternal = true)
     {
-        $this->add(self::SEVERITY_CRITICAL, $title, $description, $url, $isInternal);
+        $this->add(MessageInterface::SEVERITY_CRITICAL, $title, $description, $url, $isInternal);
         return $this;
     }
 
@@ -166,7 +161,7 @@ class Inbox extends \Magento\Framework\Model\AbstractModel
      */
     public function addMajor($title, $description, $url = '', $isInternal = true)
     {
-        $this->add(self::SEVERITY_MAJOR, $title, $description, $url, $isInternal);
+        $this->add(MessageInterface::SEVERITY_MAJOR, $title, $description, $url, $isInternal);
         return $this;
     }
 
@@ -181,7 +176,7 @@ class Inbox extends \Magento\Framework\Model\AbstractModel
      */
     public function addMinor($title, $description, $url = '', $isInternal = true)
     {
-        $this->add(self::SEVERITY_MINOR, $title, $description, $url, $isInternal);
+        $this->add(MessageInterface::SEVERITY_MINOR, $title, $description, $url, $isInternal);
         return $this;
     }
 
@@ -196,7 +191,7 @@ class Inbox extends \Magento\Framework\Model\AbstractModel
      */
     public function addNotice($title, $description, $url = '', $isInternal = true)
     {
-        $this->add(self::SEVERITY_NOTICE, $title, $description, $url, $isInternal);
+        $this->add(MessageInterface::SEVERITY_NOTICE, $title, $description, $url, $isInternal);
         return $this;
     }
 }

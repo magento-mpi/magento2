@@ -1,11 +1,11 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\AdminNotification\Model\System;
+namespace Magento\Framework\App\Notification;
 
 class MessageList
 {
@@ -38,17 +38,24 @@ class MessageList
      *
      * @return void
      * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
      */
     protected function _loadMessages()
     {
-        if (!$this->_messages) {
-            foreach ($this->_messageClasses as $key => $messageClass) {
-                if (!$messageClass) {
-                    throw new \InvalidArgumentException('Message class for message "' . $key . '" is not set');
-                }
-                $message = $this->_objectManager->get($messageClass);
-                $this->_messages[$message->getIdentity()] = $message;
+        if (!empty($this->_messages)) {
+            return;
+        }
+        foreach ($this->_messageClasses as $key => $messageClass) {
+            if (!$messageClass) {
+                throw new \InvalidArgumentException('Message class for message "' . $key . '" is not set');
             }
+            $message = $this->_objectManager->get($messageClass);
+            if ($message instanceof \Magento\Framework\App\Notification\MessageInterface) {
+                $this->_messages[$message->getIdentity()] = $message;
+            } else {
+                throw new \UnexpectedValueException("Message class has to implement the message interface.");
+            }
+
         }
     }
 
@@ -56,7 +63,7 @@ class MessageList
      * Retrieve message by
      *
      * @param string $identity
-     * @return null|\Magento\AdminNotification\Model\System\MessageInterface
+     * @return null|\Magento\Framework\App\Notification\MessageInterface
      */
     public function getMessageByIdentity($identity)
     {
@@ -67,7 +74,7 @@ class MessageList
     /**
      * Retrieve list of all messages
      *
-     * @return \Magento\AdminNotification\Model\System\MessageInterface[]
+     * @return \Magento\Framework\App\Notification\MessageInterface[]
      */
     public function asArray()
     {
