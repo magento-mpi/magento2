@@ -33,6 +33,7 @@ class ReadService implements ReadServiceInterface
     /**
      * @param OptionConverter $optionConverter
      * @param ProductRepository $productRepository
+     * @param Type $type
      */
     public function __construct(
         OptionConverter $optionConverter,
