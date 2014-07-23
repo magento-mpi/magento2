@@ -41,4 +41,10 @@
     <assertProductRatingInProductPage module="Magento_Review">
         <severeness>middle</severeness>
     </assertProductRatingInProductPage>
+    <assertProductReviewMassActionSuccessMessage module="Magento_Review">
+        <severeness>high</severeness>
+    </assertProductReviewMassActionSuccessMessage>
+    <assertProductReviewMassActionDeleteSuccessMessage module="Magento_Review">
+        <severeness>high</severeness>
+    </assertProductReviewMassActionDeleteSuccessMessage>
 </constraint>

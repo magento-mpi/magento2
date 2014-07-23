@@ -245,6 +245,17 @@ abstract class Grid extends Block
             $this->_rootElement->find($this->selectAll, Locator::SELECTOR_CSS)->click();
         }
         $this->_rootElement->find($this->massactionSelect, Locator::SELECTOR_CSS, 'select')->setValue($actionType);
+        $this->massActionSubmit($acceptAlert);
+    }
+
+    /**
+     * Submit mass actions
+     *
+     * @param bool $acceptAlert
+     * @return void
+     */
+    protected function massActionSubmit($acceptAlert)
+    {
         $this->_rootElement->find($this->massactionSubmit, Locator::SELECTOR_CSS)->click();
         if ($acceptAlert) {
             $this->_rootElement->acceptAlert();
