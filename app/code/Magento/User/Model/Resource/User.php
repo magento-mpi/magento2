@@ -212,6 +212,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     'sort_order' => 0,
                     'role_type' => RoleUser::ROLE_TYPE,
                     'user_id' => $user->getId(),
+                    'user_type' => \Magento\Authz\Model\UserIdentifier::USER_TYPE_ADMIN,
                     'role_name' => $user->getFirstname()
                 )
             );
