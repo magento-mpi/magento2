@@ -7,6 +7,8 @@
  */
 namespace Magento\AdminNotification\Model;
 
+use \Magento\Framework\App\Notification\NotificationInterface;
+
 /**
  * AdminNotification Inbox model
  *
@@ -29,7 +31,7 @@ namespace Magento\AdminNotification\Model;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Inbox extends \Magento\Framework\Model\AbstractModel
+class Inbox extends \Magento\Framework\Model\AbstractModel implements NotificationInterface
 {
     const SEVERITY_CRITICAL = 1;
 
