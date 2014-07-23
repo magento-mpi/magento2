@@ -15,11 +15,11 @@ use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Logger;
-use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
-use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
-use Magento\User\Model\Role;
-use Magento\User\Model\RoleFactory;
-use Magento\User\Model\RulesFactory;
+use Magento\Authorization\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
+use Magento\Authorization\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
+use Magento\Authorization\Model\Role;
+use Magento\Authorization\Model\RoleFactory;
+use Magento\Authorization\Model\RulesFactory;
 
 /**
  * Authorization service.
@@ -148,7 +148,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
             $rulesCollection = $this->_rulesCollectionFactory->create();
             $rulesCollection->getByRoles($role->getId())->load();
             $acl = $this->_aclBuilder->getAcl();
-            /** @var \Magento\User\Model\Rules $ruleItem */
+            /** @var \Magento\Authorization\Model\Rules $ruleItem */
             foreach ($rulesCollection->getItems() as $ruleItem) {
                 $resourceId = $ruleItem->getResourceId();
                 if ($acl->has($resourceId) && $acl->isAllowed($role->getId(), $resourceId)) {
@@ -187,7 +187,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * Create new ACL role.
      *
      * @param UserIdentifier $userIdentifier
-     * @return Role
+     * @return \Magento\Authorization\Model\Role
      * @throws NoSuchEntityException
      * @throws \LogicException
      */
@@ -201,7 +201,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
         switch ($userType) {
             case UserIdentifier::USER_TYPE_INTEGRATION:
                 $roleName = $userType . $userId;
-                $roleType = \Magento\User\Model\Acl\Role\User::ROLE_TYPE;
+                $roleType = \Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE;
                 $parentId = 0;
                 $userId = $userIdentifier->getUserId();
                 break;
@@ -222,7 +222,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * Remove an ACL role. This deletes the cascading permissions
      *
      * @param UserIdentifier $userIdentifier
-     * @return Role
+     * @return \Magento\Authorization\Model\Role
      * @throws NoSuchEntityException
      * @throws \LogicException
      */
@@ -248,7 +248,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * Identify user role from user identifier.
      *
      * @param UserIdentifier $userIdentifier
-     * @return Role|false Return false in case when no role associated with provided user was found.
+     * @return \Magento\Authorization\Model\Role|false Return false in case when no role associated with provided user was found.
      * @throws \LogicException
      */
     protected function _getUserRole($userIdentifier)
@@ -269,14 +269,14 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * Associate resources with the specified role. All resources previously assigned to the role will be unassigned.
      *
-     * @param Role $role
+     * @param \Magento\Authorization\Model\Role $role
      * @param string[] $resources
      * @return void
      * @throws \LogicException
      */
     protected function _associateResourcesWithRole($role, array $resources)
     {
-        /** @var \Magento\User\Model\Rules $rules */
+        /** @var \Magento\Authorization\Model\Rules $rules */
         $rules = $this->_rulesFactory->create();
         $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
     }
