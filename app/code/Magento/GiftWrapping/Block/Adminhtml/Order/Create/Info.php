@@ -27,16 +27,22 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCr
     /**
      * Select element for choosing gift wrapping design
      *
+     * @param string $type 'quote', 'quote_item', etc
+     * @throws \InvalidArgumentException
      * @return array
      */
-    public function getDesignSelectHtml()
+    public function getDesignSelectHtml($type)
     {
+        if (empty($type)) {
+            throw new \InvalidArgumentException('type is obligatory');
+        }
+
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => 'giftwrapping_design', 'class' => 'select')
         )->setName(
-            'giftwrapping[' . $this->getEntityId() . '][design]'
+            'giftwrapping[' . $type . '][' . $this->getEntityId() . '][design]'
         )->setOptions(
             $this->getDesignCollection()->toOptionArray()
         );

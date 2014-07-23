@@ -37,11 +37,6 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
             '" value="' .
             $row->getId() .
             '" class="rowId" />';
-        $out .= '<input type="hidden" name="items[' .
-            $row->getId() .
-            '][order_item_id]" value="' .
-            $row->getOrderItemId() .
-            '" />';
         $separator = '';
         foreach ($actions as $action) {
             if (!(isset(
@@ -54,6 +49,12 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
                 $separator = '';
             }
         }
+        $out .= '<input type="hidden" name="items[' .
+            $row->getId() .
+            '][order_item_id]" value="' .
+            $row->getOrderItemId() .
+            '" class="rma-action-links-' . $row->getId() .'" />';
+
         return $out;
     }
 }

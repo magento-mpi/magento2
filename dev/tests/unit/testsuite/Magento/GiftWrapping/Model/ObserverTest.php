@@ -30,6 +30,125 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_observer = new \Magento\Framework\Event\Observer(array('event' => $this->_event));
     }
 
+    public function testCheckoutProcessWrappingInfoQuote()
+    {
+        $giftWrappingInfo = ['quote' => [1 => ['some data']]];
+        $requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $event = new \Magento\Framework\Event(['request' => $requestMock, 'quote' => $quoteMock]);
+        $observer = new \Magento\Framework\Object(['event' => $event]);
+
+        $requestMock->expects($this->once())
+            ->method('getParam')
+            ->with('giftwrapping')
+            ->will($this->returnValue($giftWrappingInfo));
+
+        $quoteMock->expects($this->once())->method('getShippingAddress')->will($this->returnValue(false));
+        $quoteMock->expects($this->once())->method('addData')->will($this->returnSelf());
+        $quoteMock->expects($this->never())->method('getAddressById');
+        $this->_model->checkoutProcessWrappingInfo($observer);
+    }
+
+    public function testCheckoutProcessWrappingInfoQuoteItem()
+    {
+        $giftWrappingInfo = ['quote_item' => [1 => ['some data']]];
+        $requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $event = new \Magento\Framework\Event(['request' => $requestMock, 'quote' => $quoteMock]);
+        $observer = new \Magento\Framework\Object(['event' => $event]);
+
+        $requestMock->expects($this->once())
+            ->method('getParam')
+            ->with('giftwrapping')
+            ->will($this->returnValue($giftWrappingInfo));
+
+        $quoteMock->expects($this->once())->method('getItemById')->will($this->returnSelf());
+        $this->_model->checkoutProcessWrappingInfo($observer);
+    }
+
+    public function testCheckoutProcessWrappingInfoQuoteAddress()
+    {
+        $giftWrappingInfo = ['quote_address' => [1 => ['some data']]];
+        $requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $event = new \Magento\Framework\Event(['request' => $requestMock, 'quote' => $quoteMock]);
+        $observer = new \Magento\Framework\Object(['event' => $event]);
+
+        $requestMock->expects($this->once())
+            ->method('getParam')
+            ->with('giftwrapping')
+            ->will($this->returnValue($giftWrappingInfo));
+
+        $quoteMock->expects($this->once())->method('getAddressById')->will($this->returnSelf());
+        $quoteMock->expects($this->once())->method('getShippingAddress')->will($this->returnValue(false));
+        $quoteMock->expects($this->once())->method('addData')->will($this->returnSelf());
+        $this->_model->checkoutProcessWrappingInfo($observer);
+    }
+
+    public function testCheckoutProcessWrappingInfoQuoteAddressItem()
+    {
+        $giftWrappingInfo = ['quote_address_item' => [1 => ['some data']]];
+        $requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $event = new \Magento\Framework\Event(['request' => $requestMock, 'quote' => $quoteMock]);
+        $observer = new \Magento\Framework\Object(['event' => $event]);
+
+        $requestMock->expects($this->at(0))
+            ->method('getParam')
+            ->with('giftwrapping')
+            ->will($this->returnValue($giftWrappingInfo));
+
+        $requestMock->expects($this->at(1))
+            ->method('getParam')
+            ->with('giftoptions')
+            ->will($this->returnValue(['quote_address_item' => [1 => ['address' => 'some address']]]));
+
+        $quoteMock->expects($this->once())->method('getAddressById')->will($this->returnSelf());
+        $quoteMock->expects($this->once())->method('getItemById')->will($this->returnSelf());
+        $this->_model->checkoutProcessWrappingInfo($observer);
+    }
+
+    public function testCheckoutProcessWrappingInfoEmpty()
+    {
+        $requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
+        $event = new \Magento\Framework\Event(['request' => $requestMock]);
+        $observerMock = $this->getMock('\Magento\Framework\Object', ['getEvent'], [], '', false);
+        $observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
+
+        $requestMock->expects($this->once())
+            ->method('getParam')
+            ->with('giftwrapping')
+            ->will($this->returnValue(false));
+        $this->assertEquals($this->_model, $this->_model->checkoutProcessWrappingInfo($observerMock));
+    }
+
+    /**
+     * @dataProvider checkoutProcessWrappingInfoWrongDataProvider
+     * @param $giftWrappingInfo
+     * @param $expectedMessage
+     */
+    public function testCheckoutProcessWrappingInfoWrongData($giftWrappingInfo, $expectedMessage)
+    {
+        $requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
+        $event = new \Magento\Framework\Event(['request' => $requestMock]);
+        $observer = new \Magento\Framework\Object(['event' => $event]);
+
+        $requestMock->expects($this->once())
+            ->method('getParam')
+            ->with('giftwrapping')
+            ->will($this->returnValue($giftWrappingInfo));
+        $this->setExpectedException('InvalidArgumentException', $expectedMessage);
+        $this->_model->checkoutProcessWrappingInfo($observer);
+    }
+
+    public function checkoutProcessWrappingInfoWrongDataProvider()
+    {
+        return [
+            'empty type' => [['empty_type' => false], 'Invalid entity by index empty_type'],
+            'invalid type' => [['invalid_type' => ['a' => 'b']], 'Invalid wrapping type:invalid_type'],
+        ];
+    }
+
     /**
      * @param float $amount
      * @dataProvider addPaymentGiftWrappingItemTotalCardDataProvider
