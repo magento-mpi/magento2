@@ -43,6 +43,8 @@ class AssertCustomVariableForm extends AbstractAssertForm
      * @param Store $storeOrigin
      * @param SystemVariable $customVariableOrigin
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         SystemVariable $customVariable,

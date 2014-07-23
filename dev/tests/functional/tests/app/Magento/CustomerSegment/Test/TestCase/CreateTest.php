@@ -42,7 +42,6 @@ class CreateTest extends Functional
         // Start Customer Segment test
         // data
         $customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentGeneralProperties();
-        $conditionsFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions();
         // pages & blocks
         $customerSegmentPage = Factory::getPageFactory()->getCustomersegmentIndex();
         $customerSegmentCreatePage = Factory::getPageFactory()->getCustomersegmentIndexNew();

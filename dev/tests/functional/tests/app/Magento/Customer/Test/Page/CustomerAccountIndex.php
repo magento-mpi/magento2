@@ -29,7 +29,7 @@ class CustomerAccountIndex extends FrontendPage
         'dashboardAddress' => [
             'name' => 'dashboardAddress',
             'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Address',
-            'locator' => '.block.block-dashboard-addresses',
+            'locator' => '.block-dashboard-addresses',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
