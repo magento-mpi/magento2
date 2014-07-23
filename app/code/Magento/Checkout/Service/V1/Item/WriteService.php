@@ -11,6 +11,7 @@ namespace Magento\Checkout\Service\V1\Item;
 use Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Checkout\Service\V1\Data\Cart\ItemBuilder as ItemBuilder;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\InputException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -57,6 +58,10 @@ class WriteService implements WriteServiceInterface
      */
     public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Cart\Item $data)
     {
+        $qty = $data->getQty();
+        if (!is_int($qty) || $qty <= 0) {
+            throw InputException::invalidFieldValue('qty', $qty);
+        }
         $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $storeId);
@@ -64,7 +69,31 @@ class WriteService implements WriteServiceInterface
         $product = $this->productLoader->load($data->getSku());
 
         try {
-            $quote->addProduct($product, $data->getQty());
+            $quote->addProduct($product, $qty);
+            $quote->collectTotals()->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not add item to quote');
+        }
+        return true;
+    }
+
+    public function updateItem($cartId, $itemSku, \Magento\Checkout\Service\V1\Data\Cart\Item $data)
+    {
+        $qty = $data->getQty();
+        if (!is_int($qty) || $qty <= 0) {
+            throw InputException::invalidFieldValue('qty', $qty);
+        }
+        $storeId = $this->storeManager->getStore()->getId();
+        /** @var  \Magento\Sales\Model\Quote $quote */
+        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $product = $this->productLoader->load($itemSku);
+        $quoteItem = $quote->getItemByProduct($product);
+        if (!$quoteItem) {
+            throw new NoSuchEntityException("This product don't associated with current cartId = $cartId");
+        }
+        $quoteItem->setData('qty', $data->getQty());
+
+        try {
             $quote->collectTotals()->save();
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not add item to quote');

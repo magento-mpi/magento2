@@ -35,8 +35,8 @@ class WriteServiceTest extends WebapiAbstract
     public function testAddItem()
     {
         $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
-        $product= $this->objectManager->create('Magento\Catalog\Model\Product');
-        $productSku = $product->load(1)->getSku();
+        $product= $this->objectManager->create('Magento\Catalog\Model\Product')->load(2);
+        $productSku = $product->getSku();
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $checkoutSession->getQuote();
         $cartId = $quote->getId();
@@ -56,12 +56,12 @@ class WriteServiceTest extends WebapiAbstract
             "cartId" => $cartId,
             "data" => [
                 "sku" => $productSku,
-                "qty" => 5
+                "qty" => 7
             ]
         ];
         $this->assertEquals(true, $this->_webApiCall($serviceInfo, $requestData));
-        $quote = $this->objectManager->create('Magento\Sales\Model\Quote')->load($cartId);
-        $this->assertTrue($quote->hasProductId(1));
+        $this->assertTrue($quote->hasProductId(2));
+        $this->assertEquals(7, $quote->getItemByProduct($product)->getQty());
     }
 
     /**
@@ -92,7 +92,41 @@ class WriteServiceTest extends WebapiAbstract
             "itemSku" => $productSku
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
-        $quote = $this->objectManager->create('Magento\Sales\Model\Quote')->load($cartId);
         $this->assertFalse($quote->hasProductId(1));
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_simple_product.php
+     */
+    public function testUpdateItem()
+    {
+        $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
+        $product= $this->objectManager->create('Magento\Catalog\Model\Product')->load(1);
+        $productSku = $product->getSku();
+        /** @var \Magento\Sales\Model\Quote  $quote */
+        $quote = $checkoutSession->getQuote();
+        $cartId = $quote->getId();
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . $cartId . '/items/' . $productSku,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'UpdateItem',
+            ),
+        );
+
+        $requestData = [
+            "cartId" => $cartId,
+            "itemSku" => $productSku,
+            "data" => [
+                "qty" => 5
+                ]
+        ];
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $this->assertTrue($quote->hasProductId(1));
+        $this->assertEquals(5, $quote->getItemByProduct($product)->getQty());
     }
 }
