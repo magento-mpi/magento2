@@ -30,10 +30,10 @@ use Mtf\TestCase\Injectable;
  * 4. Click on the "Delete" button
  * 5. Perform appropriate assertions.
  *
- * @group  Reward_Points_(CS)
+ * @group Reward_Points_(CS)
  * @ZephyrId MAGETWO-26344
  */
-class ExchangeRateDeletionForRewardPointsEntityTest extends Injectable
+class DeleteExchangeRateRewardPointEntityTest extends Injectable
 {
     /**
      * ExchangeRateIndex page

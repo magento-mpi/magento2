@@ -26,6 +26,13 @@ class Reward extends Block
     protected $subscriptionForm = '#form-validate';
 
     /**
+     * Reward info selector
+     *
+     * @var string
+     */
+    protected $rewardInfo = '.reward-rates';
+
+    /**
      * Return reward points subscription form
      *
      * @return Subscription
@@ -49,13 +56,6 @@ class Reward extends Block
         $this->getSubscriptionForm()->fill($reward);
         $this->getSubscriptionForm()->clickSaveButton();
     }
-
-    /**
-     * Reward info selector
-     *
-     * @var string
-     */
-    protected $rewardInfo = '.reward-rates';
 
     /**
      * Returns Reward points balance Information

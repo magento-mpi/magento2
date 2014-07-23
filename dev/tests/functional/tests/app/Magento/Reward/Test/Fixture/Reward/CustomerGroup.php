@@ -14,6 +14,7 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CustomerGroup
+ * Prepare data for customer_group_id field in reward fixture
  *
  * Data keys:
  *  - dataSet

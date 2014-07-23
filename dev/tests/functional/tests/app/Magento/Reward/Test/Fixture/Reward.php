@@ -28,7 +28,7 @@ class Reward extends InjectableFixture
 
     protected $defaultDataSet = [
         'website_id' => 'Main Website',
-        'customer_group_id' => 'All Customer Groups',
+        'customer_group_id' => ['dataSet' => 'All Customer Groups'],
         'direction' => 'Points to Currency',
         'value' => 10,
         'equal_value' => 1

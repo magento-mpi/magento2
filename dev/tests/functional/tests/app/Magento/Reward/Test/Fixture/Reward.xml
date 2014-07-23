@@ -94,7 +94,6 @@
             <attribute_code>reward_warning_notification</attribute_code>
             <backend_type>virtual</backend_type>
         </reward_warning_notification>
-<<<<<<< HEAD
         <value>
             <attribute_code>value</attribute_code>
             <backend_type>virtual</backend_type>
@@ -106,7 +105,4 @@
     </fields>
     <repository_class>Magento\Reward\Test\Repository\Reward</repository_class>
     <handler_interface>Magento\Reward\Test\Handler\Reward\RewardInterface</handler_interface>
-=======
-    </fields>
->>>>>>> remotes/origin/develop
 </fixture>
