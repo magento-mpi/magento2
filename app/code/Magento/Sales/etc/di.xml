@@ -12,6 +12,8 @@
     <preference for="Magento\Sales\Service\V1\OrderCancelInterface" type="Magento\Sales\Service\V1\OrderCancel"/>
     <preference for="Magento\Sales\Service\V1\OrderListInterface" type="Magento\Sales\Service\V1\OrderList"/>
     <preference for="Magento\Sales\Service\V1\OrderGetStatusInterface" type="Magento\Sales\Service\V1\OrderGetStatus"/>
+    <preference for="Magento\Sales\Service\V1\OrderHoldInterface" type="Magento\Sales\Service\V1\OrderHold"/>
+    <preference for="Magento\Sales\Service\V1\OrderUnHoldInterface" type="Magento\Sales\Service\V1\OrderUnHold"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>
