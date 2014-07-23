@@ -10,6 +10,8 @@ namespace Magento\Bundle\Service\V1\Product\Option;
 interface WriteServiceInterface
 {
     /**
+     * Remove bundle option
+     *
      * @param string $productSku
      * @param int $optionId
      * @return bool
