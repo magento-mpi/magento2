@@ -14,6 +14,7 @@ interface WriteServiceInterface
      * @param \Magento\Checkout\Service\V1\Data\Cart\Item $data
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Cart\Item $data);
 }

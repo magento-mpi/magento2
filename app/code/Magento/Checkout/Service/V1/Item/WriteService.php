@@ -65,10 +65,6 @@ class WriteService implements WriteServiceInterface
 
         try {
             $quote->addProduct($product, $data->getQty());
-        } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not add item to quote');
-        }
-        try {
             $quote->collectTotals()->save();
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not add item to quote');
