@@ -102,7 +102,7 @@ class Survey implements \Magento\Framework\App\Notification\MessageInterface
             )
         );
         return __(
-            'We appreciate our merchants\' feedback. Please <a href="#" data-mage-init=%1>take our survey</a> and tell us about features you\'d like to see in Magento.',
+            'We appreciate our merchants\' feedback. Please <a href="#" data-mage-init="%1">take our survey</a> and tell us about features you\'d like to see in Magento.',
             json_encode($params, JSON_FORCE_OBJECT)
         );
     }

@@ -19,7 +19,7 @@ class Survey
     /**
      * @var string
      */
-    protected $_flagCode = 'installation_survey';
+    protected $_flagCode = 'install_survey';
 
     /**
      * @var \Magento\Framework\Flag
