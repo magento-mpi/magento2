@@ -8,7 +8,7 @@
 namespace Magento\Bundle\Service\V1\Product\Option\Type;
 
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Bundle\Service\V1\Data\Option\Type\Metadata;
+use Magento\Bundle\Service\V1\Data\Product\Option\Type;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,46 +20,52 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Bundle\Model\Source\Option\Type|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $optionType;
+    private $typeModel;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Data\Option\Type\MetadataBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Bundle\Service\V1\Data\Product\Option\TypeConverter|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $metadataBuilder;
+    private $typeConverter;
+
+    /**
+     * @var \Magento\Bundle\Service\V1\Data\Product\Option\Type|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $type;
 
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
 
-        $this->optionType = $this->getMockBuilder('Magento\Bundle\Model\Source\Option\Type')
+        $this->typeModel = $this->getMockBuilder('Magento\Bundle\Model\Source\Option\Type')
             ->setMethods(['toOptionArray'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->metadataBuilder = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Option\Type\MetadataBuilder')
-            ->setMethods(['populateWithArray', 'create'])
+        $this->typeConverter = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Option\TypeConverter')
+            ->setMethods(['createDataFromModel'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->type = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\Option\Type')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->model = $objectManager->getObject(
             'Magento\Bundle\Service\V1\Product\Option\Type\ReadService',
-            ['type' => $this->optionType, 'metadataBuilder' => $this->metadataBuilder]
+            ['type' => $this->typeModel, 'typeConverter' => $this->typeConverter]
         );
     }
 
     public function testGetTypes()
     {
-        $metadata = 'OptionTypeMetadata';
         $label = 'someLabel';
         $value = 'someValue';
-        $this->optionType->expects($this->once())->method('toOptionArray')
+        $this->typeModel->expects($this->once())->method('toOptionArray')
             ->will($this->returnValue([['label' => $label, 'value' => $value]]));
 
-        $this->metadataBuilder->expects($this->once())->method('populateWithArray')
-            ->with($this->equalTo([Metadata::LABEL => $label, Metadata::CODE => $value]))
-            ->will($this->returnValue($this->metadataBuilder));
-        $this->metadataBuilder->expects($this->once())->method('create')->will($this->returnValue($metadata));
+        $this->typeConverter->expects($this->once())->method('createDataFromModel')
+            ->will($this->returnValue($this->type));
 
-        $this->assertEquals([$metadata], $this->model->getTypes());
+        $this->assertEquals([$this->type], $this->model->getTypes());
     }
 }
