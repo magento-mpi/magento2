@@ -78,6 +78,9 @@ class WriteService implements WriteServiceInterface
      */
     public function delete($categoryId)
     {
+        if (\Magento\Catalog\Model\Category::TREE_ROOT_ID == $categoryId) {
+            throw new CouldNotSaveException('Cannot remove the system category.');
+        }
         /** @var Category $category */
         $category = $this->loadCategory($categoryId);
 
@@ -115,10 +118,11 @@ class WriteService implements WriteServiceInterface
         $model = $this->loadCategory($categoryId);
         $parentCategory = $this->loadCategory($parentId);
 
-        if (is_null($afterId) && $parentCategory->hasChildren()) {
+        if ($parentCategory->hasChildren()) {
             $parentChildren = $parentCategory->getChildren();
             $categoryIds = explode(',', $parentChildren);
-            $afterId = array_pop($categoryIds);
+            $lastId = array_pop($categoryIds);
+            $afterId = (is_null($afterId) || $afterId > $lastId) ? $lastId : $afterId;
         }
 
         if (strpos($parentCategory->getPath(), $model->getPath()) === 0) {

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Data\Eav\Category;
+namespace Magento\Catalog\Service\V1\Data\Category;
 
 /**
  * @codeCoverageIgnore
