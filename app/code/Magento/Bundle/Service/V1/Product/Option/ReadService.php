@@ -43,18 +43,18 @@ class ReadService implements ReadServiceInterface
         $productTypeInstance = $product->getTypeInstance();
         $optionCollection = $productTypeInstance->getOptionsCollection($product);
 
-        /** @var \Magento\Bundle\Service\V1\Data\Option\Metadata $optionMetadataList */
-        $optionMetadataList = null;
+        /** @var \Magento\Bundle\Service\V1\Data\Option\Metadata $optionMetadata */
+        $optionMetadata = null;
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
             if ($option->getId() == $optionId) {
-                $optionMetadataList = $this->metadataConverter->createDataFromModel($option, $product);
+                $optionMetadata = $this->metadataConverter->createDataFromModel($option, $product);
             }
         }
-        if ($optionMetadataList === null) {
+        if ($optionMetadata === null) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
-        return $optionMetadataList;
+        return $optionMetadata;
     }
 
     /**
