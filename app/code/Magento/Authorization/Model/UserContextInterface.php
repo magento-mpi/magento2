@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authz\Model;
+
+namespace Magento\Authorization\Model;
 
 /**
  * Interface for current user identification.
  */
-interface UserLocatorInterface
+interface UserContextInterface
 {
     /**
      * Identify current user ID.
