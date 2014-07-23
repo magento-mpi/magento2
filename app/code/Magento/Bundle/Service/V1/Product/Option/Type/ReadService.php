@@ -7,26 +7,30 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Option\Type;
 
-use Magento\Bundle\Model\Source\Option\Type;
-use Magento\Bundle\Service\V1\Data\Option\Type\Metadata;
-use Magento\Bundle\Service\V1\Data\Option\Type\MetadataBuilder;
+use Magento\Bundle\Model\Source\Option\Type as TypeModel;
+use Magento\Bundle\Service\V1\Data\Product\Option\Type;
+use Magento\Bundle\Service\V1\Data\Product\Option\TypeConverter;
 
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var Type
+     * @var TypeModel
      */
     private $type;
 
     /**
-     * @var MetadataBuilder
+     * @var TypeConverter
      */
-    private $metadataBuilder;
+    private $typeConverter;
 
-    public function __construct(Type $type, MetadataBuilder $metadataBuilder)
+    /**
+     * @param TypeModel $type
+     * @param TypeConverter $typeConverter
+     */
+    public function __construct(TypeModel $type, TypeConverter $typeConverter)
     {
         $this->type = $type;
-        $this->metadataBuilder = $metadataBuilder;
+        $this->typeConverter = $typeConverter;
     }
 
     /**
@@ -36,14 +40,10 @@ class ReadService implements ReadServiceInterface
     {
         $optionList = $this->type->toOptionArray();
 
-        /** @var Metadata[] $typeMetadataList */
+        /** @var Type[] $typeMetadataList */
         $typeMetadataList = [];
         foreach ($optionList as $option) {
-            $typeArray = [
-                Metadata::LABEL => __($option['label']),
-                Metadata::CODE => $option['value']
-            ];
-            $typeMetadataList[] = $this->metadataBuilder->populateWithArray($typeArray)->create();
+            $typeMetadataList[] = $this->typeConverter->createDataFromModel($option);
         }
         return $typeMetadataList;
     }

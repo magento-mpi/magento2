@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Option;
 
-use Magento\Bundle\Service\V1\Data\Option\MetadataConverter;
+use Magento\Bundle\Service\V1\Data\Product\OptionConverter;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -21,12 +21,12 @@ class ReadService implements ReadServiceInterface
     private $productRepository;
 
     /**
-     * @var MetadataConverter
+     * @var OptionConverter
      */
     private $metadataConverter;
 
     public function __construct(
-        MetadataConverter $metadataConverter,
+        OptionConverter $metadataConverter,
         ProductRepository $productRepository
     ) {
         $this->metadataConverter = $metadataConverter;
@@ -43,7 +43,7 @@ class ReadService implements ReadServiceInterface
         $productTypeInstance = $product->getTypeInstance();
         $optionCollection = $productTypeInstance->getOptionsCollection($product);
 
-        /** @var \Magento\Bundle\Service\V1\Data\Option\Metadata $optionMetadata */
+        /** @var \Magento\Bundle\Service\V1\Data\Product\Option $optionMetadata */
         $optionMetadata = null;
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
@@ -67,7 +67,7 @@ class ReadService implements ReadServiceInterface
         $productTypeInstance = $product->getTypeInstance();
         $optionCollection = $productTypeInstance->getOptionsCollection($product);
 
-        /** @var \Magento\Bundle\Service\V1\Data\Option\Metadata[] $optionMetadataList */
+        /** @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionMetadataList */
         $optionMetadataList = [];
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {

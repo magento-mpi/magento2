@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Service\V1\Data\Option\Type;
+namespace Magento\Bundle\Service\V1\Data\Product\Option;
 
 use \Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * @codeCoverageIgnore
  */
-class Metadata extends AbstractObject
+class Type extends AbstractObject
 {
     const LABEL = 'label';
 

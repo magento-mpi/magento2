@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Service\V1\Data\Option;
+namespace Magento\Bundle\Service\V1\Data\Product;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 /**
  * @codeCoverageIgnore
  */
-class MetadataBuilder extends AbstractObjectBuilder
+class OptionBuilder extends AbstractObjectBuilder
 {
     /**
      * Set option id
@@ -22,7 +22,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setId($value)
     {
-        return $this->_set(Metadata::ID, $value);
+        return $this->_set(Option::ID, $value);
     }
 
     /**
@@ -33,7 +33,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setTitle($value)
     {
-        return $this->_set(Metadata::TITLE, $value);
+        return $this->_set(Option::TITLE, $value);
     }
 
     /**
@@ -44,7 +44,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setRequired($value)
     {
-        return $this->_set(Metadata::REQUIRED, $value);
+        return $this->_set(Option::REQUIRED, $value);
     }
 
     /**
@@ -55,7 +55,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setType($value)
     {
-        return $this->_set(Metadata::TYPE, $value);
+        return $this->_set(Option::TYPE, $value);
     }
 
     /**
@@ -66,17 +66,17 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setPosition($value)
     {
-        return $this->_set(Metadata::POSITION, $value);
+        return $this->_set(Option::POSITION, $value);
     }
 
     /**
-     * Set product
+     * Set product sku
      *
      * @param string $value
      * @return $this
      */
     public function setSku($value)
     {
-        return $this->_set(Metadata::SKU, $value);
+        return $this->_set(Option::SKU, $value);
     }
 }

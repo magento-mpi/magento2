@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Service\V1\Data\Option\Type;
+namespace Magento\Bundle\Service\V1\Data\Product\Option;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 /**
  * @codeCoverageIgnore
  */
-class MetadataBuilder extends AbstractObjectBuilder
+class TypeBuilder extends AbstractObjectBuilder
 {
     /**
      * Set type label
@@ -22,7 +22,7 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setLabel($value)
     {
-        return $this->_set(Metadata::LABEL, $value);
+        return $this->_set(Type::LABEL, $value);
     }
 
     /**
@@ -33,6 +33,6 @@ class MetadataBuilder extends AbstractObjectBuilder
      */
     public function setCode($value)
     {
-        return $this->_set(Metadata::CODE, $value);
+        return $this->_set(Type::CODE, $value);
     }
 }
