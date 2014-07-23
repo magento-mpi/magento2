@@ -18,7 +18,7 @@ $quoteShippingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManage
 $addressService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
 );
-$quoteShippingAddress->importCustomerAddressData($addressService->getAddressById(1));
+$quoteShippingAddress->importCustomerAddressData($addressService->getAddress(1));
 
 /** @var \Magento\Sales\Model\Quote $quote */
 $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
@@ -38,6 +38,8 @@ $quote->setStoreId(
     $customer->getMode()
 )->setPasswordHash(
     $customer->encryptPassword($customer->getPassword())
+)->setReservedOrderId(
+    'test_order_1'
 )->addProduct(
     $product->load($product->getId()),
     2

@@ -8,11 +8,11 @@
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
- * Customer address data object builder
+ * Quote address data object builder
  *
  * @codeCoverageIgnore
   */
-class AddressBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class AddressBuilder extends \Magento\Customer\Service\V1\Data\AddressBuilder
 {
 
 }

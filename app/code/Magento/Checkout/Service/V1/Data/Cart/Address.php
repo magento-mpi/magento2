@@ -8,11 +8,11 @@
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
- * Customer billing/shipping address data
+ * Quote billing/shipping address data
  *
  * @codeCoverageIgnore
  */
-class Address extends \Magento\Framework\Service\Data\AbstractObject
+class Address extends \Magento\Customer\Service\V1\Data\Address
 {
 
 }
