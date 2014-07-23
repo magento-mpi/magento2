@@ -8,7 +8,11 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
-class PublicCookieMetadata extends AbstractCookieMetadata
+/**
+ * Class PublicCookieMetadata
+ *
+ */
+class PublicCookieMetadata extends AbstractCookieMetaData
 {
     /**#@+
      * Constant for metadata value key.
@@ -19,7 +23,7 @@ class PublicCookieMetadata extends AbstractCookieMetadata
     /**#@-*/
 
     /**
-     * Set cookie duration in seconds.
+     * Set the number of seconds until the cookie expires
      *
      * The cookie duration can be translated into an expiration date at the time the cookie is sent.
      *
@@ -32,7 +36,7 @@ class PublicCookieMetadata extends AbstractCookieMetadata
     }
 
     /**
-     * Get cookie duration in seconds.
+     * Get the number of seconds until the cookie expires
      *
      * The cookie duration can be translated into an expiration date at the time the cookie is sent.
      *

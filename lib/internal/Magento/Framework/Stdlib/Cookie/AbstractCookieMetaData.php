@@ -5,10 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\Stdlib\Cookie;
 
-abstract class AbstractCookieMetadata
+/**
+ * Class AbstractCookieMetaData
+ *
+ */
+abstract class AbstractCookieMetaData
 {
     /**#@+
      * Constant for metadata value key.
@@ -16,7 +19,7 @@ abstract class AbstractCookieMetadata
     const KEY_DOMAIN = 'domain';
     const KEY_PATH = 'path';
     /**#@-*/
-
+    
     /**
      * Store the metadata in array format to distinguish between null values and no value set.
      *

@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
+use Magento\Framework\Stdlib\CookieManager;
+
 /**
  * CookieManager helps manage the setting, retrieving and deleting of cookies.
  *
@@ -78,7 +80,7 @@ class PhpCookieManager implements CookieManager
      */
     public function getCookie($name, $default = null)
     {
-        // TODO: Implement getCookie() method.
+        return (isset($_COOKIE[$name])) ? $_COOKIE[$name] : $default;
     }
 
     /**
