@@ -25,7 +25,7 @@ class OrderUnHoldTest extends WebapiAbstract
         /** @var \Magento\Sales\Model\Order $order */
         $order = $objectManager->get('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
         if ($order->canHold()) {
-            $order->hold();
+            $order->hold()->save();
         }
         $serviceInfo = [
             'rest' => [
