@@ -41,11 +41,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods([''])
+            ->setMethods(['__wakeup', 'getTypeId'])
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->productRepository->expects($this->any())->method('get')->will($this->returnValue($this->product));
 
         $this->model = $objectManager->getObject(
             'Magento\Bundle\Service\V1\Product\Option\ReadService',
@@ -53,11 +51,21 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGet()
+    /**
+     * @expectedException \Magento\Webapi\Exception
+     * @expectedExceptionCode 403
+     */
+    public function testGetListWebApiException()
     {
         $productSku = 'oneSku';
-        $optionId = 333;
 
-        $this->assertEquals('', $this->model->get($productSku, $optionId));
+        $this->productRepository->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->product));
+
+        $this->product->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE));
+
+        $this->model->getList($productSku);
     }
 }
