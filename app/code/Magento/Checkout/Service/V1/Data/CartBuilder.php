@@ -81,6 +81,28 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
+     * Set virtual flag(if cart contains virtual products)
+     *
+     * @param bool|null $value
+     * @return $this
+     */
+    public function setIsVirtual($value)
+    {
+        return $this->_set(Cart::IS_VIRTUAL, $value);
+    }
+
+    /**
+     * Set cart items
+     *
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Item[] $value
+     * @return $this
+     */
+    public function setItems($value)
+    {
+        return $this->_set(Cart::ITEMS, $value);
+    }
+
+    /**
      * Set items count(amount of different products)
      *
      * @param int $value
@@ -127,7 +149,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set shipping address data object
      *
-     * @param $value
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Address $value
      * @return $this
      */
     public function setShippingAddress($value)
@@ -138,7 +160,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set billing address data object
      *
-     * @param $value
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Address $value
      * @return $this
      */
     public function setBillingAddress($value)

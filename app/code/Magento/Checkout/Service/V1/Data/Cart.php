@@ -114,6 +114,21 @@ class Cart extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Get virtual flag(cart contains virtual products)
+     *
+     * @return bool|null
+     */
+    public function getIsVirtual()
+    {
+        $value = $this->_get(self::IS_VIRTUAL);
+        if (!is_null($value)) {
+            $value = (bool)$value;
+        }
+
+        return $value;
+    }
+
+    /**
      * Get cart items
      *
      * @return \Magento\Checkout\Service\V1\Data\Cart\Item[]|null
