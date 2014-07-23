@@ -23,4 +23,16 @@
             <reward class="Magento\Reward\Test\Fixture\Reward" />
         </require>
     </assertRewardSubscriptionOnBackend>
+    <assertRateSuccessSaveMessage module="Magento_Reward">
+        <severeness>high</severeness>
+    </assertRateSuccessSaveMessage>
+    <assertRewardPointsMessageOnCustomerRegistration module="Magento_Reward">
+        <severeness>high</severeness>
+    </assertRewardPointsMessageOnCustomerRegistration>
+    <assertRewardPointsBalance module="Magento_Reward">
+        <severeness>low</severeness>
+    </assertRewardPointsBalance>
+    <assertRewardPointsMessageOnShoppingCart module="Magento_Reward">
+        <severeness>low</severeness>
+    </assertRewardPointsMessageOnShoppingCart>
 </constraint>

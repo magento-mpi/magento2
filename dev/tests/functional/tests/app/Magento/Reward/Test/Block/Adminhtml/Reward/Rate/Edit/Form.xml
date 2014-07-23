@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <wrapper>rate</wrapper>
+    <fields>
+        <website_id>
+            <input>select</input>
+        </website_id>
+        <customer_group_id>
+            <input>select</input>
+        </customer_group_id>
+        <direction>
+            <input>select</input>
+        </direction>
+        <points>
+            <selector>#rate_value</selector>
+        </points>
+        <currency_amount>
+            <selector>#rate_equal_value</selector>
+        </currency_amount>
+    </fields>
+</mapping>
