@@ -7,6 +7,8 @@
  */
 namespace Magento\Authz\Model;
 
+use Magento\Authorization\Model\UserContextInterface;
+
 /**
  * User identifier class. By user can be understood admin, customer, guest, web API integration.
  */
@@ -40,15 +42,15 @@ class UserIdentifier
     /**
      * Initialize user type and user id.
      *
-     * @param UserLocatorInterface $userLocator Locator of active user.
+     * @param UserContextInterface $userContext Context of active user.
      * @param string|null $userType
      * @param int|null $userId
      * @throws \LogicException
      */
-    public function __construct(UserLocatorInterface $userLocator, $userType = null, $userId = null)
+    public function __construct(UserContextInterface $userContext, $userType = null, $userId = null)
     {
-        $userType = isset($userType) ? $userType : $userLocator->getUserType();
-        $userId = isset($userId) ? $userId : $userLocator->getUserId();
+        $userType = isset($userType) ? $userType : $userContext->getUserType();
+        $userId = isset($userId) ? $userId : $userContext->getUserId();
         if ($userType == self::USER_TYPE_GUEST && $userId) {
             throw new \LogicException('Guest user must not have user ID set.');
         }

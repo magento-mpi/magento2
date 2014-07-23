@@ -8,12 +8,12 @@
 namespace Magento\Authz\Model\UserLocator;
 
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Authz\Model\UserLocatorInterface;
+use Magento\Authorization\Model\UserContextInterface;
 
 /**
  * Guest user locator.
  */
-class Guest implements UserLocatorInterface
+class Guest implements UserContextInterface
 {
     /**
      * {@inheritdoc}

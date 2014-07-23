@@ -7,14 +7,14 @@
  */
 namespace Magento\Authz\Model\UserLocator;
 
-use Magento\Authz\Model\UserLocatorInterface;
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Backend\Model\Auth\Session as AdminSession;
 
 /**
  * Admin user locator.
  */
-class Admin implements UserLocatorInterface
+class Admin implements UserContextInterface
 {
     /**
      * @var AdminSession
