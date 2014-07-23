@@ -414,7 +414,7 @@ class Option extends Widget
             . ' name="' . $localName . '"' . 'id="' . $localId . '"'
             . ' value=""'
             . $checkedHtml
-            . ' onchange="toggleValueElements(this, [' . $containers . ']);" '
+            . ' onchange="toggleSeveralValueElements(this, [' . $containers . ']);" '
             . ' />'
             . '<label for="' . $localId . '" class="use-default">'
             . '<span class="use-default-label">' . __('Use Default') . '</span></label></div>';
