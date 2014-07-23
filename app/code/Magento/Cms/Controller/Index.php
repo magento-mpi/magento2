@@ -22,11 +22,6 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     public function indexAction($coreRoute = null)
     {
-        $orderService = $this->_objectManager->create('\Magento\Sales\Service\V1\OrderNotifyUser');
-        $res = $orderService->invoke(1);
-        \Zend_Debug::dump($res);
-        die();
-
         $pageId = $this->_objectManager->get(
             'Magento\Framework\App\Config\ScopeConfigInterface'
         )->getValue(
