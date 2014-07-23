@@ -10,17 +10,23 @@ namespace Magento\Bundle\Service\V1\Product\Option;
 interface ReadServiceInterface
 {
     /**
+     * Get option for bundle product
+     *
      * @param string $productSku
      * @param int $optionId
      * @return \Magento\Bundle\Service\V1\Data\Option\Metadata
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Webapi\Exception
      */
     public function get($productSku, $optionId);
 
     /**
+     * Get all options for bundle product
+     *
      * @param string $productSku
      * @return \Magento\Bundle\Service\V1\Data\Option\Metadata[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Webapi\Exception
      */
     public function getList($productSku);
 }
