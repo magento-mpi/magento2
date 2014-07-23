@@ -11,6 +11,9 @@ namespace Magento\Framework\Stdlib\Cookie;
 
 use Magento\Framework\ObjectManager;
 
+/**
+ * CookieMetadataFactory is used to construct SensitiveCookieMetadata and PublicCookieMetadata objects.
+ */
 class CookieMetadataFactory
 {
     /**
