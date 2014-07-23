@@ -40,9 +40,7 @@ class WebapiRoleLocator implements RoleLocator
     }
 
     /**
-     * Retrieve current role.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getAclRoleId()
     {
@@ -54,7 +52,7 @@ class WebapiRoleLocator implements RoleLocator
         $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
 
         if (!$role->getId()) {
-            return '';
+            return null;
         }
 
         return $role->getId();
