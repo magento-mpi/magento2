@@ -185,7 +185,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      */
     public function setReservedOrderId($value)
     {
-        return $this->_set(self::RESERVED_ORDER_ID,  $value);
+        return $this->_set(Cart::RESERVED_ORDER_ID,  $value);
     }
 
     /**
@@ -196,6 +196,6 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      */
     public function setOrigOrderId($value)
     {
-        return $this->_set(self::ORIG_ORDER_ID, $value);
+        return $this->_set(Cart::ORIG_ORDER_ID, $value);
     }
 }

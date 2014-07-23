@@ -22,7 +22,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setGlobalCurrencyCode($value)
     {
-        return $this->_set(self::GLOBAL_CURRENCY_CODE, $value);
+        return $this->_set(Currency::GLOBAL_CURRENCY_CODE, $value);
     }
 
     /**
@@ -33,7 +33,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setBaseCurrencyCode($value)
     {
-        return $this->_set(self::BASE_CURRENCY_CODE, $value);
+        return $this->_set(Currency::BASE_CURRENCY_CODE, $value);
     }
 
     /**
@@ -44,7 +44,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setStoreCurrencyCode($value)
     {
-        return $this->_set(self::STORE_CURRENCY_CODE, $value);
+        return $this->_set(Currency::STORE_CURRENCY_CODE, $value);
     }
 
     /**
@@ -55,7 +55,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setQuoteCurrencyCode($value)
     {
-        return $this->_set(self::QUOTE_CURRENCY_CODE, $value);
+        return $this->_set(Currency::QUOTE_CURRENCY_CODE, $value);
     }
 
     /**
@@ -66,7 +66,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setStoreToBaseRate($value)
     {
-        return $this->_set(self::STORE_TO_BASE_RATE, $value);
+        return $this->_set(Currency::STORE_TO_BASE_RATE, $value);
     }
 
     /**
@@ -77,7 +77,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setStoreToQuoteRate($value)
     {
-        return $this->_set(self::STORE_TO_QUOTE_RATE, $value);
+        return $this->_set(Currency::STORE_TO_QUOTE_RATE, $value);
     }
 
     /**
@@ -88,7 +88,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setBaseToGlobalRate($value)
     {
-        return $this->_set(self::BASE_TO_GLOBAL_RATE, $value);
+        return $this->_set(Currency::BASE_TO_GLOBAL_RATE, $value);
     }
 
     /**
@@ -99,6 +99,6 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setBaseToQuoteRate($value)
     {
-        return $this->_set(self::BASE_TO_QUOTE_RATE, $value);
+        return $this->_set(Currency::BASE_TO_QUOTE_RATE, $value);
     }
 }
