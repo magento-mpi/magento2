@@ -61,6 +61,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddUrlRewrite()
     {
+        $this->markTestIncomplete('@TODO: UrlRewrite');
         $this->_collection->addUrlRewrite(3);
         $expectedResult = array(
             'category-1/url-key.html',

@@ -26,6 +26,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLastUsedRewriteRequestIncrement()
     {
+        $this->markTestIncomplete('@TODO: UrlRewrite');
         $this->assertEquals(1000, $this->_model->getLastUsedRewriteRequestIncrement('url-key-', '.html', 1));
     }
 }
