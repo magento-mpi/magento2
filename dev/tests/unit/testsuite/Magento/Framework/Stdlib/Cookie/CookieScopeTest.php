@@ -10,6 +10,11 @@ namespace Magento\Framework\Stdlib\Cookie;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Test CookieScope
+ *
+ * @coversDefaultClass Magento\Framework\Stdlib\Cookie\CookieScope
+ */
 class CookieScopeTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -36,6 +41,9 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @covers ::getSensitiveCookieMetadata
+     */
     public function testGetSensitiveCookieMetadataEmpty()
     {
         $cookieScope = $this->createCookieScope();
@@ -43,6 +51,9 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $cookieScope->getSensitiveCookieMetadata()->__toArray());
     }
 
+    /**
+     * @covers ::getPublicCookieMetadata
+     */
     public function testGetPublicCookieMetadataEmpty()
     {
         $cookieScope = $this->createCookieScope();
@@ -50,6 +61,9 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $cookieScope->getPublicCookieMetadata()->__toArray());
     }
 
+    /**
+     * @covers ::createSensitiveMetadata ::getPublicCookieMetadata
+     */
     public function testGetSensitiveCookieMetadataDefaults()
     {
         $defaultValues = [
@@ -68,6 +82,9 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($defaultValues, $cookieScope->getSensitiveCookieMetadata()->__toArray());
     }
 
+    /**
+     * @covers ::createSensitiveMetadata ::getPublicCookieMetadata
+     */
     public function testGetPublicCookieMetadataDefaults()
     {
         $defaultValues = [
@@ -89,6 +106,9 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($defaultValues, $cookieScope->getPublicCookieMetadata()->__toArray());
     }
 
+    /**
+     * @covers ::createSensitiveMetadata ::getPublicCookieMetadata
+     */
     public function testGetSensitiveCookieMetadataOverrides()
     {
         $defaultValues = [
@@ -112,6 +132,9 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($overrideValues, $cookieScope->getSensitiveCookieMetadata($override)->__toArray());
     }
 
+    /**
+     * @covers ::createSensitiveMetadata ::getPublicCookieMetadata
+     */
     public function testGetPublicCookieMetadataOverrides()
     {
         $defaultValues = [
