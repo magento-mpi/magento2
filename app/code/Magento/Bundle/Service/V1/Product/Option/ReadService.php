@@ -23,13 +23,17 @@ class ReadService implements ReadServiceInterface
     /**
      * @var OptionConverter
      */
-    private $metadataConverter;
+    private $optionConverter;
 
+    /**
+     * @param OptionConverter $optionConverter
+     * @param ProductRepository $productRepository
+     */
     public function __construct(
-        OptionConverter $metadataConverter,
+        OptionConverter $optionConverter,
         ProductRepository $productRepository
     ) {
-        $this->metadataConverter = $metadataConverter;
+        $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
     }
 
@@ -43,18 +47,18 @@ class ReadService implements ReadServiceInterface
         $productTypeInstance = $product->getTypeInstance();
         $optionCollection = $productTypeInstance->getOptionsCollection($product);
 
-        /** @var \Magento\Bundle\Service\V1\Data\Product\Option $optionMetadata */
-        $optionMetadata = null;
+        /** @var \Magento\Bundle\Service\V1\Data\Product\Option $optionDto */
+        $optionDto = null;
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
             if ($option->getId() == $optionId) {
-                $optionMetadata = $this->metadataConverter->createDataFromModel($option, $product);
+                $optionDto = $this->optionConverter->createDataFromModel($option, $product);
             }
         }
-        if ($optionMetadata === null) {
+        if ($optionDto === null) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
-        return $optionMetadata;
+        return $optionDto;
     }
 
     /**
@@ -67,13 +71,13 @@ class ReadService implements ReadServiceInterface
         $productTypeInstance = $product->getTypeInstance();
         $optionCollection = $productTypeInstance->getOptionsCollection($product);
 
-        /** @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionMetadataList */
-        $optionMetadataList = [];
+        /** @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionDtoList */
+        $optionDtoList = [];
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
-            $optionMetadataList[] = $this->metadataConverter->createDataFromModel($option, $product);
+            $optionDtoList[] = $this->optionConverter->createDataFromModel($option, $product);
         }
-        return $optionMetadataList;
+        return $optionDtoList;
     }
 
     /**

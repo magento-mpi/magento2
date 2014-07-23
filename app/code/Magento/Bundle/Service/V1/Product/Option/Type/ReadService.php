@@ -40,11 +40,11 @@ class ReadService implements ReadServiceInterface
     {
         $optionList = $this->type->toOptionArray();
 
-        /** @var Type[] $typeMetadataList */
-        $typeMetadataList = [];
+        /** @var Type[] $typeDtoList */
+        $typeDtoList = [];
         foreach ($optionList as $option) {
-            $typeMetadataList[] = $this->typeConverter->createDataFromModel($option);
+            $typeDtoList[] = $this->typeConverter->createDataFromModel($option);
         }
-        return $typeMetadataList;
+        return $typeDtoList;
     }
 }
