@@ -17,11 +17,12 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\Price as ParentPrice;
  * Data keys:
  *  - preset (Price verification preset name)
  *  - value (Price value)
- *
  */
 class Price extends ParentPrice implements FixtureInterface
 {
     /**
+     * Presets for price
+     *
      * @return array|null
      */
     public function getPreset()
