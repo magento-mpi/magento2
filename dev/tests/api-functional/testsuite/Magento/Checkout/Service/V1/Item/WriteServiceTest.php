@@ -123,7 +123,7 @@ class WriteServiceTest extends WebapiAbstract
             "itemSku" => $productSku,
             "data" => [
                 "qty" => 5
-                ]
+            ]
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
         $this->assertTrue($quote->hasProductId(1));

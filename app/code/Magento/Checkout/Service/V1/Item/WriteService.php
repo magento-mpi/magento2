@@ -77,6 +77,9 @@ class WriteService implements WriteServiceInterface
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function updateItem($cartId, $itemSku, \Magento\Checkout\Service\V1\Data\Cart\Item $data)
     {
         $qty = $data->getQty();
@@ -96,7 +99,7 @@ class WriteService implements WriteServiceInterface
         try {
             $quote->collectTotals()->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not add item to quote');
+            throw new CouldNotSaveException('Could not update item to quote');
         }
         return true;
     }
@@ -107,7 +110,7 @@ class WriteService implements WriteServiceInterface
     public function removeItem($cartId, $itemSku)
     {
         $storeId = $this->storeManager->getStore()->getId();
-        /** @var  \Magento\Sales\Model\Quote $quote */
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $storeId);
         $product = $this->productLoader->load($itemSku);
         $quoteItem = $quote->getItemByProduct($product);
