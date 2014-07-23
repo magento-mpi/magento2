@@ -18,9 +18,19 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Class View
  * Product view block on the product page
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class View extends Block
 {
+    /**
+     * Custom options CSS selector
+     *
+     * @var string
+     */
+    protected $customOptionsSelector = '.product-options-wrapper';
+
     /**
      * 'Add to Cart' button
      *
@@ -54,7 +64,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productName = '.page-title .title';
+    protected $productName = '.page-title.product h1.title .base';
 
     /**
      * Product sku element
@@ -131,7 +141,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $priceBlockSelector = '//*[contains(@class,"price-box price-final_price") and p]';
+    protected $priceBlock = '.product-info-main .price-box';
 
     /**
      * 'Add to Compare' button
@@ -159,9 +169,7 @@ class View extends Block
      */
     protected function getPriceBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find($this->priceBlockSelector, Locator::SELECTOR_XPATH)
-        );
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice($this->_rootElement->find($this->priceBlock));
     }
 
     /**
@@ -262,6 +270,19 @@ class View extends Block
     }
 
     /**
+     * This method returns the custom options block.
+     *
+     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
+     */
+    public function getCustomOptionsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Product\View\CustomOptions',
+            ['element' => $this->_rootElement->find($this->customOptionsSelector)]
+        );
+    }
+
+    /**
      * Return product price displayed on page
      *
      * @return array|string Returns arrays with keys corresponding to fixture keys
@@ -347,7 +368,7 @@ class View extends Block
     public function fillOptions(FixtureInterface $product)
     {
         $configureButton = $this->_rootElement->find($this->customizeButton);
-        $configureSection = $this->_rootElement->find('.product.options.wrapper');
+        $configureSection = $this->_rootElement->find('.product-options-wrapper');
 
         if ($configureButton->isVisible()) {
             $configureButton->click();
@@ -356,7 +377,7 @@ class View extends Block
         }
         if ($configureSection->isVisible()) {
             $productOptions = $product->getProductOptions();
-            $this->getBundleBlock()->fillProductOptions($productOptions);
+            $this->getCustomOptionsBlock()->fillProductOptions($productOptions);
         }
     }
 

@@ -44,9 +44,5 @@ class CustomerSegment extends AbstractRepository
             'is_active' => 'Inactive',
             'apply_to' => 'Registered Customers',
         ];
-
-        $this->_data['retailer'] = [
-            'conditions_serialized' => '[Group|is|Retailer]',
-        ];
     }
 }

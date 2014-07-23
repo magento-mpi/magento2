@@ -42,17 +42,9 @@ class AssertGiftCardDuplicateForm extends AssertProductDuplicateForm
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
         $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->prepareFixtureData($product);
-        $giftcardAmounts = [];
-        foreach ($fixtureData['giftcard_amounts'] as $key => $amount) {
-            $giftcardAmounts[$key + 1]['price'] = $amount['price'];
-        }
-        $fixtureData['giftcard_amounts'] = $giftcardAmounts;
+        $fixtureData = $this->prepareFixtureData($product->getData());
 
-        $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertEmpty(
-            $errors,
-            "Duplicated gift card data is not equal to expected:\n" . implode("\n", $errors)
-        );
+        $errors = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 }

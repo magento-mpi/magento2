@@ -40,17 +40,4 @@ class CustomerForm extends Form
     {
         $this->_rootElement->find($this->saveButton)->click();
     }
-
-    /**
-     * Check if Customer custom Attribute visible
-     *
-     * @param CustomerCustomAttribute $customerAttribute
-     * @return bool
-     */
-    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
-    {
-        return $this->_rootElement->find(
-            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
-        )->isVisible();
-    }
 }

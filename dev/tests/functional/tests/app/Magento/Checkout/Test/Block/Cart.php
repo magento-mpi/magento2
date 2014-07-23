@@ -42,7 +42,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $itemSubTotalSelector = '//td[@class="col subtotal excl tax"]//span[@class="price"]';
+    protected $itemSubTotalSelector = '//td[@class="col subtotal excl tax"]//span[contains(@class,"price")]';
 
     /**
      * Cart item unit price xpath selector
@@ -56,7 +56,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
+    protected $cartProductPrice = './/tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
 
     /**
      * 'Update Shopping Cart' button
@@ -70,21 +70,21 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $productQty = '//input[@type="number" and @title="Qty"]';
+    protected $productQty = './/input[@type="number" and @title="Qty"]';
 
     /**
      * Cart item selector
      *
      * @var string
      */
-    protected $cartItem = '//tr[td//*[normalize-space(text()) = "%s"]]';
+    protected $cartItem = './/tr[td//*[contains(.,"%s")]]';
 
     /**
      * Get bundle options
      *
      * @var string
      */
-    protected $bundleOptions = '//dl[contains(@class, "cart item options")]/dd[%d]/span[@class="price"][%d]';
+    protected $bundleOptions = './/dl[contains(@class, "cart item options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
      * Get sub-total for the specified item in the cart
@@ -259,7 +259,7 @@ class Cart extends Block
         if ($product instanceof ConfigurableProduct) {
             $productOptions = $product->getProductOptions();
             if (!empty($productOptions)) {
-                $productName = $productName . ' ' . key($productOptions) . ' ' . current($productOptions);
+                $productName = $productName . '")] and *[contains(.,"' . current($productOptions);
             }
         }
         return $productName;

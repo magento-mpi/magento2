@@ -9,7 +9,7 @@
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Customer\Test\Page\CustomerAccountCreate;
+use Magento\CustomerCustomAttributes\Test\Page\CustomerAccountCreate;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**

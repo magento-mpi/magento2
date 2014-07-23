@@ -32,21 +32,14 @@ class Option extends Form
      *
      * @var string
      */
-    protected $selectionBlock = 'tr[id^="bundle_selection_row_"]:nth-child(%d)';
+    protected $selectionBlock = './/tr[contains(@id, "bundle_selection_row_")][not(@style="display: none;")][%d]';
 
     /**
-     * 'Add Products to Option' button
+     * Selector for 'Add Products to Option' button
      *
      * @var string
      */
     protected $addProducts = '[data-ui-id$=add-selection-button]';
-
-    /**
-     * Bundle option toggle
-     *
-     * @var string
-     */
-    protected $optionToggle = '[data-target$=content]';
 
     /**
      * Bundle option title
@@ -54,6 +47,13 @@ class Option extends Form
      * @var string
      */
     protected $title = '[name$="[title]"]';
+
+    /**
+     * Remove selection button selector
+     *
+     * @var string
+     */
+    protected $removeSelection = 'button.delete';
 
     /**
      * Get grid for assigning products for bundle option
@@ -78,20 +78,8 @@ class Option extends Form
     {
         return $this->blockFactory->create(
             'Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection',
-            ['element' => $this->_rootElement->find(sprintf($this->selectionBlock, $rowIndex))]
+            ['element' => $this->_rootElement->find(sprintf($this->selectionBlock, $rowIndex), Locator::SELECTOR_XPATH)]
         );
-    }
-
-    /**
-     * Expand block
-     *
-     * @return void
-     */
-    public function expand()
-    {
-        if (!$this->_rootElement->find($this->title)->isVisible()) {
-            $this->_rootElement->find($this->optionToggle)->click();
-        }
     }
 
     /**
@@ -106,6 +94,12 @@ class Option extends Form
     {
         $mapping = $this->dataMapping($fields);
         $this->_fill($mapping);
+        $selections = $this->_rootElement->find($this->removeSelection)->getElements();
+        if (count($selections)) {
+            foreach ($selections as $itemSelection) {
+                $itemSelection->click();
+            }
+        }
         foreach ($fields['assigned_products'] as $key => $field) {
             $this->_rootElement->find($this->addProducts)->click();
             $searchBlock = $this->getSearchGridBlock();
@@ -129,16 +123,5 @@ class Option extends Form
             $newField['assigned_products'][$key] = $this->getSelectionBlock($key + 1)->getProductRow($field['data']);
         }
         return $newField;
-    }
-
-    /**
-     * Update bundle option (now only general data, skipping assignments)
-     *
-     * @param array $fields
-     * @return void
-     */
-    public function updateBundleOption(array $fields)
-    {
-        $this->fillBundleOption($fields);
     }
 }

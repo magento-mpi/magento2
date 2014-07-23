@@ -16,7 +16,6 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 /**
  * Class Register
  * Register new customer on Frontend
- *
  */
 class Register extends Form
 {
@@ -47,18 +46,5 @@ class Register extends Form
             $this->fill($address);
         }
         $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
-     * Check if Customer custom Attribute visible
-     *
-     * @param CustomerCustomAttribute $customerAttribute
-     * @return bool
-     */
-    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
-    {
-        return $this->_rootElement->find(
-            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
-        )->isVisible();
     }
 }

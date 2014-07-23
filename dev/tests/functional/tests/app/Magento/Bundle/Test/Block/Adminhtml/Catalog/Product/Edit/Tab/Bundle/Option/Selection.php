@@ -24,6 +24,7 @@ class Selection extends Form
      */
     public function fillProductRow(array $fields)
     {
+        unset($fields['product_id']);
         $mapping = $this->dataMapping($fields);
         $this->_fill($mapping);
     }

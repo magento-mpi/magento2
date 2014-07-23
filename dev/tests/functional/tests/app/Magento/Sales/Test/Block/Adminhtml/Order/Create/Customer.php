@@ -15,12 +15,11 @@ use Mtf\Fixture\FixtureInterface;
 /**
  * Class Customer
  * Customer selection grid
- *
  */
 class Customer extends Grid
 {
     /**
-     * 'Create New Customer' button
+     * Selector for 'Create New Customer' button
      *
      * @var string
      */
@@ -34,7 +33,9 @@ class Customer extends Grid
     protected $editLink = 'td[data-column=email]';
 
     /**
-     * {@inheritdoc}
+     * Filters array mapping
+     *
+     * @var array
      */
     protected $filters = array(
         'email' => array(
@@ -45,19 +46,15 @@ class Customer extends Grid
     /**
      * Select customer if it is present in fixture or click create new customer button
      *
-     * @param FixtureInterface $fixture
+     * @param FixtureInterface|null $fixture
      * @return void
      */
-    public function selectCustomer(FixtureInterface $fixture)
+    public function selectCustomer($fixture)
     {
-        if (empty($fixture)) {
+        if ($fixture === null) {
             $this->_rootElement->find($this->createNewCustomer)->click();
         } else {
-            $this->searchAndOpen(
-                [
-                    'email' => $fixture->getEmail()
-                ]
-            );
+            $this->searchAndOpen(['email' => $fixture->getEmail()]);
         }
         $this->getTemplateBlock()->waitLoader();
     }

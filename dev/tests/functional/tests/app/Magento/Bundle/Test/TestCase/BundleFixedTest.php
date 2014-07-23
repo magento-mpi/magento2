@@ -46,7 +46,8 @@ class BundleFixedTest extends Functional
         $manageProductsGrid->open();
         $manageProductsGrid->getGridPageActionBlock()->addProduct('bundle');
         $productForm = $createProductPage->getForm();
-        $productForm->fillProduct($bundle);
+        $category = $bundle->getCategories()['category'];
+        $productForm->fill($bundle, null, $category);
         $createProductPage->getFormAction()->save();
         //Verification
         $createProductPage->getMessagesBlock()->assertSuccessMessage();

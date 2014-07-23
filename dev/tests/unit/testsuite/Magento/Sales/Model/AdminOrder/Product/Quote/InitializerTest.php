@@ -47,7 +47,7 @@ class InitializerTest extends \PHPUnit_Framework_TestCase
     {
         $this->quoteMock = $this->getMock(
             'Magento\Sales\Model\Quote',
-            ['addProductAdvanced', '__wakeup'],
+            ['addProduct', '__wakeup'],
             [],
             '',
             false
@@ -119,7 +119,7 @@ class InitializerTest extends \PHPUnit_Framework_TestCase
             ->method('setQty');
 
         $this->quoteMock->expects($this->once())
-            ->method('addProductAdvanced')
+            ->method('addProduct')
             ->will($this->returnValue($quoteItemMock));
 
         $this->assertInstanceOf(
@@ -167,7 +167,7 @@ class InitializerTest extends \PHPUnit_Framework_TestCase
 
 
         $this->quoteMock->expects($this->once())
-            ->method('addProductAdvanced')
+            ->method('addProduct')
             ->will($this->returnValue($quoteItemMock));
 
         $this->assertInstanceOf(
