@@ -99,17 +99,6 @@ class StartController extends AbstractActionController
 
         $this->logger->logSuccess('Artifact');
 
-        $magentoUrl = isset($data['config']['address']['web'])
-            ? $data['config']['address']['web']
-            : '';
-
-        $cHandle = curl_init();
-        curl_setopt($cHandle, CURLOPT_URL, $magentoUrl);
-        curl_exec($cHandle);
-        curl_close($cHandle);
-
-        $this->logger->logSuccess('Data Upgrades');
-
         // Set data to config
         $setup->addConfigData(
             'web/seo/use_rewrites',

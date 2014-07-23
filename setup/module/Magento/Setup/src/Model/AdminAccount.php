@@ -79,18 +79,27 @@ class AdminAccount
         );
         $adminId = $this->setup->getConnection()->getDriver()->getLastGeneratedValue();
 
-        $roleData = [
-            'parent_id' => 1,
-            'tree_level' => 2,
-            'sort_order' => 0,
-            'role_type' => 'U',
-            'user_id' => $adminId,
-            'role_name' => $this->config['admin_username'],
+        $roles = [
+            0 => [
+                'parent_id' => 0,
+                'tree_level' => 1,
+                'sort_order' => 1,
+                'role_type' => 'G',
+                'user_id' => 0,
+                'role_name' => 'Administrators',
+            ],
+            1 => [
+                'parent_id' => 1,
+                'tree_level' => 2,
+                'sort_order' => 0,
+                'role_type' => 'U',
+                'user_id' => $adminId,
+                'role_name' => $this->config['admin_username'],
+            ]
         ];
-        $this->setup->getConnection()->insert(
-            $this->setup->getTable('admin_role'),
-            $roleData,
-            true
-        );
+
+        foreach ($roles as $role) {
+            $this->setup->getConnection()->insert($this->setup->getTable('admin_role'), $role, true);
+        }
     }
 }
