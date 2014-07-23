@@ -20,18 +20,25 @@ class AjaxSave extends \Magento\Tax\Controller\Adminhtml\Rate
         $responseContent = '';
         try {
             $rateData = $this->_processRateData($this->getRequest()->getPost());
-            $rate = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->setData($rateData)->save();
+            $taxRate = $this->populateTaxRateData($rateData);
+            $taxRateId = $taxRate->getId();
+            if ($taxRateId) {
+                $this->_taxRateService->updateTaxRate($taxRate);
+            } else {
+                $taxRate = $this->_taxRateService->createTaxRate($taxRate);
+                $taxRateId = $taxRate->getId();
+            }
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
                 array(
                     'success' => true,
                     'error_message' => '',
-                    'tax_calculation_rate_id' => $rate->getId(),
-                    'code' => $rate->getCode()
+                    'tax_calculation_rate_id' => $taxRate->getId(),
+                    'code' => $taxRate->getCode()
                 )
             );
-        } catch (\Magento\Framework\Model\Exception $e) {
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(

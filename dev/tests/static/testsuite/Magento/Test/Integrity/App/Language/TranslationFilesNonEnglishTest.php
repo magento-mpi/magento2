@@ -8,6 +8,8 @@
 
 namespace Magento\Test\Integrity\App\Language;
 
+use Magento\Framework\App\Language\Config;
+
 class TranslationFilesNonEnglishTest extends TranslationFiles
 {
     /**
@@ -53,7 +55,7 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
             return $failures;
         }
         $baseLocaleData = $this->csvParser->getDataPairs($files[$this->defaultLocale]);
-        foreach ($this->getDeclaredLangs() as $locale) {
+        foreach ($this->getDeclaredLocales() as $locale) {
             if (!isset($files[$locale])) {
                 $failures[$locale]['missing'] = ["{$locale}.csv file is not found"];
                 continue;
@@ -75,12 +77,13 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
      *
      * @return array
      */
-    protected function getDeclaredLangs()
+    protected function getDeclaredLocales()
     {
         $pathToSource = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $result = [];
         foreach (Package::readDeclarationFiles($pathToSource) as $row) {
-            $result[$row[2]] = $row[2];
+            $languageConfig = new Config(file_get_contents($row[0]));
+            $result[$languageConfig->getCode()] = $languageConfig->getCode();
         }
         return $result;
     }

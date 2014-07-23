@@ -305,7 +305,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         $collectionMock = $this->getMockBuilder('Magento\Tax\Model\Resource\Calculation\Rate\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(['addFieldToFilter', 'getSize', 'load'])
+            ->setMethods(['addFieldToFilter', 'getSize', 'load', 'joinRegionTable'])
             ->getMock();
 
         $this->mockReturnValue($collectionMock, ['getSize' => 0]);
@@ -340,7 +340,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         $collectionMock = $this->getMockBuilder('Magento\Tax\Model\Resource\Calculation\Rate\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(['addFieldToFilter', 'getSize', 'load', 'getIterator'])
+            ->setMethods(['addFieldToFilter', 'getSize', 'load', 'getIterator', 'joinRegionTable'])
             ->getMock();
 
         $this->mockReturnValue(

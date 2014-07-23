@@ -28,15 +28,6 @@
             </gender>
         </fields>
     </account_information>
-    <store_credit>
-        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
-        <selector>#customer_info_tabs_customerbalance</selector>
-        <strategy>css selector</strategy>
-        <wrapper>customerbalance</wrapper>
-        <fields>
-            <amount_delta />
-        </fields>
-    </store_credit>
     <addresses>
         <class>\Magento\Customer\Test\Block\Adminhtml\Edit\Tab\Addresses</class>
         <selector>#customer_info_tabs_addresses</selector>

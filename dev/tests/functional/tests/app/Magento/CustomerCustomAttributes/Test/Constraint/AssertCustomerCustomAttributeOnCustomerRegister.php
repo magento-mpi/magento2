@@ -9,7 +9,7 @@
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Customer\Test\Page\CustomerAccountCreate;
+use Magento\CustomerCustomAttributes\Test\Page\CustomerAccountCreate;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
@@ -37,7 +37,6 @@ class AssertCustomerCustomAttributeOnCustomerRegister extends AbstractConstraint
         CustomerCustomAttribute $customerAttribute
     ) {
         $pageCustomerAccountCreate->open();
-        $attributeCode = $customerAttribute->getAttributeCode();
         \PHPUnit_Framework_Assert::assertTrue(
             $pageCustomerAccountCreate->getRegisterForm()->isCustomerAttributeVisible($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
