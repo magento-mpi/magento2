@@ -15,4 +15,16 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/orders/:id/cancellation" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderCancelInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders" method="GET">
+        <service class="Magento\Sales\Service\V1\OrderListInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
 </routes>
