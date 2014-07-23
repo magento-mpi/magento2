@@ -27,7 +27,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     const TYPE = 'type';
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getSku()
     {
@@ -35,7 +35,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getQty()
     {

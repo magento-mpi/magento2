@@ -71,4 +71,26 @@ class WriteService implements WriteServiceInterface
         }
         return true;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeItem($cartId, $itemSku)
+    {
+        $storeId = $this->storeManager->getStore()->getId();
+        /** @var  \Magento\Sales\Model\Quote $quote */
+        $quote = $this->quoteLoader->load($cartId, $storeId);
+        $product = $this->productLoader->load($itemSku);
+        $quoteItem = $quote->getItemByProduct($product);
+        if (!$quoteItem) {
+            throw new NoSuchEntityException("This product don't associated with current cartId = $cartId");
+        }
+        try {
+            $quote->removeItem($quoteItem->getId());
+            $quote->collectTotals()->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not add item to quote');
+        }
+        return true;
+    }
 }

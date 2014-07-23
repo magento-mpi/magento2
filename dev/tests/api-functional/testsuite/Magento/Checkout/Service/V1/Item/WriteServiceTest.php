@@ -62,6 +62,37 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertEquals(true, $this->_webApiCall($serviceInfo, $requestData));
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote')->load($cartId);
         $this->assertTrue($quote->hasProductId(1));
+    }
 
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_simple_product.php
+     */
+    public function testRemoveItem()
+    {
+        $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
+        $product= $this->objectManager->create('Magento\Catalog\Model\Product');
+        $productSku = $product->load(1)->getSku();
+        /** @var \Magento\Sales\Model\Quote  $quote */
+        $quote = $checkoutSession->getQuote();
+        $cartId = $quote->getId();
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . $cartId . '/items/' . $productSku,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'RemoveItem',
+            ),
+        );
+
+        $requestData = [
+            "cartId" => $cartId,
+            "itemSku" => $productSku
+        ];
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote')->load($cartId);
+        $this->assertFalse($quote->hasProductId(1));
     }
 }
