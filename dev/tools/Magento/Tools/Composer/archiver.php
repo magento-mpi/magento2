@@ -28,7 +28,7 @@ try {
     $opt->parse();
 
     $workingDir = $opt->getOption('d') ?: realpath(BP);
-    $workingDir = realpath($workingDir);
+    $workingDir = str_replace('\\', '/', realpath($workingDir));
 
     if (!$workingDir || !is_dir($workingDir)) {
         throw new Exception($opt->getOption('d') . " must be a Magento code base.");
@@ -77,27 +77,27 @@ try {
     $excludes = array_merge(
         $components,
         array(
-            str_replace('\\', '/', $workingDir) . '/.git',
-            str_replace('\\', '/', $workingDir) . '/.idea'
+            $workingDir . '/.git',
+            $workingDir . '/.idea'
         )
     );
 
     $name = '';
-    if (file_exists(str_replace('\\', '/', realpath($workingDir)) . '/composer.json')) {
-        $json = json_decode(file_get_contents(str_replace('\\', '/', realpath($workingDir)) . '/composer.json'));
+    if (file_exists($workingDir . '/composer.json')) {
+        $json = json_decode(file_get_contents($workingDir . '/composer.json'));
         $name = str_replace('/', '_', $json->name);
         if ($name == '') {
             throw new \Exception('Not a valid vendorPackage name', '1');
         }
         $noOfZips += Zipper::Zip(
-            str_replace('\\', '/', realpath($workingDir)),
+            $workingDir,
             $generationDir . '/' . $name . '-'. $json->version . '.zip',
             $excludes
         );
         $logger->info(sprintf("Created zip archive for %-40s [%9s]", $name, $json->version));
     } else {
         throw new \Exception(
-            'Did not find the composer.json file in '. str_replace('\\', '/', realpath($workingDir)),
+            'Did not find the composer.json file in '. $workingDir,
             '1'
         );
     }

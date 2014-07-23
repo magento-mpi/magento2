@@ -184,7 +184,7 @@ class Reader
         $lastAdded = $mappingList[0];
         $result[] = $lastAdded;
         foreach ($mappingList as $item) {
-            if (strpos($item . '/', $lastAdded . '/', 0) === false) {
+            if (!(strncmp($item . '/', $lastAdded . '/', strlen($lastAdded . '/')) === 0)) {
                 $result[] = $item;
                 $lastAdded = $item;
             }
@@ -221,14 +221,14 @@ class Reader
         foreach ($this->patterns as $component) {
             $excludesCombinations = array_merge(
                 $excludesCombinations,
-                $this->includeInExcludesCombinations($component)
+                $this->getPathCombinations($component)
             );
         }
         //Dealing customizable locations list
         foreach ($this->customizablePaths as $customPath) {
             $excludesCombinations = array_merge(
                 $excludesCombinations,
-                $this->includeInExcludesCombinations($customPath)
+                $this->getPathCombinations($customPath)
             );
         }
 
@@ -236,12 +236,12 @@ class Reader
     }
 
     /**
-     * Gets combinations of excluded paths
+     * Gets combinations for a path
      *
      * @param string $path
      * @return array
      */
-    private function includeInExcludesCombinations($path)
+    private function getPathCombinations($path)
     {
         $excludesCombinations = [];
 
