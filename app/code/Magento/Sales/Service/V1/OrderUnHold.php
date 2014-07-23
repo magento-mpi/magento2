@@ -12,7 +12,7 @@ use Magento\Sales\Model\OrderRepository;
 /**
  * Class OrderUnHold
  */
-class OrderUnHold
+class OrderUnHold implements OrderUnHoldInterface
 {
     /**
      * @var OrderRepository

@@ -107,8 +107,6 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
         $parts = array_reverse($parts);
         $className = '\\' . array_pop($parts) . '\\' . array_pop($parts) . '\\' . array_pop($parts) . '\\Resource\\';
         $parts = array_reverse($parts);
-//        $className = '\\Resource\\' . end($parts) . '\\CollectionFactory';
-
         return $className . implode('\\', $parts) . '\\CollectionFactory';
 
     }

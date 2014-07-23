@@ -12,7 +12,7 @@ use Magento\Sales\Model\OrderRepository;
 /**
  * Class OrderHold
  */
-class OrderHold
+class OrderHold implements OrderHoldInterface
 {
     /**
      * @var OrderRepository
