@@ -113,14 +113,9 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     public function createTaxRule(TaxRule $rule)
     {
-        // See if a tax rule with that $rule->getId() already exists. If so, throw an exception.
+        // See if a tax rule with that $rule->getId() is specified. If so, throw an exception.
         if (!is_null($rule->getId())) {
-            try {
-                $this->taxRuleRegistry->retrieveTaxRule($rule->getId());
-                throw new InputException('TaxRule with ID already exists');
-            } catch (NoSuchEntityException $e) {
-                // We expected a NoSuchEntityException. Continue in creating the taxRule.
-            }
+            throw new InputException('TaxRule ID should not be specified.');
         }
 
         $taxRuleModel = $this->saveTaxRule($rule);

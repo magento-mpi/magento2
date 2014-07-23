@@ -119,6 +119,47 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
+    public function testUpdateTaxRuleUsingCreate()
+    {
+        // Tax rule data object created
+        $taxRuleDataObject = $this->createTaxRuleDataObject();
+        //Tax rule service call
+        $taxRuleServiceData = $this->taxRuleService->createTaxRule($taxRuleDataObject);
+
+        //Assertions
+        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRule', $taxRuleServiceData);
+        $this->assertEquals($taxRuleDataObject->getCode(), $taxRuleServiceData->getCode());
+        $this->assertEquals(
+            $taxRuleDataObject->getCustomerTaxClassIds(),
+            $taxRuleServiceData->getCustomerTaxClassIds()
+        );
+        $this->assertEquals($taxRuleDataObject->getProductTaxClassIds(), $taxRuleServiceData->getProductTaxClassIds());
+        $this->assertEquals($taxRuleDataObject->getPriority(), $taxRuleServiceData->getPriority());
+        $this->assertEquals($taxRuleDataObject->getSortOrder(), $taxRuleServiceData->getSortOrder());
+        $this->assertNotNull($taxRuleServiceData->getId());
+
+        $updatedTaxRuleDataObject = $this->taxRuleBuilder
+            ->setId($taxRuleServiceData->getId())
+            ->setCode('code')
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+
+        try {
+            $this->taxRuleService->createTaxRule($taxRuleDataObject);
+            $this->fail('Did not throw expected InputException');
+        } catch (InputException $e) {
+            $this->assertEquals('Code already exists.', $e->getMessage());
+        }
+    }
+
+
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testCreateTaxRuleInvalidTaxClassIds()
     {
         $taxRuleData = [
