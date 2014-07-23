@@ -35,7 +35,7 @@ class WriteServiceTest extends WebapiAbstract
     public function testAddItem()
     {
         $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
-        $product= $this->objectManager->create('Magento\Catalog\Model\Product')->load(2);
+        $product = $this->objectManager->create('Magento\Catalog\Model\Product')->load(2);
         $productSku = $product->getSku();
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $checkoutSession->getQuote();
@@ -70,7 +70,7 @@ class WriteServiceTest extends WebapiAbstract
     public function testRemoveItem()
     {
         $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
-        $product= $this->objectManager->create('Magento\Catalog\Model\Product');
+        $product = $this->objectManager->create('Magento\Catalog\Model\Product');
         $productSku = $product->load(1)->getSku();
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $checkoutSession->getQuote();
@@ -101,7 +101,7 @@ class WriteServiceTest extends WebapiAbstract
     public function testUpdateItem()
     {
         $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
-        $product= $this->objectManager->create('Magento\Catalog\Model\Product')->load(1);
+        $product = $this->objectManager->create('Magento\Catalog\Model\Product')->load(1);
         $productSku = $product->getSku();
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $checkoutSession->getQuote();

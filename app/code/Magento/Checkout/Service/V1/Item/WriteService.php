@@ -59,11 +59,11 @@ class WriteService implements WriteServiceInterface
     public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Cart\Item $data)
     {
         $qty = $data->getQty();
-        if (!is_int($qty) || $qty <= 0) {
+        if (!is_double($qty) || $qty <= 0) {
             throw InputException::invalidFieldValue('qty', $qty);
         }
         $storeId = $this->storeManager->getStore()->getId();
-        /** @var  \Magento\Sales\Model\Quote $quote */
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $storeId);
 
         $product = $this->productLoader->load($data->getSku());
@@ -80,16 +80,16 @@ class WriteService implements WriteServiceInterface
     public function updateItem($cartId, $itemSku, \Magento\Checkout\Service\V1\Data\Cart\Item $data)
     {
         $qty = $data->getQty();
-        if (!is_int($qty) || $qty <= 0) {
+        if (!is_double($qty) || $qty <= 0) {
             throw InputException::invalidFieldValue('qty', $qty);
         }
         $storeId = $this->storeManager->getStore()->getId();
-        /** @var  \Magento\Sales\Model\Quote $quote */
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $storeId);
         $product = $this->productLoader->load($itemSku);
         $quoteItem = $quote->getItemByProduct($product);
         if (!$quoteItem) {
-            throw new NoSuchEntityException("This product don't associated with current cartId = $cartId");
+            throw new NoSuchEntityException("Cart $cartId doesn't contain product $itemSku");
         }
         $quoteItem->setData('qty', $data->getQty());
 
@@ -112,13 +112,13 @@ class WriteService implements WriteServiceInterface
         $product = $this->productLoader->load($itemSku);
         $quoteItem = $quote->getItemByProduct($product);
         if (!$quoteItem) {
-            throw new NoSuchEntityException("This product don't associated with current cartId = $cartId");
+            throw new NoSuchEntityException("Cart $cartId doesn't contain product $itemSku");
         }
         try {
             $quote->removeItem($quoteItem->getId());
             $quote->collectTotals()->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not add item to quote');
+            throw new CouldNotSaveException('Could not remove item from quote');
         }
         return true;
     }
