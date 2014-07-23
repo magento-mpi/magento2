@@ -195,8 +195,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'redirect_type',
             'select',
             array(
-                'label' => __('Redirect'),
-                'title' => __('Redirect'),
+                'label' => __('Redirect Type'),
+                'title' => __('Redirect Type'),
                 'name' => 'redirect_type',
                 'options' => $optionsModel->getAllOptions(),
                 'value' => $this->_formValues['redirect_type']

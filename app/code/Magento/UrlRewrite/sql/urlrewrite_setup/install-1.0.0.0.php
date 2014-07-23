@@ -21,19 +21,19 @@ $table = $installer->getConnection()->newTable(
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
-    'Redirect Id'
-)->addColumn(
-    'entity_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('unsigned' => true, 'nullable' => false),
-    'Entity ID'
+    'Rewrite Id'
 )->addColumn(
     'entity_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
     array('nullable' => false),
     'Entity type code'
+)->addColumn(
+    'entity_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Entity ID'
 )->addColumn(
     'request_path',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
