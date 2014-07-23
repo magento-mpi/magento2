@@ -57,6 +57,8 @@ class TaxRateService implements TaxRateServiceInterface
      */
     private $rateFactory;
 
+    const TAX_RATE_ID_IS_NOT_ALLOWED = 'id is not expected for this request.';
+
     /**
      * Constructor
      *
@@ -85,6 +87,9 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function createTaxRate(TaxRateDataObject $taxRate)
     {
+        if ($taxRate->getId()) {
+            throw new InputException(self::TAX_RATE_ID_IS_NOT_ALLOWED);
+        }
         $rateModel = $this->saveTaxRate($taxRate);
         return $this->converter->createTaxRateDataObjectFromModel($rateModel);
     }
