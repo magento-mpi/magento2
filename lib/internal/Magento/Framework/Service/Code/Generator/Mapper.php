@@ -103,7 +103,7 @@ class Mapper extends \Magento\Framework\Code\Generator\EntityAbstract
     {
         $construct = $this->_getDefaultConstructorDefinition();
         $body = "\$this->" . $this->_getSourceBuilderPropertyName() . "->populateWithArray(\$object->getData());"
-            . "return \$this->" . $this->_getSourceBuilderPropertyName() . "->create();";
+            . "\nreturn \$this->" . $this->_getSourceBuilderPropertyName() . "->create();";
         $extract = [
             'name' => 'extractDto',
             'parameters' => [

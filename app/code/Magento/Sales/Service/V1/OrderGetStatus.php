@@ -8,14 +8,16 @@
 namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Model\OrderRepository;
-use Magento\Sales\Service\V1\Data\OrderMapper;
 
 /**
- * Class OrderCancel
+ * Class OrderGetStatus
+ * @package Magento\Sales\Service\V1
  */
-class OrderCancel implements OrderCancelInterface
+class OrderGetStatus implements OrderGetInterface
 {
     /**
+     * Order repository
+     *
      * @var OrderRepository
      */
     protected $orderRepository;
@@ -29,14 +31,14 @@ class OrderCancel implements OrderCancelInterface
     }
 
     /**
-     * Invoke getOrder service
+     * Retrieve order status by id
      *
      * @param int $id
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return string
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function invoke($id)
     {
-        return (bool)$this->orderRepository->get($id)->cancel();
+        return $this->orderRepository->get($id)->getStatus();
     }
 }
