@@ -15,13 +15,13 @@ class UserIdentifier
     /**#@+
      * User types.
      */
-    const USER_TYPE_INTEGRATION = 0;
+    const USER_TYPE_INTEGRATION = 1;
 
-    const USER_TYPE_ADMIN = 1;
+    const USER_TYPE_ADMIN = 2;
 
-    const USER_TYPE_CUSTOMER = 2;
+    const USER_TYPE_CUSTOMER = 3;
 
-    const USER_TYPE_GUEST = 3;
+    const USER_TYPE_GUEST = 4;
 
     /**#@-*/
 

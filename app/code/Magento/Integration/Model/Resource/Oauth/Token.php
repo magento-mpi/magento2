@@ -116,7 +116,7 @@ class Token extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Select token for a given consumer and user type.
      *
      * @param string $consumerId
-     * @param string $userType
+     * @param int $userType
      * @return array|boolean - Row data (array) or false if there is no corresponding row
      */
     public function selectTokenByConsumerAndUserType($consumerId, $userType)
