@@ -34,7 +34,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     protected function _loadRewrite($idPath)
     {
-        return; // @TODO: UrlRewrite
         /** @var $rewrite \Magento\UrlRewrite\Model\UrlRewrite */
         $rewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\UrlRewrite\Model\UrlRewrite'

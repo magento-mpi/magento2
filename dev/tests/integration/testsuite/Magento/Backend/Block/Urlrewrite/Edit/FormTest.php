@@ -38,7 +38,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareForm()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         // Test form was configured correctly
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Framework\Object(array('id' => 3))));
         $this->assertInstanceOf('Magento\Framework\Data\Form', $form);
@@ -69,7 +68,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testSessionRestore()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         // Set urlrewrite data to session
         $sessionValues = array(
             'store_id' => 1,
@@ -101,7 +99,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testStoreElementSingleStore()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Framework\Object(array('id' => 3))));
         /** @var $storeElement \Magento\Framework\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
@@ -124,7 +121,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testStoreElementMultiStores()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Framework\Object(array('id' => 3))));
         /** @var $storeElement \Magento\Framework\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
@@ -154,7 +150,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testDisabledFields($urlRewrite, $fields)
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $form = $this->_getFormInstance(array('url_rewrite' => $urlRewrite));
         foreach ($fields as $fieldKey => $expected) {
             $this->assertEquals($expected, $form->getElement($fieldKey)->getDisabled());

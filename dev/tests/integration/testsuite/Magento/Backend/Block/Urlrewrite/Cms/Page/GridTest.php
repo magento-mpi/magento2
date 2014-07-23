@@ -18,7 +18,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareGrid()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         /** @var \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
@@ -55,7 +54,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareGridForMultipleStores()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         /** @var \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'

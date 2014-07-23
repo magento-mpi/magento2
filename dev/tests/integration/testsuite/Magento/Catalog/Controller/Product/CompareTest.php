@@ -120,7 +120,6 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public function testClearAction()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $this->_requireVisitorWithTwoProducts();
 
         $this->dispatch('catalog/product_compare/clear');

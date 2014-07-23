@@ -184,7 +184,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testDuplicateSkuGeneration()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $this->_model->load(1);
         $this->assertEquals('simple', $this->_model->getSku());
         /** @var \Magento\Catalog\Model\Product\Copier $copier */

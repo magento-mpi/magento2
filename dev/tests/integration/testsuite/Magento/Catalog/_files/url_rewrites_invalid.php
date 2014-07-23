@@ -11,8 +11,6 @@
  */
 require __DIR__ . '/url_rewrites.php';
 
-return; // @TODO: UrlRewrite
-
 /**
  * Invalid rewrite for product assigned to different category
  */

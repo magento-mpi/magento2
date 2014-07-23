@@ -98,7 +98,6 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->_model->getUrlPath());
         $this->_model->load(5);
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $this->assertEquals('category-1/category-1-1/category-1-1-1.html', $this->_model->getUrlPath());
     }
 

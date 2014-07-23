@@ -25,7 +25,6 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        return; // @TODO: UrlRewrite
         $this->_treeBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
@@ -38,7 +37,6 @@ class TreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTreeArray()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $expectedTreeArray = array(
             'id' => 1,
             'parent_id' => 0,
@@ -72,7 +70,6 @@ class TreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLoadTreeUrl()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $row = new \Magento\Framework\Object(array('id' => 1));
         $this->assertStringStartsWith(
             'http://localhost/index.php',
@@ -86,7 +83,6 @@ class TreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCategoryCollection()
     {
-        $this->markTestIncomplete('@TODO: UrlRewrite');
         $collection = $this->_treeBlock->getCategoryCollection();
         $this->assertInstanceOf('Magento\Catalog\Model\Resource\Category\Collection', $collection);
     }
