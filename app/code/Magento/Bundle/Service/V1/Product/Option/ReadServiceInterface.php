@@ -14,7 +14,7 @@ interface ReadServiceInterface
      *
      * @param string $productSku
      * @param int $optionId
-     * @return \Magento\Bundle\Service\V1\Data\Option\Metadata
+     * @return \Magento\Bundle\Service\V1\Data\Product\Option
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
      */
@@ -24,7 +24,7 @@ interface ReadServiceInterface
      * Get all options for bundle product
      *
      * @param string $productSku
-     * @return \Magento\Bundle\Service\V1\Data\Option\Metadata[]
+     * @return \Magento\Bundle\Service\V1\Data\Product\Option[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
      */

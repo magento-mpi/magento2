@@ -7,7 +7,8 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Option;
 
-use Magento\Bundle\Service\V1\Data\Option\MetadataConverter;
+use Magento\Bundle\Model\Product\Type;
+use Magento\Bundle\Service\V1\Data\Product\OptionConverter;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -21,16 +22,27 @@ class ReadService implements ReadServiceInterface
     private $productRepository;
 
     /**
-     * @var MetadataConverter
+     * @var OptionConverter
      */
-    private $metadataConverter;
+    private $optionConverter;
+    /**
+     * @var Type
+     */
+    private $type;
 
+    /**
+     * @param OptionConverter $optionConverter
+     * @param ProductRepository $productRepository
+     * @param Type $type
+     */
     public function __construct(
-        MetadataConverter $metadataConverter,
-        ProductRepository $productRepository
+        OptionConverter $optionConverter,
+        ProductRepository $productRepository,
+        Type $type
     ) {
-        $this->metadataConverter = $metadataConverter;
+        $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
+        $this->type = $type;
     }
 
     /**
@@ -39,22 +51,20 @@ class ReadService implements ReadServiceInterface
     public function get($productSku, $optionId)
     {
         $product = $this->getProduct($productSku);
-        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
-        $productTypeInstance = $product->getTypeInstance();
-        $optionCollection = $productTypeInstance->getOptionsCollection($product);
+        $optionCollection = $this->type->getOptionsCollection($product);
 
-        /** @var \Magento\Bundle\Service\V1\Data\Option\Metadata $optionMetadata */
-        $optionMetadata = null;
+        /** @var \Magento\Bundle\Service\V1\Data\Product\Option $optionDto */
+        $optionDto = null;
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
             if ($option->getId() == $optionId) {
-                $optionMetadata = $this->metadataConverter->createDataFromModel($option, $product);
+                $optionDto = $this->optionConverter->createDataFromModel($option, $product);
             }
         }
-        if ($optionMetadata === null) {
+        if ($optionDto === null) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
-        return $optionMetadata;
+        return $optionDto;
     }
 
     /**
@@ -63,17 +73,15 @@ class ReadService implements ReadServiceInterface
     public function getList($productSku)
     {
         $product = $this->getProduct($productSku);
-        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
-        $productTypeInstance = $product->getTypeInstance();
-        $optionCollection = $productTypeInstance->getOptionsCollection($product);
+        $optionCollection = $this->type->getOptionsCollection($product);
 
-        /** @var \Magento\Bundle\Service\V1\Data\Option\Metadata[] $optionMetadataList */
-        $optionMetadataList = [];
+        /** @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionDtoList */
+        $optionDtoList = [];
         /** @var \Magento\Bundle\Model\Option $option */
         foreach ($optionCollection as $option) {
-            $optionMetadataList[] = $this->metadataConverter->createDataFromModel($option, $product);
+            $optionDtoList[] = $this->optionConverter->createDataFromModel($option, $product);
         }
-        return $optionMetadataList;
+        return $optionDtoList;
     }
 
     /**

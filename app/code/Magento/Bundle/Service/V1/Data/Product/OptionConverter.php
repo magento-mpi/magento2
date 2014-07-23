@@ -5,35 +5,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Service\V1\Data\Option;
+namespace Magento\Bundle\Service\V1\Data\Product;
 
-use Magento\Bundle\Model\Option;
+use Magento\Bundle\Model\Option as OptionModel;
 use Magento\Catalog\Model\Product;
 
 /**
  * @codeCoverageIgnore
  */
-class MetadataConverter
+class OptionConverter
 {
     /**
-     * @var MetadataBuilder
+     * @var OptionBuilder
      */
     private $builder;
 
     /**
-     * @param MetadataBuilder $builder
+     * @param OptionBuilder $builder
      */
-    public function __construct(MetadataBuilder $builder)
+    public function __construct(OptionBuilder $builder)
     {
         $this->builder = $builder;
     }
 
     /**
-     * @param Option $option
+     * @param OptionModel $option
      * @param Product $product
-     * @return Metadata
+     * @return Option
      */
-    public function createDataFromModel(Option $option, Product $product)
+    public function createDataFromModel(OptionModel $option, Product $product)
     {
         $this->builder->populateWithArray($option->getData())
             ->setId($option->getId())
