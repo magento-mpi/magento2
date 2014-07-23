@@ -7,6 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Option;
 
+use Magento\Bundle\Model\Product\Type;
 use Magento\Bundle\Service\V1\Data\Product\OptionConverter;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
@@ -24,6 +25,10 @@ class ReadService implements ReadServiceInterface
      * @var OptionConverter
      */
     private $optionConverter;
+    /**
+     * @var Type
+     */
+    private $type;
 
     /**
      * @param OptionConverter $optionConverter
@@ -31,10 +36,12 @@ class ReadService implements ReadServiceInterface
      */
     public function __construct(
         OptionConverter $optionConverter,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        Type $type
     ) {
         $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
+        $this->type = $type;
     }
 
     /**
@@ -43,9 +50,7 @@ class ReadService implements ReadServiceInterface
     public function get($productSku, $optionId)
     {
         $product = $this->getProduct($productSku);
-        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
-        $productTypeInstance = $product->getTypeInstance();
-        $optionCollection = $productTypeInstance->getOptionsCollection($product);
+        $optionCollection = $this->type->getOptionsCollection($product);
 
         /** @var \Magento\Bundle\Service\V1\Data\Product\Option $optionDto */
         $optionDto = null;
@@ -67,9 +72,7 @@ class ReadService implements ReadServiceInterface
     public function getList($productSku)
     {
         $product = $this->getProduct($productSku);
-        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
-        $productTypeInstance = $product->getTypeInstance();
-        $optionCollection = $productTypeInstance->getOptionsCollection($product);
+        $optionCollection = $this->type->getOptionsCollection($product);
 
         /** @var \Magento\Bundle\Service\V1\Data\Product\Option[] $optionDtoList */
         $optionDtoList = [];
