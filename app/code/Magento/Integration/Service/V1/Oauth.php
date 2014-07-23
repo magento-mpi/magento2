@@ -122,7 +122,7 @@ class Oauth implements OauthInterface
     {
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
-            $existingToken = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
+            $existingToken = $this->_tokenProvider->getIntegrationTokenByConsumerId($consumer->getId());
             if ($existingToken && $clearExistingToken) {
                 $existingToken->delete();
                 unset($existingToken);
@@ -146,7 +146,7 @@ class Oauth implements OauthInterface
     {
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
-            $token = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
+            $token = $this->_tokenProvider->getIntegrationTokenByConsumerId($consumer->getId());
             if ($token->getType() != Token::TYPE_ACCESS) {
                 return false;
             }
@@ -244,11 +244,11 @@ class Oauth implements OauthInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteToken($consumerId)
+    public function deleteIntegrationToken($consumerId)
     {
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
-            $existingToken = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
+            $existingToken = $this->_tokenProvider->getIntegrationTokenByConsumerId($consumer->getId());
             $existingToken->delete();
             return true;
         } catch (\Exception $e) {

@@ -92,5 +92,5 @@ interface OauthInterface
      * @param int $consumerId
      * @return bool If token was deleted
      */
-    public function deleteToken($consumerId);
+    public function deleteIntegrationToken($consumerId);
 }
