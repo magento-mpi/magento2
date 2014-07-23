@@ -70,10 +70,11 @@ interface CookieManager
      * Deletes a cookie with the given name.
      *
      * @param string $name
+     * @param PublicCookieMetadata $metadata
      * @return void
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
      *     If this exception isn't thrown, there is still no guarantee that the browser
      *     received and accepted the request to delete this cookie.
      */
-    public function deleteCookie($name);
+    public function deleteCookie($name, PublicCookieMetadata $metadata = null);
 }
