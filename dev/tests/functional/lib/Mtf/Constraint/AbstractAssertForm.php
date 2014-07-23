@@ -146,6 +146,8 @@ abstract class AbstractAssertForm extends AbstractConstraint
      * @param string $path
      * @return array
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function sortDataByPath(array $data, $path)
     {

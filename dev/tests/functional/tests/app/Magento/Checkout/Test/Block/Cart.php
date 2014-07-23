@@ -42,21 +42,21 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $itemSubTotalSelector = '//td[@class="col subtotal excl tax"]//span[contains(@class,"price")]';
+    protected $itemSubTotalSelector = '//td[@class="col subtotal"]//*[@class="excl tax"]//span[@class="price"]';
 
     /**
      * Cart item unit price xpath selector
      *
      * @var string
      */
-    protected $itemUnitPriceSelector = '//td[@class="col price excl tax"]//span[@class="price"]';
+    protected $itemUnitPriceSelector = '//td[@class="col price"]//*[@class="excl tax"]//span[@class="price"]';
 
     /**
      * Unit Price value
      *
      * @var string
      */
-    protected $cartProductPrice = './/tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
+    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price"]/*[@class="excl tax"]/span';
 
     /**
      * 'Update Shopping Cart' button

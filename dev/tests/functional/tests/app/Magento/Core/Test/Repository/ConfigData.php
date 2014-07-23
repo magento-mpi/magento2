@@ -21,6 +21,8 @@ class ConfigData extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
