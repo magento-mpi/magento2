@@ -37,7 +37,7 @@ class AssertRewardPointsBalance extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'low';
+    protected $severeness = 'high';
 
     /**
      * Assert that "Your balance is X Reward points ($X.00)." and current exchange message are appeared
@@ -66,8 +66,9 @@ class AssertRewardPointsBalance extends AbstractConstraint
         $customerAccountLogin->getLoginBlock()->login($customer);
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Reward Points');
 
-        $actual['reward_points'] = $rewardCustomerInfo->getRewardPointsBlock()->getRewardPointsBalance();
-        $actual['exchange_rate'] = $rewardCustomerInfo->getRewardPointsBlock()->getRewardRatesMessages();
+        $rewardPointsBlock = $rewardCustomerInfo->getRewardPointsBlock();
+        $actual['reward_points'] = $rewardPointsBlock->getRewardPointsBalance();
+        $actual['exchange_rate'] = $rewardPointsBlock->getRewardRatesMessages();
         $expected['reward_points'] = sprintf(self::REWARD_POINTS_BALANCE, $registrationReward);
         $expected['exchange_rate'] = sprintf(
             self::REWARD_POINTS_EXCHANGE_RATE,

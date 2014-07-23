@@ -13,6 +13,7 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class ConfigData
  * Data for creation Config settings
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class ConfigData extends AbstractRepository
 {
@@ -31,20 +32,20 @@ class ConfigData extends AbstractRepository
                 [
                     'path' => 'catalog/recently_products/scope',
                     'scope' => 'catalog',
-                    'scope_id' => '1',
+                    'scope_id' => 1,
                     'value' => 'Website',
                 ],
                 [
                     'path' => 'catalog/recently_products/viewed_count',
                     'scope' => 'catalog',
-                    'scope_id' => '1',
-                    'value' => '5',
+                    'scope_id' => 1,
+                    'value' => 5,
                 ],
                 [
                     'path' => 'catalog/recently_products/compared_count',
                     'scope' => 'catalog',
-                    'scope_id' => '1',
-                    'value' => '12',
+                    'scope_id' => 1,
+                    'value' => 12,
                 ],
             ]
         ];
@@ -54,14 +55,14 @@ class ConfigData extends AbstractRepository
                 [
                     'path' => 'magento_reward/points/order',
                     'scope' => 'magento_reward',
-                    'scope_id' => '1',
-                    'value' => '1',
+                    'scope_id' => 1,
+                    'value' => 1,
                 ],
                 [
                     'path' => 'magento_reward/points/register',
                     'scope' => 'magento_reward',
-                    'scope_id' => '1',
-                    'value' => '10',
+                    'scope_id' => 1,
+                    'value' => 10,
                 ],
             ],
         ];
@@ -71,8 +72,8 @@ class ConfigData extends AbstractRepository
                 [
                     'path' => 'magento_reward/points/order',
                     'scope' => 'magento_reward',
-                    'scope_id' => '1',
-                    'value' => '1',
+                    'scope_id' => 1,
+                    'value' => 1,
                 ],
             ],
         ];
@@ -82,13 +83,13 @@ class ConfigData extends AbstractRepository
                 [
                     'path' => 'magento_reward/points/order',
                     'scope' => 'magento_reward',
-                    'scope_id' => '1',
-                    'value' => '0',
+                    'scope_id' => 1,
+                    'value' => 0,
                 ],
                 [
                     'path' => 'magento_reward/points/register',
                     'scope' => 'magento_reward',
-                    'scope_id' => '1',
+                    'scope_id' => 1,
                     'value' => '',
                 ],
             ],
@@ -99,8 +100,8 @@ class ConfigData extends AbstractRepository
                 [
                     'path' => 'magento_reward/points/order',
                     'scope' => 'magento_reward',
-                    'scope_id' => '1',
-                    'value' => '0',
+                    'scope_id' => 1,
+                    'value' => 0,
                 ],
             ],
         ];

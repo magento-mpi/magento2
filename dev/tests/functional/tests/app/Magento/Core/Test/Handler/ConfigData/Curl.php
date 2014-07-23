@@ -12,8 +12,8 @@ use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -83,16 +83,13 @@ class Curl extends AbstractCurl implements ConfigDataInterface
         $url = $this->getUrl($section);
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
         if (strpos($response, 'data-ui-id="messages-message-success"') === false) {
             throw new \Exception("Settings are not applied! Response: $response");
         }
-        preg_match("~Location: [^\\s]*\\/id\\/(\\d+)~", $response, $matches);
-
-        return isset($matches[1]) ? $matches[1] : null;
     }
 
     /**

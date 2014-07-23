@@ -19,6 +19,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertRewardPointsMessageOnShoppingCart extends AbstractConstraint
 {
+    /**
+     * Message about reward points on checkout page
+     */
     const CHECKOUT_REWARD_MESSAGE = 'Check out now and earn %d Reward points for this order.';
 
     /**

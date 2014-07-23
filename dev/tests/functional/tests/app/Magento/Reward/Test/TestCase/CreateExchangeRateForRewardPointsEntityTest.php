@@ -105,6 +105,7 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
      * @param string $registrationReward
      * @param string $checkoutReward
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(
         Reward $rate,
@@ -126,7 +127,7 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
     }
 
     /**
-     * Remove created exchange rates and rlollback configuration
+     * Remove created exchange rates and rollback configuration
      *
      * @return void
      */

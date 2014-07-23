@@ -18,6 +18,9 @@ use Magento\Reward\Test\Page\CustomerAccountCreate;
  */
 class AssertRewardPointsMessageOnCustomerRegistration extends AbstractConstraint
 {
+    /**
+     * Message about reward points on registration page
+     */
     const REGISTRATION_REWARD_MESSAGE = 'Register on our site now and earn %d Reward points.';
 
     /**
