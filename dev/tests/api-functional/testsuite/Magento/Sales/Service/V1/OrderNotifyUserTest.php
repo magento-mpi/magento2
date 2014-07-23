@@ -14,26 +14,28 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderNotifyUserTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'orderNotifyUser';
-    const RESOURCE_PATH = '/V1/order';
+    const SERVICE_NAME = 'salesOrderNotifyUserServiceV1';
 
+    /**
+     * @magentoApiDataFixture Magento/Sales/_files/order.php
+     */
     public function testOrderNotifyUser()
     {
-        $orderId = 1;
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
+        $order->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/'. $orderId . '/emails',
+                'resourcePath' => '/V1/orders/'. $order->getId() . '/emails',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
-                'service' => 'salesOrderNotifyUserServiceV1',
+                'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'invoke'
             ]
         ];
-        $requestData = ['id' => $orderId];
-        $result = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertTrue($result);
+        $requestData = ['id' => $order->getId()];
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
     }
-
-} 
+}

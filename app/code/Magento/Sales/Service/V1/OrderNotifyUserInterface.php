@@ -17,7 +17,7 @@ Interface OrderNotifyUserInterface
      * Invoke notifyUser service
      *
      * @param int $id
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return bool
      */
     public function invoke($id);
 }
