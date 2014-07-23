@@ -10,7 +10,7 @@ namespace Magento\Checkout\Service\V1\Item;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Checkout\Service\V1\Data\Item as Item;
+use \Magento\Checkout\Service\V1\Data\Cart\Item as Item;
 
 class ReadServiceTest extends WebapiAbstract
 {

@@ -9,7 +9,7 @@
 
 namespace Magento\Checkout\Service\V1\Item;
 
-use \Magento\Checkout\Service\V1\Data\Item as Item;
+use \Magento\Checkout\Service\V1\Data\Cart\Item as Item;
 
 class ReaderServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->quoteLoaderMock = $this->getMock('\Magento\Checkout\Service\V1\QuoteLoader', [], [], '', false);
-        $this->itemBuilderMock = $this->getMock('\Magento\Checkout\Service\V1\Data\ItemBuilder', [], [], '', false);
+        $this->itemBuilderMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\ItemBuilder', [], [], '', false);
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->service = new ReadService($this->quoteLoaderMock, $this->itemBuilderMock, $this->storeManagerMock);
     }

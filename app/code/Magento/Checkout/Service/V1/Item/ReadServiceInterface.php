@@ -11,7 +11,7 @@ interface ReadServiceInterface
 {
     /**
      * @param int $cartId
-     * @return \Magento\Checkout\Service\V1\Data\Item[]
+     * @return \Magento\Checkout\Service\V1\Data\Cart\Item[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getList($cartId);

@@ -9,8 +9,7 @@
 namespace Magento\Checkout\Service\V1\Item;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Checkout\Service\V1\Data\ItemBuilder as ItemBuilder;
-use \Magento\Checkout\Service\V1\Data\Item as Item;
+use \Magento\Checkout\Service\V1\Data\Cart\ItemBuilder as ItemBuilder;
 use Magento\Framework\Exception\CouldNotSaveException;
 
 class WriteService implements WriteServiceInterface
@@ -56,7 +55,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Item $data)
+    public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Cart\Item $data)
     {
         $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */

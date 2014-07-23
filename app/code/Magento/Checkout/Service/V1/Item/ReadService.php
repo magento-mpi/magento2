@@ -9,8 +9,8 @@
 namespace Magento\Checkout\Service\V1\Item;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Checkout\Service\V1\Data\ItemBuilder as ItemBuilder;
-use \Magento\Checkout\Service\V1\Data\Item as Item;
+use \Magento\Checkout\Service\V1\Data\Cart\ItemBuilder as ItemBuilder;
+use \Magento\Checkout\Service\V1\Data\Cart\Item as Item;
 
 class ReadService implements ReadServiceInterface
 {

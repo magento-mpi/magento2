@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Service\V1\Data;
+namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
  * @codeCoverageIgnore

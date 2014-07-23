@@ -11,9 +11,9 @@ interface WriteServiceInterface
 {
     /**
      * @param int $cartId
-     * @param \Magento\Checkout\Service\V1\Data\Item $data
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Item $data
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Item $data);
+    public function addItem($cartId, \Magento\Checkout\Service\V1\Data\Cart\Item $data);
 }
