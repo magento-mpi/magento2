@@ -12,4 +12,4 @@ namespace Magento\Framework\Stdlib\Cookie;
 class FailureToSendException extends \Exception
 {
 
-} 
+}
