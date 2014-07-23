@@ -8,11 +8,9 @@
 
 
 /**
- * AdminNotification survey model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Installation survey model
  */
-namespace Magento\AdminNotification\Model;
+namespace Magento\Install\Model;
 
 class Survey
 {
@@ -21,7 +19,7 @@ class Survey
     /**
      * @var string
      */
-    protected $_flagCode = 'admin_notification_survey';
+    protected $_flagCode = 'installation_survey';
 
     /**
      * @var \Magento\Framework\Flag

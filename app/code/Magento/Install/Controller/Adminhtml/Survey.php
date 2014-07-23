@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\AdminNotification\Controller\Adminhtml;
+namespace Magento\Install\Controller\Adminhtml;
 
 /**
  * Adminhtml Survey Action
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Survey extends \Magento\Backend\App\Action
 {
