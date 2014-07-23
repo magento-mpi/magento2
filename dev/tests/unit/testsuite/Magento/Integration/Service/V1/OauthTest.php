@@ -161,7 +161,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
@@ -198,7 +198,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
@@ -223,7 +223,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->throwException(
                 new \Magento\Framework\Oauth\Exception(
@@ -337,7 +337,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
@@ -362,7 +362,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
@@ -387,7 +387,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
@@ -412,7 +412,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock->expects(
             $this->any()
         )->method(
-            'getTokenByConsumerId'
+            'getIntegrationTokenByConsumerId'
         )->will(
             $this->returnValue($this->_tokenMock)
         );
