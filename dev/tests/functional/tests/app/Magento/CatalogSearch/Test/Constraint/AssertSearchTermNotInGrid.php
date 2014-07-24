@@ -13,10 +13,10 @@ use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
 
 /**
- * Class AssertSearchTermInGrid
- * Assert that after save a term search on edit term search page displays
+ * Class AssertSearchTermNotInGrid
+ * Assert that after delete a search term on grid page not displayed
  */
-class AssertSearchTermInGrid extends AbstractConstraint
+class AssertSearchTermNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,14 +26,7 @@ class AssertSearchTermInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after save a term search on edit term search page displays:
-     *  - correct Search Query field passed from fixture
-     *  - correct Store
-     *  - correct Results
-     *  - correct Uses
-     *  - correct Synonym
-     *  - correct Redirect URL
-     *  - correct Suggested Terms
+     * Assert that after delete a search term on grid page not displayed
      *
      * @param CatalogSearchIndex $indexPage
      * @param CatalogSearchQuery $searchTerm
@@ -54,9 +47,9 @@ class AssertSearchTermInGrid extends AbstractConstraint
 
         $grid->search($filters);
         unset($filters['store_id']);
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $grid->isRowVisible($filters, false),
-            'Row terms according to the filters is not found.'
+            'Search term was found in grid.'
         );
     }
 
@@ -67,6 +60,6 @@ class AssertSearchTermInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Row term according to the filters is not found.';
+        return 'Search term was not found in grid.';
     }
 }

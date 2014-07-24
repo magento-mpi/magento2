@@ -14,7 +14,7 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchEdit;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
 
 /**
- * Test Creation for CreateSearchTermEntity
+ * Test Creation for DeleteSearchTermEntity
  *
  * Test Flow:
  *
@@ -23,16 +23,15 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
  *
  * Steps:
  * 1. Go to backend as admin user
- * 4. Navigate to Marketing->SEO&Search->Search Terms
- * 5. Click "Add New Search Term" button
- * 6. Fill out all data according to dataset
- * 7. Save the Search Term
- * 8. Perform all assertions
+ * 2. Navigate to Marketing>SEO & Search>Search
+ * 3. Search and open Search Term by "Search Query"
+ * 4. Click "Delete Search" button
+ * 5. Perform all assertions
  *
  * @group Search_Terms_(MX)
- * @ZephyrId MAGETWO-26165
+ * @ZephyrId MAGETWO-26491
  */
-class CreateSearchTermEntityTest extends Injectable
+class DeleteSearchTermEntityTest extends Injectable
 {
     /**
      * Search term page
@@ -62,18 +61,19 @@ class CreateSearchTermEntityTest extends Injectable
     }
 
     /**
-     * Run create search term test
+     * Run delete search term entity test
      *
      * @param CatalogSearchQuery $searchTerm
      * @return void
      */
     public function test(CatalogSearchQuery $searchTerm)
     {
-        $this->markTestIncomplete('MAGETWO-26170');
+        // Preconditions
+        $searchTerm->persist();
+        $searchText = $searchTerm->getQueryText();
         // Steps
         $this->indexPage->open();
-        $this->indexPage->getGridPageActions()->addNew();
-        $this->editPage->getForm()->fill($searchTerm);
-        $this->editPage->getFormPageActions()->save();
+        $this->indexPage->getGrid()->searchAndOpen(['search_query' => $searchText]);
+        $this->editPage->getFormPageActions()->delete();
     }
 }
