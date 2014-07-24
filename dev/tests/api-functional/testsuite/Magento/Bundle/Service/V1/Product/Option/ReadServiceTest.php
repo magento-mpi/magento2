@@ -14,7 +14,7 @@ class ReadServiceTest extends WebapiAbstract
 {
     const SERVICE_READ_NAME = 'bundleProductOptionReadServiceV1';
     const SERVICE_VERSION = 'V1';
-    const RESOURCE_PATH = '/V1/bundle-products/:productId/option';
+    const RESOURCE_PATH = '/V1/bundle-products/:productSku/option';
 
     /**
      * @magentoApiDataFixture Magento/Bundle/_files/product.php
@@ -74,7 +74,7 @@ class ReadServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => str_replace(':productId', $productSku, self::RESOURCE_PATH) . '/all',
+                'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . '/all',
                 'httpMethod' => Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -95,7 +95,7 @@ class ReadServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => str_replace(':productId', $productSku, self::RESOURCE_PATH) . '/' . $optionId,
+                'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . '/' . $optionId,
                 'httpMethod' => Config::HTTP_METHOD_GET
             ],
             'soap' => [
