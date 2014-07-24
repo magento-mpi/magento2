@@ -8,10 +8,10 @@
 namespace Magento\Framework\Stdlib\Cookie;
 
 /**
- * Class AbstractCookieMetaData
+ * Class AbstractCookieMetadata
  *
  */
-abstract class AbstractCookieMetaData
+abstract class AbstractCookieMetadata
 {
     /**#@+
      * Constant for metadata value key.
