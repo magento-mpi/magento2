@@ -57,4 +57,136 @@ class WriteServiceTest extends WebapiAbstract
             $quote->delete();
         }
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Sales/_files/quote.php
+     * @magentoApiDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testAssignCustomer()
+    {
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
+        $cartId = $quote->getId();
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = $this->objectManager->create('\Magento\Customer\Model\Customer')->load(1);
+        $customerId = $customer->getId();
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/carts/' . $cartId,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+            'soap' => array(
+                'service' => 'checkoutCartWriteServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
+            ),
+        );
+
+        $requestData = array(
+            'cartId' => $cartId,
+            'customerId' => $customerId,
+        );
+        // Cart must be anonymous (see fixture)
+        $this->assertEmpty($quote->getCustomerId());
+
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        // Reload target quote
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
+        $this->assertEquals(0, $quote->getCustomerIsGuest());
+        $this->assertEquals($customer->getId(), $quote->getCustomerId());
+        $this->assertEquals($customer->getFirstname(), $quote->getCustomerFirstname());
+        $this->assertEquals($customer->getLastname(), $quote->getCustomerLastname());
+
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Sales/_files/quote.php
+     * @expectedException \Exception
+     */
+    public function testAssignCustomerThrowsExceptionIfThereIsNoCustomerWithGivenId()
+    {
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
+        $cartId = $quote->getId();
+        $customerId = 9999;
+        $serviceInfo = array(
+            'soap' => array(
+                'serviceVersion' => 'V1',
+                'service' => 'checkoutCartWriteServiceV1',
+                'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
+            ),
+            'rest' => array(
+                'resourcePath' => '/V1/carts/' . $cartId,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+        );
+        $requestData = array(
+            'cartId' => $cartId,
+            'customerId' => $customerId,
+        );
+
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Customer/_files/customer.php
+     * @expectedException \Exception
+     * @expectedExceptionMessage There is no cart with provided ID.
+     */
+    public function testAssignCustomerThrowsExceptionIfThereIsNoCartWithGivenId()
+    {
+        $cartId = 9999;
+        $customerId = 1;
+        $serviceInfo = array(
+            'soap' => array(
+                'service' => 'checkoutCartWriteServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
+            ),
+            'rest' => array(
+                'resourcePath' => '/V1/carts/' . $cartId,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+        );
+        $requestData = array(
+            'cartId' => $cartId,
+            'customerId' => $customerId,
+        );
+
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Sales/_files/quote_with_customer.php
+     * @expectedException \Exception
+     * @expectedExceptionMessage Cannot assign customer to the given cart. The cart is not anonymous.
+     */
+    public function testAssignCustomerThrowsExceptionIfTargetCartIsNotAnonymous()
+    {
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = $this->objectManager->create('\Magento\Customer\Model\Customer')->load(1);
+        $customerId = $customer->getId();
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
+        $cartId = $quote->getId();
+
+        $serviceInfo = array(
+            'rest' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+                'resourcePath' => '/V1/carts/' . $cartId,
+            ),
+            'soap' => array(
+                'service' => 'checkoutCartWriteServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
+            ),
+        );
+
+        $requestData = array(
+            'cartId' => $cartId,
+            'customerId' => $customerId,
+        );
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
 }

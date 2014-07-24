@@ -15,6 +15,12 @@
             <resource ref="Magento_Sales::create" />
         </resources>
     </route>
+    <route url="/V1/carts/:cartId" method="PUT">
+        <service class="Magento\Checkout\Service\V1\Cart\WriteServiceInterface" method="assignCustomer"/>
+        <resources>
+            <resource ref="Magento_Sales::create" />
+        </resources>
+    </route>
     <route url="/V1/carts/:cartId/items" method="GET">
         <service class="Magento\Checkout\Service\V1\Item\ReadServiceInterface" method="getList"/>
         <resources>

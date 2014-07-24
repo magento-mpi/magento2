@@ -16,5 +16,14 @@ interface WriteServiceInterface
      * @return int cart id
      */
     public function create();
+
+    /**
+     * Assign customer to the given shopping cart
+     *
+     * @param int $cartId
+     * @param int $customerId
+     * @return boolean
+     */
+    public function assignCustomer($cartId, $customerId);
 }
 
