@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Tax\Controller\Adminhtml;
+
 /**
  * Adminhtml tax rate controller
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Controller\Adminhtml;
-
 class Rate extends \Magento\Backend\App\Action
 {
     /**
@@ -21,14 +21,54 @@ class Rate extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Tax\Service\V1\TaxRateServiceInterface
+     */
+    protected $_taxRateService;
+
+    /**
+     * @var \Magento\Tax\Service\V1\Data\TaxRateBuilder
+     */
+    protected $_taxRateBuilder;
+
+    /**
+     * @var \Magento\Tax\Service\V1\Data\ZipRangeBuilder
+     */
+    protected $_zipRangeBuilder;
+
+    /**
+     * @var \Magento\Tax\Service\V1\Data\TaxRateTitleBuilder
+     */
+    protected $_taxRateTitleBuilder;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
+     * @param \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder
+     * @param \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
+     * @param \Magento\Tax\Service\V1\Data\TaxRateTitleBuilder $taxRateTitleBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
+        \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder,
+        \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder,
+        \Magento\Tax\Service\V1\Data\TaxRateTitleBuilder $taxRateTitleBuilder
     ) {
         $this->_fileFactory = $fileFactory;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_taxRateService = $taxRateService;
+        $this->_taxRateBuilder = $taxRateBuilder;
+        $this->_zipRangeBuilder = $zipRangeBuilder;
+        $this->_taxRateTitleBuilder = $taxRateTitleBuilder;
         parent::__construct($context);
     }
 
@@ -98,5 +138,53 @@ class Rate extends \Magento\Backend\App\Action
                 return $this->_authorization->isAllowed('Magento_Tax::manage_tax');
                 break;
         }
+    }
+
+    /**
+     * Populate a tax rate data object
+     *
+     * @param array $formData
+     * @return \Magento\Tax\Service\V1\Data\TaxRate
+     */
+    protected function populateTaxRateData($formData)
+    {
+        $this->_taxRateBuilder->setId($this->extractFormData($formData, 'tax_calculation_rate_id'))
+            ->setCountryId($this->extractFormData($formData, 'tax_country_id'))
+            ->setRegionId($this->extractFormData($formData, 'tax_region_id'))
+            ->setPostcode($this->extractFormData($formData, 'tax_postcode'))
+            ->setCode($this->extractFormData($formData, 'code'))
+            ->setPercentageRate($this->extractFormData($formData, 'rate'));
+
+        if (isset($formData['zip_is_range']) && $formData['zip_is_range']) {
+            $this->_zipRangeBuilder->setFrom($this->extractFormData($formData, 'zip_from'))
+                ->setTo($this->extractFormData($formData, 'zip_to'));
+            $zipRange = $this->_zipRangeBuilder->create();
+            $this->_taxRateBuilder->setZipRange($zipRange);
+        }
+
+        if (isset($formData['title'])) {
+            $titles = [];
+            foreach ($formData['title'] as $storeId => $value) {
+                $titles[] = $this->_taxRateTitleBuilder->setStoreId($storeId)->setValue($value)->create();
+            }
+            $this->_taxRateBuilder->setTitles($titles);
+        }
+
+        return $this->_taxRateBuilder->create();
+    }
+
+    /**
+     * Determines if an array value is set in the form data array and returns it.
+     *
+     * @param array $formData the form to get data from
+     * @param string $fieldName the key
+     * @return null|string
+     */
+    protected function extractFormData($formData, $fieldName)
+    {
+        if (isset($formData[$fieldName])) {
+            return $formData[$fieldName];
+        }
+        return null;
     }
 }

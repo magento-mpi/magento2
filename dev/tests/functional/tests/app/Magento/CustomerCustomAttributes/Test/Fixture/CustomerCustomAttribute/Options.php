@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomercustomAttributes\Test\Fixture\CustomerCustomAttribute;
+namespace Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 use Mtf\Fixture\FixtureInterface;
 

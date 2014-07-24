@@ -8,7 +8,6 @@
 
 namespace Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -44,11 +43,10 @@ class ConditionsSerialized implements FixtureInterface
     ];
 
     /**
-     * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param string $data
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $params, $data)
+    public function __construct(array $params, $data)
     {
         $this->params = $params;
         foreach ($this->chooserGrid as $conditionsType => $chooserGrid) {

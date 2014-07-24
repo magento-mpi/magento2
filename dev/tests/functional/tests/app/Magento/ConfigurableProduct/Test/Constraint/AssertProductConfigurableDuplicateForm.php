@@ -47,7 +47,7 @@ class AssertProductConfigurableDuplicateForm extends AssertProductDuplicateForm
             unset($formData['configurable_attributes_data']['matrix'][$key]['price']);
         }
 
-        $fixtureData = $this->prepareFixtureData($product);
+        $fixtureData = $this->prepareFixtureData($product->getData());
         $attributes = $fixtureData['configurable_attributes_data']['attributes_data'];
         $matrix = $fixtureData['configurable_attributes_data']['matrix'];
         unset($fixtureData['configurable_attributes_data']);
@@ -55,11 +55,8 @@ class AssertProductConfigurableDuplicateForm extends AssertProductDuplicateForm
         $fixtureData['configurable_attributes_data']['attributes_data'] = $this->prepareAttributes($attributes);
         $fixtureData['configurable_attributes_data']['matrix'] = $this->prepareMatrix($matrix);
 
-        $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertEmpty(
-            $errors,
-            "Duplicated configurable product data is not equal to expected:\n" . implode("\n", $errors)
-        );
+        $errors = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**

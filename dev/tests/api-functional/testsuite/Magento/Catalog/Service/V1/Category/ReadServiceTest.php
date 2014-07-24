@@ -61,8 +61,8 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertArrayHasKey('updated_at', $result);
 
         unset($result['created_at'], $result['updated_at']);
-        ksort ($expected);
-        ksort ($result);
+        ksort($expected);
+        ksort($result);
         $this->assertEquals($expected, $result);
     }
 

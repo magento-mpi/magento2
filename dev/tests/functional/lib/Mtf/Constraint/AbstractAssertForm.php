@@ -41,7 +41,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
         $errors = [];
 
         foreach ($fixtureData as $key => $value) {
-            if (in_array($key, $this->skippedFields)){
+            if (in_array($key, $this->skippedFields)) {
                 continue;
             }
             $formValue = isset($formData[$key]) ? $formData[$key] : null;
@@ -146,6 +146,8 @@ abstract class AbstractAssertForm extends AbstractConstraint
      * @param string $path
      * @return array
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function sortDataByPath(array $data, $path)
     {
@@ -166,7 +168,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
             $data[$key] = $nextPath ? $this->sortData($data[$key], $nextPath) : $data[$key];
         } else {
             $data = $this->sortMultidimensionalArray($data, $order);
-            $data = $nextPath ? $this->sortData($data, $nextPath): $data;
+            $data = $nextPath ? $this->sortData($data, $nextPath) : $data;
         }
 
         return $data;

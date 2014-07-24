@@ -32,11 +32,9 @@ class GiftCardProduct extends AbstractRepository
             'giftcard_type' => 'Virtual',
             'giftcard_amounts' => [
                 [
-                    'website_id' => 'All Websites [USD]',
                     'price' => 120,
                 ],
                 [
-                    'website_id' => 'All Websites [USD]',
                     'price' => 150,
                 ]
             ],

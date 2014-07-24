@@ -88,7 +88,7 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Page\Edit
     public function execute()
     {
         $this->_title->add(__('Pages'));
-        $page = $this->pageLoader->load();
+        $page = $this->pageLoader->load($this->_request->getParam('page_id'));
 
         $data = $this->_session->getFormData(true);
         if (!empty($data)) {

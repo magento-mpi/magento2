@@ -9,6 +9,12 @@
 -->
 <page mca="reward/customer/info" >
     <block>
+        <name>rewardPointsBlock</name>
+        <class>Magento\Reward\Test\Block\Customer\Reward</class>
+        <locator>.block-reward-info</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
         <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>.page.messages</locator>
@@ -21,9 +27,9 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>rewardPointsBlock</name>
-        <class>Magento\Reward\Test\Block\Customer\RewardPoints</class>
-        <locator>//div[div[contains(@class, "block reward")]]</locator>
-        <strategy>xpath</strategy>
+        <name>titleBlock</name>
+        <class>Magento\Theme\Test\Block\Html\Title</class>
+        <locator>.page-title</locator>
+        <strategy>css selector</strategy>
     </block>
 </page>

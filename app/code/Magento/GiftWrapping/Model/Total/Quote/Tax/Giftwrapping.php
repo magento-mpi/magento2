@@ -7,11 +7,44 @@
  */
 namespace Magento\GiftWrapping\Model\Total\Quote\Tax;
 
+use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
+use Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector;
+
 /**
  * GiftWrapping tax total calculator for quote
  */
-class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+class Giftwrapping extends CommonTaxCollector
 {
+    /**
+     * Constant for item gift wrapping item type
+     */
+    const ITEM_TYPE = 'item_gw';
+
+    /**
+     * Constant for quote gift wrapping item type
+     */
+    const QUOTE_TYPE = 'quote_gw';
+
+    /**
+     * Constant for item print card item type
+     */
+    const PRINTED_CARD_TYPE = 'printed_card_gw';
+
+    /**
+     * Constant for item gift wrapping code prefix
+     */
+    const CODE_ITEM_GW_PREFIX = 'item_gw';
+
+    /**
+     * Constant for quote gift wrapping code
+     */
+    const CODE_QUOTE_GW = 'quote_gw';
+
+    /**
+     * Constant for printed card code
+     */
+    const CODE_PRINTED_CARD = 'printed_card_gw';
+
     /**
      * @var \Magento\Sales\Model\Quote
      */
@@ -23,21 +56,6 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
     protected $_quoteEntity;
 
     /**
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $_taxCalculationModel;
-
-    /**
-     * @var array
-     */
-    protected $_request;
-
-    /**
-     * @var float
-     */
-    protected $_rate;
-
-    /**
      * Gift wrapping data
      *
      * @var \Magento\GiftWrapping\Helper\Data
@@ -46,71 +64,16 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
 
     /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
     public function __construct(
-        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Tax\Model\Calculation $taxCalculation
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_taxCalculationModel = $taxCalculation;
         $this->setCode('tax_giftwrapping');
     }
 
     /**
-     * Collect applied tax rates information on address level
-     *
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @param array $applied
-     * @param float $amount
-     * @param float $baseAmount
-     * @param float $rate
-     * @return \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping
-     */
-    protected function _saveAppliedTaxes($address, $applied, $amount, $baseAmount, $rate)
-    {
-        $previouslyAppliedTaxes = $address->getAppliedTaxes();
-        $process = count($previouslyAppliedTaxes);
-
-        foreach ($applied as $row) {
-            if ($row['percent'] == 0) {
-                continue;
-            }
-            if (!isset($previouslyAppliedTaxes[$row['id']])) {
-                $row['process'] = $process;
-                $row['amount'] = 0;
-                $row['base_amount'] = 0;
-                $previouslyAppliedTaxes[$row['id']] = $row;
-            }
-
-            if (!is_null($row['percent'])) {
-                $row['percent'] = $row['percent'] ? $row['percent'] : 1;
-                $rate = $rate ? $rate : 1;
-
-                $appliedAmount = $amount / $rate * $row['percent'];
-                $baseAppliedAmount = $baseAmount / $rate * $row['percent'];
-            } else {
-                $appliedAmount = 0;
-                $baseAppliedAmount = 0;
-                foreach ($row['rates'] as $rate) {
-                    $appliedAmount += $rate['amount'];
-                    $baseAppliedAmount += $rate['base_amount'];
-                }
-            }
-
-            if ($appliedAmount || $previouslyAppliedTaxes[$row['id']]['amount']) {
-                $previouslyAppliedTaxes[$row['id']]['amount'] += $appliedAmount;
-                $previouslyAppliedTaxes[$row['id']]['base_amount'] += $baseAppliedAmount;
-            } else {
-                unset($previouslyAppliedTaxes[$row['id']]);
-            }
-        }
-        $address->setAppliedTaxes($previouslyAppliedTaxes);
-        return $this;
-    }
-
-    /**
-     * Collect gift wrapping tax totals
+     * Collect gift wrapping related items and add them to tax calculation
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @return  $this
@@ -130,43 +93,12 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
             $this->_quoteEntity = $quote;
         }
 
-        $this->_initRate(
-            $address
-        )->_collectWrappingForItems(
-            $address
-        )->_collectWrappingForQuote(
-            $address
-        )->_collectPrintedCard(
-            $address
-        );
+        $store = $address->getQuote()->getStore();
+        $productTaxClassId = $this->_giftWrappingData->getWrappingTaxClass($store);
 
-        $baseTaxAmount = $address->getGwItemsBaseTaxAmount() +
-            $address->getGwBaseTaxAmount() +
-            $address->getGwCardBaseTaxAmount();
-        $taxAmount = $address->getGwItemsTaxAmount() + $address->getGwTaxAmount() + $address->getGwCardTaxAmount();
-        $address->setBaseTaxAmount($address->getBaseTaxAmount() + $baseTaxAmount);
-        $address->setTaxAmount($address->getTaxAmount() + $taxAmount);
-        $address->setBaseGrandTotal($address->getBaseGrandTotal() + $baseTaxAmount);
-        $address->setGrandTotal($address->getGrandTotal() + $taxAmount);
-
-        if ($quote->getIsNewGiftWrappingTaxCollecting()) {
-            $quote->setGwItemsBaseTaxAmount(0);
-            $quote->setGwItemsTaxAmount(0);
-            $quote->setGwBaseTaxAmount(0);
-            $quote->setGwTaxAmount(0);
-            $quote->setGwCardBaseTaxAmount(0);
-            $quote->setGwCardTaxAmount(0);
-            $quote->setIsNewGiftWrappingTaxCollecting(false);
-        }
-        $quote->setGwItemsBaseTaxAmount($address->getGwItemsBaseTaxAmount() + $quote->getGwItemsBaseTaxAmount());
-        $quote->setGwItemsTaxAmount($address->getGwItemsTaxAmount() + $quote->getGwItemsTaxAmount());
-        $quote->setGwBaseTaxAmount($address->getGwBaseTaxAmount() + $quote->getGwBaseTaxAmount());
-        $quote->setGwTaxAmount($address->getGwTaxAmount() + $quote->getGwTaxAmount());
-        $quote->setGwCardBaseTaxAmount($address->getGwCardBaseTaxAmount() + $quote->getGwCardBaseTaxAmount());
-        $quote->setGwCardTaxAmount($address->getGwCardTaxAmount() + $quote->getGwCardTaxAmount());
-
-        $applied = $this->_taxCalculationModel->getAppliedRates($this->_request);
-        $this->_saveAppliedTaxes($address, $applied, $taxAmount, $baseTaxAmount, $this->_rate);
+        $this->_collectWrappingForItems($address, $productTaxClassId);
+        $this->_collectWrappingForQuote($address, $productTaxClassId);
+        $this->_collectPrintedCard($address, $productTaxClassId);
 
         return $this;
     }
@@ -175,100 +107,114 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      * Collect wrapping tax total for items
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
+     * @param   int $gwTaxClassId
      * @return  $this
      */
-    protected function _collectWrappingForItems($address)
+    protected function _collectWrappingForItems($address, $gwTaxClassId)
     {
         $items = $this->_getAddressItems($address);
-        $wrappingForItemsBaseTaxAmount = false;
-        $wrappingForItemsTaxAmount = false;
+        $gwItemCodeToItemMapping = [];
 
         foreach ($items as $item) {
             if ($item->getProduct()->isVirtual() || $item->getParentItem() || !$item->getGwId()) {
                 continue;
             }
-            $wrappingBaseTaxAmount = $this->_calcTaxAmount($item->getGwBasePrice());
-            $wrappingTaxAmount = $this->_calcTaxAmount($item->getGwPrice());
-            $item->setGwBaseTaxAmount($wrappingBaseTaxAmount);
-            $item->setGwTaxAmount($wrappingTaxAmount);
 
-            $wrappingForItemsBaseTaxAmount += $wrappingBaseTaxAmount * $item->getQty();
-            $wrappingForItemsTaxAmount += $wrappingTaxAmount * $item->getQty();
+            $associatedTaxables = $item->getAssociatedTaxables();
+            if (!$associatedTaxables) {
+                $associatedTaxables = [];
+            }
+
+            $gwBasePrice = $item->getGwBasePrice();
+            $gwPrice = $item->getGwPrice();
+            $gwItemCode = self::CODE_ITEM_GW_PREFIX . $this->getNextIncrement();
+
+            $gwItemCodeToItemMapping[$gwItemCode] = $item;
+
+            $associatedTaxables[] = [
+                self::KEY_ASSOCIATED_TAXABLE_TYPE => self::ITEM_TYPE,
+                self::KEY_ASSOCIATED_TAXABLE_CODE => $gwItemCode,
+                self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $gwPrice,
+                self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $gwBasePrice,
+                self::KEY_ASSOCIATED_TAXABLE_QUANTITY => $item->getQty(),
+                self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
+                self::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
+            ];
+
+            $item->setAssociatedTaxables($associatedTaxables);
         }
-        $address->setGwItemsBaseTaxAmount($wrappingForItemsBaseTaxAmount);
-        $address->setGwItemsTaxAmount($wrappingForItemsTaxAmount);
+
+        $address->setGWItemCodeToItemMapping($gwItemCodeToItemMapping);
+
         return $this;
     }
 
     /**
      * Collect wrapping tax total for quote
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  $this
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param int $gwTaxClassId
+     * @return $this
      */
-    protected function _collectWrappingForQuote($address)
+    protected function _collectWrappingForQuote($address, $gwTaxClassId)
     {
-        $wrappingBaseTaxAmount = false;
-        $wrappingTaxAmount = false;
         if ($this->_quoteEntity->getGwId()) {
-            $wrappingBaseTaxAmount = $this->_calcTaxAmount($this->_quoteEntity->getGwBasePrice());
-            $wrappingTaxAmount = $this->_calcTaxAmount($this->_quoteEntity->getGwPrice());
+            $associatedTaxables = $address->getAssociatedTaxables();
+            if (!$associatedTaxables) {
+                $associatedTaxables = [];
+            }
+
+            $wrappingBaseAmount = $this->_quoteEntity->getGwBasePrice();
+            $wrappingAmount = $this->_quoteEntity->getGwPrice();
+
+            $associatedTaxables[] = [
+                self::KEY_ASSOCIATED_TAXABLE_TYPE => self::QUOTE_TYPE,
+                self::KEY_ASSOCIATED_TAXABLE_CODE => self::CODE_QUOTE_GW,
+                self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $wrappingAmount,
+                self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $wrappingBaseAmount,
+                self::KEY_ASSOCIATED_TAXABLE_QUANTITY => 1,
+                self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
+                self::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
+                self::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE => self::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
+            ];
+
+            $address->setAssociatedTaxables($associatedTaxables);
         }
-        $address->setGwBaseTaxAmount($wrappingBaseTaxAmount);
-        $address->setGwTaxAmount($wrappingTaxAmount);
         return $this;
     }
 
     /**
      * Collect printed card tax total for quote
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  $this
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param int $gwTaxClassId
+     * @return $this
      */
-    protected function _collectPrintedCard($address)
+    protected function _collectPrintedCard($address, $gwTaxClassId)
     {
-        $printedCardBaseTaxAmount = false;
-        $printedCardTaxAmount = false;
         if ($this->_quoteEntity->getGwAddCard()) {
-            $printedCardBaseTaxAmount = $this->_calcTaxAmount($this->_quoteEntity->getGwCardBasePrice());
-            $printedCardTaxAmount = $this->_calcTaxAmount($this->_quoteEntity->getGwCardPrice());
+            $associatedTaxables = $address->getAssociatedTaxables();
+            if (!$associatedTaxables) {
+                $associatedTaxables = [];
+            }
+
+            $printedCardBaseTaxAmount = $this->_quoteEntity->getGwCardBasePrice();
+            $printedCardTaxAmount = $this->_quoteEntity->getGwCardPrice();
+
+            $associatedTaxables[] = [
+                self::KEY_ASSOCIATED_TAXABLE_TYPE => self::PRINTED_CARD_TYPE,
+                self::KEY_ASSOCIATED_TAXABLE_CODE => self::CODE_PRINTED_CARD,
+                self::KEY_ASSOCIATED_TAXABLE_UNIT_PRICE => $printedCardTaxAmount,
+                self::KEY_ASSOCIATED_TAXABLE_BASE_UNIT_PRICE => $printedCardBaseTaxAmount,
+                self::KEY_ASSOCIATED_TAXABLE_QUANTITY => 1,
+                self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
+                self::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
+                self::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE => self::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
+            ];
+
+            $address->setAssociatedTaxables($associatedTaxables);
         }
-        $address->setGwCardBaseTaxAmount($printedCardBaseTaxAmount);
-        $address->setGwCardTaxAmount($printedCardTaxAmount);
         return $this;
-    }
-
-    /**
-     * Init gift wrapping and printed card tax rate for address
-     *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  $this
-     */
-    protected function _initRate($address)
-    {
-        $store = $address->getQuote()->getStore();
-        $billingAddress = $address->getQuote()->getBillingAddress();
-        $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
-        $this->_request = $this->_taxCalculationModel->getRateRequest(
-            $address,
-            $billingAddress,
-            $custTaxClassId,
-            $store
-        );
-        $this->_request->setProductClassId($this->_giftWrappingData->getWrappingTaxClass($store));
-        $this->_rate = $this->_taxCalculationModel->getRate($this->_request);
-        return $this;
-    }
-
-    /**
-     * Calculate tax for amount
-     *
-     * @param   float $price
-     * @return  float
-     */
-    protected function _calcTaxAmount($price)
-    {
-        return $this->_taxCalculationModel->calcTaxAmount($price, $this->_rate);
     }
 
     /**
@@ -279,23 +225,6 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        $address->addTotal(
-            array(
-                'code' => 'giftwrapping',
-                'gw_price' => $address->getGwPrice(),
-                'gw_base_price' => $address->getGwBasePrice(),
-                'gw_items_price' => $address->getGwItemsPrice(),
-                'gw_items_base_price' => $address->getGwItemsBasePrice(),
-                'gw_card_price' => $address->getGwCardPrice(),
-                'gw_card_base_price' => $address->getGwCardBasePrice(),
-                'gw_tax_amount' => $address->getGwTaxAmount(),
-                'gw_base_tax_amount' => $address->getGwBaseTaxAmount(),
-                'gw_items_tax_amount' => $address->getGwItemsTaxAmount(),
-                'gw_items_base_tax_amount' => $address->getGwItemsBaseTaxAmount(),
-                'gw_card_tax_amount' => $address->getGwCardTaxAmount(),
-                'gw_card_base_tax_amount' => $address->getGwCardBaseTaxAmount()
-            )
-        );
         return $this;
     }
 }

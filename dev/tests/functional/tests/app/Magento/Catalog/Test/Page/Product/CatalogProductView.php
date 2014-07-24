@@ -63,7 +63,7 @@ class CatalogProductView extends FrontendPage
         'reviewSummary' => [
             'name' => 'reviewSummary',
             'class' => 'Magento\Review\Test\Block\Product\View\Summary',
-            'locator' => '.product.reviews.summary',
+            'locator' => '.product-reviews-summary',
             'strategy' => 'css selector',
         ],
         'reviewFormBlock' => [
