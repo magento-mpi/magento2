@@ -9,7 +9,6 @@
 namespace Magento\Review\Test\Block\Adminhtml;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridAbstract;
 
 /**
@@ -34,22 +33,25 @@ class Grid extends GridAbstract
             'selector' => '#reviwGrid_filter_status',
             'input' => 'select',
         ],
+        'nickname' => [
+            'selector' => '#reviwGrid_filter_nickname',
+        ],
+        'detail' => [
+            'selector' => '#reviwGrid_filter_detail',
+        ],
+        'visible_in' => [
+            'selector' => '[data-ui-id="widget-grid-column-filter-store-filter-visible-in"]',
+            'input' => 'selectstore',
+        ],
+        'type' => [
+            'selector' => '#reviwGrid_filter_type',
+            'input' => 'select',
+        ],
+        'name' => [
+            'selector' => '#reviwGrid_filter_name',
+        ],
+        'sku' => [
+            'selector' => '#reviwGrid_filter_sku',
+        ],
     ];
-
-    /**
-     * Review actions
-     *
-     * @param string $reviewGridActions
-     * @param array $items
-     * @param string $reviewGridStatus
-     * @return void
-     */
-    public function actions($reviewGridActions, array $items, $reviewGridStatus)
-    {
-        if ($reviewGridActions == 'Delete') {
-            $this->delete($items);
-        } else {
-            $this->massaction($reviewGridActions, $items, $reviewGridStatus);
-        }
-    }
 }

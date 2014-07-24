@@ -9,6 +9,7 @@
 namespace Magento\Review\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -17,26 +18,25 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  * Test creation for MassActions ProductReviewEntity
  *
  * Test Flow:
- * 1. login to backend
- * 2. navigate to Marketing -> User Content -> Reviews
- * 3. search and select review created in precondition
- * 4. select Mass Action
- * 5. select Action from Dataset
- * 6. click "Submit" button
- * 7. perform Asserts
+ *
+ * Preconditions:
+ * 1. Simple product created
+ * 2. Product Review created on frontend
+ *
+ * Steps:
+ * 1. Login to backend
+ * 2. Navigate to Marketing -> User Content -> Reviews
+ * 3. Search and select review created in precondition
+ * 4. Select Mass Action
+ * 5. Select Action from Dataset
+ * 6. Click "Submit" button
+ * 7. Perform Asserts
  *
  * @group Reviews_and_Ratings_(MX)
  * @ZephyrId MAGETWO-26618
  */
 class MassActionsProductReviewEntityTest extends Injectable
 {
-    /**
-     * Review fixture
-     *
-     * @var ReviewInjectable
-     */
-    protected $review;
-
     /**
      * Review index page
      *
@@ -48,14 +48,14 @@ class MassActionsProductReviewEntityTest extends Injectable
      * Prepare data
      *
      * @param CatalogProductSimple $product
-     * @param ReviewInjectable $review
+     * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(CatalogProductSimple $product, ReviewInjectable $review)
+    public function __prepare(CatalogProductSimple $product, FixtureFactory $fixtureFactory)
     {
         $product->persist();
+        $review = $fixtureFactory->createByCode('reviewInjectable', ['dataSet' => 'review_for_mass_actions']);
         $review->persist();
-        $this->review = $review;
 
         return ['product' => $product, 'review' => $review];
     }
@@ -72,19 +72,22 @@ class MassActionsProductReviewEntityTest extends Injectable
     }
 
     /**
-     * Creation for MassActions ProductReviewEntity
+     * Apply for MassActions ProductReviewEntity
      *
      * @param string $gridActions
      * @param string $gridStatus
-     * @return void
+     * @param ReviewInjectable $review
+     * @return array
      */
-    public function test($gridActions, $gridStatus)
+    public function test($gridActions, $gridStatus, ReviewInjectable $review)
     {
+        // Steps
         $this->reviewIndex->open();
-        $this->reviewIndex->getReviewGrid()->actions(
-            $gridActions,
-            [['title' => $this->review->getTitle()]],
-            $gridStatus
+        $this->reviewIndex->getReviewGrid()->massaction(
+            [['title' => $review->getTitle()]],
+            [$gridActions => $gridStatus]
         );
+
+        return ['status' => $gridStatus];
     }
 }

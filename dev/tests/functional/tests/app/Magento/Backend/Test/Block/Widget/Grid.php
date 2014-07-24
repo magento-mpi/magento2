@@ -124,7 +124,7 @@ abstract class Grid extends Block
      *
      * @var string
      */
-    protected $status = '#status';
+    protected $status = '[name="status"]';
 
     /**
      * Get backend abstract block
@@ -238,19 +238,26 @@ abstract class Grid extends Block
     /**
      * Perform selected massaction over checked items
      *
-     * @param string $actionType
      * @param array $items
-     * @param string $typeStatus [optional]
+     * @param array $action
      * @param bool $acceptAlert [optional]
+     * @return void
      */
-    protected function massaction($actionType, array $items, $typeStatus = '', $acceptAlert = false)
+    public function massaction(array $items, array $action, $acceptAlert = false)
     {
+        if (!is_array($action)) {
+            $action[$action] = '-';
+        }
         foreach ($items as $item) {
             $this->searchAndSelect($item);
         }
+        $actionType = key($action);
         $this->_rootElement->find($this->massactionSelect, Locator::SELECTOR_CSS, 'select')->setValue($actionType);
-        if ($typeStatus != '') {
-            $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue($typeStatus);
+        if (isset($action[$actionType]) && $action[$actionType] != '-') {
+            $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue($action[$actionType]);
+        }
+        if ($actionType == 'Delete') {
+            $acceptAlert = true;
         }
         $this->massActionSubmit($acceptAlert);
     }
@@ -267,16 +274,6 @@ abstract class Grid extends Block
         if ($acceptAlert) {
             $this->_rootElement->acceptAlert();
         }
-    }
-
-    /**
-     * Delete selected items in grid
-     *
-     * @param array $items [optional]
-     */
-    public function delete($items = [])
-    {
-        $this->massaction('Delete', $items, '', true);
     }
 
     /**

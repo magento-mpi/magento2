@@ -9,6 +9,7 @@
 namespace Magento\Review\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 
 /**
@@ -20,7 +21,7 @@ class AssertProductReviewMassActionSuccessMessage extends AbstractConstraint
     /**
      * Message that appears after updates via mass actions
      */
-    const SUCCESS_MESSAGE = 'A total of 1 record(s) have been updated.';
+    const SUCCESS_MESSAGE = 'A total of %d record(s) have been updated.';
 
     /**
      * Constraint severeness
@@ -32,13 +33,16 @@ class AssertProductReviewMassActionSuccessMessage extends AbstractConstraint
     /**
      * Assert that success message is displayed after updated via mass actions
      *
+     * @param ReviewInjectable|ReviewInjectable[] $review
      * @param ReviewIndex $reviewIndex
      * @return void
      */
-    public function processAssert(ReviewIndex $reviewIndex)
+    public function processAssert(ReviewInjectable $review, ReviewIndex $reviewIndex)
     {
+        $reviews = is_array($review) ? $review : [$review];
+        $successMessage = sprintf(self::SUCCESS_MESSAGE, count($reviews));
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            $successMessage,
             $reviewIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );

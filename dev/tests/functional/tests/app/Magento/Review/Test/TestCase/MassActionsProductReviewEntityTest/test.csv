@@ -2,4 +2,4 @@
 "Update Status";"Approved";"assertProductReviewMassActionSuccessMessage, assertProductReviewInGrid, assertProductRatingInProductPage"
 "Update Status";"Pending";"assertProductReviewMassActionSuccessMessage, assertProductReviewInGrid, assertProductRatingNotInProductPage"
 "Update Status";"Not Approved";"assertProductReviewMassActionSuccessMessage, assertProductReviewInGrid, assertProductRatingNotInProductPage"
-"Delete";"-";"assertProductReviewMassActionDeleteSuccessMessage, assertProductRatingNotInProductPage"
+"Delete";"-";"assertProductReviewMassActionSuccessDeleteMessage, assertProductRatingNotInProductPage"
