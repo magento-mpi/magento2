@@ -69,11 +69,6 @@ class PaypalCreditCardTest extends Functional
 
         //Verify order in Backend
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
-        $this->assertContains(
-            'Your order has been received.',
-            $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.'
-        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
