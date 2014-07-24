@@ -84,7 +84,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $bundleOptions = './/dl[contains(@class, "cart item options")]/dd[%d]/span[@class="price"][%d]';
+    protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
      * Get sub-total for the specified item in the cart
