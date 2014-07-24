@@ -50,6 +50,8 @@ class AssertProductComparePage extends AbstractConstraint
      * @param CatalogProductCompare $comparePage
      * @param CmsIndex $cmsIndex
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         array $products,
@@ -75,8 +77,7 @@ class AssertProductComparePage extends AbstractConstraint
                 \PHPUnit_Framework_Assert::assertEquals(
                     $attributeValue,
                     $comparePage->getCompareProductsBlock()->{'getProduct' . ucfirst($attribute)}($key + 1, $value),
-                    'Product "' . $product->getName() . '" with ' . $attribute . ' "' . $attributeValue
-                    . '" is absent on compare product page.'
+                    'Product "' . $product->getName() . '" is\'n equals with data from fixture.'
                 );
             }
         }

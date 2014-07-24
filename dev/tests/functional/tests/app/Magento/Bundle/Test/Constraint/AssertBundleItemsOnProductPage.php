@@ -35,6 +35,7 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
+        $catalogProductView->getViewBlock()->clickCustomize();
         $result = $this->displayedBundleBlock($catalogProductView, $product);
         \PHPUnit_Framework_Assert::assertTrue(empty($result), $result);
     }
@@ -50,27 +51,25 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
     {
         $fields = $product->getData();
         $bundleOptions = $fields['bundle_selections']['bundle_options'];
-        $errors = [];
-
         if (!isset($bundleOptions)) {
             return 'Bundle options data on product page is not equals to fixture preset.';
         }
 
         $catalogProductView->getViewBlock()->clickCustomize();
         foreach ($bundleOptions as $index => $item) {
-            foreach ($item['assigned_products'] as $key => $selection) {
-                $item['assigned_products'][$key] = $selection['search_data'];
+            foreach ($item['assigned_products'] as &$selection) {
+                $selection = $selection['search_data'];
             }
-            $error = $catalogProductView->getBundleViewBlock()->getBundleBlock()->displayedBundleItemOption(
+            $result = $catalogProductView->getBundleViewBlock()->getBundleBlock()->displayedBundleItemOption(
                 $item,
                 ++$index
             );
 
-            if ($error !== true) {
-                $errors[] = $error;
+            if ($result !== true) {
+                return $result;
             }
         }
-        return empty($errors) ? null : implode(' ', $errors);
+        return null;
     }
 
     /**

@@ -104,6 +104,13 @@ class CustomOptions extends Form
     protected $selectByTitleLocator = '//*[*[@class="product-options-wrapper"]//span[text()="%s"]]//select';
 
     /**
+     * Select XPath locator by option name
+     *
+     * @var string
+     */
+    protected $optionByName = '//*[label//span[contains(.,"%s")]]';
+
+    /**
      * Get product options
      *
      * @param FixtureInterface|null $product [optional]
@@ -421,8 +428,8 @@ class CustomOptions extends Form
      */
     public function fillCustomOptions(array $customOptions)
     {
-        $type = $this->optionNameConvert($customOptions['type']);
-        $customOptions += $this->dataMapping([$type => '']);
+        $type = strtolower(preg_replace('/[^a-zA-Z]/', '', $customOptions['type']));
+        $customOptions += $this->dataMapping([$type => []]);
 
         $isDate = $customOptions['type'] == 'Date' ||
             $customOptions['type'] == 'Time' ||
@@ -444,7 +451,7 @@ class CustomOptions extends Form
             }
 
             $select = $this->_rootElement->find(
-                sprintf($this->selectByTitleLocator, $customOptions['title']) . $selector,
+                sprintf($this->optionByName, $customOptions['title']) . $selector,
                 Locator::SELECTOR_XPATH,
                 $customOptions[$type]['input']
             );
@@ -491,17 +498,5 @@ class CustomOptions extends Form
             $value = $select->find('.//option[@value != ""][1]', Locator::SELECTOR_XPATH)->getText();
         }
         $select->setValue($value);
-    }
-
-    /**
-     * Convert option name
-     *
-     * @param string $optionName
-     * @return string
-     */
-    protected function optionNameConvert($optionName)
-    {
-        $type = preg_replace('/[^a-zA-Z]/', '', $optionName);
-        return ucfirst(strtolower($type));
     }
 }

@@ -18,6 +18,13 @@ namespace Mtf\Constraint;
 abstract class AbstractAssertForm extends AbstractConstraint
 {
     /**
+     * Skipped fields for verify data
+     *
+     * @var array
+     */
+    protected $skippedFields = [];
+
+    /**
      * Verify fixture and form data
      *
      * @param array $fixtureData
@@ -25,12 +32,18 @@ abstract class AbstractAssertForm extends AbstractConstraint
      * @param bool $isStrict
      * @param bool $isPrepareError
      * @return array|string
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function verifyData(array $fixtureData, array $formData, $isStrict = false, $isPrepareError = true)
     {
         $errors = [];
 
         foreach ($fixtureData as $key => $value) {
+            if (in_array($key, $this->skippedFields)) {
+                continue;
+            }
             $formValue = isset($formData[$key]) ? $formData[$key] : null;
             if (is_numeric($formValue)) {
                 $formValue = floatval($formValue);
@@ -133,6 +146,8 @@ abstract class AbstractAssertForm extends AbstractConstraint
      * @param string $path
      * @return array
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function sortDataByPath(array $data, $path)
     {
@@ -153,7 +168,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
             $data[$key] = $nextPath ? $this->sortData($data[$key], $nextPath) : $data[$key];
         } else {
             $data = $this->sortMultidimensionalArray($data, $order);
-            $data = $nextPath ? $this->sortData($data, $nextPath): $data;
+            $data = $nextPath ? $this->sortData($data, $nextPath) : $data;
         }
 
         return $data;

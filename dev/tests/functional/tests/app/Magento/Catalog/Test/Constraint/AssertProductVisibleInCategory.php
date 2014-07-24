@@ -48,6 +48,8 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      * @param FixtureInterface $product
      * @param CatalogCategory|null $category
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
@@ -55,7 +57,7 @@ class AssertProductVisibleInCategory extends AbstractConstraint
         FixtureInterface $product,
         CatalogCategory $category = null
     ) {
-        $categoryName = $category ? $category->getName() : $product->getCategoryIds()[0];
+        $categoryName = $product->hasData('category_ids') ? $product->getCategoryIds()[0] : $category->getName();
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
 
@@ -64,11 +66,7 @@ class AssertProductVisibleInCategory extends AbstractConstraint
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         }
 
-        $quantityAndStockStatus = $product->getQuantityAndStockStatus();
-        $stockStatus = isset($quantityAndStockStatus['is_in_stock'])
-            ? $quantityAndStockStatus['is_in_stock']
-            : null;
-        if ($product->getVisibility() === 'Search' || $stockStatus === 'Out of Stock') {
+        if (($product->getVisibility() === 'Search') || ($this->getStockStatus($product) === 'Out of Stock')) {
             $isProductVisible = !$isProductVisible;
             $this->errorMessage = 'Product found in this category.';
             $this->successfulMessage = 'Asserts that the product could not be found in this category.';
@@ -78,6 +76,18 @@ class AssertProductVisibleInCategory extends AbstractConstraint
             $isProductVisible,
             $this->errorMessage
         );
+    }
+
+    /**
+     * Getting is in stock status
+     *
+     * @param FixtureInterface $product
+     * @return string|null
+     */
+    protected function getStockStatus(FixtureInterface $product)
+    {
+        $quantityAndStockStatus = $product->getQuantityAndStockStatus();
+        return isset($quantityAndStockStatus['is_in_stock']) ? $quantityAndStockStatus['is_in_stock'] : null;
     }
 
     /**

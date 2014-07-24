@@ -126,6 +126,9 @@ class Bundle extends Block
      * @param array $fields
      * @param int $index
      * @return bool|string
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function displayedBundleItemOption(array $fields, $index)
     {
@@ -135,7 +138,7 @@ class Bundle extends Block
             Locator::SELECTOR_XPATH
         );
         if (!$option->isVisible()) {
-            return 'This "' . $fields['title'] . '" Option does not equal to fixture option type.';
+            return '"' . $fields['title'] . '" Option does not equal to fixture option type.';
         }
 
         $formatRequired = sprintf(

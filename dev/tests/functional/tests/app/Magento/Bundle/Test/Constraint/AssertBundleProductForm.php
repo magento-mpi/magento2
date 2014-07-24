@@ -92,7 +92,6 @@ class AssertBundleProductForm extends AssertProductForm
                 if (isset($value['type']) && $value['type'] == 'date') {
                     $fields[$key] = vsprintf('%d/%d/%d', explode('/', $fields[$key]));
                 }
-                $fields[$key] = [$key => $fields[$key]];
             }
         }
         return $fields;

@@ -10,12 +10,10 @@ namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class CreateProduct
@@ -102,6 +100,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      *
      * @param FixtureInterface|null $fixture [optional]
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function persist(FixtureInterface $fixture = null)
     {
@@ -117,6 +118,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param FixtureInterface $fixture
      * @param string|null $prefix [optional]
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {

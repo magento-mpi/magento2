@@ -27,6 +27,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>general_properties</group>
         </name>
         <description>
             <attribute_code>description</attribute_code>
@@ -34,6 +35,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>general_properties</group>
         </description>
         <is_active>
             <attribute_code>is_active</attribute_code>
@@ -41,6 +43,7 @@
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
+            <group>general_properties</group>
         </is_active>
         <conditions_serialized>
             <attribute_code>conditions_serialized</attribute_code>
@@ -69,10 +72,12 @@
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
+            <group>general_properties</group>
         </apply_to>
         <website_ids>
             <attribute_code>website_ids</attribute_code>
             <backend_type>virtual</backend_type>
+            <group>general_properties</group>
         </website_ids>
     </fields>
     <data_set>

@@ -66,6 +66,6 @@ class VirtualProduct extends Product
         $this->_data['fields'] = array_merge($this->_data['fields'], $data);
 
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCatalogCatalogProductVirtual($this->_dataConfig, $this->_data);
+            ->getMagentoCatalogVirtualProduct($this->_dataConfig, $this->_data);
     }
 }

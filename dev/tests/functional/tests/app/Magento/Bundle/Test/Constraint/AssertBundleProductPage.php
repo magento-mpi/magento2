@@ -45,21 +45,28 @@ class AssertBundleProductPage extends AssertProductPage
     protected function preparePrice($price)
     {
         $priceData = $this->product->getDataFieldConfig('price')['source']->getPreset();
-        if ($this->product->getPriceView() == 'Price Range') {
+        $priceView = $this->product->getPriceView();
+        if ($priceView === null || $priceView == 'Price Range') {
+            if (isset($price['price_from']) && isset($price['price_to'])) {
+                return [
+                    ['price_from' => $price['price_from'], 'price_to' => $price['price_to']],
+                    [
+                        'price_from' => number_format($priceData['price_from'], 2),
+                        'price_to' => number_format($priceData['price_to'], 2)
+                    ]
+                ];
+            }
             return [
-                ['price_from' => $price['price_from'], 'price_to' => $price['price_to']],
-                [
-                    'price_from' => number_format($priceData['price_from'], 2),
-                    'price_to' => number_format($priceData['price_to'], 2)
-                ]
+                ['price_regular_price' => $price['price_regular_price']],
+                ['price_regular_price' => number_format($priceData['price_from'], 2)]
             ];
         } else {
             return [
                 ['price_from' => $price['price_regular_price']],
                 [
                     'price_from' => is_numeric($priceData['price_from'])
-                        ? number_format($priceData['price_from'], 2)
-                        : $priceData['price_from']
+                            ? number_format($priceData['price_from'], 2)
+                            : $priceData['price_from']
                 ]
             ];
         }

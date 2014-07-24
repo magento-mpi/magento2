@@ -39,6 +39,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
      * @param CatalogProductEdit $productEdit
      * @param CatalogProductIndex $productGrid
      * @param CatalogAttributeSet $attributeSet
+     * @param CatalogAttributeSet $attributeSetOriginal
      * @param CatalogProductNew $newProductPage
      * @param CatalogProductAttribute $productAttribute
      * @return void
@@ -50,7 +51,8 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
         CatalogProductIndex $productGrid,
         CatalogAttributeSet $attributeSet,
         CatalogProductNew $newProductPage,
-        CatalogProductAttribute $productAttribute
+        CatalogProductAttribute $productAttribute,
+        CatalogAttributeSet $attributeSetOriginal = null
     ) {
 
         $productGrid->open();
@@ -80,11 +82,14 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
             . "\nActual: " . $formAttributeSet
         );
 
-        $productEdit->getForm()->openTab('product-details');
-        \PHPUnit_Framework_Assert::assertTrue(
-            $productEdit->getForm()->checkAttributeLabel($productAttribute),
-            "Product Attribute is absent on Product form."
-        );
+        if ($attributeSetOriginal === null) {
+            $productEdit->getForm()->openTab('product-details');
+
+            \PHPUnit_Framework_Assert::assertTrue(
+                $productEdit->getForm()->checkAttributeLabel($productAttribute),
+                "Product Attribute is absent on Product form."
+            );
+        }
     }
 
     /**

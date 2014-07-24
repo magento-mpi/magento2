@@ -78,17 +78,18 @@ class Collection extends \Magento\Framework\Data\Collection
                 }
                 $item->addData($affectedItem['item']);
                 $item->setId($item->getSku());
+                $product = clone $this->_productModel;
                 if (isset($affectedItem['item']['id'])) {
                     $productId = $affectedItem['item']['id'];
                     $item->setProductId($productId);
-                    $this->_productModel->load($productId);
+                    $product->load($productId);
                     $status = $this->stockStatus->getProductStockStatus($productId, $this->getWebsiteId());
                     if ($status !== null) {
-                        $this->_productModel->setIsSalable($status);
+                        $product->setIsSalable($status);
                     }
-                    $item->setPrice($this->_coreHelper->formatPrice($this->_productModel->getPrice()));
+                    $item->setPrice($this->_coreHelper->formatPrice($product->getPrice()));
                 }
-                $item->setProduct($this->_productModel);
+                $item->setProduct($product);
                 $this->addItem($item);
             }
             $this->_setIsLoaded(true);

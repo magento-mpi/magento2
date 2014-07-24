@@ -32,6 +32,8 @@ class AssertCmsBlockNotInGrid extends AbstractConstraint
      * @param CmsBlock $cmsBlock
      * @param CmsBlockIndex $cmsBlockIndex
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(CmsBlock $cmsBlock, CmsBlockIndex $cmsBlockIndex)
     {

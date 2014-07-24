@@ -90,6 +90,7 @@ class CatalogProductSimple extends InjectableFixture
             'qty' => 10.0000,
             'is_in_stock' => 'In Stock',
         ],
+        'website_ids' => ['Main Website'],
     ];
 
     protected $category_ids = [

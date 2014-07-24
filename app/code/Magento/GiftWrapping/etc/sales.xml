@@ -13,7 +13,8 @@
             <item name="giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Giftwrapping" sort_order="900">
                 <renderer name="frontend" instance="Magento\GiftWrapping\Block\Checkout\Totals"/>
             </item>
-            <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping" sort_order="500"/>
+            <item name="pretax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping" sort_order="425"/>
+            <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Tax\GiftwrappingAfterTax" sort_order="475"/>
         </group>
     </section>
     <section name="order_invoice">

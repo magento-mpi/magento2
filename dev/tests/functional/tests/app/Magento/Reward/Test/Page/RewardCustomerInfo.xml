@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="reward/customer/info" >
+    <block>
+        <name>rewardPointsBlock</name>
+        <class>Magento\Reward\Test\Block\Customer\Reward</class>
+        <locator>.block-reward-info</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.page.messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>accountMenuBlock</name>
+        <class>Magento\Customer\Test\Block\Account\Links</class>
+        <locator>.nav.items</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>titleBlock</name>
+        <class>Magento\Theme\Test\Block\Html\Title</class>
+        <locator>.page-title</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

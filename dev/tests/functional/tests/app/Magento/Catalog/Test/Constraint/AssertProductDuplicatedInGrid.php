@@ -10,7 +10,6 @@ namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
