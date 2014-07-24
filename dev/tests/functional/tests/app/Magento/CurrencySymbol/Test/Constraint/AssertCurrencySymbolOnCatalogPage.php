@@ -34,13 +34,15 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductSimple $product
      * @param CurrencySymbolEntity $currencySymbol
+     * @param string $currencySymbolDefault
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $product,
-        CurrencySymbolEntity $currencySymbol
+        CurrencySymbolEntity $currencySymbol,
+        $currencySymbolDefault = null
     ) {
         $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
@@ -49,8 +51,10 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
         $price = $catalogCategoryView->getListProductBlock()->getPrice($product->getId());
         preg_match('`(.*?)\d`', $price, $matches);
 
+        $symbol = ($currencySymbolDefault === null)
+            ? $currencySymbol->getCustomCurrencySymbol() : $currencySymbolDefault;
         \PHPUnit_Framework_Assert::assertEquals(
-            $currencySymbol->getCustomCurrencySymbol(),
+            $symbol,
             $matches[1],
             'Wrong Currency Symbol is displayed on Category page.'
         );
