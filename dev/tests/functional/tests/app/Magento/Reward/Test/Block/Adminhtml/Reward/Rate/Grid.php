@@ -17,13 +17,6 @@ use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 class Grid extends ParentGrid
 {
     /**
-     * Locator value for link in action column
-     *
-     * @var string
-     */
-    protected $editLink = 'td[data-column="rate"]';
-
-    /**
      * Edit link selector
      *
      * @var string
