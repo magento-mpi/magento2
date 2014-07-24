@@ -54,12 +54,12 @@ class ReadService implements ReadServiceInterface
         $optionCollection = $this->type->getOptionsCollection($product);
         $optionCollection->setIdFilter($optionId);
 
-        /** @var \Magento\Bundle\Model\Option $optionDto */
-        $optionDto = $optionCollection->getFirstItem();
-        if (!$optionDto->getId()) {
+        /** @var \Magento\Bundle\Model\Option $option */
+        $option = $optionCollection->getFirstItem();
+        if (!$option->getId()) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
-        return $optionDto;
+        return $this->optionConverter->createDataFromModel($option, $product);
     }
 
     /**

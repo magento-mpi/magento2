@@ -115,13 +115,17 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionCollection->expects($this->once())->method('setIdFilter')
             ->with($this->equalTo($optionId));
         $this->optionCollection->expects($this->once())->method('getFirstItem')
-            ->will($this->returnValue($this->option));
+            ->will($this->returnValue($this->optionModel));
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
             ->will($this->returnValue($this->optionCollection));
 
-        $this->option->expects($this->once())->method('getId')->will($this->returnValue($optionId));
+        $this->optionConverter->expects($this->once())->method('createDataFromModel')
+            ->with($this->equalTo($this->optionModel), $this->equalTo($this->product))
+            ->will($this->returnValue($this->option));
+
+        $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId));
 
         $this->assertEquals($this->option, $this->model->get($productSku, $optionId));
     }
@@ -144,13 +148,13 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionCollection->expects($this->once())->method('setIdFilter')
             ->with($this->equalTo($optionId));
         $this->optionCollection->expects($this->once())->method('getFirstItem')
-            ->will($this->returnValue($this->option));
+            ->will($this->returnValue($this->optionModel));
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
             ->will($this->returnValue($this->optionCollection));
 
-        $this->option->expects($this->once())->method('getId');
+        $this->optionModel->expects($this->once())->method('getId');
 
         $this->model->get($productSku, $optionId);
     }
