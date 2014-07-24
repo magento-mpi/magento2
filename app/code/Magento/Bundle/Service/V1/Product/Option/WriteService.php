@@ -97,6 +97,36 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function update($productSku, $optionId, \Magento\Bundle\Service\V1\Data\Product\Option $option)
+    {
+        $product = $this->getProduct($productSku);
+        $optionCollection = $this->type->getOptionsCollection($product);
+
+        /** @var \Magento\Bundle\Model\Option $updateOption */
+        $updateOption = null;
+        /** @var \Magento\Bundle\Model\Option $optionModel */
+        foreach ($optionCollection as $optionModel) {
+            if ($optionModel->getId() == $optionId) {
+                $updateOption = $this->optionConverter->getModelFromData($option, $optionModel);
+            }
+        }
+        if ($updateOption === null) {
+            throw new NoSuchEntityException('Requested option doesn\'t exist');
+        }
+        $updateOption->setStoreId($this->storeManager->getStore()->getId());
+
+        try {
+            $updateOption->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not save option', [], $e);
+        }
+
+        return true;
+    }
+
+    /**
      * @param string $productSku
      * @return Product
      * @throws Exception
