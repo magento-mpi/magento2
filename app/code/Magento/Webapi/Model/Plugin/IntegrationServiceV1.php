@@ -32,6 +32,7 @@ class IntegrationServiceV1
      *
      * @param AuthorizationInterface $authzService
      * @param UserIdentifierFactory $userIdentifierFactory
+     * @param AclRetriever $aclRetriever
      */
     public function __construct(
         AuthorizationInterface $authzService,
