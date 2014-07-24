@@ -11,6 +11,11 @@ use Magento\Catalog\Helper\Category as CategoryHelper;
 use Magento\Catalog\Helper\Product as ProductHelper;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
+use Magento\Eav\Model\Config;
+use Magento\Framework\App\Resource;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\UrlRewrite\Service\V1\Data\Converter;
 
 /**
  * TODO: It is stub class (UrlRewrite)
@@ -37,16 +42,36 @@ class Data
     protected $categoryHelper;
 
     /**
-     * @param \Magento\Catalog\Helper\Product $productHelper
-     *
+     * @var Converter
+     */
+    protected $converter;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $eavConfig;
+
+    /**
+     * @var false|\Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    protected $connection;
+
+    /**
+     * @param Config $eavConfig
+     * @param Resource $resource
+     * @param ProductHelper $productHelper
      * @param CategoryHelper $categoryHelper
      */
     public function __construct(
+        Config $eavConfig,
+        Resource $resource,
         ProductHelper $productHelper,
         CategoryHelper $categoryHelper
     ) {
         $this->productHelper = $productHelper;
         $this->categoryHelper = $categoryHelper;
+        $this->eavConfig = $eavConfig;
+        $this->connection = $resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
     }
 
     /**
@@ -162,5 +187,23 @@ class Data
             : $product->formatUrlKey($product->getUrlKey());
 
         return $urlKey;
+    }
+
+    /**
+     * If product saved on default store view, then need to check specific url_key for other stores
+     *
+     * @param int $storeId
+     * @param int $productId
+     * @return bool
+     */
+    public function isNeedCreateUrlRewrite($storeId, $productId)
+    {
+        $attribute = $this->eavConfig->getAttribute(Product::ENTITY, 'url_key');
+        $select = $this->connection->select()
+            ->from($attribute->getBackendTable(), 'store_id')
+            ->where('attribute_id = ?', $attribute->getId())
+            ->where('entity_id = ?', $productId);
+
+        return !in_array($storeId, $this->connection->fetchCol($select));
     }
 }

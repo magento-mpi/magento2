@@ -9,9 +9,10 @@ namespace Magento\CatalogUrlRewrite\Model\Category;
 
 use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\CatalogUrlRewrite\Service\V1\CategoryUrlGeneratorInterface;
-use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGeneratorInterface;
+use \Magento\CatalogUrlRewrite\Model\Product\ProductUrlGenerator;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
+use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 
 class Observer
 {
@@ -35,22 +36,28 @@ class Observer
      */
     protected $catalogUrlRewriteHelper;
 
+    /** @var \Magento\CatalogUrlRewrite\Service\V1\StoreViewService */
+    protected $storeViewService;
+
     /**
      * @param CategoryUrlGeneratorInterface $categoryUrlGenerator
-     * @param ProductUrlGeneratorInterface $productUrlGenerator
+     * @param ProductUrlGenerator $productUrlGenerator
      * @param UrlSaveInterface $urlSave
      * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
+     * @param StoreViewService $storeViewService
      */
     public function __construct(
         CategoryUrlGeneratorInterface $categoryUrlGenerator,
-        ProductUrlGeneratorInterface $productUrlGenerator,
+        ProductUrlGenerator $productUrlGenerator,
         UrlSaveInterface $urlSave,
-        CatalogUrlRewriteHelper $catalogUrlRewriteHelper
+        CatalogUrlRewriteHelper $catalogUrlRewriteHelper,
+        StoreViewService $storeViewService
     ) {
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->productUrlGenerator = $productUrlGenerator;
         $this->urlSave = $urlSave;
         $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;
+        $this->storeViewService = $storeViewService;
     }
 
     /**
@@ -64,7 +71,7 @@ class Observer
         /** @var \Magento\Catalog\Model\Category $category */
         $category = $observer->getEvent()->getCategory();
 
-        if (!$this->catalogUrlRewriteHelper->isRootCategory($category)
+        if (!$this->storeViewService->isRootCategoryForStore($category->getId(), $category->getStoreId())
             && (!$category->getData('url_key') || $category->getOrigData('url_key') != $category->getData('url_key'))
         ) {
             // TODO: fix service parameter (@TODO: UrlRewrite)
