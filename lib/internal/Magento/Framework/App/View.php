@@ -30,6 +30,11 @@ class View implements ViewInterface
     protected $_translateInline;
 
     /**
+     * @var \Magento\Framework\View\Result\PageFactory
+     */
+    protected $pageFactory;
+
+    /**
      * @var ActionFlag
      */
     protected $_actionFlag;
@@ -56,6 +61,7 @@ class View implements ViewInterface
      * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\View\Result\PageFactory $pageFactory
      * @param ActionFlag $actionFlag
      */
     public function __construct(
@@ -65,6 +71,7 @@ class View implements ViewInterface
         \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Translate\InlineInterface $translateInline,
+        \Magento\Framework\View\Result\PageFactory $pageFactory,
         ActionFlag $actionFlag
     ) {
         $this->_layout = $layout;
@@ -73,6 +80,7 @@ class View implements ViewInterface
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
         $this->_translateInline = $translateInline;
+        $this->pageFactory = $pageFactory;
         $this->_actionFlag = $actionFlag;
     }
 
@@ -259,9 +267,11 @@ class View implements ViewInterface
             'controller_action_layout_render_before_' . $this->_request->getFullActionName()
         );
 
-        $output = $this->getLayout()->getOutput();
-        $this->_translateInline->processResponseBody($output);
-        $this->_response->appendBody($output);
+//        $output = $this->getLayout()->getOutput();
+//        $this->_translateInline->processResponseBody($output);
+//        $this->_response->appendBody($output);
+        $page = $this->pageFactory->create($this->_request);
+        $page->renderResult($this->_response);
         \Magento\Framework\Profiler::stop('layout_render');
 
         \Magento\Framework\Profiler::stop('LAYOUT');

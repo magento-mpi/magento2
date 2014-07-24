@@ -75,6 +75,11 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected $_pageHandles = array();
 
     /**
+     * @var string
+     */
+    protected $rootLayout = '3columns';
+
+    /**
      * Substitution values in structure array('from' => array(), 'to' => array())
      *
      * @var array|null
