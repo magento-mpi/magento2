@@ -5,13 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Items */
 ?>
 
 <?php if ($this->canDisplayGiftWrappingForItems()): ?>
 <div id="wrapping-item-container">
     <h4>Gift Wrapping</h4>
     <div class="gift-wrapping-form">
-        <label><?php echo __('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml() ?>
+        <label><?php echo __('Gift Wrapping Design') ?></label><?php echo $this->getDesignSelectHtml('quote_item') ?>
         <div class="gift-wrapping-design no-display">
             <img id="wrapping-item-image-box" class="image-box no-display" height="75" width="75" alt="" src="" />
             <div id="wrapping-item-price-box" class="no-display">
@@ -32,7 +34,6 @@
                 <?php endif; ?>
             </div>
         </div>
-        <div class="no-display"><input type="hidden" id="giftwrapping_type" value="quote_item" /></div>
     </div>
 </div>
 
@@ -103,8 +104,7 @@ var giftWrappingItem = {
     setData : function(event){
         var element = Event.element(event).id;
         this.itemId = element.sub('gift_options_link_','');
-        $('giftwrapping_design_item').name = 'giftwrapping['+this.itemId+'][design]';
-        $('giftwrapping_type').name = 'giftwrapping['+this.itemId+'][type]';
+        $('giftwrapping_design_item').name = 'giftwrapping[quote_item]['+this.itemId+'][design]';
 
         if (this.itemsInfo[this.itemId]) {
             if (this.itemsInfo[this.itemId].design) {

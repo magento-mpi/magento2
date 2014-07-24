@@ -128,6 +128,20 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
+     * Create another store one time for testSearch
+     *
+     * @magentoApiDataFixture Magento/Core/_files/store.php
+     */
+    public function testCreateAnotherStore()
+    {
+        /** @var $store \Magento\Store\Model\Store */
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
+        $store->load('fixturestore');
+        $this->assertNotNull($store->getId());
+    }
+
+    /**
+     * @depends testCreateAnotherStore
      * @dataProvider searchDataProvider
      */
     public function testSearch($filterGroups, $expected, $sortData)
@@ -460,5 +474,28 @@ class ProductServiceTest extends WebapiAbstract
         unset($error['trace']);
         unset($error['type']);
         return $error;
+    }
+
+    /**
+     * Remove test store
+     */
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', true);
+
+        /** @var $store \Magento\Store\Model\Store */
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
+        $store->load('fixturestore');
+        if ($store->getId()) {
+            $store->delete();
+        }
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', false);
     }
 }
