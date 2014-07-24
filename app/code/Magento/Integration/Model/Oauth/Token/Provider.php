@@ -295,7 +295,7 @@ class Provider implements TokenProviderInterface
      */
     public function getIntegrationTokenByConsumerId($consumerId)
     {
-        $token = $this->token->getByConsumerIdAndUserType($consumerId, UserIdentifier::USER_TYPE_INTEGRATION);
+        $token = $this->token->loadByConsumerIdAndUserType($consumerId, UserIdentifier::USER_TYPE_INTEGRATION);
 
         if (!$token->getId()) {
             throw new \Magento\Framework\Oauth\Exception(

@@ -185,34 +185,29 @@ class Token extends \Magento\Framework\Model\AbstractModel
         if (self::TYPE_REQUEST != $this->getType()) {
             throw new OauthException('Cannot convert to access token due to token is not request type');
         }
-        $this->setUserType(UserIdentifier::USER_TYPE_INTEGRATION);
-        return $this->saveAccessToken();
+        return $this->saveAccessToken(UserIdentifier::USER_TYPE_INTEGRATION);
     }
 
     /**
      * Create access token for a admin
      *
-     * @param string $userId
+     * @param int $userId
      * @return $this
-     * @throws OauthException
      */
     public function createAdminToken($userId)
     {
-        $this->setUserType(UserIdentifier::USER_TYPE_ADMIN);
-        return $this->saveAccessToken($userId);
+        return $this->saveAccessToken(UserIdentifier::USER_TYPE_ADMIN, $userId);
     }
 
     /**
      * Create access token for a customer
      *
-     * @param string $userId
+     * @param int $userId
      * @return $this
-     * @throws OauthException
      */
     public function createCustomerToken($userId)
     {
-        $this->setUserType(UserIdentifier::USER_TYPE_CUSTOMER);
-        return $this->saveAccessToken($userId);
+        return $this->saveAccessToken(UserIdentifier::USER_TYPE_CUSTOMER, $userId);
     }
 
     /**
@@ -321,11 +316,15 @@ class Token extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param string $userId
+     * Generate and save access token for a given user type
+     *
+     * @param int $userType
+     * @param int $userId
      * @return $this
      */
-    protected function saveAccessToken($userId = null)
+    protected function saveAccessToken($userType, $userId = null)
     {
+        $this->setUserType($userType);
         if ($userId) {
             $this->setConsumerId($userId);
         }
@@ -342,7 +341,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
      * @param int $userType
      * @return string Token
      */
-    public function getByConsumerIdAndUserType($consumerId, $userType)
+    public function loadByConsumerIdAndUserType($consumerId, $userType)
     {
         $tokenData = $this->getResource()->selectTokenByConsumerAndUserType($consumerId, $userType);
         $this->setData($tokenData ? $tokenData : []);

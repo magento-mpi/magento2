@@ -97,7 +97,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
                     'convertToAccess',
                     'getRevoked',
                     'getResource',
-                    'getByConsumerIdAndUserType',
+                    'loadByConsumerIdAndUserType',
                     '__wakeup'
                 )
             )
@@ -388,7 +388,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenMock->expects($this->any())->method('getVerifier')->will($this->returnValue($verifier));
         $this->_tokenMock->expects($this->any())->method('convertToAccess')->will($this->returnSelf());
         $this->_tokenMock->expects($this->any())->method('getRevoked')->will($this->returnValue($isRevoked));
-        $this->_tokenMock->expects($this->any())->method('getByConsumerIdAndUserType')->will($this->returnSelf());
+        $this->_tokenMock->expects($this->any())->method('loadByConsumerIdAndUserType')->will($this->returnSelf());
     }
 
     /**
