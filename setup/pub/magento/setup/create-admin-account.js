@@ -1,3 +1,10 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 'use strict';
 angular.module('create-admin-account', ['ngStorage'])
     .controller('createAdminAccountController', ['$scope', '$state', '$localStorage', function ($scope, $state, $localStorage) {

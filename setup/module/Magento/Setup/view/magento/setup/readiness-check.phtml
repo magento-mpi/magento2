@@ -1,3 +1,11 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
 <div class="step-controls" ng-show="$state.is('root.readiness-check.progress')">
     <a href="#" class="btn btn-primary" ng-click="$state.forceReload()" ng-disabled="checkingInProgress()"><?php echo $this->translate('Try Again'); ?></a>
     <a href="#" class="btn btn-primary" ng-click="nextState()" ng-disabled="checkingInProgress() || hasErrors"><?php echo $this->translate('Next'); ?></a>
