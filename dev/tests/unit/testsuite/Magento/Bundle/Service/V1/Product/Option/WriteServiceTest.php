@@ -77,7 +77,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
 
         $this->optionConverter = $this->getMockBuilder('Magento\Bundle\Service\V1\Data\Product\OptionConverter')
-            ->setMethods(['createModelFromData', 'createDataFromModel'])
+            ->setMethods(['createModelFromData', 'createDataFromModel', 'getModelFromData'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -169,6 +169,101 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->optionModel));
 
         $this->assertEquals($this->option, $this->model->add($productSku, $this->option));
+    }
+
+    public function testUpdate()
+    {
+        $productSku = 'oneSku';
+        $optionId = 3;
+
+        $this->productRepository->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->product));
+
+        $this->product->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE));
+
+        $this->productType->expects($this->once())->method('getOptionsCollection')
+            ->with($this->equalTo($this->product))
+            ->will($this->returnValue([$this->optionModel]));
+
+        $storeId = 1;
+        $this->store->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+
+        $this->optionModel->expects($this->once())->method('setStoreId')->with($this->equalTo($storeId));
+        $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId));
+        $this->optionModel->expects($this->once())->method('save');
+
+        $this->optionConverter->expects($this->once())->method('getModelFromData')
+            ->with($this->equalTo($this->option), $this->equalTo($this->optionModel))
+            ->will($this->returnValue($this->optionModel));
+
+
+        $this->assertTrue($this->model->update($productSku, $optionId, $this->option));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testUpdateCouldNotSaveException()
+    {
+        $productSku = 'oneSku';
+        $optionId = 3;
+
+        $this->productRepository->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->product));
+
+        $this->product->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE));
+
+        $this->productType->expects($this->once())->method('getOptionsCollection')
+            ->with($this->equalTo($this->product))
+            ->will($this->returnValue([$this->optionModel]));
+
+        $storeId = 1;
+        $this->store->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+
+        $this->optionModel->expects($this->once())->method('setStoreId')->with($this->equalTo($storeId));
+        $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId));
+        $this->optionModel->expects($this->once())->method('save')->will(
+            $this->returnCallback(
+                function () {
+                    throw new \Exception();
+                }
+            )
+        );
+
+        $this->optionConverter->expects($this->once())->method('getModelFromData')
+            ->with($this->equalTo($this->option), $this->equalTo($this->optionModel))
+            ->will($this->returnValue($this->optionModel));
+
+
+        $this->assertTrue($this->model->update($productSku, $optionId, $this->option));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testUpdateNoSuchEntityException()
+    {
+        $productSku = 'oneSku';
+        $optionId = 3;
+
+        $this->productRepository->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->product));
+
+        $this->product->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE));
+
+        $this->productType->expects($this->once())->method('getOptionsCollection')
+            ->with($this->equalTo($this->product))
+            ->will($this->returnValue([$this->optionModel]));
+
+        $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId + 1));
+
+        $this->model->update($productSku, $optionId, $this->option);
     }
 
     public function testRemove()
