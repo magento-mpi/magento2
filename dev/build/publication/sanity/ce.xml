@@ -527,5 +527,10 @@
             <word>Enterprise</word>
             <path>dev/tools/Magento/Tools/Composer</path>
         </item>
+        <item>
+            <word>saas</word>
+            <path>setup/pub/angular/angular.min.js.map</path>
+            <path>setup/pub/bootstrap/css/bootstrap.css.map</path>
+        </item>
     </whitelist>
 </config>

@@ -34,6 +34,7 @@ $config = array(
     'lib/internal/Magento'  => $magentoOslAfl,
     'lib/web'               => $magentoOslAfl,
     'pub'                   => $magentoOslAfl,
+    'setup'                 => $magentoOslAfl,
 );
 
 if (defined('EDITION_LICENSE')) {
