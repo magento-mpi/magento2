@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\StoreManager;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Webapi\Exception;
 
 class WriteService implements WriteServiceInterface
@@ -40,13 +40,13 @@ class WriteService implements WriteServiceInterface
      * @param ProductRepository $productRepository
      * @param Type $type
      * @param OptionConverter $optionConverter
-     * @param StoreManager $storeManager
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         ProductRepository $productRepository,
         Type $type,
         OptionConverter $optionConverter,
-        StoreManager $storeManager
+        StoreManagerInterface $storeManager
     ) {
         $this->productRepository = $productRepository;
         $this->type = $type;
@@ -90,10 +90,10 @@ class WriteService implements WriteServiceInterface
         try {
             $optionModel->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not save option');
+            throw new CouldNotSaveException('Could not save option', [], $e);
         }
 
-        return $this->optionConverter->createDataFromModel($optionModel, $product);
+        return $optionModel->getId();
     }
 
     /**
@@ -106,7 +106,14 @@ class WriteService implements WriteServiceInterface
         $product = $this->productRepository->get($productSku);
 
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-            throw new Exception('Only implemented for bundle product', Exception::HTTP_FORBIDDEN);
+            throw new Exception(
+                'Product with specified sku: "%1" is not a bundle product',
+                Exception::HTTP_FORBIDDEN,
+                Exception::HTTP_FORBIDDEN,
+                [
+                    $product->getSku()
+                ]
+            );
         }
 
         return $product;

@@ -29,8 +29,10 @@ class OptionConverter
      * @param OptionBuilder $builder
      * @param OptionFactory $optionFactory
      */
-    public function __construct(OptionBuilder $builder, OptionFactory $optionFactory)
-    {
+    public function __construct(
+        OptionBuilder $builder,
+        OptionFactory $optionFactory
+    ) {
         $this->builder = $builder;
         $this->optionFactory = $optionFactory;
     }
