@@ -15,13 +15,13 @@ use Magento\Authz\Model\UserIdentifier;
 class UserIdentifierTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $_userLocatorMock;
+    protected $_userContextMock;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_userLocatorMock = $this->getMock(
-            'Magento\Authz\Model\UserLocatorInterface',
+        $this->_userContextMock = $this->getMock(
+            'Magento\Authorization\Model\UserContextInterface',
             array('getUserId', 'getUserType')
         );
     }
@@ -33,7 +33,7 @@ class UserIdentifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct($userType, $userId)
     {
-        $context = new UserIdentifier($this->_userLocatorMock, $userType, $userId);
+        $context = new UserIdentifier($this->_userContextMock, $userType, $userId);
         $this->assertEquals($userId, $context->getUserId());
         $this->assertEquals($userType, $context->getUserType());
     }
@@ -47,7 +47,7 @@ class UserIdentifierTest extends \PHPUnit_Framework_TestCase
     public function testConstructInvalidData($userType, $userId, $exceptionMessage)
     {
         $this->setExpectedException('\LogicException', $exceptionMessage);
-        new UserIdentifier($this->_userLocatorMock, $userType, $userId);
+        new UserIdentifier($this->_userContextMock, $userType, $userId);
     }
 
     public function constructProvider()

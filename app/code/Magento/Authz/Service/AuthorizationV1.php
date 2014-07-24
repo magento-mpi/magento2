@@ -14,11 +14,11 @@ use Magento\Framework\Acl\RootResource as RootAclResource;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Logger;
-use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
-use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
-use Magento\User\Model\Role;
-use Magento\User\Model\RoleFactory;
-use Magento\User\Model\RulesFactory;
+use Magento\Authorization\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
+use Magento\Authorization\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
+use Magento\Authorization\Model\Role;
+use Magento\Authorization\Model\RoleFactory;
+use Magento\Authorization\Model\RulesFactory;
 
 /**
  * Authorization service.
@@ -106,19 +106,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * {@inheritdoc}
      */
-    public function isAllowed($resources, UserIdentifier $userIdentifier = null)
-    {
-        $resources = is_array($resources) ? $resources : [$resources];
-        $userIdentifier = $userIdentifier ? $userIdentifier : $this->_userIdentifier;
-        if ($this->_isAnonymousOrSelfAllowed($resources, $userIdentifier)) {
-            return true;
-        }
-        return $this->_isUserWithRoleAllowed($resources, $userIdentifier);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function grantPermissions(UserIdentifier $userIdentifier, array $resources)
     {
         try {
@@ -162,7 +149,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * Create new ACL role.
      *
      * @param UserIdentifier $userIdentifier
-     * @return Role
+     * @return \Magento\Authorization\Model\Role
      * @throws NoSuchEntityException
      * @throws \LogicException
      */
@@ -176,7 +163,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
         switch ($userType) {
             case UserIdentifier::USER_TYPE_INTEGRATION:
                 $roleName = $userType . $userId;
-                $roleType = \Magento\User\Model\Acl\Role\User::ROLE_TYPE;
+                $roleType = \Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE;
                 $parentId = 0;
                 $userId = $userIdentifier->getUserId();
                 break;
@@ -197,7 +184,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * Remove an ACL role. This deletes the cascading permissions
      *
      * @param UserIdentifier $userIdentifier
-     * @return Role
+     * @return \Magento\Authorization\Model\Role
      * @throws NoSuchEntityException
      * @throws \LogicException
      */
@@ -223,7 +210,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * Identify user role from user identifier.
      *
      * @param UserIdentifier $userIdentifier
-     * @return Role|false Return false in case when no role associated with provided user was found.
+     * @return \Magento\Authorization\Model\Role|false Return false in case when no role associated with provided user was found.
      * @throws \LogicException
      */
     protected function _getUserRole($userIdentifier)
@@ -244,14 +231,14 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * Associate resources with the specified role. All resources previously assigned to the role will be unassigned.
      *
-     * @param Role $role
+     * @param \Magento\Authorization\Model\Role $role
      * @param string[] $resources
      * @return void
      * @throws \LogicException
      */
     protected function _associateResourcesWithRole($role, array $resources)
     {
-        /** @var \Magento\User\Model\Rules $rules */
+        /** @var \Magento\Authorization\Model\Rules $rules */
         $rules = $this->_rulesFactory->create();
         $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
     }
@@ -267,57 +254,5 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected function _canRoleBeCreatedForUserType($userType)
     {
         return ($userType != UserIdentifier::USER_TYPE_CUSTOMER) && ($userType != UserIdentifier::USER_TYPE_GUEST);
-    }
-
-    /**
-     * Check if the user has permission to access the requested resources.
-     *
-     * @param string[] $resources
-     * @param UserIdentifier $userIdentifier
-     * @return bool
-     */
-    protected function _isAnonymousOrSelfAllowed($resources, UserIdentifier $userIdentifier)
-    {
-        if (count($resources) == 1) {
-            $resource = reset($resources);
-            $isAnonymousAccess = ($resource == self::PERMISSION_ANONYMOUS);
-            $isSelfAccess = ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_CUSTOMER)
-                && ($resource == self::PERMISSION_SELF);
-            if ($isAnonymousAccess || $isSelfAccess) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Check if user who has role is allowed to access requested resources.
-     *
-     * @param string[] $resources
-     * @param UserIdentifier $userIdentifier
-     * @return bool
-     */
-    protected function _isUserWithRoleAllowed($resources, UserIdentifier $userIdentifier)
-    {
-        try {
-            $role = $this->_getUserRole($userIdentifier);
-            if (!$role) {
-                throw NoSuchEntityException::doubleField(
-                    'userId',
-                    $userIdentifier->getUserId(),
-                    'userType',
-                    $userIdentifier->getUserType()
-                );
-            }
-            foreach ($resources as $resource) {
-                if (!$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)) {
-                    return false;
-                }
-            }
-            return true;
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            return false;
-        }
     }
 }

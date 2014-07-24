@@ -31,7 +31,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     /**
      * Rules collection factory
      *
-     * @var \Magento\User\Model\Resource\Rules\CollectionFactory
+     * @var \Magento\Authorization\Model\Resource\Rules\CollectionFactory
      */
     protected $_rulesCollectionFactory;
 

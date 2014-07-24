@@ -304,7 +304,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Filter admin roles collection by allowed stores
      *
-     * @param \Magento\User\Model\Resource\Role\Collection $collection
+     * @param \Magento\Authorization\Model\Resource\Role\Collection $collection
      * @return void
      */
     public function limitAdminPermissionRoles($collection)

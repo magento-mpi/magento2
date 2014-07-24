@@ -8,7 +8,7 @@
 namespace Magento\Authz\Service;
 
 use Magento\Authz\Model\UserIdentifier;
-use Magento\User\Model\Role;
+use Magento\Authorization\Model\Role;
 
 class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
 {
@@ -18,21 +18,33 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject|Role $roleMock */
-        $roleMock = $this->getMock('Magento\User\Model\Role', array('load', 'delete', '__wakeup'), array(), '', false);
+        $roleMock = $this->getMock(
+            'Magento\Authorization\Model\Role',
+            array('load', 'delete', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $roleMock->expects($this->any())->method('load')->will($this->returnSelf());
         $roleMock->expects($this->any())->method('delete')->will($this->returnSelf());
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\User\Model\RoleFactory $roleFactoryMock */
-        $roleFactoryMock = $this->getMock('Magento\User\Model\RoleFactory', array('create'), array(), '', false);
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authorization\Model\RoleFactory $roleFactoryMock */
+        $roleFactoryMock = $this->getMock(
+            'Magento\Authorization\Model\RoleFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $roleFactoryMock->expects($this->any())->method('create')->will($this->returnValue($roleMock));
 
         $this->_authzService = new AuthorizationV1(
             $this->getMock('Magento\Framework\Acl\Builder', array(), array(), '', false),
             $this->getMock('Magento\Authz\Model\UserIdentifier', array(), array(), '', false),
             $roleFactoryMock,
-            $this->getMock('Magento\User\Model\Resource\Role\CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento\User\Model\RulesFactory', array(), array(), '', false),
-            $this->getMock('Magento\User\Model\Resource\Rules\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\Authorization\Model\Resource\Role\CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento\Authorization\Model\RulesFactory', array(), array(), '', false),
+            $this->getMock('Magento\Authorization\Model\Resource\Rules\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
             $this->getMock('Magento\Framework\Acl\RootResource', array(), array(), '', false)
         );

@@ -7,9 +7,9 @@
  */
 namespace Magento\Authz\Service\AuthorizationV1Test;
 
-use Magento\Authz\Model\UserLocatorInterface;
+use Magento\Authorization\Model\UserContextInterface;
 
-class UserLocatorStub implements UserLocatorInterface
+class UserLocatorStub implements UserContextInterface
 {
     /**
      * {@inheritdoc}

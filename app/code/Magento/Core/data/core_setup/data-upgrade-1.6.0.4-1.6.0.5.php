@@ -10,7 +10,7 @@
 $installer = $this;
 $installer->startSetup();
 
-$tableName = $installer->getTable('admin_rule');
+$tableName = $installer->getTable('authorization_rule');
 if ($tableName) {
     $installer->getConnection()->delete($tableName, array('resource_id = ?' => 'admin/system/tools/compiler'));
 }
