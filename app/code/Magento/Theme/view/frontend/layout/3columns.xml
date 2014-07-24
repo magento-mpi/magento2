@@ -26,9 +26,9 @@
                     </container>
                 </container>
             </container>
-            <container name="page.bottom" as="page_bottom" label="Before Page Footer Container" htmlTag="div" htmlClass="page bottom"/>
+            <container name="page.bottom.container" as="page_bottom" label="Before Page Footer Container" htmlTag="div" htmlClass="page bottom"/>
+            <container name="footer-container" as="footer_container" label="Page Footer" htmlTag="footer" htmlClass="footer content" after="page.bottom" before="before.body.end"/>
             <container name="before.body.end" as="before_body_end" label="Page Bottom"/>
-            <container name="footer-container" as="footer_container" label="Page Footer" htmlTag="div" htmlClass="footer content" after="page.bottom" before="before.body.end"/>
         </container>
     </container>
 </layout>
