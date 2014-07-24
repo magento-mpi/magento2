@@ -1,0 +1,5 @@
+namespace \Magento\Framework\Service\Code\Generator;
+
+class SampleSearchResults extends \Magento\Framework\Service\V1\Data\SearchResults
+{
+}
