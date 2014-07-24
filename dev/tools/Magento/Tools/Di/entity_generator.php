@@ -17,6 +17,8 @@ use Magento\Framework\Service\Code\Generator\Builder;
 use Magento\Framework\Service\Code\Generator\Mapper;
 use Magento\Framework\ObjectManager\Code\Generator\Repository;
 use Magento\Framework\Service\Code\Generator\Converter;
+use Magento\Framework\Service\Code\Generator\SearchResults;
+use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
 
@@ -75,6 +77,8 @@ $generator = new Generator(
     null,
     $io,
     [
+        SearchResultsBuilder::ENTITY_TYPE =>
+            'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
         Proxy::ENTITY_TYPE =>
             'Magento\Framework\ObjectManager\Code\Generator\Proxy',
         Factory::ENTITY_TYPE =>
@@ -89,6 +93,8 @@ $generator = new Generator(
             'Magento\Framework\ObjectManager\Code\Generator\Repository',
         Converter::ENTITY_TYPE =>
             'Magento\Framework\ObjectManager\Code\Generator\Converter',
+        SearchResults::ENTITY_TYPE =>
+            'Magento\Framework\Service\Code\Generator\SearchResults',
     ]
 );
 

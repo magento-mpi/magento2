@@ -16,6 +16,7 @@
     <preference for="Magento\Sales\Service\V1\OrderUnHoldInterface" type="Magento\Sales\Service\V1\OrderUnHold"/>
     <preference for="Magento\Sales\Service\V1\OrderNotifyUserInterface" type="Magento\Sales\Service\V1\OrderNotifyUser"/>
     <preference for="Magento\Sales\Service\V1\OrderStatusHistoryAddInterface" type="Magento\Sales\Service\V1\OrderStatusHistoryAdd"/>
+    <preference for="Magento\Sales\Service\V1\OrderCommentsListInterface" type="Magento\Sales\Service\V1\OrderCommentsList"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>
