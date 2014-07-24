@@ -16,7 +16,7 @@ use Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder;
 /**
  * Class OrderCommentsList
  */
-class OrderCommentsList
+class OrderCommentsList implements OrderCommentsListInterface
 {
     /**
      * @var HistoryRepository
