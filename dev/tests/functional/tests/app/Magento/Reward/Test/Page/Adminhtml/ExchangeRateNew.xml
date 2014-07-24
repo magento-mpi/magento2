@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/reward_rate/new" >
+    <block>
+        <name>formPageActions</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>orderStatusForm</name>
+        <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardForm</class>
+        <locator>#edit_form</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
