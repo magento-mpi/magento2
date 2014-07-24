@@ -32,8 +32,6 @@ $config = array(
     'lib/web'               => $magentoOslAfl,
     'pub'                   => $magentoOslAfl,
     'setup'                 => $magentoOslAfl,
-    'setup/pub/angular'     => array(),
-    'setup/pub/bootstrap'   => array(),
 );
 
 if (defined('EDITION_LICENSE')) {

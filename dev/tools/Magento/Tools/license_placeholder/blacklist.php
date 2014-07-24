@@ -60,5 +60,7 @@ return array(
     'lib/web/tiny_mce',
     'lib/web/underscore.js',
     'pub/media',
-    'var'
+    'var',
+    'setup/pub/bootstrap',
+    'setup/pub/angular',
 );

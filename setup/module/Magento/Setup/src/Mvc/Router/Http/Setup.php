@@ -1,10 +1,9 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
+ * {license_notice}
  *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 
 namespace Magento\Setup\Mvc\Router\Http;
