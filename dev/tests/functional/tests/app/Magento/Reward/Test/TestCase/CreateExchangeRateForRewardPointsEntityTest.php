@@ -114,7 +114,7 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
         $customer->persist();
 
         // Steps
-        $this->rewardRateIndexPage->open()->getGridActions()->addNew();
+        $this->rewardRateIndexPage->open()->getGridPageActions()->addNew();
         $this->rewardRateNewPage->getRewardRateForm()->fill($rate);
         $this->rewardRateNewPage->getFormPageActions()->save();
     }
@@ -127,8 +127,8 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
     public function tearDown()
     {
         $this->rewardRateIndexPage->open();
-        while ($this->rewardRateIndexPage->getGridRate()->isFirstRowVisible()) {
-            $this->rewardRateIndexPage->getGridRate()->openFirstRow();
+        while ($this->rewardRateIndexPage->getRewardRateGrid()->isFirstRowVisible()) {
+            $this->rewardRateIndexPage->getRewardRateGrid()->openFirstRow();
             $this->rewardRateNewPage->getFormPageActions()->delete();
         }
         $this->configRollback->persist();

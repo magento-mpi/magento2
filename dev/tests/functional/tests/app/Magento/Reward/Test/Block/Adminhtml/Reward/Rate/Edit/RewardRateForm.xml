@@ -19,11 +19,7 @@
         <direction>
             <input>select</input>
         </direction>
-        <points>
-            <selector>#rate_value</selector>
-        </points>
-        <currency_amount>
-            <selector>#rate_equal_value</selector>
-        </currency_amount>
+        <value />
+        <equal_value />
     </fields>
 </mapping>

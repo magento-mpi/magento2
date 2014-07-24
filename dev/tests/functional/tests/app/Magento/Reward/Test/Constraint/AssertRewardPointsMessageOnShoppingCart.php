@@ -55,7 +55,7 @@ class AssertRewardPointsMessageOnShoppingCart extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             sprintf(self::CHECKOUT_REWARD_MESSAGE, $checkoutReward),
             trim($checkoutCart->getCheckoutTooltipBlock()->getRewardMessages()),
-            'Wrong message about checkout reward is displayed.'
+            'Wrong message about checkout reward points is displayed.'
         );
     }
 

@@ -72,8 +72,8 @@ class AssertRewardPointsBalance extends AbstractConstraint
         $expected['reward_points'] = sprintf(self::REWARD_POINTS_BALANCE, $registrationReward);
         $expected['exchange_rate'] = sprintf(
             self::REWARD_POINTS_EXCHANGE_RATE,
-            $rate->getPoints(),
-            $rate->getCurrencyAmount()
+            $rate->getValue(),
+            $rate->getEqualValue()
         );
 
         \PHPUnit_Framework_Assert::assertEquals($expected, $actual, 'Wrong success messages are displayed.');

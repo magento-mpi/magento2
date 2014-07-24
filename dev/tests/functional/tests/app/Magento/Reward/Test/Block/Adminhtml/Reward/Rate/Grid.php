@@ -8,13 +8,13 @@
 
 namespace Magento\Reward\Test\Block\Adminhtml\Reward\Rate;
 
-use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class Grid
- * Reward rate grid
+ * Adminhtml Reward Exchange Rate management grid
  */
-class Grid extends ParentGrid
+class Grid extends AbstractGrid
 {
     /**
      * Edit link selector
@@ -38,7 +38,7 @@ class Grid extends ParentGrid
         ],
         'customer_group_id' => [
             'selector' => 'select[name="customer_group_id"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
     ];
 

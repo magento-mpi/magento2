@@ -19,14 +19,14 @@ class RewardRateIndex extends BackendPage
     const MCA = 'admin/reward_rate/index';
 
     protected $_blocks = [
-        'gridRate' => [
-            'name' => 'gridRate',
+        'rewardRateGrid' => [
+            'name' => 'rewardRateGrid',
             'class' => 'Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid',
             'locator' => '#rewardRatesGrid',
             'strategy' => 'css selector',
         ],
-        'gridActions' => [
-            'name' => 'gridActions',
+        'gridPageActions' => [
+            'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
@@ -42,17 +42,17 @@ class RewardRateIndex extends BackendPage
     /**
      * @return \Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid
      */
-    public function getGridRate()
+    public function getRewardRateGrid()
     {
-        return $this->getBlockInstance('gridRate');
+        return $this->getBlockInstance('rewardRateGrid');
     }
 
     /**
      * @return \Magento\Backend\Test\Block\GridPageActions
      */
-    public function getGridActions()
+    public function getGridPageActions()
     {
-        return $this->getBlockInstance('gridActions');
+        return $this->getBlockInstance('gridPageActions');
     }
 
     /**

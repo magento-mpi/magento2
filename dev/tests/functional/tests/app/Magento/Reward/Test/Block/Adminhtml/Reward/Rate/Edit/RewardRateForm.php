@@ -12,7 +12,7 @@ use Mtf\Block\Form as ParentForm;
 
 /**
  * Class RewardRateForm
- * Reward rate form
+ * Form for reward exchange rate creation and editing
  */
 class RewardRateForm extends ParentForm
 {

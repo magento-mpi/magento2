@@ -9,13 +9,13 @@
 -->
 <page mca="admin/reward_rate/index" >
     <block>
-        <name>gridRate</name>
+        <name>rewardRateGrid</name>
         <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid</class>
         <locator>#rewardRatesGrid</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>gridActions</name>
+        <name>gridPageActions</name>
         <class>Magento\Backend\Test\Block\GridPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
