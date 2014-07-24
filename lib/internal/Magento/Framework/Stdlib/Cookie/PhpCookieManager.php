@@ -101,7 +101,7 @@ class PhpCookieManager implements CookieManager
      */
     private function setCookie($name, $value, array $metadataArray)
     {
-        if (is_null($value) || $value === false) {
+        if (trim($value) == false) {
             $value = '';
             $expireTime = self::EXPIRE_NOW_TIME;
         } else {
@@ -128,7 +128,7 @@ class PhpCookieManager implements CookieManager
             $metadataArray[AbstractCookieMetadata::KEY_PATH],
             $metadataArray[AbstractCookieMetadata::KEY_DOMAIN],
             $metadataArray[PublicCookieMetadata::KEY_SECURE],
-            $metadataArray[PublicCookieMetadata::KEY_SECURE]
+            $metadataArray[PublicCookieMetadata::KEY_HTTP_ONLY]
         );
 
         if (!$phpSetcookieSuccess) {
