@@ -9,8 +9,9 @@ namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Service\V1\Data\OrderMapper;
+use Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder;
+
 
 /**
  * Class OrderList
@@ -28,19 +29,19 @@ class OrderList implements OrderListInterface
     protected $orderMapper;
 
     /**
-     * @var SearchResultsBuilder
+     * @var OrderSearchResultsBuilder
      */
     protected $searchResultsBuilder;
 
     /**
      * @param OrderRepository $orderRepository
      * @param OrderMapper $orderMapper
-     * @param SearchResultsBuilder $searchResultsBuilder
+     * @param OrderSearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
         OrderRepository $orderRepository,
         OrderMapper $orderMapper,
-        SearchResultsBuilder $searchResultsBuilder
+        OrderSearchResultsBuilder $searchResultsBuilder
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderMapper = $orderMapper;
