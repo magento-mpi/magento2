@@ -38,10 +38,6 @@ class CatalogProductGrouped extends AbstractRepository
             'quantity_and_stock_status' => [
                 'is_in_stock' => 'In Stock',
             ],
-            'stock_data' => [
-                'use_config_manage_stock' => 'Yes',
-                'manage_stock' => 'No',
-            ],
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
         ];
