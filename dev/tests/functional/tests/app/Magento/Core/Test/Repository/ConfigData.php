@@ -59,6 +59,7 @@ class ConfigData extends AbstractRepository
                 ]
             ]
         ];
+
         $this->_data['config_currency_symbols_usd_and_uah'] = [
             'section' => [
                 [
@@ -69,6 +70,7 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
         $this->_data['config_currency_symbols_usd'] = [
             'section' => [
                 [

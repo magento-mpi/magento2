@@ -10,11 +10,27 @@
 <constraint>
     <assertCurrencySymbolSuccessSaveMessage module="Magento_CurrencySymbol">
         <severeness>low</severeness>
+        <require>
+            <currencySymbolIndex class="Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencySymbolIndex" />
+        </require>
     </assertCurrencySymbolSuccessSaveMessage>
     <assertCurrencySymbolOnProductPage module="Magento_CurrencySymbol">
         <severeness>low</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <currencySymbol class="Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity" />
+        </require>
     </assertCurrencySymbolOnProductPage>
     <assertCurrencySymbolOnCatalogPage module="Magento_CurrencySymbol">
         <severeness>low</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <currencySymbol class="Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity" />
+        </require>
     </assertCurrencySymbolOnCatalogPage>
 </constraint>

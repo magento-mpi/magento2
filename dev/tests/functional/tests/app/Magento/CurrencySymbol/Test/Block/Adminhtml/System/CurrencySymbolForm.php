@@ -19,7 +19,6 @@ use Mtf\Fixture\FixtureInterface;
  */
 class CurrencySymbolForm extends Form
 {
-
     /**
      * Custom Currency locator
      *
@@ -36,8 +35,7 @@ class CurrencySymbolForm extends Form
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $currencyCode = explode(" ", $fixture->getCode());
-        $element = $this->_rootElement->find(sprintf($this->currencyRow, $currencyCode[0]), Locator::SELECTOR_XPATH);
+        $element = $this->_rootElement->find(sprintf($this->currencyRow, $fixture->getCode()), Locator::SELECTOR_XPATH);
         return parent::fill($fixture, $element);
     }
 }

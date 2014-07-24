@@ -44,8 +44,7 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
     ) {
         $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
-        $customCurrency = $currencySymbol->getCode();
-        $cmsIndex->getCurrencyBlock()->switchCurrency($customCurrency);
+        $cmsIndex->getCurrencyBlock()->switchCurrency($currencySymbol);
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $price = $catalogCategoryView->getListProductBlock()->getPrice($product->getId());
         preg_match('`(.*?)\d`', $price, $matches);

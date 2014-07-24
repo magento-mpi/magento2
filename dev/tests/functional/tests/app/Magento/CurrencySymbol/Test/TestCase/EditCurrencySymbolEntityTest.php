@@ -8,7 +8,6 @@
 
 namespace Magento\CurrencySymbol\Test\TestCase;
 
-use Magento\Core\Test\Fixture\ConfigData;
 use Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencyIndex;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
@@ -55,7 +54,7 @@ class EditCurrencySymbolEntityTest extends Injectable
      *
      * @param FixtureFactory $fixtureFactory
      * @param SystemCurrencyIndex $currencyIndex
-     * @return array
+     * @return void
      */
     public function __prepare(FixtureFactory $fixtureFactory, SystemCurrencyIndex $currencyIndex)
     {
@@ -65,8 +64,6 @@ class EditCurrencySymbolEntityTest extends Injectable
         $currencyIndex->open();
         $currencyIndex->getGridPageActions()->clickImportButton();
         $currencyIndex->getMainPageActions()->saveCurrentRate();
-
-        return ['config' => $config];
     }
 
     /**

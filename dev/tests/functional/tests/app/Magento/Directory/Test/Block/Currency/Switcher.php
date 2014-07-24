@@ -9,6 +9,7 @@
 
 namespace Magento\Directory\Test\Block\Currency;
 
+use Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
@@ -35,29 +36,20 @@ class Switcher extends Block
     /**
      * Switch currency to specified one
      *
-     * @param string $currencyCode
+     * @param string CurrencySymbolEntity $currencySymbol
      * @return void
      */
-    public function switchCurrency($currencyCode)
+    public function switchCurrency(CurrencySymbolEntity $currencySymbol)
     {
+
         $currencyLink = $this->_rootElement->find($this->currencySwitch);
-        $customCurrencySwitch = explode(" ", $this->getCurrentCurrencyCode());
-        $currencyCode = explode(" ", $currencyCode);
-        if ($customCurrencySwitch[0] !== $currencyCode[0]) {
+        $customCurrencySwitch = explode(" ", $this->_rootElement->find($this->currencySwitch)->getText());
+        $currencyCode = $currencySymbol->getCode();
+        if ($customCurrencySwitch[0] !== $currencyCode) {
             $currencyLink->click();
             $currencyLink = $this->_rootElement
-                ->find(sprintf($this->currencyLinkLocator, $currencyCode[0]), Locator::SELECTOR_XPATH);
+                ->find(sprintf($this->currencyLinkLocator, $currencyCode), Locator::SELECTOR_XPATH);
             $currencyLink->click();
         }
-    }
-
-    /**
-     * Get Currency from Cms page
-     *
-     * @return string
-     */
-    protected function getCurrentCurrencyCode()
-    {
-        return $this->_rootElement->find($this->currencySwitch)->getText();
     }
 }
