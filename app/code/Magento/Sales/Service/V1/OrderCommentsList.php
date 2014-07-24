@@ -11,7 +11,7 @@ use Magento\Sales\Model\Order\Status\HistoryRepository;
 use Magento\Sales\Service\V1\Data\OrderStatusHistoryMapper;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder;
+use Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder;
 
 /**
  * Class OrderCommentsList
@@ -39,7 +39,7 @@ class OrderCommentsList implements OrderCommentsListInterface
     protected $filterBuilder;
 
     /**
-     * @var SearchResultsBuilder
+     * @var OrderSearchResultsBuilder
      */
     protected $searchResultsBuilder;
 
@@ -48,14 +48,14 @@ class OrderCommentsList implements OrderCommentsListInterface
      * @param OrderStatusHistoryMapper $historyMapper
      * @param SearchCriteriaBuilder $criteriaBuilder
      * @param FilterBuilder $filterBuilder
-     * @param SearchResultsBuilder $searchResultsBuilder
+     * @param OrderSearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
         HistoryRepository $historyRepository,
         OrderStatusHistoryMapper $historyMapper,
         SearchCriteriaBuilder $criteriaBuilder,
         FilterBuilder $filterBuilder,
-        SearchResultsBuilder $searchResultsBuilder
+        OrderSearchResultsBuilder $searchResultsBuilder
     ) {
         $this->historyRepository = $historyRepository;
         $this->historyMapper = $historyMapper;

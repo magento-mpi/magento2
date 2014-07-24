@@ -33,7 +33,7 @@ class OrderCommentsListTest extends \PHPUnit_Framework_TestCase
      */
     protected $filterBuilderMock;
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchResultsBuilderMock;
     /**
@@ -83,7 +83,7 @@ class OrderCommentsListTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->searchResultsBuilderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder',
+            'Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder',
             ['setItems', 'setSearchCriteria', 'create'],
             [],
             '',
