@@ -68,10 +68,11 @@ class OptionConverter
 
     public function getModelFromData(Option $option, OptionModel $optionModel)
     {
-        $optionId = $optionModel->getId();
-        $optionModel->addData($option->__toArray())
-            ->setId($optionId)
+        $newOptionModel = $this->optionFactory->create();
+        $newOptionModel->setData($optionModel->getData())
+            ->addData($option->__toArray())
+            ->setId($optionModel->getId())
             ->setDefaultTitle(is_null($option->getTitle()) ? $optionModel->getTitle() : $option->getTitle());
-        return $optionModel;
+        return $newOptionModel;
     }
 }
