@@ -15,7 +15,7 @@ class Config
     /**
      * Configuration xml
      *
-     * @var \Magento\Framework\Simplexml\Element
+     * @var Element
      */
     protected $_xml = null;
 
@@ -57,7 +57,7 @@ class Config
     /**
      * Cache resource object
      *
-     * @var \Magento\Framework\Simplexml\Config\Cache\AbstractCache
+     * @var Config\Cache\AbstractCache
      */
     protected $_cache = null;
 
@@ -80,15 +80,15 @@ class Config
      *
      * Initializes XML for this configuration
      *
-     * @see self::setXml
-     * @param string|\Magento\Framework\Simplexml\Element $sourceData
+     * @see \Magento\Framework\Simplexml\Config::setXml
+     * @param string|Element $sourceData
      */
     public function __construct($sourceData = null)
     {
-        if (is_null($sourceData)) {
+        if ($sourceData === null) {
             return;
         }
-        if ($sourceData instanceof \Magento\Framework\Simplexml\Element) {
+        if ($sourceData instanceof Element) {
             $this->setXml($sourceData);
         } elseif (is_string($sourceData) && !empty($sourceData)) {
             if (strlen($sourceData) < 1000 && is_readable($sourceData)) {
@@ -102,10 +102,10 @@ class Config
     /**
      * Sets xml for this configuration
      *
-     * @param \Magento\Framework\Simplexml\Element $node
+     * @param Element $node
      * @return $this
      */
-    public function setXml(\Magento\Framework\Simplexml\Element $node)
+    public function setXml(Element $node)
     {
         $this->_xml = $node;
         return $this;
@@ -114,13 +114,13 @@ class Config
     /**
      * Returns node found by the $path
      *
-     * @see     \Magento\Framework\Simplexml\Element::descend
-     * @param   string $path
-     * @return  \Magento\Framework\Simplexml\Element|bool
+     * @see \Magento\Framework\Simplexml\Element::descend
+     * @param string $path
+     * @return Element|bool
      */
     public function getNode($path = null)
     {
-        if (!$this->_xml instanceof \Magento\Framework\Simplexml\Element) {
+        if (!$this->_xml instanceof Element) {
             return false;
         } elseif ($path === null) {
             return $this->_xml;
@@ -133,7 +133,7 @@ class Config
      * Returns nodes found by xpath expression
      *
      * @param string $xpath
-     * @return \SimpleXMLElement[]|bool
+     * @return Element[]|bool
      */
     public function getXpath($xpath)
     {
@@ -151,7 +151,7 @@ class Config
     /**
      * Enter description here...
      *
-     * @param \Magento\Framework\Simplexml\Config\Cache\AbstractCache $cache
+     * @param Config\Cache\AbstractCache $cache
      * @return $this
      */
     public function setCache($cache)
@@ -163,7 +163,7 @@ class Config
     /**
      * Enter description here...
      *
-     * @return \Magento\Framework\Simplexml\Config\Cache\AbstractCache
+     * @return Config\Cache\AbstractCache
      */
     public function getCache()
     {
@@ -266,7 +266,7 @@ class Config
      */
     public function setCacheChecksum($data)
     {
-        if (is_null($data)) {
+        if ($data === null) {
             $this->_cacheChecksum = null;
         } elseif (false === $data || 0 === $data) {
             $this->_cacheChecksum = false;
@@ -336,7 +336,7 @@ class Config
         if (false === $newChecksum) {
             return false;
         }
-        if (is_null($newChecksum)) {
+        if ($newChecksum === null) {
             return true;
         }
         $cachedChecksum = $this->getCache()->load($this->getCacheChecksumId());
@@ -355,9 +355,7 @@ class Config
         }
 
         $xmlString = $this->_loadCache($this->getCacheId());
-        $xml = simplexml_load_string($xmlString, $this->_elementClass);
-        if ($xml) {
-            $this->_xml = $xml;
+        if ($this->loadString($xmlString)) {
             $this->setCacheSaved(true);
             return true;
         }
@@ -373,29 +371,19 @@ class Config
      */
     public function saveCache($tags = null)
     {
-        if ($this->getCacheSaved()) {
-            return $this;
-        }
-        if (false === $this->getCacheChecksum()) {
+        if ($this->getCacheSaved() || $this->getCacheChecksum() === false) {
             return $this;
         }
 
-        if (is_null($tags)) {
-            $tags = $this->_cacheTags;
+        if ($tags === null) {
+            $tags = $this->getCacheTags();
         }
 
-        if (!is_null($this->getCacheChecksum())) {
-            $this->_saveCache(
-                $this->getCacheChecksum(),
-                $this->getCacheChecksumId(),
-                $tags,
-                $this->getCacheLifetime()
-            );
+        if ($this->getCacheChecksum() === null) {
+            $this->_saveCache($this->getCacheChecksum(), $this->getCacheChecksumId(), $tags, $this->getCacheLifetime());
         }
 
-        $xmlString = $this->getXmlString();
-        $this->_saveCache($xmlString, $this->getCacheId(), $tags, $this->getCacheLifetime());
-
+        $this->_saveCache($this->getXmlString(), $this->getCacheId(), $tags, $this->getCacheLifetime());
         $this->setCacheSaved(true);
 
         return $this;
@@ -475,7 +463,7 @@ class Config
 
         $fileData = file_get_contents($filePath);
         $fileData = $this->processFileData($fileData);
-        return $this->loadString($fileData, $this->_elementClass);
+        return $this->loadString($fileData);
     }
 
     /**
@@ -488,7 +476,7 @@ class Config
     {
         if (!empty($string)) {
             $xml = simplexml_load_string($string, $this->_elementClass);
-            if ($xml instanceof \Magento\Framework\Simplexml\Element) {
+            if ($xml) {
                 $this->_xml = $xml;
                 return true;
             }
@@ -524,7 +512,7 @@ class Config
      */
     public function setNode($path, $value, $overwrite = true)
     {
-        $xml = $this->_xml->setNode($path, $value, $overwrite);
+        $this->_xml->setNode($path, $value, $overwrite);
         return $this;
     }
 
@@ -539,7 +527,6 @@ class Config
         if (!$targets) {
             return $this;
         }
-
         foreach ($targets as $target) {
             $sources = $this->getXpath((string)$target['extends']);
             if ($sources) {
@@ -568,11 +555,11 @@ class Config
     /**
      * Enter description here...
      *
-     * @param \Magento\Framework\Simplexml\Config $config
+     * @param Config $config
      * @param boolean $overwrite
      * @return $this
      */
-    public function extend(\Magento\Framework\Simplexml\Config $config, $overwrite = true)
+    public function extend(Config $config, $overwrite = true)
     {
         $this->getNode()->extend($config->getNode(), $overwrite);
         return $this;

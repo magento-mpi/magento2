@@ -74,11 +74,6 @@ class MultishippingTest extends Functional
 
         //Verify order in Backend
         $successPage = Factory::getPageFactory()->getMultishippingCheckoutSuccess();
-        $this->assertContains(
-            'Your order has been received.',
-            $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.'
-        );
         $orderIds = $successPage->getSuccessBlock()->getOrderIds($fixture);
         $this->_verifyOrder($orderIds, $fixture);
     }

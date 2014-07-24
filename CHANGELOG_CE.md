@@ -1,3 +1,149 @@
+2.0.0.0-dev87
+=============
+* Service layer updates:
+  * Created Tax Calculation service
+  * Implemented search Tax Rates(search criteria) in TaxRate service
+  * Refactored Tax Helper to use Tax Service
+  * Validated and ensured that after helper fix, all modules with cross-dependencies use Tax Services
+  * Refactored Bundle, Catalog, Checkout, Customer, Downloadable, Review, Logging Modules to use Tax Services
+  * Refactored Internal Tax Module Blocks/Templates to use Tax Services
+* GitHub requests:
+  * [#579] (https://github.com/magento/magento2/pull/579) -- update GA code from ga.js to analytics.js
+  * [#584] (https://github.com/magento/magento2/issues/584) -- Merge and minify js - Exception
+  * [#585] (https://github.com/magento/magento2/pull/585) -- Add forgotten return statement
+  * [#592] (https://github.com/magento/magento2/issues/592) -- Module name pattern
+  * [#618] (https://github.com/magento/magento2/issues/618) -- Fix of unit tests failure on Travis CI
+* Tax calculation updates:
+  * Separate and display Weee line item totals from Tax
+* Fixed bugs:
+  * Fixed an issue when Custom attribute template was not applied to a product  during product creation
+  * Fixed an issue when report grid with no results contained unnecessary empty "total" section
+  * Fixed an issue where MCRYPT_RIJNDAEL_128 Cipher was set instead of 256 version
+  * Fixed an issue when inline translate script was always included in the page even if it was not used
+  * Fixed an issue where URL Generation was affected by previously processed URLs
+  * Fixed an issue with cross-site scripting vulnerability via cookie exploitation
+  * Fixed an issue with incorrect success message after system variable was deleted
+  * Fixed an issue with category page not opening if it had bundle product with fixed price assigned to it
+  * Fixed an issue when subtotal price in a shopping cart was not updated if the product qty is changed
+  * Fixed an issue when syntax error appeared while creating new Google Content attribute mapping
+  * Fixed an issue with JS error when adding associated simple product to the grouped one
+  * Fixed an issue with incorrect items label for the cases when there are more than one item in the category
+  * Fixed an issue when configurable product was out of stock in Google Shopping while being in stock in the Magento backend
+  * Fixed an issue when swipe gesture in menu widget was not supported on mobile
+  * Fixed an issue when it was impossible to enter alpha-numeric zip code on the stage of  estimating shipping and tax rates
+  * Fixed an issue when custom price was not applied when editing an order
+  * Fixed an issue when items were not returned to stock after unsuccessful order was placed
+  * Fixed an issue when error message appeared "Cannot save the credit memo” while creating credit memo
+  * Fixed an issue when Catalog price rule was not shown for the product if price was less than a discount
+* Indexer implementation:
+  * Implemented a new Stock indexer
+  * Implemented a new EAV indexer
+* Minor updates for integration test framework
+* Split action controllers classes into action classes
+* Added public MTF repository to the packagist.org
+* Added the following functional tests:
+  * Create Admin User
+  * Create Category
+  * Create Custom Url Rewrite
+  * Create Frontend Product Review
+  * Delete CMS Page
+  * Delete Product
+  * Delete System Variable
+  * Update Admin User Role
+  * Update Product Review
+* Indexer-less implementation of URL Rewrites functionality in new UrlRedirect module:
+  * Ported Admin UI from old UrlRewrite module
+  * Implemented URL Rewrites unified storage
+* Covered the following Magento application components with unit tests:
+  * `Magento/Bundle/Block/Sales/Order/Items/Renderer.php`
+  * `Magento/Bundle/Helper/Catalog/Product/Configuration.php`
+  * `Magento/Bundle/Helper/Data.php`
+  * `Magento/Bundle/Model/Option.php`
+  * `Magento/Bundle/Model/Plugin/PriceBackend.php`
+  * `Magento/Bundle/Model/Product/Attribute/Source/Price/View.php`
+  * `Magento/Bundle/Model/Sales/Order/Pdf/Items/AbstractItems.php`
+  * `Magento/Catalog/Model/Product/Attribute/Source/Msrp/Type/Enabled.php`
+  * `Magento/Catalog/Model/Product/Attribute/Source/Msrp/Type/Price.php`
+  * `Magento/Catalog/Model/Product/Visibility.php`
+  * `Magento/Eav/Model/Entity/Attribute/AbstractAttribute.php`
+  * `Magento/Eav/Model/Entity/Attribute/Source/AbstractSource.php`
+  * `Magento/Eav/Model/Entity/Attribute/Source/Boolean.php`
+  * `Magento/Eav/Model/Entity/Attribute/Source/Table.php`
+  * `Magento/Tax/Model/TaxClass/Source/Product.php`
+* Covered Magento library with unit tests :
+  * `lib/internal/Magento/Framework/Simplexml/Config/Cache/AbstractCache.php`
+  * `lib/internal/Magento/Framework/Simplexml/Config.php`
+  * `lib/internal/Magento/Framework/Stdlib/DateTime/DateTime.php`
+  * `lib/internal/Magento/Framework/Stdlib/DateTime/Timezone.php`
+  * `lib/internal/Magento/Framework/Stdlib/String.php`
+
+2.0.0.0-dev86
+=============
+* Service layer updates:
+  * Created Category service and methods
+  * Renamed attribute option service
+  * Implemented an API method to remove for attribute options
+  * Created TaxClass service and methods
+  * Created APIs for Tax service
+* Framework improvements:
+  * REST/SOAP calls uses default store if store code not provided
+  * Added a warning about using a not secure protocol for theidentity link URL
+  * Fixed exception masking and removed unnecessary exceptions from the Webapi framework
+* WEEE features parity:
+  * Fixed an issue with Tax calculations when FPT is enabled
+  * Fixed an issue where FPT was not included in the subtotal number on invoice pages
+  * Fixed an issue where FPT was not included in the subtotal number on credit memo pages
+  * Free shipping calculated with FPT
+  * Fixed an issue where discounts where applied to FPT
+  * Fixed an issue with rounding is the Tax detailed info
+  * Fixed issues with bundle product pricing with tier and special prices
+* Added an integrity test to verify that dictionary and code are synced
+* i18n Improvements:
+  * Improved the wording of the i18n CLI Tools
+  * Removed the helpers which became unused after i18n Improvements
+* Fixed bugs:
+  * Fixed an issue where configurable attributes were not chosen according to the hash tag
+  * Fixed an issue where the Compare Products functionality did not work correctly
+  * Fixed an issue where product attribute values were duplicated after import
+  * Fixed an issue were the scope of an attribute was not considered in catalog price rule conditions
+  * Fixed an issue where shipping address was not saved if it was added during checkout
+  * Fixed an issue where there was no POST request when saving a customer group
+  * Fixed an issue where an attribute template was not applied after changing it for the first time during product creation
+  * Fixed an issue where the Sale Report Grid with no results found contained an unnecessary empty Total section
+  * Fixed an issue where a notice was added to system.log when a product was added to cart
+  * Fixed integration test coverage failure
+  * Fixed an issue where a message about inequality of password and confirmation was displayed in the wrong place
+  * Fixed an issue with an XSS warning in 'Used for Sorting in Product Listing' property of Product Attribute
+  * Fixed an issue where an order was not displayed  on frontend if its order status was deleted
+  * Fixed an issue where  tier pricing was not displayed on a grouped product page
+  * Verified and fixed the content of errors returned from SOAP calls
+  * Fixed an issue where it was impossible to create a tax rule when using a complex Customer/Product tax class
+  * Fixed an issue where the Street Address line count setting was not applied.
+  * Fixed an issue where customers were not assigned to the correct VAT customer groups during admin order creation
+  * The unused translateArray method of AbstractHelper was removed
+  * Fixed an issue where localization did not work for strings containing a single quote (')
+  * Fixed issues with  the translate and the logging transformation tools
+  * Fixed an issue where it was impossible to create a URL rewrite for a CMS Page with Temporary (302) or Permanent (301) redirect
+* GitHub requests:
+  * [#598] (https://github.com/magento/magento2/pull/598) -- Add Sort Order to Rules
+  * [#580] (https://github.com/magento/magento2/pull/580) -- Set changed status on model to prevent status overwriting when model gets saved
+* Unit Tests Coverage:
+  * Part of the Catalog module covered with the unit tests
+* Added the following functional tests:
+  * Applying Several Catalog Price Rules
+  * Attribute Set Creation
+  * Category Deletion
+  * Customer Group Deletion
+  * Generating Sitemap
+  * Product Attribute Deletion
+  * Update Admin User
+  * Update Cms Page
+  * Update Customer Group
+  * Update Downloadable Product
+  * Update Product Attribute
+  * Update Sales Rule
+  * Update Sitemap
+
 2.0.0.0-dev85
 =============
 * Service layer updates:
@@ -9,13 +155,12 @@
   * Fixed an issue where  Google Content was not sending the correct 'description' attribute
   * Fixed an issue where custom attributes were not displayed in layered navigation after a product import
   * Fixed an issue where the Category URL keys did not work correctly after saving
-  * Fixed an issue where an admin could not create a Target rule with a certain Products to Display condition
   * Fixed a jQuery error on a product page in the Admin panel, which appeared when switching between product tabs
 * Framework Improvements:
   * Created ProductsCustomOptions Service API for Catalog module
   * Created DownloadableLink Service API for Catalog module
 * GitHub requests:
-  * [#257] JSON loading should follow OWASP recommendation
+  * [#257] (https://github.com/magento/magento2/issues/257) -- JSON loading should follow OWASP recommendation
 
 2.0.0.0-dev84
 =============
@@ -36,8 +181,8 @@
   * Fixed an issue where an admin could search product by attributes set on the Store View level (except default store view)
   * Fixed an issue where extra spaces in search values were not ignored during search and thus wrong search results were given
 * GitHub requests:
-  * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity
-  * [#544]  Performance tests not working
+  * [#542] (https://github.com/magento/magento2/pull/542) -- Fix ImportExport bug which occurs while importing multiple rows per entity
+  * [#544] (https://github.com/magento/magento2/issues/544) -- Performance tests not working
 * Framework improvements:
   * Covered the following Magento application components with unit tests:
       * `Customer/Model/Address.php`

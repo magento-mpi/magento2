@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
- * Class AssertProductInCart
+ * Class AssertConfigurableInCart
  */
 class AssertConfigurableInCart extends AbstractConstraint
 {
@@ -41,12 +41,12 @@ class AssertConfigurableInCart extends AbstractConstraint
         //Add product to cart
         $catalogProductView->init($configurable);
         $catalogProductView->open();
-        $productOptions = $configurable->getConfigurableOptions();
-        if ($productOptions) {
+        $configurableData = $configurable->getConfigurableAttributesData();
+        if (!empty($configurableData)) {
             $configurableOption = $catalogProductView->getCustomOptionsBlock();
-            $options = $configurableOption->getOptions();
-            $key = $productOptions['value']['label']['value'];
-            $configurableOption->selectProductCustomOption(reset($options[$key]['value']));
+            foreach ($configurableData['attributes_data'] as $attribute) {
+                $configurableOption->selectProductCustomOption($attribute['title']);
+            }
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 

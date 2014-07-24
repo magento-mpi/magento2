@@ -68,7 +68,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->helper = $this->objectManager->create('Magento\Search\Helper\Data');
+        $productTaxClassSource = $this->objectManager->create('Magento\Tax\Model\TaxClass\Source\Product');
+        $this->helper = $this->objectManager->create('Magento\Search\Helper\Data',
+            ['productTaxClassSource' => $productTaxClassSource]);
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
         $this->scopeConfig = $this->objectManager->get('Magento\Framework\App\MutableScopeConfig');
     }

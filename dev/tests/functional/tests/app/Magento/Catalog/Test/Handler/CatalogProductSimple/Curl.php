@@ -10,7 +10,6 @@ namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
@@ -28,6 +27,19 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @var array
      */
     protected $mappingData = [
+        'links_purchased_separately' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
+        'is_shareable' => [
+            'Yes' => 1,
+            'No' => 0,
+            'Use config' => 2
+        ],
+        'required' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
         'manage_stock' => [
             'Yes' => 1,
             'No' => 0
@@ -35,15 +47,15 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'is_virtual' => [
             'Yes' => 1
         ],
-        'inventory_manage_stock' => [
+        'use_config_enable_qty_increments' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
+        'use_config_qty_increments' => [
             'Yes' => 1,
             'No' => 0
         ],
         'is_in_stock' => [
-            'In Stock' => 1,
-            'Out of Stock' => 0
-        ],
-        'quantity_and_stock_status' => [
             'In Stock' => 1,
             'Out of Stock' => 0
         ],
@@ -59,18 +71,35 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'status' => [
             'Product offline' => 2,
             'Product online' => 1
+        ]
+    ];
+
+    /**
+     * Placeholder for price data sent Curl
+     *
+     * @var array
+     */
+    protected $priceData = [
+        'website' => [
+            'name' => 'website_id',
+            'data' => [
+                'All Websites [USD]' => 0
+            ]
         ],
-        'attribute_set_id' => [
-            'Default' => 4
+        'customer_group' => [
+            'name' => 'cust_group',
+            'data' => [
+                'ALL GROUPS' => 32000,
+                'NOT LOGGED IN' => 0
+            ]
         ]
     ];
 
     /**
      * Post request for creating simple product
      *
-     * @param FixtureInterface $fixture [optional]
+     * @param FixtureInterface|null $fixture [optional]
      * @return array
-     * @throws \Exception
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -80,32 +109,83 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $config = $fixture->getDataConfig();
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->prepareData($fixture, $prefix);
-
         return ['id' => $this->createProduct($data, $config)];
     }
 
     /**
-     * Getting tax class id from tax rule page
+     * Prepare POST data for creating product request
      *
-     * @param string $taxClassName
-     * @return int
-     * @throws \Exception
+     * @param FixtureInterface $fixture
+     * @param string|null $prefix [optional]
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function getTaxClassId($taxClassName)
+    protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
-        $url = $_ENV['app_backend_url'] . 'tax/rule/new/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), array());
-        $response = $curl->read();
-        $curl->close();
-
-        preg_match('~<option value="(\d+)".*>' . $taxClassName . '</option>~', $response, $matches);
-        if (!isset($matches[1]) || empty($matches[1])) {
-            throw new \Exception('Product tax class id ' . $taxClassName . ' undefined!');
+        $fields = $this->replaceMappingData($fixture->getData());
+        // Getting Tax class id
+        if ($fixture->hasData('tax_class_id')) {
+            $fields['tax_class_id'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
         }
 
-        return (int)$matches[1];
+        if (!empty($fields['category_ids'])) {
+            $categoryIds = [];
+            /** @var InjectableFixture $fixture */
+            foreach ($fixture->getDataFieldConfig('category_ids')['source']->getCategories() as $category) {
+                /** @var CatalogCategory $category */
+                $categoryIds[] = $category->getId();
+            }
+            $fields['category_ids'] = $categoryIds;
+        }
+        
+        if (isset($fields['tier_price'])) {
+            $fields['tier_price'] = $this->preparePriceData($fields['tier_price']);
+        }
+        if (isset($fields['group_price'])) {
+            $fields['group_price'] = $this->preparePriceData($fields['group_price']);
+        }
+        
+        if (!empty($fields['website_ids'])) {
+            foreach ($fields['website_ids'] as &$value) {
+                $value = isset($this->mappingData['website_ids'][$value])
+                    ? $this->mappingData['website_ids'][$value]
+                    : $value;
+            }
+        }
+
+        // Getting Attribute Set id
+        if ($fixture->hasData('attribute_set_id')) {
+            $attributeSetId = $fixture
+                ->getDataFieldConfig('attribute_set_id')['source']
+                ->getAttributeSet()
+                ->getAttributeSetId();
+            $fields['attribute_set_id'] = $attributeSetId;
+        }
+
+        return $prefix ? [$prefix => $fields] : $fields;
+    }
+
+    /**
+     * Preparation of tier price data
+     *
+     * @param array $fields
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    protected function preparePriceData(array $fields)
+    {
+        foreach ($fields as &$field) {
+            foreach ($this->priceData as $key => $data) {
+                $field[$data['name']] = $this->priceData[$key]['data'][$field[$key]];
+                unset($field[$key]);
+            }
+            $field['delete'] = '';
+        }
+        return $fields;
     }
 
     /**
@@ -124,88 +204,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             }
         }
         return $data;
-    }
-
-    /**
-     * Prepare POST data for creating product request
-     *
-     * @param FixtureInterface $fixture
-     * @param string|null $prefix
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
-    protected function prepareData(FixtureInterface $fixture, $prefix = null)
-    {
-        $fields = $this->replaceMappingData($fixture->getData());
-        $fields = $this->prepareStockData($fields);
-        // Getting Tax class id
-        if ($fixture->hasData('tax_class_id')) {
-            $taxClassId = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
-            $fields['tax_class_id'] = ($taxClassId === null)
-                ? $this->getTaxClassId($fields['tax_class_id'])
-                : $taxClassId;
-        }
-
-        if (!empty($fields['category_ids'])) {
-            $categoryIds = [];
-            foreach ($fields['category_ids'] as $categoryData) {
-                $categoryIds[] = $categoryData['id'];
-            }
-            $fields['category_ids'] = $categoryIds;
-        }
-
-        if (!empty($fields['website_ids'])) {
-            foreach ($fields['website_ids'] as &$value) {
-                $value = isset($this->mappingData['website_ids'][$value])
-                    ? $this->mappingData['website_ids'][$value]
-                    : $value;
-            }
-        }
-
-        // Getting Attribute Set id
-        if ($fixture->hasData('attribute_set_id')) {
-            $attributeSetId = $fixture
-                ->getDataFieldConfig('attribute_set_id')['source']
-                ->getAttributeSet()
-                ->getAttributeSetId();
-            $fields['attribute_set_id'] = $attributeSetId;
-        }
-
-        $data = $prefix ? [$prefix => $fields] : $fields;
-
-        return $data;
-    }
-
-    /**
-     * Preparation of stock data
-     *
-     * @param array $fields
-     * @return array
-     */
-    protected function prepareStockData(array $fields)
-    {
-        $fields['stock_data']['manage_stock'] = 0;
-
-        if (!isset($fields['stock_data']['is_in_stock'])) {
-            $fields['stock_data']['is_in_stock'] = isset($fields['quantity_and_stock_status'])
-                ? $fields['quantity_and_stock_status']
-                : (isset($fields['inventory_manage_stock']) ? $fields['inventory_manage_stock'] : null);
-        }
-        if (!isset($fields['stock_data']['qty'])) {
-            $fields['stock_data']['qty'] = isset($fields['qty']) ? $fields['qty'] : null;
-        }
-        if (!empty($fields['stock_data']['qty'])) {
-            $fields['stock_data']['manage_stock'] = 1;
-        }
-
-        $fields['quantity_and_stock_status'] = [
-            'qty' => $fields['stock_data']['qty'],
-            'is_in_stock' => $fields['stock_data']['is_in_stock']
-        ];
-
-        return $this->filter($fields);
     }
 
     /**
@@ -229,21 +227,8 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             throw new \Exception("Product creation by curl handler was not successful! Response: $response");
         }
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
-        return isset($matches[1]) ? $matches[1] : null;
-    }
 
-    /**
-     * Retrieve field value or return null if value does not exist
-     *
-     * @param array $values
-     * @return null|mixed
-     */
-    protected function getValue($values)
-    {
-        if (!isset($values['value'])) {
-            return null;
-        }
-        return isset($values['input_value']) ? $values['input_value'] : $values['value'];
+        return isset($matches[1]) ? $matches[1] : null;
     }
 
     /**
@@ -259,6 +244,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
         }
+
         return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/back/edit';
     }
 }

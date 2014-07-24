@@ -143,7 +143,7 @@
                 }, this)
             );
 
-            var gridPopup = this.options.gridPopup;
+            var gridPopup = $(this.options.gridPopup).data('gridObject');
 
             $('[data-role=add-product]').on('click', function(event) {
                 event.preventDefault();

@@ -52,8 +52,9 @@ class CreatePageTest extends Functional
         $cmsPageGridBlock->searchAndPreview($filter);
 
         $cmsPage = Factory::getPageFactory()->getCmsPage();
-        $cmsPage->init($cmsPageFixture);
-        $cmsPage->selectWindow();
+        $browser = Factory::getClientBrowser();
+        $browser->open($_ENV['app_frontend_url'] . $cmsPageFixture->getIdentifier());
+        $browser->selectWindow();
         $cmsPageBlock = $cmsPage->getCmsPageBlock();
         // Verify the Cms Page content
         $this->assertContains(

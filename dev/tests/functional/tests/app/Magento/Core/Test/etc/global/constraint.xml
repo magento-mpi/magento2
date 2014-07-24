@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertCustomVariableSuccessDeleteMessage module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableSuccessDeleteMessage>
+    <assertCustomVariableNotInGrid module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableNotInGrid>
+    <assertCustomVariableNotInCmsPageForm module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableNotInCmsPageForm>
+    <assertCustomVariableSuccessSaveMessage module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableSuccessSaveMessage>
+    <assertCustomVariableInGrid module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableInGrid>
+    <assertCustomVariableInPageStoreview module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableInPageStoreview>
+    <assertCustomVariableNotInCmsPageForm module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableNotInCmsPageForm>
+    <assertCustomVariableForm module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableForm>
+    <assertCustomVariableInPage module="Magento_Core">
+        <severeness>low</severeness>
+    </assertCustomVariableInPage>
+</constraint>

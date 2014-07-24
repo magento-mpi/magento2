@@ -70,6 +70,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>textarea</input>
+            <group>product-details</group>
         </description>
         <gallery>
             <attribute_code>gallery</attribute_code>
@@ -245,14 +246,8 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>price</input>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</source>
         </price>
-        <qty>
-            <attribute_code>quantity_and_stock_status][qty</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value>1</default_value>
-            <input>select</input>
-        </qty>
         <related_tgtr_position_behavior>
             <attribute_code>related_tgtr_position_behavior</attribute_code>
             <backend_type>int</backend_type>
@@ -287,6 +282,7 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>textarea</input>
+            <group>autosetting</group>
         </short_description>
         <sku>
             <attribute_code>sku</attribute_code>
@@ -341,6 +337,8 @@
             <backend_type>int</backend_type>
             <is_required>0</is_required>
             <default_value>2</default_value>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass</source>
+            <group>product-details</group>
             <input>select</input>
         </tax_class_id>
         <thumbnail>
@@ -437,6 +435,12 @@
             <attribute_code>stock_data_min_qty</attribute_code>
             <input>text</input>
         </stock_data_min_qty>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+            <default_value>Main Website</default_value>
+            <group>websites</group>
+        </website_ids>
     </fields>
     <data_set>
         <sku></sku>
@@ -457,7 +461,5 @@
         <input_prefix>product</input_prefix>
     </data_config>
     <repository_class>Magento\Downloadable\Test\Repository\CatalogProductDownloadable</repository_class>
-    <handler_interface>
-        Magento\Downloadable\Test\Handler\CatalogProductDownloadable\CatalogProductDownloadableInterface
-    </handler_interface>
+    <handler_interface>Magento\Downloadable\Test\Handler\CatalogProductDownloadable\CatalogProductDownloadableInterface</handler_interface>
 </fixture>

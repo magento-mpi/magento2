@@ -42,14 +42,14 @@ class Design
     /**
      * Initialize design
      *
-     * @param \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision $subject
+     * @param \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\RevisionInterface $subject
      * @param \Magento\Framework\App\RequestInterface $request
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeDispatch(
-        \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision $subject,
+        \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\RevisionInterface $subject,
         \Magento\Framework\App\RequestInterface $request
     ) {
         if ($this->_request->getActionName() == 'drop') {

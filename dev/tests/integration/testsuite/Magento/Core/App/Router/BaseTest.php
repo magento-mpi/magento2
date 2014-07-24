@@ -57,7 +57,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             'Magento\Core\Controller\Index',
-            $this->_model->getControllerClassName('Magento_Core', 'index')
+            $this->_model->getActionClassName('Magento_Core', 'index')
         );
     }
 }

@@ -30,9 +30,9 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
     /**
      * Attribute frontend label
      *
-     * @var string
+     * @var CatalogProductAttribute
      */
-    protected $attributeFrontendLabel;
+    protected $attribute;
 
     /**
      * Assert check whether the attribute is used to create a configurable products
@@ -51,11 +51,9 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
         CatalogProductNew $newProductPage,
         CatalogProductAttribute $productAttribute = null
     ) {
-        $this->attributeFrontendLabel = ($productAttribute)
-            ? $productAttribute->getFrontendLabel()
-            : $attribute->getFrontendLabel();
+        $this->attribute = !is_null($productAttribute) ? $productAttribute : $attribute;
         $productGrid->open();
-        $productGrid->getProductBlock()->addProduct('configurable');
+        $productGrid->getGridPageActionBlock()->addProduct('configurable');
 
         $productConfigurable = $fixtureFactory->createByCode(
             'catalogProductConfigurable',
@@ -63,10 +61,9 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
                 'dataSet' => 'default',
                 'data' => [
                     'configurable_attributes_data' => [
-                        'value' => [
-                            'label' => [
-                                'value' => $this->attributeFrontendLabel
-                            ]
+                        'preset' => 'one_variations',
+                        'attributes' => [
+                            $this->attribute
                         ]
                     ]
                 ],
@@ -77,18 +74,18 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
         $productBlockForm->fill($productConfigurable);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $newProductPage->getForm()->findAttribute($this->attributeFrontendLabel),
-            "Product Attribute is absent on Product page."
+            $newProductPage->getForm()->findAttribute($this->attribute->getFrontendLabel()),
+            "Product attribute is absent on the product page."
         );
     }
 
     /**
-     * Attribute '$this->attributeFrontendLabel' present on the product page in variations section
+     * Attribute label present on the product page in variations section
      *
      * @return string
      */
     public function toString()
     {
-        return "$this->attributeFrontendLabel attribute present on the product page in variations section";
+        return 'Attribute label, present on the product page in variations section.';
     }
 }
