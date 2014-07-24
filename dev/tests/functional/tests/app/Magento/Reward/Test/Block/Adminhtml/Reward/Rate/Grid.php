@@ -24,17 +24,24 @@ class Grid extends ParentGrid
     protected $editLink = 'td[data-column="rate"]';
 
     /**
+     * Edit link selector
+     *
+     * @var string
+     */
+    protected $editLink = 'td[data-column="rate_id"]';
+
+    /**
      * Initialize block elements
      *
      * @var array
      */
     protected $filters = [
-        'reward_id' => [
+        'rate_id' => [
             'selector' => 'input[name="rate_id"]',
         ],
         'website_id' => [
             'selector' => 'select[name="website_id"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'customer_group_id' => [
             'selector' => 'select[name="customer_group_id"]',

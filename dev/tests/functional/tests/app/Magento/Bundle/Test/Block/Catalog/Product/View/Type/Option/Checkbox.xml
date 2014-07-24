@@ -10,7 +10,7 @@
 <mapping strict="0">
     <fields>
         <name>
-            <selector>.//div[label[span[contains(text(), "%product_name%")]]]/input</selector>
+            <selector>.//div[label[//span[contains(text(), "%product_name%")]]]/input</selector>
             <strategy>xpath</strategy>
             <input>checkbox</input>
         </name>

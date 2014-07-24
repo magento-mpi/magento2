@@ -8,14 +8,15 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductCustomOptionsOnProductPage
  */
-class AssertProductCustomOptionsOnProductPage extends AbstractConstraint
+class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -25,11 +26,52 @@ class AssertProductCustomOptionsOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Product fixture
+     * Skipped field for custom options
      *
-     * @var FixtureInterface
+     * @var array
      */
-    protected $product;
+    protected $skippedFieldOptions = [
+        'Field' => [
+            'price_type',
+            'sku',
+        ],
+        'Area' => [
+            'price_type',
+            'sku',
+        ],
+        'Drop-down' => [
+            'price_type',
+            'sku',
+        ],
+        'File' => [
+            'price_type',
+            'sku',
+        ],
+        'Radio Buttons' => [
+            'price_type',
+            'sku',
+        ],
+        'Checkbox' => [
+            'price_type',
+            'sku',
+        ],
+        'Multiple Select' => [
+            'price_type',
+            'sku',
+        ],
+        'Date' => [
+            'price_type',
+            'sku',
+        ],
+        'Date & Time' => [
+            'price_type',
+            'sku',
+        ],
+        'Time' => [
+            'price_type',
+            'sku',
+        ]
+    ];
 
     /**
      * Assertion that commodity options are displayed correctly
@@ -40,61 +82,49 @@ class AssertProductCustomOptionsOnProductPage extends AbstractConstraint
      */
     public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
     {
-        $this->product = $product;
         // TODO fix initialization url for frontend page
         // Open product view page
-        $catalogProductView->init($this->product);
+        $catalogProductView->init($product);
         $catalogProductView->open();
         // Prepare data
-        $customOptions = $catalogProductView->getCustomOptionsBlock()->getOptions();
-        foreach ($customOptions as &$option) {
-            unset($option['value']);
-        }
-        unset($option);
-        $compareOptions = $this->prepareOptionArray($this->product->getCustomOptions());
-        $customOptions = $this->dataSortByKey($customOptions);
-        $compareOptions = $this->dataSortByKey($compareOptions);
-
-        \PHPUnit_Framework_Assert::assertEquals(
-            $customOptions,
-            $compareOptions,
-            'Incorrect display of custom product options on the product page.'
-        );
-    }
-
-    protected function dataSortByKey(array $data)
-    {
-        foreach ($data as &$item) {
-            ksort($item);
-        }
-        unset($item);
-        return $data;
+        $formCustomOptions = $catalogProductView->getCustomOptionsBlock()->getOptions($product);
+        $prices = $catalogProductView->getViewBlock()->getProductPriceBlock()->getPrice();
+        $actualPrice = isset($prices['price_special_price'])
+            ? $prices['price_special_price']
+            : $prices['price_regular_price'];
+        $fixtureCustomOptions = $this->prepareOptions($product, $actualPrice);
+        $error = $this->verifyData($fixtureCustomOptions, $formCustomOptions);
+        \PHPUnit_Framework_Assert::assertEmpty($error, $error);
     }
 
     /**
      * Preparation options before comparing
      *
-     * @param array $options
+     * @param FixtureInterface $product
+     * @param int|null $actualPrice
      * @return array
      */
-    protected function prepareOptionArray(array $options)
+    protected function prepareOptions(FixtureInterface $product, $actualPrice = null)
     {
+        $customOptions = $product->getCustomOptions();
         $result = [];
-        $productPrice = $this->product->hasData('group_price')
-            ? $this->product->getGroupPrice()[0]['price']
-            : $this->product->getPrice();
 
-        $placeholder = ['Yes' => true, 'No' => false];
-        foreach ($options as $option) {
-            $result[$option['title']]['is_require'] = $placeholder[$option['is_require']];
-            $result[$option['title']]['title'] = $option['title'];
-            $result[$option['title']]['price'] = [];
-            foreach ($option['options'] as $optionValue) {
-                if ($optionValue['price_type'] === 'Percent') {
-                    $optionValue['price'] = $productPrice / 100 * $optionValue['price'];
+        $actualPrice = $actualPrice ? $actualPrice : $product->getPrice();
+        foreach ($customOptions as $customOption) {
+            $skippedField = isset($this->skippedFieldOptions[$customOption['type']])
+                ? $this->skippedFieldOptions[$customOption['type']]
+                : [];
+            foreach ($customOption['options'] as &$option) {
+                // recalculate percent price
+                if ('Percent' == $option['price_type']) {
+                    $option['price'] = ($actualPrice * $option['price']) / 100;
+                    $option['price'] = round($option['price'], 2);
                 }
-                $result[$option['title']]['price'][] = number_format($optionValue['price'], 2);
+
+                $option = array_diff_key($option, array_flip($skippedField));
             }
+
+            $result[$customOption['title']] = $customOption;
         }
 
         return $result;

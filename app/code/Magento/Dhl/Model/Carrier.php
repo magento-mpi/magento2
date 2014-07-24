@@ -1527,7 +1527,9 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         $xml->addChild('LabelImageFormat', 'PDF', '');
 
         $request = $xml->asXML();
-        $request = utf8_encode($request);
+        if (!$request && !mb_detect_encoding($request) == 'UTF-8') {
+            $request = utf8_encode($request);
+        }
 
         $responseBody = $this->_getCachedQuotes($request);
         if ($responseBody === null) {
@@ -1538,6 +1540,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
                 $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setRawData($request);
                 $responseBody = $client->request(\Magento\Framework\HTTP\ZendClient::POST)->getBody();
+                $responseBody = utf8_decode($responseBody);
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
             } catch (\Exception $e) {

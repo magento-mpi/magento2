@@ -41,14 +41,11 @@ class AssertGroupedProductForm extends AssertProductForm
         $filter = ['sku' => $product->getSku()];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
         $fieldsForm = $productPage->getForm()->getData($product);
-        $fieldsFixture = $this->prepareFixtureData($product);
+        $fieldsFixture = $this->prepareFixtureData($product->getData());
         $fieldsFixture['associated'] = $this->prepareGroupedOptions($fieldsFixture['associated']);
 
-        $errors = $this->compareArray($fieldsFixture, $fieldsForm);
-        \PHPUnit_Framework_Assert::assertEmpty(
-            $errors,
-            "These data must be equal to each other:\n" . implode("\n", $errors)
-        );
+        $errors = $this->verifyData($fieldsFixture, $fieldsForm);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**

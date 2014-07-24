@@ -24,6 +24,13 @@ class CustomerForm extends Form
     protected $saveButton = '[type="submit"]';
 
     /**
+     * Locator for customer attribute on Edit Account Information page
+     *
+     * @var string
+     */
+    protected $customerAttribute = "[name='%s[]']";
+
+    /**
      * Click on save button
      *
      * @return void

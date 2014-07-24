@@ -24,6 +24,20 @@ AdminRma.prototype = {
         this.shippingMethod         = false;
         this.gridProducts           = $H({});
         this.grid                   = false;
+        this.itemDivPrefix          = 'itemDiv_';
+        this.loadProductsCallback = function () {};
+    },
+
+    addLoadProductsCallback: function (func) {
+        this.loadProductsCallback = func;
+    },
+
+    callLoadProductsCallback: function () {
+        this.loadProductsCallback();
+    },
+
+    getItemDivPrefix: function() {
+        return this.itemDivPrefix
     },
 
     getRowIdByClick : function(event) {
@@ -43,7 +57,7 @@ AdminRma.prototype = {
             divId = event;
         } else {
             var itemId = this.getRowIdByClick(event);
-            divId = 'itemDiv_' + itemId;
+            divId = this.getItemDivPrefix() + itemId;
         }
         if (!$(divId)) {
             this.getAjaxData(itemId);
@@ -80,14 +94,14 @@ AdminRma.prototype = {
         return 'items[' + itemId + '][' + element.name.slice(0,arrayDivider) + ']' + element.name.slice(arrayDivider);
     },
 
-    getAjaxData : function(itemId) {
+    getAjaxData : function(itemId, notShowPopUp) {
         var url = this.getLoadAttributesLink(itemId);
 
         new Ajax.Request(url, {
             onSuccess: function(transport) {
                 var response = transport.responseText;
-                var divId = 'itemDiv_' + itemId;
-                this.addPopupDiv(response, divId, itemId);
+                var divId = this.getItemDivPrefix() + itemId;
+                this.addPopupDiv(response, divId, itemId, notShowPopUp);
                 var realThis = this;
                 $(divId).descendants().each(function(element){
                     if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select') || (element.tagName.toLowerCase() == 'textarea')) {
@@ -100,16 +114,22 @@ AdminRma.prototype = {
                 });
 
                 this.addPopupDivButtonsBindings(divId);
-                this.showPopup(divId);
+                if (!notShowPopUp) {
+                    this.showPopup(divId);
+                }
             }.bind(this)
         });
     },
 
-    addPopupDiv: function(response, divId, itemId) {
+    addPopupDiv: function(response, divId, itemId, notShowPopUp) {
         var parentTd = $('h' + itemId) ? $('h' + itemId).up('td') : $('id_' + itemId).childElements().last();
+        var elem = new Element('div', {id: divId}).update(response);
         parentTd.insert({
-            top: new Element('div', {id: divId}).update(response).addClassName('rma-popup')
+            top: elem.addClassName('rma-popup')
         });
+        if (notShowPopUp) {
+            this.hidePopups();
+        }
     },
 
     addPopupDivButtonsBindings: function(divId) {
@@ -118,7 +138,7 @@ AdminRma.prototype = {
     },
 
     okButtonClick: function(divId) {
-        var itemId = divId.replace('itemDiv_', ''),
+        var itemId = divId.replace(this.getItemDivPrefix(), ''),
             parentTd = $('h' + itemId) ? $('h' + itemId).up('td') : $('id_'+itemId).childElements().last();
 
         parentTd.descendants().each(function(element) {
@@ -212,7 +232,7 @@ AdminRma.prototype = {
             }
         })
 
-        var detailsDivId = 'itemDiv_' + itemId;
+        var detailsDivId = this.getItemDivPrefix() + itemId;
         var newDetailsDivId = detailsDivId + '_' + timeSuffix;
         if (!$(detailsDivId)) {
             var url = this.getLoadAttributesLink(itemId);
@@ -356,6 +376,7 @@ AdminRma.prototype = {
 
         Element.hide('select-order-items-block');
         Element.show('rma-items-block');
+        this.callLoadProductsCallback();
     },
 
     addOrderItemToRmaGrid : function (idElement, className) {
@@ -456,9 +477,12 @@ AdminRma.prototype = {
         }
         detailsLink.insert($$('label[for="rma_properties_add_details_link"]').first().innerHTML);
         column.insert(detailsLink);
-        column.insert('<input type="hidden" name="items[' + this.newRmaItemId + '][order_item_id]" value="'+orderItem['item_id']+'"/>');
+        column.insert('<input type="hidden" name="items[' + this.newRmaItemId + '][order_item_id]" class="rma-action-links-' + orderItem['item_id'] + ' required" value="'+orderItem['item_id']+'"/>');
         row.insert(column);
         tableRma.insert(tbody.insert(row));
+
+        this.getAjaxData(this.newRmaItemId, true);
+        this.callLoadProductsCallback();
         this.newRmaItemId++;
     },
 
@@ -522,7 +546,7 @@ AdminRma.prototype = {
     addDetails: function (event) {
         var tr      = event.findElement('a').up(1);
         var itemId  = tr.id.split('_')[1];
-        var divId   = 'itemDiv_' + itemId;
+        var divId   = this.getItemDivPrefix() + itemId;
 
         if (!$(divId)) {
             var itemCalculated = $$('input[name="items[' + itemId + '][order_item_id]"]')[0].value;

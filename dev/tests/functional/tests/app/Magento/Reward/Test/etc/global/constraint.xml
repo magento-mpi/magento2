@@ -8,6 +8,34 @@
  */
 -->
 <constraint>
+    <assertRewardPointsSuccessDeleteMessage module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <exchangeRateIndex class="Magento\Reward\Test\Page\Adminhtml\ExchangeRateIndex" />
+        </require>
+    </assertRewardPointsSuccessDeleteMessage>
+    <assertRewardNoExchangeMessageForPointsToCurrency module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <customerAccountLogin class="Magento\Customer\Test\Page\CustomerAccountLogin" />
+            <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
+            <rewardCustomerInfo class="Magento\Reward\Test\Page\RewardCustomerInfo" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
+    </assertRewardNoExchangeMessageForPointsToCurrency>
+    <assertRewardNoExchangeMessageForCurrencyToPoints module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <customerAccountLogin class="Magento\Customer\Test\Page\CustomerAccountLogin" />
+            <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
+            <rewardCustomerInfo class="Magento\Reward\Test\Page\RewardCustomerInfo" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
+    </assertRewardNoExchangeMessageForCurrencyToPoints>
     <assertRewardSubscriptionSaveMessage module="Magento_Reward">
         <severeness>low</severeness>
         <require>

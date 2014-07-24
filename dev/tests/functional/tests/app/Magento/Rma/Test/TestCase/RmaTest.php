@@ -20,7 +20,6 @@ class RmaTest extends Functional
      */
     public function testRma()
     {
-        $this->markTestIncomplete('MAGETWO-23889');
         // Setup Preconditions:
         $this->configureRma();
 

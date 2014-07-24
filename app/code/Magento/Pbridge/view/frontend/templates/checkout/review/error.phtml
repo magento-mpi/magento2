@@ -11,10 +11,10 @@
     (function($) {
         $(document).ready(function() {
             var frame = $('iframe').filter(function() {
-                return $(this).contents().is(document);
+                return $(this).is(document);
             });
-            frame.trigger('gotoSection', 'payment');
-            frame.trigger('reloadIframe');
+            $('#checkoutSteps').trigger('gotoSection', 'payment');
+            $('#opc-review').trigger('reloadIframe');
             var params = decodeURIComponent(location.search.substr(1)).split('=');
             if (params[0] && params[1] && params[0] == 'error_message') {
                 parent.alert(params[1]);

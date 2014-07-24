@@ -85,18 +85,27 @@ class Curl extends AbstractCurl implements StoreInterface
      *
      * @param string $name
      * @return int|null
+     * @throws \Exception
      */
     protected function getStoreId($name)
     {
-        $filter = ['name' => $name];
-        $url = $_ENV['app_backend_url'] . 'admin/system_store/index/filter/' . $this->encodeFilter($filter);
-        $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::GET, $url, '1.0');
+        //Set pager limit to 2000 in order to find created store view by name
+        $url = $_ENV['app_backend_url'] . 'admin/system_store/index/sort/store_title/dir/asc/limit/2000';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
+        $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
-        $curl->close();
-        preg_match('`\/store_id\/(\d*?)\/`', $response, $match);
 
-        return empty($match[1]) ? null : $match[1];
+        $expectedUrl = '/admin/system_store/editStore/store_id/';
+        $expectedUrl = preg_quote($expectedUrl);
+        $expectedUrl = str_replace('/', '\/', $expectedUrl);
+        preg_match('/' . $expectedUrl . '([0-9]*)\/(.)*>' . $name . '<\/a>/', $response, $matches);
+
+        if (empty($matches)) {
+            throw new \Exception('Cannot find store id');
+        }
+
+        return empty($matches[1]) ? null : $matches[1];
     }
 
     /**

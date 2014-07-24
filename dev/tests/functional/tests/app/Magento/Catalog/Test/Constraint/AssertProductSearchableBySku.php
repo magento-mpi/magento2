@@ -46,6 +46,8 @@ class AssertProductSearchableBySku extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param FixtureInterface $product
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         CatalogsearchResult $catalogSearchResult,

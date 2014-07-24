@@ -20,6 +20,8 @@ class Store extends AbstractRepository
      * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -28,6 +30,7 @@ class Store extends AbstractRepository
             'name' => 'Custom_Store_%isolation%',
             'code' => 'code_%isolation%',
             'is_active' => 'Enabled',
+            'store_id' => 1,
         ];
 
         $this->_data['All Store Views'] = [
