@@ -21,7 +21,7 @@ class View extends ParentView
      *
      * @var string
      */
-    protected $groupedProductBlock = '.wrapper.table.grouped';
+    protected $groupedProductBlock = '.table-wrapper.grouped';
 
     /**
      * This member holds the class name of the tier price block.

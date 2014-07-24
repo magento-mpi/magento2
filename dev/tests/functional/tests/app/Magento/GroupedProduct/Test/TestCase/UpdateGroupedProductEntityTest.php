@@ -55,8 +55,10 @@ class UpdateGroupedProductEntityTest extends Injectable
      * @param CatalogProductEdit $catalogProductEditPage
      * @return void
      */
-    public function __inject(CatalogProductIndex $catalogProductIndexNewPage,CatalogProductEdit $catalogProductEditPage)
-    {
+    public function __inject(
+        CatalogProductIndex $catalogProductIndexNewPage,
+        CatalogProductEdit $catalogProductEditPage
+    ) {
         $this->catalogProductIndex = $catalogProductIndexNewPage;
         $this->catalogProductEdit = $catalogProductEditPage;
     }
@@ -70,10 +72,12 @@ class UpdateGroupedProductEntityTest extends Injectable
      */
     public function test(CatalogProductGrouped $product, CatalogProductGrouped $originalProduct)
     {
+        // Precondition
         $originalProduct->persist();
+
+        // Steps
         $this->catalogProductIndex->open();
-        $filter = ['sku' => $originalProduct->getSku()];
-        $this->catalogProductIndex->getProductGrid()->searchAndOpen($filter);
+        $this->catalogProductIndex->getProductGrid()->searchAndOpen(['sku' => $originalProduct->getSku()]);
         $this->catalogProductEdit->getForm()->fill($product);
         $this->catalogProductEdit->getFormAction()->save();
     }

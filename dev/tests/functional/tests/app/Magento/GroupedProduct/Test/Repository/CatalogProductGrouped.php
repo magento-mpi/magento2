@@ -36,7 +36,6 @@ class CatalogProductGrouped extends AbstractRepository
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'url_key' => 'test-grouped-product-%isolation%',
             'quantity_and_stock_status' => [
-                'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
             'stock_data' => [
@@ -74,7 +73,6 @@ class CatalogProductGrouped extends AbstractRepository
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'url_key' => 'test-grouped-product-%isolation%',
             'quantity_and_stock_status' => [
-                'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
             'website_ids' => ['Main Website'],

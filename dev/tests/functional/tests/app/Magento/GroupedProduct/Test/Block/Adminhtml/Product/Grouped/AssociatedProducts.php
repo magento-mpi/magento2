@@ -44,7 +44,7 @@ class AssociatedProducts extends Tab
      *
      * @var string
      */
-    protected $option = '.delete';
+    protected $deleteButton = '.delete';
 
     /**
      * Get search grid
@@ -82,7 +82,7 @@ class AssociatedProducts extends Tab
     public function fillFormTab(array $fields, Element $element = null)
     {
         if (isset($fields['associated'])) {
-            $options = $this->_rootElement->find($this->option)->getElements();
+            $options = $this->_rootElement->find($this->deleteButton)->getElements();
             if (count($options)) {
                 foreach ($options as $option) {
                     $option->click();
