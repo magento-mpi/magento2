@@ -158,17 +158,6 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     }
 
     /**
-     * Set password hash
-     *
-     * @param string $value
-     * @return $this
-     */
-    public function setPasswordHash($value)
-    {
-        return $this->_set(Customer::PASSWORD_HASH, $value);
-    }
-
-    /**
      * Get  taxvat value
      *
      * @param string $value

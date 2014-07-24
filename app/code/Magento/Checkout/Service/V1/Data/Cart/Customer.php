@@ -40,8 +40,6 @@ class Customer extends \Magento\Framework\Service\Data\AbstractObject
 
     CONST IS_GUEST = 'is_guest';
 
-    CONST PASSWORD_HASH = 'password_hash';
-
     CONST TAXVAT = 'taxvat';
 
     CONST GENDER = 'gender';
@@ -177,15 +175,6 @@ class Customer extends \Magento\Framework\Service\Data\AbstractObject
         return (bool)$this->_get(self::IS_GUEST);
     }
 
-    /**
-     * Get password hash
-     *
-     * @return string|null
-     */
-    public function getPasswordHash()
-    {
-        return $this->_get(self::PASSWORD_HASH);
-    }
 
     /**
      * Get  taxvat value

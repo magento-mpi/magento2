@@ -31,7 +31,6 @@ class WriteServiceTest extends WebapiAbstract
 
     public function testCreate()
     {
-
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => self::RESOURCE_PATH,
