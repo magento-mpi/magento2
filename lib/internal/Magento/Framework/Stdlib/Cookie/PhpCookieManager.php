@@ -8,8 +8,7 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
-use Magento\Framework\Stdlib\CookieManager;
-
+use Magento\Framework\Stdlib\CookieManager as CookieManager;
 /**
  * CookieManager helps manage the setting, retrieving and deleting of cookies.
  *
@@ -19,6 +18,17 @@ use Magento\Framework\Stdlib\CookieManager;
  */
 class PhpCookieManager implements CookieManager
 {
+    /**#@+
+     * Constants for Cookie manager.
+     * RFC 2109 - Page 15
+     * http://www.ietf.org/rfc/rfc2109.txt
+     */
+    const MAX_NUM_COOKIES = 20;
+    const MAX_COOKIE_SIZE = 4096;
+    const EXPIRE_NOW_TIME = 1;
+    const EXPIRE_AT_END_OF_SESSION_TIME = 0;
+    /**#@-*/
+
     /**
      * @var CookieScope
      */
@@ -49,7 +59,14 @@ class PhpCookieManager implements CookieManager
      */
     public function setSensitiveCookie($name, $value, SensitiveCookieMetadata $metadata = null)
     {
-        // TODO: Implement setSensitiveCookie() method.
+        if (is_null($metadata)) {
+            $metadata = $this->scope->getSensitiveCookieMetadata();
+        }
+        $metadataArray = $metadata->__toArray();
+        $metadataArray[PublicCookieMetadata::KEY_SECURE] = true;
+        $metadataArray[PublicCookieMetadata::KEY_HTTP_ONLY] = true;
+
+        $this->setCookie($name, $value, $metadataArray);
     }
 
     /**
@@ -69,6 +86,67 @@ class PhpCookieManager implements CookieManager
     public function setPublicCookie($name, $value, PublicCookieMetadata $metadata = null)
     {
         // TODO: Implement setPublicCookie() method.
+    }
+
+    /**
+     * Set a value in a cookie with the given $name $value pairing.
+     *
+     * @param string $name
+     * @param string $value
+     * @param array $metadataArray
+     * @return void
+     * @throws FailureToSendException If cookie couldn't be sent to the browser.
+     * @throws BrowserNotSupportedException If browser doesn't support all features needed for setting this cookie
+     * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
+     */
+    private function setCookie($name, $value, array $metadataArray)
+    {
+        if (is_null($value) || $value === false) {
+            $value = '';
+            $expireTime = self::EXPIRE_NOW_TIME;
+        } else {
+            if (isset($metadataArray[PublicCookieMetadata::KEY_DURATION])) {
+                $expireTime = $metadataArray[PublicCookieMetadata::KEY_DURATION] + time();
+            } else {
+                $expireTime = self::EXPIRE_AT_END_OF_SESSION_TIME;
+            }
+
+            $numCookies = count($_COOKIE);
+            if ($numCookies >= self::MAX_NUM_COOKIES) {
+                throw new CookieSizeLimitReachedException;
+            }
+        }
+
+        if ($this->sizeOfCookie($name, $value) > self::MAX_COOKIE_SIZE) {
+            throw new CookieSizeLimitReachedException;
+        }
+
+        $phpSetcookieSuccess = setcookie(
+            $name,
+            $value,
+            $expireTime,
+            $metadataArray[AbstractCookieMetadata::KEY_PATH],
+            $metadataArray[AbstractCookieMetadata::KEY_DOMAIN],
+            $metadataArray[PublicCookieMetadata::KEY_SECURE],
+            $metadataArray[PublicCookieMetadata::KEY_SECURE]
+        );
+
+        if (!$phpSetcookieSuccess) {
+            throw new FailureToSendException;
+        }
+    }
+
+    /**
+     * Retrieve the size of a cookie.
+     * The size of a cookie is determined by the length of "name=value" portion of the cookie.
+     *
+     * @param string $name
+     * @param string $value
+     * @return int
+     */
+    private function sizeOfCookie($name, $value)
+    {
+        return count($name) + count('=') + count($value);
     }
 
     /**
