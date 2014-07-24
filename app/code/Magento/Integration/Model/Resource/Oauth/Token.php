@@ -100,15 +100,27 @@ class Token extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function selectTokenByType($consumerId, $type)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()->from(
-            $this->getMainTable()
-        )->where(
-            'consumer_id = ?',
-            $consumerId
-        )->where(
-            'type = ?',
-            $type
-        );
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('consumer_id = ?', $consumerId)
+            ->where('type = ?', $type);
+        return $adapter->fetchRow($select);
+    }
+
+    /**
+     * Select token for a given consumer and user type.
+     *
+     * @param int $consumerId
+     * @param int $userType
+     * @return array|boolean - Row data (array) or false if there is no corresponding row
+     */
+    public function selectTokenByConsumerAndUserType($consumerId, $userType)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('consumer_id = ?', $consumerId)
+            ->where('user_type = ?', $userType);
         return $adapter->fetchRow($select);
     }
 }

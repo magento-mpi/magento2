@@ -653,8 +653,7 @@ return array(
         '\Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix'
     ),
     array(
-        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Simple',
-        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Simple'
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Simple'
     ),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config',
@@ -1367,6 +1366,7 @@ return array(
     array('Magento\Framework\HTTP\HandlerInterface'),
     array('Magento\Backend\Model\Request\PathInfoProcessor'),
     array('Magento\Backend\Model\Router\NoRouteHandler'),
+    array('Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Simple'),
     array('Magento\Core\Model\Request\PathInfoProcessor', 'Magento\Store\App\Request\PathInfoProcessor'),
     array('Magento\Core\Model\Request\RewriteService'),
     array('Magento\Core\Model\Router\NoRouteHandler'),

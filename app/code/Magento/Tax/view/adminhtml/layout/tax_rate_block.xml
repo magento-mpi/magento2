@@ -65,7 +65,7 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">State/Region</argument>
                         <argument name="header_export" xsi:type="string" translate="true">State</argument>
-                        <argument name="filter_index" xsi:type="string">region_table.code</argument>
+                        <argument name="filter_index" xsi:type="string">region_name</argument>
                         <argument name="index" xsi:type="string">region_name</argument>
                         <argument name="default" xsi:type="string">*</argument>
                     </arguments>
