@@ -22,10 +22,7 @@ unset($magentoAfl['php']);
 $config = array(
     ''    => array('php' => 'OSL', '_recursive' => false),
     'app' => array('php' => 'OSL', '_recursive' => false),
-    'app/code/Enterprise'   => $magentoOslAfl,
-    'app/code/Mage'         => $magentoOslAfl,
     'app/code/Magento'      => $magentoOslAfl,
-    'app/code/Zend'         => $magentoOslAfl,
     'app/design'            => $magentoAfl,
     'app/etc'               => array('xml' => 'AFL'),
     'app/i18n'              => array('xml' => 'AFL'),
@@ -35,6 +32,8 @@ $config = array(
     'lib/web'               => $magentoOslAfl,
     'pub'                   => $magentoOslAfl,
     'setup'                 => $magentoOslAfl,
+    'setup/pub/angular'     => array(),
+    'setup/pub/bootstrap'   => array(),
 );
 
 if (defined('EDITION_LICENSE')) {
