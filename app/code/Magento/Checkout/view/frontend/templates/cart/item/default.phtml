@@ -95,7 +95,11 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
     </td>
 
     <td class="col subtotal" data-th="<?php echo $this->escapeHtml(__('Subtotal'));?>">
-        <?php echo $this->getRowTotalHtml($_item); ?>
+        <?php if ($canApplyMsrp): ?>
+            <span class="cart msrp subtotal">--</span>
+        <?php else: ?>
+            <?php echo $this->getRowTotalHtml($_item); ?>
+        <?php endif; ?>
         <?php $cols++; ?>
     </td>
 
