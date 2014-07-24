@@ -20,7 +20,7 @@ class SystemVariableNew extends BackendPage
     protected $_blocks = [
         'formPageActions' => [
             'name' => 'formPageActions',
-            'class' => 'Magento\Backend\Test\Block\FormPageActions',
+            'class' => 'Magento\Core\Test\Block\Adminhtml\System\Variable\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -33,7 +33,7 @@ class SystemVariableNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\Backend\Test\Block\FormPageActions
+     * @return \Magento\Core\Test\Block\Adminhtml\System\Variable\FormPageActions
      */
     public function getFormPageActions()
     {

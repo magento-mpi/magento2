@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <rewardCustomerInfo>
+        <mca>reward/customer/info</mca>
+        <class>Magento\Reward\Test\Page\RewardCustomerInfo</class>
+    </rewardCustomerInfo>
+</page>

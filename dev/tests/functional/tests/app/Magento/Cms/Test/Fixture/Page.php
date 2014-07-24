@@ -46,7 +46,7 @@ class Page extends DataFixture
      */
     public function getPageContent()
     {
-        return $this->getData('fields/content/value');
+        return $this->getData('fields/content/value/content');
     }
 
     /**
