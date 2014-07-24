@@ -11,10 +11,10 @@ namespace Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit;
 use Mtf\Block\Form as ParentForm;
 
 /**
- * Class Form
+ * Class RewardRateForm
  * Reward rate form
  */
-class Form extends ParentForm
+class RewardRateForm extends ParentForm
 {
     //
 }

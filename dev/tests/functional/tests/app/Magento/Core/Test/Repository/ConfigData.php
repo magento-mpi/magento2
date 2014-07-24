@@ -13,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class ConfigData
  * Data for creation Config settings
- * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 class ConfigData extends AbstractRepository
 {
@@ -23,7 +22,7 @@ class ConfigData extends AbstractRepository
      * @constructor
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
-     * @SuppressWarnings
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {

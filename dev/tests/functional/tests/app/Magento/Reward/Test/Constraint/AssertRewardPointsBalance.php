@@ -76,7 +76,7 @@ class AssertRewardPointsBalance extends AbstractConstraint
             $rate->getCurrencyAmount()
         );
 
-        \PHPUnit_Framework_Assert::assertEquals($expected, $actual, 'Wrong success messages is displayed.');
+        \PHPUnit_Framework_Assert::assertEquals($expected, $actual, 'Wrong success messages are displayed.');
     }
 
     /**
@@ -86,6 +86,6 @@ class AssertRewardPointsBalance extends AbstractConstraint
      */
     public function toString()
     {
-        return 'All the data in the users account are displayed correctly.';
+        return 'Reward points balance and exchange rate in the user account are displayed correctly.';
     }
 }

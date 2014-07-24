@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reward\Test\Constraint; 
+namespace Magento\Reward\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
@@ -46,12 +46,10 @@ class AssertRewardPointsMessageOnCustomerRegistration extends AbstractConstraint
         $cmsIndex->open();
         $cmsIndex->getLinksBlock()->openLink('Register');
 
-        $actualMessage = $customerAccountCreate->getTooltipBlock()->getRewardMessages();
-        $rewardPointsMessages = sprintf(self::REGISTRATION_REWARD_MESSAGE, $registrationReward);
         \PHPUnit_Framework_Assert::assertEquals(
-            $rewardPointsMessages,
-            trim($actualMessage),
-            'Wrong success message is displayed.'
+            sprintf(self::REGISTRATION_REWARD_MESSAGE, $registrationReward),
+            trim($customerAccountCreate->getTooltipBlock()->getRewardMessages()),
+            'Wrong message about registration reward is displayed.'
         );
     }
 

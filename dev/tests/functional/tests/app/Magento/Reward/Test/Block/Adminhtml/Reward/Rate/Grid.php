@@ -30,14 +30,14 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'reward_id' => [
-            'selector' => '#rate_id',
+            'selector' => 'input[name="rate_id"]',
         ],
         'website_id' => [
-            'selector' => '#website_id',
+            'selector' => 'select[name="website_id"]',
             'input' => 'select'
         ],
         'customer_group_id' => [
-            'selector' => '#customer_group_id',
+            'selector' => 'select[name="customer_group_id"]',
             'input' => 'select'
         ],
     ];

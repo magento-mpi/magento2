@@ -21,14 +21,14 @@ class RewardPointsInformation extends Block
      *
      * @var string
      */
-    protected $rewardRatesSelector = '.reward.rates';
+    protected $rewardRatesSelector = '.reward-rates';
 
     /**
      * Selector for current reward points balance button
      *
      * @var string
      */
-    protected $rewardPointsBalanceSelector = '.content > :first-child';
+    protected $rewardPointsBalanceSelector = '.reward-balance';
 
     /**
      * Get current reward exchange rates

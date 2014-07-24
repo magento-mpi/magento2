@@ -12,6 +12,7 @@ use Magento\Customer\Test\Page\CustomerAccountCreate as ParentCustomerAccountCre
 
 /**
  * Class CustomerAccountCreate
+ * Customer account create page with reward tooltip block
  */
 class CustomerAccountCreate extends ParentCustomerAccountCreate
 {

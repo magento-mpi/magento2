@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reward\Test\Page\Adminhtml; 
+namespace Magento\Reward\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class RewardRateNew
@@ -19,9 +19,9 @@ class RewardRateNew extends BackendPage
     const MCA = 'admin/reward_rate/new';
 
     protected $_blocks = [
-        'form' => [
-            'name' => 'form',
-            'class' => 'Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\Form',
+        'rewardRateForm' => [
+            'name' => 'rewardRateForm',
+            'class' => 'Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardRateForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
@@ -40,11 +40,11 @@ class RewardRateNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\Form
+     * @return \Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardRateForm
      */
-    public function getForm()
+    public function getRewardRateForm()
     {
-        return $this->getBlockInstance('form');
+        return $this->getBlockInstance('rewardRateForm');
     }
 
     /**

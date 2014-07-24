@@ -8,10 +8,10 @@
 
 namespace Magento\Reward\Test\TestCase;
 
+use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Reward\Test\Fixture\Reward;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
@@ -33,18 +33,11 @@ use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
  * 5. Save Reward Exchange Rate.
  * 6. Perform appropriate assertions.
  *
- * @group Product_Attributes_(MX), Reward_Points_(CS)
+ * @group Reward_Points_(CS)
  * @ZephyrId MAGETWO-24808
  */
 class CreateExchangeRateForRewardPointsEntityTest extends Injectable
 {
-    /**
-     * Factory for fixture
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
     /**
      * Index page reward exchange rates
      *
@@ -60,22 +53,20 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
     protected $rewardRateNewPage;
 
     /**
-     * Configuration data set
+     * Configuration rollback data set
      *
-     * @var string
+     * @var ConfigData
      */
-    protected $config;
+    protected $configRollback;
 
     /**
      * Prepare data
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param CatalogProductSimple $product
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(CatalogProductSimple $product)
     {
-        $this->fixtureFactory = $fixtureFactory;
-        $product = $fixtureFactory->createByCode('catalogProductSimple');
         $product->persist();
 
         return ['product' => $product];
@@ -101,28 +92,30 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
      *
      * @param Reward $rate
      * @param CustomerInjectable $customer
-     * @param string $config
+     * @param ConfigData $config
+     * @param ConfigData $configRollback
      * @param string $registrationReward
      * @param string $checkoutReward
      * @return void
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(
         Reward $rate,
         CustomerInjectable $customer,
-        $config,
+        ConfigData $config,
+        ConfigData $configRollback,
         $registrationReward,
         $checkoutReward
     ) {
         // Precondition
-        $this->config = $config;
-        $configData = $this->fixtureFactory->createByCode('configData', ['dataSet' => $this->config]);
-        $configData->persist();
+        $this->configRollback = $configRollback;
+        $config->persist();
         $customer->persist();
 
         // Steps
         $this->rewardRateIndexPage->open()->getGridActions()->addNew();
-        $this->rewardRateNewPage->getForm()->fill($rate);
+        $this->rewardRateNewPage->getRewardRateForm()->fill($rate);
         $this->rewardRateNewPage->getFormPageActions()->save();
     }
 
@@ -138,8 +131,6 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
             $this->rewardRateIndexPage->getGridRate()->openFirstRow();
             $this->rewardRateNewPage->getFormPageActions()->delete();
         }
-        $config = $this->config . '_rollback';
-        $configData = $this->fixtureFactory->createByCode('configData', ['dataSet' => $config]);
-        $configData->persist();
+        $this->configRollback->persist();
     }
 }

@@ -6,11 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reward\Test\Constraint; 
+namespace Magento\Reward\Test\Constraint;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Reward\Test\Page\CheckoutCart;
+use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -34,6 +35,7 @@ class AssertRewardPointsMessageOnShoppingCart extends AbstractConstraint
     /**
      * Assert that reward points message is displayed on shopping cart page
      *
+     * @param Browser $browser
      * @param CatalogProductSimple $product
      * @param CatalogProductView $productView
      * @param CheckoutCart $checkoutCart
@@ -41,21 +43,19 @@ class AssertRewardPointsMessageOnShoppingCart extends AbstractConstraint
      * @return void
      */
     public function processAssert(
+        Browser $browser,
         CatalogProductSimple $product,
         CatalogProductView $productView,
         CheckoutCart $checkoutCart,
         $checkoutReward
     ) {
-        $productView->init($product);
-        $productView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productView->getViewBlock()->clickAddToCartButton();
-        $actualMessage = $checkoutCart->getCheckoutTooltipBlock()->getRewardMessages();
-        $expectedMessage = sprintf(self::CHECKOUT_REWARD_MESSAGE, $checkoutReward);
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $expectedMessage,
-            trim($actualMessage),
-            'Wrong success message is displayed.'
+            sprintf(self::CHECKOUT_REWARD_MESSAGE, $checkoutReward),
+            trim($checkoutCart->getCheckoutTooltipBlock()->getRewardMessages()),
+            'Wrong message about checkout reward is displayed.'
         );
     }
 

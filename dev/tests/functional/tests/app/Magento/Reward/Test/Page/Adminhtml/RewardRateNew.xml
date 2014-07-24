@@ -9,8 +9,8 @@
 -->
 <page mca="admin/reward_rate/new" >
     <block>
-        <name>form</name>
-        <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\Form</class>
+        <name>rewardRateForm</name>
+        <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardRateForm</class>
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>

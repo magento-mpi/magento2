@@ -31,7 +31,7 @@ class RewardPoints extends Block
      *
      * @var string
      */
-    protected $rewardPointsInformation = '.block.reward.info';
+    protected $rewardPointsInformation = '.block-reward-info';
 
     /**
      * Return reward points subscription form

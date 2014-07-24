@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reward\Test\Page\Adminhtml; 
+namespace Magento\Reward\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class RewardRateIndex

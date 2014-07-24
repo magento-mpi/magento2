@@ -22,7 +22,7 @@ use Mtf\Handler\Curl as AbstractCurl;
 class Curl extends AbstractCurl implements ConfigDataInterface
 {
     /**
-     * Mapping values for data.
+     * Mapping values for data
      *
      * @var array
      */
@@ -35,7 +35,7 @@ class Curl extends AbstractCurl implements ConfigDataInterface
     ];
 
     /**
-     * Post request for setting configuration attribute
+     * Post request for setting configuration
      *
      * @param FixtureInterface|null $fixture [optional]
      * @return void
@@ -49,7 +49,7 @@ class Curl extends AbstractCurl implements ConfigDataInterface
     }
 
     /**
-     * Prepare POST data for setting configuration attribute
+     * Prepare POST data for setting configuration
      *
      * @param FixtureInterface $fixture
      * @return array
@@ -75,7 +75,6 @@ class Curl extends AbstractCurl implements ConfigDataInterface
      *
      * @param array $data
      * @param string $section
-     * @return int|null
      * @throws \Exception
      */
     protected function applyConfigSettings(array $data, $section)
