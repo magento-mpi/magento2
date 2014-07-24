@@ -521,4 +521,32 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
 
         return $store->convertPrice($amount, $format);
     }
+
+    /**
+     * Return the unit price html
+     *
+     * @param $item
+     * @return string
+     */
+    public function getUnitPriceHtml($item)
+    {
+        /** @var Renderer $block */
+        $block = $this->getLayout()->getBlock('checkout.cart.item.price.unit');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
+
+    /**
+     * Return row total html
+     *
+     * @param $item
+     * @return string
+     */
+    public function getRowTotalHtml($item)
+    {
+        /** @var Renderer $block */
+        $block = $this->getLayout()->getBlock('checkout.cart.item.price.row');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
 }
