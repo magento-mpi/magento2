@@ -8,9 +8,13 @@
 namespace Magento\Bundle\Service\V1\Product\Option;
 
 use Magento\Bundle\Model\Product\Type;
+use Magento\Bundle\Service\V1\Data\Product\Option;
+use Magento\Bundle\Service\V1\Data\Product\OptionConverter;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Webapi\Exception;
 
 class WriteService implements WriteServiceInterface
@@ -23,17 +27,31 @@ class WriteService implements WriteServiceInterface
      * @var Type
      */
     private $type;
+    /**
+     * @var \Magento\Bundle\Service\V1\Data\Product\OptionConverter
+     */
+    private $optionConverter;
+    /**
+     * @var \Magento\Store\Model\StoreManager
+     */
+    private $storeManager;
 
     /**
      * @param ProductRepository $productRepository
      * @param Type $type
+     * @param OptionConverter $optionConverter
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         ProductRepository $productRepository,
-        Type $type
+        Type $type,
+        OptionConverter $optionConverter,
+        StoreManagerInterface $storeManager
     ) {
         $this->productRepository = $productRepository;
         $this->type = $type;
+        $this->optionConverter = $optionConverter;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -61,6 +79,24 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function add($productSku, Option $option)
+    {
+        $product = $this->getProduct($productSku);
+        $optionModel = $this->optionConverter->createModelFromData($option, $product);
+        $optionModel->setStoreId($this->storeManager->getStore()->getId());
+
+        try {
+            $optionModel->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not save option', [], $e);
+        }
+
+        return $optionModel->getId();
+    }
+
+    /**
      * @param string $productSku
      * @return Product
      * @throws Exception
@@ -70,7 +106,14 @@ class WriteService implements WriteServiceInterface
         $product = $this->productRepository->get($productSku);
 
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-            throw new Exception('Only implemented for bundle product', Exception::HTTP_FORBIDDEN);
+            throw new Exception(
+                'Product with specified sku: "%1" is not a bundle product',
+                Exception::HTTP_FORBIDDEN,
+                Exception::HTTP_FORBIDDEN,
+                [
+                    $product->getSku()
+                ]
+            );
         }
 
         return $product;
