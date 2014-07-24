@@ -9,7 +9,6 @@
 namespace Magento\Review\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -48,13 +47,12 @@ class MassActionsProductReviewEntityTest extends Injectable
      * Prepare data
      *
      * @param CatalogProductSimple $product
-     * @param FixtureFactory $fixtureFactory
+     * @param ReviewInjectable $review
      * @return array
      */
-    public function __prepare(CatalogProductSimple $product, FixtureFactory $fixtureFactory)
+    public function __prepare(CatalogProductSimple $product, ReviewInjectable $review)
     {
         $product->persist();
-        $review = $fixtureFactory->createByCode('reviewInjectable', ['dataSet' => 'review_for_mass_actions']);
         $review->persist();
 
         return ['product' => $product, 'review' => $review];
@@ -77,7 +75,7 @@ class MassActionsProductReviewEntityTest extends Injectable
      * @param string $gridActions
      * @param string $gridStatus
      * @param ReviewInjectable $review
-     * @return array
+     * @return void
      */
     public function test($gridActions, $gridStatus, ReviewInjectable $review)
     {
@@ -85,9 +83,8 @@ class MassActionsProductReviewEntityTest extends Injectable
         $this->reviewIndex->open();
         $this->reviewIndex->getReviewGrid()->massaction(
             [['title' => $review->getTitle()]],
-            [$gridActions => $gridStatus]
+            [$gridActions => $gridStatus],
+            ($gridActions == 'Delete' ? true : false)
         );
-
-        return ['status' => $gridStatus];
     }
 }

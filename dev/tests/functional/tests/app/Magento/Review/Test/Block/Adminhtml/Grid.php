@@ -24,34 +24,34 @@ class Grid extends GridAbstract
      */
     protected $filters = [
         'review_id' => [
-            'selector' => '#reviwGrid_filter_review_id',
+            'selector' => 'input[name="review_id"]',
         ],
         'title' => [
-            'selector' => '#reviwGrid_filter_title',
+            'selector' => 'input[name="title"]',
         ],
         'status' => [
-            'selector' => '#reviwGrid_filter_status',
+            'selector' => '.grid select[name="status"]',
             'input' => 'select',
         ],
         'nickname' => [
-            'selector' => '#reviwGrid_filter_nickname',
+            'selector' => 'input[name="nickname"]',
         ],
         'detail' => [
-            'selector' => '#reviwGrid_filter_detail',
+            'selector' => 'input[name="detail"]',
         ],
         'visible_in' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-store-filter-visible-in"]',
+            'selector' => 'select[name="visible_in"]',
             'input' => 'selectstore',
         ],
         'type' => [
-            'selector' => '#reviwGrid_filter_type',
+            'selector' => 'select[name="type"]',
             'input' => 'select',
         ],
         'name' => [
-            'selector' => '#reviwGrid_filter_name',
+            'selector' => 'input[name="name"]',
         ],
         'sku' => [
-            'selector' => '#reviwGrid_filter_sku',
+            'selector' => 'input[name="sku"]',
         ],
     ];
 }

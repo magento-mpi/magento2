@@ -96,7 +96,7 @@ class DeleteProductEntityTest extends Injectable
             $deleteProducts[] = ['sku' => $product->getSku()];
         }
         $this->catalogProductIndex->open();
-        $this->catalogProductIndex->getProductGrid()->massaction($deleteProducts, 'Delete');
+        $this->catalogProductIndex->getProductGrid()->massaction($deleteProducts, 'Delete', true);
 
         return ['product' => $products];
     }

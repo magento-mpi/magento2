@@ -49,7 +49,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * @param string $status [optional]
      * @return void
      */
-    public function processAssert(ReviewIndex $reviewIndex, ReviewInjectable $review, $status = '')
+    public function processAssert(ReviewIndex $reviewIndex, ReviewInjectable $review, $gridStatus = '')
     {
         $filter = [];
         foreach ($this->filter as $key => $item) {
@@ -58,17 +58,17 @@ class AssertProductReviewInGrid extends AbstractConstraint
                 $type = $param = $item;
             }
             switch ($param) {
-                case 'name' :
-                case 'sku' :
+                case 'name':
+                case 'sku':
                     $value = $review->getDataFieldConfig('entity_id')['source']->getEntity()->getData($param);
                     break;
-                case 'select_stores' :
+                case 'select_stores':
                     $value = $review->getData($param)[0];
                     break;
-                case 'status_id' :
-                    $value = $status != '' ? $status : $review->getData($param);
+                case 'status_id':
+                    $value = $gridStatus != '' ? $gridStatus : $review->getData($param);
                     break;
-                default :
+                default:
                     $value = $review->getData($param);
                     break;
             }

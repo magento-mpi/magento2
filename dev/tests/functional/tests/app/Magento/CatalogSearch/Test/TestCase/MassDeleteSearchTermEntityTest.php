@@ -76,7 +76,7 @@ class MassDeleteSearchTermEntityTest extends Injectable
 
         // Steps
         $this->indexPage->open();
-        $this->indexPage->getGrid()->massaction($deleteSearchTerms, 'Delete');
+        $this->indexPage->getGrid()->massaction($deleteSearchTerms, 'Delete', true);
 
         return $result;
     }

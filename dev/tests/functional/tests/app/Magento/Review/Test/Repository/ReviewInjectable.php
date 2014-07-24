@@ -39,21 +39,5 @@ class ReviewInjectable extends AbstractRepository
             ],
             'entity_id' => ['dataSet' => 'catalogProductSimple::default']
         ];
-
-        $this->_data['review_for_mass_actions'] = [
-            'status_id' => 'Approved',
-            'select_stores' => ['Main Website/Main Website Store/Default Store View'],
-            'nickname' => 'nickname_%isolation%',
-            'title' => 'title_%isolation%',
-            'detail' => 'review_detail_%isolation%',
-            'ratings' => [
-                [
-                    'dataSet' => 'visibleOnDefaultWebsite',
-                    'rating' => mt_rand(1, 5)
-                ]
-            ],
-            'entity_id' => ['dataSet' => 'catalogProductSimple::default'],
-            'type' => 'Administrator'
-        ];
     }
 }

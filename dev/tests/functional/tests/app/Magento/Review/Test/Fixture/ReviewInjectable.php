@@ -43,7 +43,8 @@ class ReviewInjectable extends InjectableFixture
                 'rating' => 4
             ]
         ],
-        'entity_id' => ['dataSet' => 'catalogProductSimple::default']
+        'entity_id' => ['dataSet' => 'catalogProductSimple::default'],
+        'type' => 'Administrator'
     ];
 
     protected $review_id = [

@@ -256,9 +256,6 @@ abstract class Grid extends Block
         if (isset($action[$actionType]) && $action[$actionType] != '-') {
             $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue($action[$actionType]);
         }
-        if ($actionType == 'Delete') {
-            $acceptAlert = true;
-        }
         $this->massActionSubmit($acceptAlert);
     }
 
