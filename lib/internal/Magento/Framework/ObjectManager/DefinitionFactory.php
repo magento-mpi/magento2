@@ -17,6 +17,7 @@ use Magento\Framework\ObjectManager\Code\Generator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
 use Magento\Framework\Service\Code\Generator\Builder as BuilderGenerator;
 use Magento\Framework\Service\Code\Generator\Mapper as MapperGenerator;
+use Magento\Framework\Service\Code\Generator\Converter as ConverterGenerator;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -113,6 +114,7 @@ class DefinitionFactory
                     InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Framework\Interception\Code\Generator\Interceptor',
                     BuilderGenerator::ENTITY_TYPE => '\Magento\Framework\Service\Code\Generator\Builder',
                     MapperGenerator::ENTITY_TYPE => '\Magento\Framework\Service\Code\Generator\Mapper',
+                    ConverterGenerator::ENTITY_TYPE => '\Magento\Framework\Service\Code\Generator\Converter',
                 )
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);

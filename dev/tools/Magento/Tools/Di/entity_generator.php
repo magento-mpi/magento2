@@ -16,6 +16,7 @@ use Magento\Framework\Exception;
 use Magento\Framework\Service\Code\Generator\Builder;
 use Magento\Framework\Service\Code\Generator\Mapper;
 use Magento\Framework\ObjectManager\Code\Generator\Repository;
+use Magento\Framework\Service\Code\Generator\Converter;
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
 
@@ -86,6 +87,8 @@ $generator = new Generator(
             'Magento\Framework\Service\Code\Generator\Mapper',
         Repository::ENTITY_TYPE =>
             'Magento\Framework\ObjectManager\Code\Generator\Repository',
+        Converter::ENTITY_TYPE =>
+            'Magento\Framework\ObjectManager\Code\Generator\Converter',
     ]
 );
 
