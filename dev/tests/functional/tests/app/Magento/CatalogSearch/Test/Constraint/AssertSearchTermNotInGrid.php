@@ -34,9 +34,10 @@ class AssertSearchTermNotInGrid extends AbstractConstraint
      */
     public function processAssert(CatalogSearchIndex $indexPage, CatalogSearchQuery $searchTerm)
     {
+        $queryText = $searchTerm->getQueryText();
         $grid = $indexPage->open()->getGrid();
         $filters = [
-            'search_query' => $searchTerm->getQueryText(),
+            'search_query' => $queryText,
             'store_id' => $searchTerm->getStoreId(),
             'results_from' => $searchTerm->getNumResults(),
             'popularity_from' => $searchTerm->getPopularity(),
@@ -49,7 +50,7 @@ class AssertSearchTermNotInGrid extends AbstractConstraint
         unset($filters['store_id']);
         \PHPUnit_Framework_Assert::assertFalse(
             $grid->isRowVisible($filters, false),
-            'Search term was found in grid.'
+            'Search term "' . $queryText . '" was found in grid.'
         );
     }
 

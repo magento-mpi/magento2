@@ -41,6 +41,7 @@ class AssertSearchSynonymNotOnFrontend extends AbstractConstraint
             $browser->getUrl(),
             $searchTerm->getRedirect(),
             'Url in the browser corresponds to Url in fixture (redirect has been performed).'
+            . PHP_EOL . 'Search term: "' . $searchTerm->getQueryText() . '"'
         );
     }
 
