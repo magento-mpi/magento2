@@ -8,7 +8,6 @@
 
 namespace Magento\Integration\Service\V1;
 
-
 interface TokenInterface
 {
     /**
@@ -26,5 +25,4 @@ interface TokenInterface
      * @return string Token created
      */
     public function createCustomerAccessToken($userId);
-
-} 
+}
