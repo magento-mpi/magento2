@@ -12,10 +12,10 @@ use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductReviewBackendCreationSuccessMessage
+ * Class AssertProductReviewBackendSuccessSaveMessage
  * Assert that success message is displayed after review created
  */
-class AssertProductReviewBackendCreationSuccessMessage extends AbstractConstraint
+class AssertProductReviewBackendSuccessSaveMessage extends AbstractConstraint
 {
     /**
      * Text of success message after review created
@@ -37,10 +37,9 @@ class AssertProductReviewBackendCreationSuccessMessage extends AbstractConstrain
      */
     public function processAssert(ReviewIndex $reviewIndex)
     {
-        $actualMessage = $reviewIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
-            $actualMessage,
+            $reviewIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
     }

@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class Reward
  * Reward point fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Reward extends InjectableFixture
 {

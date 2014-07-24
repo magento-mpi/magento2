@@ -17,7 +17,7 @@ use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 class Grid extends ParentGrid
 {
     /**
-     * Initialize block elements
+     * Grid filter selectors
      *
      * @var array
      */

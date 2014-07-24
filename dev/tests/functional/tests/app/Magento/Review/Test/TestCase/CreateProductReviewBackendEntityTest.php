@@ -22,18 +22,18 @@ use Mtf\TestCase\Injectable;
  * 1. Simple Product created
  *
  * Steps:
- * 1. login to backend
- * 2. navigate to Marketing -> User Content -> Reviews
- * 3. click the "+" (Add New Review) button
- * 4. select the product in the Products Grid
- * 5. fill data according to DataSet
- * 6. click "Save Review" button
- * 7. perform Asserts
+ * 1. Login to backend
+ * 2. Navigate to Marketing -> User Content -> Reviews
+ * 3. Click the "+" (Add New Review) button
+ * 4. Select the product in the Products Grid
+ * 5. Fill data according to DataSet
+ * 6. Click "Save Review" button
+ * 7. Perform Asserts
  *
  * @group Reviews_and_Ratings_(MX)
  * @ZephyrId MAGETWO-26476
  */
-class CreateProductReviewEntityBackendTest extends Injectable
+class CreateProductReviewBackendEntityTest extends Injectable
 {
     /**
      * ReviewIndex page

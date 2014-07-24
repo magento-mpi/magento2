@@ -16,6 +16,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductRatingInProductPage
+ * Assert that product rating is displayed on product review(frontend)
  */
 class AssertProductRatingInProductPage extends AbstractConstraint
 {
