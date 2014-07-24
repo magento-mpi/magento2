@@ -517,7 +517,6 @@ return array(
     array('getPriceFormatted', 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Sales'),
     array('getPrices', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
     array('getPricesDependingOnTax', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
-    array('getPriceTaxSql', 'Magento\Tax\Helper\Data'),
     array('getPrintUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getPrintUrl', 'Magento\Sales\Block\Order\Info'),
     array('getProduct', 'Magento\Catalog\Model\Product\Type\AbstractType'),
@@ -1776,14 +1775,5 @@ return array(
     ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
     ['prepareValueForDuplicate', 'Magento\Catalog\Model\Product\Option\Value'],
     ['prepareOptionForDuplicate', '\Magento\Catalog\Model\Product\Option'],
-    [
-        'getFlatColums',
-        'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource',
-        'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource::getFlatColumns'
-    ],
-    ['addProductAdvanced', '\Magento\Sales\Model\Quote'],
-    ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
-    ['getCalculator', '\Magento\Tax\Helper\Data'],
-    ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
-    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation']
+    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
 );
