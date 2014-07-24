@@ -56,6 +56,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $store;
 
+    /**
+     * @var \Magento\Bundle\Model\Resource\Option\Collection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $optionCollection;
+
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
@@ -97,6 +102,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->optionModel = $this->getMockBuilder('Magento\Bundle\Model\Option')
             ->setMethods(['__wakeup', 'getId', 'delete', 'setStoreId', 'save'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->optionCollection = $this->getMockBuilder('Magento\Bundle\Model\Resource\Option\Collection')
+            ->setMethods(['setIdFilter', 'getFirstItem'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -185,7 +195,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->optionModel]));
+            ->will($this->returnValue($this->optionCollection));
+
+        $this->optionCollection->expects($this->once())->method('setIdFilter')
+            ->with($this->equalTo($optionId));
+        $this->optionCollection->expects($this->once())->method('getFirstItem')
+            ->will($this->returnValue($this->optionModel));
 
         $storeId = 1;
         $this->store->expects($this->once())->method('getId')->will($this->returnValue($storeId));
@@ -197,7 +212,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionConverter->expects($this->once())->method('getModelFromData')
             ->with($this->equalTo($this->option), $this->equalTo($this->optionModel))
             ->will($this->returnValue($this->optionModel));
-
 
         $this->assertTrue($this->model->update($productSku, $optionId, $this->option));
     }
@@ -219,7 +233,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->optionModel]));
+            ->will($this->returnValue($this->optionCollection));
+
+        $this->optionCollection->expects($this->once())->method('setIdFilter')
+            ->with($this->equalTo($optionId));
+        $this->optionCollection->expects($this->once())->method('getFirstItem')
+            ->will($this->returnValue($this->optionModel));
 
         $storeId = 1;
         $this->store->expects($this->once())->method('getId')->will($this->returnValue($storeId));
@@ -237,7 +256,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionConverter->expects($this->once())->method('getModelFromData')
             ->with($this->equalTo($this->option), $this->equalTo($this->optionModel))
             ->will($this->returnValue($this->optionModel));
-
 
         $this->assertTrue($this->model->update($productSku, $optionId, $this->option));
     }
@@ -259,9 +277,18 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->optionModel]));
+            ->will($this->returnValue($this->optionCollection));
 
-        $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId + 1));
+        $this->optionCollection->expects($this->once())->method('setIdFilter')
+            ->with($this->equalTo($optionId));
+        $this->optionCollection->expects($this->once())->method('getFirstItem')
+            ->will($this->returnValue($this->optionModel));
+
+        $this->optionConverter->expects($this->once())->method('getModelFromData')
+            ->with($this->equalTo($this->option), $this->equalTo($this->optionModel))
+            ->will($this->returnValue($this->optionModel));
+
+        $this->optionModel->expects($this->once())->method('getId');
 
         $this->model->update($productSku, $optionId, $this->option);
     }
@@ -280,7 +307,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->optionModel]));
+            ->will($this->returnValue($this->optionCollection));
+
+        $this->optionCollection->expects($this->once())->method('setIdFilter')
+            ->with($this->equalTo($optionId));
+        $this->optionCollection->expects($this->once())->method('getFirstItem')
+            ->will($this->returnValue($this->optionModel));
 
         $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId));
         $this->optionModel->expects($this->once())->method('delete');
@@ -305,9 +337,14 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productType->expects($this->once())->method('getOptionsCollection')
             ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->optionModel]));
+            ->will($this->returnValue($this->optionCollection));
 
-        $this->optionModel->expects($this->once())->method('getId')->will($this->returnValue($optionId + 1));
+        $this->optionCollection->expects($this->once())->method('setIdFilter')
+            ->with($this->equalTo($optionId));
+        $this->optionCollection->expects($this->once())->method('getFirstItem')
+            ->will($this->returnValue($this->optionModel));
+
+        $this->optionModel->expects($this->once())->method('getId');
 
         $this->model->remove($productSku, $optionId);
     }

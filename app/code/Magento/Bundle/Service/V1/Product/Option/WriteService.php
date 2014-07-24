@@ -61,16 +61,11 @@ class WriteService implements WriteServiceInterface
     {
         $product = $this->getProduct($productSku);
         $optionCollection = $this->type->getOptionsCollection($product);
+        $optionCollection->setIdFilter($optionId);
 
         /** @var \Magento\Bundle\Model\Option $removeOption */
-        $removeOption = null;
-        /** @var \Magento\Bundle\Model\Option $option */
-        foreach ($optionCollection as $option) {
-            if ($option->getId() == $optionId) {
-                $removeOption = $option;
-            }
-        }
-        if ($removeOption === null) {
+        $removeOption = $optionCollection->getFirstItem();
+        if (!$removeOption->getId()) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
         $removeOption->delete();
