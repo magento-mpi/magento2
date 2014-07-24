@@ -8,7 +8,7 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
-use Mtf\Fixture\FixtureInterface;
+use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
@@ -34,18 +34,11 @@ class PageForm extends FormTabs
     protected $contentForm = "#page_content";
 
     /**
-     * Fill the page form
+     * Current published revision link selector
      *
-     * @param FixtureInterface $fixture
-     * @param Element|null $element
-     * @return FormTabs
+     * @var string
      */
-    public function fill(FixtureInterface $fixture, Element $element = null)
-    {
-        // Open "Content" tab and toggle the editor to make visible and available to interact
-        $this->toggleEditor();
-        return parent::fill($fixture);
-    }
+    protected $currentlyPublishedRevision = '#page_published_revision_link';
 
     /**
      * Page Content Show/Hide Editor toggle button
@@ -54,7 +47,6 @@ class PageForm extends FormTabs
      */
     protected function toggleEditor()
     {
-        $this->openTab('content');
         $content = $this->_rootElement->find($this->contentForm, Locator::SELECTOR_CSS);
         $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
         if (!$content->isVisible() && $toggleButton->isVisible()) {
@@ -69,7 +61,6 @@ class PageForm extends FormTabs
      */
     public function getSystemVariables()
     {
-        $this->toggleEditor();
         $this->openTab('content');
         /** @var \Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\Content $contentTab */
         $contentTab = $this->getTabElement('content');
@@ -78,5 +69,44 @@ class PageForm extends FormTabs
         $config = $contentTab->getWysiwygConfig();
 
         return $config->getAllVariables();
+    }
+
+    /**
+     * Open tab
+     *
+     * @param string $tabName
+     * @return Tab
+     */
+    public function openTab($tabName)
+    {
+        $selector = $this->tabs[$tabName]['selector'];
+        $strategy = isset($this->tabs[$tabName]['strategy'])
+            ? $this->tabs[$tabName]['strategy']
+            : Locator::SELECTOR_CSS;
+        $tab = $this->_rootElement->find($selector, $strategy);
+        if ($tabName == 'content') {
+            if (!$tab->isVisible()) {
+                $this->clickCurrentlyPublishedRevision();
+                $this->reinitRootElement();
+                $this->openTab($tabName);
+            } else {
+                $tab->click();
+                $this->toggleEditor();
+            }
+        } else {
+            $tab->click();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Click on 'Currently Published Revision' link
+     *
+     * @return void
+     */
+    protected function clickCurrentlyPublishedRevision()
+    {
+        $this->_rootElement->find($this->currentlyPublishedRevision)->click();
     }
 }

@@ -31,7 +31,9 @@ class CmsPage extends AbstractRepository
             'store_id' => 'All Store Views',
             'is_active' => 'Published',
             'under_version_control' => 'No',
-            'content' => 'text content',
+            'content' => [
+                'content' => 'text content'
+            ],
             'root_template' => '1 column'
         ];
 
@@ -41,7 +43,9 @@ class CmsPage extends AbstractRepository
             'meta_keywords' => 'Page keywords',
             'meta_description' => 'Page description',
             'identifier' => 'home',
-            'content' => 'Test Content',
+            'content' => [
+                'content' => 'Test Content'
+            ],
             'is_active' => 'Published',
             'under_version_control' => 'No',
             'mtf_dataset_name' => 'cms-page-duplicated',
@@ -55,11 +59,23 @@ class CmsPage extends AbstractRepository
             'meta_keywords' => 'Meta,Keys',
             'meta_description' => 'Meta Description',
             'identifier' => 'cms-page-test%isolation%',
-            'content' => 'Test Content',
+            'content' => [
+                'content' => 'Test Content'
+            ],
             'is_active' => 'Published',
             'under_version_control' => 'Yes',
             'mtf_dataset_name' => 'cms-page-test',
             'constraint' => 'cmsPageSaveSuccess'
+        ];
+
+        $this->_data['3_column_template'] = [
+            'title' => 'compare-%isolation%',
+            'identifier' => 'compare-%isolation%',
+            'store_id' => 'All Store Views',
+            'is_active' => 'Published',
+            'under_version_control' => 'No',
+            'content' => 'text content',
+            'root_template' => '3 columns'
         ];
     }
 }
