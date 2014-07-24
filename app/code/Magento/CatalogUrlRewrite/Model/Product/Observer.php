@@ -8,14 +8,13 @@
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
-use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGeneratorInterface;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
 
 class Observer
 {
     /**
-     * @var ProductUrlGeneratorInterface
+     * @var ProductUrlGenerator
      */
     protected $productUrlGenerator;
 
@@ -30,12 +29,12 @@ class Observer
     protected $catalogUrlRewriteHelper;
 
     /**
-     * @param ProductUrlGeneratorInterface $productUrlGenerator
+     * @param ProductUrlGenerator $productUrlGenerator
      * @param UrlSaveInterface $urlSave
      * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
      */
     public function __construct(
-        ProductUrlGeneratorInterface $productUrlGenerator,
+        ProductUrlGenerator $productUrlGenerator,
         UrlSaveInterface $urlSave,
         CatalogUrlRewriteHelper $catalogUrlRewriteHelper
     ) {
@@ -61,7 +60,6 @@ class Observer
         }
 
         if (!$product->getData('url_key') || $product->getOrigData('url_key') != $product->getData('url_key')) {
-            // TODO: fix service parameter (@TODO: UrlRewrite)
             $this->urlSave->save($this->productUrlGenerator->generate($product));
         }
     }

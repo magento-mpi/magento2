@@ -5,9 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRewrite\Service\V1\Data;
+namespace Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 use Magento\Framework\Service\DataObjectConverter;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilderFactory;
 
 /**

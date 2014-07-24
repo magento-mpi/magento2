@@ -8,7 +8,7 @@
 namespace Magento\CmsUrlRewrite\Service\V1;
 
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\UrlRewrite\Service\V1\Data\Converter;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class CmsPageUrlGenerator implements CmsPageUrlGeneratorInterface
