@@ -64,6 +64,6 @@ return array(
     'setup/pub/bootstrap',
     'setup/pub/angular',
     'setup/pub/angular-ui-bootstrap',
-    'setup/pub/angular-ui-route',
+    'setup/pub/angular-ui-router',
     'setup/pub/angular-ng-storage',
 );
