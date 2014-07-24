@@ -69,7 +69,7 @@ class TreeBuilder extends AbstractObjectBuilder
     /**
      * Set product count
      *
-     * @param $productCount
+     * @param int $productCount
      * @return int
      */
     public function setProductCount($productCount)
