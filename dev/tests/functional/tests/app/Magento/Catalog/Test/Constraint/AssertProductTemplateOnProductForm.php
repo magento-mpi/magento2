@@ -39,6 +39,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
      * @param CatalogProductEdit $productEdit
      * @param CatalogProductIndex $productGrid
      * @param CatalogAttributeSet $attributeSet
+     * @param CatalogAttributeSet $attributeSetOriginal
      * @param CatalogProductNew $newProductPage
      * @param CatalogProductAttribute $productAttribute
      * @return void
@@ -50,11 +51,12 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
         CatalogProductIndex $productGrid,
         CatalogAttributeSet $attributeSet,
         CatalogProductNew $newProductPage,
-        CatalogProductAttribute $productAttribute
+        CatalogProductAttribute $productAttribute,
+        CatalogAttributeSet $attributeSetOriginal = null
     ) {
 
         $productGrid->open();
-        $productGrid->getProductBlock()->addProduct('simple');
+        $productGrid->getGridPageActionBlock()->addProduct('simple');
         $productBlockForm = $newProductPage->getForm();
 
         /**@var CatalogProductSimple $catalogProductSimple */
@@ -67,7 +69,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
                 ],
             ]
         );
-        $productBlockForm->fillProduct($productSimple);
+        $productBlockForm->fill($productSimple);
         $newProductPage->getFormAction()->save();
 
         $formData = $productEdit->getForm()->getData($productSimple);
@@ -80,11 +82,14 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
             . "\nActual: " . $formAttributeSet
         );
 
-        $productEdit->getForm()->openTab('product-details');
-        \PHPUnit_Framework_Assert::assertTrue(
-            $productEdit->getForm()->checkAttributeLabel($productAttribute),
-            "Product Attribute is absent on Product form."
-        );
+        if ($attributeSetOriginal === null) {
+            $productEdit->getForm()->openTab('product-details');
+
+            \PHPUnit_Framework_Assert::assertTrue(
+                $productEdit->getForm()->checkAttributeLabel($productAttribute),
+                "Product Attribute is absent on Product form."
+            );
+        }
     }
 
     /**

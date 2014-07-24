@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertGroupedProductsDefaultQty module="Magento_GroupedProduct">
+        <severeness>low</severeness>
+    </assertGroupedProductsDefaultQty>
+    <assertGroupedProductForm module="Magento_GroupedProduct">
+        <severeness>low</severeness>
+    </assertGroupedProductForm>
+    <assertTierPriceOnGroupedProductPage module="Magento_GroupedProduct">
+        <severeness>low</severeness>
+    </assertTierPriceOnGroupedProductPage>
+    <assertSpecialPriceOnGroupedProductPage module="Magento_GroupedProduct">
+        <severeness>low</severeness>
+    </assertSpecialPriceOnGroupedProductPage>
+    <assertGroupedPriceOnGroupedProductPage module="Magento_GroupedProduct">
+        <severeness>low</severeness>
+    </assertGroupedPriceOnGroupedProductPage>
+</constraint>

@@ -77,7 +77,9 @@ class Page extends AbstractRepository
                         'input_value' => '0'
                     ),
                     'content' => array(
-                        'value' => 'Test %isolation%',
+                        'value' => array(
+                            'content' => 'Test %isolation%'
+                        ),
                         'group' => self::CONTENT_TAB_ID
                     )
                 )
