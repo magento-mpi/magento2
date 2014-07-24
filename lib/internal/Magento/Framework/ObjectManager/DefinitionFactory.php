@@ -17,6 +17,8 @@ use Magento\Framework\ObjectManager\Code\Generator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
 use Magento\Framework\Service\Code\Generator\Builder as BuilderGenerator;
 use Magento\Framework\Service\Code\Generator\Mapper as MapperGenerator;
+use Magento\Framework\Service\Code\Generator\SearchResults;
+use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -107,12 +109,22 @@ class DefinitionFactory
                 $autoloader,
                 $generatorIo,
                 array(
-                    Generator\Factory::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
-                    Generator\Proxy::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
-                    Generator\Repository::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Repository',
-                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Framework\Interception\Code\Generator\Interceptor',
-                    BuilderGenerator::ENTITY_TYPE => '\Magento\Framework\Service\Code\Generator\Builder',
-                    MapperGenerator::ENTITY_TYPE => '\Magento\Framework\Service\Code\Generator\Mapper',
+                    SearchResultsBuilder::ENTITY_TYPE
+                        => '\Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
+                    Generator\Factory::ENTITY_TYPE
+                        => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
+                    Generator\Proxy::ENTITY_TYPE
+                        => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
+                    Generator\Repository::ENTITY_TYPE
+                        => '\Magento\Framework\ObjectManager\Code\Generator\Repository',
+                    InterceptionGenerator\Interceptor::ENTITY_TYPE
+                        => '\Magento\Framework\Interception\Code\Generator\Interceptor',
+                    BuilderGenerator::ENTITY_TYPE
+                        => '\Magento\Framework\Service\Code\Generator\Builder',
+                    MapperGenerator::ENTITY_TYPE
+                        => '\Magento\Framework\Service\Code\Generator\Mapper',
+                    SearchResults::ENTITY_TYPE
+                        => '\Magento\Framework\Service\Code\Generator\SearchResults',
                 )
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
