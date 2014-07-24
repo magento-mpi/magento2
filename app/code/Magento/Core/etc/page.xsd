@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="layouts.xsd"/>
+
+    <xs:element name="page" type="pageLayoutType">
+        <xs:unique name="blockKey">
+            <xs:selector xpath=".//block"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+        <xs:unique name="containerKey">
+            <xs:selector xpath=".//container"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="pageLayoutType">
+        <xs:complexContent>
+            <xs:extension base="layoutType">
+                <xs:attribute  type="xs:string" name="layout" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>
