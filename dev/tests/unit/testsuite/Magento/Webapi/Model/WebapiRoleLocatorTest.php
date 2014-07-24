@@ -8,9 +8,10 @@
 
 namespace Magento\Webapi\Model;
 
-use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authorization\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 use Magento\Authorization\Model\Resource\Role\Collection as RoleCollection;
+use Magento\Authorization\Model\Role;
+use Magento\Authorization\Model\UserContextInterface;
 
 class WebapiRoleLocatorTest extends \PHPUnit_Framework_TestCase
 {
