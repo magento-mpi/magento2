@@ -57,8 +57,8 @@ class OrderCommentsList
         FilterBuilder $filterBuilder,
         SearchResultsBuilder $searchResultsBuilder
     ) {
-        $this->commentRepository = $historyRepository;
-        $this->commentMapper = $historyMapper;
+        $this->historyRepository = $historyRepository;
+        $this->historyMapper = $historyMapper;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->searchResultsBuilder = $searchResultsBuilder;
