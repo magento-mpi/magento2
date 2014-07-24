@@ -9,7 +9,7 @@ namespace Magento\CatalogUrlRewrite\Model\Category;
 
 use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\CatalogUrlRewrite\Service\V1\CategoryUrlGeneratorInterface;
-use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGeneratorInterface;
+use \Magento\CatalogUrlRewrite\Model\Product\ProductUrlGenerator;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
 use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
@@ -41,14 +41,14 @@ class Observer
 
     /**
      * @param CategoryUrlGeneratorInterface $categoryUrlGenerator
-     * @param ProductUrlGeneratorInterface $productUrlGenerator
+     * @param ProductUrlGenerator $productUrlGenerator
      * @param UrlSaveInterface $urlSave
      * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
      * @param StoreViewService $storeViewService
      */
     public function __construct(
         CategoryUrlGeneratorInterface $categoryUrlGenerator,
-        ProductUrlGeneratorInterface $productUrlGenerator,
+        ProductUrlGenerator $productUrlGenerator,
         UrlSaveInterface $urlSave,
         CatalogUrlRewriteHelper $catalogUrlRewriteHelper,
         StoreViewService $storeViewService
