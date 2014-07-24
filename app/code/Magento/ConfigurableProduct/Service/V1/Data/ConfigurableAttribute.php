@@ -9,12 +9,23 @@ namespace Magento\ConfigurableProduct\Service\V1\Data;
 
 class ConfigurableAttribute extends \Magento\Framework\Service\Data\AbstractObject
 {
+    /**#@+
+     * Constants defined for keys of array
+     */
     const ID = 'id';
+
     const LABEL = 'label';
+
     const USE_DEFAULT = 'use_default';
+
     const POSITION = 'position';
+
     const VALUES = 'values';
+
     const ATTRIBUTE_ID = 'attribute_id';
+
+    const ATTRIBUTE_CODE = 'attribute_code';
+    /**#@-*/
 
     /**
      * @return int|null
@@ -25,11 +36,19 @@ class ConfigurableAttribute extends \Magento\Framework\Service\Data\AbstractObje
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getAttributeId()
     {
         return $this->_get(self::ATTRIBUTE_ID);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAttributeCode()
+    {
+        return $this->_get(self::ATTRIBUTE_CODE);
     }
 
     /**

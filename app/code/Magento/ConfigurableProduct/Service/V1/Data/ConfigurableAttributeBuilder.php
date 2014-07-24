@@ -20,11 +20,20 @@ class ConfigurableAttributeBuilder extends \Magento\Framework\Service\Data\Abstr
 
     /**
      * @param string $value
-     * @return self 
+     * @return self
      */
     public function setAttributeId($value)
     {
         return $this->_set(ConfigurableAttribute::ATTRIBUTE_ID, $value);
+    }
+
+    /**
+     * @param string $value
+     * @return self
+     */
+    public function setAttributeCode($value)
+    {
+        return $this->_set(ConfigurableAttribute::ATTRIBUTE_CODE, $value);
     }
 
     /**
