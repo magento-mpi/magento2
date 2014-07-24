@@ -103,7 +103,7 @@ class Builder extends EntityAbstract
 
             if ($resultClassName !== $sourceClassName . 'Builder') {
                 $this->_addError(
-                    'Invalid Builder class name [' . $resultClassName . ']. Use ' . $sourceClassName . 'Factory'
+                    'Invalid Builder class name [' . $resultClassName . ']. Use ' . $sourceClassName . 'Builder'
                 );
                 $result = false;
             }
