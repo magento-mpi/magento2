@@ -61,16 +61,11 @@ class WriteService implements WriteServiceInterface
     {
         $product = $this->getProduct($productSku);
         $optionCollection = $this->type->getOptionsCollection($product);
+        $optionCollection->setIdFilter($optionId);
 
         /** @var \Magento\Bundle\Model\Option $removeOption */
-        $removeOption = null;
-        /** @var \Magento\Bundle\Model\Option $option */
-        foreach ($optionCollection as $option) {
-            if ($option->getId() == $optionId) {
-                $removeOption = $option;
-            }
-        }
-        if ($removeOption === null) {
+        $removeOption = $optionCollection->getFirstItem();
+        if (!$removeOption->getId()) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
         $removeOption->delete();
@@ -94,6 +89,33 @@ class WriteService implements WriteServiceInterface
         }
 
         return $optionModel->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update($productSku, $optionId, \Magento\Bundle\Service\V1\Data\Product\Option $option)
+    {
+        $product = $this->getProduct($productSku);
+        $optionCollection = $this->type->getOptionsCollection($product);
+        $optionCollection->setIdFilter($optionId);
+
+        /** @var \Magento\Bundle\Model\Option $optionModel */
+        $optionModel = $optionCollection->getFirstItem();
+        $updateOption = $this->optionConverter->getModelFromData($option, $optionModel);
+
+        if (!$updateOption->getId()) {
+            throw new NoSuchEntityException('Requested option doesn\'t exist');
+        }
+        $updateOption->setStoreId($this->storeManager->getStore()->getId());
+
+        try {
+            $updateOption->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not save option', [], $e);
+        }
+
+        return true;
     }
 
     /**

@@ -59,12 +59,20 @@ class OptionConverter
     public function createModelFromData(Option $option, Product $product)
     {
         $optionModel = $this->optionFactory->create();
-        $optionModel->setParentId($product->getId())
-            ->setType($option->getType())
-            ->setPosition($option->getPosition())
-            ->setRequired($option->isRequired())
-            ->setDefaultTitle($option->getTitle())
-            ->setTitle($option->getTitle());
+        $optionModel->addData($option->__toArray())
+            ->unsetData($optionModel->getIdFieldName())
+            ->setParentId($product->getId())
+            ->setDefaultTitle($option->getTitle());
         return $optionModel;
+    }
+
+    public function getModelFromData(Option $option, OptionModel $optionModel)
+    {
+        $newOptionModel = $this->optionFactory->create();
+        $newOptionModel->setData($optionModel->getData())
+            ->addData($option->__toArray())
+            ->setId($optionModel->getId())
+            ->setDefaultTitle(is_null($option->getTitle()) ? $optionModel->getTitle() : $option->getTitle());
+        return $newOptionModel;
     }
 }
