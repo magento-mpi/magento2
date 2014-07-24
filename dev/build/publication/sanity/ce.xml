@@ -537,7 +537,7 @@
         </item>
         <item>
             <word>Enterprise</word>
-            <path>setup/module/Magento/Framework/DB/ExpressionConverter.php</path>
+            <path>setup/module/Magento/Framework/src/DB/ExpressionConverter.php</path>
         </item>
     </whitelist>
 </config>
