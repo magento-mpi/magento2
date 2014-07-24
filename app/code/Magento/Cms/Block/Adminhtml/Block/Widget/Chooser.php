@@ -10,7 +10,7 @@ namespace Magento\Cms\Block\Adminhtml\Block\Widget;
 /**
  * CMS block chooser for Wysiwyg CMS widget
  */
-class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
+class Chooser extends \Magento\Ui\Listing\Block\Extended
 {
     /**
      * @var \Magento\Cms\Model\BlockFactory
@@ -122,7 +122,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare Cms static blocks collection
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return \Magento\Ui\Listing\Block\Extended
      */
     protected function _prepareCollection()
     {
@@ -133,7 +133,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for Cms blocks grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return \Magento\Ui\Listing\Block\Extended
      */
     protected function _prepareColumns()
     {
