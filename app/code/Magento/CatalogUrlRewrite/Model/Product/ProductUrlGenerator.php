@@ -190,8 +190,8 @@ class ProductUrlGenerator
                 if ($this->product->getData('save_rewrites_history')) {
                     $urls[] = $this->createUrlRewrite(
                         $url->getStoreId(),
-                        $url->getRequestPath(),
-                        $url->getTargetPath(),
+                        $url->getTargetPath(),// as request path
+                        'new_product_url',
                         OptionProvider::PERMANENT
                     );
                 }
