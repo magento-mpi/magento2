@@ -38,7 +38,9 @@ namespace Magento\User\Model;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Backend\Model\Auth\Credential\StorageInterface
+class User
+    extends \Magento\Framework\Model\AbstractModel
+    implements \Magento\Backend\Model\Auth\Credential\StorageInterface
 {
     /**
      * Configuration paths for email templates and identities

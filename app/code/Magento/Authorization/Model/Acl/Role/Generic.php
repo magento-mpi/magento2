@@ -8,7 +8,7 @@
 namespace Magento\Authorization\Model\Acl\Role;
 
 /**
- * User acl role
+ * Generic acl role
  */
 class Generic extends \Zend_Acl_Role
 {

@@ -34,6 +34,13 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
+     * Users table
+     *
+     * @var string
+     */
+    protected $_usersTable;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\App\Resource $resource
@@ -51,6 +58,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $this->_aclCache = $aclCache;
         $this->_roleFactory = $roleFactory;
         $this->dateTime = $dateTime;
+        $this->_usersTable = $this->getTable('admin_user');
     }
 
     /**
@@ -438,5 +446,26 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
         );
 
         return $userIdentity;
+    }
+
+    /**
+     * Update role users ACL
+     *
+     * @param \Magento\Authorization\Model\Role $role
+     * @return bool
+     */
+    public function updateRoleUsersAcl(\Magento\Authorization\Model\Role $role)
+    {
+        $write = $this->_getWriteAdapter();
+        $users = $role->getRoleUsers();
+        $rowsCount = 0;
+
+        if (sizeof($users) > 0) {
+            $bind = array('reload_acl_flag' => 1);
+            $where = array('user_id IN(?)' => $users);
+            $rowsCount = $write->update($this->_usersTable, $bind, $where);
+        }
+
+        return $rowsCount > 0;
     }
 }

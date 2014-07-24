@@ -35,14 +35,8 @@ class Role extends \Magento\Framework\Model\AbstractModel
     protected $_eventPrefix = 'authorization_roles';
 
     /**
-     * @var \Magento\User\Model\Resource\Role\User\CollectionFactory
-     */
-    protected $_userRolesFactory;
-
-    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory
      * @param \Magento\Authorization\Model\Resource\Role $resource
      * @param \Magento\Authorization\Model\Resource\Role\Collection $resourceCollection
      * @param array $data
@@ -50,12 +44,10 @@ class Role extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory,
         \Magento\Authorization\Model\Resource\Role $resource,
         \Magento\Authorization\Model\Resource\Role\Collection $resourceCollection,
         array $data = array()
     ) {
-        $this->_userRolesFactory = $userRolesFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -65,7 +57,7 @@ class Role extends \Magento\Framework\Model\AbstractModel
     public function __sleep()
     {
         $properties = parent::__sleep();
-        return array_diff($properties, array('_userRolesFactory', '_resource', '_resourceCollection'));
+        return array_diff($properties, array('_resource', '_resourceCollection'));
     }
 
     /**
@@ -75,7 +67,6 @@ class Role extends \Magento\Framework\Model\AbstractModel
     {
         parent::__wakeup();
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->_userRolesFactory = $objectManager->get('Magento\User\Model\Resource\Role\User\CollectionFactory');
         $this->_resource = $objectManager->get('Magento\Authorization\Model\Resource\Role');
         $this->_resourceCollection = $objectManager->get('Magento\Authorization\Model\Resource\Role\Collection');
     }
@@ -99,16 +90,6 @@ class Role extends \Magento\Framework\Model\AbstractModel
     {
         $this->getResource()->update($this);
         return $this;
-    }
-
-    /**
-     * Retrieve users collection
-     *
-     * @return \Magento\User\Model\Resource\Role\User\Collection
-     */
-    public function getUsersCollection()
-    {
-        return $this->_userRolesFactory->create();
     }
 
     /**

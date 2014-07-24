@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\User\Model;
+namespace Magento\Authorization\Model;
 
 /**
  * @magentoAppArea adminhtml
