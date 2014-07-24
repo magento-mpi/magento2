@@ -91,7 +91,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['__wakeup', 'getTypeId'])
+            ->setMethods(['__wakeup', 'getTypeId', 'getSku'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -114,6 +114,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testAdd()
     {
         $productSku = 'oneSku';
+        $optionId = 33;
 
         $this->productRepository->expects($this->once())->method('get')
             ->with($this->equalTo($productSku))
@@ -131,11 +132,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionConverter->expects($this->once())->method('createModelFromData')
             ->with($this->equalTo($this->option), $this->equalTo($this->product))
             ->will($this->returnValue($this->optionModel));
-        $this->optionConverter->expects($this->once())->method('createDataFromModel')
-            ->with($this->equalTo($this->optionModel), $this->equalTo($this->product))
-            ->will($this->returnValue($this->option));
+        $this->optionModel->expects($this->once())->method('getId')
+            ->will($this->returnValue($optionId));
 
-        $this->assertEquals($this->option, $this->model->add($productSku, $this->option));
+        $this->assertEquals($optionId, $this->model->add($productSku, $this->option));
     }
 
     /**
@@ -232,6 +232,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->product->expects($this->once())->method('getTypeId')
             ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE));
+        $this->product->expects($this->once())->method('getSku')
+            ->will($this->returnValue($productSku));
 
         $this->model->remove($productSku, $optionId);
     }
