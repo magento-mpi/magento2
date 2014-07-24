@@ -51,11 +51,12 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
         $price = $catalogCategoryView->getListProductBlock()->getPrice($product->getId());
         preg_match('`(.*?)\d`', $price, $matches);
 
+        $symbolOnPage = isset($matches[1]) ? $matches[1] : null;
         $symbol = ($currencySymbolDefault === null)
             ? $currencySymbol->getCustomCurrencySymbol() : $currencySymbolDefault;
         \PHPUnit_Framework_Assert::assertEquals(
             $symbol,
-            $matches[1],
+            $symbolOnPage,
             'Wrong Currency Symbol is displayed on Category page.'
         );
     }

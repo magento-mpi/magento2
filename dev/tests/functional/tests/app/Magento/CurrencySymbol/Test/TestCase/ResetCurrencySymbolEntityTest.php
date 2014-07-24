@@ -62,6 +62,7 @@ class ResetCurrencySymbolEntityTest extends Injectable
         $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'config_currency_symbols_usd_and_uah']);
         $config->persist();
 
+        //Creation Exchange Rate for currencies
         $currencyIndex->open();
         $currencyIndex->getGridPageActions()->clickImportButton();
         $currencyIndex->getMainPageActions()->saveCurrentRate();
@@ -96,7 +97,6 @@ class ResetCurrencySymbolEntityTest extends Injectable
         );
         $currencySymbolOriginal->persist();
 
-
         return ['product' => $product, 'currencySymbolOriginal' => $currencySymbolOriginal];
     }
 
@@ -106,6 +106,8 @@ class ResetCurrencySymbolEntityTest extends Injectable
      * @param CurrencySymbolEntity $currencySymbol
      * @param string $currencySymbolDefault
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(CurrencySymbolEntity $currencySymbol, $currencySymbolDefault)
     {

@@ -12,8 +12,8 @@ use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
