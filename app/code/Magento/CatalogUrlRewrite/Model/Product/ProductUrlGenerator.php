@@ -190,7 +190,7 @@ class ProductUrlGenerator
                 if ($this->product->getData('save_rewrites_history')) {
                     $urls[] = $this->createUrlRewrite(
                         $url->getStoreId(),
-                        $url->getTargetPath(),// as request path
+                        $url->getTargetPath(),
                         'new_product_url',
                         OptionProvider::PERMANENT
                     );
@@ -207,14 +207,13 @@ class ProductUrlGenerator
                     if ($this->product->getData('save_rewrites_history')) {
                         $urls[] = $this->createUrlRewrite(
                             $url->getStoreId(),
-                            $url->getTargetPath(),// as request path
+                            $url->getTargetPath(),
                             'new_product_url',
                             $url->getRedirectType(),
                             true
                         );
                     }
                 } else {
-                    // it is custom internal redirect
                     $urls[] = $this->createUrlRewrite(
                         $url->getStoreId(),
                         $url->getRequestPath(),
