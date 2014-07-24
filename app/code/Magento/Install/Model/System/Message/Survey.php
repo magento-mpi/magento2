@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\AdminNotification\Model\System\Message;
+namespace Magento\Install\Model\System\Message;
 
-class Survey implements \Magento\AdminNotification\Model\System\MessageInterface
+class Survey implements \Magento\Framework\App\Notification\MessageInterface
 {
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -25,7 +25,7 @@ class Survey implements \Magento\AdminNotification\Model\System\MessageInterface
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\AdminNotification\Model\Survey
+     * @var \Magento\Install\Model\Survey
      */
     protected $_survey;
 
@@ -33,13 +33,13 @@ class Survey implements \Magento\AdminNotification\Model\System\MessageInterface
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Framework\UrlInterface $urlBuilder
-     * @param \Magento\AdminNotification\Model\Survey $survey
+     * @param \Magento\Install\Model\Survey $survey
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\AdminNotification\Model\Survey $survey
+        \Magento\Install\Model\Survey $survey
     ) {
         $this->_authorization = $authorization;
         $this->_authSession = $authSession;
@@ -102,7 +102,7 @@ class Survey implements \Magento\AdminNotification\Model\System\MessageInterface
             )
         );
         return __(
-            'We appreciate our merchants\' feedback. Please <a href="#" data-mage-init=%1>take our survey</a> and tell us about features you\'d like to see in Magento.',
+            'We appreciate our merchants\' feedback. Please <a href="#" data-mage-init="%1">take our survey</a> and tell us about features you\'d like to see in Magento.',
             json_encode($params, JSON_FORCE_OBJECT)
         );
     }
@@ -114,6 +114,6 @@ class Survey implements \Magento\AdminNotification\Model\System\MessageInterface
      */
     public function getSeverity()
     {
-        return \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR;
+        return \Magento\Framework\App\Notification\MessageInterface::SEVERITY_MAJOR;
     }
 }

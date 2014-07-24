@@ -3,17 +3,21 @@
  * System message
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\AdminNotification\Model\System;
+namespace Magento\Framework\App\Notification;
 
 interface MessageInterface
 {
     const SEVERITY_CRITICAL = 1;
 
     const SEVERITY_MAJOR = 2;
+
+    const SEVERITY_MINOR = 3;
+
+    const SEVERITY_NOTICE = 4;
 
     /**
      * Retrieve unique message identity
