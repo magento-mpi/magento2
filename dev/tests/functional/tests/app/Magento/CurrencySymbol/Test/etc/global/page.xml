@@ -8,15 +8,14 @@
  */
 -->
 <page>
-    <adminSystemCurrencySymbolIndex>
+    <systemCurrencySymbolIndex>
         <mca>admin/system_currencysymbol/index</mca>
-    <area>adminhtml</area>
+        <area>adminhtml</area>
         <class>Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencySymbolIndex</class>
-    </adminSystemCurrencySymbolIndex>
-
-    <adminSystemCurrencyIndex>
+    </systemCurrencySymbolIndex>
+    <systemCurrencyIndex>
         <mca>admin/system_currency/index</mca>
-    <area>adminhtml</area>
+        <area>adminhtml</area>
         <class>Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencyIndex</class>
-    </adminSystemCurrencyIndex>
+    </systemCurrencyIndex>
 </page>

@@ -57,6 +57,11 @@
             <backend_type>virtual</backend_type>
             <input></input>
         </custom_currency_symbol>
+        <code>
+            <attribute_code>code</attribute_code>
+            <backend_type>virtual</backend_type>
+            <input></input>
+        </code>
     </fields>
     <repository_class>Magento\CurrencySymbol\Test\Repository\CurrencySymbolEntity</repository_class>
     <handler_interface>Magento\CurrencySymbol\Test\Handler\CurrencySymbolEntity\CurrencySymbolEntityInterface</handler_interface>

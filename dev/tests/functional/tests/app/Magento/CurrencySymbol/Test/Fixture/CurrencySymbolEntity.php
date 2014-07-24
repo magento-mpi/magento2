@@ -12,8 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CurrencySymbolEntity
- *
- * @package Magento\CurrencySymbol\Test\Fixture
+ * Currency Symbol fixture
  */
 class CurrencySymbolEntity extends InjectableFixture
 {
@@ -85,6 +84,12 @@ class CurrencySymbolEntity extends InjectableFixture
         'input' => '',
     ];
 
+    protected $code = [
+        'attribute_code' => 'code',
+        'backend_type' => 'virtual',
+        'input' => '',
+    ];
+
     public function getConfigId()
     {
         return $this->getData('config_id');
@@ -118,5 +123,10 @@ class CurrencySymbolEntity extends InjectableFixture
     public function getCustomCurrencySymbol()
     {
         return $this->getData('custom_currency_symbol');
+    }
+
+    public function getCode()
+    {
+        return $this->getData('code');
     }
 }

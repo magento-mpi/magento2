@@ -10,6 +10,10 @@ namespace Magento\CurrencySymbol\Test\Block\Adminhtml\System;
 
 use Magento\Backend\Test\Block\FormPageActions as ParentFormPageActions;
 
+/**
+ * Class FormPageActions
+ * Form Page Actions for Currency Symbol
+ */
 class FormPageActions extends ParentFormPageActions
 {
     /**

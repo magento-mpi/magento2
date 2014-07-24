@@ -143,6 +143,7 @@ class CmsIndex extends FrontendPage
     {
         return $this->getBlockInstance('compareProductsBlock');
     }
+
     /**
      * @return \Magento\Cms\Test\Block\Page
      */
@@ -150,6 +151,7 @@ class CmsIndex extends FrontendPage
     {
         return $this->getBlockInstance('mainContentBlock');
     }
+
     /**
      * @return \Magento\Directory\Test\Block\Currency\Switcher
      */

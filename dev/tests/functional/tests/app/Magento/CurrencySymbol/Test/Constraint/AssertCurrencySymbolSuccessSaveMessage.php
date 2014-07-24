@@ -13,6 +13,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCurrencySymbolSuccessSaveMessage
+ * Check that after clicking on 'Save Currency Symbols' button success message appears.
  */
 class AssertCurrencySymbolSuccessSaveMessage extends AbstractConstraint
 {
@@ -38,8 +39,6 @@ class AssertCurrencySymbolSuccessSaveMessage extends AbstractConstraint
             self::SUCCESS_SAVE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_SAVE_MESSAGE
-            . "\nActual: " . $actualMessage
         );
     }
 

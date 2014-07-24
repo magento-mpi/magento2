@@ -11,9 +11,9 @@
     <assertCurrencySymbolSuccessSaveMessage module="Magento_CurrencySymbol">
         <severeness>low</severeness>
     </assertCurrencySymbolSuccessSaveMessage>
-    <assertCurrencySymbolOnPDP module="Magento_CurrencySymbol">
+    <assertCurrencySymbolOnProductPage module="Magento_CurrencySymbol">
         <severeness>low</severeness>
-    </assertCurrencySymbolOnPDP>
+    </assertCurrencySymbolOnProductPage>
     <assertCurrencySymbolOnCatalogPage module="Magento_CurrencySymbol">
         <severeness>low</severeness>
     </assertCurrencySymbolOnCatalogPage>

@@ -46,7 +46,7 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
-        $this->_data['config_currency_symbols'] = [
+        $this->_data['config_currency_symbols_usd_and_uah'] = [
             'section' => [
                 [
                     'path' => 'currency/options/allow',
@@ -56,7 +56,7 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
-        $this->_data['config_currency_symbols_default'] = [
+        $this->_data['config_currency_symbols_usd'] = [
             'section' => [
                 [
                     'path' => 'currency/options/allow',

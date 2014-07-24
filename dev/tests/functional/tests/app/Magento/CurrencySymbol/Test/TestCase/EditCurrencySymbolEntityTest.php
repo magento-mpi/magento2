@@ -18,7 +18,7 @@ use Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity;
 use Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencySymbolIndex;
 
 /**
- * Test Creation for CreateCustomVariableEntity
+ * Test Creation for EditCurrencySymbolEntity
  *
  * Test Flow:
  * Preconditions:
@@ -59,7 +59,7 @@ class EditCurrencySymbolEntityTest extends Injectable
      */
     public function __prepare(FixtureFactory $fixtureFactory, SystemCurrencyIndex $currencyIndex)
     {
-        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'config_currency_symbols']);
+        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'config_currency_symbols_usd_and_uah']);
         $config->persist();
 
         $currencyIndex->open();
@@ -99,29 +99,25 @@ class EditCurrencySymbolEntityTest extends Injectable
      * Edit Currency Symbol Entity test
      *
      * @param CurrencySymbolEntity $currencySymbol
-     * @param ConfigData $config
      * @return void
      */
-    public function test(CurrencySymbolEntity $currencySymbol, ConfigData $config)
+    public function test(CurrencySymbolEntity $currencySymbol)
     {
-        $customCurrencyData = $config->getData();
-        $customCurrency = $customCurrencyData['section'][0]['value'][1];
         // Steps
         $this->currencySymbolIndex->open();
-        $this->currencySymbolIndex->getCurrencySymbolForm()->initCurrency($customCurrency);
         $this->currencySymbolIndex->getCurrencySymbolForm()->fill($currencySymbol);
         $this->currencySymbolIndex->getPageActions()->save();
     }
 
     /**
-     * Use Standard Currency Symbol
+     * Disabling currency which has been added.
      *
      * @return void
      */
     public static function tearDownAfterClass()
     {
         $fixtureFactory = ObjectManager::getInstance()->create('Mtf\Fixture\FixtureFactory');
-        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'config_currency_symbols_default']);
+        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'config_currency_symbols_usd']);
         $config->persist();
     }
 }

@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class SystemCurrencyIndex
- *
- * @package Magento\CurrencySymbol\Test\Page\Adminhtml
  */
 class SystemCurrencyIndex extends BackendPage
 {

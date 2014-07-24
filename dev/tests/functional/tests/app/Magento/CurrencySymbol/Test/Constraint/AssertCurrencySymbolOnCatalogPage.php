@@ -10,13 +10,13 @@ namespace Magento\CurrencySymbol\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity;
 
 /**
  * Class AssertCurrencySymbolOnCatalogPage
+ * Check that after applying changes, currency symbol changed on Catalog page
  */
 class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
 {
@@ -34,21 +34,17 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductSimple $product
      * @param CurrencySymbolEntity $currencySymbol
-     * @param ConfigData $config
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $product,
-        CurrencySymbolEntity $currencySymbol,
-        ConfigData $config
-    )
-    {
+        CurrencySymbolEntity $currencySymbol
+    ) {
         $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
-        $customCurrencyData = $config->getData();
-        $customCurrency = $customCurrencyData['section'][0]['value'][1];
+        $customCurrency = $currencySymbol->getCode();
         $cmsIndex->getCurrencyBlock()->switchCurrency($customCurrency);
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $price = $catalogCategoryView->getListProductBlock()->getPrice($product->getId());
@@ -58,8 +54,6 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
             $currencySymbol->getCustomCurrencySymbol(),
             $matches[1],
             'Wrong Currency Symbol is displayed on Category page.'
-            . "\nExpected: " . $currencySymbol->getCustomCurrencySymbol()
-            . "\nActual: " . $matches[1]
         );
     }
 
@@ -70,6 +64,6 @@ class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
      */
     public function toString()
     {
-        return "Currency Symbol changed on Catalog page.";
+        return "Currency Symbol has been changed on Catalog page.";
     }
 }

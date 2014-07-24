@@ -8,35 +8,24 @@
 
 namespace Magento\CurrencySymbol\Test\Block\Adminhtml\System;
 
-use  Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
+use Mtf\Block\Form;
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 
+/**
+ * Class CurrencySymbolForm
+ * Currency Symbol form
+ */
 class CurrencySymbolForm extends Form
 {
-    /**
-     * @var
-     */
-    protected $currency;
 
     /**
      * Custom Currency locator
      *
      * @var string
      */
-    protected $customCurrencyLocator = './/*/tbody//*/label[substring-before(text()," ") = "%s"]';
-
-    /**
-     * Init Currency
-     *
-     * @param string $customCurrency
-     * @return void
-     */
-    public function initCurrency($customCurrency)
-    {
-        $this->currency = $customCurrency;
-    }
+    protected $currencyRow = '//tr[td/label[@for="custom_currency_symbol%s"]]';
 
     /**
      * Fill the root form
@@ -45,36 +34,10 @@ class CurrencySymbolForm extends Form
      * @param Element|null $element
      * @return $this
      */
-
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $data = $fixture->getData();
-        $fields = isset($data['fields']) ? $data['fields'] : $data;
-        $mapping = $this->dataMapping($fields);
-        foreach ($mapping as $key => $field) {
-            $mapping[$key]['selector'] = $field['selector'] . $this->currency;
-        }
-        $this->_fill($mapping, $element);
-
-        return $this;
-    }
-
-    /**
-     * Find Currency in form
-     *
-     * @param string $customCurrency
-     * @return string
-     * @throws \Exception
-     */
-    public function getCurrency($customCurrency)
-    {
-        $locator = sprintf($this->customCurrencyLocator, $customCurrency);
-        if ($this->_rootElement->find($locator, Locator::SELECTOR_XPATH)->isVisible()
-        ) {
-            return $this->_rootElement->find($locator, Locator::SELECTOR_XPATH)->getText();
-        } else {
-            throw new \Exception('Currency \'' . $customCurrency . '\' is absent');
-        }
+        $currencyCode = explode(" ", $fixture->getCode());
+        $element = $this->_rootElement->find(sprintf($this->currencyRow, $currencyCode[0]), Locator::SELECTOR_XPATH);
+        return parent::fill($fixture, $element);
     }
 }
-

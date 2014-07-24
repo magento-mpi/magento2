@@ -10,17 +10,21 @@ namespace Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency;
 
 use  Magento\Backend\Test\Block\PageActions;
 
+/**
+ * Class MainPageActions
+ * Main page actions on the SystemCurrencyIndex page
+ */
 class MainPageActions extends PageActions
 {
     /**
-     * Save Current Rate button locator
+     * "Save Currency Rates" button locator
      *
      * @var string
      */
     protected $saveCurrentRate = '[data-ui-id="page-actions-toolbar-save-button"]';
 
     /**
-     * Save Current Rate
+     * Save Currency Rates
      *
      * @return void
      */
