@@ -29,16 +29,16 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_simple_product.php
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
      * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testAddItem()
     {
-        $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
         $product = $this->objectManager->create('Magento\Catalog\Model\Product')->load(2);
         $productSku = $product->getSku();
         /** @var \Magento\Sales\Model\Quote  $quote */
-        $quote = $checkoutSession->getQuote();
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
         $serviceInfo = array(
             'rest' => array(
@@ -65,15 +65,15 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_simple_product.php
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
      */
     public function testRemoveItem()
     {
-        $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
         $product = $this->objectManager->create('Magento\Catalog\Model\Product');
         $productSku = $product->load(1)->getSku();
         /** @var \Magento\Sales\Model\Quote  $quote */
-        $quote = $checkoutSession->getQuote();
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
         $serviceInfo = array(
             'rest' => array(
@@ -96,15 +96,15 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_simple_product.php
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
      */
     public function testUpdateItem()
     {
-        $checkoutSession = $this->objectManager->create('Magento\Checkout\Model\Session');
         $product = $this->objectManager->create('Magento\Catalog\Model\Product')->load(1);
         $productSku = $product->getSku();
         /** @var \Magento\Sales\Model\Quote  $quote */
-        $quote = $checkoutSession->getQuote();
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
         $serviceInfo = array(
             'rest' => array(
