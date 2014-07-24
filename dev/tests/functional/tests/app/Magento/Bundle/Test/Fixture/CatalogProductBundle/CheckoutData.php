@@ -14,6 +14,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData as AbstractCh
  * Class CheckoutData
  * Data keys:
  *  - preset (Checkout data verification preset name)
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
 class CheckoutData extends AbstractCheckoutData
 {

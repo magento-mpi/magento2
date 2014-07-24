@@ -50,7 +50,13 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
         array $price
     ) {
         // Prepare data
-        $replace = ['conditions' => ['conditions' => ['%category_1%' => $product->getCategoryIds()[0]['id']]]];
+        $replace = [
+            'conditions' => [
+                'conditions' => [
+                    '%category_1%' => $product->getDataFieldConfig('category_ids')['source']->getIds()[0]
+                ]
+            ]
+        ];
 
         // Open Catalog Price Rule page
         $this->catalogRuleIndex->open();
@@ -71,6 +77,6 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
         $this->adminCache->getMessagesBlock()->assertSuccessMessage();
 
         // Prepare data for tear down
-        $this->catalogRules = $catalogPriceRule;
+        $this->catalogRules[] = $catalogPriceRule;
     }
 }

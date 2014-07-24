@@ -90,7 +90,7 @@ class CustomerSegmentForm extends FormTabs
                     $tabs[$tabName][$key]['value'] = str_replace(
                         array_keys($replace[$tabName]),
                         array_values($replace[$tabName]),
-                        $tabs[$tabName][$key]['value']
+                        $pairs['value']
                     );
                 }
             }

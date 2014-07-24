@@ -9,7 +9,6 @@
 namespace Magento\Customer\Test\Block\Form;
 
 use Mtf\Block\Form;
-use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class CustomerForm

@@ -12,6 +12,9 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Widget
+ * Fixture for Widget
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Widget extends InjectableFixture
 {

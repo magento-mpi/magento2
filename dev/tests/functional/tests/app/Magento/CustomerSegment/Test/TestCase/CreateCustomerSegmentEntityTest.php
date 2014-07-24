@@ -46,6 +46,8 @@ use Mtf\Fixture\FixtureFactory;
  *
  * @group Customer_Segments_(CS)
  * @ZephyrId MAGETWO-25691
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CreateCustomerSegmentEntityTest extends Injectable
 {

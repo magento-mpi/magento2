@@ -21,6 +21,8 @@ class ConfigData extends AbstractRepository
      *
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -44,6 +46,17 @@ class ConfigData extends AbstractRepository
                     'scope_id' => '1',
                     'value' => '12',
                 ],
+            ]
+        ];
+
+        $this->_data['reward_purchase'] = [
+            'section' => [
+                [
+                    'path' => 'magento_reward/points/order',
+                    'scope' => 'magento_reward',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ]
             ]
         ];
     }

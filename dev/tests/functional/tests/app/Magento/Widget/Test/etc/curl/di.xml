@@ -8,5 +8,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Widget\Test\Handler\Widget\WidgetInterface" type="Magento\Widget\Test\Handler\Widget\Curl"/>
+    <preference for="Magento\Widget\Test\Handler\Widget\WidgetInterface" type="\Magento\Widget\Test\Handler\Widget\Curl"/>
 </config>
