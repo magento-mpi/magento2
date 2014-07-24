@@ -7,6 +7,7 @@
  */
 namespace Magento\Bundle\Service\V1\Product\Option;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
@@ -34,6 +35,47 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertCount(6, $result);
         $this->assertArrayHasKey('title', $result);
         $this->assertEquals($request['title'], $result['title']);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Bundle/_files/product.php
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testRemove()
+    {
+        $productSku = 'bundle-product';
+
+        $optionId = $this->getList($productSku)[0]['id'];
+        $result = $this->remove($productSku, $optionId);
+
+        $this->assertTrue($result);
+
+        try {
+            $this->get($productSku, $optionId);
+        } catch (\Exception $e) {
+            throw new NoSuchEntityException();
+        }
+    }
+
+    /**
+     * @param string $productSku
+     * @param int $optionId
+     * @return string
+     */
+    protected function remove($productSku, $optionId)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . '/' . $optionId,
+                'httpMethod' => Config::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'remove'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
     }
 
     /**
