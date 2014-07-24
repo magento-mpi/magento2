@@ -113,12 +113,12 @@ class PhpCookieManager implements CookieManager
 
             $numCookies = count($_COOKIE);
             if ($numCookies >= self::MAX_NUM_COOKIES) {
-                throw new CookieSizeLimitReachedException;
+                throw new CookieSizeLimitReachedException();
             }
         }
 
         if ($this->sizeOfCookie($name, $value) > self::MAX_COOKIE_SIZE) {
-            throw new CookieSizeLimitReachedException;
+            throw new CookieSizeLimitReachedException();
         }
 
         $phpSetcookieSuccess = setcookie(
@@ -132,7 +132,7 @@ class PhpCookieManager implements CookieManager
         );
 
         if (!$phpSetcookieSuccess) {
-            throw new FailureToSendException;
+            throw new FailureToSendException();
         }
     }
 
