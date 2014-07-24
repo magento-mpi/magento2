@@ -48,5 +48,16 @@ class ConfigData extends AbstractRepository
                 ],
             ]
         ];
+
+        $this->_data['reward_purchase'] = [
+            'section' => [
+                [
+                    'path' => 'magento_reward/points/order',
+                    'scope' => 'magento_reward',
+                    'scope_id' => '1',
+                    'value' => '1',
+                ]
+            ]
+        ];
     }
 }

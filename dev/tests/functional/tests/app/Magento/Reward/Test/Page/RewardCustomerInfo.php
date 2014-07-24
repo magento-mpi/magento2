@@ -18,6 +18,12 @@ class RewardCustomerInfo extends FrontendPage
     const MCA = 'reward/customer/info';
 
     protected $_blocks = [
+        'rewardPointsBlock' => [
+            'name' => 'rewardPointsBlock',
+            'class' => 'Magento\Reward\Test\Block\Customer\Reward',
+            'locator' => '.block-reward-info',
+            'strategy' => 'css selector',
+            ],
         'messagesBlock' => [
             'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
@@ -30,13 +36,21 @@ class RewardCustomerInfo extends FrontendPage
             'locator' => '.nav.items',
             'strategy' => 'css selector',
         ],
-        'rewardPointsBlock' => [
-            'name' => 'rewardPointsBlock',
-            'class' => 'Magento\Reward\Test\Block\Customer\RewardPoints',
-            'locator' => '//div[div[contains(@class, "block reward")]]',
-            'strategy' => 'xpath',
-        ],
+        'titleBlock' => [
+            'name' => 'titleBlock',
+            'class' => 'Magento\Theme\Test\Block\Html\Title',
+            'locator' => '.page-title',
+            'strategy' => 'css selector',
+            ],
     ];
+
+    /**
+     * @return \Magento\Reward\Test\Block\Customer\Reward
+     */
+    public function getRewardPointsBlock()
+    {
+        return $this->getBlockInstance('rewardPointsBlock');
+    }
 
     /**
      * @return \Magento\Core\Test\Block\Messages
@@ -55,10 +69,10 @@ class RewardCustomerInfo extends FrontendPage
     }
 
     /**
-     * @return \Magento\Reward\Test\Block\Customer\RewardPoints
+     * @return \Magento\Theme\Test\Block\Html\Title
      */
-    public function getRewardPointsBlock()
+    public function getTitleBlock()
     {
-        return $this->getBlockInstance('rewardPointsBlock');
+        return $this->getBlockInstance('titleBlock');
     }
 }
