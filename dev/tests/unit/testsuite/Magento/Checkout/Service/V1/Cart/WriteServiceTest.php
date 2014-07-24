@@ -37,7 +37,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = new ObjectManager($this);
-        $this->quoteFactoryMock = $this->getMock('\Magento\Sales\Model\QuoteFactory', ['create'], [], '', false);
+        $this->quoteFactoryMock = $this->getMock(
+            '\Magento\Sales\Model\QuoteFactory', ['create', '__wakeup'], [], '', false
+        );
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface', [], [], '', false);
 
         $this->service = $this->objectManager->getObject(
@@ -57,7 +59,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
 
-        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', ['setStoreId', 'save'], [], '', false);
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', ['setStoreId', 'save', '__wakeup'], [], '', false);
         $this->quoteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('setStoreId')->with($storeId);
         $quoteMock->expects($this->once())->method('save');
@@ -77,7 +79,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
 
-        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', ['setStoreId', 'save'], [], '', false);
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', ['setStoreId', 'save', '__wakeup'], [], '', false);
         $this->quoteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('setStoreId')->with($storeId);
         $quoteMock->expects($this->once())->method('save')
