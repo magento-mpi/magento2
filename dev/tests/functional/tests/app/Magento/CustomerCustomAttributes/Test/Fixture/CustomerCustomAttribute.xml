@@ -326,7 +326,7 @@
             <default_value />
             <input />
             <group>manage_options</group>
-            <source>Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Options</source>
+            <source>Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Option</source>
         </option>
     </fields>
     <repository_class>Magento\CustomerCustomAttributes\Test\Repository\CustomerCustomAttribute</repository_class>

@@ -387,7 +387,7 @@ class CustomerCustomAttribute extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => '\Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Options',
+        'source' => '\Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Option',
         'group' => 'manage_options',
     ];
 

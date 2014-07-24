@@ -10,7 +10,7 @@ namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\SalesOrder;
-use Magento\Sales\Test\Page\SalesOrderCreateIndex;
+use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 

@@ -32,7 +32,7 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 class UpdateCustomerCustomAttributesEntityTest extends AbstractCustomerCustomAttributesEntityTest
 {
     /**
-     * Update Customer customer Attribute
+     * Update custom Customer Attribute
      *
      * @param CustomerCustomAttribute $customerAttribute
      * @param CustomerCustomAttribute $initialCustomerAttribute

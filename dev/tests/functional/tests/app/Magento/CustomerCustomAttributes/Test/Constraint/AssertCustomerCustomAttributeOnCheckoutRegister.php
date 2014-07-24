@@ -10,7 +10,7 @@ namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Checkout\Test\Page\CheckoutOnepage;
+use Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;

@@ -26,7 +26,7 @@
         <require>
             <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart"/>
-            <checkoutOnepage class="Magento\Checkout\Test\Page\CheckoutOnepage"/>
+            <checkoutOnepage class="Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage"/>
             <pageCatalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
         </require>
@@ -53,7 +53,7 @@
         <require>
             <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
             <salesOrder class="Magento\Sales\Test\Page\SalesOrder" />
-            <salesOrderCreateIndex class="Magento\Sales\Test\Page\SalesOrderCreateIndex" />
+            <salesOrderCreateIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex" />
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
         </require>
     </assertCustomerCustomAttributeOnCreateOrderBackend>
