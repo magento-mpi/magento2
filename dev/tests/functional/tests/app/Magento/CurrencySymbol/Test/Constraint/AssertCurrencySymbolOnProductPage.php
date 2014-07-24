@@ -10,7 +10,6 @@ namespace Magento\CurrencySymbol\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
@@ -18,8 +17,9 @@ use Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity;
 
 /**
  * Class AssertCurrencySymbolOnPDP
+ * Check that after applying changes, currency symbol changed on Product Details Page
  */
-class AssertCurrencySymbolOnPDP extends AbstractConstraint
+class AssertCurrencySymbolOnProductPage extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -36,7 +36,6 @@ class AssertCurrencySymbolOnPDP extends AbstractConstraint
      * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
      * @param CurrencySymbolEntity $currencySymbol
-     * @param ConfigData $config
      * @return void
      */
     public function processAssert(
@@ -44,14 +43,11 @@ class AssertCurrencySymbolOnPDP extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $product,
         CatalogProductView $catalogProductView,
-        CurrencySymbolEntity $currencySymbol,
-        ConfigData $config
-    )
-    {
+        CurrencySymbolEntity $currencySymbol
+    ) {
         $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
-        $customCurrencyData = $config->getData();
-        $customCurrency = $customCurrencyData['section'][0]['value'][1];
+        $customCurrency = $currencySymbol->getCode();
         $cmsIndex->getCurrencyBlock()->switchCurrency($customCurrency);
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());
@@ -62,8 +58,6 @@ class AssertCurrencySymbolOnPDP extends AbstractConstraint
             $currencySymbol->getCustomCurrencySymbol(),
             $matches[1],
             'Wrong Currency Symbol is displayed on Product page.'
-            . "\nExpected: " . $currencySymbol->getCustomCurrencySymbol()
-            . "\nActual: " . $matches[1]
         );
     }
 
@@ -74,6 +68,6 @@ class AssertCurrencySymbolOnPDP extends AbstractConstraint
      */
     public function toString()
     {
-        return "Currency Symbol changed on Product Details page.";
+        return "Currency Symbol has been changed on Product Details page.";
     }
 }

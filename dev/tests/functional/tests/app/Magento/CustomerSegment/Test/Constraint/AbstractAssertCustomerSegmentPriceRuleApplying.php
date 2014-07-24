@@ -23,6 +23,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 /**
  * Class AssertCartPriceRuleApplying
  * Abstract class for implementing assert applying
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class AbstractAssertCustomerSegmentPriceRuleApplying extends AbstractConstraint
 {

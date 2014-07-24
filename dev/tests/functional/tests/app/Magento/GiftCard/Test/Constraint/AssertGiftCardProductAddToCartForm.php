@@ -80,6 +80,9 @@ class AssertGiftCardProductAddToCartForm extends AbstractConstraint
      * @param CatalogProductView $catalogProductView
      * @param GiftCardProduct $product
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function verifyFields(CatalogProductView $catalogProductView, GiftCardProduct $product)
     {

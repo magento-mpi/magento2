@@ -16,9 +16,19 @@ use Mtf\Fixture\InjectableFixture;
  */
 class Reward extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\Reward\Test\Repository\Reward';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\Reward\Test\Handler\Reward\RewardInterface';
+
     protected $defaultDataSet = [
         'website_id' => 'Main Website',
-        'customer_group_id' => 'All Customer Groups',
+        'customer_group_id' => ['dataSet' => 'All Customer Groups'],
         'direction' => 'Points to Currency',
         'value' => 10,
         'equal_value' => 1
@@ -78,6 +88,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'source' => 'Magento\Reward\Test\Fixture\Reward\CustomerGroup'
     ];
 
     protected $direction = [
@@ -111,6 +122,16 @@ class Reward extends InjectableFixture
 
     protected $reward_warning_notification = [
         'attribute_code' => 'reward_warning_notification',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $value = [
+        'attribute_code' => 'value',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $equal_value = [
+        'attribute_code' => 'equal_value',
         'backend_type' => 'virtual',
     ];
 
@@ -172,5 +193,15 @@ class Reward extends InjectableFixture
     public function getSubscribeWarnings()
     {
         return $this->getData('subscribe_warnings');
+    }
+
+    public function getValue()
+    {
+        return $this->getData('value');
+    }
+
+    public function getEqualValue()
+    {
+        return $this->getData('equal_value');
     }
 }
