@@ -68,7 +68,7 @@ class StockStatusServiceTest extends WebapiAbstract
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => self::RESOURCE_PATH . 'lowStock/',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ),
             'soap' => array(
                 'service' => self::SERVICE_NAME,
