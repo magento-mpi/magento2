@@ -94,7 +94,7 @@ class WriteService implements WriteServiceInterface
         if (!$quoteItem) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain product $itemSku");
         }
-        $quoteItem->setData('qty', $data->getQty());
+        $quoteItem->setData('qty', $qty);
 
         try {
             $quote->collectTotals()->save();
