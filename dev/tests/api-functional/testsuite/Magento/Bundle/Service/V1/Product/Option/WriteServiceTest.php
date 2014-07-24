@@ -1,0 +1,105 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Bundle\Service\V1\Product\Option;
+
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
+
+class WriteServiceTest extends WebapiAbstract
+{
+    const SERVICE_NAME = 'bundleProductOptionWriteServiceV1';
+    const SERVICE_VERSION = 'V1';
+    const RESOURCE_PATH = '/V1/bundle-products/:productSku/option';
+
+    /**
+     * @magentoApiDataFixture Magento/Bundle/_files/product.php
+     */
+    public function testUpdate()
+    {
+        $productSku = 'bundle-product';
+        $request = ['title' => 'someTitle'];
+
+        $optionId = $this->getList($productSku)[0]['id'];
+        $result = $this->update($productSku, $optionId, $request);
+
+        $this->assertTrue($result);
+
+        $result = $this->get($productSku, $optionId);
+
+        $this->assertCount(6, $result);
+        $this->assertArrayHasKey('title', $result);
+        $this->assertEquals($request['title'], $result['title']);
+    }
+
+    /**
+     * @param string $productSku
+     * @param int $optionId
+     * @param array $option
+     * @return string
+     */
+    protected function update($productSku, $optionId, $option)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . '/' . $optionId,
+                'httpMethod' => Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'update'
+            ]
+        ];
+        return $this->_webApiCall(
+            $serviceInfo,
+            ['productSku' => $productSku, 'optionId' => $optionId, 'option' => $option]
+        );
+    }
+
+    /**
+     * @param string $productSku
+     * @return string
+     */
+    protected function getList($productSku)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => str_replace(':productSku', $productSku, ReadServiceTest::RESOURCE_PATH) . '/all',
+                'httpMethod' => Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => ReadServiceTest::SERVICE_READ_NAME,
+                'serviceVersion' => ReadServiceTest::SERVICE_VERSION,
+                'operation' => ReadServiceTest::SERVICE_READ_NAME . 'getList'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
+    }
+
+    /**
+     * @param string $productSku
+     * @param int $optionId
+     * @return string
+     */
+    protected function get($productSku, $optionId)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => str_replace(':productSku', $productSku, ReadServiceTest::RESOURCE_PATH)
+                    . '/' . $optionId,
+                'httpMethod' => Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => ReadServiceTest::SERVICE_READ_NAME,
+                'serviceVersion' => ReadServiceTest::SERVICE_VERSION,
+                'operation' => ReadServiceTest::SERVICE_READ_NAME . 'get'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
+    }
+}
