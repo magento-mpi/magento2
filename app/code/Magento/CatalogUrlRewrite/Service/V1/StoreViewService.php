@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogUrlRewrite\Service\V1;
 
+use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
@@ -89,6 +90,24 @@ class StoreViewService
             ->from($attribute->getBackendTable(), 'store_id')
             ->where('attribute_id = ?', $attribute->getId())
             ->where('entity_id = ?', $productId);
+
+        return in_array($storeId, $this->connection->fetchCol($select));
+    }
+
+    /**
+     * Check that category has overridden url key for specific store
+     *
+     * @param int $storeId
+     * @param int $categoryId
+     * @return bool
+     */
+    public function doesCategoryHaveOverriddenUrlKeyForStore($storeId, $categoryId)
+    {
+        $attribute = $this->eavConfig->getAttribute(Category::ENTITY, 'url_key');
+        $select = $this->connection->select()
+            ->from($attribute->getBackendTable(), 'store_id')
+            ->where('attribute_id = ?', $attribute->getId())
+            ->where('entity_id = ?', $categoryId);
 
         return in_array($storeId, $this->connection->fetchCol($select));
     }

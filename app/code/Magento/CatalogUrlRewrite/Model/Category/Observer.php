@@ -7,57 +7,41 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Category;
 
-use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
-use Magento\CatalogUrlRewrite\Service\V1\CategoryUrlGeneratorInterface;
-use \Magento\CatalogUrlRewrite\Model\Product\ProductUrlGenerator;
+use Magento\Catalog\Model\Category;
+use Magento\CatalogUrlRewrite\Model\Product\ProductUrlGenerator;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
-use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 
 class Observer
 {
-    /**
-     * @var CategoryUrlGeneratorInterface
-     */
+    /** @var CategoryUrlGenerator */
     protected $categoryUrlGenerator;
 
-    /**
-     * @var CategoryUrlGeneratorInterface
-     */
+    /** @var ProductUrlGenerator */
     protected $productUrlGenerator;
 
-    /**
-     * @var UrlSaveInterface
-     */
+    /** @var UrlSaveInterface */
     protected $urlSave;
 
-    /**
-     * @var CatalogUrlRewriteHelper
-     */
+    /** var \Magento\CatalogUrlRewrite\Helper\Data */
     protected $catalogUrlRewriteHelper;
 
-    /** @var \Magento\CatalogUrlRewrite\Service\V1\StoreViewService */
-    protected $storeViewService;
-
     /**
-     * @param CategoryUrlGeneratorInterface $categoryUrlGenerator
+     * @param CategoryUrlGenerator $categoryUrlGenerator
      * @param ProductUrlGenerator $productUrlGenerator
      * @param UrlSaveInterface $urlSave
-     * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
-     * @param StoreViewService $storeViewService
+     * @param \Magento\CatalogUrlRewrite\Helper\Data $catalogUrlRewriteHelper
      */
     public function __construct(
-        CategoryUrlGeneratorInterface $categoryUrlGenerator,
+        CategoryUrlGenerator $categoryUrlGenerator,
         ProductUrlGenerator $productUrlGenerator,
         UrlSaveInterface $urlSave,
-        CatalogUrlRewriteHelper $catalogUrlRewriteHelper,
-        StoreViewService $storeViewService
+        \Magento\CatalogUrlRewrite\Helper\Data $catalogUrlRewriteHelper
     ) {
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->productUrlGenerator = $productUrlGenerator;
         $this->urlSave = $urlSave;
-        $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;
-        $this->storeViewService = $storeViewService;
+        $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;// TODO: MAGETWO-26285
     }
 
     /**
@@ -68,31 +52,43 @@ class Observer
      */
     public function processUrlRewriteSaving(EventObserver $observer)
     {
-        /** @var \Magento\Catalog\Model\Category $category */
+        /** @var Category $category */
         $category = $observer->getEvent()->getCategory();
-
-        if (!$this->storeViewService->isRootCategoryForStore($category->getId(), $category->getStoreId())
-            && (!$category->getData('url_key') || $category->getOrigData('url_key') != $category->getData('url_key'))
-        ) {
-            // TODO: fix service parameter (@TODO: UrlRewrite)
-            $this->urlSave->save($this->categoryUrlGenerator->generate($category));
-
-            $products = $category->getProductCollection()
-                ->addAttributeToSelect('url_key')
-                ->addAttributeToSelect('url_path');
-
-            foreach ($products as $product) {
-                // TODO: Is product url path can be empty? (@TODO: UrlRewrite)
-
-                $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
-
-                // TODO: hack for obtaining data from changed categories.
-                // Replace on Service Data Object (@TODO: UrlRewrite)
-                $this->urlSave->save($this->productUrlGenerator->generateWithChangedCategories(
-                    $product,
-                    [$category->getId() => $category])
-                );
-            }
+        $urls = array();
+        if (!$category->getData('url_key') || $category->getOrigData('url_key') !== $category->getData('url_key')) {
+            $urls = array_merge(
+                $this->categoryUrlGenerator->generate($category),
+                $this->generateProductUrlRewrites($category)
+            );
+        } elseif ($category->getOrigData('affected_product_ids') !== $category->getData('affected_product_ids')) {
+            $urls = $this->generateProductUrlRewrites($category);
         }
+        if (!empty($urls)) {
+            $this->urlSave->save($urls);
+        }
+    }
+
+    /**
+     * Generate url rewrites for products assigned to category
+     *
+     * @param Category $category
+     * @return array
+     */
+    protected function generateProductUrlRewrites(Category $category)
+    {
+        $collection = $category->getProductCollection()
+            ->addAttributeToSelect('url_key')
+            ->addAttributeToSelect('url_path');
+        $productUrls = [];
+        foreach ($collection as $product) {
+            //@TODO remove it when fix empty url_path for product
+            $product->setUrlPath($this->catalogUrlRewriteHelper->generateProductUrlKeyPath($product));
+
+            $product->setStoreId($category->getStoreId());
+            $product->setStoreIds($category->getStoreIds());
+            $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
+            $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
+        }
+        return $productUrls;
     }
 }

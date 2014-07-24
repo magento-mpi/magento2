@@ -15,7 +15,7 @@ use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\UrlRewrite\Service\V1\Data\Converter;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 
 /**
  * TODO: It is stub class (UrlRewrite)
@@ -41,6 +41,9 @@ class Data
      */
     protected $categoryHelper;
 
+    /** @var \Magento\Catalog\Model\Resource\Url  */
+    protected $catalogUrl;
+
     /**
      * @var Converter
      */
@@ -58,20 +61,23 @@ class Data
 
     /**
      * @param Config $eavConfig
-     * @param Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param ProductHelper $productHelper
      * @param CategoryHelper $categoryHelper
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      */
     public function __construct(
         Config $eavConfig,
         Resource $resource,
         ProductHelper $productHelper,
-        CategoryHelper $categoryHelper
+        CategoryHelper $categoryHelper,
+        \Magento\Catalog\Model\Resource\Url $catalogUrl
     ) {
         $this->productHelper = $productHelper;
         $this->categoryHelper = $categoryHelper;
         $this->eavConfig = $eavConfig;
         $this->connection = $resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
+        $this->catalogUrl = $catalogUrl;
     }
 
     /**
@@ -144,12 +150,19 @@ class Data
     /**
      * Get category url path
      *
+     * TODO: it is draft method, do not use in production (@TODO: UrlRewrite)
      * @param Category $category
      * @return string
      */
     public function getCategoryUrlKeyPath(Category $category)
     {
-        return $category->getUrlPath();
+        $parentUrlPath = $this->catalogUrl
+            ->getCategory($category->getParentId(), $category->getStoreId())
+            ->getUrlPath();
+        $requestPath = trim($parentUrlPath . '/' . $category->getUrlKey(), '/');
+        $category->setUrlPath($requestPath);
+        $this->catalogUrl->saveCategoryAttribute($category, 'url_path');
+        return $requestPath . $this->categoryHelper->getCategoryUrlSuffix($category->getStoreId());
     }
 
     /**
@@ -187,23 +200,5 @@ class Data
             : $product->formatUrlKey($product->getUrlKey());
 
         return $urlKey;
-    }
-
-    /**
-     * If product saved on default store view, then need to check specific url_key for other stores
-     *
-     * @param int $storeId
-     * @param int $productId
-     * @return bool
-     */
-    public function isNeedCreateUrlRewrite($storeId, $productId)
-    {
-        $attribute = $this->eavConfig->getAttribute(Product::ENTITY, 'url_key');
-        $select = $this->connection->select()
-            ->from($attribute->getBackendTable(), 'store_id')
-            ->where('attribute_id = ?', $attribute->getId())
-            ->where('entity_id = ?', $productId);
-
-        return !in_array($storeId, $this->connection->fetchCol($select));
     }
 }
