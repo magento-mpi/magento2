@@ -17,6 +17,7 @@ use Magento\Framework\ObjectManager\Code\Generator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
 use Magento\Framework\Service\Code\Generator\Builder as BuilderGenerator;
 use Magento\Framework\Service\Code\Generator\Mapper as MapperGenerator;
+use Magento\Framework\Service\Code\Generator\Converter as ConverterGenerator;
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 
@@ -125,6 +126,8 @@ class DefinitionFactory
                         => '\Magento\Framework\Service\Code\Generator\Mapper',
                     SearchResults::ENTITY_TYPE
                         => '\Magento\Framework\Service\Code\Generator\SearchResults',
+                    ConverterGenerator::ENTITY_TYPE 
+                        => '\Magento\Framework\Service\Code\Generator\Converter',
                 )
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);

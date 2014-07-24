@@ -51,6 +51,12 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/orders/:id/comment" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderStatusHistoryAddInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
     <route url="/V1/orders/:id/comments" method="GET">
         <service class="Magento\Sales\Service\V1\OrderCommentsListInterface" method="invoke"/>
         <resources>
