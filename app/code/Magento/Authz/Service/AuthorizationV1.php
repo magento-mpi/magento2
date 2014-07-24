@@ -215,7 +215,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      */
     protected function _getUserRole($userIdentifier)
     {
-        if (!$this->_canRoleBeCreatedForUserType($userIdentifier)) {
+        if (!$this->_canRoleBeCreatedForUserType($userIdentifier->getUserType())) {
             throw new \LogicException(
                 "The role with user type '{$userIdentifier->getUserType()}' does not exist and cannot be created"
             );
@@ -248,7 +248,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * Roles cannot be created for guests and customers.
      *
-     * @param string $userType
+     * @param int $userType
      * @return bool
      */
     protected function _canRoleBeCreatedForUserType($userType)

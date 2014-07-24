@@ -17,13 +17,13 @@ class UserIdentifier
     /**#@+
      * User types.
      */
-    const USER_TYPE_GUEST = 'Guest';
+    const USER_TYPE_INTEGRATION = 1;
 
-    const USER_TYPE_CUSTOMER = 'Customer';
+    const USER_TYPE_ADMIN = 2;
 
-    const USER_TYPE_ADMIN = 'Admin';
+    const USER_TYPE_CUSTOMER = 3;
 
-    const USER_TYPE_INTEGRATION = 'Integration';
+    const USER_TYPE_GUEST = 4;
 
     /**#@-*/
 
@@ -71,7 +71,7 @@ class UserIdentifier
     /**
      * Retrieve user type (admin, customer, guest, web API integration).
      *
-     * @return string
+     * @return int
      */
     public function getUserType()
     {
@@ -98,7 +98,7 @@ class UserIdentifier
     /**
      * Set user type.
      *
-     * @param string $userType
+     * @param int $userType
      * @return $this
      * @throws \LogicException
      */
@@ -112,7 +112,7 @@ class UserIdentifier
         );
         if (!in_array($userType, $availableTypes)) {
             throw new \LogicException(
-                "Invalid user type: '{$userType}'. Allowed types: " . implode(", ", $availableTypes)
+                "Invalid user type: '{$userType}'."
             );
         }
         $this->_userType = $userType;

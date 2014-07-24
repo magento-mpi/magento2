@@ -57,12 +57,12 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with userType = Admin
+     * @expectedExceptionMessage No such entity with userType = 5
      */
     public function testRemovePermissionsException()
     {
-        // Wrong user identifier type
-        $this->_authzService->removePermissions($this->_getUserIdentifierMock(UserIdentifier::USER_TYPE_ADMIN));
+        // Undefined user identifier type outside \Magento\Authz\Model\UserIdentifier::USER_TYPE_*
+        $this->_authzService->removePermissions($this->_getUserIdentifierMock(5));
     }
 
     /**

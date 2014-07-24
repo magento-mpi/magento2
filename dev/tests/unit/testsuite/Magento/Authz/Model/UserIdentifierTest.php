@@ -64,9 +64,9 @@ class UserIdentifierTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'InvalidUserType',
+                5, //invalid user type
                 1,
-                'Invalid user type: \'InvalidUserType\'. Allowed types: Guest, Customer, Admin, Integration'
+                'Invalid user type: \'5\'.'
             ),
             array(UserIdentifier::USER_TYPE_CUSTOMER, -1, 'Invalid user ID: \'-1\''),
             array(UserIdentifier::USER_TYPE_ADMIN, 'InvalidUserId', 'Invalid user ID: \'InvalidUserId\''),
