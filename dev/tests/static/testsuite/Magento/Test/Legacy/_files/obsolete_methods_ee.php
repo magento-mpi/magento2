@@ -229,5 +229,15 @@ return array(
     ['getTierPriceHtml', 'Magento\AdvancedCheckout\Block\Sku\Products\Info'],
     ['sendNewRmaEmail', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::sendNewRmaEmail'],
     ['sendAuthorizeEmail', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::sendAuthorizeEmail'],
-    ['_sendRmaEmailWithItems', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::_sendRmaEmailWithItems']
+    ['_sendRmaEmailWithItems', 'Magento\Rma\Model\Rma', 'Magento\Rma\Model\Rma\Status\History::_sendRmaEmailWithItems'],
+    [
+        'beforeRebuildIndex',
+        'Magento\Search\Model\Plugin\FulltextIndexRebuild',
+        'Magento\Search\Model\Plugin\FulltextIndexRebuild::beforeExecuteFull'
+    ],
+    [
+        'afterRebuildIndex',
+        'Magento\Search\Model\Plugin\FulltextIndexRebuild',
+        'Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull'
+    ],
 );

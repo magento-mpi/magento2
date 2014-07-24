@@ -55,7 +55,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_string;
 
     /**
-     * @var \Magento\Search\Model\Resource\Engine|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Search\Model\Resource\Solr\Engine|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceEngine;
 

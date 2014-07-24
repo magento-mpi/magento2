@@ -7,6 +7,7 @@
  */
 namespace Magento\Search\Model;
 
+use Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory;
 use Magento\Framework\Event\Observer as EventObserver;
 
 /**
@@ -31,7 +32,7 @@ class Observer
     /**
      * Eav entity attribute option coll factory
      *
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_eavEntityAttributeOptionCollectionFactory = null;
 
@@ -71,7 +72,7 @@ class Observer
     protected $_request;
 
     /**
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory
+     * @param CollectionFactory $eavEntityAttributeOptionCollectionFactory
      * @param Resource\RecommendationsFactory $searchRecommendationsFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
@@ -81,7 +82,7 @@ class Observer
      * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory,
+        CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,

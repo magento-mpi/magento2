@@ -7,13 +7,15 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
+use Magento\CatalogSearch\Model\Resource\EngineInterface;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * CatalogSearch Fulltext Index Engine resource model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Engine extends \Magento\Framework\Model\Resource\Db\AbstractDb implements
-    \Magento\CatalogSearch\Model\Resource\EngineInterface
+class Engine extends AbstractDb implements EngineInterface
 {
     /**
      * Catalog product visibility

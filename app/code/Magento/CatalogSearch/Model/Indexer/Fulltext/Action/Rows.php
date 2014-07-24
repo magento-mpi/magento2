@@ -7,17 +7,17 @@
  */
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Action;
 
-class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
+class Rows extends \Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full
 {
     /**
      * Refresh entities index
      *
      * @param int[] $entityIds
      * @param bool $useTempTable
-     * @return Rows
+     * @return void
      */
     public function reindex(array $entityIds = array(), $useTempTable = false)
     {
-        return $this;
+        $this->rebuildIndex(null, $entityIds);
     }
 }

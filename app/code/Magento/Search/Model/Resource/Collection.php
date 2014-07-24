@@ -55,7 +55,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Store engine instance
      *
-     * @var \Magento\Search\Model\Resource\Engine
+     * @var \Magento\Search\Model\Resource\Solr\Engine
      */
     protected $_engine = null;
 
