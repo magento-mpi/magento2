@@ -20,6 +20,32 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Bundle/_files/product.php
      */
+    public function testAdd()
+    {
+        $productSku = 'bundle-product';
+        $request = [
+            'required' => '1',
+            'position' => '0',
+            'type' => 'select',
+            'title' => 'test product'
+        ];
+
+        $optionId = $this->add($productSku, $request);
+        $this->assertGreaterThan(0, $optionId);
+        $result = $this->get($productSku, $optionId);
+
+        $this->assertArrayHasKey('id', $result);
+        $this->assertArrayHasKey('sku', $result);
+        unset($result['id'], $result['sku']);
+
+        ksort($result);
+        ksort($request);
+        $this->assertEquals($request, $result);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Bundle/_files/product.php
+     */
     public function testUpdate()
     {
         $productSku = 'bundle-product';
@@ -100,6 +126,30 @@ class WriteServiceTest extends WebapiAbstract
         return $this->_webApiCall(
             $serviceInfo,
             ['productSku' => $productSku, 'optionId' => $optionId, 'option' => $option]
+        );
+    }
+
+    /**
+     * @param string $productSku
+     * @param array $option
+     * @return string
+     */
+    protected function add($productSku, $option)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . '/add',
+                'httpMethod' => Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'add'
+            ]
+        ];
+        return $this->_webApiCall(
+            $serviceInfo,
+            ['productSku' => $productSku, 'option' => $option]
         );
     }
 
