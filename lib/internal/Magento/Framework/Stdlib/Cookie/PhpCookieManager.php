@@ -131,8 +131,8 @@ class PhpCookieManager implements CookieManager
             $name,
             $value,
             $expireTime,
-            $metadataArray[AbstractCookieMetadata::KEY_PATH],
-            $metadataArray[AbstractCookieMetadata::KEY_DOMAIN],
+            $metadataArray[CookieMetadata::KEY_PATH],
+            $metadataArray[CookieMetadata::KEY_DOMAIN],
             $metadataArray[PublicCookieMetadata::KEY_SECURE],
             $metadataArray[PublicCookieMetadata::KEY_HTTP_ONLY]
         );
@@ -171,18 +171,25 @@ class PhpCookieManager implements CookieManager
      * Deletes a cookie with the given name.
      *
      * @param string $name
-     * @param PublicCookieMetadata $metadata
+     * @param CookieMetadata $metadata
      * @return void
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
      *     If this exception isn't thrown, there is still no guarantee that the browser
      *     received and accepted the request to delete this cookie.
      */
-    public function deleteCookie($name, PublicCookieMetadata $metadata = null)
+    public function deleteCookie($name, CookieMetadata $metadata = null)
     {
         // Remove the cookie
         unset($_COOKIE[$name]);
+        $metadataArray = $metadata->__toArray();
+        if (empty($metadataArray)) {
+            $metadataArray[CookieMetadata::KEY_PATH] = null;
+            $metadataArray[CookieMetadata::KEY_DOMAIN] = null;
+        }
+        $metadataArray[PublicCookieMetadata::KEY_SECURE] = false;
+        $metadataArray[PublicCookieMetadata::KEY_HTTP_ONLY] = false;
 
         // cookie value set to false to delete from the remote client
-        $this->setPublicCookie($name, false, $metadata);
+        $this->setCookie($name, null, $metadataArray);
     }
 }

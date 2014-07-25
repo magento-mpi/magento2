@@ -12,7 +12,7 @@ namespace Magento\Framework\Stdlib\Cookie;
  * Class PublicCookieMetadata
  *
  */
-class PublicCookieMetadata extends AbstractCookieMetadata
+class PublicCookieMetadata extends CookieMetadata
 {
     /**#@+
      * Constant for metadata value key.

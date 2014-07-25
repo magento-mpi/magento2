@@ -11,10 +11,10 @@ namespace Magento\Framework\Stdlib\Cookie;
 /**
  * Class SensitiveCookieMetadata
  *
- * The class has only methods extended from AbstractMetadata
+ * The class has only methods extended from CookieMetadata
  * as path and domain are only data to be exposed by SensitiveCookieMetadata
  */
-class SensitiveCookieMetadata extends AbstractCookieMetadata
+class SensitiveCookieMetadata extends CookieMetadata
 {
 
 }
