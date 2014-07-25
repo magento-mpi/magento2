@@ -17,6 +17,7 @@ use Mtf\Repository\AbstractRepository;
 class Reward extends AbstractRepository
 {
     /**
+     * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
      *
