@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
-
 use Magento\Framework\ObjectManager;
 
 /**
@@ -56,4 +55,4 @@ class CookieMetadataFactory
             ['metadata' => $metadata]
         );
     }
-} 
+}
