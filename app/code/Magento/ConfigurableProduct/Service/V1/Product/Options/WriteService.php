@@ -9,12 +9,13 @@
 namespace Magento\ConfigurableProduct\Service\V1\Product\Options;
 
 use Magento\Catalog\Model\ProductRepository;
-use Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute;
-use Magento\Catalog\Model\Resource\Eav\AttributeFactory as EavAttributeFactory;
+use Magento\ConfigurableProduct\Service\V1\Data\Option;
+use Magento\ConfigurableProduct\Service\V1\Data\OptionConverter;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable as TypeConfigurable;
-use Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection as OptionCollection;
-use Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory as OptionCollectionFactory;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
+use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory;
+use Magento\Eav\Model\Config as EavConfig;
+use Magento\Catalog\Model\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Webapi\Exception;
@@ -27,107 +28,80 @@ class WriteService implements WriteServiceInterface
     protected $productRepository;
 
     /**
-     * Eav attribute factory
-     *
-     * @var EavAttributeFactory
-     */
-    protected $eavAttributeFactory;
-
-    /**
-     * Configurable attribute factory
-     *
      * @var ConfigurableAttributeFactory
      */
     protected $configurableAttributeFactory;
 
     /**
-     * @var OptionCollectionFactory
+     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory
      */
-    protected $optionCollection;
+    protected $collectionFactory;
+
+    /**
+     * Attribute collection factory
+     *
+     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
+
+    /**
+     * Eav config
+     *
+     * @var EavConfig
+     */
+    protected $eavConfig;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\OptionConverter
+     */
+    protected $optionConverter;
 
     /**
      * @param ProductRepository $productRepository
-     * @param EavAttributeFactory $eavAttributeFactory
      * @param ConfigurableAttributeFactory $configurableAttributeFactory
-     * @param OptionCollectionFactory $optionCollection
+     * @param CollectionFactory $collectionFactory
+     * @param EavConfig $eavConfig
+     * @param OptionConverter $optionConverter
      */
     public function __construct(
         ProductRepository $productRepository,
-        EavAttributeFactory $eavAttributeFactory,
         ConfigurableAttributeFactory $configurableAttributeFactory,
-        OptionCollectionFactory $optionCollection
+        CollectionFactory $collectionFactory,
+        EavConfig $eavConfig,
+        OptionConverter $optionConverter
     ) {
         $this->productRepository = $productRepository;
-        $this->eavAttributeFactory = $eavAttributeFactory;
         $this->configurableAttributeFactory = $configurableAttributeFactory;
-        $this->optionCollection = $optionCollection;
+        $this->collectionFactory = $collectionFactory;
+        $this->eavConfig = $eavConfig;
+        $this->optionConverter = $optionConverter;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add($productSku, ConfigurableAttribute $attribute)
+    public function add($productSku, Option $option)
     {
         $product = $this->productRepository->get($productSku);
-        $eavAttribute = $this->loadAttribute($attribute->getAttributeCode());
+        $eavAttribute = $this->eavConfig->getAttribute(Product::ENTITY, $option->getAttributeId());
 
-        // Check whether attribute values are equals existing options of attribute
-        $this->validateAttributeValues($attribute->getValues());
-
-        $attributeData = $attribute->__toArray();
-        $attributeData[ConfigurableAttribute::ATTRIBUTE_ID] = $eavAttribute->getAttributeId();
-
+        /** @var $configurableAttribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
         $configurableAttribute = $this->configurableAttributeFactory->create();
         $configurableAttribute->loadByProductAndAttribute($product, $eavAttribute);
         if ($configurableAttribute->getId()) {
-            throw new CouldNotSaveException('Option already added to product');
+            throw new CouldNotSaveException('Product already has this option');
         }
 
-        $configurableAttribute
-            ->addData($attributeData)
-            ->setStoreId($product->getStoreId())
-            ->setProductId($product->getId())
-            ->save();
+        $product->setTypeId(ConfigurableType::TYPE_CODE);
+        $product->setConfigurableAttributesData(array($option->__toArray()));
+        $product->save();
 
-        return $configurableAttribute->getId();
-    }
+        $configurableAttribute = $this->configurableAttributeFactory->create();
+        $configurableAttribute->loadByProductAndAttribute($product, $eavAttribute);
+        if (!$configurableAttribute->getId()) {
+            throw new CouldNotSaveException('Could not save product option');
+        }
 
-    /**
-     * Retrieve eav attribute by attribute code
-     *
-     * @param string $attributeCode
-     * @return $this
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    private function loadAttribute($attributeCode)
-    {
-        $eavAttribute = $this->eavAttributeFactory->create()
-            ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
-        if (!$eavAttribute->getId()) {
-            throw new NoSuchEntityException('Requested attribute doesn\'t exist');
-        }
-        if (!$eavAttribute->getIsConfigurable()) {
-            throw new NoSuchEntityException('Attribute can not be applied for configurable product');
-        }
-        return $eavAttribute;
-    }
-
-    /**
-     * Check whether attribute values are equals existing options of attribute
-     *
-     * @param array $values
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    private function validateAttributeValues(array $values)
-    {
-        /** @var OptionCollection $collection */
-        $collection = $this->optionCollection->create();
-        foreach ($values as $value) {
-            if (!$collection->getItemById($value->getIndex())) {
-                throw new NoSuchEntityException(
-                    sprintf('There is no option with provided index: "%s"', $value->getIndex())
-                );
-            }
-        }
+        return $this->optionConverter->convert($configurableAttribute);
     }
 }

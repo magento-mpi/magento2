@@ -8,7 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Service\V1\Product\Options;
 
-use \Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute;
+use Magento\ConfigurableProduct\Service\V1\Data\Option;
 
 interface WriteServiceInterface
 {
@@ -16,9 +16,9 @@ interface WriteServiceInterface
      * Add option to the product
      *
      * @param string $productSku
-     * @param \Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute $attribute
-     * @throw \Magento\Framework\Exception\NoSuchEntityException
-     * @return int Configurable attribute id
+     * @param \Magento\ConfigurableProduct\Service\V1\Data\Option $option
+     * @throw \Magento\Framework\Exception\NoSuchEntityException|\Magento\Framework\Exception\CouldNotSaveException|\DomainException
+     * @return \Magento\ConfigurableProduct\Service\V1\Data\Option $option
      */
-    public function add($productSku, ConfigurableAttribute $attribute);
+    public function add($productSku, Option $option);
 }
