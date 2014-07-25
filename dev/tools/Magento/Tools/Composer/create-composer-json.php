@@ -19,15 +19,12 @@ use \Magento\Tools\Composer\Package\Package;
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|ce]',
-            'version|v=s' => 'Version for the composer.json file',
+            'category|c=s' => 'Category of which packaging is done. Acceptable values: [ce|sk]',
             'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
         )
     );
     $opt->parse();
 
-    $version = $opt->getOption('v');
-    \Magento\Tools\Composer\Package\Version::validate($version);
     if ($opt->getOption('d')) {
         $workingDir = realpath($opt->getOption('d'));
     } else {
@@ -44,37 +41,81 @@ try {
     $logger->setTimestampFormat('H:i:s');
     $logger->info('Working copy root directory: ' . $workingDir);
 
-    $edition = $opt->getOption('e');
-    switch (strtolower($edition)) {
-        case 'ee':
-            $name = 'magento/product-enterprise-edition';
-            break;
-        case 'ce':
-            $name = 'magento/product-community-edition';
-            break;
-        default:
-            throw new \Zend_Console_Getopt_Exception('Edition value not acceptable. Acceptable values: [ee|ce]');
-    }
-    $logger->info("Root package name: {$name}");
-
     $root = new Package(
         json_decode(file_get_contents(__DIR__ . '/etc/root_composer_template.json')),
-        $workingDir . '/composer.json'
+        __DIR__  . '/composer.json'
     );
-    $root->set('name', $name);
-    if ($version) {
-        $root->set('version', $version);
+    $root->set('name', 'magento/community-edition');
+    $root->set('description', 'eCommerce Platform for Growth (Community Edition)');
+    $root->set('license', array("OSL-3.0", "AFL-3.0"));
+
+    $mainlineJson = json_decode(file_get_contents($workingDir  . '/composer.json'));
+    $root->set('version', $mainlineJson->{'version'});
+    $root->set('type', $mainlineJson->{'type'});
+    //collecting hardcoded require list from root composer.json
+    foreach ($mainlineJson->{'require'} as $key=>$value) {
+        $root->set("require->$key", $value);
     }
+    //collecting hardcoded require-dev list from root composer.json
+    foreach ($mainlineJson->{'require-dev'} as $key=>$value) {
+        $root->set("require-dev->$key", $value);
+    }
+    //collecting hardcoded autoload list from root composer.json
+    foreach ($mainlineJson->{'autoload'} as $key=>$value) {
+        $root->set("autoload->$key", $value);
+    }
+    //add third-party components as 'replace'
+    $componentsPaths = $mainlineJson->{'extra'}->{'component_paths'};
+    foreach ($mainlineJson->{'replace'} as $name=>$version) {
+        if (!(strncmp($name, 'magento/', strlen('magento/')) === 0)) {
+            foreach ($componentsPaths as $cname=>$path) {
+                $found = false;
+                if ($cname === $name) {
+                    if (is_array($path)) {
+                        foreach ($path as $onePath) {
+                            if (file_exists($workingDir . $onePath)) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    if (file_exists($workingDir . $path)) {
+                        $found = true;
+                    }
+                }
+            }
+            if ($found == true) {
+                $root->set("replace->$name", $version);
+                break;
+            }
+        }
+    }
+
     $reader = new Reader($workingDir);
-    foreach ($reader->readMagentoPackages() as $package) {
-        $root->set("require->{$package->get('name')}", $package->get('version'));
+    $category = $opt->getOption('c');
+    switch (strtolower($category)) {
+        case 'ce':
+            //adding magento components
+            foreach ($reader->readMagentoPackages() as $package) {
+                $root->set("replace->{$package->get('name')}", "self.version");
+            }
+            break;
+        case 'sk':
+            $root->set("require->magento/magento-composer-installer", "*");
+            //adding magento components
+            foreach ($reader->readMagentoPackages() as $package) {
+                $root->set("require->{$package->get('name')}", $package->get('version'));
+            }
+            $root->set('extra->map', $reader->getRootMappingPatterns());
+            break;
+        default:
+            throw new \Zend_Console_Getopt_Exception('Category value not acceptable. Acceptable values: [ml|ce|sk]');
     }
-    //as the last one, adding dependency on magento/magento-custom-installer
-    $root->set("require->magento/magento-composer-installer", "*");
 
     $size = sizeof((array)$root->get('require'));
-    $logger->info("Total number of dependencies in the skeleton package: {$size}");
-    $root->set('extra->map', $reader->getRootMappingPatterns());
+    $size += sizeof((array)$root->get('require-dev'));
+    $logger->info("Total number of dependencies in the CE skeleton package: {$size}");
     file_put_contents($root->getFile(), $root->getJson());
     $logger->info("SUCCESS: created package at {$root->getFile()}");
 } catch (\Zend_Console_Getopt_Exception $e) {
