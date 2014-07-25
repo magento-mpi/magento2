@@ -56,6 +56,7 @@ class WriteService implements WriteServiceInterface
      * @var \Magento\ConfigurableProduct\Service\V1\Data\OptionConverter
      */
     protected $optionConverter;
+
     /**
      * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
      */
