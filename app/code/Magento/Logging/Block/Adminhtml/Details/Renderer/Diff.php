@@ -46,9 +46,22 @@ class Diff extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
                 if (!$specialFlag) {
                     $html = '<dl class="list-parameters">';
                     foreach ($dataArray as $key => $value) {
-                        $html .= '<dt class="parameter">' . $key . '</dt><dd class="value">' . $this->escapeHtml(
-                            $value
-                        ) . '</dd>';
+                        $html .= '<dt class="parameter">' . $key . '</dt>';
+                        if (!is_array($value)) {
+                            $html .= '<dd class="value">' . $this->escapeHtml(
+                                $value
+                            ) . '</dd>';
+                        } elseif ($key == 'time') {
+                            $html .= '<dd class="value">' . $this->escapeHtml(
+                                implode(":", $value)
+                            ) . '</dd>';
+                        } else {
+                            foreach ($value as $arrayValue) {
+                                $html .= '<dd class="value">' . $this->escapeHtml(
+                                    $arrayValue
+                                ) . '</dd>';
+                            }
+                        }
                     }
                     $html .= '</dl>';
                 }

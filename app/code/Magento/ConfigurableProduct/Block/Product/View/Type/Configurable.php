@@ -9,6 +9,8 @@
  */
 namespace Magento\ConfigurableProduct\Block\Product\View\Type;
 
+use Magento\Customer\Helper\Session\CurrentCustomer;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -20,6 +22,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @var \Magento\Catalog\Helper\Product
      */
     protected $catalogProduct = null;
+
+    /**
+     * Current customer
+     *
+     * @var CurrentCustomer
+     */
+    protected $currentCustomer;
 
     /**
      * Prices
@@ -44,6 +53,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\ConfigurableProduct\Helper\Data $helper
      * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -52,11 +62,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\ConfigurableProduct\Helper\Data $helper,
         \Magento\Catalog\Helper\Product $catalogProduct,
+        CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->helper = $helper;
         $this->jsonEncoder = $jsonEncoder;
         $this->catalogProduct = $catalogProduct;
+        $this->currentCustomer = $currentCustomer;
         parent::__construct(
             $context,
             $arrayUtils,
@@ -160,7 +172,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             'oldPrice' => $this->_registerJsPrice($this->_convertPrice($currentProduct->getPrice())),
             'productId' => $currentProduct->getId(),
             'chooseText' => __('Choose an Option...'),
-            'taxConfig' => $attributePrice->getTaxConfig(),
+            'taxConfig' => $attributePrice->getTaxConfig($this->currentCustomer->getCustomerId()),
             'images' => $options['images'],
             'baseImage' => $options['baseImage']
         );

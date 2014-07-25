@@ -107,7 +107,7 @@ abstract class AbstractSource implements
      *
      * @return array
      */
-    public function getFlatColums()
+    public function getFlatColumns()
     {
         return array();
     }

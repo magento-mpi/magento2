@@ -17,8 +17,8 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Tax\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $taxHelperMock;
 
-    /** @var \Magento\Tax\Model\Calculation|\PHPUnit_Framework_MockObject_MockObject */
-    protected $calculationMock;
+    /** @var \Magento\Tax\Service\V1\TaxCalculationServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $calculationServiceMock;
 
     /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject */
     protected $productMock;
@@ -51,9 +51,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->calculationMock = $this->getMock(
-            'Magento\Tax\Model\Calculation',
-            ['getRate', 'getRateRequest', '__wakeup'],
+        $this->calculationServiceMock = $this->getMock(
+            'Magento\Tax\Service\V1\TaxCalculationService',
+            ['getDefaultCalculatedRate', 'getCalculatedRate'],
             [],
             '',
             false,
@@ -102,7 +102,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
 
         $this->plugin = new \Magento\Tax\Pricing\Price\Plugin\AttributePrice(
             $this->taxHelperMock,
-            $this->calculationMock
+            $this->calculationServiceMock
         );
 
 
@@ -116,12 +116,13 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())
             ->method('getTaxClassId')
             ->will($this->returnValue('tax-class-id'));
-        $this->calculationMock->expects($this->exactly(2))
-            ->method('getRateRequest')
-            ->will($this->returnValue($this->rateRequestMock));
-        $this->calculationMock->expects($this->exactly(2))
-            ->method('getRate')
-            ->with($this->equalTo($this->rateRequestMock))
+        $this->calculationServiceMock->expects($this->once())
+            ->method('getDefaultCalculatedRate')
+            ->with('tax-class-id', 1)
+            ->will($this->returnValue(99.10));
+        $this->calculationServiceMock->expects($this->once())
+            ->method('getCalculatedRate')
+            ->with('tax-class-id', 1)
             ->will($this->returnValue(99.10));
         $this->productMock->expects($this->once())
             ->method('getPriceInfo')
@@ -144,6 +145,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             'product' => $this->productMock,
             'defaultTax' => 99.10,
             'currentTax' => 99.10,
+            'customerId' => 1,
             'includeTax' => true,
             'showIncludeTax' => true,
             'showBothPrices' => true
@@ -152,7 +154,8 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->plugin->afterPrepareAdjustmentConfig($this->attributePriceMock, [
             'product' => $this->productMock,
             'defaultTax' => 0,
-            'currentTax' => 0
+            'currentTax' => 0,
+            'customerId' => 1,
         ]));
     }
 }
