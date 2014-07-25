@@ -10,7 +10,6 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\CatalogUrlRewrite\Service\V1\Storage\Data\Product;
-use Magento\CatalogUrlRewrite\Service\V1\ProductUrlGenerator;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
