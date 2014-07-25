@@ -157,7 +157,7 @@ class ReadService implements ReadServiceInterface
         $this->customerBuilder->populateWithArray(array(
             Customer::ID => $quote->getCustomerId(),
             Customer::EMAIL => $quote->getCustomerEmail(),
-            Customer::GROUP_ID => $quote->getCustomerId(),
+            Customer::GROUP_ID => $quote->getCustomerGroupId(),
             Customer::TAX_CLASS_ID => $quote->getCustomerTaxClassId(),
             Customer::PREFIX => $quote->getCustomerPrefix(),
             Customer::FIRST_NAME => $quote->getCustomerFirstname(),
