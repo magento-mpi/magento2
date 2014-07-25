@@ -36,7 +36,8 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->quoteLoaderMock = $this->getMock('\Magento\Checkout\Service\V1\QuoteLoader', [], [], '', false);
-        $this->itemBuilderMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\ItemBuilder', [], [], '', false);
+        $this->itemBuilderMock =
+            $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\ItemBuilder', [], [], '', false);
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->service = new ReadService($this->quoteLoaderMock, $this->itemBuilderMock, $this->storeManagerMock);
     }
@@ -48,7 +49,7 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue(11));
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteLoaderMock->expects($this->once())->method('load')
-            ->with(array('cartId'), 11)
+            ->with(33, 11)
             ->will($this->returnValue($quoteMock));
         $itemMock = $this->getMock('\Magento\Sales\Model\Quote\Item',
             ['getSku', 'getName', 'getPrice', 'getQty', 'getProductType', '__wakeup'], [], '', false);
@@ -61,8 +62,8 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
         $testData = [
             Item::SKU => 'prd_SKU',
             Item::NAME => 'prd_NAME',
-            Item::PRICE => '100.15',
-            Item::QTY => '16',
+            Item::PRICE => 100.15,
+            Item::QTY => 16,
             Item::TYPE => 'simple',
         ];
         $this->itemBuilderMock->expects($this->once())
@@ -71,6 +72,6 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->itemBuilderMock));
         $this->itemBuilderMock->expects($this->once())->method('create')->will($this->returnValue('Expected value'));
 
-        $this->assertEquals(array('Expected value'), $this->service->getList(array('cartId')));
+        $this->assertEquals(array('Expected value'), $this->service->getList(33));
     }
 }

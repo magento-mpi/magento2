@@ -42,7 +42,7 @@ class QuoteLoaderTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())
             ->method('setStoreId')->with($storeId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('load')->with($cartId);
-        $this->quoteMock->expects($this->once())->method('getId')->will($this->returnValue(true));
+        $this->quoteMock->expects($this->once())->method('getId')->will($this->returnValue(33));
 
         $this->assertEquals($this->quoteMock, $this->quoteLoader->load($cartId, $storeId));
     }

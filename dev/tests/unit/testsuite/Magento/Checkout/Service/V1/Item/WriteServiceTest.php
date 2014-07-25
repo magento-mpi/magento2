@@ -82,7 +82,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string|bool|int|float $value
+     * @param null|string|bool|int|float $value
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Invalid value of
      * @dataProvider addItemWithInvalidQtyDataProvider
@@ -121,8 +121,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue(0));
         $this->quoteLoaderMock->expects($this->once())->method('load')
             ->with($cartId, 0)->will($this->returnValue($this->quoteMock));
-        $this->productLoaderMock->expects($this->once())->method('load')->will($this->returnValue($this->productMock));
-        $this->dataMock->expects($this->once())->method('getSku');
+        $this->dataMock->expects($this->once())->method('getSku')->will($this->returnValue('product_sku'));
+        $this->productLoaderMock->expects($this->once())
+            ->method('load')->with('product_sku')->will($this->returnValue($this->productMock));
         $this->quoteMock->expects($this->once())->method('addProduct')->with($this->productMock, 12);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
         $exceptionMessage = 'Could not add item to quote';
@@ -132,7 +133,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->addItem($cartId, $this->dataMock);
     }
 
-    public function testAddItemSuccessAdd()
+    public function testAddItem()
     {
         $cartId = 13;
         $this->dataMock->expects($this->once())->method('getQty')->will($this->returnValue(12));
@@ -150,7 +151,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string|bool|int|float $value
+     * @param null|string|bool|int|float $value
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Invalid value of
      * @dataProvider updateItemWithInvalidQtyDataProvider
@@ -225,7 +226,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->updateItem($cartId, $itemSku, $this->dataMock);
     }
 
-    public function testUpdateItemSuccessUpdate()
+    public function testUpdateItem()
     {
         $cartId = 11;
         $itemSku = 'item_sku';
@@ -282,8 +283,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('load')->with($itemSku)->will($this->returnValue($this->productMock));
         $this->quoteMock->expects($this->once())
             ->method('getItemByProduct')->with($this->productMock)->will($this->returnValue($this->quoteItemMock));
-        $this->quoteMock->expects($this->once())->method('removeItem');
-        $this->quoteItemMock->expects($this->once())->method('getId');
+        $this->quoteItemMock->expects($this->once())->method('getId')->will($this->returnValue(33));
+        $this->quoteMock->expects($this->once())
+            ->method('removeItem')->with(33)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
         $exceptionMessage = 'Could not remove item from quote';
         $exception = new \Magento\Framework\Exception\CouldNotSaveException($exceptionMessage);
@@ -292,7 +294,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->removeItem($cartId, $itemSku, $this->dataMock);
     }
 
-    public function testRemoveItemSuccessRemove()
+    public function testRemoveItem()
     {
         $cartId = 11;
         $itemSku = 'item_sku';
