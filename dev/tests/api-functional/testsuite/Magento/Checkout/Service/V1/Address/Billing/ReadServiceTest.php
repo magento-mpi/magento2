@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Service\V1\Address\Shipping;
+namespace Magento\Checkout\Service\V1\Address\Billing;
 
 use \Magento\TestFramework\TestCase\WebapiAbstract;
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -16,7 +16,7 @@ use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
 class ReadServiceTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'checkoutAddressShippingReadServiceV1';
+    const SERVICE_NAME = 'checkoutAddressBillingReadServiceV1';
     const RESOURCE_PATH = '/V1/carts/';
 
     /**
@@ -38,7 +38,7 @@ class ReadServiceTest extends WebapiAbstract
         $quote->load('test_order_1', 'reserved_order_id');
 
         /** @var \Magento\Sales\Model\Quote\Address  $address */
-        $address = $quote->getShippingAddress();
+        $address = $quote->getBillingAddress();
 
         $data = [
             Address::KEY_COUNTRY_ID => $address->getCountryId(),
@@ -67,7 +67,7 @@ class ReadServiceTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => self::RESOURCE_PATH . $cartId . '/shipping-address',
+                'resourcePath' => self::RESOURCE_PATH . $cartId . '/billing-address',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ),
             'soap' => array(

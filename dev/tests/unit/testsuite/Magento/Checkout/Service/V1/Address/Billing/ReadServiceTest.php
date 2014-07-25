@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Service\V1\Address\Shipping;
+namespace Magento\Checkout\Service\V1\Address\Billing;
 
 class ReaderServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Checkout\Service\V1\Address\Shipping\ReadService::getAddress
+     * @covers \Magento\Checkout\Service\V1\Address\Billing\ReadService::getAddress
      */
     public  function testGetAddress()
     {
@@ -54,11 +54,11 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
             ->with('cartId', '11')->will($this->returnValue($quoteMock));
 
         $addressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
-        $quoteMock->expects($this->any())->method('getShippingAddress')->will($this->returnValue($addressMock));
+        $quoteMock->expects($this->any())->method('getBillingAddress')->will($this->returnValue($addressMock));
 
         $this->converterMock->expects($this->once())->method('convert')
-            ->with($addressMock)->will($this->returnValue('ShippingAddress'));
+            ->with($addressMock)->will($this->returnValue('BillingAddress'));
 
-        $this->assertEquals('ShippingAddress', $this->service->getAddress('cartId'));
+        $this->assertEquals('BillingAddress', $this->service->getAddress('cartId'));
     }
 }

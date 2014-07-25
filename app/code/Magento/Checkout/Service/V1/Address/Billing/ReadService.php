@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Service\V1\Address\Shipping;
+namespace Magento\Checkout\Service\V1\Address\Billing;
 
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
@@ -51,7 +51,7 @@ class ReadService implements ReadServiceInterface
         $storeId = $this->storeManager->getStore()->getId();
 
         /** @var  \Magento\Sales\Model\Quote\Address $address */
-        $address = $this->quoteLoader->load($cartId, $storeId)->getShippingAddress();
+        $address = $this->quoteLoader->load($cartId, $storeId)->getBillingAddress();
         return $this->addressConverter->convert($address);
     }
 }

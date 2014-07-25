@@ -40,6 +40,8 @@ $quote->setStoreId(
     $customer->encryptPassword($customer->getPassword())
 )->setReservedOrderId(
     'test_order_1'
+)->setEmail(
+    'aaa@aaa.com'
 )->addProduct(
     $product->load($product->getId()),
     2
