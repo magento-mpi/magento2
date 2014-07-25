@@ -129,7 +129,9 @@ return [
     ['/lib/Magento/Pricing', '/lib/Magento/Framework/Pricing'],
     ['/dev/tests/integration/testsuite/Magento/Pricing', '/dev/tests/integration/testsuite/Magento/Framework/Pricing'],
     ['/dev/tests/unit/testsuite/Magento/Pricing', '/dev/tests/unit/testsuite/Magento/Framework/Pricing'],
-    ['/lib/Magento/Connect', '/lib/Magento/Framework/Connect'],
+    ['/lib/Magento/Connect'],
+    ['/lib/Magento/Framework/Connect'],
+    ['/lib/internal/Magento/Framework/Connect'],
     ['/lib/Magento/Profiler', '/lib/Magento/Framework/Profiler'],
     ['/dev/tests/unit/testsuite/Magento/Profiler', '/dev/tests/unit/testsuite/Magento/Framework/Profiler'],
     [
