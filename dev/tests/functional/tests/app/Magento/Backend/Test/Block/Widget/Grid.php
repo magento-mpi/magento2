@@ -239,14 +239,14 @@ abstract class Grid extends Block
      * Perform selected massaction over checked items
      *
      * @param array $items
-     * @param array $action
+     * @param array|string $action
      * @param bool $acceptAlert [optional]
      * @return void
      */
-    public function massaction(array $items, array $action, $acceptAlert = false)
+    public function massaction(array $items, $action, $acceptAlert = false)
     {
         if (!is_array($action)) {
-            $action[$action] = '-';
+            $action = [$action => '-'];
         }
         foreach ($items as $item) {
             $this->searchAndSelect($item);
