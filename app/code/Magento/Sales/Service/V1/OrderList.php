@@ -51,17 +51,17 @@ class OrderList implements OrderListInterface
     /**
      * Invoke OrderList service
      *
-     * @param SearchCriteria $criteria
+     * @param SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults
      */
-    public function invoke(SearchCriteria $criteria)
+    public function invoke(SearchCriteria $searchCriteria)
     {
         $orders = [];
-        foreach($this->orderRepository->find($criteria) as $order) {
+        foreach($this->orderRepository->find($searchCriteria) as $order) {
             $orders[] = $this->orderMapper->extractDto($order);
         }
         return $this->searchResultsBuilder->setItems($orders)
-            ->setSearchCriteria($criteria)
+            ->setSearchCriteria($searchCriteria)
             ->create();
     }
 }

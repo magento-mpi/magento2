@@ -17,8 +17,8 @@ interface OrderListInterface
     /**
      * Invoke OrderList service
      *
-     * @param SearchCriteria $criteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults
      */
-    public function invoke(SearchCriteria $criteria);
+    public function invoke(SearchCriteria $searchCriteria);
 }
