@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <giftRegistry module="Magento_GiftRegistry">
+        <type>composite</type>
+        <entities>
+            <magento_giftregistry_entity>magento_giftregistry_entity</magento_giftregistry_entity>
+            <magento_giftregistry_data>magento_giftregistry_data</magento_giftregistry_data>
+        </entities>
+        <collection>Magento\GiftRegistry\Model\Resource\GiftRegistry</collection>
+    </giftRegistry>
+    <giftRegistryPerson module="Magento_GiftRegistry">
+        <type>flat</type>
+        <entity_type>magento_giftregistry_person</entity_type>
+        <collection>Magento\GiftRegistry\Model\Resource\Person</collection>
+    </giftRegistryPerson>
+</fixture>

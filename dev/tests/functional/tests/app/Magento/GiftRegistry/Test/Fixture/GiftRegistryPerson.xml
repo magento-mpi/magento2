@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\GiftRegistry\Test\Fixture\GiftRegistryPerson">
+    <module>Magento_GiftRegistry</module>
+    <type>flat</type>
+    <entity_type>magento_giftregistry_person</entity_type>
+    <collection>Magento\GiftRegistry\Model\Resource\Person</collection>
+    <fields>
+        <person_id>
+            <attribute_code>person_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </person_id>
+        <entity_id>
+            <attribute_code>entity_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </entity_id>
+        <firstname>
+            <attribute_code>firstname</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </firstname>
+        <lastname>
+            <attribute_code>lastname</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </lastname>
+        <email>
+            <attribute_code>email</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </email>
+        <role>
+            <attribute_code>role</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </role>
+        <custom_values>
+            <attribute_code>custom_values</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </custom_values>
+    </fields>
+    <repository_class>Magento\GiftRegistry\Test\Repository\GiftRegistryPerson</repository_class>
+    <handler_interface>Magento\GiftRegistry\Test\Handler\GiftRegistryPerson\GiftRegistryPersonInterface</handler_interface>
+</fixture>

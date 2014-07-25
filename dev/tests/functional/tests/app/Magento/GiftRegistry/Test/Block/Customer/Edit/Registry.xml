@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <title/>
+        <message>
+            <input>textarea</input>
+        </message>
+        <is_public>
+            <input>select</input>
+        </is_public>
+        <is_active>
+            <input>select</input>
+        </is_active>
+        <event_country>
+            <input>select</input>
+        </event_country>
+        <event_country_region>
+            <input>select</input>
+        </event_country_region>
+        <event_date/>
+        <event_location/>
+        <number_of_guests>
+            <selector>#number_of_guests</selector>
+        </number_of_guests>
+        <baby_gender>
+            <input>select</input>
+            <selector>#baby_gender</selector>
+        </baby_gender>
+    </fields>
+</mapping>

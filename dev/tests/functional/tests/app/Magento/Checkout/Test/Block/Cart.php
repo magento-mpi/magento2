@@ -87,6 +87,27 @@ class Cart extends Block
     protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
+     * Gift registry input selector
+     *
+     * @var string
+     */
+    protected $giftRegistry = '#giftregistry_entity';
+
+    /**
+     * Gift registry option selector
+     *
+     * @var string
+     */
+    protected $giftRegistryOption = '//select[@id="giftregistry_entity"]/option[contains(text(), "%s")]';
+
+    /**
+     * 'Add To Gift Registry' button selector
+     *
+     * @var string
+     */
+    protected $addToGiftRegistryButton = '.giftregistry .add';
+
+    /**
      * Get sub-total for the specified item in the cart
      *
      * @param SimpleProduct $product
@@ -337,5 +358,29 @@ class Cart extends Block
     {
         $formatPrice = sprintf($this->bundleOptions, $index, $itemIndex);
         return trim($this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText(), $currency);
+    }
+
+    /**
+     * Add to gift registry
+     *
+     * @param string $giftRegistry
+     * @return void
+     */
+    public function addToGiftRegistry($giftRegistry)
+    {
+        $this->_rootElement->find($this->giftRegistry, Locator::SELECTOR_CSS, 'select')->setValue($giftRegistry);
+        $this->_rootElement->find($this->addToGiftRegistryButton)->click();
+    }
+
+    /**
+     * Check that gift registry visible in shopping cart
+     *
+     * @param string $giftRegistry
+     * @return bool
+     */
+    public function giftRegistryIsVisible($giftRegistry)
+    {
+        $optionSelector = sprintf($this->giftRegistryOption, $giftRegistry);
+        return $this->_rootElement->find($optionSelector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }

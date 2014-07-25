@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertGiftRegistrySuccessSaveMessage module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistrySuccessSaveMessage>
+    <assertGiftRegistryInGrid module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryInGrid>
+        <assertGiftRegistryForm module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryForm>
+    <assertGiftRegistryIsActiveInShoppingCart module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryIsActiveInShoppingCart>
+    <assertGiftRegistryIsInactiveNotInShoppingCart module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryIsInactiveNotInShoppingCart>
+    <assertGiftRegistryIsActiveInWishlist module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryIsActiveInWishlist>
+    <assertGiftRegistryIsInactiveNotInWishlist module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryIsInactiveNotInWishlist>
+</constraint>
