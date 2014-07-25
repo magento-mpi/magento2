@@ -7,7 +7,7 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
-class ConfigurableAttributeBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param int $value 
@@ -15,16 +15,16 @@ class ConfigurableAttributeBuilder extends \Magento\Framework\Service\Data\Abstr
      */
     public function setId($value)
     {
-        return $this->_set(ConfigurableAttribute::ID, $value);
+        return $this->_set(Option::ID, $value);
     }
 
     /**
      * @param string $value
-     * @return self 
+     * @return self
      */
     public function setAttributeId($value)
     {
-        return $this->_set(ConfigurableAttribute::ATTRIBUTE_ID, $value);
+        return $this->_set(Option::ATTRIBUTE_ID, $value);
     }
 
     /**
@@ -33,7 +33,7 @@ class ConfigurableAttributeBuilder extends \Magento\Framework\Service\Data\Abstr
      */
     public function setLabel($value)
     {
-        return $this->_set(ConfigurableAttribute::LABEL, $value);
+        return $this->_set(Option::LABEL, $value);
     }
 
     /**
@@ -42,15 +42,15 @@ class ConfigurableAttributeBuilder extends \Magento\Framework\Service\Data\Abstr
      */
     public function useDefault($value)
     {
-        return $this->_set(ConfigurableAttribute::USE_DEFAULT, $value);
+        return $this->_set(Option::USE_DEFAULT, $value);
     }
 
     /**
-     * @param \Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute\Value[] $value 
+     * @param \Magento\ConfigurableProduct\Service\V1\Data\Option\Value[] $value
      * @return self 
      */
     public function setValues($value)
     {
-        return $this->_set(ConfigurableAttribute::VALUES, $value);
+        return $this->_set(Option::VALUES, $value);
     }
 }

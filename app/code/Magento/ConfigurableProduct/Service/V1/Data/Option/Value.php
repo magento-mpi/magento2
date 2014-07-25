@@ -1,12 +1,13 @@
 <?php
-namespace Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute;
-
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\ConfigurableProduct\Service\V1\Data\Option;
+
 class Value extends \Magento\Framework\Service\Data\AbstractObject
 {
     const INDEX = 'value_index';

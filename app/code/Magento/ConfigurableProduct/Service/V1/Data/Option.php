@@ -7,14 +7,23 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
-class ConfigurableAttribute extends \Magento\Framework\Service\Data\AbstractObject
+class Option extends \Magento\Framework\Service\Data\AbstractObject
 {
+    /**#@+
+     * Constants defined for keys of array
+     */
     const ID = 'id';
+
     const LABEL = 'label';
+
     const USE_DEFAULT = 'use_default';
+
     const POSITION = 'position';
+
     const VALUES = 'values';
+
     const ATTRIBUTE_ID = 'attribute_id';
+    /**#@-*/
 
     /**
      * @return int|null
@@ -49,7 +58,7 @@ class ConfigurableAttribute extends \Magento\Framework\Service\Data\AbstractObje
     }
 
     /**
-     * @return \Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute\Value[]
+     * @return \Magento\ConfigurableProduct\Service\V1\Data\Option\Value[]
      */
     public function getValues()
     {
