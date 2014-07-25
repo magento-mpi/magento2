@@ -8,7 +8,7 @@
 namespace Magento\Integration\Service\V1;
 
 use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
-use Magento\Integration\Model\Oauth\Token;
+use Magento\Integration\Model\Oauth\Token as OauthTokenModel;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;
 use Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
 use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
@@ -147,7 +147,7 @@ class Oauth implements OauthInterface
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
             $token = $this->_tokenProvider->getIntegrationTokenByConsumerId($consumer->getId());
-            if ($token->getType() != Token::TYPE_ACCESS) {
+            if ($token->getType() != OauthTokenModel::TYPE_ACCESS) {
                 return false;
             }
         } catch (\Exception $e) {
