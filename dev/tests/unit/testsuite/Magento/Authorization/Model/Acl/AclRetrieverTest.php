@@ -18,6 +18,9 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
      */
     protected $aclRetriever;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject|Role $roleMock */
+    protected $roleMock;
+
     protected function setup()
     {
         $this->aclRetriever = $this->createAclRetriever();
@@ -47,8 +50,23 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\AuthorizationException
+     * @expectedExceptionMessage The role associated with the specified user cannot be found.
+     */
+    public function testGetAllowedResourcesByUserRoleNotFound()
+    {
+        $this->roleMock->expects($this->once())->method('getId')->will($this->returnValue(null));
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authz\Model\UserIdentifier $userIdentifierMock */
+        $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
+            ->disableOriginalConstructor()->setMethods(['getUserType'])->getMock();
+        $userIdentifierMock->expects($this->any())->method('getUserType')->will($this->returnValue(UserIdentifier::USER_TYPE_INTEGRATION));
+        $this->aclRetriever->getAllowedResourcesByUser($userIdentifierMock);
+    }
+
     public function testGetAllowedResourcesByUser()
     {
+        $this->roleMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authz\Model\UserIdentifier $userIdentifierMock */
         $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
             ->disableOriginalConstructor()->setMethods(['getUserType', 'getUserId'])->getMock();
@@ -60,18 +78,16 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
 
     protected function createAclRetriever()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|Role $roleMock */
-        $roleMock = $this->getMock('Magento\Authorization\Model\Role', array('getId', '__wakeup'), array(), '', false);
-        $roleMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->roleMock = $this->getMock('Magento\Authorization\Model\Role', array('getId', '__wakeup'), array(), '', false);
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authorization\Model\RoleFactory $roleFactoryMock */
         $roleFactoryMock = $this->getMock('Magento\Authorization\Model\RoleFactory', array('create'), array(), '', false);
-        $roleFactoryMock->expects($this->any())->method('create')->will($this->returnValue($roleMock));
+        $roleFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->roleMock));
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authorization\Model\Resource\Role\Collection $roleCollectionMock */
         $roleCollectionMock = $this->getMock('Magento\Authorization\Model\Resource\Role\Collection', array('setUserFilter', 'getFirstItem'), array(), '', false);
         $roleCollectionMock->expects($this->any())->method('setUserFilter')->will($this->returnSelf());
-        $roleCollectionMock->expects($this->any())->method('getFirstItem')->will($this->returnValue($roleMock));
+        $roleCollectionMock->expects($this->any())->method('getFirstItem')->will($this->returnValue($this->roleMock));
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authorization\Model\Resource\Role\CollectionFactory $roleCollectionFactoryMock */
         $roleCollectionFactoryMock = $this->getMock('Magento\Authorization\Model\Resource\Role\CollectionFactory', array('create'), array(), '', false);
