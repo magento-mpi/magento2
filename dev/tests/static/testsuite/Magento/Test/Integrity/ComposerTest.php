@@ -340,6 +340,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         if (!isset($json->extra) || !isset($json->extra->component_paths)) {
             $this->markTestSkipped("The root composer.json file doesn't mention any extra component paths information");
         }
+        $this->assertObjectHasAttribute(
+            'replace',
+            $json,
+            "If there are any component paths specified, then they must be reflected in 'replace' section"
+        );
         $flat = [];
         foreach ($json->extra->component_paths as $key => $element) {
             if (is_string($element)) {
@@ -349,13 +354,18 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                     $flat[] = [$key, $path];
                 }
             } else {
-                throw new \Exception('Unexpected element in extra->component_paths');
+                throw new \Exception("Unexpected element 'in extra->component_paths' section");
             }
         }
         while(list(, list($component, $path)) = each($flat)) {
             $this->assertFileExists(
                 self::$root . '/' . $path,
                 "Missing or invalid component path: {$component} -> {$path}"
+            );
+            $this->assertObjectHasAttribute(
+                $component,
+                $json->replace,
+                "The {$component} is specified in 'extra->component_paths', but missing in 'replace' section"
             );
         }
     }
