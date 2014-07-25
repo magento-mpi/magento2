@@ -58,7 +58,7 @@ class AclRetriever extends AuthorizationService
         $rulesCollection = $this->_rulesCollectionFactory->create();
         $rulesCollection->getByRoles($roleId)->load();
         $acl = $this->_aclBuilder->getAcl();
-        /** @var \Magento\User\Model\Rules $ruleItem */
+        /** @var \Magento\Authorization\Model\Rules $ruleItem */
         foreach ($rulesCollection->getItems() as $ruleItem) {
             $resourceId = $ruleItem->getResourceId();
             if ($acl->has($resourceId) && $acl->isAllowed($roleId, $resourceId)) {
