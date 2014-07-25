@@ -9,6 +9,7 @@
 namespace Magento\Framework\Stdlib\Cookie;
 
 use Magento\Framework\Stdlib\CookieManager as CookieManager;
+
 /**
  * CookieManager helps manage the setting, retrieving and deleting of cookies.
  *

@@ -85,5 +85,4 @@ class CookieScope
 
         return $this->cookieMetadataFactory->createPublicCookieMetadata($merged);
     }
-
 }

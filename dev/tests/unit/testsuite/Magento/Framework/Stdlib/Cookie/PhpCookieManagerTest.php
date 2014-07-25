@@ -139,8 +139,12 @@ namespace Magento\Framework\Stdlib\Cookie {
             $_COOKIE[$cookieName] = $cookieValue;
 
             /** @var \Magento\Framework\Stdlib\Cookie\PublicCookieMetaData $publicCookieMetaData */
-            $publicCookieMetaData = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetaData');
-            /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
+            $publicCookieMetaData = $this->objectManager
+                ->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetaData');
+            /**
+             * @var \PHPUnit_Framework_MockObject_MockObject
+             * | \Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager
+             */
             $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
                 ->setMethods(['setPublicCookie'])
                 ->disableOriginalConstructor()->getMock();
