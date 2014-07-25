@@ -86,7 +86,12 @@ class PhpCookieManager implements CookieManager
      */
     public function setPublicCookie($name, $value, PublicCookieMetadata $metadata = null)
     {
-        // TODO: Implement setPublicCookie() method.
+        if (is_null($metadata)) {
+            $metadata = $this->scope->getPublicCookieMetadata();
+        }
+        $metadataArray = $metadata->__toArray();
+
+        $this->setCookie($name, $value, $metadataArray);
     }
 
     /**
