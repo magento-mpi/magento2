@@ -25,14 +25,9 @@ class View implements ViewInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Framework\Translate\InlineInterface
+     * @var \Magento\Framework\View\Result\Page
      */
-    protected $_translateInline;
-
-    /**
-     * @var \Magento\Framework\View\Result\PageFactory
-     */
-    protected $pageFactory;
+    protected $page;
 
     /**
      * @var ActionFlag
@@ -60,7 +55,6 @@ class View implements ViewInterface
      * @param ResponseInterface $response
      * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Framework\View\Result\PageFactory $pageFactory
      * @param ActionFlag $actionFlag
      */
@@ -70,7 +64,6 @@ class View implements ViewInterface
         ResponseInterface $response,
         \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Framework\View\Result\PageFactory $pageFactory,
         ActionFlag $actionFlag
     ) {
@@ -79,9 +72,9 @@ class View implements ViewInterface
         $this->_response = $response;
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
-        $this->_translateInline = $translateInline;
         $this->pageFactory = $pageFactory;
         $this->_actionFlag = $actionFlag;
+        $this->page = $this->pageFactory->create($request);
     }
 
     /**
@@ -91,7 +84,7 @@ class View implements ViewInterface
      */
     public function getLayout()
     {
-        return $this->_layout;
+        return $this->page->getLayout();
     }
 
     /**
@@ -159,6 +152,7 @@ class View implements ViewInterface
      */
     public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null)
     {
+        $this->page = $this->pageFactory->create($this->_request);
         $handle = $defaultHandle ? $defaultHandle : $this->getDefaultLayoutHandle();
         $pageHandles = array($handle);
         foreach ($parameters as $key => $value) {
@@ -267,11 +261,7 @@ class View implements ViewInterface
             'controller_action_layout_render_before_' . $this->_request->getFullActionName()
         );
 
-//        $output = $this->getLayout()->getOutput();
-//        $this->_translateInline->processResponseBody($output);
-//        $this->_response->appendBody($output);
-        $page = $this->pageFactory->create($this->_request);
-        $page->renderResult($this->_response);
+        $this->page->renderResult($this->_response);
         \Magento\Framework\Profiler::stop('layout_render');
 
         \Magento\Framework\Profiler::stop('LAYOUT');

@@ -8,8 +8,7 @@
 
 namespace Magento\Framework\View\Result;
 
-use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\View\Element\Template;
+use Magento\Framework\View;
 
 /**
  * A "page" result that encapsulates page type, page configuration
@@ -34,22 +33,24 @@ class Page extends Layout
     private $pageConfig;
 
     /**
-     * @param Template\Context $context
-     * @param \Magento\Framework\View\Layout $layout
-     * @param \Magento\Framework\View\Page\Config $pageConfig
-     * @param array $data
+     * @param View\Element\Template\Context $context
+     * @param View\LayoutFactory $layoutFactory
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
+     * @param View\Page\Config $pageConfig
      * @param $pageType
+     * @param array $data
      */
     public function __construct(
-        Template\Context $context,
-        \Magento\Framework\View\Layout $layout,
-        \Magento\Framework\View\Page\Config $pageConfig,
+        View\Element\Template\Context $context,
+        View\LayoutFactory $layoutFactory,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
+        View\Page\Config $pageConfig,
         $pageType,
         array $data = array()
     ) {
         $this->pageConfig = $pageConfig;
         $this->pageType = $pageType;
-        parent::__construct($context, $data);
+        parent::__construct($context, $layoutFactory, $translateInline, $data);
     }
 
     /**
@@ -61,14 +62,15 @@ class Page extends Layout
     }
 
     /**
-     * @param ResponseInterface $response
+     * {@inheritdoc}
      */
-    public function renderResult(ResponseInterface $response)
+    public function initLayout()
     {
+        parent::initLayout();
         $update = $this->getLayout()->getUpdate();
-//        $update->addHandle('default');
-//        $update->addHandle($this->pageType);
-//        $update->addHandle($this->pageConfig->getPageLayout());
-        parent::renderResult($response);
+        $update->addHandle('default');
+        $update->addHandle($this->pageType);
+        $update->addHandle($this->pageConfig->getPageLayout());
+        return $this;
     }
 }

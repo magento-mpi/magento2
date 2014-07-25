@@ -28,7 +28,7 @@ class Config
     /**
      * @var string
      */
-    protected $pageLayout;
+    protected $pageLayout = '3columns';
 
     /**
      * @var \Magento\Framework\View\Asset\Collection

@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" layout="3column">
-    <update handle="3columns"/>
-
     <!-- Temporary solution -->
     <referenceContainer name="root">
         <block class="Magento\Theme\Block\Html\Head" name="head" as="head" before="-">

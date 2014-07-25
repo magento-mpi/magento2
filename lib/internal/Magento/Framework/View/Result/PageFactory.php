@@ -26,6 +26,10 @@ class PageFactory
     }
 
     /**
+     * Create new page regarding its type
+     *
+     * TODO: as argument has to be action controller interface
+     *
      * @param \Magento\Framework\App\RequestInterface $request
      * @return \Magento\Framework\View\Result\Page
      */

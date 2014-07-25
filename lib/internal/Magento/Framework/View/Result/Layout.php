@@ -8,32 +8,69 @@
 
 namespace Magento\Framework\View\Result;
 
+use Magento\Framework\View;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\View\Element\Template;
 
 /**
  * A generic layout response can be used for rendering any kind of layout
  * So it comprises a response body from the layout elements it has and sets it to the HTTP response
  */
-class Layout extends Template
+class Layout extends View\Element\Template
     //implements ResultInterface
 {
     /**
-     * @param Template\Context $context
+     * @var \Magento\Framework\View\LayoutFactory
+     */
+    protected $layoutFactory;
+
+    /**
+     * @var \Magento\Framework\View\LayoutInterface
+     */
+    protected $layout;
+
+    /**
+     * @var \Magento\Framework\Translate\InlineInterface
+     */
+    protected $translateInline;
+
+    /**
+     * @param View\Element\Template\Context $context
+     * @param View\LayoutFactory $layoutFactory
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param array $data
      */
-    public function __construct(Template\Context $context, array $data = array())
-    {
+    public function __construct(
+        View\Element\Template\Context $context,
+        View\LayoutFactory $layoutFactory,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
+        array $data = array()
+    ) {
+        $this->layoutFactory = $layoutFactory;
+        $this->translateInline = $translateInline;
         $this->setTemplate('Magento_Theme::root.phtml');
         parent::__construct($context, $data);
+        $this->initLayout();
     }
 
     /**
+     * Get layout instance for current page
+     *
+     * TODO: This layout model must be isolated, now are used shared instance of layout
+     *
      * @return \Magento\Framework\View\Layout
      */
     public function getLayout()
     {
-        return $this->_layout;
+        return $this->layout;
+    }
+
+    /**
+     * @return $this
+     */
+    public function initLayout()
+    {
+        $this->layout = $this->layoutFactory->create();
+        return $this;
     }
 
     /**
@@ -41,13 +78,15 @@ class Layout extends Template
      */
     public function renderResult(ResponseInterface $response)
     {
-//        $this->layout->generateElements();
-        $this->assign('headContent', $this->_layout->getBlock('head')->toHtml());
-        $this->_layout->unsetElement('head');
-        // todo: remove hardcoded value
-        // $this->_translateInline->processResponseBody($output);
-        $this->assign('layoutContent', $this->_layout->renderElement('root'));
-        // todo: implement assign for variables: bodyClasses bodyAttributes
+        $layout = $this->getLayout();
+
+        $this->assign('headContent', $layout->getBlock('head')->toHtml());
+        $layout->unsetElement('head');
+
+        $output = $layout->getOutput();
+        $this->translateInline->processResponseBody($output);
+        $this->assign('layoutContent', $output);
+        // TODO: implement assign for variables: bodyClasses, bodyAttributes
         $response->appendBody($this->toHtml());
     }
 }
