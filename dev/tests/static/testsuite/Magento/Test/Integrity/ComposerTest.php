@@ -113,6 +113,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('name', $json);
         $this->assertObjectHasAttribute('type', $json);
         $this->assertObjectHasAttribute('version', $json);
+        $this->assertVersionInSync($json->version);
         $this->assertObjectHasAttribute('require', $json);
         $this->assertEquals($packageType, $json->type);
         switch ($packageType) {
@@ -227,6 +228,24 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     {
         $xml = simplexml_load_file("$dir/theme.xml");
         $this->assertEquals($xml->version, $version);
+    }
+
+    /**
+     * Assert that versions in root composer.json and Magento component's composer.json are not out of sync
+     *
+     * @param string $version
+     */
+    private function assertVersionInSync($version)
+    {
+        $file = BP . '/composer.json';
+        $contents = file_get_contents($file);
+        $json = json_decode($contents);
+        $this->assertEquals(
+            $json->version,
+            $version,
+            "For the module '{$json->name}' version {$version} is inconsistent with version {$json->version} in root
+            composer.json "
+        );
     }
 
     /**
