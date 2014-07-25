@@ -141,7 +141,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $priceBlock = '//*[@class="product-info-main"]//*[@class="price"]';
+    protected $priceBlock = '//*[@class="product-info-main"]//*[contains(@class,"price-box")]';
 
     /**
      * 'Add to Compare' button

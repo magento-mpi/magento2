@@ -8,7 +8,7 @@
 
 namespace Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency;
 
-use  Magento\Backend\Test\Block\PageActions;
+use Magento\Backend\Test\Block\PageActions;
 
 /**
  * Class MainPageActions

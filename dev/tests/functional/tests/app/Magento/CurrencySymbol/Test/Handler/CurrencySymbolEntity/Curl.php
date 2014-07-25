@@ -35,6 +35,6 @@ class Curl extends AbstractCurl implements CurrencySymbolEntityInterface
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $curl->read();
         $curl->close();
-        // There is no verifying answer, because after sending a post request he has returned the index page
+        // Response verification is absent, because sending a post request returns an index page
     }
 }
