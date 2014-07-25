@@ -23,14 +23,6 @@ class RoleTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Authorization\Model\Role');
     }
 
-    public function testGetUsersCollection()
-    {
-        $this->assertInstanceOf(
-            'Magento\User\Model\Resource\Role\User\Collection',
-            $this->_model->getUsersCollection()
-        );
-    }
-
     public function testGetRoleUsers()
     {
         $this->assertEmpty($this->_model->getRoleUsers());
