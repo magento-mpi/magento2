@@ -189,4 +189,39 @@ class WriteServiceTest extends WebapiAbstract
         );
         $this->_webApiCall($serviceInfo, $requestData);
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Sales/_files/quote.php
+     * @magentoApiDataFixture Magento/Customer/_files/customer_non_default_website_id.php
+     * @expectedException \Exception
+     * @expectedExceptionMessage Cannot assign customer to the given cart. The cart belongs to different store.
+     */
+    public function testAssignCustomerThrowsExceptionIfCartIsAssignedToDifferentStore()
+    {
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = $this->objectManager->create('\Magento\Customer\Model\Customer')->load(1);
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
+
+        $customerId = $customer->getId();
+        $cartId = $quote->getId();
+
+        $serviceInfo = array(
+            'soap' => array(
+                'service' => 'checkoutCartWriteServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
+            ),
+            'rest' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+                'resourcePath' => '/V1/carts/' . $cartId,
+            ),
+        );
+
+        $requestData = array(
+            'cartId' => $cartId,
+            'customerId' => $customerId,
+        );
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
 }

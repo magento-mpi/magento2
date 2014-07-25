@@ -32,6 +32,7 @@ class WriteService implements WriteServiceInterface
     /**
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
