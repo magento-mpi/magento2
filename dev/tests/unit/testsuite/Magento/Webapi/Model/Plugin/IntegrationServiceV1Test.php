@@ -42,6 +42,11 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
     /** @var  AclRetriever */
     protected $aclRetrieverMock;
 
+    /**
+     * @var \Magento\Integration\Service\V1\AuthorizationServiceInterface
+     */
+    protected $integrationAuthServiceMock;
+
     public function setUp()
     {
         $this->authzServiceMock = $this->getMockBuilder(
@@ -55,12 +60,16 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
             array('create')
         )->getMock();
         $this->subjectMock = $this->getMock('Magento\Integration\Service\V1\Integration', array(), array(), '', false);
+        $this->integrationAuthServiceMock = $this->getMockBuilder(
+            'Magento\Integration\Service\V1\AuthorizationServiceInterface'
+        )->disableOriginalConstructor()->getMock();
         $this->aclRetrieverMock = $this->getMockBuilder('Magento\Authorization\Model\Acl\AclRetriever')
             ->disableOriginalConstructor()
             ->getMock();
         $this->integrationV1Plugin = new \Magento\Webapi\Model\Plugin\IntegrationServiceV1(
             $this->authzServiceMock,
             $this->userIdentifierFactoryMock,
+            $this->integrationAuthServiceMock,
             $this->aclRetrieverMock
         );
     }
@@ -77,7 +86,6 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
         $userIdentifierMock = $this->getMockBuilder(
             '\Magento\Authz\Model\UserIdentifier'
         )->disableOriginalConstructor()->getMock();
-        $this->authzServiceMock->expects($this->once())->method('removePermissions')->with($userIdentifierMock);
         $this->userIdentifierFactoryMock->expects(
             $this->at(0)
         )->method(
@@ -88,7 +96,9 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($userIdentifierMock)
         );
-        $this->authzServiceMock->expects($this->once())->method('removePermissions')->with($userIdentifierMock);
+        $this->integrationAuthServiceMock->expects($this->once())
+            ->method('removePermissions')
+            ->with($userIdentifierMock);
         $this->integrationV1Plugin->afterDelete($this->subjectMock, $integrationsData);
     }
 }
