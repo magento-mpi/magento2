@@ -24,11 +24,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     protected $addressBuilderMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $storeManagerMock;
-
     protected function setUp()
     {
         $this->addressBuilderMock = $this->getMock(
@@ -38,9 +33,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->model = new Converter($this->addressBuilderMock);
     }
 
-    /**
-     * @covers \Magento\Checkout\Service\V1\Address\Converter::convert
-     */
     public  function testConvert()
     {
         $addressMockMethods = [
@@ -50,24 +42,24 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         ];
         $addressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', $addressMockMethods, [], '', false);
 
-        $addressMock->expects($this->any())->method('getCountryId')->will($this->returnValue(1));
-        $addressMock->expects($this->any())->method('getId')->will($this->returnValue(2));
-        $addressMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(3));
-        $addressMock->expects($this->any())->method('getRegion')->will($this->returnValue('Alabama'));
-        $addressMock->expects($this->any())->method('getRegionId')->will($this->returnValue(4));
-        $addressMock->expects($this->any())->method('getRegionCode')->will($this->returnValue('aa'));
-        $addressMock->expects($this->any())->method('getStreet')->will($this->returnValue('street'));
-        $addressMock->expects($this->any())->method('getCompany')->will($this->returnValue('company'));
-        $addressMock->expects($this->any())->method('getTelephone')->will($this->returnValue('123-123'));
-        $addressMock->expects($this->any())->method('getFax')->will($this->returnValue('234-234'));
-        $addressMock->expects($this->any())->method('getPostcode')->will($this->returnValue('80010'));
-        $addressMock->expects($this->any())->method('getFirstname')->will($this->returnValue('Vasya'));
-        $addressMock->expects($this->any())->method('getMiddlename')->will($this->returnValue('Vasya'));
-        $addressMock->expects($this->any())->method('getLastname')->will($this->returnValue('Pupkin'));
-        $addressMock->expects($this->any())->method('getPrefix')->will($this->returnValue('prefix'));
-        $addressMock->expects($this->any())->method('getSuffix')->will($this->returnValue('suffix'));
-        $addressMock->expects($this->any())->method('getEmail')->will($this->returnValue('aaa@aaa.com'));
-        $addressMock->expects($this->any())->method('getVatId')->will($this->returnValue(5));
+        $addressMock->expects($this->atLeastOnce())->method('getCountryId')->will($this->returnValue(1));
+        $addressMock->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(2));
+        $addressMock->expects($this->atLeastOnce())->method('getCustomerId')->will($this->returnValue(3));
+        $addressMock->expects($this->atLeastOnce())->method('getRegion')->will($this->returnValue('Alabama'));
+        $addressMock->expects($this->atLeastOnce())->method('getRegionId')->will($this->returnValue(4));
+        $addressMock->expects($this->atLeastOnce())->method('getRegionCode')->will($this->returnValue('aa'));
+        $addressMock->expects($this->atLeastOnce())->method('getStreet')->will($this->returnValue('street'));
+        $addressMock->expects($this->atLeastOnce())->method('getCompany')->will($this->returnValue('company'));
+        $addressMock->expects($this->atLeastOnce())->method('getTelephone')->will($this->returnValue('123-123'));
+        $addressMock->expects($this->atLeastOnce())->method('getFax')->will($this->returnValue('234-234'));
+        $addressMock->expects($this->atLeastOnce())->method('getPostcode')->will($this->returnValue('80010'));
+        $addressMock->expects($this->atLeastOnce())->method('getFirstname')->will($this->returnValue('Vasya'));
+        $addressMock->expects($this->atLeastOnce())->method('getMiddlename')->will($this->returnValue('Vasya'));
+        $addressMock->expects($this->atLeastOnce())->method('getLastname')->will($this->returnValue('Pupkin'));
+        $addressMock->expects($this->atLeastOnce())->method('getPrefix')->will($this->returnValue('prefix'));
+        $addressMock->expects($this->atLeastOnce())->method('getSuffix')->will($this->returnValue('suffix'));
+        $addressMock->expects($this->atLeastOnce())->method('getEmail')->will($this->returnValue('aaa@aaa.com'));
+        $addressMock->expects($this->atLeastOnce())->method('getVatId')->will($this->returnValue(5));
 
         $testData = [
             Address::KEY_COUNTRY_ID => 1,

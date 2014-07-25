@@ -40,9 +40,6 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
         $this->service = new ReadService($this->quoteLoaderMock, $this->converterMock, $this->storeManagerMock);
     }
 
-    /**
-     * @covers \Magento\Checkout\Service\V1\Address\Billing\ReadService::getAddress
-     */
     public  function testGetAddress()
     {
         $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
