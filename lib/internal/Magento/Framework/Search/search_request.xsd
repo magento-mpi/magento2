@@ -12,13 +12,13 @@
       </xs:element>
       <xs:element type="filters" name="filters">
         <xs:key name="filterName">
-          <xs:selector xpath="query" />
+          <xs:selector xpath="filter" />
           <xs:field xpath="@name" />
         </xs:key>
       </xs:element>
       <xs:element type="aggregation" name="aggregation" >
         <xs:key name="aggregationName">
-          <xs:selector xpath="query" />
+          <xs:selector xpath="bucket" />
           <xs:field xpath="@name" />
         </xs:key>
       </xs:element>
