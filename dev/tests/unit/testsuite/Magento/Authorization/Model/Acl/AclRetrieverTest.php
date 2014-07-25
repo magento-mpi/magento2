@@ -121,7 +121,6 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
 
         return new AclRetriever(
             $aclBuilderMock,
-            $this->getMock('Magento\Authz\Model\UserIdentifier', array(), array(), '', false),
             $roleFactoryMock,
             $roleCollectionFactoryMock,
             $this->getMock('Magento\Authorization\Model\RulesFactory', array(), array(), '', false),
