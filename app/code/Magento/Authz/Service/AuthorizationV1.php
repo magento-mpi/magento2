@@ -38,11 +38,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected $_aclBuilder;
 
     /**
-     * @var UserIdentifier
-     */
-    protected $_userIdentifier;
-
-    /**
      * @var RoleFactory
      */
     protected $_roleFactory;
@@ -76,7 +71,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * Initialize dependencies.
      *
      * @param AclBuilder $aclBuilder
-     * @param UserIdentifier $userIdentifier
      * @param RoleFactory $roleFactory
      * @param RoleCollectionFactory $roleCollectionFactory
      * @param RulesFactory $rulesFactory
@@ -86,7 +80,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
      */
     public function __construct(
         AclBuilder $aclBuilder,
-        UserIdentifier $userIdentifier,
         RoleFactory $roleFactory,
         RoleCollectionFactory $roleCollectionFactory,
         RulesFactory $rulesFactory,
@@ -95,7 +88,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
         RootAclResource $rootAclResource
     ) {
         $this->_aclBuilder = $aclBuilder;
-        $this->_userIdentifier = $userIdentifier;
         $this->_roleFactory = $roleFactory;
         $this->_rulesFactory = $rulesFactory;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
