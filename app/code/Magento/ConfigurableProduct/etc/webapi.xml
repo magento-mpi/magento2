@@ -33,4 +33,16 @@
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
+    <route url="/V1/configurable-products/:productSku/option/:optionId" method="GET">
+        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" method="get"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/configurable-products/:productSku/option/all" method="GET">
+        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" method="getList"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
 </routes>
