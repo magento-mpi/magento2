@@ -45,9 +45,12 @@ class WriteServiceTest extends WebapiAbstract
         ];
 
         $option = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'option' => $option]);
+
         $this->assertArrayHasKey('id', $option);
         $this->assertArrayHasKey('attribute_id', $option);
+        $this->assertArrayHasKey('label', $option);
 
+        $this->assertEquals('Test', $option['label']);
         $this->assertGreaterThan(0, $option['id']);
         $this->assertGreaterThan(0, $option['attribute_id']);
     }

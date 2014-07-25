@@ -13,9 +13,9 @@ use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\ConfigurableProduct\Service\V1\Data\OptionConverter;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
-use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory;
 use Magento\Eav\Model\Config as EavConfig;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Webapi\Exception;
@@ -33,18 +33,6 @@ class WriteService implements WriteServiceInterface
     protected $configurableAttributeFactory;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory
-     */
-    protected $collectionFactory;
-
-    /**
-     * Attribute collection factory
-     *
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory
-     */
-    protected $_attributeCollectionFactory;
-
-    /**
      * Eav config
      *
      * @var EavConfig
@@ -59,20 +47,17 @@ class WriteService implements WriteServiceInterface
     /**
      * @param ProductRepository $productRepository
      * @param ConfigurableAttributeFactory $configurableAttributeFactory
-     * @param CollectionFactory $collectionFactory
      * @param EavConfig $eavConfig
      * @param OptionConverter $optionConverter
      */
     public function __construct(
         ProductRepository $productRepository,
         ConfigurableAttributeFactory $configurableAttributeFactory,
-        CollectionFactory $collectionFactory,
         EavConfig $eavConfig,
         OptionConverter $optionConverter
     ) {
         $this->productRepository = $productRepository;
         $this->configurableAttributeFactory = $configurableAttributeFactory;
-        $this->collectionFactory = $collectionFactory;
         $this->eavConfig = $eavConfig;
         $this->optionConverter = $optionConverter;
     }
@@ -83,6 +68,11 @@ class WriteService implements WriteServiceInterface
     public function add($productSku, Option $option)
     {
         $product = $this->productRepository->get($productSku);
+        $allowedTypes = [ProductType::TYPE_SIMPLE, ProductType::TYPE_VIRTUAL, ConfigurableType::TYPE_CODE];
+        if (!in_array($product->getTypeId(), $allowedTypes)) {
+            throw new \DomainException('Incompatible product type');
+        }
+
         $eavAttribute = $this->eavConfig->getAttribute(Product::ENTITY, $option->getAttributeId());
 
         /** @var $configurableAttribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
@@ -94,6 +84,7 @@ class WriteService implements WriteServiceInterface
 
         $product->setTypeId(ConfigurableType::TYPE_CODE);
         $product->setConfigurableAttributesData(array($option->__toArray()));
+        $product->setStoreId(0);
         $product->save();
 
         $configurableAttribute = $this->configurableAttributeFactory->create();
@@ -102,6 +93,6 @@ class WriteService implements WriteServiceInterface
             throw new CouldNotSaveException('Could not save product option');
         }
 
-        return $this->optionConverter->convert($configurableAttribute);
+        return $this->optionConverter->convertFromModel($configurableAttribute);
     }
 }

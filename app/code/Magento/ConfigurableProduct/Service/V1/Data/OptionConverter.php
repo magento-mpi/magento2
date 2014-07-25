@@ -42,15 +42,26 @@ class OptionConverter
      * @param Attribute $configurableAttribute
      * @return \Magento\ConfigurableProduct\Service\V1\Data\Option
      */
-    public function convert(Attribute $configurableAttribute)
+    public function convertFromModel(Attribute $configurableAttribute)
     {
+        $values = [];
+        $prices = $configurableAttribute->getPrices();
+        if (is_array($prices)) {
+            foreach ($prices as $price) {
+                $values[] = $this->valueBuilder->populateWithArray([
+                    'index' => $price['value_index'],
+                    'price' => $price['pricing_value'],
+                    'price_is_percent' => $price['is_percent'],
+                ] )->create();
+            }
+        }
         $data = [
             Option::ID => $configurableAttribute->getId(),
             Option::ATTRIBUTE_ID => $configurableAttribute->getAttributeId(),
             Option::LABEL => $configurableAttribute->getLabel(),
             Option::POSITION => $configurableAttribute->getPosition(),
             Option::USE_DEFAULT => $configurableAttribute->getData('use_default'),
-            Option::VALUES => null
+            Option::VALUES => $values
         ];
 
         return $this->optionBuilder->populateWithArray($data)->create();
