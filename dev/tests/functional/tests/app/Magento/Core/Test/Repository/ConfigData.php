@@ -49,7 +49,7 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-        $this->_data['reward_points_with_regestration_reward'] = [
+        $this->_data['reward_points_with_registration_reward'] = [
             'section' => [
                 [
                     'path' => 'magento_reward/points/order',
@@ -77,7 +77,7 @@ class ConfigData extends AbstractRepository
             ],
         ];
 
-        $this->_data['reward_points_with_regestration_reward_rollback'] = [
+        $this->_data['reward_points_with_registration_reward_rollback'] = [
             'section' => [
                 [
                     'path' => 'magento_reward/points/order',
