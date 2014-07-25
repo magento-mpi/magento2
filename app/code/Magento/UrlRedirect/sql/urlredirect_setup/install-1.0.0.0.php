@@ -47,11 +47,11 @@ $table = $installer->getConnection()->newTable(
     array(),
     'Target Path'
 )->addColumn(
-    'options',
+    'redirect_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    255,
+    2,
     array('nullable' => true),
-    'Options'
+    'Redirect Type'
 )->addColumn(
     'store_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,

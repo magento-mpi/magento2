@@ -49,16 +49,26 @@ class AssertCmsPagePreview extends AbstractConstraint
         $filter = ['title' => $cms->getTitle()];
         $cmsIndex->getCmsPageGridBlock()->searchAndPreview($filter);
         $browser->selectWindow();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $cms->getContentHeading(),
-            $frontCmsIndex->getTitleBlock()->getTitle(),
-            'Wrong title is displayed.'
+
+        $fixtureContent = $cms->getContent();
+        \PHPUnit_Framework_Assert::assertContains(
+            $fixtureContent['content'],
+            $frontCmsPage->getCmsPageBlock()->getPageContent(),
+            'Wrong content is displayed.'
         );
-        if ($cms->getContent()) {
+        if (isset($fixtureContent['widget'])) {
+            foreach ($fixtureContent['widget']['preset'] as $widget) {
+                \PHPUnit_Framework_Assert::assertTrue(
+                    $frontCmsPage->getCmsPageBlock()->isWidgetVisible($widget['widget_type']),
+                    'Widget \'' . $widget['widget_type'] . '\' is not displayed.'
+                );
+            }
+        }
+        if ($cms->getContentHeading()) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $cms->getContent(),
-                $frontCmsPage->getCmsPageBlock()->getPageContent(),
-                'Wrong content is displayed.'
+                $cms->getContentHeading(),
+                $frontCmsIndex->getTitleBlock()->getTitle(),
+                'Wrong title is displayed.'
             );
         }
     }
@@ -70,6 +80,6 @@ class AssertCmsPagePreview extends AbstractConstraint
      */
     public function toString()
     {
-        return 'CMS Page displayed equals data from fixture.';
+        return 'CMS Page content equals to data from fixture.';
     }
 }

@@ -100,7 +100,7 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
      */
     protected function checkEventStatusOnCategoryPage()
     {
-        $categoryName = $this->product->getCategoryIds()[0]['name'];
+        $categoryName = $this->product->getCategoryIds()[0];
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertEquals(
@@ -119,7 +119,7 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
      */
     protected function checkEventStatusOnProductPage()
     {
-        $categoryName = $this->product->getCategoryIds()[0]['name'];
+        $categoryName = $this->product->getCategoryIds()[0];
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->product->getName());

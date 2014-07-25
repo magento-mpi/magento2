@@ -158,10 +158,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetParentIdsByChild()
     {
-        $attributes = $this->_model->getConfigurableAttributesAsArray($this->_product);
-        $attribute = reset($attributes);
-        $optionValueId = $attribute['values'][0]['value_index'];
-        $result = $this->_model->getParentIdsByChild($optionValueId * 10);
+        $result = $this->_model->getParentIdsByChild(10);
         // fixture
         $this->assertEquals(array(1), $result);
     }
@@ -232,7 +229,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             $this->_product
         );
         $this->assertInstanceOf('Magento\Catalog\Model\Product', $product);
-        $this->assertEquals("simple_{$optionValueId}", $product->getSku());
+        $this->assertEquals("simple_10", $product->getSku());
     }
 
     /**

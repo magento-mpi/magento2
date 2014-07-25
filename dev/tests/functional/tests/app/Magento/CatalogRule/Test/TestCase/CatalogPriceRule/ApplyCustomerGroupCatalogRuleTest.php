@@ -5,11 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Repository\SimpleProduct;
 use Magento\Customer\Test\Fixture\Customer;
+use Magento\CatalogRule\Test\Fixture\CatalogPriceRule;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 
@@ -20,8 +22,17 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 {
     /**
      *  Variable for discount amount converted to decimal form
+     *
+     * @var float
      */
-    private $_discountDecimal;
+    protected $discountDecimal;
+
+    /**
+     * Fixture of catalog price rule
+     *
+     * @var CatalogPriceRule
+     */
+    protected $catalogRule;
 
     /**
      * Applying Catalog Price Rules to specific customer group
@@ -74,13 +85,16 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getEditForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
-            array('category_id' => $categoryIds[0],
+            [
+                'category_id' => $categoryIds[0],
                 'group_value' => $groupName,
                 'group_id' => $groupId
-            )
+            ]
         );
+        // prepare data for tear down
+        $this->catalogRule = $catalogRuleFixture;
         // convert the discount amount to a decimal form
-        $this->_discountDecimal = $catalogRuleFixture->getDiscountAmount() * .01;
+        $this->discountDecimal = $catalogRuleFixture->getDiscountAmount() * .01;
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $catalogRuleCreatePage->getFormPageActions()->save();
 
@@ -105,7 +119,9 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 
     /**
      * This method verifies guest price information on the storefront.
+     *
      * @param Product $product
+     * @return void
      */
     protected function verifyGuestPrice($product)
     {
@@ -152,6 +168,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
      *
      * @param Product $product
      * @param Customer $customer
+     * @return void
      */
     protected function verifyCustomerPrice($product, $customer)
     {
@@ -170,7 +187,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getName()));
         $productPriceBlock = $productListBlock->getProductPriceBlock($product->getName());
         $this->assertContains(
-            (string)($product->getProductPrice() * $this->_discountDecimal),
+            (string)($product->getProductPrice() * $this->discountDecimal),
             $productPriceBlock->getSpecialPrice(),
             'Displayed special price does not match expected price.'
         );
@@ -190,7 +207,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $productPriceBlock = $productViewBlock->getProductPriceBlock();
         $this->assertContains(
-            (string)($product->getProductPrice() * $this->_discountDecimal),
+            (string)($product->getProductPrice() * $this->discountDecimal),
             $productPriceBlock->getSpecialPrice()
         );
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getRegularPrice());
@@ -198,9 +215,30 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
-            (string)($product->getProductPrice() * $this->_discountDecimal),
+            (string)($product->getProductPrice() * $this->discountDecimal),
             (string)$checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product),
             "Discount was not correctly applied"
         );
+    }
+
+    /**
+     * Clear data after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        if (!$this->catalogRule) {
+            return;
+        }
+
+        // Open Catalog Price Rule page
+        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();
+        $catalogRulePage->open();
+        $catalogRulePage->getCatalogRuleGrid()->searchAndOpen(['name' => $this->catalogRule->getRuleName()]);
+
+        // Delete Catalog Price Rule
+        $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
+        $catalogRuleCreatePage->getFormPageActions()->delete();
     }
 }
