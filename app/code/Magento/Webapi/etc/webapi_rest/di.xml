@@ -16,7 +16,7 @@
     </type>
     <type name="Magento\Authorization\Model\CompositeUserContext">
         <arguments>
-            <argument name="renders" xsi:type="array">
+            <argument name="userContexts" xsi:type="array">
                 <item name="oauthUserContext" xsi:type="object">Magento\Webapi\Model\Authorization\OauthUserContext</item>
             </argument>
         </arguments>
