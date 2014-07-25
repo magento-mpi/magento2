@@ -34,6 +34,7 @@
     <assertCustomerCustomAttributeOnCustomerRegister module="Magento_CustomerCustomAttributes">
         <severeness>low</severeness>
         <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <pageCustomerAccountCreate class="Magento\Customer\Test\Page\CustomerAccountCreate" />
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
         </require>
