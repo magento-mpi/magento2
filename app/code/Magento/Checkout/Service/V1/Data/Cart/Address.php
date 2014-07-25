@@ -14,5 +14,16 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  */
 class Address extends \Magento\Customer\Service\V1\Data\Address
 {
+    const KEY_EMAIL = 'email';
+
+    /**
+     * Get billing/shipping email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->_get(self::KEY_EMAIL);
+    }
 
 }

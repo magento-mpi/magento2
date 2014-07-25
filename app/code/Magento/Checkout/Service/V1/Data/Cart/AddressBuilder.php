@@ -14,5 +14,12 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
   */
 class AddressBuilder extends \Magento\Customer\Service\V1\Data\AddressBuilder
 {
-
+    /**
+     * @param $value string
+     * @return $this
+     */
+    public function setEmail($value)
+    {
+        return $this->_set(Address::KEY_EMAIL, $value);
+    }
 }
