@@ -41,9 +41,7 @@ class MassProductPriceUpdateTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $gridBlock = $productGridPage->getProductGrid();
         $productGridPage->open();
-        $gridBlock->updateAttributes(array(array(
-            'sku' => $product->getProductSku()
-        )));
+        $gridBlock->updateAttributes([['sku' => $product->getProductSku()]]);
 
         $updateProductPrice = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $updateProductPrice->switchData('price_massaction');
@@ -61,11 +59,15 @@ class MassProductPriceUpdateTest extends Functional
 
         $productGridPage->getMessagesBlock()->assertSuccessMessage();
 
-        $this->assertTrue($this->isOnGrid(array(
-            'sku' => $product->getProductSku(),
-            'price_from' => $updateProductPrice->getData('fields/price/value'),
-            'price_to' => $updateProductPrice->getData('fields/price/value')
-        )));
+        $this->assertTrue(
+            $this->isOnGrid(
+                [
+                    'sku' => $product->getProductSku(),
+                    'price_from' => $updateProductPrice->getData('fields/price/value'),
+                    'price_to' => $updateProductPrice->getData('fields/price/value')
+                ]
+            )
+        );
 
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

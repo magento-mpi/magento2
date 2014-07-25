@@ -427,4 +427,10 @@
     <assertProductIsNotVisibleInCompareBlock module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductIsNotVisibleInCompareBlock>
+    <assertUsedSuperAttributeImpossibleDeleteMessages module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <newPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
+        </require>
+    </assertUsedSuperAttributeImpossibleDeleteMessages>
 </constraint>
