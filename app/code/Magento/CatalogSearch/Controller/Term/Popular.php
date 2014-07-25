@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogSearch\Controller\Term;
 
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 
@@ -18,11 +19,13 @@ class Popular extends \Magento\Framework\App\Action\Action
     protected $scopeConfig;
 
     /**
+     * @param Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
+    public function __construct(Context $context, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
     {
         $this->scopeConfig = $scopeConfig;
+        parent::__construct($context);
     }
 
     /**

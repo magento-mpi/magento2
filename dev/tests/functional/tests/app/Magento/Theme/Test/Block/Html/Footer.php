@@ -55,6 +55,9 @@ class Footer extends Block
      */
     public function checkVariable($htmlValue)
     {
-        return $this->_rootElement->find(sprintf($this->variableSelector, $htmlValue), Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find(
+            sprintf($this->variableSelector, $htmlValue),
+            Locator::SELECTOR_XPATH
+        )->isVisible();
     }
 }

@@ -42,7 +42,7 @@ class GoogleShoppingForm extends Form
     protected function _fill(array $fields, Element $element = null)
     {
         $context = ($element === null) ? $this->_rootElement : $element;
-        foreach ($fields as $name => $field) {
+        foreach ($fields as $field) {
             $element = $this->getElement($context, $field);
             if ($this->mappingMode || ($element->isVisible() && !$element->isDisabled())) {
                 $element->setValue($field['value']);

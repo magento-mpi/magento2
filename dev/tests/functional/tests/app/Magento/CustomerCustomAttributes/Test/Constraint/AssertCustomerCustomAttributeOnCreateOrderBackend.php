@@ -10,7 +10,7 @@ namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\SalesOrder;
-use Magento\Sales\Test\Page\SalesOrderCreateIndex;
+use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
@@ -34,14 +34,17 @@ class AssertCustomerCustomAttributeOnCreateOrderBackend extends AbstractConstrai
      * @param SalesOrderCreateIndex $salesOrderCreateIndex
      * @param CustomerCustomAttribute $customerAttribute
      * @param CustomerInjectable $customer
+     * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
      */
     public function processAssert(
         SalesOrder $salesOrder,
         SalesOrderCreateIndex $salesOrderCreateIndex,
         CustomerCustomAttribute $customerAttribute,
-        CustomerInjectable $customer
+        CustomerInjectable $customer,
+        CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
+        $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
         $salesOrder->open();
         $salesOrder->getGridPageActions()->addNew();
         $salesOrderCreateIndex->getCustomerBlock()->selectCustomer($customer);

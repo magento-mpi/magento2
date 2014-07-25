@@ -44,6 +44,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'Yes' => 1,
             'No' => 0
         ],
+        'use_config_manage_stock' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
         'is_virtual' => [
             'Yes' => 1
         ],
@@ -118,6 +122,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param FixtureInterface $fixture
      * @param string|null $prefix [optional]
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
@@ -161,7 +168,46 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             $fields['attribute_set_id'] = $attributeSetId;
         }
 
+        $fields = $this->prepareStockData($fields);
+
         return $prefix ? [$prefix => $fields] : $fields;
+    }
+
+    /**
+     * Preparation of stock data
+     *
+     * @param array $fields
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    protected function prepareStockData(array $fields)
+    {
+        if (isset($fields['quantity_and_stock_status']) && !is_array($fields['quantity_and_stock_status'])) {
+            $fields['quantity_and_stock_status'] = [
+                'qty' => $fields['qty'],
+                'is_in_stock' => $fields['quantity_and_stock_status']
+            ];
+        }
+
+        if (!isset($fields['stock_data']['is_in_stock'])) {
+            $fields['stock_data']['is_in_stock'] = isset($fields['quantity_and_stock_status']['is_in_stock'])
+                ? $fields['quantity_and_stock_status']['is_in_stock']
+                : (isset($fields['inventory_manage_stock']) ? $fields['inventory_manage_stock'] : null);
+        }
+        if (!isset($fields['stock_data']['qty'])) {
+            $fields['stock_data']['qty'] = isset($fields['quantity_and_stock_status']['qty'])
+                ? $fields['quantity_and_stock_status']['qty']
+                : null;
+        }
+
+        if (!isset($fields['stock_data']['manage_stock'])) {
+            $fields['stock_data']['manage_stock'] = (int)(!empty($fields['stock_data']['qty'])
+                || !empty($fields['stock_data']['is_in_stock']));
+        }
+
+        return $this->filter($fields);
     }
 
     /**

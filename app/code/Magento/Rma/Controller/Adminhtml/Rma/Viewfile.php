@@ -83,9 +83,7 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
             )->clearBody();
             $this->getResponse()->sendHeaders();
 
-            while (false !== ($buffer = $readFile->read(1024))) {
-                echo $buffer;
-            }
+            echo $readFile->read($fileStat['size']);
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
             $this->_fileFactory->create(

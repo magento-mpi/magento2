@@ -18,4 +18,8 @@
         <data_set />
         <data_config />
     </currencyRate>
+    <currencySymbolEntity module="Magento_CurrencySymbol">
+        <type>flat</type>
+        <entity_type>core_config_data</entity_type>
+    </currencySymbolEntity>
 </fixture>

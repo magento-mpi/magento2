@@ -7,11 +7,13 @@
  * @license     {license_link}
  */
 -->
-<mapping strict="0">
+<mapping strict="1">
     <fields>
         <status_id>
             <input>select</input>
         </status_id>
+        <title />
+        <nickname />
         <select_stores>
             <selector>[name="select_stores[]"]</selector>
             <input>multiselectgrouplist</input>

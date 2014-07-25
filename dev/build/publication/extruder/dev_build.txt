@@ -19,5 +19,5 @@ dev/tests/static/testsuite/Magento/Test/Integrity/App/Language/TranslationFilesN
 dev/tests/static/testsuite/Magento/Test/Integrity/ComposerTest.php
 app/code/Magento/*/composer.json
 app/design/*/Magento/*/composer.json
-app/i18n/Magento/*/composer.json
+app/i18n/magento/*/composer.json
 lib/internal/Magento/Framework/composer.json

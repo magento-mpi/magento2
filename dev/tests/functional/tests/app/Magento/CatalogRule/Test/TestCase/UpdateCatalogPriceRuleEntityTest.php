@@ -95,6 +95,6 @@ class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
         $this->catalogRuleNew->getFormPageActions()->$saveAction();
 
         // Prepare data for tear down
-        $this->catalogRules = $catalogPriceRule;
+        $this->catalogRules[] = $catalogPriceRule;
     }
 }

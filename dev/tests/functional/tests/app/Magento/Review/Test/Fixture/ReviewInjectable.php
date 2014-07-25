@@ -34,16 +34,17 @@ class ReviewInjectable extends InjectableFixture
     protected $defaultDataSet = [
         'status_id' => 'Approved',
         'select_stores' => ['Main Website/Main Website Store/Default Store View'],
-        'nickname' =>  'Guest customer %isolation%',
+        'nickname' => 'Guest customer %isolation%',
         'title' => 'Summary review %isolation%',
         'detail' => 'Text review %isolation%',
         'ratings' => [
-            1 => [
+            [
                 'dataSet' => 'visibleOnDefaultWebsite',
                 'rating' => 4
             ]
         ],
-        'entity_id' => ['dataSet' => 'catalogProductSimple::default']
+        'entity_id' => ['dataSet' => 'catalogProductSimple::default'],
+        'type' => 'Administrator'
     ];
 
     protected $review_id = [
@@ -148,6 +149,32 @@ class ReviewInjectable extends InjectableFixture
         'backend_type' => 'virtual',
         'source' => 'Magento\Review\Test\Fixture\ReviewInjectable\Ratings',
     ];
+
+    protected $type = [
+        'attribute_code' => 'type',
+        'backend_type' => 'string',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $select_stores = [
+        'attribute_code' => 'select_stores',
+        'backend_type' => 'string',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    public function getType()
+    {
+        return $this->getData('type');
+    }
+
+    public function getSelectStores()
+    {
+        return $this->getData('select_stores');
+    }
 
     public function getReviewId()
     {

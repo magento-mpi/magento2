@@ -13,9 +13,23 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CustomerCustomAttribute
  * Fixture with all necessary data for custom Customer Attribute creation on backend
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CustomerCustomAttribute extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\CustomerCustomAttributes\Test\Repository\CustomerCustomAttribute';
+
+    // @codingStandardsIgnoreStart
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\CustomerCustomAttributes\Test\Handler\CustomerCustomAttribute\CustomerCustomAttributeInterface';
+    // @codingStandardsIgnoreEnd
+
     protected $defaultDataSet = [
         'frontend_label' => 'attribute_label%isolation%',
         'attribute_code' => 'attribute_code%isolation%',
@@ -367,13 +381,13 @@ class CustomerCustomAttribute extends InjectableFixture
         'group' => 'manage_options',
     ];
 
-    protected $options = [
-        'attribute_code' => 'options',
+    protected $option = [
+        'attribute_code' => 'option',
         'backend_type' => 'virtual',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => '\Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Options',
+        'source' => '\Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Option',
         'group' => 'manage_options',
     ];
 

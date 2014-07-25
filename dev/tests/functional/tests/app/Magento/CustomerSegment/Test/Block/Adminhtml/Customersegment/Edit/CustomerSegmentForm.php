@@ -33,7 +33,7 @@ class CustomerSegmentForm extends FormTabs
      *
      * @var string
      */
-    protected $conditionFormat = '//*[@id="conditions__1__new_child"]//option[contains(.,"%s")]';
+    protected $conditionFormat = '//*[@id="conditions__1__new_child"]//option[contains(@value,"%s")]';
 
     /**
      * Get number of customer on navigation tabs
@@ -90,7 +90,7 @@ class CustomerSegmentForm extends FormTabs
                     $tabs[$tabName][$key]['value'] = str_replace(
                         array_keys($replace[$tabName]),
                         array_values($replace[$tabName]),
-                        $tabs[$tabName][$key]['value']
+                        $pairs['value']
                     );
                 }
             }
@@ -107,14 +107,9 @@ class CustomerSegmentForm extends FormTabs
     public function isAttributeInConditions(CustomerCustomAttribute $customerAttribute)
     {
         $this->_rootElement->find($this->addButton, Locator::SELECTOR_CSS)->click();
-        $frontendLabel = $customerAttribute->getFrontendLabel();
-        $condition = $this->_rootElement->find(
-            sprintf($this->conditionFormat, $frontendLabel),
+        return $this->_rootElement->find(
+            sprintf($this->conditionFormat, $customerAttribute->getAttributeCode()),
             Locator::SELECTOR_XPATH
-        )->getValue();
-        $pieces = explode("|", $condition);
-        $formAttributeCode = end($pieces);
-        $fixtureAttributeCode = $customerAttribute->getAttributeCode();
-        return ($formAttributeCode == $fixtureAttributeCode);
+        )->isVisible();
     }
 }
