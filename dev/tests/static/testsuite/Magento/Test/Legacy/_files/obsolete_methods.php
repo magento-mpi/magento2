@@ -1785,5 +1785,6 @@ return array(
     ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
     ['getCalculator', '\Magento\Tax\Helper\Data'],
     ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
-    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation']
+    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['getMaxRecipients', 'Magento\Catalog\Block\Product\Send']
 );
