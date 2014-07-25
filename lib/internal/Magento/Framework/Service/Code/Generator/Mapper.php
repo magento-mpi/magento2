@@ -127,7 +127,7 @@ class Mapper extends \Magento\Framework\Code\Generator\EntityAbstract
                 ]
             ]
         ];
-        return array($construct, $extract);
+        return [$construct, $extract];
     }
 
     /**

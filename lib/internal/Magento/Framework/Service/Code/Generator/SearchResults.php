@@ -44,14 +44,24 @@ class SearchResults extends EntityAbstract
      */
     protected function _getClassMethods()
     {
-        return [];
+        $getItems = [
+            'name' => 'getItems',
+            'parameters' => [],
+            'body' => "return parent::getItems();",
+            'docblock' => [
+                'shortDescription' => 'Returns array of items',
+                'tags' => [
+                    [
+                        'name' => 'return',
+                        'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()) . '[]',
+                    ]
+                ]
+            ]
+        ];
+        return [$getItems];
     }
 
-    protected function _getDefaultConstructorDefinition()
-    {
-
-    }
-
+    protected function _getDefaultConstructorDefinition() {}
 
     /**
      * Generate code
@@ -61,7 +71,8 @@ class SearchResults extends EntityAbstract
     protected function _generateCode()
     {
         $this->_classGenerator->setName($this->_getResultClassName())
-            ->setExtendedClass(self::SEARCH_RESULT);
+            ->setExtendedClass(self::SEARCH_RESULT)
+            ->addMethods($this->_getClassMethods());
         return $this->_getGeneratedCode();
     }
 }
