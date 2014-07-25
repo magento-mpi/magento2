@@ -8,19 +8,22 @@
  */
 -->
 <fixture>
-    <exchangeRate module="Magento_Reward">
-        <type>flat</type>
-        <entity_type>magento_reward_rate</entity_type>
-        <collection>Magento\Reward\Model\Resource\Reward\Rate\Collection</collection>
+    <reward module="Magento_Reward">
+        <type>composite</type>
+        <entities>
+            <magento_reward>magento_reward</magento_reward>
+            <magento_reward_rate>magento_reward_rate</magento_reward_rate>
+        </entities>
+        <collection>Magento\Reward\Model\Resource\Reward\Collection</collection>
         <fields>
-            <value>
-                <attribute_code>value</attribute_code>
+            <reward_update_notification>
+                <attribute_code>reward_update_notification</attribute_code>
                 <backend_type>virtual</backend_type>
-            </value>
-            <equal_value>
-                <attribute_code>equal_value</attribute_code>
+            </reward_update_notification>
+            <reward_warning_notification>
+                <attribute_code>reward_warning_notification</attribute_code>
                 <backend_type>virtual</backend_type>
-            </equal_value>
+            </reward_warning_notification>
         </fields>
-    </exchangeRate>
+    </reward>
 </fixture>

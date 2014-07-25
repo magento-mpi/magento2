@@ -18,4 +18,8 @@
         <area>adminhtml</area>
         <class>Magento\Reward\Test\Page\Adminhtml\ExchangeRateNew</class>
     </exchangeRateNew>
+    <rewardCustomerInfo>
+        <mca>reward/customer/info</mca>
+        <class>Magento\Reward\Test\Page\RewardCustomerInfo</class>
+    </rewardCustomerInfo>
 </page>

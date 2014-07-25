@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertCustomerCustomAttributeSuccessSaveMessage module="Magento_CustomerCustomAttributes">
+        <severeness>high</severeness>
+        <require>
+            <customerAttributeIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex"/>
+        </require>
+    </assertCustomerCustomAttributeSuccessSaveMessage>
+    <assertCustomerCustomAttributeInGrid module="Magento_CustomerCustomAttributes">
+        <severeness>low</severeness>
+        <require>
+            <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
+            <customerAttributeIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex"/>
+        </require>
+    </assertCustomerCustomAttributeInGrid>
+    <assertCustomerCustomAttributeOnCheckoutRegister module="Magento_CustomerCustomAttributes">
+        <severeness>low</severeness>
+        <require>
+            <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart"/>
+            <checkoutOnepage class="Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage"/>
+            <pageCatalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
+            <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
+        </require>
+    </assertCustomerCustomAttributeOnCheckoutRegister>
+    <assertCustomerCustomAttributeOnCustomerRegister module="Magento_CustomerCustomAttributes">
+        <severeness>low</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <pageCustomerAccountCreate class="Magento\Customer\Test\Page\CustomerAccountCreate" />
+            <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
+        </require>
+    </assertCustomerCustomAttributeOnCustomerRegister>
+    <assertCustomerCustomAttributeOnCustomerEditPage module="Magento_CustomerCustomAttributes">
+        <severeness>low</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <customerAccountEdit class="Magento\Customer\Test\Page\CustomerAccountEdit" />
+            <customerAccountLogin class="Magento\Customer\Test\Page\CustomerAccountLogin" />
+            <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
+            <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
+        </require>
+    </assertCustomerCustomAttributeOnCustomerEditPage>
+    <assertCustomerCustomAttributeOnCreateOrderBackend module="Magento_CustomerCustomAttributes">
+        <severeness>low</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <salesOrder class="Magento\Sales\Test\Page\SalesOrder" />
+            <salesOrderCreateIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex" />
+            <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
+        </require>
+    </assertCustomerCustomAttributeOnCreateOrderBackend>
+    <assertCustomerCustomAttributeInCustomerSegment module="Magento_CustomerCustomAttributes">
+        <severeness>low</severeness>
+        <require>
+            <customerSegment class="Magento\CustomerSegment\Test\Fixture\CustomerSegment" />
+            <customerSegmentNew class="Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew" />
+            <customerSegmentIndex class="Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex" />
+            <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
+        </require>
+    </assertCustomerCustomAttributeInCustomerSegment>
+</constraint>

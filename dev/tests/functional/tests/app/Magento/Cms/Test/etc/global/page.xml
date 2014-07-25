@@ -38,4 +38,8 @@
         <area>adminhtml</area>
         <class>Magento\Cms\Test\Page\Adminhtml\CmsBlockEdit</class>
     </cmsBlockEdit>
+    <cmsPage>
+        <mca>cms/page</mca>
+        <class>Magento\Cms\Test\Page\CmsPage</class>
+    </cmsPage>
 </page>

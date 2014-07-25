@@ -314,7 +314,6 @@
                 }
             }
         }
-
     }
 
     .action.primary.checkout {
@@ -533,23 +532,20 @@
                 display: inline-block;
                 margin-left: 40px;
                 .font-size(14);
-                .icon-font(
-                    @icon-print,
-                    @_icon-font-size: 16px,
-                    @_icon-font-margin: 0 5px 0 0,
-                    @_icon-font-position: before
-                );
+                &:extend(.abstract-action-print all);
             }
         }
     }
 
-    .opc-block-progress {
+    .opc-block-progress-wrapper {
         .layout-column(2, 1, @layout-column-checkout-left-width);
         &:extend(.add-box-sizing-desktop all);
         padding-right: @layout-column-main-sidebar-offset;
         margin-top: 0;
-        &.active {
-            display: block;
-        }
+
+    }
+
+    .opc-block-progress.active {
+        display: block;
     }
 }

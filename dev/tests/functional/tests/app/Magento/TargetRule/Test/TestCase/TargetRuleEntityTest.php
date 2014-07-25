@@ -101,6 +101,9 @@ abstract class TargetRuleEntityTest extends Injectable
         CustomerSegment $customerSegment = null
     ) {
         $customerSegmentName = ($customerSegment && $customerSegment->hasData()) ? $customerSegment->getName() : '';
+        $sourceCategory1 = $product1->getDataFieldConfig('category_ids')['source'];
+        $sourceCategory2 = $product2->getDataFieldConfig('category_ids')['source'];
+
         return [
             'rule_information' => [
                 'customer_segment_ids' => [
@@ -109,12 +112,12 @@ abstract class TargetRuleEntityTest extends Injectable
             ],
             'products_to_match' => [
                 'conditions_serialized' => [
-                    '%category_1%' => $product1->getCategoryIds()[0]['id'],
+                    '%category_1%' => $sourceCategory1->getIds()[0],
                 ],
             ],
             'products_to_display' => [
                 'actions_serialized' => [
-                    '%category_2%' => $product2->getCategoryIds()[0]['id'],
+                    '%category_2%' => $sourceCategory2->getIds()[0],
                 ],
             ],
         ];

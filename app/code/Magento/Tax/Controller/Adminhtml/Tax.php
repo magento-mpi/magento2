@@ -6,33 +6,40 @@
  * @license     {license_link}
  */
 
+namespace Magento\Tax\Controller\Adminhtml;
+
+use Magento\Framework\Exception\InputException;
+
 /**
  * Adminhtml common tax class controller
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Controller\Adminhtml;
-
 class Tax extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\Tax\Service\V1\TaxClassServiceInterface
+     */
+    protected $taxClassService;
 
     /**
-     * Validate/Filter Tax Class Type
-     *
-     * @param string $classType
-     * @return string processed class type
-     * @throws \Magento\Framework\Model\Exception
+     * @var \Magento\Tax\Service\V1\Data\TaxClassBuilder
      */
-    protected function _processClassType($classType)
-    {
-        $validClassTypes = array(
-            \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER,
-            \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT
-        );
-        if (!in_array($classType, $validClassTypes)) {
-            throw new \Magento\Framework\Model\Exception(__('Invalid type of tax class specified.'));
-        }
-        return $classType;
+    protected $taxClassBuilder;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
+     * @param \Magento\Tax\Service\V1\Data\TaxClassBuilder $taxClassBuilder
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
+        \Magento\Tax\Service\V1\Data\TaxClassBuilder $taxClassBuilder
+    ) {
+        $this->taxClassService = $taxClassService;
+        $this->taxClassBuilder = $taxClassBuilder;
+        parent::__construct($context);
     }
 
     /**
@@ -40,13 +47,13 @@ class Tax extends \Magento\Backend\App\Action
      *
      * @param string $className
      * @return string processed class name
-     * @throws \Magento\Framework\Model\Exception
+     * @throws \Magento\Framework\Exception\InputException
      */
     protected function _processClassName($className)
     {
         $className = trim($this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($className));
         if ($className == '') {
-            throw new \Magento\Framework\Model\Exception(__('Invalid name of tax class specified.'));
+            throw new InputException('Invalid name of tax class specified.');
         }
         return $className;
     }

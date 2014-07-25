@@ -82,6 +82,8 @@ class Stores implements FixtureInterface
      *
      * @param string|null $key [optional]
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

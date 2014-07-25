@@ -19,7 +19,6 @@ use Mtf\Fixture\FixtureInterface;
 /**
  * Class Billing
  * One page checkout status billing block
- *
  */
 class Billing extends Form
 {

@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Core\Test\Handler\ConfigData;
@@ -12,8 +12,8 @@ use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -22,7 +22,20 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 class Curl extends AbstractCurl implements ConfigDataInterface
 {
     /**
-     * Post request for setting configuration attribute
+     * Mapping values for data
+     *
+     * @var array
+     */
+    protected $mappingData = [
+        'scope' => [
+            'Website' => 'website',
+            'Store' => 'group',
+            'Store View' => 'store',
+        ],
+    ];
+
+    /**
+     * Post request for setting configuration
      *
      * @param FixtureInterface|null $fixture [optional]
      * @return void
@@ -35,15 +48,11 @@ class Curl extends AbstractCurl implements ConfigDataInterface
         }
     }
 
-
     /**
-     * Prepare POST data for setting configuration attribute
+     * Prepare POST data for setting configuration
      *
      * @param FixtureInterface $fixture
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function prepareData(FixtureInterface $fixture)
     {
@@ -52,7 +61,10 @@ class Curl extends AbstractCurl implements ConfigDataInterface
         if (isset($fields['section'])) {
             foreach ($fields['section'] as $itemSection) {
                 list($scope, $group, $field) = explode('/', $itemSection['path']);
-                $result[$scope]['groups'][$group]['fields'][$field]['value'] = $itemSection['value'];
+                $value = isset($this->mappingData[$field])
+                    ? $this->mappingData[$field][$itemSection['value']]
+                    : $itemSection['value'];
+                $result[$scope]['groups'][$group]['fields'][$field]['value'] = $value;
             }
         }
         return $result;
@@ -63,24 +75,20 @@ class Curl extends AbstractCurl implements ConfigDataInterface
      *
      * @param array $data
      * @param string $section
-     * @return int|null
      * @throws \Exception
      */
     protected function applyConfigSettings(array $data, $section)
     {
         $url = $this->getUrl($section);
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
-        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Settings is not apply! Response: $response");
+        if (strpos($response, 'data-ui-id="messages-message-success"') === false) {
+            throw new \Exception("Settings are not applied! Response: $response");
         }
-        preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
-
-        return isset($matches[1]) ? $matches[1] : null;
     }
 
     /**

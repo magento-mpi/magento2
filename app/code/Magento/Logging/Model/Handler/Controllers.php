@@ -490,10 +490,7 @@ class Controllers
             return false;
         }
         $classId = (int)$this->_request->getParam('class_id');
-        $classModel = $this->_coreRegistry->registry('tax_class_model');
-        $classType = $classModel != null ? $classModel->getClassType() : '';
-
-        return $this->_logTaxClassEvent($classType, $eventModel, $classId);
+        return $this->_logTaxClassEvent('', $eventModel, $classId);
     }
 
     /**

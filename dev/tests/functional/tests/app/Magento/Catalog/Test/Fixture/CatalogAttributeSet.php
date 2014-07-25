@@ -78,6 +78,11 @@ class CatalogAttributeSet extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogAttributeSet\AssignedAttributes',
     ];
 
+    protected $group = [
+        'attribute_code' => 'group',
+        'backend_type' => 'virtual',
+    ];
+
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
@@ -106,5 +111,10 @@ class CatalogAttributeSet extends InjectableFixture
     public function getAssignedAttributes()
     {
         return $this->getData('assigned_attributes');
+    }
+
+    public function getGroup()
+    {
+        return $this->getData('group');
     }
 }

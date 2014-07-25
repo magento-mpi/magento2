@@ -60,7 +60,7 @@ class EditBundleTest extends Functional
             'sku' => $product->getProductSku(),
             'type' => 'Bundle Product'
         ]);
-        $productForm->fillProduct($editProduct);
+        $productForm->fill($editProduct);
         $editProductPage->getFormAction()->save();
         //Verifying
         $editProductPage->getMessagesBlock()->assertSuccessMessage();

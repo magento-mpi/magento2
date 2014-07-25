@@ -17,7 +17,7 @@
     <block>
         <name>topmenu</name>
         <class>Magento\Theme\Test\Block\Html\Topmenu</class>
-        <locator>[role=navigation]</locator>
+        <locator>[role="navigation"]</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
@@ -29,7 +29,7 @@
     <block>
         <name>footerBlock</name>
         <class>Magento\Theme\Test\Block\Html\Footer</class>
-        <locator>footer.page-footer</locator>
+        <locator>footer.page.footer</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
@@ -53,7 +53,13 @@
     <block>
         <name>compareProductsBlock</name>
         <class>Magento\Catalog\Test\Block\Product\Compare\Sidebar</class>
-        <locator>.column.right.sidebar</locator>
+        <locator>.sidebar.sidebar-additional</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>currencyBlock</name>
+        <class>Magento\Directory\Test\Block\Currency\Switcher</class>
+        <locator>.switcher.currency</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

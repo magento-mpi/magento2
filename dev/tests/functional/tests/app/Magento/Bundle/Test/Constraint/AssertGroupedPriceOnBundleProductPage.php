@@ -9,7 +9,7 @@
 namespace Magento\Bundle\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Block\Product\View;
 use Magento\Catalog\Test\Constraint\AssertProductGroupedPriceOnProductPage;
 
 /**
@@ -20,17 +20,13 @@ class AssertGroupedPriceOnBundleProductPage extends AssertProductGroupedPriceOnP
     /**
      * Get grouped price with fixture product and product page
      *
-     * @param CatalogProductView $catalogProductView
+     * @param View $view
      * @param FixtureInterface $product
-     * @param string $customerGroup
      * @return array
      */
-    protected function getGroupedPrice(
-        CatalogProductView $catalogProductView,
-        FixtureInterface $product,
-        $customerGroup = 'NOT LOGGED IN'
-    ) {
-        $groupPrice['onPage'] = $catalogProductView->getViewBlock()->getProductPrice();
+    protected function getGroupedPrice(View $view, FixtureInterface $product)
+    {
+        $groupPrice['onPage'] = $view->getProductPrice();
         $groupPrice['onPage'] = isset($groupPrice['onPage']['price_regular_price'])
             ? str_replace('As low as $', '', $groupPrice['onPage']['price_regular_price'])
             : str_replace('$', '', $groupPrice['onPage']['price_from']);

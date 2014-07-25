@@ -91,7 +91,7 @@ class CreateVirtualProductEntityTest extends Injectable
         $this->productGrid->open();
         $this->productGrid->getGridPageActionBlock()->addProduct('virtual');
         $productBlockForm = $this->newProductPage->getForm();
-        $productBlockForm->fillProduct($product, $category);
+        $productBlockForm->fill($product, null, $category);
         $this->newProductPage->getFormAction()->save();
     }
 }

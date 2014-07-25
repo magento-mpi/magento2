@@ -41,7 +41,7 @@ class AssertProductCompareSuccessAddMessage extends AbstractConstraint
             $successMessage,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . $successMessage
             . "\nActual: " . $actualMessage
         );
     }

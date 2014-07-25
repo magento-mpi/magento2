@@ -8,6 +8,7 @@
 
 namespace Magento\GiftCard\Test\Handler\GiftCardProduct;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\System\Config;
 use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
 
@@ -67,5 +68,24 @@ class Curl extends ProductCurl implements GiftCardProductInterface
                 'Gift Card(s) Purchase (Default)' => 'giftcard_email_template'
             ]
         ];
+    }
+
+    /**
+     * Prepare POST data for creating product request
+     *
+     * @param FixtureInterface $fixture
+     * @param string|null $prefix [optional]
+     * @return array
+     */
+    protected function prepareData(FixtureInterface $fixture, $prefix = null)
+    {
+        $data = parent::prepareData($fixture, $prefix);
+        foreach ($data[$prefix]['giftcard_amounts'] as $key => $amounts) {
+            if (!isset($amounts['website_id'])) {
+                $data[$prefix]['giftcard_amounts'][$key]['website_id'] = 0;
+            }
+        }
+
+        return $data;
     }
 }

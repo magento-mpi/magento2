@@ -69,16 +69,10 @@ class Plugin
             }
         }
 
-        if ($request->getParam(
-            'popup'
-        ) && $request->getParam(
-            'product'
-        ) && !is_array(
-            $request->getParam('product')
-        ) && $request->getParam(
-            'id',
-            false
-        ) === false
+        if ($request->getParam('popup')
+            && $request->getParam('product')
+            && !is_array($request->getParam('product'))
+            && $request->getParam('id', false) === false
         ) {
             $configProduct = $this->productFactory->create();
             $configProduct->setStoreId(0)->load($request->getParam('product'))->setTypeId($request->getParam('type'));

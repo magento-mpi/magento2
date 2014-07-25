@@ -19,8 +19,6 @@ use Mtf\Fixture\FixtureInterface;
 class Price implements FixtureInterface
 {
     /**
-     * Current preset
-     *
      * Prepared dataSet data
      *
      * @var array
@@ -35,14 +33,18 @@ class Price implements FixtureInterface
     protected $params;
 
     /**
+     * Current preset
+     *
      * @var string
      */
     protected $currentPreset;
 
     /**
+     * Constructor
+     *
      * @constructor
      * @param array $params
-     * @param array $data
+     * @param array $data [optional]
      */
     public function __construct(array $params, array $data = [])
     {
@@ -121,7 +123,8 @@ class Price implements FixtureInterface
             ],
             'fixed-24' => [
                 'price_from' => '96.00',
-                'cart_price' => '248.00'
+                'price_to' => '97.00',
+                'cart_price' => '252.00'
             ],
             'fixed-1' => [
                 'price_from' => '1.00',
@@ -158,13 +161,30 @@ class Price implements FixtureInterface
             ],
             'fixed-15' => [
                 'price_from' => '15.00',
+                'price_to' => '16.00',
                 'cart_price' => '80.00'
             ],
             'default_fixed' => [
-                'compare_price' => '755.00'
+                'compare_price' => [
+                    'price_from' => '755.00',
+                    'price_to' => '756.00'
+                ],
             ],
             'default_dynamic' => [
-                'compare_price' => '560.00'
+                'compare_price' => [
+                    'price_from' => '100.00',
+                    'price_to' => '560.00'
+                ],
+            ],
+            'dynamic-100' => [
+                'price_from' => '100.00',
+                'price_to' => '560.00',
+                'cart_price' => '100.00'
+            ],
+            'fixed-756' => [
+                'price_from' => '755.00',
+                'price_to' => '756.00',
+                'cart_price' => '756.00'
             ],
         ];
         if (!isset($presets[$this->currentPreset])) {

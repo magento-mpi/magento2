@@ -10,17 +10,11 @@ namespace Magento\Sales\Test\Page;
 
 use Mtf\Page\BackendPage;
 use Mtf\Factory\Factory;
-use Magento\Backend\Test\Block\Sales\Order\Grid;
-use Magento\Core\Test\Block\Messages;
-use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Backend\Test\Block\Sales\Order\Transactions\Grid as TransactionsGrid;
-use Magento\Backend\Test\Block\Sales\Order\Invoice\Grid as InvoiceGrid;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class SalesOrder
  * Manage orders page
- *
  */
 class SalesOrder extends BackendPage
 {
@@ -58,6 +52,13 @@ class SalesOrder extends BackendPage
     protected $orderActionsBlock = '.page-actions';
 
     /**
+     * Grid page actions block
+     *
+     * @var string
+     */
+    protected $gridPageActionsBlock = '.page-main-actions';
+
+    /**
      * Order view tabs block
      *
      * @var string
@@ -84,14 +85,6 @@ class SalesOrder extends BackendPage
      * @var string
      */
     protected $creditMemosGrid = '#order_creditmemos';
-
-    /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
-    }
 
     /**
      * Get sales order grid
@@ -198,6 +191,18 @@ class SalesOrder extends BackendPage
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderCreditmemoGrid(
             $this->_browser->find($this->creditMemosGrid)
+        );
+    }
+
+    /**
+     * Get grid page actions
+     *
+     * @return \Magento\Backend\Test\Block\GridPageActions
+     */
+    public function getGridPageActions()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendGridPageActions(
+            $this->_browser->find($this->gridPageActionsBlock)
         );
     }
 }

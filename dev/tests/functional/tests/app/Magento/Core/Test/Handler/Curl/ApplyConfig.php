@@ -17,6 +17,7 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
+ * Class ApplyConfig
  * Curl handler for persisting Magento configuration
  */
 class ApplyConfig extends Curl
@@ -30,13 +31,13 @@ class ApplyConfig extends Curl
     public function persist(FixtureInterface $fixture = null)
     {
         $sections = $fixture->getData()['sections'];
-        $fields = array('groups' => array());
+        $fields = ['groups' => []];
         foreach ($sections as $section => $data) {
             $fields['groups'] = $data['groups'];
             $url = $_ENV['app_backend_url'] . 'admin/system_config/save/section/' . $section . '/';
             $curl = new BackendDecorator(new CurlTransport(), new Config());
-            $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
-            $response = $curl->read();
+            $curl->write(CurlInterface::POST, $url, '1.0', [], $fields);
+            $curl->read();
             $curl->close();
         }
     }
