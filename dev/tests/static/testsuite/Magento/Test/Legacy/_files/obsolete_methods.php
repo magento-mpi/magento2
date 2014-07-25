@@ -1786,5 +1786,8 @@ return array(
     ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
     ['getCalculator', '\Magento\Tax\Helper\Data'],
     ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
-    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation']
+    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
+    ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
+    ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status']
 );
