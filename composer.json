@@ -5,6 +5,9 @@
     "require": {
         "php": "5.4.*|5.5.*"
     },
+    "require-dev": {
+        "phpunit/PHPUnit": "4.1.*"
+    },
     "replace": {
         "magento/module-admin-gws": "self.version",
         "magento/module-admin-notification": "self.version",
