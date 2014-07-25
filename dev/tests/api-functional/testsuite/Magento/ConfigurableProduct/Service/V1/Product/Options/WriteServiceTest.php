@@ -51,4 +51,38 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertGreaterThan(0, $option['id']);
         $this->assertGreaterThan(0, $option['attribute_id']);
     }
+
+    /**
+     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
+     */
+    public function testRemove()
+    {
+        $productSku = 'configurable';
+        $optionId = 333; //TODO: need fix it (use get service)
+
+        $result = $this->remove($productSku, $optionId);
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @param string $productSku
+     * @param int $optionId
+     * @return bool
+     */
+    private function remove($productSku, $optionId)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options/' . $optionId,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'remove'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
+    }
 }
