@@ -107,7 +107,8 @@
             margin-bottom: 0;
         }
     }
-    //  Customer login
+
+    // Customer login
     .login-wrapper {
         .mix-flex();
         .block {
@@ -143,7 +144,7 @@
         }
     }
 
-    //  Shipping methods
+    // Shipping methods
     .methods-shipping {
         .item-title {
             &:extend(.abstract-shipping-methods-title all);
@@ -175,7 +176,7 @@
         }
     }
 
-    //  Payment methods
+    // Payment methods
     .methods-payment {
         border-bottom: @border-width-base solid @border-color-base;
         .item-title {
@@ -235,6 +236,13 @@
                     }
                 }
             }
+        }
+    }
+
+    .opc-payment-additional {
+        margin: 0 0 10px 15px;
+        + .opc-payment {
+            margin: 40px 0 0;
         }
     }
 
@@ -471,7 +479,7 @@
             }
         }
 
-        //  Login or register
+        // Login or register
         .login-wrapper {
             display: block;
             &:extend(.add-clearfix-desktop all);
@@ -493,7 +501,7 @@
             }
         }
 
-        //  Payment methods
+        // Payment methods
         .methods-payment {
             .item-content > .fieldset {
                 margin: 10px 0 30px @opc-margin-left;
@@ -520,7 +528,7 @@
         margin-left: 40px;
     }
 
-    //  Checkout success
+    // Checkout success
     .checkout-onepage-success {
         .page-title {
             .print {
