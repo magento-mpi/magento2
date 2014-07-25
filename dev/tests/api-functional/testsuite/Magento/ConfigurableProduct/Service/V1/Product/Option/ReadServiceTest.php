@@ -22,14 +22,13 @@ class ReadServiceTest extends WebapiAbstract
     public function testGet()
     {
         $productSku = 'configurable';
-        $options = $this->getConfigurableOptions();
+        $attributeId = $this->getAttribute()->getId();
 
         /** @var array $result */
-        $result = $this->get($productSku, $options['items'][0]['option_id']);
+        $result = $this->get($productSku, $attributeId);
 
         $this->assertNotEmpty($result);
-        //TODO Add more asserts
-        //$this->assertEquals($options, $result);
+        $this->assertEquals($attributeId, $result['attribute_id']);
     }
 
     /**
@@ -38,14 +37,12 @@ class ReadServiceTest extends WebapiAbstract
     public function testGetList()
     {
         $productSku = 'configurable';
-        $options = $this->getConfigurableOptions();
 
         /** @var array $result */
         $result = $this->getList($productSku);
 
         $this->assertNotEmpty($result);
-        //TODO Add more asserts
-        //$this->assertEquals($options, $result);
+        $this->assertEquals($this->getAttribute()->getId(), $result[0]['attribute_id']);
     }
 
     /**
@@ -89,22 +86,12 @@ class ReadServiceTest extends WebapiAbstract
         return $this->_webApiCall($serviceInfo, ['productId' => $productSku]);
     }
 
-    /**
-     * @return array
-     */
-    protected function getConfigurableOptions()
+    protected function getAttribute($attributeCode = 'test_configurable')
     {
         /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
         $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Resource\Eav\Attribute'
         );
-        //Id from fixture
-        $attribute->load('test_configurable', 'attribute_code');
-        /** @var $options \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection */
-        $options = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection'
-        );
-        $options->setAttributeFilter($attribute->getId());
-        return $options->load()->toArray();
+        return $attribute->load($attributeCode, 'attribute_code');
     }
 }
