@@ -67,7 +67,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->authzServiceMock = $this->getMockBuilder(
-            '\Magento\Authz\Service\AuthorizationV1'
+            '\Magento\Integration\Service\V1\AuthorizationService'
         )->disableOriginalConstructor()->setMethods(
             array('grantPermissions')
         )->getMock();
