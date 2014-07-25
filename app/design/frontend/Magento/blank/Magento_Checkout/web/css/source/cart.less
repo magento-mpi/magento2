@@ -257,10 +257,11 @@
                 &.continue {
                     .link-as-button();
                     .button(
-                        @_button-padding: 0 15px 0 5px,
+                        @_button-padding: 7px 15px 7px 0,
                         @_button-icon-use: true,
                         @_button-font-content: @icon-prev,
                         @_button-icon-font-size: 32px,
+                        @_button-icon-font-line-height: 16px,
                         @_button-icon-font-position: before
                     );
                     border-radius: 3px;
@@ -272,7 +273,8 @@
                 &.update {
                     .button-icon(
                         @icon-update,
-                        @_icon-font-size: 32px
+                        @_icon-font-size: 32px,
+                        @_icon-font-line-height: 16px
                     );
                     padding-left: 5px;
                 }

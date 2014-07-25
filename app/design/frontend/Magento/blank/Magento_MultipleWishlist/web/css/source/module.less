@@ -16,7 +16,8 @@
         &:extend(.abstract-split-button all);
         .product-info-main &,
         .item.product &,
-        .block-bundle-summary & {
+        .block-bundle-summary &,
+        .comparison & {
             .split,
             .toggle {
                 .button-s();
@@ -63,24 +64,15 @@
 }
 
 .block.wishlist.management {
-    .action.add.wishlist {
-        float: right;
-        margin-top: -8px;
-    }
     .title {
         .counter.qty {
             font-size: @font-size-base;
             margin-left: 15px;
         }
     }
-    .content {
-        .subtitle {
-            float: left;
-        }
-        .toolbar.wishlist {
-            float: right;
-            margin-top: 5px;
-        }
+    .toolbar-wishlist {
+        display: inline-block;
+        margin: 0;
     }
 }
 
@@ -88,6 +80,22 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
+    .block.wishlist.management {
+        &:extend(.add-clearfix-desktop all);
+        .action.add.wishlist {
+            float: right;
+            margin-top: -8px;
+        }
+        .content {
+            .subtitle {
+                float: left;
+            }
+            .toolbar-wishlist {
+                float: right;
+                margin-top: 5px;
+            }
+        }
+    }
     .wishlist {
         &.window.popup {
             .css(width, @desktop-popup-width);

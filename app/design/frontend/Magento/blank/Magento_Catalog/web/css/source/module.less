@@ -218,35 +218,45 @@
     }
     &.wrapper.list {
         .products.list.items {
-            .item.product {
+            .product-item {
                 display: block;
                 margin-bottom: @indent-l-base;
-            }
-            .product.photo {
-                display: block;
-            }
-            .details {
-                text-align: center;
-            }
-            .name {
-                font-size: @font-size-l;
-                margin-bottom: @indent-base;
+                &-photo {
+                    display: block;
+                }
+                &-details {
+                    text-align: center;
+                }
+                &-name {
+                    font-size: @font-size-l;
+                    margin-bottom: @indent-base;
+                }
+                .actions {
+                    > .actions-primary {
+                        + .actions-secondary {
+                            margin-top: 3px;
+                        }
+                    }
+                }
             }
         }
     }
     &.wrapper.grid {
         .products.list.items {
-            .item.product {
+            .product-item {
                 display: inline-block;
                 padding: @product-grid-items-padding;
                 margin: @product-grid-items-margin;
             }
-            .img.container {
+            .product-image-container {
                 margin-bottom: @indent-base;
             }
             .actions {
-                > .primary {
+                > .actions-primary {
                     display: inline-block;
+                    + .actions-secondary {
+                        margin-top: 3px;
+                    }
                 }
             }
         }
@@ -432,9 +442,10 @@
             padding-right: 0.75 * @indent-base;
         }
         .input-text.qty {
+            @tocart-input-size: @button-l-line-height + 28px;
             .form-element-size(
-                @_width: @button-l-height + 2px,
-                @_height: @button-l-height + 2px
+                @_width: @tocart-input-size + 2px,
+                @_height: @tocart-input-size + 2px
             );
             text-align: center;
         }
