@@ -260,11 +260,10 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     /**
      * Limit core URL rewrites
      *
-     * @TODO: UrlRewrite
      * @param \Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection $collection
      * @return void
      */
-    public function limitCoreUrlRewrites($collection)
+    public function limitUrlRewrites($collection)
     {
         $collection->addStoreFilter($this->_role->getStoreIds(), false);
     }

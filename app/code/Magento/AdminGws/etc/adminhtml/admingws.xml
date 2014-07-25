@@ -28,8 +28,7 @@
         <callback class="Magento\CatalogEvent\Model\Resource\Event\Collection" method="limitCatalogEvents" />
         <callback class="Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection" method="addStoreFilter" />
         <callback class="Magento\Catalog\Model\Resource\Category\Collection" method="limitCatalogCategories" />
-        <!-- @TODO: UrlRewrite -->
-        <callback class="Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection" method="limitCoreUrlRewrites" />
+        <callback class="Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection" method="limitUrlRewrites" />
         <callback class="Magento\Review\Model\Resource\Rating\Collection" method="limitRatings" />
         <callback class="Magento\GoogleShopping\Model\Resource\Item\Collection" method="addStoreFilter" />
         <callback class="Magento\Sitemap\Model\Resource\Sitemap\Collection" method="addStoreFilter" />
@@ -125,8 +124,7 @@
         <callback class="Magento\Store\Model\Website" method="coreWebsiteLoadAfter" />
         <callback class="Magento\Store\Model\Group" method="coreStoreGroupLoadAfter" />
         <callback class="Magento\Store\Model\Store" method="coreStoreGroupLoadAfter" />
-        <!-- @TODO: UrlRewrite -->
-        <callback class="Magento\UrlRewrite\Model\UrlRewrite" method="coreUrlRewriteLoadAfter" />
+        <callback class="Magento\UrlRewrite\Model\UrlRewrite" method="urlRewriteLoadAfter" />
         <callback class="Magento\Newsletter\Model\Queue" method="newsletterQueueLoadAfter" />
         <callback class="Magento\Banner\Model\Banner" method="bannerLoadAfter" />
         <callback class="Magento\Widget\Model\Widget\Instance" method="widgetInstanceLoadAfter" />
