@@ -2706,7 +2706,6 @@ return array(
     ['Magento\Tax\Model\Resource\Rule\Grid\Options\HashOptimized'],
     ['Magento\Tax\Model\Resource\Rule\Grid\Options\ProductTaxClass'],
     ['Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction'],
-    ['Magento\Paypal\Block\PayflowExpress\Shortcut'],
     ['Magento\Framework\System\Args'],
     ['Magento\Framework\Autoload\Simple'],
     ['Magento\Catalog\Helper\Product\Price'],

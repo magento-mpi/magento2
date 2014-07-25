@@ -28,7 +28,6 @@ class Router implements \Magento\Framework\App\RouterInterface
     protected $urlMatcher;
 
     /**
-     * @param \Magento\Framework\App\ActionFactory $actionFactory
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -36,14 +35,12 @@ class Router implements \Magento\Framework\App\RouterInterface
      * @param \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
      */
     public function __construct(
-        \Magento\Framework\App\ActionFactory $actionFactory,
         \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
     ) {
-        parent::__construct($actionFactory);
         $this->url = $url;
         $this->appState = $appState;
         $this->storeManager = $storeManager;
