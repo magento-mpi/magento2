@@ -23,7 +23,7 @@ class SystemVariable extends InjectableFixture
     protected $defaultDataSet = [
         'code' => 'variableCode%isolation%',
         'name' => 'variableName%isolation%',
-        'html_value' => '{{html_value=""}}',
+        'html_value' => "<p>html_value</p>",
         'plain_value' => 'plain_value'
     ];
 
@@ -83,6 +83,12 @@ class SystemVariable extends InjectableFixture
         'input' => '',
     ];
 
+    protected $use_default_value = [
+        'attribute_code' => 'use_default_value',
+        'backend_type' => 'virtual',
+        'input' => 'select',
+    ];
+
     public function getVariableId()
     {
         return $this->getData('variable_id');
@@ -116,5 +122,10 @@ class SystemVariable extends InjectableFixture
     public function getHtmlValue()
     {
         return $this->getData('html_value');
+    }
+
+    public function getUseDefaultValue()
+    {
+        return $this->getData('use_default_value');
     }
 }

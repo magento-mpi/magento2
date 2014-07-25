@@ -7,14 +7,13 @@
  */
 namespace Magento\Catalog\Service\V1\Category;
 
-use Magento\Catalog\Model\Category;
+use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config;
-use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Webapi\Model\Rest\Config;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -30,34 +29,13 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function categoryCreationProvider()
     {
-        return [[$this->getSimpleCategoryData(['name' => 'Test Category Name'])]];
-    }
-
-    protected function getSimpleCategoryData($categoryData = array())
-    {
         return [
-            'path' => '2',
-            'parent_id' => '2',
-            'name' => isset($categoryData[AttributeMetadata::NAME])
-                ? $categoryData[AttributeMetadata::NAME] : uniqid('Category-', true),
-            'active' => '0',
-            'custom_attributes' => [
-                ['attribute_code' => 'url_key', 'value' => ''],
-                ['attribute_code' => 'description', 'value' => ''],
-                ['attribute_code' => 'meta_title', 'value' => ''],
-                ['attribute_code' => 'meta_keywords', 'value' => ''],
-                ['attribute_code' => 'meta_description', 'value' => ''],
-                ['attribute_code' => 'include_in_menu', 'value' => '1'],
-                ['attribute_code' => 'display_mode', 'value' => 'PRODUCTS'],
-                ['attribute_code' => 'landing_page', 'value' => ''],
-                ['attribute_code' => 'is_anchor', 'value' => '0'],
-                ['attribute_code' => 'custom_use_parent_settings', 'value' => '0'],
-                ['attribute_code' => 'custom_apply_to_products', 'value' => '0'],
-                ['attribute_code' => 'custom_design', 'value' => ''],
-                ['attribute_code' => 'custom_design_from', 'value' => ''],
-                ['attribute_code' => 'custom_design_to', 'value' => ''],
-                ['attribute_code' => 'page_layout', 'value' => ''],
-                ['attribute_code' => 'custom_layout_update', 'value' => ''],
+            [
+                $this->getSimpleCategoryData(
+                    [
+                        AttributeMetadata::NAME => 'Test Category Name'
+                    ]
+                )
             ]
         ];
     }
@@ -65,37 +43,13 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * Test for create category process
      *
+     * @magentoApiDataFixture Magento/Catalog/Model/Category/_files/service_category_create.php
      * @dataProvider categoryCreationProvider
      */
     public function testCreate($category)
     {
         $categoryId = $this->createCategory($category);
         $this->assertGreaterThan(0, $categoryId);
-
-        $category = Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Category');
-        $category->setId($categoryId);
-
-        self::setFixture('testCreate.remove.category', $category);
-    }
-
-    /**
-     * Create category process
-     *
-     * @param  $category
-     * @return int
-     */
-    protected function createCategory($category)
-    {
-        $serviceInfo = [
-            'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'create'
-            ],
-        ];
-        $requestData = ['category' => $category];
-        return $this->_webApiCall($serviceInfo, $requestData);
     }
 
     /**
@@ -116,25 +70,6 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @param int $id
-     * @return bool
-     * @throws \Exception
-     */
-    protected function deleteCategory($id)
-    {
-        $serviceInfo = array_merge_recursive($this->serviceInfo,
-            [
-                'rest' => [
-                    'resourcePath' => self::RESOURCE_PATH . '/' . $id,
-                    'httpMethod' => Config::HTTP_METHOD_DELETE
-                ],
-                'soap' => ['operation' => self::SERVICE_NAME . 'delete']
-            ]
-        );
-        return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);
-    }
-
-    /**
      * @magentoApiDataFixture Magento/Catalog/_files/category.php
      */
     public function testUpdate()
@@ -145,7 +80,8 @@ class WriteServiceTest extends WebapiAbstract
                 [
                     'attribute_code' => AttributeMetadata::NAME,
                     'value' => "Update Category Test"
-                ], [
+                ],
+                [
                     'attribute_code' => AttributeMetadata::DESCRIPTION,
                     'value' => "Update Category Description Test"
                 ]
@@ -155,7 +91,7 @@ class WriteServiceTest extends WebapiAbstract
         /** @var \Magento\Catalog\Model\Category $model */
         $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
         $model->load($categoryId);
-        foreach($categoryData['custom_attributes'] as $attribute) {
+        foreach ($categoryData['custom_attributes'] as $attribute) {
             $this->assertEquals($attribute['value'], $model->getData($attribute['attribute_code']));
         }
     }
@@ -168,7 +104,8 @@ class WriteServiceTest extends WebapiAbstract
     {
         $expectedPath = '1/2/400/' . $categoryId;
         $categoryData = ['categoryId' => $categoryId, 'parentId' => $parentId, 'afterId' => $afterId];
-        $serviceInfo = array_merge_recursive($this->serviceInfo,
+        $serviceInfo = array_merge_recursive(
+            $this->serviceInfo,
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $categoryId . '/move',
@@ -196,9 +133,79 @@ class WriteServiceTest extends WebapiAbstract
         );
     }
 
+    protected function getSimpleCategoryData($categoryData = array())
+    {
+        return [
+            'path' => '2',
+            'parent_id' => '2',
+            'name' => isset($categoryData[AttributeMetadata::NAME])
+                    ? $categoryData[AttributeMetadata::NAME] : uniqid('Category-', true),
+            'active' => '0',
+            'custom_attributes' => [
+                ['attribute_code' => 'url_key', 'value' => ''],
+                ['attribute_code' => 'description', 'value' => ''],
+                ['attribute_code' => 'meta_title', 'value' => ''],
+                ['attribute_code' => 'meta_keywords', 'value' => ''],
+                ['attribute_code' => 'meta_description', 'value' => ''],
+                ['attribute_code' => 'include_in_menu', 'value' => '1'],
+                ['attribute_code' => 'display_mode', 'value' => 'PRODUCTS'],
+                ['attribute_code' => 'landing_page', 'value' => ''],
+                ['attribute_code' => 'is_anchor', 'value' => '0'],
+                ['attribute_code' => 'custom_use_parent_settings', 'value' => '0'],
+                ['attribute_code' => 'custom_apply_to_products', 'value' => '0'],
+                ['attribute_code' => 'custom_design', 'value' => ''],
+                ['attribute_code' => 'custom_design_from', 'value' => ''],
+                ['attribute_code' => 'custom_design_to', 'value' => ''],
+                ['attribute_code' => 'page_layout', 'value' => ''],
+                ['attribute_code' => 'custom_layout_update', 'value' => ''],
+            ]
+        ];
+    }
+
+    /**
+     * Create category process
+     *
+     * @param  $category
+     * @return int
+     */
+    protected function createCategory($category)
+    {
+        $serviceInfo = [
+            'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'create'
+            ],
+        ];
+        $requestData = ['category' => $category];
+        return $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    protected function deleteCategory($id)
+    {
+        $serviceInfo = array_merge_recursive(
+            $this->serviceInfo,
+            [
+                'rest' => [
+                    'resourcePath' => self::RESOURCE_PATH . '/' . $id,
+                    'httpMethod' => Config::HTTP_METHOD_DELETE
+                ],
+                'soap' => ['operation' => self::SERVICE_NAME . 'delete']
+            ]
+        );
+        return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);
+    }
+
     protected function updateCategory($id, $data)
     {
-        $serviceInfo = array_merge_recursive($this->serviceInfo,
+        $serviceInfo = array_merge_recursive(
+            $this->serviceInfo,
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $id,

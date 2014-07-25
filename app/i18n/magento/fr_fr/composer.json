@@ -11,7 +11,7 @@
         "map": [
             [
                 "*",
-                "Magento/fr_FR"
+                "magento/fr_fr"
             ]
         ]
     }

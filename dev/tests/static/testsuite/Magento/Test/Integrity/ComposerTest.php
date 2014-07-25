@@ -74,7 +74,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         foreach (glob("{$root}/app/code/Magento/*", GLOB_ONLYDIR) as $dir) {
             $result[] = [$dir, 'magento2-module'];
         }
-        foreach (glob("{$root}/app/i18n/Magento/*", GLOB_ONLYDIR) as $dir) {
+        foreach (glob("{$root}/app/i18n/magento/*", GLOB_ONLYDIR) as $dir) {
             $result[] = [$dir, 'magento2-language'];
         }
         foreach (glob("{$root}/app/design/adminhtml/Magento/*", GLOB_ONLYDIR) as $dir) {
@@ -113,8 +113,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('name', $json);
         $this->assertObjectHasAttribute('type', $json);
         $this->assertObjectHasAttribute('version', $json);
+        $this->assertVersionInSync($json->version);
         $this->assertObjectHasAttribute('require', $json);
         $this->assertEquals($packageType, $json->type);
+        $this->assertHasMap($json);
+        $this->assertMapConsistent($dir, $json);
         switch ($packageType) {
             case 'magento2-module':
                 $xml = simplexml_load_file("$dir/etc/module.xml");
@@ -140,6 +143,39 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             default:
                 throw new \InvalidArgumentException("Unknown package type {$packageType}");
         }
+    }
+
+    /**
+     * Assert that there is map in specified composer json
+     *
+     * @param \StdClass $json
+     */
+    private function assertHasMap(\StdClass $json)
+    {
+        $error = 'There must be an "extra->map" node in composer.json of each Magento component.';
+        $this->assertObjectHasAttribute('extra', $json, $error);
+        $this->assertObjectHasAttribute('map', $json->extra, $error);
+        $this->assertInternalType('array', $json->extra->map, $error);
+    }
+
+    /**
+     * Assert that component directory name and mapping information are consistent
+     *
+     * @param string $dir
+     * @param \StdClass $json
+     */
+    private function assertMapConsistent($dir, $json)
+    {
+        preg_match('/^.+\/(.+)\/(.+)$/', $dir, $matches);
+        list(, $vendor, $name) = $matches;
+        $map = $json->extra->map;
+        $this->assertArrayHasKey(0, $map);
+        $this->assertArrayHasKey(1, $map[0]);
+        $this->assertRegExp(
+            "/{$vendor}\\/{$name}$/",
+            $map[0][1],
+            'Mapping info is inconsistent with the directory structure'
+        );
     }
 
     /**
@@ -230,6 +266,24 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Assert that versions in root composer.json and Magento component's composer.json are not out of sync
+     *
+     * @param string $version
+     */
+    private function assertVersionInSync($version)
+    {
+        $file = BP . '/composer.json';
+        $contents = file_get_contents($file);
+        $json = json_decode($contents);
+        $this->assertEquals(
+            $json->version,
+            $version,
+            "For the module '{$json->name}' version {$version} is inconsistent with version {$json->version} in root
+            composer.json "
+        );
+    }
+
+    /**
      * Convert a fully qualified module name to a composer package name according to conventions
      *
      * @param string $moduleName
@@ -277,6 +331,32 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     {
         if (!self::$isComposerAvailable) {
             $this->markTestSkipped();
+        }
+    }
+
+    public function testComponentPathsInRoot()
+    {
+        $json = json_decode(file_get_contents(self::$root . '/composer.json'));
+        if (!isset($json->extra) || !isset($json->extra->component_paths)) {
+            $this->markTestSkipped("The root composer.json file doesn't mention any extra component paths information");
+        }
+        $flat = [];
+        foreach ($json->extra->component_paths as $key => $element) {
+            if (is_string($element)) {
+                $flat[] = [$key, $element];
+            } elseif (is_array($element)) {
+                foreach ($element as $path) {
+                    $flat[] = [$key, $path];
+                }
+            } else {
+                throw new \Exception('Unexpected element in extra->component_paths');
+            }
+        }
+        while(list(, list($component, $path)) = each($flat)) {
+            $this->assertFileExists(
+                self::$root . '/' . $path,
+                "Missing or invalid component path: {$component} -> {$path}"
+            );
         }
     }
 }

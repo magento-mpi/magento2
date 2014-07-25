@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <target_country>
+            <input>select</input>
+        </target_country>
+        <attribute_set_id>
+            <input>select</input>
+        </attribute_set_id>
+        <category>
+            <input>select</input>
+        </category>
+    </fields>
+</mapping>
