@@ -47,27 +47,25 @@ class Grid extends AbstractGrid
      *
      * @var string
      */
-    protected $firstRow = '[data-role="row"] td[data-column="rate_id"]';
+    protected $firstRowSelector = '[data-role="row"] td[data-column="rate_id"]';
 
     /**
-     * Click on first exchange rate
-     *
-     * @return void
-     */
-    public function clickOnFirstRow()
-    {
-        if ($this->isFirstRowVisible()) {
-            $this->_rootElement->find($this->firstRow)->click();
-        }
-    }
-
-    /**
-     * Is first row visible
+     * Check whether first row is visible
      *
      * @return bool
      */
     public function isFirstRowVisible()
     {
-        return $this->_rootElement->find($this->firstRow)->isVisible();
+        return $this->_rootElement->find($this->firstRowSelector)->isVisible();
+    }
+
+    /**
+     * Open first item in grid
+     *
+     * @return void
+     */
+    public function openFirstRow()
+    {
+        $this->_rootElement->find($this->firstRowSelector)->click();
     }
 }
