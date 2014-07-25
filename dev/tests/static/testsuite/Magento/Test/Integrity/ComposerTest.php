@@ -333,4 +333,30 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped();
         }
     }
+
+    public function testComponentPathsInRoot()
+    {
+        $json = json_decode(file_get_contents(self::$root . '/composer.json'));
+        if (!isset($json->extra) || !isset($json->extra->component_paths)) {
+            $this->markTestSkipped("The root composer.json file doesn't mention any extra component paths information");
+        }
+        $flat = [];
+        foreach ($json->extra->component_paths as $key => $element) {
+            if (is_string($element)) {
+                $flat[] = [$key, $element];
+            } elseif (is_array($element)) {
+                foreach ($element as $path) {
+                    $flat[] = [$key, $path];
+                }
+            } else {
+                throw new \Exception('Unexpected element in extra->component_paths');
+            }
+        }
+        while(list(, list($component, $path)) = each($flat)) {
+            $this->assertFileExists(
+                self::$root . '/' . $path,
+                "Missing or invalid component path: {$component} -> {$path}"
+            );
+        }
+    }
 }
