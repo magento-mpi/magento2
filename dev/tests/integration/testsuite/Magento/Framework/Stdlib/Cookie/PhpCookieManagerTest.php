@@ -50,18 +50,6 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->cookieManager->getCookie(null));
     }
 
-    public function testDeleteCookie()
-    {
-        $cookieName = 'cookie name';
-        $cookieValue = 'cookie value';
-        $_COOKIE[$cookieName] = $cookieValue;
-        /** @var \Magento\Framework\Stdlib\Cookie\PublicCookieMetaData $publicCookieMetaData */
-        $publicCookieMetaData = $this->objectManager->create('Magento\Framework\Stdlib\Cookie\PublicCookieMetaData');
-        $this->assertEquals($cookieValue, $this->cookieManager->getCookie($cookieName));
-        $this->cookieManager->deleteCookie($cookieName, $publicCookieMetaData);
-        $this->assertNull($this->cookieManager->getCookie($cookieName));
-    }
-
     /**
      * It is not possible to write integration tests for CookieManager::setSensitiveCookie().
      * PHPUnit the following error when calling the function:

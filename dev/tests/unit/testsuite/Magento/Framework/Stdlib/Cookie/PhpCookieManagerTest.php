@@ -5,157 +5,122 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace {
-    // Setting $mockSetcookie to true will force all calls to
-    // setcookie() to use our mocked method. To use
-    // the PHP global function setcookie(), set $mockSetCookie to false.
-    $mockSetcookie = true;
+namespace Magento\Framework\Stdlib\Cookie;
 
-    $superglobalCookieArray = [];
+/**
+ * Mock global setcookie function
+ *
+ * @param string $name
+ * @param string $value
+ * @param int $expiry
+ * @param string $path
+ * @param string $domain
+ * @param bool $secure
+ * @param bool $httpOnly
+ * @return bool
+ */
+function setcookie($name, $value, $expiry, $path, $domain, $secure, $httpOnly)
+{
+    if (PhpCookieManagerTest::DELETE_COOKIE_NAME == $name) {
+        PhpCookieManagerTest::assertEquals('', $value);
+        PhpCookieManagerTest::assertEquals($expiry, PhpCookieManager::EXPIRE_NOW_TIME);
+        PhpCookieManagerTest::assertEquals($secure, PhpCookieManagerTest::COOKIE_SECURE);
+        PhpCookieManagerTest::assertEquals($httpOnly, PhpCookieManagerTest::COOKIE_HTTP_ONLY);
+    }
+
+    PhpCookieManagerTest::assertNull($domain);
+    PhpCookieManagerTest::assertNull($path);
+
+    return $name == PhpCookieManagerTest::EXCEPTION_COOKIE_NAME ? false : true;
 }
 
-namespace Magento\Framework\Stdlib\Cookie {
+use Magento\TestFramework\Helper\ObjectManager;
 
-    use Magento\TestFramework\Helper\ObjectManager;
-
-    function setcookie(
-        $name,
-        $value = null,
-        $expire = 0,
-        $path = null,
-        $domain = null,
-        $secure = false,
-        $httponly = false
-    ) {
-        global $superglobalCookieArray;
-        global $mockSetcookie;
-        if (isset($mockSetcookie) && $mockSetcookie === true) {
-            if (trim($value) == false) {
-                if (isset($superglobalCookieArray[$name])) {
-                    unset($superglobalCookieArray[$name]);
-                }
-            }
-
-            if ($expire < time() && $expire != 0) {
-                if (isset($superglobalCookieArray[$name])) {
-                    unset($superglobalCookieArray[$name]);
-                }
-            }
-
-            $superglobalCookieArray[$name] = [
-                'name' => $name,
-                'value' => $value,
-                'expire' => $expire,
-                'path' => $path,
-                'domain' => $domain,
-                'secure' => $secure,
-                'httponly' => $httponly,
-            ];
-
-        } else {
-            return call_user_func_array('\setcookie', func_get_args());
-        }
-    }
-
-    function simulateBrowserClose()
-    {
-        global $superglobalCookieArray;
-
-        foreach ($superglobalCookieArray as $cookie) {
-            if ($cookie['expire'] < time()) {
-                unset($superglobalCookieArray[$cookie['name']]);
-            }
-        }
-    }
-
-    function deleteAllCookies()
-    {
-        global $superglobalCookieArray;
-        $superglobalCookieArray = [];
-    }
-
-    function getcookie($name)
-    {
-        global $superglobalCookieArray;
-
-        if (isset($superglobalCookieArray[$name])) {
-            return $superglobalCookieArray[$name]['value'];
-        } else {
-            return null;
-        }
-    }
+/**
+ * Test PhpCookieManager
+ *
+ */
+class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
+{
+    const COOKIE_NAME = "cookie_name";
+    const SENSITIVE_COOKIE_NAME = "sensitive_cookie_name";
+    const DELETE_COOKIE_NAME = "delete_cookie_name";
+    const EXCEPTION_COOKIE_NAME = "exception_cookie_name";
+    const COOKIE_VALUE = "cookie_value";
+    const COOKIE_SECURE = false;
+    const COOKIE_HTTP_ONLY = false;
 
     /**
-     * Test PhpCookieManager
-     *
+     * @var ObjectManager
      */
-    class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
+    protected $objectManager;
+
+    /**
+     * Cookie Manager
+     *
+     * @var \Magento\Framework\Stdlib\Cookie\PhpCookieManager
+     */
+    protected $cookieManager;
+
+    protected function setUp()
     {
-        /**
-         * @var ObjectManager
-         */
-        protected $objectManager;
+        $this->objectManager = new ObjectManager($this);
+        $this->cookieManager = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PhpCookieManager');
+    }
 
-        /**
-         * Cookie Manager
-         *
-         * @var \Magento\Framework\Stdlib\Cookie\PhpCookieManager
-         */
-        protected $cookieManager;
+    public function testGetCookie()
+    {
+        $_COOKIE[self::COOKIE_NAME] = self::COOKIE_VALUE;
+        $defaultCookieValue = 'default';
+        $this->assertEquals(
+            $defaultCookieValue,
+            $this->cookieManager->getCookie('unknown cookieName', $defaultCookieValue)
+        );
+        $this->assertEquals(
+            self::COOKIE_VALUE,
+            $this->cookieManager->getCookie(self::COOKIE_NAME, $defaultCookieValue)
+        );
+        $this->assertEquals($defaultCookieValue, $this->cookieManager->getCookie(null, $defaultCookieValue));
+        $this->assertNull($this->cookieManager->getCookie(null));
+    }
 
-        /**
-         * Mock superglobal cookie array
-         *
-         * @var array
-         */
-        protected $mockCookieArray;
+    public function testDeleteCookie()
+    {
+        $_COOKIE[self::DELETE_COOKIE_NAME] = self::COOKIE_VALUE;
 
-        protected function setUp()
-        {
-            $this->objectManager = new ObjectManager($this);
-            $this->cookieManager = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PhpCookieManager');
-            deleteAllCookies();
-        }
+        /** @var \Magento\Framework\Stdlib\Cookie\CookieMetaData $cookieMetaData */
+        $cookieMetaData = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\CookieMetaData');
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
+        $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
+            ->setMethods(['setPublicCookie', 'setSensitiveCookie'])
+            ->disableOriginalConstructor()->getMock();
+        $mockCookieManager->expects($this->never())->method('setPublicCookie');
+        $mockCookieManager->expects($this->never())->method('setSensitiveCookie');
+        $this->assertEquals(self::COOKIE_VALUE, $this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
+        $mockCookieManager->deleteCookie(self::DELETE_COOKIE_NAME, $cookieMetaData);
+        $this->assertNull($this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
+    }
 
-        public function testGetCookie()
-        {
-            $cookieName           = 'cookie name';
-            $cookieValue          = 'cookie value';
-            $defaultCookieValue   = 'default';
-            $_COOKIE[$cookieName] = $cookieValue;
-            $this->assertEquals(
-                $defaultCookieValue,
-                $this->cookieManager->getCookie('unknown cookieName', $defaultCookieValue)
+    public function testDeleteCookieWithFailureToSendException()
+    {
+        $_COOKIE[self::EXCEPTION_COOKIE_NAME] = self::COOKIE_VALUE;
+
+        /** @var \Magento\Framework\Stdlib\Cookie\CookieMetaData $cookieMetaData */
+        $cookieMetaData = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\CookieMetaData');
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
+        $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
+            ->setMethods(['setPublicCookie', 'setSensitiveCookie'])
+            ->disableOriginalConstructor()->getMock();
+        $mockCookieManager->expects($this->never())->method('setPublicCookie');
+        $mockCookieManager->expects($this->never())->method('setSensitiveCookie');
+        try {
+            $mockCookieManager->deleteCookie(self::EXCEPTION_COOKIE_NAME, $cookieMetaData);
+            $this->fail('Expected exception not thrown.');
+        } catch (FailureToSendException $fse) {
+            $this->assertSame(
+                'Unable to delete the cookie name with cookieName = exception_cookie_name',
+                $fse->getMessage()
             );
-            $this->assertEquals($cookieValue, $this->cookieManager->getCookie($cookieName, $defaultCookieValue));
-            $this->assertEquals($defaultCookieValue, $this->cookieManager->getCookie(null, $defaultCookieValue));
-            $this->assertNull($this->cookieManager->getCookie(null));
-        }
-
-        public function testDeleteCookie()
-        {
-            $cookieName           = 'cookie name';
-            $cookieValue          = 'cookie value';
-            $_COOKIE[$cookieName] = $cookieValue;
-
-            /** @var \Magento\Framework\Stdlib\Cookie\PublicCookieMetaData $publicCookieMetaData */
-            $publicCookieMetaData = $this->objectManager
-                ->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetaData');
-            /**
-             * @var \PHPUnit_Framework_MockObject_MockObject
-             * | \Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager
-             */
-            $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
-                ->setMethods(['setPublicCookie'])
-                ->disableOriginalConstructor()->getMock();
-            $mockCookieManager->expects($this->once())->method('setPublicCookie')->with(
-                $cookieName,
-                false,
-                $publicCookieMetaData
-            );
-            $this->assertEquals($cookieValue, $this->cookieManager->getCookie($cookieName));
-            $mockCookieManager->deleteCookie($cookieName, $publicCookieMetaData);
-            $this->assertNull($this->cookieManager->getCookie($cookieName));
         }
     }
 }
