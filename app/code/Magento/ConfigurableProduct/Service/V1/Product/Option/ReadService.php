@@ -18,6 +18,9 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableT
 
 class ReadService implements ReadServiceInterface
 {
+    /**
+     * @var ConfigurableAttributeConverter
+     */
     private $configurableAttributeConverter;
 
     /**
@@ -49,12 +52,6 @@ class ReadService implements ReadServiceInterface
 
         /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $configurableAttribute */
         $option = $this->getConfigurableAttributesCollection($product)->getItemById($optionId);
-//        foreach ($this->getConfigurableAttributesCollection($product) as $configurableAttribute) {
-//            if ($optionId == $configurableAttribute->getAttributeId()) {
-//                $option = $configurableAttribute;
-//                break;
-//            }
-//        }
 
         if (is_null($option)) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
@@ -91,7 +88,7 @@ class ReadService implements ReadServiceInterface
     {
         $product = $this->productRepository->get($productSku);
         if (ConfigurableType::TYPE_CODE !== $product->getTypeId()) {
-            throw new Exception('Only implemented for configurable product');
+            throw new Exception('Only implemented for configurable product', Exception::HTTP_FORBIDDEN);
         }
         return $product;
     }
