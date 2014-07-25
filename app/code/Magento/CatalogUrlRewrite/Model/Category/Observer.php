@@ -54,6 +54,9 @@ class Observer
     {
         /** @var Category $category */
         $category = $observer->getEvent()->getCategory();
+        if ($category->getParentId() == Category::TREE_ROOT_ID) {
+            return;
+        }
         $urls = array();
         if (!$category->getData('url_key') || $category->getOrigData('url_key') !== $category->getData('url_key')) {
             $urls = array_merge(
@@ -63,7 +66,7 @@ class Observer
         } elseif ($category->getOrigData('affected_product_ids') !== $category->getData('affected_product_ids')) {
             $urls = $this->generateProductUrlRewrites($category);
         }
-        if (!empty($urls)) {
+        if ($urls) {
             $this->urlSave->save($urls);
         }
     }
