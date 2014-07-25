@@ -122,3 +122,4 @@ Magento/Dhl/Model
 Magento/Shipping/Model
 Magento/Catalog/Service/V1/Category
 Magento/UrlRedirect/Model
+setup
