@@ -17,6 +17,9 @@ use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
  */
 class AssertCustomerCustomAttributeSuccessSaveMessage extends AbstractConstraint
 {
+    /**
+     * Text of save success message
+     */
     const SUCCESS_SAVE_MESSAGE = 'You saved the customer attribute.';
 
     /**
@@ -34,10 +37,9 @@ class AssertCustomerCustomAttributeSuccessSaveMessage extends AbstractConstraint
      */
     public function processAssert(CustomerAttributeIndex $customerAttributeIndex)
     {
-        $actualMessage = $customerAttributeIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_SAVE_MESSAGE,
-            $actualMessage,
+            $customerAttributeIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
     }

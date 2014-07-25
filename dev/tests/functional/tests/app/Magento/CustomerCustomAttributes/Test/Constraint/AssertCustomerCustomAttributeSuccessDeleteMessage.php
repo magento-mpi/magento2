@@ -17,6 +17,9 @@ use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
  */
 class AssertCustomerCustomAttributeSuccessDeleteMessage extends AbstractConstraint
 {
+    /**
+     * Text of delete success message
+     */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the customer attribute.';
 
     /**
@@ -34,10 +37,9 @@ class AssertCustomerCustomAttributeSuccessDeleteMessage extends AbstractConstrai
      */
     public function processAssert(CustomerAttributeIndex $customerAttributeIndex)
     {
-        $actualMessage = $customerAttributeIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_DELETE_MESSAGE,
-            $actualMessage,
+            $customerAttributeIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
     }

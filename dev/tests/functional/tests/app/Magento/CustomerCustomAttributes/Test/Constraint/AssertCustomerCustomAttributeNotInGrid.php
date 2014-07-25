@@ -52,6 +52,6 @@ class AssertCustomerCustomAttributeNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer Attribute is not present in grid.';
+        return 'Customer Attribute is absent in grid.';
     }
 }

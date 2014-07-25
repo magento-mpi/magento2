@@ -9,7 +9,7 @@
 namespace Magento\CustomerCustomAttributes\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
@@ -58,14 +58,12 @@ class DeleteCustomerCustomAttributesEntityTest extends Injectable
     /**
      * Preparing customer
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param CustomerInjectable $customer
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(CustomerInjectable $customer)
     {
-        $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
         $customer->persist();
-
         return ['customer' => $customer];
     }
 
@@ -96,7 +94,7 @@ class DeleteCustomerCustomAttributesEntityTest extends Injectable
         $customerAttribute->persist();
 
         // Steps
-        $filter = ['frontend_label' => $customerAttribute->getFrontendLabel()];
+        $filter = ['attribute_code' => $customerAttribute->getAttributeCode()];
         $this->customerAttributeIndex->open();
         $this->customerAttributeIndex->getCustomerCustomAttributesGrid()->searchAndOpen($filter);
         $this->customerAttributeNew->getFormPageActions()->delete();

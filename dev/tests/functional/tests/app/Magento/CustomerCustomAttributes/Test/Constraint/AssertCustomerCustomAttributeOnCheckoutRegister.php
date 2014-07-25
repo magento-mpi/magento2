@@ -8,6 +8,7 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage;
@@ -31,6 +32,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
     /**
      * Assert that created customer attribute is available during register customer on checkout
      *
+     * @param CmsIndex $cmsIndex
      * @param CatalogProductSimple $productSimple
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
@@ -40,6 +42,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
      * @return void
      */
     public function processAssert(
+        CmsIndex $cmsIndex,
         CatalogProductSimple $productSimple,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
@@ -49,6 +52,11 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
     ) {
         // Precondition
         $productSimple->persist();
+
+        $cmsIndex->open();
+        if ($cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
+            $cmsIndex->getLinksBlock()->openLink("Log Out");
+        }
 
         // Steps
         $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;

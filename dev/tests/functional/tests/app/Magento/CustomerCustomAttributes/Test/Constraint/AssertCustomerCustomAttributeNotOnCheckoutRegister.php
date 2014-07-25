@@ -8,6 +8,7 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
@@ -31,6 +32,7 @@ class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstra
     /**
      * Assert that deleted customer attribute is not available during register customer on checkout
      *
+     * @param CmsIndex $cmsIndex
      * @param CatalogProductSimple $productSimple
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
@@ -39,6 +41,7 @@ class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstra
      * @return void
      */
     public function processAssert(
+        CmsIndex $cmsIndex,
         CatalogProductSimple $productSimple,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
@@ -47,6 +50,11 @@ class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstra
     ) {
         // Precondition
         $productSimple->persist();
+
+        $cmsIndex->open();
+        if ($cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
+            $cmsIndex->getLinksBlock()->openLink("Log Out");
+        }
 
         // Steps
         $catalogProductViewPage->init($productSimple);

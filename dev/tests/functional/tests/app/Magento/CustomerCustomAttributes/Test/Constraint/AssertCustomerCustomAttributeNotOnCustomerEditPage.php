@@ -8,7 +8,6 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerCustomAttributes\Test\Page\CustomerAccountEdit;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
@@ -35,7 +34,6 @@ class AssertCustomerCustomAttributeNotOnCustomerEditPage extends AbstractConstra
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param CustomerAccountEdit $customerAccountEdit
-     * @param CmsIndex $cmsIndex
      * @param CustomerInjectable $customer
      * @param CustomerCustomAttribute $customerAttribute
      * @return void
@@ -44,7 +42,6 @@ class AssertCustomerCustomAttributeNotOnCustomerEditPage extends AbstractConstra
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         CustomerAccountEdit $customerAccountEdit,
-        CmsIndex $cmsIndex,
         CustomerInjectable $customer,
         CustomerCustomAttribute $customerAttribute
     ) {
@@ -58,7 +55,6 @@ class AssertCustomerCustomAttributeNotOnCustomerEditPage extends AbstractConstra
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is present during register customer on frontend.'
         );
-        $cmsIndex->getLinksBlock()->openLink("Log Out");
     }
 
     /**
@@ -68,6 +64,6 @@ class AssertCustomerCustomAttributeNotOnCustomerEditPage extends AbstractConstra
      */
     public function toString()
     {
-        return 'Customer Attribute is absent during edit customer account on frontend.';
+        return 'Customer Attribute is absent during editing customer account on frontend.';
     }
 }
