@@ -25,9 +25,8 @@ class CurrencySymbolEntity extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['custom'] = [
+        $this->_data['currency_symbols_uah'] = [
             'custom_currency_symbol' => ['UAH' => 'custom'],
-            'inherit_custom_currency_symbol' => ['USD' => '1'],
         ];
     }
 }

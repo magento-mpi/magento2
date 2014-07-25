@@ -21,13 +21,20 @@ use Mtf\Handler\Curl as AbstractCurl;
  */
 class Curl extends AbstractCurl implements CurrencySymbolEntityInterface
 {
+    /**
+     * Post request for creating currency symbol
+     *
+     * @param FixtureInterface $fixture
+     * @return void
+     */
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData();
         $url = $_ENV['app_backend_url'] . 'admin/system_currencysymbol/save';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $curl->read();
         $curl->close();
+        // There is no verifying answer, because after sending a post request he has returned the index page
     }
 }

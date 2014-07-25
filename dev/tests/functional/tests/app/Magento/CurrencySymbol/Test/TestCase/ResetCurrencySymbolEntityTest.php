@@ -62,7 +62,7 @@ class ResetCurrencySymbolEntityTest extends Injectable
         $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'config_currency_symbols_usd_and_uah']);
         $config->persist();
 
-        //Creation Exchange Rate for currencies
+        // Import Exchange Rates for currencies
         $currencyIndex->open();
         $currencyIndex->getGridPageActions()->clickImportButton();
         $currencyIndex->getMainPageActions()->saveCurrentRate();
@@ -84,7 +84,6 @@ class ResetCurrencySymbolEntityTest extends Injectable
         $this->currencySymbolIndex = $currencySymbolIndex;
         $this->currencySymbolDefault = $currencySymbolDefault;
 
-        /**@var CatalogProductSimple $catalogProductSimple */
         $product = $fixtureFactory->createByCode(
             'catalogProductSimple',
             ['dataSet' => 'product_with_category']
@@ -93,7 +92,7 @@ class ResetCurrencySymbolEntityTest extends Injectable
 
         $currencySymbolOriginal = $fixtureFactory->createByCode(
             'currencySymbolEntity',
-            ['dataSet' => 'custom']
+            ['dataSet' => 'currency_symbols_uah']
         );
         $currencySymbolOriginal->persist();
 
@@ -101,24 +100,39 @@ class ResetCurrencySymbolEntityTest extends Injectable
     }
 
     /**
-     * Edit Currency Symbol Entity test
+     * Reset Currency Symbol Entity test
      *
      * @param CurrencySymbolEntity $currencySymbol
      * @param string $currencySymbolDefault
-     * @return void
+     * @param FixtureFactory $fixtureFactory
+     * @return array
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function test(CurrencySymbolEntity $currencySymbol, $currencySymbolDefault)
+    public function test(CurrencySymbolEntity $currencySymbol, $currencySymbolDefault, FixtureFactory $fixtureFactory)
     {
         // Steps
         $this->currencySymbolIndex->open();
         $this->currencySymbolIndex->getCurrencySymbolForm()->fill($currencySymbol);
         $this->currencySymbolIndex->getPageActions()->save();
+
+        return [
+            'currencySymbol' => $fixtureFactory->createByCode(
+                'currencySymbolEntity',
+                [
+                    'data' => array_merge(
+                        $currencySymbol->getData(),
+                        [
+                            'custom_currency_symbol' => $currencySymbolDefault
+                        ]
+                    )
+                ]
+            )
+        ];
     }
 
     /**
-     * Use Standard Currency Symbol
+     * Disabling currency which has been added.
      *
      * @return void
      */
