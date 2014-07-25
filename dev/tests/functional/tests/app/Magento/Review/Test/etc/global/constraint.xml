@@ -56,7 +56,4 @@
     <assertReviewBackendCreationSuccessMessage module="Magento_Review">
         <severeness>middle</severeness>
     </assertReviewBackendCreationSuccessMessage>
-    <assertProductReviewBackendSuccessSaveMessage module="Magento_Review">
-        <severeness>middle</severeness>
-    </assertProductReviewBackendSuccessSaveMessage>
 </constraint>

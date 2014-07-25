@@ -10,6 +10,9 @@ namespace Magento\Review\Test\TestCase;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Review\Test\Fixture\Rating;
+use Magento\Review\Test\Page\Adminhtml\RatingEdit;
+use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Mtf\TestCase\Injectable;
@@ -50,16 +53,50 @@ class CreateProductReviewBackendEntityTest extends Injectable
     protected $reviewEdit;
 
     /**
+     * RatingIndex page
+     *
+     * @var RatingIndex
+     */
+    protected $ratingIndex;
+
+    /**
+     * RatingEdit page
+     *
+     * @var RatingEdit
+     */
+    protected $ratingEdit;
+
+    /**
+     * @var Rating
+     */
+    protected $productRating;
+
+    /**
+     * Review fixture
+     *
+     * @var ReviewInjectable
+     */
+    protected $review;
+
+    /**
      * Inject pages into test
      *
      * @param ReviewIndex $reviewIndex
      * @param ReviewEdit $reviewEdit
+     * @param RatingIndex $ratingIndex
+     * @param RatingEdit $ratingEdit
      * @return void
      */
-    public function __inject(ReviewIndex $reviewIndex, ReviewEdit $reviewEdit)
-    {
+    public function __inject(
+        ReviewIndex $reviewIndex,
+        ReviewEdit $reviewEdit,
+        RatingIndex $ratingIndex,
+        RatingEdit $ratingEdit
+    ) {
         $this->reviewIndex = $reviewIndex;
         $this->reviewEdit = $reviewEdit;
+        $this->ratingIndex = $ratingIndex;
+        $this->ratingEdit = $ratingEdit;
     }
 
     /**
@@ -74,6 +111,7 @@ class CreateProductReviewBackendEntityTest extends Injectable
         // Precondition:
         $product->persist();
         $filter = ['id' => $product->getId(), 'name' => $product->getName()];
+        $this->review = $review;
 
         // Steps:
         $this->reviewIndex->open();
@@ -81,5 +119,22 @@ class CreateProductReviewBackendEntityTest extends Injectable
         $this->reviewEdit->getProductGrid()->searchAndOpen($filter);
         $this->reviewEdit->getReviewForm()->fill($review);
         $this->reviewEdit->getPageActions()->save();
+    }
+
+    /**
+     * Clear data after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->ratingIndex->open();
+        $ratingGrid = $this->ratingIndex->getRatingGrid();
+        $pageActions = $this->ratingEdit->getPageActions();
+        foreach ($this->review->getRatings() as $rating) {
+            $filter = ['rating_code' => $rating['title']];
+            $ratingGrid->searchAndOpen($filter);
+            $pageActions->delete();
+        }
     }
 }

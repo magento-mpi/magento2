@@ -36,7 +36,7 @@ use Mtf\TestCase\Injectable;
  * @group Reviews_and_Ratings_(MX)
  * @ZephyrId MAGETWO-25519
  */
-class CreateFrontendProductReviewEntityTest extends Injectable
+class CreateProductReviewFrontendEntityTest extends Injectable
 {
     /**
      * Frontend product view page
@@ -115,8 +115,10 @@ class CreateFrontendProductReviewEntityTest extends Injectable
         // Steps
         $this->catalogProductView->init($product);
         $this->catalogProductView->open();
-        $this->catalogProductView->getReviewSummaryBlock()->getAddReviewLink()->click();
-
+        $reviewLink = $this->catalogProductView->getReviewSummaryBlock()->getAddReviewLink();
+        if ($reviewLink->isVisible()) {
+            $reviewLink->click();
+        }
         $reviewForm = $this->catalogProductView->getReviewFormBlock();
         $reviewForm->fill($review);
         $reviewForm->submit();

@@ -41,25 +41,11 @@ class ReviewForm extends Form
     protected $saveButton = '[data-ui-id$=save-button-button]';
 
     /**
-     * Selector for single rating
+     * Rating block selector
      *
      * @var string
      */
-    protected $ratingByNumber = './/*[@id="detailed_rating"]//*[contains(@class,"field-rating")][%d]';
-
-    /**
-     * Selector for label of checked rating
-     *
-     * @var string
-     */
-    protected $checkedRating = 'input[id$="_%d"]:checked + label';
-
-    /**
-     * Rating selector
-     *
-     * @var string
-     */
-    protected $rating = './/*[@data-widget="ratingControl"]//label[contains(@for, "%s_%s")]';
+    protected $ratingsBlockSelector = '#detailed_rating';
 
     /**
      * Get data from 'Posted By' field
@@ -98,38 +84,10 @@ class ReviewForm extends Form
      */
     public function getRatings()
     {
-        $ratings = [];
-
-        $count = 1;
-        $rating = $this->_rootElement->find(sprintf($this->ratingByNumber, $count), Locator::SELECTOR_XPATH);
-        while ($rating->isVisible()) {
-            $ratings[$count] = [
-                'title' => $rating->find('./label/span', Locator::SELECTOR_XPATH)->getText(),
-                'rating' => $this->getRatingVote($rating)
-            ];
-
-            ++$count;
-            $rating = $this->_rootElement->find(sprintf($this->ratingByNumber, $count), Locator::SELECTOR_XPATH);
-        }
-
-        return $ratings;
-    }
-
-    /**
-     * Get rating vote
-     *
-     * @param Element $rating
-     * @return int
-     */
-    protected function getRatingVote(Element $rating)
-    {
-        $ratingVote = 5;
-        $ratingVoteElement = $rating->find(sprintf($this->checkedRating, $ratingVote));
-        while (!$ratingVoteElement->isVisible() && $ratingVote) {
-            --$ratingVote;
-            $ratingVoteElement = $rating->find(sprintf($this->checkedRating, $ratingVote));
-        }
-
-        return $ratingVote;
+        return $this->_rootElement->find(
+            $this->ratingsBlockSelector,
+            Locator::SELECTOR_CSS,
+            'Magento\Review\Test\Block\Adminhtml\Rating\Edit\RatingElement'
+        )->getValue();
     }
 }
