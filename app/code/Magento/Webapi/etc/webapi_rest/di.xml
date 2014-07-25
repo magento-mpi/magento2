@@ -56,7 +56,6 @@
             <argument name="response" xsi:type="object">Magento\Webapi\Controller\Rest\Response\Proxy</argument>
             <argument name="router" xsi:type="object">Magento\Webapi\Controller\Rest\Router\Proxy</argument>
             <argument name="oauthHelper" xsi:type="object">Magento\Framework\Oauth\Helper\Request\Proxy</argument>
-            <argument name="authorizationService" xsi:type="object">Magento\Authz\Service\AuthorizationV1Interface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Authz\Service\AuthorizationV1">

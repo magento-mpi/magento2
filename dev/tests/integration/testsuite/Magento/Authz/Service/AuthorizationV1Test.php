@@ -35,96 +35,6 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $userType
-     * @param string[] $resources
-     * @magentoDbIsolation enabled
-     * @dataProvider basicAuthFlowProvider
-     */
-    public function testBasicAuthFlow($userType, $resources)
-    {
-        $userIdentifier = $this->_createUserIdentifier($userType);
-
-        /** Preconditions check */
-        $this->_ensurePermissionsAreNotGranted($userIdentifier, $resources);
-
-        $this->_service->grantPermissions($userIdentifier, $resources);
-
-        /** Validate that access to the specified resources is granted */
-        $this->_ensurePermissionsAreGranted($userIdentifier, $resources);
-    }
-
-    public function basicAuthFlowProvider()
-    {
-        return array(
-            'integration' => array(
-                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
-                'resources' => array('Magento_Sales::create', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
-            )
-        );
-    }
-
-    /**
-     * @param string $userType
-     * @param string[] $initialResources
-     * @param string[] $newResources
-     * @magentoDbIsolation enabled
-     * @dataProvider changePermissionsProvider
-     */
-    public function testChangePermissions($userType, $initialResources, $newResources)
-    {
-        $userIdentifier = $this->_createUserIdentifier($userType);
-
-        $this->_service->grantPermissions($userIdentifier, $initialResources);
-        /** Preconditions check */
-        $this->_ensurePermissionsAreGranted($userIdentifier, $initialResources);
-        $this->_ensurePermissionsAreNotGranted($userIdentifier, $newResources);
-
-        $this->_service->grantPermissions($userIdentifier, $newResources);
-
-        /** Check the results of permissions change */
-        $this->_ensurePermissionsAreGranted($userIdentifier, $newResources);
-        $this->_ensurePermissionsAreNotGranted($userIdentifier, $initialResources);
-    }
-
-    public function changePermissionsProvider()
-    {
-        return array(
-            'integration' => array(
-                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
-                'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
-                'newResources' => array('Magento_Sales::cancel', 'Magento_Cms::page_delete')
-            ),
-            'integration clear permissions' => array(
-                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
-                'initialResources' => array('Magento_Sales::capture', 'Magento_Cms::page_delete'),
-                'newResources' => array()
-            )
-        );
-    }
-
-    /**
-     * @magentoDbIsolation enabled
-     */
-    public function testIsAllowedArrayOfResources()
-    {
-        $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
-        $resources = array('Magento_Cms::page', 'Magento_Adminhtml::dashboard');
-        $this->_service->grantPermissions($userIdentifier, $resources);
-        /** Preconditions check */
-        $this->_ensurePermissionsAreGranted($userIdentifier, $resources);
-
-        /** Ensure that permissions check to multiple resources at once works as expected */
-        $this->assertTrue(
-            $this->_service->isAllowed($resources, $userIdentifier),
-            'Access to multiple resources is expected to be granted, but is prohibited.'
-        );
-        $this->assertFalse(
-            $this->_service->isAllowed(array_merge($resources, array('invalid_resource')), $userIdentifier),
-            'Access is expected to be denied when at least one of the resources is unavailable.'
-        );
-    }
-
-    /**
      * @magentoDbIsolation enabled
      */
     public function testGetAllowedResources()
@@ -165,16 +75,6 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDbIsolation enabled
-     */
-    public function testGrantAllPermissions()
-    {
-        $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
-        $this->_service->grantAllPermissions($userIdentifier);
-        $this->_ensurePermissionsAreGranted($userIdentifier, array('Magento_Adminhtml::all'));
-    }
-
-    /**
      * Create new User identifier
      *
      * @param string $userType
@@ -199,22 +99,6 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
             $this->assertTrue(
                 $this->_service->isAllowed($resource, $userIdentifier),
                 "Access to resource '{$resource}' is prohibited while it is expected to be granted."
-            );
-        }
-    }
-
-    /**
-     * Check if access to the specified resources is prohibited to the user.
-     *
-     * @param UserIdentifier $userIdentifier
-     * @param string[] $resources
-     */
-    protected function _ensurePermissionsAreNotGranted($userIdentifier, $resources)
-    {
-        foreach ($resources as $resource) {
-            $this->assertFalse(
-                $this->_service->isAllowed($resource, $userIdentifier),
-                "Access to resource '{$resource}' is expected to be prohibited."
             );
         }
     }

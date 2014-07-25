@@ -11,6 +11,7 @@ use Magento\Authz\Model\UserIdentifier;
 use Magento\Authz\Model\UserIdentifier\Factory as UserIdentifierFactory;
 use Magento\Integration\Model\Integration as IntegrationModel;
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationInterface;
+use Magento\Integration\Service\V1\AuthorizationServiceInterface as IntegrationAuthorizationInterface;
 
 /**
  * Plugin for \Magento\Integration\Service\V1\Integration.
@@ -20,6 +21,9 @@ class IntegrationServiceV1
     /** @var AuthorizationInterface */
     protected $_authzService;
 
+    /** @var IntegrationAuthorizationInterface */
+    protected $integrationAuthorizationService;
+
     /** @var UserIdentifierFactory */
     protected $_userIdentifierFactory;
 
@@ -28,11 +32,16 @@ class IntegrationServiceV1
      *
      * @param AuthorizationInterface $authzService
      * @param UserIdentifierFactory $userIdentifierFactory
+     * @param IntegrationAuthorizationInterface $integrationAuthorizationService
      */
-    public function __construct(AuthorizationInterface $authzService, UserIdentifierFactory $userIdentifierFactory)
-    {
+    public function __construct(
+        AuthorizationInterface $authzService,
+        UserIdentifierFactory $userIdentifierFactory,
+        IntegrationAuthorizationInterface $integrationAuthorizationService
+    ) {
         $this->_authzService = $authzService;
         $this->_userIdentifierFactory = $userIdentifierFactory;
+        $this->integrationAuthorizationService = $integrationAuthorizationService;
     }
 
     /**
@@ -108,11 +117,12 @@ class IntegrationServiceV1
         if ($integration->getId()) {
             $userIdentifier = $this->_createUserIdentifier($integration->getId());
             if ($integration->getData('all_resources')) {
-                $this->_authzService->grantAllPermissions($userIdentifier);
+                $this->integrationAuthorizationService->grantAllPermissions($userIdentifier);
             } else if (is_array($integration->getData('resource'))) {
-                $this->_authzService->grantPermissions($userIdentifier, $integration->getData('resource'));
+                $this->integrationAuthorizationService
+                    ->grantPermissions($userIdentifier, $integration->getData('resource'));
             } else {
-                $this->_authzService->grantPermissions($userIdentifier, array());
+                $this->integrationAuthorizationService->grantPermissions($userIdentifier, array());
             }
         }
     }
@@ -148,7 +158,7 @@ class IntegrationServiceV1
             UserIdentifier::USER_TYPE_INTEGRATION,
             (int)$integrationData[IntegrationModel::ID]
         );
-        $this->_authzService->removePermissions($userIdentifier);
+        $this->integrationAuthorizationService->removePermissions($userIdentifier);
         return $integrationData;
     }
 }

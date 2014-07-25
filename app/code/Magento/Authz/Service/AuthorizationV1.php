@@ -99,31 +99,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * {@inheritdoc}
      */
-    public function grantPermissions(UserIdentifier $userIdentifier, array $resources)
-    {
-        try {
-            $role = $this->_getUserRole($userIdentifier);
-            if (!$role) {
-                $role = $this->_createRole($userIdentifier);
-            }
-            $this->_associateResourcesWithRole($role, $resources);
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            throw new LocalizedException('Error happened while granting permissions. Check exception log for details.');
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function grantAllPermissions(UserIdentifier $userIdentifier)
-    {
-        $this->grantPermissions($userIdentifier, array($this->_rootAclResource->getId()));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getAllowedResources(UserIdentifier $userIdentifier)
     {
         if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_GUEST) {
@@ -159,84 +134,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function removePermissions(UserIdentifier $userIdentifier)
-    {
-        try {
-            $this->_deleteRole($userIdentifier);
-        } catch (NoSuchEntityException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            throw new LocalizedException(
-                'Error happened while deleting role and permissions. Check exception log for details.'
-            );
-        }
-    }
-
-    /**
-     * Create new ACL role.
-     *
-     * @param UserIdentifier $userIdentifier
-     * @return \Magento\Authorization\Model\Role
-     * @throws NoSuchEntityException
-     * @throws \LogicException
-     */
-    protected function _createRole($userIdentifier)
-    {
-        $userType = $userIdentifier->getUserType();
-        if (!$this->_canRoleBeCreatedForUserType($userType)) {
-            throw new \LogicException("The role with user type '{$userType}' cannot be created");
-        }
-        $userId = $userIdentifier->getUserId();
-        switch ($userType) {
-            case UserIdentifier::USER_TYPE_INTEGRATION:
-                $roleName = $userType . $userId;
-                $roleType = \Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE;
-                $parentId = 0;
-                $userId = $userIdentifier->getUserId();
-                break;
-            default:
-                throw NoSuchEntityException::singleField('userType', $userType);
-        }
-        $role = $this->_roleFactory->create();
-        $role->setRoleName($roleName)
-            ->setUserType($userType)
-            ->setUserId($userId)
-            ->setRoleType($roleType)
-            ->setParentId($parentId)
-            ->save();
-        return $role;
-    }
-
-    /**
-     * Remove an ACL role. This deletes the cascading permissions
-     *
-     * @param UserIdentifier $userIdentifier
-     * @return \Magento\Authorization\Model\Role
-     * @throws NoSuchEntityException
-     * @throws \LogicException
-     */
-    protected function _deleteRole($userIdentifier)
-    {
-        $userType = $userIdentifier->getUserType();
-        if (!$this->_canRoleBeCreatedForUserType($userType)) {
-            throw new \LogicException("The role with user type '{$userType}' cannot be created or deleted.");
-        }
-        $userId = $userIdentifier->getUserId();
-        switch ($userType) {
-            case UserIdentifier::USER_TYPE_INTEGRATION:
-                $roleName = $userType . $userId;
-                break;
-            default:
-                throw NoSuchEntityException::singleField('userType', $userType);
-        }
-        $role = $this->_roleFactory->create()->load($roleName, 'role_name');
-        return $role->delete();
-    }
-
-    /**
      * Identify user role from user identifier.
      *
      * @param UserIdentifier $userIdentifier
@@ -256,21 +153,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
         $userId = $userIdentifier->getUserId();
         $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
         return $role->getId() ? $role : false;
-    }
-
-    /**
-     * Associate resources with the specified role. All resources previously assigned to the role will be unassigned.
-     *
-     * @param \Magento\Authorization\Model\Role $role
-     * @param string[] $resources
-     * @return void
-     * @throws \LogicException
-     */
-    protected function _associateResourcesWithRole($role, array $resources)
-    {
-        /** @var \Magento\Authorization\Model\Rules $rules */
-        $rules = $this->_rulesFactory->create();
-        $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
     }
 
     /**

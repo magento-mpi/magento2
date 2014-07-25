@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authz\Service;
+namespace Magento\Integration\Service\V1;
 
-use Magento\Authz\Model\UserIdentifier;
 use Magento\Authorization\Model\Role;
+use Magento\Authz\Model\UserIdentifier;
 
-class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
+class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var AuthorizationV1 */
+    /** @var AuthorizationService */
     protected $_authzService;
 
     protected function setUp()
@@ -38,7 +38,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         );
         $roleFactoryMock->expects($this->any())->method('create')->will($this->returnValue($roleMock));
 
-        $this->_authzService = new AuthorizationV1(
+        $this->_authzService = new AuthorizationService(
             $this->getMock('Magento\Framework\Acl\Builder', array(), array(), '', false),
             $this->getMock('Magento\Authz\Model\UserIdentifier', array(), array(), '', false),
             $roleFactoryMock,

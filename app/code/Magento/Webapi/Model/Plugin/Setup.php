@@ -10,6 +10,7 @@ namespace Magento\Webapi\Model\Plugin;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Model\Integration;
 use Magento\Webapi\Model\IntegrationConfig;
+use Magento\Integration\Service\V1\AuthorizationServiceInterface as IntegrationAuthorizationInterface;
 
 /**
  * Plugin for Magento\Framework\Module\Setup model to manage resource permissions of
@@ -32,11 +33,9 @@ class Setup
     protected $_integrationService;
 
     /**
-     * Authorization service
-     *
-     * @var \Magento\Authz\Service\AuthorizationV1
+     * @var IntegrationAuthorizationInterface
      */
-    protected $_authzService;
+    protected $integrationAuthorizationService;
 
     /**
      * Factory to create UserIdentifier
@@ -49,18 +48,18 @@ class Setup
      * Construct Setup plugin instance
      *
      * @param IntegrationConfig $integrationConfig
-     * @param \Magento\Authz\Service\AuthorizationV1 $authzService
+     * @param IntegrationAuthorizationInterface $integrationAuthorizationService
      * @param \Magento\Integration\Service\V1\IntegrationInterface $integrationService
      * @param \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
      */
     public function __construct(
         IntegrationConfig $integrationConfig,
-        \Magento\Authz\Service\AuthorizationV1 $authzService,
+        IntegrationAuthorizationInterface $integrationAuthorizationService,
         \Magento\Integration\Service\V1\IntegrationInterface $integrationService,
         \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
     ) {
         $this->_integrationConfig = $integrationConfig;
-        $this->_authzService = $authzService;
+        $this->integrationAuthorizationService = $integrationAuthorizationService;
         $this->_integrationService = $integrationService;
         $this->_userIdentifierFactory = $userIdentifierFactory;
     }
@@ -91,7 +90,8 @@ class Setup
                         UserIdentifier::USER_TYPE_INTEGRATION,
                         $integration->getId()
                     );
-                    $this->_authzService->grantPermissions($userIdentifier, $integrations[$name]['resources']);
+                    $this->integrationAuthorizationService
+                        ->grantPermissions($userIdentifier, $integrations[$name]['resources']);
                 }
             }
         }
