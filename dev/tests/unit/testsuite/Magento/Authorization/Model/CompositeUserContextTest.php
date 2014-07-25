@@ -48,7 +48,7 @@ class CompositeUserContextTest extends \PHPUnit_Framework_TestCase
         $userContextMock->expects($this->any())->method('getUserType')->will($this->returnValue($expectedUserType));
         $this->_model = new CompositeUserContext([$userContextMock]);
         $actualUserType = $this->_model->getUserType();
-        $this->assertEquals($expectedUserType, $actualUserType, 'User ID is defined incorrectly.');
+        $this->assertEquals($expectedUserType, $actualUserType, 'User Type is defined incorrectly.');
     }
 
     public function testUserContextCaching()
@@ -61,6 +61,18 @@ class CompositeUserContextTest extends \PHPUnit_Framework_TestCase
         $this->_model = new CompositeUserContext([$userContextMock]);
         $this->_model->getUserType();
         $this->_model->getUserType();
+    }
+
+    public function testEmptyUserContext()
+    {
+        $expectedUserType = null;
+        $userContextMock = $this->getMockBuilder('Magento\Authorization\Model\CompositeUserContext')
+            ->disableOriginalConstructor()->setMethods(['getUserType'])->getMock();
+        $userContextMock->expects($this->any())->method('getUserType')
+            ->will($this->returnValue($expectedUserType));
+        $this->_model = new CompositeUserContext([$userContextMock]);
+        $actualUserType = $this->_model->getUserType();
+        $this->assertEquals($expectedUserType, $actualUserType, 'User Type is defined incorrectly.');
     }
 
     /**
