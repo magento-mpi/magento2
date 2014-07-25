@@ -14,7 +14,6 @@ use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
 
 /**
  * Class AssertCustomerCustomAttributeNotInGrid
- *
  * Assert that deleted customer attribute cannot be found in grid
  */
 class AssertCustomerCustomAttributeNotInGrid extends AbstractConstraint
@@ -38,9 +37,7 @@ class AssertCustomerCustomAttributeNotInGrid extends AbstractConstraint
         CustomerAttributeIndex $customerAttributeIndex
     ) {
         $data = $customerAttribute->getData();
-        $filter = [
-            'attribute_code' => $data['attribute_code'],
-        ];
+        $filter = ['attribute_code' => $data['attribute_code']];
 
         \PHPUnit_Framework_Assert::assertFalse(
             $customerAttributeIndex->getCustomerCustomAttributesGrid()->isRowVisible($filter, true, false),

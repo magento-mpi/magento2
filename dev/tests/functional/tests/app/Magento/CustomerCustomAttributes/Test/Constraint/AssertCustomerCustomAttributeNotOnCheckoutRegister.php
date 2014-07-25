@@ -17,7 +17,6 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class AssertCustomerCustomAttributeNotOnCheckoutRegister
- *
  * Assert that deleted customer attribute is not available during register customer on checkout
  */
 class AssertCustomerCustomAttributeNotOnCheckoutRegister extends AbstractConstraint

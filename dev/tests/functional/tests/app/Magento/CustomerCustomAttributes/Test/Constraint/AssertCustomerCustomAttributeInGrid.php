@@ -39,7 +39,6 @@ class AssertCustomerCustomAttributeInGrid extends AbstractConstraint
         CustomerAttributeIndex $customerAttributeIndex,
         CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
-        return;
         $data = ($initialCustomerAttribute === null)
             ? $customerAttribute->getData()
             : array_merge($initialCustomerAttribute->getData(), $customerAttribute->getData());

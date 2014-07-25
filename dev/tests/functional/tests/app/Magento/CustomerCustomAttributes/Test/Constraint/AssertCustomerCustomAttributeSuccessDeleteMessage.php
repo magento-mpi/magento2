@@ -13,7 +13,6 @@ use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
 
 /**
  * Class AssertCustomerCustomAttributeSuccessDeleteMessage
- *
  * Assert that after delete customer attribute successful message appears
  */
 class AssertCustomerCustomAttributeSuccessDeleteMessage extends AbstractConstraint
