@@ -1776,5 +1776,18 @@ return array(
     ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
     ['prepareValueForDuplicate', 'Magento\Catalog\Model\Product\Option\Value'],
     ['prepareOptionForDuplicate', '\Magento\Catalog\Model\Product\Option'],
+    [
+        'getFlatColums',
+        'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource',
+        'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource::getFlatColumns'
+    ],
+    ['addProductAdvanced', '\Magento\Sales\Model\Quote'],
+    ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
+    ['getCalculator', '\Magento\Tax\Helper\Data'],
+    ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
+    ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
+    ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
     ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
 );
