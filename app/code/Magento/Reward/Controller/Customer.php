@@ -65,81 +65,6 @@ class Customer extends \Magento\Framework\App\Action\Action
     }
 
     /**
-     * Info Action
-     *
-     * @return void
-     */
-    public function infoAction()
-    {
-        $this->_coreRegistry->register('current_reward', $this->_getReward());
-        $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages();
-        $headBlock = $this->_view->getLayout()->getBlock('head');
-        if ($headBlock) {
-            $headBlock->setTitle(__('Reward Points'));
-        }
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Save settings
-     *
-     * @return void
-     */
-    public function saveSettingsAction()
-    {
-        if (!$this->_formKeyValidator->validate($this->getRequest())) {
-            return $this->_redirect('*/*/info');
-        }
-
-        $customer = $this->_getCustomer();
-        if ($customer->getId()) {
-            $customer->setRewardUpdateNotification(
-                $this->getRequest()->getParam('subscribe_updates')
-            )->setRewardWarningNotification(
-                $this->getRequest()->getParam('subscribe_warnings')
-            );
-            $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
-            $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
-
-            $this->messageManager->addSuccess(__('You saved the settings.'));
-        }
-        $this->_redirect('*/*/info');
-    }
-
-    /**
-     * Unsubscribe customer from update/warning balance notifications
-     *
-     * @return void
-     */
-    public function unsubscribeAction()
-    {
-        $notification = $this->getRequest()->getParam('notification');
-        if (!in_array($notification, array('update', 'warning'))) {
-            $this->_forward('noroute');
-        }
-
-        try {
-            /* @var $customer \Magento\Customer\Model\Session */
-            $customer = $this->_getCustomer();
-            if ($customer->getId()) {
-                if ($notification == 'update') {
-                    $customer->setRewardUpdateNotification(false);
-                    $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
-                } elseif ($notification == 'warning') {
-                    $customer->setRewardWarningNotification(false);
-                    $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
-                }
-                $this->messageManager->addSuccess(__('You have been unsubscribed.'));
-            }
-        } catch (\Exception $e) {
-            $this->messageManager->addError(__('Failed to unsubscribe'));
-        }
-
-        $this->_redirect('*/*/info');
-    }
-
-    /**
      * Retrieve customer session model object
      *
      * @return \Magento\Customer\Model\Session
@@ -157,22 +82,5 @@ class Customer extends \Magento\Framework\App\Action\Action
     protected function _getCustomer()
     {
         return $this->_getSession()->getCustomer();
-    }
-
-    /**
-     * Load reward by customer
-     *
-     * @return \Magento\Reward\Model\Reward
-     */
-    protected function _getReward()
-    {
-        $reward = $this->_objectManager->create(
-            'Magento\Reward\Model\Reward'
-        )->setCustomer(
-            $this->_getCustomer()
-        )->setWebsiteId(
-            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
-        )->loadByCustomer();
-        return $reward;
     }
 }

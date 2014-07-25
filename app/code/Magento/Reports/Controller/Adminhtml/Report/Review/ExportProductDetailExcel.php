@@ -1,0 +1,31 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Reports\Controller\Adminhtml\Report\Review;
+
+use \Magento\Framework\App\ResponseInterface;
+
+class ExportProductDetailExcel extends \Magento\Reports\Controller\Adminhtml\Report\Review
+{
+    /**
+     * Export review product detail report to ExcelXML format
+     *
+     * @return ResponseInterface
+     */
+    public function execute()
+    {
+        $fileName = 'review_product_detail.xml';
+        $content = $this->_view->getLayout()->createBlock(
+            'Magento\Reports\Block\Adminhtml\Review\Detail\Grid'
+        )->getExcel(
+            $fileName
+        );
+
+        return $this->_fileFactory->create($fileName, $content, \Magento\Framework\App\Filesystem::VAR_DIR);
+    }
+}

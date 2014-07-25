@@ -27,6 +27,13 @@ class Success extends Block
     protected $continue = '.button-set button';
 
     /**
+     * 'Continue Shopping' link
+     *
+     * @var string
+     */
+    protected $continueShopping = '.action.continue';
+
+    /**
      * Fill shipping address
      */
     public function continueShopping()
@@ -43,7 +50,13 @@ class Success extends Block
      */
     public function getOrderIds(GuestPaypalDirect $fixture)
     {
-        $orderIds = array();
+        $continueShopping = $this->_rootElement->find($this->continueShopping);
+        $this->_rootElement->waitUntil(
+            function () use ($continueShopping) {
+                return $continueShopping->isVisible() ? true : null;
+            }
+        );
+        $orderIds = [];
         $ordersNumber = count($fixture->getShippingMethods());
         for ($i = 1; $i <= $ordersNumber; $i++) {
             $orderIds[] = $this->_rootElement->find(

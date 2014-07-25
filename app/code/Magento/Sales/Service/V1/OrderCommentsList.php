@@ -67,13 +67,13 @@ class OrderCommentsList implements OrderCommentsListInterface
     /**
      * Invoke OrderCommentsList service
      *
-     * @param int $orderId
+     * @param int $id
      * @return array
      */
-    public function invoke($orderId)
+    public function invoke($id)
     {
         $this->criteriaBuilder->addFilter(
-            ['eq' => $this->filterBuilder->setField('parent_id')->setValue($orderId)->create()]
+            ['eq' => $this->filterBuilder->setField('parent_id')->setValue($id)->create()]
         );
         $criteria = $this->criteriaBuilder->create();
         $comments = [];

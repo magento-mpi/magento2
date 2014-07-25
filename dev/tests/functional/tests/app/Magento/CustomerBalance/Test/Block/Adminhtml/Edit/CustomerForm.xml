@@ -14,6 +14,7 @@
         <strategy>css selector</strategy>
         <wrapper>customerbalance</wrapper>
         <fields>
+            <amount_delta />
             <website_id>
                 <selector>[name="customerbalance[website_id]"]</selector>
                 <input>select</input>

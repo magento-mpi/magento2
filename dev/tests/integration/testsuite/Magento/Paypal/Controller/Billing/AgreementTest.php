@@ -97,7 +97,7 @@ class AgreementTest extends \Magento\TestFramework\TestCase\AbstractController
         );
         /** @var \Magento\Paypal\Controller\Billing\Agreement $billingAgreementController */
         $billingAgreementController = $objectManager->create(
-            'Magento\Paypal\Controller\Billing\Agreement',
+            'Magento\Paypal\Controller\Billing\Agreement\ReturnWizard',
             ['context' => $contextMock]
         );
 
@@ -108,7 +108,7 @@ class AgreementTest extends \Magento\TestFramework\TestCase\AbstractController
         $customerSession->setCustomerId($fixtureCustomerId);
 
         /** Execute SUT */
-        $billingAgreementController->returnWizardAction();
+        $billingAgreementController->execute();
 
         /** Ensure that billing agreement record was created in the DB */
         /** @var \Magento\Paypal\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */

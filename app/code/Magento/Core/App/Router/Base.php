@@ -9,8 +9,20 @@
  */
 namespace Magento\Core\App\Router;
 
-class Base extends \Magento\Framework\App\Router\AbstractRouter
+use Magento\Framework\App\RequestInterface;
+
+class Base implements \Magento\Framework\App\RouterInterface
 {
+    /**
+     * @var \Magento\Framework\App\ActionFactory
+     */
+    protected $actionFactory;
+
+    /**
+     * @var string
+     */
+    protected $actionInterface = '\Magento\Framework\App\ActionInterface';
+
     /**
      * @var array
      */
@@ -26,7 +38,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * Order sensitive
      * @var string[]
      */
-    protected $_requiredParams = array('moduleFrontName', 'controllerName', 'actionName');
+    protected $_requiredParams = array('moduleFrontName', 'actionPath', 'actionName');
 
     /**
      * @var \Magento\Framework\App\Route\ConfigInterface
@@ -78,6 +90,29 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
     protected $nameBuilder;
 
     /**
+     * @var array
+     */
+    protected $reservedNames = ['new', 'print', 'switch', 'return'];
+
+    /**
+     * Allows to control if we need to enable no route functionality in current router
+     *
+     * @var bool
+     */
+    protected $applyNoRoute = false;
+
+    /**
+     * @var string
+     */
+    protected $pathPrefix = null;
+
+    /**
+     * @var \Magento\Framework\App\Router\ActionList
+     */
+    protected $actionList;
+
+    /**
+     * @param \Magento\Framework\App\Router\ActionList $actionList
      * @param \Magento\Framework\App\ActionFactory $actionFactory
      * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
@@ -92,6 +127,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * @throws \InvalidArgumentException
      */
     public function __construct(
+        \Magento\Framework\App\Router\ActionList $actionList,
         \Magento\Framework\App\ActionFactory $actionFactory,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Framework\App\ResponseFactory $responseFactory,
@@ -104,7 +140,8 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
         $routerId,
         \Magento\Framework\Code\NameBuilder $nameBuilder
     ) {
-        parent::__construct($actionFactory);
+        $this->actionList = $actionList;
+        $this->actionFactory = $actionFactory;
         $this->_responseFactory = $responseFactory;
         $this->_defaultPath = $defaultPath;
         $this->_routeConfig = $routeConfig;
@@ -124,9 +161,9 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      */
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
-        $params = $this->_parseRequest($request);
+        $params = $this->parseRequest($request);
 
-        return $this->_matchController($request, $params);
+        return $this->matchAction($request, $params);
     }
 
     /**
@@ -135,7 +172,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * @param \Magento\Framework\App\RequestInterface $request
      * @return array
      */
-    protected function _parseRequest(\Magento\Framework\App\RequestInterface $request)
+    protected function parseRequest(\Magento\Framework\App\RequestInterface $request)
     {
         $output = array();
 
@@ -159,7 +196,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * @param string $param
      * @return string|null
      */
-    protected function _matchModuleFrontName(\Magento\Framework\App\RequestInterface $request, $param)
+    protected function matchModuleFrontName(\Magento\Framework\App\RequestInterface $request, $param)
     {
         // get module name
         if ($request->getModuleName()) {
@@ -183,37 +220,20 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * @param string $param
      * @return string
      */
-    protected function _matchControllerName(\Magento\Framework\App\RequestInterface $request, $param)
+    protected function matchActionPath(\Magento\Framework\App\RequestInterface $request, $param)
     {
         if ($request->getControllerName()) {
-            $controller = $request->getControllerName();
+            $actionPath = $request->getControllerName();
         } elseif (!empty($param)) {
-            $controller = $param;
+            $actionPath = $param;
         } else {
-            $controller = $this->_defaultPath->getPart('controller');
-            $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, ltrim($request->getOriginalPathInfo(), '/'));
+            $actionPath = $this->_defaultPath->getPart('controller');
+            $request->setAlias(
+                \Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS,
+                ltrim($request->getOriginalPathInfo(), '/')
+            );
         }
-        return $controller;
-    }
-
-    /**
-     * Match controller name
-     *
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param string $param
-     * @return string
-     */
-    protected function _matchActionName(\Magento\Framework\App\RequestInterface $request, $param)
-    {
-        if ($request->getActionName()) {
-            $action = $request->getActionName();
-        } elseif (empty($param)) {
-            $action = $this->_defaultPath->getPart('action');
-        } else {
-            $action = $param;
-        }
-
-        return $action;
+        return $actionPath;
     }
 
     /**
@@ -223,22 +243,19 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * @param \Magento\Framework\App\RequestInterface $request
      * @return \Magento\Framework\App\Action\Action|null
      */
-    protected function _getNotFoundControllerInstance($currentModuleName, \Magento\Framework\App\RequestInterface $request)
+    protected function getNotFoundAction($currentModuleName, RequestInterface $request)
     {
-        if (!$this->_noRouteShouldBeApplied()) {
+        if (!$this->applyNoRoute) {
             return null;
         }
 
-        $controllerClassName = $this->getControllerClassName($currentModuleName, 'index');
-        if (!$controllerClassName
-            || !method_exists($controllerClassName, 'norouteAction')
-            || !is_callable([$controllerClassName, 'norouteAction'])
-        ) {
+        $actionClassName = $this->getActionClassName($currentModuleName, 'noroute');
+        if (!$actionClassName || !is_subclass_of($actionClassName, $this->actionInterface)) {
             return null;
         }
 
-        // instantiate controller class
-        return $this->_actionFactory->createController($controllerClassName, array('request' => $request));
+        // instantiate action class
+        return $this->actionFactory->create($actionClassName, array('request' => $request));
     }
 
     /**
@@ -248,9 +265,9 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      * @param array $params
      * @return \Magento\Framework\App\Action\Action|null
      */
-    protected function _matchController(\Magento\Framework\App\RequestInterface $request, array $params)
+    protected function matchAction(\Magento\Framework\App\RequestInterface $request, array $params)
     {
-        $moduleFrontName = $this->_matchModuleFrontName($request, $params['moduleFrontName']);
+        $moduleFrontName = $this->matchModuleFrontName($request, $params['moduleFrontName']);
         if (empty($moduleFrontName)) {
             return null;
         }
@@ -268,36 +285,30 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
          * Going through modules to find appropriate controller
          */
         $currentModuleName = null;
-        $controller = null;
+        $actionPath = null;
         $action = null;
-        $controllerInstance = null;
+        $actionInstance = null;
 
         $request->setRouteName($this->_routeConfig->getRouteByFrontName($moduleFrontName));
-        $controller = $this->_matchControllerName($request, $params['controllerName']);
-        $action = $this->_matchActionName($request, $params['actionName']);
-        $this->_checkShouldBeSecure($request, '/' . $moduleFrontName . '/' . $controller . '/' . $action);
+        $actionPath = $this->matchActionPath($request, $params['actionPath']);
+        $action = $request->getActionName() ?: ($params['actionName'] ?: $this->_defaultPath->getPart('action'));
+        $this->_checkShouldBeSecure($request, '/' . $moduleFrontName . '/' . $actionPath . '/' . $action);
 
         foreach ($modules as $moduleName) {
             $currentModuleName = $moduleName;
 
-            $controllerClassName = $this->getControllerClassName($moduleName, $controller);
-            if (!$controllerClassName
-                || !method_exists($controllerClassName, $action . 'Action')
-                || !is_callable([$controllerClassName, $action . 'Action'])
-            ) {
+            $actionClassName = $this->actionList->get($moduleName, $this->pathPrefix, $actionPath, $action);
+            if (!$actionClassName || !is_subclass_of($actionClassName, $this->actionInterface)) {
                 continue;
             }
 
-            $controllerInstance = $this->_actionFactory->createController(
-                $controllerClassName,
-                array('request' => $request)
-            );
+            $actionInstance = $this->actionFactory->create($actionClassName, array('request' => $request));
             break;
         }
 
-        if (null == $controllerInstance) {
-            $controllerInstance = $this->_getNotFoundControllerInstance($currentModuleName, $request);
-            if (is_null($controllerInstance)) {
+        if (null == $actionInstance) {
+            $actionInstance = $this->getNotFoundAction($currentModuleName, $request);
+            if (is_null($actionInstance)) {
                 return null;
             }
             $action = 'noroute';
@@ -305,13 +316,13 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
 
         // set values only after all the checks are done
         $request->setModuleName($moduleFrontName);
-        $request->setControllerName($controller);
+        $request->setControllerName($actionPath);
         $request->setActionName($action);
         $request->setControllerModule($currentModuleName);
         if (isset($params['variables'])) {
             $request->setParams($params['variables']);
         }
-        return $controllerInstance;
+        return $actionInstance;
     }
 
     /**
@@ -325,25 +336,16 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
     }
 
     /**
-     * Allow to control if we need to enable no route functionality in current router
-     *
-     * @return bool
-     */
-    protected function _noRouteShouldBeApplied()
-    {
-        return false;
-    }
-
-    /**
      * Build controller class name
      *
      * @param string $module
-     * @param string $controller
+     * @param string $actionPath
      * @return string
      */
-    public function getControllerClassName($module, $controller)
+    public function getActionClassName($module, $actionPath)
     {
-        return $this->nameBuilder->buildClassName(array($module, 'Controller', $controller));
+        $prefix = $this->pathPrefix ? 'Controller\\' . $this->pathPrefix  : 'Controller';
+        return $this->nameBuilder->buildClassName(array($module, $prefix, $actionPath));
     }
 
     /**
@@ -389,12 +391,8 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
      */
     protected function _getCurrentSecureUrl($request)
     {
-        $alias = $request->getAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS);
-        if ($alias) {
-            return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($alias, '/');
-        }
-
-        return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
+        $alias = $request->getAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS) || $request->getPathInfo();
+        return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($alias, '/');
     }
 
     /**

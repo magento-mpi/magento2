@@ -93,24 +93,23 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      *
      * @return array
      */
-    public function getFlatColums()
+    public function getFlatColumns()
     {
         $attributeDefaultValue = $this->getAttribute()->getDefaultValue();
         $attributeCode = $this->getAttribute()->getAttributeCode();
         $attributeType = $this->getAttribute()->getBackendType();
         $isNullable = is_null($attributeDefaultValue) || empty($attributeDefaultValue);
 
-        $column = array(
-            'unsigned' => false,
-            'extra' => null,
-            'default' => $isNullable ? null : $attributeDefaultValue
-        );
-
-        $column['type'] = $this->_resourceHelper->getDdlTypeByColumnType($attributeType);
-        $column['nullable'] = $isNullable;
-        $column['comment'] = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
-
-        return array($attributeCode => $column);
+        return [
+            $attributeCode => [
+                'unsigned' => false,
+                'extra' => null,
+                'default' => $isNullable ? null : $attributeDefaultValue,
+                'type' => $this->_resourceHelper->getDdlTypeByColumnType($attributeType),
+                'nullable' => $isNullable,
+                'comment' => 'Enterprise Giftcard Open ' . $attributeCode . ' column',
+            ],
+        ];
     }
 
     /**
