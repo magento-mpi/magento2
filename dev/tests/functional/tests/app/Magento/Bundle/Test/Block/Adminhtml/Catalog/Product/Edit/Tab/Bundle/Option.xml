@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="1">
+    <fields>
+        <title>
+            <selector>[name$="[title]"]</selector>
+            <strategy>css selector</strategy>
+        </title>
+        <type>
+            <selector>[name$='[type]']</selector>
+            <strategy>css selector</strategy>
+            <input>select</input>
+        </type>
+        <required>
+            <selector>#field-option-req</selector>
+            <strategy>css selector</strategy>
+            <input>checkbox</input>
+        </required>
+    </fields>
+</mapping>

@@ -113,11 +113,12 @@ class UserWithRestrictedRoleTest extends Functional
         $storeGroupFixture = Factory::getFixtureFactory()->getMagentoStoreStoreGroup();
         $storeGroupData = $storeGroupFixture->persist();
 
-        $storeFixture = Factory::getFixtureFactory()->getMagentoStoreStore(
-            array('store_group' => $storeGroupData['id'])
+        $objectManager = Factory::getObjectManager();
+        $storeFixture = $objectManager->create(
+            '\Magento\Store\Test\Fixture\Store',
+            ['dataSet' => 'default', 'data' => ['group_id' => $storeGroupData['id']]]
         );
-        $storeFixture->switchData('custom_store');
-        $storeData = $storeFixture->persist();
+        $storeFixture->persist();
 
         //Create new Admin User
         $userFixture = Factory::getFixtureFactory()->getMagentoUserAdminUser();
@@ -173,7 +174,7 @@ class UserWithRestrictedRoleTest extends Functional
 
         //Verify that at "Purchase Point" dropdown only store from preconditions is available
         $this->assertContains(
-            $storeData['name'],
+            $storeFixture->getName(),
             $salesGrid->getPurchasePointFilterText()
         );
         $this->assertTrue(
