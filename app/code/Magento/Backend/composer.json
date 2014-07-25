@@ -7,7 +7,6 @@
         "magento/module-directory": "0.1.0",
         "magento/module-core": "0.1.0",
         "magento/module-eav": "0.1.0",
-        "magento/module-admin-notification": "0.1.0",
         "magento/module-cron": "0.1.0",
         "magento/module-sendfriend": "0.1.0",
         "magento/module-theme": "0.1.0",
