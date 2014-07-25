@@ -7,7 +7,7 @@
  */
 namespace Magento\Integration\Service\V1;
 
-use Magento\Integration\Model\Oauth\Token;
+use Magento\Integration\Model\Oauth\Token as OauthTokenModel;
 
 /**
  * Integration oAuth Service Interface
@@ -43,7 +43,7 @@ interface OauthInterface
      * Retrieve access token assigned to the consumer.
      *
      * @param int $consumerId
-     * @return Token|bool Return false if no access token is available.
+     * @return OauthTokenModel|bool Return false if no access token is available.
      */
     public function getAccessToken($consumerId);
 
