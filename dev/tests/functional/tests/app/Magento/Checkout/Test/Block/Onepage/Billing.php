@@ -82,7 +82,6 @@ class Billing extends Form
      *
      * @param CustomerCustomAttribute $customerAttribute
      * @return bool
-     * @throws \Exception
      */
     public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
     {
@@ -90,5 +89,4 @@ class Billing extends Form
             sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
         )->isVisible();
     }
-
 }
