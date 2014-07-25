@@ -339,7 +339,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
      *
      * @param int $consumerId
      * @param int $userType
-     * @return string Token
+     * @return $this
      */
     public function loadByConsumerIdAndUserType($consumerId, $userType)
     {
