@@ -8,6 +8,7 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerCustomAttributes\Test\Page\CustomerAccountCreate;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
@@ -28,15 +29,21 @@ class AssertCustomerCustomAttributeOnCustomerRegister extends AbstractConstraint
     /**
      * Assert that created customer attribute is available during register customer on frontend
      *
+     * @param CmsIndex $cmsIndex
      * @param CustomerAccountCreate $pageCustomerAccountCreate
      * @param CustomerCustomAttribute $customerAttribute
+     * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
      */
     public function processAssert(
+        CmsIndex $cmsIndex,
         CustomerAccountCreate $pageCustomerAccountCreate,
-        CustomerCustomAttribute $customerAttribute
+        CustomerCustomAttribute $customerAttribute,
+        CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
-        $pageCustomerAccountCreate->open();
+        $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
+        $cmsIndex->open();
+        $cmsIndex->getLinksBlock()->openLink('Register');
         \PHPUnit_Framework_Assert::assertTrue(
             $pageCustomerAccountCreate->getRegisterForm()->isCustomerAttributeVisible($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '

@@ -51,7 +51,7 @@ class Options extends Tab
      *
      * @var string
      */
-    protected $optionRowSelector = '//*[@id="manage-options-panel"]//tbody/tr[%d]';
+    protected $optionRowSelector = '//tbody[@data-role="options-container"]/tr[%d]';
 
     /**
      * Fill 'Options' tab & drag and drop options
@@ -63,17 +63,15 @@ class Options extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $fixtureOptions = $fields['options']['value'];
+        $fixtureOptions = $fields['option']['value'];
         foreach ($fixtureOptions as $key => $option) {
-            $this->_rootElement->find($this->addOption)->click();
+            $row = $this->_rootElement->find(sprintf($this->optionRowSelector, $key + 1), Locator::SELECTOR_XPATH);
+            if (!$row->isVisible()) {
+                $this->_rootElement->find($this->addOption)->click();
+            }
             $this->blockFactory->create(
                 'Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\Tab\Options\Option',
-                [
-                    'element' => $this->_rootElement->find(
-                        sprintf($this->optionRowSelector, $key + 1),
-                        Locator::SELECTOR_XPATH
-                    )
-                ]
+                ['element' => $row]
             )->fillOptions($option);
         }
 
