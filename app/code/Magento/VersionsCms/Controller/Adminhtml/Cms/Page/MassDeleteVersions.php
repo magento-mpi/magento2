@@ -8,24 +8,42 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
-use Magento\Cms\Controller\Adminhtml\Page;
+use Magento\Backend\App\Action;
 
 class MassDeleteVersions extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\VersionsCms\Model\Page\Version
      */
-    protected $_pageVersion;
+    protected $pageVersion;
 
     /**
      * @var \Magento\Backend\Model\Auth\Session
      */
-    protected $_backendAuthSession;
+    protected $backendAuthSession;
 
     /**
      * @var \Magento\VersionsCms\Model\Config
      */
-    protected $_cmsConfig;
+    protected $cmsConfig;
+
+    /**
+     * @param Action\Context $context
+     * @param \Magento\Backend\Model\Auth\Session $backendSession
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
+     * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
+     */
+    public function __construct(
+        Action\Context $context,
+        \Magento\Backend\Model\Auth\Session $backendSession,
+        \Magento\VersionsCms\Model\Config $cmsConfig,
+        \Magento\VersionsCms\Model\Page\Version $pageVersion
+    ) {
+        $this->backendAuthSession = $backendSession;
+        $this->cmsConfig = $cmsConfig;
+        $this->pageVersion = $pageVersion;
+        parent::__construct($context);
+    }
 
     /**
      * Mass deletion for versions
@@ -39,11 +57,11 @@ class MassDeleteVersions extends \Magento\Backend\App\Action
             $this->messageManager->addError(__('Please select version(s).'));
         } else {
             try {
-                $userId = $this->_backendAuthSession->getUser()->getId();
-                $accessLevel = $this->_cmsConfig->getAllowedAccessLevel();
+                $userId = $this->backendAuthSession->getUser()->getId();
+                $accessLevel = $this->cmsConfig->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {
-                    $version = $this->_pageVersion->loadWithRestrictions($accessLevel, $userId, $id);
+                    $version = $this->pageVersion->loadWithRestrictions($accessLevel, $userId, $id);
 
                     if ($version->getId()) {
                         $version->delete();
@@ -65,6 +83,6 @@ class MassDeleteVersions extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_cmsConfig->canCurrentUserDeleteVersion();
+        return $this->cmsConfig->canCurrentUserDeleteVersion();
     }
 }
