@@ -20,6 +20,7 @@
             </argument>
         </arguments>
     </type>
+    <!--
     <type name="Magento\Authorization\Model\Role">
         <plugin name="updateRoleUsersAcl" type="Magento\User\Model\Plugin\AuthorizationRole" sortOrder="20"/>
     </type>
@@ -28,4 +29,5 @@
             <argument name="userResourceModel" xsi:type="object" shared="true">Magento\User\Model\Resource\User</argument>
         </arguments>
     </type>
+    -->
 </config>
