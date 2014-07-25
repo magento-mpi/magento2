@@ -61,4 +61,68 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $this->cookieManager->deleteCookie($cookieName, $publicCookieMetaData);
         $this->assertNull($this->cookieManager->getCookie($cookieName));
     }
+
+    /**
+     * It is not possible to write integration tests for CookieManager::setSensitiveCookie().
+     * PHPUnit the following error when calling the function:
+     *
+     * PHPUnit_Framework_Error_Warning : Cannot modify header information - headers already sent
+     */
+    public function testSetSensitiveCookie()
+    {
+    }
+
+    /**
+     * It is not possible to write integration tests for CookieManager::setSensitiveCookie().
+     * PHPUnit the following error when calling the function:
+     *
+     * PHPUnit_Framework_Error_Warning : Cannot modify header information - headers already sent
+     */
+    public function testSetPublicCookie()
+    {
+    }
+
+    /**
+     * @return mixed
+    /*
+    $this->cookieManager = $this->objectManager
+    ->create(
+    'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
+    [
+    'scope' => $this->createCookieScope(),
+    ]
+    );
+     */
+/*
+    public function createCookieScope()
+    {
+        $cookieMetadataFactory = $this->objectManager
+            ->create('\Magento\Framework\Stdlib\Cookie\CookieMetadataFactory');
+
+        $sensitiveMetadataValues = [
+            SensitiveCookieMetadata::KEY_PATH => 'default path',
+            SensitiveCookieMetadata::KEY_DOMAIN => 'default domain',
+        ];
+
+        $publicMetadataValues = [
+            PublicCookieMetadata::KEY_PATH => 'default path',
+            PublicCookieMetadata::KEY_DOMAIN => 'default domain',
+            PublicCookieMetadata::KEY_DURATION => 'default duration',
+            PublicCookieMetadata::KEY_HTTP_ONLY => 'default http',
+            PublicCookieMetadata::KEY_SECURE => 'default secure',
+        ];
+
+        $cookieScope = $this->objectManager->create(
+            '\Magento\Framework\Stdlib\Cookie\CookieScope',
+            [
+                $cookieMetadataFactory,
+                'sensitiveCookieMetadata' => $cookieMetadataFactory
+                    ->createSensitiveCookieMetadata($publicMetadataValues),
+                'publicCookieMetadata' => $cookieMetadataFactory
+                    ->createPublicCookieMetadata($sensitiveMetadataValues),
+            ]
+        );
+
+        return $cookieScope;
+    }*/
 }
