@@ -17,7 +17,7 @@ use Magento\Framework\ObjectManager\Code\Generator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
 use Magento\Framework\Service\Code\Generator\Builder as BuilderGenerator;
 use Magento\Framework\Service\Code\Generator\Mapper as MapperGenerator;
-use Magento\Framework\Service\Code\Generator\Converter as ConverterGenerator;
+use Magento\Framework\ObjectManager\Code\Generator\Converter as ConverterGenerator;
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 

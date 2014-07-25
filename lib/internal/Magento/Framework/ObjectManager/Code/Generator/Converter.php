@@ -5,10 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\ObjectManager\Code\Generator;
 
 /**
- * Class Repository
+ * Class Converter
+ * @package Magento\Framework\ObjectManager\Code\Generator
  */
 class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
 {
@@ -145,7 +146,7 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
 
         if ($resultClassName !== $sourceClassName . 'Converter') {
             $this->_addError(
-                'Invalid Mapper class name [' . $resultClassName . ']. Use ' . $sourceClassName . 'Mapper'
+                'Invalid Converter class name [' . $resultClassName . ']. Use ' . $sourceClassName . 'Converter'
             );
             return false;
         }
