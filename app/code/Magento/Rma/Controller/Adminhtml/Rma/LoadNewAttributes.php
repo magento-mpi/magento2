@@ -18,6 +18,7 @@ class LoadNewAttributes extends \Magento\Rma\Controller\Adminhtml\Rma
     public function execute()
     {
         $productId = $this->getRequest()->getParam('product_id');
+        $itemId = $this->getRequest()->getParam('item_id');
 
         /** @var $rma_item \Magento\Rma\Model\Item */
         $rma_item = $this->_objectManager->create('Magento\Rma\Model\Item');
@@ -27,6 +28,7 @@ class LoadNewAttributes extends \Magento\Rma\Controller\Adminhtml\Rma
         $form = $this->_view->getLayout()
             ->getBlock('magento_rma_edit_item')
             ->setProductId(intval($productId))
+            ->setHtmlPrefixId(intval($itemId))
             ->initForm();
         if ($form->hasNewAttributes()) {
             $response = $form->toHtml();
