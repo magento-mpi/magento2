@@ -55,7 +55,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Acl\RootResource $rootResource
-     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
+     * @param \Magento\Authorization\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
      * @param \Magento\Authorization\Model\Acl\AclRetriever $aclRetriever
      * @param \Magento\Framework\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param \Magento\Integration\Helper\Data $integrationData
@@ -64,7 +64,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Acl\RootResource $rootResource,
-        \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
+        \Magento\Authorization\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
         \Magento\Authorization\Model\Acl\AclRetriever $aclRetriever,
         \Magento\Framework\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Integration\Helper\Data $integrationData,
