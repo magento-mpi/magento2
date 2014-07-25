@@ -9,6 +9,7 @@ namespace Magento\Authz\Service;
 
 use Magento\Authz\Service\AuthorizationV1Test\UserLocatorStub;
 use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\Acl\AclRetriever;
 
 /**
  * Authorization service test.
@@ -17,6 +18,9 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
 {
     /** @var AuthorizationV1 */
     protected $_service;
+
+    /** @var AclRetriever */
+    protected $_aclRetriever;
 
     protected function setUp()
     {
@@ -32,6 +36,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
                 'logger' => $loggerMock
             )
         );
+        $this->_aclRetriever = $objectManager->create('Magento\Authorization\Model\Acl\AclRetriever');
     }
 
     /**
@@ -53,13 +58,13 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $resourcesA,
-            $this->_service->getAllowedResources($userIdentifierA),
+            $this->_aclRetriever->getAllowedResourcesByUser($userIdentifierA),
             "The list of resources allowed to the user is invalid."
         );
 
         $this->assertEquals(
             $resourcesB,
-            $this->_service->getAllowedResources($userIdentifierB),
+            $this->_aclRetriever->getAllowedResourcesByUser($userIdentifierB),
             "The list of resources allowed to the user is invalid."
         );
     }
@@ -71,7 +76,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     public function testGetAllowedResourcesRoleNotFound()
     {
         $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
-        $this->_service->getAllowedResources($userIdentifier);
+        $this->_aclRetriever->getAllowedResourcesByUser($userIdentifier);
     }
 
     /**

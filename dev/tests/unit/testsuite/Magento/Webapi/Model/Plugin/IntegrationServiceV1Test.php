@@ -9,6 +9,7 @@ namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Model\Integration;
+use Magento\Authorization\Model\Acl\AclRetriever;
 
 class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
 {
@@ -38,6 +39,9 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
      */
     protected $subjectMock;
 
+    /** @var  AclRetriever */
+    protected $aclRetrieverMock;
+
     public function setUp()
     {
         $this->authzServiceMock = $this->getMockBuilder(
@@ -51,9 +55,13 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
             array('create')
         )->getMock();
         $this->subjectMock = $this->getMock('Magento\Integration\Service\V1\Integration', array(), array(), '', false);
+        $this->aclRetrieverMock = $this->getMockBuilder('Magento\Authorization\Model\Acl\AclRetriever')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->integrationV1Plugin = new \Magento\Webapi\Model\Plugin\IntegrationServiceV1(
             $this->authzServiceMock,
-            $this->userIdentifierFactoryMock
+            $this->userIdentifierFactoryMock,
+            $this->aclRetrieverMock
         );
     }
 
