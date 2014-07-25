@@ -9,7 +9,7 @@
 namespace Magento\Reward\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Reward\Test\Page\Adminhtml\ExchangeRateIndex;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 
 /**
  * Class AssertRewardPointsSuccessDeleteMessage
@@ -17,7 +17,10 @@ use Magento\Reward\Test\Page\Adminhtml\ExchangeRateIndex;
  */
 class AssertRewardPointsSuccessDeleteMessage extends AbstractConstraint
 {
-    const DELETE_MESSAGE = 'You deleted the rate.';
+    /**
+     * Message about successful deletion reward exchange rate
+     */
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the rate.';
 
     /**
      * Constraint severeness
@@ -29,21 +32,21 @@ class AssertRewardPointsSuccessDeleteMessage extends AbstractConstraint
     /**
      * Asserts that success delete message equals to expected message
      *
-     * @param ExchangeRateIndex $exchangeRateIndex
+     * @param RewardRateIndex $rewardRateIndex
      * @return void
      */
-    public function processAssert(ExchangeRateIndex $exchangeRateIndex)
+    public function processAssert(RewardRateIndex $rewardRateIndex)
     {
-        $deletesMessage = $exchangeRateIndex->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $rewardRateIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::DELETE_MESSAGE,
-            $deletesMessage,
+            self::SUCCESS_DELETE_MESSAGE,
+            $actualMessage,
             'Wrong delete message is displayed.'
         );
     }
 
     /**
-     * Returns message if delete message equals to expected message.
+     * Returns message if delete message equals to expected message
      *
      * @return string
      */

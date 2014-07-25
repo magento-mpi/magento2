@@ -8,12 +8,12 @@
 
 namespace Magento\Reward\Test\TestCase;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Reward\Test\Fixture\Reward;
-use Magento\Reward\Test\Page\Adminhtml\ExchangeRateIndex;
-use Magento\Reward\Test\Page\Adminhtml\ExchangeRateNew;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
+use Magento\Reward\Test\Fixture\Reward;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 
 /**
  * Test Creation for Exchange Rate Deletion for RewardPointsEntity
@@ -33,21 +33,21 @@ use Mtf\TestCase\Injectable;
  * @group Reward_Points_(CS)
  * @ZephyrId MAGETWO-26344
  */
-class DeleteExchangeRateRewardPointEntityTest extends Injectable
+class DeleteExchangeRateForRewardPointsEntityTest extends Injectable
 {
     /**
-     * ExchangeRateIndex page
+     * Reward Rate Index page
      *
-     * @var ExchangeRateIndex
+     * @var RewardRateIndex
      */
-    protected $exchangeRateIndex;
+    protected $rewardRateIndex;
 
     /**
-     * ExchangeRateNew page
+     * Reward Rate New page
      *
-     * @var ExchangeRateNew
+     * @var RewardRateNew
      */
-    protected $exchangeRateNew;
+    protected $rewardRateNew;
 
     /**
      * Preparing magento instance for whole test
@@ -68,20 +68,20 @@ class DeleteExchangeRateRewardPointEntityTest extends Injectable
     /**
      * Preparing magento instance for test variation
      *
-     * @param ExchangeRateIndex $exchangeRateIndex
-     * @param ExchangeRateNew $exchangeRateNew
+     * @param RewardRateIndex $rewardRateIndex
+     * @param RewardRateNew $rewardRateNew
      * @return void
      */
-    public function __inject(ExchangeRateIndex $exchangeRateIndex, ExchangeRateNew $exchangeRateNew)
+    public function __inject(RewardRateIndex $rewardRateIndex, RewardRateNew $rewardRateNew)
     {
-        $this->exchangeRateIndex = $exchangeRateIndex;
-        $this->exchangeRateNew = $exchangeRateNew;
+        $this->rewardRateIndex = $rewardRateIndex;
+        $this->rewardRateNew = $rewardRateNew;
 
         // Check that Reward exchange Rates Grid is empty. Delete any rate if it exists
-        $exchangeRateIndex->open();
-        while ($exchangeRateIndex->getExchangeRateGrid()->isFirstRowVisible()) {
-            $exchangeRateIndex->getExchangeRateGrid()->clickOnFirstRow();
-            $exchangeRateNew->getFormPageActions()->delete();
+        $rewardRateIndex->open();
+        while ($rewardRateIndex->getRewardRateGrid()->isFirstRowVisible()) {
+            $rewardRateIndex->getRewardRateGrid()->openFirstRow();
+            $rewardRateNew->getFormPageActions()->delete();
         }
     }
 
@@ -98,8 +98,8 @@ class DeleteExchangeRateRewardPointEntityTest extends Injectable
 
         // Steps
         $filter = ['rate_id' => $reward->getRateId()];
-        $this->exchangeRateIndex->open();
-        $this->exchangeRateIndex->getExchangeRateGrid()->searchAndOpen($filter);
-        $this->exchangeRateNew->getFormPageActions()->delete();
+        $this->rewardRateIndex->open();
+        $this->rewardRateIndex->getRewardRateGrid()->searchAndOpen($filter);
+        $this->rewardRateNew->getFormPageActions()->delete();
     }
 }

@@ -31,13 +31,17 @@ class AssertCustomerCustomAttributeInGrid extends AbstractConstraint
      *
      * @param CustomerCustomAttribute $customerAttribute
      * @param CustomerAttributeIndex $customerAttributeIndex
+     * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
      */
     public function processAssert(
         CustomerCustomAttribute $customerAttribute,
-        CustomerAttributeIndex $customerAttributeIndex
+        CustomerAttributeIndex $customerAttributeIndex,
+        CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
-        $data = $customerAttribute->getData();
+        $data = ($initialCustomerAttribute === null)
+            ? $customerAttribute->getData()
+            : array_merge($initialCustomerAttribute->getData(), $customerAttribute->getData());
         $filter = [
             'frontend_label' => $data['frontend_label'],
             'attribute_code' => $data['attribute_code'],

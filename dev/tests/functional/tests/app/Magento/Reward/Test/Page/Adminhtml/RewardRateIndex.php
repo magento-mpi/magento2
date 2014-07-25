@@ -11,24 +11,24 @@ namespace Magento\Reward\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class ExchangeRateIndex
- * Exchange Rate Index page
+ * Class RewardRateIndex
+ * Index page reward exchange rates
  */
-class ExchangeRateIndex extends BackendPage
+class RewardRateIndex extends BackendPage
 {
     const MCA = 'admin/reward_rate/index';
 
     protected $_blocks = [
+        'rewardRateGrid' => [
+            'name' => 'rewardRateGrid',
+            'class' => 'Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid',
+            'locator' => '#rewardRatesGrid',
+            'strategy' => 'css selector',
+        ],
         'gridPageActions' => [
             'name' => 'gridPageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
-            'strategy' => 'css selector',
-        ],
-        'exchangeRateGrid' => [
-            'name' => 'exchangeRateGrid',
-            'class' => 'Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid',
-            'locator' => '#rewardRatesGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
@@ -40,19 +40,19 @@ class ExchangeRateIndex extends BackendPage
     ];
 
     /**
+     * @return \Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid
+     */
+    public function getRewardRateGrid()
+    {
+        return $this->getBlockInstance('rewardRateGrid');
+    }
+
+    /**
      * @return \Magento\Backend\Test\Block\GridPageActions
      */
     public function getGridPageActions()
     {
         return $this->getBlockInstance('gridPageActions');
-    }
-
-    /**
-     * @return \Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid
-     */
-    public function getExchangeRateGrid()
-    {
-        return $this->getBlockInstance('exchangeRateGrid');
     }
 
     /**

@@ -11,10 +11,10 @@ namespace Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class Options
+ * Class Option
  * Prepare Options for attribute
  */
-class Options implements FixtureInterface
+class Option implements FixtureInterface
 {
     /**
      * Prepared dataSet data

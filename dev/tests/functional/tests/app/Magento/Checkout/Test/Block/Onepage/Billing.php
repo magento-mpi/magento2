@@ -12,7 +12,6 @@ use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
-use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class Billing
@@ -42,13 +41,6 @@ class Billing extends Form
     protected $waitElement = '.loading-mask';
 
     /**
-     * Locator for customer attribute on Checkout page
-     *
-     * @var string
-     */
-    protected $customerAttribute = "[name='billing[%s]']";
-
-    /**
      * Fill billing address
      *
      * @param Checkout $fixture
@@ -75,18 +67,5 @@ class Billing extends Form
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible($this->waitElement);
-    }
-
-    /**
-     * Check if Customer custom Attribute visible
-     *
-     * @param CustomerCustomAttribute $customerAttribute
-     * @return bool
-     */
-    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
-    {
-        return $this->_rootElement->find(
-            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
-        )->isVisible();
     }
 }
