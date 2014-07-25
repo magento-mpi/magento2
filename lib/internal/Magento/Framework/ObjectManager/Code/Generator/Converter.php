@@ -5,10 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Code\Generator;
+namespace Magento\Framework\ObjectManager\Code\Generator;
 
 /**
- * Class Repository
+ * Class Converter
+ * @package Magento\Framework\ObjectManager\Code\Generator
  */
 class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
 {
@@ -102,15 +103,15 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
     protected function _getClassMethods()
     {
         $construct = $this->_getDefaultConstructorDefinition();
-        $dtoParameterName = '';
+        $paramName = 'statusHistory';
         $body = 'return $this->' . $this->_getFactoryPropertyName()
-            . '->create()->setData((array)' . $dtoParameterName .');';
+            . '->create()->setData((array) $' . $paramName .');';
         $getModel = [
             'name' => 'getModel',
             'parameters' => [
                 [
-                    'name' => 'dto',
-                    'type' => $this->_getFullyQualifiedClassName($this->_getSourceClassName())
+                    'name' => $paramName,
+                    'type' => '\Magento\Framework\Service\Data\AbstractObject'
                 ]
             ],
             'body' => $body,
@@ -119,11 +120,11 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
                 'tags' => [
                     [
                         'name' => 'param',
-                        'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()),
+                        'description' => '\Magento\Framework\Service\Data\AbstractObject $' . $paramName,
                     ],
                     [
                         'name' => 'return',
-                        'description' => '\\Magento\Framework\Model\AbstractModel $object'
+                        'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName())
                     ]
                 ]
             ]
@@ -145,7 +146,7 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
 
         if ($resultClassName !== $sourceClassName . 'Converter') {
             $this->_addError(
-                'Invalid Mapper class name [' . $resultClassName . ']. Use ' . $sourceClassName . 'Mapper'
+                'Invalid Converter class name [' . $resultClassName . ']. Use ' . $sourceClassName . 'Converter'
             );
             return false;
         }

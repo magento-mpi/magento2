@@ -16,7 +16,7 @@ use Magento\Framework\Exception;
 use Magento\Framework\Service\Code\Generator\Builder;
 use Magento\Framework\Service\Code\Generator\Mapper;
 use Magento\Framework\ObjectManager\Code\Generator\Repository;
-use Magento\Framework\Service\Code\Generator\Converter;
+use Magento\Framework\ObjectManager\Code\Generator\Converter;
 use Magento\Framework\Service\Code\Generator\SearchResults;
 use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
 

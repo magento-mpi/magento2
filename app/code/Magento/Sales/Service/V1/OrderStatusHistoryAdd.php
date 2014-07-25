@@ -8,7 +8,7 @@
 namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Model\OrderRepository;
-use Magento\Sales\Service\V1\Data\OrderStatusHistoryConverter;
+use Magento\Sales\Model\Order\Status\HistoryConverter;
 
 /**
  * Class OrderCommentsAdd
@@ -22,20 +22,20 @@ class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
     protected $orderRepository;
 
     /**
-     * @var OrderStatusHistoryConverter
+     * @var HistoryConverter
      */
-    protected $orderStatusHistoryConverter;
+    protected $historyConverter;
 
     /**
      * @param OrderRepository $orderRepository
-     * @param OrderStatusHistoryConverter $orderMapper
+     * @param HistoryConverter $historyConverter
      */
     public function __construct(
         OrderRepository $orderRepository,
-        OrderStatusHistoryConverter $orderMapper
+        HistoryConverter $historyConverter
     ) {
         $this->orderRepository = $orderRepository;
-        $this->orderStatusHistoryMapper = $orderMapper;
+        $this->historyConverter = $historyConverter;
     }
 
     /**
@@ -47,7 +47,6 @@ class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
      */
     public function invoke($id, $statusHistory)
     {
-        $statusHistoryModel = $this->orderStatusHistoryConverter->getModel($statusHistory);
-        $this->orderRepository->get($id)->addStatusHistory($statusHistoryModel);
+        $this->orderRepository->get($id)->addStatusHistory($this->historyConverter->getModel($statusHistory));
     }
 }
