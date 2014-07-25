@@ -37,7 +37,7 @@ use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
  * @group Reward_Points_(CS)
  * @ZephyrId MAGETWO-26628
  */
-class UpdateExchangeRateRewardPointsEntityTest extends Injectable
+class UpdateExchangeRateForRewardPointsEntityTest extends Injectable
 {
     /**
      * Index page reward exchange rates

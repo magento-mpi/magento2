@@ -8,12 +8,12 @@
 
 namespace Magento\Reward\Test\TestCase;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Reward\Test\Fixture\Reward;
-use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
-use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
+use Magento\Reward\Test\Fixture\Reward;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 
 /**
  * Test Creation for Exchange Rate Deletion for RewardPointsEntity
@@ -33,7 +33,7 @@ use Mtf\TestCase\Injectable;
  * @group Reward_Points_(CS)
  * @ZephyrId MAGETWO-26344
  */
-class DeleteExchangeRateRewardPointEntityTest extends Injectable
+class DeleteExchangeRateForRewardPointsEntityTest extends Injectable
 {
     /**
      * Reward Rate Index page
