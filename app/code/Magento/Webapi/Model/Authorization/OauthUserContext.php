@@ -36,6 +36,7 @@ class OauthUserContext implements UserContextInterface
      *
      * @param Request $request
      * @param IntegrationFactory $integrationFactory
+     * @param RoleCollectionFactory $roleCollectionFactory
      */
     public function __construct(
         Request $request,

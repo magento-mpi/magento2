@@ -7,6 +7,9 @@
  */
 namespace Magento\User\Model;
 
+use Magento\Backend\Model\Auth\Credential\StorageInterface;
+use Magento\Framework\Model\AbstractModel;
+
 /**
  * Admin user model
  *
@@ -38,9 +41,7 @@ namespace Magento\User\Model;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class User
-    extends \Magento\Framework\Model\AbstractModel
-    implements \Magento\Backend\Model\Auth\Credential\StorageInterface
+class User extends AbstractModel implements StorageInterface
 {
     /**
      * Configuration paths for email templates and identities

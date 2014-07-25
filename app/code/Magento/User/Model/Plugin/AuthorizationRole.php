@@ -20,6 +20,8 @@ class AuthorizationRole
 
     /**
      * Initialize dependencies
+     *
+     * @param \Magento\User\Model\Resource\User $userResourceModel
      */
     public function __construct(\Magento\User\Model\Resource\User $userResourceModel)
     {
