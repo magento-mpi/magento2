@@ -42,28 +42,11 @@ class Billing extends Form
     protected $waitElement = '.loading-mask';
 
     /**
-     * Selector for customer attribute block by label
+     * Locator for customer attribute on New Order page
      *
      * @var string
      */
-    protected $customerAttributeFieldByLabel = './/div[contains(@class,"field") and (./label/span[.="%s"])]';
-
-    /**
-     * Mapping selectors for fields of customer attributes
-     *
-     * @var array
-     */
-    protected $mapCustomerAttributeTypeFields = [
-        'Text Field' => './*[@class="control"]/input[@type="text"]',
-        'Text Area' => './*[@class="control"]/textarea',
-        'Multiple Line' => './*[@class="control"]/input[@type="text"]',
-        'Date' => './/*[@class="control" and (//div[contains(@class,"month")]) and (//div[contains(@class,"day")]) and (//div[contains(@class,"year")])]',
-        'Dropdown' => './*[@class="control"]/select',
-        'Multiple Select' => './*[@class="control"]/select[@multiple="multiple"]',
-        'Yes/No' => './*[@class="control"]/select',
-        'File (attachment)' => './*[@class="control"]/input[@type="file"]',
-        'Image File' => './*[@class="control"]/input[@type="file"]',
-    ];
+    protected $customerAttribute = "[name='billing[%s]']";
 
     /**
      * Fill billing address
@@ -103,31 +86,9 @@ class Billing extends Form
      */
     public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
     {
-        $inputType = $customerAttribute->getFrontendInput();
-        if (!isset($this->mapCustomerAttributeTypeFields[$inputType])) {
-            throw new \Exception("Can't find \"{$inputType}\" field in mapping customer attribute fields.");
-        }
-
-        $customerAttributeElement = $this->getCustomerAttributeField($customerAttribute->getFrontendLabel());
-        $inputField = $customerAttributeElement->find(
-            $this->mapCustomerAttributeTypeFields[$inputType],
-            Locator::SELECTOR_XPATH
-        );
-
-        return $customerAttributeElement->isVisible() && $inputField->isVisible();
-    }
-
-    /**
-     * Get customer attribute field block by label
-     *
-     * @param string $label
-     * @return Element
-     */
-    public function getCustomerAttributeField($label)
-    {
         return $this->_rootElement->find(
-            sprintf($this->customerAttributeFieldByLabel, $label),
-            Locator::SELECTOR_XPATH
-        );
+            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
+        )->isVisible();
     }
+
 }
