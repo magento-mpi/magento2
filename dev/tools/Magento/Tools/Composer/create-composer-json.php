@@ -30,6 +30,7 @@ try {
     } else {
         $workingDir = realpath(BP);
     }
+    $workingDir = str_replace('\\', '/', realpath($workingDir));
 
     if (!$workingDir || !is_dir($workingDir)) {
         throw new Exception($opt->getOption('d') . " must be a Magento code base.");
@@ -60,37 +61,12 @@ try {
     foreach ($mainlineJson->{'require-dev'} as $key=>$value) {
         $root->set("require-dev->$key", $value);
     }
+    /*
     //collecting hardcoded autoload list from root composer.json
     foreach ($mainlineJson->{'autoload'} as $key=>$value) {
-        $root->set("autoload->$key", $value);
+       $root->set("autoload->$key", $value);
     }
-    //add third-party components as 'replace'
-    $componentsPaths = $mainlineJson->{'extra'}->{'component_paths'};
-    foreach ($mainlineJson->{'replace'} as $name=>$version) {
-        if (!(strncmp($name, 'magento/', strlen('magento/')) === 0)) {
-            foreach ($componentsPaths as $cname=>$path) {
-                $found = false;
-                if ($cname === $name) {
-                    if (is_array($path)) {
-                        foreach ($path as $onePath) {
-                            if (file_exists($workingDir . $onePath)) {
-                                $found = true;
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    if (file_exists($workingDir . $path)) {
-                        $found = true;
-                    }
-                }
-            }
-            if ($found == true) {
-                $root->set("replace->$name", $version);
-                break;
-            }
-        }
-    }
+    */
 
     $reader = new Reader($workingDir);
     $category = $opt->getOption('c');
@@ -111,6 +87,36 @@ try {
             break;
         default:
             throw new \Zend_Console_Getopt_Exception('Category value not acceptable. Acceptable values: [ml|ce|sk]');
+    }
+
+    //add third-party components as 'replace'
+    $componentsPaths = $mainlineJson->{'extra'}->{'component_paths'};
+    foreach ($mainlineJson->{'replace'} as $name=>$version) {
+        if (!(strncmp($name, 'magento/', strlen('magento/')) === 0)) {
+            foreach ($componentsPaths as $cname=>$path) {
+                $found = false;
+                if ($cname === $name) {
+                    if (is_string($path)) {
+                        if (file_exists($workingDir . '/' . $path)) {
+                            $found = true;
+                        }
+                    } elseif (is_array($path)) {
+                        foreach ($path as $onePath) {
+                            if (file_exists($workingDir . '/' . $onePath)) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        throw new \Exception('Unexpected element in extra->component_paths');
+                    }
+                }
+                if ($found == true) {
+                    $root->set("replace->$name", $version);
+                    break;
+                }
+            }
+        }
     }
 
     $size = sizeof((array)$root->get('require'));
