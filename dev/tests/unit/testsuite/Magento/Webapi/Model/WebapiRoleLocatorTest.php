@@ -63,10 +63,9 @@ class WebapiRoleLocatorTest extends \PHPUnit_Framework_TestCase
             ->method('getUserType')
             ->will($this->returnValue($userType));
 
-        $this->roleCollectionFactory = $this->getMockBuilder('Magento\Authorization\Model\Resource\Role\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(['create'])
-            ->getMock();
+        $this->roleCollectionFactory = $this->getMockBuilder(
+            'Magento\Authorization\Model\Resource\Role\CollectionFactory'
+        )->disableOriginalConstructor()->setMethods(['create'])->getMock();
 
         $this->roleCollection = $this->getMockBuilder('Magento\Authorization\Model\Resource\Role\Collection')
             ->disableOriginalConstructor()
