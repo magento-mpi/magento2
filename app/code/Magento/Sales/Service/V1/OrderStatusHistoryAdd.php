@@ -35,7 +35,7 @@ class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
         HistoryConverter $historyConverter
     ) {
         $this->orderRepository = $orderRepository;
-        $this->orderStatusHistoryMapper = $historyConverter;
+        $this->historyConverter = $historyConverter;
     }
 
     /**

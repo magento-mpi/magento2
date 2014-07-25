@@ -127,7 +127,7 @@ class DefinitionFactory
                     SearchResults::ENTITY_TYPE
                         => '\Magento\Framework\Service\Code\Generator\SearchResults',
                     ConverterGenerator::ENTITY_TYPE 
-                        => '\Magento\Framework\Service\Code\Generator\Converter',
+                        => '\Magento\Framework\ObjectManager\Code\Generator\Converter',
                 )
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
