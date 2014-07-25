@@ -106,10 +106,8 @@ class ResetCurrencySymbolEntityTest extends Injectable
      * @param string $currencySymbolDefault
      * @param FixtureFactory $fixtureFactory
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function test(CurrencySymbolEntity $currencySymbol, $currencySymbolDefault, FixtureFactory $fixtureFactory)
+    public function test(CurrencySymbolEntity $currencySymbol, FixtureFactory $fixtureFactory, $currencySymbolDefault)
     {
         // Steps
         $this->currencySymbolIndex->open();
