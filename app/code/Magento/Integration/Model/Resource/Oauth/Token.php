@@ -7,6 +7,8 @@
  */
 namespace Magento\Integration\Model\Resource\Oauth;
 
+use Magento\Authz\Model\UserIdentifier;
+
 /**
  * OAuth token resource model
  */
@@ -114,13 +116,45 @@ class Token extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param int $userType
      * @return array|boolean - Row data (array) or false if there is no corresponding row
      */
-    public function selectTokenByConsumerAndUserType($consumerId, $userType)
+    public function selectTokenByConsumerIdAndUserType($consumerId, $userType)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->getMainTable())
             ->where('consumer_id = ?', $consumerId)
             ->where('user_type = ?', $userType);
+        return $adapter->fetchRow($select);
+    }
+
+    /**
+     * Select token for a given admin id.
+     *
+     * @param int $adminId
+     * @return array|boolean - Row data (array) or false if there is no corresponding row
+     */
+    public function selectTokenByAdminId($adminId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('admin_id = ?', $adminId)
+            ->where('user_type = ?', UserIdentifier::USER_TYPE_ADMIN);
+        return $adapter->fetchRow($select);
+    }
+
+    /**
+     * Select token for a given customer.
+     *
+     * @param int $customerId
+     * @return array|boolean - Row data (array) or false if there is no corresponding row
+     */
+    public function selectTokenByCustomerId($customerId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('customer_id = ?', $customerId)
+            ->where('user_type = ?', UserIdentifier::USER_TYPE_CUSTOMER);
         return $adapter->fetchRow($select);
     }
 }

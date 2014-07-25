@@ -22,6 +22,10 @@ use Magento\Authz\Model\UserIdentifier;
  * @method \Magento\Integration\Model\Resource\Oauth\Token _getResource()
  * @method int getConsumerId()
  * @method Token setConsumerId() setConsumerId(int $consumerId)
+ * @method int getAdminId()
+ * @method Token setAdminId() setAdminId(int $adminId)
+ * @method int getCustomerId()
+ * @method Token setCustomerId() setCustomerId(int $customerId)
  * @method int getUserType()
  * @method Token setUserType() setUserType(int $userType)
  * @method string getType()
@@ -169,6 +173,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
                     'user_type' => UserIdentifier::USER_TYPE_INTEGRATION //As of now only integrations use Oauth
                 )
             );
+            $this->validate();
             $this->save();
         }
         return $this;
@@ -196,7 +201,8 @@ class Token extends \Magento\Framework\Model\AbstractModel
      */
     public function createAdminToken($userId)
     {
-        return $this->saveAccessToken(UserIdentifier::USER_TYPE_ADMIN, $userId);
+        $this->setAdminId($userId);
+        return $this->saveAccessToken(UserIdentifier::USER_TYPE_ADMIN);
     }
 
     /**
@@ -207,6 +213,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
      */
     public function createCustomerToken($userId)
     {
+        $this->setCustomerId($userId);
         return $this->saveAccessToken(UserIdentifier::USER_TYPE_CUSTOMER, $userId);
     }
 
@@ -229,6 +236,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
                 'callback_url' => $callbackUrl
             )
         );
+        $this->validate();
         $this->save();
 
         return $this;
@@ -253,8 +261,6 @@ class Token extends \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $this->validate();
-
         if ($this->isObjectNew() && null === $this->getCreatedAt()) {
             $this->setCreatedAt($this->_dateTime->now());
         }
@@ -319,15 +325,11 @@ class Token extends \Magento\Framework\Model\AbstractModel
      * Generate and save access token for a given user type
      *
      * @param int $userType
-     * @param int $userId
      * @return $this
      */
-    protected function saveAccessToken($userType, $userId = null)
+    protected function saveAccessToken($userType)
     {
         $this->setUserType($userType);
-        if ($userId) {
-            $this->setConsumerId($userId);
-        }
         $this->setType(self::TYPE_ACCESS);
         $this->setToken($this->_oauthHelper->generateToken());
         $this->setSecret($this->_oauthHelper->generateTokenSecret());
@@ -343,7 +345,33 @@ class Token extends \Magento\Framework\Model\AbstractModel
      */
     public function loadByConsumerIdAndUserType($consumerId, $userType)
     {
-        $tokenData = $this->getResource()->selectTokenByConsumerAndUserType($consumerId, $userType);
+        $tokenData = $this->getResource()->selectTokenByConsumerIdAndUserType($consumerId, $userType);
+        $this->setData($tokenData ? $tokenData : []);
+        return $this;
+    }
+
+    /**
+     * Get token by admin id
+     *
+     * @param int $adminId
+     * @return $this
+     */
+    public function loadByAdminId($adminId)
+    {
+        $tokenData = $this->getResource()->selectTokenByAdminId($adminId);
+        $this->setData($tokenData ? $tokenData : []);
+        return $this;
+    }
+
+    /**
+     * Get token by admin id
+     *
+     * @param int $customerId
+     * @return $this
+     */
+    public function loadByCustomerId($customerId)
+    {
+        $tokenData = $this->getResource()->selectTokenByCustomerId($customerId);
         $this->setData($tokenData ? $tokenData : []);
         return $this;
     }
