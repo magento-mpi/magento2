@@ -150,7 +150,6 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'zip_range' => ['from' => 78765, 'to' => 78780]
         ];
         $taxRate = $this->taxRateBuilder->populateWithArray($invalidTaxData)->create();
-        //Service call initiated twice to add the same code
         $this->taxRateService->createTaxRate($taxRate);
     }
 
