@@ -60,7 +60,7 @@ class Product implements \Magento\Framework\Option\ArrayInterface
             $this->options = array();
 
             $filter = $this->filterBuilder->setField(TaxClass::KEY_TYPE)
-                ->setValue(TaxClass::TYPE_PRODUCT)
+                ->setValue(TaxClassServiceInterface::TYPE_PRODUCT)
                 ->setConditionType('=')
                 ->create();
             $searchCriteria = $this->searchCriteriaBuilder->addFilter([$filter])->create();

@@ -9,6 +9,9 @@
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 
+use Magento\Catalog\Model\Product;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute as ConfigurableAttribute;
+
 class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
@@ -332,5 +335,83 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $productId
         );
         $this->_getWriteAdapter()->query($this->_getReadAdapter()->deleteFromSelect($select, $this->getMainTable()));
+    }
+
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this
+     */
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
+    {
+        parent::_afterLoad($object);
+        $this->loadLabel($object);
+        $this->loadPrices($object);
+        return $this;
+    }
+
+    /**
+     * Load label for configurable attribute
+     *
+     * @param ConfigurableAttribute $object
+     * @return $this
+     */
+    protected function loadLabel(ConfigurableAttribute $object)
+    {
+        $product = $object->getProduct();
+        if (!$product) {
+            return $this;
+        }
+        $connection = $this->_getReadAdapter();
+        $useDefaultCheck = $connection
+            ->getCheckSql('store.use_default IS NULL', 'def.use_default', 'store.use_default');
+        $labelCheck = $connection->getCheckSql('store.value IS NULL', 'def.value', 'store.value');
+        $select = $connection
+            ->select()
+            ->from(array('def' => $this->_labelTable))
+            ->joinLeft(
+                array('store' => $this->_labelTable),
+                $connection->quoteInto(
+                    'store.product_super_attribute_id = def.product_super_attribute_id AND store.store_id = ?',
+                    $product->getStoreId()
+                ),
+                array('use_default' => $useDefaultCheck, 'label' => $labelCheck)
+            )
+            ->where('def.product_super_attribute_id = ?', $object->getId())
+            ->where('def.store_id = ?', 0);
+
+        $data = $connection->fetchRow($select);
+        $object->setLabel($data['label']);
+        $object->setUseDefault($data['use_default']);
+        return $this;
+    }
+
+    /**
+     * Load prices for configurable attribute
+     *
+     * @param ConfigurableAttribute $object
+     * @return $this
+     */
+    protected function loadPrices(ConfigurableAttribute $object)
+    {
+        $product = $object->getProduct();
+        if (!$product) {
+            return $this;
+        }
+        $websiteId = $this->_catalogData->isPriceGlobal()
+            ? 0 : (int)$this->_storeManager->getStore($product->getStoreId())->getWebsiteId();
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->_priceTable)
+            ->where('product_super_attribute_id = ?', $object->getId())
+            ->where('website_id = ?', $websiteId);
+
+        foreach ($select->query() as $row) {
+            $data = [
+                'value_index'   => $row['value_index'],
+                'is_percent'    => $row['is_percent'],
+                'pricing_value' => $row['pricing_value'],
+            ];
+            $object->addPrice($data);
+        }
+        return $this;
     }
 }
