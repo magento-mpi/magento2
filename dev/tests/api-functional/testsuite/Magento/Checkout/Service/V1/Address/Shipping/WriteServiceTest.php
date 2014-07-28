@@ -34,7 +34,7 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address.php
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
      */
     public function testSetAddress()
     {
