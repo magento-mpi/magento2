@@ -9,7 +9,7 @@ namespace Magento\CmsUrlRewrite\Model;
 
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\CmsUrlRewrite\Service\V1\CmsPageUrlGeneratorInterface;
-use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
+use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 use Magento\Framework\Model\Exception;
 
 class Observer
@@ -20,18 +20,18 @@ class Observer
     protected $urlGenerator;
 
     /**
-     * @var \Magento\UrlRewrite\Service\V1\UrlSaveInterface
+     * @var UrlPersistInterface
      */
-    protected $urlSave;
+    protected $urlPersist;
 
     /**
      * @param CmsPageUrlGeneratorInterface $urlGenerator
-     * @param UrlSaveInterface $urlSave
+     * @param UrlPersistInterface $urlPersist
      */
-    public function __construct(CmsPageUrlGeneratorInterface $urlGenerator, UrlSaveInterface $urlSave)
+    public function __construct(CmsPageUrlGeneratorInterface $urlGenerator, UrlPersistInterface $urlPersist)
     {
         $this->urlGenerator = $urlGenerator;
-        $this->urlSave = $urlSave;
+        $this->urlPersist = $urlPersist;
     }
 
     /**
@@ -49,7 +49,7 @@ class Observer
             // TODO: fix service parameter
             $urls = $this->urlGenerator->generate($cmsPage);
             try {
-                $this->urlSave->save($urls);
+                $this->urlPersist->save($urls);
             } catch (\Exception $e) {
                 if ($e->getCode() === 23000) { // Integrity constraint violation: 1062 Duplicate entry
                     throw new Exception(__('A page URL key for specified store already exists.'));

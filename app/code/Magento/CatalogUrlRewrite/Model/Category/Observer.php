@@ -8,9 +8,12 @@
 namespace Magento\CatalogUrlRewrite\Model\Category;
 
 use Magento\Catalog\Model\Category;
-use Magento\CatalogUrlRewrite\Model\Product\ProductUrlGenerator;
+use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
+use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
+use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 
 class Observer
 {
@@ -20,28 +23,36 @@ class Observer
     /** @var ProductUrlGenerator */
     protected $productUrlGenerator;
 
-    /** @var UrlSaveInterface */
-    protected $urlSave;
+    /** @var UrlPersistInterface */
+    protected $urlPersist;
 
     /** var \Magento\CatalogUrlRewrite\Helper\Data */
     protected $catalogUrlRewriteHelper;
 
     /**
+     * @var FilterFactory
+     */
+    protected $filterFactory;
+
+    /**
      * @param CategoryUrlGenerator $categoryUrlGenerator
      * @param ProductUrlGenerator $productUrlGenerator
-     * @param UrlSaveInterface $urlSave
+     * @param UrlPersistInterface $urlPersist
      * @param \Magento\CatalogUrlRewrite\Helper\Data $catalogUrlRewriteHelper
+     * @param FilterFactory $filterFactory
      */
     public function __construct(
         CategoryUrlGenerator $categoryUrlGenerator,
         ProductUrlGenerator $productUrlGenerator,
-        UrlSaveInterface $urlSave,
-        \Magento\CatalogUrlRewrite\Helper\Data $catalogUrlRewriteHelper
+        UrlPersistInterface $urlPersist,
+        \Magento\CatalogUrlRewrite\Helper\Data $catalogUrlRewriteHelper,
+        FilterFactory $filterFactory
     ) {
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->productUrlGenerator = $productUrlGenerator;
-        $this->urlSave = $urlSave;
+        $this->urlPersist = $urlPersist;
         $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;// TODO: MAGETWO-26285
+        $this->filterFactory = $filterFactory;
     }
 
     /**
@@ -58,16 +69,22 @@ class Observer
             return;
         }
         $urls = array();
-        if (!$category->getData('url_key') || $category->getOrigData('url_key') !== $category->getData('url_key')) {
+        if ($category->dataHasChangedFor('url_key')) {
             $urls = array_merge(
                 $this->categoryUrlGenerator->generate($category),
                 $this->generateProductUrlRewrites($category)
             );
-        } elseif ($category->getOrigData('affected_product_ids') !== $category->getData('affected_product_ids')) {
+        } elseif ($category->dataHasChangedFor('affected_product_ids')) {
             $urls = $this->generateProductUrlRewrites($category);
         }
+
+        $filter = $this->filterFactory->create(['filterData' => [
+            UrlRewrite::ENTITY_ID => $category->getId(),
+            UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
+        ]]);
+        $this->urlPersist->deleteByFilter($filter);
         if ($urls) {
-            $this->urlSave->save($urls);
+            $this->urlPersist->save($urls);
         }
     }
 
@@ -91,6 +108,12 @@ class Observer
             $product->setStoreIds($category->getStoreIds());
             $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
             $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
+
+            $filter = $this->filterFactory->create(['filterData' => [
+                UrlRewrite::ENTITY_ID => $product->getId(),
+                UrlRewrite::ENTITY_TYPE => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+            ]]);
+            $this->urlPersist->deleteByFilter($filter);
         }
         return $productUrls;
     }

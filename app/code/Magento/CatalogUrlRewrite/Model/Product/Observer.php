@@ -9,19 +9,21 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRewrite\Service\V1\UrlSaveInterface;
+use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 
 class Observer
 {
     /**
-     * @var ProductUrlGenerator
+     * @var UrlGenerator
      */
-    protected $productUrlGenerator;
+    protected $urlGenerator;
 
     /**
-     * @var UrlSaveInterface
+     * @var UrlPersistInterface
      */
-    protected $urlSave;
+    protected $urlPersist;
 
     /**
      * @var CatalogUrlRewriteHelper
@@ -29,18 +31,26 @@ class Observer
     protected $catalogUrlRewriteHelper;
 
     /**
-     * @param ProductUrlGenerator $productUrlGenerator
-     * @param UrlSaveInterface $urlSave
+     * @var FilterFactory
+     */
+    protected $filterFactory;
+
+    /**
+     * @param UrlGenerator $urlGenerator
+     * @param UrlPersistInterface $urlPersist
      * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
+     * @param FilterFactory $filterFactory
      */
     public function __construct(
-        ProductUrlGenerator $productUrlGenerator,
-        UrlSaveInterface $urlSave,
-        CatalogUrlRewriteHelper $catalogUrlRewriteHelper
+        UrlGenerator $urlGenerator,
+        UrlPersistInterface $urlPersist,
+        CatalogUrlRewriteHelper $catalogUrlRewriteHelper,
+        FilterFactory $filterFactory
     ) {
-        $this->productUrlGenerator = $productUrlGenerator;
-        $this->urlSave = $urlSave;
+        $this->urlGenerator = $urlGenerator;
+        $this->urlPersist = $urlPersist;
         $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;
+        $this->filterFactory = $filterFactory;
     }
 
     /**
@@ -59,8 +69,19 @@ class Observer
             $product->setUrlPath($this->catalogUrlRewriteHelper->generateProductUrlKeyPath($product));
         }
 
-        if (!$product->getData('url_key') || $product->getOrigData('url_key') != $product->getData('url_key')) {
-            $this->urlSave->save($this->productUrlGenerator->generate($product));
+        if ($product->dataHasChangedFor('url_key') || $product->getIsChangedCategories()
+            || $product->getIsChangedWebsites()
+        ) {
+            $urls = $this->urlGenerator->generate($product);
+
+            $filter = $this->filterFactory->create(['filterData' => [
+                UrlRewrite::ENTITY_ID => $product->getId(),
+                UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_PRODUCT,
+            ]]);
+            $this->urlPersist->deleteByFilter($filter);
+            if ($urls) {
+                $this->urlPersist->save($urls);
+            }
         }
     }
 }

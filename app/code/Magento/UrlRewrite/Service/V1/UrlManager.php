@@ -8,14 +8,13 @@
 namespace Magento\UrlRewrite\Service\V1;
 
 use Magento\UrlRewrite\Service\V1\Data\Filter;
-use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\StorageInterface;
 
 /**
  * Url Manager
  */
-class UrlManager implements UrlMatcherInterface, UrlSaveInterface
+class UrlManager implements UrlMatcherInterface, UrlPersistInterface
 {
     /**
      * @var StorageInterface
@@ -23,18 +22,11 @@ class UrlManager implements UrlMatcherInterface, UrlSaveInterface
     protected $storage;
 
     /**
-     * @var FilterFactory
-     */
-    protected $filterFactory;
-
-    /**
      * @param StorageInterface $storage
-     * @param FilterFactory $filterFactory
      */
-    public function __construct(StorageInterface $storage, FilterFactory $filterFactory)
+    public function __construct(StorageInterface $storage)
     {
         $this->storage = $storage;
-        $this->filterFactory = $filterFactory;
     }
 
     /**
@@ -42,9 +34,18 @@ class UrlManager implements UrlMatcherInterface, UrlSaveInterface
      */
     public function save(array $urls)
     {
-        $this->storage->deleteByFilter($this->createFilter($urls));
-
+        if (!$urls) {
+            throw new \InvalidArgumentException('Passed rewrites is empty.');
+        }
         $this->storage->addMultiple($urls);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteByFilter(Filter $filter)
+    {
+        $this->storage->deleteByFilter($filter);
     }
 
     /**
@@ -85,27 +86,5 @@ class UrlManager implements UrlMatcherInterface, UrlSaveInterface
     public function findAllByFilter(Filter $filter)
     {
         return $this->storage->findAllByFilter($filter);
-    }
-
-    /**
-     * Get filter for url rows deletion due to provided urls
-     *
-     * @param UrlRewrite[] $urls
-     * @return Filter
-     */
-    protected function createFilter($urls)
-    {
-        $filterData = [];
-        $uniqueKeys = [UrlRewrite::ENTITY_ID, UrlRewrite::ENTITY_TYPE, UrlRewrite::STORE_ID];
-        foreach ($urls as $url) {
-            foreach ($uniqueKeys as $key) {
-                $fieldValue = $url->getByKey($key);
-
-                if (!isset($filterData[$key]) || !in_array($fieldValue, $filterData[$key])) {
-                    $filterData[$key][] = $fieldValue;
-                }
-            }
-        }
-        return $this->filterFactory->create(['filterData' => $filterData]);
     }
 }

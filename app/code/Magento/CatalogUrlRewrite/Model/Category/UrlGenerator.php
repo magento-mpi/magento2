@@ -19,7 +19,7 @@ use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 /**
  * Category Url Generator
  */
-class CategoryUrlGenerator
+class UrlGenerator
 {
     /** Entity type @TODO: think about better place for this const (@TODO: UrlRewrite) */
     const ENTITY_TYPE_CATEGORY = 'category';

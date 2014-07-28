@@ -77,7 +77,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         return [
             [1, 'banana', 'apple', '.html', 1, null, null, [
                 [
-                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => UrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -87,7 +87,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ]],
             [1, 'banana', 'apple', '.html', 1, null, null, [
                 [
-                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => UrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -97,7 +97,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ]],
             [1, 'banana', 'apple', '.html', 1, 1, 'category-one', [
                 [
-                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => UrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -105,7 +105,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                     'redirect_type' => '',
                 ],
                 [
-                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => UrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'category-one/banana.html',
@@ -182,9 +182,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [1, 'banana', 'apple', '.html', 1, 'apple.html',
-                'some-target-path', ProductUrlGenerator::ENTITY_TYPE_PRODUCT, [
+                'some-target-path', UrlGenerator::ENTITY_TYPE_PRODUCT, [
                 [
-                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => UrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -192,7 +192,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                     'redirect_type' => '',
                 ],
                 [
-                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => UrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'apple.html',
@@ -202,9 +202,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ],
             ],
             [1, 'banana', 'apple', '.html', 1,
-                'some-request-path', 'apple.html', ProductUrlGenerator::ENTITY_TYPE_PRODUCT, [
+                'some-request-path', 'apple.html', UrlGenerator::ENTITY_TYPE_PRODUCT, [
                 [
-                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => UrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'banana.html',
@@ -212,7 +212,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                     'redirect_type' => '',
                 ],
                 [
-                    'entity_type' => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => UrlGenerator::ENTITY_TYPE_PRODUCT,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'some-request-path',
