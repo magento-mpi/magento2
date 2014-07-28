@@ -74,17 +74,17 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         foreach (glob("{$root}/app/code/Magento/*", GLOB_ONLYDIR) as $dir) {
             $result[] = [$dir, 'magento2-module'];
         }
-        foreach (glob("{$root}/app/i18n/Magento/*", GLOB_ONLYDIR) as $dir) {
+        foreach (glob("{$root}/app/i18n/magento/*", GLOB_ONLYDIR) as $dir) {
             $result[] = [$dir, 'magento2-language'];
         }
         foreach (glob("{$root}/app/design/adminhtml/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme-adminhtml'];
+            $result[] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/app/design/frontend/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-theme-frontend'];
+            $result[] = [$dir, 'magento2-theme'];
         }
         foreach (glob("{$root}/lib/internal/Magento/*", GLOB_ONLYDIR) as $dir) {
-            $result[] = [$dir, 'magento2-framework'];
+            $result[] = [$dir, 'magento2-library'];
         }
         return $result;
     }
@@ -115,6 +115,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('version', $json);
         $this->assertObjectHasAttribute('require', $json);
         $this->assertEquals($packageType, $json->type);
+        $this->assertHasMap($json);
+        $this->assertMapConsistent($dir, $json);
         switch ($packageType) {
             case 'magento2-module':
                 $xml = simplexml_load_file("$dir/etc/module.xml");
@@ -127,20 +129,52 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
                 $this->assertDependsOnFramework($json->require);
                 break;
-            case 'magento2-theme-adminhtml':
-            case 'magento2-theme-frontend': // break is intentionally omitted
+            case 'magento2-theme':
                 $this->assertRegExp('/^magento\/theme-(?:adminhtml|frontend)(\-[a-z0-9_]+)+$/', $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertThemeVersionInSync($dir, $json->version);
                 break;
-            case 'magento2-framework':
+            case 'magento2-library':
                 $this->assertDependsOnPhp($json->require);
                 $this->assertRegExp('/^magento\/framework$/', $json->name);
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown package type {$packageType}");
         }
+    }
+
+    /**
+     * Assert that there is map in specified composer json
+     *
+     * @param \StdClass $json
+     */
+    private function assertHasMap(\StdClass $json)
+    {
+        $error = 'There must be an "extra->map" node in composer.json of each Magento component.';
+        $this->assertObjectHasAttribute('extra', $json, $error);
+        $this->assertObjectHasAttribute('map', $json->extra, $error);
+        $this->assertInternalType('array', $json->extra->map, $error);
+    }
+
+    /**
+     * Assert that component directory name and mapping information are consistent
+     *
+     * @param string $dir
+     * @param \StdClass $json
+     */
+    private function assertMapConsistent($dir, $json)
+    {
+        preg_match('/^.+\/(.+)\/(.+)$/', $dir, $matches);
+        list(, $vendor, $name) = $matches;
+        $map = $json->extra->map;
+        $this->assertArrayHasKey(0, $map);
+        $this->assertArrayHasKey(1, $map[0]);
+        $this->assertRegExp(
+            "/{$vendor}\\/{$name}$/",
+            $map[0][1],
+            'Mapping info is inconsistent with the directory structure'
+        );
     }
 
     /**
