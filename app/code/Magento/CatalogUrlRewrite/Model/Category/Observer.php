@@ -68,23 +68,34 @@ class Observer
         if ($category->getParentId() == Category::TREE_ROOT_ID) {
             return;
         }
-        $urls = array();
+
+        // TODO: refactoring
         if ($category->dataHasChangedFor('url_key')) {
             $urls = array_merge(
                 $this->categoryUrlGenerator->generate($category),
                 $this->generateProductUrlRewrites($category)
             );
+
+            $filter = $this->filterFactory->create(['filterData' => [
+                UrlRewrite::ENTITY_ID => $category->getId(),
+                UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
+            ]]);
+            $this->urlPersist->deleteByFilter($filter);
+            if ($urls) {
+                $this->urlPersist->save($urls);
+            }
+
         } elseif ($category->dataHasChangedFor('affected_product_ids')) {
             $urls = $this->generateProductUrlRewrites($category);
-        }
 
-        $filter = $this->filterFactory->create(['filterData' => [
-            UrlRewrite::ENTITY_ID => $category->getId(),
-            UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
-        ]]);
-        $this->urlPersist->deleteByFilter($filter);
-        if ($urls) {
-            $this->urlPersist->save($urls);
+            $filter = $this->filterFactory->create(['filterData' => [
+                UrlRewrite::ENTITY_ID => $category->getId(),
+                UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
+            ]]);
+            $this->urlPersist->deleteByFilter($filter);
+            if ($urls) {
+                $this->urlPersist->save($urls);
+            }
         }
     }
 
@@ -111,6 +122,7 @@ class Observer
                 UrlRewrite::ENTITY_ID => $product->getId(),
                 UrlRewrite::ENTITY_TYPE => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
             ]]);
+            // TODO: split generating and deleting
             $this->urlPersist->deleteByFilter($filter);
         }
         return $productUrls;
