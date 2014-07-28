@@ -39,7 +39,7 @@ class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
     }
 
     /**
-     * Invoke getOrder service
+     * Invoke service
      *
      * @param int $id
      * @param \Magento\Sales\Service\V1\Data\OrderStatusHistory $statusHistory
@@ -47,6 +47,8 @@ class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
      */
     public function invoke($id, $statusHistory)
     {
-        $this->orderRepository->get($id)->addStatusHistory($this->historyConverter->getModel($statusHistory));
+        $order = $this->orderRepository->get($id);
+        $order->addStatusHistory($this->historyConverter->getModel($statusHistory));
+        $order->save();
     }
 }

@@ -37,7 +37,10 @@ class Builder extends EntityAbstract
      *
      * @return array
      */
-    protected function _getDefaultConstructorDefinition() {}
+    protected function _getDefaultConstructorDefinition()
+    {
+        return [];
+    }
 
     /**
      * Returns list of methods for class generator

@@ -61,7 +61,15 @@ class SearchResults extends EntityAbstract
         return [$getItems];
     }
 
-    protected function _getDefaultConstructorDefinition() {}
+    /**
+     * Returns default constructor definition
+     *
+     * @return array
+     */
+    protected function _getDefaultConstructorDefinition()
+    {
+        return [];
+    }
 
     /**
      * Generate code
