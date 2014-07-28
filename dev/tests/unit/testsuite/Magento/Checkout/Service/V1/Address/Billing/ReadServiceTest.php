@@ -9,7 +9,7 @@
 
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
-class ReaderServiceTest extends \PHPUnit_Framework_TestCase
+class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var ReadService
