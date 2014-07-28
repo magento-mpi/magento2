@@ -8,6 +8,7 @@
 namespace Magento\UrlRewrite\Service\V1;
 
 use Magento\UrlRewrite\Service\V1\Data\Filter;
+use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\StorageInterface;
 
@@ -22,11 +23,18 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     protected $storage;
 
     /**
-     * @param StorageInterface $storage
+     * @var FilterFactory
      */
-    public function __construct(StorageInterface $storage)
+    protected $filterFactory;
+
+    /**
+     * @param StorageInterface $storage
+     * @param FilterFactory $filterFactory
+     */
+    public function __construct(StorageInterface $storage, FilterFactory $filterFactory)
     {
         $this->storage = $storage;
+        $this->filterFactory = $filterFactory;
     }
 
     /**
