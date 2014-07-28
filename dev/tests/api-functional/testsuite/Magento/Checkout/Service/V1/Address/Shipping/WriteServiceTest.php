@@ -36,7 +36,7 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address.php
      */
-    public function testGetAddress()
+    public function testSetAddress()
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
@@ -56,12 +56,12 @@ class WriteServiceTest extends WebapiAbstract
 
 
         $addressData = [
-            'firstname' => 'Slava',
-            'lastname' => 'Ukrayini',
+            'firstname' => 'John',
+            'lastname' => 'Smith',
             'email' => 'cat@dog.com',
             'company' => 'eBay Inc',
-            'street' => ['VeryLargeStreet', 'Tiny House 18'],
-            'city' => 'TheSmartestCity',
+            'street' => ['Typical Street', 'Tiny House 18'],
+            'city' => 'Big City',
             'region' => [
                 'region_id' => 12,
                 'region' => 'California',

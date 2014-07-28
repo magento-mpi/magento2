@@ -7,10 +7,10 @@
  */
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
-use Magento\Framework\Service\Data\Eav\AbstractObject;
 use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\Address\RegionBuilder;
+use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
 
 /**
  * Quote address data object builder
