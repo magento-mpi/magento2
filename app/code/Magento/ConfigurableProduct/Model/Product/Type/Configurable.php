@@ -539,7 +539,6 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
                     if (isset($attributeData['id'])) {
                         $configurableAttribute->load($attributeData['id']);
                         $attributeData['attribute_id'] = $configurableAttribute->getAttributeId();
-                        unset($attributeData['id']);
                     } elseif (isset($attributeData['attribute_id'])) {
                         $attribute = $this->_eavConfig->getAttribute(
                             \Magento\Catalog\Model\Product::ENTITY, $attributeData['attribute_id']
@@ -553,6 +552,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
                         $configurableAttribute->loadByProductAndAttribute($product, $attribute);
                     }
                 }
+                unset($attributeData['id']);
                 $configurableAttribute
                     ->addData($attributeData)
                     ->setStoreId($product->getStoreId())
