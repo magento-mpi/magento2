@@ -29,6 +29,8 @@ class Widget extends InjectableFixture
     protected $handlerInterface = 'Magento\Widget\Test\Handler\Widget\WidgetInterface';
 
     protected $defaultDataSet = [
+        'code' => 'Banner Rotator',
+        'theme_id' => 'Magento Blank',
     ];
 
     protected $anchor_text = [
@@ -83,11 +85,15 @@ class Widget extends InjectableFixture
     protected $code = [
         'attribute_code' => 'code',
         'backend_type' => 'virtual',
+        'input' => 'select',
+        'group' => 'settings',
     ];
 
     protected $theme_id = [
         'attribute_code' => 'theme_id',
         'backend_type' => 'virtual',
+        'input' => 'select',
+        'group' => 'settings',
     ];
 
     protected $store_ids = [
