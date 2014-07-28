@@ -53,12 +53,12 @@
   </xs:complexType>
 
 
-  <xs:complexType name="query" abstract="true" mixed="true">
+  <xs:complexType name="query" abstract="true">
     <xs:attribute type="xs:string" name="name" use="required" />
     <xs:attribute type="xs:byte" name="boost" use="optional" default="1" />
   </xs:complexType>
 
-  <xs:complexType name="boolQuery" mixed="true">
+  <xs:complexType name="boolQuery">
     <xs:complexContent>
       <xs:extension base="query">
         <xs:sequence>
@@ -76,7 +76,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="matchQuery" mixed="true">
+  <xs:complexType name="matchQuery">
     <xs:complexContent>
       <xs:extension base="query">
         <xs:sequence>
@@ -86,7 +86,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="filteredQuery" mixed="true">
+  <xs:complexType name="filteredQuery">
     <xs:complexContent>
       <xs:extension base="query">
         <xs:choice minOccurs="1" maxOccurs="1">
@@ -113,10 +113,10 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="filter" abstract="true" mixed="true">
+  <xs:complexType name="filter" abstract="true">
     <xs:attribute type="xs:string" name="name" use="required" />
   </xs:complexType>
-  <xs:complexType name="termFilter" mixed="true">
+  <xs:complexType name="termFilter">
     <xs:complexContent>
       <xs:extension base="filter">
         <xs:attribute type="xs:string" name="field" use="required" />
@@ -125,7 +125,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="rangeFilter" mixed="true">
+  <xs:complexType name="rangeFilter">
     <xs:complexContent>
       <xs:extension base="filter">
         <xs:attribute type="xs:string" name="field" use="required" />
@@ -135,7 +135,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="boolFilter" mixed="true">
+  <xs:complexType name="boolFilter">
     <xs:complexContent>
       <xs:extension base="filter">
         <xs:sequence>
@@ -160,7 +160,7 @@
       <bucket xsi:type="termBucket" name="category_bucket" field="category">
       <bucket xsi:type="rangeBucket" name="price_bucket" field="price">
   -->
-  <xs:complexType name="bucket" abstract="true" mixed="true">
+  <xs:complexType name="bucket" abstract="true">
     <xs:sequence>
       <xs:element type="metrics" name="metrics" />
     </xs:sequence>
@@ -168,14 +168,14 @@
     <xs:attribute type="xs:string" name="field" use="required" />
   </xs:complexType>
 
-  <xs:complexType name="termBucket" mixed="true">
+  <xs:complexType name="termBucket">
     <xs:complexContent>
       <xs:extension base="bucket">
         </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="rangeBucket" mixed="true">
+  <xs:complexType name="rangeBucket">
     <xs:complexContent>
       <xs:extension base="bucket">
         <xs:sequence>
