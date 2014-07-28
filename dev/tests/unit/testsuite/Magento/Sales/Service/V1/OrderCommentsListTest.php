@@ -49,9 +49,6 @@ class OrderCommentsListTest extends \PHPUnit_Framework_TestCase
      */
     protected $searchCriteriaMock;
 
-    /**
-     * SetUp
-     */
     protected function setUp()
     {
         $this->historyRepositoryMock = $this->getMock(
