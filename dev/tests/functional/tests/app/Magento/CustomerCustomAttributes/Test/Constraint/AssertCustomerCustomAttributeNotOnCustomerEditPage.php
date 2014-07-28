@@ -16,10 +16,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
- * Class AssertCustomerCustomAttributeOnCustomerEditPage
- * Assert that created customer attribute is available during edit customer account on frontend
+ * Class AssertCustomerCustomAttributeNotOnCustomerEditPage
+ * Assert that created customer attribute is absent during edit customer account on frontend
  */
-class AssertCustomerCustomAttributeOnCustomerEditPage extends AbstractConstraint
+class AssertCustomerCustomAttributeNotOnCustomerEditPage extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -29,34 +29,31 @@ class AssertCustomerCustomAttributeOnCustomerEditPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created customer attribute is available during edit customer account on frontend
+     * Assert that created customer attribute is absent during edit customer account on frontend
      *
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
-     * @param CustomerCustomAttribute $customerAttribute
      * @param CustomerAccountEdit $customerAccountEdit
      * @param CustomerInjectable $customer
-     * @param CustomerCustomAttribute $initialCustomerAttribute
+     * @param CustomerCustomAttribute $customerAttribute
      * @return void
      */
     public function processAssert(
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
-        CustomerCustomAttribute $customerAttribute,
         CustomerAccountEdit $customerAccountEdit,
         CustomerInjectable $customer,
-        CustomerCustomAttribute $initialCustomerAttribute = null
+        CustomerCustomAttribute $customerAttribute
     ) {
-        $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
         $customerAccountLogin->open();
         $customerAccountLogin->getLoginBlock()->fill($customer);
         $customerAccountLogin->getLoginBlock()->submit();
         $customerAccountIndex->open();
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Account Information');
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $customerAccountEdit->getAccountInfoForm()->isCustomerAttributeVisible($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
-            . 'is absent during register customer on frontend.'
+            . 'is present during register customer on frontend.'
         );
     }
 
@@ -67,6 +64,6 @@ class AssertCustomerCustomAttributeOnCustomerEditPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer Attribute is present during editing customer account on frontend.';
+        return 'Customer Attribute is absent during editing customer account on frontend.';
     }
 }
