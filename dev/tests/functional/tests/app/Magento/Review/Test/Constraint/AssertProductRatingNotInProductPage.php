@@ -41,7 +41,7 @@ class AssertProductRatingNotInProductPage extends AbstractConstraint
         Rating $productRating,
         ReviewInjectable $review = null
     ) {
-        $product = $review == null ? $product : $review->getDataFieldConfig('entity_id')['source']->getEntity();
+        $product = $review === null ? $product : $review->getDataFieldConfig('entity_id')['source']->getEntity();
         $catalogProductView->init($product);
         $catalogProductView->open();
         $catalogProductView->getReviewSummaryBlock()->getAddReviewLink()->click();

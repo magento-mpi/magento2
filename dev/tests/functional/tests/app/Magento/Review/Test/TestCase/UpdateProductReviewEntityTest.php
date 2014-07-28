@@ -99,7 +99,7 @@ class UpdateProductReviewEntityTest extends Injectable
      *
      * @param ReviewInjectable $reviewInitial
      * @param ReviewInjectable $review
-     * @return array
+     * @return void
      */
     public function test(ReviewInjectable $reviewInitial, ReviewInjectable $review)
     {

@@ -57,7 +57,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
         $gridStatus = '',
         ReviewInjectable $reviewInitial = null
     ) {
-        $product = $reviewInitial == null
+        $product = $reviewInitial === null
             ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
             : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
         $filter = $this->prepareFilter($product, $review, $gridStatus);
@@ -76,7 +76,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
      *
      * @param FixtureInterface $product
      * @param ReviewInjectable $review
-     * @param $gridStatus
+     * @param string $gridStatus
      * @return array
      */
     protected function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)

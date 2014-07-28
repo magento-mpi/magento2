@@ -87,10 +87,7 @@ class MassActionsProductReviewEntityTest extends Injectable
         $this->review = $review;
         $this->review->persist();
 
-        return [
-            'review' => $this->review,
-            'product' => $this->review->getDataFieldConfig('entity_id')['source']->getEntity()
-        ];
+        return ['review' => $this->review];
     }
 
     /**

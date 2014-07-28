@@ -88,9 +88,8 @@ class CreateProductReviewFrontendEntityTest extends Injectable
      * @param ReviewInjectable $review
      * @return void
      */
-    public function test(
-        ReviewInjectable $review
-    ) {
+    public function test(ReviewInjectable $review)
+    {
         // Prepare for tear down
         $this->review = $review;
 

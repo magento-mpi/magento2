@@ -103,7 +103,7 @@ class CreateProductReviewBackendEntityTest extends Injectable
      * Run Create Product Review Entity Backend Test
      *
      * @param ReviewInjectable $review
-     * @return array
+     * @return void
      */
     public function test(ReviewInjectable $review)
     {
