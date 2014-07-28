@@ -159,6 +159,6 @@ class JquerytreeElement extends Tree
         foreach ($pathsArray as $pathArray) {
             $this->getPathFromArray($pathArray);
         }
-        return $this->checkedNodesPaths;
+        return array_filter($this->checkedNodesPaths);
     }
 }

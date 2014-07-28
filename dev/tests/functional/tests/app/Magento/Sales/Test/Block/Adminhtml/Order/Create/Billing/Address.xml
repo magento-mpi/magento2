@@ -13,9 +13,9 @@
         <firstname />
         <lastname />
         <company />
-        <street_1>
+        <street>
             <selector>[name='order[billing_address][street][0]']</selector>
-        </street_1>
+        </street>
         <city />
         <country_id>
             <input>select</input>

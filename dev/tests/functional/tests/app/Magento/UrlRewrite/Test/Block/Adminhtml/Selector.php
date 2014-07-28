@@ -22,6 +22,7 @@ class Selector extends Block
      * Select URL type
      *
      * @param string $urlrewriteType
+     * @return void
      */
     public function selectType($urlrewriteType)
     {
