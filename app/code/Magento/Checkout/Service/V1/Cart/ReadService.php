@@ -56,6 +56,26 @@ class ReadService implements ReadServiceInterface
     private $totalsBuilder;
 
     /**
+     * @var array
+     */
+    private $validSearchFields = array(
+        'id', 'store_id', 'created_at', 'updated_at', 'converted_at', 'is_active', 'is_virtual',
+        'items_count', 'items_qty', 'checkout_method', 'reserved_order_id', 'orig_order_id', 'base_grand_total',
+        'grand_total', 'base_subtotal', 'subtotal', 'base_subtotal_with_discount', 'subtotal_with_discount',
+        'customer_is_guest', 'customer_id', 'customer_group_id', 'customer_id', 'customer_tax_class_id',
+        'customer_email',
+    );
+
+    /**
+     * Cart data object - quote field map
+     *
+     * @var array
+     */
+    private $searchFieldMap = array(
+        'id' => 'entity_id',
+    );
+
+    /**
      * @param QuoteFactory $quoteFactory
      * @param QuoteCollection $quoteCollection
      * @param CartBuilder $cartBuilder
@@ -106,7 +126,10 @@ class ReadService implements ReadServiceInterface
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($sortOrders as $field => $direction) {
-                $this->quoteCollection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+                $this->quoteCollection->addOrder(
+                    $this->getQuoteSearchField($field),
+                    $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                );
             }
         }
         $this->quoteCollection->setCurPage($searchCriteria->getCurrentPage());
@@ -187,25 +210,30 @@ class ReadService implements ReadServiceInterface
      */
     protected function addFilterGroupToCollection(FilterGroup $filterGroup, QuoteCollection $collection)
     {
-        $validSearchFields = array(
-            'id', 'store_id', 'created_at', 'updated_at', 'converted_at', 'is_active', 'is_virtual', 'items_count',
-            'items_qty', 'checkout_method', 'reserved_order_id', 'orig_order_id', 'base_grand_total', 'grand_total',
-            'base_subtotal', 'subtotal', 'base_subtotal_with_discount', 'subtotal_with_discount', 'customer_is_guest',
-            'customer_id', 'customer_group_id', 'customer_id', 'customer_tax_class_id', 'customer_email',
-        );
         $fields = [];
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
-            $field = $filter->getField();
-            if (!in_array($field, $validSearchFields)) {
-                throw new InputException("Field '{$field}' cannot be used for search.");
-            }
+            $fields[] = $this->getQuoteSearchField($filter->getField());
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = $field;
             $conditions[] = array($condition => $filter->getValue());
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
         }
+    }
+
+    /**
+     * Retrieve mapped search field
+     *
+     * @param string $field
+     * @return string
+     * @throws InputException
+     */
+    protected function getQuoteSearchField($field)
+    {
+        if (!in_array($field, $this->validSearchFields)) {
+            throw new InputException("Field '{$field}' cannot be used for search.");
+        }
+        return isset($this->searchFieldMap[$field]) ? $this->searchFieldMap[$field] : $field;
     }
 }

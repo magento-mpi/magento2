@@ -224,4 +224,44 @@ class WriteServiceTest extends WebapiAbstract
         );
         $this->_webApiCall($serviceInfo, $requestData);
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
+     * @magentoApiDataFixture Magento/Sales/_files/quote.php
+     * @expectedException \Exception
+     * @expectedExceptionMessage Cannot assign customer to the given cart. Customer already has active cart.
+     */
+    public function testAssignCustomerThrowsExceptionIfCustomerAlreadyHasActiveCart()
+    {
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = $this->objectManager->create('\Magento\Customer\Model\Customer')->load(1);
+        // Customer has a quote with reserved order ID test_order_1 (see fixture)
+        /** @var $customerQuote \Magento\Sales\Model\Quote */
+        $customerQuote = $this->objectManager->create('\Magento\Sales\Model\Quote')
+            ->load('test_order_1', 'reserved_order_id');
+        $customerQuote->setIsActive(1)->save();
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
+
+        $cartId = $quote->getId();
+        $customerId = $customer->getId();
+
+        $serviceInfo = array(
+            'soap' => array(
+                'service' => 'checkoutCartWriteServiceV1',
+                'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
+                'serviceVersion' => 'V1',
+            ),
+            'rest' => array(
+                'resourcePath' => '/V1/carts/' . $cartId,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+        );
+
+        $requestData = array(
+            'cartId' => $cartId,
+            'customerId' => $customerId,
+        );
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
 }

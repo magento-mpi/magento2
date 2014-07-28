@@ -79,6 +79,11 @@ class WriteService implements WriteServiceInterface
         if ($quote->getCustomerId()) {
             throw new StateException('Cannot assign customer to the given cart. The cart is not anonymous.');
         }
+        $currentCustomerQuote = $this->quoteFactory->create()->loadByCustomer($customer);
+        if ($currentCustomerQuote->getId()) {
+            throw new StateException('Cannot assign customer to the given cart. Customer already has active cart.');
+        }
+
         $quote->setCustomer($customer);
         $quote->setCustomerIsGuest(0);
         $quote->save();

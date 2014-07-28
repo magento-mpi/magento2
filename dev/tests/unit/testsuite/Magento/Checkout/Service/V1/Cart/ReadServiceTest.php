@@ -160,8 +160,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $searchCriteriaMock
             ->expects($this->once())
             ->method('getSortOrders')
-            ->will($this->returnValue(['field_name' => $direction]));
-        $this->quoteCollectionMock->expects($this->once())->method('addOrder')->with('field_name', $expected);
+            ->will($this->returnValue(['id' => $direction]));
+        $this->quoteCollectionMock->expects($this->once())->method('addOrder')->with('entity_id', $expected);
         $searchCriteriaMock->expects($this->once())->method('getCurrentPage')->will($this->returnValue(1));
         $searchCriteriaMock->expects($this->once())->method('getPageSize')->will($this->returnValue(10));
         $this->getTotalData();
