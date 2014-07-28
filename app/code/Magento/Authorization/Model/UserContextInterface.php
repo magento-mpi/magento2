@@ -16,7 +16,7 @@ interface UserContextInterface
     /**
      * Identify current user ID.
      *
-     * @return int
+     * @return int|null
      */
     public function getUserId();
 

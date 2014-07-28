@@ -10,7 +10,6 @@ namespace Magento\Webapi\Model\Authorization;
 
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Authorization\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
 use Magento\Webapi\Controller\Request;
 
@@ -31,7 +30,6 @@ class OauthUserContext implements UserContextInterface
      *
      * @param Request $request
      * @param IntegrationFactory $integrationFactory
-     * @param RoleCollectionFactory $roleCollectionFactory
      */
     public function __construct(
         Request $request,
