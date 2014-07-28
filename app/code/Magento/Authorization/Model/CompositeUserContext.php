@@ -79,7 +79,7 @@ class CompositeUserContext implements \Magento\Authorization\Model\UserContextIn
                     break;
                 }
             }
-            if (is_null($this->userContext)) {
+            if (is_null($this->chosenUserContext)) {
                 $this->chosenUserContext = false;
             }
         }
