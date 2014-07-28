@@ -7,7 +7,6 @@
  */
 namespace Magento\Sales\Service\V1;
 
-
 /**
  * Class OrderNotifyUser
  */
