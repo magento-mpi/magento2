@@ -13,7 +13,6 @@ use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
 use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Magento\Review\Test\Fixture\ReviewInjectable;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -115,8 +114,6 @@ class UpdateProductReviewEntityTest extends Injectable
         $this->reviewIndex->getReviewGrid()->searchAndOpen(['review_id' => $reviewInitial->getReviewId()]);
         $this->reviewEdit->getReviewForm()->fill($review);
         $this->reviewEdit->getPageActions()->save();
-
-        return ['product' => $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity()];
     }
 
     /**

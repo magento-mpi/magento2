@@ -8,12 +8,10 @@
 
 namespace Magento\Review\Test\TestCase;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Magento\Review\Test\Page\Adminhtml\RatingIndex;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -67,20 +65,6 @@ class CreateProductReviewFrontendEntityTest extends Injectable
     protected $review;
 
     /**
-     * Prepare data
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'default']);
-        $product->persist();
-
-        return ['product' => $product];
-    }
-
-    /**
      * Injection data
      *
      * @param CatalogProductView $catalogProductView
@@ -101,18 +85,17 @@ class CreateProductReviewFrontendEntityTest extends Injectable
     /**
      * Run create frontend product rating test
      *
-     * @param CatalogProductSimple $product
      * @param ReviewInjectable $review
      * @return void
      */
     public function test(
-        CatalogProductSimple $product,
         ReviewInjectable $review
     ) {
         // Prepare for tear down
         $this->review = $review;
 
         // Steps
+        $product = $review->getDataFieldConfig('entity_id')['source']->getEntity();
         $this->catalogProductView->init($product);
         $this->catalogProductView->open();
         $reviewLink = $this->catalogProductView->getReviewSummaryBlock()->getAddReviewLink();

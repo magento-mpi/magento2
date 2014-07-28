@@ -48,15 +48,39 @@ class AssertProductReviewInGrid extends AbstractConstraint
      * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review
      * @param string $gridStatus
-     * @param FixtureInterface $product
+     * @param ReviewInjectable $reviewInitial
      * @return void
      */
     public function processAssert(
         ReviewIndex $reviewIndex,
         ReviewInjectable $review,
         $gridStatus = '',
-        FixtureInterface $product = null
+        ReviewInjectable $reviewInitial = null
     ) {
+        $product = $reviewInitial == null
+            ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
+            : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
+        $filter = $this->prepareFilter($product, $review, $gridStatus);
+
+        $reviewIndex->open();
+        $reviewIndex->getReviewGrid()->search($filter);
+        unset($filter['visible_in']);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $reviewIndex->getReviewGrid()->isRowVisible($filter, false),
+            'Review with is absent in Review grid.'
+        );
+    }
+
+    /**
+     * Prepare filter for assert
+     *
+     * @param FixtureInterface $product
+     * @param ReviewInjectable $review
+     * @param $gridStatus
+     * @return array
+     */
+    protected function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)
+    {
         $filter = [];
         foreach ($this->filter as $key => $item) {
             list($type, $param) = [$key, $item];
@@ -82,14 +106,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
                 $filter += [$type => $value];
             }
         }
-
-        $reviewIndex->open();
-        $reviewIndex->getReviewGrid()->search($filter);
-        unset($filter['visible_in']);
-        \PHPUnit_Framework_Assert::assertTrue(
-            $reviewIndex->getReviewGrid()->isRowVisible($filter, false),
-            'Review with is absent in Review grid.'
-        );
+        return $filter;
     }
 
     /**

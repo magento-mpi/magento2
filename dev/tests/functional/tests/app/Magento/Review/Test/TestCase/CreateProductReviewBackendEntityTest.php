@@ -108,7 +108,7 @@ class CreateProductReviewBackendEntityTest extends Injectable
     public function test(ReviewInjectable $review)
     {
         // Precondition:
-        $filter = ['id' => $value = $review->getDataFieldConfig('entity_id')['source']->getEntity()->getId()];
+        $filter = ['id' => $review->getDataFieldConfig('entity_id')['source']->getEntity()->getId()];
         $this->review = $review;
 
         // Steps:
@@ -117,8 +117,6 @@ class CreateProductReviewBackendEntityTest extends Injectable
         $this->reviewEdit->getProductGrid()->searchAndOpen($filter);
         $this->reviewEdit->getReviewForm()->fill($this->review);
         $this->reviewEdit->getPageActions()->save();
-
-        return ['product' => $this->review->getDataFieldConfig('entity_id')['source']->getEntity()];
     }
 
     /**
