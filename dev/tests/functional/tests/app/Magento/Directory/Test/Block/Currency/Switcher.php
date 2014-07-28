@@ -36,7 +36,7 @@ class Switcher extends Block
     /**
      * Switch currency to specified one
      *
-     * @param string CurrencySymbolEntity $currencySymbol
+     * @param CurrencySymbolEntity $currencySymbol
      * @return void
      */
     public function switchCurrency(CurrencySymbolEntity $currencySymbol)

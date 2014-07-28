@@ -48,6 +48,9 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
         'Category' => [
             'type' => 'Magento\SalesRule\Model\Rule\Condition\Product',
             'attribute' => 'category_ids'
+        ],
+        'Customer Segment' => [
+            'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment',
         ]
     ];
 
