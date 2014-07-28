@@ -47,7 +47,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
         /** Preconditions check */
         $this->_ensurePermissionsAreNotGranted($userIdentifier, $resources);
 
-        $this->_service->grantPermissions($userIdentifier, $resources);
+        $this->_service->grantPermissions($userIdentifier->getUserId(), $resources);
 
         /** Validate that access to the specified resources is granted */
         $this->_ensurePermissionsAreGranted($userIdentifier, $resources);
@@ -74,12 +74,12 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     {
         $userIdentifier = $this->_createUserIdentifier($userType);
 
-        $this->_service->grantPermissions($userIdentifier, $initialResources);
+        $this->_service->grantPermissions($userIdentifier->getUserId(), $initialResources);
         /** Preconditions check */
         $this->_ensurePermissionsAreGranted($userIdentifier, $initialResources);
         $this->_ensurePermissionsAreNotGranted($userIdentifier, $newResources);
 
-        $this->_service->grantPermissions($userIdentifier, $newResources);
+        $this->_service->grantPermissions($userIdentifier->getUserId(), $newResources);
 
         /** Check the results of permissions change */
         $this->_ensurePermissionsAreGranted($userIdentifier, $newResources);
@@ -108,7 +108,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     public function testGrantAllPermissions()
     {
         $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
-        $this->_service->grantAllPermissions($userIdentifier);
+        $this->_service->grantAllPermissions($userIdentifier->getUserId());
         $this->_ensurePermissionsAreGranted($userIdentifier, array('Magento_Adminhtml::all'));
     }
 

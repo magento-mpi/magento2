@@ -122,14 +122,13 @@ class IntegrationServiceV1
     protected function _saveApiPermissions(IntegrationModel $integration)
     {
         if ($integration->getId()) {
-            $userIdentifier = $this->_createUserIdentifier($integration->getId());
             if ($integration->getData('all_resources')) {
-                $this->integrationAuthorizationService->grantAllPermissions($userIdentifier);
+                $this->integrationAuthorizationService->grantAllPermissions($integration->getId());
             } else if (is_array($integration->getData('resource'))) {
                 $this->integrationAuthorizationService
-                    ->grantPermissions($userIdentifier, $integration->getData('resource'));
+                    ->grantPermissions($integration->getId(), $integration->getData('resource'));
             } else {
-                $this->integrationAuthorizationService->grantPermissions($userIdentifier, array());
+                $this->integrationAuthorizationService->grantPermissions($integration->getId(), array());
             }
         }
     }
@@ -161,11 +160,8 @@ class IntegrationServiceV1
     public function afterDelete(\Magento\Integration\Service\V1\Integration $subject, array $integrationData)
     {
         //No check needed for integration data since it cannot be empty in the parent invocation - delete
-        $userIdentifier = $this->_userIdentifierFactory->create(
-            UserIdentifier::USER_TYPE_INTEGRATION,
-            (int)$integrationData[IntegrationModel::ID]
-        );
-        $this->integrationAuthorizationService->removePermissions($userIdentifier);
+        $integrationId = (int)$integrationData[IntegrationModel::ID];
+        $this->integrationAuthorizationService->removePermissions($integrationId);
         return $integrationData;
     }
 }

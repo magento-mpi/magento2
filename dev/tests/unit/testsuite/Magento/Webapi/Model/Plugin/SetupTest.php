@@ -121,10 +121,11 @@ class SetupTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
+        $firstInegrationId = 1;
 
         $integrationsData1 = new \Magento\Framework\Object(
             array(
-                'id' => 1,
+                'id' => $firstInegrationId,
                 Integration::NAME => 'TestIntegration1',
                 Integration::EMAIL => 'test-integration1@magento.com',
                 Integration::ENDPOINT => 'http://endpoint.com',
@@ -132,9 +133,10 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             )
         );
 
+        $secondIntegrationId = 2;
         $integrationsData2 = new \Magento\Framework\Object(
             array(
-                'id' => 2,
+                'id' => $secondIntegrationId,
                 Integration::NAME => 'TestIntegration2',
                 Integration::EMAIL => 'test-integration2@magento.com',
                 Integration::SETUP_TYPE => 1
@@ -161,40 +163,12 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($integrationsData2)
         );
 
-        $userIdentifierMock1 = $this->getMockBuilder(
-            '\Magento\Authz\Model\UserIdentifier'
-        )->disableOriginalConstructor()->getMock();
-        $this->userIdentifierFactoryMock->expects(
-            $this->at(0)
-        )->method(
-            'create'
-        )->with(
-            UserIdentifier::USER_TYPE_INTEGRATION,
-            1
-        )->will(
-            $this->returnValue($userIdentifierMock1)
-        );
-
-        $userIdentifierMock2 = $this->getMockBuilder(
-            '\Magento\Authz\Model\UserIdentifier'
-        )->disableOriginalConstructor()->getMock();
-        $this->userIdentifierFactoryMock->expects(
-            $this->at(1)
-        )->method(
-            'create'
-        )->with(
-            UserIdentifier::USER_TYPE_INTEGRATION,
-            2
-        )->will(
-            $this->returnValue($userIdentifierMock2)
-        );
-
         $this->authzServiceMock->expects(
             $this->at(0)
         )->method(
             'grantPermissions'
         )->with(
-            $userIdentifierMock1,
+            $firstInegrationId,
             $testIntegration1Resource
         );
         $this->authzServiceMock->expects(
@@ -202,7 +176,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         )->method(
             'grantPermissions'
         )->with(
-            $userIdentifierMock2,
+            $secondIntegrationId,
             $testIntegration2Resource
         );
 

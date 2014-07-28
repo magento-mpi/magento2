@@ -76,29 +76,18 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
 
     public function testAfterDelete()
     {
+        $integrationId = 1;
         $integrationsData = array(
-            Integration::ID => 1,
+            Integration::ID => $integrationId,
             Integration::NAME => 'TestIntegration1',
             Integration::EMAIL => 'test-integration1@magento.com',
             Integration::ENDPOINT => 'http://endpoint.com',
             Integration::SETUP_TYPE => 1
         );
-        $userIdentifierMock = $this->getMockBuilder(
-            '\Magento\Authz\Model\UserIdentifier'
-        )->disableOriginalConstructor()->getMock();
-        $this->userIdentifierFactoryMock->expects(
-            $this->at(0)
-        )->method(
-            'create'
-        )->with(
-            UserIdentifier::USER_TYPE_INTEGRATION,
-            1
-        )->will(
-            $this->returnValue($userIdentifierMock)
-        );
+
         $this->integrationAuthServiceMock->expects($this->once())
             ->method('removePermissions')
-            ->with($userIdentifierMock);
+            ->with($integrationId);
         $this->integrationV1Plugin->afterDelete($this->subjectMock, $integrationsData);
     }
 }

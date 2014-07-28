@@ -12,21 +12,23 @@ use Magento\Authz\Model\UserIdentifier;
 
 class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var \PHPUnit_Framework_MockObject_MockObject|Role */
+    protected $roleMock;
+
     /** @var AuthorizationService */
-    protected $_authzService;
+    protected $integrationAuthorizationService;
 
     protected function setUp()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject|Role $roleMock */
-        $roleMock = $this->getMock(
+        $this->roleMock = $this->getMock(
             'Magento\Authorization\Model\Role',
             array('load', 'delete', '__wakeup'),
             array(),
             '',
             false
         );
-        $roleMock->expects($this->any())->method('load')->will($this->returnSelf());
-        $roleMock->expects($this->any())->method('delete')->will($this->returnSelf());
+        $this->roleMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->roleMock->expects($this->any())->method('delete')->will($this->returnSelf());
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authorization\Model\RoleFactory $roleFactoryMock */
         $roleFactoryMock = $this->getMock(
@@ -36,11 +38,10 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $roleFactoryMock->expects($this->any())->method('create')->will($this->returnValue($roleMock));
+        $roleFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->roleMock));
 
-        $this->_authzService = new AuthorizationService(
+        $this->integrationAuthorizationService = new AuthorizationService(
             $this->getMock('Magento\Framework\Acl\Builder', array(), array(), '', false),
-            $this->getMock('Magento\Authz\Model\UserIdentifier', array(), array(), '', false),
             $roleFactoryMock,
             $this->getMock('Magento\Authorization\Model\Resource\Role\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Authorization\Model\RulesFactory', array(), array(), '', false),
@@ -52,36 +53,9 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testRemovePermissions()
     {
-        $this->_authzService->removePermissions($this->_getUserIdentifierMock(UserIdentifier::USER_TYPE_INTEGRATION));
-    }
-
-    /**
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with userType = 5
-     */
-    public function testRemovePermissionsException()
-    {
-        // Undefined user identifier type outside \Magento\Authz\Model\UserIdentifier::USER_TYPE_*
-        $this->_authzService->removePermissions($this->_getUserIdentifierMock(5));
-    }
-
-    /**
-     * @param string $getUserTypeValue
-     * @return UserIdentifier|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getUserIdentifierMock($getUserTypeValue)
-    {
-        /** @var UserIdentifier|\PHPUnit_Framework_MockObject_MockObject  $userIdentiferMock */
-        $userIdentiferMock = $this->getMock(
-            'Magento\Authz\Model\UserIdentifier',
-            array('getUserType', 'getUserId'),
-            array(),
-            '',
-            false
-        );
-
-        $userIdentiferMock->expects($this->any())->method('getUserType')->will($this->returnValue($getUserTypeValue));
-
-        return $userIdentiferMock;
+        $integrationId = 22;
+        $roleName = UserIdentifier::USER_TYPE_INTEGRATION . $integrationId;
+        $this->roleMock->expects($this->once())->method('load')->with($roleName)->will($this->returnSelf());
+        $this->integrationAuthorizationService->removePermissions($integrationId);
     }
 }

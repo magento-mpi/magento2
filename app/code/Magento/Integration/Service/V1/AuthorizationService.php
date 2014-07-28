@@ -38,11 +38,6 @@ class AuthorizationService implements AuthorizationServiceInterface
     protected $_aclBuilder;
 
     /**
-     * @var UserIdentifier
-     */
-    protected $_userIdentifier;
-
-    /**
      * @var RoleFactory
      */
     protected $_roleFactory;
@@ -76,7 +71,6 @@ class AuthorizationService implements AuthorizationServiceInterface
      * Initialize dependencies.
      *
      * @param AclBuilder $aclBuilder
-     * @param UserIdentifier $userIdentifier
      * @param RoleFactory $roleFactory
      * @param RoleCollectionFactory $roleCollectionFactory
      * @param RulesFactory $rulesFactory
@@ -86,7 +80,6 @@ class AuthorizationService implements AuthorizationServiceInterface
      */
     public function __construct(
         AclBuilder $aclBuilder,
-        UserIdentifier $userIdentifier,
         RoleFactory $roleFactory,
         RoleCollectionFactory $roleCollectionFactory,
         RulesFactory $rulesFactory,
@@ -95,7 +88,6 @@ class AuthorizationService implements AuthorizationServiceInterface
         RootAclResource $rootAclResource
     ) {
         $this->_aclBuilder = $aclBuilder;
-        $this->_userIdentifier = $userIdentifier;
         $this->_roleFactory = $roleFactory;
         $this->_rulesFactory = $rulesFactory;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
@@ -107,12 +99,12 @@ class AuthorizationService implements AuthorizationServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function grantPermissions(UserIdentifier $userIdentifier, $resources)
+    public function grantPermissions($integrationId, $resources)
     {
         try {
-            $role = $this->_getUserRole($userIdentifier);
+            $role = $this->_getUserRole($integrationId);
             if (!$role) {
-                $role = $this->_createRole($userIdentifier);
+                $role = $this->_createRole($integrationId);
             }
             $this->_associateResourcesWithRole($role, $resources);
         } catch (\Exception $e) {
@@ -124,20 +116,18 @@ class AuthorizationService implements AuthorizationServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function grantAllPermissions(UserIdentifier $userIdentifier)
+    public function grantAllPermissions($integrationId)
     {
-        $this->grantPermissions($userIdentifier, array($this->_rootAclResource->getId()));
+        $this->grantPermissions($integrationId, array($this->_rootAclResource->getId()));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function removePermissions(UserIdentifier $userIdentifier)
+    public function removePermissions($integrationId)
     {
         try {
-            $this->_deleteRole($userIdentifier);
-        } catch (NoSuchEntityException $e) {
-            throw $e;
+            $this->_deleteRole($integrationId);
         } catch (\Exception $e) {
             $this->_logger->logException($e);
             throw new LocalizedException(
@@ -149,83 +139,46 @@ class AuthorizationService implements AuthorizationServiceInterface
     /**
      * Create new ACL role.
      *
-     * @param UserIdentifier $userIdentifier
+     * @param int $integrationId
      * @return \Magento\Authorization\Model\Role
-     * @throws NoSuchEntityException
-     * @throws \LogicException
      */
-    protected function _createRole($userIdentifier)
+    protected function _createRole($integrationId)
     {
-        $userType = $userIdentifier->getUserType();
-        if (!$this->_canRoleBeCreatedForUserType($userType)) {
-            throw new \LogicException("The role with user type '{$userType}' cannot be created");
-        }
-        $userId = $userIdentifier->getUserId();
-        switch ($userType) {
-            case UserIdentifier::USER_TYPE_INTEGRATION:
-                $roleName = $userType . $userId;
-                $roleType = \Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE;
-                $parentId = 0;
-                $userId = $userIdentifier->getUserId();
-                break;
-            default:
-                throw NoSuchEntityException::singleField('userType', $userType);
-        }
+        $roleName = UserIdentifier::USER_TYPE_INTEGRATION . $integrationId;
         $role = $this->_roleFactory->create();
         $role->setRoleName($roleName)
-            ->setUserType($userType)
-            ->setUserId($userId)
-            ->setRoleType($roleType)
-            ->setParentId($parentId)
+            ->setUserType(UserIdentifier::USER_TYPE_INTEGRATION)
+            ->setUserId($integrationId)
+            ->setRoleType(\Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE)
+            ->setParentId(0)
             ->save();
         return $role;
     }
 
     /**
-     * Remove an ACL role. This deletes the cascading permissions
+     * Remove integration role. This deletes the cascading permissions
      *
-     * @param UserIdentifier $userIdentifier
+     * @param int $integrationId
      * @return \Magento\Authorization\Model\Role
-     * @throws NoSuchEntityException
-     * @throws \LogicException
      */
-    protected function _deleteRole($userIdentifier)
+    protected function _deleteRole($integrationId)
     {
-        $userType = $userIdentifier->getUserType();
-        if (!$this->_canRoleBeCreatedForUserType($userType)) {
-            throw new \LogicException("The role with user type '{$userType}' cannot be created or deleted.");
-        }
-        $userId = $userIdentifier->getUserId();
-        switch ($userType) {
-            case UserIdentifier::USER_TYPE_INTEGRATION:
-                $roleName = $userType . $userId;
-                break;
-            default:
-                throw NoSuchEntityException::singleField('userType', $userType);
-        }
+        $roleName = UserIdentifier::USER_TYPE_INTEGRATION . $integrationId;
         $role = $this->_roleFactory->create()->load($roleName, 'role_name');
         return $role->delete();
     }
 
     /**
-     * Identify user role from user identifier.
+     * Identify authorization role associated with provided integration.
      *
-     * @param UserIdentifier $userIdentifier
+     * @param int $integrationId
      * @return \Magento\Authorization\Model\Role|false Return false in case when no role associated with user was found.
-     * @throws \LogicException
      */
-    protected function _getUserRole($userIdentifier)
+    protected function _getUserRole($integrationId)
     {
-        if (!$this->_canRoleBeCreatedForUserType($userIdentifier->getUserType())) {
-            throw new \LogicException(
-                "The role with user type '{$userIdentifier->getUserType()}' does not exist and cannot be created"
-            );
-        }
         $roleCollection = $this->_roleCollectionFactory->create();
-        $userType = $userIdentifier->getUserType();
         /** @var Role $role */
-        $userId = $userIdentifier->getUserId();
-        $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
+        $role = $roleCollection->setUserFilter($integrationId, UserIdentifier::USER_TYPE_INTEGRATION)->getFirstItem();
         return $role->getId() ? $role : false;
     }
 
@@ -237,23 +190,10 @@ class AuthorizationService implements AuthorizationServiceInterface
      * @return void
      * @throws \LogicException
      */
-    protected function _associateResourcesWithRole($role, array $resources)
+    protected function _associateResourcesWithRole($role, $resources)
     {
         /** @var \Magento\Authorization\Model\Rules $rules */
         $rules = $this->_rulesFactory->create();
         $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
-    }
-
-    /**
-     * Check if there role can be associated with user having provided user type.
-     *
-     * Roles cannot be created for guests and customers.
-     *
-     * @param int $userType
-     * @return bool
-     */
-    protected function _canRoleBeCreatedForUserType($userType)
-    {
-        return ($userType != UserIdentifier::USER_TYPE_CUSTOMER) && ($userType != UserIdentifier::USER_TYPE_GUEST);
     }
 }

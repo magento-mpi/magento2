@@ -20,31 +20,28 @@ interface AuthorizationServiceInterface
     /**
      * Grant permissions to user to access the specified resources.
      *
-     * @param UserIdentifier $userIdentifier
+     * @param int $integrationId
      * @param string[] $resources List of resources which should be available to the specified user.
      * @return void
-     * @throws NoSuchEntityException
      * @throws LocalizedException
      */
-    public function grantPermissions(UserIdentifier $userIdentifier, $resources);
+    public function grantPermissions($integrationId, $resources);
 
     /**
      * Grant permissions to the user to access all resources available in the system.
      *
-     * @param UserIdentifier $userIdentifier
+     * @param int $integrationId
      * @return void
-     * @throws NoSuchEntityException
      * @throws LocalizedException
      */
-    public function grantAllPermissions(UserIdentifier $userIdentifier);
+    public function grantAllPermissions($integrationId);
 
     /**
-     * Remove user role and associated permissions.
+     * Remove role and associated permissions for the specified integration.
      *
-     * @param UserIdentifier $userIdentifier
+     * @param int $integrationId
      * @return void
-     * @throws NoSuchEntityException
      * @throws LocalizedException
      */
-    public function removePermissions(UserIdentifier $userIdentifier);
+    public function removePermissions($integrationId);
 }

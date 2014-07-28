@@ -86,12 +86,10 @@ class Setup
             if (isset($integrations[$name])) {
                 $integration = $this->_integrationService->findByName($name);
                 if ($integration->getId()) {
-                    $userIdentifier = $this->_userIdentifierFactory->create(
-                        UserIdentifier::USER_TYPE_INTEGRATION,
-                        $integration->getId()
+                    $this->integrationAuthorizationService->grantPermissions(
+                        $integration->getId(),
+                        $integrations[$name]['resources']
                     );
-                    $this->integrationAuthorizationService
-                        ->grantPermissions($userIdentifier, $integrations[$name]['resources']);
                 }
             }
         }
