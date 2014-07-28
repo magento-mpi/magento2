@@ -23,7 +23,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_indexerMatchData = array(
-        'new_data' => array(\Magento\Catalog\Model\Indexer\Url::EVENT_MATCH_RESULT_KEY => true)
+        'new_data' => array()
     );
 
     /**

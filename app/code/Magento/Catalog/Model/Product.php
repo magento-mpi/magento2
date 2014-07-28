@@ -22,6 +22,7 @@ use Magento\Framework\Object\IdentityInterface;
  * @method int getNewVariationsAttributeSetId()
  * @method int getPriceType
  * @method \Magento\Catalog\Model\Resource\Product\Collection getCollection()
+ * @method string getUrlKey()
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -1493,23 +1494,14 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Formats URL key
      *
+     * @TODO: UrlRewrite Move outta Catalog module
+     *
      * @param string $str URL
      * @return string
      */
     public function formatUrlKey($str)
     {
         return $this->getUrlModel()->formatUrlKey($str);
-    }
-
-    /**
-     * Retrieve Product Url Path (include category)
-     *
-     * @param \Magento\Catalog\Model\Category $category
-     * @return string
-     */
-    public function getUrlPath($category = null)
-    {
-        return $this->getUrlModel()->getUrlPath($this, $category);
     }
 
     /**

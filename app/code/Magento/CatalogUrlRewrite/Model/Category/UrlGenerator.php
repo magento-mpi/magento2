@@ -7,13 +7,11 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Category;
 
-use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
-// TODO: UrlRewrite
 use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 
 /**
@@ -36,31 +34,31 @@ class UrlGenerator
     /** @var Converter */
     protected $converter;
 
-    /** @var CatalogUrlRewriteHelper */
-    protected $catalogUrlRewriteHelper;
-
     /** @var \Magento\Catalog\Model\Category */
     protected $category;
+
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
+    protected $categoryUrlPathGenerator;
 
     /**
      * @param FilterFactory $filterFactory
      * @param UrlMatcherInterface $urlMatcher
      * @param StoreViewService $storeViewService
      * @param Converter $converter
-     * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
+     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
     public function __construct(
         FilterFactory $filterFactory,
         UrlMatcherInterface $urlMatcher,
         StoreViewService $storeViewService,
         Converter $converter,
-        CatalogUrlRewriteHelper $catalogUrlRewriteHelper
+        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
     ) {
         $this->filterFactory = $filterFactory;
         $this->urlMatcher = $urlMatcher;
         $this->storeViewService = $storeViewService;
         $this->converter = $converter;
-        $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;// TODO: MAGETWO-26285
+        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
     }
 
     /**
@@ -110,8 +108,8 @@ class UrlGenerator
             return [];
         }
         $urls[] = $this->createUrlRewrite(
-            $this->catalogUrlRewriteHelper->getCategoryUrlKeyPath($this->category),
-            $this->catalogUrlRewriteHelper->getCategoryCanonicalUrlPath($this->category)
+            $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category),
+            $this->categoryUrlPathGenerator->getCanonicalUrlPath($this->category)
         );
         $urls = array_merge(
             $urls,
@@ -151,7 +149,7 @@ class UrlGenerator
         $urls = [];
         foreach ($this->urlMatcher->findAllByFilter($this->getFilter(0)) as $url) {
             $targetPath = $url->getRedirectType()
-                ? $this->catalogUrlRewriteHelper->getCategoryUrlKeyPath($this->category)
+                ? $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category)
                 : $url->getTargetPath();
             if ($url->getRequestPath() !== $targetPath) {
                 $urls[] = $this->createUrlRewrite($url->getRequestPath(), $targetPath, 0, $url->getRedirectType());
@@ -173,7 +171,7 @@ class UrlGenerator
         foreach ($this->urlMatcher->findAllByFilter($this->getFilter(1)) as $url) {
             $urls[] = $this->createUrlRewrite(
                 $url->getRequestPath(),
-                $this->catalogUrlRewriteHelper->getCategoryUrlKeyPath($this->category),
+                $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category),
                 0,
                 OptionProvider::PERMANENT
             );

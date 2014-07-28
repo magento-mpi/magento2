@@ -60,7 +60,10 @@ class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     public function afterSave($object)
     {
         if ($object->dataHasChangedFor($this->getAttribute()->getName())) {
-            $this->_catalogUrl->refreshProductRewrites(null, $object, true);
+            /**
+             * @TODO: UrlRewrite MAGETWO-26285
+             * $this->_catalogUrl->refreshProductRewrites(null, $object, true);
+             */
         }
         return $this;
     }

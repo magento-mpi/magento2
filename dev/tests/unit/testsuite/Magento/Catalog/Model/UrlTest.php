@@ -69,22 +69,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             array(
                 '__wakeup',
                 'getStores',
-                'clearStoreInvalidRewrites',
                 'getProductsByStore',
-                'prepareRewrites',
                 'getCategories',
                 'getCategory',
-                'getCategoryModel',
-                'loadCategoryChilds',
-                'checkRequestPaths',
-                'saveRewrite',
-                'clearCategoryProduct',
-                'getCategoryParentPath',
-                'findFinalTargetPath',
-                'deleteRewriteRecord',
-                'saveCategoryAttribute',
-                'getProductsByCategory',
-                'deleteCategoryProductStoreRewrites'
             ),
             array(),
             '',
@@ -129,10 +116,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 'getId',
                 'getStoreId',
                 'getChilds',
-                'getAllChilds',
                 'formatUrlKey',
                 'getUrlKey',
-                'getCategoryUrlPath',
                 'getName'
             ),
             array(),
@@ -142,10 +127,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_categoryFactory = $this->getMock('\Magento\Catalog\Model\CategoryFactory');
         $this->_categoryHelper = $this->getMock(
             'Magento\Catalog\Helper\Category',
-            array(
-                'getCategoryUrlPath',
-                'getCategoryUrlSuffix'
-            ),
+            array(),
             array(),
             '',
             false
@@ -176,10 +158,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_resourceModel));
         $this->_resourceModel->expects($this->any())->method('getCategory')
             ->will($this->returnValue($this->_categoryModel));
-        $this->_resourceModel->expects($this->any())->method('loadCategoryChilds')
-            ->will($this->returnValue($this->_categoryModel));
-        $this->_resourceModel->expects($this->any())->method('saveRewrite')
-            ->will($this->returnSelf());
         $this->_categoryModel->expects($this->any())->method('getId')
             ->will($this->returnValue(1));
         $this->_categoryModel->expects($this->any())->method('getStoreId')
@@ -188,111 +166,5 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->_storeModel->expects($this->any())->method('getId')
             ->will($this->returnValue(1));
-    }
-
-    public function testGenerateUniqueIdPath()
-    {
-        $path = $this->_model->generateUniqueIdPath();
-        $this->assertNotContains('.', $path);
-        $this->assertContains('_', $path);
-        $this->assertNotEquals($path, $this->_model->generateUniqueIdPath());
-    }
-
-    public function testRefreshRewrites()
-    {
-        $rewrite = array('category/1' => $this->_rewriteModel);
-        $validatedPath = 'validated_path.html';
-
-        $this->_urlFactory->expects($this->any())->method('formatUrlKey')
-            ->will($this->returnValue('url_formatted'));
-        $this->_urlFactory->expects($this->any())->method('getUrlPath')
-            ->will($this->returnValue($validatedPath));
-        $this->_resourceModel->expects($this->any())->method('prepareRewrites')
-            ->will($this->returnValue($rewrite));
-        $this->_resourceModel->expects($this->at(0))->method('getStores')
-            ->will($this->returnValue(array($this->_storeModel)));
-        $this->_resourceModel->expects($this->any())->method('getStores')
-            ->will($this->returnValue($this->_storeModel));
-        $this->_resourceModel->expects($this->once())->method('clearStoreInvalidRewrites')
-            ->will($this->returnSelf());
-        $this->_resourceModel->expects($this->at(14))->method('getProductsByStore')
-            ->will($this->returnValue(null));
-        $this->_resourceModel->expects($this->any())->method('getProductsByStore')
-            ->will($this->returnValue(array($this->_productModel)));
-        $this->_resourceModel->expects($this->any())->method('getCategories')
-            ->will($this->returnValue(array($this->_categoryModel)));
-        $this->_resourceModel->expects($this->once())->method('checkRequestPaths')
-            ->will($this->returnValue($validatedPath));
-        $this->_resourceModel->expects($this->once())->method('clearCategoryProduct')
-            ->will($this->returnSelf());
-        $this->_productModel->expects($this->any())->method('getCategoryIds')
-            ->will($this->returnValue(array(1)));
-        $this->_productModel->expects($this->any())->method('getId')
-            ->will($this->returnValue(1));
-        $this->_productModel->expects($this->any())->method('getResource')
-            ->will($this->returnValue($this->_resourceModel));
-        $this->_productModel->expects($this->once())->method('getUrlPath')
-            ->will($this->returnValue($validatedPath));
-        $this->_storeModel->expects($this->any())->method('getRootCategoryId')
-            ->will($this->returnValue(1));
-
-        $this->_model->refreshRewrites();
-    }
-
-    /**
-     * @param string $targetPathExecute
-     * @param bool $changeRequestPath
-     *
-     * @dataProvider refreshcategoryRewriteDataProvider
-     */
-    public function testRefreshCategoryRewrite($targetPathExecute, $changeRequestPath)
-    {
-        $categoryId = 1;
-        $rewrite = array('category/1' => $this->_rewriteModel);
-
-        $this->_resourceModel->expects($this->once())->method('prepareRewrites')
-            ->will($this->returnValue($rewrite));
-        $this->_resourceModel->expects($this->at(0))->method('getStores')
-            ->will($this->returnValue(array($this->_storeModel)));
-        $this->_resourceModel->expects($this->once())->method('getStores')
-            ->will($this->returnValue($this->_storeModel));
-        $this->_resourceModel->expects($this->any())->method('getCategoryModel')
-            ->will($this->returnValue($this->_categoryModel));
-        $this->_resourceModel->expects($this->once())->method('getCategoryParentPath')
-            ->will($this->returnValue('parent_path'));
-        $this->_resourceModel->expects($this->any())->method('deleteRewriteRecord')
-            ->will($this->returnSelf());
-        $this->_resourceModel->expects($this->any())->method('saveCategoryAttribute')
-            ->will($this->returnSelf());
-        $this->_resourceModel->expects($this->any())->method('getProductsByCategory')
-            ->will($this->returnValue(null));
-        $this->_resourceModel->expects($this->any())->method('deleteCategoryProductStoreRewrites')
-            ->will($this->returnSelf());
-        $this->_resourceModel->expects($this->$targetPathExecute())->method('findFinalTargetPath')
-            ->will($this->returnValue('category/1'));
-        $this->_categoryModel->expects($this->any())->method('getAllChilds')
-            ->will($this->returnValue(array($this->_categoryModel)));
-        $this->_categoryModel->expects($this->any())->method('formatUrlKey')
-            ->will($this->returnValue('url_formatted'));
-        $this->_categoryModel->expects($this->any())->method('getUrlKey')
-            ->will($this->returnValue('url_key'));
-        $this->_categoryModel->expects($this->any())->method('getCategoryUrlPath')
-            ->will($this->returnValue('category_parent_path'));
-        $this->_categoryHelper->expects($this->once())->method('getCategoryUrlPath')
-            ->will($this->returnValue('category_parent_path'));
-        $this->_categoryHelper->expects($this->once())->method('getCategoryUrlSuffix')
-            ->will($this->returnValue('suffics'));
-        $this->_rewriteModel->expects($this->once())->method('getRequestPath')
-            ->will($this->returnValue('category_parent_pathurl_formatted-1suffics'));
-
-        $this->_model->refreshCategoryRewrite($categoryId, '', true, $changeRequestPath);
-    }
-
-    public function refreshcategoryRewriteDataProvider()
-    {
-        return array(
-            array('once', true),
-            array('never', false)
-        );
     }
 }

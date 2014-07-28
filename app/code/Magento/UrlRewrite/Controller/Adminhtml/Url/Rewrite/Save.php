@@ -10,10 +10,32 @@ namespace Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite;
 
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\App\Action\Action;
 use Magento\Framework\Model\Exception;
 
 class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
 {
+    /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
+    protected $productUrlPathGenerator;
+
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
+    protected $categoryUrlPathGenerator;
+
+    /**
+     * @param Action\Context $context
+     * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
+     */
+    public function __construct(
+        Action\Context $context,
+        \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
+        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
+    ) {
+        parent::__construct($context);
+        $this->productUrlPathGenerator = $productUrlPathGenerator;
+        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
+    }
+
     /**
      * Call before save urlrewrite handlers
      *
@@ -37,20 +59,19 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     {
         $product = $this->_getInitializedProduct($model);
         $category = $this->_getInitializedCategory($model);
-
         if ($product || $category) {
-            /** @var $catalogUrlModel \Magento\Catalog\Model\Url */
-            $catalogUrlModel = $this->_objectManager->get('Magento\Catalog\Model\Url');
-            $model->setTargetPath($catalogUrlModel->generatePath('target', $product, $category));
-            $model->setEntityType(
-                $product && $product->getId() ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY
+            $isProduct = $product && $product->getId();
+            $model->setEntityType($isProduct ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY);
+            $model->setEntityId($isProduct ? $product->getId() : $category->getId());
+            $model->setTargetPath($isProduct
+                ? $this->productUrlPathGenerator->getCanonicalUrlPathWithCategory($product, $category)
+                : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
             );
-            $model->setEntityId($product && $product->getId() ? $product->getId() : $category->getId());
         }
     }
 
     /**
-     * Get product instance applicable for generatePath
+     * Get product instance
      *
      * @param \Magento\UrlRewrite\Model\UrlRewrite $model
      * @return Product|null
@@ -92,7 +113,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     }
 
     /**
-     * Get category instance applicable for generatePath
+     * Get category instance
      *
      * @param \Magento\UrlRewrite\Model\UrlRewrite $model
      * @return Category|null

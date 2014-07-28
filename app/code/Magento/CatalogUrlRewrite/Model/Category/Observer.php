@@ -26,8 +26,8 @@ class Observer
     /** @var UrlPersistInterface */
     protected $urlPersist;
 
-    /** var \Magento\CatalogUrlRewrite\Helper\Data */
-    protected $catalogUrlRewriteHelper;
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
+    protected $categoryUrlPathGenerator;
 
     /**
      * @var FilterFactory
@@ -38,21 +38,21 @@ class Observer
      * @param CategoryUrlGenerator $categoryUrlGenerator
      * @param ProductUrlGenerator $productUrlGenerator
      * @param UrlPersistInterface $urlPersist
-     * @param \Magento\CatalogUrlRewrite\Helper\Data $catalogUrlRewriteHelper
      * @param FilterFactory $filterFactory
+     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
     public function __construct(
         CategoryUrlGenerator $categoryUrlGenerator,
         ProductUrlGenerator $productUrlGenerator,
         UrlPersistInterface $urlPersist,
-        \Magento\CatalogUrlRewrite\Helper\Data $catalogUrlRewriteHelper,
-        FilterFactory $filterFactory
+        FilterFactory $filterFactory,
+        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
     ) {
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->productUrlGenerator = $productUrlGenerator;
         $this->urlPersist = $urlPersist;
-        $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;// TODO: MAGETWO-26285
         $this->filterFactory = $filterFactory;
+        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
     }
 
     /**
@@ -101,9 +101,7 @@ class Observer
             ->addAttributeToSelect('url_path');
         $productUrls = [];
         foreach ($collection as $product) {
-            //@TODO remove it when fix empty url_path for product
-            $product->setUrlPath($this->catalogUrlRewriteHelper->generateProductUrlKeyPath($product));
-
+            $product->setUrlPath($this->categoryUrlPathGenerator->generateUrlKey($product));
             $product->setStoreId($category->getStoreId());
             $product->setStoreIds($category->getStoreIds());
             $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));

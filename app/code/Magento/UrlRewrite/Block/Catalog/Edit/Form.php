@@ -34,6 +34,12 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
      */
     protected $_categoryFactory;
 
+    /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
+    protected $productUrlPathGenerator;
+
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
+    protected $categoryUrlPathGenerator;
+
     /**
      * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -45,6 +51,8 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Url $catalogUrl
+     * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -60,11 +68,15 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Url $catalogUrl,
+        \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
+        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_catalogUrl = $catalogUrl;
+        $this->productUrlPathGenerator = $productUrlPathGenerator;
+        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         parent::__construct(
             $context,
             $registry,
@@ -116,9 +128,19 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
             if ($product || $category) {
                 $sessionData = $this->_getSessionData();
                 if (!isset($sessionData['request_path'])) {
-                    $requestPath->setValue($this->_catalogUrl->generatePath('request', $product, $category, ''));
+                    $requestPath->setValue($product
+                        ? $this->productUrlPathGenerator->getUrlPathWithSuffix(
+                                $product,
+                                $product->getStoreId(),
+                                $category
+                        )
+                        : $this->categoryUrlPathGenerator->getUrlPathWithSuffix($category)
+                    );
                 }
-                $targetPath->setValue($this->_catalogUrl->generatePath('target', $product, $category));
+                $targetPath->setValue($product
+                    ? $this->productUrlPathGenerator->getCanonicalUrlPathWithCategory($product, $category)
+                    : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
+                );
                 $disablePaths = true;
             }
         } else {

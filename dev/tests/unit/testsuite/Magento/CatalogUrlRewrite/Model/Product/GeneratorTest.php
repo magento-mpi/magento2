@@ -143,8 +143,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->any())->method('getCategoryCollection')
             ->will($this->returnValue($this->categoriesCollectionMock));
 
-        $this->catalogProductHelperMock->expects($this->any())->method('getProductUrlSuffix')->with($storeId)
-            ->will($this->returnValue($urlSuffix));
         $this->initCategories($categoryId, $categoryUrlPath);
 
         $previousUrls = [];
@@ -251,10 +249,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->categoriesCollectionMock));
 
         $this->initCategories(null, null);
-
-        $this->catalogProductHelperMock->expects($this->any())->method('getProductUrlSuffix')->with($storeId)
-            ->will($this->returnValue($urlSuffix));
-
 
         $oldProductDataMock = $this->getMock('Magento\CatalogUrlRewrite\Service\V1\Storage\Data\Product', [], [], '',
             false);

@@ -57,14 +57,16 @@ class Url extends \Magento\Framework\Object
      */
     protected $_sidResolver;
 
+    /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
+    protected $productUrlPathGenerator;
+
     /**
-     * Construct
-     *
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
+     * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
      * @param array $data
      */
     public function __construct(
@@ -73,6 +75,7 @@ class Url extends \Magento\Framework\Object
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
+        \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
         array $data = array()
     ) {
         $this->_url = $url;
@@ -80,6 +83,7 @@ class Url extends \Magento\Framework\Object
         $this->_catalogCategory = $catalogCategory;
         $this->filter = $filter;
         $this->_sidResolver = $sidResolver;
+        $this->productUrlPathGenerator = $productUrlPathGenerator;
         parent::__construct($data);
     }
 
@@ -156,6 +160,8 @@ class Url extends \Magento\Framework\Object
     /**
      * Format Key for URL
      *
+     * @TODO: UrlRewrite Move outta Catalog module
+     *
      * @param string $str
      * @return string
      */
@@ -165,36 +171,13 @@ class Url extends \Magento\Framework\Object
     }
 
     /**
-     * Retrieve Product Url path (with category if exists)
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Catalog\Model\Category $category
-     *
-     * @return string
-     * @throws \Magento\Framework\Model\Exception
-     */
-    public function getUrlPath($product, $category = null)
-    {
-        $path = $product->getData('url_path');
-
-        if (is_null($category)) {
-            /** @todo get default category */
-            return $path;
-        } elseif (!$category instanceof \Magento\Catalog\Model\Category) {
-            throw new \Magento\Framework\Model\Exception('Invalid category object supplied');
-        }
-
-        return $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath()) . '/' . $path;
-    }
-
-    /**
      * Retrieve Product URL using UrlDataObject
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param array $params
      * @return string
      */
-    public function getUrl(\Magento\Catalog\Model\Product $product, $params = array())
+    public function getUrl($product, $params = array())
     {
         $routePath = '';
         $routeParams = $params;

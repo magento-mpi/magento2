@@ -7,7 +7,6 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
-use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
@@ -25,10 +24,8 @@ class Observer
      */
     protected $urlPersist;
 
-    /**
-     * @var CatalogUrlRewriteHelper
-     */
-    protected $catalogUrlRewriteHelper;
+    /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
+    protected $productUrlPathGenerator;
 
     /**
      * @var FilterFactory
@@ -38,19 +35,19 @@ class Observer
     /**
      * @param UrlGenerator $urlGenerator
      * @param UrlPersistInterface $urlPersist
-     * @param CatalogUrlRewriteHelper $catalogUrlRewriteHelper
      * @param FilterFactory $filterFactory
+     * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
      */
     public function __construct(
         UrlGenerator $urlGenerator,
         UrlPersistInterface $urlPersist,
-        CatalogUrlRewriteHelper $catalogUrlRewriteHelper,
-        FilterFactory $filterFactory
+        FilterFactory $filterFactory,
+        \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
     ) {
         $this->urlGenerator = $urlGenerator;
         $this->urlPersist = $urlPersist;
-        $this->catalogUrlRewriteHelper = $catalogUrlRewriteHelper;
         $this->filterFactory = $filterFactory;
+        $this->productUrlPathGenerator = $productUrlPathGenerator;
     }
 
     /**
@@ -66,7 +63,7 @@ class Observer
 
         // TODO: create new observer for generation and saving product url path (@TODO: UrlRewrite)
         if (!$product->getUrlPath() || $product->getOrigData('url_key') != $product->getData('url_key')) {
-            $product->setUrlPath($this->catalogUrlRewriteHelper->generateProductUrlKeyPath($product));
+            $product->setUrlPath($this->productUrlPathGenerator->generateUrlKey($product));
         }
 
         if ($product->dataHasChangedFor('url_key') || $product->getIsChangedCategories()

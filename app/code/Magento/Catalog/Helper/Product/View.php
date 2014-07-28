@@ -72,6 +72,9 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $messageManager;
 
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
+    protected $categoryUrlPathGenerator;
+
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
@@ -81,6 +84,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\ViewInterface $view
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param array $messageGroups
      */
     public function __construct(
@@ -92,6 +96,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\ViewInterface $view,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         array $messageGroups = array()
     ) {
         $this->_catalogSession = $catalogSession;
@@ -102,6 +107,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_view = $view;
         $this->messageGroups = $messageGroups;
         $this->messageManager = $messageManager;
+        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         parent::__construct($context);
     }
 
@@ -176,7 +182,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
             $root->addBodyClass('product-' . $product->getUrlKey());
             if ($currentCategory instanceof \Magento\Catalog\Model\Category) {
                 $root->addBodyClass(
-                    'categorypath-' . $currentCategory->getUrlPath()
+                    'categorypath-' . $this->categoryUrlPathGenerator->getUrlPath($currentCategory)
                 )->addBodyClass(
                     'category-' . $currentCategory->getUrlKey()
                 );

@@ -146,11 +146,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_helper->canShow(1));
     }
 
-    public function testGetProductUrlSuffix()
-    {
-        $this->assertEquals('.html', $this->_helper->getProductUrlSuffix());
-    }
-
     public function testCanUseCanonicalTagDefault()
     {
         $this->assertEquals('0', $this->_helper->canUseCanonicalTag());

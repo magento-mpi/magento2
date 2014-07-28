@@ -16,6 +16,8 @@ namespace Magento\Catalog\Model;
  * @method int getMovedCategoryId()
  * @method setAffectedCategoryIds(array $categoryIds)
  * @method array getAffectedCategoryIds()
+ * @method string getUrlKey()
+ * @method setUrlPath(string $urlPath)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -174,6 +176,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      */
     protected $productIndexer;
 
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
+    protected $categoryUrlPathGenerator;
+
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -210,6 +215,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         Indexer\Category\Flat\State $flatState,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
+        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -226,6 +232,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $this->filter = $filter;
         $this->flatState = $flatState;
         $this->flatIndexer = $flatIndexer;
+        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -593,6 +600,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Format URL key from name or defined key
      *
+     * @TODO: UrlRewrite Move outta Catalog module
+     *
      * @param string $str
      * @return string
      */
@@ -616,30 +625,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
             ) . 'catalog/category/' . $image;
         }
         return $url;
-    }
-
-    /**
-     * Retrieve URL path
-     *
-     * @return string
-     */
-    public function getUrlPath()
-    {
-        $path = $this->getData('url_path');
-        if ($path) {
-            return $path;
-        }
-
-        $path = $this->getUrlKey();
-
-        if ($this->getParentId()) {
-            $parentPath = $this->_categoryFactory->create()->load($this->getParentId())->getCategoryPath();
-            $path = $parentPath . '/' . $path;
-        }
-
-        $this->setUrlPath($path);
-
-        return $path;
     }
 
     /**

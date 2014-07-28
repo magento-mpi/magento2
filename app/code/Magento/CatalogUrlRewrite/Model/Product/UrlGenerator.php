@@ -9,13 +9,11 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
-use Magento\CatalogUrlRewrite\Helper\Data as CatalogUrlRewriteHelper;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
-// TODO: UrlRewrite
 use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 
 /**
@@ -41,11 +39,6 @@ class UrlGenerator
     protected $urlMatcher;
 
     /**
-     * @var CatalogUrlRewriteHelper
-     */
-    protected $urlPathGenerator;
-
-    /**
      * @var StoreViewService
      */
     protected $storeViewService;
@@ -60,24 +53,26 @@ class UrlGenerator
      */
     protected $product;
 
+    /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
+    protected $productUrlPathGenerator;
+
     /**
      * @param FilterFactory $filterFactory
      * @param UrlMatcherInterface $urlMatcher
-     * @param CatalogUrlRewriteHelper $urlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
      * @param StoreViewService $storeViewService
      * @param Converter $converter
      */
     public function __construct(
         FilterFactory $filterFactory,
         UrlMatcherInterface $urlMatcher,
-        // TODO: MAGETWO-26285
-        CatalogUrlRewriteHelper $urlPathGenerator,
+        \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
         StoreViewService $storeViewService,
         Converter $converter
     ) {
         $this->filterFactory = $filterFactory;
         $this->urlMatcher = $urlMatcher;
-        $this->urlPathGenerator = $urlPathGenerator;
+        $this->productUrlPathGenerator = $productUrlPathGenerator;
         $this->storeViewService = $storeViewService;
         $this->converter = $converter;
     }
@@ -138,8 +133,8 @@ class UrlGenerator
     {
         return [$this->createUrlRewrite(
             $storeId,
-            $this->urlPathGenerator->getProductUrlKeyPath($this->product, $storeId),
-            $this->urlPathGenerator->getProductCanonicalUrlPath($this->product)
+            $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId),
+            $this->productUrlPathGenerator->getCanonicalUrlPath($this->product)
         )];
     }
 
@@ -156,8 +151,8 @@ class UrlGenerator
             if ($this->isCategoryProperForGenerating($category, $storeId)) {
                 $urls[] = $this->createUrlRewrite(
                     $storeId,
-                    $this->urlPathGenerator->getProductUrlKeyPathWithCategory($this->product, $category, $storeId),
-                    $this->urlPathGenerator->getProductCanonicalUrlPathWithCategory($this->product, $category)
+                    $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId, $category),
+                    $this->productUrlPathGenerator->getCanonicalUrlPathWithCategory($this->product, $category)
                 );
             }
         }
@@ -214,7 +209,7 @@ class UrlGenerator
             $urls[] = $this->createUrlRewrite(
                 $url->getStoreId(),
                 $url->getRequestPath(),
-                $this->urlPathGenerator->getProductUrlKeyPath($this->product, $storeId),
+                $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId),
                 OptionProvider::PERMANENT,
                 false
             );
@@ -234,7 +229,7 @@ class UrlGenerator
             $urls[] = $this->createUrlRewrite(
                 $url->getStoreId(),
                 $url->getRequestPath(),
-                $this->urlPathGenerator->getProductUrlKeyPath($this->product, $storeId),
+                $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId),
                 $url->getRedirectType(),
                 false
             );
