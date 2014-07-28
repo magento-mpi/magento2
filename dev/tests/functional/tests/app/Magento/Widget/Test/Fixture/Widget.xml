@@ -63,7 +63,6 @@
             <attribute_code>theme_id</attribute_code>
             <backend_type>virtual</backend_type>
             <group>settings</group>
-
         </theme_id>
         <store_ids>
             <attribute_code>store_ids</attribute_code>

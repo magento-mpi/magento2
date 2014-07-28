@@ -25,14 +25,12 @@
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#widget_instace_tabs_main_section</selector>
         <strategy>css selector</strategy>
-        <fields>
-        </fields>
+        <fields />
     </frontend_properties>
     <widget_options>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#widget_instace_tabs_properties_section</selector>
         <strategy>css selector</strategy>
-        <fields>
-        </fields>
+        <fields />
     </widget_options>
 </tabs>

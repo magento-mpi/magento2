@@ -29,7 +29,7 @@ use Mtf\TestCase\Injectable;
  * 5. Select "Delete" in mass action dropdown and click "Submit" button
  * 6. Perform all assertions
  *
- * @group CMS_Content_(PS)
+ * @group Banner_(PS)
  * @ZephyrId MAGETWO-26677
  */
 class MassDeleteBannerEntityTest extends Injectable

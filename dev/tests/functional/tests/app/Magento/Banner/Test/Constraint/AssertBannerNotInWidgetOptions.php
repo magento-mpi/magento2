@@ -9,11 +9,10 @@
 namespace Magento\Banner\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Widget\Test\Fixture\Widget;
+use Mtf\Fixture\FixtureFactory;
 use Magento\Banner\Test\Fixture\BannerInjectable;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceNew;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
 
 /**
  * Class AssertBannerNotInWidgetOptions
@@ -31,29 +30,27 @@ class AssertBannerNotInWidgetOptions extends AbstractConstraint
     /**
      * Assert that deleted banner is absent in Widget options bunnerGrid and can't be found by name
      *
-     * @param Widget $widget
      * @param BannerInjectable $banner
-     * @param WidgetInstanceIndex $widgetInstanceIndex
+     * @param FixtureFactory $fixtureFactory
      * @param WidgetInstanceNew $widgetInstanceNew
      * @param WidgetInstanceEdit $widgetInstanceEdit
      * @return void
      */
     public function processAssert(
-        Widget $widget,
         BannerInjectable $banner,
-        WidgetInstanceIndex $widgetInstanceIndex,
+        FixtureFactory $fixtureFactory,
         WidgetInstanceNew $widgetInstanceNew,
         WidgetInstanceEdit $widgetInstanceEdit
     ) {
-        $widgetInstanceIndex->open();
-        $widgetInstanceIndex->getPageActionsBlock()->addNew();
+        $widget = $fixtureFactory->createByCode('widget', ['dataSet' => 'widget_banner_rotator']);
+        $widgetInstanceNew->open();
         $widgetInstanceNew->getForm()->fill($widget);
         $widgetInstanceNew->getForm()->clickContinue();
         $widgetInstanceEdit->getForm()->openTab('widget_options');
 
         \PHPUnit_Framework_Assert::assertFalse(
             $widgetInstanceEdit->getBannerGrid()->isRowVisible(['banner' => $banner->getName()]),
-            'Banner is present in Widget options grid.'
+            'Banner is present on Widget Options tab in Banner grid.'
         );
     }
 
@@ -64,6 +61,6 @@ class AssertBannerNotInWidgetOptions extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Banner is absent in Widget options grid.';
+        return 'Banner is absent on Widget Options tab in Banner grid.';
     }
 }

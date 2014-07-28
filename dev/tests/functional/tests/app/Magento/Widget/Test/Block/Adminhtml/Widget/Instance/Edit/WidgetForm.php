@@ -12,9 +12,9 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class Form
- * Widget form
+ * Widget Instance edit form
  */
-class Form extends FormTabs
+class WidgetForm extends FormTabs
 {
     /**
      * 'Continue' button locator
@@ -25,6 +25,8 @@ class Form extends FormTabs
 
     /**
      * Click 'Continue' button
+     *
+     * @return void
      */
     public function clickContinue()
     {

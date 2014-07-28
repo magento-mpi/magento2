@@ -19,9 +19,9 @@ class WidgetInstanceEdit extends BackendPage
     const MCA = 'admin/widget_instance/edit/code/magento_banner/';
 
     protected $_blocks = [
-        'form' => [
-            'name' => 'form',
-            'class' => 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Form',
+        'widgetForm' => [
+            'name' => 'widgetForm',
+            'class' => 'Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -34,11 +34,11 @@ class WidgetInstanceEdit extends BackendPage
     ];
 
     /**
-     * @return \Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Form
+     * @return \Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm
      */
     public function getForm()
     {
-        return $this->getBlockInstance('form');
+        return $this->getBlockInstance('widgetForm');
     }
 
     /**

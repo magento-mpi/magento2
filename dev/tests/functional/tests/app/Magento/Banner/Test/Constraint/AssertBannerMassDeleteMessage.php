@@ -8,16 +8,20 @@
 
 namespace Magento\Banner\Test\Constraint;
 
+use Magento\Banner\Test\Fixture\BannerInjectable;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 
 /**
- * Class AssertMassDeleteBannerMessage
+ * Class AssertBannerMassDeleteMessage
  * Assert that success delete message is appeared after banner has been deleted
  */
-class AssertMassDeleteBannerMessage extends AbstractConstraint
+class AssertBannerMassDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'You deleted 1 record(s).';
+    /**
+     * Message that appears after deletion via mass actions
+     */
+    const SUCCESS_DELETE_MESSAGE = 'You deleted %d record(s).';
 
     /**
      * Constraint severeness
@@ -29,15 +33,17 @@ class AssertMassDeleteBannerMessage extends AbstractConstraint
     /**
      * Assert that success delete message is appeared after banner has been deleted
      *
+     * @param BannerInjectable $banner
      * @param BannerIndex $bannerIndex
      * @return void
      */
-    public function processAssert(BannerIndex $bannerIndex)
+    public function processAssert(BannerInjectable $banner, BannerIndex $bannerIndex)
     {
-        $actualMessage = $bannerIndex->getMessagesBlock()->getSuccessMessages();
+        $banners = is_array($banner) ? $banner : [$banner];
+        $deleteMessage = sprintf(self::SUCCESS_DELETE_MESSAGE, count($banners));
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_DELETE_MESSAGE,
-            $actualMessage,
+            $deleteMessage,
+            $bannerIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong delete message is displayed.'
         );
     }
@@ -49,6 +55,6 @@ class AssertMassDeleteBannerMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Mass delete message is displayed.';
+        return 'Mass delete banner message is displayed.';
     }
 }

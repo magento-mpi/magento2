@@ -29,8 +29,6 @@ class Widget extends InjectableFixture
     protected $handlerInterface = 'Magento\Widget\Test\Handler\Widget\WidgetInterface';
 
     protected $defaultDataSet = [
-        'code' => 'Banner Rotator',
-        'theme_id' => 'Magento Blank',
     ];
 
     protected $anchor_text = [

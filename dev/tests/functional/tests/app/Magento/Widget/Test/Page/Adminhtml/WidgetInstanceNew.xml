@@ -9,8 +9,8 @@
 -->
 <page mca="admin/widget_instance/new/" >
     <block>
-        <name>form</name>
-        <class>Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Form</class>
+        <name>widgetForm</name>
+        <class>Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
