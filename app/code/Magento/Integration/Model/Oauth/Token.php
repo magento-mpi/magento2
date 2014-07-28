@@ -375,4 +375,15 @@ class Token extends \Magento\Framework\Model\AbstractModel
         $this->setData($tokenData ? $tokenData : []);
         return $this;
     }
+
+    /**
+     * Load token data by token.
+     *
+     * @param string $token
+     * @return $this
+     */
+    public function loadByToken($token)
+    {
+        return $this->load($token, 'token');
+    }
 }
