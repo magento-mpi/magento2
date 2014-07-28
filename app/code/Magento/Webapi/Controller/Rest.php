@@ -86,6 +86,11 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected $session;
 
     /**
+     * @var \Magento\Authorization\Model\UserContextInterface
+     */
+    protected $userContext;
+
+    /**
      * Initialize dependencies
      *
      * @param RestRequest $request
@@ -103,6 +108,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param \Magento\Framework\App\AreaList $areaList
      * @param PartialResponseProcessor $partialResponseProcessor
      * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Authorization\Model\UserContextInterface $userContext
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -122,7 +128,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         PathProcessor $pathProcessor,
         \Magento\Framework\App\AreaList $areaList,
         PartialResponseProcessor $partialResponseProcessor,
-        \Magento\Framework\Session\Generic $session
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Authorization\Model\UserContextInterface $userContext
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -139,6 +146,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->areaList = $areaList;
         $this->partialResponseProcessor = $partialResponseProcessor;
         $this->session = $session;
+        $this->userContext = $userContext;
     }
 
     /**
@@ -247,9 +255,11 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     {
         foreach ($parameters as $name => $paramData) {
             if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
-                $value = isset($paramData['source']) && $paramData['source'] == 'session'
-                    ? $this->session->{$paramData['method']}()
-                    : $paramData[Converter::KEY_VALUE];
+                if ($paramData[Converter::KEY_VALUE] == "%user_id%") {
+                    $value = $this->userContext->getUserId();
+                } else {
+                    $value = $paramData[Converter::KEY_VALUE];
+                }
                 $inputData[$name] = $value;
             }
         }

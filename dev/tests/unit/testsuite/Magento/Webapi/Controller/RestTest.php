@@ -61,6 +61,11 @@ class RestTest extends \PHPUnit_Framework_TestCase
      */
     protected $areaMock;
 
+    /**
+     * @var \Magento\Authorization\Model\UserContextInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $userContextMock;
+
     const SERVICE_METHOD = 'testMethod';
 
     const SERVICE_ID = 'Magento\Webapi\Controller\TestService';
@@ -86,6 +91,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['validateAccessTokenRequest'])->getMockForAbstractClass();
         $this->_authorizationMock = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')
             ->disableOriginalConstructor()->getMock();
+        $this->userContextMock = $this->getMockBuilder('Magento\Authorization\Model\UserContextInterface')
+            ->disableOriginalConstructor()->setMethods(['getUserId'])->getMockForAbstractClass();
     }
 
     protected function setUp()
@@ -116,7 +123,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
                     'authorization' => $this->_authorizationMock,
                     'serializer' => $this->serializerMock,
                     'errorProcessor' => $errorProcessorMock,
-                    'areaList' => $this->areaListMock
+                    'areaList' => $this->areaListMock,
+                    'userContext' => $this->userContextMock,
                 ]
             );
         // Set default expectations used by all tests
@@ -229,6 +237,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('getRequestData')->will($this->returnValue($requestData));
+        $userId = 'user1234';
+        $this->userContextMock->expects($this->any())->method('getUserId')->will($this->returnValue($userId));
 
         // serializer should expect overridden params
         $this->serializerMock->expects($this->once())->method('getInputData')
@@ -266,6 +276,11 @@ class RestTest extends \PHPUnit_Framework_TestCase
                 ['Name1' => 'valueIn'],
                 ['Name2' => ['force' => false, 'value' => 'valueOverride']],
                 ['Name1' => 'valueIn', 'Name2' => 'valueOverride'],
+            ],
+            'force true, value present, override value is %user_id%' => [
+                ['Name1' => 'valueIn'],
+                ['Name1' => ['force' => true, 'value' => '%user_id%']],
+                ['Name1' => 'user1234']
             ],
         ];
     }
