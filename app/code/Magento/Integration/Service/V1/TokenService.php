@@ -13,7 +13,7 @@ use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
-use \Magento\User\Model\User as UserModel;
+use Magento\User\Model\User as UserModel;
 
 /**
  * Class to handle token generation for Admins and Customers
@@ -66,6 +66,14 @@ class TokenService implements TokenServiceInterface
         $this->validateCredentials($username, $password);
         try {
             $this->userModel->login($username, $password);
+            if (!$this->userModel->getId()) {
+                /*
+                 * This message is same as one thrown in \Magento\Backend\Model\Auth to keep the behavior consistent.
+                 * Constant cannot be created in Auth Model since it uses legacy translation that doesn't support it.
+                 * Need to make sure that this is refactored once exception handling is updated in Auth Model.
+                 */
+                throw new AuthenticationException('Please correct the user name or password.');
+            }
         } catch (\Magento\Backend\Model\Auth\Exception $e) {
             throw new AuthenticationException($e->getMessage(), [], $e);
         } catch (\Magento\Framework\Model\Exception $e) {
@@ -87,17 +95,21 @@ class TokenService implements TokenServiceInterface
     /**
      * Validate user credentials
      *
-     * @param string $userName
+     * @param string $username
      * @param string $password
      * @throws \Magento\Framework\Exception\InputException
      */
-    protected function validateCredentials($userName, $password)
+    protected function validateCredentials($username, $password)
     {
-        if (!$userName) {
-            throw InputException::requiredField('userName');
+        $exception = new InputException();
+        if (strlen($username) == 0) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'username']);
         }
-        if (!$password) {
-            throw InputException::requiredField('password');
+        if (strlen($password) == 0) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'password']);
+        }
+        if ($exception->wasErrorAdded()) {
+            throw $exception;
         }
     }
 }

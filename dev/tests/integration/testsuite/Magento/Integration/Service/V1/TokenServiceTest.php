@@ -9,6 +9,7 @@
 namespace Magento\Integration\Service\V1;
 
 use Magento\Customer\Service\V1\CustomerAccountService;
+use Magento\Framework\Exception\InputException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\User\Model\User as UserModel;
@@ -54,7 +55,6 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magento
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testCreateCustomerAccessToken()
@@ -66,6 +66,29 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
         /** @var $token TokenModel */
         $token = $this->tokenModel->loadByCustomerId($customerData->getId())->getToken();
         $this->assertEquals($accessToken, $token);
+    }
+
+    /**
+     * @dataProvider validationDataProvider
+     */
+    public function testCreateCustomerAccessTokenEmptyOrNullCredentials($username, $password)
+    {
+        try {
+            $this->tokenService->createCustomerAccessToken($username, $password);
+        } catch (InputException $e) {
+            $this->assertInputExceptionMessages($e);
+        }
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
+     * @expectedExceptionMessage Invalid login or password.
+     */
+    public function testCreateCustomerAccessTokenInvalidCustomer()
+    {
+        $customerUserName = 'invalid';
+        $password = 'invalid';
+        $this->tokenService->createCustomerAccessToken($customerUserName, $password);
     }
 
     public function testCreateAdminAccessToken()
@@ -82,6 +105,55 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
             ->loadByAdminId($adminUserId)
             ->getToken();
         $this->assertEquals($accessToken, $token);
+    }
+
+    /**
+     * @dataProvider validationDataProvider
+     */
+    public function testCreateAdminAccessTokenEmptyOrNullCredentials($username, $password)
+    {
+        try {
+            $this->tokenService->createAdminAccessToken($username, $password);
+        } catch (InputException $e) {
+            $this->assertInputExceptionMessages($e);
+        }
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
+     * @expectedExceptionMessage Please correct the user name or password.
+     */
+    public function testCreateAdminAccessTokenInvalidCustomer()
+    {
+        $adminUserName = 'invalid';
+        $password = 'invalid';
+        $this->tokenService->createAdminAccessToken($adminUserName, $password);
+    }
+
+    /**
+     * Provider to test input validation
+     *
+     * @return array
+     */
+    public function validationDataProvider()
+    {
+        return [
+            'Check for empty credentials' => ['', ''],
+            'Check for null credentials' => [null, null]
+        ];
+    }
+    /**
+     * Assert for presence of Input exception messages
+     *
+     * @param InputException $e
+     */
+    private function assertInputExceptionMessages($e)
+    {
+        $this->assertEquals(InputException::DEFAULT_MESSAGE, $e->getMessage());
+        $errors = $e->getErrors();
+        $this->assertCount(2, $errors);
+        $this->assertEquals('username is a required field.', $errors[0]->getLogMessage());
+        $this->assertEquals('password is a required field.', $errors[1]->getLogMessage());
     }
 }
  
