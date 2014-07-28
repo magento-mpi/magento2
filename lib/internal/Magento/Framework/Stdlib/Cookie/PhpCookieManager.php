@@ -197,7 +197,7 @@ class PhpCookieManager implements CookieManager
         $metadataArray[PublicCookieMetadata::KEY_SECURE] = false;
         $metadataArray[PublicCookieMetadata::KEY_HTTP_ONLY] = false;
 
-        // cookie value set to false to delete from the remote client
-        $this->setCookie($name, null, $metadataArray);
+        // cookie value set to empty string to delete from the remote client
+        $this->setCookie($name, '', $metadataArray);
     }
 }
