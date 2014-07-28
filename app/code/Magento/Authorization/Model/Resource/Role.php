@@ -147,16 +147,11 @@ class Role extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $binds = array('role_id' => $role->getId(), 'role_type' => RoleUser::ROLE_TYPE);
 
-        $select = $read->select()->from(
-            $this->getMainTable(),
-            array('user_id')
-        )->where(
-            'parent_id = :role_id'
-        )->where(
-            'role_type = :role_type'
-        )->where(
-            'user_id > 0'
-        );
+        $select = $read->select()
+            ->from($this->getMainTable(), array('user_id'))
+            ->where('parent_id = :role_id')
+            ->where('role_type = :role_type')
+            ->where('user_id > 0');
 
         return $read->fetchCol($select, $binds);
     }
