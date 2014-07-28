@@ -14,6 +14,7 @@ class NewAction extends Edit implements RevisionInterface
 {
     /**
      * Forward to edit
+     * @return void
      */
     public function execute()
     {
