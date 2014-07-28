@@ -41,7 +41,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $optionBuilder;
 
     /**
-     * @var \Magento\ConfigurableProduct\Service\V1\Product\Options\WriteService
+     * @var \Magento\ConfigurableProduct\Service\V1\Product\Option\WriteService
      */
     protected $writeService;
 
@@ -62,7 +62,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->writeService = $this->objectManager->getObject(
-            'Magento\ConfigurableProduct\Service\V1\Product\Options\WriteService',
+            'Magento\ConfigurableProduct\Service\V1\Product\Option\WriteService',
             [
                 'productRepository' => $this->productRepositoryMock,
                 'configurableAttributeFactory' => $this->confAttributeFactoryMock,
