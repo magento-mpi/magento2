@@ -8,7 +8,6 @@
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
-use Magento\ConfigurableProduct\Service\V1\Data\OptionBuilder;
 use Magento\ConfigurableProduct\Service\V1\Data\Option\ValueBuilder;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
 

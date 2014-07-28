@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\ConfigurableProduct\Service\V1\Product\Options;
+namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\Catalog\Model\ProductRepository;
 use Magento\ConfigurableProduct\Service\V1\Data\Option;

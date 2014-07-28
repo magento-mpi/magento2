@@ -12,6 +12,11 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
+    const ATTRIBUTE_ID_FIELD_NAME = 'product_super_attribute_id';
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $attributeResource;
     /**
      * @var \Magento\ConfigurableProduct\Service\V1\Product\Option\ReadService
      */
@@ -23,9 +28,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     private $productRepository;
 
     /**
-     * @var \Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttributeConverter|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\OptionConverter|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $configurableAttributeConverter;
+    private $optionConverter;
 
     /**
      * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Interceptor|\PHPUnit_Framework_MockObject_MockObject
@@ -48,7 +53,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     private $configurableAttributeCollection;
 
     /**
-     * @var \Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\Option|\PHPUnit_Framework_MockObject_MockObject
      */
     private $metadata;
 
@@ -75,33 +80,40 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->product->expects($this->any())->method('getTypeInstance')->will($this->returnValue($this->productType));
 
         $this->option = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute')
-            ->setMethods(['__wakeup', 'getItemId'])
+            ->setMethods(['__wakeup', 'getId'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->attributeResource = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute'
+        )
+            ->setMethods(['getIdFieldName', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->configurableAttributeCollection = $this->getMockBuilder(
             'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection'
         )
-            ->setMethods(['getItemById'])
+            ->setMethods(['getResource', 'addFieldToFilter', 'getFirstItem'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->configurableAttributeConverter = $this->getMockBuilder(
-            'Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttributeConverter'
+        $this->optionConverter = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Service\V1\Data\OptionConverter'
         )
-            ->setMethods(['createDataFromModel'])
+            ->setMethods(['convertFromModel'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->metadata = $this->getMockBuilder('\Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute')
+        $this->metadata = $this->getMockBuilder('\Magento\ConfigurableProduct\Service\V1\Data\Option')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->model = $objectManager->getObject(
             'Magento\ConfigurableProduct\Service\V1\Product\Option\ReadService',
             [
-                'productRepository'              => $this->productRepository,
-                'configurableAttributeConverter' => $this->configurableAttributeConverter
+                'productRepository' => $this->productRepository,
+                'optionConverter'   => $this->optionConverter
             ]
         );
     }
@@ -122,11 +134,27 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->product))
             ->will($this->returnValue($this->configurableAttributeCollection));
 
-        $this->configurableAttributeCollection->expects($this->once())->method('getItemById')
-            ->with($this->equalTo($optionId))
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('addFieldToFilter')
+            ->with(self::ATTRIBUTE_ID_FIELD_NAME, $optionId);
+
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('getFirstItem')
             ->will($this->returnValue($this->option));
 
-        $this->configurableAttributeConverter->expects($this->once())->method('createDataFromModel')
+        $this->option->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($optionId));
+
+        $this->attributeResource->expects($this->once())
+            ->method('getIdFieldName')
+            ->will($this->returnValue(self::ATTRIBUTE_ID_FIELD_NAME));
+
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('getResource')
+            ->will($this->returnValue($this->attributeResource));
+
+        $this->optionConverter->expects($this->once())->method('convertFromModel')
             ->with($this->equalTo($this->option))
             ->will($this->returnValue($this->metadata));
 
@@ -152,10 +180,25 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->product))
             ->will($this->returnValue($this->configurableAttributeCollection));
 
-        $this->configurableAttributeCollection->expects($this->once())->method('getItemById')
-            ->with($this->equalTo($optionId))
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('addFieldToFilter')
+            ->with(self::ATTRIBUTE_ID_FIELD_NAME, $optionId);
+
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('getFirstItem')
+            ->will($this->returnValue($this->option));
+
+        $this->option->expects($this->once())
+            ->method('getId')
             ->will($this->returnValue(null));
 
+        $this->attributeResource->expects($this->once())
+            ->method('getIdFieldName')
+            ->will($this->returnValue(self::ATTRIBUTE_ID_FIELD_NAME));
+
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('getResource')
+            ->will($this->returnValue($this->attributeResource));
 
         $this->model->get($productSku, $optionId);
     }
@@ -175,7 +218,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->product))
             ->will($this->returnValue([$this->option]));
 
-        $this->configurableAttributeConverter->expects($this->once())->method('createDataFromModel')
+        $this->optionConverter->expects($this->once())->method('convertFromModel')
             ->with($this->equalTo($this->option))
             ->will($this->returnValue($this->metadata));
 
