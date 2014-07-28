@@ -12,7 +12,13 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
+    const TYPE_FIELD_NAME = 'frontend_input';
     const ATTRIBUTE_ID_FIELD_NAME = 'product_super_attribute_id';
+    const OPTION_TYPE = 'select';
+    /**
+     * @var \Magento\Catalog\Model\Resource\Eav\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $eavAttribute;
     /**
      * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -80,7 +86,12 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->product->expects($this->any())->method('getTypeInstance')->will($this->returnValue($this->productType));
 
         $this->option = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute')
-            ->setMethods(['__wakeup', 'getId'])
+            ->setMethods(['__wakeup', 'getId', 'getProductAttribute'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->eavAttribute = $this->getMockBuilder('Magento\Catalog\Model\Resource\Eav\Attribute')
+            ->setMethods(['getData', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -116,6 +127,28 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 'optionConverter'   => $this->optionConverter
             ]
         );
+    }
+
+    public function testGetList()
+    {
+        $productSku = 'oneSku';
+
+        $this->productRepository->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->product));
+
+        $this->product->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(ConfigurableType::TYPE_CODE));
+
+        $this->productType->expects($this->once())->method('getConfigurableAttributeCollection')
+            ->with($this->equalTo($this->product))
+            ->will($this->returnValue([$this->option]));
+
+        $this->optionConverter->expects($this->once())->method('convertFromModel')
+            ->with($this->equalTo($this->option))
+            ->will($this->returnValue($this->metadata));
+
+        $this->assertEquals([$this->metadata], $this->model->getList($productSku));
     }
 
     public function testGet()
@@ -161,6 +194,54 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->metadata, $this->model->get($productSku, $optionId));
     }
 
+    public function testGetType()
+    {
+        $productSku = 'oneSku';
+        $optionId = 3;
+
+        $this->productRepository->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->product));
+
+        $this->product->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(ConfigurableType::TYPE_CODE));
+
+        $this->productType->expects($this->once())->method('getConfigurableAttributeCollection')
+            ->with($this->equalTo($this->product))
+            ->will($this->returnValue($this->configurableAttributeCollection));
+
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('addFieldToFilter')
+            ->with(self::ATTRIBUTE_ID_FIELD_NAME, $optionId);
+
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('getFirstItem')
+            ->will($this->returnValue($this->option));
+
+        $this->option->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($optionId));
+
+        $this->attributeResource->expects($this->once())
+            ->method('getIdFieldName')
+            ->will($this->returnValue(self::ATTRIBUTE_ID_FIELD_NAME));
+
+        $this->configurableAttributeCollection->expects($this->once())
+            ->method('getResource')
+            ->will($this->returnValue($this->attributeResource));
+
+        $this->option->expects($this->once())
+            ->method('getProductAttribute')
+            ->will($this->returnValue($this->eavAttribute));
+
+        $this->eavAttribute->expects($this->once())
+            ->method('getData')
+            ->with(self::TYPE_FIELD_NAME)
+            ->will($this->returnValue(self::OPTION_TYPE));
+
+        $this->assertEquals(self::OPTION_TYPE, $this->model->getType($productSku, $optionId));
+    }
+
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -201,28 +282,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->attributeResource));
 
         $this->model->get($productSku, $optionId);
-    }
-
-    public function testGetList()
-    {
-        $productSku = 'oneSku';
-
-        $this->productRepository->expects($this->once())->method('get')
-            ->with($this->equalTo($productSku))
-            ->will($this->returnValue($this->product));
-
-        $this->product->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(ConfigurableType::TYPE_CODE));
-
-        $this->productType->expects($this->once())->method('getConfigurableAttributeCollection')
-            ->with($this->equalTo($this->product))
-            ->will($this->returnValue([$this->option]));
-
-        $this->optionConverter->expects($this->once())->method('convertFromModel')
-            ->with($this->equalTo($this->option))
-            ->will($this->returnValue($this->metadata));
-
-        $this->assertEquals([$this->metadata], $this->model->getList($productSku));
     }
 
     /**

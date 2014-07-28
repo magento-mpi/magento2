@@ -15,7 +15,7 @@ interface ReadServiceInterface
      *
      * @param string $productSku
      * @param int $optionId
-     * @return null
+     * @return \Magento\ConfigurableProduct\Service\V1\Data\Option
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
      */
@@ -25,9 +25,20 @@ interface ReadServiceInterface
      * Get all options for configurable product
      *
      * @param string $productSku
-     * @return string
+     * @return \Magento\ConfigurableProduct\Service\V1\Data\Option[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
      */
     public function getList($productSku);
+
+    /**
+     * Get option type for configurable product
+     *
+     * @param string $productSku
+     * @param int $optionId
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Webapi\Exception
+     */
+    public function getType($productSku, $optionId);
 }
