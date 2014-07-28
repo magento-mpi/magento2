@@ -51,8 +51,6 @@ class Builder
             foreach ($condition->getTablesToJoin() as $alias => $table) {
                 if (!isset($tables[$alias])) {
                     $tables[$alias] = $table;
-                } else {
-                    throw new \Magento\Exception(__('Condition join alias `%s` already exists', $alias));
                 }
             }
         }
@@ -84,7 +82,7 @@ class Builder
      * @param \Magento\Rule\Model\Condition\AbstractCondition $condition
      * @param string $value
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _getMappedSqlCondition(\Magento\Rule\Model\Condition\AbstractCondition $condition, $value = '')
     {
@@ -95,7 +93,7 @@ class Builder
 
             $parsedValue = $condition->getValueParsed();
             if (!isset($this->_conditionOperatorMap[$conditionOperator])) {
-                throw new \Magento\Exception('Unknown condition operator');
+                throw new \Magento\Framework\Exception('Unknown condition operator');
             }
             $sql = str_replace(
                 ':field',
