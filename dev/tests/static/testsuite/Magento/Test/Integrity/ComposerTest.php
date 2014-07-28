@@ -35,6 +35,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
+    private static $root_version;
+
+    /**
+     * @var string
+     */
     private static $composerPath = 'composer';
 
     public static function setUpBeforeClass()
@@ -45,6 +50,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         self::$shell = self::createShell();
         self::$isComposerAvailable = self::isComposerAvailable();
         self::$root = Files::init()->getPathToSource();
+        $root_json = json_decode(file_get_contents(self::$root . '/composer.json'));
+        self::$root_version = $root_json->version;
     }
 
     /**
@@ -113,7 +120,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('name', $json);
         $this->assertObjectHasAttribute('type', $json);
         $this->assertObjectHasAttribute('version', $json);
-        $this->assertVersionInSync($json->version);
+        $this->assertVersionInSync($json->name, $json->version);
         $this->assertObjectHasAttribute('require', $json);
         $this->assertEquals($packageType, $json->type);
         $this->assertHasMap($json);
@@ -268,18 +275,16 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     /**
      * Assert that versions in root composer.json and Magento component's composer.json are not out of sync
      *
+     * @param string $name
      * @param string $version
      */
-    private function assertVersionInSync($version)
+    private function assertVersionInSync($name, $version)
     {
-        $file = BP . '/composer.json';
-        $contents = file_get_contents($file);
-        $json = json_decode($contents);
         $this->assertEquals(
-            $json->version,
+            self::$root_version,
             $version,
-            "For the module '{$json->name}' version {$version} is inconsistent with version {$json->version} in root
-            composer.json "
+            "Version {$version} in component {$name} is inconsistent with version " . self::$root_version . " in " .
+            "root composer.json"
         );
     }
 
