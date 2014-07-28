@@ -7,11 +7,12 @@
  */
 ?>
 <script type="text/javascript">
-    (function($) {
-        $.mage
-            .extend('form', 'form',
-                '<?php echo $this->getViewFileUrl('Magento_VersionsCms::page/js/form.js') ?>')
-            .extend('validation', 'validation',
-                '<?php echo $this->getViewFileUrl('Magento_VersionsCms::page/js/validation.js') ?>');
-    })(jQuery);
+require([
+	'jquery',
+	"mage/mage"
+], function($){
+    $.mage
+    	.extend('form', 'form', 'Magento_VersionsCms/page/js/form')
+    	.extend('validation', 'validation', 'Magento_VersionsCms/page/js/validation');
+});
 </script>

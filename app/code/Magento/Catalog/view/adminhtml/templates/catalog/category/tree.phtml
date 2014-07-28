@@ -29,8 +29,8 @@
     </div>
 </div>
 <script type="text/javascript">
-//<![CDATA[
 var tree;
+require(["jquery", "prototype", "mage/adminhtml/form"], function(jQuery){
 
 /**
  * Fix ext compatibility with prototype 1.6
@@ -449,6 +449,9 @@ function categoryMove(obj) {
             }
     );
 }
-//]]>
+
+    window.addNew = addNew;
+
+});
 </script>
 <?php endif; ?>
