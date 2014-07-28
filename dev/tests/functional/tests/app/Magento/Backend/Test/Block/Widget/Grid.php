@@ -92,6 +92,13 @@ abstract class Grid extends Block
     protected $massactionSubmit = '[id*=massaction-form] button';
 
     /**
+     * Locator for mass action button
+     *
+     * @var string
+     */
+    protected $massActionButton = '[onclick*="Grid_massaction"]';
+
+    /**
      * Backend abstract block
      *
      * @var string
@@ -326,5 +333,23 @@ abstract class Grid extends Block
             $this->getTemplateBlock()->waitLoader();
         }
         $this->reinitRootElement();
+    }
+
+    /**
+     * Form for mass action block
+     *
+     * @param array $mapping
+     * @return void
+     */
+    public function massActionForm(array $mapping)
+    {
+        foreach ($mapping as $locator => $value) {
+            if (is_array($value)) {
+                $this->massActionForm($value);
+            }
+            $this->_rootElement->find($locator, Locator::SELECTOR_CSS, 'select')->setValue($value);
+        }
+        $this->_rootElement->find($this->massActionButton)->click();
+        $this->_rootElement->acceptAlert();
     }
 }

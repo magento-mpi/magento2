@@ -33,6 +33,8 @@ class AssertCustomerCustomAttributeInGrid extends AbstractConstraint
      * @param CustomerAttributeIndex $customerAttributeIndex
      * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function processAssert(
         CustomerCustomAttribute $customerAttribute,

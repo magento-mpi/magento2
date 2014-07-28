@@ -29,4 +29,7 @@
     <assertCustomerSegmentInCartPriceRuleIsNotApplying module="Magento_CustomerSegment">
         <severeness>low</severeness>
     </assertCustomerSegmentInCartPriceRuleIsNotApplying>
+    <assertCustomerSegmentAvailableInBannerForm module="Magento_CustomerSegment">
+        <severeness>low</severeness>
+    </assertCustomerSegmentAvailableInBannerForm>
 </constraint>
