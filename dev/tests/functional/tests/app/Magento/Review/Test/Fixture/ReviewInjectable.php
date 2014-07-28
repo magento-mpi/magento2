@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class ReviewInjectable
  * Product review fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class ReviewInjectable extends InjectableFixture
 {

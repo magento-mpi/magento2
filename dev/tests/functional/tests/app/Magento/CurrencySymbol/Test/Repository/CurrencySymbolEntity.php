@@ -28,5 +28,10 @@ class CurrencySymbolEntity extends AbstractRepository
         $this->_data['currency_symbols_uah'] = [
             'custom_currency_symbol' => ['UAH' => 'custom'],
         ];
+
+        $this->_data['currency_symbols_eur'] = [
+            'custom_currency_symbol' => ['EUR' => '€'],
+            'code' => 'EUR',
+        ];
     }
 }
