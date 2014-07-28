@@ -19,16 +19,24 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Save
     protected $versionProvider;
 
     /**
+     * @var \Magento\VersionsCms\Model\Config
+     */
+    protected $cmsConfig;
+
+    /**
      * @param Action\Context $context
      * @param PostDataProcessor $dataProcessor
      * @param VersionProvider $versionProvider
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      */
     public function __construct(
         Action\Context $context,
         PostDataProcessor $dataProcessor,
-        VersionProvider $versionProvider
+        VersionProvider $versionProvider,
+        \Magento\VersionsCms\Model\Config $cmsConfig
     ) {
         $this->versionProvider = $versionProvider;
+        $this->cmsConfig = $cmsConfig;
         parent::__construct($context, $dataProcessor);
     }
 
@@ -54,7 +62,7 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Save
             $version = $this->versionProvider->get($this->_request->getParam('version_id'));
 
             // if current user not publisher he can't change owner
-            if (!$this->_cmsConfig->canCurrentUserPublishRevision()) {
+            if (!$this->cmsConfig->canCurrentUserPublishRevision()) {
                 unset($data['user_id']);
             }
             $version->addData($data);
