@@ -29,7 +29,7 @@ class Db extends AbstractStorage
 
     /**
      * @param Converter $converter
-     * @param Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(Converter $converter, Resource $resource)
     {

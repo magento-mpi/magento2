@@ -13,7 +13,7 @@ namespace Magento\UrlRewrite\Block;
 class GridContainer extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
-     * Part for generating apropriate grid block name
+     * Part for generating appropriate grid block name
      *
      * @var string
      */

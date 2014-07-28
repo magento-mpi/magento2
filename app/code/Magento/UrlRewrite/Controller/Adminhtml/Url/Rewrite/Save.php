@@ -10,7 +10,6 @@ namespace Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite;
 
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\Model\Exception;
 
 class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
@@ -22,12 +21,12 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     protected $categoryUrlPathGenerator;
 
     /**
-     * @param Action\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
      * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
     public function __construct(
-        Action\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
         \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
     ) {
