@@ -26,14 +26,19 @@ class Config
     protected $title;
 
     /**
-     * @var string
-     */
-    protected $pageLayout = '3columns';
-
-    /**
      * @var \Magento\Framework\View\Asset\Collection
      */
     protected $assetCollection;
+
+    /**
+     * @var
+     */
+    protected $elements = [];
+
+    /**
+     * @var string
+     */
+    protected $pageLayout = '3columns';
 
     /**
      * @param \Magento\Framework\View\Asset\Collection $assetCollection
@@ -74,12 +79,26 @@ class Config
         return $this->assetCollection;
     }
 
+    /**
+     * @param string $elementType
+     * @param string $attribute
+     * @param $value
+     * @return $this
+     */
     public function setElementAttribute($elementType, $attribute, $value)
     {
+        $this->elements[$elementType][$attribute] = $value;
+        return $this;
     }
 
+    /**
+     * @param string $elementType
+     * @param string $attribute
+     * @return null
+     */
     public function getElementAttribute($elementType, $attribute)
     {
+        return isset($this->elements[$elementType][$attribute]) ? $this->elements[$elementType][$attribute] : null;
     }
 
     /**

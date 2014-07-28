@@ -7,12 +7,7 @@
  */
 ?>
 <?php /** @var $this \Magento\Backend\Block\Page */ ?>
-<!doctype html>
-<html lang="<?php echo $this->getLang() ?>" class="no-js">
-
-<head>
-    <?php echo $this->getChildHtml('head') ?>
-</head>
+<!-- html lang="<?php echo $this->getLang() ?>" class="no-js" -->
 
 <body id="html-body"<?php echo $this->getBodyClass() ? ' class="' . $this->getBodyClass() . '"' : ''; ?> data-container="body" data-mage-init='{"loaderAjax":{},"loader":{}}'>
     <div class="page-wrapper">
@@ -58,4 +53,3 @@
         <div class="loader" id="loading_mask_loader"><p><?php echo __('Please wait...') ?></p></div>
     </div>
 </body>
-</html>

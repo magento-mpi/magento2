@@ -49,7 +49,6 @@ class Layout extends View\Element\Template
         $this->translateInline = $translateInline;
         $this->setTemplate('Magento_Theme::root.phtml');
         parent::__construct($context, $data);
-        $this->initLayout();
     }
 
     /**
@@ -61,13 +60,19 @@ class Layout extends View\Element\Template
      */
     public function getLayout()
     {
-        return $this->layout;
+        if ($this->layout === null) {
+            // TODO: This section will be removed in MAGETWO-26282
+            $this->initLayout();
+        }
+        return $this->_layout;
     }
 
     /**
+     * Create new instance of layout for current page
+     *
      * @return $this
      */
-    public function initLayout()
+    protected function initLayout()
     {
         $this->layout = $this->layoutFactory->create();
         return $this;

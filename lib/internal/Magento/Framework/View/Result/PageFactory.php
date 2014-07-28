@@ -9,7 +9,6 @@
 namespace Magento\Framework\View\Result;
 
 use Magento\Framework\ObjectManager;
-use Magento\Framework\App\RequestInterface;
 
 /**
  * A factory that knows how to create a "page" result
@@ -18,8 +17,14 @@ use Magento\Framework\App\RequestInterface;
  */
 class PageFactory
 {
+    /**
+     * @var ObjectManager
+     */
     private $objectManager;
 
+    /**
+     * @param ObjectManager $objectManager
+     */
     public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
@@ -28,14 +33,13 @@ class PageFactory
     /**
      * Create new page regarding its type
      *
-     * TODO: as argument has to be action controller interface
+     * TODO: As argument has to be controller action interface, temporary solution until controller output models
+     * TODO: are not implemented
      *
-     * @param \Magento\Framework\App\RequestInterface $request
      * @return \Magento\Framework\View\Result\Page
      */
-    public function create(RequestInterface $request)
+    public function create()
     {
-        $pageType = strtolower($request->getFullActionName());
-        return $this->objectManager->create('\Magento\Framework\View\Result\Page', ['pageType' => $pageType]);
+        return $this->objectManager->create('\Magento\Framework\View\Result\Page', ['pageType' => 'noroute']);
     }
 }

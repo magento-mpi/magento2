@@ -9,6 +9,7 @@
 namespace Magento\Framework\View\Result;
 
 use Magento\Framework\View;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * A "page" result that encapsulates page type, page configuration
@@ -25,32 +26,55 @@ class Page extends Layout
     /**
      * @var string
      */
-    private $pageType;
+    protected $pageType;
 
     /**
      * @var \Magento\Framework\View\Page\Config
      */
-    private $pageConfig;
+    protected $pageConfig;
 
     /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    private $request;
+
+    /**
+     * Constructor
+     *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param View\Page\Config $pageConfig
-     * @param $pageType
+     * @param string $pageType
      * @param array $data
      */
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
         \Magento\Framework\Translate\InlineInterface $translateInline,
+        RequestInterface $request,
         View\Page\Config $pageConfig,
         $pageType,
         array $data = array()
     ) {
+        $this->request = $request;
         $this->pageConfig = $pageConfig;
         $this->pageType = $pageType;
         parent::__construct($context, $layoutFactory, $translateInline, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function initLayout()
+    {
+        parent::initLayout();
+        $update = $this->getLayout()->getUpdate();
+        $update->addHandle('default');
+        $this->addPageLayoutHandles([], $this->getDefaultLayoutHandle());
+        $update->addHandle($this->pageConfig->getPageLayout());
+        return $this;
     }
 
     /**
@@ -62,15 +86,30 @@ class Page extends Layout
     }
 
     /**
-     * {@inheritdoc}
+     * Add layout updates handles associated with the action page
+     *
+     * @param array|null $parameters page parameters
+     * @param string|null $defaultHandle
+     * @return bool
      */
-    public function initLayout()
+    public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null)
     {
-        parent::initLayout();
-        $update = $this->getLayout()->getUpdate();
-        $update->addHandle('default');
-        $update->addHandle($this->pageType);
-        $update->addHandle($this->pageConfig->getPageLayout());
-        return $this;
+        $handle = $defaultHandle ? $defaultHandle : $this->getDefaultLayoutHandle();
+        $pageHandles = array($handle);
+        foreach ($parameters as $key => $value) {
+            $pageHandles[] = $handle . '_' . $key . '_' . $value;
+        }
+        // Do not sort array going into add page handles. Ensure default layout handle is added first.
+        return $this->getLayout()->getUpdate()->addPageHandles($pageHandles);
+    }
+
+    /**
+     * Retrieve the default layout handle name for the current action
+     *
+     * @return string
+     */
+    public function getDefaultLayoutHandle()
+    {
+        return strtolower($this->request->getFullActionName());
     }
 }

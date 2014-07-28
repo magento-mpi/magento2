@@ -72,9 +72,8 @@ class View implements ViewInterface
         $this->_response = $response;
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
-        $this->pageFactory = $pageFactory;
         $this->_actionFlag = $actionFlag;
-        $this->page = $this->pageFactory->create($request);
+        $this->page = $pageFactory->create();
     }
 
     /**
@@ -127,7 +126,7 @@ class View implements ViewInterface
      */
     public function getDefaultLayoutHandle()
     {
-        return strtolower($this->_request->getFullActionName());
+        return $this->page->getDefaultLayoutHandle();
     }
 
     /**
@@ -152,14 +151,7 @@ class View implements ViewInterface
      */
     public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null)
     {
-        $this->page = $this->pageFactory->create($this->_request);
-        $handle = $defaultHandle ? $defaultHandle : $this->getDefaultLayoutHandle();
-        $pageHandles = array($handle);
-        foreach ($parameters as $key => $value) {
-            $pageHandles[] = $handle . '_' . $key . '_' . $value;
-        }
-        // Do not sort array going into add page handles. Ensure default layout handle is added first.
-        return $this->getLayout()->getUpdate()->addPageHandles($pageHandles);
+        return $this->page->addPageLayoutHandles($parameters, $defaultHandle);
     }
 
     /**

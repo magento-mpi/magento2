@@ -7,6 +7,8 @@
  */
 namespace Magento\Theme\Block\Html;
 
+use Magento\Framework\View\Element\Template;
+
 /**
  * Html page title block
  */
@@ -20,6 +22,25 @@ class Title extends \Magento\Framework\View\Element\Template
     protected $_pageTitle;
 
     /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
+     * @param Template\Context $context
+     * @param \Magento\Framework\View\Page\Config $pageConfig
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        \Magento\Framework\View\Page\Config $pageConfig,
+        array $data = array()
+    ) {
+        $this->pageConfig = $pageConfig;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Provide own page title or pick it from Head Block
      *
      * @return string
@@ -29,7 +50,8 @@ class Title extends \Magento\Framework\View\Element\Template
         if (!empty($this->_pageTitle)) {
             return $this->_pageTitle;
         }
-        return ''; //$this->getLayout()->getBlock('head')->getShortTitle();
+        //$this->getLayout()->getBlock('head')->getShortTitle();
+        return $this->pageConfig->getTitle();
     }
 
     /**
@@ -41,5 +63,7 @@ class Title extends \Magento\Framework\View\Element\Template
     public function setPageTitle($pageTitle)
     {
         $this->_pageTitle = $pageTitle;
+        $this->pageConfig->setTitle($pageTitle);
+        return $this;
     }
 }
