@@ -35,7 +35,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const DATA_MODEL = 'data_model';
 
-    const IS_USER_DEFINED = 'is_user_defined';
+    const IS_USER_DEFINED = 'user_defined';
 
     const FRONTEND_CLASS = 'frontend_class';
 
@@ -43,7 +43,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const FRONTEND_LABEL = 'frontend_label';
 
-    const IS_SYSTEM = 'is_system';
+    const IS_SYSTEM = 'system';
 
     const NOTE = 'note';
 
