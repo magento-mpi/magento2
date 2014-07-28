@@ -186,7 +186,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCartListWithNotExistingField()
     {
-        $searchResult = $this->getMock('\Magento\Checkout\Service\V1\Data\CartSearchResults', [], [], '', false);
         $searchCriteriaMock = $this->getMock('\Magento\Framework\Service\V1\Data\SearchCriteria', [], [], '', false);
         $this->searchResultsBuilderMock
             ->expects($this->once())
