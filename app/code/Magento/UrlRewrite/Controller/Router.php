@@ -73,7 +73,7 @@ class Router implements \Magento\Framework\App\RouterInterface
             return null;
         }
 
-        $redirectType = $urlRewrite->getRedirectType();
+        $redirectType = (int)$urlRewrite->getRedirectType();
         if ($redirectType) {
             $this->response->setRedirect($urlRewrite->getTargetPath(), $redirectType);
             $request->setDispatched(true);

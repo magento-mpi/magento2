@@ -87,11 +87,11 @@ class UrlRewrite extends AbstractObject
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getRedirectType()
     {
-        return (int)$this->_get(self::REDIRECT_TYPE);
+        return $this->_get(self::REDIRECT_TYPE);
     }
 
     /**
