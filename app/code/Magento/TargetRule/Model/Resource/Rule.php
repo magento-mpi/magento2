@@ -198,7 +198,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param int[]|int|string $entityIds
      * @param string $entityType
      * @return $this
-     * @throws \Exception
      */
     public function bindRuleToEntity($ruleIds, $entityIds, $entityType)
     {
