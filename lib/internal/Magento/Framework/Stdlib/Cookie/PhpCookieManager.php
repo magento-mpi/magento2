@@ -118,13 +118,18 @@ class PhpCookieManager implements CookieManager
             }
 
             $numCookies = count($_COOKIE);
-            if ($numCookies >= self::MAX_NUM_COOKIES) {
-                throw new CookieSizeLimitReachedException();
+            if ($numCookies >= self::MAX_NUM_COOKIES - 1) {
+                $errorMessage = 'Unable to send the cookie. Maximum number of cookies exceeded.';
+                throw new CookieSizeLimitReachedException(__($errorMessage));
             }
         }
 
-        if ($this->sizeOfCookie($name, $value) > self::MAX_COOKIE_SIZE) {
-            throw new CookieSizeLimitReachedException();
+        $sizeOfCookie = $this->sizeOfCookie($name, $value);
+
+        if ($sizeOfCookie > self::MAX_COOKIE_SIZE) {
+            $errorMessage = 'Unable to send the cookie. ' .
+                'Size of cookie name=\'' . $name . '\' is ' . $sizeOfCookie . ' bytes.';
+            throw new CookieSizeLimitReachedException(__($errorMessage));
         }
 
         $phpSetcookieSuccess = setcookie(
@@ -155,7 +160,7 @@ class PhpCookieManager implements CookieManager
      */
     private function sizeOfCookie($name, $value)
     {
-        return count($name) + count('=') + count($value);
+        return strlen($name) + strlen('=') + strlen($value);
     }
 
     /**

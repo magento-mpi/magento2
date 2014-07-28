@@ -69,48 +69,4 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
     public function testSetPublicCookie()
     {
     }
-
-    /**
-     * @return mixed
-    /*
-    $this->cookieManager = $this->objectManager
-    ->create(
-    'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
-    [
-    'scope' => $this->createCookieScope(),
-    ]
-    );
-     */
-/*
-    public function createCookieScope()
-    {
-        $cookieMetadataFactory = $this->objectManager
-            ->create('\Magento\Framework\Stdlib\Cookie\CookieMetadataFactory');
-
-        $sensitiveMetadataValues = [
-            SensitiveCookieMetadata::KEY_PATH => 'default path',
-            SensitiveCookieMetadata::KEY_DOMAIN => 'default domain',
-        ];
-
-        $publicMetadataValues = [
-            PublicCookieMetadata::KEY_PATH => 'default path',
-            PublicCookieMetadata::KEY_DOMAIN => 'default domain',
-            PublicCookieMetadata::KEY_DURATION => 'default duration',
-            PublicCookieMetadata::KEY_HTTP_ONLY => 'default http',
-            PublicCookieMetadata::KEY_SECURE => 'default secure',
-        ];
-
-        $cookieScope = $this->objectManager->create(
-            '\Magento\Framework\Stdlib\Cookie\CookieScope',
-            [
-                $cookieMetadataFactory,
-                'sensitiveCookieMetadata' => $cookieMetadataFactory
-                    ->createSensitiveCookieMetadata($publicMetadataValues),
-                'publicCookieMetadata' => $cookieMetadataFactory
-                    ->createPublicCookieMetadata($sensitiveMetadataValues),
-            ]
-        );
-
-        return $cookieScope;
-    }*/
 }
