@@ -31,8 +31,8 @@ function setcookie($name, $value, $expiry, $path, $domain, $secure, $httpOnly)
     } elseif (PhpCookieManagerTest::SENSITIVE_COOKIE_NAME == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertEquals(PhpCookieManager::EXPIRE_AT_END_OF_SESSION_TIME, $expiry);
-        PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_SECURE, $secure);
-        PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_HTTP_ONLY, $httpOnly);
+        PhpCookieManagerTest::assertTrue($secure);
+        PhpCookieManagerTest::assertTrue($httpOnly);
     } elseif (PhpCookieManagerTest::PUBLIC_COOKIE_NAME == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_EXPIRE_END_OF_SESSION, $expiry);
@@ -152,8 +152,8 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetSensitiveCookie()
     {
-        /** @var CookieMetadata $cookieMetadata */
-        $cookieMetadata = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata',
+        /** @var SensitiveCookieMetadata $sensitiveCookieMetadata */
+        $sensitiveCookieMetadata = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata',
             [
                 'metadata' => [
                     'domain' => null,
@@ -170,7 +170,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $mockCookieManager->setSensitiveCookie(
             PhpCookieManagerTest::SENSITIVE_COOKIE_NAME,
             'cookie_value',
-            $cookieMetadata
+            $sensitiveCookieMetadata
         );
     }
 
