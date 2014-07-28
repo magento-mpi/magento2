@@ -27,11 +27,6 @@ class OauthUserContext implements UserContextInterface
     protected $_integrationFactory;
 
     /**
-     * @var RoleCollectionFactory
-     */
-    protected $_roleCollectionFactory;
-
-    /**
      * Initialize dependencies.
      *
      * @param Request $request
@@ -40,12 +35,10 @@ class OauthUserContext implements UserContextInterface
      */
     public function __construct(
         Request $request,
-        IntegrationFactory $integrationFactory,
-        RoleCollectionFactory $roleCollectionFactory
+        IntegrationFactory $integrationFactory
     ) {
         $this->_request = $request;
         $this->_integrationFactory = $integrationFactory;
-        $this->_roleCollectionFactory = $roleCollectionFactory;
     }
 
     /**
@@ -55,7 +48,7 @@ class OauthUserContext implements UserContextInterface
     {
         $consumerId = $this->_request->getConsumerId();
         $integration = $this->_integrationFactory->create()->loadByConsumerId($consumerId);
-        return $integration->getId() ? (int)$integration->getId() : 0;
+        return $integration->getId() ? (int)$integration->getId() : null;
     }
 
     /**

@@ -18,7 +18,7 @@ class CompositeUserContext implements \Magento\Authorization\Model\UserContextIn
     /**
      * @var UserContextInterface|bool
      */
-    protected $userContext;
+    protected $chosenUserContext;
 
     /**
      * Register user contexts.
@@ -71,18 +71,18 @@ class CompositeUserContext implements \Magento\Authorization\Model\UserContextIn
      */
     protected function getUserContext()
     {
-        if (is_null($this->userContext)) {
+        if (is_null($this->chosenUserContext)) {
             /** @var UserContextInterface $userContext */
             foreach ($this->userContexts as $userContext) {
-                if ($userContext->getUserType()) {
-                    $this->userContext = $userContext;
+                if ($userContext->getUserId()) {
+                    $this->chosenUserContext = $userContext;
                     break;
                 }
             }
             if (is_null($this->userContext)) {
-                $this->userContext = false;
+                $this->chosenUserContext = false;
             }
         }
-        return $this->userContext;
+        return $this->chosenUserContext;
     }
 }
