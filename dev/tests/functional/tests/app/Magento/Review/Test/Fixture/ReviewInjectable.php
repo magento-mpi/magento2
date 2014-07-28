@@ -136,6 +136,14 @@ class ReviewInjectable extends InjectableFixture
         'input' => '',
     ];
 
+    protected $select_stores = [
+        'attribute_code' => 'select_stores',
+        'backend_type' => 'virtual',
+        'is_required' => '1',
+        'default_value' => '0',
+        'input' => 'multiselectgrouplist',
+    ];
+
     protected $ratings = [
         'attribute_code' => 'ratings',
         'backend_type' => 'virtual',
@@ -144,14 +152,6 @@ class ReviewInjectable extends InjectableFixture
 
     protected $type = [
         'attribute_code' => 'type',
-        'backend_type' => 'string',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $select_stores = [
-        'attribute_code' => 'select_stores',
         'backend_type' => 'string',
         'is_required' => '',
         'default_value' => '',

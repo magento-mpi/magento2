@@ -8,73 +8,78 @@
 
 namespace Magento\Review\Test\TestCase;
 
-use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
-use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
-use Magento\Review\Test\Page\Adminhtml\RatingIndex;
-use Magento\Review\Test\Page\Adminhtml\RatingEdit;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Review\Test\Fixture\Rating;
+use Magento\Review\Test\Page\Adminhtml\RatingEdit;
+use Magento\Review\Test\Page\Adminhtml\RatingIndex;
+use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
+use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for Update Frontend Product Review
+ * Test Creation for Create ProductReviewEntity Backend
  *
  * Test Flow:
- *
  * Preconditions:
- * 1. Create simple product
- * 2. Create custom rating type
- * 3. Create review with rating
+ * 1. Simple Product created
  *
  * Steps:
- * 1. Open backend
- * 2. Go to Marketing> Reviews
- * 3. Open created review
- * 4. Fill data according to dataset
- * 5. Click "Submit review"
- * 6. Perform all assertions
+ * 1. Login to backend
+ * 2. Navigate to Marketing -> User Content -> Reviews
+ * 3. Click the "+" (Add New Review) button
+ * 4. Select the product in the Products Grid
+ * 5. Fill data according to DataSet
+ * 6. Click "Save Review" button
+ * 7. Perform Asserts
  *
  * @group Reviews_and_Ratings_(MX)
- * @ZephyrId MAGETWO-25604
+ * @ZephyrId MAGETWO-26476
  */
-class UpdateProductReviewEntityTest extends Injectable
+class CreateProductReviewBackendEntityTest extends Injectable
 {
     /**
-     * Backend review grid page
+     * ReviewIndex page
      *
      * @var ReviewIndex
      */
     protected $reviewIndex;
 
     /**
-     * Backend review edit page
+     * ReviewEdit page
      *
      * @var ReviewEdit
      */
     protected $reviewEdit;
 
     /**
-     * Backend rating grid page
+     * RatingIndex page
      *
      * @var RatingIndex
      */
     protected $ratingIndex;
 
     /**
-     * Backend rating edit page
+     * RatingEdit page
      *
      * @var RatingEdit
      */
     protected $ratingEdit;
 
     /**
-     * Fixture review
+     * @var Rating
+     */
+    protected $productRating;
+
+    /**
+     * Review fixture
      *
      * @var ReviewInjectable
      */
     protected $review;
 
     /**
-     * Injection data
+     * Inject pages into test
      *
      * @param ReviewIndex $reviewIndex
      * @param ReviewEdit $reviewEdit
@@ -95,24 +100,22 @@ class UpdateProductReviewEntityTest extends Injectable
     }
 
     /**
-     * Run create frontend product rating test
+     * Run Create Product Review Entity Backend Test
      *
-     * @param ReviewInjectable $reviewInitial
      * @param ReviewInjectable $review
      * @return void
      */
-    public function test(ReviewInjectable $reviewInitial, ReviewInjectable $review)
+    public function test(ReviewInjectable $review)
     {
-        // Precondition
-        $reviewInitial->persist();
+        // Precondition:
+        $filter = ['id' => $review->getDataFieldConfig('entity_id')['source']->getEntity()->getId()];
+        $this->review = $review;
 
-        // Prepare for tear down
-        $this->review = $reviewInitial;
-
-        // Steps
+        // Steps:
         $this->reviewIndex->open();
-        $this->reviewIndex->getReviewGrid()->searchAndOpen(['review_id' => $reviewInitial->getReviewId()]);
-        $this->reviewEdit->getReviewForm()->fill($review);
+        $this->reviewIndex->getReviewActions()->addNew();
+        $this->reviewEdit->getProductGrid()->searchAndOpen($filter);
+        $this->reviewEdit->getReviewForm()->fill($this->review);
         $this->reviewEdit->getPageActions()->save();
     }
 
@@ -127,7 +130,8 @@ class UpdateProductReviewEntityTest extends Injectable
         $ratingGrid = $this->ratingIndex->getRatingGrid();
         $pageActions = $this->ratingEdit->getPageActions();
         foreach ($this->review->getRatings() as $rating) {
-            $ratingGrid->searchAndOpen(['rating_code' => $rating['title']]);
+            $filter = ['rating_code' => $rating['title']];
+            $ratingGrid->searchAndOpen($filter);
             $pageActions->delete();
         }
     }

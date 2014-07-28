@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class ReviewIndex
- *
- * @package Magento\Review\Test\Page\Adminhtml
+ * Review Index page
  */
 class ReviewIndex extends BackendPage
 {
@@ -32,6 +31,12 @@ class ReviewIndex extends BackendPage
             'locator' => '#reviwGrid',
             'strategy' => 'css selector',
         ],
+        'reviewActions' => [
+            'name' => 'reviewActions',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
+            'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -48,5 +53,13 @@ class ReviewIndex extends BackendPage
     public function getReviewGrid()
     {
         return $this->getBlockInstance('reviewGrid');
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\GridPageActions
+     */
+    public function getReviewActions()
+    {
+        return $this->getBlockInstance('reviewActions');
     }
 }

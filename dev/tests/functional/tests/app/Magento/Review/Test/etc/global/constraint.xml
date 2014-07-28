@@ -53,4 +53,7 @@
             <reviewIndex class="Magento\Review\Test\Page\Adminhtml\ReviewIndex"/>
         </require>
     </assertProductReviewMassActionSuccessDeleteMessage>
+    <assertProductReviewBackendSuccessSaveMessage module="Magento_Review">
+        <severeness>middle</severeness>
+    </assertProductReviewBackendSuccessSaveMessage>
 </constraint>
