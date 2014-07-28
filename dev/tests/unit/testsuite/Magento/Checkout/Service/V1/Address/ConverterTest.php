@@ -38,7 +38,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $addressMockMethods = [
             'getCountryId', 'getId', 'getCustomerId', 'getRegion', 'getRegionId', 'getRegionCode',
             'getStreet', 'getCompany', 'getTelephone', 'getFax', 'getPostcode', 'getFirstname', 'getMiddlename',
-            'getLastname', 'getPrefix', 'getSuffix', 'getEmail', 'getVatId', '__wakeup'
+            'getLastname', 'getPrefix', 'getSuffix', 'getEmail', 'getVatId', 'getCustomField', '__wakeup'
         ];
         $addressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', $addressMockMethods, [], '', false);
 
@@ -60,6 +60,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $addressMock->expects($this->atLeastOnce())->method('getSuffix')->will($this->returnValue('suffix'));
         $addressMock->expects($this->atLeastOnce())->method('getEmail')->will($this->returnValue('aaa@aaa.com'));
         $addressMock->expects($this->atLeastOnce())->method('getVatId')->will($this->returnValue(5));
+        $addressMock->expects($this->atLeastOnce())->method('getCustomField')->will($this->returnValue('custom_value'));
 
         $testData = [
             Address::KEY_COUNTRY_ID => 1,
@@ -81,12 +82,19 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             Address::KEY_PREFIX => 'prefix',
             Address::KEY_SUFFIX => 'suffix',
             Address::KEY_EMAIL => 'aaa@aaa.com',
-            Address::KEY_VAT_ID => 5
+            Address::KEY_VAT_ID => 5,
+            Address::CUSTOM_ATTRIBUTES_KEY => [['attribute_code' => 'custom_field', 'value' => 'custom_value']]
         ];
 
-        $this->addressBuilderMock->expects($this->once())->method('populateWithArray')->with($testData)
-            ->will($this->returnValue($this->addressBuilderMock));
-        $this->addressBuilderMock->expects($this->once())->method('create')->will($this->returnValue('Expected value'));
+        $this->addressBuilderMock->expects($this->any())->method('getCustomAttributesCodes')->will(
+            $this->returnValue(array('custom_field'))
+        );
+        $this->addressBuilderMock->expects($this->once())->method('populateWithArray')->with($testData)->will(
+            $this->returnValue($this->addressBuilderMock)
+        );
+        $this->addressBuilderMock->expects($this->once())->method('create')->will(
+            $this->returnValue('Expected value')
+        );
 
         $this->assertEquals('Expected value', $this->model->convert($addressMock));
     }

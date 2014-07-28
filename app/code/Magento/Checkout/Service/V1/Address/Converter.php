@@ -11,6 +11,7 @@ namespace Magento\Checkout\Service\V1\Address;
 use \Magento\Checkout\Service\V1\Data\Cart\Address;
 use \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use \Magento\Framework\Service\Data\Eav\AttributeValue;
 
 class Converter
 {
@@ -55,6 +56,12 @@ class Converter
             Address::KEY_EMAIL => $address->getEmail(),
             Address::KEY_VAT_ID => $address->getVatId()
         ];
+
+        foreach ($this->addressBuilder->getCustomAttributesCodes() as $attributeCode) {
+            $method = 'get' . \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $data[Address::CUSTOM_ATTRIBUTES_KEY][] =
+                [AttributeValue::ATTRIBUTE_CODE => $attributeCode, AttributeValue::VALUE => $address->$method()];
+        }
 
         return $this->addressBuilder->populateWithArray($data)->create();
     }
