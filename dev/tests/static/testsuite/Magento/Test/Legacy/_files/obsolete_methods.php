@@ -518,7 +518,6 @@ return array(
     array('getPriceFormatted', 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Sales'),
     array('getPrices', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
     array('getPricesDependingOnTax', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
-    array('getPriceTaxSql', 'Magento\Tax\Helper\Data'),
     array('getPrintUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getPrintUrl', 'Magento\Sales\Block\Order\Info'),
     array('getProduct', 'Magento\Catalog\Model\Product\Type\AbstractType'),
@@ -1789,5 +1788,6 @@ return array(
     ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
-    ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status']
+    ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
+    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
 );
