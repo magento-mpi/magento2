@@ -222,6 +222,7 @@
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
+
   <xs:complexType name="requests">
     <xs:sequence>
       <xs:element type="request" name="request" minOccurs="1" />
