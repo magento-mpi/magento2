@@ -178,5 +178,4 @@ class CustomerBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     {
         return $this->_set(Customer::GENDER, $value);
     }
-
 }

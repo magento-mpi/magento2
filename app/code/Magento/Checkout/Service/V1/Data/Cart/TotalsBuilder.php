@@ -17,7 +17,7 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     /**
      * Set grand total in quote currency
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setGrandTotal($value)
@@ -28,7 +28,7 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     /**
      * Set grand total in base currency
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setBaseGrandTotal($value)
@@ -39,7 +39,7 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     /**
      * Set subtotal in quote currency
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setSubtotal($value)
@@ -50,7 +50,7 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     /**
      * Set subtotal in base currency
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setBaseSubtotal($value)
@@ -61,7 +61,7 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     /**
      * Set subtotal in quote currency with applied discount
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setSubtotalWithDiscount($value)
@@ -72,7 +72,7 @@ class TotalsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     /**
      * Set subtotal in base currency with applied discount
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setBaseSubtotalWithDiscount($value)

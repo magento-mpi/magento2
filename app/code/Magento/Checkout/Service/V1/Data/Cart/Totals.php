@@ -14,22 +14,22 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  */
 class Totals extends \Magento\Framework\Service\Data\AbstractObject
 {
-    CONST GRAND_TOTAL = 'grand_total';
+    const GRAND_TOTAL = 'grand_total';
 
-    CONST BASE_GRAND_TOTAL = 'base_grand_total';
+    const BASE_GRAND_TOTAL = 'base_grand_total';
 
-    CONST SUBTOTAL = 'subtotal';
+    const SUBTOTAL = 'subtotal';
 
-    CONST BASE_SUBTOTAL = 'base_subtotal';
+    const BASE_SUBTOTAL = 'base_subtotal';
 
-    CONST SUBTOTAL_WITH_DISCOUNT = 'subtotal_with_discount';
+    const SUBTOTAL_WITH_DISCOUNT = 'subtotal_with_discount';
 
-    CONST BASE_SUBTOTAL_WITH_DISCOUNT = 'base_subtotal_with_discount';
+    const BASE_SUBTOTAL_WITH_DISCOUNT = 'base_subtotal_with_discount';
 
     /**
      * Get grand total in quote currency
      *
-     * @return double|null
+     * @return float|null
      */
     public function getGrandTotal()
     {
@@ -39,7 +39,7 @@ class Totals extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get grand total in base currency
      *
-     * @return double|null
+     * @return float|null
      */
     public function getBaseGrandTotal()
     {
@@ -49,7 +49,7 @@ class Totals extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get subtotal in quote currency
      *
-     * @return double|null
+     * @return float|null
      */
     public function getSubtotal()
     {
@@ -59,7 +59,7 @@ class Totals extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get subtotal in base currency
      *
-     * @return double|null
+     * @return float|null
      */
     public function getBaseSubtotal()
     {
@@ -69,7 +69,7 @@ class Totals extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get subtotal in quote currency with applied discount
      *
-     * @return double|null
+     * @return float|null
      */
     public function getSubtotalWithDiscount()
     {
@@ -79,7 +79,7 @@ class Totals extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get subtotal in base currency with applied discount
      *
-     * @return double|null
+     * @return float|null
      */
     public function getBaseSubtotalWithDiscount()
     {

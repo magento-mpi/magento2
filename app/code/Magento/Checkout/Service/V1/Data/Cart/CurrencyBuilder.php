@@ -61,7 +61,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     /**
      * Set store currency to base currency rate
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setStoreToBaseRate($value)
@@ -72,7 +72,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     /**
      * Set store currency to quote currency rate
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setStoreToQuoteRate($value)
@@ -83,7 +83,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     /**
      * Set base currency to global currency rate
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setBaseToGlobalRate($value)
@@ -94,7 +94,7 @@ class CurrencyBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     /**
      * Set base currency to quote currency rate
      *
-     * @param double|null $value
+     * @param float|null $value
      * @return $this
      */
     public function setBaseToQuoteRate($value)

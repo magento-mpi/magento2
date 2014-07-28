@@ -62,5 +62,4 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
         $this->_set(Item::TYPE, $value);
         return $this;
     }
-
 }

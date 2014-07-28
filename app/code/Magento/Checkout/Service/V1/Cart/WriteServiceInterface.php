@@ -26,4 +26,3 @@ interface WriteServiceInterface
      */
     public function assignCustomer($cartId, $customerId);
 }
-

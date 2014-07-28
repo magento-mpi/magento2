@@ -85,4 +85,3 @@ class WriteService implements WriteServiceInterface
         return true;
     }
 }
-

@@ -39,7 +39,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * set creation date and time
      *
-     * @param $value
+     * @param string $value
      * @return $this
      */
     public function setCreatedAt($value)
@@ -72,7 +72,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set active status
      *
-     * @param mixed|null $value
+     * @param bool|null $value
      * @return $this
      */
     public function setIsActive($value)
@@ -116,7 +116,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set items quantity(total amount of all products)
      *
-     * @param double $value
+     * @param float $value
      * @return $this
      */
     public function setItemsQty($value)
@@ -169,7 +169,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * @param $value \Magento\Checkout\Service\V1\Data\Cart\Totals
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Totals $value
      * @return $this
      */
     public function setTotals($value)
@@ -180,18 +180,18 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set reserved order id
      *
-     * @param $value string
+     * @param string $value
      * @return $this
      */
     public function setReservedOrderId($value)
     {
-        return $this->_set(Cart::RESERVED_ORDER_ID,  $value);
+        return $this->_set(Cart::RESERVED_ORDER_ID, $value);
     }
 
     /**
      * Set original order id
      *
-     * @param $value string
+     * @param string $value
      * @return $this
      */
     public function setOrigOrderId($value)

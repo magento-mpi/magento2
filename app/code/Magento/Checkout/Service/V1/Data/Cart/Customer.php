@@ -14,36 +14,35 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  */
 class Customer extends \Magento\Framework\Service\Data\AbstractObject
 {
-    CONST ID = 'id';
+    const ID = 'id';
 
-    CONST TAX_CLASS_ID = 'tax_class_id';
+    const TAX_CLASS_ID = 'tax_class_id';
 
-    CONST GROUP_ID = 'group_id';
+    const GROUP_ID = 'group_id';
 
-    CONST EMAIL = 'email';
+    const EMAIL = 'email';
 
-    CONST PREFIX = 'prefix';
+    const PREFIX = 'prefix';
 
-    CONST FIRST_NAME = 'first_name';
+    const FIRST_NAME = 'first_name';
 
-    CONST MIDDLE_NAME = 'middle_name';
+    const MIDDLE_NAME = 'middle_name';
 
-    CONST LAST_NAME = 'last_name';
+    const LAST_NAME = 'last_name';
 
-    CONST SUFFIX = 'suffix';
+    const SUFFIX = 'suffix';
 
-    CONST DOB = 'dob';
+    const DOB = 'dob';
 
-    CONST NOTE = 'note';
+    const NOTE = 'note';
 
-    CONST NOTE_NOTIFY = 'note_notify';
+    const NOTE_NOTIFY = 'note_notify';
 
-    CONST IS_GUEST = 'is_guest';
+    const IS_GUEST = 'is_guest';
 
-    CONST TAXVAT = 'taxvat';
+    const TAXVAT = 'taxvat';
 
-    CONST GENDER = 'gender';
-
+    const GENDER = 'gender';
 
     /**
      * Get customer id
@@ -195,5 +194,4 @@ class Customer extends \Magento\Framework\Service\Data\AbstractObject
     {
         return $this->_get(self::GENDER);
     }
-
 }

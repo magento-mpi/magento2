@@ -14,21 +14,21 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
  */
 class Currency extends \Magento\Framework\Service\Data\AbstractObject
 {
-    CONST GLOBAL_CURRENCY_CODE = 'global_currency_code';
+    const GLOBAL_CURRENCY_CODE = 'global_currency_code';
 
-    CONST BASE_CURRENCY_CODE = 'base_currency_code';
+    const BASE_CURRENCY_CODE = 'base_currency_code';
 
-    CONST STORE_CURRENCY_CODE = 'store_currency_code';
+    const STORE_CURRENCY_CODE = 'store_currency_code';
 
-    CONST QUOTE_CURRENCY_CODE = 'quote_currency_code';
+    const QUOTE_CURRENCY_CODE = 'quote_currency_code';
 
-    CONST STORE_TO_BASE_RATE = 'store_to_base_rate';
+    const STORE_TO_BASE_RATE = 'store_to_base_rate';
 
-    CONST STORE_TO_QUOTE_RATE = 'store_to_quote_rate';
+    const STORE_TO_QUOTE_RATE = 'store_to_quote_rate';
 
-    CONST BASE_TO_GLOBAL_RATE = 'base_to_global_rate';
+    const BASE_TO_GLOBAL_RATE = 'base_to_global_rate';
 
-    CONST BASE_TO_QUOTE_RATE = 'base_to_quote_rate';
+    const BASE_TO_QUOTE_RATE = 'base_to_quote_rate';
 
     /**
      * Get global currency code
@@ -73,7 +73,7 @@ class Currency extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get store currency to base currency rate
      *
-     * @return double|null
+     * @return float|null
      */
     public function getStoreToBaseRate()
     {
@@ -83,7 +83,7 @@ class Currency extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get store currency to quote currency rate
      *
-     * @return double|null
+     * @return float|null
      */
     public function getStoreToQuoteRate()
     {
@@ -93,7 +93,7 @@ class Currency extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get base currency to global currency rate
      *
-     * @return double|null
+     * @return float|null
      */
     public function getBaseToGlobalRate()
     {
@@ -103,7 +103,7 @@ class Currency extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get base currency to quote currency rate
      *
-     * @return double|null
+     * @return float|null
      */
     public function getBaseToQuoteRate()
     {

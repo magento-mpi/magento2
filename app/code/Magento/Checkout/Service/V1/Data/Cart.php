@@ -14,39 +14,39 @@ namespace Magento\Checkout\Service\V1\Data;
  */
 class Cart extends \Magento\Framework\Service\Data\AbstractObject
 {
-    CONST ID = 'id';
+    const ID = 'id';
 
-    CONST STORE_ID = 'store_id';
+    const STORE_ID = 'store_id';
 
-    CONST CREATED_AT = 'created_at';
+    const CREATED_AT = 'created_at';
 
-    CONST UPDATED_AT = 'updated_at';
+    const UPDATED_AT = 'updated_at';
 
-    CONST CONVERTED_AT = 'converted_at';
+    const CONVERTED_AT = 'converted_at';
 
-    CONST IS_ACTIVE = 'is_active';
+    const IS_ACTIVE = 'is_active';
 
-    CONST IS_VIRTUAL = 'is_virtual';
+    const IS_VIRTUAL = 'is_virtual';
 
-    CONST ITEMS = 'items';
+    const ITEMS = 'items';
 
-    CONST ITEMS_COUNT = 'items_count';
+    const ITEMS_COUNT = 'items_count';
 
-    CONST ITEMS_QUANTITY = 'items_qty';
+    const ITEMS_QUANTITY = 'items_qty';
 
-    CONST CUSTOMER = 'customer';
+    const CUSTOMER = 'customer';
 
-    CONST CHECKOUT_METHOD = 'checkout_method';
+    const CHECKOUT_METHOD = 'checkout_method';
 
-    CONST SHIPPING_ADDRESS = 'shipping_address';
+    const SHIPPING_ADDRESS = 'shipping_address';
 
-    CONST BILLING_ADDRESS = 'shipping_address';
+    const BILLING_ADDRESS = 'shipping_address';
 
-    CONST TOTALS = 'totals';
+    const TOTALS = 'totals';
 
-    CONST RESERVED_ORDER_ID = 'reserved_order_id';
+    const RESERVED_ORDER_ID = 'reserved_order_id';
 
-    CONST ORIG_ORDER_ID = 'orig_order_id';
+    const ORIG_ORDER_ID = 'orig_order_id';
 
     /**
      * Cart/Quote id
@@ -151,7 +151,7 @@ class Cart extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get quantity of all items/products in cart
      *
-     * @return double|null
+     * @return float|null
      */
     public function getItemsQty()
     {
@@ -222,4 +222,3 @@ class Cart extends \Magento\Framework\Service\Data\AbstractObject
         return $this->_get(self::ORIG_ORDER_ID);
     }
 }
-
