@@ -10,7 +10,12 @@ namespace Magento\Sales\Service\V1;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 use Magento\Sales\Service\V1\Data\OrderStatusHistory;
+use Magento\Sales\Service\V1\Data\OrderStatusHistoryBuilder;
 
+/**
+ * Class OrderCommentAddTest
+ * @package Magento\Sales\Service\V1
+ */
 class OrderCommentAddTest extends WebapiAbstract
 {
     const SERVICE_READ_NAME = 'salesOrderStatusHistoryAddServiceV1';
@@ -33,11 +38,10 @@ class OrderCommentAddTest extends WebapiAbstract
     public function testOrderCommentAdd()
     {
         $commentData = [
-            'statusHistory' => [
-                OrderStatusHistory::COMMENT => 'Hello',
-                OrderStatusHistory::IS_CUSTOMER_NOTIFIED => true
-            ]
+            OrderStatusHistory::COMMENT => 'Hello',
+            OrderStatusHistory::IS_CUSTOMER_NOTIFIED => true
         ];
+        $requestData = ['statusHistory' => $commentData];
 
         /** @var \Magento\Sales\Model\Order $order */
         $order = $this->objectManager->create('Magento\Sales\Model\Order');
@@ -55,15 +59,13 @@ class OrderCommentAddTest extends WebapiAbstract
             ]
         ];
 
-        $this->_webApiCall($serviceInfo, $commentData);
+        $this->_webApiCall($serviceInfo, $requestData);
 
         //Verification
+        $statusHistoryComment = $order->load($order->getId())->getAllStatusHistory()[0];
 
-        $order->load($order->getId());
-
-        $statusHistoryArray = $order->getAllStatusHistory();
-        $statusHistory = end($statusHistoryArray);
-
-        $this->assertEquals($commentData, $statusHistory->getData());
+        foreach ($commentData as $key => $value) {
+            $this->assertEquals($value, $statusHistoryComment->getData($key));
+        }
     }
 }

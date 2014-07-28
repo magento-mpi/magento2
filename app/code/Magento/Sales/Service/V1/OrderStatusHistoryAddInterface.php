@@ -14,12 +14,11 @@ namespace Magento\Sales\Service\V1;
 interface OrderStatusHistoryAddInterface
 {
     /**
-     * Invoke getOrder service
+     * Invoke service
      *
      * @param int $id
      * @param \Magento\Sales\Service\V1\Data\OrderStatusHistory $statusHistory
-     * @return \Magento\Framework\Service\Data\AbstractObject
-     * @throws void
+     * @return void
      */
     public function invoke($id, $statusHistory);
 }
