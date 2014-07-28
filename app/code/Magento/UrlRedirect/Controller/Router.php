@@ -41,6 +41,7 @@ class Router implements \Magento\Framework\App\RouterInterface
      * @param \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
      */
     public function __construct(
+        \Magento\Framework\App\ActionFactory $actionFactory,
         \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
