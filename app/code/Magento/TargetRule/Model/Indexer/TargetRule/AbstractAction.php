@@ -160,7 +160,16 @@ abstract class AbstractAction
         foreach ($ruleCollection as $rule) {
             /** @var $rule \Magento\TargetRule\Model\Rule */
             if ($rule->validate($product)) {
-                $indexResource->saveProductIndex($rule);
+                $matchedProductIds = $rule->getMatchingProductIds();
+                $rule->getResource()->bindRuleToEntity($rule->getId(), $matchedProductIds, 'product');
+                $rule->getResource()->cleanCachedDataByProductIds(
+                    array_unique(
+                        array_merge(
+                            [$productId],
+                            $matchedProductIds
+                        )
+                    )
+                );
             }
         }
         return $this;
@@ -187,9 +196,25 @@ abstract class AbstractAction
      */
     protected function _reindexByRuleId($ruleId)
     {
+        /** @var \Magento\TargetRule\Model\Rule $rule */
+        $rule = $this->_ruleFactory->create();
+        $rule->load($ruleId);
         // remove old cache index data
         $this->_cleanIndex();
-        $this->_resource->saveProductIndex($this->_ruleFactory->create()->load($ruleId));
+        /** @var \Magento\TargetRule\Model\Resource\Rule $ruleResource */
+        $ruleResource = $rule->getResource();
+        $productIdsBeforeUnbind = $ruleResource->getAssociatedEntityIds($ruleId, 'product');
+        $ruleResource->unbindRuleFromEntity($ruleId, [], 'product');
+        $matchedProductIds = $rule->getMatchingProductIds();
+        $ruleResource->bindRuleToEntity($ruleId, $matchedProductIds, 'product');
+        $ruleResource->cleanCachedDataByProductIds(
+            array_unique(
+                array_merge(
+                    $productIdsBeforeUnbind,
+                    $matchedProductIds
+                )
+            )
+        );
     }
 
     /**

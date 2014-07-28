@@ -161,18 +161,21 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
         $this->saveCustomerSegments($object->getId(), $segmentIds);
 
-        $productIdsBeforeUnbind = $this->getAssociatedEntityIds($object->getId(), 'product');
-        $this->unbindRuleFromEntity($object->getId(), array(), 'product');
+        return $this;
+    }
 
-        $matchedProductIds = $object->getMatchingProductIds();
-        $this->bindRuleToEntity($object->getId(), $matchedProductIds, 'product');
-
+    /**
+     * Clean cached data by product ids
+     *
+     * @param array $productIds
+     * @return $this
+     */
+    public function cleanCachedDataByProductIds($productIds)
+    {
         if ($this->moduleManager->isEnabled('Magento_PageCache')) {
-            $productIds = array_unique(array_merge($productIdsBeforeUnbind, $matchedProductIds));
             $this->context->registerEntities(Product::CACHE_TAG, $productIds);
             $this->eventManager->dispatch('clean_cache_by_tags', ['object' => $this->context]);
         }
-
         return $this;
     }
 

@@ -81,13 +81,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     const XML_PATH_DEFAULT_VALUES = 'catalog/magento_targetrule/';
 
     /**
-     * Store matched products objects
-     *
-     * @var array
-     */
-    protected $_products;
-
-    /**
      * Store matched product Ids
      *
      * @var array
@@ -132,6 +125,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_ruleProductIndexerProcessor;
 
     /**
+     * @var \Magento\Rule\Model\Condition\Sql\Builder
+     */
+    protected $_sqlBuilder;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -141,6 +139,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductIndexerProcessor
+     * @param \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -155,6 +154,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductIndexerProcessor,
+        \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -165,6 +165,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_ruleFactory = $ruleFactory;
         $this->_actionFactory = $actionFactory;
         $this->_ruleProductIndexerProcessor = $ruleProductIndexerProcessor;
+        $this->_sqlBuilder = $sqlBuilder;
         parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
@@ -284,70 +285,18 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     }
 
     /**
-     * Retrieve array of product objects which are matched by rule
+     * Prepare array of product ids which are matched by rule
      *
-     * @param bool $onlyId
      * @return $this
      */
-    public function prepareMatchingProducts($onlyId = false)
+    public function prepareMatchingProducts()
     {
         $productCollection = $this->_productFactory->create()->getCollection();
-
-        if (!$onlyId && !is_null($this->_productIds)) {
-            $productCollection->addIdFilter($this->_productIds);
-            $this->_products = $productCollection->getItems();
-        } else {
-            $this->setCollectedAttributes(array());
-            $this->getConditions()->collectValidatedAttributes($productCollection);
-
-            $this->_productIds = array();
-            $this->_products = array();
-            $this->_iterator->walk(
-                $productCollection->getSelect(),
-                array(array($this, 'callbackValidateProduct')),
-                array(
-                    'attributes' => $this->getCollectedAttributes(),
-                    'product' => $this->_productFactory->create(),
-                    'onlyId' => (bool)$onlyId
-                )
-            );
-        }
-
+        $this->setCollectedAttributes(array());
+        $this->getConditions()->collectValidatedAttributes($productCollection);
+        $this->_sqlBuilder->attachConditionToCollection($productCollection, $this->getConditions());
+        $this->_productIds = $productCollection->getAllIds();
         return $this;
-    }
-
-    /**
-     * Retrieve array of product objects which are matched by rule
-     *
-     * @return array
-     * @deprecated
-     */
-    public function getMatchingProducts()
-    {
-        if (is_null($this->_products)) {
-            $this->prepareMatchingProducts();
-        }
-
-        return $this->_products;
-    }
-
-    /**
-     * Callback function for product matching
-     *
-     * @param array $args
-     * @return void
-     */
-    public function callbackValidateProduct($args)
-    {
-        $product = clone $args['product'];
-        $product->setData($args['row']);
-
-        if ($this->getConditions()->validate($product)) {
-            $this->_productIds[] = $product->getId();
-            if (!key_exists('onlyId', $args) || !$args['onlyId']) {
-                $this->_products[] = $product;
-            }
-        }
     }
 
     /**
@@ -358,9 +307,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function getMatchingProductIds()
     {
         if (is_null($this->_productIds)) {
-            $this->getMatchingProducts();
+            $this->prepareMatchingProducts();
         }
-
         return $this->_productIds;
     }
 
