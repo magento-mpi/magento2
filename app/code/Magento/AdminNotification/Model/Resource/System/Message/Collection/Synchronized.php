@@ -12,7 +12,7 @@ class Synchronized extends \Magento\AdminNotification\Model\Resource\System\Mess
     /**
      * Unread message list
      *
-     * @var \Magento\Framework\App\Notification\MessageInterface[]
+     * @var \Magento\Framework\Notification\MessageInterface[]
      */
     protected $_unreadMessages = array();
 
@@ -58,7 +58,7 @@ class Synchronized extends \Magento\AdminNotification\Model\Resource\System\Mess
     /**
      * Retrieve list of unread messages
      *
-     * @return \Magento\Framework\App\Notification\MessageInterface[]
+     * @return \Magento\Framework\Notification\MessageInterface[]
      */
     public function getUnread()
     {

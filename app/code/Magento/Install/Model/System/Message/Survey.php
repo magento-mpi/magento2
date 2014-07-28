@@ -7,7 +7,7 @@
  */
 namespace Magento\Install\Model\System\Message;
 
-class Survey implements \Magento\Framework\App\Notification\MessageInterface
+class Survey implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -114,6 +114,6 @@ class Survey implements \Magento\Framework\App\Notification\MessageInterface
      */
     public function getSeverity()
     {
-        return \Magento\Framework\App\Notification\MessageInterface::SEVERITY_MAJOR;
+        return \Magento\Framework\Notification\MessageInterface::SEVERITY_MAJOR;
     }
 }

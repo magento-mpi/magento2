@@ -88,7 +88,7 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSeverity()
     {
-        $severity = \Magento\Framework\App\Notification\MessageInterface::SEVERITY_MAJOR;
+        $severity = \Magento\Framework\Notification\MessageInterface::SEVERITY_MAJOR;
         $this->assertEquals($severity, $this->_model->getSeverity());
     }
 }

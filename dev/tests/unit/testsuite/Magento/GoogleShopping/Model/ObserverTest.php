@@ -24,7 +24,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $massOperationsFactory;
 
-    /** @var \Magento\Framework\App\Notification\NotificationInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Notification\NotifierInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $notificationInterface;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -40,7 +40,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->collectionFactory = $this->getMock('Magento\GoogleShopping\Model\Resource\Item\CollectionFactory');
         $this->massOperationsFactory = $this->getMock('Magento\GoogleShopping\Model\MassOperationsFactory');
-        $this->notificationInterface = $this->getMock('Magento\Framework\App\Notification\NotificationInterface');
+        $this->notificationInterface = $this->getMock('Magento\Framework\Notification\NotifierInterface');
         $this->scopeConfigInterface = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->managerInterface = $this->getMock('Magento\Framework\Message\ManagerInterface');
         $this->flag = $this->getMockBuilder('Magento\GoogleShopping\Model\Flag')

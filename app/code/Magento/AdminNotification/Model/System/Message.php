@@ -7,7 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\System;
 
-class Message extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\App\Notification\MessageInterface
+class Message extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * @return void

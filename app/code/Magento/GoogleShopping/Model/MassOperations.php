@@ -55,7 +55,7 @@ class MassOperations
     /**
      * Notifier
      *
-     * @var \Magento\Framework\App\Notification\NotificationInterface
+     * @var \Magento\Framework\Notification\NotifierInterface
      */
     protected $_notifier;
 
@@ -70,7 +70,7 @@ class MassOperations
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Framework\App\Notification\NotificationInterface $notifier
+     * @param \Magento\Framework\Notification\NotifierInterface $notifier
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\GoogleShopping\Helper\Data $gleShoppingData
@@ -81,7 +81,7 @@ class MassOperations
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Framework\App\Notification\NotificationInterface $notifier,
+        \Magento\Framework\Notification\NotifierInterface $notifier,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Logger $logger,
         \Magento\GoogleShopping\Helper\Data $gleShoppingData,

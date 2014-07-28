@@ -41,7 +41,7 @@ class Observer
     /**
      * Notifier
      *
-     * @var \Magento\Framework\App\Notification\NotificationInterface
+     * @var \Magento\Framework\Notification\NotifierInterface
      */
     protected $_notifier;
 
@@ -55,7 +55,7 @@ class Observer
     /**
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
-     * @param \Magento\Framework\App\Notification\NotificationInterface $notifier
+     * @param \Magento\Framework\Notification\NotifierInterface $notifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\GoogleShopping\Model\Flag $flag
@@ -63,7 +63,7 @@ class Observer
     public function __construct(
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
-        \Magento\Framework\App\Notification\NotificationInterface $notifier,
+        \Magento\Framework\Notification\NotifierInterface $notifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\GoogleShopping\Model\Flag $flag

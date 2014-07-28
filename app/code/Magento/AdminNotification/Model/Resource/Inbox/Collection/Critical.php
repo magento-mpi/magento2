@@ -38,7 +38,7 @@ class Critical extends \Magento\Framework\Model\Resource\Db\Collection\AbstractC
             array('neq' => 1)
         )->addFieldToFilter(
             'severity',
-            \Magento\Framework\App\Notification\MessageInterface::SEVERITY_CRITICAL
+            \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL
         )->setPageSize(
             1
         );

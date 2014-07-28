@@ -5,10 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\App\Notification;
 
-class Notifier implements NotificationInterface
+namespace Magento\Framework\Notification;
+
+/**
+ * Default notifiers. Iterates through all registered notifiers to process message
+ *
+ * Class NotifierPool
+ */
+class NotifierPool implements NotifierInterface
 {
+    /**
+     * @var NotifierList
+     */
+    protected $notifierList;
+
+    /**
+     * @param NotifierList $notifierList
+     */
+    public function __construct(NotifierList $notifierList)
+    {
+        $this->notifierList = $notifierList;
+    }
 
     /**
      * Add new message
@@ -23,6 +41,9 @@ class Notifier implements NotificationInterface
      */
     public function add($severity, $title, $description, $url = '', $isInternal = true)
     {
+        foreach ($this->notifierList->asArray() as $notifier) {
+            $notifier->add($severity, $title, $description, $url, $isInternal);
+        }
         return $this;
     }
 
@@ -37,6 +58,9 @@ class Notifier implements NotificationInterface
      */
     public function addCritical($title, $description, $url = '', $isInternal = true)
     {
+        foreach ($this->notifierList->asArray() as $notifier) {
+            $notifier->addCritical($title, $description, $url, $isInternal);
+        }
         return $this;
     }
 
@@ -51,6 +75,9 @@ class Notifier implements NotificationInterface
      */
     public function addMajor($title, $description, $url = '', $isInternal = true)
     {
+        foreach ($this->notifierList->asArray() as $notifier) {
+            $notifier->addMajor($title, $description, $url, $isInternal);
+        }
         return $this;
     }
 
@@ -65,6 +92,9 @@ class Notifier implements NotificationInterface
      */
     public function addMinor($title, $description, $url = '', $isInternal = true)
     {
+        foreach ($this->notifierList->asArray() as $notifier) {
+            $notifier->addMinor($title, $description, $url, $isInternal);
+        }
         return $this;
     }
 
@@ -79,6 +109,9 @@ class Notifier implements NotificationInterface
      */
     public function addNotice($title, $description, $url = '', $isInternal = true)
     {
+        foreach ($this->notifierList->asArray() as $notifier) {
+            $notifier->addNotice($title, $description, $url, $isInternal);
+        }
         return $this;
     }
 }

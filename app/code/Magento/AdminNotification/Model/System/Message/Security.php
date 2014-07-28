@@ -7,7 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\System\Message;
 
-class Security implements \Magento\Framework\App\Notification\MessageInterface
+class Security implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * Cache key for saving verification result
@@ -144,6 +144,6 @@ class Security implements \Magento\Framework\App\Notification\MessageInterface
      */
     public function getSeverity()
     {
-        return \Magento\Framework\App\Notification\MessageInterface::SEVERITY_CRITICAL;
+        return \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL;
     }
 }

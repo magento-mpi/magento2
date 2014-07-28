@@ -29,6 +29,7 @@
         </arguments>
     </type>
     <preference for="Magento\Framework\Locale\ConfigInterface" type="Magento\Framework\Locale\Config" />
+    <preference for="Magento\Framework\Notification\NotifierInterface" type="Magento\Framework\Notification\NotifierPool" />
     <preference for="Magento\Framework\UrlInterface" type="Magento\Framework\Url" />
     <preference for="Magento\Framework\Data\Collection\Db\FetchStrategyInterface" type="Magento\Framework\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Framework\Config\ScopeInterface" type="Magento\Framework\Config\Scope" />
@@ -72,7 +73,6 @@
     <preference for="Magento\Framework\Mview\View\SubscriptionInterface" type="Magento\Framework\Mview\View\Subscription" />
     <preference for="Magento\Framework\Mview\View\ChangelogInterface" type="Magento\Framework\Mview\View\Changelog" />
     <preference for="Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface" type="Magento\Framework\View\Design\FileResolution\Fallback\CacheData\Flat"/>
-    <preference for="Magento\Framework\App\Notification\NotificationInterface" type="Magento\Framework\App\Notification\Notifier" />
     <type name="Magento\Framework\Model\Context">
         <arguments>
             <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>

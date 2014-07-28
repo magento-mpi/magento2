@@ -7,8 +7,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\App\Notification;
 
+namespace Magento\Framework\Notification;
+
+/**
+ * Interface for system messages
+ *
+ * Interface MessageInterface
+ */
 interface MessageInterface
 {
     const SEVERITY_CRITICAL = 1;

@@ -7,7 +7,7 @@
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-use \Magento\Framework\App\Notification\NotificationInterface;
+use \Magento\Framework\Notification\NotifierInterface;
 use \Magento\Backend\App\Action;
 /**
  * GoogleShopping Admin Items Controller
@@ -18,15 +18,15 @@ use \Magento\Backend\App\Action;
 class Items extends \Magento\Backend\App\Action
 {
     /**
-     * @var NotificationInterface
+     * @var NotifierInterface
      */
     protected $notifier;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param NotificationInterface $notifier
+     * @param NotifierInterface $notifier
      */
-    public function __construct(Action\Context $context, NotificationInterface $notifier)
+    public function __construct(Action\Context $context, NotifierInterface $notifier)
     {
         parent::__construct($context);
         $this->notifier = $notifier;

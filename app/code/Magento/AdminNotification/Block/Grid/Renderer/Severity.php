@@ -9,7 +9,7 @@
  */
 namespace Magento\AdminNotification\Block\Grid\Renderer;
 
-use \Magento\Framework\App\Notification\MessageInterface;
+use \Magento\Framework\Notification\MessageInterface;
 
 class Severity extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

@@ -5,9 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\App\Notification;
 
-interface NotificationInterface
+namespace Magento\Framework\Notification;
+
+/**
+ * Interface for notifiers
+ *
+ * Interface NotifierInterface
+ */
+interface NotifierInterface
 {
     /**
      * Add new message

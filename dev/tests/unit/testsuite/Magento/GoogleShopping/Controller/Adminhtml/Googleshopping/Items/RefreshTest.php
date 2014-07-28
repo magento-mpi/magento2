@@ -33,13 +33,13 @@ class RefreshTest extends \PHPUnit_Framework_TestCase
     protected $controllerArguments;
 
     /**
-     * @var \Magento\Framework\App\Notification\NotificationInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Notification\NotifierInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $notificationInterface;
 
     protected function setUp()
     {
-        $this->notificationInterface = $this->getMock('Magento\Framework\App\Notification\NotificationInterface');
+        $this->notificationInterface = $this->getMock('Magento\Framework\Notification\NotifierInterface');
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->controllerArguments = $this->objectManagerHelper->getConstructArguments(
             'Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items\Refresh',
