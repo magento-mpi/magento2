@@ -30,16 +30,18 @@
                 </div>
             <?php endif; ?>
 
-            <strong class="block-subtitle filter-subtitle"><?php echo __('Shopping Options') ?></strong>
+            <?php foreach ($this->getFilters() as $filter): ?>
+                <?php if($haveOptions)?>
+                <strong class="block-subtitle filter-subtitle"><?php echo __('Shopping Options') ?></strong>
+                <dl class="filter-options" id="narrow-by-list">
 
-            <dl class="filter-options" id="narrow-by-list">
-                <?php foreach ($this->getFilters() as $filter): ?>
                     <?php if ($filter->getItemsCount()): ?>
                         <dt class="filter-options-title"><?php echo $this->escapeHtml(__($filter->getName())) ?></dt>
                         <dd class="filter-options-content"><?php echo $this->getChildBlock('renderer')->render($filter); ?></dd>
                     <?php endif; ?>
-                <?php endforeach; ?>
-            </dl>
+                </dl>
+
+            <?php endforeach; ?>
         </div>
     </div>
 <?php endif; ?>
