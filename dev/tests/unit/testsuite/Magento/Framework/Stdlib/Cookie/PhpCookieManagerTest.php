@@ -26,8 +26,8 @@ function setcookie($name, $value, $expiry, $path, $domain, $secure, $httpOnly)
     } elseif (PhpCookieManagerTest::DELETE_COOKIE_NAME == $name) {
         PhpCookieManagerTest::assertEquals('', $value);
         PhpCookieManagerTest::assertEquals($expiry, PhpCookieManager::EXPIRE_NOW_TIME);
-        PhpCookieManagerTest::assertEquals($secure, PhpCookieManagerTest::COOKIE_NOT_SECURE);
-        PhpCookieManagerTest::assertEquals($httpOnly, PhpCookieManagerTest::COOKIE_NOT_HTTP_ONLY);
+        PhpCookieManagerTest::assertFalse($secure);
+        PhpCookieManagerTest::assertFalse($httpOnly);
     } elseif (PhpCookieManagerTest::SENSITIVE_COOKIE_NAME == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertEquals(PhpCookieManager::EXPIRE_AT_END_OF_SESSION_TIME, $expiry);
@@ -36,12 +36,12 @@ function setcookie($name, $value, $expiry, $path, $domain, $secure, $httpOnly)
     } elseif (PhpCookieManagerTest::PUBLIC_COOKIE_NAME == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_EXPIRE_END_OF_SESSION, $expiry);
-        PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_NOT_SECURE, $secure);
-        PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_NOT_HTTP_ONLY, $httpOnly);
+        PhpCookieManagerTest::assertFalse($secure);
+        PhpCookieManagerTest::assertFalse($httpOnly);
     } elseif (PhpCookieManagerTest::MAX_COOKIE_SIZE_TEST_NAME == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
-        PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_NOT_SECURE, $secure);
-        PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_NOT_HTTP_ONLY, $httpOnly);
+        PhpCookieManagerTest::assertFalse($secure);
+        PhpCookieManagerTest::assertFalse($httpOnly);
     } else {
         PhpCookieManagerTest::fail('Non-tested case in mock setcookie()');
     }
@@ -176,8 +176,8 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetPublicCookie()
     {
-        /** @var CookieMetadata $cookieMetadata */
-        $cookieMetadata = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata',
+        /** @var PublicCookieMetadata $publicCookieMetadata */
+        $publicCookieMetadata = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata',
             [
                 'metadata' => [
                     'domain' => null,
@@ -196,13 +196,14 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $mockCookieManager->setPublicCookie(
             PhpCookieManagerTest::PUBLIC_COOKIE_NAME,
             'cookie_value',
-            $cookieMetadata
+            $publicCookieMetadata
         );
     }
 
     public function testSetCookieSizeTooLarge()
     {
-        $cookieMetadata = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata',
+        /** @var PublicCookieMetadata $publicCookieMetadata */
+        $publicCookieMetadata = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata',
             [
                 'metadata' => [
                     'domain' => null,
@@ -228,7 +229,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
             $mockCookieManager->setPublicCookie(
                 PhpCookieManagerTest::MAX_COOKIE_SIZE_TEST_NAME,
                 $cookieValue,
-                $cookieMetadata
+                $publicCookieMetadata
             );
             $this->fail('Failed to throw exception of excess cookie size.');
         } catch (CookieSizeLimitReachedException $e) {
