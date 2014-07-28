@@ -18,7 +18,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     protected $ioObjectMock;
 
     /**
-     * test setUp
+     * Prepare test env
      */
     protected function setUp()
     {

@@ -10,6 +10,7 @@
 namespace Magento\Framework\Service\Code\Generator;
 
 use Magento\Framework\Code\Generator\EntityAbstract;
+
 /**
  * Class Builder
  */
@@ -24,6 +25,7 @@ class SearchResultsBuilder extends EntityAbstract
      * Search result builder abstract class
      */
     const SEARCH_RESULT_BUILDER = '\\Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder';
+
     /**
      * Retrieve class properties
      *
@@ -79,6 +81,7 @@ class SearchResultsBuilder extends EntityAbstract
     {
         return [$this->_getDefaultConstructorDefinition()];
     }
+
     /**
      * {@inheritdoc}
      */

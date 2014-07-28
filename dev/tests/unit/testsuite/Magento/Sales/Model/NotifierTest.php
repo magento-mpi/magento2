@@ -8,15 +8,15 @@
 
 namespace Magento\Sales\Model;
 
+use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
+
 /**
  * Class NotifierTest
- * @package Magento\Sales\Model
  */
 class NotifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory
-     * |\PHPUnit_Framework_MockObject_MockObject
+     * @var CollectionFactory |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $historyCollectionFactory;
 

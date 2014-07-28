@@ -18,7 +18,7 @@ class SearchResultBuilderTest extends \PHPUnit_Framework_TestCase
     protected $ioObjectMock;
 
     /**
-     * test setUp
+     * Create mock for class \Magento\Framework\Code\Generator\Io
      */
     protected function setUp()
     {
@@ -32,7 +32,7 @@ class SearchResultBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * generate repository class
+     * generate SearchResultBuilder class
      */
     public function testGenerate()
     {

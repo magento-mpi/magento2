@@ -18,7 +18,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     protected $ioObjectMock;
 
     /**
-     * test setUp
+     * Prepare test env
      */
     protected function setUp()
     {
@@ -32,7 +32,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * generate repository class
+     * Create mock for class \Magento\Framework\Code\Generator\Io
      */
     public function testGenerate()
     {
