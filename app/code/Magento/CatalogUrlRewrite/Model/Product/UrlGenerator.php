@@ -238,16 +238,6 @@ class UrlGenerator
                 $url->getRedirectType(),
                 false
             );
-
-            if ($this->product->getData('save_rewrites_history')) {
-                $urls[] = $this->createUrlRewrite(
-                    $url->getStoreId(),
-                    $url->getTargetPath(),
-                    $this->urlPathGenerator->getProductUrlKeyPath($this->product, $storeId),
-                    $url->getRedirectType(),
-                    false
-                );
-            }
         } else {
             $urls[] = $url;
         }
