@@ -190,4 +190,19 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         parent::_beforeDelete($object);
         return $this;
     }
+
+    /**
+     * Bind specified rules to entities
+     *
+     * @param int[]|int|string $ruleIds
+     * @param int[]|int|string $entityIds
+     * @param string $entityType
+     * @return $this
+     * @throws \Exception
+     */
+    public function bindRuleToEntity($ruleIds, $entityIds, $entityType)
+    {
+        $this->_multiplyBunchInsert($ruleIds, $entityIds, $entityType);
+        return $this;
+    }
 }
