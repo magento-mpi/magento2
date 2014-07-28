@@ -67,17 +67,19 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         if ($this->_getProduct()->getId()) {
             if ($this->_getCategory()->getId() || !$this->getIsCategoryMode()) {
                 $this->_addEditFormBlock();
-                $this->_updateBackButtonLink(
-                    $this->_adminhtmlData->getUrl(
-                        'adminhtml/*/edit',
-                        array('product' => $this->_getProduct()->getId())
-                    ) . 'category'
-                );
+                if ($this->_getUrlRewrite()->getId() == null) {
+                    $productId = $this->_getProduct()->getId();
+                    $this->_updateBackButtonLink(
+                        $this->_adminhtmlData->getUrl('adminhtml/*/edit', array('product' => $productId)) . 'category'
+                    );
+                }
             } else {
                 // categories selector & skip categories button
                 $this->_addCategoriesTreeBlock();
                 $this->_addSkipCategoriesBlock();
-                $this->_updateBackButtonLink($this->_adminhtmlData->getUrl('adminhtml/*/edit') . 'product');
+                if ($this->_getUrlRewrite()->getId() == null) {
+                    $this->_updateBackButtonLink($this->_adminhtmlData->getUrl('adminhtml/*/edit') . 'product');
+                }
             }
         } else {
             $this->_addUrlRewriteSelectorBlock();

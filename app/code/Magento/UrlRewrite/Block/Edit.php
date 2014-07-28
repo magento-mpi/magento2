@@ -88,9 +88,6 @@ class Edit extends \Magento\Backend\Block\Widget\Container
             $this->_headerText = __('Add New URL Rewrite');
         }
 
-        $this->_updateBackButtonLink(
-            $this->_adminhtmlData->getUrl('adminhtml/*/edit') . $this->_getSelectorBlock()->getDefaultMode()
-        );
         $this->_addUrlRewriteSelectorBlock();
         $this->_addEditFormBlock();
     }

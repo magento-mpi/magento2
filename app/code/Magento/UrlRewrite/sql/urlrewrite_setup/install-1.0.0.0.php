@@ -48,8 +48,8 @@ $table = $installer->getConnection()->newTable(
     'Target Path'
 )->addColumn(
     'redirect_type',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    2,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
     array('nullable' => true),
     'Redirect Type'
 )->addColumn(

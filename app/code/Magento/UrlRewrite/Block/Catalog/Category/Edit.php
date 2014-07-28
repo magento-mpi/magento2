@@ -51,7 +51,9 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         if ($this->_getCategory()->getId()) {
             $this->_addCategoryLinkBlock();
             $this->_addEditFormBlock();
-            $this->_updateBackButtonLink($this->_adminhtmlData->getUrl('adminhtml/*/edit') . 'category');
+            if ($this->_getUrlRewrite()->getId() == null) {
+                $this->_updateBackButtonLink($this->_adminhtmlData->getUrl('adminhtml/*/edit') . 'category');
+            }
         } else {
             $this->_addUrlRewriteSelectorBlock();
             $this->_addCategoryTreeBlock();

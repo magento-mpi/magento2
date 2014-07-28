@@ -47,9 +47,6 @@ class Edit extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
      */
     public function execute()
     {
-        $this->_title->add(__('URL Rewrites'));
-        $this->_title->add(__('[New/Edit] URL Rewrite'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_UrlRewrite::urlrewrite');
 
@@ -96,7 +93,7 @@ class Edit extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
                 );
                 break;
         }
-
+        $this->_title->add(__($editBlock->getHeaderText()));
         $this->_addContent($editBlock);
         if (in_array($mode, array(self::PRODUCT_MODE, self::CATEGORY_MODE))) {
             $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);

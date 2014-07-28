@@ -7,7 +7,7 @@
  */
 namespace Magento\UrlRewrite\Block;
 
-class Selector extends \Magento\Backend\Block\AbstractBlock
+class Selector extends \Magento\Framework\View\Element\Template
 {
     /**
      * List of available modes from source model
@@ -30,10 +30,10 @@ class Selector extends \Magento\Backend\Block\AbstractBlock
     protected function _construct()
     {
         $this->_modes = array(
+            'id' => __('Custom'),
             'category' => __('For category'),
             'product' => __('For product'),
             'cms_page' => __('For CMS page'),
-            'id' => __('Custom')
         );
     }
 

@@ -31,7 +31,15 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('entity_id', array('header' => __('ID'), 'width' => 50, 'index' => 'entity_id'));
+        $this->addColumn(
+            'entity_id',
+            array(
+                'header' => __('ID'),
+                'index' => 'entity_id',
+                'header_css_class' => 'col-id',
+                'column_css_class' => 'col-id'
+            )
+        );
 
         $this->addColumn('name', array('header' => __('Name'), 'index' => 'name'));
 

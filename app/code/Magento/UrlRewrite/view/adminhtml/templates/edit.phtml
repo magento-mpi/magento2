@@ -16,7 +16,6 @@
 
 <?php if ($this->getChildBlock('form')): ?>
 <script type="text/javascript">
-    jQuery('#edit_form').mage('form')
-        .mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+    jQuery('#edit_form').mage('form').mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 </script>
 <?php endif; ?>

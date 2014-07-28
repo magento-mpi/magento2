@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\UrlRewrite\Block\Catalog\Category;
-
+use Magento\Catalog\Model\Category;
 /**
  * Categories tree block for URL rewrites editing process
  *
@@ -152,7 +152,9 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
             'product_count' => (int)$node->getProductCount()
         );
 
-        if (is_array($this->_allowedCategoryIds) && !in_array($result['id'], $this->_allowedCategoryIds)) {
+        if ($node->getParentId() == Category::TREE_ROOT_ID
+            || (is_array($this->_allowedCategoryIds) && !in_array($result['id'], $this->_allowedCategoryIds))
+        ) {
             $result['disabled'] = true;
         }
 
