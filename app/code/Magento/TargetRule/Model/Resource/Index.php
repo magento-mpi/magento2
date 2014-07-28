@@ -593,6 +593,24 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     }
 
     /**
+     * Remove products from index tables
+     *
+     * @param int|null $productId
+     * @return $this
+     */
+    public function deleteProductFromIndex($productId = null)
+    {
+        foreach ($this->getTypeIds() as $typeId) {
+            $this->_indexPool->get($typeId)->deleteProductFromIndex($productId);
+        }
+        if (!is_null($productId)) {
+            $where = array('entity_id = ?' => $productId);
+            $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+        }
+        return $this;
+    }
+
+    /**
      * Remove index by product ids and type
      *
      * @param int|array|\Magento\Framework\DB\Select $productIds

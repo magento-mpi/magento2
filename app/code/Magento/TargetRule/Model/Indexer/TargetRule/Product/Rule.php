@@ -45,12 +45,18 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
     protected $_productRuleIndexerClean;
 
     /**
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\CleanDeleteProduct
+     */
+    protected $_productRuleIndexerCleanDeleteProduct;
+
+    /**
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\Row $productRuleIndexerRow
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\Rows $productRuleIndexerRows
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Action\Full $productRuleIndexerFull
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductProcessor
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleProcessor
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean $productRuleIndexerClean
+     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\CleanDeleteProduct $productRuleIndexerCleanDeleteProduct
      */
     public function __construct(
         \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\Row $productRuleIndexerRow,
@@ -58,7 +64,8 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
         \Magento\TargetRule\Model\Indexer\TargetRule\Action\Full $productRuleIndexerFull,
         \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductProcessor,
         \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleProcessor,
-        \Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean $productRuleIndexerClean
+        \Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean $productRuleIndexerClean,
+        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\CleanDeleteProduct $productRuleIndexerCleanDeleteProduct
     ) {
         $this->_productRuleIndexerRow = $productRuleIndexerRow;
         $this->_productRuleIndexerRows = $productRuleIndexerRows;
@@ -66,6 +73,7 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
         $this->_ruleProductProcessor = $ruleProductProcessor;
         $this->_productRuleProcessor = $productRuleProcessor;
         $this->_productRuleIndexerClean = $productRuleIndexerClean;
+        $this->_productRuleIndexerCleanDeleteProduct = $productRuleIndexerCleanDeleteProduct;
     }
 
     /**
@@ -125,5 +133,17 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
     public function cleanByCron()
     {
         $this->_productRuleIndexerClean->execute();
+    }
+
+    /**
+     * Clean deleted products from index
+     *
+     * @param int $productId
+     *
+     * @return void
+     */
+    public function cleanAfterProductDelete($productId)
+    {
+        $this->_productRuleIndexerCleanDeleteProduct->execute($productId);
     }
 }

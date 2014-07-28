@@ -233,6 +233,19 @@ abstract class AbstractAction
     }
 
     /**
+     * Remove products from index
+     *
+     * @param int|null $productId
+     * @return $this
+     */
+    protected function _deleteProductFromIndex($productId = null)
+    {
+        $this->_resource->deleteProductFromIndex($productId);
+
+        return $this;
+    }
+
+    /**
      * Is index cleaned
      *
      * @param null|int $typeId
