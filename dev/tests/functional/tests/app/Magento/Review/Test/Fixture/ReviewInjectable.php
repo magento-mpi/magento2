@@ -158,14 +158,6 @@ class ReviewInjectable extends InjectableFixture
         'input' => '',
     ];
 
-    protected $select_stores = [
-        'attribute_code' => 'select_stores',
-        'backend_type' => 'string',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
     public function getType()
     {
         return $this->getData('type');
@@ -234,10 +226,5 @@ class ReviewInjectable extends InjectableFixture
     public function getRatings()
     {
         return $this->getData('ratings');
-    }
-
-    public function getSelectStores()
-    {
-        return $this->getData('select_stores');
     }
 }

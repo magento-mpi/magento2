@@ -11,6 +11,7 @@ namespace Magento\Review\Test\Constraint;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductReviewInGrid
@@ -46,11 +47,16 @@ class AssertProductReviewInGrid extends AbstractConstraint
      *
      * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review
-     * @param string $status [optional]
+     * @param string $gridStatus
+     * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(ReviewIndex $reviewIndex, ReviewInjectable $review, $gridStatus = '')
-    {
+    public function processAssert(
+        ReviewIndex $reviewIndex,
+        ReviewInjectable $review,
+        $gridStatus = '',
+        FixtureInterface $product = null
+    ) {
         $filter = [];
         foreach ($this->filter as $key => $item) {
             list($type, $param) = [$key, $item];
@@ -60,7 +66,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
             switch ($param) {
                 case 'name':
                 case 'sku':
-                    $value = $review->getDataFieldConfig('entity_id')['source']->getEntity()->getData($param);
+                    $value = $product->getData($param);
                     break;
                 case 'select_stores':
                     $value = $review->getData($param)[0];

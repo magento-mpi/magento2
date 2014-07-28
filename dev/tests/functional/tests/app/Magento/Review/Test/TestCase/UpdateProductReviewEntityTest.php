@@ -75,20 +75,6 @@ class UpdateProductReviewEntityTest extends Injectable
     protected $review;
 
     /**
-     * Prepare data
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'default']);
-        $product->persist();
-
-        return ['product' => $product];
-    }
-
-    /**
      * Injection data
      *
      * @param ReviewIndex $reviewIndex
@@ -114,7 +100,7 @@ class UpdateProductReviewEntityTest extends Injectable
      *
      * @param ReviewInjectable $reviewInitial
      * @param ReviewInjectable $review
-     * @return void
+     * @return array
      */
     public function test(ReviewInjectable $reviewInitial, ReviewInjectable $review)
     {
@@ -129,6 +115,8 @@ class UpdateProductReviewEntityTest extends Injectable
         $this->reviewIndex->getReviewGrid()->searchAndOpen(['review_id' => $reviewInitial->getReviewId()]);
         $this->reviewEdit->getReviewForm()->fill($review);
         $this->reviewEdit->getPageActions()->save();
+
+        return ['product' => $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity()];
     }
 
     /**

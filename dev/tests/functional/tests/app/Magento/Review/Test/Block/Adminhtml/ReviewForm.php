@@ -41,13 +41,6 @@ class ReviewForm extends Form
     protected $saveButton = '[data-ui-id$=save-button-button]';
 
     /**
-     * Rating block selector
-     *
-     * @var string
-     */
-    protected $ratingsBlockSelector = '#detailed_rating';
-
-    /**
      * Get data from 'Posted By' field
      *
      * @return string
@@ -75,19 +68,5 @@ class ReviewForm extends Form
     public function setApproveReview()
     {
         $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue('Approved');
-    }
-
-    /**
-     * Get list ratings
-     *
-     * @return array
-     */
-    public function getRatings()
-    {
-        return $this->_rootElement->find(
-            $this->ratingsBlockSelector,
-            Locator::SELECTOR_CSS,
-            'Magento\Review\Test\Block\Adminhtml\Rating\Edit\RatingElement'
-        )->getValue();
     }
 }

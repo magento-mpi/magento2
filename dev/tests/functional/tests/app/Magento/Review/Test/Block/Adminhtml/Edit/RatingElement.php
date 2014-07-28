@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Review\Test\Block\Adminhtml\Rating\Edit;
+namespace Magento\Review\Test\Block\Adminhtml\Edit;
 
 use Mtf\Client\Driver\Selenium\Element;
 use Mtf\Client\Element\Locator;
