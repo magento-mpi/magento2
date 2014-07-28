@@ -433,4 +433,13 @@
             <newPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
         </require>
     </assertUsedSuperAttributeImpossibleDeleteMessages>
+    <assertProductTemplateSuccessDeleteMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateSuccessDeleteMessage>
+    <assertProductTemplateNotInGrid module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductTemplateNotInGrid>
+    <assertProductNotSearchableBySku module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductNotSearchableBySku>
 </constraint>

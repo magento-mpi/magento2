@@ -12,15 +12,15 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
 
 /**
- * Class AssertCustomerCustomAttributeSuccessSaveMessage
- * Assert that after customer attribute save successful message appears
+ * Class AssertCustomerCustomAttributeSuccessDeleteMessage
+ * Assert that after delete customer attribute successful message appears
  */
-class AssertCustomerCustomAttributeSuccessSaveMessage extends AbstractConstraint
+class AssertCustomerCustomAttributeSuccessDeleteMessage extends AbstractConstraint
 {
     /**
-     * Text of save success message
+     * Text of delete success message
      */
-    const SUCCESS_SAVE_MESSAGE = 'You saved the customer attribute.';
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the customer attribute.';
 
     /**
      * Constraint severeness
@@ -30,7 +30,7 @@ class AssertCustomerCustomAttributeSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that after customer attribute save successful message appears
+     * Assert that after delete customer attribute successful message appears
      *
      * @param CustomerAttributeIndex $customerAttributeIndex
      * @return void
@@ -38,7 +38,7 @@ class AssertCustomerCustomAttributeSuccessSaveMessage extends AbstractConstraint
     public function processAssert(CustomerAttributeIndex $customerAttributeIndex)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_SAVE_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $customerAttributeIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
@@ -51,6 +51,6 @@ class AssertCustomerCustomAttributeSuccessSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer Attribute success create message is present.';
+        return 'Customer Attribute success delete message is present.';
     }
 }
