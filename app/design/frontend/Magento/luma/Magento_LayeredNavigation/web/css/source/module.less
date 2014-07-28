@@ -213,7 +213,7 @@
     }
 }
 
-.responsive-smaller(@break-point-0) {
+.responsive-smaller(@break) when (@break = @break-point-0) {
     body.filter-active {
         .page-wrapper {
             visibility: hidden;

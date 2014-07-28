@@ -242,12 +242,12 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>CustomerBalance</word>
-            <path>app/code/Magento/Sales/Controller/Adminhtml/Order/Creditmemo.php</path>
+            <path>app/code/Magento/Sales/Controller/Adminhtml/Order/Creditmemo/Save.php</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>CustomerBalance</word>
-            <path>dev/tests/unit/testsuite/Magento/Sales/Controller/Adminhtml/Order/CreditmemoTest.php</path>
+            <path>dev/tests/unit/testsuite/Magento/Sales/Controller/Adminhtml/Order/Creditmemo/SaveTest.php</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->

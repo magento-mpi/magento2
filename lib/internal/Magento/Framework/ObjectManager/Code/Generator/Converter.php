@@ -103,9 +103,9 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
     protected function _getClassMethods()
     {
         $construct = $this->_getDefaultConstructorDefinition();
-        $paramName = 'statusHistory';
+        $paramName = 'dataObject';
         $body = 'return $this->' . $this->_getFactoryPropertyName()
-            . '->create()->setData((array) $' . $paramName .');';
+            . '->create()->setData($' . $paramName .'->__toArray());';
         $getModel = [
             'name' => 'getModel',
             'parameters' => [

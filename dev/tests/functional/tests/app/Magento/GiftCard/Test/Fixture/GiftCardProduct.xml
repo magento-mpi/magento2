@@ -15,11 +15,6 @@
     <collection>Magento\Catalog\Model\Resource\Product\Collection</collection>
     <identifier>sku</identifier>
     <fields>
-        <website_ids>
-            <attribute_code>website_ids</attribute_code>
-            <backend_type>virtual</backend_type>
-            <default_value>Main Website</default_value>
-        </website_ids>
         <allow_message>
             <attribute_code>allow_message</attribute_code>
             <backend_type>int</backend_type>
@@ -36,57 +31,6 @@
             <input>select</input>
             <group>product-details</group>
         </allow_open_amount>
-        <category_ids>
-            <attribute_code>category_ids</attribute_code>
-            <backend_type>static</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-            <group>product-details</group>
-        </category_ids>
-        <created_at>
-            <attribute_code>created_at</attribute_code>
-            <backend_type>static</backend_type>
-            <is_required>1</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </created_at>
-        <custom_design>
-            <attribute_code>custom_design</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>select</input>
-        </custom_design>
-        <custom_design_from>
-            <attribute_code>custom_design_from</attribute_code>
-            <backend_type>datetime</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>date</input>
-        </custom_design_from>
-        <custom_design_to>
-            <attribute_code>custom_design_to</attribute_code>
-            <backend_type>datetime</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>date</input>
-        </custom_design_to>
-        <custom_layout_update>
-            <attribute_code>custom_layout_update</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>textarea</input>
-        </custom_layout_update>
-        <description>
-            <attribute_code>description</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>textarea</input>
-            <group>product-details</group>
-        </description>
         <email_template>
             <attribute_code>email_template</attribute_code>
             <backend_type>varchar</backend_type>
@@ -95,13 +39,6 @@
             <input>text</input>
             <group>giftcard</group>
         </email_template>
-        <gallery>
-            <attribute_code>gallery</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>gallery</input>
-        </gallery>
         <giftcard_amounts>
             <attribute_code>giftcard_amounts</attribute_code>
             <backend_type>decimal</backend_type>
@@ -118,13 +55,6 @@
             <input>select</input>
             <group>product-details</group>
         </giftcard_type>
-        <gift_message_available>
-            <attribute_code>gift_message_available</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>select</input>
-        </gift_message_available>
         <gift_wrapping_available>
             <attribute_code>gift_wrapping_available</attribute_code>
             <backend_type>varchar</backend_type>
@@ -139,27 +69,6 @@
             <default_value></default_value>
             <input>price</input>
         </gift_wrapping_price>
-        <has_options>
-            <attribute_code>has_options</attribute_code>
-            <backend_type>static</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </has_options>
-        <image>
-            <attribute_code>image</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>media_image</input>
-        </image>
-        <image_label>
-            <attribute_code>image_label</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </image_label>
         <is_redeemable>
             <attribute_code>is_redeemable</attribute_code>
             <backend_type>int</backend_type>
@@ -168,13 +77,6 @@
             <input>text</input>
             <group>giftcard</group>
         </is_redeemable>
-        <is_returnable>
-            <attribute_code>is_returnable</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value>2</default_value>
-            <input>select</input>
-        </is_returnable>
         <lifetime>
             <attribute_code>lifetime</attribute_code>
             <backend_type>int</backend_type>
@@ -183,62 +85,6 @@
             <input>text</input>
             <group>giftcard</group>
         </lifetime>
-        <media_gallery>
-            <attribute_code>media_gallery</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>gallery</input>
-        </media_gallery>
-        <meta_description>
-            <attribute_code>meta_description</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>textarea</input>
-        </meta_description>
-        <meta_keyword>
-            <attribute_code>meta_keyword</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>textarea</input>
-        </meta_keyword>
-        <meta_title>
-            <attribute_code>meta_title</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </meta_title>
-        <name>
-            <attribute_code>name</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>1</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </name>
-        <news_from_date>
-            <attribute_code>news_from_date</attribute_code>
-            <backend_type>datetime</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>date</input>
-        </news_from_date>
-        <news_to_date>
-            <attribute_code>news_to_date</attribute_code>
-            <backend_type>datetime</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>date</input>
-        </news_to_date>
-        <old_id>
-            <attribute_code>old_id</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </old_id>
         <open_amount_max>
             <attribute_code>open_amount_max</attribute_code>
             <backend_type>decimal</backend_type>
@@ -252,28 +98,8 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>price</input>
+            <group>product-details</group>
         </open_amount_min>
-        <options_container>
-            <attribute_code>options_container</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value>container2</default_value>
-            <input>select</input>
-        </options_container>
-        <page_layout>
-            <attribute_code>page_layout</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>select</input>
-        </page_layout>
-        <quantity_and_stock_status>
-            <attribute_code>quantity_and_stock_status</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value>1</default_value>
-            <input>select</input>
-        </quantity_and_stock_status>
         <related_tgtr_position_behavior>
             <attribute_code>related_tgtr_position_behavior</attribute_code>
             <backend_type>int</backend_type>
@@ -288,70 +114,6 @@
             <default_value></default_value>
             <input>text</input>
         </related_tgtr_position_limit>
-        <required_options>
-            <attribute_code>required_options</attribute_code>
-            <backend_type>static</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </required_options>
-        <short_description>
-            <attribute_code>short_description</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>textarea</input>
-        </short_description>
-        <sku>
-            <attribute_code>sku</attribute_code>
-            <backend_type>static</backend_type>
-            <is_required>1</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </sku>
-        <small_image>
-            <attribute_code>small_image</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>media_image</input>
-        </small_image>
-        <small_image_label>
-            <attribute_code>small_image_label</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </small_image_label>
-        <status>
-            <attribute_code>status</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value>1</default_value>
-            <input>select</input>
-            <group>product-details</group>
-        </status>
-        <thumbnail>
-            <attribute_code>thumbnail</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>media_image</input>
-        </thumbnail>
-        <thumbnail_label>
-            <attribute_code>thumbnail_label</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </thumbnail_label>
-        <updated_at>
-            <attribute_code>updated_at</attribute_code>
-            <backend_type>static</backend_type>
-            <is_required>1</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </updated_at>
         <upsell_tgtr_position_behavior>
             <attribute_code>upsell_tgtr_position_behavior</attribute_code>
             <backend_type>int</backend_type>
@@ -366,20 +128,6 @@
             <default_value></default_value>
             <input>text</input>
         </upsell_tgtr_position_limit>
-        <url_key>
-            <attribute_code>url_key</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </url_key>
-        <url_path>
-            <attribute_code>url_path</attribute_code>
-            <backend_type>varchar</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </url_path>
         <use_config_allow_message>
             <attribute_code>use_config_allow_message</attribute_code>
             <backend_type>int</backend_type>
@@ -412,31 +160,6 @@
             <input>text</input>
             <group>giftcard</group>
         </use_config_lifetime>
-        <visibility>
-            <attribute_code>visibility</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value>4</default_value>
-            <input>select</input>
-        </visibility>
-        <weight>
-            <attribute_code>weight</attribute_code>
-            <backend_type>decimal</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>weight</input>
-        </weight>
-        <id>
-            <attribute_code>id</attribute_code>
-            <backend_type>virtual</backend_type>
-        </id>
-        <custom_options>
-            <attribute_code>custom_options</attribute_code>
-            <backend_type>virtual</backend_type>
-            <group>product_info_tabs_customer_options</group>
-            <is_required>0</is_required>
-            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</source>
-        </custom_options>
     </fields>
     <data_set>
         <sku></sku>

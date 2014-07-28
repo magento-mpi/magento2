@@ -17,6 +17,9 @@
             //Template containers for Gift wrapping designs and Options
             templateWrapping: '#gift-wrapping-container',
             templateOptions: '#gift-options-container',
+            //Input type names for templates
+            orderLevelType: "quote",
+            orderItemType: "quote_item",
             //These options are the Design information set from the backend
             designsInfo: null,
             itemsInfo: null,
@@ -88,6 +91,7 @@
                 instance = this;
             $('.' + instance.options.orderContainerPrefix).each(function() {
                 data.id = this.id.replace(instance.options.orderContainerPrefix + '-', '');
+                data.type = instance.options.orderLevelType;
                 data.addrId = false;
                 instance.insertBlock(this, data);
                 $(instance.options.addGiftOptionSelectorPrefix + data.id + ', ' + instance.options.giftOptionsOrderSelectorPrefix + data.id)
@@ -109,6 +113,7 @@
                 if (instance.options.itemsInfo[id]) {
                     data.id = id;
                     data.addrId = idArr[0];
+                    data.type = instance.options.orderItemType;
                     instance.insertBlock(this, data);
                     $(instance.options.addGiftOptionSelectorPrefix + idArr[0] + ', ' + instance.options.giftItemsOrderSelectorPrefix + idArr[0])
                         .removeClass(instance.options.noDisplayClass);
@@ -126,11 +131,11 @@
             $('.' + instance.options.extraOptionsContainerPrefix).each(function() {
                 var id = this.id.replace(instance.options.extraOptionsContainerPrefix + '-', ''),
                     cardInfo = instance.options.cardInfo[id];
-                if (cardInfo) {
-                    cardInfo.id = id;
-                } else {
-                    cardInfo = {"id": id};
-                }
+
+                cardInfo = cardInfo || {};
+                cardInfo.id = id;
+                cardInfo.type = instance.options.orderLevelType;
+
                 instance.insertOptions(this, cardInfo);
                 $(instance.options.addGiftOptionSelectorPrefix + id).removeClass(instance.options.noDisplayClass);
             });
@@ -144,7 +149,7 @@
          */
         insertBlock: function(element, data) {
             this._processTemplate(this.options.templateWrapping, element, [
-                {_id_: data.id, _blockId_: data.addrId}
+                {_id_: data.id, _blockId_: data.addrId, _type_: data.type}
             ]);
         },
 
@@ -181,8 +186,12 @@
             var instance = e.data,
                 $this = $(this),
                 designLayer = $this.siblings('div'),
-                designBlockId = $this.prop('id').replace(instance.options.giftWrappingSelectPrefix, ''),
-                blockId = $this.data("addrId"),
+                //trimming first array index from input name like giftwrapping[quote][1][design]
+                selectType = e.currentTarget.name.split(']')[0].split('[')[1],
+                prefixToTrim = instance.options.giftWrappingSelectPrefix + selectType + '-',
+                designBlockId = $this.prop('id').replace(prefixToTrim, '');
+
+            var blockId = $this.data("addrId"),
                 designInfo = instance.options.designsInfo[this.value];
 
             //If a design is selected in the drop down, render it with price

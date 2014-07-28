@@ -15,51 +15,6 @@ namespace Magento\Pci\Controller\Adminhtml;
 class Locks extends \Magento\Backend\App\Action
 {
     /**
-     * Render page with grid
-     *
-     * @return void
-     */
-    public function indexAction()
-    {
-        $this->_title->add(__('Locked Users'));
-
-        $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Pci::system_acl_locks');
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Render AJAX-grid only
-     *
-     * @return void
-     */
-    public function gridAction()
-    {
-        $this->_view->loadLayout(false);
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Unlock specified users
-     *
-     * @return void
-     */
-    public function massUnlockAction()
-    {
-        try {
-            // unlock users
-            $userIds = $this->getRequest()->getPost('unlock');
-            if ($userIds && is_array($userIds)) {
-                $affectedUsers = $this->_objectManager->get('Magento\Pci\Model\Resource\Admin\User')->unlock($userIds);
-                $this->getMessageManager()->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
-            }
-        } catch (\Exception $e) {
-            $this->messageManager->addError($e->getMessage());
-        }
-        $this->_redirect('adminhtml/*/');
-    }
-
-    /**
      * Check whether access is allowed for current admin session
      *
      * @return bool

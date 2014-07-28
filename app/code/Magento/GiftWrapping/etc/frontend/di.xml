@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\GiftWrapping\Block\Checkout\Options">
+        <arguments>
+            <argument name="checkoutItems" xsi:type="array">
+                <item name="onepage" xsi:type="array">
+                    <item name="order_level" xsi:type="string">quote</item>
+                    <item name="item_level" xsi:type="string">quote_item</item>
+                </item>
+                <item name="multishipping" xsi:type="array">
+                    <item name="order_level" xsi:type="string">quote_address</item>
+                    <item name="item_level" xsi:type="string">quote_address_item</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
