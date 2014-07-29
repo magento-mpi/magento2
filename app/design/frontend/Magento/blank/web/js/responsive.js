@@ -5,11 +5,16 @@
  * @license    {license_link}
  */
 
-;
-(function($) {
+define([
+    "jquery",
+    "matchMedia",
+    "mage/zoom",
+    "mage/gallery",
+    "mage/tabs"
+],function($) {
     'use strict';
 
-    $(document).ready(function(){
+    $(function(){
         mediaCheck({
             media: '(min-width: 768px)',
             // Switch to Desktop Version
@@ -76,4 +81,4 @@
 
         });
     });
-})(window.jQuery);
+});

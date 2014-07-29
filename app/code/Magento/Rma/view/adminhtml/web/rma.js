@@ -6,8 +6,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "prototype",
+    "Magento_Shipping/order/packaging"
+], function(){
 
-var AdminRma = new Class.create();
+window.AdminRma = new Class.create();
+
 AdminRma.prototype = {
     initialize : function(data){
         this.newRmaItemId           = 0;
@@ -798,3 +803,5 @@ AdminRma.prototype = {
         }
     }
 };
+
+});

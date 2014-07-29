@@ -7,6 +7,8 @@
  */
 ?>
 <script type="text/javascript">
+require(['prototype', 'Magento_Rma/rma'], function(){
+
 //<![CDATA[
     document.observe('dom:loaded', function () {
         rma.setLoadAttributesUrl('<?php echo $this->getLoadAttributesUrl() ?>');
@@ -21,4 +23,6 @@
         });
     });
 //]]>
+
+});
 </script>

@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/validation"
+], function($){
     "use strict";
+
     $.widget('mage.giftCard', {
         _create: function() {
             $(this.options.checkStatus).on('click', $.proxy(function() {
@@ -34,4 +39,5 @@
             }, this));
         }
     });
-})(jQuery);
+
+});

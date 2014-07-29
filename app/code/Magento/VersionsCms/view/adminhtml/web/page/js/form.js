@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/backend/form"
+], function($){
     "use strict";
+
     $.widget("mage.form", $.mage.form, {
         options: {
             handlersData: {
@@ -35,5 +40,6 @@
             }
         }
     });
-})(jQuery);
 
+
+});

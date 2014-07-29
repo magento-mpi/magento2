@@ -387,6 +387,11 @@
 
 <?php $listType = $this->getJsObjectName() ?>
 <script type="text/javascript">
+require([
+    "prototype",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(){
+
     <?php echo $listType ?>cartControl = {
         reload: function (params) {
             if (!params) {
@@ -443,4 +448,6 @@ $params = array(
             setTimeout(funcAddItemsListType, 10);
         })
     }
+    
+});
 </script>

@@ -8,8 +8,13 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-(function($, window) {
-    'use strict';    
+define([
+    "jquery",
+    "jquery/ui",
+    "Magento_Checkout/js/opc-payment-info"
+], function($){
+    'use strict';
+
     // Extension for mage.opcheckout - last section(Order Review) in one page checkout accordion
     $.widget('mage.opcOrderReview', $.mage.opcPaymentInfo, {
         options: {
@@ -42,4 +47,5 @@
             }
         }
     });
-})(jQuery, window);
+
+});
