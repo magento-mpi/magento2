@@ -27,11 +27,6 @@ class OrderListTest extends WebapiAbstract
      */
     protected $objectManager;
 
-    /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
-     */
-    protected $searchCriteriaBuilder;
-
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
