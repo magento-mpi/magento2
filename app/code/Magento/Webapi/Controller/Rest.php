@@ -17,9 +17,9 @@ use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Response\PartialResponseProcessor;
 use Magento\Webapi\Controller\Rest\Router;
+use Magento\Webapi\Controller\Rest\Router\Route;
 use Magento\Webapi\Model\Config\Converter;
 use Magento\Webapi\Model\PathProcessor;
-use Magento\Webapi\Controller\Rest\Router\Route;
 
 /**
  * Front controller for WebAPI REST area.
@@ -51,12 +51,6 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
 
     /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
-
-    /** @var \Magento\Framework\Oauth\OauthInterface */
-    protected $_oauthService;
-
-    /** @var  \Magento\Framework\Oauth\Helper\Request */
-    protected $_oauthHelper;
 
     /** @var AuthorizationInterface */
     protected $_authorization;
@@ -99,15 +93,12 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Framework\Oauth\OauthInterface $oauthService
-     * @param \Magento\Framework\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationInterface $authorization
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
      * @param PathProcessor $pathProcessor
      * @param \Magento\Framework\App\AreaList $areaList
      * @param PartialResponseProcessor $partialResponseProcessor
-     * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Authorization\Model\UserContextInterface $userContext
      *
      * TODO: Consider removal of warning suppression
@@ -120,15 +111,12 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Framework\Oauth\OauthInterface $oauthService,
-        \Magento\Framework\Oauth\Helper\Request $oauthHelper,
         AuthorizationInterface $authorization,
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,
         PathProcessor $pathProcessor,
         \Magento\Framework\App\AreaList $areaList,
         PartialResponseProcessor $partialResponseProcessor,
-        \Magento\Framework\Session\Generic $session,
         \Magento\Authorization\Model\UserContextInterface $userContext
     ) {
         $this->_router = $router;
@@ -137,15 +125,12 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
         $this->_layout = $layout;
-        $this->_oauthService = $oauthService;
-        $this->_oauthHelper = $oauthHelper;
         $this->_authorization = $authorization;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
         $this->_pathProcessor = $pathProcessor;
         $this->areaList = $areaList;
         $this->partialResponseProcessor = $partialResponseProcessor;
-        $this->session = $session;
         $this->userContext = $userContext;
     }
 
@@ -256,7 +241,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         foreach ($parameters as $name => $paramData) {
             if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
                 if ($paramData[Converter::KEY_VALUE] == "%customer_id%"
-                    && $this->userContext->getUserType() === UserIdentifier::USER_TYPE_CUSTOMER) {
+                    && $this->userContext->getUserType() === UserIdentifier::USER_TYPE_CUSTOMER
+                ) {
                     $value = $this->userContext->getUserId();
                 } else {
                     $value = $paramData[Converter::KEY_VALUE];
@@ -290,31 +276,6 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      */
     protected function _checkPermissions()
     {
-        /**
-         * All mobile clients are expected to pass session cookie along with the request which will allow
-         * to start session automatically. User ID and user type are initialized when session is created
-         * during login call.
-         */
-        $userId = $this->session->getUserId();
-        $userType = $this->session->getUserType();
-        $userIdentifier = null;
-        $consumerId = null;
-        if ($userType) {
-            /** @var \Magento\Authz\Model\UserIdentifier $userIdentifier */
-            $userIdentifier = $this->_objectManager->create(
-                'Magento\Authz\Model\UserIdentifier',
-                ['userType' => $userType, 'userId' => $userId]
-            );
-        } else {
-            $oauthRequest = $this->_oauthHelper->prepareRequest($this->_request);
-            $consumerId = $this->_oauthService->validateAccessTokenRequest(
-                $oauthRequest,
-                $this->_oauthHelper->getRequestUrl($this->_request),
-                $this->_request->getMethod()
-            );
-            $this->_request->setConsumerId($consumerId);
-        }
-
         $route = $this->_getCurrentRoute();
         if (!$this->isAllowed($route->getAclResources())) {
             $params = ['resources' => implode(', ', $route->getAclResources())];

@@ -135,8 +135,9 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
                 $this->_setResponseBody($responseBody);
             } else {
-                $consumerId = $this->_oauthService->validateAccessToken($this->_getAccessToken());
-                $this->_request->setConsumerId($consumerId);
+                //TODO: Need to refactor as per MAGETWO-26188
+                //$consumerId = $this->_oauthService->validateAccessToken($this->_getAccessToken());
+                //$this->_request->setConsumerId($consumerId);
                 $this->_soapServer->handle();
             }
         } catch (\Exception $e) {
