@@ -36,13 +36,13 @@ class VersionProvider
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Versionscms\Model\Config $cmsConfig
+     * @param \Magento\VersionsCms\Model\Config $cmsConfig
      */
     public function __construct(
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Versionscms\Model\Config $cmsConfig
+        \Magento\VersionsCms\Model\Config $cmsConfig
     ) {
         $this->_coreRegistry = $registry;
         $this->_pageVersionFactory = $pageVersionFactory;

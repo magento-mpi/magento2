@@ -28,23 +28,26 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
             ->setAreaCode('frontend');
+        /** @var \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit $block */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             self::STUB_CLASS
         );
 
-        $value = null;
+        $date = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
+        )->date(strtotime(null), null, null, false);
         $formatType = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
 
-        $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
+        $html = $block->getCalendarDateHtml('date_name', 'date_id', $date, $formatType);
 
         $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->getDateFormat(
             $formatType
         );
-        $value = $block->formatDate($value, $formatType);
+        $value = $block->formatDate($date, $formatType);
 
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);
         $this->assertContains('value="' . $value . '"', $html);
