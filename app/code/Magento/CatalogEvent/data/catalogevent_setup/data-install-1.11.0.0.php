@@ -7,6 +7,9 @@
  */
 /** @var \Magento\CatalogEvent\Model\Resource\Setup $this */
 
+$this->addAttribute('quote_item', 'event_id', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
+$this->addAttribute('order_item', 'event_id', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
+
 $cmsBlock = array(
     'title' => 'Catalog Events Lister',
     'identifier' => 'catalog_events_lister',

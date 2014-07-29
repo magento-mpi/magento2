@@ -116,7 +116,4 @@ $table = $installer->getConnection()->newTable(
 );
 $installer->getConnection()->createTable($table);
 
-$installer->addAttribute('quote_item', 'event_id', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
-$installer->addAttribute('order_item', 'event_id', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
-
 $installer->endSetup();
