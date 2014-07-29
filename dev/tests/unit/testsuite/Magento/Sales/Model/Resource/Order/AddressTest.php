@@ -98,7 +98,23 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->validatorMock->expects($this->once())
             ->method('validate')
             ->with($this->equalTo($this->addressMock))
-            ->will($this->returnSelf());
+            ->will($this->returnValue([]));
+        $this->addressResource->save($this->addressMock);
+        $this->assertTrue(true);
+    }
+
+    /**
+     * test _beforeSaveMethod via save() with failed validation
+     *
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage Cannot save address:
+     */
+    public function testSaveValidationFailed()
+    {
+        $this->validatorMock->expects($this->once())
+            ->method('validate')
+            ->with($this->equalTo($this->addressMock))
+            ->will($this->returnValue(['warning message']));
         $this->addressResource->save($this->addressMock);
         $this->assertTrue(true);
     }
