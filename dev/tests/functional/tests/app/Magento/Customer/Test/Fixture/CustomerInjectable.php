@@ -36,6 +36,12 @@ class CustomerInjectable extends InjectableFixture
         'password_confirmation' => '123123q',
     ];
 
+    protected $address = [
+        'attribute_code' => 'address',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address'
+    ];
+
     protected $confirmation = [
         'attribute_code' => 'confirmation',
         'backend_type' => 'varchar',
@@ -249,6 +255,11 @@ class CustomerInjectable extends InjectableFixture
         'backend_type' => 'virtual',
         'group' => null,
     ];
+
+    public function getAddress()
+    {
+        return $this->getData('address');
+    }
 
     public function getConfirmation()
     {

@@ -27,6 +27,7 @@ class CustomerInjectable extends AbstractRepository
         $this->_data['default'] = [
             'firstname' => 'John',
             'lastname' => 'Doe',
+            'group_id' => 'General',
             'email' => 'JohnDoe_%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
