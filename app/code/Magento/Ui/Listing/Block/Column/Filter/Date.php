@@ -100,7 +100,7 @@ class Date extends \Magento\Ui\Listing\Block\Column\Filter\AbstractFilter
             $this->_localeResolver->getLocaleCode() .
             '"/>';
         $html .= '<script type="text/javascript">
-            (function( $ ) {
+            require(["jquery", "mage/calendar"], function($){
                 $("#' .
             $htmlId .
             '_range").dateRange({
@@ -124,7 +124,7 @@ class Date extends \Magento\Ui\Listing\Block\Column\Filter\AbstractFilter
             '_to"
                     }
                 })
-            })(jQuery)
+            });
         </script>';
         return $html;
     }
