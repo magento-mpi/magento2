@@ -222,8 +222,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
         $exception = false,
         $additionalMessage = false
     ) {
-        $card = __('Credit Card: xxxx-%1', $card->getCcLast4());
-        $message = __('%1', $card);
+        $message = __('Credit Card: xxxx-%1', $card->getCcLast4());
 
         if ($amount) {
             $amount = __('amount %1', $this->_formatPrice($payment, $amount));
@@ -258,7 +257,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
             $message .= __(' %1.', $exception);
         }
 
-        return __('%1', $message);
+        return $message;
     }
 
     /**
