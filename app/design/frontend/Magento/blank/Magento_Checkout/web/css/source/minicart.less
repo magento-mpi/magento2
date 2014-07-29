@@ -9,7 +9,7 @@
 //
 //    Minicart
 //--------------------------------------
-.block.minicart {
+.block-minicart {
     .subtotal {
         border-top: 1px solid @color-secondary;
         padding-top: 10px;
@@ -45,7 +45,7 @@
 .minicart-wrapper {
     .dropdown(
         @_toggle-selector: ~".action.showcart",
-        @_options-selector: ~".block.minicart",
+        @_options-selector: ~".block-minicart",
         @_dropdown-toggle-icon-content: @icon-cart,
         @_dropdown-toggle-active-icon-content: @icon-cart,
         @_dropdown-list-item-padding: false,
@@ -58,8 +58,8 @@
         @_icon-font-color-active: @color-primary
     );
     float: right;
-    .block.minicart {
-        right: -15px;
+    .block-minicart {
+        right: -7px;
         width: 320px;
         padding: 15px;
         > .title {
@@ -193,12 +193,22 @@
 }
 
 //
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-xs) {
+    .minicart-wrapper .block-minicart {
+        width: 280px;
+    }
+}
+
+//
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .minicart-wrapper {
         margin-left: 10px;
-        .block.minicart {
+        .block-minicart {
+            right: -15px;
             width: 380px;
         }
     }

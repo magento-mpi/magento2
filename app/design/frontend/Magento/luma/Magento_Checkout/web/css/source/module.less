@@ -440,10 +440,23 @@
 }
 
 //
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .checkout-onepage-index {
+        .action.toggle.nav {
+            display: none;
+        } 
+        .logo {
+            margin-left: 0;
+        }
+    } 
+}
+
+//
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-
     .checkout-onepage-index .column.main {
         &:extend(.add-clearfix-desktop all);
     }

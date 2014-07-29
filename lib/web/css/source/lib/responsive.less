@@ -9,6 +9,10 @@
 // Small screens only
 .responsive-smaller(@screen-s) {}
 
+@media all and (max-width: @screen-xs) {
+    .responsive-smaller(@screen-xs);
+}
+
 @media all and (max-width: @screen-s) {
     .responsive-smaller(@screen-s);
 }
