@@ -143,10 +143,13 @@ class PhpCookieManager implements CookieManager
         );
 
         if (!$phpSetcookieSuccess) {
-            $errorMessage = $value == '' ? "Unable to delete the cookie" : "Unable to send the cookie";
-            $errorMessage= $errorMessage." name with cookieName = $name";
 
-            throw new FailureToSendException(__($errorMessage));
+            $params['name'] = $name;
+            if ($value == '') {
+                throw new FailureToSendException('Unable to delete the cookie with cookieName = %name', $params);
+            } else {
+                throw new FailureToSendException('Unable to send the cookie with cookieName = %name', $params);
+            }
         }
     }
 

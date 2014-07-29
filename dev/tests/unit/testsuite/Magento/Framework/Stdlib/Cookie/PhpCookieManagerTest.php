@@ -144,7 +144,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
             $this->fail('Expected exception not thrown.');
         } catch (FailureToSendException $fse) {
             $this->assertSame(
-                'Unable to delete the cookie name with cookieName = exception_cookie_name',
+                'Unable to delete the cookie with cookieName = exception_cookie_name',
                 $fse->getMessage()
             );
         }
