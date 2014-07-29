@@ -9,11 +9,22 @@
 -->
 <tabs>
     <reward_points>
-        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <class>\Magento\Reward\Test\Block\Adminhtml\Edit\Tab\Reward</class>
         <selector>#customer_info_tabs_customer_edit_tab_reward</selector>
         <strategy>css selector</strategy>
         <wrapper>reward</wrapper>
         <fields>
+            <store_id>
+                <input>select</input>
+            </store_id>
+            <value>
+                <selector>#reward_points_delta</selector>
+                <strategy>css selector</strategy>
+            </value>
+            <comment>
+                <selector>#reward_comment</selector>
+                <strategy>css selector</strategy>
+            </comment>
             <reward_update_notification>
                 <input>checkbox</input>
             </reward_update_notification>

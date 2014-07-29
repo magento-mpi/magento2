@@ -30,7 +30,7 @@ class Reward extends InjectableFixture
     protected $handlerInterface = 'Magento\Reward\Test\Handler\Reward\RewardInterface';
 
     protected $defaultDataSet = [
-        'website_id' => 'Main Website',
+        'website_id' => 'Main Website/Main Website Store/Default Store View',
         'customer_group_id' => ['dataSet' => 'All Customer Groups'],
         'direction' => 'Points to Currency',
         'value' => 10,
@@ -59,6 +59,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'group' => 'reward_points'
     ];
 
     protected $points_balance = [
@@ -131,11 +132,18 @@ class Reward extends InjectableFixture
     protected $value = [
         'attribute_code' => 'value',
         'backend_type' => 'virtual',
+        'group' => 'reward_points'
     ];
 
     protected $equal_value = [
         'attribute_code' => 'equal_value',
         'backend_type' => 'virtual',
+    ];
+
+    protected $comment = [
+        'attribute_code' => 'comment',
+        'backend_type' => 'virtual',
+        'group' => 'reward_points'
     ];
 
     public function getRewardId()
@@ -206,5 +214,10 @@ class Reward extends InjectableFixture
     public function getEqualValue()
     {
         return $this->getData('equal_value');
+    }
+
+    public function getComment()
+    {
+        return $this->getData('comment');
     }
 }
