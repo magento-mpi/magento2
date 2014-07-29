@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+
     $.widget('mage.extraOptions', {
         options: {
             events: 'billingSave shippingSave',
@@ -38,4 +42,5 @@
             });
         }
     });
-})(jQuery);
+
+});

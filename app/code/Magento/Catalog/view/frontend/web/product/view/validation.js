@@ -4,7 +4,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-(function($) {
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        define([
+            "jquery",
+            "jquery/ui",
+            "mage/validation"
+        ], factory);
+    } else {
+        factory(jQuery);
+    }
+}(function ($) {
     $.widget("mage.validation", $.mage.validation, {
         options: {
             radioCheckboxClosest: 'ul',
@@ -50,4 +60,4 @@
             }
         }
     });
-})(jQuery);
+}));
