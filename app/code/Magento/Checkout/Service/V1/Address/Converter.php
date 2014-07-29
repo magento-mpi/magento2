@@ -32,7 +32,7 @@ class Converter
      * @param \Magento\Sales\Model\Quote\Address $address
      * @return \Magento\Checkout\Service\V1\Data\Cart\Address
      */
-    public function convert(\Magento\Sales\Model\Quote\Address $address)
+    public function convertModelToDataObject(\Magento\Sales\Model\Quote\Address $address)
     {
         $data = [
             Address::KEY_COUNTRY_ID => $address->getCountryId(),
@@ -64,5 +64,30 @@ class Converter
         }
 
         return $this->addressBuilder->populateWithArray($data)->create();
+    }
+
+    /**
+     * Convert address data object to quote address model
+     *
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Address $dataObject
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Quote\Address
+     */
+    public function convertDataObjectToModel($dataObject, $address)
+    {
+        $address->setData($dataObject->__toArray());
+
+        //set custom attributes
+        $customAttributes = $dataObject->getCustomAttributes();
+        foreach ($customAttributes as $attributeData) {
+            $address->setData($attributeData[AttributeValue::ATTRIBUTE_CODE], $attributeData[AttributeValue::VALUE]);
+        }
+
+        //set fields with custom logic
+        $address->setStreet($dataObject->getStreet());
+        $address->setRegionId($dataObject->getRegion()->getRegionId());
+        $address->setRegion($dataObject->getRegion()->getRegion());
+
+        return $address;
     }
 }

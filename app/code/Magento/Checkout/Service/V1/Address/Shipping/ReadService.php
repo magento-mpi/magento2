@@ -8,7 +8,6 @@
 
 namespace Magento\Checkout\Service\V1\Address\Shipping;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
 
 class ReadService implements ReadServiceInterface
@@ -50,8 +49,8 @@ class ReadService implements ReadServiceInterface
     {
         $storeId = $this->storeManager->getStore()->getId();
 
-        /** @var  \Magento\Sales\Model\Quote\Address $address */
+        /** @var \Magento\Sales\Model\Quote\Address $address */
         $address = $this->quoteLoader->load($cartId, $storeId)->getShippingAddress();
-        return $this->addressConverter->convert($address);
+        return $this->addressConverter->convertModelToDataObject($address);
     }
 }

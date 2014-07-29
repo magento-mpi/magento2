@@ -26,17 +26,33 @@ class WriteService implements WriteServiceInterface
     protected $quoteAddressFactory;
 
     /**
+     * @var \Magento\Checkout\Service\V1\Address\Converter
+     */
+    protected $addressConverter;
+
+    /**
+     * @var \Magento\Checkout\Service\V1\Address\Validator
+     */
+    protected $addressValidator;
+
+    /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Service\V1\Address\Converter $addressConverter
+     * @param \Magento\Checkout\Service\V1\Address\Validator $addressValidator
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Service\V1\Address\Converter $addressConverter,
+        \Magento\Checkout\Service\V1\Address\Validator $addressValidator,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
     ) {
         $this->quoteLoader = $quoteLoader;
         $this->quoteAddressFactory = $quoteAddressFactory;
+        $this->addressConverter = $addressConverter;
+        $this->addressValidator = $addressValidator;
         $this->storeManager = $storeManager;
     }
 
@@ -49,30 +65,11 @@ class WriteService implements WriteServiceInterface
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
         /** @var \Magento\Sales\Model\Quote\Address $address */
         $address = $this->quoteAddressFactory->create();
-
-        // validate address id if exists
+        $this->addressValidator->validate($addressData);
         if ($addressData->getId()) {
             $address->load($addressData->getId());
-            $loadedData = $address->getData();
-            if (empty($loadedData)) {
-                throw new \Magento\Framework\Exception\NoSuchEntityException(
-                    'Invalid address id ' . $addressData->getId()
-                );
-            }
-
-            if ($address->getCustomerId() != $addressData->getCustomerId()) {
-                throw new \Magento\Framework\Exception\InputException(
-                    'Address with id ' . $addressData->getId() . ' belongs to another customer'
-                );
-            }
         }
-
-        $address->setData($addressData->__toArray());
-        //set fields with custom logic
-        $address->setStreet($addressData->getStreet());
-        $address->setRegionId($addressData->getRegion()->getRegionId());
-        $address->setRegion($addressData->getRegion()->getRegion());
-
+        $address = $this->addressConverter->convertDataObjectToModel($addressData, $address);
         $quote->setBillingAddress($address);
         $quote->setDataChanges(true);
         $quote->save();

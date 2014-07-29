@@ -33,7 +33,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->model = new Converter($this->addressBuilderMock);
     }
 
-    public  function testConvert()
+    public  function testConvertModelToDataObject()
     {
         $addressMockMethods = [
             'getCountryId', 'getId', 'getCustomerId', 'getRegion', 'getRegionId', 'getRegionCode',
@@ -96,6 +96,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('Expected value')
         );
 
-        $this->assertEquals('Expected value', $this->model->convert($addressMock));
+        $this->assertEquals('Expected value', $this->model->convertModelToDataObject($addressMock));
     }
 }
