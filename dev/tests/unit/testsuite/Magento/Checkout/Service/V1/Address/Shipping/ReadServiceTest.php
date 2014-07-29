@@ -53,7 +53,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $addressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
         $quoteMock->expects($this->any())->method('getShippingAddress')->will($this->returnValue($addressMock));
 
-        $this->converterMock->expects($this->once())->method('convert')
+        $this->converterMock->expects($this->once())->method('convertModelToDataObject')
             ->with($addressMock)->will($this->returnValue('ShippingAddress'));
 
         $this->assertEquals('ShippingAddress', $this->service->getAddress('cartId'));
