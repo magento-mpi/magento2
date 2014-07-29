@@ -371,10 +371,6 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
             ->setMethods(['deleteCookie'])
             ->disableOriginalConstructor()->getMock();
-
-        $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
-            ->setMethods(['deleteCookie'])
-            ->disableOriginalConstructor()->getMock();
         $mockCookieManager->expects($this->never())->method('deleteCookie');
 
         $cookieValue = 'some_value';
