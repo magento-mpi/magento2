@@ -85,9 +85,9 @@ try {
 
     // output
     $output = $package->getJson();
-    if (isset($opt['output-file'])) {
-        $file = $opt['output-file'];
-        assertArgument(!empty($file), "Output file name must not be empty.");
+    if (isset($opt['target-file'])) {
+        $file = $opt['target-file'];
+        assertArgument(!empty($file), "Target file name must not be empty.");
         assertLogical(file_put_contents($file, $output), "Unable to record output to the file: {$file}");
         echo "Output has been recorded to: {$file}\n";
     } else {
