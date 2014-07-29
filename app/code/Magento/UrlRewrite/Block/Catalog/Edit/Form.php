@@ -20,11 +20,6 @@ use Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite;
 class Form extends \Magento\UrlRewrite\Block\Edit\Form
 {
     /**
-     * @var \Magento\Catalog\Model\Url
-     */
-    protected $_catalogUrl;
-
-    /**
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
@@ -50,7 +45,6 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Model\Url $catalogUrl
      * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
      * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param array $data
@@ -67,14 +61,12 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\Url $catalogUrl,
         \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
         \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
         $this->_categoryFactory = $categoryFactory;
-        $this->_catalogUrl = $catalogUrl;
         $this->productUrlPathGenerator = $productUrlPathGenerator;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         parent::__construct(

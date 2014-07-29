@@ -59,4 +59,33 @@ class UrlRewrite extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return true;
     }
+
+    /**
+     * Validates suffix for url rewrites to inform user about errors in it
+     * Either returns TRUE (success) or throws error (validation failed)
+     *
+     * @param string $suffix
+     * @throws \Magento\Framework\Model\Exception
+     * @return bool
+     */
+    public function validateSuffix($suffix)
+    {
+        try {
+            // Suffix itself must be a valid request path
+            $this->_validateRequestPath($suffix);
+        } catch (\Exception $e) {
+            // Make message saying about suffix, not request path
+            switch ($e->getCode()) {
+                case self::VERR_MANYSLASHES:
+                    throw new \Magento\Framework\Model\Exception(
+                        __('Two and more slashes together are not permitted in url rewrite suffix')
+                    );
+                case self::VERR_ANCHOR:
+                    throw new \Magento\Framework\Model\Exception(
+                        __('Anchor symbol (#) is not supported in url rewrite suffix')
+                    );
+            }
+        }
+        return true;
+    }
 }
