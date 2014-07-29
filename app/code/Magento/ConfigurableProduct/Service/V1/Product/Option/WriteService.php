@@ -53,24 +53,32 @@ class WriteService implements WriteServiceInterface
     protected $storeManager;
 
     /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
+     */
+    private $productType;
+
+    /**
      * @param ProductRepository $productRepository
      * @param ConfigurableAttributeFactory $configurableAttributeFactory
      * @param EavConfig $eavConfig
      * @param OptionConverter $optionConverter
      * @param StoreManagerInterface $storeManager
+     * @param ConfigurableType $productType
      */
     public function __construct(
         ProductRepository $productRepository,
         ConfigurableAttributeFactory $configurableAttributeFactory,
         EavConfig $eavConfig,
         OptionConverter $optionConverter,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        ConfigurableType $productType
     ) {
         $this->productRepository = $productRepository;
         $this->configurableAttributeFactory = $configurableAttributeFactory;
         $this->eavConfig = $eavConfig;
         $this->optionConverter = $optionConverter;
         $this->storeManager = $storeManager;
+        $this->productType = $productType;
     }
 
     /**
@@ -109,5 +117,45 @@ class WriteService implements WriteServiceInterface
         }
 
         return $this->optionConverter->convertFromModel($configurableAttribute);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($productSku, $optionId)
+    {
+        $product = $this->getProduct($productSku);
+
+        $attributeCollection = $this->productType->getConfigurableAttributeCollection($product);
+        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $option */
+        $option = $attributeCollection->getItemById($optionId);
+
+        if ($option === null) {
+            throw new NoSuchEntityException('Requested option doesn\'t exist');
+        }
+        $option->delete();
+
+        return true;
+    }
+
+    /**
+     * @param string $productSku
+     * @return \Magento\Catalog\Model\Product
+     * @throws \Magento\Webapi\Exception
+     */
+    private function getProduct($productSku)
+    {
+        $product = $this->productRepository->get($productSku);
+        if (ConfigurableType::TYPE_CODE !== $product->getTypeId()) {
+            throw new Exception(
+                'Product with specified sku: "%1" is not a configurable product',
+                Exception::HTTP_FORBIDDEN,
+                Exception::HTTP_FORBIDDEN,
+                [
+                    $product->getSku()
+                ]
+            );
+        }
+        return $product;
     }
 }
