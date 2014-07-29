@@ -11,6 +11,9 @@
     <event name="catalog_category_save_before">
         <observer name="category_url_path_autogeneration" instance="Magento\CatalogUrlRewrite\Model\Observer\CategoryUrlPathAutogenerator" method="__invoke"/>
     </event>
+    <event name="catalog_product_delete_before">
+        <observer name="process_url_rewrite_removing" instance="Magento\CatalogUrlRewrite\Model\Product\Observer" method="processUrlRewriteRemoving"/>
+    </event>
     <event name="catalog_category_save_after">
         <observer name="process_url_rewrite_saving" instance="Magento\CatalogUrlRewrite\Model\Category\Observer" method="processUrlRewriteSaving"/>
     </event>
@@ -19,5 +22,8 @@
     </event>
     <event name="catalog_product_save_after">
         <observer name="process_url_rewrite_saving" instance="Magento\CatalogUrlRewrite\Model\Product\Observer" method="processUrlRewriteSaving"/>
+    </event>
+    <event name="catalog_category_delete_before">
+        <observer name="process_url_rewrite_removing" instance="Magento\CatalogUrlRewrite\Model\Category\Observer" method="processUrlRewriteRemoving"/>
     </event>
 </config>

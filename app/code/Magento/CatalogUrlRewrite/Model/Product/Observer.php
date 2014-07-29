@@ -77,4 +77,25 @@ class Observer
             }
         }
     }
+
+    /**
+     * Remove product urls from storage
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return void
+     */
+    public function processUrlRewriteRemoving(EventObserver $observer)
+    {
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = $observer->getEvent()->getProduct();
+
+        if ($product->getId()) {
+            $this->urlPersist->deleteByFilter(
+                $this->filterFactory->create(['filterData' => [
+                        UrlRewrite::ENTITY_ID => $product->getId(),
+                        UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_PRODUCT,
+                    ]])
+            );
+        }
+    }
 }
