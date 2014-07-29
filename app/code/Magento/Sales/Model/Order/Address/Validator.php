@@ -32,21 +32,21 @@ class Validator
 
     /**
      *
-     * @param Address $address
+     * @param \Magento\Sales\Model\Order\Address $address
      * @return array
      */
-    protected function validate(Address $address)
+    public function validate(Address $address)
     {
         $warnings = [];
         foreach ($this->required as $code => $label) {
-            if ($address->hasData($code)) {
+            if (!$address->hasData($code)) {
                 $warnings[] = sprintf('%s is a required field', $label);
             }
         }
-        if (filter_var($address->getEmail(), FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($address->getEmail(), FILTER_VALIDATE_EMAIL)) {
             $warnings[] = 'Email has a wrong format';
         }
-        if (filter_var(in_array($address->getAddressType(), []))) {
+        if (!filter_var(in_array($address->getAddressType(), [Address::TYPE_BILLING, Address::TYPE_SHIPPING]))) {
             $warnings[] = 'Address type doesn\'t match required options';
         }
         return $warnings;
