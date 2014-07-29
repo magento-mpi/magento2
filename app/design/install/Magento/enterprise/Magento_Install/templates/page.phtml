@@ -23,13 +23,13 @@
         var require = {
             "baseUrl": "<?php echo $this->getViewFileUrl('/') ?>",
             "paths": {
-                "jquery/ui": "jquery/jquery-ui",
-                "jquery": "jquery/jquery"
+                "jquery/ui": "jquery/jquery-ui"
             }
         };
     </script>
 
     <script src="<?php echo $this->getViewFileUrl('requirejs/require.js') ?>"></script>
+    <script src="<?php echo $this->getViewFileUrl('jquery/jquery.js') ?>"></script>
     <script src="<?php echo $this->getViewFileUrl('app-config.js') ?>"></script>
 
     <link rel="stylesheet" href="<?php echo $this->getViewFileUrl('Magento_Install::css/mage-js-style.css') ?>" type="text/css"
