@@ -13,6 +13,9 @@ use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Model\Oauth\TokenFactory;
 use Magento\Webapi\Controller\Request;
 
+/**
+ * A user context determined by tokens in a HTTP request Authorization header.
+ */
 class TokenUserContext implements UserContextInterface
 {
     /**
