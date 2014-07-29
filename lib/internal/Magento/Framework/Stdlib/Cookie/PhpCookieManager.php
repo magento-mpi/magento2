@@ -8,6 +8,7 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
+use Magento\Backend\Model\Config\Backend\Cookie;
 use Magento\Framework\Stdlib\CookieManager as CookieManager;
 
 /**
@@ -29,6 +30,14 @@ class PhpCookieManager implements CookieManager
     const EXPIRE_NOW_TIME = 1;
     const EXPIRE_AT_END_OF_SESSION_TIME = 0;
     /**#@-*/
+
+
+    /**#@+
+     * Constant for metadata array key
+     */
+    const KEY_EXPIRE_TIME = 'expiry';
+    /**#@-*/
+
 
     /**
      * @var CookieScope
@@ -107,39 +116,18 @@ class PhpCookieManager implements CookieManager
      */
     private function setCookie($name, $value, array $metadataArray)
     {
-        if (trim($value) == false) {
-            $value = '';
-            $expireTime = self::EXPIRE_NOW_TIME;
-        } else {
-            if (isset($metadataArray[PublicCookieMetadata::KEY_DURATION])) {
-                $expireTime = $metadataArray[PublicCookieMetadata::KEY_DURATION] + time();
-            } else {
-                $expireTime = self::EXPIRE_AT_END_OF_SESSION_TIME;
-            }
+        $expire = $this->computeExpirationTime($metadataArray);
 
-            $numCookies = count($_COOKIE);
-            if ($numCookies >= self::MAX_NUM_COOKIES - 1) {
-                $errorMessage = 'Unable to send the cookie. Maximum number of cookies exceeded.';
-                throw new CookieSizeLimitReachedException(__($errorMessage));
-            }
-        }
-
-        $sizeOfCookie = $this->sizeOfCookie($name, $value);
-
-        if ($sizeOfCookie > self::MAX_COOKIE_SIZE) {
-            $errorMessage = 'Unable to send the cookie. ' .
-                'Size of cookie name=\'' . $name . '\' is ' . $sizeOfCookie . ' bytes.';
-            throw new CookieSizeLimitReachedException(__($errorMessage));
-        }
+        $this->checkAbilityToSendCookie($name, $value);
 
         $phpSetcookieSuccess = setcookie(
             $name,
             $value,
-            $expireTime,
-            $metadataArray[CookieMetadata::KEY_PATH],
-            $metadataArray[CookieMetadata::KEY_DOMAIN],
-            $metadataArray[PublicCookieMetadata::KEY_SECURE],
-            $metadataArray[PublicCookieMetadata::KEY_HTTP_ONLY]
+            $expire,
+            $this->getParameterValue(CookieMetadata::KEY_PATH, $metadataArray),
+            $this->getParameterValue(CookieMetadata::KEY_DOMAIN, $metadataArray),
+            $this->getParameterValue(PublicCookieMetadata::KEY_SECURE, $metadataArray),
+            $this->getParameterValue(PublicCookieMetadata::KEY_HTTP_ONLY, $metadataArray)
         );
 
         if (!$phpSetcookieSuccess) {
@@ -155,7 +143,7 @@ class PhpCookieManager implements CookieManager
 
     /**
      * Retrieve the size of a cookie.
-     * The size of a cookie is determined by the length of "name=value" portion of the cookie.
+     * The size of a cookie is determined by the length of 'name=value' portion of the cookie.
      *
      * @param string $name
      * @param string $value
@@ -163,7 +151,93 @@ class PhpCookieManager implements CookieManager
      */
     private function sizeOfCookie($name, $value)
     {
-        return strlen($name) + strlen('=') + strlen($value);
+        // The constant '1' is the length of the equal sign in 'name=value'.
+        return strlen($name) + 1 + strlen($value);
+    }
+
+    /**
+     * Determines whether or not it is possible to send the cookie, based on the number of cookies that already
+     * exist and the size of the cookie.
+     *
+     * @param string $name
+     * @param string|null $value
+     * @return void if it is possible to send the cookie
+     * @throws BrowserNotSupportedException If browser doesn't support all features needed for setting this cookie
+     * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
+     */
+    private function checkAbilityToSendCookie($name, $value)
+    {
+        $numCookies = count($_COOKIE);
+
+        if (!isset($_COOKIE[$name])) {
+            $numCookies++;
+        }
+
+        $sizeOfCookie = $this->sizeOfCookie($name, $value);
+
+        if ($numCookies > PhpCookieManager::MAX_NUM_COOKIES) {
+            throw new CookieSizeLimitReachedException(
+                __('Unable to send the cookie. Maximum number of cookies would be exceeded.')
+            );
+        }
+
+        if ($sizeOfCookie > PhpCookieManager::MAX_COOKIE_SIZE) {
+            throw new CookieSizeLimitReachedException(
+                __('Unable to send the cookie. Size of \'%1\' is %2 bytes.', $name, $sizeOfCookie)
+            );
+        }
+    }
+
+    /**
+     * Determines the expiration time of a cookie.
+     *
+     * @param array $metadataArray
+     * @return int in seconds since the Unix epoch.
+     */
+    private function computeExpirationTime(array $metadataArray)
+    {
+        if (isset($metadataArray[PhpCookieManager::KEY_EXPIRE_TIME])
+            && $metadataArray[PhpCookieManager::KEY_EXPIRE_TIME] < time()
+        ) {
+            $expireTime = $metadataArray[PhpCookieManager::KEY_EXPIRE_TIME];
+        } else {
+            if (isset($metadataArray[PublicCookieMetadata::KEY_DURATION])) {
+                $expireTime = $metadataArray[PublicCookieMetadata::KEY_DURATION] + time();
+            } else {
+                $expireTime = self::EXPIRE_AT_END_OF_SESSION_TIME;
+            }
+        }
+
+        return $expireTime;
+    }
+
+    /**
+     * Determines the value to be used as a $parameter for the PHP setcookie() function.
+     * If the $metadataArray[$parameter] is not set, returns the default value for the given
+     * $parameter as specified by php's setcookie() function.
+     *
+     * @param string $parameter
+     * @param array $metadataArray
+     * @return string|boolean
+     */
+    private function getParameterValue($parameter, array $metadataArray)
+    {
+        if (isset($metadataArray[$parameter])) {
+            return $metadataArray[$parameter];
+        } else {
+            switch ($parameter) {
+                case CookieMetadata::KEY_PATH:
+                    return '';
+                case CookieMetadata::KEY_DOMAIN:
+                    return '';
+                case PublicCookieMetadata::KEY_SECURE:
+                    return false;
+                case PublicCookieMetadata::KEY_HTTP_ONLY:
+                    return false;
+                default:
+                    return '';
+            }
+        }
     }
 
     /**
@@ -199,6 +273,9 @@ class PhpCookieManager implements CookieManager
         }
         $metadataArray[PublicCookieMetadata::KEY_SECURE] = false;
         $metadataArray[PublicCookieMetadata::KEY_HTTP_ONLY] = false;
+
+        // explicitly set an expiration time in the metadataArray.
+        $metadataArray[PhpCookieManager::KEY_EXPIRE_TIME] = PhpCookieManager::EXPIRE_NOW_TIME;
 
         // cookie value set to empty string to delete from the remote client
         $this->setCookie($name, '', $metadataArray);

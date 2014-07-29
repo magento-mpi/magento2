@@ -28,42 +28,59 @@ function setcookie($name, $value, $expiry, $path, $domain, $secure, $httpOnly)
         PhpCookieManagerTest::assertEquals($expiry, PhpCookieManager::EXPIRE_NOW_TIME);
         PhpCookieManagerTest::assertFalse($secure);
         PhpCookieManagerTest::assertFalse($httpOnly);
-    } elseif (PhpCookieManagerTest::SENSITIVE_COOKIE_NAME == $name) {
+        PhpCookieManagerTest::assertEquals('', $domain);
+        PhpCookieManagerTest::assertEquals('', $path);
+    } elseif (PhpCookieManagerTest::SENSITIVE_COOKIE_NAME_NO_METADATA == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertEquals(PhpCookieManager::EXPIRE_AT_END_OF_SESSION_TIME, $expiry);
         PhpCookieManagerTest::assertTrue($secure);
         PhpCookieManagerTest::assertTrue($httpOnly);
+        PhpCookieManagerTest::assertEquals('', $domain);
+        PhpCookieManagerTest::assertEquals('', $path);
+    } elseif (PhpCookieManagerTest::SENSITIVE_COOKIE_NAME_NO_DOMAIN_NO_PATH == $name) {
+        PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
+        PhpCookieManagerTest::assertEquals(PhpCookieManager::EXPIRE_AT_END_OF_SESSION_TIME, $expiry);
+        PhpCookieManagerTest::assertTrue($secure);
+        PhpCookieManagerTest::assertTrue($httpOnly);
+        PhpCookieManagerTest::assertEquals('', $domain);
+        PhpCookieManagerTest::assertEquals('', $path);
+    } elseif (PhpCookieManagerTest::SENSITIVE_COOKIE_NAME_WITH_DOMAIN_AND_PATH == $name) {
+        PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
+        PhpCookieManagerTest::assertEquals(PhpCookieManager::EXPIRE_AT_END_OF_SESSION_TIME, $expiry);
+        PhpCookieManagerTest::assertTrue($secure);
+        PhpCookieManagerTest::assertTrue($httpOnly);
+        PhpCookieManagerTest::assertEquals('magento.url', $domain);
+        PhpCookieManagerTest::assertEquals('/backend', $path);
     } elseif (PhpCookieManagerTest::PUBLIC_COOKIE_NAME_NO_METADATA == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_EXPIRE_END_OF_SESSION, $expiry);
         PhpCookieManagerTest::assertFalse($secure);
         PhpCookieManagerTest::assertFalse($httpOnly);
-        PhpCookieManagerTest::assertNull($domain);
-        PhpCookieManagerTest::assertNull($path);
+        PhpCookieManagerTest::assertEquals('', $domain);
+        PhpCookieManagerTest::assertEquals('', $path);
     } elseif (PhpCookieManagerTest::PUBLIC_COOKIE_NAME_DEFAULT_VALUES == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_EXPIRE_END_OF_SESSION, $expiry);
         PhpCookieManagerTest::assertFalse($secure);
         PhpCookieManagerTest::assertFalse($httpOnly);
-        PhpCookieManagerTest::assertNull($domain);
-        PhpCookieManagerTest::assertNull($path);
+        PhpCookieManagerTest::assertEquals('', $domain);
+        PhpCookieManagerTest::assertEquals('', $path);
     } elseif (PhpCookieManagerTest::PUBLIC_COOKIE_NAME_SOME_FIELDS_SET == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_EXPIRE_END_OF_SESSION, $expiry);
         PhpCookieManagerTest::assertFalse($secure);
         PhpCookieManagerTest::assertTrue($httpOnly);
-        PhpCookieManagerTest::assertNull('magento.url');
-        PhpCookieManagerTest::assertNull('/backend');
+        PhpCookieManagerTest::assertEquals('magento.url', $domain);
+        PhpCookieManagerTest::assertEquals('/backend', $path);
     } elseif (PhpCookieManagerTest::MAX_COOKIE_SIZE_TEST_NAME == $name) {
         PhpCookieManagerTest::assertEquals(PhpCookieManagerTest::COOKIE_VALUE, $value);
         PhpCookieManagerTest::assertFalse($secure);
         PhpCookieManagerTest::assertFalse($httpOnly);
+        PhpCookieManagerTest::assertEquals('', $domain);
+        PhpCookieManagerTest::assertEquals('', $path);
     } else {
         PhpCookieManagerTest::fail('Non-tested case in mock setcookie()');
     }
-
-    PhpCookieManagerTest::assertNull($domain);
-    PhpCookieManagerTest::assertNull($path);
 
     return true;
 }
@@ -77,7 +94,9 @@ use Magento\TestFramework\Helper\ObjectManager;
 class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
 {
     const COOKIE_NAME = 'cookie_name';
-    const SENSITIVE_COOKIE_NAME = 'sensitive_cookie_name';
+    const SENSITIVE_COOKIE_NAME_NO_METADATA = 'sensitive_cookie_name_no_metadata';
+    const SENSITIVE_COOKIE_NAME_NO_DOMAIN_NO_PATH = 'sensitive_cookie_name_no_domain_no_path';
+    const SENSITIVE_COOKIE_NAME_WITH_DOMAIN_AND_PATH = 'sensitive_cookie_name_with_domain_and_path';
     const PUBLIC_COOKIE_NAME_NO_METADATA = 'public_cookie_name_no_metadata';
     const PUBLIC_COOKIE_NAME_DEFAULT_VALUES = 'public_cookie_name_default_values';
     const PUBLIC_COOKIE_NAME_SOME_FIELDS_SET = 'public_cookie_name_some_fields_set';
@@ -168,17 +187,11 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSetSensitiveCookie()
+    public function testSetSensitiveCookieNoMetadata()
     {
         /** @var SensitiveCookieMetadata $sensitiveCookieMetadata */
-        $sensitiveCookieMetadata = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata',
-            [
-                'metadata' => [
-                    'domain' => null,
-                    'path'   => null,
-                ],
-            ]
-        );
+        $sensitiveCookieMetadata = $this->objectManager
+            ->getObject('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata');
 
         $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
             ->setMethods(['deleteCookie'])
@@ -186,7 +199,57 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $mockCookieManager->expects($this->never())->method('deleteCookie');
 
         $mockCookieManager->setSensitiveCookie(
-            PhpCookieManagerTest::SENSITIVE_COOKIE_NAME,
+            PhpCookieManagerTest::SENSITIVE_COOKIE_NAME_NO_METADATA,
+            'cookie_value',
+            $sensitiveCookieMetadata
+        );
+    }
+
+    public function testSetSensitiveCookieNullDomainAndPath()
+    {
+        /** @var SensitiveCookieMetadata $sensitiveCookieMetadata */
+        $sensitiveCookieMetadata = $this->objectManager
+            ->getObject('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata',
+                [
+                    'metadata' => [
+                        'domain' => null,
+                        'path'   => null,
+                    ],
+                ]
+            );
+
+        $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
+            ->setMethods(['deleteCookie'])
+            ->disableOriginalConstructor()->getMock();
+        $mockCookieManager->expects($this->never())->method('deleteCookie');
+
+        $mockCookieManager->setSensitiveCookie(
+            PhpCookieManagerTest::SENSITIVE_COOKIE_NAME_NO_DOMAIN_NO_PATH,
+            'cookie_value',
+            $sensitiveCookieMetadata
+        );
+    }
+
+    public function testSetSensitiveCookieWithPathAndDomain()
+    {
+        /** @var SensitiveCookieMetadata $sensitiveCookieMetadata */
+        $sensitiveCookieMetadata = $this->objectManager
+            ->getObject('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata',
+                [
+                    'metadata' => [
+                        'domain' => 'magento.url',
+                        'path'   => '/backend',
+                    ],
+                ]
+            );
+
+        $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
+            ->setMethods(['deleteCookie'])
+            ->disableOriginalConstructor()->getMock();
+        $mockCookieManager->expects($this->never())->method('deleteCookie');
+
+        $mockCookieManager->setSensitiveCookie(
+            PhpCookieManagerTest::SENSITIVE_COOKIE_NAME_WITH_DOMAIN_AND_PATH,
             'cookie_value',
             $sensitiveCookieMetadata
         );
@@ -294,7 +357,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
             $this->fail('Failed to throw exception of excess cookie size.');
         } catch (CookieSizeLimitReachedException $e) {
             $this->assertEquals(
-                'Unable to send the cookie. Size of cookie name=\'max_cookie_size_test_name\' is 4123 bytes.',
+                'Unable to send the cookie. Size of \'max_cookie_size_test_name\' is 4123 bytes.',
                 $e->getMessage()
             );
         }
