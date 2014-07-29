@@ -398,4 +398,40 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
+
+    public function testSetTooManyCookies()
+    {
+        /** @var PublicCookieMetadata $publicCookieMetadata */
+        $publicCookieMetadata = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata');
+
+        $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
+            ->setMethods(['deleteCookie'])
+            ->disableOriginalConstructor()->getMock();
+
+        $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
+            ->setMethods(['deleteCookie'])
+            ->disableOriginalConstructor()->getMock();
+        $mockCookieManager->expects($this->never())->method('deleteCookie');
+
+        $cookieValue = 'some_value';
+
+        // Set PhpCookieManagerTest::MAX_NUM_COOKIES number of cookies in superglobal $_COOKIE.
+        for ($i = count($_COOKIE); $i < PhpCookieManagerTest::MAX_NUM_COOKIES; $i++) {
+            $_COOKIE['test_cookie_' . $i] = 'some_value';
+        }
+
+        try {
+            $mockCookieManager->setPublicCookie(
+                PhpCookieManagerTest::MAX_COOKIE_SIZE_TEST_NAME,
+                $cookieValue,
+                $publicCookieMetadata
+            );
+            $this->fail('Failed to throw exception of too many cookies.');
+        } catch (CookieSizeLimitReachedException $e) {
+            $this->assertEquals(
+                'Unable to send the cookie. Maximum number of cookies would be exceeded.',
+                $e->getMessage()
+            );
+        }
+    }
 }
