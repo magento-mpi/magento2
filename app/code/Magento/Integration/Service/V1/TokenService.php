@@ -97,6 +97,7 @@ class TokenService implements TokenServiceInterface
      *
      * @param string $username
      * @param string $password
+     * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
     protected function validateCredentials($username, $password)
