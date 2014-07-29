@@ -59,9 +59,6 @@
             <argument name="oauthHelper" xsi:type="object">Magento\Framework\Oauth\Helper\Request\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\Authorization">
-        <plugin name="webapiRestAuthorization" type="Magento\Webapi\Model\Plugin\Authorization" />
-    </type>
     <type name="Magento\Framework\Session\Generic">
         <arguments>
             <argument name="sessionName" xsi:type="string">frontend</argument>
