@@ -65,7 +65,6 @@ class Observer
             $urlRewrites = $this->categoryUrlGenerator->generate($category);
         } elseif ($category->dataHasChangedFor('parent_id')) {
             //@TODO verify should we save rewrites history
-            //@TODO when perform move action does not call category_url_path_autogeneration on catalog_category_save_before event
             $urlRewrites = array_merge(
                 $this->categoryUrlGenerator->generate($category),
                 $this->generateProductUrlRewrites($category)

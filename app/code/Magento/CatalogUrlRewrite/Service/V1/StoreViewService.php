@@ -52,20 +52,6 @@ class StoreViewService
     }
 
     /**
-     * Check is root category for store view
-     *
-     * @param int $categoryId
-     * @param int $storeId
-     * @return bool
-     */
-    public function isRootCategoryForStore($categoryId, $storeId)
-    {
-        $store = $this->storeManager->getStore($storeId);
-
-        return $categoryId == $store->getRootCategoryId();
-    }
-
-    /**
      * Check is global scope
      *
      * @param int|null $storeId
