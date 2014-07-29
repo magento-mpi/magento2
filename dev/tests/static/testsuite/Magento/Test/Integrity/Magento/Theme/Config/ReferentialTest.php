@@ -49,7 +49,7 @@ class ReferentialTest extends \PHPUnit_Framework_TestCase
             $dom->loadXML(file_get_contents($file));
 
             $xpath = new \DOMXPath($dom);
-            foreach ($xpath->query('/page_layouts/layouts/layout') as $layout) {
+            foreach ($xpath->query('/page_layouts/layout') as $layout) {
                 foreach ($layout->childNodes as $layoutSubNode) {
                     if ($layoutSubNode->nodeName == 'template') {
                         self::$_templates[] = $layoutSubNode->nodeValue;

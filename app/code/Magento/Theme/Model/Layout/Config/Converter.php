@@ -19,10 +19,10 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
         $pageLayouts = array();
         $xpath = new \DOMXPath($source);
 
-        $defaultLayout = $xpath->query('/page_layouts/layouts')->item(0)->getAttribute('default');
+        $defaultLayout = $xpath->query('/page_layouts')->item(0)->getAttribute('default');
 
         /** @var $layout DOMNode */
-        foreach ($xpath->query('/page_layouts/layouts/layout') as $layout) {
+        foreach ($xpath->query('/page_layouts/layout') as $layout) {
             $layoutAttributes = $layout->attributes;
             $id = $layoutAttributes->getNamedItem('id')->nodeValue;
             $pageLayouts[$id]['code'] = $id;

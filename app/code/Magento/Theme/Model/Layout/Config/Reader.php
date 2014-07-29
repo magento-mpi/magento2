@@ -16,5 +16,5 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/page_layouts/layouts/layout' => 'id');
+    protected $_idAttributes = array('/page_layouts/layout' => 'id');
 }
