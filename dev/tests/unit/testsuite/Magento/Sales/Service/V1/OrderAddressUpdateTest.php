@@ -16,6 +16,7 @@ class OrderAddressUpdateTest extends \PHPUnit_Framework_TestCase
      * @var OrderAddressUpdate
      */
     protected $orderAddressUpdate;
+
     /**
      * @var \Magento\Sales\Model\Order\AddressConverter|\PHPUnit_Framework_MockObject_MockObject
      */
