@@ -21,7 +21,7 @@ interface UrlPersistInterface
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function save(array $urls);
+    public function replace(array $urls);
 
     /**
      * Remove rewrites by filter

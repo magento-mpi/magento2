@@ -49,7 +49,7 @@ class Observer
             // TODO: fix service parameter
             $urls = $this->urlGenerator->generate($cmsPage);
             try {
-                $this->urlPersist->save($urls);
+                $this->urlPersist->replace($urls);
             } catch (\Exception $e) {
                 if ($e->getCode() === 23000) { // Integrity constraint violation: 1062 Duplicate entry
                     throw new Exception(__('A page URL key for specified store already exists.'));

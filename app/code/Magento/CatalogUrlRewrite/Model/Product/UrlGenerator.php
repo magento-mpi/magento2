@@ -166,7 +166,7 @@ class UrlGenerator
      */
     protected function isCategoryProperForGenerating($category, $storeId)
     {
-        return $category->getParentId() == Category::TREE_ROOT_ID
+        return $category->getParentId() != Category::TREE_ROOT_ID
             || $this->storeViewService->isRootCategoryForStore($category->getId(), $storeId)
             || !in_array($storeId, $category->getStoreIds());
     }

@@ -68,43 +68,36 @@ class Observer
         if ($category->getParentId() == Category::TREE_ROOT_ID) {
             return;
         }
-        // TODO: refactoring
+
         if ($category->dataHasChangedFor('url_key')) {
             $urls = array_merge(
                 $this->categoryUrlGenerator->generate($category),
-                $this->generateProductUrlRewrites($category)
+                $this->generateProductUrlRewritesAndDeleteCurrent($category)
             );
-
-            $filter = $this->filterFactory->create(['filterData' => [
-                UrlRewrite::ENTITY_ID => $category->getId(),
-                UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
-            ]]);
-            $this->urlPersist->deleteByFilter($filter);
-            if ($urls) {
-                $this->urlPersist->save($urls);
-            }
-
         } elseif ($category->dataHasChangedFor('affected_product_ids')) {
-            $urls = $this->generateProductUrlRewrites($category);
+            $urls = $this->generateProductUrlRewritesAndDeleteCurrent($category);
+        }
 
+        if (isset($urls) && $urls) {
+            $this->urlPersist->replace($urls);
+        } else {
             $filter = $this->filterFactory->create(['filterData' => [
                 UrlRewrite::ENTITY_ID => $category->getId(),
                 UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
             ]]);
             $this->urlPersist->deleteByFilter($filter);
-            if ($urls) {
-                $this->urlPersist->save($urls);
-            }
         }
     }
 
     /**
      * Generate url rewrites for products assigned to category
      *
+     * TODO: generateProductUrlRewritesAndDeleteCurrent
+     *
      * @param Category $category
      * @return array
      */
-    protected function generateProductUrlRewrites(Category $category)
+    protected function generateProductUrlRewritesAndDeleteCurrent(Category $category)
     {
         $collection = $category->getProductCollection()
             ->addAttributeToSelect('url_key')

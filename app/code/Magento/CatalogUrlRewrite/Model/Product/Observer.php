@@ -66,13 +66,14 @@ class Observer
         ) {
             $urls = $this->urlGenerator->generate($product);
 
-            $filter = $this->filterFactory->create(['filterData' => [
-                UrlRewrite::ENTITY_ID => $product->getId(),
-                UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_PRODUCT,
-            ]]);
-            $this->urlPersist->deleteByFilter($filter);
             if ($urls) {
-                $this->urlPersist->save($urls);
+                $this->urlPersist->replace($urls);
+            } else {
+                $filter = $this->filterFactory->create(['filterData' => [
+                    UrlRewrite::ENTITY_ID => $product->getId(),
+                    UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_PRODUCT,
+                ]]);
+                $this->urlPersist->deleteByFilter($filter);
             }
         }
     }

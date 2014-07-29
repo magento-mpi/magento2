@@ -40,11 +40,12 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     /**
      * {@inheritdoc}
      */
-    public function save(array $urls)
+    public function replace(array $urls)
     {
         if (!$urls) {
             throw new \InvalidArgumentException('Passed rewrites is empty.');
         }
+        $this->storage->deleteByFilter($this->createFilterBasedOnUrls($urls));
         $this->storage->addMultiple($urls);
     }
 
@@ -94,5 +95,27 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     public function findAllByFilter(Filter $filter)
     {
         return $this->storage->findAllByFilter($filter);
+    }
+
+    /**
+     * Get filter for url rows deletion due to provided urls
+     *
+     * @param UrlRewrite[] $urls
+     * @return Filter
+     */
+    protected function createFilterBasedOnUrls($urls)
+    {
+        $filterData = [];
+        $uniqueKeys = [UrlRewrite::ENTITY_ID, UrlRewrite::ENTITY_TYPE, UrlRewrite::STORE_ID];
+        foreach ($urls as $url) {
+            foreach ($uniqueKeys as $key) {
+                $fieldValue = $url->getByKey($key);
+
+                if (!isset($filterData[$key]) || !in_array($fieldValue, $filterData[$key])) {
+                    $filterData[$key][] = $fieldValue;
+                }
+            }
+        }
+        return $this->filterFactory->create(['filterData' => $filterData]);
     }
 }
