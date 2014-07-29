@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Service\Code\Generator;
 
+use Magento\Framework\Service\Code\Generator\Builder;
+
 /**
  * Class BuilderTest
  */
@@ -63,5 +65,33 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->method('_validateData')
             ->will($this->returnValue(true));
         $this->assertTrue($model->generate());
+    }
+
+    /**
+     * test protected _validateData()
+     */
+    public function testValidateData()
+    {
+        $sourceClassName = 'Magento_Module_Controller_Index';
+        $resultClassName = 'Magento_Module_Controller';
+
+        $includePathMock = $this->getMockBuilder('Magento\Framework\Autoload\IncludePath')
+            ->disableOriginalConstructor()
+            ->setMethods(['getFile'])
+            ->getMock();
+        $includePathMock->expects($this->at(0))
+            ->method('getFile')
+            ->with($sourceClassName)
+            ->will($this->returnValue(true));
+        $includePathMock->expects($this->at(1))
+            ->method('getFile')
+            ->with($resultClassName)
+            ->will($this->returnValue(false));
+
+        $builder = new Builder(
+            null, null, null, null, $includePathMock
+        );
+        $builder->init($sourceClassName, $resultClassName);
+        $this->assertFalse($builder->generate());
     }
 }
