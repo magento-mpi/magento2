@@ -61,12 +61,18 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
+        $storeManagerMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue(new \Magento\Framework\Object()));
+
         $this->writeService = $this->objectManager->getObject(
             'Magento\ConfigurableProduct\Service\V1\Product\Option\WriteService',
             [
                 'productRepository' => $this->productRepositoryMock,
                 'configurableAttributeFactory' => $this->confAttributeFactoryMock,
                 'eavConfig' => $this->eavConfigMock,
+                'storeManager' => $storeManagerMock
             ]
         );
 
@@ -116,7 +122,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Invalid product type check
      *
-     * @expectedException \DomainException
+     * @expectedException \InvalidArgumentException
      */
     public function testAddInvalidProductType()
     {

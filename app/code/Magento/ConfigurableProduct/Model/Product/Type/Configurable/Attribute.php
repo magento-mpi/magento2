@@ -68,21 +68,6 @@ class Attribute extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Retrieve product instance by product id
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function getProduct()
-    {
-        if (null === $this->product) {
-            if ($this->getProductId()) {
-                $this->product = $this->productFactory->create()->load($this->getProductId());
-            }
-        }
-        return $this->product;
-    }
-
-    /**
      * Add price data to attribute
      *
      * @param array $priceData
