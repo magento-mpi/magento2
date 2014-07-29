@@ -17,7 +17,7 @@ use Magento\Reward\Test\Block\Adminhtml\Edit\Tab\Reward as RewardTab;
 
 /**
  * Class AssertRewardInHistoryGrid
- * Assert that after updating reward balance - it reflects in history grid:
+ * Assert that after updating reward balance - it reflects in history grid
  */
 class AssertRewardInHistoryGrid extends AbstractConstraint
 {
@@ -29,7 +29,7 @@ class AssertRewardInHistoryGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that after updating reward balance - it reflects in history grid:
+     * Assert that after updating reward balance - it reflects in history grid
      *
      * @param CustomerIndexEdit $customerIndexEdit
      * @param CustomerIndex $customerIndex

@@ -17,7 +17,7 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 class Grid extends AbstractGrid
 {
     /**
-     * Grid filters' selectors
+     * Initialize block elements
      *
      * @var array
      */
