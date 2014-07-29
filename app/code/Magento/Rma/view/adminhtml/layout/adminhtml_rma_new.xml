@@ -8,13 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-rma-rma-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Rma::rma.js</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Rma\Block\Adminhtml\Rma\NewRma" name="magento_rma_new"/>
     </referenceContainer>

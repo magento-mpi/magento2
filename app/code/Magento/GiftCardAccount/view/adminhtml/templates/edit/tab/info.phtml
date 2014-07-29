@@ -12,13 +12,15 @@
 </div>
 <?php if (!$this->isSingleStoreMode()): ?>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
     Event.observe(window, 'load', updateCurrency);
     Event.observe($('_infowebsite_id'), 'change', updateCurrency);
 
     var currencies = <?php echo $this->getCurrencyJson(); ?>;
 
-    function updateCurrency()
+    updateCurrency = function()
     {
         val = $('_infowebsite_id').options[$('_infowebsite_id').selectedIndex].value;
         if (currencies[val]) {
@@ -26,5 +28,7 @@
         }
     }
 //]]>
+
+});
 </script>
 <?php endif; ?>

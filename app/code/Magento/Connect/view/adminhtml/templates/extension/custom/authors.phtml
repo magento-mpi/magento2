@@ -7,6 +7,8 @@
  */
 ?>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 var id = 0;
 var authorTemplate =
     '<tr>'+
@@ -24,7 +26,7 @@ var authorTemplate =
         '</td>'+
     '</tr>';
 
-function addAuthor(data)
+addAuthor = function(data)
 {
     if (data == undefined) {
         data = {};
@@ -34,6 +36,8 @@ function addAuthor(data)
     var template = new Template(authorTemplate, /(^|.|\r|\n)({{(\w+)}})/);
     Element.insert($('authors_container'), {bottom: template.evaluate(data)});
 }
+
+});
 </script>
 
 <fieldset class="fieldset">
@@ -57,14 +61,18 @@ function addAuthor(data)
             </tfoot>
             <tbody id="authors_container">
                 <script type="text/javascript">
-                <?php if (count($this->getAuthors())): ?>
-                    <?php foreach ($this->getAuthors() as $author): ?>
-                        addAuthor(<?php echo $author ?>);
-                    <?php endforeach ?>
-                <?php else: ?>
-                    addAuthor();
-                <?php endif;?>
-                </script>
+require(['prototype'], function(){
+
+    <?php if (count($this->getAuthors())): ?>
+        <?php foreach ($this->getAuthors() as $author): ?>
+            addAuthor(<?php echo $author ?>);
+        <?php endforeach ?>
+    <?php else: ?>
+        addAuthor();
+    <?php endif;?>
+                
+});
+</script>
             </tbody>
         </table>
     </div>

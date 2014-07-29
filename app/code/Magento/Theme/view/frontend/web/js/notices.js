@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/cookies"
+], function($){
+
     $.widget('mage.cookieBlock', {
         _create: function() {
             if ($.mage.cookies.get(this.options.cookieName)) {
@@ -24,4 +29,5 @@
             }, this));
         }
     });
-})(jQuery);
+
+});
