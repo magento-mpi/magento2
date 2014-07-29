@@ -31,7 +31,7 @@ class BannerForm extends \Magento\Banner\Test\Block\Adminhtml\Banner\BannerForm
     protected $customerSegmentOptions = '[name="customer_segment_ids[]"] option';
 
     /**
-     * Check is visible customer segment
+     * Check whether customer segment is available on Banner form
      *
      * @param string $customerSegment
      * @return bool
