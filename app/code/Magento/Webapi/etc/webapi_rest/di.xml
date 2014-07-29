@@ -17,6 +17,7 @@
     <type name="Magento\Authorization\Model\CompositeUserContext">
         <arguments>
             <argument name="userContexts" xsi:type="array">
+                <item name="tokenUserContext" xsi:type="object">Magento\Webapi\Model\Authorization\TokenUserContext</item>
                 <item name="oauthUserContext" xsi:type="object">Magento\Webapi\Model\Authorization\OauthUserContext</item>
             </argument>
         </arguments>
