@@ -367,9 +367,11 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
      *
      * @param \Magento\Catalog\Model\Resource\Product\Link\Product\Collection $collection
      * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
+     * @return $this
      */
     public function filterProductPosition($collection, $column)
     {
-        return $collection->addLinkAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
+        $collection->addLinkAttributeToFilter($column->getIndex(), $column->getFilter()->getCondition());
+        return $this;
     }
 }

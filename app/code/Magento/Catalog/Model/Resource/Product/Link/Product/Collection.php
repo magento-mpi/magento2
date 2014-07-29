@@ -318,6 +318,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @param string $code
      * @param array $condition
+     * @return $this
      */
     public function addLinkAttributeToFilter($code, $condition)
     {
@@ -328,5 +329,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                 $this->getSelect()->where($whereCondition);
             }
         }
+        return $this;
     }
 }
