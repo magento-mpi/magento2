@@ -14,4 +14,10 @@
     <type name="Magento\Store\Model\Group">
         <plugin name="store_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Store\Group"/>
     </type>
+    <type name="Magento\Catalog\Model\Category">
+        <plugin name="store_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Category"/>
+    </type>
+    <type name="Magento\CatalogImportExport\Model\Import\Product">
+        <plugin name="store_plugin" type="Magento\CatalogUrlRewrite\Model\Product\Plugin\Import"/>
+    </type>
 </config>

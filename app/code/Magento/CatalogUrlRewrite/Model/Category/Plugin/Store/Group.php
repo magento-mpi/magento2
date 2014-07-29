@@ -45,7 +45,12 @@ class Group
         $this->storeManager = $storeManager;
     }
 
-    public function afterSave(\Magento\Store\Model\Group $group, $result)
+    /**
+     * @param \Magento\Store\Model\Group $group
+     * @param \Magento\Store\Model\Group $result
+     * @return \Magento\Store\Model\Group
+     */
+    public function afterSave(\Magento\Store\Model\Group $group, \Magento\Store\Model\Group $result)
     {
         if (!$group->isObjectNew() && $group->dataHasChangedFor('root_category_id')) {
             $this->storeManager->reinitStores();
@@ -71,6 +76,8 @@ class Group
                 }
             }
         }
+
+        return $result;
     }
 
     /**
