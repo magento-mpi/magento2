@@ -222,14 +222,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
         $exception = false,
         $additionalMessage = false
     ) {
+        $card = __('Credit Card: xxxx-%1', $card->getCcLast4());
+        $message = __('%1', $card);
+
+        if ($amount) {
+            $amount = __('amount %1', $this->_formatPrice($payment, $amount));
+            $message .= __(' %1', $amount);
+        }
+
         $operation = $this->_getOperation($requestType);
 
         if (!$operation) {
             return false;
-        }
-
-        if ($amount) {
-            $amount = __('amount %1', $this->_formatPrice($payment, $amount));
+        } else {
+            $message .= __(' %1', $operation);
         }
 
         if ($exception) {
@@ -237,25 +243,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
         } else {
             $result = __('successful');
         }
-
-        $card = __('Credit Card: xxxx-%1', $card->getCcLast4());
-
-        $pattern = '%s %s %s - %s.';
-        $texts = array($card, $amount, $operation, $result);
+        $message .= __(' - %1.', $result);
 
         if (!is_null($lastTransactionId)) {
-            $pattern .= ' %s.';
-            $texts[] = __('Authorize.Net Transaction ID %1', $lastTransactionId);
+            $texts = __('Authorize.Net Transaction ID %1', $lastTransactionId);
+            $message .= __(' %1.', $texts);
         }
 
         if ($additionalMessage) {
-            $pattern .= ' %s.';
-            $texts[] = $additionalMessage;
+            $message .= __(' %1.', $additionalMessage);
         }
-        $pattern .= ' %s';
-        $texts[] = $exception;
 
-        return call_user_func_array('__', array_merge(array($pattern), $texts));
+        if ($exception) {
+            $message .= __(' %1.', $exception);
+        }
+
+        return __('%1', $message);
     }
 
     /**
