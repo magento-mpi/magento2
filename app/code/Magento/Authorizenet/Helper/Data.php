@@ -181,39 +181,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
      * @param \Magento\Framework\Object $card
      * @param bool|float $amount
      * @param bool|string $exception
+     * @param bool|string $additionalMessage
      * @return bool|string
      */
     public function getTransactionMessage(
-        $payment,
-        $requestType,
-        $lastTransactionId,
-        $card,
-        $amount = false,
-        $exception = false
-    ) {
-        return $this->getExtendedTransactionMessage(
-            $payment,
-            $requestType,
-            $lastTransactionId,
-            $card,
-            $amount,
-            $exception
-        );
-    }
-
-    /**
-     * Return message for gateway transaction request
-     * 
-     * @param \Magento\Payment\Model\Info $payment
-     * @param string $requestType
-     * @param string $lastTransactionId
-     * @param \Magento\Framework\Object $card
-     * @param bool|float $amount
-     * @param bool|string $exception
-     * @param bool|string $additionalMessage
-     * @return bool|mixed
-     */
-    public function getExtendedTransactionMessage(
         $payment,
         $requestType,
         $lastTransactionId,
@@ -223,40 +194,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
         $additionalMessage = false
     ) {
         $message = __('Credit Card: xxxx-%1', $card->getCcLast4());
-
         if ($amount) {
-            $amount = __('amount %1', $this->_formatPrice($payment, $amount));
-            $message .= __(' %1', $amount);
+            $message .= __(' amount %1', $this->_formatPrice($payment, $amount));
         }
-
         $operation = $this->_getOperation($requestType);
-
         if (!$operation) {
             return false;
         } else {
             $message .= __(' %1', $operation);
         }
-
         if ($exception) {
-            $result = __('failed');
+            $message .= __(' - failed.');
         } else {
-            $result = __('successful');
+            $message .= __(' - successful.');
         }
-        $message .= __(' - %1.', $result);
-
         if (!is_null($lastTransactionId)) {
-            $texts = __('Authorize.Net Transaction ID %1', $lastTransactionId);
-            $message .= __(' %1.', $texts);
+            $message .= __(' Authorize.Net Transaction ID %1.', $lastTransactionId);
         }
-
         if ($additionalMessage) {
             $message .= __(' %1.', $additionalMessage);
         }
-
         if ($exception) {
             $message .= __(' %1.', $exception);
         }
-
         return $message;
     }
 

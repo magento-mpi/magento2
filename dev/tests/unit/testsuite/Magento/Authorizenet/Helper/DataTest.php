@@ -38,7 +38,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      * @param $expected
      * @dataProvider getMessagesParamDataProvider
      */
-    public function testGetExtendedTransactionMessage($type, $amount, $exception, $additionalMessage, $expected)
+    public function testGetTransactionMessage($type, $amount, $exception, $additionalMessage, $expected)
     {
         $currency = $this->getMock('Magento\Directory\Model\Currency', ['formatTxt', '__wakeup'], [], '', false);
         $currency->expects($this->any())
@@ -53,7 +53,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getOrder')
             ->will($this->returnValue($order));
         $card = new \Magento\Framework\Object(['cc_last4' => self::LAST4]);
-        $message = $this->_model->getExtendedTransactionMessage(
+        $message = $this->_model->getTransactionMessage(
             $payment,
             $type,
             self::TRID,
