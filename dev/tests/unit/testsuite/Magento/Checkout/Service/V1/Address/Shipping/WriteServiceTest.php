@@ -37,6 +37,16 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $storeManagerMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $validatorMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $converterMock;
+
+    /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
@@ -60,23 +70,34 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->addressFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->quoteAddressMock));
+
+        $this->validatorMock = $this->getMock(
+            '\Magento\Checkout\Service\V1\Address\Validator', [], [], '', false
+        );
+
+        $this->converterMock = $this->getMock(
+            '\Magento\Checkout\Service\V1\Address\Converter', [], [], '', false
+        );
+
         $this->service = $this->objectManager->getObject(
             '\Magento\Checkout\Service\V1\Address\Shipping\WriteService',
             [
                 'quoteLoader' => $this->quoteLoaderMock,
                 'storeManager' => $this->storeManagerMock,
                 'quoteAddressFactory' => $this->addressFactoryMock,
+                'addressValidator' => $this->validatorMock,
+                'addressConverter' => $this->converterMock,
             ]
         );
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage Invalid address id 300
+     * @expected ExceptionMessage error345
      */
-    public  function testSetAddressInvalidId()
+    public function testSetAddressValidationFailed()
     {
-        $storeId = 323;
+        $storeId = 554;
         $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
@@ -84,47 +105,13 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteLoaderMock->expects($this->once())
             ->method('load')
-            ->with('cartId', $storeId)
+            ->with('cart654', $storeId)
             ->will($this->returnValue($quoteMock));
 
-        /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
-        $addressDataBuilder = $this->objectManager->getObject('Magento\Checkout\Service\V1\Data\Cart\AddressBuilder');
-        $addressId = 300;
-        /** @var \Magento\Checkout\Service\V1\Data\Cart\Address $addressData */
-        $addressData = $addressDataBuilder->setId($addressId)->create();
-        $this->quoteAddressMock->expects($this->once())->method('load')->with($addressId);
-        $this->quoteAddressMock->expects($this->once())->method('getData')->will($this->returnValue([]));
+        $this->validatorMock->expects($this->once())->method('validate')
+            ->will($this->throwException(new \Magento\Framework\Exception\NoSuchEntityException('error345')));
 
-        $this->service->setAddress('cartId', $addressData);
-    }
-
-    /**
-     * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage Address with id 300 belongs to another customer
-     */
-    public  function testSetAddressAnotherCustomer()
-    {
-        $storeId = 323;
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
-        $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
-
-        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
-        $this->quoteLoaderMock->expects($this->once())
-            ->method('load')
-            ->with('cartId', $storeId)
-            ->will($this->returnValue($quoteMock));
-
-        /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
-        $addressDataBuilder = $this->objectManager->getObject('Magento\Checkout\Service\V1\Data\Cart\AddressBuilder');
-        $addressId = 300;
-        /** @var \Magento\Checkout\Service\V1\Data\Cart\Address $addressData */
-        $addressData = $addressDataBuilder->setId($addressId)->setCustomerId(3)->create();
-        $this->quoteAddressMock->expects($this->once())->method('load')->with($addressId);
-        $this->quoteAddressMock->expects($this->once())->method('getData')->will($this->returnValue([1]));
-        $this->quoteAddressMock->expects($this->once())->method('getCustomerId')->will($this->returnValue(2));
-
-        $this->service->setAddress('cartId', $addressData);
+        $this->service->setAddress('cart654', null);
     }
 
     public  function testSetAddress()
@@ -137,36 +124,27 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteLoaderMock->expects($this->once())
             ->method('load')
-            ->with('cartId', $storeId)
+            ->with('cart867', $storeId)
             ->will($this->returnValue($quoteMock));
 
         /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
         $addressDataBuilder = $this->objectManager->getObject('Magento\Checkout\Service\V1\Data\Cart\AddressBuilder');
 
-        $regionMock = $this->getMock(
-            '\Magento\Checkout\Service\V1\Data\Cart\Address\Region', [], [], '', false
-        );
-        $street = 'Sample Street';
-        $regionId = 23;
-        $regionName = 'California';
-
-        $regionMock->expects($this->once())->method('getRegionId')->will($this->returnValue($regionId));
-        $regionMock->expects($this->once())->method('getRegion')->will($this->returnValue($regionName));
-
         /** @var \Magento\Checkout\Service\V1\Data\Cart\Address $addressData */
-        $addressData = $addressDataBuilder
-            ->setStreet($street)
-            ->setRegion($regionMock)
-            ->create();
-        $this->quoteAddressMock->expects($this->once())->method('setData');
-        $this->quoteAddressMock->expects($this->once())->method('setStreet')->with($street);
-        $this->quoteAddressMock->expects($this->once())->method('setRegionId')->with($regionId);
-        $this->quoteAddressMock->expects($this->once())->method('setRegion')->with($regionName);
+        $addressData = $addressDataBuilder->setId(356)->create();
+
+        $this->validatorMock->expects($this->once())->method('validate')
+            ->with($addressData)
+            ->will($this->returnValue(true));
+
+        $this->converterMock->expects($this->once())->method('convertDataObjectToModel')
+            ->with($addressData, $this->quoteAddressMock)
+            ->will($this->returnValue($this->quoteAddressMock));
 
         $quoteMock->expects($this->once())->method('setShippingAddress')->with($this->quoteAddressMock);
         $quoteMock->expects($this->once())->method('setDataChanges')->with(true);
         $quoteMock->expects($this->once())->method('save');
 
-        $this->service->setAddress('cartId', $addressData);
+        $this->service->setAddress('cart867', $addressData);
     }
 }
