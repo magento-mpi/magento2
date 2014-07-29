@@ -45,9 +45,7 @@ class CompositeUserContext implements \Magento\Authorization\Model\UserContextIn
     }
 
     /**
-     * Retrieve user id.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getUserId()
     {
@@ -55,9 +53,7 @@ class CompositeUserContext implements \Magento\Authorization\Model\UserContextIn
     }
 
     /**
-     * Retrieve user type.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getUserType()
     {

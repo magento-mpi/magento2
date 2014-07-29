@@ -21,7 +21,7 @@ interface UserContextInterface
     public function getUserId();
 
     /**
-     * Retrieve current user type (Admin, Customer, Guest, Integration).
+     * Retrieve current user type.
      *
      * @return string
      */
