@@ -38,6 +38,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     protected $_actionClean;
 
+    /**
+     * @var Rule\Action\CleanDeleteProduct|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_actionCleanDeleteProduct;
+
     public function setUp()
     {
         $this->_ruleProductProcessor = $this->getMock(
@@ -82,13 +87,21 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->_actionCleanDeleteProduct = $this->getMock(
+            'Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\CleanDeleteProduct',
+            [],
+            [],
+            '',
+            false
+        );
         $this->_ruleIndexer = new \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule(
             $actionRow,
             $actionRows,
             $this->_actionFull,
             $this->_ruleProductProcessor,
             $this->_productRuleProcessor,
-            $this->_actionClean
+            $this->_actionClean,
+            $this->_actionCleanDeleteProduct
         );
     }
 

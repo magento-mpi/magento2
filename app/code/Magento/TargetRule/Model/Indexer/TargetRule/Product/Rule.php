@@ -65,7 +65,7 @@ class Rule implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
         \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor $ruleProductProcessor,
         \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleProcessor,
         \Magento\TargetRule\Model\Indexer\TargetRule\Action\Clean $productRuleIndexerClean,
-        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\CleanDeleteProduct $productRuleIndexerCleanDeleteProduct
+        Rule\Action\CleanDeleteProduct $productRuleIndexerCleanDeleteProduct
     ) {
         $this->_productRuleIndexerRow = $productRuleIndexerRow;
         $this->_productRuleIndexerRows = $productRuleIndexerRows;
