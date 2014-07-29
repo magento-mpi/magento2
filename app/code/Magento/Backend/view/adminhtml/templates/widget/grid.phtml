@@ -139,12 +139,11 @@ $numColumns = sizeof($this->getColumns());
         <?php if ($this->canDisplayContainer()): ?>
     </div>
     <script type="text/javascript">
-        var deps = ['mage/adminhtml/grid'],
-            needsOrderObj = '<?php echo $this->getRowClickCallback() ?>'.split('.')[0] === 'order';
+        var deps = ['mage/adminhtml/grid'];
 
-        if( needsOrderObj ){
-            deps.push('Magento_Sales/order/create/form');
-        }
+    <?php if ( strpos($this->getRowClickCallback(), 'order.') !== false ): ?>
+    deps.push('Magento_Sales/order/create/form')
+    <?php endif; ?>
 
         require(deps, function(){
             <?php //TODO: getJsObjectName and getRowClickCallback has unexpected behavior. Should be removed ?>
