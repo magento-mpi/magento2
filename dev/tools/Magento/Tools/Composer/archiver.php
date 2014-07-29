@@ -78,7 +78,8 @@ try {
         $components,
         array(
             $workingDir . '/.git',
-            $workingDir . '/.idea'
+            $workingDir . '/.idea',
+            $workingDir . '/app/vendor_autoload.php',
         )
     );
 
