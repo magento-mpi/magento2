@@ -16,7 +16,7 @@ class SampleRepository
      * Collection Factory
      *
      * @var
-     * \Magento\Framework\ObjectManager\Code\Generator\Resource\Sample\CollectionFactory
+     * \Magento\Framework\ObjectManager\Resource\Code\Generator\Sample\CollectionFactory
      */
     protected $sampleCollectionFactory = null;
 
@@ -32,10 +32,10 @@ class SampleRepository
      *
      * @param \Magento\Framework\ObjectManager\Code\Generator\Sample $sampleFactory
      * @param
-     * \Magento\Framework\ObjectManager\Code\Generator\Resource\Sample\CollectionFactory
+     * \Magento\Framework\ObjectManager\Resource\Code\Generator\Sample\CollectionFactory
      * $sampleCollectionFactory
      */
-    public function __construct(\Magento\Framework\ObjectManager\Code\Generator\SampleFactory $sampleFactory, \Magento\Framework\ObjectManager\Code\Generator\Resource\Sample\CollectionFactory $sampleCollectionFactory)
+    public function __construct(\Magento\Framework\ObjectManager\Code\Generator\SampleFactory $sampleFactory, \Magento\Framework\ObjectManager\Resource\Code\Generator\Sample\CollectionFactory $sampleCollectionFactory)
     {
         $this->sampleFactory = $sampleFactory;
         $this->sampleCollectionFactory = $sampleCollectionFactory;
