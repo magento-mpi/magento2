@@ -37,6 +37,15 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     }
 
     /**
+     * @param int $value
+     * @return self
+     */
+    public function setPosition($value)
+    {
+        return $this->_set(Option::POSITION, $value);
+    }
+
+    /**
      * @param bool $value 
      * @return self 
      */
