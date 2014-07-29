@@ -10,7 +10,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:include schemaLocation="layouts.xsd"/>
 
-    <xs:element name="page" type="pageLayoutType">
+    <xs:element name="page" type="pageType">
         <xs:unique name="blockKey">
             <xs:selector xpath=".//block"/>
             <xs:field xpath="@name"/>
@@ -21,9 +21,13 @@
         </xs:unique>
     </xs:element>
 
-    <xs:complexType name="pageLayoutType">
+    <xs:complexType name="pageType">
         <xs:complexContent>
             <xs:extension base="layoutType">
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element ref="referenceBlock" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
                 <xs:attribute  type="xs:string" name="layout" />
             </xs:extension>
         </xs:complexContent>
