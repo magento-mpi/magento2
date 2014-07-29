@@ -24,7 +24,7 @@
                 <span><?php echo $this->escapeHtml($currentCurrencyCode) ?> - <?php echo @$this->escapeHtml($currencies[$currentCurrencyCode]) ?></span>
             </strong>
         </div>
-        <ul class="dropdown" data-mage-init='{"dropdownDialog":{"appendTo":".switcher.currency > .options", "triggerTarget":"#currency-switcher", "closeOnMouseLeave": false, "triggerClass":"active", "parentClass":"active", "buttons":null}}'>
+        <ul class="dropdown" data-m2-init='{"mage/dropdown":{"appendTo":".switcher.currency > .options", "triggerTarget":"#currency-switcher", "closeOnMouseLeave": false, "triggerClass":"active", "parentClass":"active", "buttons":null}}'>
             <?php foreach ($currencies as $_code => $_name): ?>
                 <?php if($_code != $currentCurrencyCode): ?>
                     <li class="currency-<?php echo $_code ?>">

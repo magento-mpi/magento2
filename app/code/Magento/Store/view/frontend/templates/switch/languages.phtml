@@ -22,7 +22,7 @@
             </strong>
         </div>
         <ul class="dropdown"
-            data-mage-init='{"dropdownDialog":{"appendTo":".switcher.language > .options", "triggerTarget":"#language-switcher", "closeOnMouseLeave": false, "triggerClass":"active", "parentClass":"active", "buttons":null}}'>
+            data-m2-init='{"mage/dropdown":{"appendTo":".switcher.language > .options", "triggerTarget":"#language-switcher", "closeOnMouseLeave": false, "triggerClass":"active", "parentClass":"active", "buttons":null}}'>
             <?php foreach ($this->getStores() as $_lang): ?>
                 <?php if($_lang->getId()!=$this->getCurrentStoreId()): ?>
                     <li class="view-<?php echo $this->escapeHtml($_lang->getCode()); ?>">
