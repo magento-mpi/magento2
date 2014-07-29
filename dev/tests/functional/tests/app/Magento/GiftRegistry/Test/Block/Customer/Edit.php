@@ -8,14 +8,14 @@
 
 namespace Magento\GiftRegistry\Test\Block\Customer;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class Edit
  * Form for select gift registry type
  */
-class Edit extends Block
+class Edit extends Form
 {
     /**
      * Gift registry type input field

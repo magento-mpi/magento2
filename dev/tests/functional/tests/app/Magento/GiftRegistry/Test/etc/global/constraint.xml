@@ -14,19 +14,19 @@
     <assertGiftRegistryInGrid module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistryInGrid>
-        <assertGiftRegistryForm module="Magento_GiftRegistry">
+    <assertGiftRegistryForm module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistryForm>
-    <assertGiftRegistryIsActiveInShoppingCart module="Magento_GiftRegistry">
+    <assertGiftRegistryActiveInShoppingCart module="Magento_GiftRegistry">
         <severeness>low</severeness>
-    </assertGiftRegistryIsActiveInShoppingCart>
-    <assertGiftRegistryIsInactiveNotInShoppingCart module="Magento_GiftRegistry">
+    </assertGiftRegistryActiveInShoppingCart>
+    <assertGiftRegistryInactiveNotInShoppingCart module="Magento_GiftRegistry">
         <severeness>low</severeness>
-    </assertGiftRegistryIsInactiveNotInShoppingCart>
-    <assertGiftRegistryIsActiveInWishlist module="Magento_GiftRegistry">
+    </assertGiftRegistryInactiveNotInShoppingCart>
+    <assertGiftRegistryActiveInWishlist module="Magento_GiftRegistry">
         <severeness>low</severeness>
-    </assertGiftRegistryIsActiveInWishlist>
-    <assertGiftRegistryIsInactiveNotInWishlist module="Magento_GiftRegistry">
+    </assertGiftRegistryActiveInWishlist>
+    <assertGiftRegistryInactiveNotInWishlist module="Magento_GiftRegistry">
         <severeness>low</severeness>
-    </assertGiftRegistryIsInactiveNotInWishlist>
+    </assertGiftRegistryInactiveNotInWishlist>
 </constraint>

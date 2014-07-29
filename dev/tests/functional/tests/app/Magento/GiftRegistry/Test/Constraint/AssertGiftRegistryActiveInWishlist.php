@@ -17,9 +17,9 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 
 /**
- * Class AssertGiftRegistryIsActiveInWishlist
+ * Class AssertGiftRegistryActiveInWishlist
  */
-class AssertGiftRegistryIsActiveInWishlist extends AbstractConstraint
+class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
 {
     /**
      * Success message after gift registry has been added
@@ -60,8 +60,6 @@ class AssertGiftRegistryIsActiveInWishlist extends AbstractConstraint
             self::SUCCESS_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
-            . "\nActual: " . $actualMessage
         );
         $giftRegistryIndex->open()->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Manage Items');
         \PHPUnit_Framework_Assert::assertTrue(

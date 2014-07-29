@@ -15,9 +15,6 @@ use Mtf\Page\FrontendPage;
  */
 class CheckoutCart extends FrontendPage
 {
-    /**
-     * URL for checkout cart page
-     */
     const MCA = 'checkout/cart';
 
     protected $_blocks = [
@@ -55,6 +52,12 @@ class CheckoutCart extends FrontendPage
             'name' => 'discountCodesBlock',
             'class' => 'Magento\Checkout\Test\Block\Cart\DiscountCodes',
             'locator' => '.block.discount',
+            'strategy' => 'css selector',
+        ],
+        'giftRegistryBlock' => [
+            'name' => 'giftRegistryBlock',
+            'class' => 'Magento\GiftRegistry\Test\Block\Cart\Link',
+            'locator' => '#add-cart-items-to-gift-registry',
             'strategy' => 'css selector',
         ],
     ];
@@ -105,5 +108,13 @@ class CheckoutCart extends FrontendPage
     public function getDiscountCodesBlock()
     {
         return $this->getBlockInstance('discountCodesBlock');
+    }
+
+    /**
+     * @return \Magento\GiftRegistry\Test\Block\Cart\Link
+     */
+    public function getGiftRegistryBlock()
+    {
+        return $this->getBlockInstance('giftRegistryBlock');
     }
 }

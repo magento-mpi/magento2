@@ -54,6 +54,12 @@ class GiftRegistryEdit extends FrontendPage
             'locator' => '//fieldset[div/div/select[@id="baby_gender"]]',
             'strategy' => 'xpath',
         ],
+        'giftRegistryForm' => [
+            'name' => 'giftRegistryForm',
+            'class' => 'Magento\GiftRegistry\Test\Block\Customer\Edit',
+            'locator' => '.form-giftregistry-edit',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -102,5 +108,13 @@ class GiftRegistryEdit extends FrontendPage
     public function getGiftRegistryPropertiesForm()
     {
         return $this->getBlockInstance('giftRegistryPropertiesForm');
+    }
+
+    /**
+     * @return \Magento\GiftRegistry\Test\Block\Customer\Edit
+     */
+    public function getGiftRegistryForm()
+    {
+        return $this->getBlockInstance('giftRegistryForm');
     }
 }

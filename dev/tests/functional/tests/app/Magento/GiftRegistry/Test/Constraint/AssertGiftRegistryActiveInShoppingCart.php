@@ -16,9 +16,9 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 
 /**
- * Class AssertGiftRegistryIsActiveInShoppingCart
+ * Class AssertGiftRegistryActiveInShoppingCart
  */
-class AssertGiftRegistryIsActiveInShoppingCart extends AbstractConstraint
+class AssertGiftRegistryActiveInShoppingCart extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -46,7 +46,7 @@ class AssertGiftRegistryIsActiveInShoppingCart extends AbstractConstraint
     ) {
         $catalogProductView->init($product);
         $catalogProductView->open()->getViewBlock()->clickAddToCart();
-        $checkoutCart->getCartBlock()->addToGiftRegistry($giftRegistry->getTitle());
+        $checkoutCart->getGiftRegistryBlock()->addToGiftRegistry($giftRegistry->getTitle());
         \PHPUnit_Framework_Assert::assertTrue(
             $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product->getName()),
             'Product can not be added to gift registry \'' . $giftRegistry->getTitle() . '\' from Shopping Cart.'

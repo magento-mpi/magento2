@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <title/>
+        <message>
+            <input>textarea</input>
+        </message>
+        <is_public>
+            <input>select</input>
+        </is_public>
+        <is_active>
+            <input>select</input>
+        </is_active>
+        <event_country>
+            <input>select</input>
+        </event_country>
+        <event_country_region>
+            <input>select</input>
+        </event_country_region>
+        <event_date/>
+        <event_location/>
+        <number_of_guests>
+            <selector>[name="registry[number_of_guests]"]</selector>
+        </number_of_guests>
+        <baby_gender>
+            <input>select</input>
+            <selector>[name="registry[baby_gender]"]</selector>
+        </baby_gender>
+        <firstname>
+            <selector>[name="registrant[0][firstname]"]</selector>
+        </firstname>
+        <lastname>
+            <selector>[name="registrant[0][lastname]"]</selector>
+        </lastname>
+        <email>
+            <selector>[name="registrant[0][email]"]</selector>
+        </email>
+        <role>
+            <input>select</input>
+            <selector>[name="registrant[0][role]"]</selector>
+        </role>
+        <company>
+            <selector>[name="address[company]"]</selector>
+        </company>
+        <street>
+            <selector>[name="address[street][]"]</selector>
+        </street>
+        <city>
+            <selector>[name="address[city]"]</selector>
+        </city>
+        <region_id>
+            <input>select</input>
+            <selector>[name="address[region_id]"]</selector>
+        </region_id>
+        <postcode>
+            <selector>[name="address[postcode]"]</selector>
+        </postcode>
+        <country_id>
+            <input>select</input>
+            <selector>[name="address[country_id]"]</selector>
+        </country_id>
+        <telephone>
+            <selector>[name="address[telephone]"]</selector>
+        </telephone>
+        <fax>
+            <selector>[name="address[fax]"]</selector>
+        </fax>
+    </fields>
+</mapping>

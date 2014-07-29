@@ -44,4 +44,10 @@
         <locator>//fieldset[div/div/select[@id="baby_gender"]]</locator>
         <strategy>xpath</strategy>
     </block>
+    <block>
+        <name>giftRegistryForm</name>
+        <class>Magento\GiftRegistry\Test\Block\Customer\Edit</class>
+        <locator>.form-giftregistry-edit</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

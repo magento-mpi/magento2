@@ -14,7 +14,7 @@
         <magento_giftregistry_entity>magento_giftregistry_entity</magento_giftregistry_entity>
         <magento_giftregistry_data>magento_giftregistry_data</magento_giftregistry_data>
     </entities>
-    <collection>Magento\GiftRegistry\Model\Resource\GiftRegistry</collection>
+    <collection>Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection</collection>
     <fields>
         <entity_id>
             <attribute_code>entity_id</attribute_code>

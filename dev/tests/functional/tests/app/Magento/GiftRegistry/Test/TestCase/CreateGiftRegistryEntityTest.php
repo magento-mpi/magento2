@@ -8,22 +8,22 @@
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistryPerson;
-use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistryPerson;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
+use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
+use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
 
 /**
- * Test Creation for Create GiftWrappingEntity
+ * Test Creation for Create GiftRegistryEntity
  *
  * Test Flow:
  *
@@ -168,7 +168,7 @@ class CreateGiftRegistryEntityTest extends Injectable
         $this->giftRegistryAddSelect->getGiftRegistryTypeBlock()->selectGiftRegistryType($giftRegistry->getTypeId());
         $this->giftRegistryEdit->getGeneralInformationForm()->fill($giftRegistry);
         $this->giftRegistryEdit->getEventInformationForm()->fill($giftRegistry);
-        if ($giftRegistry->getTypeId() == 'Baby Registry') {
+        if ($giftRegistry->hasData('baby_gender')) {
             $this->giftRegistryEdit->getGiftRegistryPropertiesForm()->fill($giftRegistry);
         }
         $this->giftRegistryEdit->getRecipientsInformationForm()->fill($giftRegistryPerson);

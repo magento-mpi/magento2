@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class GiftRegistryPerson
- *
- * @package Magento\GiftRegistry\Test\Fixture
  */
 class GiftRegistryPerson extends InjectableFixture
 {
@@ -28,6 +26,9 @@ class GiftRegistryPerson extends InjectableFixture
     protected $handlerInterface = 'Magento\GiftRegistry\Test\Handler\GiftRegistryPerson\GiftRegistryPersonInterface';
 
     protected $defaultDataSet = [
+        'email' => 'email@test%isolation%.com',
+        'firstname' => 'FirstName%isolation%',
+        'lastname' => 'LastName%isolation%',
     ];
 
     protected $person_id = [

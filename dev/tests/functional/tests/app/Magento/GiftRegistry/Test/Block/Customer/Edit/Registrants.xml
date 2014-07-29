@@ -10,17 +10,17 @@
 <mapping strict="0">
     <fields>
         <firstname>
-            <selector>[id="registrant:firstname0"]</selector>
+            <selector>[name="registrant[0][firstname]"]</selector>
         </firstname>
         <lastname>
-            <selector>[id="registrant:lastname0"]</selector>
+            <selector>[name="registrant[0][lastname]"]</selector>
         </lastname>
         <email>
-            <selector>[id="registrant:email0"]</selector>
+            <selector>[name="registrant[0][email]"]</selector>
         </email>
         <role>
             <input>select</input>
-            <selector>[id="registrant:role0"]</selector>
+            <selector>[name="registrant[0][role]"]</selector>
         </role>
     </fields>
 </mapping>

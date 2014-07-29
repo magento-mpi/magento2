@@ -11,34 +11,41 @@ namespace Magento\GiftRegistry\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
- * Class AssertGiftRegistryIsInactiveNotInShoppingCart
+ * Class AssertGiftRegistryInactiveNotInWishlist
  */
-class AssertGiftRegistryIsInactiveNotInShoppingCart extends AbstractConstraint
+class AssertGiftRegistryInactiveNotInWishlist extends AbstractConstraint
 {
     /**
-     * Assert that product can not be added to active gift registry from Shopping Cart
+     * Constraint severeness
+     *
+     * @var string
+     */
+    protected $severeness = 'low';
+
+    /**
+     * Assert that product can not be added to active gift registry from Wishlist
      *
      * @param CatalogProductView $catalogProductView
-     * @param CheckoutCart $checkoutCart
      * @param CatalogProductSimple $product
      * @param GiftRegistry $giftRegistry
+     * @param WishlistIndex $wishlistIndex
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
-        CheckoutCart $checkoutCart,
         CatalogProductSimple $product,
-        GiftRegistry $giftRegistry
+        GiftRegistry $giftRegistry,
+        WishlistIndex $wishlistIndex
     ) {
         $catalogProductView->init($product);
-        $catalogProductView->open()->getViewBlock()->clickAddToCart();
+        $catalogProductView->open()->getViewBlock()->addToWishlist();
         \PHPUnit_Framework_Assert::assertFalse(
-            $checkoutCart->getCartBlock()->giftRegistryIsVisible($giftRegistry->getTitle()),
-            'Product can be added to gift registry \'' . $giftRegistry->getTitle() . '\' from Shopping Cart.'
+            $wishlistIndex->getWishlistBlock()->giftRegistryIsVisible($giftRegistry->getTitle()),
+            'Product can be added to gift registry \'' . $giftRegistry->getTitle() . '\' from Wishlist.'
         );
     }
 
@@ -49,6 +56,6 @@ class AssertGiftRegistryIsInactiveNotInShoppingCart extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product can not be added to active GiftRegistry from Shopping Cart.';
+        return 'Product can not be added to active GiftRegistry from Wishlist.';
     }
 }

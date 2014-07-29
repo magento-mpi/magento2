@@ -28,11 +28,11 @@
         <event_date/>
         <event_location/>
         <number_of_guests>
-            <selector>#number_of_guests</selector>
+            <selector>[name="registry[number_of_guests]"]</selector>
         </number_of_guests>
         <baby_gender>
             <input>select</input>
-            <selector>#baby_gender</selector>
+            <selector>[name="registry[baby_gender]"]</selector>
         </baby_gender>
     </fields>
 </mapping>
