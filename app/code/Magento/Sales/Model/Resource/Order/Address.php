@@ -89,11 +89,17 @@ class Address extends AbstractOrder
      *
      * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
-        $this->_validator->validate($object);
+        $warnings = $this->_validator->validate($object);
+        if (!empty($warnings)) {
+            throw new \Magento\Framework\Model\Exception(
+                __("Cannot save address") . ":\n" . implode("\n", $warnings)
+            );
+        }
         return $this;
     }
 
