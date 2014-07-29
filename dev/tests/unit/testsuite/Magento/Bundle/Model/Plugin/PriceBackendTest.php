@@ -21,6 +21,12 @@ class PriceBackendTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $product;
+
+    /**
+     * @var \Magento\Framework\Object|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $object;
+
     /**
      * @var \Closure
      */
@@ -35,6 +41,7 @@ class PriceBackendTest extends \PHPUnit_Framework_TestCase
     {
         $this->subject = $this->getMock('Magento\Catalog\Model\Product\Attribute\Backend\Price', [], [], '', false);
         $this->product = $this->getMock('Magento\Catalog\Model\Product', ['getPriceType', '__wakeup'], [], '', false);
+        $this->object = $this->getMock('\Magento\Framework\Object');
         $this->proceed = function ($product) {
             return $product;
         };
@@ -57,6 +64,14 @@ class PriceBackendTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $this->product,
             $this->model->aroundValidate($this->subject, $this->proceed, $this->product)
+        );
+    }
+
+    public function testAroundValidateWithNotProductObject()
+    {
+        $this->assertEquals(
+            $this->object,
+            $this->model->aroundValidate($this->subject, $this->proceed, $this->object)
         );
     }
 }

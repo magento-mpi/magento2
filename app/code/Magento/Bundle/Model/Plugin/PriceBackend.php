@@ -17,19 +17,21 @@ class PriceBackend
     /**
      * @param \Magento\Catalog\Model\Product\Attribute\Backend\Price $subject
      * @param \Closure $proceed
-     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Product|\Magento\Framework\Object $object
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundValidate(
         \Magento\Catalog\Model\Product\Attribute\Backend\Price $subject,
         \Closure $proceed,
-        \Magento\Catalog\Model\Product $product
+        $object
     ) {
-        if ($product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC) {
+        if ($object instanceof \Magento\Catalog\Model\Product
+            && $object->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
+        ) {
             return true;
         } else {
-            return $proceed($product);
+            return $proceed($object);
         }
     }
 }
