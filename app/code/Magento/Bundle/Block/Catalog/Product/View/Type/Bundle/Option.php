@@ -34,10 +34,20 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     protected $_coreHelper;
 
     /**
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxHelper;
+
+    /**
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogHelper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogHelper
+     * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Math\Random $mathRandom
@@ -50,8 +60,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogHelper,
+        \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Math\Random $mathRandom,
@@ -60,11 +70,13 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
+        $this->_catalogHelper = $catalogHelper;
+        $this->_taxHelper = $taxHelper;
         parent::__construct(
             $context,
             $jsonEncoder,
-            $catalogData,
-            $taxData,
+            $catalogHelper,
+            $taxHelper,
             $registry,
             $string,
             $mathRandom,
@@ -278,6 +290,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      */
     public function formatPriceString($price, $includeContainer = true)
     {
+        $catalogHelper = $this->_catalogData;
         $taxHelper = $this->_taxData;
         $coreHelper = $this->_coreHelper;
         $currentProduct = $this->getProduct();
@@ -287,8 +300,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
             $product = $currentProduct;
         }
 
-        $priceTax = $taxHelper->getPrice($product, $price);
-        $priceIncTax = $taxHelper->getPrice($product, $price, true);
+        $priceTax = $catalogHelper->getTaxPrice($product, $price, false);
+        $priceIncTax = $catalogHelper->getTaxPrice($product, $price, true);
 
         $formatted = $coreHelper->currencyByStore($priceTax, $product->getStore(), true, $includeContainer);
         if ($taxHelper->displayBothPrices() && $priceTax != $priceIncTax) {
