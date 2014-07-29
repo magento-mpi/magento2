@@ -9,7 +9,6 @@
 namespace Magento\CustomerSegment\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\CustomerSegment\Test\Page\Adminhtml\BannerNew;
 
@@ -29,18 +28,15 @@ class AssertCustomerSegmentAvailableInBannerForm extends AbstractConstraint
     /**
      * Assert that created customer segment is available in Banner edit page
      *
-     * @param BannerIndex $bannerIndex
      * @param BannerNew $bannerNew
      * @param CustomerSegment $customerSegment
      * @return void
      */
     public function processAssert(
-        BannerIndex $bannerIndex,
         BannerNew $bannerNew,
         CustomerSegment $customerSegment
     ) {
-        $bannerIndex->open();
-        $bannerIndex->getPageActionsBlock()->addNew();
+        $bannerNew->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $bannerNew->getBannerForm()->isCustomerSegmentVisible($customerSegment->getName()),
             'Customer segment is not available in Banner edit page.'
@@ -54,6 +50,6 @@ class AssertCustomerSegmentAvailableInBannerForm extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer segment is available in Banner edit page.';
+        return 'Customer segment is available on Banner edit page.';
     }
 }
