@@ -6,13 +6,16 @@
  * @license     {license_link}
  */
 
-/**
- * Abstract Rule product condition data model
- *
- * @author Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Rule\Model\Condition\Sql;
 
+use \Magento\Rule\Model\Condition\Combine;
+use \Magento\Rule\Model\Condition\AbstractCondition;
+
+/**
+ * Class SQL Builder
+ *
+ * @package Magento\Rule\Model\Condition\Sql
+ */
 class Builder
 {
     /**
@@ -37,17 +40,30 @@ class Builder
     ];
 
     /**
+     * @var \Magento\Rule\Model\Condition\Sql\ExpressionFactory
+     */
+    protected $_expressionFactory;
+
+    /**
+     * @param ExpressionFactory $expressionFactory
+     */
+    public function __construct(ExpressionFactory $expressionFactory)
+    {
+        $this->_expressionFactory = $expressionFactory;
+    }
+
+    /**
      * Get tables to join for given conditions combination
      *
-     * @param \Magento\Rule\Model\Condition\Combine $combine
+     * @param Combine $combine
      * @return array
      * @throws \Magento\Exception
      */
-    protected function _getCombineTablesToJoin(\Magento\Rule\Model\Condition\Combine $combine)
+    protected function _getCombineTablesToJoin(Combine $combine)
     {
         $tables = [];
         foreach ($combine->getConditions() as $condition) {
-            /** @var $condition \Magento\Rule\Model\Condition\AbstractCondition */
+            /** @var $condition AbstractCondition */
             foreach ($condition->getTablesToJoin() as $alias => $table) {
                 if (!isset($tables[$alias])) {
                     $tables[$alias] = $table;
@@ -61,15 +77,15 @@ class Builder
      * Join tables from conditions combination to collection
      *
      * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
-     * @param \Magento\Rule\Model\Condition\Combine $combine
+     * @param Combine $combine
      * @return $this
      */
     protected function _joinTablesToCollection(
         \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection,
-        \Magento\Rule\Model\Condition\Combine $combine
+        Combine $combine
     ) {
         foreach ($this->_getCombineTablesToJoin($combine) as $alias => $joinTable) {
-            /** @var $condition \Magento\Rule\Model\Condition\AbstractCondition */
+            /** @var $condition AbstractCondition */
             $collection->getSelect()->joinLeft(
                 [$alias => $collection->getResource()->getTable($joinTable['name'])],
                 $joinTable['condition']
@@ -79,14 +95,13 @@ class Builder
     }
 
     /**
-     * @param \Magento\Rule\Model\Condition\AbstractCondition $condition
+     * @param AbstractCondition $condition
      * @param string $value
      * @return string
      * @throws \Magento\Framework\Exception
      */
-    protected function _getMappedSqlCondition(\Magento\Rule\Model\Condition\AbstractCondition $condition, $value = '')
+    protected function _getMappedSqlCondition(AbstractCondition $condition, $value = '')
     {
-        $out = ' ';
         $argument = $condition->getMappedSqlField();
         if ($argument) {
             $conditionOperator = $condition->getOperator();
@@ -100,49 +115,54 @@ class Builder
                 $this->_connection->quoteIdentifier($argument),
                 $this->_conditionOperatorMap[$conditionOperator]
             );
-            $out .= $value . $this->_connection->quoteInto($sql, $parsedValue) . ') ';
+            return $this->_expressionFactory->create(
+                ['expression' => $value . $this->_connection->quoteInto($sql, $parsedValue)]
+            );
         }
-        return $out;
+        return '';
     }
 
     /**
-     * @param \Magento\Rule\Model\Condition\Combine $combine
+     * @param Combine $combine
      * @param string $value
      * @return string
      */
-    protected function _getMappedSqlCombination(\Magento\Rule\Model\Condition\Combine $combine, $value = '')
+    protected function _getMappedSqlCombination(Combine $combine, $value = '')
     {
-        $out = (!empty($value) ? $value : '(');
-        $value = ($combine->getValue() ? '(' : ' NOT (');
+        $out = (!empty($value) ? $value : '');
+        $value = ($combine->getValue() ? '' : ' NOT ');
         $getAggregator = $combine->getAggregator();
         $conditions = $combine->getConditions();
         foreach ($conditions as $key => $condition) {
-            /** @var $condition \Magento\Rule\Model\Condition\AbstractCondition */
+            /** @var $condition AbstractCondition|Combine */
             $con = ($getAggregator == 'any' ? \Zend_Db_Select::SQL_OR : \Zend_Db_Select::SQL_AND);
             $con = (isset($conditions[$key+1]) ? $con : '');
-            if ($condition instanceof \Magento\Rule\Model\Condition\Combine) {
+            if ($condition instanceof Combine) {
                 $out .= $this->_getMappedSqlCombination($condition, $value);
             } else {
                 $out .= $this->_getMappedSqlCondition($condition, $value);
             }
             $out.=  ' ' . $con;
         }
-        $out .= ')';
-        return $out;
+        return $this->_expressionFactory->create(['expression' => $out]);
     }
 
     /**
      * Attach conditions filter to collection
      *
      * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
-     * @param \Magento\Rule\Model\Condition\Combine $combine
+     * @param Combine $combine
      */
     public function attachConditionToCollection(
         \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection,
-        \Magento\Rule\Model\Condition\Combine $combine
+        Combine $combine
     ) {
         $this->_connection = $collection->getResource()->getReadConnection();
         $this->_joinTablesToCollection($collection, $combine);
-        $collection->getSelect()->where($this->_getMappedSqlCombination($combine));
+        $whereExpression = $this->_getMappedSqlCombination($combine);
+        if (!empty($whereExpression)) {
+            // Select ::where method adds braces even on empty expression
+            $collection->getSelect()->where($this->_getMappedSqlCombination($combine));
+        }
     }
 }
