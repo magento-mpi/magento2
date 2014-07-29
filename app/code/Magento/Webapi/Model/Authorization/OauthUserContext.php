@@ -41,6 +41,11 @@ class OauthUserContext implements UserContextInterface
     protected $oauthHelper;
 
     /**
+     * @var int
+     */
+    protected $integrationId;
+
+    /**
      * Initialize dependencies.
      *
      * @param Request $request
@@ -65,6 +70,9 @@ class OauthUserContext implements UserContextInterface
      */
     public function getUserId()
     {
+        if ($this->integrationId) {
+            return $this->integrationId;
+        }
         $oauthRequest = $this->oauthHelper->prepareRequest($this->request);
         //If its not a valid Oauth request no further processing is needed
         if (empty($oauthRequest)) {
@@ -76,7 +84,7 @@ class OauthUserContext implements UserContextInterface
             $this->request->getMethod()
         );
         $integration = $this->integrationService->findActiveIntegrationByConsumerId($consumerId);
-        return $integration->getId() ? (int)$integration->getId() : null;
+        return $this->integrationId = ($integration->getId() ? (int)$integration->getId() : null);
     }
 
     /**
