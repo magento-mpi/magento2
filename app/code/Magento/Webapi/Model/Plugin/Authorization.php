@@ -8,14 +8,15 @@
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Integration\Service\V1\Integration as IntegrationService;
 use Magento\Integration\Model\Integration;
 use Magento\Framework\Logger;
 
 /**
- * Wrap isAllowed() method from AuthorizationV1 service to avoid checking roles of deactivated integration.
+ * Wrap isAllowed() method from Authorization interface to avoid checking roles of deactivated integration.
  */
-class AuthorizationServiceV1
+class Authorization
 {
     /** @var IntegrationService */
     protected $_integrationService;
@@ -23,21 +24,24 @@ class AuthorizationServiceV1
     /** @var Logger */
     protected $_logger;
 
-    /** @var UserIdentifier */
-    protected $_userIdentifier;
+    /** @var UserContextInterface */
+    protected $_userContext;
 
     /**
      * Inject dependencies.
      *
      * @param IntegrationService $integrationService
-     * @param Logger             $logger
-     * @param UserIdentifier     $userIdentifier
+     * @param Logger $logger
+     * @param UserContextInterface $userContext
      */
-    public function __construct(IntegrationService $integrationService, Logger $logger, UserIdentifier $userIdentifier)
-    {
+    public function __construct(
+        IntegrationService $integrationService,
+        Logger $logger,
+        UserContextInterface $userContext
+    ) {
         $this->_integrationService = $integrationService;
         $this->_logger = $logger;
-        $this->_userIdentifier = $userIdentifier;
+        $this->_userContext = $userContext;
     }
 
     /**
@@ -46,29 +50,25 @@ class AuthorizationServiceV1
      * It's ok that we break invocation chain since we're dealing with ACL here - if something is not allowed at any
      * point it couldn't be made allowed at some other point.
      *
-     * @param \Magento\Authz\Service\AuthorizationV1 $subject
+     * @param \Magento\Framework\Authorization $subject
      * @param callable $proceed
-     * @param mixed $resources
-     * @param UserIdentifier $userIdentifier
+     * @param string $resource
+     * @param string $privilege
      *
      * @return bool
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundIsAllowed(
-        \Magento\Authz\Service\AuthorizationV1 $subject,
+        \Magento\Framework\Authorization $subject,
         \Closure $proceed,
-        $resources,
-        \Magento\Authz\Model\UserIdentifier $userIdentifier = null
+        $resource,
+        $privilege = null
     ) {
-        /** @var UserIdentifier $userIdentifierObject */
-        $userIdentifierObject = $userIdentifier ?: $this->_userIdentifier;
-
-        if ($userIdentifierObject->getUserType() !== UserIdentifier::USER_TYPE_INTEGRATION) {
-            return $proceed($resources, $userIdentifier);
+        if ($this->_userContext->getUserType() !== UserIdentifier::USER_TYPE_INTEGRATION) {
+            return $proceed($resource, $privilege);
         }
 
         try {
-            $integration = $this->_integrationService->get($userIdentifierObject->getUserId());
+            $integration = $this->_integrationService->get($this->_userContext->getUserId());
         } catch (\Exception $e) {
             // Wrong integration ID or DB not reachable or whatever - give up and don't allow just in case
             $this->_logger->logException($e);
@@ -79,6 +79,6 @@ class AuthorizationServiceV1
             return false;
         }
 
-        return $proceed($resources, $userIdentifier);
+        return $proceed($resource, $privilege);
     }
 }

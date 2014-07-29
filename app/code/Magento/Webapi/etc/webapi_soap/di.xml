@@ -31,8 +31,8 @@
             <argument name="errorProcessor" xsi:type="object">Magento\Webapi\Controller\ErrorProcessor\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Authz\Service\AuthorizationV1">
-        <plugin name="webapiSoapAuthorizationV1" type="Magento\Webapi\Model\Plugin\AuthorizationServiceV1" />
+    <type name="Magento\Framework\Authorization">
+        <plugin name="webapiSoapAuthorization" type="Magento\Webapi\Model\Plugin\Authorization" />
     </type>
     <preference for="Magento\Framework\Authorization\RoleLocator" type="Magento\Webapi\Model\WebapiRoleLocator" />
 </config>
