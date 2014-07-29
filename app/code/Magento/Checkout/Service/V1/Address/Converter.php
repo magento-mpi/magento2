@@ -48,6 +48,7 @@ class Converter
             Address::KEY_TELEPHONE => $address->getTelephone(),
             Address::KEY_FAX => $address->getFax(),
             Address::KEY_POSTCODE => $address->getPostcode(),
+            Address::KEY_CITY => $address->getCity(),
             Address::KEY_FIRSTNAME => $address->getFirstname(),
             Address::KEY_LASTNAME => $address->getLastname(),
             Address::KEY_MIDDLENAME => $address->getMiddlename(),

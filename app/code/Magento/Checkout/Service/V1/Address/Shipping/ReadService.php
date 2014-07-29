@@ -9,6 +9,7 @@
 namespace Magento\Checkout\Service\V1\Address\Shipping;
 
 use \Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
+use \Magento\Framework\Exception\NoSuchEntityException;
 
 class ReadService implements ReadServiceInterface
 {
@@ -49,8 +50,14 @@ class ReadService implements ReadServiceInterface
     {
         $storeId = $this->storeManager->getStore()->getId();
 
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->quoteLoader->load($cartId, $storeId);
+        if ($quote->isVirtual()) {
+            throw new NoSuchEntityException('Cart contains virtual product(s) only. Shipping address is not required');
+        }
+
         /** @var \Magento\Sales\Model\Quote\Address $address */
-        $address = $this->quoteLoader->load($cartId, $storeId)->getShippingAddress();
+        $address = $quote->getShippingAddress();
         return $this->addressConverter->convertModelToDataObject($address);
     }
 }

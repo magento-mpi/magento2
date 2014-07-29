@@ -76,7 +76,7 @@ class Address extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * Get country id
      *
-     * @return string|null
+     * @return string
      */
     public function getCountryId()
     {
@@ -86,7 +86,7 @@ class Address extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * Get street
      *
-     * @return string[]|null
+     * @return string[]
      */
     public function getStreet()
     {
@@ -106,7 +106,7 @@ class Address extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * Get telephone number
      *
-     * @return string|null
+     * @return string
      */
     public function getTelephone()
     {
@@ -126,7 +126,7 @@ class Address extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * Get postcode
      *
-     * @return string|null
+     * @return string
      */
     public function getPostcode()
     {
@@ -136,7 +136,7 @@ class Address extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * Get city name
      *
-     * @return string|null
+     * @return string
      */
     public function getCity()
     {
@@ -146,7 +146,7 @@ class Address extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * Get first name
      *
-     * @return string|null
+     * @return string
      */
     public function getFirstname()
     {
@@ -156,7 +156,7 @@ class Address extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * Get last name
      *
-     * @return string|null
+     * @return string
      */
     public function getLastname()
     {

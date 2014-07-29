@@ -38,7 +38,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $addressMockMethods = [
             'getCountryId', 'getId', 'getCustomerId', 'getRegion', 'getRegionId', 'getRegionCode',
             'getStreet', 'getCompany', 'getTelephone', 'getFax', 'getPostcode', 'getFirstname', 'getMiddlename',
-            'getLastname', 'getPrefix', 'getSuffix', 'getEmail', 'getVatId', 'getCustomField', '__wakeup'
+            'getLastname', 'getPrefix', 'getSuffix', 'getEmail', 'getVatId', 'getCustomField', 'getCity', '__wakeup'
         ];
         $addressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', $addressMockMethods, [], '', false);
 
@@ -53,6 +53,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $addressMock->expects($this->atLeastOnce())->method('getTelephone')->will($this->returnValue('123-123'));
         $addressMock->expects($this->atLeastOnce())->method('getFax')->will($this->returnValue('234-234'));
         $addressMock->expects($this->atLeastOnce())->method('getPostcode')->will($this->returnValue('80010'));
+        $addressMock->expects($this->atLeastOnce())->method('getCity')->will($this->returnValue('Town'));
         $addressMock->expects($this->atLeastOnce())->method('getFirstname')->will($this->returnValue('Vasya'));
         $addressMock->expects($this->atLeastOnce())->method('getMiddlename')->will($this->returnValue('Vasya'));
         $addressMock->expects($this->atLeastOnce())->method('getLastname')->will($this->returnValue('Pupkin'));
@@ -76,6 +77,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             Address::KEY_TELEPHONE => '123-123',
             Address::KEY_FAX => '234-234',
             Address::KEY_POSTCODE => '80010',
+            Address::KEY_CITY => 'Town',
             Address::KEY_FIRSTNAME => 'Vasya',
             Address::KEY_LASTNAME => 'Pupkin',
             Address::KEY_MIDDLENAME => 'Vasya',

@@ -54,6 +54,7 @@ class ReadServiceTest extends WebapiAbstract
             Address::KEY_TELEPHONE => $address->getTelephone(),
             Address::KEY_FAX => $address->getFax(),
             Address::KEY_POSTCODE => $address->getPostcode(),
+            Address::KEY_CITY => $address->getCity(),
             Address::KEY_FIRSTNAME => $address->getFirstname(),
             Address::KEY_LASTNAME => $address->getLastname(),
             Address::KEY_MIDDLENAME => $address->getMiddlename(),
@@ -65,17 +66,8 @@ class ReadServiceTest extends WebapiAbstract
 
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => self::RESOURCE_PATH . $cartId . '/shipping-address',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAddress',
-            ),
-        );
+        $serviceInfo = $this->getServiceInfo();
+        $serviceInfo['rest']['resourcePath'] = str_replace('{cart_id}', $cartId, $serviceInfo['rest']['resourcePath']);
 
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             unset($data[Address::KEY_PREFIX]);
@@ -87,5 +79,40 @@ class ReadServiceTest extends WebapiAbstract
 
         $requestData = ["cartId" => $cartId];
         $this->assertEquals($data, $this->_webApiCall($serviceInfo, $requestData));
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_virtual_product_and_address.php
+     *
+     * @expectedException \Exception
+     * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping address is not required
+     */
+    public function testGetAddressOfQuoteWithVirtualProduct()
+    {
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $cartId = $quote->load('test_order_with_virtual_product', 'reserved_order_id')->getId();
+
+        $serviceInfo = $this->getServiceInfo();
+        $serviceInfo['rest']['resourcePath'] = str_replace('{cart_id}', $cartId, $serviceInfo['rest']['resourcePath']);
+
+        $this->_webApiCall($serviceInfo, ["cartId" => $cartId]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getServiceInfo()
+    {
+        return $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '{cart_id}/shipping-address',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetAddress',
+            ],
+        ];
     }
 }
