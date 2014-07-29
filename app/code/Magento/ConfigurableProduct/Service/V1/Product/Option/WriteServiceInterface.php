@@ -17,7 +17,7 @@ interface WriteServiceInterface
      *
      * @param string $productSku
      * @param \Magento\ConfigurableProduct\Service\V1\Data\Option $option
-     * @throw \Magento\Framework\Exception\NoSuchEntityException|\Magento\Framework\Exception\CouldNotSaveException|\DomainException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException|\Magento\Framework\Exception\CouldNotSaveException|\InvalidArgumentException
      * @return \Magento\ConfigurableProduct\Service\V1\Data\Option $option
      */
     public function add($productSku, Option $option);
