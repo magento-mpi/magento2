@@ -95,7 +95,6 @@ class Address extends AbstractOrder
         parent::_beforeSave($object);
         $this->_validator->validate($object);
         return $this;
-
     }
 
     /**
