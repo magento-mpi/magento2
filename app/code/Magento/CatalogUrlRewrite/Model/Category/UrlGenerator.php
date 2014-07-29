@@ -79,19 +79,19 @@ class UrlGenerator
      */
     protected function generateUrls()
     {
-        if (!$this->storeViewService->isGlobalScope($this->category->getStoreId())) {
-            return $this->generatePerStore();
+        $urls = [];
+        $storeId = $this->category->getStoreId();
+        if (!$this->storeViewService->isGlobalScope($storeId)) {
+            return $this->generatePerStore($storeId);
         }
         $categoryId = $this->category->getId();
-        $urls = [];
         foreach ($this->category->getStoreIds() as $storeId) {
             if ($this->storeViewService->isGlobalScope($storeId)
                 || $this->storeViewService->doesCategoryHaveOverriddenUrlKeyForStore($storeId, $categoryId)
             ) {
                 continue;
             }
-            $this->category->setStoreId($storeId);
-            $urls = array_merge($urls, $this->generatePerStore());
+            $urls = array_merge($urls, $this->generatePerStore($storeId));
         }
         return $urls;
     }
@@ -99,23 +99,21 @@ class UrlGenerator
     /**
      * Generate list of urls per store
      *
+     * @param string $storeId
      * @return UrlRewrite[]
      */
-    protected function generatePerStore()
+    protected function generatePerStore($storeId)
     {
-        $pathIds = $this->category->getPathIds();
-        if (!$this->storeViewService->isRootCategoryForStore($pathIds[1], $this->category->getStoreId())) {
-            return [];
-        }
         $urls[] = $this->createUrlRewrite(
-            $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category),
+            $storeId,
+            $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category, $storeId),
             $this->categoryUrlPathGenerator->getCanonicalUrlPath($this->category)
         );
         $urls = array_merge(
             $urls,
-            $this->generateForChildrenPerStore(),
-            $this->generateCustom(),
-            $this->generateRewritesHistory()
+            $this->generateForChildrenPerStore($storeId),
+            $this->generateCustomPerStore($storeId),
+            $this->generatePermanentRedirectForOldUrl($storeId)
         );
         return $urls;
     }
@@ -123,15 +121,16 @@ class UrlGenerator
     /**
      * Generate list of urls for children categories per store
      *
+     * @param string $storeId
      * @return UrlRewrite[]
      */
-    protected function generateForChildrenPerStore()
+    protected function generateForChildrenPerStore($storeId)
     {
         $childrenUrls = array();
         $category = $this->category;
-        //@TODO Bug. getChildrenCategories() gets only 'is_active' categories
+        //@TODO BUG getChildrenCategories() returns only categories with 'is_active' == 1
         foreach ($this->category->getChildrenCategories() as $childCategory) {
-            $childCategory->setStoreId($category->getStoreId());
+            $childCategory->setStoreId($storeId);
             $childCategory->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
             $childrenUrls = array_merge($childrenUrls, $this->generate($childCategory));
         }
@@ -142,51 +141,60 @@ class UrlGenerator
     /**
      * Generate custom rewrites
      *
+     * @param $storeId
      * @return UrlRewrite[]
      */
-    protected function generateCustom()
+    protected function generateCustomPerStore($storeId)
     {
         $urls = [];
-        foreach ($this->urlMatcher->findAllByFilter($this->getFilter(0)) as $url) {
+        foreach ($this->urlMatcher->findAllByFilter($this->getFilter($storeId, false)) as $url) {
             $targetPath = $url->getRedirectType()
                 ? $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category)
                 : $url->getTargetPath();
             if ($url->getRequestPath() !== $targetPath) {
-                $urls[] = $this->createUrlRewrite($url->getRequestPath(), $targetPath, 0, $url->getRedirectType());
+                $urls[] = $this->createUrlRewrite(
+                    $storeId,
+                    $url->getRequestPath(),
+                    $targetPath,
+                    $url->getRedirectType(),
+                    false
+                );
             }
         }
         return $urls;
     }
 
     /**
+     * @param string $storeId
      * @return UrlRewrite[]
      */
-    protected function generateRewritesHistory()
+    protected function generatePermanentRedirectForOldUrl($storeId)
     {
         $urls = [];
         if (!$this->category->getData('save_rewrites_history')) {
             return $urls;
         }
-        /** @var UrlRewrite $url */
-        foreach ($this->urlMatcher->findAllByFilter($this->getFilter(1)) as $url) {
+        foreach ($this->urlMatcher->findAllByFilter($this->getFilter($storeId)) as $url) {
             $urls[] = $this->createUrlRewrite(
+                $storeId,
                 $url->getRequestPath(),
                 $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category),
-                0,
-                OptionProvider::PERMANENT
+                OptionProvider::PERMANENT,
+                false
             );
         }
         return $urls;
     }
 
     /**
-     * @param int $isAutoGenerated
+     * @param $storeId
+     * @param bool $isAutoGenerated
      * @return \Magento\UrlRewrite\Service\V1\Data\Filter
      */
-    protected function getFilter($isAutoGenerated)
+    protected function getFilter($storeId, $isAutoGenerated = true)
     {
         return $this->filterFactory->create()
-            ->setStoreId($this->category->getStoreId())
+            ->setStoreId($storeId)
             ->setEntityId($this->category->getId())
             ->setEntityType(self::ENTITY_TYPE_CATEGORY)
             ->setIsAutoGenerated($isAutoGenerated);
@@ -195,23 +203,29 @@ class UrlGenerator
     /**
      * Create url rewrite object
      *
+     * @param int $storeId
      * @param string $requestPath
      * @param string $targetPath
-     * @param int $isAutoGenerated
-     * @param string|null $redirectType
-     * @return UrlRewrite
+     * @param bool $isAutoGenerated
+     * @param string|null $redirectType Null or one of OptionProvider const
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite
      */
-    protected function createUrlRewrite($requestPath, $targetPath, $isAutoGenerated = 1, $redirectType = null)
-    {
+    protected function createUrlRewrite(
+        $storeId,
+        $requestPath,
+        $targetPath,
+        $redirectType = null,
+        $isAutoGenerated = true
+    ) {
         return $this->converter->convertArrayToObject(
             [
                 UrlRewrite::ENTITY_TYPE => self::ENTITY_TYPE_CATEGORY,
                 UrlRewrite::ENTITY_ID => $this->category->getId(),
-                UrlRewrite::IS_AUTOGENERATED => $isAutoGenerated,
-                UrlRewrite::STORE_ID => $this->category->getStoreId(),
+                UrlRewrite::STORE_ID => $storeId,
                 UrlRewrite::REQUEST_PATH => $requestPath,
                 UrlRewrite::TARGET_PATH => $targetPath,
                 UrlRewrite::REDIRECT_TYPE => $redirectType,
+                UrlRewrite::IS_AUTOGENERATED => $isAutoGenerated,
             ]
         );
     }

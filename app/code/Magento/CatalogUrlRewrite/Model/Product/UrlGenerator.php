@@ -147,7 +147,10 @@ class UrlGenerator
     protected function generateRewritesBasedOnCategories($storeId)
     {
         $urls = [];
-        foreach ($this->product->getCategoryCollection() as $category) {
+        $collection = $this->product->getCategoryCollection()
+            ->addAttributeToSelect('url_key')
+            ->addAttributeToSelect('url_path');
+        foreach ($collection as $category) {
             if ($this->isCategoryProperForGenerating($category, $storeId)) {
                 $urls[] = $this->createUrlRewrite(
                     $storeId,

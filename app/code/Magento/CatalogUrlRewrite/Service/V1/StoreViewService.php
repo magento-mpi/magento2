@@ -38,7 +38,7 @@ class StoreViewService
 
     /**
      * @param Config $eavConfig
-     * @param Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(

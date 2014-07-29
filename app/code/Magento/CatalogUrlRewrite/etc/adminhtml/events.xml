@@ -26,4 +26,7 @@
     <event name="catalog_category_delete_before">
         <observer name="process_url_rewrite_removing" instance="Magento\CatalogUrlRewrite\Model\Category\Observer" method="processUrlRewriteRemoving"/>
     </event>
+    <event name="catalog_category_move_after">
+        <observer name="process_url_rewrite_saving" instance="Magento\CatalogUrlRewrite\Model\Category\Observer" method="processUrlRewriteSaving"/>
+    </event>
 </config>

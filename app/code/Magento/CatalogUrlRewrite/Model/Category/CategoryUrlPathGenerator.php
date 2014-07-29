@@ -44,21 +44,16 @@ class CategoryUrlPathGenerator
      * Build category URL path
      *
      * @param \Magento\Catalog\Model\Category|\Magento\Framework\Object $category
-     * @param int $storeId
      * @return string
      */
-    public function getUrlPath($category, $storeId = null)
+    public function getUrlPath($category)
     {
-        if ($storeId === null) {
-            $storeId = $category->getStoreId();
-        }
-        $store = $this->storeManager->getStore($storeId);
-        if ($category->getId() == $store->getRootCategoryId()) {
+        if ($category->getParentId() == 1) {
             return '';
         }
         $path = $category->getData('url_path');
-        if ($path !== null) {
-            return substr($path, 0, -strlen($this->getCategoryUrlSuffix($storeId)));
+        if ($path !== null && !$category->dataHasChangedFor('url_key')) {
+            return $path;
         }
         $path = $category->getUrlKey();
         if ($category->getParentId()) {
@@ -80,7 +75,7 @@ class CategoryUrlPathGenerator
         if ($storeId === null) {
             $storeId = $category->getStoreId();
         }
-        return $this->getUrlPath($category, $storeId) . $this->getCategoryUrlSuffix($storeId);
+        return $this->getUrlPath($category) . $this->getCategoryUrlSuffix($storeId);
     }
 
     /**

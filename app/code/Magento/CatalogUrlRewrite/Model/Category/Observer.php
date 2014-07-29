@@ -26,12 +26,7 @@ class Observer
     /** @var UrlPersistInterface */
     protected $urlPersist;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
-    protected $categoryUrlPathGenerator;
-
-    /**
-     * @var FilterFactory
-     */
+    /** @var FilterFactory */
     protected $filterFactory;
 
     /**
@@ -39,20 +34,17 @@ class Observer
      * @param ProductUrlGenerator $productUrlGenerator
      * @param UrlPersistInterface $urlPersist
      * @param FilterFactory $filterFactory
-     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
     public function __construct(
         CategoryUrlGenerator $categoryUrlGenerator,
         ProductUrlGenerator $productUrlGenerator,
         UrlPersistInterface $urlPersist,
-        FilterFactory $filterFactory,
-        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
+        FilterFactory $filterFactory
     ) {
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->productUrlGenerator = $productUrlGenerator;
         $this->urlPersist = $urlPersist;
         $this->filterFactory = $filterFactory;
-        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
     }
 
     /**
@@ -68,36 +60,38 @@ class Observer
         if ($category->getParentId() == Category::TREE_ROOT_ID) {
             return;
         }
-
+        $urlRewrites = [];
         if ($category->dataHasChangedFor('url_key')) {
-            $urls = array_merge(
+            $urlRewrites = $this->categoryUrlGenerator->generate($category);
+        } elseif ($category->dataHasChangedFor('parent_id')) {
+            //@TODO verify should we save rewrites history
+            //@TODO when perform move action does not call category_url_path_autogeneration on catalog_category_save_before event
+            $urlRewrites = array_merge(
                 $this->categoryUrlGenerator->generate($category),
-                $this->generateProductUrlRewritesAndDeleteCurrent($category)
+                $this->generateProductUrlRewrites($category)
             );
-        } elseif ($category->dataHasChangedFor('affected_product_ids')) {
-            $urls = $this->generateProductUrlRewritesAndDeleteCurrent($category);
+            $ids = explode(',', $category->getAllChildren());
+            //@TODO BUG fix generation of Product Url Rewrites for children
+            //@TODO Verify case when moved to root category without assignment to store(Should we delete custom rewrites?)
+            foreach ($ids as $id) {
+                $this->deleteRewritesForCategory($id);
+            }
         }
-
-        if (isset($urls) && $urls) {
-            $this->urlPersist->replace($urls);
-        } else {
-            $filter = $this->filterFactory->create(['filterData' => [
-                UrlRewrite::ENTITY_ID => $category->getId(),
-                UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
-            ]]);
-            $this->urlPersist->deleteByFilter($filter);
+        if ($category->dataHasChangedFor('affected_product_ids')) {
+            $urlRewrites = array_merge($urlRewrites, $this->generateProductUrlRewrites($category));
+        }
+        if ($urlRewrites) {
+            $this->urlPersist->replace($urlRewrites);
         }
     }
 
     /**
      * Generate url rewrites for products assigned to category
      *
-     * TODO: generateProductUrlRewritesAndDeleteCurrent
-     *
      * @param Category $category
      * @return array
      */
-    protected function generateProductUrlRewritesAndDeleteCurrent(Category $category)
+    protected function generateProductUrlRewrites(Category $category)
     {
         $collection = $category->getProductCollection()
             ->addAttributeToSelect('url_key')
@@ -108,15 +102,24 @@ class Observer
             $product->setStoreIds($category->getStoreIds());
             $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
             $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
-
-            $filter = $this->filterFactory->create(['filterData' => [
-                UrlRewrite::ENTITY_ID => $product->getId(),
-                UrlRewrite::ENTITY_TYPE => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
-            ]]);
-            // TODO: split generating and deleting
-            $this->urlPersist->deleteByFilter($filter);
         }
         return $productUrls;
+    }
+
+    /***
+     * @param int $categoryId
+     */
+    protected function deleteRewritesForCategory($categoryId)
+    {
+        $filter = $this->filterFactory->create(
+            [
+                'filterData' => [
+                    UrlRewrite::ENTITY_ID => $categoryId,
+                    UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
+                ]
+            ]
+        );
+        $this->urlPersist->deleteByFilter($filter);
     }
 
     /**
@@ -127,16 +130,14 @@ class Observer
      */
     public function processUrlRewriteRemoving(EventObserver $observer)
     {
+        //@TODO BUG fix removing of Product Url Rewrites for category and category children
         /** @var Category $category */
         $category = $observer->getEvent()->getCategory();
-
-        if ($category->getId()) {
-            $this->urlPersist->deleteByFilter(
-                $this->filterFactory->create(['filterData' => [
-                        UrlRewrite::ENTITY_ID => $category->getId(),
-                        UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_CATEGORY,
-                    ]])
-            );
+        $ids = explode(',', $category->getAllChildren());
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->deleteRewritesForCategory($id);
+            }
         }
     }
 }
