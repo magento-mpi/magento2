@@ -35,6 +35,11 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
      */
     protected $objectManager;
 
+    /**
+     * @var \Magento\Framework\ObjectManager\ObjectManager |\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $orderSenderMock;
+
     public function setUp()
     {
         $this->historyCollectionFactory = $this->getMock(
@@ -46,13 +51,21 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
         );
         $this->order = $this->getMock(
             'Magento\Sales\Model\Order',
-            ['__wakeUp', 'getEmailSent', 'sendNewOrderEmail'],
+            ['__wakeUp', 'getEmailSent'],
             [],
             '',
             false
         );
+        $this->orderSenderMock = $this->getMock(
+            'Magento\Sales\Model\Order\Email\Sender\OrderSender',
+            ['send'],
+            [],
+            '',
+            false
+        );
+
         $this->objectManager = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', ['get'], [], '', false);
-        $this->notifier = new Notifier($this->historyCollectionFactory, $this->objectManager);
+        $this->notifier = new Notifier($this->historyCollectionFactory, $this->objectManager, $this->orderSenderMock);
     }
 
     /**
@@ -90,6 +103,10 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($historyCollection));
 
+        $this->orderSenderMock->expects($this->once())
+            ->method('send')
+            ->with($this->equalTo($this->order));
+
         $this->assertTrue($this->notifier->notify($this->order));
     }
 
@@ -116,10 +133,10 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with('Magento\Framework\Logger')
             ->will($this->returnValue($logger));
-        $this->order->expects($this->once())
-            ->method('sendNewOrderEmail')
+        $this->orderSenderMock->expects($this->once())
+            ->method('send')
+            ->with($this->equalTo($this->order))
             ->will($this->throwException($exceptionMock));
         $this->assertFalse($this->notifier->notify($this->order));
     }
 }
- 

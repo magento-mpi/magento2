@@ -9,6 +9,7 @@
 namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 /**
  * Class Notifier
@@ -30,15 +31,23 @@ class Notifier extends \Magento\Framework\Model\AbstractModel
     protected $objectManager;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
      * @param CollectionFactory $historyCollectionFactory
      * @param \Magento\Framework\ObjectManager $objectManager
+     * @param OrderSender $orderSender
      */
     public function __construct(
         CollectionFactory $historyCollectionFactory,
-        \Magento\Framework\ObjectManager $objectManager
+        \Magento\Framework\ObjectManager $objectManager,
+        OrderSender $orderSender
     ) {
         $this->historyCollectionFactory = $historyCollectionFactory;
         $this->objectManager = $objectManager;
+        $this->orderSender = $orderSender;
     }
 
     /**
@@ -51,7 +60,7 @@ class Notifier extends \Magento\Framework\Model\AbstractModel
     public function notify(\Magento\Sales\Model\Order $order)
     {
         try {
-            $order->sendNewOrderEmail();
+            $this->orderSender->send($order);
             if (!$order->getEmailSent()) {
                 return false;
             }
