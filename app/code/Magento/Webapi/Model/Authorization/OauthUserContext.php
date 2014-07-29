@@ -13,6 +13,9 @@ use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
 use Magento\Webapi\Controller\Request;
 
+/**
+ * A user context determined by OAuth headers in a HTTP request.
+ */
 class OauthUserContext implements UserContextInterface
 {
     /**
