@@ -10,6 +10,7 @@ namespace Magento\Framework\View\Result;
 
 use Magento\Framework\View;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * A "page" result that encapsulates page type, page configuration
@@ -23,6 +24,11 @@ use Magento\Framework\App\RequestInterface;
  */
 class Page extends Layout
 {
+    /**
+     * Default template
+     */
+    const DEFAULT_ROOT_TEMPLATE = 'Magento_Theme::root.phtml';
+
     /**
      * @var string
      */
@@ -71,9 +77,15 @@ class Page extends Layout
     {
         parent::initLayout();
         $update = $this->getLayout()->getUpdate();
-        $update->addHandle('default');
+
+        $pageLayoutHandle = $this->pageConfig->getPageLayout();
+        if ($pageLayoutHandle) {
+            $update->addHandle('default');
+            $update->addHandle($pageLayoutHandle);
+            $this->setTemplate(self::DEFAULT_ROOT_TEMPLATE);
+        }
         $this->addPageLayoutHandles([], $this->getDefaultLayoutHandle());
-        $update->addHandle($this->pageConfig->getPageLayout());
+
         return $this;
     }
 
@@ -111,5 +123,26 @@ class Page extends Layout
     public function getDefaultLayoutHandle()
     {
         return strtolower($this->request->getFullActionName());
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return $this
+     */
+    public function renderResult(ResponseInterface $response)
+    {
+        if ($this->getTemplate()) {
+            $layout = $this->getLayout();
+            $this->assign('headContent', $layout->getBlock('head')->toHtml());
+            $layout->unsetElement('head');
+            $output = $layout->getOutput();
+            $this->translateInline->processResponseBody($output);
+            $this->assign('layoutContent', $output);
+            // TODO: implement assign for variables: bodyClasses, bodyAttributes
+            $response->appendBody($this->toHtml());
+        } else {
+            parent::renderResult($response);
+        }
+        return $this;
     }
 }

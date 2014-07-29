@@ -47,7 +47,6 @@ class Layout extends View\Element\Template
     ) {
         $this->layoutFactory = $layoutFactory;
         $this->translateInline = $translateInline;
-        $this->setTemplate('Magento_Theme::root.phtml');
         parent::__construct($context, $data);
     }
 
@@ -79,19 +78,16 @@ class Layout extends View\Element\Template
     }
 
     /**
+     * Render current layout
+     *
      * @param ResponseInterface $response
+     * @return $this
      */
     public function renderResult(ResponseInterface $response)
     {
         $layout = $this->getLayout();
-
-        $this->assign('headContent', $layout->getBlock('head')->toHtml());
-        $layout->unsetElement('head');
-
         $output = $layout->getOutput();
-        $this->translateInline->processResponseBody($output);
-        $this->assign('layoutContent', $output);
-        // TODO: implement assign for variables: bodyClasses, bodyAttributes
-        $response->appendBody($this->toHtml());
+        $response->appendBody($output);
+        return $this;
     }
 }

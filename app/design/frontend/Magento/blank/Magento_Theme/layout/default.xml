@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
-    <referenceContainer name="header-container">
+    <referenceContainer name="header.container">
         <container name="header.panel.wrapper" htmlClass="panel wrapper" htmlTag="div" before="-" />
     </referenceContainer>
     <move element="header.panel" destination="header.panel.wrapper" />

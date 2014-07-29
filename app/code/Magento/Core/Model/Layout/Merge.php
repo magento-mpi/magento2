@@ -7,24 +7,22 @@
  */
 namespace Magento\Core\Model\Layout;
 
+use \Magento\Core\Model\Layout\Update\Validator;
+
 /**
  * Layout merge model
  */
 class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
 {
-    /**#@+
+    /**
      * Layout abstraction based on designer prerogative.
      */
     const DESIGN_ABSTRACTION_CUSTOM = 'custom';
 
-    /**#@-*/
-
-    /**#@+
+    /**
      * Layout generalization guaranteed to load into View
      */
     const DESIGN_ABSTRACTION_PAGE_LAYOUT = 'page_layout';
-
-    /**#@-*/
 
     /**
      * XPath of handles originally declared in layout updates
@@ -75,9 +73,11 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected $_pageHandles = array();
 
     /**
-     * @var string
+     * Declared page layout for current handles
+     *
+     * @var string|null
      */
-    protected $rootLayout = '3columns';
+    protected $pageLayout;
 
     /**
      * Substitution values in structure array('from' => array(), 'to' => array())
@@ -372,23 +372,30 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         }
 
         $layout = $this->asString();
+        $this->_validateMergedLayout($cacheId, $layout);
+        $this->_saveCache($layout, $cacheId, $this->getHandles());
+        return $this;
+    }
+
+    /**
+     * Validate merged layout
+     *
+     * @param string $cacheId
+     * @param string $layout
+     * @return $this
+     */
+    protected function _validateMergedLayout($cacheId, $layout)
+    {
         $layoutStr = '<handle id="handle">' . $layout . '</handle>';
         if ($this->_appState->getMode() === \Magento\Framework\App\State::MODE_DEVELOPER) {
-            if (!$this->_layoutValidator->isValid(
-                $layoutStr,
-                \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_MERGED,
-                false
-            )
-            ) {
+            if (!$this->_layoutValidator->isValid($layoutStr, Validator::LAYOUT_SCHEMA_MERGED, false)) {
                 $messages = $this->_layoutValidator->getMessages();
                 //Add first message to exception
-                $message = array_shift($messages);
+                $message = reset($messages);
                 $this->_logger->addStreamLog(\Magento\Framework\Logger::LOGGER_SYSTEM);
                 $this->_logger->log('Cache file with merged layout: ' . $cacheId . ': ' . $message, \Zend_Log::ERR);
             }
         }
-
-        $this->_saveCache($layout, $cacheId, $this->getHandles());
         return $this;
     }
 
@@ -400,9 +407,8 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        $updates = '<' .
-            '?xml version="1.0"?' .
-            '><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' .
+        $updates = '<?xml version="1.0"?>' .
+            '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" page_layout="' . $this->pageLayout . '">' .
             $updates .
             '</layout>';
         return $this->_loadXmlString($updates);
@@ -447,6 +453,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $layout = $this->getFileLayoutUpdatesXml();
         foreach ($layout->xpath("handle[@id='{$handle}']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
+            $this->_fetchPageLayout($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
         \Magento\Framework\Profiler::stop($_profilerKey);
@@ -475,6 +482,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $updateStr = $this->_substitutePlaceholders($updateStr);
         $updateXml = $this->_loadXmlString($updateStr);
         $this->_fetchRecursiveUpdates($updateXml);
+        $this->_fetchPageLayout($updateXml);
         $this->addUpdate($updateXml->innerXml());
 
         \Magento\Framework\Profiler::stop($_profilerKey);
@@ -528,6 +536,20 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
                 // Adding merged layout handle to the list of applied handles
                 $this->addHandle((string)$child['handle']);
             }
+        }
+        return $this;
+    }
+
+    /**
+     * Get information about page layout for current update handle
+     *
+     * @param \SimpleXMLElement $updateXml
+     * @return $this
+     */
+    protected function _fetchPageLayout($updateXml)
+    {
+        if (isset($updateXml['page_layout'])) {
+            $this->pageLayout = (string)$updateXml['page_layout'];
         }
         return $this;
     }

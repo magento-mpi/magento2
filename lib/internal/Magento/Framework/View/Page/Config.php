@@ -31,7 +31,7 @@ class Config
     protected $assetCollection;
 
     /**
-     * @var
+     * @var string[][]
      */
     protected $elements = [];
 

@@ -13,7 +13,7 @@
     </referenceContainer>
 
     <referenceContainer name="main.content">
-        <block class="Magento\Backend\Block\Page" name="root" output="1" template="admin/page.phtml">
+        <block class="Magento\Backend\Block\Page" name="backend_page" template="admin/page.phtml">
             <block class="Magento\Backend\Block\Menu" name="menu" as="menu" template="Magento_Backend::menu.phtml"/>
             <container name="header" htmlTag="header" htmlClass="page-header">
                 <block class="Magento\Backend\Block\Page\Header" name="logo" before="-">
