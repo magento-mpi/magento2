@@ -777,7 +777,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
-            $errorObj = $this->_processRestExceptionResult($e);
+            $errorObj =  $this->customerHelper->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_INTERNAL_ERROR, $e->getCode());
         }
