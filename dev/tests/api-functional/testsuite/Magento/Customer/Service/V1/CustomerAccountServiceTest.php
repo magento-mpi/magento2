@@ -738,7 +738,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testUpdateCustomerNoWebsiteId()
     {
-        $customerData = $this->_createSampleCustomer();
+        $customerData = $this->customerHelper->createSampleCustomer();
         $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
