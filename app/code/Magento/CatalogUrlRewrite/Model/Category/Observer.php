@@ -68,7 +68,6 @@ class Observer
         if ($category->getParentId() == Category::TREE_ROOT_ID) {
             return;
         }
-
         // TODO: refactoring
         if ($category->dataHasChangedFor('url_key')) {
             $urls = array_merge(
@@ -112,7 +111,6 @@ class Observer
             ->addAttributeToSelect('url_path');
         $productUrls = [];
         foreach ($collection as $product) {
-            $product->setUrlPath($this->categoryUrlPathGenerator->generateUrlKey($product));
             $product->setStoreId($category->getStoreId());
             $product->setStoreIds($category->getStoreIds());
             $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));

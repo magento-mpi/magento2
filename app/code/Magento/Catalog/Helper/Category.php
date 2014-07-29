@@ -57,30 +57,24 @@ class Category extends AbstractHelper
      */
     protected $_dataCollectionFactory;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
-    protected $categoryUrlPathGenerator;
-
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Data\CollectionFactory $dataCollectionFactory
-     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\Data\CollectionFactory $dataCollectionFactory,
-        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
+        \Magento\Framework\Data\CollectionFactory $dataCollectionFactory
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_storeManager = $storeManager;
         $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_scopeConfig = $scopeConfig;
-        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         parent::__construct($context);
     }
 

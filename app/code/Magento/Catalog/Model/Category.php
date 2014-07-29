@@ -10,14 +10,15 @@ namespace Magento\Catalog\Model;
 /**
  * Catalog category
  *
- * @method setAffectedProductIds(array $productIds)
+ * @method Category setAffectedProductIds(array $productIds)
  * @method array getAffectedProductIds()
- * @method setMovedCategoryId(array $productIds)
+ * @method Category setMovedCategoryId(array $productIds)
  * @method int getMovedCategoryId()
- * @method setAffectedCategoryIds(array $categoryIds)
+ * @method Category setAffectedCategoryIds(array $categoryIds)
  * @method array getAffectedCategoryIds()
  * @method string getUrlKey()
- * @method setUrlPath(string $urlPath)
+ * @method Category setUrlKey(string $urlKey)
+ * @method Category setUrlPath(string $urlPath)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */

@@ -58,6 +58,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 }
                 $parentCategory = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($parentId);
                 $category->setPath($parentCategory->getPath());
+                $category->setParentId($parentId);
             }
 
             /**

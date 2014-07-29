@@ -13,16 +13,17 @@ use Magento\Framework\Object\IdentityInterface;
 /**
  * Catalog product model
  *
- * @method \Magento\Catalog\Model\Product setHasError(bool $value)
+ * @method Product setHasError(bool $value)
  * @method null|bool getHasError()
- * @method \Magento\Catalog\Model\Product setTypeId(string $typeId)
- * @method \Magento\Catalog\Model\Product setAssociatedProductIds(array $productIds)
+ * @method Product setTypeId(string $typeId)
+ * @method Product setAssociatedProductIds(array $productIds)
  * @method array getAssociatedProductIds()
- * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
+ * @method Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
  * @method int getPriceType
- * @method \Magento\Catalog\Model\Resource\Product\Collection getCollection()
+ * @method Resource\Product\Collection getCollection()
  * @method string getUrlKey()
+ * @method Product setUrlKey(string $urlKey)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */

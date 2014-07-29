@@ -55,9 +55,7 @@ class ProductUrlPathGenerator
             $path = $this->generateUrlKey($product);
         }
         return $category === null ? $path
-            : $this->categoryUrlPathGenerator->getUrlPathForStore(
-                $this->categoryUrlPathGenerator->getUrlPath($category)
-            ) . '/' . $path;
+            : $this->categoryUrlPathGenerator->getUrlPath($category) . '/' . $path;
     }
 
     /**

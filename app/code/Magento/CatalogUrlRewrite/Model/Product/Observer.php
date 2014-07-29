@@ -61,11 +61,6 @@ class Observer
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $observer->getEvent()->getProduct();
 
-        // TODO: create new observer for generation and saving product url path (@TODO: UrlRewrite)
-        if (!$product->getUrlPath() || $product->getOrigData('url_key') != $product->getData('url_key')) {
-            $product->setUrlPath($this->productUrlPathGenerator->generateUrlKey($product));
-        }
-
         if ($product->dataHasChangedFor('url_key') || $product->getIsChangedCategories()
             || $product->getIsChangedWebsites()
         ) {

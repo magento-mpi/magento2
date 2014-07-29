@@ -103,9 +103,6 @@ class Product extends \Magento\Core\Helper\Url
      */
     protected $_reindexPriceIndexerData;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
-    protected $categoryUrlPathGenerator;
-
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -117,7 +114,6 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
-     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param string $typeSwitcherLabel
      * @param \Magento\Catalog\Model\CategoryFactory $reindexPriceIndexerData
      */
@@ -132,7 +128,6 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
-        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         $typeSwitcherLabel,
         $reindexPriceIndexerData
     ) {
@@ -146,7 +141,6 @@ class Product extends \Magento\Core\Helper\Url
         $this->_assetRepo = $assetRepo;
         $this->_coreConfig = $coreConfig;
         $this->_reindexPriceIndexerData = $reindexPriceIndexerData;
-        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         parent::__construct($context, $storeManager);
     }
 

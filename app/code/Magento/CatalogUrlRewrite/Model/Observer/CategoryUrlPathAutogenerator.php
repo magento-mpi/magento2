@@ -1,0 +1,37 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\CatalogUrlRewrite\Model\Observer;
+
+use Magento\Catalog\Model\Category;
+use Magento\Framework\Event\Observer;
+use Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator;
+
+class CategoryUrlPathAutogenerator
+{
+    /** @var CategoryUrlPathGenerator */
+    protected $categoryUrlPathGenerator;
+
+    /**
+     * @param CategoryUrlPathGenerator $categoryUrlPathGenerator
+     */
+    public function __construct(CategoryUrlPathGenerator $categoryUrlPathGenerator) {
+        $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
+    }
+
+    /**
+     * @param Observer $observer
+     * @return void
+     */
+    public function __invoke(Observer $observer)
+    {
+        /** @var Category $category */
+        $category = $observer->getEvent()->getCategory();
+        $category->setUrlKey($this->categoryUrlPathGenerator->generateUrlKey($category))
+            ->setUrlPath($this->categoryUrlPathGenerator->getUrlPathWithSuffix($category));
+    }
+}

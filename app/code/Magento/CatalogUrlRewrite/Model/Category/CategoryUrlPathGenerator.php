@@ -21,18 +21,10 @@ class CategoryUrlPathGenerator
      */
     protected $categoryUrlSuffix = array();
 
-    /**
-     * Scope config
-     *
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $scopeConfig;
 
-    /**
-     * Store manager
-     *
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $storeManager;
 
     /** @var \Magento\Catalog\Model\CategoryFactory */
@@ -49,26 +41,30 @@ class CategoryUrlPathGenerator
     }
 
     /**
-     * Retrieve URL path
+     * Build category URL path
      *
      * @param \Magento\Catalog\Model\Category|\Magento\Framework\Object $category
+     * @param int $storeId
      * @return string
      */
-    public function getUrlPath($category)
+    public function getUrlPath($category, $storeId = null)
     {
-        $path = $category->getData('url_path');
-        if ($path) {
-            return $path;
+        if ($storeId === null) {
+            $storeId = $category->getStoreId();
         }
-
+        $store = $this->storeManager->getStore($storeId);
+        if ($category->getId() == $store->getRootCategoryId()) {
+            return '';
+        }
+        $path = $category->getData('url_path');
+        if ($path !== null) {
+            return substr($path, 0, -strlen($this->getCategoryUrlSuffix($storeId)));
+        }
         $path = $category->getUrlKey();
         if ($category->getParentId()) {
-            $parentPath = $this->categoryFactory->create()->load($category->getParentId())->getCategoryPath();
-            $path = $parentPath . '/' . $path;
+            $parentPath = $this->getUrlPath($this->categoryFactory->create()->load($category->getParentId()));
+            $path = $parentPath === '' ? $path : $parentPath . '/' . $path;
         }
-
-        $category->setUrlPath($path);
-
         return $path;
     }
 
@@ -76,36 +72,15 @@ class CategoryUrlPathGenerator
      * Get category url path
      *
      * @param \Magento\Catalog\Model\Category $category
-     * @return string
-     */
-    public function getUrlPathWithSuffix($category)
-    {
-        return $this->getUrlPath($category) . $this->getCategoryUrlSuffix($category->getStoreId());
-    }
-
-    /**
-     * Retrieve clear url for category as parent
-     *
-     * @param string $urlPath
-     * @param bool $slash
      * @param int $storeId
      * @return string
      */
-    public function getUrlPathForStore($urlPath, $slash = false, $storeId = null)
+    public function getUrlPathWithSuffix($category, $storeId = null)
     {
-        if (!$this->getCategoryUrlSuffix($storeId)) {
-            return $urlPath;
+        if ($storeId === null) {
+            $storeId = $category->getStoreId();
         }
-
-        if ($slash) {
-            $regexp = '#(' . preg_quote($this->getCategoryUrlSuffix($storeId), '#') . ')/$#i';
-            $replace = '/';
-        } else {
-            $regexp = '#(' . preg_quote($this->getCategoryUrlSuffix($storeId), '#') . ')$#i';
-            $replace = '';
-        }
-
-        return preg_replace($regexp, $replace, $urlPath);
+        return $this->getUrlPath($category, $storeId) . $this->getCategoryUrlSuffix($storeId);
     }
 
     /**
@@ -119,7 +94,6 @@ class CategoryUrlPathGenerator
         if ($storeId === null) {
             $storeId = $this->storeManager->getStore()->getId();
         }
-
         if (!isset($this->categoryUrlSuffix[$storeId])) {
             $this->categoryUrlSuffix[$storeId] = $this->scopeConfig->getValue(
                 self::XML_PATH_CATEGORY_URL_SUFFIX,
@@ -129,8 +103,6 @@ class CategoryUrlPathGenerator
         }
         return $this->categoryUrlSuffix[$storeId];
     }
-
-
 
     /**
      * Get canonical category url
@@ -151,8 +123,7 @@ class CategoryUrlPathGenerator
      */
     public function generateUrlKey($category)
     {
-        $parentPath = $this->getUrlPathForStore('', true, $category->getStoreId());
         $urlKey = $category->getUrlKey();
-        return $parentPath . $category->formatUrlKey($urlKey === '' ? $category->getName() : $urlKey);
+        return $category->formatUrlKey($urlKey === '' ? $category->getName() : $urlKey);
     }
 }
