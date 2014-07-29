@@ -74,6 +74,8 @@ class TokenUserContext implements UserContextInterface
 
     /**
      * Finds the bearer token and looks up the value.
+     *
+     * @return void
      */
     protected function processRequest()
     {
