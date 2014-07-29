@@ -18,16 +18,3 @@ $columnOptions = array(
     'COMMENT' => 'Qty of returned items'
 );
 $installer->getConnection()->addColumn($tableName, 'qty_returned', $columnOptions);
-
-$installer->addAttribute(
-    'rma_item',
-    'qty_returned',
-    array(
-        'type' => 'static',
-        'label' => 'Qty of returned items',
-        'input' => 'text',
-        'visible' => false,
-        'sort_order' => 45,
-        'position' => 45
-    )
-);
