@@ -63,7 +63,7 @@ return [
                 'parameters' => [
                     'id' => [
                         'force' => true,
-                        'value' => '%user_id%',
+                        'value' => '%customer_id%',
                     ],
                 ],
             ],

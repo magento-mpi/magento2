@@ -7,6 +7,7 @@
  */
 namespace Magento\Webapi\Controller;
 
+use Magento\Authz\Model\UserIdentifier;
 use Magento\Framework\Exception\AuthorizationException;
 
 /**
@@ -227,18 +228,20 @@ class RestTest extends \PHPUnit_Framework_TestCase
      * @param array $requestData Data from the request
      * @param array $parameters Data from config about which parameters to override
      * @param array $expectedOverriddenParams Result of overriding $requestData when applying rules from $parameters
+     * @param int $userId The id of the user invoking the request
+     * @param int $userType The type of user invoking the request
      *
      * @dataProvider overrideParmasDataProvider
      */
-    public function testOverrideParams($requestData, $parameters, $expectedOverriddenParams)
+    public function testOverrideParams($requestData, $parameters, $expectedOverriddenParams, $userId, $userType)
     {
         $this->_routeMock->expects($this->once())->method('getParameters')->will($this->returnValue($parameters));
         $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['1']));
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('getRequestData')->will($this->returnValue($requestData));
-        $userId = 'user1234';
         $this->userContextMock->expects($this->any())->method('getUserId')->will($this->returnValue($userId));
+        $this->userContextMock->expects($this->any())->method('getUserType')->will($this->returnValue($userType));
 
         // serializer should expect overridden params
         $this->serializerMock->expects($this->once())->method('getInputData')
@@ -261,26 +264,43 @@ class RestTest extends \PHPUnit_Framework_TestCase
                 ['Name1' => 'valueIn'],
                 ['Name1' => ['force' => false, 'value' => 'valueOverride']],
                 ['Name1' => 'valueIn'],
+                1,
+                UserIdentifier::USER_TYPE_INTEGRATION,
             ],
             'force true, value present' => [
                 ['Name1' => 'valueIn'],
                 ['Name1' => ['force' => true, 'value' => 'valueOverride']],
-                ['Name1' => 'valueOverride']
+                ['Name1' => 'valueOverride'],
+                1,
+                UserIdentifier::USER_TYPE_INTEGRATION,
             ],
             'force true, value not present' => [
                 ['Name1' => 'valueIn'],
                 ['Name2' => ['force' => true, 'value' => 'valueOverride']],
-                ['Name1' => 'valueIn', 'Name2' => 'valueOverride']
+                ['Name1' => 'valueIn', 'Name2' => 'valueOverride'],
+                1,
+                UserIdentifier::USER_TYPE_INTEGRATION,
             ],
             'force false, value not present' => [
                 ['Name1' => 'valueIn'],
                 ['Name2' => ['force' => false, 'value' => 'valueOverride']],
                 ['Name1' => 'valueIn', 'Name2' => 'valueOverride'],
+                1,
+                UserIdentifier::USER_TYPE_INTEGRATION,
             ],
-            'force true, value present, override value is %user_id%' => [
+            'force true, value present, override value is %customer_id%' => [
                 ['Name1' => 'valueIn'],
-                ['Name1' => ['force' => true, 'value' => '%user_id%']],
-                ['Name1' => 'user1234']
+                ['Name1' => ['force' => true, 'value' => '%customer_id%']],
+                ['Name1' => '1234'],
+                1234,
+                UserIdentifier::USER_TYPE_CUSTOMER,
+            ],
+            'force true, value present, override value is %customer_id%, not a customer' => [
+                ['Name1' => 'valueIn'],
+                ['Name1' => ['force' => true, 'value' => '%customer_id%']],
+                ['Name1' => '%customer_id%'],
+                1234,
+                UserIdentifier::USER_TYPE_INTEGRATION,
             ],
         ];
     }
