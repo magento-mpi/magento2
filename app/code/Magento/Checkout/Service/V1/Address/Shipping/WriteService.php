@@ -70,9 +70,10 @@ class WriteService implements WriteServiceInterface
             $address->load($addressData->getId());
         }
         $address = $this->addressConverter->convertDataObjectToModel($addressData, $address);
+        $address->setSameAsBilling(0);
         $quote->setShippingAddress($address);
         $quote->setDataChanges(true);
         $quote->save();
-        return true;
+        return $quote->getShippingAddress()->getId();
     }
 }

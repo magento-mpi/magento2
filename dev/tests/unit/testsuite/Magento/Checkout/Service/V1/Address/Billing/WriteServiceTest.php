@@ -143,7 +143,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->once())->method('setBillingAddress')->with($this->quoteAddressMock);
         $quoteMock->expects($this->once())->method('setDataChanges')->with(true);
         $quoteMock->expects($this->once())->method('save');
+        $addressId = 1;
+        $billingAddressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
+        $billingAddressMock->expects($this->once())->method('getId')->will($this->returnValue($addressId));
+        $quoteMock->expects($this->once())->method('getBillingAddress')
+            ->will($this->returnValue($billingAddressMock));
 
-        $this->service->setAddress('cartId', $addressData);
+        $this->assertEquals($addressId, $this->service->setAddress('cartId', $addressData));
     }
 }

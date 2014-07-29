@@ -73,6 +73,6 @@ class WriteService implements WriteServiceInterface
         $quote->setBillingAddress($address);
         $quote->setDataChanges(true);
         $quote->save();
-        return true;
+        return $quote->getBillingAddress()->getId();
     }
 }

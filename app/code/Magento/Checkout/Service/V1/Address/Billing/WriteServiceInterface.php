@@ -18,7 +18,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\InputException
      * @param int $cartId
      * @param \Magento\Checkout\Service\V1\Data\Cart\Address $addressData
-     * @return bool
+     * @return int
      */
     public function setAddress($cartId, $addressData);
 }

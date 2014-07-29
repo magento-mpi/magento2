@@ -77,14 +77,13 @@ class WriteServiceTest extends WebapiAbstract
             'addressData' => $addressData
         ];
 
-        $result = $this->_webApiCall($serviceInfo, $requestData);
-
-        $this->assertTrue($result);
+        $addressId = $this->_webApiCall($serviceInfo, $requestData);
 
         //reset $quote to reload data
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test_order_1', 'reserved_order_id');
         $savedData  = $quote->getBillingAddress()->getData();
+        $this->assertEquals($addressId, $savedData['address_id']);
         //custom checks for street, region and address_type
         foreach ($addressData['street'] as $streetLine) {
             $this->assertContains($streetLine, $quote->getBillingAddress()->getStreet());
