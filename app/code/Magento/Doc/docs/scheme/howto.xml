@@ -1,0 +1,24 @@
+<scheme>
+    <content>
+        <item name="Install" type="article" module="Magento_Doc" sort="1000">
+            <label>How to install Magento</label>
+            <artifacts>
+                <item name="Step1Screenshot" type="screenshot" module="Magento_Doc">
+                    <label>Step 1</label>
+                </item>
+                <item name="Step2Screenshot" type="screenshot" module="Magento_Doc">
+                    <label>Step 2</label>
+                </item>
+                <item name="Step3Screenshot" type="screenshot" module="Magento_Doc">
+                    <label>Step 3</label>
+                </item>
+                <item name="Step4Screenshot" type="screenshot" module="Magento_Doc">
+                    <label>Step 4</label>
+                </item>
+                <item name="Step5Screenshot" type="screenshot" module="Magento_Doc">
+                    <label>Step 5</label>
+                </item>
+            </artifacts>
+        </item>
+    </content>
+</scheme>

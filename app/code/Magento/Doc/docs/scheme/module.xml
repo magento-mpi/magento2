@@ -1,0 +1,10 @@
+<scheme>
+    <content>
+        <item name="Magento_Core" type="article" module="Magento_Doc">
+            <label>Magento Core Module Overview</label>
+        </item>
+        <item name="Magento_Backend" type="article" module="Magento_Doc">
+            <label>Magento Backend Module Overview</label>
+        </item>
+    </content>
+</scheme>

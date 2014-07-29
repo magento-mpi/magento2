@@ -1,0 +1,19 @@
+<scheme>
+    <content>
+        <item name="Overview" type="article" module="Magento_Doc">
+            <label>Overview</label>
+        </item>
+        <item name="Section1" type="article" module="Magento_Core">
+            <label>Section1</label>
+            <artifacts>
+                <item name="Overview" type="table|image|diagram" module="Magento_Doc">
+                    <label>Overview</label>
+                </item>
+                <item name="Overview" type="table" module="Magento_Doc">
+                    <label>API Methods</label>
+                    <description>Here is the information regarding ....</description>
+                </item>
+            </artifacts>
+        </item>
+    </content>
+</scheme>

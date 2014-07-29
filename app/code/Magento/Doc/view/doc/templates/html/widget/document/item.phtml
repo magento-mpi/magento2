@@ -1,0 +1,12 @@
+<div data-role="doc-item" class="{{data.class}}" data-type="{{var data.type}}">
+    <span class="label">{{var data.label}}</span>
+
+    <div data-type="{{var data.type}}" data-role="doc-item-content" module="{{var data.module}}">
+        {{var content}}
+    </div>
+    <textarea data-role="doc-item-content-src" spellcheck="false" wrap="off" scheme="{{var schemeName}}"
+              doc-name="{{var name}}"
+              module="{{var data.module}}">{{var content}}</textarea>
+
+    <div class="items">{{var render.renderItemsHtml()}}</div>
+</div>

@@ -1,0 +1,34 @@
+<document>
+    <dictionary>
+        <item name="scope" type="entity">
+            <definition>Scope - is ...</definition>
+            <url>#</url>
+        </item>
+        <item name="Credit Memo" type="entity">
+            <definition>Credit Memo - is ...</definition>
+            <url>#</url>
+        </item>
+    </dictionary>
+    <variables>
+        <item name="product_required_attributes">
+            <source>Magento\Catalog\Model\Resource\Product::getRequiredAttributes</source>
+        </item>
+    </variables>
+    <content>
+        <item name="SalesReport" type="article" module="Magento_Doc">
+            <label>My Sales Report</label>
+            <artifacts>
+                <item name="Screenshot" type="screenshot" module="Magento_Doc" optional="true">
+                    <label>An example of report data grid</label>
+                </item>
+                <item name="ClassDiagram" type="class_diagram" module="Magento_Doc">
+                    <label>Reporting module class diagram</label>
+                </item>
+            </artifacts>
+            <state_hash>0c297c7d326b6d9450af4c6fe13cbb3d</state_hash>
+        </item>
+        <item name="TaxReport" type="article" module="Magento_Doc">
+            <label>Tax Report</label>
+        </item>
+    </content>
+</document>

@@ -1,0 +1,172 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Doc\Document\Content;
+
+class Reader
+{
+    /**
+     * Name of an attribute that stands for data type of node values
+     */
+    const TYPE_ATTRIBUTE = 'xsi:type';
+
+    /**
+     * @var array
+     */
+    protected $idAttributes = [
+        '*' => 'id',
+        'img' => 'src'
+    ];
+
+    /**
+     * File locator
+     *
+     * @var FileResolver
+     */
+    protected $fileResolver;
+
+    /**
+     * Config mapper
+     *
+     * @var Mapper
+     */
+    protected $mapper;
+
+    /**
+     * The name of file that stores configuration
+     *
+     * @var string
+     */
+    protected $fileName;
+
+    /**
+     * Path to corresponding XSD file with validation rules for merged config
+     *
+     * @var string
+     */
+    protected $schema;
+
+    /**
+     * Path to corresponding XSD file with validation rules for separate config files
+     *
+     * @var string
+     */
+    protected $perFileSchema;
+
+    /**
+     * Class of dom configuration document used for merge
+     *
+     * @var string
+     */
+    protected $domDocumentClass;
+
+    /**
+     * Should configuration be validated
+     *
+     * @var bool
+     */
+    protected $isValidated;
+
+    /**
+     * @param FileResolver $fileResolver
+     * @param Mapper $mapper
+     * @param SchemaLocator $schemaLocator
+     * @param \Magento\Framework\Config\ValidationStateInterface $validationState
+     * @param array $idAttributes
+     * @param string $domDocumentClass
+     * @param string $defaultScope
+     */
+    public function __construct(
+        FileResolver $fileResolver,
+        Mapper $mapper,
+        SchemaLocator $schemaLocator,
+        \Magento\Framework\Config\ValidationStateInterface $validationState,
+        $idAttributes = [],
+        $domDocumentClass = 'Magento\Doc\Document\Content\Dom',
+        $defaultScope = 'global'
+    ) {
+        $this->fileResolver = $fileResolver;
+        $this->mapper = $mapper;
+        $this->idAttributes = array_replace($this->idAttributes, $idAttributes);
+        $this->schemaFile = $schemaLocator->getSchema();
+        $this->isValidated = $validationState->isValidated();
+        $this->perFileSchema = $schemaLocator->getPerFileSchema() &&
+        $this->isValidated ? $schemaLocator->getPerFileSchema() : null;
+        $this->domDocumentClass = $domDocumentClass;
+        $this->defaultScope = $defaultScope;
+    }
+
+    /**
+     * Load document template
+     *
+     * @param string $template
+     * @return string
+     */
+    public function read($template)
+    {
+        $fragments = $this->fileResolver->get($template);
+        if (!count($fragments)) {
+            return '';
+        }
+        $output = $this->mergeDocumentFragments($fragments);
+        return $output;
+    }
+
+    /**
+     * Merge document fragments
+     *
+     * @param array $fragments
+     * @return string
+     * @throws \Magento\Framework\Exception
+     */
+    protected function mergeDocumentFragments($fragments)
+    {
+        /** @var \Magento\Framework\Config\Dom $merger */
+        $merger = null;
+        foreach ($fragments as $key => $fragment) {
+            if (!$fragment) {
+                continue;
+            }
+            try {
+                if (!$merger) {
+                    $merger = $this->createConfigMerger($this->domDocumentClass, $fragment);
+                } else {
+                    $merger->merge($fragment);
+                }
+            } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
+                throw new \Magento\Framework\Exception("Invalid XML in file " . $key . ":\n" . $e->getMessage());
+            }
+        }
+        if ($this->isValidated) {
+            $errors = [];
+            if ($merger && !$merger->validate($this->schemaFile, $errors)) {
+                $message = "Invalid Document \n";
+                throw new \Magento\Framework\Exception($message . implode("\n", $errors));
+            }
+        }
+        if ($merger) {
+            $html = '';
+            $dom = $merger->getDom();
+            foreach ($dom->firstChild->childNodes as $node) {
+                $html .= $dom->saveHTML($node);
+            }
+            return $html;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Create and return a template merger instance
+     *
+     * {@inheritdoc}
+     */
+    protected function createConfigMerger($mergerClass, $initialContents)
+    {
+        return new $mergerClass($initialContents, $this->idAttributes, self::TYPE_ATTRIBUTE, $this->perFileSchema);
+    }
+}

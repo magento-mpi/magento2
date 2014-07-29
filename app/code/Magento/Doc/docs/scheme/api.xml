@@ -1,0 +1,7 @@
+<scheme>
+    <content>
+        <item name="MagentoDocApi" type="phpdocumentor" module="Magento_Doc">
+            <label>Reference API</label>
+        </item>
+    </content>
+</scheme>

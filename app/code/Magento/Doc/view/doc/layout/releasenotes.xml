@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+    <referenceContainer name="content">
+        <block class="Magento\Doc\Ui\Widget\Toolbar" name="document_toolbar" template="Magento_Doc::html/widget/toolbar.phtml"/>
+        <block class="Magento\Doc\Ui\Widget\Document" name="document_content" template="Magento_Doc::html/widget/document.phtml">
+            <arguments>
+                <argument name="scheme" xsi:type="string">releasenotes</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
+</layout>

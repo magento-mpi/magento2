@@ -1,0 +1,8 @@
+<scheme>
+    <content>
+        <item name="Invoice" type="entity" module="Magento_Doc">
+            <definition>Invoice - is ...</definition>
+            <url>#</url>
+        </item>
+    </content>
+</scheme>

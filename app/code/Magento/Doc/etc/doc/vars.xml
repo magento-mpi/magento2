@@ -1,0 +1,7 @@
+<document>
+    <content>
+        <item name="product_required_attributes">
+            <source>Magento\Catalog\Model\Resource\Product::getRequiredAttributes</source>
+        </item>
+    </content>
+</document>

@@ -1,0 +1,54 @@
+<scheme>
+    <content>
+        <item name="Overview" type="article" module="Magento_Doc">
+            <label>Overview</label>
+        </item>
+        <item name="WebApplicationArchitecture" type="article" module="Magento_Doc" signed-off-architect="true" signed-off-po="true">
+            <label>Web Application Architecture</label>
+            <content>
+                <item name="ServiceLayer" type="article" module="Magento_Doc">
+                    <label>Service Layer</label>
+                </item>
+                <item name="WebArchitectureDiagram" type="diagram" module="Magento_Doc">
+                    <label>Web Architecture Diagram</label>
+                </item>
+            </content>
+        </item>
+        <item name="ModularArchitecture" type="article" module="Magento_Doc">
+            <label>Modular Architecture</label>
+            <artifacts>
+                <item name="ModularArchitectureDiagram" type="diagram" module="Magento_Doc">
+                    <label>Modular Architecture Diagram</label>
+                </item>
+            </artifacts>
+        </item>
+        <item name="ViewLayer" type="article" module="Magento_Doc">
+            <label>View Layer</label>
+            <content>
+                <item name="MagentoViewLibrary" type="article" module="Magento_Doc">
+                    <label>Magento_View Library</label>
+                </item>
+                <item name="TemplateEngines" type="article" module="Magento_Doc">
+                    <label>Template Engines</label>
+                </item>
+                <item name="WorkingWithPages" type="article" module="Magento_Doc">
+                    <label>Working with Pages</label>
+                </item>
+            </content>
+        </item>
+        <item name="Configuration" type="article" module="Magento_Doc">
+            <label>Configuration</label>
+        </item>
+        <item name="ConceptsAndConventions" type="article" module="Magento_Doc">
+            <label>Magento Programming Concepts and Conventions</label>
+        </item>
+        <item name="ServiceFramework" type="article" module="Magento_Doc">
+            <label>Major Functional Subsystems</label>
+            <content>
+                <item name="Search" type="article" module="Magento_Framework_Search">
+                    <label>Search</label>
+                </item>
+            </content>
+        </item>
+    </content>
+</scheme>
