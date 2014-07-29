@@ -35,7 +35,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    private static $root_version;
+    private static $rootJson;
 
     /**
      * @var string
@@ -50,8 +50,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         self::$shell = self::createShell();
         self::$isComposerAvailable = self::isComposerAvailable();
         self::$root = Files::init()->getPathToSource();
-        $root_json = json_decode(file_get_contents(self::$root . '/composer.json'));
-        self::$root_version = $root_json->version;
+        self::$rootJson = json_decode(file_get_contents(self::$root . '/composer.json'));
     }
 
     /**
@@ -281,10 +280,10 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertVersionInSync($name, $version)
     {
         $this->assertEquals(
-            self::$root_version,
+            self::$rootJson->version,
             $version,
-            "Version {$version} in component {$name} is inconsistent with version " . self::$root_version . " in " .
-            "root composer.json"
+            "Version {$version} in component {$name} is inconsistent with version "
+            . self::$rootJson->version . ' in root composer.json'
         );
     }
 
