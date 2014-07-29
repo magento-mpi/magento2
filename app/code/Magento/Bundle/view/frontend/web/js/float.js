@@ -5,7 +5,8 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function($, window) {
+define(["jquery","jquery/ui"], function($){
+
     $.widget('mage.float', {
         options: {
             productOptionsSelector: '#product-options-wrapper'
@@ -49,5 +50,4 @@
             }
         }
     });
-})(jQuery, window);
-
+});

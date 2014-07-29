@@ -67,6 +67,8 @@ $parameters = $this->getParameters();
 
 
 <script type="text/javascript">
+require(['prototype', 'mage/adminhtml/wysiwyg/widget'], function(){
+
 //<![CDATA[
     <?php foreach ($this->getAllStoreViews() as $store): ?>
         <?php echo $uniqueId; ?>_<?php echo $store['value']; ?> = new WysiwygWidget.chooser("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>", "<?php echo $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId.'_'.$store['value'], 'scope_id' => $store['value'], 'scope' => ($store['value'] == 0) ? 'default' : 'store'));?>", {"buttons":{"open":"Select a page or node.","close":"Close"}});
@@ -175,10 +177,23 @@ $parameters = $this->getParameters();
         showHierarchy();
     };
 
+    window.onLoadCallback = onLoadCallback;
+    window.hideOldHierarchy = hideOldHierarchy;
+    window.showHierarchy = showHierarchy;
+    window.addClassEnable = addClassEnable;
+    window.changeHierarchy = changeHierarchy;
+
+    window.changeHierarchyArray = changeHierarchyArray;
+    window.storesArray = storesArray;
+    
     if (document.loaded) {
         onLoadCallback();
     } else {
         document.observe('dom:loaded', onLoadCallback);
     }
+
+
 //]]>
+
+});
 </script>

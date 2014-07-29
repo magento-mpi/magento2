@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+    
     $.widget('mage.paymentMethod', {
         /**
          * Billing information when multi-shipping option is selected.
@@ -34,4 +38,5 @@
             });
         }
     });
-})(jQuery);
+
+});

@@ -12,6 +12,7 @@ use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Sales\Test\Fixture\Order;
+use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class Create
@@ -75,6 +76,13 @@ class Create extends Block
      * @var string
      */
     protected $templateBlock = './ancestor::body';
+
+    /**
+     * Locator for customer attribute on New Order page
+     *
+     * @var string
+     */
+    protected $customerAttribute = "[name='order[account][%s]']";
 
     /**
      * Getter for order selected products grid
@@ -233,5 +241,18 @@ class Create extends Block
     public function submitOrder()
     {
         $this->getTotalsBlock()->submitOrder();
+    }
+
+    /**
+     * Check if Customer custom Attribute visible
+     *
+     * @param CustomerCustomAttribute $customerAttribute
+     * @return bool
+     */
+    public function isCustomerAttributeVisible(CustomerCustomAttribute $customerAttribute)
+    {
+        return $this->_rootElement->find(
+            sprintf($this->customerAttribute, $customerAttribute->getAttributeCode())
+        )->isVisible();
     }
 }

@@ -21,14 +21,14 @@
     </div>
 </script>
 <script type="text/javascript">
-    (function($) {
+    require(["jquery", "mage/mage"], function($){
         "use strict";
         /**
          * Declaration of resources needed for defined components
          */
         $.mage.extend('opcOrderReview', 'opcOrderReview',
-            '<?php echo $this->getViewFileUrl('Magento_GiftRegistry::js/opcheckout.js') ?>'
+            'Magento_GiftRegistry/js/opcheckout'
         );
-    })(jQuery);
+    });
 </script>
 <?php endif; ?>

@@ -14,9 +14,9 @@
         <lastname />
         <email />
         <company />
-        <street_1>
-            <selector>[id='billing:street1']</selector>
-        </street_1>
+        <street>
+            <selector>[id='shipping:street1']</selector>
+        </street>
         <city />
         <region_id>
             <input>select</input>
