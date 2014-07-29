@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -19,9 +20,6 @@ use Magento\Authorization\Model\Acl\AclRetriever;
  */
 class IntegrationServiceV1
 {
-    /** @var AuthorizationInterface */
-    protected $_authzService;
-
     /** @var IntegrationAuthorizationInterface */
     protected $integrationAuthorizationService;
 
@@ -34,18 +32,15 @@ class IntegrationServiceV1
     /**
      * Initialize dependencies.
      *
-     * @param AuthorizationInterface $authzService
      * @param UserIdentifierFactory $userIdentifierFactory
      * @param IntegrationAuthorizationInterface $integrationAuthorizationService
      * @param AclRetriever $aclRetriever
      */
     public function __construct(
-        AuthorizationInterface $authzService,
         UserIdentifierFactory $userIdentifierFactory,
         IntegrationAuthorizationInterface $integrationAuthorizationService,
         AclRetriever $aclRetriever
     ) {
-        $this->_authzService = $authzService;
         $this->_userIdentifierFactory = $userIdentifierFactory;
         $this->integrationAuthorizationService = $integrationAuthorizationService;
         $this->aclRetriever  = $aclRetriever;

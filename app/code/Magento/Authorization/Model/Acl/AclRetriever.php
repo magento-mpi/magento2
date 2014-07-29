@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Authorization\Model\Acl;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -12,6 +13,9 @@ use Magento\Authz\Service\AuthorizationV1 as AuthorizationService;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * Permission tree retriever
+ */
 class AclRetriever extends AuthorizationService
 {
     /**
@@ -49,7 +53,7 @@ class AclRetriever extends AuthorizationService
     /**
      * Get a list of available resource using user role id
      *
-     * @param $roleId
+     * @param string $roleId
      * @return string[]
      */
     public function getAllowedResourcesByRole($roleId)
