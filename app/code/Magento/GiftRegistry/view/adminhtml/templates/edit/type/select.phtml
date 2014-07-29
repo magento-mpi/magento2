@@ -16,6 +16,8 @@ $coreHelper = $this->helper('Magento\Core\Helper\Data');
 </div>
 
 <script type="text/javascript">
+require(['prototype', 'Magento_GiftRegistry/edit/validation-rules'], function(){
+
 //<![CDATA[
 OptionTemplateSelect =
     '<table class="data-table">'+
@@ -100,6 +102,7 @@ selectOptionType = {
         }
     }
 };
-head.js('<?php echo $this->getViewFileUrl('Magento_GiftRegistry::edit/validation-rules.js'); ?>');
 //]]>
+
+});
 </script>

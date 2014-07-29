@@ -1,12 +1,23 @@
-    /**
+/**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-    /*jshint jquery:true*/
-(function($) {
+/*jshint jquery:true*/
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        define([
+            "jquery",
+            "jquery/ui",
+            "mage/translate"
+        ], factory);
+    } else {
+        factory(jQuery);
+    }
+}(function ($) {
     'use strict';
+
     /**
      * Load theme list
      */
@@ -156,4 +167,4 @@
             }
         }
     });
-})(jQuery);
+}));
