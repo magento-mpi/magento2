@@ -33,7 +33,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private static $root;
 
     /**
-     * @var string
+     * @var \stdClass
      */
     private static $rootJson;
 
