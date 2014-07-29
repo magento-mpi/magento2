@@ -110,11 +110,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_actionFactory;
 
     /**
-     * @var \Magento\Framework\Model\Resource\Iterator
-     */
-    protected $_iterator;
-
-    /**
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
@@ -134,7 +129,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Framework\Model\Resource\Iterator $iterator
      * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -149,7 +143,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Framework\Model\Resource\Iterator $iterator,
         \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -160,7 +153,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         array $data = array()
     ) {
         $this->_localeDate = $localeDate;
-        $this->_iterator = $iterator;
         $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->_actionFactory = $actionFactory;
