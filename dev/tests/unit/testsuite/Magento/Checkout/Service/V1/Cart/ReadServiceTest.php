@@ -61,13 +61,15 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->quoteFactoryMock =
             $this->getMock('\Magento\Sales\Model\QuoteFactory', ['create'], [], '', false);
-        $methods = ['getId', 'getStoreId', 'getCreatedAt', 'getUpdatedAt', 'getConvertedAt',
+        $methods = [
+            'getId', 'getStoreId', 'getCreatedAt', 'getUpdatedAt', 'getConvertedAt',
             'getIsActive', 'getIsVirtual', 'getItemsCount', 'getItemsQty', 'getCheckoutMethod', 'getReservedOrderId',
             'getOrigOrderId', 'getBaseGrandTotal', 'getBaseSubtotal', 'getSubtotal', 'getBaseSubtotalWithDiscount',
-            'getSubtotalWithDiscount', 'getCustomerId', 'getCustomerEmail', 'getCustomerGroupId', 'getCustomerTaxClassId',
-            'getCustomerPrefix', 'getCustomerFirstname', 'getCustomerMiddlename', 'getCustomerLastname',
-            'getCustomerSuffix', 'getCustomerDob', 'getCustomerNote', 'getCustomerNoteNotify', 'getCustomerIsGuest',
-        'getCustomerGender', 'getCustomerTaxvat', '__wakeup', 'load', 'getGrandTotal'];
+            'getSubtotalWithDiscount', 'getCustomerId', 'getCustomerEmail', 'getCustomerGroupId',
+            'getCustomerTaxClassId', 'getCustomerPrefix', 'getCustomerFirstname', 'getCustomerMiddlename',
+            'getCustomerLastname', 'getCustomerSuffix', 'getCustomerDob', 'getCustomerNote', 'getCustomerNoteNotify',
+            'getCustomerIsGuest', 'getCustomerGender', 'getCustomerTaxvat', '__wakeup', 'load', 'getGrandTotal'
+        ];
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote', $methods, [], '', false);
         $this->quoteCollectionMock = $objectManager->getCollectionMock(
             '\Magento\Sales\Model\Resource\Quote\Collection', [$this->quoteMock]);

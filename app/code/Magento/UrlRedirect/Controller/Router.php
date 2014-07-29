@@ -27,6 +27,9 @@ class Router implements \Magento\Framework\App\RouterInterface
     /** @var \Magento\UrlRedirect\Service\V1\UrlMatcherInterface */
     protected $urlMatcher;
 
+    /** @var \Magento\Framework\App\ActionFactory */
+    protected $actionFactory;
+
     /**
      * @param \Magento\Framework\App\ActionFactory $actionFactory
      * @param \Magento\Framework\UrlInterface $url
@@ -43,12 +46,12 @@ class Router implements \Magento\Framework\App\RouterInterface
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\UrlRedirect\Service\V1\UrlMatcherInterface $urlMatcher
     ) {
-        parent::__construct($actionFactory);
         $this->url = $url;
         $this->appState = $appState;
         $this->storeManager = $storeManager;
         $this->response = $response;
         $this->urlMatcher = $urlMatcher;
+        $this->actionFactory = $actionFactory;
     }
 
     /**
@@ -82,7 +85,7 @@ class Router implements \Magento\Framework\App\RouterInterface
         }
 
         $request->setPathInfo('/' . $urlRewrite->getTargetPath());
-        return $this->_actionFactory->createController(
+        return $this->actionFactory->create(
             'Magento\Framework\App\Action\Forward',
             array('request' => $request)
         );

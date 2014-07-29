@@ -127,7 +127,7 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set customer data object
      *
-     * @param $value
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Customer $value
      * @return $this
      */
     public function setCustomer($value)
