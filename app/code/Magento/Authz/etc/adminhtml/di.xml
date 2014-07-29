@@ -8,5 +8,4 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Authorization\Model\UserContextInterface" type="Magento\Authz\Model\UserLocator\Admin"/>
 </config>

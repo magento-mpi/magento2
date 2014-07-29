@@ -5,22 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authz\Model\UserLocator;
+
+namespace Magento\User\Model\Authorization;
 
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Authorization\Model\UserContextInterface;
 
 /**
- * Guest user locator.
+ * Guest user context
  */
-class Guest implements UserContextInterface
+class GuestUserContext implements UserContextInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getUserId()
     {
-        return 0;
+        return null;
     }
 
     /**

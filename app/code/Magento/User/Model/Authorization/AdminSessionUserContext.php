@@ -5,16 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Authz\Model\UserLocator;
+
+namespace Magento\User\Model\Authorization;
 
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Backend\Model\Auth\Session as AdminSession;
 
 /**
- * Admin user locator.
+ * Session-based admin user context
  */
-class Admin implements UserContextInterface
+class AdminSessionUserContext implements UserContextInterface
 {
     /**
      * @var AdminSession
@@ -36,7 +37,7 @@ class Admin implements UserContextInterface
      */
     public function getUserId()
     {
-        return $this->_adminSession->hasUser() ? (int)$this->_adminSession->getUser()->getId() : 0;
+        return $this->_adminSession->hasUser() ? (int)$this->_adminSession->getUser()->getId() : null;
     }
 
     /**
