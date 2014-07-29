@@ -1,7 +1,8 @@
 {
-    "name": "magento/enterprise-edition",
-    "description": "eCommerce Platform for Growth",
-    "type": "magento2-component",
+    "name": "magento/project-mainline",
+    "description": "Magento project mainline",
+    "type": "project",
+    "version": "0.1.0",
     "require": {
         "php": "5.4.*|5.5.*"
     },
@@ -161,7 +162,6 @@
         "twbs/bootstrap": "3.1.0",
         "tinymce/tinymce": "3.4.7"
     },
-    "version": "0.1.0",
     "extra": {
         "component_paths": {
             "zendframework/zend-eventmanager": "lib/internal/Zend/EventManager",
