@@ -9,6 +9,7 @@
     $.widget('mage.addToWishlist', {
         options: {
             bundleInfo: '[id^=bundle-option-]',
+            giftcardInfo: '[id^=giftcard]',
             configurableInfo: '.super-attribute-select',
             groupedInfo: '#super-product-table input',
             downloadableInfo: '#downloadable-links-list input',
@@ -30,7 +31,10 @@
         },
         _updateWishlistData: function(event) {
             var dataToAdd = {};
-            dataToAdd[$(event.currentTarget).attr('name')] = $(event.currentTarget).val();
+            $(event.handleObj.selector).each(function(index, element){
+                dataToAdd[$(element).attr('name')] = $(element).val();
+            });
+
             $('[data-action="add-to-wishlist"]').each(function(index, element) {
                 var params = $(element).data('post');
                 params.data = $.extend({}, params.data, dataToAdd);
