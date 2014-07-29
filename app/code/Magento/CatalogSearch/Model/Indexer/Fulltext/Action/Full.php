@@ -119,6 +119,11 @@ class Full
     protected $localeDate;
 
     /**
+     * @var \Magento\Framework\App\Resource
+     */
+    protected $resource;
+
+    /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -148,6 +153,7 @@ class Full
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
+        $this->resource = $resource;
         $this->catalogProductType = $catalogProductType;
         $this->eavConfig = $eavConfig;
         $this->catalogProductStatus = $catalogProductStatus;
@@ -170,6 +176,42 @@ class Full
     public function reindexAll()
     {
         $this->rebuildIndex();
+    }
+
+    /**
+     * Return validated table name
+     *
+     * @param string|string[] $table
+     * @return string
+     */
+    protected function getTable($table)
+    {
+        return $this->resource->getTableName($table);
+    }
+
+    /**
+     * Retrieve connection for read data
+     *
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    protected function getReadAdapter()
+    {
+        $writeAdapter = $this->getWriteAdapter();
+        if ($writeAdapter && $writeAdapter->getTransactionLevel() > 0) {
+            // if transaction is started we should use write connection for reading
+            return $writeAdapter;
+        }
+        return $this->resource->getConnection('read');
+    }
+
+    /**
+     * Retrieve connection for write data
+     *
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    protected function getWriteAdapter()
+    {
+        return $this->resource->getConnection('write');
     }
 
     /**
@@ -304,7 +346,7 @@ class Full
         $limit = 100
     ) {
         $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
-        $writeAdapter = $this->_getWriteAdapter();
+        $writeAdapter = $this->getWriteAdapter();
 
         $select = $writeAdapter->select()->useStraightJoin(
             true
@@ -322,10 +364,10 @@ class Full
         );
 
         if (!is_null($productIds)) {
-            $select->where('e.entity_id IN(?)', $productIds);
+            $select->where('e.entity_id IN (?)', $productIds);
         }
 
-        $select->where('e.entity_id>?', $lastProductId)->limit($limit)->order('e.entity_id');
+        $select->where('e.entity_id > ?', $lastProductId)->limit($limit)->order('e.entity_id');
 
         $result = $writeAdapter->fetchAll($select);
 
@@ -439,7 +481,7 @@ class Full
     protected function unifyField($field, $backendType = 'varchar')
     {
         if ($backendType == 'datetime') {
-            $expr = $this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s');
+            $expr = $this->getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s');
         } else {
             $expr = $field;
         }
@@ -458,7 +500,7 @@ class Full
     {
         $result = [];
         $selects = [];
-        $adapter = $this->_getWriteAdapter();
+        $adapter = $this->getWriteAdapter();
         $ifStoreValue = $adapter->getCheckSql('t_store.value_id > 0', 't_store.value', 't_default.value');
         foreach ($attributeTypes as $backendType => $attributeIds) {
             if ($attributeIds) {
@@ -467,24 +509,24 @@ class Full
                     ['t_default' => $tableName],
                     ['entity_id', 'attribute_id']
                 )->joinLeft(
-                        ['t_store' => $tableName],
-                        $adapter->quoteInto(
-                            't_default.entity_id=t_store.entity_id' .
-                            ' AND t_default.attribute_id=t_store.attribute_id' .
-                            ' AND t_store.store_id=?',
-                            $storeId
-                        ),
-                        ['value' => $this->unifyField($ifStoreValue, $backendType)]
-                    )->where(
-                        't_default.store_id=?',
-                        0
-                    )->where(
-                        't_default.attribute_id IN (?)',
-                        $attributeIds
-                    )->where(
-                        't_default.entity_id IN (?)',
-                        $productIds
-                    );
+                    ['t_store' => $tableName],
+                    $adapter->quoteInto(
+                        't_default.entity_id=t_store.entity_id' .
+                        ' AND t_default.attribute_id=t_store.attribute_id' .
+                        ' AND t_store.store_id = ?',
+                        $storeId
+                    ),
+                    ['value' => $this->unifyField($ifStoreValue, $backendType)]
+                )->where(
+                    't_default.store_id = ?',
+                    0
+                )->where(
+                    't_default.attribute_id IN (?)',
+                    $attributeIds
+                )->where(
+                    't_default.entity_id IN (?)',
+                    $productIds
+                );
             }
         }
 
@@ -530,17 +572,17 @@ class Full
         ) ? $typeInstance->getRelationInfo() : false;
 
         if ($relation && $relation->getTable() && $relation->getParentFieldName() && $relation->getChildFieldName()) {
-            $select = $this->_getReadAdapter()->select()->from(
+            $select = $this->getReadAdapter()->select()->from(
                 ['main' => $this->getTable($relation->getTable())],
                 [$relation->getChildFieldName()]
             )->where(
-                    $relation->getParentFieldName() . '=?',
-                    $productId
-                );
+                $relation->getParentFieldName() . ' = ?',
+                $productId
+            );
             if (!is_null($relation->getWhere())) {
                 $select->where($relation->getWhere());
             }
-            return $this->_getReadAdapter()->fetchCol($select);
+            return $this->getReadAdapter()->fetchCol($select);
         }
 
         return null;
@@ -611,10 +653,10 @@ class Full
             $product = $this->getProductEmulator(
                 $productData['type_id']
             )->setId(
-                    $productData['entity_id']
-                )->setStoreId(
-                    $storeId
-                );
+                $productData['entity_id']
+            )->setStoreId(
+                $storeId
+            );
             $typeInstance = $this->getProductTypeInstance($productData['type_id']);
             $data = $typeInstance->getSearchableData($product);
             if ($data) {

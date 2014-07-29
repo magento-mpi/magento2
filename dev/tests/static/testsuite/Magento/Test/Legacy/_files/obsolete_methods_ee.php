@@ -240,4 +240,9 @@ return array(
         'Magento\Search\Model\Plugin\FulltextIndexRebuild',
         'Magento\Search\Model\Plugin\FulltextIndexRebuild::afterExecuteFull'
     ],
+    [
+        'reindexAll',
+        'Magento\ScheduledImportExport\Model\Import',
+        'Magento\ImportExport\Model\Import::invalidateIndex'
+    ],
 );

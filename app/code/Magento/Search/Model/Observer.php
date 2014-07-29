@@ -16,11 +16,9 @@ use Magento\Framework\Event\Observer as EventObserver;
 class Observer
 {
     /**
-     * Index indexer
-     *
-     * @var \Magento\Index\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerFactory
      */
-    protected $_indexer;
+    protected $indexerFactory;
 
     /**
      * Search recommendations factory
@@ -65,40 +63,30 @@ class Observer
     protected $_sourceWeight;
 
     /**
-     * Request
-     *
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $_request;
-
-    /**
      * @param CollectionFactory $eavEntityAttributeOptionCollectionFactory
      * @param Resource\RecommendationsFactory $searchRecommendationsFactory
-     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param Source\Weight $sourceWeight
-     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
-        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchData,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Search\Model\Source\Weight $sourceWeight,
-        \Magento\Framework\App\RequestInterface $request
+        \Magento\Search\Model\Source\Weight $sourceWeight
     ) {
         $this->_eavEntityAttributeOptionCollectionFactory = $eavEntityAttributeOptionCollectionFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
-        $this->_indexer = $indexer;
+        $this->indexerFactory = $indexerFactory;
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
         $this->_coreRegistry = $coreRegistry;
         $this->_sourceWeight = $sourceWeight;
-        $this->_request = $request;
     }
 
     /**
@@ -175,11 +163,9 @@ class Observer
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            $this->_indexer->getProcessByCode(
-                'catalogsearch_fulltext'
-            )->changeStatus(
-                \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
-            );
+            $indexer = $this->indexerFactory->create();
+            $indexer->load(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID);
+            $indexer->invalidate();
         }
     }
 
@@ -191,7 +177,9 @@ class Observer
      */
     public function storeSearchableAttributes(EventObserver $observer)
     {
+        /** @var \Magento\CatalogSearch\Model\Resource\EngineInterface $engine */
         $engine = $observer->getEvent()->getEngine();
+        /** @var \Magento\Eav\Model\Entity\Attribute[] $attributes */
         $attributes = $observer->getEvent()->getAttributes();
         if (!$engine || !$attributes || !$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -211,6 +199,7 @@ class Observer
 
             $optionsOrder = array();
             foreach ($optionCollection as $option) {
+                /** @var \Magento\Eav\Model\Entity\Attribute\Option $option */
                 $optionsOrder[] = $option->getOptionId();
             }
             $optionsOrder = array_flip($optionsOrder);
@@ -272,16 +261,8 @@ class Observer
             return;
         }
 
-        /* @var \Magento\Search\Model\Indexer\Indexer $indexer */
-        $indexer = $this->_indexer->getProcessByCode('catalogsearch_fulltext');
-        if (empty($indexer)) {
-            return;
-        }
-
-        if ('process' == strtolower($this->_request->getControllerName())) {
-            $indexer->reindexAll();
-        } else {
-            $indexer->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
-        }
+        $indexer = $this->indexerFactory->create();
+        $indexer->load(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID);
+        $indexer->invalidate();
     }
 }

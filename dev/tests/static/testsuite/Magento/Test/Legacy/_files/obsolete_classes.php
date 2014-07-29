@@ -2711,4 +2711,5 @@ return array(
     ['Magento\Tax\Model\Config\Source\TaxClass\Customer', 'Magento\Tax\Model\TaxClass\Source\Customer'],
     ['Magento\Catalog\Model\Observer\Reindex'],
     ['Magento\CatalogSearch\Model\Fulltext\Observer'],
+    ['Magento\CatalogSearch\Model\Resource\Indexer\Fulltext'],
 );
