@@ -98,6 +98,9 @@ class SessionManager implements SessionManagerInterface
         $this->saveHandler = $saveHandler;
         $this->validator = $validator;
         $this->storage = $storage;
+
+        // Enable session.use_only_cookies
+        ini_set('session.use_only_cookies', '1');
     }
 
     /**
