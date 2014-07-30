@@ -9,6 +9,7 @@
 namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
+use Magento\Framework\Mail\Exception;
 
 /**
  * Class NotifierTest
@@ -33,7 +34,7 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\ObjectManager |\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $objectManager;
+    protected $loggerMock;
 
     /**
      * @var \Magento\Framework\ObjectManager\ObjectManager |\PHPUnit_Framework_MockObject_MockObject
@@ -63,9 +64,18 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', ['get'], [], '', false);
-        $this->notifier = new Notifier($this->historyCollectionFactory, $this->objectManager, $this->orderSenderMock);
+        $this->loggerMock = $this->getMock(
+            'Magento\Framework\Logger',
+            ['logException'],
+            [],
+            '',
+            false
+        );
+        $this->notifier = new Notifier(
+            $this->historyCollectionFactory,
+            $this->loggerMock,
+            $this->orderSenderMock
+        );
     }
 
     /**
@@ -126,17 +136,14 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotifyException()
     {
-        $e = 'Email has not been sent';
-        $exceptionMock = new \Magento\Framework\Mail\Exception($e);
-        $logger = $this->getMock('Magento\Framework\Logger', ['logException'], [], '', false);
-        $this->objectManager->expects($this->once())
-            ->method('get')
-            ->with('Magento\Framework\Logger')
-            ->will($this->returnValue($logger));
+        $exception = new Exception('Email has not been sent');
         $this->orderSenderMock->expects($this->once())
             ->method('send')
             ->with($this->equalTo($this->order))
-            ->will($this->throwException($exceptionMock));
+            ->will($this->throwException($exception));
+        $this->loggerMock->expects($this->once())
+            ->method('logException')
+            ->with($this->equalTo($exception));
         $this->assertFalse($this->notifier->notify($this->order));
     }
 }
