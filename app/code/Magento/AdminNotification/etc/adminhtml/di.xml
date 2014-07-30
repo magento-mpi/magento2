@@ -19,13 +19,6 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\Notification\NotifierList">
-        <arguments>
-            <argument name="notifiers" xsi:type="array">
-                <item name="adminnotification" xsi:type="string">Magento\AdminNotification\Model\Inbox</item>
-            </argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">
