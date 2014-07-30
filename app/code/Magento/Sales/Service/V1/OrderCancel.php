@@ -32,7 +32,7 @@ class OrderCancel implements OrderCancelInterface
      * Invoke getOrder service
      *
      * @param int $id
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function invoke($id)

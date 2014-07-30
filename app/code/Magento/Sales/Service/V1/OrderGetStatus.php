@@ -12,7 +12,7 @@ use Magento\Sales\Model\OrderRepository;
 /**
  * Class OrderGetStatus
  */
-class OrderGetStatus implements OrderGetInterface
+class OrderGetStatus implements OrderGetStatusInterface
 {
     /**
      * Order repository

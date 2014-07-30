@@ -11,7 +11,7 @@ use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\Order\Status\HistoryConverter;
 
 /**
- * Class OrderCommentsAdd
+ * Class OrderStatusHistoryAdd
  * @package Magento\Sales\Service\V1
  */
 class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
@@ -43,12 +43,12 @@ class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
      *
      * @param int $id
      * @param \Magento\Sales\Service\V1\Data\OrderStatusHistory $statusHistory
-     * @return void
+     * @return int|mixed
      */
     public function invoke($id, $statusHistory)
     {
         $order = $this->orderRepository->get($id);
         $order->addStatusHistory($this->historyConverter->getModel($statusHistory));
-        $order->save();
+        return $order->save();
     }
 }

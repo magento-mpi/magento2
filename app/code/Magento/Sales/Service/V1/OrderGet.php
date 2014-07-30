@@ -41,7 +41,7 @@ class OrderGet implements OrderGetInterface
      * Invoke getOrder service
      *
      * @param int $id
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return \Magento\Sales\Service\V1\Data\Order
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function invoke($id)

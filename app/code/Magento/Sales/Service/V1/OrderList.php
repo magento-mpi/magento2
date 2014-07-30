@@ -12,7 +12,6 @@ use Magento\Sales\Service\V1\Data\OrderMapper;
 use Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 
-
 /**
  * Class OrderList
  */
@@ -52,7 +51,7 @@ class OrderList implements OrderListInterface
      * Invoke OrderList service
      *
      * @param SearchCriteria $searchCriteria
-     * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults
+     * @return \Magento\Framework\Service\V1\Data\SearchResults
      */
     public function invoke(SearchCriteria $searchCriteria)
     {
