@@ -16,6 +16,7 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
 use Magento\Customer\Service\V1\Data\Address as CustomerAddressDataObject;
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Order create model
@@ -991,7 +992,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                     }
                     $info['qty'] = (double)$info['qty'];
                 }
-                $item = $this->quoteItemUpdater->update($item, $info);
+                $this->quoteItemUpdater->update($item, $info);
                 if ($item && !empty($info['action'])) {
                     $this->moveQuoteItem($item, $info['action'], $item->getQty());
                 }
