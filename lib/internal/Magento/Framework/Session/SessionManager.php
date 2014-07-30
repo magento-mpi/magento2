@@ -100,7 +100,7 @@ class SessionManager implements SessionManagerInterface
         $this->storage = $storage;
 
         // Enable session.use_only_cookies
-        //ini_set('session.use_only_cookies', '1');
+        ini_set('session.use_only_cookies', '1');
     }
 
     /**
@@ -423,14 +423,15 @@ class SessionManager implements SessionManagerInterface
     /**
      * Renew session id and update session cookie
      *
+     * @param bool $deleteOldSession
      * @return $this
      */
-    public function regenerateId()
+    public function regenerateId($deleteOldSession = true)
     {
         if (headers_sent()) {
             return $this;
         }
-        session_regenerate_id(true);
+        session_regenerate_id($deleteOldSession);
 
         if ($this->sessionConfig->getUseCookies()) {
             $this->clearSubDomainSessionCookie();
