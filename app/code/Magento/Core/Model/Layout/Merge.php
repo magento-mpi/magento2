@@ -73,13 +73,6 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     protected $_pageHandles = array();
 
     /**
-     * Declared page layout for current handles
-     *
-     * @var string|null
-     */
-    protected $pageLayout;
-
-    /**
      * Substitution values in structure array('from' => array(), 'to' => array())
      *
      * @var array|null
@@ -264,6 +257,25 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     }
 
     /**
+     * Get declared page layout for current handles
+     *
+     * @return null|string
+     */
+    public function getDefaultPageLayout()
+    {
+        $defaultPageLayout = null;
+        $layoutXml = $this->getFileLayoutUpdatesXml();
+        foreach ($this->getHandles() as $handle) {
+            foreach ($layoutXml->xpath("handle[@id='{$handle}'][@layout]") as $updateXml) {
+                if (isset($updateXml['layout'])) {
+                    $defaultPageLayout = (string)$updateXml['layout'];
+                }
+            }
+        }
+        return $defaultPageLayout;
+    }
+
+    /**
      * Get handle xml node by handle name
      *
      * @param string $handleName
@@ -408,7 +420,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     {
         $updates = trim($this->asString());
         $updates = '<?xml version="1.0"?>' .
-            '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" page_layout="' . $this->pageLayout . '">' .
+            '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' .
             $updates .
             '</layout>';
         return $this->_loadXmlString($updates);
@@ -453,7 +465,6 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $layout = $this->getFileLayoutUpdatesXml();
         foreach ($layout->xpath("handle[@id='{$handle}']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
-            $this->_fetchPageLayout($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
         \Magento\Framework\Profiler::stop($_profilerKey);
@@ -482,7 +493,6 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $updateStr = $this->_substitutePlaceholders($updateStr);
         $updateXml = $this->_loadXmlString($updateStr);
         $this->_fetchRecursiveUpdates($updateXml);
-        $this->_fetchPageLayout($updateXml);
         $this->addUpdate($updateXml->innerXml());
 
         \Magento\Framework\Profiler::stop($_profilerKey);
@@ -536,20 +546,6 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
                 // Adding merged layout handle to the list of applied handles
                 $this->addHandle((string)$child['handle']);
             }
-        }
-        return $this;
-    }
-
-    /**
-     * Get information about page layout for current update handle
-     *
-     * @param \SimpleXMLElement $updateXml
-     * @return $this
-     */
-    protected function _fetchPageLayout($updateXml)
-    {
-        if (isset($updateXml['page_layout'])) {
-            $this->pageLayout = (string)$updateXml['page_layout'];
         }
         return $this;
     }

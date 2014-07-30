@@ -77,15 +77,13 @@ class Page extends Layout
     {
         parent::initLayout();
         $update = $this->getLayout()->getUpdate();
-
-        $pageLayoutHandle = $this->pageConfig->getPageLayout();
-        if ($pageLayoutHandle) {
-            $update->addHandle('default');
-            $update->addHandle($pageLayoutHandle);
+        $update->addHandle('default');
+        $this->addPageLayoutHandles([], $this->getDefaultLayoutHandle());
+        $pageLayout = $this->pageConfig->getPageLayout() ?: $update->getDefaultPageLayout();
+        if ($pageLayout) {
+            $update->addHandle($pageLayout);
             $this->setTemplate(self::DEFAULT_ROOT_TEMPLATE);
         }
-        $this->addPageLayoutHandles([], $this->getDefaultLayoutHandle());
-
         return $this;
     }
 

@@ -69,6 +69,13 @@ interface ProcessorInterface
     public function addPageHandles(array $handlesToTry);
 
     /**
+     * Get declared page layout for current handles
+     *
+     * @return null|string
+     */
+    public function getDefaultPageLayout();
+
+    /**
      * Retrieve all design abstractions that exist in the system.
      *
      * @return array
