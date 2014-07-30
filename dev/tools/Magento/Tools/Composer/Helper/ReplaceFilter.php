@@ -33,17 +33,12 @@ class ReplaceFilter
     }
 
     /**
-     * Go through the "replace" section and remove/replace some of items
-     *
-     * Each "replace" that doesn't exist in the code base, will be deleted.
-     * If it remains and if it is a Magento component, and if the requested action is "skeleton", it will be moved
-     * to the "require" section
+     * Go through the "replace" section and remove items that are missing in the working copy
      *
      * @param Package $package
-     * @param bool $isSkeleton
      * @return void
      */
-    public function filterReplace(Package $package, $isSkeleton)
+    public function removeMissing(Package $package)
     {
         foreach ($package->get('replace') as $key => $value) {
             $locations = $this->getExpectedComponentLocations($key, $package);
@@ -60,9 +55,29 @@ class ReplaceFilter
                 $locationValue = count($newLocations) == 1 ? $newLocations[0] : $newLocations;
                 $package->set("extra->component_paths->{$key}", $locationValue);
             }
-            if ($isSkeleton && $this->matchMagentoComponent($key) && $package->get("replace->{$key}")) {
+        }
+    }
+
+    /**
+     * Go through the "replace section" and move Magento components under "require" section
+     *
+     * @param Package $package
+     * @param bool $useWildcard
+     * @return void
+     */
+    public function moveMagentoComponentsToRequire(Package $package, $useWildcard)
+    {
+        $rootVersion = $package->get('version');
+        $rootWildcard = preg_replace('/\.\d+$/', '.*', $rootVersion);
+        foreach ($package->get('replace') as $key => $value) {
+            if ($this->matchMagentoComponent($key) && $package->get("replace->{$key}")) {
                 $package->unsetProperty("replace->{$key}");
-                $package->set("require->{$key}", $value);
+                if ($value === 'self.version') {
+                    $newValue = $useWildcard ? $rootWildcard : $rootVersion;
+                } else {
+                    $newValue = $value;
+                }
+                $package->set("require->{$key}", $newValue);
             }
         }
     }

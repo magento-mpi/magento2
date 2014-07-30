@@ -16,8 +16,9 @@ require __DIR__ . '/../../../bootstrap.php';
 
 define(
     'USAGE',
-    "Usage: php -f create-root.php -- [--skeleton] [--source-dir=<path>] [--target-file=<path>] [--set=<option:value>]
+    "Usage: php -f create-root.php -- [--skeleton] [--wildcard] [--source-dir=<path>] [--target-file=<path>] [--set=<option:value>]
     --skeleton - whether to render the result as a project skeleton.
+    --wildcard - in the skeleton, whether to set 'require' versions to wildcard
     --source-dir=/path/to/magento/dir - path to a Magento root directory. By default will use current working copy
         this directory must contain a root composer.json which is going to be used as template.
     --target-file=/path/to/composer.json - render output to the specified file. If not specified, render into STDOUT.
@@ -36,7 +37,7 @@ $skeletonDefaults = [
     'description' => 'eCommerce Platform for Growth (Community Edition)',
     'type' => 'magento2-component',
 ];
-$opt = getopt('', ['skeleton', 'source-dir::', 'target-file::', 'set::']);
+$opt = getopt('', ['skeleton', 'wildcard', 'source-dir::', 'target-file::', 'set::']);
 
 try {
     $isSkeleton = isset($opt['skeleton']);
@@ -74,7 +75,10 @@ try {
 
     // filter the "replace" elements
     $replaceFilter = new ReplaceFilter($source);
-    $replaceFilter->filterReplace($package, $isSkeleton);
+    $replaceFilter->removeMissing($package, $isSkeleton);
+    if ($isSkeleton) {
+        $replaceFilter->moveMagentoComponentsToRequire($package, isset($opt['wildcard']));
+    }
 
     // marshaling mapping (for skeleton)
     if ($isSkeleton) {
