@@ -11,6 +11,7 @@ namespace Magento\Test\Integrity;
 use Magento\TestFramework\Utility\Files;
 use Magento\Framework\Shell;
 use Magento\Framework\Exception;
+use \Magento\Tools\Composer\Package\Reader;
 
 /**
  * A test that enforces validity of composer.json files and any other conventions in Magento components
@@ -371,5 +372,33 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 "The {$component} is specified in 'extra->component_paths', but missing in 'replace' section"
             );
         }
+    }
+
+    /**
+     * Test if all the dependencies exist in working directory as well as if something is missing
+     *
+     */
+    public function testMainlineComposerJson()
+    {
+        $dependenciesListed = [];
+        $dependenciesFound = [];
+        $rootMainlineJson = json_decode(file_get_contents(BP . '/composer.json'));
+        foreach ($rootMainlineJson->{'replace'} as $key=>$value) {
+            if (strncmp($key, 'magento', strlen('magento')) === 0) {
+                $dependenciesListed[] = $key;
+            }
+        }
+        sort($dependenciesListed);
+        $reader = new Reader(BP . '/dev/tools/Magento/Tools/Composer');
+        foreach ($reader->getPatterns() as $pattern) {
+            foreach (glob(BP. "/{$pattern}/*", GLOB_ONLYDIR) as $dir) {
+                if (file_exists($dir . '/composer.json')) {
+                    $json = json_decode(file_get_contents($dir . '/composer.json'));
+                    $dependenciesFound[] = $json->{'name'};
+                }
+            }
+        }
+        sort($dependenciesFound);
+        $this->assertEquals($dependenciesListed, $dependenciesFound);
     }
 }
