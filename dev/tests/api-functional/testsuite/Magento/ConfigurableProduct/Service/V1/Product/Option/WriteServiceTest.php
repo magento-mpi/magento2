@@ -61,11 +61,14 @@ class WriteServiceTest extends WebapiAbstract
     public function testRemove()
     {
         $productSku = 'configurable';
-        $optionId = 333; //TODO: need fix it (use get service)
 
-        $result = $this->remove($productSku, $optionId);
+        $optionList = $this->getList($productSku);
+        $optionId = $optionList[0]['id'];
+        $resultRemove = $this->remove($productSku, $optionId);
+        $optionListRemoved = $this->getList($productSku);
 
-        $this->assertTrue($result);
+        $this->assertTrue($resultRemove);
+        $this->assertEquals(count($optionList) - 1, count($optionListRemoved));
     }
 
     /**
@@ -87,5 +90,26 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
+    }
+
+    /**
+     * @param string $productSku
+     * @return array
+     */
+    private function getList($productSku)
+    {
+        $serviceName = 'configurableProductProductOptionReadServiceV1';
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/configurable-products/' . $productSku . '/options/all',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => $serviceName,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => $serviceName . 'getList'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }
 }
