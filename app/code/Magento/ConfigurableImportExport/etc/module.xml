@@ -12,6 +12,7 @@
         <depends>
             <module name="Magento_Core"/>
             <module name="Magento_Catalog"/>
+            <module name="Magento_Eav"/>
             <module name="Magento_ImportExport"/>
             <module name="Magento_CatalogImportExport"/>
             <module name="Magento_ConfigurableProduct"/>
