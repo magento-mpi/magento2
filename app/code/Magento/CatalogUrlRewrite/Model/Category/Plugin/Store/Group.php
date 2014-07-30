@@ -59,11 +59,13 @@ class Group
      */
     public function afterSave(\Magento\Store\Model\Group $group, \Magento\Store\Model\Group $result)
     {
-        if (!$group->isObjectNew() && $group->dataHasChangedFor('root_category_id')) {
+        if (!$group->isObjectNew()
+            && ($group->dataHasChangedFor('website_id')
+                || $group->dataHasChangedFor('root_category_id'))
+        ) {
             $this->storeManager->reinitStores();
-            $rootCategoryId = $group->getRootCategoryId();
             $categories = $this->categoryFactory->create()
-                ->load($rootCategoryId)
+                ->load($group->getRootCategoryId())
                 ->getChildrenCategories();
             foreach ($group->getStoreIds() as $storeId) {
                 $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $storeId]);

@@ -15,7 +15,6 @@
         <plugin name="group_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Store\Group"/>
     </type>
     <type name="Magento\Catalog\Model\Category">
-        <plugin name="category_save_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Category\Save"/>
         <plugin name="category_delete_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Category\Remove"/>
     </type>
     <type name="Magento\CatalogImportExport\Model\Import\Product">
