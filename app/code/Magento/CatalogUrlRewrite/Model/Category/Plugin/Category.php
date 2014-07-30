@@ -1,14 +1,13 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CatalogUrlRewrite\Model\Category\Plugin;
 
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
-use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
@@ -16,17 +15,14 @@ use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
 
 class Category
 {
-    /** @var ProductFactory  */
+    /** @var ProductFactory */
     protected $productFactory;
 
-    /** @var CategoryFactory  */
+    /** @var CategoryFactory */
     protected $categoryFactory;
 
     /** @var UrlPersistInterface */
     protected $urlPersist;
-
-    /** @var FilterFactory */
-    protected $filterFactory;
 
     /** @var ProductUrlGenerator */
     protected $productUrlGenerator;
@@ -35,19 +31,17 @@ class Category
      * @param ProductFactory $productFactory
      * @param CategoryFactory $categoryFactory
      * @param UrlPersistInterface $urlPersist
-     * @param FilterFactory $filterFactory
+     * @param \Magento\CatalogUrlRewrite\Model\Product\UrlGenerator $productUrlGenerator
      */
     public function __construct(
         ProductFactory $productFactory,
         CategoryFactory $categoryFactory,
         UrlPersistInterface $urlPersist,
-        FilterFactory $filterFactory,
         ProductUrlGenerator $productUrlGenerator
     ) {
         $this->productFactory = $productFactory;
         $this->categoryFactory = $categoryFactory;
         $this->urlPersist = $urlPersist;
-        $this->filterFactory = $filterFactory;
         $this->productUrlGenerator = $productUrlGenerator;
     }
 
@@ -74,15 +68,11 @@ class Category
      */
     protected function clearProductUrls($productId)
     {
-        $this->urlPersist->deleteByFilter(
-            $this->filterFactory->create(
-                [
-                    'filterData' => [
-                        UrlRewrite::ENTITY_ID => $productId,
-                        UrlRewrite::ENTITY_TYPE => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
-                    ]
-                ]
-            )
+        $this->urlPersist->delete(
+            [
+                UrlRewrite::ENTITY_ID => $productId,
+                UrlRewrite::ENTITY_TYPE => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+            ]
         );
     }
 

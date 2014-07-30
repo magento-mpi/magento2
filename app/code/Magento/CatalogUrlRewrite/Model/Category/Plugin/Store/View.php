@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,6 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
-use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
 use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
@@ -28,9 +27,6 @@ class View
     /** @var CategoryFactory */
     protected $categoryFactory;
 
-    /** @var FilterFactory */
-    protected $filterFactory;
-
     /** @var CategoryUrlGenerator */
     protected $categoryUrlGenerator;
 
@@ -41,7 +37,6 @@ class View
      * @param CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param UrlPersistInterface $urlPersist
      * @param CategoryFactory $categoryFactory
-     * @param FilterFactory $filterFactory
      * @param CategoryUrlGenerator $categoryUrlGenerator
      * @param ProductUrlGenerator $productUrlGenerator
      */
@@ -49,7 +44,6 @@ class View
         CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlPersistInterface $urlPersist,
         CategoryFactory $categoryFactory,
-        FilterFactory $filterFactory,
         CategoryUrlGenerator $categoryUrlGenerator,
         ProductUrlGenerator $productUrlGenerator
     ) {
@@ -58,7 +52,6 @@ class View
         $this->productUrlGenerator = $productUrlGenerator;
         $this->urlPersist = $urlPersist;
         $this->categoryFactory = $categoryFactory;
-        $this->filterFactory = $filterFactory;
     }
 
     /**
@@ -70,12 +63,7 @@ class View
     {
         if ($store->isObjectNew() || $store->dataHasChangedFor('group_id')) {
             if (!$store->isObjectNew()) {
-                $this->urlPersist->deleteByFilter(
-                    $this->filterFactory->create(['filterData' => [
-                        UrlRewrite::STORE_ID => $store->getId(),
-                    ]])
-                );
-
+                $this->urlPersist->delete([UrlRewrite::STORE_ID => $store->getId()]);
             }
 
             $rootCategoryId = $store->getRootCategoryId();

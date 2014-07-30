@@ -7,15 +7,13 @@
  */
 namespace Magento\UrlRewrite\Service\V1;
 
-use Magento\UrlRewrite\Service\V1\Data\Filter;
-
 /**
  * Url Persist Interface
  */
 interface UrlPersistInterface
 {
     /**
-     * Save url rewrites. Return number of saved urls
+     * Save new url rewrites and remove old if exist.
      *
      * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[] $urls
      * @throws \InvalidArgumentException
@@ -24,10 +22,10 @@ interface UrlPersistInterface
     public function replace(array $urls);
 
     /**
-     * Remove rewrites by filter
+     * Remove rewrites that contains some rewrites data
      *
-     * @param Filter $filter
+     * @param array $dataForFilter
      * @return void
      */
-    public function deleteByFilter(Filter $filter);
+    public function delete(array $dataForFilter);
 }

@@ -51,6 +51,10 @@ class CategoryUrlPathGenerator
         if ($category->getParentId() == 1) {
             return '';
         }
+        $path = $category->getData('url_path');
+        if ($path !== null && !$category->dataHasChangedFor('url_key') && !$category->dataHasChangedFor('path_ids')) {
+            return $path;
+        }
         $path = $category->getUrlKey();
         if ($category->getParentId()) {
             $parentPath = $this->getUrlPath($this->categoryFactory->create()->load($category->getParentId()));

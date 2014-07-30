@@ -1,14 +1,13 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CatalogUrlRewrite\Model\Category\Plugin\Store;
 
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
-use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
@@ -19,27 +18,22 @@ class Group
     /** @var UrlPersistInterface */
     protected $urlPersist;
 
-    /** @var FilterFactory */
-    protected $filterFactory;
-
     /** @var CategoryFactory */
     protected $categoryFactory;
 
     /** @var CategoryUrlGenerator */
     protected $categoryUrlGenerator;
 
-    /** @var StoreManagerInterface  */
+    /** @var StoreManagerInterface */
     protected $storeManager;
 
     public function __construct(
         UrlPersistInterface $urlPersist,
-        FilterFactory $filterFactory,
         CategoryFactory $categoryFactory,
         CategoryUrlGenerator $categoryUrlGenerator,
         StoreManagerInterface $storeManager
     ) {
         $this->urlPersist = $urlPersist;
-        $this->filterFactory = $filterFactory;
         $this->categoryFactory = $categoryFactory;
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->storeManager = $storeManager;
@@ -59,11 +53,7 @@ class Group
                 ->load($rootCategoryId)
                 ->getChildrenCategories();
             foreach ($group->getStoreIds() as $storeId) {
-                $this->urlPersist->deleteByFilter(
-                    $this->filterFactory->create(['filterData' => [
-                            UrlRewrite::STORE_ID => $storeId,
-                        ]])
-                );
+                $this->urlPersist->delete([UrlRewrite::STORE_ID => $storeId]);
 
                 foreach ($categories as $category) {
                     /** @var \Magento\Catalog\Model\Category $category */

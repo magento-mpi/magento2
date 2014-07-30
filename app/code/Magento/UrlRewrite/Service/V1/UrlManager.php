@@ -11,6 +11,7 @@ use Magento\UrlRewrite\Service\V1\Data\Filter;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\StorageInterface;
+use Magento\Framework\Model\Exception;
 
 /**
  * Url Manager
@@ -43,17 +44,25 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     public function replace(array $urls)
     {
         if (!$urls) {
-            throw new \InvalidArgumentException('Passed rewrites is empty.');
+            return;
         }
-        $this->storage->deleteByFilter($this->createFilterBasedOnUrls($urls));
-        $this->storage->addMultiple($urls);
+        try {
+            $this->storage->deleteByFilter($this->createFilterBasedOnUrls($urls));
+            $this->storage->addMultiple($urls);
+        } catch (\Exception $e) {
+            if ($e->getCode() === 23000) { // Integrity constraint violation: 1062 Duplicate entry
+                throw new Exception(__('URL key for specified store already exists.'));
+            }
+            throw $e;
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteByFilter(Filter $filter)
+    public function delete(array $dataForFilter)
     {
+        $filter = $this->filterFactory->create(['filterData' => $dataForFilter]);
         $this->storage->deleteByFilter($filter);
     }
 
