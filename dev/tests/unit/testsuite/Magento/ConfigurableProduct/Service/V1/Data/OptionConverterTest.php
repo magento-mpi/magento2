@@ -135,7 +135,8 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase
         $this->configurableAttribute->expects($this->once())->method('setId')->with($this->equalTo($id));
         $this->configurableAttribute->expects($this->any())->method('getAttributeId')->will($this->returnValue($id));
         $this->configurableAttribute->expects($this->once())->method('setAttributeId')->with($this->equalTo($id));
-        $this->configurableAttribute->expects($this->once())->method('setValues')->with($this->equalTo($data));
+        $this->configurableAttribute->expects($this->any())->method('getValues')->will($this->returnValue($data));
+        $this->configurableAttribute->expects($this->any())->method('setValues')->with($this->equalTo($data));
 
         $this->option->expects($this->any())->method('getValues')->will($this->returnValue([$this->value]));
         $this->option->expects($this->any())->method('__toArray')->will($this->returnValue($data));
