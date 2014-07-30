@@ -199,7 +199,7 @@ class PhpCookieManager implements CookieManager
             if (isset($metadataArray[PublicCookieMetadata::KEY_DURATION])) {
                 $expireTime = $metadataArray[PublicCookieMetadata::KEY_DURATION] + time();
             } else {
-                $expireTime = self::EXPIRE_AT_END_OF_SESSION_TIME;
+                $expireTime = PhpCookieManager::EXPIRE_AT_END_OF_SESSION_TIME;
             }
         }
 
