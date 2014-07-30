@@ -77,12 +77,12 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
         \Magento\Checkout\Helper\Cart $cartHelper,
         array $data = array()
     ) {
-        $this->_cartHelper = $cartHelper;
         $this->_jsonEncoder = $jsonEncoder;
-        $this->_coreRegistry = $registry;
         $this->_catalogData = $catalogData;
+        $this->_coreRegistry = $registry;
         $this->string = $string;
         $this->mathRandom = $mathRandom;
+        $this->_cartHelper = $cartHelper;
         parent::__construct($context, $data);
     }
 

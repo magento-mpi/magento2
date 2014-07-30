@@ -47,12 +47,12 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -61,12 +61,12 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
@@ -76,11 +76,11 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
             $context,
             $jsonEncoder,
             $catalogData,
-            $taxData,
             $registry,
             $string,
             $mathRandom,
             $cartHelper,
+            $taxData,
             $data
         );
     }
