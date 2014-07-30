@@ -35,7 +35,6 @@ $skeletonDefaults = [
     'name' => 'magento/product-community-edition',
     'description' => 'eCommerce Platform for Growth (Community Edition)',
     'type' => 'magento2-component',
-    'require->magento/magento-composer-installer' => '*',
 ];
 $opt = getopt('', ['skeleton', 'source-dir::', 'target-file::', 'set::']);
 
@@ -66,7 +65,7 @@ try {
 
     // override with "set" option
     if (isset($opt['set'])) {
-        foreach((array)$opt['set'] as $row) {
+        foreach ((array)$opt['set'] as $row) {
             assertLogical(preg_match('/^(.*?):(.+)$/', $row, $matches), "Unable to parse 'set' value: {$row}");
             list(, $key, $value) = $matches;
             $package->set($key, $value);
@@ -108,6 +107,7 @@ exit(0);
  *
  * @param bool $condition
  * @param string $error
+ * @return void
  * @throws \InvalidArgumentException
  */
 function assertArgument($condition, $error)
@@ -122,6 +122,7 @@ function assertArgument($condition, $error)
  *
  * @param bool $condition
  * @param string $error
+ * @return void
  * @throws \LogicException
  */
 function assertLogical($condition, $error)

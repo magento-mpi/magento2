@@ -18,8 +18,7 @@
         "magento/module-directory": "0.1.0",
         "magento/module-customer-custom-attributes": "0.1.0",
         "magento/framework": "0.1.0",
-        "ext-gd": "*",
-        "magento/magento-composer-installer": "*"
+        "ext-gd": "*"
     },
     "type": "magento2-module",
     "version": "0.1.0",
