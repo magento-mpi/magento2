@@ -6,8 +6,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "prototype",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(){
 
-var AdminCheckout = new Class.create();
+window.AdminCheckout = new Class.create();
+
 AdminCheckout.prototype = {
     initialize: function(data)
     {
@@ -703,3 +708,5 @@ AdminCheckout.prototype = {
         this.sourceNoClean.set(sourceId, true);
     }
 };
+
+});

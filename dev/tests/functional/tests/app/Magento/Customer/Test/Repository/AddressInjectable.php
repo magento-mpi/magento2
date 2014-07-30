@@ -11,8 +11,8 @@ namespace Magento\Customer\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CustomerInjectable
- * Customer repository
+ * Class AddressInjectable
+ * Customer address repository
  */
 class AddressInjectable extends AbstractRepository
 {
@@ -24,7 +24,7 @@ class AddressInjectable extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['johndoe_address'] = [
+        $this->_data['default_US_address'] = [
             'company' => 'Magento %isolation%',
             'street' => '6161 West Centinela Avenue',
             'city' => 'Culver City',

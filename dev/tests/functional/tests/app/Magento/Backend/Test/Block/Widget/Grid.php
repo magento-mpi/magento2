@@ -18,6 +18,7 @@ use Mtf\Client\Element\Locator;
  * Basic grid actions
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 abstract class Grid extends Block
 {
@@ -85,18 +86,18 @@ abstract class Grid extends Block
     protected $massactionSelect = '[id*=massaction-select]';
 
     /**
+     * Massaction dropdown
+     *
+     * @var string
+     */
+    protected $massactionAction = '#massaction-select';
+
+    /**
      * Massaction 'Submit' button
      *
      * @var string
      */
     protected $massactionSubmit = '[id*=massaction-form] button';
-
-    /**
-     * Locator for mass action button
-     *
-     * @var string
-     */
-    protected $massActionButton = '[onclick*="Grid_massaction"]';
 
     /**
      * Backend abstract block
@@ -248,15 +249,20 @@ abstract class Grid extends Block
      * @param array $items
      * @param array|string $action
      * @param bool $acceptAlert [optional]
+     * @param string $massActionSelection [optional]
      * @return void
      */
-    public function massaction(array $items, $action, $acceptAlert = false)
+    public function massaction(array $items, $action, $acceptAlert = false, $massActionSelection = '')
     {
         if (!is_array($action)) {
             $action = [$action => '-'];
         }
         foreach ($items as $item) {
             $this->searchAndSelect($item);
+        }
+        if ($massActionSelection) {
+            $this->_rootElement->find($this->massactionAction, Locator::SELECTOR_CSS, 'select')
+                ->setValue($massActionSelection);
         }
         $actionType = key($action);
         $this->_rootElement->find($this->massactionSelect, Locator::SELECTOR_CSS, 'select')->setValue($actionType);
@@ -333,23 +339,5 @@ abstract class Grid extends Block
             $this->getTemplateBlock()->waitLoader();
         }
         $this->reinitRootElement();
-    }
-
-    /**
-     * Form for mass action block
-     *
-     * @param array $mapping
-     * @return void
-     */
-    public function massActionForm(array $mapping)
-    {
-        foreach ($mapping as $locator => $value) {
-            if (is_array($value)) {
-                $this->massActionForm($value);
-            }
-            $this->_rootElement->find($locator, Locator::SELECTOR_CSS, 'select')->setValue($value);
-        }
-        $this->_rootElement->find($this->massActionButton)->click();
-        $this->_rootElement->acceptAlert();
     }
 }

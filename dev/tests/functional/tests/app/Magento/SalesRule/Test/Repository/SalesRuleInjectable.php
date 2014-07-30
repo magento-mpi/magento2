@@ -50,6 +50,7 @@ class SalesRuleInjectable extends AbstractRepository
             'coupon_type' => 'No Coupon',
             'simple_action' => 'Percent of product price discount',
             'discount_amount' => '50',
+            'stop_rules_processing' => 'Yes',
         ];
 
         $this->_data['active_sales_rule_with_complex_conditions'] = [

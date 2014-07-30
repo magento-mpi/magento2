@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class BannerNew
- *
- * @package Magento\CustomerSegment\Test\Page\Adminhtml
+ * Banner new page
  */
 class BannerNew extends BackendPage
 {

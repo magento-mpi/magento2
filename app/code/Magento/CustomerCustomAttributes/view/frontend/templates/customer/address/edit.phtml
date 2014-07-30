@@ -139,10 +139,14 @@
     </div>
 </form>
 <script type="text/javascript">
-    (function($) {
+    require([
+        "jquery",
+        "mage/validation",
+        "Magento_Checkout/js/region-updater"
+    ], function($){
         var $form = $('#form-validate');
-        $form.mage('validation');
-        $('#country').mage('regionUpdater', {
+        $form.validation();
+        $('#country').regionUpdater({
             optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
             regionListId: '#region_id',
             regionInputId: '#region',
@@ -152,5 +156,5 @@
             defaultRegion: "<?php echo $this->getAddress()->getRegion()->getRegionId() ?>",
             countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
         });
-    })(jQuery);
+    });
 </script>

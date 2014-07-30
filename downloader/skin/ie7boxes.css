@@ -1,9 +1,0 @@
-/**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
- */
-.main { height:auto !important; }
-button, .form-button { filter:chroma(color=#000000); }
-.connect-packages td .select { margin:0 0 2px; width:100%; }

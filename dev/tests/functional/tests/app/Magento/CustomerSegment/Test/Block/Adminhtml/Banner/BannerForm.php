@@ -9,13 +9,12 @@
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Banner;
 
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class BannerForm
  * Backend banner form
  */
-class BannerForm extends FormTabs
+class BannerForm extends \Magento\Banner\Test\Block\Adminhtml\Banner\BannerForm
 {
     /**
      * Locator for customer segment
@@ -32,15 +31,14 @@ class BannerForm extends FormTabs
     protected $customerSegmentOptions = '[name="customer_segment_ids[]"] option';
 
     /**
-     * Check
+     * Check whether customer segment is available on Banner form
      *
-     * @param string $customerSegment [optional]
-     * @param string $useSegment
+     * @param string $customerSegment
      * @return bool
      */
-    public function isCustomerSegmentVisible($customerSegment, $useSegment = 'Specified')
+    public function isCustomerSegmentVisible($customerSegment)
     {
-        $this->_rootElement->find($this->useSegment, Locator::SELECTOR_CSS, 'select')->setValue($useSegment);
+        $this->_rootElement->find($this->useSegment, Locator::SELECTOR_CSS, 'select')->setValue('Specified');
         $segments = $this->_rootElement->find($this->customerSegmentOptions, Locator::SELECTOR_CSS)
             ->getElements();
         foreach ($segments as $segment) {

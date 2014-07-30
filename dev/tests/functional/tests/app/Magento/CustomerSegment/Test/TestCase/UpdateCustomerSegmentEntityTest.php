@@ -145,11 +145,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
         $this->cmsIndex = $cmsIndex;
         $this->fixtureFactory = $fixtureFactory;
         $customerIndexPage->open();
-        $massActionBlock = [
-            '#massaction-select' => 'Select All',
-            '#customerGrid_massaction-select' => 'Delete'
-        ];
-        $customerIndexPage->getCustomerGridBlock()->massActionForm($massActionBlock);
+        $customerIndexPage->getCustomerGridBlock()->massaction([], 'Delete', true, 'Select All');
     }
 
     /**
@@ -218,10 +214,10 @@ class UpdateCustomerSegmentEntityTest extends Injectable
      */
     public function tearDown()
     {
+        $this->cmsIndex->open();
+        $this->cmsIndex->getLinksBlock()->openLink("Log Out");
         $this->promoQuoteIndex->open();
         $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => $this->salesRule->getName()]);
         $this->promoQuoteEdit->getFormPageActions()->delete();
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink("Log Out");
     }
 }

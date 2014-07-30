@@ -6,9 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "jquery",
+    "mage/backend/validation"
+], function($){
 
-
-(function ($) {
     $.validator.addMethod('validate-one-gws-store', function(element) {
         if ($('#gws_is_all').val() == 1) {
             return true; // not touching valid intentionally
@@ -27,4 +29,4 @@
             }
         }
     });
-})(jQuery)
+});
