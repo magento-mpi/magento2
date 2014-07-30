@@ -57,7 +57,7 @@ class NotifierList
             $hasErrors = false;
             foreach ($this->notifiers as $classIndex => $class) {
                 $notifier = $this->objectManager->get($class);
-                if (($notifier instanceof NotifierInterface)) {
+                if ($notifier instanceof NotifierInterface) {
                     $this->notifiers[$classIndex] = $notifier;
                 } else {
                     $hasErrors = true;
