@@ -63,8 +63,6 @@ class PhpCookieManager implements CookieManager
      * @return void
      * @throws FailureToSendException Cookie couldn't be sent to the browser.  If this exception isn't thrown,
      * there is still no guarantee that the browser received and accepted the cookie.
-     * @throws BrowserNotSupportedException Is thrown if we detected that the browser doesn't support all features
-     * needed for setting this cookie.
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
      */
     public function setSensitiveCookie($name, $value, SensitiveCookieMetadata $metadata = null)
@@ -90,7 +88,6 @@ class PhpCookieManager implements CookieManager
      * @param PublicCookieMetadata $metadata
      * @return void
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
-     * @throws BrowserNotSupportedException If browser doesn't support all features needed for setting this cookie
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
      */
     public function setPublicCookie($name, $value, PublicCookieMetadata $metadata = null)
@@ -111,7 +108,6 @@ class PhpCookieManager implements CookieManager
      * @param array $metadataArray
      * @return void
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
-     * @throws BrowserNotSupportedException If browser doesn't support all features needed for setting this cookie
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
      */
     private function setCookie($name, $value, array $metadataArray)
@@ -162,7 +158,6 @@ class PhpCookieManager implements CookieManager
      * @param string $name
      * @param string|null $value
      * @return void if it is possible to send the cookie
-     * @throws BrowserNotSupportedException If browser doesn't support all features needed for setting this cookie
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
      */
     private function checkAbilityToSendCookie($name, $value)

@@ -51,7 +51,7 @@ class PublicCookieMetadata extends CookieMetadata
      * Set HTTPOnly flag
      *
      * @param bool $httpOnly
-     * @return void;
+     * @return void
      */
     public function setHttpOnly($httpOnly)
     {
@@ -72,7 +72,7 @@ class PublicCookieMetadata extends CookieMetadata
      * Set whether the cookie is only available under HTTPS
      *
      * @param bool $secure
-     * @return void;
+     * @return void
      */
     public function setSecure($secure)
     {
