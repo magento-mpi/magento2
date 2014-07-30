@@ -44,7 +44,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->service = new ReadService($this->quoteLoaderMock, $this->converterMock, $this->storeManagerMock);
     }
 
-    public  function testGetAddress()
+    public function testGetAddress()
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteLoaderMock->expects($this->once())->method('load')->with('cartId', '123')->will(
@@ -65,7 +65,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Exception
      * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping address is not applicable
      */
-    public  function testGetAddressOfQuoteWithVirtualProducts()
+    public function testGetAddressOfQuoteWithVirtualProducts()
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteLoaderMock->expects($this->once())->method('load')->with('cartId', '123')->will(

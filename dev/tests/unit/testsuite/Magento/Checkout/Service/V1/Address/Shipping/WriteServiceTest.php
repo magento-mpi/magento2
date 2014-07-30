@@ -114,7 +114,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->setAddress('cart654', null);
     }
 
-    public  function testSetAddress()
+    public function testSetAddress()
     {
         $storeId = 323;
         $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
@@ -126,6 +126,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->with('cart867', $storeId)
             ->will($this->returnValue($quoteMock));
+        $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
 
         /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
         $addressDataBuilder = $this->objectManager->getObject('Magento\Checkout\Service\V1\Data\Cart\AddressBuilder');
@@ -152,5 +153,37 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($shippingAddressMock));
 
         $this->assertEquals($addressId, $this->service->setAddress('cart867', $addressData));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping address is not applicable
+     */
+    public function testSetAddressForVirtualProduct()
+    {
+        $storeId = 323;
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $this->quoteLoaderMock->expects($this->once())
+            ->method('load')
+            ->with('cart867', $storeId)
+            ->will($this->returnValue($quoteMock));
+        $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(true));
+
+        /** @var \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder $addressDataBuilder */
+        $addressDataBuilder = $this->objectManager->getObject('Magento\Checkout\Service\V1\Data\Cart\AddressBuilder');
+
+        /** @var \Magento\Checkout\Service\V1\Data\Cart\Address $addressData */
+        $addressData = $addressDataBuilder->setId(356)->create();
+
+        $this->validatorMock->expects($this->never())->method('validate');
+
+        $quoteMock->expects($this->never())->method('setShippingAddress')->with($this->quoteAddressMock);
+        $quoteMock->expects($this->never())->method('save');
+
+        $this->service->setAddress('cart867', $addressData);
     }
 }

@@ -22,8 +22,8 @@ $quoteShippingAddress->importCustomerAddressData($addressService->getAddress(1))
 /** @var \Magento\Sales\Model\Quote $quote */
 $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
 $quote->setStoreId(
-    1
-)->setIsActive(
+        1
+    )->setIsActive(
         false
     )->setIsMultiShipping(
         false
