@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Model\Order;
+namespace Magento\Sales\Model\Order\Email\Sender;
 
-class InvoiceTest extends \PHPUnit_Framework_TestCase
+class InvoiceSenderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testSendEmail()
+    public function testSend()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
@@ -35,8 +35,15 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);
 
+        /** @var InvoiceSender $invoiceSender */
+        $invoiceSender = Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Email\Sender\OrderSender');
+
+
         $this->assertEmpty($invoice->getEmailSent());
-        $invoice->sendEmail(true);
+        $result = $invoiceSender->send($order, true);
+
+        $this->assertTrue($result);
         $this->assertNotEmpty($invoice->getEmailSent());
         $this->assertEquals('frontend', $paymentInfoBlock->getArea());
     }

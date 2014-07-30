@@ -61,8 +61,8 @@ class OrderListTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->searchResultsBuilderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder',
-            [],
+            'Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder',
+            ['setItems', 'setSearchCriteria', 'create'],
             [],
             '',
             false

@@ -7,61 +7,135 @@
  */
 namespace Magento\Framework\Service\Code\Generator;
 
+use Magento\Framework\Code\Generator\Io;
+use Magento\TestFramework\Helper\ObjectManager;
+
 /**
- * Class SearchResultBuilderTest
+ * Class MapperTest
  */
-class SearchResultBuilderTest extends \PHPUnit_Framework_TestCase
+class SearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
 {
+    const SOURCE_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\Sample';
+    const RESULT_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\SampleSearchResultsBuilder';
+    const GENERATOR_CLASS_NAME = 'Magento\Framework\Service\Code\Generator\SearchResultsBuilder';
+    const OUTPUT_FILE_NAME = 'SampleSearchResultsBuilder.php';
+
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var Io | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $ioObjectMock;
 
     /**
-     * Create mock for class \Magento\Framework\Code\Generator\Io
+     * @var \Magento\Framework\Code\Generator\EntityAbstract
      */
+    protected $generator;
+
+    /**
+     * @var \Magento\Framework\Autoload\IncludePath | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $autoloaderMock;
+
+    /**
+     * @var \Magento\Framework\Code\Generator\CodeGenerator\Zend | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $classGenerator;
+
     protected function setUp()
     {
         $this->ioObjectMock = $this->getMock(
-            '\Magento\Framework\Code\Generator\Io',
+            'Magento\Framework\Code\Generator\Io',
             [],
             [],
             '',
             false
         );
+        $this->autoloaderMock = $this->getMock(
+            'Magento\Framework\Autoload\IncludePath',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->classGenerator = $this->getMock(
+            'Magento\Framework\Code\Generator\CodeGenerator\Zend',
+            [],
+            [],
+            '',
+            false
+        );
+
+        $objectManager = new ObjectManager($this);
+        $this->generator = $objectManager->getObject(
+            self::GENERATOR_CLASS_NAME,
+            [
+                'sourceClassName' => self::SOURCE_CLASS_NAME,
+                'resultClassName' => self::RESULT_CLASS_NAME,
+                'ioObject' => $this->ioObjectMock,
+                'classGenerator' => $this->classGenerator,
+                'autoLoader' => $this->autoloaderMock
+            ]
+        );
     }
 
     /**
-     * generate SearchResultBuilder class
+     * generate repository name
      */
     public function testGenerate()
     {
-        require_once __DIR__ . '/_files/Sample.php';
-        $model = $this->getMock(
-            'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
-            [
-                '_validateData'
-            ],
-            [
-                '\Magento\Framework\Service\Code\Generator\Sample',
-                null,
-                $this->ioObjectMock,
-                null,
-                null
-            ]
-        );
-        $sampleSearchResultBuilderCode = file_get_contents(__DIR__ . '/_files/SampleSearchResultsBuilder.txt');
+        $generatedCode = 'Generated code';
+        $sourceFileName = 'Sample.php';
+        $resultFileName = self::OUTPUT_FILE_NAME;
+
+        //Mocking _validateData call
+        $this->autoloaderMock->expects($this->at(0))
+            ->method('getFile')
+            ->with(self::SOURCE_CLASS_NAME)
+            ->will($this->returnValue($sourceFileName));
+        $this->autoloaderMock->expects($this->at(1))
+            ->method('getFile')
+            ->with(self::RESULT_CLASS_NAME)
+            ->will($this->returnValue(false));
+
         $this->ioObjectMock->expects($this->once())
+            ->method('makeGenerationDirectory')
+            ->will($this->returnValue(true));
+        $this->ioObjectMock->expects($this->once())
+            ->method('makeResultFileDirectory')
+            ->with(self::RESULT_CLASS_NAME)
+            ->will($this->returnValue(true));
+        $this->ioObjectMock->expects($this->once())
+            ->method('fileExists')
+            ->with($resultFileName)
+            ->will($this->returnValue(false));
+
+        //Mocking _generateCode call
+        $this->classGenerator->expects($this->once())
+            ->method('setName')
+            ->with(self::RESULT_CLASS_NAME)
+            ->will($this->returnSelf());
+        $this->classGenerator->expects($this->once())
+            ->method('setExtendedClass')
+            ->with(SearchResultsBuilder::SEARCH_RESULT_BUILDER)
+            ->will($this->returnSelf());
+        $this->classGenerator->expects($this->once())
+            ->method('addMethods')
+            ->will($this->returnSelf());
+        $this->classGenerator->expects($this->once())
+            ->method('setClassDocBlock')
+            ->will($this->returnSelf());
+        $this->classGenerator->expects($this->once())
+            ->method('generate')
+            ->will($this->returnValue($generatedCode));
+
+        //Mocking generation
+        $this->ioObjectMock->expects($this->any())
             ->method('getResultFileName')
-            ->with('\Magento\Framework\Service\Code\Generator\SampleSearchResultsBuilder')
-            ->will($this->returnValue('SampleSearchResultsBuilder.php'));
+            ->with(self::RESULT_CLASS_NAME)
+            ->will($this->returnValue($resultFileName));
         $this->ioObjectMock->expects($this->once())
             ->method('writeResultFile')
-            ->with('SampleSearchResultsBuilder.php', $sampleSearchResultBuilderCode);
+            ->with($resultFileName, $generatedCode);
 
-        $model->expects($this->once())
-            ->method('_validateData')
-            ->will($this->returnValue(true));
-        $this->assertTrue($model->generate());
+        $this->assertTrue($this->generator->generate());
     }
 }

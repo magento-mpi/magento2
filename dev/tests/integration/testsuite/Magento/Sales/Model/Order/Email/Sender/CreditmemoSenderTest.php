@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Model\Order;
+namespace Magento\Sales\Model\Order\Email\Sender;
 
-class OrderTest extends \PHPUnit_Framework_TestCase
+class CreditmemoSenderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Sales/_files/order.php
      */
-    public function testSendNewOrderEmail()
+    public function testSend()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
@@ -21,18 +21,28 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
+        $creditmemo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sales\Model\Order\Creditmemo'
+        );
+        $creditmemo->setOrder($order);
+
         $payment = $order->getPayment();
         $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Payment\Helper\Data'
         )->getInfoBlock(
-            $payment
-        );
+                $payment
+            );
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);
 
-        $this->assertEmpty($order->getEmailSent());
-        $order->sendNewOrderEmail();
-        $this->assertNotEmpty($order->getEmailSent());
+        $this->assertEmpty($creditmemo->getEmailSent());
+
+        $creditmemoSender = Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Email\Sender\CreditmemoSender');
+        $result = $creditmemoSender->send($creditmemo, true);
+
+        $this->assertTrue($result);
+        $this->assertNotEmpty($creditmemo->getEmailSent());
         $this->assertEquals('frontend', $paymentInfoBlock->getArea());
     }
 }

@@ -10,12 +10,10 @@ namespace Magento\Sales\Service\V1;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\Order\Status\HistoryConverter;
 
-
 /**
  * Class OrderGetTest
- * @package Magento\Sales\Service\V1
  */
-class OrderGetTest extends \PHPUnit_Framework_TestCase
+class OrderStatusHistoryAddTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Service\V1\OrderStatusHistoryAdd

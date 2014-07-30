@@ -1786,5 +1786,13 @@ return array(
     ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
     ['getCalculator', '\Magento\Tax\Helper\Data'],
     ['getRatesForAllProductTaxClasses', 'Magento\Tax\Model\Calculation'],
-    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation']
+    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
+    ['sendNewOrderEmail', 'Magento\Sales\Model\Order'],
+    ['_getEmails', 'Magento\Sales\Model\Order'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Creditmemo'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Invoice'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Invoice'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Invoice'],
 );
