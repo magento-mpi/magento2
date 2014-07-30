@@ -12,7 +12,7 @@
     <referenceContainer name="column.main">
         <block class="Magento\Doc\Ui\Widget\Document" name="document_content" template="Magento_Doc::html/widget/document.phtml">
             <arguments>
-                <argument name="scheme" xsi:type="string">guide/frontend</argument>
+                <argument name="scheme" xsi:type="string">guide/migration</argument>
             </arguments>
         </block>
     </referenceContainer>
@@ -22,8 +22,8 @@
     <referenceContainer name="column.sidebar">
         <block class="Magento\Doc\Ui\Widget\Outline" name="modules_menu" template="Magento_Doc::html/page/block/outline.phtml">
             <arguments>
-                <argument name="scheme" xsi:type="string">guide/frontend</argument>
-                <argument name="url_path" xsi:type="string">*/frontendguide</argument>
+                <argument name="scheme" xsi:type="string">guide/migration</argument>
+                <argument name="url_path" xsi:type="string">*/guide/migration</argument>
             </arguments>
         </block>
     </referenceContainer>

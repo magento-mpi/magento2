@@ -12,8 +12,7 @@
     <referenceContainer name="column.main">
         <block class="Magento\Doc\Ui\Widget\Document" name="document_content" template="Magento_Doc::html/widget/document.phtml">
             <arguments>
-                <argument name="scheme" xsi:type="string">api/reference</argument>
-                <argument name="asis" xsi:type="boolean">true</argument>
+                <argument name="scheme" xsi:type="string">guide/frontend</argument>
             </arguments>
         </block>
     </referenceContainer>
@@ -21,10 +20,10 @@
         <block class="Magento\Doc\Ui\Widget\Toolbar" name="document_toolbar" template="Magento_Doc::html/widget/toolbar.phtml"/>
     </referenceContainer>
     <referenceContainer name="column.sidebar">
-        <block class="Magento\Doc\Ui\Widget\Outline" name="modules_menu" template="Magento_Doc::html/widget/outline.phtml">
+        <block class="Magento\Doc\Ui\Widget\Outline" name="modules_menu" template="Magento_Doc::html/page/block/outline.phtml">
             <arguments>
-                <argument name="scheme" xsi:type="string">api/reference</argument>
-                <argument name="url_path" xsi:type="string">*/api</argument>
+                <argument name="scheme" xsi:type="string">guide/frontend</argument>
+                <argument name="url_path" xsi:type="string">*/guide/frontend</argument>
             </arguments>
         </block>
     </referenceContainer>

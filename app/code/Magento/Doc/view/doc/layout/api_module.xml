@@ -12,7 +12,7 @@
     <referenceContainer name="column.main">
         <block class="Magento\Doc\Ui\Widget\Document" name="document_content" template="Magento_Doc::html/widget/document.phtml">
             <arguments>
-                <argument name="scheme" xsi:type="string">module</argument>
+                <argument name="scheme" xsi:type="string">api/module</argument>
             </arguments>
         </block>
     </referenceContainer>

@@ -5,19 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\Controller\Extension;
+namespace Magento\Doc\Controller\Guide;
 
 use Magento\Doc\App\Controller\AbstractAction;
 
-class Index extends AbstractAction
+class Installation extends AbstractAction
 {
     /**
      * @return void
      */
     public function execute()
     {
-        $this->_view->loadLayout(['default', 'extension']);
-
+        $this->_view->loadLayout(['default', 'guide_installation']);
         $this->_view->renderLayout();
     }
 }

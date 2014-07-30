@@ -47,7 +47,8 @@
                 <item name="diagram" xsi:type="string">Magento\Doc\Document\Type\Diagram</item>
                 <item name="screenshot" xsi:type="string">Magento\Doc\Document\Type\Screenshot</item>
                 <item name="api" xsi:type="string">Magento\Doc\Document\Type\Api</item>
-                <item name="reference" xsi:type="string">Magento\Doc\Document\Type\Reference</item>
+                <item name="reference-scheme" xsi:type="string">Magento\Doc\Document\Type\ReferenceScheme</item>
+                <item name="reference-content" xsi:type="string">Magento\Doc\Document\Type\ReferenceContent</item>
                 <item name="reference-code" xsi:type="string">Magento\Doc\Document\Type\ReferenceCode</item>
             </argument>
         </arguments>

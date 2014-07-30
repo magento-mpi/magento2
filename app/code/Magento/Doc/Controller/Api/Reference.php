@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\Controller\Howto;
+namespace Magento\Doc\Controller\Api;
 
 use Magento\Doc\App\Controller\AbstractAction;
 
-class Index extends AbstractAction
+class Reference extends AbstractAction
 {
     /**
      * @return void
      */
     public function execute()
     {
-        $this->_view->loadLayout(['default', 'howto']);
+        $this->_view->loadLayout(['default', 'api_reference']);
 
         $this->_view->renderLayout();
     }

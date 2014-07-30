@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\Controller\Module;
+namespace Magento\Doc\Controller\Examples;
 
 use Magento\Doc\App\Controller\AbstractAction;
 
@@ -16,7 +16,8 @@ class Index extends AbstractAction
      */
     public function execute()
     {
-        $this->_view->loadLayout(['default', 'module']);
+        $this->_view->loadLayout(['default', 'examples']);
+
         $this->_view->renderLayout();
     }
 }

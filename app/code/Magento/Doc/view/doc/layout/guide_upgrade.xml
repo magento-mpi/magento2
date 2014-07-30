@@ -12,11 +12,19 @@
     <referenceContainer name="column.main">
         <block class="Magento\Doc\Ui\Widget\Document" name="document_content" template="Magento_Doc::html/widget/document.phtml">
             <arguments>
-                <argument name="scheme" xsi:type="string">howto</argument>
+                <argument name="scheme" xsi:type="string">guide/upgrade</argument>
             </arguments>
         </block>
     </referenceContainer>
     <referenceContainer name="column.toolbar">
         <block class="Magento\Doc\Ui\Widget\Toolbar" name="document_toolbar" template="Magento_Doc::html/widget/toolbar.phtml"/>
+    </referenceContainer>
+    <referenceContainer name="column.sidebar">
+        <block class="Magento\Doc\Ui\Widget\Outline" name="modules_menu" template="Magento_Doc::html/page/block/outline.phtml">
+            <arguments>
+                <argument name="scheme" xsi:type="string">guide/upgrade</argument>
+                <argument name="url_path" xsi:type="string">*/guide/upgrade</argument>
+            </arguments>
+        </block>
     </referenceContainer>
 </layout>

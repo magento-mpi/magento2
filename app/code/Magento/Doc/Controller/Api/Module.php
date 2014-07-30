@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\Controller\Developersguide;
+namespace Magento\Doc\Controller\Api;
 
 use Magento\Doc\App\Controller\AbstractAction;
 
-class Index extends AbstractAction
+class Module extends AbstractAction
 {
     /**
      * @return void
      */
     public function execute()
     {
-        $this->_view->loadLayout(['default', 'developersguide']);
+        $this->_view->loadLayout(['default', 'api_module']);
         $this->_view->renderLayout();
     }
 }

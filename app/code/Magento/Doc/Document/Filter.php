@@ -107,6 +107,11 @@ class Filter extends \Magento\Framework\Filter\Template
     protected $backendUrlBuilder;
 
     /**
+     * @var array
+     */
+    protected $dictionary = [];
+
+    /**
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Escaper $escaper
@@ -147,6 +152,7 @@ class Filter extends \Magento\Framework\Filter\Template
         $this->_layoutFactory = $layoutFactory;
         $this->_appState = $appState;
         $this->backendUrlBuilder = $backendUrlBuilder;
+
         parent::__construct($string, $variables);
     }
 
@@ -350,6 +356,23 @@ class Filter extends \Magento\Framework\Filter\Template
     }
 
     /**
+     * Retrieve link to a dictionary page
+     *
+     * @param $construction
+     * @return string
+     */
+    public function _dictionaryDirective_($construction)
+    {
+        $params = $this->_getIncludeParameters($construction[2]);
+        if (isset($this->dictionary['content'][$params['name']])) {
+            return '<a title="' . $this->dictionary['content'][$params['name']]['definition']
+                . '" href="' . $this->dictionary['content'][$params['name']]['url'] . '">' . $params['label'] . '</a>';
+        } else {
+            return $params['label'];
+        }
+    }
+
+    /**
      * Retrieve image
      *
      * @param string[] $construction
@@ -362,7 +385,7 @@ class Filter extends \Magento\Framework\Filter\Template
         $attributes = [];
         foreach (['width', 'height', 'style', 'alt'] as $attribute) {
             if (isset($params[$attribute])) {
-                $attributes[] = $attribute .'="' . $params[$attribute] . '"';
+                $attributes[] = $attribute . '="' . $params[$attribute] . '"';
             }
         }
         return '<img src="' . $url . '" ' . implode(' ', $attributes) . ' />';
@@ -628,36 +651,18 @@ class Filter extends \Magento\Framework\Filter\Template
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @param array $dictionary
      * @return mixed|string
      */
     public function preProcess($value, array $dictionary = [])
     {
+        $this->dictionary = $dictionary;
         try {
             $value = $this->filter($value);
         } catch (\Exception $e) {
             $value = '';
             $this->_logger->logException($e);
-        }
-
-        $value = $this->applyDictionary($value, $dictionary);
-
-        return $value;
-    }
-
-    protected function applyDictionary($value, array $dictionary)
-    {
-        if (!empty($dictionary['content'])) {
-            foreach ($dictionary['content'] as $keyword => $info) {
-                $value = preg_replace_callback(
-                    '#(' . $keyword . ')#',
-                    function ($matches) use ($info) {
-                        return '<a title="' . $info['definition'] . '" href="'.$info['url'].'">' . $matches[0] . '</a>';
-                    },
-                    $value
-                );
-            }
         }
         return $value;
     }

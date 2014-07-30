@@ -11,7 +11,7 @@ use Magento\Framework\Object;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Doc\Document\Scheme;
-use \Magento\Doc\Document\Type\Factory;
+use Magento\Doc\Document\Type\Factory;
 use Magento\Doc\Document\Filter;
 
 class Document extends Template
@@ -132,6 +132,16 @@ class Document extends Template
     }
 
     /**
+     * Return dictionary encoded to json format
+     *
+     * @return string
+     */
+    public function getDictionaryJson()
+    {
+        return json_encode($this->dictionary);
+    }
+
+    /**
      * Render single item's HTML
      *
      * @param string $name
@@ -141,17 +151,14 @@ class Document extends Template
     protected function renderItemHtml($name, array $item)
     {
         $this->currentItem = new Object($item);
-        $dictionary = [
+        $vars = [
             'render' => $this,
             'name' => $name,
             'schemeName' => $this->schemeName,
             'content' => $this->getItemContent($name, $item),
             'data' => $this->currentItem
         ];
-        if ($name == 'UseCases') {
-            var_dump($item);
-        }
-        $this->filter->setVariables($dictionary);
+        $this->filter->setVariables($vars);
         return $this->filter->preProcess($this->itemTemplate);
     }
 
@@ -170,7 +177,7 @@ class Document extends Template
     }
 
     /**
-     * Process template variables and apply dictionary to content
+     * Process template variables
      *
      * @param string $content
      * @return string

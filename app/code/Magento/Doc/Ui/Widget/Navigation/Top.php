@@ -127,122 +127,109 @@ class Top extends Template implements IdentityInterface
     public function renderMenuHtml($level = 0)
     {
         $items = [
-            'Home' => [
-                'id' => 'Home',
+            'home' => [
+                'id' => 'home',
                 'label' => 'Home',
                 'path' => '',
                 'position' => 10
             ],
-            'ReleaseNotes' => [
-                'id' => 'ReleaseNotes',
-                'label' => 'Release Notes',
-                'path' => 'releasenotes',
-                'position' => 10
-            ],
-            'Modules' => [
-                'id' => 'Modules',
-                'label' => 'Modules Documentation',
-                'path' => 'module',
-                'position' => 10
-            ],
-            'ReferenceAPI' => [
-                'id' => 'ReferenceAPI',
-                'label' => 'Reference API',
-                'path' => 'api',
-                'position' => 20
-            ],
-            'Guides' => [
-                'id' => 'Guides',
-                'label' => 'Guides',
-                'position' => 40,
+
+            'api' => [
+                'id' => 'api',
+                'label' => 'API',
+                'position' => 20,
                 'children' => [
-                    'Developers' => [
-                        'id' => 'Developers',
-                        'label' => 'Developers Guide',
-                        'path' => 'developersguide',
+                    'reference' => [
+                        'id' => 'reference',
+                        'label' => 'Reference API',
+                        'path' => 'api/reference',
                         'position' => 10
                     ],
-                    'Frontend' => [
-                        'id' => 'Frontend',
+                    'module' => [
+                        'id' => 'module',
+                        'label' => 'Modules API',
+                        'path' => 'api/module',
+                        'position' => 20
+                    ]
+                ]
+            ],
+
+            'guide' => [
+                'id' => 'Guides',
+                'label' => 'Guides',
+                'position' => 30,
+                'children' => [
+                    'developer' => [
+                        'id' => 'developer',
+                        'label' => 'Developers Guide',
+                        'path' => 'guide/developer',
+                        'position' => 10
+                    ],
+                    'frontend' => [
+                        'id' => 'frontend',
                         'label' => 'Frontend Guide',
-                        'path' => 'frontendguide',
+                        'path' => 'guide/frontend',
                         'position' => 20
                     ],
-                    'Administrator' => [
-                        'id' => 'Administrator',
+                    'administrator' => [
+                        'id' => 'administrator',
                         'label' => 'Administrator Guide',
-                        'path' => 'administratorguide',
+                        'path' => 'guide/administrator',
                         'position' => 30
                     ],
-                    'Installation' => [
-                        'id' => 'Installation',
+                    'installation' => [
+                        'id' => 'installation',
                         'label' => 'Installation Guide',
-                        'path' => 'installationguide',
+                        'path' => 'guide/installation',
                         'position' => 40
                     ],
-                    'Upgrade' => [
-                        'id' => 'Upgrade',
+                    'upgrade' => [
+                        'id' => 'upgrade',
                         'label' => 'Upgrade Guide',
-                        'path' => 'upgradeguide',
+                        'path' => 'guide/upgrade',
                         'position' => 50
                     ],
-                    'Migration' => [
-                        'id' => 'Migration',
+                    'migration' => [
+                        'id' => 'migration',
                         'label' => 'Migration Guide',
-                        'path' => 'migrationguide',
+                        'path' => 'guide/migration',
                         'position' => 60
                     ],
-                    'Extension' => [
-                        'id' => 'Extension',
+                    'extension' => [
+                        'id' => 'extension',
                         'label' => 'Extension Guide',
-                        'path' => 'extension',
+                        'path' => 'guide/extension',
                         'position' => 60
                     ]
                 ]
             ],
-            'Dictionary' => [
-                'id' => 'Dictionary',
+
+            'dictionary' => [
+                'id' => 'dictionary',
                 'label' => 'Dictionary',
                 'path' => 'dictionary',
+                'position' => 40
+            ],
+
+            'releaseNotes' => [
+                'id' => 'releaseNotes',
+                'label' => 'Release Notes',
+                'path' => 'releasenotes',
                 'position' => 50
             ],
 
-            'Howto' => [
-                'id' => 'Howto',
-                'label' => 'Howto',
-                'path' => 'howto',
+            'examples' => [
+                'id' => 'examples',
+                'label' => 'Examples',
+                'path' => 'examples',
                 'position' => 60
             ],
-            'Tools' => [
+
+            'tools' => [
                 'id' => 'Tools',
                 'label' => 'Tools',
                 'position' => 70,
                 'children' => [
-                    'FindDenoted' => [
-                        'id' => 'FindDenoted',
-                        'label' => 'Find denoted items',
-                        'position' => 20
-                    ],
-                    'FindOutdated' => [
-                        'id' => 'FindOutdated',
-                        'label' => 'Find outdated items',
-                        'position' => 10
-                    ],
-                    'FindMissed' => [
-                        'id' => 'FindMissed',
-                        'label' => 'Find missed items',
-                        'position' => 20
-                    ],
-                    'CreateSnapshot' => [
-                        'id' => 'CreateSnapshot',
-                        'label' => 'Create Document Snapshot',
-                        'position' => 30
-                    ],
-                    'GenerateAPI' => [
-                        'id' => 'GenerateAPI',
-                        'label' => 'Generate Reference API',
-                        'position' => 30
-                    ],
                     'Export' => [
                         'id' => 'Export',
                         'label' => 'Export',

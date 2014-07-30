@@ -1,7 +1,13 @@
 <scheme>
     <content>
-        <item name="Invoice" type="entity" module="Magento_Doc">
+        <item name="Invoice" type="article" module="Magento_Doc">
+            <label>Invoice</label>
             <definition>Invoice - is ...</definition>
+            <url>#</url>
+        </item>
+        <item name="Area" type="article" module="Magento_Doc">
+            <label>Area</label>
+            <definition>Area - is ...</definition>
             <url>#</url>
         </item>
     </content>
