@@ -193,31 +193,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
         $exception = false,
         $additionalMessage = false
     ) {
-        $message = __('Credit Card: xxxx-%1', $card->getCcLast4());
+        $message[] = __('Credit Card: xxxx-%1', $card->getCcLast4());
         if ($amount) {
-            $message .= __(' amount %1', $this->_formatPrice($payment, $amount));
+            $message[] = __('amount %1', $this->_formatPrice($payment, $amount));
         }
         $operation = $this->_getOperation($requestType);
         if (!$operation) {
             return false;
         } else {
-            $message .= __(' %1', $operation);
+            $message[] = $operation;
         }
-        if ($exception) {
-            $message .= __(' - failed.');
-        } else {
-            $message .= __(' - successful.');
-        }
+        $message[] = ($exception) ? '- ' . __('failed.') : '- ' . __('successful.');
         if (!is_null($lastTransactionId)) {
-            $message .= __(' Authorize.Net Transaction ID %1.', $lastTransactionId);
+            $message[] = __('Authorize.Net Transaction ID %1.', $lastTransactionId);
         }
         if ($additionalMessage) {
-            $message .= __(' %1.', $additionalMessage);
+            $message[] = $additionalMessage;
         }
         if ($exception) {
-            $message .= __(' %1.', $exception);
+            $message[] = __($exception);
         }
-        return $message;
+        return implode(' ', $message);
     }
 
     /**

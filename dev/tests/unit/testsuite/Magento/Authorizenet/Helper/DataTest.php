@@ -71,8 +71,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function getMessagesParamDataProvider()
     {
-        $amount = 12.3;
-        $additionalMessage = 'Addition message';
+        $amount = 12.30;
+        $additionalMessage = 'Addition message.';
         return [
             [
                 'AUTH_ONLY',
@@ -88,7 +88,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'some exception',
                 false,
                 'Credit Card: xxxx-' . self::LAST4 . ' amount 12.3 authorize and capture - failed. '
-                . 'Authorize.Net Transaction ID ' . self::TRID . '. some exception.'
+                . 'Authorize.Net Transaction ID ' . self::TRID . '. some exception'
             ],
             [
                 'CREDIT',
