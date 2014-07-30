@@ -39,7 +39,6 @@ return array(
     'dev/tools/PHP-Parser',
     'dev/tools/performance_toolkit/README.txt',
     'dev/tools/performance_toolkit/benchmark.jmx',
-    'downloader/js/prototype.js',
     'lib/internal/Apache',
     'lib/internal/PEAR',
     'lib/internal/phpseclib',
@@ -61,5 +60,10 @@ return array(
     'lib/web/tiny_mce',
     'lib/web/underscore.js',
     'pub/media',
-    'var'
+    'var',
+    'setup/pub/bootstrap',
+    'setup/pub/angular',
+    'setup/pub/angular-ui-bootstrap',
+    'setup/pub/angular-ui-router',
+    'setup/pub/angular-ng-storage',
 );

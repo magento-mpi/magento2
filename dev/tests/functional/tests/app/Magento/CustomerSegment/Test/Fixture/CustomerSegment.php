@@ -45,6 +45,7 @@ class CustomerSegment extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => '',
+        'group' => null,
     ];
 
     protected $name = [

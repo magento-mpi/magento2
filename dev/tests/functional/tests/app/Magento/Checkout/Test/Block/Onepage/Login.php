@@ -79,7 +79,7 @@ class Login extends Form
      *
      * @return void
      */
-    private function registerCustomer()
+    public function registerCustomer()
     {
         $this->_rootElement->find($this->registerCustomer, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
