@@ -42,6 +42,28 @@
                 </div>
             <?php else: ?>
                 <div id="page:main-container" class="col-1-layout">
+                    <!--<div data-m2-init='{"m2/grid/bootstrap": ""}' class="grid" ng-controller="PhoneListCtrl">
+                        <div class="hor-scroll">
+                            <table class="data">
+                                <thead>
+                                    <tr class="headings">
+                                        <th ng-repeat="header in headings" class="{{header.class}}">
+                                            <span>
+                                                <a href="#">
+                                                    <lable class="sort-title">{{header.content}}</lable>
+                                                </a>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in rows" class="{{row.class}}">
+                                        <td ng-repeat="field in row.rowData" ng-bind-html="toTrusted(field.content)" class="{{field.class}}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>-->
                     <?php echo $this->getChildHtml('content') ?>
                 </div>
             <?php endif; ?>
