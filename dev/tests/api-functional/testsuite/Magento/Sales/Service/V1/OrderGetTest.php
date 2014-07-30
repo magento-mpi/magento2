@@ -14,7 +14,7 @@ class OrderGetTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/orders';
 
-    const SERVICE_READ_NAME = 'salesOrderGetServiceV1';
+    const SERVICE_READ_NAME = 'salesOrderGet';
 
     const SERVICE_VERSION = 'V1';
 
@@ -65,7 +65,7 @@ class OrderGetTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'info'
+                'operation' => self::SERVICE_READ_NAME . 'invoke'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $order->getId()]);
