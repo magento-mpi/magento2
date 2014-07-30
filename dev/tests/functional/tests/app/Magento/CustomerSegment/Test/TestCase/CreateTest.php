@@ -70,7 +70,7 @@ class CreateTest extends Functional
         $customerSegmentCreatePage->getFormTabs()->openTab('matched_customers');
         // verify matched customers
         $customerGridBlock = $customerSegmentCreatePage->getFormTabs()->getMatchedCustomers()->getCustomersGrid();
-        $customerGridBlock->search(array('email' => $customerFixture->getEmail()));
+        $customerGridBlock->search(['grid_email' => $customerFixture->getEmail()]);
         $this->assertEquals(
             $customerFixture->getEmail(),
             $customerGridBlock->getGridEmail(),
