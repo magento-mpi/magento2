@@ -555,7 +555,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
             return $this;
         }
 
-        foreach ($relatedIndexers as $indexerId) {
+        foreach (array_keys($relatedIndexers) as $indexerId) {
             $indexer = $this->indexerFactory->create();
             try {
                 $indexer->load($indexerId);
