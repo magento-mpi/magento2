@@ -9,8 +9,6 @@ namespace Magento\Cms\Block\Adminhtml\Page;
 
 /**
  * Adminhtml cms pages grid
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -84,8 +82,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $baseUrl = $this->getUrl();
-
         $this->addColumn('title', array('header' => __('Title'), 'index' => 'title'));
 
         $this->addColumn('identifier', array('header' => __('URL Key'), 'index' => 'identifier'));
