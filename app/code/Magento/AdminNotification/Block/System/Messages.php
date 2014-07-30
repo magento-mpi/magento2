@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -113,7 +113,7 @@ class Messages extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Initialize Syste,Message dialog widget
+     * Initialize system message dialog widget
      *
      * @return string
      */

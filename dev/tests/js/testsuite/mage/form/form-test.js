@@ -53,9 +53,9 @@ FormTest.prototype.testGetHandlers = function() {
 FormTest.prototype.testStoreAttribute = function() {
     var form = jQuery('#form').form(),
         initialFormAttrs = {
-            action: form.prop('action'),
-            target: form.prop('target'),
-            method: form.prop('method')
+            action: form.attr('action'),
+            target: form.attr('target'),
+            method: form.attr('method')
         };
     form.data("form")._storeAttribute('action');
     form.data("form")._storeAttribute('target');
@@ -84,7 +84,7 @@ FormTest.prototype.testBind = function() {
 };
 FormTest.prototype.testGetActionUrl = function() {
     var form = jQuery('#form').form(),
-        action = form.prop('action'),
+        action = form.attr('action'),
         testUrl = 'new/action/url',
         testArgs = {
             args: {arg: 'value'}
@@ -98,9 +98,9 @@ FormTest.prototype.testGetActionUrl = function() {
 FormTest.prototype.testProcessData = function() {
     var form = jQuery('#form').form(),
         initialFormAttrs = {
-            action: form.prop('action'),
-            target: form.prop('target'),
-            method: form.prop('method')
+            action: form.attr('action'),
+            target: form.attr('target'),
+            method: form.attr('method')
         },
         testSimpleData = {
             action: 'new/action/url',
@@ -208,9 +208,9 @@ FormTest.prototype.testSubmit = function() {
 
     form.data("form")._submit({type: 'save'});
 
-    assertEquals(form.prop('action'), form.data("form").oldAttributes.action);
-    assertEquals(form.prop('target'), form.data("form").oldAttributes.target);
-    assertEquals(form.prop('method'), form.data("form").oldAttributes.method);
+    assertEquals(form.attr('action'), form.data("form").oldAttributes.action);
+    assertEquals(form.attr('target'), form.data("form").oldAttributes.target);
+    assertEquals(form.attr('method'), form.data("form").oldAttributes.method);
     assertTrue(formSubmitted);
     form.off('submit');
 };

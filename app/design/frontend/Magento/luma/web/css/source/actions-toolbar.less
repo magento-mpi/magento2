@@ -17,12 +17,17 @@
                 margin-bottom: 0;
             }
             &.primary {
-                &:extend(.abstract-button-l all);
+                //&:extend(.abstract-button-l all);
             }
         }
         margin-bottom: @indent-s-base;
         &:last-child {
             margin-bottom: 0;
+        }
+    }
+    > .secondary {
+        .action.back {
+            display: none;
         }
     }
 }

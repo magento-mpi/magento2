@@ -68,8 +68,6 @@
 
     <target name="prepare-ee" depends="prepare-build-properties">
         <copy file="${dir.build_directory}/${enterprise-edition.file}.dist" tofile="${dir.build_directory}/${enterprise-edition.file}"/>
-
-        <replace file="${dir.build_directory}/downloader/config.ini" token="community" value="enterprise"/>
     </target>
 
     <!-- deploy and run functional tests -->

@@ -65,7 +65,7 @@
             <?php endif; ?>
         </div>
 
-        <div class="block order payment method">
+        <div class="block order payment-method">
             <div class="title">
                 <strong><?php echo __('Payment Method') ?></strong>
             </div>
@@ -75,8 +75,8 @@
         </div>
 
     </div>
-    <div class="order details items">
-        <div class="order subtitle caption">
+    <div class="order-details-items">
+        <div class="order-title">
             <strong><?php echo __('Items Shipped') ?></strong>
         </div>
         <table class="data table order items" id="my-shipment-table-<?php echo $this->getObjectData($shipment, 'id') ?>">
@@ -96,4 +96,6 @@
     </div>
     <?php endforeach; ?>
 <?php endif; ?>
-<script type="text/javascript">window.print();</script>
+<script type="text/javascript">
+window.print();
+</script>

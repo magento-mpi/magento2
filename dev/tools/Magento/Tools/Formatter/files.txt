@@ -11,5 +11,3 @@ dev/tests/unit
 dev/tools/Magento
 dev/shell
 lib/internal/Magento
-downloader/lib/Magento
-downloader/app/Magento

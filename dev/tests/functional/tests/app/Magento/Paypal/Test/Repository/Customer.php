@@ -58,7 +58,7 @@ class Customer extends AbstractRepository
                     'lastname' => array(
                         'value' => 'Aponasenko'
                     ),
-                    'street_1' => array(
+                    'street' => array(
                         'value' => '1 Main St'
                     ),
                     'city' => array(

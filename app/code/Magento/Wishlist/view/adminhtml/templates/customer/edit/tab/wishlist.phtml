@@ -11,6 +11,11 @@
  */
 ?>
 <script type="text/javascript">
+require([
+    "prototype",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(){
+
 //<!--
 wishlistControl = {
     reload: function (urlParams) {
@@ -59,4 +64,6 @@ productConfigure.addListType(
     }
 );
 //-->
+
+});
 </script>
