@@ -99,4 +99,56 @@ class WriteServiceTest extends WebapiAbstract
             $this->assertEquals($value, $savedData[$key]);
         }
     }
+
+    /**
+     * Set address to quote with virtual products only
+     *
+     * @expectedException \Exception
+     * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping address is not applicable
+     *
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_virtual_product_and_address.php
+     */
+    public function testSetAddressForVirtualQuote()
+    {
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $quote->load('test_order_with_virtual_product', 'reserved_order_id');
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . $quote->getId() . '/shipping-address',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SetAddress',
+            ),
+        );
+
+
+        $addressData = [
+            'firstname' => 'John',
+            'lastname' => 'Smith',
+            'email' => 'cat@dog.com',
+            'company' => 'eBay Inc',
+            'street' => ['Typical Street', 'Tiny House 18'],
+            'city' => 'Big City',
+            'region' => [
+                'region_id' => 12,
+                'region' => 'California',
+                'region_code' => 'CA',
+            ],
+            'postcode' => '0985432',
+            'country_id' => 'US',
+            'telephone' => '88776655',
+            'fax' => '44332255',
+        ];
+        $requestData = [
+            "cartId" => $quote->getId(),
+            'addressData' => $addressData
+        ];
+
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
 }

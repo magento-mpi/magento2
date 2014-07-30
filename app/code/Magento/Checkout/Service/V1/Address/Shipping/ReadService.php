@@ -53,7 +53,9 @@ class ReadService implements ReadServiceInterface
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $storeId);
         if ($quote->isVirtual()) {
-            throw new NoSuchEntityException('Cart contains virtual product(s) only. Shipping address is not required');
+            throw new NoSuchEntityException(
+                'Cart contains virtual product(s) only. Shipping address is not applicable'
+            );
         }
 
         /** @var \Magento\Sales\Model\Quote\Address $address */

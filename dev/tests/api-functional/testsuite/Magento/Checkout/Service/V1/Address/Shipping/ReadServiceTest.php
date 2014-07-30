@@ -85,7 +85,7 @@ class ReadServiceTest extends WebapiAbstract
      * @magentoApiDataFixture Magento/Checkout/_files/quote_with_virtual_product_and_address.php
      *
      * @expectedException \Exception
-     * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping address is not required
+     * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping address is not applicable
      */
     public function testGetAddressOfQuoteWithVirtualProduct()
     {

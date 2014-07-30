@@ -8,6 +8,8 @@
 
 namespace Magento\Checkout\Service\V1\Address\Shipping;
 
+use \Magento\Framework\Exception\NoSuchEntityException;
+
 class WriteService implements WriteServiceInterface
 {
     /**
@@ -63,6 +65,11 @@ class WriteService implements WriteServiceInterface
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
+        if ($quote->isVirtual()) {
+            throw new NoSuchEntityException(
+                'Cart contains virtual product(s) only. Shipping address is not applicable'
+            );
+        }
         /** @var \Magento\Sales\Model\Quote\Address $address */
         $address = $this->quoteAddressFactory->create();
         $this->addressValidator->validate($addressData);

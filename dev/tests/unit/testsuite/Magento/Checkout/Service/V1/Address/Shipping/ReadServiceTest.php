@@ -63,7 +63,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping address is not required
+     * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping address is not applicable
      */
     public  function testGetAddressOfQuoteWithVirtualProducts()
     {
