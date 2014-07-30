@@ -11,7 +11,7 @@ namespace Magento\Test\Integrity;
 use Magento\TestFramework\Utility\Files;
 use Magento\Framework\Shell;
 use Magento\Framework\Exception;
-use \Magento\Tools\Composer\Package\Reader;
+use Magento\Tools\Composer\Package\Reader;
 
 /**
  * A test that enforces validity of composer.json files and any other conventions in Magento components
@@ -378,7 +378,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      * Test if all the dependencies exist in working directory as well as if something is missing
      *
      */
-    public function testMainlineComposerJson()
+    public function testRootReplaceInSync()
     {
         $dependenciesListed = [];
         $dependenciesFound = [];
