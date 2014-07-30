@@ -15,6 +15,7 @@ use Magento\Tax\Service\V1\Data\TaxClassKeyBuilder;
 use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Tax\Model\Config;
 
 /**
  * Catalog data helper
@@ -168,9 +169,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Tax helper
      *
-     * @var \Magento\Tax\Helper\Data
+     * @var \Magento\Tax\Model\Config
      */
-    protected $_taxHelper;
+    protected $_taxConfig;
 
     /**
      * Quote details builder
@@ -221,7 +222,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Escaper $escaper
      * @param string $templateFilterModel
      * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
-     * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param \Magento\Tax\Model\Config $taxConfig
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
      * @param \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService
@@ -244,7 +245,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Escaper $escaper,
         $templateFilterModel,
         \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder,
-        \Magento\Tax\Helper\Data $taxHelper,
+        \Magento\Tax\Model\Config $taxConfig,
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService,
@@ -265,7 +266,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_templateFilterModel = $templateFilterModel;
         $this->_escaper = $escaper;
         $this->_taxClassKeyBuilder = $taxClassKeyBuilder;
-        $this->_taxHelper = $taxHelper;
+        $this->_taxConfig = $taxConfig;
         $this->_quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->_taxCalculationService = $taxCalculationService;
@@ -716,9 +717,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         $store = $this->_storeManager->getStore($store);
-        if ($this->_taxHelper->needPriceConversion($store)) {
+        if ($this->_taxConfig->needPriceConversion($store)) {
             if (is_null($priceIncludesTax)) {
-                $priceIncludesTax = $this->_taxHelper->priceIncludesTax($store);
+                $priceIncludesTax = $this->_taxConfig->priceIncludesTax($store);
             }
 
             $shippingAddressDataObject = null;
@@ -774,7 +775,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     $price = $taxDetailsItem->getPrice();
                 }
             } else {
-                switch ($this->_taxHelper->getPriceDisplayType($store)) {
+                switch ($this->_taxConfig->getPriceDisplayType($store)) {
                     case Config::DISPLAY_TYPE_EXCLUDING_TAX:
                     case Config::DISPLAY_TYPE_BOTH:
                         $price = $taxDetailsItem->getPrice();
