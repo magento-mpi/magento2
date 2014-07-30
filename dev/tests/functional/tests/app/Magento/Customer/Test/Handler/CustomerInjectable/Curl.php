@@ -34,7 +34,9 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
      */
     protected $mappingData = [
         'group_id' => [
-            self::GENERAL_GROUP => 1
+            self::GENERAL_GROUP => 1,
+            'Wholesale' => 2,
+            'Retailer' => 3
         ],
         'country_id' => [
             'United States' => 'US'

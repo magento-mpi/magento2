@@ -50,8 +50,10 @@ class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
         Browser $browser
     ) {
         $browser->open($_ENV['app_frontend_url'] . $urlRewrite->getRequestPath());
-        $store = explode('/', $urlRewrite->getStoreId());
-        $systemVariableNew->getFormPageActions()->selectStoreView($store[2]);
+        if ($urlRewrite->hasData('store_id')) {
+            $store = explode('/', $urlRewrite->getStoreId());
+            $systemVariableNew->getFormPageActions()->selectStoreView($store[2]);
+        }
         $url = $urlRewrite->getOptions() == 'No'
             ? $urlRewrite->getRequestPath()
             : $this->url . $cmsPage->getPageId();
