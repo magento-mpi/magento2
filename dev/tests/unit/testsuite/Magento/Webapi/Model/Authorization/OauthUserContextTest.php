@@ -31,9 +31,19 @@ class OauthUserContextTest extends \PHPUnit_Framework_TestCase
     protected $request;
 
     /**
-     * @var \Magento\Integration\Model\Integration\Factory
+     * @var \Magento\Framework\Oauth\Helper\Request
      */
-    protected $integrationFactory;
+    protected $oauthRequestHelper;
+
+    /**
+     * @var \Magento\Integration\Service\V1\Integration
+     */
+    protected $integrationService;
+
+    /**
+     * @var \Magento\Framework\Oauth\Oauth
+     */
+    protected $oauthService;
 
     protected function setUp()
     {
@@ -44,16 +54,28 @@ class OauthUserContextTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getConsumerId'])
             ->getMock();
 
-        $this->integrationFactory = $this->getMockBuilder('Magento\Integration\Model\Integration\Factory')
+        $this->integrationService = $this->getMockBuilder('Magento\Integration\Service\V1\Integration')
             ->disableOriginalConstructor()
-            ->setMethods(['create'])
+            ->setMethods(['findActiveIntegrationByConsumerId'])
+            ->getMock();
+
+        $this->oauthRequestHelper = $this->getMockBuilder('Magento\Framework\Oauth\Helper\Request')
+            ->disableOriginalConstructor()
+            ->setMethods(['prepareRequest'])
+            ->getMock();
+
+        $this->oauthService = $this->getMockBuilder('Magento\Framework\Oauth\Oauth')
+            ->disableOriginalConstructor()
+            ->setMethods(['validateAccessTokenRequest'])
             ->getMock();
 
         $this->oauthUserContext = $this->objectManager->getObject(
             'Magento\Webapi\Model\Authorization\OauthUserContext',
             [
                 'request' => $this->request,
-                'integrationFactory' => $this->integrationFactory,
+                'integrationService' => $this->integrationService,
+                'oauthService' => $this->oauthService,
+                'oauthHelper' => $this->oauthRequestHelper
             ]
         );
     }
@@ -67,7 +89,7 @@ class OauthUserContextTest extends \PHPUnit_Framework_TestCase
     {
         $integrationId = 12345;
 
-        $this->setupUserId($integrationId);
+        $this->setupUserId($integrationId, ['oauth_token' => 'asdcfsdvanskdcalkdsjcfljldk']);
 
         $this->assertEquals($integrationId, $this->oauthUserContext->getUserId());
     }
@@ -76,40 +98,45 @@ class OauthUserContextTest extends \PHPUnit_Framework_TestCase
     {
         $integrationId = null;
 
-        $this->setupUserId($integrationId);
+        $this->setupUserId($integrationId, ['oauth_token' => 'asdcfsdvanskdcalkdsjcfljldk']);
 
         $this->assertEquals($integrationId, $this->oauthUserContext->getUserId());
     }
 
+    public function testGetUserIdNoOauthInformation()
+    {
+        $integrationId = 12345;
+
+        $this->setupUserId($integrationId, []);
+
+        $this->assertEquals(null, $this->oauthUserContext->getUserId());
+    }
+
     /**
      * @param int|null $integrationId
+     * @param array $oauthRequest
      * @return void
      */
-    public function setupUserId($integrationId)
+    public function setupUserId($integrationId, $oauthRequest)
     {
-        $consumerId = 'consumerId123';
-
-        $this->request->expects($this->once())
-            ->method('getConsumerId')
-            ->will($this->returnValue($consumerId));
-
         $integration = $this->getMockBuilder('Magento\Integration\Model\Integration')
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'loadByConsumerId', '__wakeup'])
+            ->setMethods(['getId', '__wakeup'])
             ->getMock();
-        $this->integrationFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($integration));
-        $integration->expects($this->once())
-            ->method('loadByConsumerId')
-            ->with($consumerId)
-            ->will($this->returnSelf());
 
-        $expectsIdCall = 1;
-        if ($integrationId) {
-            $expectsIdCall = 2;
-        }
-        $integration->expects($this->exactly($expectsIdCall))
+        $this->integrationService->expects($this->any())
+            ->method('findActiveIntegrationByConsumerId')
+            ->will($this->returnValue($integration));
+
+        $this->oauthRequestHelper->expects($this->once())
+            ->method('prepareRequest')
+            ->will($this->returnValue($oauthRequest));
+
+        $this->oauthService->expects($this->any())
+            ->method('validateAccessTokenRequest')
+            ->will($this->returnValue(1));
+
+        $integration->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($integrationId));
     }
