@@ -7,12 +7,13 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Category;
 
+use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
+use Magento\Store\Model\Store;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
-use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 
 /**
  * Category Url Generator
@@ -81,12 +82,12 @@ class UrlGenerator
     {
         $urls = [];
         $storeId = $this->category->getStoreId();
-        if (!$this->storeViewService->isGlobalScope($storeId)) {
+        if (!$this->isGlobalScope($storeId)) {
             return $this->generatePerStore($storeId);
         }
         $categoryId = $this->category->getId();
         foreach ($this->category->getStoreIds() as $storeId) {
-            if ($this->storeViewService->isGlobalScope($storeId)
+            if ($this->isGlobalScope($storeId)
                 || $this->storeViewService->doesCategoryHaveOverriddenUrlKeyForStore($storeId, $categoryId)
             ) {
                 continue;
@@ -94,6 +95,17 @@ class UrlGenerator
             $urls = array_merge($urls, $this->generatePerStore($storeId));
         }
         return $urls;
+    }
+
+    /**
+     * Check is global scope
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    protected function isGlobalScope($storeId)
+    {
+        return null === $storeId || $storeId == Store::DEFAULT_STORE_ID;
     }
 
     /**

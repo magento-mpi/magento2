@@ -9,12 +9,13 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
+use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
+use Magento\Store\Model\Store;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
-use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 
 /**
  * Product Generator
@@ -85,11 +86,22 @@ class UrlGenerator
         $this->product = $product;
         $storeId = $this->product->getStoreId();
 
-        $urls = $this->storeViewService->isGlobalScope($storeId)
+        $urls = $this->isGlobalScope($storeId)
             ? $this->generateForGlobalScope() : $this->generateForSpecificStoreView($storeId);
 
         $this->product = null;
         return $urls;
+    }
+
+    /**
+     * Check is global scope
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    protected function isGlobalScope($storeId)
+    {
+        return null === $storeId || $storeId == Store::DEFAULT_STORE_ID;
     }
 
     /**

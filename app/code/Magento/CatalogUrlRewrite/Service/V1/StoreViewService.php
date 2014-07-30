@@ -11,7 +11,6 @@ use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
-use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
@@ -49,17 +48,6 @@ class StoreViewService
         $this->eavConfig = $eavConfig;
         $this->connection = $resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
         $this->storeManager = $storeManager;
-    }
-
-    /**
-     * Check is global scope
-     *
-     * @param int|null $storeId
-     * @return bool
-     */
-    public function isGlobalScope($storeId)
-    {
-        return null === $storeId || $storeId == Store::DEFAULT_STORE_ID;
     }
 
     /**
