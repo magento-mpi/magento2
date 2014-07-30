@@ -9,6 +9,7 @@
 namespace Magento\Webapi\Model\Authorization;
 
 use Magento\Authorization\Model\UserContextInterface;
+use Magento\Integration\Model\Oauth\Token;
 use Magento\Integration\Model\Oauth\TokenFactory;
 use Magento\Integration\Service\V1\Integration as IntegrationService;
 use Magento\Webapi\Controller\Request;
@@ -101,7 +102,7 @@ class TokenUserContext implements UserContextInterface
         }
 
         $headerPieces = explode(" ", $authorizationHeaderValue);
-        if (!$headerPieces || count($headerPieces) !== 2) {
+        if (count($headerPieces) !== 2) {
             $this->isRequestProcessed = true;
             return;
         }
@@ -120,6 +121,16 @@ class TokenUserContext implements UserContextInterface
             return;
         }
 
+        $this->setUserDataViaToken($token);
+        $this->isRequestProcessed = true;
+    }
+
+    /**
+     * @param Token $token
+     * @return void
+     */
+    protected function setUserDataViaToken(Token $token)
+    {
         $this->userType = $token->getUserType();
         switch ($this->userType) {
             case UserContextInterface::USER_TYPE_INTEGRATION:
@@ -135,7 +146,5 @@ class TokenUserContext implements UserContextInterface
                 /* this is an unknown user type so reset the cached user type */
                 $this->userType = null;
         }
-
-        $this->isRequestProcessed = true;
     }
 }
