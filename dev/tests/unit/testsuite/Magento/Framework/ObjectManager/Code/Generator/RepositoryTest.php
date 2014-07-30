@@ -7,27 +7,72 @@
  */
 namespace Magento\Framework\ObjectManager\Code\Generator;
 
+use Magento\Framework\Code\Generator\Io;
+use Magento\TestFramework\Helper\ObjectManager;
+
 /**
  * Class RepositoryTest
  */
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
+    const SOURCE_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\Sample';
+    const RESULT_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\SampleRepository';
+    const GENERATOR_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\Repository';
+    const OUTPUT_FILE_NAME = 'SampleConverter.php';
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var Io | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $ioObjectMock;
 
     /**
-     * test setUp
+     * @var \Magento\Framework\Code\Generator\EntityAbstract
      */
+    protected $generator;
+
+    /**
+     * @var \Magento\Framework\Autoload\IncludePath | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $autoloaderMock;
+
+    /**
+     * @var \Magento\Framework\Code\Generator\CodeGenerator\Zend | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $classGenerator;
+
     protected function setUp()
     {
         $this->ioObjectMock = $this->getMock(
-            '\Magento\Framework\Code\Generator\Io',
+            'Magento\Framework\Code\Generator\Io',
             [],
             [],
             '',
             false
+        );
+        $this->autoloaderMock = $this->getMock(
+            'Magento\Framework\Autoload\IncludePath',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->classGenerator = $this->getMock(
+            'Magento\Framework\Code\Generator\CodeGenerator\Zend',
+            [],
+            [],
+            '',
+            false
+        );
+
+        $objectManager = new ObjectManager($this);
+        $this->generator = $objectManager->getObject(
+            self::GENERATOR_CLASS_NAME,
+            [
+                'sourceClassName' => self::SOURCE_CLASS_NAME,
+                'resultClassName' => self::RESULT_CLASS_NAME,
+                'ioObject' => $this->ioObjectMock,
+                'classGenerator' => $this->classGenerator,
+                'autoLoader' => $this->autoloaderMock
+            ]
         );
     }
 
@@ -36,62 +81,59 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerate()
     {
-        require_once __DIR__ . '/_files/Sample.php';
-        $model = $this->getMock(
-            'Magento\Framework\ObjectManager\Code\Generator\Repository',
-            [
-                '_validateData'
-            ],
-            [
-                '\Magento\Framework\ObjectManager\Code\Generator\Sample',
-                null,
-                $this->ioObjectMock,
-                null,
-                null
-            ]
-        );
-        $sampleRepositoryCode = file_get_contents(__DIR__ . '/_files/SampleRepository.txt');
+        $generatedCode = 'Generated code';
+        $sourceFileName = 'Sample.php';
+        $resultFileName = self::OUTPUT_FILE_NAME;
 
-        $this->ioObjectMock->expects($this->once())
-            ->method('getResultFileName')
-            ->with('\Magento\Framework\ObjectManager\Code\Generator\SampleRepository')
-            ->will($this->returnValue('SampleRepository.php'));
-        $this->ioObjectMock->expects($this->once())
-            ->method('writeResultFile')
-            ->with(
-                $this->equalTo('SampleRepository.php'),
-                $this->equalTo($sampleRepositoryCode)
-            );
-
-        $model->expects($this->once())->method('_validateData')->will($this->returnValue(true));
-        $this->assertTrue($model->generate());
-    }
-
-    /**
-     * test protected _validateData()
-     */
-    public function testValidateData()
-    {
-        $sourceClassName = 'Magento_Module_Controller_Index';
-        $resultClassName = 'Magento_Module_Controller';
-
-        $includePathMock = $this->getMockBuilder('Magento\Framework\Autoload\IncludePath')
-            ->disableOriginalConstructor()
-            ->setMethods(['getFile'])
-            ->getMock();
-        $includePathMock->expects($this->at(0))
+        //Mocking _validateData call
+        $this->autoloaderMock->expects($this->at(0))
             ->method('getFile')
-            ->with($sourceClassName)
-            ->will($this->returnValue(true));
-        $includePathMock->expects($this->at(1))
+            ->with(self::SOURCE_CLASS_NAME)
+            ->will($this->returnValue($sourceFileName));
+        $this->autoloaderMock->expects($this->at(1))
             ->method('getFile')
-            ->with($resultClassName)
+            ->with(self::RESULT_CLASS_NAME)
             ->will($this->returnValue(false));
 
-        $repository = new Repository(
-            null, null, null, null, $includePathMock
-        );
-        $repository->init($sourceClassName, $resultClassName);
-        $this->assertFalse($repository->generate());
+        $this->ioObjectMock->expects($this->once())
+            ->method('makeGenerationDirectory')
+            ->will($this->returnValue(true));
+        $this->ioObjectMock->expects($this->once())
+            ->method('makeResultFileDirectory')
+            ->with(self::RESULT_CLASS_NAME)
+            ->will($this->returnValue(true));
+        $this->ioObjectMock->expects($this->once())
+            ->method('fileExists')
+            ->with($resultFileName)
+            ->will($this->returnValue(false));
+
+        //Mocking _generateCode call
+        $this->classGenerator->expects($this->once())
+            ->method('setName')
+            ->with(self::RESULT_CLASS_NAME)
+            ->will($this->returnSelf());
+        $this->classGenerator->expects($this->once())
+            ->method('addProperties')
+            ->will($this->returnSelf());
+        $this->classGenerator->expects($this->once())
+            ->method('addMethods')
+            ->will($this->returnSelf());
+        $this->classGenerator->expects($this->once())
+            ->method('setClassDocBlock')
+            ->will($this->returnSelf());
+        $this->classGenerator->expects($this->once())
+            ->method('generate')
+            ->will($this->returnValue($generatedCode));
+
+        //Mocking generation
+        $this->ioObjectMock->expects($this->any())
+            ->method('getResultFileName')
+            ->with(self::RESULT_CLASS_NAME)
+            ->will($this->returnValue($resultFileName));
+        $this->ioObjectMock->expects($this->once())
+            ->method('writeResultFile')
+            ->with($resultFileName, $generatedCode);
+
+        $this->assertTrue($this->generator->generate());
     }
 }
