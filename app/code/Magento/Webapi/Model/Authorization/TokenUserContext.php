@@ -11,6 +11,7 @@ namespace Magento\Webapi\Model\Authorization;
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Model\Oauth\TokenFactory;
+use Magento\Integration\Service\V1\Integration as IntegrationService;
 use Magento\Webapi\Controller\Request;
 
 /**
@@ -44,17 +45,25 @@ class TokenUserContext implements UserContextInterface
     protected $isRequestProcessed;
 
     /**
+     * @var IntegrationService
+     */
+    protected $integrationService;
+
+    /**
      * Initialize dependencies.
      *
      * @param Request $request
      * @param TokenFactory $tokenFactory
+     * @param IntegrationService $integrationService
      */
     public function __construct(
         Request $request,
-        TokenFactory $tokenFactory
+        TokenFactory $tokenFactory,
+        IntegrationService $integrationService
     ) {
         $this->request = $request;
         $this->tokenFactory = $tokenFactory;
+        $this->integrationService = $integrationService;
     }
 
     /**
@@ -114,6 +123,9 @@ class TokenUserContext implements UserContextInterface
 
         $this->userType = $token->getUserType();
         switch ($this->userType) {
+            case UserIdentifier::USER_TYPE_INTEGRATION:
+                $this->userId = $this->integrationService->findByConsumerId($token->getConsumerId())->getId();
+                break;
             case UserIdentifier::USER_TYPE_ADMIN:
                 $this->userId = $token->getAdminId();
                 break;

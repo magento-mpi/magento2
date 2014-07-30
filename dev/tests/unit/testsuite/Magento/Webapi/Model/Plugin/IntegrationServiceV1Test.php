@@ -67,7 +67,6 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->integrationV1Plugin = new \Magento\Webapi\Model\Plugin\IntegrationServiceV1(
-            $this->authzServiceMock,
             $this->userIdentifierFactoryMock,
             $this->integrationAuthServiceMock,
             $this->aclRetrieverMock

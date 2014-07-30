@@ -81,7 +81,7 @@ class WebapiRoleLocatorTest extends \PHPUnit_Framework_TestCase
 
         $this->role = $this->getMockBuilder('Magento\Authorization\Model\Role')
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->setMethods(['getId', '__wakeup'])
             ->getMock();
 
         $this->roleCollection->expects($this->once())

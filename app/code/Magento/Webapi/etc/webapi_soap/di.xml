@@ -18,7 +18,7 @@
         <arguments>
             <argument name="userContexts" xsi:type="array">
                 <item name="tokenUserContext" xsi:type="object">Magento\Webapi\Model\Authorization\TokenUserContext</item>
-                <item name="oauthUserContext" xsi:type="object">Magento\Webapi\Model\Authorization\OauthUserContext</item>
+                <item name="guestUserContext" xsi:type="object">Magento\User\Model\Authorization\GuestUserContext</item>
             </argument>
         </arguments>
     </type>

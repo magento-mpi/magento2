@@ -31,6 +31,11 @@ class TokenUserContextTest extends \PHPUnit_Framework_TestCase
     protected $tokenFactory;
 
     /**
+     * @var \Magento\Integration\Service\V1\Integration
+     */
+    protected $integrationService;
+
+    /**
      * @var \Magento\Webapi\Controller\Request
      */
     protected $request;
@@ -49,11 +54,17 @@ class TokenUserContextTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->getMock();
 
+        $this->integrationService = $this->getMockBuilder('Magento\Integration\Service\V1\Integration')
+            ->disableOriginalConstructor()
+            ->setMethods(['findByConsumerId'])
+            ->getMock();
+
         $this->tokenUserContext = $this->objectManager->getObject(
             'Magento\Webapi\Model\Authorization\TokenUserContext',
             [
                 'request' => $this->request,
                 'tokenFactory' => $this->tokenFactory,
+                'integrationService' => $this->integrationService
             ]
         );
     }
@@ -145,7 +156,21 @@ class TokenUserContextTest extends \PHPUnit_Framework_TestCase
         $token->expects($this->once())
             ->method('getUserType')
             ->will($this->returnValue($userType));
+
+        $integration = $this->getMockBuilder('Magento\Integration\Model\Integration')
+            ->disableOriginalConstructor()
+            ->setMethods(['getId', '__wakeup'])
+            ->getMock();
+
         switch($userType) {
+            case UserIdentifier::USER_TYPE_INTEGRATION:
+                $integration->expects($this->once())
+                    ->method('getId')
+                    ->will($this->returnValue($userId));
+                $this->integrationService->expects($this->once())
+                    ->method('findByConsumerId')
+                    ->will($this->returnValue($integration));
+                break;
             case UserIdentifier::USER_TYPE_ADMIN:
                 $token->expects($this->once())
                     ->method('getAdminId')
@@ -184,8 +209,8 @@ class TokenUserContextTest extends \PHPUnit_Framework_TestCase
             'integration token' => [
                 UserIdentifier::USER_TYPE_INTEGRATION,
                 1234,
-                null,
-                null,
+                UserIdentifier::USER_TYPE_INTEGRATION,
+                1234,
             ],
             'guest user type' => [
                 UserIdentifier::USER_TYPE_GUEST,

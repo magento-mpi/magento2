@@ -51,11 +51,6 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
     protected $_layout;
 
     /**
-     * @var \Magento\Framework\Oauth\OauthInterface
-     */
-    protected $_oauthService;
-
-    /**
      * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
@@ -78,7 +73,6 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
      * @param ErrorProcessor $errorProcessor
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Framework\Oauth\OauthInterface $oauthService
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param PathProcessor $pathProcessor
      * @param \Magento\Framework\App\AreaList $areaList
@@ -93,7 +87,6 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
         ErrorProcessor $errorProcessor,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Framework\Oauth\OauthInterface $oauthService,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         PathProcessor $pathProcessor,
         \Magento\Framework\App\AreaList $areaList
@@ -104,7 +97,6 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
         $this->_soapServer = $soapServer;
         $this->_errorProcessor = $errorProcessor;
         $this->_appState = $appState;
-        $this->_oauthService = $oauthService;
         $this->_localeResolver = $localeResolver;
         $this->_layout = $layout;
         $this->_pathProcessor = $pathProcessor;
@@ -135,9 +127,6 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
                 $this->_setResponseBody($responseBody);
             } else {
-                //TODO: Need to refactor as per MAGETWO-26188
-                //$consumerId = $this->_oauthService->validateAccessToken($this->_getAccessToken());
-                //$this->_request->setConsumerId($consumerId);
                 $this->_soapServer->handle();
             }
         } catch (\Exception $e) {
