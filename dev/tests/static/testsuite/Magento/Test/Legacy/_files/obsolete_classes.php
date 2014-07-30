@@ -2711,4 +2711,12 @@ return array(
     ['Magento\Tax\Model\Config\Source\TaxClass\Customer', 'Magento\Tax\Model\TaxClass\Source\Customer'],
     ['Magento\AdminNotification\Model\System\MessageInterface', 'Magento\Framework\App\Notification\MessageInterface'],
     ['Magento\AdminNotification\Model\System\MessageList', 'Magento\Framework\App\Notification\MessageList'],
+    [
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Grouped',
+        'Magento\GroupedImportExport\Model\Export\Product\Type\Grouped'
+    ],
+    [
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Grouped',
+        'Magento\GroupedImportExport\Model\Import\Product\Type\Grouped'
+    ],
 );
