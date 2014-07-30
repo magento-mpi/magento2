@@ -48,8 +48,9 @@ class AssertRewardPointsBalance extends AbstractConstraint
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param RewardCustomerInfo $rewardCustomerInfo
-     * @param Reward $rate
      * @param string $registrationReward
+     * @param Reward $reward
+     * @param Reward $updateRate
      * @return void
      */
     public function processAssert(
@@ -58,9 +59,12 @@ class AssertRewardPointsBalance extends AbstractConstraint
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         RewardCustomerInfo $rewardCustomerInfo,
-        Reward $rate,
-        $registrationReward
+        $registrationReward,
+        Reward $reward,
+        Reward $updateRate = null
     ) {
+        $reward = $updateRate === null ? $reward : $updateRate;
+
         $customerAccountLogout->open();
         $customerAccountLogin->open();
         $customerAccountLogin->getLoginBlock()->login($customer);
@@ -72,8 +76,8 @@ class AssertRewardPointsBalance extends AbstractConstraint
         $expected['reward_points'] = sprintf(self::REWARD_POINTS_BALANCE, $registrationReward);
         $expected['exchange_rate'] = sprintf(
             self::REWARD_POINTS_EXCHANGE_RATE,
-            $rate->getValue(),
-            $rate->getEqualValue()
+            $reward->getPointsDelta(),
+            $reward->getEqualValue()
         );
 
         \PHPUnit_Framework_Assert::assertEquals($expected, $actual, 'Wrong success messages are displayed.');

@@ -33,7 +33,7 @@ class Reward extends InjectableFixture
         'website_id' => 'Main Website/Main Website Store/Default Store View',
         'customer_group_id' => ['dataSet' => 'All Customer Groups'],
         'direction' => 'Points to Currency',
-        'value' => 10,
+        'points_delta' => 10,
         'equal_value' => 1
     ];
 
@@ -129,8 +129,8 @@ class Reward extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $value = [
-        'attribute_code' => 'value',
+    protected $points_delta = [
+        'attribute_code' => 'points_delta',
         'backend_type' => 'virtual',
         'group' => 'reward_points'
     ];
@@ -206,9 +206,9 @@ class Reward extends InjectableFixture
         return $this->getData('subscribe_warnings');
     }
 
-    public function getValue()
+    public function getPointsDelta()
     {
-        return $this->getData('value');
+        return $this->getData('points_delta');
     }
 
     public function getEqualValue()

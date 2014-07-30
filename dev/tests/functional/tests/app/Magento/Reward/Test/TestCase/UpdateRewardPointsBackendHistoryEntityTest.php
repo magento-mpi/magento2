@@ -31,7 +31,7 @@ use Mtf\TestCase\Injectable;
  * @group Reward_Points_(CS)
  * @ZephyrId MAGETWO-26683
  */
-class BackendHistoryRewardPointsEntityTest extends Injectable
+class UpdateRewardPointsBackendHistoryEntityTest extends Injectable
 {
     /**
      * CustomerIndex page
@@ -83,6 +83,7 @@ class BackendHistoryRewardPointsEntityTest extends Injectable
     {
         $filter = ['email' => $customer->getEmail()];
 
+        // Steps
         $this->customerIndex->open();
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
         $this->customerIndexEdit->getCustomerForm()->fill($reward);

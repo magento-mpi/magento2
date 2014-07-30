@@ -28,7 +28,7 @@ class Reward extends Tab
      *
      * @var string
      */
-    protected $rewardHistoryGridSelector = '#rewardPointsHistoryGrid';
+    protected $rewardHistoryGridSelector = '[data-grid-id="rewardPointsHistoryGrid"]';
 
     /**
      * Get customer's reward points history grid

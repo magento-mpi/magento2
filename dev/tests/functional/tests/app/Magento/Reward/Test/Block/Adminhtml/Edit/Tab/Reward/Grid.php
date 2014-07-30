@@ -16,14 +16,5 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
  */
 class Grid extends AbstractGrid
 {
-    /**
-     * Initialize block elements
-     *
-     * @var array
-     */
-    protected $filters = [
-        'website_id' => [
-            'selector' => '[name="website"]'
-        ]
-    ];
+    //
 }

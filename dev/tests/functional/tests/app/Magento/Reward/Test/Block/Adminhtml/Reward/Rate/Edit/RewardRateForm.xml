@@ -19,7 +19,10 @@
         <direction>
             <input>select</input>
         </direction>
-        <value />
+        <points_delta>
+            <selector>[name = "rate[value]"]</selector>
+            <strategy>css selector</strategy>
+        </points_delta>
         <equal_value />
     </fields>
 </mapping>

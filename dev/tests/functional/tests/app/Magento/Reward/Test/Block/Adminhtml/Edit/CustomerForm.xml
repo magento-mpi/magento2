@@ -15,16 +15,10 @@
         <wrapper>reward</wrapper>
         <fields>
             <store_id>
-                <input>select</input>
+                <input>selectstore</input>
             </store_id>
-            <value>
-                <selector>#reward_points_delta</selector>
-                <strategy>css selector</strategy>
-            </value>
-            <comment>
-                <selector>#reward_comment</selector>
-                <strategy>css selector</strategy>
-            </comment>
+            <points_delta />
+            <comment />
             <reward_update_notification>
                 <input>checkbox</input>
             </reward_update_notification>
