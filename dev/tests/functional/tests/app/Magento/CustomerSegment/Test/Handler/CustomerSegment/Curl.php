@@ -63,7 +63,7 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
             );
         }
 
-        return ['id' => $this->getCustomerSegmentId($response)];
+        return ['segment_id' => $this->getCustomerSegmentId($response)];
     }
 
     /**

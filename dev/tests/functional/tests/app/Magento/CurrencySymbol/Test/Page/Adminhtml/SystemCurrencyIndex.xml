@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/system_currency/index" >
+    <block>
+        <name>gridPageActions</name>
+        <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\GridPageActions\GridPageActions</class>
+        <locator>.grid-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+
+    <block>
+        <name>mainPageActions</name>
+        <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\MainPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

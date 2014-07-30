@@ -48,6 +48,9 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
         'Category' => [
             'type' => 'Magento\SalesRule\Model\Rule\Condition\Product',
             'attribute' => 'category_ids'
+        ],
+        'Customer Segment' => [
+            'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment',
         ]
     ];
 
@@ -62,7 +65,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
             'Inactive' => 0
         ],
         'coupon_type' => [
-            'No coupon' => 1,
+            'No Coupon' => 1,
             'Specific Coupon' => 2,
             'Auto' => 3
         ],

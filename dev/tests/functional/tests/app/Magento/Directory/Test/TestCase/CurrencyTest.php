@@ -50,7 +50,13 @@ class CurrencyTest extends Functional
         $currencySwitcherBlock = Factory::getBlockFactory()->getMagentoDirectoryCurrencySwitcher(
             $browser->find('.switcher.currency', Locator::SELECTOR_CSS)
         );
-        $currencySwitcherBlock->switchCurrency('EUR');
+
+        $objectManager = Factory::getObjectManager();
+        $currencyFixture = $objectManager->create(
+            '\Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity',
+            ['dataSet' => 'currency_symbols_eur']
+        );
+        $currencySwitcherBlock->switchCurrency($currencyFixture);
 
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $productListBlock = $categoryPage->getListProductBlock();

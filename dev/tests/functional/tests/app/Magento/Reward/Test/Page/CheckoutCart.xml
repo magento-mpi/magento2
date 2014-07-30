@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="checkout/cart/index" >
+    <block>
+        <name>checkoutTooltipBlock</name>
+        <class>Magento\Reward\Test\Block\Tooltip\Checkout</class>
+        <locator>.rewards</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
