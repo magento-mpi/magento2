@@ -23,5 +23,4 @@
     <type name="Magento\Authorization\Model\Role">
         <plugin name="updateRoleUsersAcl" type="Magento\User\Model\Plugin\AuthorizationRole" sortOrder="20"/>
     </type>
-    <preference for="Magento\Authorization\Model\UserContextInterface" type="Magento\User\Model\Authorization\GuestUserContext"/>
 </config>

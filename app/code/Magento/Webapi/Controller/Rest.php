@@ -150,8 +150,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
             }
-            $this->_checkPermissions();
-            $route = $this->_getCurrentRoute();
+            $this->checkPermissions();
+            $route = $this->getCurrentRoute();
             if ($route->isSecure() && !$this->_request->isSecure()) {
                 throw new \Magento\Webapi\Exception(__('Operation allowed only in HTTPS'));
             }
@@ -159,12 +159,12 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $inputData = $this->_request->getRequestData();
             $serviceMethodName = $route->getServiceMethod();
             $serviceClassName = $route->getServiceClass();
-            $inputData = $this->_overrideParams($inputData, $route->getParameters());
+            $inputData = $this->overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
             /** @var \Magento\Framework\Service\Data\AbstractObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
-            $outputData = $this->_processServiceOutput($outputData);
+            $outputData = $this->processServiceOutput($outputData);
             if ($this->_request->getParam(PartialResponseProcessor::FILTER_PARAMETER) && is_array($outputData)) {
                 $outputData = $this->partialResponseProcessor->filter($outputData);
             }
@@ -188,7 +188,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param mixed $data
      * @return array|int|string|bool|float Scalar or array of scalars
      */
-    protected function _processServiceOutput($data)
+    protected function processServiceOutput($data)
     {
         if (is_array($data)) {
             $result = [];
@@ -236,7 +236,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param array $parameters Contains parameters to replace or default
      * @return array Data in same format as $inputData with appropriate parameters added or changed
      */
-    protected function _overrideParams(array $inputData, array $parameters)
+    protected function overrideParams(array $inputData, array $parameters)
     {
         foreach ($parameters as $name => $paramData) {
             if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
@@ -258,7 +258,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      *
      * @return Route
      */
-    protected function _getCurrentRoute()
+    protected function getCurrentRoute()
     {
         if (!$this->_route) {
             $this->_route = $this->_router->match($this->_request);
@@ -269,14 +269,12 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     /**
      * Perform authentication and authorization.
      *
-     * Authentication can be based on active customer/guest session or it can be based on OAuth headers.
-     *
      * @throws \Magento\Framework\Exception\AuthorizationException
      * @return void
      */
-    protected function _checkPermissions()
+    protected function checkPermissions()
     {
-        $route = $this->_getCurrentRoute();
+        $route = $this->getCurrentRoute();
         if (!$this->isAllowed($route->getAclResources())) {
             $params = ['resources' => implode(', ', $route->getAclResources())];
             throw new AuthorizationException(AuthorizationException::NOT_AUTHORIZED, $params);
