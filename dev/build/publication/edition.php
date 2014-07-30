@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 define('USAGE', 'USAGE: php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build] [--additional="<dev_build_ce.txt>"]');
+require __DIR__ . '/functions.php';
 try {
     $options = getopt('', array('dir:', 'edition:', 'build', 'additional:'));
     assertCondition(isset($options['dir']), USAGE);
@@ -26,10 +27,10 @@ try {
     switch ($options['edition']) {
         case 'ce':
             $lists[] = 'ee.txt';
-            executeCLI("{$gitCmd} mv CHANGELOG_CE.md CHANGELOG.md");
+            execVerbose("{$gitCmd} mv CHANGELOG_CE.md CHANGELOG.md");
             break;
         case 'ee':
-            executeCLI("{$gitCmd} mv app/etc/enterprise/module.xml.dist app/etc/enterprise/module.xml");
+            execVerbose("{$gitCmd} mv app/etc/enterprise/module.xml.dist app/etc/enterprise/module.xml");
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
@@ -40,19 +41,19 @@ try {
     foreach ($lists as $list) {
         $command .= ' -l ' . escapeshellarg(__DIR__ . '/extruder/' . $list);
     }
-    executeCLI($command, 'Extruder execution failed');
+    execVerbose($command, 'Extruder execution failed');
 
     // root composer.json
     $command = "php -f " . __DIR__ . '/../../tools/Magento/Tools/Composer/create-root.php --'
         . ' --source-dir=' . escapeshellarg($dir)
         . ' --target-file=' . escapeshellarg($dir . '/composer.json');
-    executeCLI($command);
-    executeCLI("{$gitCmd} add composer.json");
+    execVerbose($command);
+    execVerbose("{$gitCmd} add composer.json");
 
     // composer.lock becomes outdated, once the composer.json has changed
     $composerLock = $dir . '/composer.lock';
     if (file_exists($composerLock)) {
-        executeCLI("{$gitCmd} rm composer.lock");
+        execVerbose("{$gitCmd} rm composer.lock");
     }
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
@@ -72,18 +73,4 @@ function assertCondition($condition, $error)
     if (!$condition) {
         throw new \Exception($error);
     }
-}
-
-/**
- * Runs a command via CLI
- *
- * @param string $command
- * @param string $error
- * @return void
- */
-function executeCLI($command, $error = 'Command has returned non-zero code')
-{
-    echo $command . PHP_EOL;
-    passthru($command, $exitCode);
-    assertCondition(!$exitCode, $error);
 }
