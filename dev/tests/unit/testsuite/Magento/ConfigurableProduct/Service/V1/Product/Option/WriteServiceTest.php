@@ -45,6 +45,26 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $writeService;
 
+    /**
+     * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $productMock;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $productTypeMock;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $attributeCollectionMock;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $attributeMock;
+
     protected function setUp()
     {
         $this->objectManager = new ObjectManager($this);
@@ -61,6 +81,30 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getSku', 'getTypeId', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->productTypeMock = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable')
+            ->setMethods(['getConfigurableAttributeCollection'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->attributeCollectionMock = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection'
+        )
+            ->setMethods(['getItemById'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->attributeMock = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute'
+        )
+            ->setMethods(['delete', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false);
         $storeManagerMock->expects($this->any())
             ->method('getStore')
@@ -72,7 +116,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'productRepository' => $this->productRepositoryMock,
                 'configurableAttributeFactory' => $this->confAttributeFactoryMock,
                 'eavConfig' => $this->eavConfigMock,
-                'storeManager' => $storeManagerMock
+                'storeManager' => $storeManagerMock,
+                'productType' => $this->productTypeMock
             ]
         );
 
@@ -163,5 +208,75 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         return $this->optionBuilder->populateWithArray($data)->create();
+    }
+
+    public function testRemove()
+    {
+        $productSku = 'productSku';
+        $optionId = 3;
+
+        $this->productRepositoryMock->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(ConfigurableType::TYPE_CODE));
+
+        $this->productTypeMock->expects($this->once())->method('getConfigurableAttributeCollection')
+            ->with($this->equalTo($this->productMock))
+            ->will($this->returnValue($this->attributeCollectionMock));
+
+        $this->attributeCollectionMock->expects($this->once())->method('getItemById')
+            ->with($this->equalTo($optionId))
+            ->will($this->returnValue($this->attributeMock));
+
+        $this->attributeMock->expects($this->once())->method('delete');
+
+        $this->assertTrue($this->writeService->remove($productSku, $optionId));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testRemoveNoSuchEntityException()
+    {
+        $productSku = 'productSku';
+        $optionId = 3;
+
+        $this->productRepositoryMock->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(ConfigurableType::TYPE_CODE));
+
+        $this->productTypeMock->expects($this->once())->method('getConfigurableAttributeCollection')
+            ->with($this->equalTo($this->productMock))
+            ->will($this->returnValue($this->attributeCollectionMock));
+
+        $this->attributeCollectionMock->expects($this->once())->method('getItemById')
+            ->with($this->equalTo($optionId))
+            ->will($this->returnValue(null));
+
+        $this->writeService->remove($productSku, $optionId);
+    }
+
+    /**
+     * @expectedException \Magento\Webapi\Exception
+     */
+    public function testRemoveWebApiException()
+    {
+        $productSku = 'productSku';
+
+        $this->productRepositoryMock->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(ProductType::TYPE_SIMPLE));
+        $this->productMock->expects($this->once())->method('getSku')
+            ->will($this->returnValue($productSku));
+
+        $this->writeService->remove($productSku, 3);
     }
 }
