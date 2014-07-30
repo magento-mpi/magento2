@@ -23,13 +23,11 @@ namespace Magento\Framework\Session {
     function ini_set($varName, $newValue)
     {
         global $mockPHPFunctions;
-        if ((isset($mockPHPFunctions) && $mockPHPFunctions === true)) {
+        if ($mockPHPFunctions) {
             SessionManagerTest::assertSame(SessionManagerTest::SESSION_USE_ONLY_COOKIES, $varName);
             SessionManagerTest::assertSame(SessionManagerTest::SESSION_USE_ONLY_COOKIES_ENABLE, $newValue);
-        } else {
-            return call_user_func_array('\ini_set', func_get_args());
         }
-
+        return call_user_func_array('\ini_set', func_get_args());
     }
 
     /**
@@ -37,31 +35,32 @@ namespace Magento\Framework\Session {
      *
      * @return bool false
      */
-    /*   function headers_sent()
-       {
-           global $mockPHPFunctions;
-           if ($mockPHPFunctions) {
-               return false;
-           } else {
-               call_user_func_array('\headers_sent', func_get_args());
-           }
-       }*/
+    function headers_sent()
+    {
+        global $mockPHPFunctions;
+        if ($mockPHPFunctions) {
+            return false;
+        } else {
+            return call_user_func_array('\headers_sent', func_get_args());
+        }
+    }
 
     /**
      * Mock session_regenerate_id to fail if false is passed
      *
      * @param bool $var
+     * @return bool
      */
-    /*  function session_regenerate_id($var)
-      {
-          global $mockPHPFunctions;
-          if ($mockPHPFunctions) {
-              SessionManagerTest::assertTrue($var);
-          } else {
-              call_user_func_array('\session_regenerate_id', func_get_args());
-          }
-      }*/
+    function session_regenerate_id($var)
+    {
+        global $mockPHPFunctions;
+        if ($mockPHPFunctions) {
+            SessionManagerTest::assertTrue($var);
+        }
+        return call_user_func_array('\session_regenerate_id', func_get_args());
+    }
 
+    use Magento\TestFramework\Helper\ObjectManager;
 
     /**
      * Test SessionManager
@@ -73,7 +72,7 @@ namespace Magento\Framework\Session {
         const SESSION_USE_ONLY_COOKIES_ENABLE = '1';
 
         /**
-         * @var \Magento\TestFramework\Helper\ObjectManager
+         * @var ObjectManager
          */
         private $objectManager;
 
@@ -95,7 +94,7 @@ namespace Magento\Framework\Session {
                 ->disableOriginalConstructor()
                 ->getMock();
 
-            $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+            $this->objectManager = new ObjectManager($this);
             $arguments = ['sessionConfig' => $this->mockSessionConfig];
             $this->sessionManager = $this->objectManager->getObject(
                 'Magento\Framework\Session\SessionManager',
@@ -111,18 +110,12 @@ namespace Magento\Framework\Session {
             $this->assertSame($expectedValue, $sessionUseOnlyCookies);
         }
 
-        /* public function testRegenerateId()
-         {
-             $this->mockSessionConfig->expects($this->once())
-                 ->method('getUseCookies')
-                 ->will($this->returnValue(false));
-             $this->assertSame($this->sessionManager, $this->sessionManager->regenerateId());
-         }*/
-
-        public function tearDown()
+        public function testRegenerateId()
         {
-            global $mockPHPFunctions;
-            $mockPHPFunctions = false;
+            $this->mockSessionConfig->expects($this->once())
+                ->method('getUseCookies')
+                ->will($this->returnValue(false));
+            $this->assertSame($this->sessionManager, $this->sessionManager->regenerateId());
         }
     }
 }
