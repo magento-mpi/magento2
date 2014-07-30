@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate"
+], function($){
+
     $.widget('vde.vdeImageSizing', {
         options: {
             restoreDefaultDataEvent: 'restoreDefaultData',
@@ -174,4 +179,5 @@
             });
         }
     });
-})(jQuery);
+
+});

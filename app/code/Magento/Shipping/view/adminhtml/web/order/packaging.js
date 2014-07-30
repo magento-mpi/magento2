@@ -4,7 +4,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-var Packaging = Class.create();
+define(["prototype"], function(){
+
+window.Packaging = Class.create();
 Packaging.prototype = {
     /**
      * Initialize object
@@ -806,3 +808,5 @@ Packaging.prototype = {
     }
 //******************** End Private functions ******************************//
 };
+
+});

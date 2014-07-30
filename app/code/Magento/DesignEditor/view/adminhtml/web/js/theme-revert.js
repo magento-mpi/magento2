@@ -5,7 +5,13 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "Magento_DesignEditor/js/dialog"
+], function($){
+
     'use strict';
     /**
      * VDE revert theme button widget
@@ -122,4 +128,5 @@
             return this.options.dialog;
         }
     });
-})(jQuery);
+
+});

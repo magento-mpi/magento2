@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+
     $.widget('mage.setPassword', {
         options: {
         },
@@ -40,4 +44,4 @@
                 '{required:true, equalTo:"' + this.options.passwordId + '"}');
         }
     });
-})(jQuery);
+});
