@@ -1,6 +1,6 @@
 <?php
 /**
- * Range Buckets
+ * Term Buckets
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@ namespace Magento\Framework\Search\Request\Aggregation;
 
 use Magento\Framework\Search\Request\BucketInterface;
 
-class Ranges implements BucketInterface
+class TermBucket implements BucketInterface
 {
     /**
      * @var string
@@ -29,22 +29,15 @@ class Ranges implements BucketInterface
     protected $metrics;
 
     /**
-     * @var Range[]
-     */
-    protected $ranges;
-
-    /**
      * @param string $name
      * @param string $field
      * @param array $metrics
-     * @param Range[] $ranges
      */
-    public function __construct($name, $field, array $metrics, array $ranges)
+    public function __construct($name, $field, array $metrics)
     {
         $this->name = $name;
         $this->field = $field;
         $this->metrics = $metrics;
-        $this->ranges = $ranges;
     }
 
     /**
@@ -52,7 +45,7 @@ class Ranges implements BucketInterface
      */
     public function getType()
     {
-        return BucketInterface::TYPE_RANGE;
+        return BucketInterface::TYPE_TERM;
     }
 
     /**
@@ -81,15 +74,5 @@ class Ranges implements BucketInterface
     public function getMetrics()
     {
         return $this->metrics;
-    }
-
-    /**
-     * Get Ranges
-     *
-     * @return Range[]
-     */
-    public function getRanges()
-    {
-        return $this->ranges;
     }
 }

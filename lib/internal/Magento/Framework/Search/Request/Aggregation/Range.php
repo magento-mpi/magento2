@@ -9,6 +9,9 @@
  */
 namespace Magento\Framework\Search\Request\Aggregation;
 
+/**
+ * @SuppressWarnings(PHPMD.ShortVariable)
+ */
 class Range
 {
     /**
