@@ -11,6 +11,7 @@ namespace Magento\Checkout\Service\V1\Address;
 
 use \Magento\Checkout\Service\V1\Data\Cart\Address;
 use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use \Magento\Framework\Service\Data\Eav\AttributeValue;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -99,5 +100,39 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals('Expected value', $this->model->convertModelToDataObject($addressMock));
+    }
+
+    public function testConvertDataObjectToModel()
+    {
+        $dataObjectMock = $this->getMock('Magento\Checkout\Service\V1\Data\Cart\Address', [], [], '', false);
+        $methods = ['setData', 'setStreet', 'setRegionId', 'setRegion', '__wakeUp'];
+        $addressMock = $this->getMock('Magento\Sales\Model\Quote\Address', $methods, [], '', false);
+        $attributeValueMock = [
+            AttributeValue::ATTRIBUTE_CODE => 'value_code',
+            AttributeValue::VALUE => 'value'
+        ];
+        $addressData = [
+            'some_code' => 'some_value'
+        ];
+        $regionMock = $this->getMock('Magento\Checkout\Service\V1\Data\Cart\Address\Region', [], [], '', false);
+
+        $dataObjectMock->expects($this->once())->method('__toArray')->will($this->returnValue($addressData));
+        $valueMap = [
+            [$addressData, null],
+            ['attribute_value', 'value']
+        ];
+        $addressMock->expects($this->any())->method('setData')->will($this->returnValueMap($valueMap));
+        $dataObjectMock
+            ->expects($this->once())
+            ->method('getCustomAttributes')
+            ->will($this->returnValue([$attributeValueMock]));
+        $dataObjectMock->expects($this->once())->method('getStreet')->will($this->returnValue('street'));
+        $addressMock->expects($this->once())->method('setStreet')->with('street');
+        $dataObjectMock->expects($this->any())->method('getRegion')->will($this->returnValue($regionMock));
+        $regionMock->expects($this->once())->method('getRegionId')->will($this->returnValue('regionId'));
+        $regionMock->expects($this->once())->method('getRegion')->will($this->returnValue('region'));
+        $addressMock->expects($this->once())->method('setRegionId')->with('regionId');
+        $addressMock->expects($this->once())->method('setRegion')->with('region');
+        $this->model->convertDataObjectToModel($dataObjectMock, $addressMock);
     }
 }
