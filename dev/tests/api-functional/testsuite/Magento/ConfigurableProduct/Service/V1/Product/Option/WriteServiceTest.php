@@ -10,8 +10,6 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
-use Magento\TestFramework\Helper\Bootstrap;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -53,5 +51,66 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertEquals('Test', $option['label']);
         $this->assertGreaterThan(0, $option['id']);
         $this->assertGreaterThan(0, $option['attribute_id']);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
+     */
+    public function testUpdate()
+    {
+        $productSku = 'configurable';
+        $attribute = $this->getAttribute();
+        $configurableAttribute = $this->getConfigurableAttribute($attribute->getId())->getData();
+        $optionId = $configurableAttribute['product_super_attribute_id'];
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options' . '/' . $optionId,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'update'
+            ]
+        ];
+
+        $option = [
+            'label' => 'Update Test Configurable'
+        ];
+        $this->assertTrue($this->_webApiCall($serviceInfo,
+            [
+                'productSku' => $productSku,
+                'optionId' => $optionId,
+                'option' => $option
+            ]
+        ));
+        $configurableAttribute = $this->getConfigurableAttribute($attribute->getId())->getData();
+        $this->assertEquals($option['label'], $configurableAttribute['label']);
+    }
+
+    /**
+     * @param string $attributeCode
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
+     */
+    protected function getAttribute($attributeCode = 'test_configurable')
+    {
+        /** @var $attribute EavAttribute */
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Eav\Attribute'
+        );
+        return $attribute->load($attributeCode, 'attribute_code');
+    }
+
+    /**
+     * @param int $attributeId
+     * @return \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute
+     */
+    protected function getConfigurableAttribute($attributeId)
+    {
+        /** @var $attribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
+        $configurableAttribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute'
+        );
+        return $configurableAttribute->load($attributeId, 'attribute_id');
     }
 }
