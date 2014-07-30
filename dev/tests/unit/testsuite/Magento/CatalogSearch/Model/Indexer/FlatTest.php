@@ -82,37 +82,6 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
         $this->model->execute(array(1, 2, 3));
     }
 
-    public function testExecuteWithIndexerWorking()
-    {
-        $ids = array(1, 2, 3);
-
-        $this->indexerMock->expects(
-            $this->once()
-        )->method(
-            'load'
-        )->with(
-            \Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID
-        )->will(
-            $this->returnSelf()
-        );
-        $this->indexerMock->expects($this->once())->method('isInvalid')->will($this->returnValue(false));
-        $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(true));
-
-        $rowMock = $this->getMock(
-            'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Rows',
-            array('reindex'),
-            array(),
-            '',
-            false
-        );
-        $rowMock->expects($this->at(0))->method('reindex')->with($ids, true)->will($this->returnSelf());
-        $rowMock->expects($this->at(1))->method('reindex')->with($ids, false)->will($this->returnSelf());
-
-        $this->rowsMock->expects($this->once())->method('create')->will($this->returnValue($rowMock));
-
-        $this->model->execute($ids);
-    }
-
     public function testExecuteWithIndexerNotWorking()
     {
         $ids = array(1, 2, 3);
@@ -127,7 +96,6 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
             $this->returnSelf()
         );
         $this->indexerMock->expects($this->once())->method('isInvalid')->will($this->returnValue(false));
-        $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(false));
 
         $rowMock = $this->getMock(
             'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Rows',
@@ -136,7 +104,7 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $rowMock->expects($this->once())->method('reindex')->with($ids, false)->will($this->returnSelf());
+        $rowMock->expects($this->once())->method('reindex')->with($ids)->will($this->returnSelf());
 
         $this->rowsMock->expects($this->once())->method('create')->will($this->returnValue($rowMock));
 
