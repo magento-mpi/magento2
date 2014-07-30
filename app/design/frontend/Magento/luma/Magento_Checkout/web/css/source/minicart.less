@@ -74,7 +74,7 @@
     );
     float: right;
     .block-minicart {
-        padding: 29px 25px 25px;
+        padding: 25px 20px;
         right: 0;
         width: 320px;
         > .title {
@@ -132,17 +132,7 @@
         }
     }
     .action.close {
-        position: absolute;
-        right: 14px;
-        top: 6px;
-        .icon-font(
-            @icon-remove,
-            @_icon-font-size: 16px,
-            @_icon-font-line-height: 16px,
-            @_icon-font-color: @text-color-muted,
-            @_icon-font-text-hide: true
-        );
-        .button-reset();
+        display: none;
     }
     .action.showcart {
         .text {
@@ -231,7 +221,7 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-xs) {
     .minicart-wrapper .block-minicart {
-        width: 269px;
+        width: 289px;
     }
 }
 
