@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Status\History;
 
-use Magento\Sales\Model\Resource\Order\Status\History;
+use Magento\Sales\Model\Order\Status\History;
 
 /**
  * Class Validator
