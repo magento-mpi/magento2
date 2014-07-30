@@ -1,0 +1,13 @@
+<scheme>
+    <content>
+        <item name="{{var name}}Overview" type="article" module="{{var module}}">
+            <label>Overview</label>
+        </item>
+        <item name="{{var name}}Configuration" type="article" module="{{var module}}">
+            <label>Configuration</label>
+        </item>
+        <item name="{{var name}}UseCases" type="article" module="{{var module}}">
+            <label>Use Cases</label>
+        </item>
+    </content>
+</scheme>

@@ -8,6 +8,21 @@
             <content>
                 <item name="ServiceLayer" type="article" module="Magento_Doc">
                     <label>Service Layer</label>
+                    <content>
+                        <item name="ServiceLayerOverview" type="article" module="Magento_Doc">
+                            <label>Service Layer Overview</label>
+                            <content>
+                                <item name="ServiceLayerOverview2" type="article" module="Magento_Doc">
+                                    <label>Service Layer Overview2</label>
+                                    <content>
+                                        <item name="ServiceLayerOverview3" type="article" module="Magento_Doc">
+                                            <label>Service Layer Overview3</label>
+                                        </item>
+                                    </content>
+                                </item>
+                            </content>
+                        </item>
+                    </content>
                 </item>
                 <item name="WebArchitectureDiagram" type="diagram" module="Magento_Doc">
                     <label>Web Architecture Diagram</label>
@@ -45,8 +60,13 @@
         <item name="ServiceFramework" type="article" module="Magento_Doc">
             <label>Major Functional Subsystems</label>
             <content>
-                <item name="Search" type="article" module="Magento_Framework_Search">
+                <item name="Search" type="article" module="Magento_Doc" scheme="guide/developer/feature">
                     <label>Search</label>
+                    <content>
+                        <item type="reference-code" module="Magento_Doc" name="CodeExample" reference="Magento\Doc\Document\Filter::layoutDirective">
+                            <label>Code Reference</label>
+                        </item>
+                    </content>
                 </item>
             </content>
         </item>

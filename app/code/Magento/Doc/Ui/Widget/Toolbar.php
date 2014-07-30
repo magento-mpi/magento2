@@ -19,29 +19,17 @@ class Toolbar extends Template
     public function getItems()
     {
         $actions = [
-            'freeze' => [
-                'action' => 'freeze',
-                'label' => 'Freeze'
+            'bold' => [
+                'action' => 'bold',
+                'label' => 'Bold'
             ],
-            'approve' => [
-                'action' => 'approve',
-                'label' => 'Approve'
+            'italic' => [
+                'action' => 'italic',
+                'label' => 'Italic'
             ],
-            'denote' => [
-                'action' => 'denote',
-                'label' => 'Denote'
-            ],
-            'add' => [
-                'action' => 'add',
-                'label' => 'Add media'
-            ],
-            'save' => [
-                'action' => 'save',
-                'label' => 'Save'
-            ],
-            'toggle' => [
-                'action' => 'toggle',
-                'label' => 'Toggle View'
+            'insertUnorderedList' => [
+                'action' => 'insertUnorderedList',
+                'label' => 'Insert Unordered List'
             ]
         ];
 
@@ -56,14 +44,11 @@ class Toolbar extends Template
      */
     public function renderItemHtml(array $item)
     {
-        // prepare list item html classes
-        $classes = [$item['action']];
-
         // prepare list item attributes
         $attributes = [];
-        if (count($classes) > 0) {
-            $attributes['class'] = implode(' ', $classes);
-        }
+        $attributes['class'] = 'toolbar-action';
+        $attributes['action'] = $item['action'];
+        $attributes['title'] = $item['label'];
 
         // assemble list item with attributes
         $container = '<li';
@@ -74,8 +59,6 @@ class Toolbar extends Template
 
         $html = [];
         $html[] = $container;
-
-        $html[] = '<button action="'.$item['action'].'">' .$item['label'] . '</button>';
 
         $html[] = '</li>';
 

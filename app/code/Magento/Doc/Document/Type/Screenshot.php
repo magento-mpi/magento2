@@ -6,11 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Doc\Document;
+namespace Magento\Doc\Document\Type;
 
-use Magento\Doc\Ui\Container;
-
-class Screenshot extends Container implements ScreenshotInterface
+class Screenshot extends AbstractType implements ScreenshotInterface
 {
 
 }

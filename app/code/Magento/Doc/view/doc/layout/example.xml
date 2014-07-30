@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceContainer name="content">
+    <referenceContainer name="column.main">
         <block class="Magento\Doc\Ui\Widget\Example" name="document_content" template="Magento_Doc::html/widget/example.xhtml"/>
     </referenceContainer>
 </layout>

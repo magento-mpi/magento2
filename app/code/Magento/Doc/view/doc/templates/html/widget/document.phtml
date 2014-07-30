@@ -13,118 +13,7 @@
  * @var $this \Magento\Doc\Ui\Element\Document
  */
 ?>
-<style>
-    .document .label {
-        text-align: left;
-        font-weight: bold;
-        color: #df3B02;
-        line-height: 4em;
-    }
-
-    .document *[data-role="doc-item-content"],
-    .document *[data-role="doc-item-content-src"] {
-        border: 1px solid #eeeeee;
-    }
-
-    .document *[data-role="doc-item-content-src"] {
-        display: none;
-        line-height: 1.45em;
-    }
-
-    .document *[data-role="doc-item-content-src"] br {
-        margin-bottom: 3px;
-    }
-
-    .document [data-role="doc-item"] h1 ~ [data-role="doc-item"] {
-        font-size: .9em;
-    }
-
-    .document div[data-role="doc-item"] {
-        padding: 0 20px;
-        position: relative;
-    }
-
-    .document div[data-role="doc-item"].required:after {
-        content: "Element is required!";
-    }
-
-    .document [data-type="article"] {
-        text-align: left;
-
-    }
-
-    .document div[data-role="doc-item"].denoted {
-        background-color: #f7eed0;
-    }
-
-    .document div[contenteditable="true"].denoted {
-        background-color: #ece3c7;
-    }
-
-    .document .outdated {
-        text-decoration: line-through;
-    }
-
-    .modified:before {
-        content: 'Modified';
-        color: #ff0000;
-        position: absolute;
-        top: 20px;
-        left: -70px;
-    }
-    .hasChanges:after {
-        background-color: red;
-    }
-    .hasActivated:after {
-        background-color: orange;
-    }
-</style>
 <div class="document" id="document">
-    <div id="toolbar">
-        <header>
-            <ul class="commands">
-                <li data-wysihtml5-command="bold" title="Make text bold (CTRL + B)" class="command"></li>
-                <li data-wysihtml5-command="italic" title="Make text italic (CTRL + I)" class="command"></li>
-                <li data-wysihtml5-command="insertUnorderedList" title="Insert an unordered list" class="command"></li>
-                <li data-wysihtml5-command="insertOrderedList" title="Insert an ordered list" class="command"></li>
-                <li data-wysihtml5-command="createLink" title="Insert a link" class="command"></li>
-                <li data-wysihtml5-command="insertImage" title="Insert an image" class="command"></li>
-                <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" title="Insert headline 1" class="command"></li>
-                <li data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" title="Insert headline 2" class="command"></li>
-                <li data-wysihtml5-command-group="foreColor" class="fore-color command" title="Color the selected text">
-                    <ul>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="silver"></li>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="gray"></li>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="maroon"></li>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red"></li>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="purple"></li>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green"></li>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="olive"></li>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="navy"></li>
-                        <li data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue"></li>
-                    </ul>
-                </li>
-                <li data-wysihtml5-command="insertSpeech" title="Insert speech" class="command"></li>
-                <li data-wysihtml5-action="change_view" title="Show HTML" class="action"></li>
-                <li data-wysihtml5-command="save" id="toolbar-save"  title="Save" class="action"></li>
-            </ul>
-        </header>
-        <div data-wysihtml5-dialog="createLink" style="display: none;">
-            <label>
-                Link:
-                <input data-wysihtml5-dialog-field="href" value="http://">
-            </label>
-            <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
-        </div>
-
-        <div data-wysihtml5-dialog="insertImage" style="display: none;">
-            <label>
-                Image:
-                <input data-wysihtml5-dialog-field="src" value="http://">
-            </label>
-            <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>
-        </div>
-    </div>
     <?php echo $this->renderDocumentHtml() ?>
 </div>
 <script>
@@ -170,14 +59,48 @@
             jEl.html(requiredHtml.replace(/%s/g, jEl.attr('data-type')));
         }
     };
+
     var init = {
         article: function(item) {
+            var content = jQuery(item.find('*[data-role="doc-item-content"]')[0]);
             var srcContent = jQuery(item.find('*[data-role="doc-item-content-src"]')[0]);
+            var initToolbar = function (element) {
+                var content = jQuery(element.find('*[data-role="doc-item-content"]')[0]);
+                var srcContent = jQuery(element.find('*[data-role="doc-item-content-src"]')[0]);
+
+                content.hide();
+                srcContent.show();
+                srcContent.css('min-height', content.height() + 100);
+
+                if (!element.editor) {
+                    var editor = new wysihtml5.Editor(srcContent[0], {
+                        toolbar:      "toolbar",
+                        stylesheets: ["<?php echo $this->getViewFileUrl('Magento_Doc::wysihtml/css/editor.css') ?>"],
+                        parserRules:  wysihtml5ParserRules
+                    });
+                    element.editor = editor;
+                    editor.observe("change", function() {
+                        if (srcContent.data('orig')) {
+                            if (srcContent.data('orig') !== srcContent.val()) {
+                                jQuery('#toolbar-save').addClass('hasChanges');
+                            } else {
+                                jQuery('#toolbar-save').removeClass('hasChanges');
+                            }
+                        }
+                    });
+                    editor.focus();
+                } else {
+                    srcContent.hide();
+                    element.editor.currentView.show();
+                    element.editor.focus();
+                }
+            };
             srcContent.data('orig', srcContent.val());
-            item.on('click', function (event) {
+            content.on('click', function (event) {
                 initToolbar(item);
                 event.stopPropagation();
             });
+            ensureIsNotEmpty(content);
             items.push(item);
         },
         diagram: function(item) {
@@ -201,8 +124,14 @@
                 event.stopPropagation();
             });
             items.push(item);
+        },
+        api: function(item) {
+            item.on('click', function (event) {
+                event.stopPropagation();
+            });
         }
     };
+
     jQuery.each(jQuery.find('div[data-role="doc-item"]'), function (id, el) {
         var item = jQuery(el);
         var dataType = item.attr('data-type');
@@ -210,44 +139,48 @@
             init[dataType](item);
         }
     });
-    function initToolbar(element) {
-        var content = jQuery(element.find('*[data-role="doc-item-content"]')[0]);
-        var srcContent = jQuery(element.find('*[data-role="doc-item-content-src"]')[0]);
 
-        content.hide();
-        srcContent.show();
-        srcContent.css('min-height', content.height() + 100);
-
-        if (!element.editor) {
-            var editor = new wysihtml5.Editor(srcContent[0], {
-                toolbar:      "toolbar",
-                stylesheets: ["<?php echo $this->getViewFileUrl('Magento_Doc::wysihtml/css/editor.css') ?>"],
-                parserRules:  wysihtml5ParserRules
-            });
-            element.editor = editor;
-            editor.observe("change", function() {
-                if (srcContent.data('orig')) {
-                    if (srcContent.data('orig') !== srcContent.val()) {
-                        jQuery('#toolbar-save').addClass('hasChanges');
-                    } else {
-                        jQuery('#toolbar-save').removeClass('hasChanges');
-                    }
-                }
-            });
-            editor.focus();
-        } else {
-            srcContent.hide();
-            element.editor.currentView.show();
-            element.editor.focus();
-        }
-    }
     document.getElementById('toolbar-save').addEventListener('click', function (event) {
         jQuery.each(items, function (id, item) {
             saveElement(item);
         });
     });
-    jQuery.each(jQuery.find('*[data-role="doc-item-content"]'), function (id, el) {
-        var jEl = jQuery(el);
-        ensureIsNotEmpty(jEl);
-    });
+
+    if (webkitSpeechRecognition) {
+        var buffer, recognitionActive, recognition = new webkitSpeechRecognition();
+        buffer = jQuery('#speech-buffer');
+        buffer.on('change', function(event) {
+            if (!buffer.val()) {
+                buffer.hide();
+            }
+        });
+
+        recognition.continuous = true;
+        recognition.lang = 'en';
+        recognition.onresult = function(event) {
+            var final = '';
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    final += event.results[i][0].transcript;
+                }
+            }
+            buffer.button.removeClass('isActive');
+            if (final) {
+                buffer.val(final);
+                buffer.show();
+            }
+        };
+        document.getElementById('toolbar-speech').addEventListener('click', function (event) {
+            var element = event.target || event.srcElement;
+            if (recognitionActive) {
+                recognition.stop();
+                recognitionActive = false;
+            } else {
+                recognition.start();
+                recognitionActive = true;
+                buffer.button = jQuery(element);
+                buffer.button.addClass('isActive');
+            }
+        });
+    }
 </script>

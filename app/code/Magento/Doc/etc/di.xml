@@ -40,6 +40,19 @@
         </arguments>
     </type>
 
+    <type name="\Magento\Doc\Document\Type\Factory">
+        <arguments>
+            <argument name="types" xsi:type="array">
+                <item name="article" xsi:type="string">Magento\Doc\Document\Type\Article</item>
+                <item name="diagram" xsi:type="string">Magento\Doc\Document\Type\Diagram</item>
+                <item name="screenshot" xsi:type="string">Magento\Doc\Document\Type\Screenshot</item>
+                <item name="api" xsi:type="string">Magento\Doc\Document\Type\Api</item>
+                <item name="reference" xsi:type="string">Magento\Doc\Document\Type\Reference</item>
+                <item name="reference-code" xsi:type="string">Magento\Doc\Document\Type\ReferenceCode</item>
+            </argument>
+        </arguments>
+    </type>
+
     <type name="Magento\Doc\DocumentReader\Collector">
         <arguments>
             <argument name="baseFiles" xsi:type="object">templateFileSourceBaseSorted</argument>

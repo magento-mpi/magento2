@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Doc\Document;
+namespace Magento\Doc\Document\Type;
 
 interface ApiInterface
 {

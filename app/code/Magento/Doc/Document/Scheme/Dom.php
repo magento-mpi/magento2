@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Doc\DocumentReader;
+namespace Magento\Doc\Document\Scheme;
 
 class Dom extends \Magento\Framework\Config\Dom
 {

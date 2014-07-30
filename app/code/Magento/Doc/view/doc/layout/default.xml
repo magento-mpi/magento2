@@ -17,19 +17,12 @@
                 </arguments>
             </block>
         </block>
-        <container name="page_top" as="page_top" label="After Page Header">
+        <container name="page.header" as="header" label="Page Header">
             <block class="Magento\Doc\Ui\Widget\Navigation\Top" name="main_navigation" template="Magento_Doc::html/widget/navigation/top.phtml" ttl="3600"/>
-            <container name="top.container" as="topContainer" label="After Page Header Top" htmlTag="div"
-                htmlClass="top-container"/>
         </container>
-        <container name="main" as="main" label="Main Content Container" htmlTag="div" htmlClass="column main">
-            <container name="content.top" label="Main Content Top"/>
-            <container name="content" label="Main Content Area"/>
-            <container name="content.aside" label="Main Content Aside"/>
-            <container name="content.bottom" label="Main Content Bottom"/>
-        </container>
-        <container name="sidebar.main" as="sidebar_main" label="Sidebar Main"/>
-        <container name="sidebar.additional" as="sidebar_additional" label="Sidebar Additional"/>
+        <container name="column.toolbar" as="toolbar" label="Toolbar" htmlTag="div" htmlClass="column-toolbar"/>
+        <container name="column.main" as="content" label="Main Content" htmlTag="div" htmlClass="column-main"/>
+        <container name="column.sidebar" as="sidebar" label="Sidebar" htmlTag="div" htmlClass="column-sidebar"/>
     </block>
     <update handle="default_head_blocks"/>
 </layout>

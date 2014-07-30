@@ -7,8 +7,8 @@
  */
 namespace Magento\Doc\Document\Scheme;
 
-use Magento\Framework\Config\FileResolverInterface;
 use Magento\Framework\Config\ValidationStateInterface;
+use Magento\Doc\Document\Filter;
 
 class Reader
 {
@@ -34,6 +34,11 @@ class Reader
      * @var \Magento\Framework\Config\ConverterInterface
      */
     protected $converter;
+
+    /**
+     * @var Filter
+     */
+    protected $filter;
 
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -68,6 +73,7 @@ class Reader
      * @param Converter $converter
      * @param SchemaLocator $schemaLocator
      * @param ValidationStateInterface $validationState
+     * @param Filter $filter
      * @param array $idAttributes
      * @param string $domDocumentClass
      * @param string $defaultScope
@@ -77,12 +83,14 @@ class Reader
         Converter $converter,
         SchemaLocator $schemaLocator,
         ValidationStateInterface $validationState,
+        Filter $filter,
         $idAttributes = [],
-        $domDocumentClass = 'Magento\Framework\Config\Dom',
+        $domDocumentClass = 'Magento\Doc\Document\Scheme\Dom',
         $defaultScope = 'doc'
     ) {
         $this->fileResolver = $fileResolver;
         $this->converter = $converter;
+        $this->filter = $filter;
         $this->idAttributes = array_replace($this->idAttributes, $idAttributes);
         $this->schemaFile = $schemaLocator->getSchema();
         $this->isValidated = $validationState->isValidated();
@@ -107,22 +115,49 @@ class Reader
             return [];
         }
         $output = $this->_readFiles($fileList);
-
+        $this->applyTemplates($output);
         return $output;
+    }
+
+    protected function applyTemplates(array & $parent)
+    {
+        if (isset($parent['content'])) {
+            foreach ($parent['content'] as & $child) {
+                if (isset($child['scheme'])) {
+                    $fileName = $child['scheme'] . '.xml';
+                    $fileList = $this->fileResolver->get($fileName);
+                    if (count($fileList)) {
+                        $template = $this->_readFiles($fileList, $child);
+                        if ($template) {
+                            $child = array_replace_recursive($template, $child);
+                            unset($child['scheme']);
+                        }
+                    }
+                } else {
+                    $this->applyTemplates($child);
+                }
+            }
+        }
+        return null;
     }
 
     /**
      * Read configuration files
      *
      * @param array $fileList
+     * @param array $templateVars
      * @return array
      * @throws \Magento\Framework\Exception
      */
-    protected function _readFiles($fileList)
+    protected function _readFiles($fileList, array $templateVars = [])
     {
         /** @var \Magento\Framework\Config\Dom $configMerger */
         $configMerger = null;
         foreach ($fileList as $key => $content) {
+            if ($templateVars) {
+                $this->filter->setVariables($templateVars);
+                $content = $this->filter->preProcess($content);
+            }
             try {
                 if (!$configMerger) {
                     $configMerger = $this->_createConfigMerger($this->domDocumentClass, $content);

@@ -10,7 +10,7 @@ namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
 
-class Article extends AbstractType implements ArticleInterface
+class Reference extends AbstractType implements ReferenceInterface
 {
     /**
      * @var Content
@@ -37,7 +37,11 @@ class Article extends AbstractType implements ArticleInterface
      */
     public function getContent($filePath, $item)
     {
-        $filePath = $item['scheme'] . '/' . $item['name'] . '.xhtml';
-        return $this->content->get($filePath);
+        $filePath = $item['reference'] . '.xhtml';
+        $result = $this->content->get($filePath);
+        if (!$result) {
+            $result = "Broken reference to '{$filePath}'";
+        }
+        return $result;
     }
 }

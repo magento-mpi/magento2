@@ -11,7 +11,7 @@ use Magento\Framework\Object;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Doc\Document\Scheme;
-use Magento\Doc\Document\Content;
+use \Magento\Doc\Document\Type\Factory;
 use Magento\Doc\Document\Filter;
 
 class Document extends Template
@@ -22,9 +22,9 @@ class Document extends Template
     protected $scheme;
 
     /**
-     * @var Content
+     * @var Factory
      */
-    protected $content;
+    protected $typeFactory;
 
     /**
      * @var Filter
@@ -61,20 +61,20 @@ class Document extends Template
      *
      * @param Context $context
      * @param Scheme $scheme
-     * @param Content $content
+     * @param Factory $typeFactory
      * @param Filter $filter
      * @param array $data
      */
     public function __construct(
         Context $context,
         Scheme $scheme,
-        Content $content,
+        Factory $typeFactory,
         Filter $filter,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->scheme = $scheme;
-        $this->content = $content;
+        $this->typeFactory = $typeFactory;
         $this->filter = $filter;
         $this->schemeName = $this->getData('scheme');
         $this->document = $this->scheme->get($this->schemeName . '.xml');
@@ -91,9 +91,12 @@ class Document extends Template
     {
         $content = '';
         if ($article = $this->_request->getParam('article')) {
-            $items = isset($this->document['content'][$article])
-                ? [$article => $this->document['content'][$article]]
-                : [];
+            $item = $this->findItem($article);
+            if ($item) {
+                $items = [$article => $item];
+            } else {
+                $items = [];
+            }
         } else {
             $items = isset($this->document['content']['Overview'])
                 ? ['Overview' => $this->document['content']['Overview']]
@@ -145,6 +148,9 @@ class Document extends Template
             'content' => $this->getItemContent($name, $item),
             'data' => $this->currentItem
         ];
+        if ($name == 'UseCases') {
+            var_dump($item);
+        }
         $this->filter->setVariables($dictionary);
         return $this->filter->preProcess($this->itemTemplate);
     }
@@ -153,11 +159,14 @@ class Document extends Template
      * Get item's content
      *
      * @param string $name
+     * @param array $item
      * @return string
      */
-    protected function getItemContent($name)
+    protected function getItemContent($name, array $item)
     {
-        return $this->content->get($this->schemeName . '/' . $name . '.xhtml');
+        $item['scheme'] = $this->schemeName;
+        $filePath = $item['module'] . '::' . $this->schemeName . '/' . $name . '.xhtml';
+        return $this->typeFactory->get($item['type'])->getContent($filePath, $item);
     }
 
     /**
@@ -169,5 +178,25 @@ class Document extends Template
     protected function processPlaceholders($content)
     {
         return $this->filter->preProcess($content, $this->dictionary);
+    }
+
+    protected function findItem($name, array $parent = null)
+    {
+        if ($parent === null) {
+            $parent = $this->document;
+        }
+        if (isset($parent['content'])) {
+            foreach ($parent['content'] as $childName => $child) {
+                if ($childName === $name) {
+                    return $child;
+                } else {
+                    $result = $this->findItem($name, $child);
+                    if ($result) {
+                        return $result;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

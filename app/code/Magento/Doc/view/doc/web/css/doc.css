@@ -1,23 +1,120 @@
-@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic&subset=latin,cyrillic,latin-ext);
-
 body {
     line-height: 1.5;
 }
 
-.navigation > ul.docmenu {
-    max-width: 100%;
+nav.navigation {
+    position: fixed; z-index: 1000;
+}
+.navigation > ul > .level0 > a > span {
+    line-height: 53px;
+    padding: 0 20px;
+}
+
+
+
+
+.column-toolbar {
+    position: fixed; left: 0; top: 0; width: 64px; height: 100%; z-index: 1000;
+    padding-top: 40px;
     text-align: center;
+    display: block;
+    background: #eee;
+    background-image: linear-gradient(bottom, rgb(238,238,238) 0%, rgb(255,255,255) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(238,238,238) 0%, rgb(255,255,255) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(238,238,238) 0%, rgb(255,255,255) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(238,238,238) 0%, rgb(255,255,255) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(238,238,238) 0%, rgb(255,255,255) 100%);
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+    font-size: 0;
+}
+[data-wysihtml5-command="speech"]::after {
+    background-position: -596px center;
+}
+[data-wysihtml5-command="save"]::after {
+    content: 'Save' !important;
+    background-color: green;
+    background-image: none !important;
 }
 
-.sidebar {
-    padding-top: 120px;
+.hasChanges:after {
+    background-color: red;
+}
+.hasActivated:after {
+    background-color: orange;
 }
 
-.document h4, .document h1 {
+
+
+
+
+.column-main {
+    position: relative; z-index: 800; width: 1200px;
+    padding: 40px 0 0 120px;
+}
+
+div[data-role="doc-item"] {
+    position: relative;
+    margin-top: 20px;
+    border-top: 1px solid #ff0000;
+    font-size: 26px;
+}
+
+div[data-role="doc-item"] *[data-role="doc-item-content"],
+div[data-role="doc-item"] *[data-role="doc-item-content-src"] {
+    font-size: 16px;
+    font-style: normal;
+}
+
+div[data-role="doc-item"] span.label {
     text-align: left;
     font-weight: bold;
     color: #df3B02;
+    line-height: 4em;
 }
+
+div[data-role="doc-item"] span.label ~ div.items div[data-role="doc-item"] {
+    font-size: .9em;
+}
+
+*[data-role="doc-item-content-src"] {
+    display: none;
+    line-height: 1.45em;
+}
+
+div[data-role="doc-item"].required:after {
+    content: "Element is required!";
+}
+
+.document [data-type="article"] {
+    text-align: left;
+}
+
+div[data-role="doc-item"].denoted {
+    background-color: #f7eed0;
+}
+
+
+
+
+
+
+.column-sidebar {
+    position: relative; z-index: 900; height: 100%;
+    float: right;
+    padding: 100px 40px 0 0;
+    background-color: #ffffff;
+    border-left: 1px solid grey;
+}
+
+
+
+
+
+code {
+    background-color: transparent !important;
+}
+
+
 
 #top_bar {
     width: 100%;
@@ -112,4 +209,13 @@ body {
 
 .col3.clear {
     clear: both;
+}
+
+.isActive:after {
+    background-color: red !important;
+}
+
+#speech-buffer {
+    width: 300px; height: 400px; position: fixed; top: 150px; right: 100px;
+    background-color: #ffffff;
 }

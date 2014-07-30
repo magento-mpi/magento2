@@ -10,7 +10,7 @@ namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
 
-class Api extends AbstractType implements ApiInterface
+class ReferenceCode extends AbstractType implements ReferenceInterface
 {
     /**
      * @var Content
@@ -37,10 +37,21 @@ class Api extends AbstractType implements ApiInterface
      */
     public function getContent($filePath, $item)
     {
-        list ($class, $method) = explode('::', $item['reference']);
+        $filePath = $item['scheme'] . '/' . $item['name'] . '.xhtml';
         $result = $this->content->get($filePath);
         if (!$result) {
-            $result = "<h4>{$class}</h4><h5>{$method}</h5><h6>Arguments</h6><ul><li>...</li></ul>";
+            list ($class, $method) = explode('::', $item['reference']);
+            $refMethod = new \ReflectionMethod($class, $method);
+            $start = $refMethod->getStartLine();
+            $end = $refMethod->getEndLine();
+            $refFile = new \SplFileObject($refMethod->getFileName());
+            $refFile->seek($start-1);
+            $content = "<?php\n";
+            while($refFile->key() < $end) {
+                $content .= $refFile->current();
+                $refFile->next();
+            }
+            $result = highlight_string($content, true);
         }
         return $result;
     }
