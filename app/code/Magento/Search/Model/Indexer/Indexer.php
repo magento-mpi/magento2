@@ -26,7 +26,7 @@ class Indexer
      * Products become visible after products bunch is indexed.
      * This is not auto commit using search engine feature.
      *
-     * @see \Magento\CatalogSearch\Model\Resource\Fulltext::_getSearchableProducts() limitation
+     * @see \Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full::getSearchableProducts() limitation
      */
     const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL = 1;
 

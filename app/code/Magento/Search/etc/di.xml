@@ -9,7 +9,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Search\Helper\ClientInterface" type="Magento\Search\Helper\Data" />
-    <type name="Magento\Search\Model\Plugin\FulltextIndexRebuild">
+    <type name="Magento\CatalogSearch\Model\Indexer\Fulltext">
         <plugin name="fulltextIndexRebuild" type="Magento\Search\Model\Plugin\FulltextIndexRebuild" />
     </type>
     <type name="Magento\Search\Block\Suggestions">
