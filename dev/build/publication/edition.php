@@ -22,22 +22,14 @@ try {
     } elseif (isset($options['additional'])) {
         $lists[] = $options['additional'];
     }
+    $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("{$dir}/.git"), escapeshellarg($dir));
     switch ($options['edition']) {
         case 'ce':
             $lists[] = 'ee.txt';
-            echo "rename {$dir}/CHANGELOG_CE.md -> CHANGELOG.md" . PHP_EOL;
-            assertCondition(
-                rename("{$dir}/CHANGELOG_CE.md", "{$dir}/CHANGELOG.md"),
-                'Unable to rename CHANGELOG_CE.md to CHANGELOG.md'
-            );
+            executeCLI("{$gitCmd} mv CHANGELOG_CE.md CHANGELOG.md");
             break;
         case 'ee':
-            $moduleXml = "{$dir}/etc/enterprise/module.xml";
-            echo "copy {$moduleXml}.dist -> non-.dist" . PHP_EOL;
-            assertCondition(
-                copy("{$moduleXml}.dist", $moduleXml),
-                'Unable to copy enterprise/module.xml.dist as .xml'
-            );
+            executeCLI("{$gitCmd} mv app/etc/enterprise/module.xml.dist app/etc/enterprise/module.xml");
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
@@ -55,6 +47,13 @@ try {
         . ' --source-dir=' . escapeshellarg($dir)
         . ' --target-file=' . escapeshellarg($dir . '/composer.json');
     executeCLI($command);
+    executeCLI("{$gitCmd} add composer.json");
+
+    // composer.lock becomes outdated, once the composer.json has changed
+    $composerLock = $dir . '/composer.lock';
+    if (file_exists($composerLock)) {
+        executeCLI("{$gitCmd} rm composer.lock");
+    }
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);
