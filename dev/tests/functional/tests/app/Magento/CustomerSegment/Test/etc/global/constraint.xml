@@ -32,6 +32,9 @@
     <assertCustomerSegmentAvailableInBannerForm module="Magento_CustomerSegment">
         <severeness>low</severeness>
     </assertCustomerSegmentAvailableInBannerForm>
+    <assertCustomerSegmentMatchedCustomersInGrid module="Magento_CustomerSegment">
+        <severeness>low</severeness>
+    </assertCustomerSegmentMatchedCustomersInGrid>
     <assertCustomerSegmentReportMessage module="Magento_CustomerSegment">
         <severeness>high</severeness>
     </assertCustomerSegmentReportMessage>

@@ -37,6 +37,12 @@ class CustomerSegmentNew extends BackendPage
             'locator' => '.messages .messages',
             'strategy' => 'css selector',
         ],
+        'customerSegmentGrid' => [
+            'name' => 'customerSegmentGrid',
+            'class' => 'Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\CustomerGrid',
+            'locator' => '#segmentGrid',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -61,5 +67,13 @@ class CustomerSegmentNew extends BackendPage
     public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\CustomerGrid
+     */
+    public function getCustomerSegmentGrid()
+    {
+        return $this->getBlockInstance('customerSegmentGrid');
     }
 }
