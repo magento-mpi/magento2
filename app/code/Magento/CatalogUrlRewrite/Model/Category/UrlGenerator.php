@@ -163,14 +163,9 @@ class UrlGenerator
             $targetPath = $url->getRedirectType()
                 ? $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category)
                 : $url->getTargetPath();
-            if ($url->getRequestPath() !== $targetPath) {
-                $urls[] = $this->createUrlRewrite(
-                    $storeId,
-                    $url->getRequestPath(),
-                    $targetPath,
-                    $url->getRedirectType(),
-                    false
-                );
+            $requestPath = $url->getRequestPath();
+            if ($requestPath !== $targetPath) {
+                $urls[] = $this->createUrlRewrite($storeId, $requestPath, $targetPath, $url->getRedirectType(), false);
             }
         }
         return $urls;
