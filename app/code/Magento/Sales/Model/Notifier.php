@@ -10,6 +10,8 @@ namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Framework\Logger;
+use Magento\Framework\Mail\Exception;
 
 /**
  * Class Notifier
@@ -23,12 +25,9 @@ class Notifier extends \Magento\Framework\Model\AbstractModel
     protected $historyCollectionFactory;
 
     /**
-     * Object Manager
-     *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\Logger
      */
-
-    protected $objectManager;
+    protected $logger;
 
     /**
      * @var OrderSender
@@ -37,16 +36,16 @@ class Notifier extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param CollectionFactory $historyCollectionFactory
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param Logger $logger
      * @param OrderSender $orderSender
      */
     public function __construct(
         CollectionFactory $historyCollectionFactory,
-        \Magento\Framework\ObjectManager $objectManager,
+        Logger $logger,
         OrderSender $orderSender
     ) {
         $this->historyCollectionFactory = $historyCollectionFactory;
-        $this->objectManager = $objectManager;
+        $this->logger = $logger;
         $this->orderSender = $orderSender;
     }
 
@@ -72,8 +71,8 @@ class Notifier extends \Magento\Framework\Model\AbstractModel
                 $historyItem->setIsCustomerNotified(1);
                 $historyItem->save();
             }
-        } catch (\Magento\Framework\Mail\Exception $e) {
-            $this->objectManager->get('Magento\Framework\Logger')->logException($e);
+        } catch (Exception $e) {
+            $this->logger->logException($e);
             return false;
         }
         return true;
