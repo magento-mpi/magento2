@@ -340,17 +340,16 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
 
     public function testComponentPathsInRoot()
     {
-        $json = json_decode(file_get_contents(self::$root . '/composer.json'));
-        if (!isset($json->extra) || !isset($json->extra->component_paths)) {
+        if (!isset(self::$rootJson->extra) || !isset(self::$rootJson->extra->component_paths)) {
             $this->markTestSkipped("The root composer.json file doesn't mention any extra component paths information");
         }
         $this->assertObjectHasAttribute(
             'replace',
-            $json,
+            self::$rootJson,
             "If there are any component paths specified, then they must be reflected in 'replace' section"
         );
         $flat = [];
-        foreach ($json->extra->component_paths as $key => $element) {
+        foreach (self::$rootJson->extra->component_paths as $key => $element) {
             if (is_string($element)) {
                 $flat[] = [$key, $element];
             } elseif (is_array($element)) {
@@ -368,7 +367,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             );
             $this->assertObjectHasAttribute(
                 $component,
-                $json->replace,
+                self::$rootJson->replace,
                 "The {$component} is specified in 'extra->component_paths', but missing in 'replace' section"
             );
         }
