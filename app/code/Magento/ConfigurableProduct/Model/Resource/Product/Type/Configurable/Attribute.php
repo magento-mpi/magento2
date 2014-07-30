@@ -9,7 +9,6 @@
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 
-use Magento\Catalog\Model\Product;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute as ConfigurableAttribute;
 
 class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -357,10 +356,7 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function loadLabel(ConfigurableAttribute $object)
     {
-        $product = $object->getProduct();
-        if (!$product) {
-            return $this;
-        }
+        $storeId = (int)$this->_storeManager->getStore()->getId();
         $connection = $this->_getReadAdapter();
         $useDefaultCheck = $connection
             ->getCheckSql('store.use_default IS NULL', 'def.use_default', 'store.use_default');
@@ -372,7 +368,7 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 array('store' => $this->_labelTable),
                 $connection->quoteInto(
                     'store.product_super_attribute_id = def.product_super_attribute_id AND store.store_id = ?',
-                    $product->getStoreId()
+                    $storeId
                 ),
                 array('use_default' => $useDefaultCheck, 'label' => $labelCheck)
             )
@@ -393,12 +389,7 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function loadPrices(ConfigurableAttribute $object)
     {
-        $product = $object->getProduct();
-        if (!$product) {
-            return $this;
-        }
-        $websiteId = $this->_catalogData->isPriceGlobal()
-            ? 0 : (int)$this->_storeManager->getStore($product->getStoreId())->getWebsiteId();
+        $websiteId = $this->_catalogData->isPriceGlobal() ? 0 : (int)$this->_storeManager->getStore()->getWebsiteId();
         $select = $this->_getReadAdapter()->select()
             ->from($this->_priceTable)
             ->where('product_super_attribute_id = ?', $object->getId())

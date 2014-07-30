@@ -8,6 +8,8 @@
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
+use Magento\ConfigurableProduct\Service\V1\Data\OptionBuilder;
+use Magento\ConfigurableProduct\Service\V1\Data\Option\Value;
 use Magento\ConfigurableProduct\Service\V1\Data\Option\ValueBuilder;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
 
@@ -47,11 +49,11 @@ class OptionConverter
         $prices = $configurableAttribute->getPrices();
         if (is_array($prices)) {
             foreach ($prices as $price) {
-                $values[] = $this->valueBuilder->populateWithArray([
-                    'index' => $price['value_index'],
-                    'price' => $price['pricing_value'],
-                    'price_is_percent' => $price['is_percent'],
-                ] )->create();
+                $values[] = $this->valueBuilder
+                    ->setIndex($price['value_index'])
+                    ->setPrice($price['pricing_value'])
+                    ->setPercent($price['is_percent'])
+                    ->create();
             }
         }
         $data = [

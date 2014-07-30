@@ -15,7 +15,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class WriteServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'configurableProductProductOptionsWriteServiceV1';
+    const SERVICE_NAME = 'configurableProductProductOptionWriteServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/configurable-products';
 

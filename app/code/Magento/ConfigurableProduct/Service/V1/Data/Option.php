@@ -50,6 +50,14 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * @return int|null
+     */
+    public function getPosition()
+    {
+        return $this->_get(self::POSITION);
+    }
+
+    /**
      * @return bool|null
      */
     public function isUseDefault()
