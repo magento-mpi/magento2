@@ -14,7 +14,7 @@ class OrderGetTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/orders';
 
-    const SERVICE_READ_NAME = 'salesOrderGet';
+    const SERVICE_READ_NAME = 'salesOrderGetV1';
 
     const SERVICE_VERSION = 'V1';
 

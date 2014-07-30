@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
-use Magento\Sales\Model\Order;
+//use Magento\Sales\Model\Order;
 
 /**
  * Class OrderMapper
@@ -55,10 +55,10 @@ class OrderMapper
     /**
      * Returns array of items
      *
-     * @param Order $object
+     * @param \Magento\Sales\Model\Order $object
      * @return OrderItem[]
      */
-    protected function getItems(Order $object)
+    protected function getItems(\Magento\Sales\Model\Order $object)
     {
         $items = [];
         foreach($object->getItemsCollection() as $item) {
@@ -70,10 +70,10 @@ class OrderMapper
     /**
      * Returns array of payments
      *
-     * @param Order $object
+     * @param \Magento\Sales\Model\Order $object
      * @return OrderPayment[]
      */
-    protected function getPayments(Order $object)
+    protected function getPayments(\Magento\Sales\Model\Order $object)
     {
         $payments = [];
         foreach($object->getPaymentsCollection() as $payment) {
@@ -85,10 +85,10 @@ class OrderMapper
     /**
      * Return billing address
      *
-     * @param Order $object
+     * @param \Magento\Sales\Model\Order $object
      * @return OrderAddress|null
      */
-    protected function getBillingAddress(Order $object)
+    protected function getBillingAddress(\Magento\Sales\Model\Order $object)
     {
         $billingAddress = null;
         if ($object->getBillingAddress()) {
@@ -100,10 +100,10 @@ class OrderMapper
     /**
      * Returns shipping address
      *
-     * @param Order $object
+     * @param \Magento\Sales\Model\Order $object
      * @return OrderAddress|null
      */
-    protected function getShippingAddress(Order $object)
+    protected function getShippingAddress(\Magento\Sales\Model\Order $object)
     {
         $shippingAddress = null;
         if ($object->getShippingAddress()) {
@@ -113,10 +113,10 @@ class OrderMapper
     }
 
     /**
-     * @param Order $object
+     * @param \Magento\Sales\Model\Order $object
      * @return \Magento\Framework\Service\Data\AbstractObject
      */
-    public function extractDto(Order $object)
+    public function extractDto(\Magento\Sales\Model\Order $object)
     {
         $this->orderBuilder->populateWithArray($object->getData());
         $this->orderBuilder->setItems($this->getItems($object));

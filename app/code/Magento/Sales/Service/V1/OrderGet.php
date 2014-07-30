@@ -46,6 +46,7 @@ class OrderGet implements OrderGetInterface
      */
     public function invoke($id)
     {
-        return $this->orderMapper->extractDto($this->orderRepository->get($id));
+        $order = $this->orderRepository->get($id);
+        return $this->orderMapper->extractDto($order);
     }
 }
