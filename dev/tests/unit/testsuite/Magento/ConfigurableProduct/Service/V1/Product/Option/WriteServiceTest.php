@@ -7,13 +7,12 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
-use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Catalog\Model\ProductRepository;
-use Magento\ConfigurableProduct\Service\V1\Data\Option;
-use Magento\ConfigurableProduct\Service\V1\Data\OptionBuilder;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
 use Magento\Catalog\Model\Product\Type as ProductType;
+use Magento\Catalog\Model\ProductRepository;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
+use Magento\ConfigurableProduct\Service\V1\Data\Option;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,6 +64,16 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $attributeMock;
 
+    /**
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\Option|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $optionMock;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\OptionConverter|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $optionConverterMock;
+
     protected function setUp()
     {
         $this->objectManager = new ObjectManager($this);
@@ -82,12 +91,23 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['getSku', 'getTypeId', '__wakeup'])
+            ->setMethods(['getSku', 'getTypeId', '__wakeup', 'getId'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->productTypeMock = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable')
             ->setMethods(['getConfigurableAttributeCollection'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->optionConverterMock = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Service\V1\Data\OptionConverter'
+        )
+            ->setMethods(['getModelFromData', 'convertFromModel'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->optionMock = $this->getMockBuilder('Magento\ConfigurableProduct\Service\V1\Data\Option')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -101,7 +121,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->attributeMock = $this->getMockBuilder(
             'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute'
         )
-            ->setMethods(['delete', '__wakeup'])
+            ->setMethods(['delete', '__wakeup', 'load', 'save', 'getId', 'getProductId'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -117,7 +137,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'configurableAttributeFactory' => $this->confAttributeFactoryMock,
                 'eavConfig' => $this->eavConfigMock,
                 'storeManager' => $storeManagerMock,
-                'productType' => $this->productTypeMock
+                'productType' => $this->productTypeMock,
+                'optionConverter' => $this->optionConverterMock
             ]
         );
 
@@ -136,7 +157,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
             ['save', 'setConfigurableAttributesData', 'setStoreId', 'getTypeId', 'setTypeId', '__sleep', '__wakeup'],
-            [], '', false
+            [],
+            '',
+            false
         );
         $productMock->expects($this->any())
             ->method('getTypeId')
@@ -146,7 +169,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($productMock));
 
         $confAttributeMock = $this->getMock(
-            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute', [], [], '', false
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute',
+            [],
+            [],
+            '',
+            false
         );
         $this->confAttributeFactoryMock->expects($this->any())
             ->method('create')
@@ -160,6 +187,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())->method('setConfigurableAttributesData');
         $productMock->expects($this->once())->method('setStoreId')->with(0);
         $productMock->expects($this->once())->method('save');
+
+        $this->optionConverterMock->expects($this->once())->method('convertFromModel');
 
         $this->writeService->add($productSku, $option);
     }
@@ -185,29 +214,96 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->writeService->add($productSku, $option);
     }
 
-    /**
-     * Return instance of option for configurable product
-     *
-     * @return \Magento\Framework\Service\Data\AbstractObject
-     */
-    private function getOption()
+    public function testUpdate()
     {
-        $data = [
-            Option::ID => 1,
-            Option::ATTRIBUTE_ID => 2,
-            Option::LABEL => 'Test Label',
-            Option::POSITION => 1,
-            Option::USE_DEFAULT => true,
-            Option::VALUES => [
-                [
-                    'index' => 1,
-                    'price' => 12,
-                    'percent' => true
-                ]
-            ]
-        ];
+        $productSku = 'productSku';
+        $optionId = 3;
 
-        return $this->optionBuilder->populateWithArray($data)->create();
+        $this->productRepositoryMock->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(ConfigurableType::TYPE_CODE));
+        $this->productMock->expects($this->any())->method('getId')
+            ->will($this->returnValue($optionId));
+
+        $this->confAttributeFactoryMock->expects($this->once())->method('create')
+            ->will($this->returnValue($this->attributeMock));
+
+        $this->attributeMock->expects($this->once())->method('load')->with($this->equalTo($optionId));
+        $this->attributeMock->expects($this->any())->method('getId')->will($this->returnValue($optionId));
+        $this->attributeMock->expects($this->any())->method('getProductId')->will($this->returnValue($optionId));
+        $this->attributeMock->expects($this->any())->method('save');
+
+        $this->optionConverterMock->expects($this->once())->method('getModelFromData')
+            ->with($this->equalTo($this->optionMock), $this->equalTo($this->attributeMock))
+            ->will($this->returnValue($this->attributeMock));
+
+        $this->writeService->update($productSku, $optionId, $this->optionMock);
+    }
+
+    /**
+     * #@expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testUpdateCouldNotSaveException()
+    {
+        $productSku = 'productSku';
+        $optionId = 3;
+
+        $this->productRepositoryMock->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(ConfigurableType::TYPE_CODE));
+        $this->productMock->expects($this->any())->method('getId')
+            ->will($this->returnValue($optionId));
+
+        $this->confAttributeFactoryMock->expects($this->once())->method('create')
+            ->will($this->returnValue($this->attributeMock));
+
+        $this->attributeMock->expects($this->once())->method('load')->with($this->equalTo($optionId));
+        $this->attributeMock->expects($this->any())->method('getId')->will($this->returnValue($optionId));
+        $this->attributeMock->expects($this->any())->method('getProductId')->will($this->returnValue($optionId));
+        $this->attributeMock->expects($this->any())->method('save')
+            ->will(
+                $this->returnCallback(
+                    function () {
+                        throw new \Exception();
+                    }
+                )
+            );
+
+        $this->optionConverterMock->expects($this->once())->method('getModelFromData')
+            ->with($this->equalTo($this->optionMock), $this->equalTo($this->attributeMock))
+            ->will($this->returnValue($this->attributeMock));
+
+        $this->writeService->update($productSku, $optionId, $this->optionMock);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testUpdateNoSuchEntityException()
+    {
+        $productSku = 'productSku';
+        $optionId = 3;
+
+        $this->productRepositoryMock->expects($this->once())->method('get')
+            ->with($this->equalTo($productSku))
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())->method('getTypeId')
+            ->will($this->returnValue(ConfigurableType::TYPE_CODE));
+
+        $this->confAttributeFactoryMock->expects($this->once())->method('create')
+            ->will($this->returnValue($this->attributeMock));
+
+        $this->attributeMock->expects($this->once())->method('load')->with($this->equalTo($optionId));
+        $this->attributeMock->expects($this->any())->method('getId')->will($this->returnValue(0));
+
+        $this->writeService->update($productSku, $optionId, $this->optionMock);
     }
 
     public function testRemove()
@@ -278,5 +374,30 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($productSku));
 
         $this->writeService->remove($productSku, 3);
+    }
+
+    /**
+     * Return instance of option for configurable product
+     *
+     * @return \Magento\Framework\Service\Data\AbstractObject
+     */
+    private function getOption()
+    {
+        $data = [
+            Option::ID => 1,
+            Option::ATTRIBUTE_ID => 2,
+            Option::LABEL => 'Test Label',
+            Option::POSITION => 1,
+            Option::USE_DEFAULT => true,
+            Option::VALUES => [
+                [
+                    'index' => 1,
+                    'price' => 12,
+                    'percent' => true
+                ]
+            ]
+        ];
+
+        return $this->optionBuilder->populateWithArray($data)->create();
     }
 }
