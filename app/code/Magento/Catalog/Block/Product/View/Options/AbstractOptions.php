@@ -43,17 +43,17 @@ abstract class AbstractOptions extends \Magento\Framework\View\Element\Template
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Catalog\Helper\Data $catalogHelper,
+     * @param \Magento\Catalog\Helper\Data $catalogData,
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Catalog\Helper\Data $catalogHelper,
+        \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
-        $this->_catalogHelper = $catalogHelper;
+        $this->_catalogHelper = $catalogData;
         parent::__construct($context, $data);
     }
 

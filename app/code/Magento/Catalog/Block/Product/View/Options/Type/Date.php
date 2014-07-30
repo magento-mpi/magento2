@@ -33,19 +33,19 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Catalog\Helper\Data $catalogHelper
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Catalog\Helper\Data $catalogHelper,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate,
         array $data = array()
     ) {
         $this->_catalogProductOptionTypeDate = $catalogProductOptionTypeDate;
-        parent::__construct($context, $coreHelper, $catalogHelper, $data);
+        parent::__construct($context, $coreHelper, $catalogData, $data);
     }
 
     /**

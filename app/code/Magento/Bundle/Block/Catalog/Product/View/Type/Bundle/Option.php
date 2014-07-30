@@ -46,8 +46,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Helper\Data $catalogHelper
-     * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Math\Random $mathRandom
@@ -60,8 +60,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Helper\Data $catalogHelper,
-        \Magento\Tax\Helper\Data $taxHelper,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Math\Random $mathRandom,
@@ -70,13 +70,13 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
-        $this->_catalogHelper = $catalogHelper;
-        $this->_taxHelper = $taxHelper;
+        $this->_catalogHelper = $catalogData;
+        $this->_taxHelper = $taxData;
         parent::__construct(
             $context,
             $jsonEncoder,
-            $catalogHelper,
-            $taxHelper,
+            $catalogData,
+            $taxData,
             $registry,
             $string,
             $mathRandom,
@@ -290,8 +290,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      */
     public function formatPriceString($price, $includeContainer = true)
     {
-        $catalogHelper = $this->_catalogData;
-        $taxHelper = $this->_taxData;
+        $catalogHelper = $this->_catalogHelper;
+        $taxHelper = $this->_taxHelper;
         $coreHelper = $this->_coreHelper;
         $currentProduct = $this->getProduct();
         if ($currentProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC && $this->getFormatProduct()) {
