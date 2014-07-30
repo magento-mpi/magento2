@@ -8,6 +8,8 @@
 
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
+use Magento\Framework\Exception\InputException;
+
 class WriteService implements WriteServiceInterface
 {
     /**
@@ -72,7 +74,11 @@ class WriteService implements WriteServiceInterface
         $address = $this->addressConverter->convertDataObjectToModel($addressData, $address);
         $quote->setBillingAddress($address);
         $quote->setDataChanges(true);
-        $quote->save();
+        try {
+            $quote->save();
+        } catch (\Exception $e) {
+            throw new InputException('Unable to save address');
+        }
         return $quote->getBillingAddress()->getId();
     }
 }

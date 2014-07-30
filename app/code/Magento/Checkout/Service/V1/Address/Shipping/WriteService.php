@@ -8,6 +8,7 @@
 
 namespace Magento\Checkout\Service\V1\Address\Shipping;
 
+use Magento\Framework\Exception\InputException;
 use \Magento\Framework\Exception\NoSuchEntityException;
 
 class WriteService implements WriteServiceInterface
@@ -80,7 +81,11 @@ class WriteService implements WriteServiceInterface
         $address->setSameAsBilling(0);
         $quote->setShippingAddress($address);
         $quote->setDataChanges(true);
-        $quote->save();
+        try {
+            $quote->save();
+        } catch (\Exception $e) {
+            throw new InputException('Unable to save address. Please, check input data.');
+        }
         return $quote->getShippingAddress()->getId();
     }
 }

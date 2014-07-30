@@ -55,7 +55,6 @@ class Validator
 
         // validate address id
         if ($addressData->getId()) {
-            /** @var \Magento\Sales\Model\Quote\Address $address */
             $address = $this->quoteAddressFactory->create();
             $address->load($addressData->getId());
             if (!$address->getId()) {
@@ -63,16 +62,16 @@ class Validator
                     'Invalid address id ' . $addressData->getId()
                 );
             }
-        }
 
-        // check correspondence between customer id and address id
-        if ($addressData->getCustomerId() && $addressData->getId()) {
-            if ($address->getCustomerId() != $addressData->getCustomerId()) {
-                throw new \Magento\Framework\Exception\InputException(
-                    'Address with id ' . $addressData->getId() . ' belongs to another customer'
-                );
+            // check correspondence between customer id and address id
+            if ($addressData->getCustomerId()) {
+                if ($address->getCustomerId() != $addressData->getCustomerId()) {
+                    throw new \Magento\Framework\Exception\InputException(
+                        'Address with id ' . $addressData->getId() . ' belongs to another customer'
+                    );
+                }
+
             }
-
         }
 
         return true;
