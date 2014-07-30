@@ -100,7 +100,7 @@ class SessionManager implements SessionManagerInterface
         $this->storage = $storage;
 
         // Enable session.use_only_cookies
-        ini_set('session.use_only_cookies', '1');
+        //ini_set('session.use_only_cookies', '1');
     }
 
     /**
