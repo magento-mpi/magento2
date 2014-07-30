@@ -164,6 +164,31 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
     }
 
+    public function testDeleteCookieWithNullCookieMetadata()
+    {
+        $_COOKIE[self::DELETE_COOKIE_NAME] = self::COOKIE_VALUE;
+
+        /** @var \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata $publicCookieMetadata */
+        $publicCookieMetadata = $this->objectManager->getObject(
+            'Magento\Framework\Stdlib\Cookie\PublicCookieMetadata'
+        );
+        $scopeMock= $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\CookieScope')
+                 ->setMethods(['getPublicCookieMetadata'])
+            ->disableOriginalConstructor()->getMock();
+        $scopeMock->expects($this->once())->method('getPublicCookieMetadata')->withAnyParameters()->will(
+            $this->returnValue($publicCookieMetadata)
+        );
+
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
+        $mockCookieManager = $this->objectManager->getObject(
+            'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
+            ['scope' => $scopeMock]
+        );
+        $this->assertEquals(self::COOKIE_VALUE, $this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
+        $mockCookieManager->deleteCookie(self::DELETE_COOKIE_NAME);
+        $this->assertNull($this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
+    }
+
     public function testDeleteCookieWithFailureToSendException()
     {
         $_COOKIE[self::EXCEPTION_COOKIE_NAME] = self::COOKIE_VALUE;
