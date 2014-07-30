@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+    
     $.widget('mage.giftOptions', {
         options: {
             mageError: 'mage-error',
@@ -74,4 +78,5 @@
                 .find('.input-text').toggleClass(this.options.requiredEntry, length > 0);
         }
     });
-})(jQuery);
+
+});

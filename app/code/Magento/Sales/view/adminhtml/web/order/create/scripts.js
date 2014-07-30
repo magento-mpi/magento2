@@ -4,7 +4,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-var AdminOrder = new Class.create();
+define([
+    "jquery",
+    "mage/translate",
+    "prototype",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(jQuery){
+
+window.AdminOrder = new Class.create();
+
 AdminOrder.prototype = {
     initialize : function(data){
         if(!data) data = {};
@@ -50,7 +58,7 @@ AdminOrder.prototype = {
                 window.setTimeout(function () {
                     el.remove();
                 }, 10);
-            }
+            };
 
             this.dataArea.onLoad = this.dataArea.onLoad.wrap(function(proceed) {
                 proceed();
@@ -60,7 +68,7 @@ AdminOrder.prototype = {
 
             this.itemsArea.onLoad = this.itemsArea.onLoad.wrap(function(proceed) {
                 proceed();
-                if (!$(searchAreaId).visible()) {
+                if ($(searchAreaId) && !$(searchAreaId).visible()) {
                     this.addControlButton(searchButton);
                 }
             });
@@ -1186,7 +1194,7 @@ AdminOrder.prototype = {
     }
 };
 
-var OrderFormArea = Class.create();
+window.OrderFormArea = Class.create();
 OrderFormArea.prototype = {
     _name: null,
     _node: null,
@@ -1194,6 +1202,8 @@ OrderFormArea.prototype = {
     _callbackName: null,
 
     initialize: function(name, node, parent){
+        if(!node)
+            return;
         this._name = name;
         this._parent = parent;
         this._callbackName = node.callback;
@@ -1220,7 +1230,8 @@ OrderFormArea.prototype = {
     }
 };
 
-var ControlButton = Class.create();
+window.ControlButton = Class.create();
+
 ControlButton.prototype = {
     _label: '',
     _node: null,
@@ -1245,3 +1256,5 @@ ControlButton.prototype = {
         Element.insert(element, content);
     }
 };
+
+});

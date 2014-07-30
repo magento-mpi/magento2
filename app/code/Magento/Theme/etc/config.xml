@@ -28,7 +28,6 @@ Disallow: /*.js$
 Disallow: /*.css$
 Disallow: /checkout/
 Disallow: /app/
-Disallow: /downloader/
 Disallow: /js/
 Disallow: /lib/
 Disallow: /*.php$

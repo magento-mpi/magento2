@@ -21,6 +21,8 @@
     <?php endforeach; ?>
 </select>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
 Event.observe($('revision_switcher'), 'change', function(event) {
     var element = Event.element(event);
@@ -28,6 +30,8 @@ Event.observe($('revision_switcher'), 'change', function(event) {
     togglePublish(element.value);
 });
 //]]>
+
+});
 </script>
 <?php endif; ?>
 

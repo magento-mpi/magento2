@@ -74,6 +74,8 @@
 </script>
 
 <script type="text/javascript">
+require(['jquery', 'mage/mage'], function(jQuery){
+
     jQuery('#checkoutSteps, #shipping_method_form').mage('giftWrapping', {
         designsInfo: <?php echo $this->getDesignsInfo()->toJson() ?>,
         itemsInfo: <?php echo $this->getItemsInfo()->toJson() ?>,
@@ -84,5 +86,7 @@
         orderLevelType: "<?php echo $this->getCheckoutTypeVariable('order_level') ?>",
         orderItemType: "<?php echo $this->getCheckoutTypeVariable('item_level') ?>"
     });
+
+});
 </script>
 <?php endif; ?>
