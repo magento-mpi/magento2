@@ -10,6 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="page_one_column"/>
     <update handle="checkout_cart_item_renderers" />
+    <update handle="checkout_item_price_renderers" />
+    <update handle="checkout_shipping_price_renderer" />
     <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Cart" name="checkout.cart" template="cart.phtml">
             <container name="checkout.cart.items" label="invisible" as="with-items">
@@ -40,6 +42,4 @@
         </block>
     </referenceContainer>
     <block class="Magento\Checkout\Block\Cart\Additional\Info" name="additional.product.info" template="cart/additional/info.phtml"/>
-    <block class="Magento\Checkout\Block\Cart\Item\Price\Renderer" name="checkout.cart.item.price.unit" template="cart/item/price/unit.phtml"/>
-    <block class="Magento\Checkout\Block\Cart\Item\Price\Renderer" name="checkout.cart.item.price.row" template="cart/item/price/row.phtml"/>
 </layout>

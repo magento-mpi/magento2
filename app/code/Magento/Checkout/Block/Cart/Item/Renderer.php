@@ -531,7 +531,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     public function getUnitPriceHtml($item)
     {
         /** @var Renderer $block */
-        $block = $this->getLayout()->getBlock('checkout.cart.item.price.unit');
+        $block = $this->getLayout()->getBlock('checkout.item.price.unit');
         $block->setItem($item);
         return $block->toHtml();
     }
@@ -545,7 +545,21 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     public function getRowTotalHtml($item)
     {
         /** @var Renderer $block */
-        $block = $this->getLayout()->getBlock('checkout.cart.item.price.row');
+        $block = $this->getLayout()->getBlock('checkout.item.price.row');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
+
+    /**
+     * Return item price html for sidebar
+     *
+     * @param $item
+     * @return string
+     */
+    public function getSidebarItemPriceHtml($item)
+    {
+        /** @var Renderer $block */
+        $block = $this->getLayout()->getBlock('checkout.cart.item.price.sidebar');
         $block->setItem($item);
         return $block->toHtml();
     }
