@@ -122,6 +122,14 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function update($productSku, $optionId, Option $option)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove($productSku, $optionId)
     {
         $product = $this->getProduct($productSku);
