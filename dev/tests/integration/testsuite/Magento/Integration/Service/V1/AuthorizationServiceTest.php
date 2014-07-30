@@ -5,11 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Service\V1;
 
 use Magento\Authorization\Model\UserContextInterface;
-use Magento\Integration\Service\V1\AuthorizationServiceTest\UserLocatorStub;
-use Magento\Authz\Model\UserIdentifier;
 
 /**
  * Integration authorization service test.
@@ -19,9 +18,14 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     /** @var AuthorizationService */
     protected $_service;
 
+    /** @var \Magento\Framework\Authorization */
+    protected $libAuthorization;
+
+    /** @var \Magento\Authorization\Model\UserContextInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $userContextMock;
+
     protected function setUp()
     {
-        $this->markTestIncomplete('Should be fixed/removed in scope of MAGETWO-26368');
         parent::setUp();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $loggerMock = $this->getMockBuilder('Magento\\Framework\\Logger')->disableOriginalConstructor()->getMock();
@@ -29,74 +33,72 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service = $objectManager->create(
             'Magento\Integration\Service\V1\AuthorizationService',
             array(
-                'userIdentifier' => $this->_createUserIdentifier(UserContextInterface::USER_TYPE_INTEGRATION),
                 'logger' => $loggerMock
             )
         );
-    }
 
-    /**
-     * @param string $userType
-     * @param string[] $resources
-     * @magentoDbIsolation enabled
-     * @dataProvider basicAuthFlowProvider
-     */
-    public function testBasicAuthFlow($userType, $resources)
-    {
-        $userIdentifier = $this->_createUserIdentifier($userType);
-
-        /** Preconditions check */
-        $this->_ensurePermissionsAreNotGranted($userIdentifier, $resources);
-
-        $this->_service->grantPermissions($userIdentifier->getUserId(), $resources);
-
-        /** Validate that access to the specified resources is granted */
-        $this->_ensurePermissionsAreGranted($userIdentifier, $resources);
-    }
-
-    public function basicAuthFlowProvider()
-    {
-        return array(
-            'integration' => array(
-                'userType' => UserContextInterface::USER_TYPE_INTEGRATION,
-                'resources' => array('Magento_Sales::create', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
-            )
+        $this->userContextMock = $this->getMockForAbstractClass('Magento\Authorization\Model\UserContextInterface');
+        $this->userContextMock
+            ->expects($this->any())
+            ->method('getUserType')
+            ->will($this->returnValue(UserContextInterface::USER_TYPE_INTEGRATION));
+        $roleLocator = $objectManager->create(
+            'Magento\Webapi\Model\WebapiRoleLocator',
+            ['userContext' => $this->userContextMock]
+        );
+        $this->libAuthorization = $objectManager->create(
+            'Magento\Framework\Authorization',
+            ['roleLocator' => $roleLocator]
         );
     }
 
     /**
-     * @param string $userType
+     * @magentoDbIsolation enabled
+     */
+    public function testGrantPermissions()
+    {
+        $integrationId = rand(1, 1000);
+        $resources = array('Magento_Sales::create', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard');
+        /** Preconditions check */
+        $this->_ensurePermissionsAreNotGranted($integrationId, $resources);
+
+        $this->_service->grantPermissions($integrationId, $resources);
+
+        /** Validate that access to the specified resources is granted */
+        $this->_ensurePermissionsAreGranted($integrationId, $resources);
+    }
+
+    /**
+     * @param int $integrationId
      * @param string[] $initialResources
      * @param string[] $newResources
      * @magentoDbIsolation enabled
      * @dataProvider changePermissionsProvider
      */
-    public function testChangePermissions($userType, $initialResources, $newResources)
+    public function testChangePermissions($integrationId, $initialResources, $newResources)
     {
-        $userIdentifier = $this->_createUserIdentifier($userType);
-
-        $this->_service->grantPermissions($userIdentifier->getUserId(), $initialResources);
+        $this->_service->grantPermissions($integrationId, $initialResources);
         /** Preconditions check */
-        $this->_ensurePermissionsAreGranted($userIdentifier, $initialResources);
-        $this->_ensurePermissionsAreNotGranted($userIdentifier, $newResources);
+        $this->_ensurePermissionsAreGranted($integrationId, $initialResources);
+        $this->_ensurePermissionsAreNotGranted($integrationId, $newResources);
 
-        $this->_service->grantPermissions($userIdentifier->getUserId(), $newResources);
+        $this->_service->grantPermissions($integrationId, $newResources);
 
         /** Check the results of permissions change */
-        $this->_ensurePermissionsAreGranted($userIdentifier, $newResources);
-        $this->_ensurePermissionsAreNotGranted($userIdentifier, $initialResources);
+        $this->_ensurePermissionsAreGranted($integrationId, $newResources);
+        $this->_ensurePermissionsAreNotGranted($integrationId, $initialResources);
     }
 
     public function changePermissionsProvider()
     {
         return array(
             'integration' => array(
-                'userType' => UserContextInterface::USER_TYPE_INTEGRATION,
+                'integrationId' => rand(1, 1000),
                 'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
                 'newResources' => array('Magento_Sales::cancel', 'Magento_Cms::page_delete')
             ),
             'integration clear permissions' => array(
-                'userType' => UserContextInterface::USER_TYPE_INTEGRATION,
+                'integrationId' => rand(1, 1000),
                 'initialResources' => array('Magento_Sales::capture', 'Magento_Cms::page_delete'),
                 'newResources' => array()
             )
@@ -108,35 +110,26 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGrantAllPermissions()
     {
-        $userIdentifier = $this->_createUserIdentifier(UserContextInterface::USER_TYPE_INTEGRATION);
-        $this->_service->grantAllPermissions($userIdentifier->getUserId());
-        $this->_ensurePermissionsAreGranted($userIdentifier, array('Magento_Adminhtml::all'));
-    }
-
-    /**
-     * Create new User identifier
-     *
-     * @param string $userType
-     * @return UserIdentifier
-     */
-    protected function _createUserIdentifier($userType)
-    {
-        $userId = $userType == UserContextInterface::USER_TYPE_GUEST ? 0 : rand(1, 1000);
-        $userLocatorStub = new UserLocatorStub();
-        return new UserIdentifier($userLocatorStub, $userType, $userId);
+        $integrationId = rand(1, 1000);
+        $this->_service->grantAllPermissions($integrationId);
+        $this->_ensurePermissionsAreGranted($integrationId, array('Magento_Adminhtml::all'));
     }
 
     /**
      * Check if user has access to the specified resources.
      *
-     * @param UserIdentifier $userIdentifier
+     * @param int $integrationId
      * @param string[] $resources
      */
-    protected function _ensurePermissionsAreGranted($userIdentifier, $resources)
+    protected function _ensurePermissionsAreGranted($integrationId, $resources)
     {
+        $this->userContextMock
+            ->expects($this->any())
+            ->method('getUserId')
+            ->will($this->returnValue($integrationId));
         foreach ($resources as $resource) {
             $this->assertTrue(
-                $this->_service->isAllowed($resource, $userIdentifier),
+                $this->libAuthorization->isAllowed($resource),
                 "Access to resource '{$resource}' is prohibited while it is expected to be granted."
             );
         }
@@ -145,14 +138,18 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Check if access to the specified resources is prohibited to the user.
      *
-     * @param UserIdentifier $userIdentifier
+     * @param int $integrationId
      * @param string[] $resources
      */
-    protected function _ensurePermissionsAreNotGranted($userIdentifier, $resources)
+    protected function _ensurePermissionsAreNotGranted($integrationId, $resources)
     {
+        $this->userContextMock
+            ->expects($this->any())
+            ->method('getUserId')
+            ->will($this->returnValue($integrationId));
         foreach ($resources as $resource) {
             $this->assertFalse(
-                $this->_service->isAllowed($resource, $userIdentifier),
+                $this->libAuthorization->isAllowed($resource),
                 "Access to resource '{$resource}' is expected to be prohibited."
             );
         }
