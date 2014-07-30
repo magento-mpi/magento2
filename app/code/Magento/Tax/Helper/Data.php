@@ -149,6 +149,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $taxClassKeyBuilder;
 
     /**
+     * \Magento\Catalog\Helper\Data
+     *
+     * @var CatalogHelper
+     */
+    protected $catalogHelper;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
@@ -166,6 +173,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param TaxCalculationServiceInterface $taxCalculationService
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
+     * @param \Magento\Catalog\Helper\Data $catalogHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -184,7 +192,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         TaxClassKeyBuilder $taxClassKeyBuilder,
         TaxCalculationServiceInterface $taxCalculationService,
         CustomerSession $customerSession,
-        AddressConverter $addressConverter
+        AddressConverter $addressConverter,
+        \Magento\Catalog\Helper\Data $catalogHelper
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -203,6 +212,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->taxCalculationService = $taxCalculationService;
         $this->customerSession = $customerSession;
         $this->addressConverter = $addressConverter;
+        $this->catalogHelper = $catalogHelper;
     }
 
     /**
@@ -484,151 +494,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Get unrounded product price
-     *
-     * @param   \Magento\Catalog\Model\Product $product
-     * @param   float $price inputed product price
-     * @param   bool $includingTax return price include tax flag
-     * @param   null|Address $shippingAddress
-     * @param   null|Address $billingAddress
-     * @param   null|int $ctc customer tax class
-     * @param   null|string|bool|int|Store $store
-     * @param   bool $priceIncludesTax flag what price parameter contain tax
-     * @return  float
-     */
-    public function getPriceUnrounded(
-        $product,
-        $price,
-        $includingTax = null,
-        $shippingAddress = null,
-        $billingAddress = null,
-        $ctc = null,
-        $store = null,
-        $priceIncludesTax = null
-    ) {
-        return $this->getPrice(
-            $product,
-            $price,
-            $includingTax,
-            $shippingAddress,
-            $billingAddress,
-            $ctc,
-            $store,
-            $priceIncludesTax,
-            false
-        );
-    }
-
-    /**
-     * Get product price with all tax settings processing
-     *
-     * @param   \Magento\Catalog\Model\Product $product
-     * @param   float $price inputed product price
-     * @param   bool $includingTax return price include tax flag
-     * @param   null|Address $shippingAddress
-     * @param   null|Address $billingAddress
-     * @param   null|int $ctc customer tax class
-     * @param   null|string|bool|int|Store $store
-     * @param   bool $priceIncludesTax flag what price parameter contain tax
-     * @param   bool $roundPrice
-     * @return  float
-     */
-    public function getPrice(
-        $product,
-        $price,
-        $includingTax = null,
-        $shippingAddress = null,
-        $billingAddress = null,
-        $ctc = null,
-        $store = null,
-        $priceIncludesTax = null,
-        $roundPrice = true
-    ) {
-        if (!$price) {
-            return $price;
-        }
-
-        $store = $this->_storeManager->getStore($store);
-        if ($this->needPriceConversion($store)) {
-            if (is_null($priceIncludesTax)) {
-                $priceIncludesTax = $this->priceIncludesTax($store);
-            }
-
-            $shippingAddressDataObject = null;
-            if ($shippingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
-                $shippingAddressDataObject = $this->addressConverter->createAddressFromModel(
-                    $shippingAddress,
-                    null,
-                    null
-                );
-            }
-
-            $billingAddressDataObject = null;
-            if ($billingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
-                $billingAddressDataObject = $this->addressConverter->createAddressFromModel(
-                    $billingAddress,
-                    null,
-                    null
-                );
-            }
-
-            $item = $this->quoteDetailsItemBuilder->setQuantity(1)
-                ->setCode($product->getSku())
-                ->setShortDescription($product->getShortDescription())
-                ->setTaxClassKey(
-                    $this->taxClassKeyBuilder->setType(TaxClassKey::TYPE_ID)
-                        ->setValue($product->getTaxClassId())->create()
-                )->setTaxIncluded($priceIncludesTax)
-                ->setType('product')
-                ->setUnitPrice($price)
-                ->create();
-            $quoteDetails = $this->quoteDetailsBuilder
-                ->setShippingAddress($shippingAddressDataObject)
-                ->setBillingAddress($billingAddressDataObject)
-                ->setCustomerTaxClassKey(
-                    $this->taxClassKeyBuilder->setType(TaxClassKey::TYPE_ID)
-                        ->setValue($ctc)->create()
-                )->setItems([$item])
-                ->setCustomerId($this->customerSession->getCustomerId())
-                ->create();
-
-            $storeId = null;
-            if ($store) {
-                $storeId = $store->getId();
-            }
-            $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
-            $items = $taxDetails->getItems();
-            $taxDetailsItem = array_shift($items);
-
-            if (!is_null($includingTax)) {
-                if ($includingTax) {
-                    $price = $taxDetailsItem->getPriceInclTax();
-                } else {
-                    $price = $taxDetailsItem->getPrice();
-                }
-            } else {
-                switch ($this->getPriceDisplayType($store)) {
-                    case Config::DISPLAY_TYPE_EXCLUDING_TAX:
-                    case Config::DISPLAY_TYPE_BOTH:
-                        $price = $taxDetailsItem->getPrice();
-                        break;
-                    case Config::DISPLAY_TYPE_INCLUDING_TAX:
-                        $price = $taxDetailsItem->getPriceInclTax();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        if ($roundPrice) {
-            return $store->roundPrice($price);
-        } else {
-            return $price;
-        }
-    }
-
-    /**
      * Check if we have display in catalog prices including tax
      *
      * @return bool
@@ -754,7 +619,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $billingAddress = $shippingAddress->getQuote()->getBillingAddress();
         }
 
-        $price = $this->getPrice(
+        $price = $this->catalogHelper->getTaxPrice(
             $pseudoProduct,
             $price,
             $includingTax,
