@@ -9,6 +9,7 @@
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Logger;
 
 class WriteService implements WriteServiceInterface
 {
@@ -38,24 +39,32 @@ class WriteService implements WriteServiceInterface
     protected $addressValidator;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Service\V1\Address\Converter $addressConverter
      * @param \Magento\Checkout\Service\V1\Address\Validator $addressValidator
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
+     * @param Logger $logger
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Service\V1\Address\Converter $addressConverter,
         \Magento\Checkout\Service\V1\Address\Validator $addressValidator,
-        \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
+        \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
+        Logger $logger
     ) {
         $this->quoteLoader = $quoteLoader;
         $this->quoteAddressFactory = $quoteAddressFactory;
         $this->addressConverter = $addressConverter;
         $this->addressValidator = $addressValidator;
         $this->storeManager = $storeManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -77,7 +86,8 @@ class WriteService implements WriteServiceInterface
         try {
             $quote->save();
         } catch (\Exception $e) {
-            throw new InputException('Unable to save address');
+            $this->logger->logException($e);
+            throw new InputException('Unable to save address. Please, check input data.');
         }
         return $quote->getBillingAddress()->getId();
     }

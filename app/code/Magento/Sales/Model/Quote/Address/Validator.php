@@ -40,13 +40,14 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
     {
         $messages = array();
         $email = $value->getEmail();
-        if (!$this->isEmpty($email) && !\Zend_Validate::is($email, 'EmailAddress')) {
+        if (!empty($email) && !\Zend_Validate::is($email, 'EmailAddress')) {
             $messages['invalid_email_format'] = 'Invalid email format';
         }
 
         $countryId = $value->getCountryId();
-        if (!$this->isEmpty($countryId)) {
-            $country = $this->countryFactory->create()->load($countryId);
+        if (!empty($countryId)) {
+            $country = $this->countryFactory->create();
+            $country->load($countryId);
             if (!$country->getId()) {
                 $messages['invalid_country_code'] = 'Invalid country code';
             }
@@ -55,16 +56,5 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
         $this->_addMessages($messages);
 
         return empty($messages);
-    }
-
-    /**
-     * Check whether value is empty
-     *
-     * @param mixed $value
-     * @return bool
-     */
-    protected function isEmpty($value)
-    {
-        return empty($value);
     }
 } 
