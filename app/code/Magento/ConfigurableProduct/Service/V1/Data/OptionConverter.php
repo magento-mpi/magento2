@@ -97,6 +97,7 @@ class OptionConverter
         $returnConfigurableAttribute->addData($option->__toArray());
         $returnConfigurableAttribute->setId($configurableAttribute->getId());
         $returnConfigurableAttribute->setAttributeId($configurableAttribute->getAttributeId());
+        $returnConfigurableAttribute->setValues($configurableAttribute->getPrices());
 
         $values = $option->getValues();
         if (!is_null($values)) {
