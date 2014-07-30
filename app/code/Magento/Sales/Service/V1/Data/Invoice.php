@@ -514,7 +514,7 @@ class Invoice extends DataObject
     /**
      * Return invoice comments
      *
-     * @return InvoiceComment[]
+     * @return Comment[]
      */
     public function getComments()
     {
