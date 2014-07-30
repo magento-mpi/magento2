@@ -90,7 +90,7 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
     /**
      * Run create exchange rate for reward points entity
      *
-     * @param Reward $reward
+     * @param Reward $rate
      * @param CustomerInjectable $customer
      * @param ConfigData $config
      * @param ConfigData $configRollback
@@ -101,7 +101,7 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(
-        Reward $reward,
+        Reward $rate,
         CustomerInjectable $customer,
         ConfigData $config,
         ConfigData $configRollback,
@@ -115,7 +115,7 @@ class CreateExchangeRateForRewardPointsEntityTest extends Injectable
 
         // Steps
         $this->rewardRateIndexPage->open()->getGridPageActions()->addNew();
-        $this->rewardRateNewPage->getRewardRateForm()->fill($reward);
+        $this->rewardRateNewPage->getRewardRateForm()->fill($rate);
         $this->rewardRateNewPage->getFormPageActions()->save();
     }
 

@@ -100,6 +100,10 @@
             <backend_type>virtual</backend_type>
             <group>reward_points</group>
         </points_delta>
+        <value>
+            <attribute_code>value</attribute_code>
+            <backend_type>virtual</backend_type>
+        </value>
         <equal_value>
             <attribute_code>equal_value</attribute_code>
             <backend_type>virtual</backend_type>

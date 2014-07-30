@@ -135,6 +135,11 @@ class Reward extends InjectableFixture
         'group' => 'reward_points'
     ];
 
+    protected $value = [
+        'attribute_code' => 'value',
+        'backend_type' => 'virtual',
+    ];
+
     protected $equal_value = [
         'attribute_code' => 'equal_value',
         'backend_type' => 'virtual',
@@ -209,6 +214,11 @@ class Reward extends InjectableFixture
     public function getPointsDelta()
     {
         return $this->getData('points_delta');
+    }
+
+    public function getValue()
+    {
+        return $this->getData('value');
     }
 
     public function getEqualValue()
