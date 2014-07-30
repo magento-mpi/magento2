@@ -120,10 +120,10 @@ class PhpCookieManager implements CookieManager
             $name,
             $value,
             $expire,
-            $this->getParameterValue(CookieMetadata::KEY_PATH, $metadataArray),
-            $this->getParameterValue(CookieMetadata::KEY_DOMAIN, $metadataArray),
-            $this->getParameterValue(PublicCookieMetadata::KEY_SECURE, $metadataArray),
-            $this->getParameterValue(PublicCookieMetadata::KEY_HTTP_ONLY, $metadataArray)
+            $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, ''),
+            $this->extractValue(CookieMetadata::KEY_DOMAIN, $metadataArray, ''),
+            $this->extractValue(PublicCookieMetadata::KEY_SECURE, $metadataArray, false),
+            $this->extractValue(PublicCookieMetadata::KEY_HTTP_ONLY, $metadataArray, false)
         );
 
         if (!$phpSetcookieSuccess) {
@@ -207,31 +207,20 @@ class PhpCookieManager implements CookieManager
     }
 
     /**
-     * Determines the value to be used as a $parameter for the PHP setcookie() function.
-     * If the $metadataArray[$parameter] is not set, returns the default value for the given
-     * $parameter as specified by php's setcookie() function.
+     * Determines the value to be used as a $parameter.
+     * If $metadataArray[$parameter] is not set, returns the $defaultValue.
      *
      * @param string $parameter
      * @param array $metadataArray
-     * @return string|boolean
+     * @param string|boolean|int|null $defaultValue
+     * @return string|boolean|int|null
      */
-    private function getParameterValue($parameter, array $metadataArray)
+    private function extractValue($parameter, array $metadataArray, $defaultValue)
     {
         if (isset($metadataArray[$parameter])) {
             return $metadataArray[$parameter];
         } else {
-            switch ($parameter) {
-                case CookieMetadata::KEY_PATH:
-                    return '';
-                case CookieMetadata::KEY_DOMAIN:
-                    return '';
-                case PublicCookieMetadata::KEY_SECURE:
-                    return false;
-                case PublicCookieMetadata::KEY_HTTP_ONLY:
-                    return false;
-                default:
-                    return '';
-            }
+            return $defaultValue;
         }
     }
 
