@@ -32,7 +32,6 @@ class Term implements BucketInterface
      * @param string $name
      * @param string $field
      * @param array $metrics
-     * @param array $ranges
      */
     public function __construct($name, $field, array $metrics)
     {

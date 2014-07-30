@@ -1,6 +1,6 @@
 <?php
 /**
- * Range Buckets
+ * Range
  *
  * {license_notice}
  *
@@ -9,87 +9,45 @@
  */
 namespace Magento\Framework\Search\Request\Aggregation;
 
-use Magento\Framework\Search\Request\BucketInterface;
-
-class Range implements BucketInterface
+class Range
 {
     /**
-     * @var string
+     * @var int|null
      */
-    protected $name;
+    protected $from;
 
     /**
-     * @var string
+     * @var int|null
      */
-    protected $field;
+    protected $to;
 
     /**
-     * @var array
+     * @param int|null $from
+     * @param int|null $to
      */
-    protected $metrics;
-
-    /**
-     * @var string
-     */
-    protected $ranges;
-
-    /**
-     * @param string $name
-     * @param string $field
-     * @param array $metrics
-     * @param array $ranges
-     */
-    public function __construct($name, $field, array $metrics, array $ranges)
+    public function __construct($from, $to)
     {
-        $this->name = $name;
-        $this->field = $field;
-        $this->metrics = $metrics;
-        $this->ranges = $ranges;
+        $this->from = $from;
+        $this->to = $to;
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getType()
-    {
-        return BucketInterface::TYPE_RANGE;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Get Field
+     * Get From
      *
-     * @return string
+     * @return int|null
      */
-    public function getField()
+    public function getFrom()
     {
-        return $this->field;
+        return $this->from;
     }
 
     /**
-     * Get Metrics
+     * Get To
      *
-     * @return array
+     * @return int|null
      */
-    public function getMetrics()
+    public function getTo()
     {
-        return $this->metrics;
-    }
-
-    /**
-     * Get Ranges
-     *
-     * @return int
-     */
-    public function getRanges()
-    {
-        return $this->ranges;
+        return $this->to;
     }
 }

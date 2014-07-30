@@ -1,20 +1,17 @@
 <?php
 /**
- * Range Filter
+ * Range Buckets
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search\Request\Filter;
+namespace Magento\Framework\Search\Request\Aggregation;
 
-use Magento\Framework\Search\Request\FilterInterface;
+use Magento\Framework\Search\Request\BucketInterface;
 
-/**
- * @SuppressWarnings(PHPMD.ShortVariable)
- */
-class Range implements FilterInterface
+class Ranges implements BucketInterface
 {
     /**
      * @var string
@@ -27,27 +24,27 @@ class Range implements FilterInterface
     protected $field;
 
     /**
-     * @var int
+     * @var array
      */
-    protected $from;
+    protected $metrics;
 
     /**
-     * @var int
+     * @var Range[]
      */
-    protected $to;
+    protected $ranges;
 
     /**
      * @param string $name
      * @param string $field
-     * @param int $from
-     * @param int $to
+     * @param array $metrics
+     * @param Range[] $ranges
      */
-    public function __construct($name, $field, $from, $to)
+    public function __construct($name, $field, array $metrics, array $ranges)
     {
         $this->name = $name;
         $this->field = $field;
-        $this->from = $from;
-        $this->to = $to;
+        $this->metrics = $metrics;
+        $this->ranges = $ranges;
     }
 
     /**
@@ -55,7 +52,7 @@ class Range implements FilterInterface
      */
     public function getType()
     {
-        return FilterInterface::TYPE_RANGE;
+        return BucketInterface::TYPE_RANGE;
     }
 
     /**
@@ -77,22 +74,22 @@ class Range implements FilterInterface
     }
 
     /**
-     * Get From
+     * Get Metrics
      *
-     * @return int
+     * @return array
      */
-    public function getFrom()
+    public function getMetrics()
     {
-        return $this->from;
+        return $this->metrics;
     }
 
     /**
-     * Get To
+     * Get Ranges
      *
-     * @return int
+     * @return Range[]
      */
-    public function getTo()
+    public function getRanges()
     {
-        return $this->to;
+        return $this->ranges;
     }
 }
