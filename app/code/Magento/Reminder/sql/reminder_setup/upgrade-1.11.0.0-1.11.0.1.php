@@ -30,16 +30,6 @@ $connection->changeColumn(
     array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATE, 'nullable' => true, 'default' => null)
 );
 
-
-/**
- * Clean relations with not existing websites
- */
-$selectWebsiteIds = $connection->select()->from($coreWebsiteTable, 'website_id');
-$websiteIds = $connection->fetchCol($selectWebsiteIds);
-if (!empty($websiteIds)) {
-    $connection->delete($ruleWebsiteTable, $connection->quoteInto('website_id NOT IN (?)', $websiteIds));
-}
-
 /**
  * Add foreign key for rule website table onto core website table
  */

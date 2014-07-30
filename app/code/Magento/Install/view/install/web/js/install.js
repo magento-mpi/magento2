@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true */
-(function($) {
+define([
+    "jquery",
+    "mage/mage",
+    "mage/validation/validation"
+], function($) {
+
     $.extend(true, $.mage, {
         install: {
             /**
@@ -77,4 +82,5 @@
             }
         }
     });
-})(jQuery);
+
+});

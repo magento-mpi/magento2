@@ -51,6 +51,8 @@
 <?php endif; ?>
 </table>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
 function selectCarrier(elem) {
     var option = elem.options[elem.selectedIndex];
@@ -62,5 +64,10 @@ function deleteTrackingNumber(url) {
         submitAndReloadArea($('shipment_tracking_info').parentNode, url)
     }
 }
+
+window.selectCarrier = selectCarrier;
+window.deleteTrackingNumber = deleteTrackingNumber;
 //]]>
+
+});
 </script>

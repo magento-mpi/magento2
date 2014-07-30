@@ -74,7 +74,9 @@ class CmsPage extends AbstractRepository
             'store_id' => 'All Store Views',
             'is_active' => 'Published',
             'under_version_control' => 'No',
-            'content' => 'text content',
+            'content' => [
+                'content' => 'Test Content'
+            ],
             'root_template' => '3 columns'
         ];
     }
