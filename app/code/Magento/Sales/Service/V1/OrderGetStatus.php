@@ -13,7 +13,7 @@ use Magento\Sales\Model\OrderRepository;
  * Class OrderGetStatus
  * @package Magento\Sales\Service\V1
  */
-class OrderGetStatus implements OrderGetInterface
+class OrderGetStatus implements OrderGetStatusInterface
 {
     /**
      * Order repository

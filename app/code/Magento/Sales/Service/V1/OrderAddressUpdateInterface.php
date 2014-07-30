@@ -17,7 +17,7 @@ interface OrderAddressUpdateInterface
      * Invoke orderAddressUpdate service
      *
      * @param \Magento\Sales\Service\V1\Data\OrderAddress $orderAddress
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return int|mixed
      * @throws void
      */
     public function invoke(\Magento\Sales\Service\V1\Data\OrderAddress $orderAddress);

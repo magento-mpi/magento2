@@ -18,7 +18,7 @@ interface OrderStatusHistoryAddInterface
      *
      * @param int $id
      * @param \Magento\Sales\Service\V1\Data\OrderStatusHistory $statusHistory
-     * @return void
+     * @return int|mixed
      */
     public function invoke($id, $statusHistory);
 }

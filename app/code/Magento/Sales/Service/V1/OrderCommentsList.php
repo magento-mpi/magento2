@@ -68,7 +68,7 @@ class OrderCommentsList implements OrderCommentsListInterface
      * Invoke OrderCommentsList service
      *
      * @param int $id
-     * @return array
+     * @return \Magento\Catalog\Service\V1\Data\Product\SearchResults
      */
     public function invoke($id)
     {

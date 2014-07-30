@@ -12,7 +12,6 @@ use Magento\Sales\Service\V1\Data\OrderMapper;
 use Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 
-
 /**
  * Class OrderList
  */
