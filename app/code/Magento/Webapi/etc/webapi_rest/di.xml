@@ -17,11 +17,26 @@
     <type name="Magento\Authorization\Model\CompositeUserContext">
         <arguments>
             <argument name="userContexts" xsi:type="array">
-                <item name="tokenUserContext" xsi:type="object">Magento\Webapi\Model\Authorization\TokenUserContext</item>
-                <item name="oauthUserContext" xsi:type="object">Magento\Webapi\Model\Authorization\OauthUserContext</item>
-                <item name="guestUserContext" xsi:type="object">Magento\Webapi\Model\Authorization\GuestUserContext</item>
-                <item name="customerSessionUserContext" xsi:type="object">Magento\Customer\Model\Authorization\CustomerSessionUserContext</item>
-                <item name="adminSessionUserContext" xsi:type="object">Magento\User\Model\Authorization\AdminSessionUserContext</item>
+                <item name="tokenUserContext" xsi:type="array">
+                    <item name="type" xsi:type="object">Magento\Webapi\Model\Authorization\TokenUserContext</item>
+                    <item name="sortOrder" xsi:type="string">10</item>
+                </item>
+                <item name="customerSessionUserContext" xsi:type="array">
+                    <item name="type" xsi:type="object">Magento\Customer\Model\Authorization\CustomerSessionUserContext</item>
+                    <item name="sortOrder" xsi:type="string">20</item>
+                </item>
+                <item name="adminSessionUserContext" xsi:type="array">
+                    <item name="type" xsi:type="object">Magento\User\Model\Authorization\AdminSessionUserContext</item>
+                    <item name="sortOrder" xsi:type="string">30</item>
+                </item>
+                <item name="oauthUserContext" xsi:type="array">
+                    <item name="type" xsi:type="object">Magento\Webapi\Model\Authorization\OauthUserContext</item>
+                    <item name="sortOrder" xsi:type="string">40</item>
+                </item>
+                <item name="guestUserContext" xsi:type="array">
+                    <item name="type" xsi:type="object">Magento\Webapi\Model\Authorization\GuestUserContext</item>
+                    <item name="sortOrder" xsi:type="string">100</item>
+                </item>
             </argument>
         </arguments>
     </type>

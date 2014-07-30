@@ -27,8 +27,17 @@ class CompositeUserContext implements \Magento\Authorization\Model\UserContextIn
      */
     public function __construct($userContexts = [])
     {
+        $userContexts = array_filter(
+            $userContexts,
+            function ($item) {
+                return isset($item['type']) && isset($item['sortOrder']);
+            }
+        );
+
+        uasort($userContexts, array($this, 'compareContextsSortOrder'));
+
         foreach ($userContexts as $userContext) {
-            $this->add($userContext);
+            $this->add($userContext['type']);
         }
     }
 
@@ -80,5 +89,25 @@ class CompositeUserContext implements \Magento\Authorization\Model\UserContextIn
             }
         }
         return $this->chosenUserContext;
+    }
+
+    /**
+     * Compare contexts sortOrder
+     *
+     * @param array $contextDataFirst
+     * @param array $contextDataSecond
+     * @return int
+     */
+    protected function compareContextsSortOrder($contextDataFirst, $contextDataSecond)
+    {
+        if ((int)$contextDataFirst['sortOrder'] == (int)$contextDataSecond['sortOrder']) {
+            return 0;
+        }
+
+        if ((int)$contextDataFirst['sortOrder'] < (int)$contextDataSecond['sortOrder']) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 }
