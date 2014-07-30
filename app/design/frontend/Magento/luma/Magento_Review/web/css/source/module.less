@@ -73,6 +73,9 @@
     }
 }
 
+//
+//    Review product page
+//--------------------------------------
 .review {
     &-toolbar {
         padding: 0;
@@ -187,15 +190,12 @@
     }
 }
 
-
-
 //
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-s) {
     .review {
-        &-form-actions,
-        &-fieldset > .field {
+        &-form {
             max-width: 500px;
         }
 
