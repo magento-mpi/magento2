@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogImportExport\Model\Export;
+namespace Magento\ConfigurableImportExport\Model\Export;
+
+use \Magento\CatalogImportExport\Model\Export\RowCustomizerInterface;
 
 class RowCustomizer implements RowCustomizerInterface
 {

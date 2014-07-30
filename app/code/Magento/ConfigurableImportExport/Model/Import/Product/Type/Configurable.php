@@ -1,13 +1,13 @@
 <?php
 /**
  * Import entity configurable product type model
- * 
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogImportExport\Model\Import\Product\Type;
+namespace Magento\ConfigurableImportExport\Model\Import\Product\Type;
 
 class Configurable extends \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType
 {

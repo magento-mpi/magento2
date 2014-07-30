@@ -2711,4 +2711,16 @@ return array(
     ['Magento\Tax\Model\Config\Source\TaxClass\Customer', 'Magento\Tax\Model\TaxClass\Source\Customer'],
     ['Magento\AdminNotification\Model\System\MessageInterface', 'Magento\Framework\App\Notification\MessageInterface'],
     ['Magento\AdminNotification\Model\System\MessageList', 'Magento\Framework\App\Notification\MessageList'],
+    [
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Configurable',
+        'Magento\ConfigurableImportExport\Model\Import\Product\Type\Configurable'
+    ],
+    [
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Configurable',
+        'Magento\ConfigurableImportExport\Model\Export\Product\Type\Configurable'
+    ],
+    [
+        'Magento\CatalogImportExport\Model\Export\RowCustomizer',
+        'Magento\ConfigurableImportExport\Model\Export\RowCustomizer'
+    ],
 );
