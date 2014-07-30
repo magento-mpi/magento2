@@ -393,7 +393,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
-    public function getConfigurableAttributeCollection($product)
+    public function getConfigurableAttributeCollection(\Magento\Catalog\Model\Product $product)
     {
         return $this->_attributeCollectionFactory->create()->setProductFilter($product);
     }
