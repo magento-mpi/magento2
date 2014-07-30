@@ -6,19 +6,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\ConfigurableProduct\Service\V1\Product\Options;
+namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
-use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
-use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory;
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\ConfigurableProduct\Service\V1\Data\OptionConverter;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
 use Magento\Eav\Model\Config as EavConfig;
-use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Type as ProductType;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Webapi\Exception;
 
 class WriteService implements WriteServiceInterface
@@ -34,18 +36,6 @@ class WriteService implements WriteServiceInterface
     protected $configurableAttributeFactory;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory
-     */
-    protected $collectionFactory;
-
-    /**
-     * Attribute collection factory
-     *
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory
-     */
-    protected $_attributeCollectionFactory;
-
-    /**
      * Eav config
      *
      * @var EavConfig
@@ -58,6 +48,11 @@ class WriteService implements WriteServiceInterface
     protected $optionConverter;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
      */
     private $productType;
@@ -65,24 +60,24 @@ class WriteService implements WriteServiceInterface
     /**
      * @param ProductRepository $productRepository
      * @param ConfigurableAttributeFactory $configurableAttributeFactory
-     * @param CollectionFactory $collectionFactory
      * @param EavConfig $eavConfig
      * @param OptionConverter $optionConverter
-     * @param Configurable $productType
+     * @param StoreManagerInterface $storeManager
+     * @param ConfigurableType $productType
      */
     public function __construct(
         ProductRepository $productRepository,
         ConfigurableAttributeFactory $configurableAttributeFactory,
-        CollectionFactory $collectionFactory,
         EavConfig $eavConfig,
         OptionConverter $optionConverter,
-        Configurable $productType
+        StoreManagerInterface $storeManager,
+        ConfigurableType $productType
     ) {
         $this->productRepository = $productRepository;
         $this->configurableAttributeFactory = $configurableAttributeFactory;
-        $this->collectionFactory = $collectionFactory;
         $this->eavConfig = $eavConfig;
         $this->optionConverter = $optionConverter;
+        $this->storeManager = $storeManager;
         $this->productType = $productType;
     }
 
@@ -92,6 +87,11 @@ class WriteService implements WriteServiceInterface
     public function add($productSku, Option $option)
     {
         $product = $this->productRepository->get($productSku);
+        $allowedTypes = [ProductType::TYPE_SIMPLE, ProductType::TYPE_VIRTUAL, ConfigurableType::TYPE_CODE];
+        if (!in_array($product->getTypeId(), $allowedTypes)) {
+            throw new \InvalidArgumentException('Incompatible product type');
+        }
+
         $eavAttribute = $this->eavConfig->getAttribute(Product::ENTITY, $option->getAttributeId());
 
         /** @var $configurableAttribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
@@ -101,17 +101,22 @@ class WriteService implements WriteServiceInterface
             throw new CouldNotSaveException('Product already has this option');
         }
 
-        $product->setTypeId(ConfigurableType::TYPE_CODE);
-        $product->setConfigurableAttributesData(array($option->__toArray()));
-        $product->save();
+        try {
+            $product->setTypeId(ConfigurableType::TYPE_CODE);
+            $product->setConfigurableAttributesData(array($option->__toArray()));
+            $product->setStoreId($this->storeManager->getStore(Store::ADMIN_CODE)->getId());
+            $product->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('An error occurred while saving option');
+        }
 
         $configurableAttribute = $this->configurableAttributeFactory->create();
         $configurableAttribute->loadByProductAndAttribute($product, $eavAttribute);
         if (!$configurableAttribute->getId()) {
-            throw new CouldNotSaveException('Could not save product option');
+            throw new CouldNotSaveException('An error occurred while saving option');
         }
 
-        return $this->optionConverter->convert($configurableAttribute);
+        return $this->optionConverter->convertFromModel($configurableAttribute);
     }
 
     /**
