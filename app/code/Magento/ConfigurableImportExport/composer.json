@@ -9,8 +9,7 @@
         "magento/module-eav": "0.1.0",
         "magento/module-import-export": "0.1.0",
         "magento/module-configurable-product": "0.1.0",
-        "magento/framework": "0.1.0",
-        "ext-ctype": "*"
+        "magento/framework": "0.1.0"
     },
     "type": "magento2-module",
     "version": "0.1.0"
