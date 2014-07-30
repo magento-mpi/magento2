@@ -21,5 +21,5 @@ class IntegrationFormPageActions extends FormPageActions
      *
      * @var string
      */
-    protected $saveButton = '[data-ui-id="integration-edit-content-save-button"]';
+    protected $saveButton = '[data-ui-id="integration-edit-content-save-split-button-button"]';
 }

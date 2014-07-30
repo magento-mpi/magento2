@@ -8,6 +8,8 @@
 
 namespace Magento\GiftCardAccount\Test\TestCase;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
@@ -19,7 +21,7 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
  *
  * Test Flow:
  * Precondition:
- * 1. Gift Card Account is created. Please, use source.
+ * 1. Gift Card Account is created.
  *
  * Steps:
  * 1. Login to the backend.
@@ -29,25 +31,24 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
  * 5. Save Gift Card Account.
  * 6. Perform appropriate assertions.
  *
- * @group Gift_Card_(MX)
+ * @group Gift_Card_Account_(CS)
  * @ZephyrId MAGETWO-26665
  */
 class UpdateGiftCardAccountEntityTest extends Injectable
 {
     /**
-     * Page of gift card account
+     * Gift Card Account page
      *
      * @var Index
      */
     protected $giftCardAccountIndex;
 
     /**
-     * Page of create gift card account
+     * Gift Card Account create page
      *
      * @var NewIndex
      */
     protected $newIndex;
-
 
     /**
      * Fixture factory
@@ -59,16 +60,21 @@ class UpdateGiftCardAccountEntityTest extends Injectable
     /**
      * Create gift card account
      *
+     * @param CatalogProductSimple $product
+     * @param CustomerInjectable $customer
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
-        $product->persist();
-        $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
+    public function __prepare(
+        CatalogProductSimple $product,
+        CustomerInjectable $customer,
+        FixtureFactory $fixtureFactory
+    ) {
         $this->fixtureFactory = $fixtureFactory;
+
+        $product->persist();
         $customer->persist();
+
         return [
             'product' => $product,
             'customer' => $customer
@@ -97,12 +103,15 @@ class UpdateGiftCardAccountEntityTest extends Injectable
      */
     public function test(GiftCardAccount $giftCardAccountOrigin, GiftCardAccount $giftCardAccount)
     {
+        // Precondition
         $giftCardAccountOrigin->persist();
+
+        // Steps
         $this->giftCardAccountIndex->open();
-        $filter = ['code' => $giftCardAccount->getCode()];
-        $this->giftCardAccountIndex->getGiftCardAccount()->searchAndOpen($filter);
+        $this->giftCardAccountIndex->getGiftCardAccount()->searchAndOpen(['code' => $giftCardAccount->getCode()]);
         $this->newIndex->getPageMainForm()->fill($giftCardAccount);
         $this->newIndex->getPageMainActions()->save();
+
         return ['giftCardAccount' => $this->mergeFixture($giftCardAccount, $giftCardAccountOrigin)];
     }
 

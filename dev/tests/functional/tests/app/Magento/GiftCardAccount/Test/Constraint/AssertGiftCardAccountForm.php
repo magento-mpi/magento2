@@ -53,16 +53,19 @@ class AssertGiftCardAccountForm extends AbstractAssertForm
         $giftCardAccountFormData = $newIndex->getPageMainForm()->getData();
         $dataDiff = $this->verifyData($giftCardAccount->getData(), $giftCardAccountFormData);
 
-        \PHPUnit_Framework_Assert::assertEmpty($dataDiff, 'Gift card account not equals to passed from fixture.');
+        \PHPUnit_Framework_Assert::assertEmpty(
+            $dataDiff,
+            'Gift card account form data does not equal to passed from fixture.'
+        );
     }
 
     /**
-     * Success assert of gift card account equals to passed from fixture
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'Gift card account equals to passed from fixture.';
+        return 'Gift card account form data equals to passed from fixture.';
     }
 }
