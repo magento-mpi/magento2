@@ -68,7 +68,7 @@ class Category
      */
     protected function clearProductUrls($productId)
     {
-        $this->urlPersist->delete(
+        $this->urlPersist->deleteByEntityData(
             [
                 UrlRewrite::ENTITY_ID => $productId,
                 UrlRewrite::ENTITY_TYPE => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,

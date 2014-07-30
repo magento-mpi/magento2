@@ -27,5 +27,5 @@ interface UrlPersistInterface
      * @param array $dataForFilter
      * @return void
      */
-    public function delete(array $dataForFilter);
+    public function deleteByEntityData(array $dataForFilter);
 }

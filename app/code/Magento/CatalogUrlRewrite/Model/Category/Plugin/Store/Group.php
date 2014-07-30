@@ -53,7 +53,7 @@ class Group
                 ->load($rootCategoryId)
                 ->getChildrenCategories();
             foreach ($group->getStoreIds() as $storeId) {
-                $this->urlPersist->delete([UrlRewrite::STORE_ID => $storeId]);
+                $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $storeId]);
 
                 foreach ($categories as $category) {
                     /** @var \Magento\Catalog\Model\Category $category */

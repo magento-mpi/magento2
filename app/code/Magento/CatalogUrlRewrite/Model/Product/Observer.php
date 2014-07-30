@@ -61,7 +61,7 @@ class Observer
             if ($urls) {
                 $this->urlPersist->replace($urls);
             } else {
-                $this->urlPersist->delete(
+                $this->urlPersist->deleteByEntityData(
                     [
                         UrlRewrite::ENTITY_ID => $product->getId(),
                         UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_PRODUCT,
@@ -83,7 +83,7 @@ class Observer
         $product = $observer->getEvent()->getProduct();
 
         if ($product->getId()) {
-            $this->urlPersist->delete(
+            $this->urlPersist->deleteByEntityData(
                 [
                     UrlRewrite::ENTITY_ID => $product->getId(),
                     UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_PRODUCT,

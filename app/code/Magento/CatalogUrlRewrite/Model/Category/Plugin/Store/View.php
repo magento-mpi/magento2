@@ -63,7 +63,7 @@ class View
     {
         if ($store->isObjectNew() || $store->dataHasChangedFor('group_id')) {
             if (!$store->isObjectNew()) {
-                $this->urlPersist->delete([UrlRewrite::STORE_ID => $store->getId()]);
+                $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $store->getId()]);
             }
 
             $rootCategoryId = $store->getRootCategoryId();

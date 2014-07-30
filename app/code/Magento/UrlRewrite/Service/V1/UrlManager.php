@@ -50,7 +50,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
             $this->storage->deleteByFilter($this->createFilterBasedOnUrls($urls));
             $this->storage->addMultiple($urls);
         } catch (\Exception $e) {
-            if ($e->getCode() === 23000) { // Integrity constraint violation: 1062 Duplicate entry
+            if ($e->getCode() === 23000) { //@TODO MAGETWO-26606
                 throw new Exception(__('URL key for specified store already exists.'));
             }
             throw $e;
@@ -60,7 +60,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     /**
      * {@inheritdoc}
      */
-    public function delete(array $dataForFilter)
+    public function deleteByEntityData(array $dataForFilter)
     {
         $filter = $this->filterFactory->create(['filterData' => $dataForFilter]);
         $this->storage->deleteByFilter($filter);
