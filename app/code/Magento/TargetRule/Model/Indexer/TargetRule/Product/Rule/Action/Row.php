@@ -31,7 +31,7 @@ class Row extends \Magento\TargetRule\Model\Indexer\TargetRule\AbstractAction
             throw new \Magento\TargetRule\Exception(__('Could not rebuild index for undefined product'));
         }
         try {
-            $this->_reindexByProductId(array($productId));
+            $this->_reindexByProductId($productId);
         } catch (\Exception $e) {
             throw new \Magento\TargetRule\Exception($e->getMessage(), $e->getCode(), $e);
         }
