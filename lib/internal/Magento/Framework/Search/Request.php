@@ -53,11 +53,6 @@ class Request implements RequestInterface
     protected $to;
 
     /**
-     * @var int
-     */
-    protected $limit;
-
-    /**
      * @param string $name
      * @param string $indexName
      * @param FilterInterface[] $filters
@@ -65,7 +60,6 @@ class Request implements RequestInterface
      * @param QueryInterface $query
      * @param int|null $from
      * @param int|null $to
-     * @param int|null $limit
      */
     public function __construct(
         $name,
@@ -74,8 +68,7 @@ class Request implements RequestInterface
         array $buckets,
         QueryInterface $query,
         $from = null,
-        $to = null,
-        $limit = null
+        $to = null
     ) {
         $this->name = $name;
         $this->index =$indexName;
@@ -84,7 +77,6 @@ class Request implements RequestInterface
         $this->query = $query;
         $this->from = $from;
         $this->to = $to;
-        $this->limit = $limit;
     }
 
     /**
@@ -144,13 +136,5 @@ class Request implements RequestInterface
     public function getTo()
     {
         return $this->to;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLimit()
-    {
-        return $this->limit;
     }
 }

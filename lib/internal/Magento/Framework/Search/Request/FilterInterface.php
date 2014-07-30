@@ -23,19 +23,6 @@ interface FilterInterface
     /**#@-*/
 
     /**
-     * #@+ Filter Operators
-     */
-    const OPERATOR_EQ = 'eq';
-
-    const OPERATOR_LTH = 'lth';
-
-    const OPERATOR_GTH = 'gth';
-
-    const OPERATOR_NOT = 'not';
-
-    /**#@-*/
-
-    /**
      * Get Type
      *
      * @return string

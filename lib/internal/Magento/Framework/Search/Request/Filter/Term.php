@@ -29,22 +29,15 @@ class Term implements FilterInterface
     protected $value;
 
     /**
-     * @var string
-     */
-    protected $operator;
-
-    /**
      * @param string $name
      * @param string $field
      * @param string $value
-     * @param string $operator
      */
-    public function __construct($name, $field, $value, $operator = FilterInterface::OPERATOR_EQ)
+    public function __construct($name, $field, $value)
     {
         $this->name = $name;
         $this->field = $field;
         $this->value = $value;
-        $this->operator = $operator;
     }
 
     /**
@@ -81,15 +74,5 @@ class Term implements FilterInterface
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * Get Operator
-     *
-     * @return string
-     */
-    public function getOperator()
-    {
-        return $this->operator;
     }
 }

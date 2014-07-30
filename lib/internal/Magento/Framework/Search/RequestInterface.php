@@ -64,11 +64,4 @@ interface RequestInterface
      * @return int|null
      */
     public function getTo();
-
-    /**
-     * Get Limit
-     *
-     * @return int|null
-     */
-    public function getLimit();
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Search Request Factory
+ * Search Request Pool
  *
  * {license_notice}
  *
@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Search;
 
-class RequestFactory
+class RequestPool
 {
     /**
      * Object Manager instance
@@ -26,7 +26,7 @@ class RequestFactory
     protected $requestDeclaration;
 
     /**
-     * Factory constructor
+     * Request Pool constructor
      *
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param Request\Config $instanceName
