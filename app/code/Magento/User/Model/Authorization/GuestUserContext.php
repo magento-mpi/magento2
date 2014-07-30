@@ -21,7 +21,7 @@ class GuestUserContext implements UserContextInterface
      */
     public function getUserId()
     {
-        return null;
+        return 0;
     }
 
     /**
