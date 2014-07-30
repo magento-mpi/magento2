@@ -18,7 +18,7 @@ use Mtf\Client\Element\Locator;
 class Edit extends Form
 {
     /**
-     * Gift registry type input field
+     * Gift registry type input selector
      *
      * @var string
      */
@@ -32,7 +32,7 @@ class Edit extends Form
     protected $next = ".action.next";
 
     /**
-     * Fill gift card redeem
+     * Select gift registry type
      *
      * @param string $value
      * @return void

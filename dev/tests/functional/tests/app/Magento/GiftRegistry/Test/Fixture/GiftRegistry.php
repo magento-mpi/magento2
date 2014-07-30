@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class GiftRegistry
+ * Fixture for gift registry
  */
 class GiftRegistry extends InjectableFixture
 {
@@ -34,12 +35,15 @@ class GiftRegistry extends InjectableFixture
         'event_date' => ['pattern' => '1/12/2024'],
         'is_active' => 'Active',
         'is_public' => 'Public',
+        'email' => 'email@test%isolation%.com',
+        'firstname' => 'FirstName%isolation%',
+        'lastname' => 'LastName%isolation%',
     ];
 
     protected $entity_id = [
         'attribute_code' => 'entity_id',
         'backend_type' => 'int',
-        'is_required' => '1',
+        'is_required' => '',
         'default_value' => '0',
         'input' => '',
     ];
@@ -170,6 +174,14 @@ class GiftRegistry extends InjectableFixture
         'input' => '',
     ];
 
+    protected $person_ids = [
+        'attribute_code' => 'person_ids',
+        'backend_type' => 'int',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => '',
+    ];
+
     protected $number_of_guests = [
         'attribute_code' => 'number_of_guests',
         'backend_type' => 'virtual',
@@ -263,6 +275,11 @@ class GiftRegistry extends InjectableFixture
     public function getEventLocation()
     {
         return $this->getData('event_location');
+    }
+
+    public function getPersonIds()
+    {
+        return $this->getData('person_ids');
     }
 
     public function getNumberOfGuests()

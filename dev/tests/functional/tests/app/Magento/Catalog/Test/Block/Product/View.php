@@ -155,7 +155,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $addToWishlist = '.towishlist';
+    protected $addToWishlist = '[data-action="add-to-wishlist"]';
 
     /**
      * Get bundle options block

@@ -6,10 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Test\Block;
+namespace Magento\GiftRegistry\Test\Block\Customer;
 
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 use Mtf\Client\Element\Locator;
+use Magento\GiftRegistry\TEst\Fixture\GiftRegistry;
 
 /**
  * Class Grid
@@ -22,7 +23,7 @@ class Grid extends AbstractGrid
      *
      * @var string
      */
-    protected $eventSelector = '//td[contains(@class,"col event") and contains(text(),"%s")]';
+    protected $eventSelector = '.event[title*="%s"]';
 
     /**
      * Gift registry event action selector in grid
@@ -34,12 +35,12 @@ class Grid extends AbstractGrid
     /**
      * Is visible gift registry in grid
      *
-     * @param string $event
+     * @param GiftRegistry $giftRegistry
      * @return bool
      */
-    public function isInGrid($event)
+    public function isInGrid(GiftRegistry $giftRegistry)
     {
-        return $this->_rootElement->find(sprintf($this->eventSelector, $event), Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find(sprintf($this->eventSelector, $giftRegistry->getTitle()))->isVisible();
     }
 
     /**

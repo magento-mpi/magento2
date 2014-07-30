@@ -24,4 +24,8 @@
         <mca>giftregistry/index/items</mca>
         <class>Magento\GiftRegistry\Test\Page\GiftRegistryItems</class>
     </giftRegistryItems>
+    <checkoutCart>
+        <mca>giftregistry/cart</mca>
+        <class>Magento\GiftRegistry\Test\Page\CheckoutCart</class>
+    </checkoutCart>
 </page>

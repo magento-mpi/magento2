@@ -13,6 +13,7 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 
 /**
  * Class AssertGiftRegistrySuccessSaveMessage
+ * Assert that after save a Gift Registry "You saved this gift registry." successful message appears
  */
 class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
 {
@@ -36,10 +37,9 @@ class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
      */
     public function processAssert(GiftRegistryIndex $giftRegistryIndex)
     {
-        $actualMessage = $giftRegistryIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
-            $actualMessage,
+            $giftRegistryIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
     }

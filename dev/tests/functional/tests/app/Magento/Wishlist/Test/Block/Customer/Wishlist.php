@@ -10,6 +10,7 @@ namespace Magento\Wishlist\Test\Block\Customer;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 
 /**
  * Class Wishlist
@@ -44,15 +45,15 @@ class Wishlist extends Block
     }
 
     /**
-     * Check that gift registry visible in wishlist
+     * Check that gift registry available in wishlist
      *
-     * @param string $giftRegistry
+     * @param GiftRegistry $giftRegistry
      * @return bool
      */
-    public function giftRegistryIsVisible($giftRegistry)
+    public function isGiftRegistryAvailable(GiftRegistry $giftRegistry)
     {
         $this->openGiftRegistry();
-        $selector = sprintf($this->giftRegistry, $giftRegistry);
+        $selector = sprintf($this->giftRegistry, $giftRegistry->getTitle());
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 

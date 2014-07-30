@@ -15,12 +15,10 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistryPerson;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 
 /**
  * Test Creation for Create GiftRegistryEntity
@@ -122,17 +120,18 @@ class CreateGiftRegistryEntityTest extends Injectable
     }
 
     /**
-     * Create customer
+     * Create customer and product
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param CatalogProductSimple $product
+     * @param CustomerInjectable $customer
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
-        $customer->persist();
-        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
+    public function __prepare(
+        CatalogProductSimple $product,
+        CustomerInjectable $customer
+    ) {
         $product->persist();
+        $customer->persist();
 
         return [
             'customer' => $customer,
@@ -144,34 +143,26 @@ class CreateGiftRegistryEntityTest extends Injectable
      * Create Gift Registry entity test
      *
      * @param GiftRegistry $giftRegistry
-     * @param GiftRegistryPerson $giftRegistryPerson
      * @param AddressInjectable $address
      * @param CustomerInjectable $customer
-     * @param CatalogProductSimple $product
      * @return void
      */
     public function test(
         GiftRegistry $giftRegistry,
-        GiftRegistryPerson $giftRegistryPerson,
         AddressInjectable $address,
-        CustomerInjectable $customer,
-        CatalogProductSimple $product
+        CustomerInjectable $customer
     ) {
         // Steps
-        if (!$this->cmsIndex->open()->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->open()->getLinksBlock()->openLink("Log In");
+        $this->cmsIndex->open();
+        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
+            $this->cmsIndex->getLinksBlock()->openLink("Log In");
             $this->customerAccountLogin->getLoginBlock()->login($customer);
         }
-        $this->cmsIndex->open()->getLinksBlock()->openLink("My Account");
-        $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Registry');
-        $this->giftRegistryIndex->getListCustomerBlock()->addNew();
+        $this->cmsIndex->getLinksBlock()->openLink("My Account");
+        $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Gift Registry");
+        $this->giftRegistryIndex->getActionsToolbar()->addNew();
         $this->giftRegistryAddSelect->getGiftRegistryTypeBlock()->selectGiftRegistryType($giftRegistry->getTypeId());
-        $this->giftRegistryEdit->getGeneralInformationForm()->fill($giftRegistry);
-        $this->giftRegistryEdit->getEventInformationForm()->fill($giftRegistry);
-        if ($giftRegistry->hasData('baby_gender')) {
-            $this->giftRegistryEdit->getGiftRegistryPropertiesForm()->fill($giftRegistry);
-        }
-        $this->giftRegistryEdit->getRecipientsInformationForm()->fill($giftRegistryPerson);
+        $this->giftRegistryEdit->getCustomerEditForm()->fill($giftRegistry);
         $this->giftRegistryEdit->getShippingAddressForm()->fill($address);
         $this->giftRegistryEdit->getActionsToolbarBlock()->save();
     }

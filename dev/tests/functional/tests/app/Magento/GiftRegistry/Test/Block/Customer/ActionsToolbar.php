@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +11,10 @@ namespace Magento\GiftRegistry\Test\Block\Customer;
 use Magento\Backend\Test\Block\GridPageActions;
 
 /**
- * Class ListCustomer
+ * Class ActionsToolbar
  * Gift registry frontend actions block
  */
-class ListCustomer extends GridPageActions
+class ActionsToolbar extends GridPageActions
 {
     /**
      * "Add New" button

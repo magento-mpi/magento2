@@ -18,6 +18,7 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
 
 /**
  * Class AssertGiftRegistryActiveInWishlist
+ * Assert that any product can be added to appropriate active GiftRegistry from Wishlist
  */
 class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
 {
@@ -55,16 +56,15 @@ class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
         $catalogProductView->init($product);
         $catalogProductView->open()->getViewBlock()->addToWishlist();
         $wishlistIndex->getWishlistBlock()->addToGiftRegistry($giftRegistry->getTitle());
-        $actualMessage = $wishlistIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
-            $actualMessage,
+            $wishlistIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
         $giftRegistryIndex->open()->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Manage Items');
         \PHPUnit_Framework_Assert::assertTrue(
             $giftRegistryItems->getGiftRegistryItemsBlock()->isProductInGrid($product->getName()),
-            'Product can not be added to gift registry \'' . $giftRegistry->getTitle() . '\' from Wishlist.'
+            'Product can not be added to active gift registry \'' . $giftRegistry->getTitle() . '\' from Wishlist.'
         );
     }
 
@@ -75,6 +75,6 @@ class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product can be added to active GiftRegistry from Wishlist.';
+        return 'Product can be added to active gift registry from Wishlist.';
     }
 }

@@ -12,12 +12,10 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogProductView
- *
- * @package Magento\Bundle\Test\Page\Product
  */
 class CatalogProductView extends FrontendPage
 {
-    const MCA = 'catalog/product/view';
+    const MCA = 'bundle/catalog/product/view';
 
     protected $_blocks = [
         'bundleViewBlock' => [

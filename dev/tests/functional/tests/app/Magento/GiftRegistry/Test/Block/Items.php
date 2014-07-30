@@ -22,7 +22,7 @@ class Items extends Block
      *
      * @var string
      */
-    protected $productName = '//td[contains(@class,"product") and a[contains(text(), "%s")]]';
+    protected $productName = '//a[contains(text(), "%s")]';
 
     /**
      * Is visible product in gift registry items grid

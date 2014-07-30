@@ -12,11 +12,11 @@ use Mtf\Constraint\AbstractAssertForm;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistryPerson;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Class AssertGiftRegistryForm
+ * Assert that saved GiftRegistry Data matched existed
  */
 class AssertGiftRegistryForm extends AbstractAssertForm
 {
@@ -43,7 +43,6 @@ class AssertGiftRegistryForm extends AbstractAssertForm
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryEdit $giftRegistryEdit
      * @param GiftRegistry $giftRegistry
-     * @param GiftRegistryPerson $giftRegistryPerson
      * @param AddressInjectable $address
      * @return void
      */
@@ -51,13 +50,15 @@ class AssertGiftRegistryForm extends AbstractAssertForm
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryEdit $giftRegistryEdit,
         GiftRegistry $giftRegistry,
-        GiftRegistryPerson $giftRegistryPerson,
         AddressInjectable $address
     ) {
         $giftRegistryIndex->open();
         $giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Edit');
-        $formData = $giftRegistryEdit->getGiftRegistryForm()->getData();
-        $fixtureData = array_merge($giftRegistry->getData(), $giftRegistryPerson->getData(), $address->getData());
+        $formData = array_merge(
+            $giftRegistryEdit->getCustomerEditForm()->getData(),
+            $giftRegistryEdit->getShippingAddressForm()->getData()
+        );
+        $fixtureData = array_merge($giftRegistry->getData(), $address->getData());
         $errors = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }

@@ -9,28 +9,10 @@
 -->
 <page mca="giftregistry/index/edit" >
     <block>
-        <name>generalInformationForm</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Edit\Registry</class>
-        <locator>//fieldset[div/div/input[@name="title"]]</locator>
-        <strategy>xpath</strategy>
-    </block>
-    <block>
         <name>actionsToolbarBlock</name>
         <class>Magento\GiftRegistry\Test\Block\Customer\Edit\ActionsToolbar</class>
         <locator>//div[div/button[@id="submit.save"]]</locator>
         <strategy>xpath</strategy>
-    </block>
-    <block>
-        <name>eventInformationForm</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Edit\Registry</class>
-        <locator>//fieldset[div/div/select[@name="event_country"]]</locator>
-        <strategy>xpath</strategy>
-    </block>
-    <block>
-        <name>recipientsInformationForm</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Edit\Registrants</class>
-        <locator>.recipients</locator>
-        <strategy>css selector</strategy>
     </block>
     <block>
         <name>shippingAddressForm</name>
@@ -39,13 +21,7 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>giftRegistryPropertiesForm</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Edit\Registry</class>
-        <locator>//fieldset[div/div/select[@id="baby_gender"]]</locator>
-        <strategy>xpath</strategy>
-    </block>
-    <block>
-        <name>giftRegistryForm</name>
+        <name>customerEditForm</name>
         <class>Magento\GiftRegistry\Test\Block\Customer\Edit</class>
         <locator>.form-giftregistry-edit</locator>
         <strategy>css selector</strategy>

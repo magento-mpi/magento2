@@ -9,8 +9,8 @@
 -->
 <page mca="giftregistry/index" >
     <block>
-        <name>listCustomerBlock</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\ListCustomer</class>
+        <name>actionsToolbar</name>
+        <class>Magento\GiftRegistry\Test\Block\Customer\ActionsToolbar</class>
         <locator>.actions-toolbar</locator>
         <strategy>css selector</strategy>
     </block>
@@ -22,7 +22,7 @@
     </block>
     <block>
         <name>giftRegistryGrid</name>
-        <class>Magento\GiftRegistry\Test\Block\Grid</class>
+        <class>Magento\GiftRegistry\Test\Block\Customer\Grid</class>
         <locator>#giftregistry-table</locator>
         <strategy>css selector</strategy>
     </block>

@@ -44,10 +44,4 @@
         <locator>.block.discount</locator>
         <strategy>css selector</strategy>
     </block>
-    <block>
-        <name>giftRegistryBlock</name>
-        <class>Magento\GiftRegistry\Test\Block\Cart\Link</class>
-        <locator>#add-cart-items-to-gift-registry</locator>
-        <strategy>css selector</strategy>
-    </block>
 </page>

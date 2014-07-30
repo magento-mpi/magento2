@@ -21,7 +21,7 @@ class GiftRegistryAddSelect extends FrontendPage
         'giftRegistryTypeBlock' => [
             'name' => 'giftRegistryTypeBlock',
             'class' => 'Magento\GiftRegistry\Test\Block\Customer\Edit',
-            'locator' => '.column.main',
+            'locator' => '#form-validate',
             'strategy' => 'css selector',
         ],
     ];

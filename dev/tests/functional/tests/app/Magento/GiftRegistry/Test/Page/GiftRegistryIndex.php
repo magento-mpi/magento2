@@ -18,9 +18,9 @@ class GiftRegistryIndex extends FrontendPage
     const MCA = 'giftregistry/index';
 
     protected $_blocks = [
-        'listCustomerBlock' => [
-            'name' => 'listCustomerBlock',
-            'class' => 'Magento\GiftRegistry\Test\Block\Customer\ListCustomer',
+        'actionsToolbar' => [
+            'name' => 'actionsToolbar',
+            'class' => 'Magento\GiftRegistry\Test\Block\Customer\ActionsToolbar',
             'locator' => '.actions-toolbar',
             'strategy' => 'css selector',
         ],
@@ -32,18 +32,18 @@ class GiftRegistryIndex extends FrontendPage
         ],
         'giftRegistryGrid' => [
             'name' => 'giftRegistryGrid',
-            'class' => 'Magento\GiftRegistry\Test\Block\Grid',
+            'class' => 'Magento\GiftRegistry\Test\Block\Customer\Grid',
             'locator' => '#giftregistry-table',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\GiftRegistry\Test\Block\Customer\ListCustomer
+     * @return \Magento\GiftRegistry\Test\Block\Customer\ActionsToolbar
      */
-    public function getListCustomerBlock()
+    public function getActionsToolbar()
     {
-        return $this->getBlockInstance('listCustomerBlock');
+        return $this->getBlockInstance('actionsToolbar');
     }
 
     /**
@@ -55,7 +55,7 @@ class GiftRegistryIndex extends FrontendPage
     }
 
     /**
-     * @return \Magento\GiftRegistry\Test\Block\Grid
+     * @return \Magento\GiftRegistry\Test\Block\Customer\Grid
      */
     public function getGiftRegistryGrid()
     {

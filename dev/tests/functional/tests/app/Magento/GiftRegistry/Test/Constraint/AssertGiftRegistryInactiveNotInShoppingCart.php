@@ -11,16 +11,17 @@ namespace Magento\GiftRegistry\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\GiftRegistry\Test\Page\CheckoutCart;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 
 /**
  * Class AssertGiftRegistryInactiveNotInShoppingCart
+ * Assert that product can't be added to Inactive GiftRegistry from Shopping Cart
  */
 class AssertGiftRegistryInactiveNotInShoppingCart extends AbstractConstraint
 {
     /**
-     * Assert that product can not be added to active gift registry from Shopping Cart
+     * Assert that product can not be added to inactive gift registry from Shopping Cart
      *
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
@@ -37,8 +38,8 @@ class AssertGiftRegistryInactiveNotInShoppingCart extends AbstractConstraint
         $catalogProductView->init($product);
         $catalogProductView->open()->getViewBlock()->clickAddToCart();
         \PHPUnit_Framework_Assert::assertFalse(
-            $checkoutCart->getGiftRegistryBlock()->giftRegistryIsVisible($giftRegistry->getTitle()),
-            'Product can be added to gift registry \'' . $giftRegistry->getTitle() . '\' from Shopping Cart.'
+            $checkoutCart->getGiftRegistryCart()->isGiftRegistryAvailable($giftRegistry),
+            'Product can be added to inactive gift registry \'' . $giftRegistry->getTitle() . '\' from Shopping Cart.'
         );
     }
 
@@ -49,6 +50,6 @@ class AssertGiftRegistryInactiveNotInShoppingCart extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product can not be added to active GiftRegistry from Shopping Cart.';
+        return 'Product can not be added to inactive gift registry from Shopping Cart.';
     }
 }

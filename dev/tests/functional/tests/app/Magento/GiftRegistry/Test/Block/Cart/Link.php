@@ -10,10 +10,11 @@ namespace Magento\GiftRegistry\Test\Block\Cart;
 
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Block\Cart;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 
 /**
  * Class Link
- * Frontend gift registry chopping cart block
+ * Frontend gift registry shopping cart block
  */
 class Link extends Cart
 {
@@ -22,7 +23,7 @@ class Link extends Cart
      *
      * @var string
      */
-    protected $giftRegistry = '#giftregistry_entity';
+    protected $giftRegistry = '[name="entity"]';
 
     /**
      * Gift registry option selector
@@ -51,14 +52,14 @@ class Link extends Cart
     }
 
     /**
-     * Check that gift registry visible in shopping cart
+     * Check that gift registry available in shopping cart
      *
-     * @param string $giftRegistry
+     * @param GiftRegistry $giftRegistry
      * @return bool
      */
-    public function giftRegistryIsVisible($giftRegistry)
+    public function isGiftRegistryAvailable(GiftRegistry $giftRegistry)
     {
-        $optionSelector = sprintf($this->giftRegistryOption, $giftRegistry);
+        $optionSelector = sprintf($this->giftRegistryOption, $giftRegistry->getTitle());
         return $this->_rootElement->find($optionSelector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }
