@@ -5,23 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute;
+
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Renderer for URL key input
  * Allows to manage and overwrite URL Rewrites History save settings
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute;
-
 class Urlkey extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element
 {
-    /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
-     */
-    protected $_catalogData = null;
+    const XML_PATH_SEO_SAVE_HISTORY = 'catalog/seo/save_rewrites_history';
 
     /**
      * @var \Magento\Framework\Data\Form\Element\Factory
@@ -41,7 +35,6 @@ class Urlkey extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Ele
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
-        $this->_catalogData = $catalogData;
         parent::__construct($context, $data);
     }
 
@@ -67,15 +60,16 @@ class Urlkey extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Ele
         $data['html_id'] = $element->getHtmlId() . '_create_redirect';
         $data['label'] = __('Create Permanent Redirect for old URL');
         $data['value'] = $element->getValue();
-        $data['checked'] = $this->_catalogData->shouldSaveUrlRewritesHistory($storeId);
+        $data['checked'] = $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_SEO_SAVE_HISTORY,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         /** @var \Magento\Framework\Data\Form\Element\Checkbox $checkbox */
         $checkbox = $this->_elementFactory->create('checkbox', array('data' => $data));
         $checkbox->setForm($element->getForm());
 
-        return parent::getElementHtml() .
-            '<br/>' .
-            $hidden->getElementHtml() .
-            $checkbox->getElementHtml() .
-            $checkbox->getLabelHtml();
+        return parent::getElementHtml() . '<br/>' . $hidden->getElementHtml() . $checkbox->getElementHtml()
+            . $checkbox->getLabelHtml();
     }
 }

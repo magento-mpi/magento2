@@ -8,12 +8,14 @@
 namespace Magento\CatalogUrlRewrite\Model\Category;
 
 use Magento\Catalog\Model\Category;
-use Magento\Catalog\Helper\Data as CatalogData;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
 use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute\Urlkey;
 
 class Observer
 {
@@ -26,25 +28,25 @@ class Observer
     /** @var UrlPersistInterface */
     protected $urlPersist;
 
-    /** @var CatalogData */
-    protected $catalogData;
+    /** @var ScopeConfigInterface */
+    protected $scopeConfig;
 
     /**
      * @param CategoryUrlGenerator $categoryUrlGenerator
      * @param ProductUrlGenerator $productUrlGenerator
      * @param UrlPersistInterface $urlPersist
-     * @param CatalogData $catalogData
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         CategoryUrlGenerator $categoryUrlGenerator,
         ProductUrlGenerator $productUrlGenerator,
         UrlPersistInterface $urlPersist,
-        CatalogData $catalogData
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->productUrlGenerator = $productUrlGenerator;
         $this->urlPersist = $urlPersist;
-        $this->catalogData = $catalogData;
+        $this->catalogData = $scopeConfig;
     }
 
     /**
@@ -78,10 +80,12 @@ class Observer
         /** @var Category $category */
         $category = $observer->getEvent()->getCategory();
         if ($category->dataHasChangedFor('parent_id')) {
-            $category->setData(
-                'save_rewrites_history',
-                $this->catalogData->shouldSaveUrlRewritesHistory($category->getStoreId())
+            $saveRewritesHistory = $this->scopeConfig->isSetFlag(
+                Urlkey::XML_PATH_SEO_SAVE_HISTORY,
+                ScopeInterface::SCOPE_STORE,
+                $category->getStoreId()
             );
+            $category->setData('save_rewrites_history', $saveRewritesHistory);
             $urlRewrites = array_merge(
                 $this->categoryUrlGenerator->generate($category),
                 $this->generateProductUrlRewrites($category)
