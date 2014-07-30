@@ -50,26 +50,14 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
      * @var array
      */
     protected $curlMapping = [
-        'group_id' => [
-            'prefix' => 'account'
-        ],
-        'firstname' => [
-            'prefix' => 'account'
-        ],
-        'lastname' => [
-            'prefix' => 'account'
-        ],
-        'email' => [
-            'prefix' => 'account'
-        ],
-        'dob' => [
-            'prefix' => 'account'
-        ],
-        'taxvat' => [
-            'prefix' => 'account'
-        ],
-        'gender' => [
-            'prefix' => 'account'
+        'account' => [
+            'group_id',
+            'firstname',
+            'lastname',
+            'email',
+            'dob',
+            'taxvat',
+            'gender'
         ]
     ];
 
@@ -143,9 +131,11 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
         $curlData = [];
         $url = $_ENV['app_backend_url'] . 'customer/index/save';
         foreach ($data as $key => $value) {
-            if (isset($this->curlMapping[$key]['prefix'])) {
-                $curlData[$this->curlMapping[$key]['prefix']][$key] = $value;
-                unset($data[$key]);
+            foreach ($this->curlMapping as $prefix => $prefixValues) {
+                if (in_array($key, $prefixValues)) {
+                    $curlData[$prefix][$key] = $value;
+                    unset($data[$key]);
+                }
             }
         }
         unset($data['password'], $data['password_confirmation']);
@@ -154,6 +144,26 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
             : self::GENERAL_GROUP;
 
         $curlData = $this->replaceMappingData(array_merge($curlData, $data));
+        $curlData = $this->prepareAddressData($curlData);
+
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $curlData);
+        $response = $curl->read();
+        $curl->close();
+
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception('Failed to assign an address to the customer!');
+        }
+    }
+
+    /**
+     * Preparing address data for curl
+     *
+     * @param array $curlData
+     * @return array
+     */
+    protected function prepareAddressData(array $curlData)
+    {
         foreach (array_keys($curlData['address']) as $key) {
             $curlData['address'][$key]['_deleted'] = '';
             $curlData['address'][$key]['region'] = '';
@@ -175,14 +185,7 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
             unset($curlData['address'][$key]);
         }
 
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', [], $curlData);
-        $response = $curl->read();
-        $curl->close();
-
-        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception('Failed to assign an address to the customer!');
-        }
+        return $curlData;
     }
 
     /**

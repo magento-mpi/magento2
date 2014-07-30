@@ -15,7 +15,7 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>grid</name>
+        <name>reportGrid</name>
         <class>Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\ReportGrid</class>
         <locator>#gridReportCustomersegments</locator>
         <strategy>css selector</strategy>

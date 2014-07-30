@@ -15,7 +15,7 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportDetail;
 
 /**
  * Class AssertCustomerSegmentReportNotInGrid
- * Assert that created customer segment report not presents in the grid
+ * Assert that created customer is absent in a customer segment grid
  */
 class AssertCustomerSegmentReportNotInGrid extends AbstractConstraint
 {
@@ -27,7 +27,7 @@ class AssertCustomerSegmentReportNotInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that created customer segment report not presents in the grid
+     * Assert that created customer is absent in a customer segment grid
      *
      * @param array $notFoundCustomers
      * @param array $customers
@@ -55,14 +55,14 @@ class AssertCustomerSegmentReportNotInGrid extends AbstractConstraint
                 'grid_billing_region' => $address->getRegionId()
             ];
 
-            if ($reportDetailPage->getGrid()->isRowVisible($filter)) {
+            if ($reportDetailPage->getDetailGrid()->isRowVisible($filter)) {
                 $errors[] = '- row "' . implode(', ', $filter) . '" was found in the grid report';
             }
         }
 
         \PHPUnit_Framework_Assert::assertEmpty(
             $errors,
-            'When checking the grid, the following errors were found:' . PHP_EOL . implode(PHP_EOL, $errors)
+            'When checking the report grid, the following errors were found:' . PHP_EOL . implode(PHP_EOL, $errors)
         );
     }
 
@@ -73,6 +73,6 @@ class AssertCustomerSegmentReportNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Checked, no records that should not be included in the report.';
+        return 'Report grid does not contain customers which must be absent.';
     }
 }

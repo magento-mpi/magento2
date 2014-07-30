@@ -23,8 +23,8 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportIndex;
  * Preconditions:
  * 1. Delete all existed customers
  * 2. Delete all existed customers segment
- * 3. Test customers is created
- * 4. Test segments is created
+ * 3. Test customers are created
+ * 4. Test segments are created
  *
  * Steps:
  * 1. Login to backend as admin
@@ -58,6 +58,7 @@ class ReportCustomerSegmentEntityTest extends Injectable
      * Prepare data
      *
      * @param FixtureFactory $fixtureFactory
+     * @return void
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
@@ -65,7 +66,7 @@ class ReportCustomerSegmentEntityTest extends Injectable
     }
 
     /**
-     * Inject pages
+     * Fulfillment of the conditions of the test
      *
      * @param CustomerIndex $customerIndexPage
      * @param CustomerSegmentReportIndex $reportPage
@@ -83,9 +84,7 @@ class ReportCustomerSegmentEntityTest extends Injectable
         // Preconditions
         // Delete all customer
         $customerIndexPage->open();
-        $customerIndexPage->getCustomerGridBlock()->getGridActions()->fillData(
-            ['massaction_select' => 'Select All', 'massaction_actions' => ['actions' => 'Delete']]
-        )->submit();
+        $customerIndexPage->getCustomerGridBlock()->massaction([], 'Delete', true, 'Select All');
         // Delete all customer segment
         $segmentIndexPage->open();
         while ($segmentIndexPage->getGrid()->isFirstRowVisible()) {
@@ -115,10 +114,10 @@ class ReportCustomerSegmentEntityTest extends Injectable
         }
         // Preconditions
         $result['customers'] = $this->createCustomers($customers);
-        $result['customerSegments'] = $this->createCustomerSegment($customerSegments);
+        $result['customerSegments'] = $this->createCustomerSegments($customerSegments);
         // Steps
         $this->reportPage->open();
-        $this->reportPage->getGrid()->getGridActions()->fillData($reportActions)->submit(false);
+        $this->reportPage->getReportGrid()->massaction([], $reportActions['massaction'], false, $reportActions['select']);
 
         return $result;
     }
@@ -157,7 +156,7 @@ class ReportCustomerSegmentEntityTest extends Injectable
      * @param string $customerSegments
      * @return array
      */
-    protected function createCustomerSegment($customerSegments)
+    protected function createCustomerSegments($customerSegments)
     {
         $result = [];
         $customerSegments = array_map('trim', explode(',', $customerSegments));

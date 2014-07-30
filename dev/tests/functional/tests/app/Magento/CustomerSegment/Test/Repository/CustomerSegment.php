@@ -46,7 +46,7 @@ class CustomerSegment extends AbstractRepository
             'name' => 'Test Customer Segment %isolation%',
             'description' => 'Test Customer Segment Description %isolation%',
             'website_ids' => ['Main Website'],
-            'is_active' => 'Inactive',
+            'is_active' => 'Active',
             'apply_to' => 'Registered Customers',
             'conditions_serialized' =>'[Default Billing Address|exists]',
         ];
@@ -55,7 +55,7 @@ class CustomerSegment extends AbstractRepository
             'name' => 'Test Customer Segment %isolation%',
             'description' => 'Test Customer Segment Description %isolation%',
             'website_ids' => ['Main Website'],
-            'is_active' => 'Inactive',
+            'is_active' => 'Active',
             'apply_to' => 'Registered Customers',
             'conditions_serialized' =>'[Default Shipping Address|exists]',
         ];

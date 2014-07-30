@@ -24,8 +24,8 @@ class CustomerSegmentReportIndex extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'grid' => [
-            'name' => 'grid',
+        'reportGrid' => [
+            'name' => 'reportGrid',
             'class' => 'Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\ReportGrid',
             'locator' => '#gridReportCustomersegments',
             'strategy' => 'css selector',
@@ -49,9 +49,9 @@ class CustomerSegmentReportIndex extends BackendPage
     /**
      * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\ReportGrid
      */
-    public function getGrid()
+    public function getReportGrid()
     {
-        return $this->getBlockInstance('grid');
+        return $this->getBlockInstance('reportGrid');
     }
 
     /**

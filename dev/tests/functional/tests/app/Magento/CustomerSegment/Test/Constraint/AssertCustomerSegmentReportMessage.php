@@ -14,7 +14,7 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportDetail;
 
 /**
  * Class AssertCustomerSegmentReportMessage
- * Assert that message is displayed on the page
+ * Assert that message is displayed on the customer segment report detail page
  */
 class AssertCustomerSegmentReportMessage extends AbstractConstraint
 {
@@ -31,7 +31,7 @@ class AssertCustomerSegmentReportMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that message is displayed on the page
+     * Assert that message is displayed on the customer segment report detail page
      *
      * @param CustomerSegmentReportDetail $reportPage
      * @param array $customerSegments
@@ -49,7 +49,7 @@ class AssertCustomerSegmentReportMessage extends AbstractConstraint
             $names[] = $customerSegment->getName();
         }
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::REPORT_MESSAGES, $reportActions['massaction_actions']['set'], implode(', ', $names)),
+            sprintf(self::REPORT_MESSAGES, reset($reportActions['massaction']), implode(', ', $names)),
             $reportPage->getMessagesBlock()->getNoticeMessages(),
             'Wrong customer segment report message is displayed.'
         );
@@ -62,6 +62,6 @@ class AssertCustomerSegmentReportMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer segment report message is displayed correct.';
+        return 'Customer segment report message is displayed correctly.';
     }
 }

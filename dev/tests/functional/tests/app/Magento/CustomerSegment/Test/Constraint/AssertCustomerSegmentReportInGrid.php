@@ -15,7 +15,7 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportDetail;
 
 /**
  * Class AssertCustomerSegmentReportInGrid
- * Assert that created customer segment report presents in the grid
+ * Assert that created customer is present in customer segment report grid
  */
 class AssertCustomerSegmentReportInGrid extends AbstractConstraint
 {
@@ -63,7 +63,7 @@ class AssertCustomerSegmentReportInGrid extends AbstractConstraint
                 'grid_billing_region' => $address->getRegionId()
             ];
 
-            if (!$reportDetailPage->getGrid()->isRowVisible($filter)) {
+            if (!$reportDetailPage->getDetailGrid()->isRowVisible($filter)) {
                 $errors[] = '- row "' . implode(', ', $filter) . '" was not found in the grid report';
             }
         }
@@ -81,6 +81,6 @@ class AssertCustomerSegmentReportInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'All records required for the report, there are.';
+        return 'All required customers are present in customer segment report grid.';
     }
 }

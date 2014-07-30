@@ -18,13 +18,6 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 class CustomerGrid extends AbstractGrid
 {
     /**
-     * CSS selector grid mass action form
-     *
-     * @var string
-     */
-    protected $gridActionBlock = '#customerGrid_massaction';
-
-    /**
      * Filters array mapping
      *
      * @var array
@@ -41,17 +34,4 @@ class CustomerGrid extends AbstractGrid
             'input' => 'select',
         ],
     ];
-
-    /**
-     * Getting grid action form
-     *
-     * @return \Magento\Customer\Test\Block\Adminhtml\Grid\Massaction
-     */
-    public function getGridActions()
-    {
-        return $this->blockFactory->create(
-            'Magento\Customer\Test\Block\Adminhtml\Grid\Massaction',
-            ['element' => $this->_rootElement->find($this->gridActionBlock)]
-        );
-    }
 }

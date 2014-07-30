@@ -50,7 +50,7 @@ class Address implements FixtureInterface
     {
         $this->params = $params;
 
-        if (isset($data['presets']) && $data['presets'] !== '-') {
+        if (isset($data['presets'])) {
             $data['presets'] = explode(',', $data['presets']);
             foreach ($data['presets'] as $value) {
                 /** @var AddressInjectable $fixture */
@@ -80,14 +80,12 @@ class Address implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param int|null $key [optional]
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {
-        return $this->data;
+        return isset($this->data[$key]) ? $this->data[$key] : $this->data;
     }
 
     /**

@@ -24,7 +24,7 @@ class AddressInjectable extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = [
+        $this->_data['US_address'] = [
             'firstname' => 'John',
             'lastname' => 'Doe',
             'email' => 'John.Doe%isolation%@example.com',
@@ -39,7 +39,7 @@ class AddressInjectable extends AbstractRepository
             'default_shipping' => 'Yes'
         ];
 
-        $this->_data['billing'] = [
+        $this->_data['US_address_default_billing'] = [
             'firstname' => 'John',
             'lastname' => 'Doe',
             'email' => 'John.Doe%isolation%@example.com',
@@ -54,7 +54,7 @@ class AddressInjectable extends AbstractRepository
             'default_shipping' => 'No'
         ];
 
-        $this->_data['shipping'] = [
+        $this->_data['US_address_default_shipping'] = [
             'firstname' => 'John',
             'lastname' => 'Doe',
             'email' => 'John.Doe%isolation%@example.com',

@@ -72,7 +72,7 @@ class AssertTaxRateForm extends AbstractConstraint
         } else {
             unset($data['zip_from'], $data['zip_to']);
         }
-        $data['rate'] = number_format($data['rate'], 4);
+        //$data['rate'] = number_format($data['rate']);
 
         return $data;
     }

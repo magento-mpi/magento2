@@ -17,11 +17,11 @@ use Magento\Backend\Test\Block\Widget\Grid as WidgetGrid;
 class ReportGrid extends WidgetGrid
 {
     /**
-     * CSS selector grid mass action form
+     * Selector for status select
      *
      * @var string
      */
-    protected $gridActionBlock = '#gridReportCustomersegments_massaction';
+    protected $status = 'select[name="view_mode"]';
 
     /**
      * Filters array mapping
@@ -47,17 +47,4 @@ class ReportGrid extends WidgetGrid
             'selector' => 'input[name="customer_count"]'
         ],
     ];
-
-    /**
-     * Getting grid action form
-     *
-     * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Grid\Massaction
-     */
-    public function getGridActions()
-    {
-        return $this->blockFactory->create(
-            'Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Grid\Massaction',
-            ['element' => $this->_rootElement->find($this->gridActionBlock)]
-        );
-    }
 }
