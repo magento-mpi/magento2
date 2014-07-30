@@ -164,3 +164,25 @@
         }
     }
 }
+
+.review-field-ratings {
+    .nested {
+        display: table;
+    }
+    .review-field-rating {
+        display: table-row;
+        .label,
+        .control {
+            display: table-cell;
+            padding-bottom: @indent-s-base;
+            vertical-align: top;
+        }
+        .label {
+            padding-top: 6px;
+            padding-right: @indent-s-base;
+        }
+        .control {
+            padding-top: 2px;
+        }
+    }
+}
