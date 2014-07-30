@@ -23,7 +23,7 @@ class NotifierList
     /**
      * List of notifiers
      *
-     * @var NotifierInterface[]
+     * @var NotifierInterface[]|string[]
      */
     protected $notifiers;
 
@@ -36,7 +36,7 @@ class NotifierList
 
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param NotifierInterface[] $notifiers
+     * @param NotifierInterface[]|string[] $notifiers
      */
     public function __construct(\Magento\Framework\ObjectManager $objectManager, $notifiers = array())
     {
@@ -57,7 +57,9 @@ class NotifierList
             $hasErrors = false;
             foreach ($this->notifiers as $classIndex => $class) {
                 $notifier = $this->objectManager->get($class);
-                if (!($notifier instanceof NotifierInterface)) {
+                if (($notifier instanceof NotifierInterface)) {
+                    $this->notifiers[$classIndex] = $notifier;
+                } else {
                     $hasErrors = true;
                     unset($this->notifiers[$classIndex]);
                 }
