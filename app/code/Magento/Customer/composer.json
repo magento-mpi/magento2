@@ -19,8 +19,17 @@
         "magento/module-review": "0.1.0",
         "magento/module-tax": "0.1.0",
         "magento/module-page-cache": "0.1.0",
-        "magento/framework": "0.1.0"
+        "magento/framework": "0.1.0",
+        "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
-    "version": "0.1.0"
+    "version": "0.1.0",
+    "extra": {
+        "map": [
+            [
+                "*",
+                "Magento/Customer"
+            ]
+        ]
+    }
 }

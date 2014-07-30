@@ -72,6 +72,12 @@ class CmsIndex extends FrontendPage
             'locator' => '#maincontent',
             'strategy' => 'css selector',
         ],
+        'currencyBlock' => [
+            'name' => 'currencyBlock',
+            'class' => 'Magento\Directory\Test\Block\Currency\Switcher',
+            'locator' => '.switcher.currency',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -137,11 +143,20 @@ class CmsIndex extends FrontendPage
     {
         return $this->getBlockInstance('compareProductsBlock');
     }
+
     /**
      * @return \Magento\Cms\Test\Block\Page
      */
     public function getMainContentBlock()
     {
         return $this->getBlockInstance('mainContentBlock');
+    }
+
+    /**
+     * @return \Magento\Directory\Test\Block\Currency\Switcher
+     */
+    public function getCurrencyBlock()
+    {
+        return $this->getBlockInstance('currencyBlock');
     }
 }

@@ -18,6 +18,8 @@
 <?php endforeach; ?>
 
 <script type="text/javascript">
+require(['jquery', 'mage/mage'], function(jQuery){
+
     (function($) {
         $('#gr-type-specific-fieldset').toggle(<?php echo ($this->getAttributes() ? "true" : "false");?>);
     <?php if ($this->getRegionJsVisible()): ?>
@@ -32,4 +34,6 @@
         });
     <?php endif; ?>
     })(jQuery)
+
+});
 </script>

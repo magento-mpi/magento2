@@ -58,7 +58,7 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
         $customerAccountLogin->getLoginBlock()->submit();
 
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Reward Points');
-        $actualInformation = $rewardCustomerInfo->getRewardPointsBlock()->getBalanceInformation();
+        $actualInformation = $rewardCustomerInfo->getRewardPointsBlock()->getRewardPointsBalance();
 
         $expectedMessage = sprintf(
             'Each %d Reward points can be redeemed for $%s.',

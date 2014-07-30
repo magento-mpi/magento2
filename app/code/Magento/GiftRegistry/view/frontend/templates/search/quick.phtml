@@ -68,8 +68,10 @@
     </div>
 </div>
 <script type="text/javascript">
-    (function($) {
-        $('form[id^="gr-quick-search"]').mage('validation');
-    })(jQuery);
+require(['jquery', "mage/mage"], function($){
+
+    $('form[id^="gr-quick-search"]').mage('validation');
+
+});
 </script>
 <?php endif; ?>
