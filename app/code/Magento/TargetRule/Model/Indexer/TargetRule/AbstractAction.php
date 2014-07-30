@@ -205,7 +205,11 @@ abstract class AbstractAction
         $ruleResource = $rule->getResource();
         $productIdsBeforeUnbind = $ruleResource->getAssociatedEntityIds($ruleId, 'product');
         $ruleResource->unbindRuleFromEntity($ruleId, [], 'product');
-        $matchedProductIds = $rule->getMatchingProductIds();
+        if ($rule->getId()) {
+            $matchedProductIds = $rule->getMatchingProductIds();
+        } else {
+            $matchedProductIds = array();
+        }
         $ruleResource->bindRuleToEntity($ruleId, $matchedProductIds, 'product');
         $ruleResource->cleanCachedDataByProductIds(
             array_unique(
