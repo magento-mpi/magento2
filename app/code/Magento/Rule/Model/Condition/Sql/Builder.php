@@ -57,7 +57,6 @@ class Builder
      *
      * @param Combine $combine
      * @return array
-     * @throws \Magento\Exception
      */
     protected function _getCombineTablesToJoin(Combine $combine)
     {
