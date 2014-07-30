@@ -10,7 +10,6 @@ namespace Magento\Customer\Model\Authorization;
 
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Customer\Model\Session as CustomerSession;
-use Magento\Authz\Model\UserIdentifier;
 
 /**
  * Session-based customer user context
@@ -46,6 +45,6 @@ class CustomerSessionUserContext implements UserContextInterface
      */
     public function getUserType()
     {
-        return UserIdentifier::USER_TYPE_CUSTOMER;
+        return UserContextInterface::USER_TYPE_CUSTOMER;
     }
 }

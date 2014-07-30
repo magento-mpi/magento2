@@ -7,6 +7,7 @@
  */
 namespace Magento\Authz\Service;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Framework\Acl;
 use Magento\Framework\Acl\Builder as AclBuilder;
@@ -125,6 +126,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      */
     protected function _canRoleBeCreatedForUserType($userType)
     {
-        return ($userType != UserIdentifier::USER_TYPE_CUSTOMER) && ($userType != UserIdentifier::USER_TYPE_GUEST);
+        return ($userType != UserContextInterface::USER_TYPE_CUSTOMER)
+            && ($userType != UserContextInterface::USER_TYPE_GUEST);
     }
 }

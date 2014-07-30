@@ -8,7 +8,7 @@
 
 namespace Magento\Webapi\Model\Authorization;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 
 /**
  * Tests \Magento\Webapi\Model\Authorization\OauthUserContext
@@ -60,7 +60,7 @@ class OauthUserContextTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUserType()
     {
-        $this->assertEquals(UserIdentifier::USER_TYPE_INTEGRATION, $this->oauthUserContext->getUserType());
+        $this->assertEquals(UserContextInterface::USER_TYPE_INTEGRATION, $this->oauthUserContext->getUserType());
     }
 
     public function testGetUserIdExist()

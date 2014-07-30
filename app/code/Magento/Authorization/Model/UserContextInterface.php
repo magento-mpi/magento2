@@ -13,6 +13,15 @@ namespace Magento\Authorization\Model;
  */
 interface UserContextInterface
 {
+    /**#@+
+     * User types
+     */
+    const USER_TYPE_INTEGRATION = 1;
+    const USER_TYPE_ADMIN = 2;
+    const USER_TYPE_CUSTOMER = 3;
+    const USER_TYPE_GUEST = 4;
+    /**#@-*/
+
     /**
      * Identify current user ID.
      *

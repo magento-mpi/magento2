@@ -9,6 +9,7 @@ namespace Magento\User\Model\Resource;
 
 use Magento\Authorization\Model\Acl\Role\Group as RoleGroup;
 use Magento\Authorization\Model\Acl\Role\User as RoleUser;
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\User\Model\User as ModelUser;
 
 /**
@@ -220,7 +221,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     'sort_order' => 0,
                     'role_type' => RoleUser::ROLE_TYPE,
                     'user_id' => $user->getId(),
-                    'user_type' => \Magento\Authz\Model\UserIdentifier::USER_TYPE_ADMIN,
+                    'user_type' => UserContextInterface::USER_TYPE_ADMIN,
                     'role_name' => $user->getFirstname()
                 )
             );

@@ -8,7 +8,7 @@
 
 namespace Magento\Webapi\Model\Authorization;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 
 /**
  * Tests \Magento\Webapi\Model\Authorization\TokenUserContext
@@ -163,7 +163,7 @@ class TokenUserContextTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         switch($userType) {
-            case UserIdentifier::USER_TYPE_INTEGRATION:
+            case UserContextInterface::USER_TYPE_INTEGRATION:
                 $integration->expects($this->once())
                     ->method('getId')
                     ->will($this->returnValue($userId));
@@ -171,12 +171,12 @@ class TokenUserContextTest extends \PHPUnit_Framework_TestCase
                     ->method('findByConsumerId')
                     ->will($this->returnValue($integration));
                 break;
-            case UserIdentifier::USER_TYPE_ADMIN:
+            case UserContextInterface::USER_TYPE_ADMIN:
                 $token->expects($this->once())
                     ->method('getAdminId')
                     ->will($this->returnValue($userId));
                 break;
-            case UserIdentifier::USER_TYPE_CUSTOMER:
+            case UserContextInterface::USER_TYPE_CUSTOMER:
                 $token->expects($this->once())
                     ->method('getCustomerId')
                     ->will($this->returnValue($userId));
@@ -195,25 +195,25 @@ class TokenUserContextTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'admin token' => [
-                UserIdentifier::USER_TYPE_ADMIN,
+                UserContextInterface::USER_TYPE_ADMIN,
                 1234,
-                UserIdentifier::USER_TYPE_ADMIN,
+                UserContextInterface::USER_TYPE_ADMIN,
                 1234,
             ],
             'customer token' => [
-                UserIdentifier::USER_TYPE_CUSTOMER,
+                UserContextInterface::USER_TYPE_CUSTOMER,
                 1234,
-                UserIdentifier::USER_TYPE_CUSTOMER,
+                UserContextInterface::USER_TYPE_CUSTOMER,
                 1234,
             ],
             'integration token' => [
-                UserIdentifier::USER_TYPE_INTEGRATION,
+                UserContextInterface::USER_TYPE_INTEGRATION,
                 1234,
-                UserIdentifier::USER_TYPE_INTEGRATION,
+                UserContextInterface::USER_TYPE_INTEGRATION,
                 1234,
             ],
             'guest user type' => [
-                UserIdentifier::USER_TYPE_GUEST,
+                UserContextInterface::USER_TYPE_GUEST,
                 1234,
                 null,
                 null,

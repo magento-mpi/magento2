@@ -9,7 +9,6 @@
 namespace Magento\User\Model\Authorization;
 
 use Magento\Authorization\Model\UserContextInterface;
-use Magento\Authz\Model\UserIdentifier;
 use Magento\Backend\Model\Auth\Session as AdminSession;
 
 /**
@@ -45,6 +44,6 @@ class AdminSessionUserContext implements UserContextInterface
      */
     public function getUserType()
     {
-        return UserIdentifier::USER_TYPE_ADMIN;
+        return UserContextInterface::USER_TYPE_ADMIN;
     }
 }

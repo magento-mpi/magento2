@@ -7,6 +7,7 @@
  */
 namespace Magento\Authz\Service;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Service\AuthorizationV1Test\UserLocatorStub;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Authorization\Model\Acl\AclRetriever;
@@ -32,7 +33,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service = $objectManager->create(
             'Magento\\Authz\\Service\\AuthorizationV1',
             array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
+                'userIdentifier' => $this->_createUserIdentifier(UserContextInterface::USER_TYPE_INTEGRATION),
                 'logger' => $loggerMock
             )
         );
@@ -44,11 +45,11 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testGetAllowedResources()
     {
-        $userIdentifierA = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
+        $userIdentifierA = $this->_createUserIdentifier(UserContextInterface::USER_TYPE_INTEGRATION);
         $resourcesA = array('Magento_Adminhtml::dashboard', 'Magento_Cms::page');
         $this->_service->grantPermissions($userIdentifierA, $resourcesA);
 
-        $userIdentifierB = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
+        $userIdentifierB = $this->_createUserIdentifier(UserContextInterface::USER_TYPE_INTEGRATION);
         $resourcesB = array('Magento_Cms::block', 'Magento_Sales::cancel');
         $this->_service->grantPermissions($userIdentifierB, $resourcesB);
 
@@ -75,7 +76,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testGetAllowedResourcesRoleNotFound()
     {
-        $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
+        $userIdentifier = $this->_createUserIdentifier(UserContextInterface::USER_TYPE_INTEGRATION);
         $this->_aclRetriever->getAllowedResourcesByUser($userIdentifier);
     }
 
@@ -87,7 +88,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
      */
     protected function _createUserIdentifier($userType)
     {
-        $userId = $userType == UserIdentifier::USER_TYPE_GUEST ? 0 : rand(1, 1000);
+        $userId = $userType == UserContextInterface::USER_TYPE_GUEST ? 0 : rand(1, 1000);
         $userLocatorStub = new UserLocatorStub();
         return new UserIdentifier($userLocatorStub, $userType, $userId);
     }

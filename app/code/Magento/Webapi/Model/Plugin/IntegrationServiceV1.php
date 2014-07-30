@@ -8,6 +8,7 @@
 
 namespace Magento\Webapi\Model\Plugin;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Authz\Model\UserIdentifier\Factory as UserIdentifierFactory;
 use Magento\Integration\Model\Integration as IntegrationModel;
@@ -137,7 +138,7 @@ class IntegrationServiceV1
     protected function _createUserIdentifier($integrationId)
     {
         $userIdentifier = $this->_userIdentifierFactory->create(
-            UserIdentifier::USER_TYPE_INTEGRATION,
+            UserContextInterface::USER_TYPE_INTEGRATION,
             (int)$integrationId
         );
         return $userIdentifier;

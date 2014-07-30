@@ -13,7 +13,7 @@ use Magento\Authorization\Model\Resource\Rules\CollectionFactory as RulesCollect
 use Magento\Authorization\Model\Role;
 use Magento\Authorization\Model\RoleFactory;
 use Magento\Authorization\Model\RulesFactory;
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Acl;
 use Magento\Framework\Acl\Builder as AclBuilder;
 use Magento\Framework\Acl\RootResource as RootAclResource;
@@ -144,10 +144,10 @@ class AuthorizationService implements AuthorizationServiceInterface
      */
     protected function _createRole($integrationId)
     {
-        $roleName = UserIdentifier::USER_TYPE_INTEGRATION . $integrationId;
+        $roleName = UserContextInterface::USER_TYPE_INTEGRATION . $integrationId;
         $role = $this->_roleFactory->create();
         $role->setRoleName($roleName)
-            ->setUserType(UserIdentifier::USER_TYPE_INTEGRATION)
+            ->setUserType(UserContextInterface::USER_TYPE_INTEGRATION)
             ->setUserId($integrationId)
             ->setRoleType(\Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE)
             ->setParentId(0)
@@ -163,7 +163,7 @@ class AuthorizationService implements AuthorizationServiceInterface
      */
     protected function _deleteRole($integrationId)
     {
-        $roleName = UserIdentifier::USER_TYPE_INTEGRATION . $integrationId;
+        $roleName = UserContextInterface::USER_TYPE_INTEGRATION . $integrationId;
         $role = $this->_roleFactory->create()->load($roleName, 'role_name');
         return $role->delete();
     }
@@ -178,7 +178,9 @@ class AuthorizationService implements AuthorizationServiceInterface
     {
         $roleCollection = $this->_roleCollectionFactory->create();
         /** @var Role $role */
-        $role = $roleCollection->setUserFilter($integrationId, UserIdentifier::USER_TYPE_INTEGRATION)->getFirstItem();
+        $role = $roleCollection
+            ->setUserFilter($integrationId, UserContextInterface::USER_TYPE_INTEGRATION)
+            ->getFirstItem();
         return $role->getId() ? $role : false;
     }
 

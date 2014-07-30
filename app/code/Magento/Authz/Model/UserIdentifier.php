@@ -14,19 +14,6 @@ use Magento\Authorization\Model\UserContextInterface;
  */
 class UserIdentifier
 {
-    /**#@+
-     * User types.
-     */
-    const USER_TYPE_INTEGRATION = 1;
-
-    const USER_TYPE_ADMIN = 2;
-
-    const USER_TYPE_CUSTOMER = 3;
-
-    const USER_TYPE_GUEST = 4;
-
-    /**#@-*/
-
     /**
      * User type (admin, customer, guest, web API integration).
      *
@@ -51,7 +38,7 @@ class UserIdentifier
     {
         $userType = isset($userType) ? $userType : $userContext->getUserType();
         $userId = isset($userId) ? $userId : $userContext->getUserId();
-        if ($userType == self::USER_TYPE_GUEST && $userId) {
+        if ($userType == UserContextInterface::USER_TYPE_GUEST && $userId) {
             throw new \LogicException('Guest user must not have user ID set.');
         }
         $this->_setUserId($userId);
@@ -105,10 +92,10 @@ class UserIdentifier
     protected function _setUserType($userType)
     {
         $availableTypes = array(
-            self::USER_TYPE_GUEST,
-            self::USER_TYPE_CUSTOMER,
-            self::USER_TYPE_ADMIN,
-            self::USER_TYPE_INTEGRATION
+            UserContextInterface::USER_TYPE_GUEST,
+            UserContextInterface::USER_TYPE_CUSTOMER,
+            UserContextInterface::USER_TYPE_ADMIN,
+            UserContextInterface::USER_TYPE_INTEGRATION
         );
         if (!in_array($userType, $availableTypes)) {
             throw new \LogicException(

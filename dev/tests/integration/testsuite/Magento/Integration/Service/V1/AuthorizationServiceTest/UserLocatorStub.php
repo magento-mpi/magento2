@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Service\V1\AuthorizationServiceTest;
 
 use Magento\Authorization\Model\UserContextInterface;

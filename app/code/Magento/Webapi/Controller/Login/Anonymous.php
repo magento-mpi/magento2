@@ -8,7 +8,7 @@
  */
 namespace Magento\Webapi\Controller\Login;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 
 class Anonymous extends \Magento\Framework\App\Action\Action
 {
@@ -40,7 +40,7 @@ class Anonymous extends \Magento\Framework\App\Action\Action
     {
         $this->session->start('frontend');
         $this->session->setUserId(0);
-        $this->session->setUserType(UserIdentifier::USER_TYPE_GUEST);
+        $this->session->setUserType(UserContextInterface::USER_TYPE_GUEST);
         $this->session->regenerateId(true);
     }
 }

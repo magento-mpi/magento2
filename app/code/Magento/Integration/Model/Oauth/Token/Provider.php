@@ -5,11 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Model\Oauth\Token;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Oauth\TokenProviderInterface;
 use Magento\Integration\Model\Oauth\Token;
-use Magento\Authz\Model\UserIdentifier;
 
 class Provider implements TokenProviderInterface
 {
@@ -295,7 +296,7 @@ class Provider implements TokenProviderInterface
      */
     public function getIntegrationTokenByConsumerId($consumerId)
     {
-        $token = $this->token->loadByConsumerIdAndUserType($consumerId, UserIdentifier::USER_TYPE_INTEGRATION);
+        $token = $this->token->loadByConsumerIdAndUserType($consumerId, UserContextInterface::USER_TYPE_INTEGRATION);
 
         if (!$token->getId()) {
             throw new \Magento\Framework\Oauth\Exception(

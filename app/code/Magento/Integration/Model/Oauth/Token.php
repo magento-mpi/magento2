@@ -7,10 +7,10 @@
  */
 namespace Magento\Integration\Model\Oauth;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
 use Magento\Integration\Model\Resource\Oauth\Token\Collection as TokenCollection;
 use Magento\Framework\Oauth\Exception as OauthException;
-use Magento\Authz\Model\UserIdentifier;
 
 /**
  * oAuth token model
@@ -170,7 +170,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
                     'secret' => $this->_oauthHelper->generateTokenSecret(),
                     'verifier' => $this->_oauthHelper->generateVerifier(),
                     'callback_url' => OauthHelper::CALLBACK_ESTABLISHED,
-                    'user_type' => UserIdentifier::USER_TYPE_INTEGRATION //As of now only integrations use Oauth
+                    'user_type' => UserContextInterface::USER_TYPE_INTEGRATION //As of now only integrations use Oauth
                 )
             );
             $this->validate();
@@ -190,7 +190,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
         if (self::TYPE_REQUEST != $this->getType()) {
             throw new OauthException('Cannot convert to access token due to token is not request type');
         }
-        return $this->saveAccessToken(UserIdentifier::USER_TYPE_INTEGRATION);
+        return $this->saveAccessToken(UserContextInterface::USER_TYPE_INTEGRATION);
     }
 
     /**
@@ -202,7 +202,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
     public function createAdminToken($userId)
     {
         $this->setAdminId($userId);
-        return $this->saveAccessToken(UserIdentifier::USER_TYPE_ADMIN);
+        return $this->saveAccessToken(UserContextInterface::USER_TYPE_ADMIN);
     }
 
     /**
@@ -214,7 +214,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
     public function createCustomerToken($userId)
     {
         $this->setCustomerId($userId);
-        return $this->saveAccessToken(UserIdentifier::USER_TYPE_CUSTOMER, $userId);
+        return $this->saveAccessToken(UserContextInterface::USER_TYPE_CUSTOMER, $userId);
     }
 
     /**

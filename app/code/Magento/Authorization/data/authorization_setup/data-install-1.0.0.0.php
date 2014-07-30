@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 use Magento\Authorization\Model\Acl\Role\Group as RoleGroup;
+use Magento\Authorization\Model\UserContextInterface;
 
 /**
  * Save administrators group role and rules
@@ -18,7 +19,7 @@ $roleCollection = $this->createRoleCollection()
     ->addFieldToFilter('tree_level', 1)
     ->addFieldToFilter('role_type', RoleGroup::ROLE_TYPE)
     ->addFieldToFilter('user_id', 0)
-    ->addFieldToFilter('user_type', \Magento\Authz\Model\UserIdentifier::USER_TYPE_ADMIN)
+    ->addFieldToFilter('user_type', UserContextInterface::USER_TYPE_ADMIN)
     ->addFieldToFilter('role_name', 'Administrators');
 
 if ($roleCollection->count() == 0) {
@@ -29,7 +30,7 @@ if ($roleCollection->count() == 0) {
             'sort_order' => 1,
             'role_type' => RoleGroup::ROLE_TYPE,
             'user_id' => 0,
-            'user_type' => \Magento\Authz\Model\UserIdentifier::USER_TYPE_ADMIN,
+            'user_type' => UserContextInterface::USER_TYPE_ADMIN,
             'role_name' => 'Administrators'
         )
     )->save();

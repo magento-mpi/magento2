@@ -7,6 +7,7 @@
  */
 namespace Magento\TestFramework;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\App\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
@@ -466,7 +467,7 @@ class Application
                 'tree_level' => $roleAdmin->getTreeLevel() + 1,
                 'role_type' => \Magento\Authorization\Model\Acl\Role\User::ROLE_TYPE,
                 'user_id' => $user->getId(),
-                'user_type' => \Magento\Authz\Model\UserIdentifier::USER_TYPE_ADMIN,
+                'user_type' => UserContextInterface::USER_TYPE_ADMIN,
                 'role_name' => $user->getFirstname()
             )
         );

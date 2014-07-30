@@ -9,7 +9,6 @@
 namespace Magento\Webapi\Model\Authorization;
 
 use Magento\Authorization\Model\UserContextInterface;
-use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Service\V1\Integration as IntegrationService;
 use Magento\Webapi\Controller\Request;
 use Magento\Framework\Oauth\Helper\Request as OauthRequestHelper;
@@ -92,6 +91,6 @@ class OauthUserContext implements UserContextInterface
      */
     public function getUserType()
     {
-        return UserIdentifier::USER_TYPE_INTEGRATION;
+        return UserContextInterface::USER_TYPE_INTEGRATION;
     }
 }

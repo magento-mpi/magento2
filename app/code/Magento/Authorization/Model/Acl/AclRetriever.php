@@ -8,6 +8,7 @@
 
 namespace Magento\Authorization\Model\Acl;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Authz\Service\AuthorizationV1 as AuthorizationService;
 use Magento\Framework\Exception\AuthorizationException;
@@ -28,9 +29,9 @@ class AclRetriever extends AuthorizationService
      */
     public function getAllowedResourcesByUser($userIdentifier)
     {
-        if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_GUEST) {
+        if ($userIdentifier->getUserType() == UserContextInterface::USER_TYPE_GUEST) {
             return [self::PERMISSION_ANONYMOUS];
-        } elseif ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_CUSTOMER) {
+        } elseif ($userIdentifier->getUserType() == UserContextInterface::USER_TYPE_CUSTOMER) {
             return [self::PERMISSION_SELF];
         }
         try {

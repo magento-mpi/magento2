@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Service\Data\AbstractObject;
@@ -99,7 +99,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param PathProcessor $pathProcessor
      * @param \Magento\Framework\App\AreaList $areaList
      * @param PartialResponseProcessor $partialResponseProcessor
-     * @param \Magento\Authorization\Model\UserContextInterface $userContext
+     * @param UserContextInterface $userContext
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -117,7 +117,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         PathProcessor $pathProcessor,
         \Magento\Framework\App\AreaList $areaList,
         PartialResponseProcessor $partialResponseProcessor,
-        \Magento\Authorization\Model\UserContextInterface $userContext
+        UserContextInterface $userContext
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -241,7 +241,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         foreach ($parameters as $name => $paramData) {
             if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
                 if ($paramData[Converter::KEY_VALUE] == "%customer_id%"
-                    && $this->userContext->getUserType() === UserIdentifier::USER_TYPE_CUSTOMER
+                    && $this->userContext->getUserType() === UserContextInterface::USER_TYPE_CUSTOMER
                 ) {
                     $value = $this->userContext->getUserId();
                 } else {

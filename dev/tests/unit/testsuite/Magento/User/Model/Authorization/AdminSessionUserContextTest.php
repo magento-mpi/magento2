@@ -8,7 +8,7 @@
 
 namespace Magento\User\Model\Authorization;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 
 /**
  * Tests Magento\User\Model\Authorization\AdminSessionUserContext
@@ -65,7 +65,7 @@ class AdminSessionUserContextTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUserType()
     {
-        $this->assertEquals(UserIdentifier::USER_TYPE_ADMIN, $this->adminSessionUserContext->getUserType());
+        $this->assertEquals(UserContextInterface::USER_TYPE_ADMIN, $this->adminSessionUserContext->getUserType());
     }
 
     /**

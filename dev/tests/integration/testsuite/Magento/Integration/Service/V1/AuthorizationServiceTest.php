@@ -7,6 +7,7 @@
  */
 namespace Magento\Integration\Service\V1;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Integration\Service\V1\AuthorizationServiceTest\UserLocatorStub;
 use Magento\Authz\Model\UserIdentifier;
 
@@ -28,7 +29,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service = $objectManager->create(
             'Magento\Integration\Service\V1\AuthorizationService',
             array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
+                'userIdentifier' => $this->_createUserIdentifier(UserContextInterface::USER_TYPE_INTEGRATION),
                 'logger' => $loggerMock
             )
         );
@@ -57,7 +58,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'integration' => array(
-                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
+                'userType' => UserContextInterface::USER_TYPE_INTEGRATION,
                 'resources' => array('Magento_Sales::create', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
             )
         );
@@ -90,12 +91,12 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'integration' => array(
-                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
+                'userType' => UserContextInterface::USER_TYPE_INTEGRATION,
                 'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
                 'newResources' => array('Magento_Sales::cancel', 'Magento_Cms::page_delete')
             ),
             'integration clear permissions' => array(
-                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
+                'userType' => UserContextInterface::USER_TYPE_INTEGRATION,
                 'initialResources' => array('Magento_Sales::capture', 'Magento_Cms::page_delete'),
                 'newResources' => array()
             )
@@ -107,7 +108,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGrantAllPermissions()
     {
-        $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
+        $userIdentifier = $this->_createUserIdentifier(UserContextInterface::USER_TYPE_INTEGRATION);
         $this->_service->grantAllPermissions($userIdentifier->getUserId());
         $this->_ensurePermissionsAreGranted($userIdentifier, array('Magento_Adminhtml::all'));
     }
@@ -120,7 +121,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function _createUserIdentifier($userType)
     {
-        $userId = $userType == UserIdentifier::USER_TYPE_GUEST ? 0 : rand(1, 1000);
+        $userId = $userType == UserContextInterface::USER_TYPE_GUEST ? 0 : rand(1, 1000);
         $userLocatorStub = new UserLocatorStub();
         return new UserIdentifier($userLocatorStub, $userType, $userId);
     }

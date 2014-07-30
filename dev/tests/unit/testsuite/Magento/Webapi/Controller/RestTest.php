@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Exception\AuthorizationException;
 
 /**
@@ -265,42 +265,42 @@ class RestTest extends \PHPUnit_Framework_TestCase
                 ['Name1' => ['force' => false, 'value' => 'valueOverride']],
                 ['Name1' => 'valueIn'],
                 1,
-                UserIdentifier::USER_TYPE_INTEGRATION,
+                UserContextInterface::USER_TYPE_INTEGRATION,
             ],
             'force true, value present' => [
                 ['Name1' => 'valueIn'],
                 ['Name1' => ['force' => true, 'value' => 'valueOverride']],
                 ['Name1' => 'valueOverride'],
                 1,
-                UserIdentifier::USER_TYPE_INTEGRATION,
+                UserContextInterface::USER_TYPE_INTEGRATION,
             ],
             'force true, value not present' => [
                 ['Name1' => 'valueIn'],
                 ['Name2' => ['force' => true, 'value' => 'valueOverride']],
                 ['Name1' => 'valueIn', 'Name2' => 'valueOverride'],
                 1,
-                UserIdentifier::USER_TYPE_INTEGRATION,
+                UserContextInterface::USER_TYPE_INTEGRATION,
             ],
             'force false, value not present' => [
                 ['Name1' => 'valueIn'],
                 ['Name2' => ['force' => false, 'value' => 'valueOverride']],
                 ['Name1' => 'valueIn', 'Name2' => 'valueOverride'],
                 1,
-                UserIdentifier::USER_TYPE_INTEGRATION,
+                UserContextInterface::USER_TYPE_INTEGRATION,
             ],
             'force true, value present, override value is %customer_id%' => [
                 ['Name1' => 'valueIn'],
                 ['Name1' => ['force' => true, 'value' => '%customer_id%']],
                 ['Name1' => '1234'],
                 1234,
-                UserIdentifier::USER_TYPE_CUSTOMER,
+                UserContextInterface::USER_TYPE_CUSTOMER,
             ],
             'force true, value present, override value is %customer_id%, not a customer' => [
                 ['Name1' => 'valueIn'],
                 ['Name1' => ['force' => true, 'value' => '%customer_id%']],
                 ['Name1' => '%customer_id%'],
                 1234,
-                UserIdentifier::USER_TYPE_INTEGRATION,
+                UserContextInterface::USER_TYPE_INTEGRATION,
             ],
         ];
     }

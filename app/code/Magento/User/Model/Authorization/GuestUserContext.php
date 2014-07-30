@@ -8,7 +8,6 @@
 
 namespace Magento\User\Model\Authorization;
 
-use Magento\Authz\Model\UserIdentifier;
 use Magento\Authorization\Model\UserContextInterface;
 
 /**
@@ -29,6 +28,6 @@ class GuestUserContext implements UserContextInterface
      */
     public function getUserType()
     {
-        return UserIdentifier::USER_TYPE_GUEST;
+        return UserContextInterface::USER_TYPE_GUEST;
     }
 }

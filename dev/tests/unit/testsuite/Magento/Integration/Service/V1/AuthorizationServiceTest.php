@@ -8,7 +8,7 @@
 namespace Magento\Integration\Service\V1;
 
 use Magento\Authorization\Model\Role;
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 
 class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,7 +54,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     public function testRemovePermissions()
     {
         $integrationId = 22;
-        $roleName = UserIdentifier::USER_TYPE_INTEGRATION . $integrationId;
+        $roleName = UserContextInterface::USER_TYPE_INTEGRATION . $integrationId;
         $this->roleMock->expects($this->once())->method('load')->with($roleName)->will($this->returnSelf());
         $this->integrationAuthorizationService->removePermissions($integrationId);
     }

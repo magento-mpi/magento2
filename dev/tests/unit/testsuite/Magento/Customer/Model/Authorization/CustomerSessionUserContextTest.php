@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Model\Authorization;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 
 /**
  * Tests Magento\Customer\Model\Authorization\CustomerSessionUserContext
@@ -61,7 +61,7 @@ class CustomerSessionUserContextTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUserType()
     {
-        $this->assertEquals(UserIdentifier::USER_TYPE_CUSTOMER, $this->customerSessionUserContext->getUserType());
+        $this->assertEquals(UserContextInterface::USER_TYPE_CUSTOMER, $this->customerSessionUserContext->getUserType());
     }
 
     /**

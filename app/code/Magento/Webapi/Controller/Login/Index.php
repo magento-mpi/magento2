@@ -8,7 +8,7 @@
  */
 namespace Magento\Webapi\Controller\Login;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Webapi\Exception;
@@ -84,7 +84,7 @@ class Index extends \Magento\Framework\App\Action\Action
         }
         $this->session->start('frontend');
         $this->session->setUserId($customerData->getId());
-        $this->session->setUserType(UserIdentifier::USER_TYPE_CUSTOMER);
+        $this->session->setUserType(UserContextInterface::USER_TYPE_CUSTOMER);
         $this->session->regenerateId(true);
     }
 

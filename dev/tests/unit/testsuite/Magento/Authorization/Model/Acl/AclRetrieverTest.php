@@ -8,6 +8,7 @@
 
 namespace Magento\Authorization\Model\Acl;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Authorization\Model\Role;
 
@@ -33,7 +34,7 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
         $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
             ->disableOriginalConstructor()->setMethods(['getUserType'])->getMock();
         $userIdentifierMock->expects($this->any())->method('getUserType')->will(
-            $this->returnValue(UserIdentifier::USER_TYPE_GUEST)
+            $this->returnValue(UserContextInterface::USER_TYPE_GUEST)
         );
         $allowedResources = $this->aclRetriever->getAllowedResourcesByUser($userIdentifierMock);
         $this->assertEquals(
@@ -51,7 +52,7 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
         $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
             ->disableOriginalConstructor()->setMethods(['getUserType'])->getMock();
         $userIdentifierMock->expects($this->any())->method('getUserType')->will(
-            $this->returnValue(UserIdentifier::USER_TYPE_CUSTOMER)
+            $this->returnValue(UserContextInterface::USER_TYPE_CUSTOMER)
         );
         $allowedResources = $this->aclRetriever->getAllowedResourcesByUser($userIdentifierMock);
         $this->assertEquals(
@@ -73,7 +74,7 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
         $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
             ->disableOriginalConstructor()->setMethods(['getUserType'])->getMock();
         $userIdentifierMock->expects($this->any())->method('getUserType')->will(
-            $this->returnValue(UserIdentifier::USER_TYPE_INTEGRATION)
+            $this->returnValue(UserContextInterface::USER_TYPE_INTEGRATION)
         );
         $this->aclRetriever->getAllowedResourcesByUser($userIdentifierMock);
     }
@@ -85,7 +86,7 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
         $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
             ->disableOriginalConstructor()->setMethods(['getUserType', 'getUserId'])->getMock();
         $userIdentifierMock->expects($this->any())->method('getUserType')->will(
-            $this->returnValue(UserIdentifier::USER_TYPE_INTEGRATION)
+            $this->returnValue(UserContextInterface::USER_TYPE_INTEGRATION)
         );
         $userIdentifierMock->expects($this->any())->method('getUserId')->will($this->returnValue(1));
         $expectedResources = ['Magento_Adminhtml::dashboard', 'Magento_Cms::page'];

@@ -7,7 +7,7 @@
  */
 namespace Magento\Integration\Model\Resource\Oauth;
 
-use Magento\Authz\Model\UserIdentifier;
+use Magento\Authorization\Model\UserContextInterface;
 
 /**
  * OAuth token resource model
@@ -138,7 +138,7 @@ class Token extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select = $adapter->select()
             ->from($this->getMainTable())
             ->where('admin_id = ?', $adminId)
-            ->where('user_type = ?', UserIdentifier::USER_TYPE_ADMIN);
+            ->where('user_type = ?', UserContextInterface::USER_TYPE_ADMIN);
         return $adapter->fetchRow($select);
     }
 
@@ -154,7 +154,7 @@ class Token extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select = $adapter->select()
             ->from($this->getMainTable())
             ->where('customer_id = ?', $customerId)
-            ->where('user_type = ?', UserIdentifier::USER_TYPE_CUSTOMER);
+            ->where('user_type = ?', UserContextInterface::USER_TYPE_CUSTOMER);
         return $adapter->fetchRow($select);
     }
 }
