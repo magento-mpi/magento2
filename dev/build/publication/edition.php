@@ -7,24 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define('USAGE', 'php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build] [--additional="<dev_build_ce.txt>"]' . PHP_EOL);
+define('USAGE', 'USAGE: php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build] [--additional="<dev_build_ce.txt>"]');
 try {
     $options = getopt('', array('dir:', 'edition:', 'build', 'additional:'));
-    if (!isset($options['dir']) || !isset($options['edition'])) {
-        throw new Exception(USAGE);
-    }
-
-    $basePath = realpath($options['dir']);
-    require $basePath . '/app/autoload.php';
-    (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-        array(
-            realpath($basePath . '/dev/build/publication/edition/'),
-            realpath($basePath . '/lib/internal/'),
-        )
-    );
-
-    /** @var $configurator \Magento\Tools\Publication\Edition\ConfiguratorInterface */
-    $configurator = null;
+    assertCondition(isset($options['dir']), USAGE);
+    $dir = $options['dir'];
+    assertCondition($dir && is_dir($dir), "The specified directory doesn't exist: {$options['dir']}");
+    assertCondition(isset($options['edition']), USAGE);
 
     $lists = array('common.txt');
     $isBuild = isset($options['build']);
@@ -36,42 +25,65 @@ try {
     switch ($options['edition']) {
         case 'ce':
             $lists[] = 'ee.txt';
-            $configurator = new \Magento\Tools\Publication\Edition\CommunityConfigurator();
+            echo "rename {$dir}/CHANGELOG_CE.md -> CHANGELOG.md" . PHP_EOL;
+            assertCondition(
+                rename("{$dir}/CHANGELOG_CE.md", "{$dir}/CHANGELOG.md"),
+                'Unable to rename CHANGELOG_CE.md to CHANGELOG.md'
+            );
             break;
         case 'ee':
-            $configurator = new \Magento\Tools\Publication\Edition\EnterpriseConfigurator(
-                $basePath,
-                new Magento\Framework\Filesystem\Driver\File()
+            echo "copy {$dir}/etc/enterprise/module.xml.dist -> non-.dist" . PHP_EOL;
+            assertCondition(
+                copy("{$dir}/app/etc/enterprise/module.xml.dist", "{$dir}/app/etc/enterprise/module.xml.dist"),
+                'Unable to copy enterprise/module.xml.dist as .xml'
             );
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
 
-    // Rename CHANGELOG_CE.md to CHANGELOG.md
-    $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$basePath/.git"), escapeshellarg($basePath));
-    $moveCommand = "$gitCmd mv $basePath/CHANGELOG_CE.md $basePath/CHANGELOG.md";
-    exec($moveCommand, $output, $gitMoveExitCode);
-    if ($gitMoveExitCode) {
-        throw new Exception('Failed to rename CHANGELOG_CE.md to CHANGELOG.md');
-    }
-
-    //step #1: configure installation
-    $configurator->configure();
-
-    //step #2: remove files that not belong to edition
-    $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($basePath);
+    // remove files that do not belong to edition
+    $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($dir);
     foreach ($lists as $list) {
         $command .= ' -l ' . escapeshellarg(__DIR__ . '/extruder/' . $list);
     }
+    executeCLI($command, 'Extruder execution failed');
 
-    echo $command . PHP_EOL;
-    passthru($command, $exitCode);
-    if ($exitCode) {
-        throw new Exception('Extruder execution failed');
-    }
-
+    // root composer.json
+    $command = "php -f " . __DIR__ . '/../../tools/Magento/Tools/Composer/create-root.php --'
+        . ' --source-dir=' . escapeshellarg($dir)
+        . ' --target-file=' . escapeshellarg($dir . '/composer.json');
+    executeCLI($command);
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);
+}
+
+/**
+ * A basic assertion
+ *
+ * @param bool $condition
+ * @param string $error
+ * @return void
+ * @throws \Exception
+ */
+function assertCondition($condition, $error)
+{
+    if (!$condition) {
+        throw new \Exception($error);
+    }
+}
+
+/**
+ * Runs a command via CLI
+ *
+ * @param string $command
+ * @param string $error
+ * @return void
+ */
+function executeCLI($command, $error = 'Command has returned non-zero code')
+{
+    echo $command . PHP_EOL;
+    passthru($command, $exitCode);
+    assertCondition(!$exitCode, $error);
 }
