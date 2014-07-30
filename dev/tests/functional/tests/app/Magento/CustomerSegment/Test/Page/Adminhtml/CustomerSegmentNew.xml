@@ -9,7 +9,7 @@
 -->
 <page mca="customersegment/index/new" >
     <block>
-        <name>formTabs</name>
+        <name>customerSegmentForm</name>
         <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\CustomerSegmentForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>

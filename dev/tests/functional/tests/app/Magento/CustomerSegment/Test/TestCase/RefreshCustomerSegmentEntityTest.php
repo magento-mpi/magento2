@@ -22,7 +22,7 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
  * Preconditions:
  * 1. Delete all existed customers.
  * 2. Test segments are created according to specified predefined dataset.
- * 3. Test customers are created on fronend according to specified predefined dataset.
+ * 3. Test customers are created on frontend according to specified predefined dataset.
  *
  * Steps:
  * 1. Login to backend as admin.
@@ -33,8 +33,6 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
  *
  * @group Customer_Segments_(CS)
  * @ZephyrId MAGETWO-26786
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class RefreshCustomerSegmentEntityTest extends Injectable
 {
@@ -46,14 +44,14 @@ class RefreshCustomerSegmentEntityTest extends Injectable
     protected $customerSegmentIndex;
 
     /**
-     * Page of create new customer segment
+     * New Customer Segment page
      *
      * @var CustomerSegmentNew
      */
     protected $customerSegmentNew;
 
     /**
-     * Inject pages
+     * Inject pages and delete all customers
      *
      * @param CustomerSegmentIndex $customerSegmentIndex
      * @param CustomerSegmentNew $customerSegmentNew
@@ -75,22 +73,22 @@ class RefreshCustomerSegmentEntityTest extends Injectable
      * Refresh Customer Segment Entity
      *
      * @param CustomerInjectable $customer
-     * @param CustomerSegment $customerSegmentOriginal
+     * @param CustomerSegment $customerSegment
      * @return void
      */
     public function test(
         CustomerInjectable $customer,
-        CustomerSegment $customerSegmentOriginal
+        CustomerSegment $customerSegment
     ) {
         //Preconditions
         $customer->persist();
-        $customerSegmentOriginal->persist();
+        $customerSegment->persist();
 
         //Steps
         $this->customerSegmentIndex->open();
         $this->customerSegmentIndex->getGrid()->searchAndOpen(
             [
-                'grid_segment_name' => $customerSegmentOriginal->getName(),
+                'grid_segment_name' => $customerSegment->getName(),
             ]
         );
         $this->customerSegmentNew->getPageMainActions()->refreshSegmentData();

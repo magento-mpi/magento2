@@ -16,6 +16,8 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 
 /**
  * Class AssertCustomerSegmentMatchedCustomersInGrid
+ * Check that the customer according to search criteria presents in the grid and have correct values for
+ * the following columns
  */
 class AssertCustomerSegmentMatchedCustomersInGrid extends AbstractConstraint
 {
@@ -28,51 +30,57 @@ class AssertCustomerSegmentMatchedCustomersInGrid extends AbstractConstraint
 
     /**
      * Assert that the customer according to search criteria presents in the grid and have correct values for
-     * the following columns
+     * the following columns:
+     * "Name";
+     * "Email";
+     * "Group";
+     * "Phone";
+     * "ZIP";
+     * "Country";
+     * "State/Province";
      *
-     * @param CustomerSegment $customerSegmentOriginal
+     * @param CustomerSegment $customerSegment
      * @param CustomerInjectable $customer
      * @param CustomerSegmentIndex $customerSegmentIndex
      * @param CustomerSegmentNew $customerSegmentNew
      * @return void
      */
     public function processAssert(
-        CustomerSegment $customerSegmentOriginal,
+        CustomerSegment $customerSegment,
         CustomerInjectable $customer,
         CustomerSegmentIndex $customerSegmentIndex,
         CustomerSegmentNew $customerSegmentNew
     ) {
         $customerSegmentIndex->open();
-        $website = $customerSegmentOriginal->getWebsiteIds();
+        $website = $customerSegment->getWebsiteIds();
         $filter = [
-            'grid_segment_name' => $customerSegmentOriginal->getName(),
-            'grid_segment_is_active' => $customerSegmentOriginal->getIsActive(),
+            'grid_segment_name' => $customerSegment->getName(),
+            'grid_segment_is_active' => $customerSegment->getIsActive(),
             'grid_segment_website' => reset($website),
         ];
         $customerSegmentIndex->getGrid()->searchAndOpen($filter);
-        $customerSegmentNew->getFormTabs()->openTab('matched_customers');
+        $customerSegmentNew->getCustomerSegmentForm()->openTab('matched_customers');
 
         $customerFilter = [
             'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
             'email' => $customer->getEmail(),
             'group_id' => $customer->getGroupId(),
-            'telephone' => $customer->getAddress()[0]['telephone'],
-            'postcode' => $customer->getAddress()[0]['postcode'],
-            'country_id' => $customer->getAddress()[0]['country_id'],
-            'region_id' => $customer->getAddress()[0]['region_id'],
         ];
+
+        if (!empty($customer->getAddress()[0])) {
+            $address = $customer->getAddress()[0];
+            $customerFilter['telephone'] = $address['telephone'];
+            $customerFilter['postcode'] = $address['postcode'];
+            $customerFilter['country_id'] = $address['country_id'];
+            $customerFilter['region_id'] = $address['region_id'];
+        }
 
         \PHPUnit_Framework_Assert::assertTrue(
             $customerSegmentNew->getCustomerSegmentGrid()->isRowVisible($customerFilter),
             'Customer with '
             . 'name \'' . $customerFilter['name'] . '\', '
             . 'email \'' . $customerFilter['email'] . '\' '
-            . 'group_id \'' . $customerFilter['group_id'] . '\' '
-            . 'telephone \'' . $customerFilter['telephone'] . '\' '
-            . 'postcode \'' . $customerFilter['postcode'] . '\' '
-            . 'country_id \'' . $customerFilter['country_id'] . '\' '
-            . 'region_id \'' . $customerFilter['region_id'] . '\' '
-            . 'is absent in Customer grid.'
+            . 'is absent in Customer grid on the Customer Segment page.'
         );
     }
 
@@ -83,6 +91,6 @@ class AssertCustomerSegmentMatchedCustomersInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer is present in Customer grid.';
+        return 'Customer is present in Customer grid on the Customer Segment page.';
     }
 }

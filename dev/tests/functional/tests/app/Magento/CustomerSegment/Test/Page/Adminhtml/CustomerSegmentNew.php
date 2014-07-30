@@ -48,7 +48,7 @@ class CustomerSegmentNew extends BackendPage
     /**
      * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\CustomerSegmentForm
      */
-    public function getFormTabs()
+    public function getCustomerSegmentForm()
     {
         return $this->getBlockInstance('customerSegmentForm');
     }

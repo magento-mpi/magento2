@@ -33,11 +33,11 @@ class FormPageActions extends ParentFormPageActions
 
     /**
      * Click on "Refresh Segment Data" button
+     *
+     * @return void
      */
     public function refreshSegmentData()
     {
         $this->_rootElement->find($this->refreshSegmentData)->click();
-        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
-        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
     }
 }
