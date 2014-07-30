@@ -13,6 +13,7 @@
     <preference for="Magento\ConfigurableProduct\Service\V1\Product\Link\WriteServiceInterface" type="Magento\ConfigurableProduct\Service\V1\Product\Link\WriteService" />
     <preference for="Magento\ConfigurableProduct\Service\V1\ReadServiceInterface" type="Magento\ConfigurableProduct\Service\V1\ReadService" />
     <preference for="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" type="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadService" />
+    <preference for="Magento\ConfigurableProduct\Service\V1\Product\Option\Type\ReadServiceInterface" type="Magento\ConfigurableProduct\Service\V1\Product\Option\Type\ReadService" />
     <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\Option">
         <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin\ConfigurableProduct" sortOrder="50" />
     </type>
