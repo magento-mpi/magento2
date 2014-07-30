@@ -101,7 +101,7 @@ class TokenUserContext implements UserContextInterface
         }
 
         $headerPieces = explode(" ", $authorizationHeaderValue);
-        if (!$headerPieces || count($headerPieces) < 2) {
+        if (!$headerPieces || count($headerPieces) !== 2) {
             $this->isRequestProcessed = true;
             return;
         }
