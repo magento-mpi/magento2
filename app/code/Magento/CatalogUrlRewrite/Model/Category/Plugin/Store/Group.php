@@ -10,8 +10,9 @@ namespace Magento\CatalogUrlRewrite\Model\Category\Plugin\Store;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\Catalog\Model\CategoryFactory;
-use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
+use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
 
 class Group
 {
@@ -24,18 +25,30 @@ class Group
     /** @var CategoryUrlGenerator */
     protected $categoryUrlGenerator;
 
-    /** @var StoreManagerInterface */
+    /** @var ProductUrlGenerator */
+    protected $productUrlGenerator;
+
+    /** @var StoreManagerInterface  */
     protected $storeManager;
 
+    /**
+     * @param UrlPersistInterface $urlPersist
+     * @param CategoryFactory $categoryFactory
+     * @param CategoryUrlGenerator $categoryUrlGenerator
+     * @param ProductUrlGenerator $productUrlGenerator
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
         UrlPersistInterface $urlPersist,
         CategoryFactory $categoryFactory,
         CategoryUrlGenerator $categoryUrlGenerator,
+        ProductUrlGenerator $productUrlGenerator,
         StoreManagerInterface $storeManager
     ) {
         $this->urlPersist = $urlPersist;
         $this->categoryFactory = $categoryFactory;
         $this->categoryUrlGenerator = $categoryUrlGenerator;
+        $this->productUrlGenerator = $productUrlGenerator;
         $this->storeManager = $storeManager;
     }
 
@@ -60,8 +73,10 @@ class Group
                     $category->setStoreId($storeId);
                     $urls = $this->categoryUrlGenerator->generate($category);
                     if ($urls) {
-                        $this->urlPersist->save($urls);
-                        $this->generateProductUrlRewrites($category);
+                        $this->urlPersist->replace(array_merge(
+                            $urls,
+                            $this->generateProductUrlRewrites($category)
+                        ));
                     }
                 }
             }
@@ -83,21 +98,18 @@ class Group
             ->addAttributeToSelect('url_path');
         $productUrls = [];
         foreach ($collection as $product) {
-            $product->setUrlPath($this->categoryUrlPathGenerator->generateUrlKey($product));
             $product->setStoreId($category->getStoreId());
             $product->setStoreIds($category->getStoreIds());
-            $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
             $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
         }
 
-        if ($category->hasChildren()) {
-            foreach ($category->getChildrenCategories() as $subCategory) {
-                $productUrls = array_merge(
-                    $productUrls,
-                    $this->generateProductUrlRewrites($subCategory)
-                );
-            }
+        foreach ($category->getChildrenCategories() as $subCategory) {
+            $productUrls = array_merge(
+                $productUrls,
+                $this->generateProductUrlRewrites($subCategory)
+            );
         }
+
         return $productUrls;
     }
 }

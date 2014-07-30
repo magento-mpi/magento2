@@ -66,17 +66,18 @@ class View
                 $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $store->getId()]);
             }
 
-            $rootCategoryId = $store->getRootCategoryId();
             $categories = $this->categoryFactory->create()
-                ->load($rootCategoryId)
+                ->load($store->getRootCategoryId())
                 ->getChildrenCategories();
             foreach ($categories as $category) {
                 /** @var \Magento\Catalog\Model\Category $category */
                 $category->setStoreId($store->getId());
                 $urls = $this->categoryUrlGenerator->generate($category);
                 if ($urls) {
-                    $this->urlPersist->save($urls);
-                    $this->generateProductUrlRewrites($category);
+                    $this->urlPersist->replace(array_merge(
+                        $urls,
+                        $this->generateProductUrlRewrites($category)
+                    ));
                 }
             }
         }
@@ -97,21 +98,18 @@ class View
             ->addAttributeToSelect('url_path');
         $productUrls = [];
         foreach ($collection as $product) {
-            $product->setUrlPath($this->categoryUrlPathGenerator->generateUrlKey($product));
             $product->setStoreId($category->getStoreId());
             $product->setStoreIds($category->getStoreIds());
-            $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
             $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
         }
 
-        if ($category->hasChildren()) {
-            foreach ($category->getChildrenCategories() as $subCategory) {
-                $productUrls = array_merge(
-                    $productUrls,
-                    $this->generateProductUrlRewrites($subCategory)
-                );
-            }
+        foreach ($category->getChildrenCategories() as $subCategory) {
+            $productUrls = array_merge(
+                $productUrls,
+                $this->generateProductUrlRewrites($subCategory)
+            );
         }
+
         return $productUrls;
     }
 }

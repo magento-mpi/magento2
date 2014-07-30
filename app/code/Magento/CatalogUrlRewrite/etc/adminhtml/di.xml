@@ -12,12 +12,13 @@
         <plugin name="store_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Store\View"/>
     </type>
     <type name="Magento\Store\Model\Group">
-        <plugin name="store_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Store\Group"/>
+        <plugin name="group_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Store\Group"/>
     </type>
     <type name="Magento\Catalog\Model\Category">
-        <plugin name="store_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Category"/>
+        <plugin name="category_save_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Category\Save"/>
+        <plugin name="category_delete_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Category\Remove"/>
     </type>
     <type name="Magento\CatalogImportExport\Model\Import\Product">
-        <plugin name="store_plugin" type="Magento\CatalogUrlRewrite\Model\Product\Plugin\Import"/>
+        <plugin name="import_save_plugin" type="Magento\CatalogUrlRewrite\Model\Product\Plugin\Import"/>
     </type>
 </config>
