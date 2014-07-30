@@ -69,4 +69,14 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
     public function testSetPublicCookie()
     {
     }
+
+    /**
+     * It is not possible to write integration tests for CookieManager::deleteCookie().
+     * PHPUnit the following error when calling the function:
+     *
+     * PHPUnit_Framework_Error_Warning : Cannot modify header information - headers already sent
+     */
+    public function testDeleteCookie()
+    {
+    }
 }
