@@ -211,7 +211,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements Helpe
             $message[] = $additionalMessage;
         }
         if ($exception) {
-            $message[] = __($exception);
+            $message[] = $exception;
         }
         return implode(' ', $message);
     }
