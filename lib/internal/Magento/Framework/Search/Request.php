@@ -43,14 +43,14 @@ class Request implements RequestInterface
     protected $query;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $from;
 
     /**
-     * @var int
+     * @var int|null
      */
-    protected $to;
+    protected $size;
 
     /**
      * @param string $name
@@ -59,7 +59,7 @@ class Request implements RequestInterface
      * @param BucketInterface[] $buckets
      * @param QueryInterface $query
      * @param int|null $from
-     * @param int|null $to
+     * @param int|null $size
      */
     public function __construct(
         $name,
@@ -68,7 +68,7 @@ class Request implements RequestInterface
         array $buckets,
         QueryInterface $query,
         $from = null,
-        $to = null
+        $size = null
     ) {
         $this->name = $name;
         $this->index =$indexName;
@@ -76,7 +76,7 @@ class Request implements RequestInterface
         $this->buckets = $buckets;
         $this->query = $query;
         $this->from = $from;
-        $this->to = $to;
+        $this->size = $size;
     }
 
     /**
@@ -133,8 +133,8 @@ class Request implements RequestInterface
     /**
      * {@inheritdoc}
      */
-    public function getTo()
+    public function getSize()
     {
-        return $this->to;
+        return $this->size;
     }
 }

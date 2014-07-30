@@ -24,27 +24,27 @@ class Range implements FilterInterface
     protected $field;
 
     /**
-     * @var string
+     * @var int
      */
     protected $from;
 
     /**
-     * @var string
+     * @var int
      */
-    protected $to;
+    protected $limit;
 
     /**
      * @param string $name
      * @param string $field
-     * @param string $from
-     * @param string $to
+     * @param int $from
+     * @param int $limit
      */
-    public function __construct($name, $field, $from, $to)
+    public function __construct($name, $field, $from, $limit)
     {
         $this->name = $name;
         $this->field = $field;
         $this->from = $from;
-        $this->to = $to;
+        $this->limit = $limit;
     }
 
     /**
@@ -84,12 +84,12 @@ class Range implements FilterInterface
     }
 
     /**
-     * Get To
+     * Get Limit
      *
      * @return int
      */
-    public function getTo()
+    public function getLimit()
     {
-        return $this->to;
+        return $this->limit;
     }
 }

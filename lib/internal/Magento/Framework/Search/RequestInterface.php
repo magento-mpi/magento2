@@ -59,9 +59,9 @@ interface RequestInterface
     public function getFrom();
 
     /**
-     * Get To
+     * Get Size
      *
      * @return int|null
      */
-    public function getTo();
+    public function getSize();
 }
