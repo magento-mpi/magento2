@@ -10,22 +10,17 @@
 <page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./page_layouts.xsd">
     <layout id="empty">
         <label translate="true">Empty</label>
-        <layout_handle>page_empty</layout_handle>
     </layout>
-    <layout id="one_column">
+    <layout id="1column">
         <label translate="true">1 column</label>
-        <layout_handle>page_one_column</layout_handle>
     </layout>
-    <layout id="two_columns_left">
+    <layout id="2columns-left">
         <label translate="true">2 columns with left bar</label>
-        <layout_handle>page_two_columns_left</layout_handle>
     </layout>
-    <layout id="two_columns_right">
+    <layout id="2columns-right">
         <label translate="true">2 columns with right bar</label>
-        <layout_handle>page_two_columns_right</layout_handle>
     </layout>
-    <layout id="three_columns">
+    <layout id="3columns">
         <label translate="true">3 columns</label>
-        <layout_handle>page_three_columns</layout_handle>
     </layout>
 </page_layouts>

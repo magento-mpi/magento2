@@ -83,6 +83,11 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_view;
 
     /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Cms\Model\Page $page
@@ -104,7 +109,8 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Escaper $escaper,
-        \Magento\Framework\App\ViewInterface $view
+        \Magento\Framework\App\ViewInterface $view,
+        \Magento\Framework\View\Page\Config $pageConfig
     ) {
         $this->messageManager = $messageManager;
         $this->_view = $view;
@@ -116,6 +122,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_storeManager = $storeManager;
         $this->_localeDate = $localeDate;
         $this->_escaper = $escaper;
+        $this->pageConfig = $pageConfig;
         parent::__construct($context);
     }
 
@@ -170,10 +177,6 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
                 $this->_design->setDesignTheme($this->_page->getCustomTheme());
             }
         }
-        $this->_view->getLayout()->getUpdate()->addHandle('default')->addHandle('cms_page_view');
-        $this->_view->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
-
-        $this->_view->addActionLayoutHandles();
         if ($this->_page->getRootTemplate()) {
             if ($this->_page->getCustomRootTemplate()
                 && $this->_page->getCustomRootTemplate() != 'empty'
@@ -183,8 +186,12 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
             } else {
                 $handle = $this->_page->getRootTemplate();
             }
-            $this->_pageLayout->applyHandle($handle);
+            $this->pageConfig->setPageLayout($handle);
         }
+
+        $this->_view->getLayout()->getUpdate()->addHandle('cms_page_view');
+        $this->_view->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
+        $this->_view->addActionLayoutHandles();
 
         $this->_eventManager->dispatch(
             'cms_page_render',
@@ -208,9 +215,9 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
             $contentHeadingBlock->setContentHeading($contentHeading);
         }
 
-        if ($this->_page->getRootTemplate()) {
-            $this->_pageLayout->applyTemplate($this->_page->getRootTemplate());
-        }
+//        if ($this->_page->getRootTemplate()) {
+//            $this->_pageLayout->applyTemplate($this->_page->getRootTemplate());
+//        }
 
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
         $messageBlock = $this->_view->getLayout()->getMessagesBlock();

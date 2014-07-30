@@ -1,7 +1,5 @@
 <?php
 /**
- * Page layout config reader
- * 
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Theme\Model\Layout\Config;
 
+/**
+ * Page layout config reader
+ */
 class Reader extends \Magento\Framework\Config\Reader\Filesystem
 {
     /**

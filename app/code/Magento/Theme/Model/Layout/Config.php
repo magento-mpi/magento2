@@ -1,7 +1,5 @@
 <?php
 /**
- * Page layout config model
- * 
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Theme\Model\Layout;
 
+/**
+ * Page layout config model
+ */
 class Config
 {
     /**
@@ -16,7 +17,7 @@ class Config
      *
      * @var array
      */
-    protected $_pageLayouts = null;
+    protected $_pageLayouts;
 
     /** @var  \Magento\Framework\Config\DataInterface */
     protected $_dataStorage;

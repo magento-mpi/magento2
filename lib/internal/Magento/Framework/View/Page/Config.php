@@ -41,12 +41,20 @@ class Config
     protected $pageLayout;
 
     /**
+     * @var \Magento\Theme\Model\Layout\Config
+     */
+    protected $layoutConfig;
+
+    /**
      * @param \Magento\Framework\View\Asset\Collection $assetCollection
+     * @param \Magento\Theme\Model\Layout\Config $layoutConfig
      */
     public function __construct(
-        \Magento\Framework\View\Asset\Collection $assetCollection
+        \Magento\Framework\View\Asset\Collection $assetCollection,
+        \Magento\Theme\Model\Layout\Config $layoutConfig
     ) {
         $this->assetCollection = $assetCollection;
+        $this->layoutConfig = $layoutConfig;
     }
 
     /**
@@ -106,9 +114,13 @@ class Config
      *
      * @param string $handle
      * @return $this
+     * @throws \UnexpectedValueException
      */
     public function setPageLayout($handle)
     {
+        if (!$this->layoutConfig->getPageLayout($handle)) {
+            throw new \UnexpectedValueException($handle . ' page layout does not exist.');
+        }
         $this->pageLayout = $handle;
         return $this;
     }
