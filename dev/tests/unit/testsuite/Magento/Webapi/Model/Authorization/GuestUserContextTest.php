@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Model\Authorization;
+namespace Magento\Webapi\Model\Authorization;
 
 use Magento\Authorization\Model\UserContextInterface;
 
 /**
- * Tests Magento\User\Model\Authorization\GuestUserContext
+ * Tests Magento\Webapi\Model\Authorization\GuestUserContext
  */
 class GuestUserContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class GuestUserContextTest extends \PHPUnit_Framework_TestCase
     protected $objectManager;
 
     /**
-     * @var \Magento\User\Model\Authorization\GuestUserContext
+     * @var \Magento\Webapi\Model\Authorization\GuestUserContext
      */
     protected $guestUserContext;
 
@@ -30,7 +30,7 @@ class GuestUserContextTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->guestUserContext = $this->objectManager->getObject(
-            'Magento\User\Model\Authorization\GuestUserContext'
+            'Magento\Webapi\Model\Authorization\GuestUserContext'
         );
     }
 

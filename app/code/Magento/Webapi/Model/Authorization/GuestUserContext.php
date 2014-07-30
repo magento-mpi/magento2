@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Model\Authorization;
+namespace Magento\Webapi\Model\Authorization;
 
 use Magento\Authorization\Model\UserContextInterface;
 
