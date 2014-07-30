@@ -124,6 +124,11 @@ class Full
     protected $resource;
 
     /**
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext
+     */
+    protected $fulltextResource;
+
+    /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -137,6 +142,7 @@ class Full
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $fulltextResource
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
@@ -151,7 +157,8 @@ class Full
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\CatalogSearch\Model\Resource\Fulltext $fulltextResource
     ) {
         $this->resource = $resource;
         $this->catalogProductType = $catalogProductType;
@@ -166,6 +173,7 @@ class Full
         $this->dateTime = $dateTime;
         $this->localeResolver = $localeResolver;
         $this->localeDate = $localeDate;
+        $this->fulltextResource = $fulltextResource;
     }
 
     /**
@@ -307,13 +315,25 @@ class Full
 
                 $productIndex = [$productData['entity_id'] => $productAttr];
 
+                $hasChildren = false;
                 $productChildren = $productRelations[$productData['entity_id']];
                 if ($productChildren) {
                     foreach ($productChildren as $productChildId) {
                         if (isset($productAttributes[$productChildId])) {
-                            $productIndex[$productChildId] = $productAttributes[$productChildId];
+                            $productChildAttr = $productAttributes[$productChildId];
+                            if (!isset($productChildAttr[$status->getId()])
+                                || !in_array($productChildAttr[$status->getId()], $statusIds)
+                            ) {
+                                continue;
+                            }
+
+                            $hasChildren = true;
+                            $productIndex[$productChildId] = $productChildAttr;
                         }
                     }
+                }
+                if (!is_null($productChildren) && !$hasChildren) {
+                    continue;
                 }
 
                 $index = $this->prepareProductIndex($productIndex, $productData, $storeId);
@@ -325,7 +345,7 @@ class Full
         }
 
         // Reset only product-specific queries and results.
-        $this->resetSearchResults($storeId, $productIds);
+        $this->fulltextResource->resetSearchResults($storeId, $productIds);
     }
 
     /**
@@ -355,11 +375,13 @@ class Full
             array_merge(['entity_id', 'type_id'], $staticFields)
         )->join(
             ['website' => $this->getTable('catalog_product_website')],
-            $writeAdapter->quoteInto('website.product_id=e.entity_id AND website.website_id=?', $websiteId),
+            $writeAdapter->quoteInto('website.product_id = e.entity_id AND website.website_id = ?', $websiteId),
             []
         )->join(
             ['stock_status' => $this->getTable('cataloginventory_stock_status')],
-            $writeAdapter->quoteInto('stock_status.product_id=e.entity_id AND stock_status.website_id=?', $websiteId),
+            $writeAdapter->quoteInto(
+                'stock_status.product_id = e.entity_id AND stock_status.website_id = ?', $websiteId
+            ),
             ['in_stock' => 'stock_status']
         );
 

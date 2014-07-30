@@ -184,10 +184,7 @@ class Engine extends AbstractDb implements EngineInterface
             $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN (?)', $entityId);
         }
 
-        // Delete locks reading queries and causes performance issues
-        // Insert into index goes with ON_DUPLICATE options.
-        // Insert into catalogsearch_result goes with catalog_product_entity inner join
-        //$this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
 
         return $this;
     }

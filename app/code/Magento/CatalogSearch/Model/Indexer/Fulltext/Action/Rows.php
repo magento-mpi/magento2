@@ -13,11 +13,29 @@ class Rows extends \Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full
      * Refresh entities index
      *
      * @param int[] $entityIds
-     * @param bool $useTempTable
      * @return void
      */
-    public function reindex(array $entityIds = array(), $useTempTable = false)
+    public function reindex(array $entityIds = array())
     {
+        // Index basic products
         $this->rebuildIndex(null, $entityIds);
+        // Index parent products
+        $this->rebuildIndex(null, $this->getProductIdsFromParents($entityIds));
+    }
+
+    /**
+     * Get parents IDs of product IDs to be re-indexed
+     *
+     * @param int[] $entityIds
+     * @return int[]
+     */
+    protected function getProductIdsFromParents(array $entityIds)
+    {
+        return $this->getWriteAdapter()->select()
+            ->from($this->getTable('catalog_product_relation'), 'parent_id')
+            ->distinct(true)
+            ->where('child_id IN (?)', $entityIds)
+            ->where('parent_id NOT IN (?)', $entityIds)
+            ->query()->fetchAll(\Zend_Db::FETCH_COLUMN);
     }
 }

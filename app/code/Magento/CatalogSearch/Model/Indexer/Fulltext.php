@@ -59,9 +59,6 @@ class Fulltext implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
 
         /** @var Fulltext\Action\Rows $action */
         $action = $this->rowsActionFactory->create();
-        if ($this->indexer->isWorking()) {
-            $action->reindex($ids, true);
-        }
         $action->reindex($ids);
     }
 
@@ -94,6 +91,6 @@ class Fulltext implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
      */
     public function executeRow($id)
     {
-        $this->execute(array($id));
+        $this->execute([$id]);
     }
 }
