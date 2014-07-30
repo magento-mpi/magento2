@@ -382,7 +382,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
             $this->fail('Failed to throw exception of excess cookie size.');
         } catch (CookieSizeLimitReachedException $e) {
             $this->assertEquals(
-                'Unable to send the cookie. Size of \'max_cookie_size_test_name\' is 4123 bytes.',
+                "Unable to send the cookie. Size of 'max_cookie_size_test_name' is 4123 bytes.",
                 $e->getMessage()
             );
         }

@@ -172,13 +172,17 @@ class PhpCookieManager implements CookieManager
 
         if ($numCookies > PhpCookieManager::MAX_NUM_COOKIES) {
             throw new CookieSizeLimitReachedException(
-                __('Unable to send the cookie. Maximum number of cookies would be exceeded.')
+                'Unable to send the cookie. Maximum number of cookies would be exceeded.'
             );
         }
 
         if ($sizeOfCookie > PhpCookieManager::MAX_COOKIE_SIZE) {
             throw new CookieSizeLimitReachedException(
-                __('Unable to send the cookie. Size of \'%1\' is %2 bytes.', $name, $sizeOfCookie)
+                "Unable to send the cookie. Size of '%name' is %size bytes.",
+                [
+                    'name' => $name,
+                    'size' => $sizeOfCookie,
+                ]
             );
         }
     }
