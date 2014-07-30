@@ -31,21 +31,6 @@ namespace Magento\Framework\Session {
     }
 
     /**
-     * Mock headers_sent to prevent regenerateId from returning early
-     *
-     * @return bool false
-     */
-    function headers_sent()
-    {
-        global $mockPHPFunctions;
-        if ($mockPHPFunctions) {
-            return false;
-        } else {
-            return call_user_func_array('\headers_sent', func_get_args());
-        }
-    }
-
-    /**
      * Mock session_regenerate_id to fail if false is passed
      *
      * @param bool $var
