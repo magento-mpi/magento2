@@ -62,21 +62,23 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
     <?php foreach ($fields as $field => $data) : ?>
         <?php if ($this->useRegionUpdater($data)) : ?>
             <script type="text/javascript">
-                (function($) {
-                    $('#<?php echo $field ?>').mage('regionUpdater', {
-                        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
-                        regionListId: '#<?php echo $field ?>_region',
-                        regionInputId: '#<?php echo $field ?>_region_text',
-                        isRegionRequired: false,
-                        isZipRequired: false,
-                        isCountryRequired: true,
-                        <?php if ($this->getEntity()->getFieldValue($data['id'] . '_region')): ?>
-                        currentRegion: <?php echo $this->getEntity()->getFieldValue($data['id'] . '_region'); ?>,
-                        <?php endif; ?>
-                        regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>
-                    });
-                })(jQuery);
-            </script>
+require(['jquery', "mage/mage"], function($){
+
+    $('#<?php echo $field ?>').mage('regionUpdater', {
+        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+        regionListId: '#<?php echo $field ?>_region',
+        regionInputId: '#<?php echo $field ?>_region_text',
+        isRegionRequired: false,
+        isZipRequired: false,
+        isCountryRequired: true,
+        <?php if ($this->getEntity()->getFieldValue($data['id'] . '_region')): ?>
+        currentRegion: <?php echo $this->getEntity()->getFieldValue($data['id'] . '_region'); ?>,
+        <?php endif; ?>
+        regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>
+    });
+            
+});
+</script>
         <?php endif; ?>
     <?php endforeach; ?>
 </fieldset>

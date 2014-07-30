@@ -8,6 +8,8 @@
 ?>
 <?php /** @var $this Magento\Shipping\Block\Adminhtml\Order\Tracking */?>
 <script type="text/javascript">
+require(['prototype'], function(){
+
     //<![CDATA[
     var trackingControl;
     trackingControl = {
@@ -47,8 +49,12 @@
                 elem.valueInput.value = '';
             }
         }
-    }
+    };
+
+    window.trackingControl = trackingControl;
     //]]>
+
+});
 </script>
 <table cellspacing="0" class="data-table" id="tracking_numbers_table">
     <thead>
@@ -80,7 +86,11 @@
     </tbody>
 </table>
 <script type="text/javascript">
+require(['prototype'], function(){
+
     //<![CDATA[
     trackingControl.template = new Template('<tr>' + $('track_row_template').innerHTML.replace(/__index__/g, '#{index}') + '<\/tr>');
     //]]>
+
+});
 </script>

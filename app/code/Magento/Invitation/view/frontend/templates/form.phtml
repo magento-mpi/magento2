@@ -41,6 +41,8 @@
         </div>
     </form>
     <script type="text/javascript">
+require(['jquery', 'mage/mage', 'jquery/validate'], function(jQuery){
+
         (function($) {
             /**
              * All input fields have the same name attribute 'email[]',
@@ -57,7 +59,9 @@
             }});
             $('#invitationForm').mage('validation');
         })(jQuery);
-    </script>
+    
+});
+</script>
 <?php else:?>
     <div class="message info empty"><span><?php echo __('You cannot send more invitations'); ?></span></div>
     <div class="actions">

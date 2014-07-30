@@ -4,8 +4,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/dataPost",
+    "jquery/jquery.cookie"
+], function($){
     /**
      * ProductListToolbarForm Widget - this widget is setting cookie and submitting form according to toolbar controls
      */
@@ -56,4 +60,5 @@
             $.cookie(cookieName, cookieValue, {path: '/'});
         }
     });
-})(jQuery);
+
+});

@@ -10,6 +10,8 @@
 /** @var Magento\Rma\Block\Adminhtml\Rma\Edit\Js $this */
 ?>
 <script type="text/javascript">
+require(['prototype', 'Magento_Rma/rma'], function(){
+
 //<![CDATA[
     document.observe('dom:loaded', function () {
         rma.setLoadAttributesUrl('<?php echo $this->getLoadAttributesUrl() ?>');
@@ -35,4 +37,6 @@
         rma.callLoadProductsCallback();
     });
 //]]>
+
+});
 </script>

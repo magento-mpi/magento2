@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template"
+], function($){
+
     $.widget('vde.vdeMessage', {
         options: {
             addMessageEvent: 'addMessage',
@@ -88,4 +93,5 @@
             messageTemplate.appendTo(containerId);
         }
     });
-})(jQuery);
+
+});
