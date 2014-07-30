@@ -62,7 +62,12 @@ class History extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
-        $this->validator->validate($this);
+        $warnings = $this->validator->validate($this);
+        if (!empty($warnings)) {
+            throw new \Magento\Framework\Model\Exception(
+                __("Cannot save comment") . ":\n" . implode("\n", $warnings)
+            );
+        }
         return $this;
     }
 
