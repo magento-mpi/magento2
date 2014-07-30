@@ -8,8 +8,8 @@
 ?>
 <?php
 /**
- * Template for \Magento\Ui\Listing\Block\ColumnSet
- * @var $this \Magento\Ui\Listing\Block\ColumnSet
+ * Template for \Magento\Ui\Listing\Block\Grid\ColumnSet
+ * @var $this \Magento\Ui\Listing\Block\Grid\ColumnSet
  */
 $numColumns = sizeof($this->getColumns());
 ?>
@@ -24,7 +24,7 @@ $numColumns = sizeof($this->getColumns());
             <?php if ($this->isHeaderVisible()): ?>
                 <tr class="headings">
                 <?php foreach ($this->getColumns() as $_column): ?>
-                <?php /* @var $_column \Magento\Ui\Listing\Block\Column */ ?>
+                <?php /* @var $_column \Magento\Ui\Listing\Block\Grid\Column */ ?>
                     <th data-column="<?php echo $_column->getId() ?>" <?php echo $_column->getHeaderHtmlProperty() ?>>
                             <span><?php echo $_column->getHeaderHtml() ?></span>
                     </th>

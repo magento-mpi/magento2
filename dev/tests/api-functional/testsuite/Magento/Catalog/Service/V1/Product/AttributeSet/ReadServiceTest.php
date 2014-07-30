@@ -32,6 +32,10 @@ class ReadServiceTest extends WebapiAbstract
 
     public function testGetInfo()
     {
+        $this->markTestIncomplete(
+            'The test relies on system state that is incorrect as it is very fragile. '
+            . 'It must prepare its own data to rely on.'
+        );
         $expectedAttributeSet = array(
             'id' => 4,
             'name' => 'Default',
