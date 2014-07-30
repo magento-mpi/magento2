@@ -80,8 +80,9 @@ class Converter
 
         //set custom attributes
         $customAttributes = $dataObject->getCustomAttributes();
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValue $attributeData */
         foreach ($customAttributes as $attributeData) {
-            $address->setData($attributeData[AttributeValue::ATTRIBUTE_CODE], $attributeData[AttributeValue::VALUE]);
+            $address->setData($attributeData->getAttributeCode(), $attributeData->getValue());
         }
 
         //set fields with custom logic

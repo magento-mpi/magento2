@@ -107,10 +107,10 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $dataObjectMock = $this->getMock('Magento\Checkout\Service\V1\Data\Cart\Address', [], [], '', false);
         $methods = ['setData', 'setStreet', 'setRegionId', 'setRegion', '__wakeUp'];
         $addressMock = $this->getMock('Magento\Sales\Model\Quote\Address', $methods, [], '', false);
-        $attributeValueMock = [
-            AttributeValue::ATTRIBUTE_CODE => 'value_code',
-            AttributeValue::VALUE => 'value'
-        ];
+        $attributeValueMock = $this->getMock('\Magento\Framework\Service\Data\Eav\AttributeValue', [], [], '', false);
+        $attributeValueMock->expects($this->once())->method('getAttributeCode')->will($this->returnValue('value_code'));
+        $attributeValueMock->expects($this->once())->method('getValue')->will($this->returnValue('value'));
+
         $addressData = [
             'some_code' => 'some_value'
         ];
