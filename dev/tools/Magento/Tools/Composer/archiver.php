@@ -79,7 +79,7 @@ try {
         array(
             $workingDir . '/.git',
             $workingDir . '/.idea',
-            $workingDir . '/app/vendor_autoload.php',
+            $workingDir . '/app/etc/vendor_path.php',
         )
     );
 
