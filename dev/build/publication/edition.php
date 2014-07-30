@@ -32,9 +32,10 @@ try {
             );
             break;
         case 'ee':
-            echo "copy {$dir}/etc/enterprise/module.xml.dist -> non-.dist" . PHP_EOL;
+            $moduleXml = "{$dir}/etc/enterprise/module.xml";
+            echo "copy {$moduleXml}.dist -> non-.dist" . PHP_EOL;
             assertCondition(
-                copy("{$dir}/app/etc/enterprise/module.xml.dist", "{$dir}/app/etc/enterprise/module.xml.dist"),
+                copy("{$moduleXml}.dist", $moduleXml),
                 'Unable to copy enterprise/module.xml.dist as .xml'
             );
             break;
