@@ -49,7 +49,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param bool $value 
      * @return self 
      */
-    public function useDefault($value)
+    public function setUseDefault($value)
     {
         return $this->_set(Option::USE_DEFAULT, $value);
     }
