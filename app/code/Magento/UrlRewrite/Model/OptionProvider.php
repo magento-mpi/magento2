@@ -13,13 +13,18 @@ use Magento\Framework\Option\ArrayInterface;
 
 class OptionProvider implements ArrayInterface
 {
-    const TEMPORARY = 302;
+    /**
+     * Permanent redirect code
+     */
     const PERMANENT = 301;
 
     /**
-     * Return option array
-     *
-     * @return array
+     * Redirect code
+     */
+    const TEMPORARY = 302;
+
+    /**
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

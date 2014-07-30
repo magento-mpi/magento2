@@ -17,9 +17,9 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     /**
      * List of allowed category ids
      *
-     * @var int[]|null
+     * @var []
      */
-    protected $_allowedCategoryIds = null;
+    protected $_allowedCategoryIds = [];
 
     /**
      * @var string
@@ -109,7 +109,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
             return $this->_jsonEncoder->encode($result);
         }
 
-        $this->_allowedCategoryIds = null;
+        $this->_allowedCategoryIds = [];
 
         return $result;
     }
@@ -152,9 +152,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
             'product_count' => (int)$node->getProductCount()
         );
 
-        if ($node->getParentId() == Category::TREE_ROOT_ID
-            || (is_array($this->_allowedCategoryIds) && !in_array($result['id'], $this->_allowedCategoryIds))
-        ) {
+        if ($node->getParentId() == Category::TREE_ROOT_ID && !in_array($result['id'], $this->_allowedCategoryIds)) {
             $result['disabled'] = true;
         }
 
