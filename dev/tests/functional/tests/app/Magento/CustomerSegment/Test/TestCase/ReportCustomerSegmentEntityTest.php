@@ -117,7 +117,12 @@ class ReportCustomerSegmentEntityTest extends Injectable
         $result['customerSegments'] = $this->createCustomerSegments($customerSegments);
         // Steps
         $this->reportPage->open();
-        $this->reportPage->getReportGrid()->massaction([], $reportActions['massaction'], false, $reportActions['select']);
+        $this->reportPage->getReportGrid()->massaction(
+            [],
+            $reportActions['massaction'],
+            false,
+            $reportActions['select']
+        );
 
         return $result;
     }
@@ -151,7 +156,7 @@ class ReportCustomerSegmentEntityTest extends Injectable
     }
 
     /**
-     * Create customer segment
+     * Create customer segments
      *
      * @param string $customerSegments
      * @return array
