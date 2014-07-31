@@ -6,26 +6,20 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Plugin;
+namespace Magento\Webapi\Model\Plugin\Service\V1;
 
-use Magento\Authorization\Model\UserContextInterface;
-use Magento\Authz\Model\UserIdentifier;
-use Magento\Authz\Model\UserIdentifier\Factory as UserIdentifierFactory;
-use Magento\Integration\Model\Integration as IntegrationModel;
-use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationInterface;
-use Magento\Integration\Service\V1\AuthorizationServiceInterface as IntegrationAuthorizationInterface;
 use Magento\Authorization\Model\Acl\AclRetriever;
+use Magento\Authorization\Model\UserContextInterface;
+use Magento\Integration\Model\Integration as IntegrationModel;
+use Magento\Integration\Service\V1\AuthorizationServiceInterface as IntegrationAuthorizationInterface;
 
 /**
  * Plugin for \Magento\Integration\Service\V1\Integration.
  */
-class IntegrationServiceV1
+class Integration
 {
     /** @var IntegrationAuthorizationInterface */
     protected $integrationAuthorizationService;
-
-    /** @var UserIdentifierFactory */
-    protected $_userIdentifierFactory;
 
     /** @var  AclRetriever */
     protected $aclRetriever;
@@ -33,16 +27,13 @@ class IntegrationServiceV1
     /**
      * Initialize dependencies.
      *
-     * @param UserIdentifierFactory $userIdentifierFactory
      * @param IntegrationAuthorizationInterface $integrationAuthorizationService
      * @param AclRetriever $aclRetriever
      */
     public function __construct(
-        UserIdentifierFactory $userIdentifierFactory,
         IntegrationAuthorizationInterface $integrationAuthorizationService,
         AclRetriever $aclRetriever
     ) {
-        $this->_userIdentifierFactory = $userIdentifierFactory;
         $this->integrationAuthorizationService = $integrationAuthorizationService;
         $this->aclRetriever  = $aclRetriever;
     }
@@ -101,8 +92,13 @@ class IntegrationServiceV1
     protected function _addAllowedResources(IntegrationModel $integration)
     {
         if ($integration->getId()) {
-            $userIdentifier = $this->_createUserIdentifier($integration->getId());
-            $integration->setData('resource', $this->aclRetriever->getAllowedResourcesByUser($userIdentifier));
+            $integration->setData(
+                'resource',
+                $this->aclRetriever->getAllowedResourcesByUser(
+                    UserContextInterface::USER_TYPE_INTEGRATION,
+                    (int)$integration->getId()
+                )
+            );
         }
     }
 
@@ -127,21 +123,6 @@ class IntegrationServiceV1
                 $this->integrationAuthorizationService->grantPermissions($integration->getId(), array());
             }
         }
-    }
-
-    /**
-     * Instantiate new user identifier for an integration.
-     *
-     * @param int $integrationId
-     * @return UserIdentifier
-     */
-    protected function _createUserIdentifier($integrationId)
-    {
-        $userIdentifier = $this->_userIdentifierFactory->create(
-            UserContextInterface::USER_TYPE_INTEGRATION,
-            (int)$integrationId
-        );
-        return $userIdentifier;
     }
 
     /**

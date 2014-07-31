@@ -9,7 +9,6 @@
 namespace Magento\Authorization\Model\Acl;
 
 use Magento\Authorization\Model\UserContextInterface;
-use Magento\Authz\Model\UserIdentifier;
 use Magento\Authorization\Model\Role;
 
 class AclRetrieverTest extends \PHPUnit_Framework_TestCase
@@ -30,31 +29,21 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
     public function testGetAllowedResourcesByUserTypeGuest()
     {
         $expectedResources = ['anonymous'];
-        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authz\Model\UserIdentifier $userIdentifierMock */
-        $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
-            ->disableOriginalConstructor()->setMethods(['getUserType'])->getMock();
-        $userIdentifierMock->expects($this->any())->method('getUserType')->will(
-            $this->returnValue(UserContextInterface::USER_TYPE_GUEST)
-        );
-        $allowedResources = $this->aclRetriever->getAllowedResourcesByUser($userIdentifierMock);
+        $allowedResources = $this->aclRetriever->getAllowedResourcesByUser(UserContextInterface::USER_TYPE_GUEST, null);
         $this->assertEquals(
             $expectedResources,
             $allowedResources,
             'Allowed resources for guests should be \'anonymous\'.'
         );
-
     }
 
     public function testGetAllowedResourcesByUserTypeCustomer()
     {
         $expectedResources = ['self'];
-        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authz\Model\UserIdentifier $userIdentifierMock */
-        $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
-            ->disableOriginalConstructor()->setMethods(['getUserType'])->getMock();
-        $userIdentifierMock->expects($this->any())->method('getUserType')->will(
-            $this->returnValue(UserContextInterface::USER_TYPE_CUSTOMER)
+        $allowedResources = $this->aclRetriever->getAllowedResourcesByUser(
+            UserContextInterface::USER_TYPE_CUSTOMER,
+            null
         );
-        $allowedResources = $this->aclRetriever->getAllowedResourcesByUser($userIdentifierMock);
         $this->assertEquals(
             $expectedResources,
             $allowedResources,
@@ -70,27 +59,17 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
     public function testGetAllowedResourcesByUserRoleNotFound()
     {
         $this->roleMock->expects($this->once())->method('getId')->will($this->returnValue(null));
-        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authz\Model\UserIdentifier $userIdentifierMock */
-        $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
-            ->disableOriginalConstructor()->setMethods(['getUserType'])->getMock();
-        $userIdentifierMock->expects($this->any())->method('getUserType')->will(
-            $this->returnValue(UserContextInterface::USER_TYPE_INTEGRATION)
-        );
-        $this->aclRetriever->getAllowedResourcesByUser($userIdentifierMock);
+        $this->aclRetriever->getAllowedResourcesByUser(UserContextInterface::USER_TYPE_INTEGRATION, null);
     }
 
     public function testGetAllowedResourcesByUser()
     {
         $this->roleMock->expects($this->any())->method('getId')->will($this->returnValue(1));
-        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authz\Model\UserIdentifier $userIdentifierMock */
-        $userIdentifierMock = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')
-            ->disableOriginalConstructor()->setMethods(['getUserType', 'getUserId'])->getMock();
-        $userIdentifierMock->expects($this->any())->method('getUserType')->will(
-            $this->returnValue(UserContextInterface::USER_TYPE_INTEGRATION)
-        );
-        $userIdentifierMock->expects($this->any())->method('getUserId')->will($this->returnValue(1));
         $expectedResources = ['Magento_Adminhtml::dashboard', 'Magento_Cms::page'];
-        $this->assertEquals($expectedResources, $this->aclRetriever->getAllowedResourcesByUser($userIdentifierMock));
+        $this->assertEquals(
+            $expectedResources,
+            $this->aclRetriever->getAllowedResourcesByUser(UserContextInterface::USER_TYPE_INTEGRATION, 1)
+        );
     }
 
     protected function createAclRetriever()
@@ -102,16 +81,6 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authorization\Model\RoleFactory $roleFactoryMock */
-        $roleFactoryMock = $this->getMock(
-            'Magento\Authorization\Model\RoleFactory',
-            array('create'),
-            array(),
-            '',
-            false
-        );
-        $roleFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->roleMock));
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Authorization\Model\Resource\Role\Collection $roleCollectionMock */
         $roleCollectionMock = $this->getMock(
@@ -194,12 +163,9 @@ class AclRetrieverTest extends \PHPUnit_Framework_TestCase
 
         return new AclRetriever(
             $aclBuilderMock,
-            $roleFactoryMock,
             $roleCollectionFactoryMock,
-            $this->getMock('Magento\Authorization\Model\RulesFactory', array(), array(), '', false),
             $rulesCollectionFactoryMock,
-            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Acl\RootResource', array(), array(), '', false)
+            $this->getMock('Magento\Framework\Logger', array(), array(), '', false)
         );
     }
 }

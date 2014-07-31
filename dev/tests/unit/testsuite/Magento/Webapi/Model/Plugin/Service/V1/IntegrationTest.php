@@ -5,32 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi\Model\Plugin;
+namespace Magento\Webapi\Model\Plugin\Service\V1;
 
-use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Model\Integration;
 use Magento\Authorization\Model\Acl\AclRetriever;
 
-class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
+class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Authorization service mock
-     *
-     * @var \Magento\Authz\Service\AuthorizationV1
-     */
-    protected $authzServiceMock;
-
-    /**
-     * Mock for UserIdentifier Factory
-     *
-     * @var \Magento\Authz\Model\UserIdentifier\Factory
-     */
-    protected $userIdentifierFactoryMock;
-
     /**
      * API setup plugin
      *
-     * @var \Magento\Webapi\Model\Plugin\IntegrationServiceV1
+     * @var \Magento\Webapi\Model\Plugin\Service\V1\Integration
      */
     protected $integrationV1Plugin;
 
@@ -49,16 +34,6 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->authzServiceMock = $this->getMockBuilder(
-            '\Magento\Authz\Service\AuthorizationV1'
-        )->disableOriginalConstructor()->setMethods(
-            array('removePermissions')
-        )->getMock();
-        $this->userIdentifierFactoryMock = $this->getMockBuilder(
-            '\Magento\Authz\Model\UserIdentifier\Factory'
-        )->disableOriginalConstructor()->setMethods(
-            array('create')
-        )->getMock();
         $this->subjectMock = $this->getMock('Magento\Integration\Service\V1\Integration', array(), array(), '', false);
         $this->integrationAuthServiceMock = $this->getMockBuilder(
             'Magento\Integration\Service\V1\AuthorizationServiceInterface'
@@ -66,8 +41,7 @@ class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
         $this->aclRetrieverMock = $this->getMockBuilder('Magento\Authorization\Model\Acl\AclRetriever')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->integrationV1Plugin = new \Magento\Webapi\Model\Plugin\IntegrationServiceV1(
-            $this->userIdentifierFactoryMock,
+        $this->integrationV1Plugin = new \Magento\Webapi\Model\Plugin\Service\V1\Integration(
             $this->integrationAuthServiceMock,
             $this->aclRetrieverMock
         );

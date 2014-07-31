@@ -7,7 +7,6 @@
  */
 namespace Magento\Webapi\Model\Plugin;
 
-use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Model\Integration;
 use Magento\Webapi\Model\IntegrationConfig;
 use Magento\Integration\Service\V1\AuthorizationServiceInterface as IntegrationAuthorizationInterface;
@@ -38,30 +37,20 @@ class Setup
     protected $integrationAuthorizationService;
 
     /**
-     * Factory to create UserIdentifier
-     *
-     * @var \Magento\Authz\Model\UserIdentifier\Factory
-     */
-    protected $_userIdentifierFactory;
-
-    /**
      * Construct Setup plugin instance
      *
      * @param IntegrationConfig $integrationConfig
      * @param IntegrationAuthorizationInterface $integrationAuthorizationService
      * @param \Magento\Integration\Service\V1\IntegrationInterface $integrationService
-     * @param \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
      */
     public function __construct(
         IntegrationConfig $integrationConfig,
         IntegrationAuthorizationInterface $integrationAuthorizationService,
-        \Magento\Integration\Service\V1\IntegrationInterface $integrationService,
-        \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
+        \Magento\Integration\Service\V1\IntegrationInterface $integrationService
     ) {
         $this->_integrationConfig = $integrationConfig;
         $this->integrationAuthorizationService = $integrationAuthorizationService;
         $this->_integrationService = $integrationService;
-        $this->_userIdentifierFactory = $userIdentifierFactory;
     }
 
     /**

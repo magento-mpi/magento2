@@ -5,9 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\User\Block\Role\Tab;
 
-use Magento\Authz\Model\UserIdentifier;
+namespace Magento\User\Block\Role\Tab;
 
 /**
  * Rolesedit Tab Display Block.

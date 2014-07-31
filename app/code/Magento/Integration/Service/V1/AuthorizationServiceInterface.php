@@ -8,9 +8,7 @@
 
 namespace Magento\Integration\Service\V1;
 
-use Magento\Authz\Model\UserIdentifier;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Interface for integration permissions management.
