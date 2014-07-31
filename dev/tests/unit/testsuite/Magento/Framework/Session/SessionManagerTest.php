@@ -95,6 +95,9 @@ namespace Magento\Framework\Session {
             $this->assertSame($expectedValue, $sessionUseOnlyCookies);
         }
 
+        /**
+         * @runInSeparateProcess
+         */
         public function testRegenerateId()
         {
             $this->mockSessionConfig->expects($this->once())
