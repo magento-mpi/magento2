@@ -7,7 +7,7 @@
  */
 namespace Magento\Index\Model\System\Message;
 
-class IndexOutdated implements \Magento\Framework\App\Notification\MessageInterface
+class IndexOutdated implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * @var \Magento\Index\Model\Indexer

@@ -7,7 +7,8 @@
  */
 namespace Magento\AdminNotification\Model;
 
-use \Magento\Framework\App\Notification\MessageInterface;
+use \Magento\Framework\Notification\MessageInterface;
+use \Magento\Framework\Notification\NotifierInterface;
 
 /**
  * AdminNotification Inbox model
@@ -31,7 +32,7 @@ use \Magento\Framework\App\Notification\MessageInterface;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Inbox extends \Magento\Framework\Model\AbstractModel
+class Inbox extends \Magento\Framework\Model\AbstractModel implements NotifierInterface
 {
     /**
      * @return void

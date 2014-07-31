@@ -2709,8 +2709,8 @@ return array(
     ['Magento\Catalog\Helper\Product\Price'],
     ['Magento\Tax\Model\Config\Source\TaxClass\Product', 'Magento\Tax\Model\TaxClass\Source\Product'],
     ['Magento\Tax\Model\Config\Source\TaxClass\Customer', 'Magento\Tax\Model\TaxClass\Source\Customer'],
-    ['Magento\AdminNotification\Model\System\MessageInterface', 'Magento\Framework\App\Notification\MessageInterface'],
-    ['Magento\AdminNotification\Model\System\MessageList', 'Magento\Framework\App\Notification\MessageList'],
+    ['Magento\AdminNotification\Model\System\MessageInterface', 'Magento\Framework\Notification\MessageInterface'],
+    ['Magento\AdminNotification\Model\System\MessageList', 'Magento\Framework\Notification\MessageList'],
     [
         'Magento\CatalogImportExport\Model\Import\Product\Type\Configurable',
         'Magento\ConfigurableImportExport\Model\Import\Product\Type\Configurable'

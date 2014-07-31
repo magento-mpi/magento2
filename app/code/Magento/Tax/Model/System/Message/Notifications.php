@@ -10,7 +10,7 @@ namespace Magento\Tax\Model\System\Message;
 /**
  * Notifications class
  */
-class Notifications implements \Magento\Framework\App\Notification\MessageInterface
+class Notifications implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * Store manager object

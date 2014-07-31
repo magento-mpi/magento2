@@ -7,7 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\System\Message;
 
-class Baseurl implements \Magento\Framework\App\Notification\MessageInterface
+class Baseurl implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * @var \Magento\Framework\UrlInterface

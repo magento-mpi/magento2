@@ -7,7 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\System\Message;
 
-class CacheOutdated implements \Magento\Framework\App\Notification\MessageInterface
+class CacheOutdated implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * @var \Magento\Framework\UrlInterface
@@ -108,6 +108,6 @@ class CacheOutdated implements \Magento\Framework\App\Notification\MessageInterf
      */
     public function getSeverity()
     {
-        return \Magento\Framework\App\Notification\MessageInterface::SEVERITY_CRITICAL;
+        return \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL;
     }
 }

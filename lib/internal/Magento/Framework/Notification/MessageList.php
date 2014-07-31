@@ -5,8 +5,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\App\Notification;
 
+namespace Magento\Framework\Notification;
+
+/**
+ * Class for processing the list of system messages
+ *
+ * Class MessageList
+ */
 class MessageList
 {
     /**
@@ -50,7 +56,7 @@ class MessageList
                 throw new \InvalidArgumentException('Message class for message "' . $key . '" is not set');
             }
             $message = $this->_objectManager->get($messageClass);
-            if ($message instanceof \Magento\Framework\App\Notification\MessageInterface) {
+            if ($message instanceof \Magento\Framework\Notification\MessageInterface) {
                 $this->_messages[$message->getIdentity()] = $message;
             } else {
                 throw new \UnexpectedValueException("Message class has to implement the message interface.");
@@ -63,7 +69,7 @@ class MessageList
      * Retrieve message by
      *
      * @param string $identity
-     * @return null|\Magento\Framework\App\Notification\MessageInterface
+     * @return null|\Magento\Framework\Notification\MessageInterface
      */
     public function getMessageByIdentity($identity)
     {
@@ -74,7 +80,7 @@ class MessageList
     /**
      * Retrieve list of all messages
      *
-     * @return \Magento\Framework\App\Notification\MessageInterface[]
+     * @return \Magento\Framework\Notification\MessageInterface[]
      */
     public function asArray()
     {
