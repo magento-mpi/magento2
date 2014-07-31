@@ -63,8 +63,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      * @param Context $context
      * @param array $data
      */
-    public function __construct(Context $context, array $data = array())
-    {
+    public function __construct(Context $context,array $data = array()) {
         $this->_assetRepo = $context->getAssetRepository();
         $this->_localeDate = $context->getLocaleDate();
         $this->_layout = $context->getLayout();
@@ -159,6 +158,35 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
             'is_value_processed' => $this->getIsValueParsed()
         );
         return $out;
+    }
+
+    /**
+     * Get tables to join
+     *
+     * @return array
+     */
+    public function getTablesToJoin()
+    {
+        $tables = [];
+        $attribute = $this->getAttribute();
+        if ($attribute == 'category_ids') {
+            $tables['cp'] = [
+                'name' => 'catalog_category_product',
+                'condition' => 'cp.product_id = e.entity_id'
+            ];
+        }
+        return $tables;
+    }
+
+    /**
+     * Get field by attribute
+     *
+     * @return string
+     */
+    public function getMappedSqlField()
+    {
+
+        return ($this->getAttribute() == 'category_ids') ? 'cp.category_id' : $this->getAttribute();
     }
 
     /**

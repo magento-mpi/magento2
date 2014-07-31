@@ -19,11 +19,28 @@ class Observer
     protected $_indexer;
 
     /**
-     * @param \Magento\Index\Model\Indexer $indexer
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor
      */
-    public function __construct(\Magento\Index\Model\Indexer $indexer)
-    {
+    protected $_productRuleIndexerProcessor;
+
+    /**
+     * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule
+     */
+    protected $_productRuleIndexer;
+
+    /**
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleIndexerProcessor
+     * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule $productRuleIndexer
+     */
+    public function __construct(
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleIndexerProcessor,
+        \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule $productRuleIndexer
+    ) {
         $this->_indexer = $indexer;
+        $this->_productRuleIndexerProcessor = $productRuleIndexerProcessor;
+        $this->_productRuleIndexer = $productRuleIndexer;
     }
 
     /**
@@ -49,34 +66,6 @@ class Observer
     }
 
     /**
-     * After Catalog Product Save - rebuild product index by rule conditions
-     * and refresh cache index
-     *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return $this
-     */
-    public function catalogProductAfterSave(\Magento\Framework\Event\Observer $observer)
-    {
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = $observer->getEvent()->getProduct();
-
-        $this->_indexer->logEvent(
-            new \Magento\Framework\Object(
-                array(
-                    'id' => $product->getId(),
-                    'store_id' => $product->getStoreId(),
-                    'rule' => $product->getData('rule'),
-                    'from_date' => $product->getData('from_date'),
-                    'to_date' => $product->getData('to_date')
-                )
-            ),
-            \Magento\TargetRule\Model\Index::ENTITY_PRODUCT,
-            \Magento\TargetRule\Model\Index::EVENT_TYPE_REINDEX_PRODUCTS
-        );
-        return $this;
-    }
-
-    /**
      * Process event on 'save_commit_after' event
      *
      * @param \Magento\Framework\Event\Observer $observer
@@ -84,10 +73,24 @@ class Observer
      */
     public function catalogProductSaveCommitAfter(\Magento\Framework\Event\Observer $observer)
     {
-        $this->_indexer->indexEvents(
-            \Magento\TargetRule\Model\Index::ENTITY_PRODUCT,
-            \Magento\TargetRule\Model\Index::EVENT_TYPE_REINDEX_PRODUCTS
-        );
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $observer->getEvent()->getProduct();
+
+        $this->_productRuleIndexerProcessor->reindexRow($product->getId());
+    }
+
+    /**
+     * Process event on 'delete_commit_after' event
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return void
+     */
+    public function catalogProductDeleteCommitAfter(\Magento\Framework\Event\Observer $observer)
+    {
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $observer->getEvent()->getProduct();
+
+        $this->_productRuleIndexer->cleanAfterProductDelete($product->getId());
     }
 
     /**
@@ -101,15 +104,7 @@ class Observer
         if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled' &&
             $observer->getDataObject()->isValueChanged()
         ) {
-            $this->_indexer->logEvent(
-                new \Magento\Framework\Object(array('type_id' => null, 'store' => null)),
-                \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
-                \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
-            );
-            $this->_indexer->indexEvents(
-                \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
-                \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
-            );
+            $this->_productRuleIndexerProcessor->markIndexerAsInvalid();
         }
         return $this;
     }
