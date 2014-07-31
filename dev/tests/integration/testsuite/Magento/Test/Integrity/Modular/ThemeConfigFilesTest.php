@@ -40,6 +40,6 @@ class ThemeConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfi
      */
     protected function _getXsdPath()
     {
-        return '/Magento/Theme/etc/page_layouts.xsd';
+        return '/Magento/Theme/view/base/page_layouts.xsd';
     }
 }
