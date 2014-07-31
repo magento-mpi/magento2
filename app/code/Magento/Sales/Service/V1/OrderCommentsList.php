@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Service\V1;
 
-//use ;
+use Magento\Sales\Model\Order\Status\HistoryRepository;
 use Magento\Sales\Service\V1\Data\OrderStatusHistoryMapper;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
@@ -19,7 +19,7 @@ use Magento\Sales\Service\V1\Data\OrderStatusHistorySearchResultsBuilder;
 class OrderCommentsList implements OrderCommentsListInterface
 {
     /**
-     * @var \Magento\Sales\Model\Order\Status\HistoryRepository
+     * @var HistoryRepository
      */
     protected $historyRepository;
 
@@ -44,14 +44,14 @@ class OrderCommentsList implements OrderCommentsListInterface
     protected $searchResultsBuilder;
 
     /**
-     * @param \Magento\Sales\Model\Order\Status\HistoryRepository $historyRepository
+     * @param HistoryRepository $historyRepository
      * @param OrderStatusHistoryMapper $historyMapper
      * @param SearchCriteriaBuilder $criteriaBuilder
      * @param FilterBuilder $filterBuilder
      * @param OrderStatusHistorySearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
-        \Magento\Sales\Model\Order\Status\HistoryRepository $historyRepository,
+        HistoryRepository $historyRepository,
         OrderStatusHistoryMapper $historyMapper,
         SearchCriteriaBuilder $criteriaBuilder,
         FilterBuilder $filterBuilder,
