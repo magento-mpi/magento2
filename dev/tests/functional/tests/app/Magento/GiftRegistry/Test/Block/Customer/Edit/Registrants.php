@@ -37,10 +37,22 @@ class Registrants extends Element
      * @var array
      */
     protected $recipient = [
-        'firstname' => '[name$="[firstname]"]',
-        'lastname' => '[name$="[lastname]"]',
-        'email' => '[name$="[email]"]',
-        'role' => '[name$="[role]"]',
+        'firstname' => [
+            'selector' => '[name$="[firstname]"]',
+            'input' => null
+        ],
+        'lastname' => [
+            'selector' => '[name$="[lastname]"]',
+            'input' => null
+        ],
+        'email' => [
+            'selector' => '[name$="[email]"]',
+            'input' => null
+        ],
+        'role' => [
+            'selector' => '[name$="[role]"]',
+            'input' => 'select'
+        ]
     ];
 
     /**
@@ -57,11 +69,11 @@ class Registrants extends Element
                 $this->find($this->addRegistrant)->click();
             }
             foreach ($recipient as $field => $value) {
-                if ($field === 'role') {
-                    $registrant->find($this->recipient[$field], Locator::SELECTOR_CSS, 'select')->setValue($value);
-                } else {
-                    $registrant->find($this->recipient[$field])->setValue($value);
-                }
+                $registrant->find(
+                    $this->recipient[$field]['selector'],
+                    Locator::SELECTOR_CSS,
+                    $this->recipient[$field]['input']
+                )->setValue($value);
             }
         }
     }
@@ -77,15 +89,15 @@ class Registrants extends Element
         $key = 0;
         $registrant = $this->find(sprintf($this->registrant, $key));
         while ($registrant->isVisible()) {
-            $recipients[$key]['firstname'] = $registrant->find($this->recipient['firstname'])->getValue();
-            $recipients[$key]['lastname'] = $registrant->find($this->recipient['lastname'])->getValue();
-            $recipients[$key]['email'] = $registrant->find($this->recipient['email'])->getValue();
-            if ($registrant->find($this->recipient['role'])->isVisible()) {
-                $recipients[$key]['role'] = $registrant->find(
-                    $this->recipient['role'],
+            foreach ($this->recipient as $field => $selector) {
+                $element = $registrant->find(
+                    $selector['selector'],
                     Locator::SELECTOR_CSS,
-                    'select'
-                )->getValue();
+                    $selector['input']
+                );
+                if ($element->isVisible()) {
+                    $recipients[$key][$field] = $element->getValue();
+                }
             }
             $registrant = $this->find(sprintf($this->registrant, ++$key));
         }

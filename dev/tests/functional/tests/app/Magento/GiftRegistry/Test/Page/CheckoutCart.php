@@ -17,6 +17,7 @@ class CheckoutCart extends \Magento\Checkout\Test\Page\CheckoutCart
 
     /**
      * Initialize blocks
+     *
      * @return void
      */
     protected function _init()

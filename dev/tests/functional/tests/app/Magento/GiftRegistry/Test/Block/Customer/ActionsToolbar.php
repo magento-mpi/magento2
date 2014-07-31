@@ -25,6 +25,8 @@ class ActionsToolbar extends Block
 
     /**
      * Click on "Add New" button
+     *
+     * @return void
      */
     public function addNew()
     {
