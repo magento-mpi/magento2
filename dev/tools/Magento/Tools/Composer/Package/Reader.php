@@ -204,6 +204,7 @@ class Reader
             $excludes[] = $this->rootDir . '/' . $pattern;
         }
         $excludes[] = $this->rootDir . '/.git';
+        $excludes[] = $this->rootDir . '/app/etc/vendor_path.php';
 
         return $excludes;
     }

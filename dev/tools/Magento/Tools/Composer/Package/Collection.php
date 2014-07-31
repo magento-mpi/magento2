@@ -117,7 +117,7 @@ class Collection
      */
     private function massUpdateByKey($subjectName, $targetValue)
     {
-        $keys = ['require', 'replace'];
+        $keys = ['require'];
         foreach ($this->packages as $package) {
             foreach ($keys as $key) {
                 if ($package->get("{$key}->{$subjectName}")) {

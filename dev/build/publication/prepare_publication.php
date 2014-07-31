@@ -81,10 +81,6 @@ try {
 
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
 
-    // composer.json
-    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
-    execVerbose("$gitCmd add composer.json");
-
     // Travis CI config
     copy(__DIR__ . '/travis/.travis.yml', $targetDir . '/.travis.yml');
     execVerbose("$gitCmd add .travis.yml");

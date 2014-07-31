@@ -26,8 +26,7 @@
         "magento/module-weee": "0.1.0",
         "magento/module-product-alert": "0.1.0",
         "magento/module-url-rewrite": "0.1.0",
-        "magento/framework": "0.1.0",
-        "magento/magento-composer-installer": "*"
+        "magento/framework": "0.1.0"
     },
     "type": "magento2-module",
     "version": "0.1.0",

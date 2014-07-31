@@ -10,8 +10,7 @@
         "magento/module-eav": "0.1.0",
         "magento/module-page-cache": "0.1.0",
         "magento/framework": "0.1.0",
-        "lib-libxml": "*",
-        "magento/magento-composer-installer": "*"
+        "lib-libxml": "*"
     },
     "type": "magento2-module",
     "version": "0.1.0",
