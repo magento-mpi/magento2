@@ -16,7 +16,8 @@ require __DIR__ . '/../../../bootstrap.php';
 
 define(
     'USAGE',
-    "Usage: php -f create-root.php -- [--skeleton] [--wildcard] [--source-dir=<path>] [--target-file=<path>] [--set=<option:value>]
+    "Usage: php -f create-root.php --"
+        . " [--skeleton] [--wildcard] [--source-dir=<path>] [--target-file=<path>] [--set=<option:value>]
     --skeleton - whether to render the result as a project skeleton.
     --wildcard - in the skeleton, whether to set 'require' versions to wildcard
     --source-dir=/path/to/magento/dir - path to a Magento root directory. By default will use current working copy

@@ -7,7 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define('USAGE', 'USAGE: php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--build] [--additional="<dev_build_ce.txt>"]');
+define(
+    'USAGE',
+    'USAGE: php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>"'
+        . ' [--build] [--additional="<dev_build_ce.txt>"]'
+);
 require __DIR__ . '/functions.php';
 try {
     $options = getopt('', array('dir:', 'edition:', 'build', 'additional:'));
@@ -57,7 +61,7 @@ try {
     // composer.lock becomes outdated, once the composer.json has changed
     $composerLock = $dir . '/composer.lock';
     if (file_exists($composerLock)) {
-        execVerbose("{$gitCmd} rm composer.lock");
+        execVerbose("{$gitCmd} rm -f -- composer.lock");
     }
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
@@ -97,7 +101,8 @@ function copyAll($from, $to)
             $dest = $to . $relative;
             $targetDir = dirname($dest);
             if (!is_dir($targetDir)) {
-                mkdir($relative, 0755, true);
+                echo "Mkdir {$targetDir}\n";
+                mkdir($targetDir, 0755, true);
             }
             echo "Copy {$source} to {$dest}\n";
             copy($source, $dest);

@@ -40,7 +40,8 @@ class ReplaceFilter
      */
     public function removeMissing(Package $package)
     {
-        foreach ($package->get('replace') as $key => $value) {
+        $replace = $package->get('replace');
+        foreach (array_keys($replace) as $key) {
             $locations = $this->getExpectedComponentLocations($key, $package);
             $newLocations = [];
             foreach ($locations as $location) {
@@ -139,7 +140,7 @@ class ReplaceFilter
         }
         unset($pregMatch[0]);
         $matches = [];
-        foreach($pregMatch as $value) {
+        foreach ($pregMatch as $value) {
             if (!empty($value)) {
                 $matches[] = ltrim($value, '-');
             }
