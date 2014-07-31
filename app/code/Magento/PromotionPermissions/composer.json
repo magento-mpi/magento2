@@ -6,10 +6,19 @@
         "magento/module-banner": "0.1.0",
         "magento/module-reminder": "0.1.0",
         "magento/module-catalog-rule": "0.1.0",
+        "magento/framework": "0.1.0",
+        "magento/magento-composer-installer": "*",
         "magento/module-sales-rule": "0.1.0",
-        "magento/module-backend": "0.1.0",
-        "magento/framework": "0.1.0"
+        "magento/module-backend": "0.1.0"
     },
     "type": "magento2-module",
-    "version": "0.1.0"
+    "version": "0.1.0",
+    "extra": {
+        "map": [
+            [
+                "*",
+                "Magento/PromotionPermissions"
+            ]
+        ]
+    }
 }

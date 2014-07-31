@@ -27,6 +27,7 @@ class PriceBackend
         $object
     ) {
         if ($object instanceof \Magento\Catalog\Model\Product
+            && $object->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             && $object->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
         ) {
             return true;

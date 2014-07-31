@@ -7,13 +7,12 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Catalog\Service\V1\Data\Product;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
  * Class ProductServiceTest
@@ -25,22 +24,19 @@ class ProductServiceTest extends WebapiAbstract
     const RESOURCE_PATH = '/V1/products';
 
     private $productData = [
-        [Product::SKU => 'sku1', Product::NAME => 'name1', Product::TYPE_ID => 'simple', Product::PRICE => 3.62],
-        [Product::SKU => 'sku2', Product::NAME => 'name2', Product::TYPE_ID => 'simple', Product::PRICE => 3.62],
+        [
+            Product::SKU => 'simple',
+            Product::NAME => 'Simple Related Product',
+            Product::TYPE_ID => 'simple',
+            Product::PRICE => 10
+        ],
+        [
+            Product::SKU => 'simple_with_cross',
+            Product::NAME => 'Simple Product With Related Product',
+            Product::TYPE_ID => 'simple',
+            Product::PRICE => 10
+        ],
     ];
-
-    /**
-     * @var array
-     */
-    private $tearDownList = [];
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-        foreach ($this->tearDownList as $sku) {
-            $this->_deleteProduct($sku);
-        }
-    }
 
     /**
      * @return array
@@ -66,27 +62,27 @@ class ProductServiceTest extends WebapiAbstract
             );
         };
         return [
-            [$productBuilder([Product::TYPE_ID => 'simple'])],
-            [$productBuilder([Product::TYPE_ID => 'virtual'])],
+            [$productBuilder([Product::TYPE_ID => 'simple', Product::SKU => 'psku-test-1'])],
+            [$productBuilder([Product::TYPE_ID => 'virtual', Product::SKU => 'psku-test-2'])],
         ];
     }
 
     /**
+     * @magentoApiDataFixture Magento/Catalog/Model/Product/_files/service_product_create.php
      * @dataProvider productCreationProvider
      */
     public function testCreate($product)
     {
-        $response = $this->_createProduct($product);
+        $response = $this->createProduct($product);
         $this->assertArrayHasKey(Product::SKU, $response);
     }
 
     /**
-     * @depends testCreate
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testDelete()
     {
-        $productData = $this->_createProduct($this->getSimpleProductData());
-        $response = $this->_deleteProduct($productData[Product::SKU]);
+        $response = $this->deleteProduct('simple');
         $this->assertTrue($response);
     }
 
@@ -121,7 +117,7 @@ class ProductServiceTest extends WebapiAbstract
                 "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
-            $errorObj = $this->_processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
@@ -141,13 +137,12 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
+     * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
      * @depends testCreateAnotherStore
      * @dataProvider searchDataProvider
      */
     public function testSearch($filterGroups, $expected, $sortData)
     {
-        $this->_createProduct($this->getSimpleProductData($this->productData[0]));
-        $this->_createProduct($this->getSimpleProductData($this->productData[1]));
         list($sortField, $sortValue) = $sortData;
         if ($sortValue === SearchCriteria::SORT_DESC && TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
@@ -195,8 +190,6 @@ class ProductServiceTest extends WebapiAbstract
         foreach ($expected as $key => $productSku) {
             $this->assertEquals($productSku, $searchResults['items'][$key][Product::SKU]);
         }
-        $this->_deleteProduct($this->productData[0][Product::SKU]);
-        $this->_deleteProduct($this->productData[1][Product::SKU]);
     }
 
     /**
@@ -282,73 +275,11 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
-     * Get Simple Product Data
-     *
-     * @param array $productData
-     * @return array
-     */
-    protected function getSimpleProductData($productData = array())
-    {
-        return array(
-            Product::SKU => isset($productData[Product::SKU]) ? $productData[Product::SKU] : uniqid('sku-', true),
-            Product::NAME => isset($productData[Product::NAME]) ? $productData[Product::NAME] : uniqid('sku-', true),
-            Product::VISIBILITY => 4,
-            Product::TYPE_ID => 'simple',
-            Product::PRICE => 3.62,
-            Product::STATUS => 1,
-            Product::TYPE_ID => 'simple'
-        );
-    }
-
-    protected function _createProduct($product)
-    {
-        $serviceInfo = [
-            'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'create'
-            ],
-        ];
-        $requestData = ['product' => $product];
-        $sku = $this->_webApiCall($serviceInfo, $requestData);
-        $product[Product::SKU] = $sku;
-        $this->tearDownList[] = $sku;
-        return $product;
-    }
-
-    /**
-     * Delete Product
-     *
-     * @param string $sku
-     * @return boolean
-     */
-    protected function _deleteProduct($sku)
-    {
-        unset($this->tearDownList[array_search($sku, $this->tearDownList)]);
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $sku,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'delete'
-            ]
-        ];
-
-        return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $sku]) : $this->_webApiCall($serviceInfo);
-    }
-
-    /**
      * @expectedException \Exception
      */
     public function testCreateEmpty()
     {
-        $this->_createProduct([]);
+        $this->createProduct([]);
     }
 
     /**
@@ -356,17 +287,21 @@ class ProductServiceTest extends WebapiAbstract
      */
     public function testCreateEmptySku()
     {
-        $this->_createProduct([
+        $this->createProduct(
+            [
                 Product::SKU => '',
                 Product::NAME => 'name',
                 Product::PRICE => '10',
-            ]);
+            ]
+        );
     }
 
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     */
     public function testUpdate()
     {
-        $response = $this->_createProduct($this->getSimpleProductData());
-        $productSku = $response[Product::SKU];
+        $productSku = 'simple';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku,
@@ -390,11 +325,11 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
-     * @depends testCreate
+     * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
      */
     public function testGet()
     {
-        $productData = $this->_createProduct($this->getSimpleProductData());
+        $productData = $this->productData[0];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::SKU],
@@ -409,7 +344,7 @@ class ProductServiceTest extends WebapiAbstract
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
             $this->_webApiCall($serviceInfo, ['id' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
-        foreach ([Product::SKU, Product::NAME, Product::PRICE, Product::STATUS, Product::VISIBILITY] as $key) {
+        foreach ([Product::SKU, Product::NAME, Product::PRICE] as $key) {
             $this->assertEquals($productData[$key], $response[$key]);
         }
     }
@@ -445,10 +380,68 @@ class ProductServiceTest extends WebapiAbstract
                 "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
-            $errorObj = $this->_processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
+    }
+
+    /**
+     * Get Simple Product Data
+     *
+     * @param array $productData
+     * @return array
+     */
+    protected function getSimpleProductData($productData = array())
+    {
+        return array(
+            Product::SKU => isset($productData[Product::SKU]) ? $productData[Product::SKU] : uniqid('sku-', true),
+            Product::NAME => isset($productData[Product::NAME]) ? $productData[Product::NAME] : uniqid('sku-', true),
+            Product::VISIBILITY => 4,
+            Product::TYPE_ID => 'simple',
+            Product::PRICE => 3.62,
+            Product::STATUS => 1,
+            Product::TYPE_ID => 'simple'
+        );
+    }
+
+    protected function createProduct($product)
+    {
+        $serviceInfo = [
+            'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'create'
+            ],
+        ];
+        $requestData = ['product' => $product];
+        $product[Product::SKU] = $this->_webApiCall($serviceInfo, $requestData);
+        return $product;
+    }
+
+    /**
+     * Delete Product
+     *
+     * @param string $sku
+     * @return boolean
+     */
+    protected function deleteProduct($sku)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $sku,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'delete'
+            ]
+        ];
+
+        return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
+            $this->_webApiCall($serviceInfo, ['id' => $sku]) : $this->_webApiCall($serviceInfo);
     }
 
     /**
@@ -462,10 +455,9 @@ class ProductServiceTest extends WebapiAbstract
      *      "fieldName2" => "websiteId",
      *      "value2" => 0
      * ]
-     *
      * </pre>
      */
-    protected function _processRestExceptionResult(\Exception $e)
+    protected function processRestExceptionResult(\Exception $e)
     {
         $error = json_decode($e->getMessage(), true);
         //Remove line breaks and replace with space

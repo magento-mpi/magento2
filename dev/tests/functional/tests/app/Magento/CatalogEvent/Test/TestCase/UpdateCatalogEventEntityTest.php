@@ -11,6 +11,7 @@ namespace Magento\CatalogEvent\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
@@ -78,12 +79,13 @@ class UpdateCatalogEventEntityTest extends Injectable
         $product->persist();
         $this->product = $product;
 
-        $categoryId = $product->getCategoryIds()[0]['id'];
+        /** @var CategoryIds $sourceCategories */
+        $sourceCategories = $product->getDataFieldConfig('category_ids')['source'];
         $catalogEvent = $fixtureFactory->createByCode(
             'catalogEventEntity',
             [
                 'dataSet' => 'default_event',
-                'data' => ['category_id' => $categoryId],
+                'data' => ['category_id' => $sourceCategories->getIds()[0]],
             ]
         );
         $catalogEvent->persist();
@@ -103,7 +105,7 @@ class UpdateCatalogEventEntityTest extends Injectable
     public function testUpdateCatalogEvent(CatalogEventEntity $catalogEvent)
     {
         $filter = [
-            'category_name' => $this->product->getCategoryIds()[0]['name'],
+            'category_name' => $this->product->getCategoryIds()[0],
         ];
 
         //Steps

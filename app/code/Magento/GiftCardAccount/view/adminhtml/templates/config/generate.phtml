@@ -23,8 +23,10 @@ echo __('Code Pool used: <b>%1%</b> (free <b>%2</b> of <b>%3</b> total).', $_usa
 <br />
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-function redirectToGeneration()
+redirectToGeneration = function()
 {
     var url = '<?php echo $this->getUrl('*/giftcardaccount/generate'); ?>';
     if (confirm('<?php echo __('Are you sure you want to continue without saving your changes?'); ?>')) {
@@ -38,7 +40,7 @@ function redirectToGeneration()
     }
 }
 
-function disableGenerateButton()
+disableGenerateButton = function()
 {
     var elem = $('generateBtn<?php echo $_htmlId ?>');
     elem.disabled = true;
@@ -51,4 +53,6 @@ $('giftcard_giftcardaccount_general').select('input', 'select').each(function(el
     Event.observe($(elem.id), 'change', disableGenerateButton);
 });
 //]]>
+
+});
 </script>

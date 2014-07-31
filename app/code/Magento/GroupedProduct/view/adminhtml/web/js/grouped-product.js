@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "jquery/template"
+], function($){
     'use strict';
     $.widget('mage.groupedProduct', {
         /**
@@ -180,4 +185,4 @@
             this.element.find('.no-products-message').toggle(!showGrid);
         }
     });
-})(jQuery);
+});

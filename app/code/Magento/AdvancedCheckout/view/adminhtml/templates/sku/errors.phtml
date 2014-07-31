@@ -18,7 +18,11 @@
         <?php echo $this->getChildHtml() ?>
 </div>
 <script type="text/javascript">
-//<![CDATA[
+require([
+    "prototype",
+    "Magento_Catalog/catalog/product/composite/configure"
+], function(){
+
     function checkoutSkuErrorsInit()
     {
         productConfigure.addListType('<?php echo $this->getListType() ?>', {urlFetch: '<?php echo $this->getConfigureUrl() ?>'});
@@ -40,5 +44,5 @@
             setTimeout(checkoutSkuErrorsInit, 10);
         });
     }
-//]]>
+});
 </script>

@@ -11,8 +11,8 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set;
 use Magento\Backend\Test\Block\FormPageActions as AbstractFormPageActions;
 
 /**
- * Class Form
- * Catalog Product Attribute form
+ * Class FormPageActions
+ * Form page actions in Attribute Set page
  */
 class FormPageActions extends AbstractFormPageActions
 {
@@ -22,4 +22,11 @@ class FormPageActions extends AbstractFormPageActions
      * @var string
      */
     protected $saveButton = '.save-attribute-set';
+
+    /**
+     * "Delete" button
+     *
+     * @var string
+     */
+    protected $deleteButton = '.delete';
 }

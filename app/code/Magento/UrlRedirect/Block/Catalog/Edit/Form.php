@@ -11,6 +11,8 @@
  */
 namespace Magento\UrlRedirect\Block\Catalog\Edit;
 
+use Magento\UrlRedirect\Controller\Adminhtml\UrlRedirect;
+
 /**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -83,7 +85,6 @@ class Form extends \Magento\UrlRedirect\Block\Edit\Form
      */
     protected function _formPostInit($form)
     {
-        // Set form action
         $form->setAction(
             $this->_adminhtmlData->getUrl(
                 'adminhtml/*/save',
@@ -95,7 +96,6 @@ class Form extends \Magento\UrlRedirect\Block\Edit\Form
             )
         );
 
-        // Fill request path and target path elements
         /** @var $requestPath \Magento\Framework\Data\Form\Element\AbstractElement */
         $requestPath = $this->getForm()->getElement('request_path');
         /** @var $targetPath \Magento\Framework\Data\Form\Element\AbstractElement */
@@ -122,7 +122,10 @@ class Form extends \Magento\UrlRedirect\Block\Edit\Form
                 $disablePaths = true;
             }
         } else {
-            $disablePaths = $model->getProductId() || $model->getCategoryId();
+            $disablePaths = in_array(
+                $model->getEntityType(),
+                [UrlRedirect::ENTITY_TYPE_PRODUCT, UrlRedirect::ENTITY_TYPE_CATEGORY, UrlRedirect::ENTITY_TYPE_CMS_PAGE]
+            );
         }
 
         if ($disablePaths) {

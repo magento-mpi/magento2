@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-jQuery(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template"
+], function($){
+
     $.template(
         'systemMessageDialog',
         '<li class="{{if severity == 1}}error{{else}}warning{{/if}}">{{html text}}</li>'
@@ -41,5 +46,5 @@ jQuery(function ($) {
             $('#message-system-all').systemMessageDialog('open', 2);
         });
     });
-});
 
+});

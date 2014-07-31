@@ -5,73 +5,76 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Bundle\Model\Plugin;
 
 use Magento\Bundle\Model\Product\Price;
+use Magento\Catalog\Model\Product\Type;
 use Magento\TestFramework\Helper\ObjectManager;
+
 
 class PriceBackendTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\Catalog\Model\Product\Attribute\Backend\Price|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $subject;
-
-    /**
-     * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $product;
-
-    /**
-     * @var \Magento\Framework\Object|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $object;
-
-    /**
-     * @var \Closure
-     */
-    protected $proceed;
-
-    /**
-     * @var \Magento\Bundle\Model\Plugin\PriceBackend
-     */
-    protected $model;
+    const CLOSURE_VALUE = 'CLOSURE';
+    /** @var  PriceBackend */
+    private $priceBackendPlugin;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    private $priceAttributeMock;
+    /** @var  \Closure */
+    private $closure;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    private $productMock;
 
     protected function setUp()
     {
-        $this->subject = $this->getMock('Magento\Catalog\Model\Product\Attribute\Backend\Price', [], [], '', false);
-        $this->product = $this->getMock('Magento\Catalog\Model\Product', ['getPriceType', '__wakeup'], [], '', false);
-        $this->object = $this->getMock('\Magento\Framework\Object');
-        $this->proceed = function ($product) {
-            return $product;
+        $objectManager = new ObjectManager($this);
+        $this->priceBackendPlugin = $objectManager->getObject('\Magento\Bundle\Model\Plugin\PriceBackend');
+
+        $this->closure = function () {
+            return static::CLOSURE_VALUE;
         };
-        $this->model = (new ObjectManager($this))->getObject('Magento\Bundle\Model\Plugin\PriceBackend');
+        $this->priceAttributeMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Attribute\Backend\Price')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->setMethods(['getTypeId', 'getPriceType', '__wakeUp'])
+            ->getMock();
     }
 
-    public function testAroundValidateWithDynamicTypePrice()
+    /**
+     * @dataProvider aroundValidateDataProvider
+     *
+     * @param $typeId
+     * @param $priceType
+     * @param $expectedResult
+     */
+    public function testAroundValidate($typeId, $priceType, $expectedResult)
     {
-        $this->product->expects($this->once())->method('getPriceType')
-            ->will($this->returnValue(Price::PRICE_TYPE_DYNAMIC));
-
-        $this->assertTrue($this->model->aroundValidate($this->subject, $this->proceed, $this->product));
-    }
-
-    public function testAroundValidateWithFixedTypePrice()
-    {
-        $this->product->expects($this->once())->method('getPriceType')
-            ->will($this->returnValue(Price::PRICE_TYPE_FIXED));
-
-        $this->assertEquals(
-            $this->product,
-            $this->model->aroundValidate($this->subject, $this->proceed, $this->product)
+        $this->productMock->expects($this->any())->method('getTypeId')->will($this->returnValue($typeId));
+        $this->productMock->expects($this->any())->method('getPriceType')->will($this->returnValue($priceType));
+        $result = $this->priceBackendPlugin->aroundValidate(
+            $this->priceAttributeMock,
+            $this->closure,
+            $this->productMock
         );
+        $this->assertEquals($expectedResult, $result);
     }
 
-    public function testAroundValidateWithNotProductObject()
+    /**
+     * Data provider for testAroundValidate
+     *
+     * @return array
+     */
+    public function aroundValidateDataProvider()
     {
-        $this->assertEquals(
-            $this->object,
-            $this->model->aroundValidate($this->subject, $this->proceed, $this->object)
+        return array(
+            ['type' => Type::TYPE_SIMPLE, 'priceType' => Price::PRICE_TYPE_FIXED, 'result' => static::CLOSURE_VALUE],
+            ['type' => Type::TYPE_SIMPLE, 'priceType' => Price::PRICE_TYPE_DYNAMIC, 'result' => static::CLOSURE_VALUE],
+            ['type' => Type::TYPE_BUNDLE, 'priceType' => Price::PRICE_TYPE_FIXED, 'result' => static::CLOSURE_VALUE],
+            ['type' => Type::TYPE_BUNDLE, 'priceType' => Price::PRICE_TYPE_DYNAMIC, 'result' => true],
+            ['type' => Type::TYPE_VIRTUAL, 'priceType' => Price::PRICE_TYPE_FIXED, 'result' => static::CLOSURE_VALUE],
+            ['type' => Type::TYPE_VIRTUAL, 'priceType' => Price::PRICE_TYPE_DYNAMIC, 'result' => static::CLOSURE_VALUE],
         );
     }
 }

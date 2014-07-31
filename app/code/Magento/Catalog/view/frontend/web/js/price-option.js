@@ -5,9 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-
-(function($, undefined) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template"
+], function($){
     "use strict";
+
     $.widget('mage.priceOption', {
         options: {
             productCustomSelector: '.product-custom-option',
@@ -220,4 +224,4 @@
             }
         }
     });
-})(jQuery);
+});
