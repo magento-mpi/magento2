@@ -41,7 +41,7 @@ namespace Magento\Framework\Session {
         if ($mockPHPFunctions) {
             return false;
         } else {
-            call_user_func_array('\headers_sent', func_get_args());
+            return call_user_func_array('\headers_sent', func_get_args());
         }
     }
 
@@ -56,8 +56,9 @@ namespace Magento\Framework\Session {
         if ($mockPHPFunctions) {
             SessionManagerTest::assertTrue($var);
         } else {
-            call_user_func_array('\session_regenerate_id', func_get_args());
+            return call_user_func_array('\session_regenerate_id', func_get_args());
         }
+        return true;
     }
 
     use Magento\TestFramework\Helper\ObjectManager;
