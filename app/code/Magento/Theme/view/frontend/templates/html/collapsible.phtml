@@ -7,10 +7,11 @@
  */
 ?>
 
-<div class="block <?php echo $this->getBlockCss(); ?>"
-     data-mage-init='{"toggleAdvanced": {"toggleContainers": "content"}}'>
-    <div data-role="title" class="title <?php echo $this->getBlockCss(); ?>-title"><strong><?php echo $this->getBlockTitle(); ?></strong></div>
-    <div data-role="content" class="content <?php echo $this->getBlockCss(); ?>-content">
+<div class="block <?php echo $this->getBlockCss(); ?>">
+    <div class="title <?php echo $this->getBlockCss();?>-title" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#<?php echo $this->getBlockCss(); ?>", "selectorsToggleClass": "active"}}'>
+        <strong><?php echo $this->getBlockTitle(); ?></strong>
+    </div>
+    <div class="content <?php echo $this->getBlockCss(); ?>-content" id="<?php echo $this->getBlockCss(); ?>">
         <?php echo $this->getChildHtml(); ?>
     </div>
 </div>

@@ -262,18 +262,16 @@
                 strong {
                     margin: 0;
                 }
-            }
-            .content {
-                display: none;
-            }
-            &.active {
-                .title {
+                &.active {
                     .icon-font-symbol(
                         @_icon-font-content: @icon-prev,
                         @_icon-font-position: after
                     );
                 }
-                .content {
+            }
+            .content {
+                display: none;
+                &.active {
                     display: block;
                 }
             }
