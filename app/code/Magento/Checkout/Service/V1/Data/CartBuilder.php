@@ -7,6 +7,8 @@
  */
 namespace Magento\Checkout\Service\V1\Data;
 
+use \Magento\Checkout\Service\V1\Data\Cart\Currency;
+
 /**
  * Cart data object builder
  *
@@ -197,5 +199,14 @@ class CartBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     public function setOrigOrderId($value)
     {
         return $this->_set(Cart::ORIG_ORDER_ID, $value);
+    }
+
+    /**
+     * @param \Magento\Checkout\Service\V1\Data\Cart\Currency|null $value
+     * @return $this
+     */
+    public function setCurrency($value)
+    {
+        return $this->_set(Cart::CURRENCY, $value);
     }
 }

@@ -13,6 +13,7 @@ use \Magento\Checkout\Service\V1\Data\Cart;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals;
 use \Magento\Checkout\Service\V1\Data\Cart\Customer;
 use \Magento\Framework\Service\V1\Data\SearchCriteria;
+use \Magento\Checkout\Service\V1\Data\Cart\Currency;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,6 +55,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
+    protected $currencyBuilderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     protected $quoteMock;
 
     protected function setUp()
@@ -68,7 +74,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'getSubtotalWithDiscount', 'getCustomerId', 'getCustomerEmail', 'getCustomerGroupId',
             'getCustomerTaxClassId', 'getCustomerPrefix', 'getCustomerFirstname', 'getCustomerMiddlename',
             'getCustomerLastname', 'getCustomerSuffix', 'getCustomerDob', 'getCustomerNote', 'getCustomerNoteNotify',
-            'getCustomerIsGuest', 'getCustomerGender', 'getCustomerTaxvat', '__wakeup', 'load', 'getGrandTotal'
+            'getCustomerIsGuest', 'getCustomerGender', 'getCustomerTaxvat', '__wakeup', 'load', 'getGrandTotal',
+            'getGlobalCurrencyCode', 'getBaseCurrencyCode', 'getStoreCurrencyCode', 'getQuoteCurrencyCode',
+            'getStoreToBaseRate', 'getStoreToQuoteRate', 'getBaseToGlobalRate', 'getBaseToQuoteRate',
         ];
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote', $methods, [], '', false);
         $this->quoteCollectionMock = $objectManager->getCollectionMock(
@@ -81,6 +89,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\TotalsBuilder', [], [], '', false);
         $this->customerBuilderMock =
             $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\CustomerBuilder', [], [], '', false);
+        $this->currencyBuilderMock =
+            $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\CurrencyBuilder', [], [], '', false);
 
         $this->service = new ReadService(
             $this->quoteFactoryMock,
@@ -88,7 +98,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             $this->cartBuilderMock,
             $this->searchResultsBuilderMock,
             $this->totalsBuilderMock,
-            $this->customerBuilderMock
+            $this->customerBuilderMock,
+            $this->currencyBuilderMock
         );
     }
 
@@ -118,8 +129,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->cartBuilderMock->expects($this->once())->method('populateWithArray');
         $this->totalsBuilderMock->expects($this->once())->method('populateWithArray');
         $this->customerBuilderMock->expects($this->once())->method('populateWithArray');
+        $this->currencyBuilderMock->expects($this->once())->method('populateWithArray');
         $this->cartBuilderMock->expects($this->once())->method('setCustomer');
         $this->cartBuilderMock->expects($this->once())->method('setTotals');
+        $this->cartBuilderMock->expects($this->once())->method('setCurrency');
         $this->cartBuilderMock->expects($this->once())->method('create');
 
         $this->service->getCart($cartId);
@@ -137,6 +150,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $customerMock = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $totalMock = $this->getMock('Magento\Sales\Model\Order\Total', [], [], '', false);
         $cartMock = $this->getMock('Magento\Payment\Model\Cart', [], [], '', false);
+        $currencyMock = $this->getMock('Magento\Checkout\Service\V1\Data\Cart\Currency', [], [], '', false);
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('setSearchCriteria')
@@ -169,6 +183,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->getTotalData();
         $this->getCartData();
         $this->getCustomerData();
+        $this->setCurrencyDataExpectations();
+        $this->currencyBuilderMock->expects($this->once())->method('create')->will($this->returnValue($currencyMock));
+        $this->cartBuilderMock->expects($this->once())->method('setCurrency')->with($currencyMock);
+
         $this->customerBuilderMock->expects($this->once())->method('create')->will($this->returnValue($customerMock));
         $this->cartBuilderMock->expects($this->once())->method('setCustomer')->with($customerMock);
         $this->totalsBuilderMock->expects($this->once())->method('create')->will($this->returnValue($totalMock));
@@ -314,5 +332,33 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             $this->quoteMock->expects($this->once())->method($method)->will($this->returnValue($value));
         }
         $this->customerBuilderMock->expects($this->once())->method('populateWithArray')->with($expected);
+    }
+
+    protected function setCurrencyDataExpectations()
+    {
+        $expected = [
+            Currency::GLOBAL_CURRENCY_CODE => 'USD',
+            Currency::BASE_CURRENCY_CODE => 'EUR',
+            Currency::STORE_CURRENCY_CODE => 'USD',
+            Currency::QUOTE_CURRENCY_CODE => 'EUR',
+            Currency::STORE_TO_BASE_RATE => 1,
+            Currency::STORE_TO_QUOTE_RATE => 2,
+            Currency::BASE_TO_GLOBAL_RATE => 3,
+            Currency::BASE_TO_QUOTE_RATE => 4,
+        ];
+        $expectedMethods = [
+            'getGlobalCurrencyCode' => 'USD',
+            'getBaseCurrencyCode' => 'EUR',
+            'getStoreCurrencyCode' => 'USD',
+            'getQuoteCurrencyCode' => 'EUR',
+            'getStoreToBaseRate' => 1,
+            'getStoreToQuoteRate' => 2,
+            'getBaseToGlobalRate' => 3,
+            'getBaseToQuoteRate' => 4,
+        ];
+        foreach ($expectedMethods as $method => $value) {
+            $this->quoteMock->expects($this->once())->method($method)->will($this->returnValue($value));
+        }
+        $this->currencyBuilderMock->expects($this->once())->method('populateWithArray')->with($expected);
     }
 }

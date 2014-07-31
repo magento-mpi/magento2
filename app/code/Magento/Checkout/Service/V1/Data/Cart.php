@@ -48,6 +48,8 @@ class Cart extends \Magento\Framework\Service\Data\AbstractObject
 
     const ORIG_ORDER_ID = 'orig_order_id';
 
+    const CURRENCY = 'currency';
+
     /**
      * Cart/Quote id
      *
@@ -220,5 +222,15 @@ class Cart extends \Magento\Framework\Service\Data\AbstractObject
     public function getOrigOrderId()
     {
         return $this->_get(self::ORIG_ORDER_ID);
+    }
+
+    /**
+     * Get currency information
+     *
+     * @return \Magento\Checkout\Service\V1\Data\Cart\Currency|null
+     */
+    public function getCurrency()
+    {
+        return $this->_get(self::CURRENCY);
     }
 }

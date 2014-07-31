@@ -19,9 +19,11 @@ use \Magento\Checkout\Service\V1\Data\CartBuilder;
 use \Magento\Checkout\Service\V1\Data\CartSearchResultsBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\TotalsBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\CustomerBuilder;
+use \Magento\Checkout\Service\V1\Data\Cart\CurrencyBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart;
 use \Magento\Checkout\Service\V1\Data\Cart\Totals;
 use \Magento\Checkout\Service\V1\Data\Cart\Customer;
+use \Magento\Checkout\Service\V1\Data\Cart\Currency;
 
 class ReadService implements ReadServiceInterface
 {
@@ -56,6 +58,11 @@ class ReadService implements ReadServiceInterface
     private $totalsBuilder;
 
     /**
+     * @var CurrencyBuilder;
+     */
+    private $currencyBuilder;
+
+    /**
      * @var array
      */
     private $validSearchFields = array(
@@ -63,7 +70,8 @@ class ReadService implements ReadServiceInterface
         'items_count', 'items_qty', 'checkout_method', 'reserved_order_id', 'orig_order_id', 'base_grand_total',
         'grand_total', 'base_subtotal', 'subtotal', 'base_subtotal_with_discount', 'subtotal_with_discount',
         'customer_is_guest', 'customer_id', 'customer_group_id', 'customer_id', 'customer_tax_class_id',
-        'customer_email',
+        'customer_email', 'global_currency_code', 'base_currency_code', 'store_currency_code', 'quote_currency_code',
+        'store_to_base_rate', 'store_to_quote_rate', 'base_to_global_rate', 'base_to_quote_rate',
     );
 
     /**
@@ -82,6 +90,7 @@ class ReadService implements ReadServiceInterface
      * @param CartSearchResultsBuilder $searchResultsBuilder
      * @param TotalsBuilder $totalsBuilder
      * @param CustomerBuilder $customerBuilder
+     * @param CurrencyBuilder $currencyBuilder
      */
     public function __construct(
         QuoteFactory $quoteFactory,
@@ -89,7 +98,8 @@ class ReadService implements ReadServiceInterface
         CartBuilder $cartBuilder,
         CartSearchResultsBuilder $searchResultsBuilder,
         TotalsBuilder $totalsBuilder,
-        CustomerBuilder $customerBuilder
+        CustomerBuilder $customerBuilder,
+        CurrencyBuilder $currencyBuilder
     ) {
         $this->quoteFactory = $quoteFactory;
         $this->quoteCollection = $quoteCollection;
@@ -97,6 +107,7 @@ class ReadService implements ReadServiceInterface
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->totalsBuilder = $totalsBuilder;
         $this->customerBuilder = $customerBuilder;
+        $this->currencyBuilder = $currencyBuilder;
     }
 
     /**
@@ -195,8 +206,20 @@ class ReadService implements ReadServiceInterface
             Customer::TAXVAT => $quote->getCustomerTaxvat(),
         ));
 
+        $this->currencyBuilder->populateWithArray(array(
+            Currency::GLOBAL_CURRENCY_CODE => $quote->getGlobalCurrencyCode(),
+            Currency::BASE_CURRENCY_CODE => $quote->getBaseCurrencyCode(),
+            Currency::STORE_CURRENCY_CODE => $quote->getStoreCurrencyCode(),
+            Currency::QUOTE_CURRENCY_CODE => $quote->getQuoteCurrencyCode(),
+            Currency::STORE_TO_BASE_RATE => $quote->getStoreToBaseRate(),
+            Currency::STORE_TO_QUOTE_RATE => $quote->getStoreToQuoteRate(),
+            Currency::BASE_TO_GLOBAL_RATE => $quote->getBaseToGlobalRate(),
+            Currency::BASE_TO_QUOTE_RATE => $quote->getBaseToQuoteRate(),
+        ));
+
         $this->cartBuilder->setCustomer($this->customerBuilder->create());
         $this->cartBuilder->setTotals($this->totalsBuilder->create());
+        $this->cartBuilder->setCurrency($this->currencyBuilder->create());
         return $this->cartBuilder->create();
     }
 

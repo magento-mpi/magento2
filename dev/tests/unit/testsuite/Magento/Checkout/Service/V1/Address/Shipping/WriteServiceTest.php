@@ -181,7 +181,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->validatorMock->expects($this->never())->method('validate');
 
-        $quoteMock->expects($this->never())->method('setShippingAddress')->with($this->quoteAddressMock);
+        $quoteMock->expects($this->never())->method('setShippingAddress');
         $quoteMock->expects($this->never())->method('save');
 
         $this->service->setAddress('cart867', $addressData);
