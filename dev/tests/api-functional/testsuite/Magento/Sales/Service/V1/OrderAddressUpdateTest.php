@@ -18,7 +18,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderAddressUpdateTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderAddressUpdateServiceV1';
+    const SERVICE_NAME = 'salesOrderAddressUpdateV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -36,12 +36,27 @@ class OrderAddressUpdateTest extends WebapiAbstract
             OrderAddress::STREET => 'street',
             OrderAddress::CITY => 'city',
             OrderAddress::EMAIL => 'email@emai.com',
+            OrderAddress::COMPANY => 'company',
             OrderAddress::TELEPHONE => 't123456789',
             OrderAddress::COUNTRY_ID => 'US',
             OrderAddress::FIRSTNAME => 'firstname',
             OrderAddress::ADDRESS_TYPE => 'billing',
             OrderAddress::PARENT_ID => $order->getId(),
-            OrderAddress::ENTITY_ID => $order->getBillingAddressId()
+            OrderAddress::ENTITY_ID => $order->getBillingAddressId(),
+            OrderAddress::CUSTOMER_ADDRESS_ID => null,
+            OrderAddress::CUSTOMER_ID => null,
+            OrderAddress::FAX => null,
+            OrderAddress::MIDDLENAME => null,
+            OrderAddress::PREFIX => null,
+            OrderAddress::QUOTE_ADDRESS_ID => null,
+            OrderAddress::REGION_ID => null,
+            OrderAddress::SUFFIX => null,
+            OrderAddress::VAT_ID => null,
+            OrderAddress::VAT_IS_VALID => null,
+            OrderAddress::VAT_REQUEST_DATE => null,
+            OrderAddress::VAT_REQUEST_ID => null,
+            OrderAddress::VAT_REQUEST_SUCCESS => null,
+
         ];
         $requestData = ['orderAddress' => $address];
 
@@ -61,8 +76,23 @@ class OrderAddressUpdateTest extends WebapiAbstract
         $actualOrder = $objectManager->get('Magento\Sales\Model\Order')->load($order->getId());
         $billingAddress = $actualOrder->getBillingAddress();
 
-        foreach ($address as $key => $field) {
-            $this->assertEquals($address[$key], $billingAddress->getData($key));
+        $validate = [
+            OrderAddress::REGION => 'CA',
+            OrderAddress::POSTCODE => 'postcode',
+            OrderAddress::LASTNAME => 'lastname',
+            OrderAddress::STREET => 'street',
+            OrderAddress::CITY => 'city',
+            OrderAddress::EMAIL => 'email@emai.com',
+            OrderAddress::COMPANY => 'company',
+            OrderAddress::TELEPHONE => 't123456789',
+            OrderAddress::COUNTRY_ID => 'US',
+            OrderAddress::FIRSTNAME => 'firstname',
+            OrderAddress::ADDRESS_TYPE => 'billing',
+            OrderAddress::PARENT_ID => $order->getId(),
+            OrderAddress::ENTITY_ID => $order->getBillingAddressId()
+        ];
+        foreach ($validate as $key => $field) {
+            $this->assertEquals($validate[$key], $billingAddress->getData($key));
         }
     }
 }

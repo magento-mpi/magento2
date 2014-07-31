@@ -14,44 +14,13 @@ use Magento\Framework\Service\Data\AbstractObject as DataObject;
  */
 class OrderStatusHistory extends DataObject
 {
-    /**
-     * int
-     */
     const ENTITY_ID = 'entity_id';
-
-    /**
-     * int
-     */
     const PARENT_ID = 'parent_id';
-
-    /**
-     * int
-     */
     const IS_CUSTOMER_NOTIFIED = 'is_customer_notified';
-
-    /**
-     * int
-     */
     const IS_VISIBLE_ON_FRONT = 'is_visible_on_front';
-
-    /**
-     * string
-     */
     const COMMENT = 'comment';
-
-    /**
-     * string
-     */
     const STATUS = 'status';
-
-    /**
-     * string
-     */
     const CREATED_AT = 'created_at';
-
-    /**
-     * string
-     */
     const ENTITY_NAME = 'entity_name';
 
     /**

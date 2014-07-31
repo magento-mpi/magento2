@@ -12,7 +12,6 @@ use Magento\Sales\Service\V1\Data\OrderAddress;
 
 /**
  * Class OrderAddressUpdate
- * @package Magento\Sales\Service\V1
  */
 class OrderAddressUpdate implements OrderAddressUpdateInterface
 {
