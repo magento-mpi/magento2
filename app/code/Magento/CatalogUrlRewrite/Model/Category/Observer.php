@@ -118,20 +118,6 @@ class Observer
     }
 
     /**
-     * Remove product urls from storage
-     *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return void
-     */
-    public function processUrlRewriteRemoving(EventObserver $observer)
-    {
-        //@TODO BUG fix removing Product Url Rewrites for category and category children
-        /** @var Category $category */
-        $category = $observer->getEvent()->getCategory();
-        $this->deleteCategoryRewritesForChildren($category);
-    }
-
-    /***
      * @param Category $category
      * @return void
      */
