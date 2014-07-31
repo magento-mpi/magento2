@@ -25,8 +25,8 @@ $_priceModel = $_product->getPriceModel()
 
 <?php $_weeeTaxAmount = 0; ?>
 
-<?php $_minimalPriceTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_minimalPrice); ?>
-<?php $_minimalPriceInclTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_minimalPrice, true); ?>
+<?php $_minimalPriceTax = $this->helper('Magento\Checkout\Helper\Data')->getTaxPrice($_product, $_minimalPrice); ?>
+<?php $_minimalPriceInclTax = $this->helper('Magento\Checkout\Helper\Data')->getTaxPrice($_product, $_minimalPrice, true); ?>
 
 <?php
 if ($_product->getPriceType() == 1) {
@@ -145,8 +145,8 @@ if ($_product->getPriceType() == 1) {
                     <?php endif; ?>
                 <?php endif; ?>
             </p>
-                <?php $_maximalPriceTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_maximalPrice); ?>
-                <?php $_maximalPriceInclTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_maximalPrice, true); ?>
+                <?php $_maximalPriceTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_product, $_maximalPrice); ?>
+                <?php $_maximalPriceInclTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_product, $_maximalPrice, true); ?>
                 <?php
                     if ($_product->getPriceType() == 1) {
                         if ($_weeeTaxAmount && $this->helper('Magento\Weee\Helper\Data')->typeOfDisplay(array(0, 1, 4))) {

@@ -26,6 +26,11 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_taxData = null;
 
     /**
+     * @var \Magento\Catalog\Helper\Data|null
+     */
+    protected $_catalogData = null;
+
+    /**
      * Config
      *
      * @var \Magento\GoogleShopping\Model\Config
@@ -62,6 +67,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -79,6 +85,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
+        \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -86,6 +93,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $this->_taxData = $taxData;
         $this->_customerGroupService = $customerGroupService;
         $this->catalogPrice = $catalogPrice;
+        $this->_catalogData = $catalogData;
         parent::__construct(
             $context,
             $registry,
@@ -220,7 +228,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             }
         }
         if ($product->getTypeId() != Product\Type::TYPE_BUNDLE) {
-            $price = $this->_taxData->getPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());
+            $price = $this->_catalogData->getTaxPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());
         }
         return $price;
     }
@@ -251,7 +259,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             }
         }
         if ($product->getTypeId() != Product\Type::TYPE_BUNDLE) {
-            $finalPrice = $this->_taxData->getPrice(
+            $finalPrice = $this->_catalogData->getTaxPrice(
                 $product,
                 $finalPrice,
                 $inclTax,
