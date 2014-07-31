@@ -16,7 +16,6 @@
         "magento/module-catalog-rule": "0.1.0",
         "magento/module-directory": "0.1.0",
         "magento/module-weee": "0.1.0",
-        "magento/module-require-js": "0.1.0",
         "magento/framework": "0.1.0",
         "magento/module-webapi": "0.1.0"
     },

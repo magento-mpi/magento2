@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "Magento_Theme/js/row-builder"
+], function($){
     "use strict";
+
     /**
      * Extending the rowBuilder widget and adding custom formProcessing for rendering recipients
      */
@@ -82,4 +87,5 @@
             $(this.options.newShipAddrFormSelector).toggle(e.target.value === this.options.newAddrTypeVal);
         }
     });
-})(jQuery);
+
+});

@@ -52,16 +52,20 @@
 <?php endif; ?>
 </table>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-function selectCarrier(elem) {
+selectCarrier = function(elem) {
     var option = elem.options[elem.selectedIndex];
     $('tracking_title').value = option.value && option.value != 'custom' ? option.text : '';
 }
 
-function deleteTrackingNumber(url) {
+deleteTrackingNumber = function(url) {
     if (confirm('<?php echo __('Are you sure?') ?>')) {
         submitAndReloadArea($('shipment_tracking_info').parentNode, url)
     }
 }
 //]]>
+
+});
 </script>
