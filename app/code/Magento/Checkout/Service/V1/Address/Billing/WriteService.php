@@ -10,31 +10,16 @@ namespace Magento\Checkout\Service\V1\Address\Billing;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Logger;
+use \Magento\Checkout\Service\V1\QuoteLoader;
+use \Magento\Sales\Model\Quote\AddressFactory;
+use \Magento\Store\Model\StoreManagerInterface;
+use \Magento\Checkout\Service\V1\Address\Converter;
+use \Magento\Checkout\Service\V1\Address\Validator;
 
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var \Magento\Checkout\Service\V1\QuoteLoader
-     */
-    protected $quoteLoader;
-
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * @var \Magento\Sales\Model\Quote\AddressFactory
-     */
-    protected $quoteAddressFactory;
-
-    /**
-     * @var \Magento\Checkout\Service\V1\Address\Converter
-     */
-    protected $addressConverter;
-
-    /**
-     * @var \Magento\Checkout\Service\V1\Address\Validator
+     * @var Validator
      */
     protected $addressValidator;
 
@@ -44,27 +29,47 @@ class WriteService implements WriteServiceInterface
     protected $logger;
 
     /**
-     * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Checkout\Service\V1\Address\Converter $addressConverter
-     * @param \Magento\Checkout\Service\V1\Address\Validator $addressValidator
-     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
+     * @var AddressFactory
+     */
+    protected $quoteAddressFactory;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var Converter
+     */
+    protected $addressConverter;
+
+    /**
+     * @var QuoteLoader
+     */
+    protected $quoteLoader;
+
+    /**
+     * @param QuoteLoader $quoteLoader
+     * @param StoreManagerInterface $storeManager
+     * @param Converter $addressConverter
+     * @param Validator $addressValidator
+     * @param AddressFactory $quoteAddressFactory
      * @param Logger $logger
      */
     public function __construct(
-        \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Checkout\Service\V1\Address\Converter $addressConverter,
-        \Magento\Checkout\Service\V1\Address\Validator $addressValidator,
-        \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
+        QuoteLoader $quoteLoader,
+        StoreManagerInterface $storeManager,
+        Converter $addressConverter,
+        Validator $addressValidator,
+        AddressFactory $quoteAddressFactory,
         Logger $logger
     ) {
-        $this->quoteLoader = $quoteLoader;
-        $this->quoteAddressFactory = $quoteAddressFactory;
-        $this->addressConverter = $addressConverter;
         $this->addressValidator = $addressValidator;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
+        $this->quoteLoader = $quoteLoader;
+        $this->quoteAddressFactory = $quoteAddressFactory;
+        $this->addressConverter = $addressConverter;
     }
 
     /**
