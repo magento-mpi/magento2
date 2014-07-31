@@ -15,6 +15,7 @@
             <module name="Magento_ImportExport"/>
             <module name="Magento_CatalogImportExport"/>
             <module name="Magento_GroupedProduct"/>
+            <module name="Magento_Eav"/>
         </depends>
     </module>
 </config>
