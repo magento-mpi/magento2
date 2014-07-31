@@ -219,12 +219,15 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $actualRobotsFile = str_replace($order, '', $this->getFile($robotsUrl));
         //get Robots.txt file and compare with expected content
         $expectedRobots = 'User-agent: *Disallow: /index.php/Disallow: /*?Disallow: /*.js$Disallow: /*.css$'
-            . 'Disallow: /checkout/Disallow: /app/Disallow: /downloader/Disallow: /js/Disallow: /lib/'
+            . 'Disallow: /checkout/Disallow: /app/Disallow: /js/Disallow: /lib/'
             . 'Disallow: /*.php$Disallow: /pkginfo/Disallow: /report/Disallow: /var/'
             . 'Disallow: /catalog/Disallow: /customer/Disallow: /sendfriend/Disallow: /review/Disallow: /*SID=';
         $expectedRobotsTrim = str_replace($order, '', $expectedRobots);
         //Compare file
-        $this->assertEquals($expectedRobotsTrim, $actualRobotsFile,
-            'Stored Robots.txt not equals to default instructions');
+        $this->assertEquals(
+            $expectedRobotsTrim,
+            $actualRobotsFile,
+            'Stored Robots.txt not equals to default instructions'
+        );
     }
 }

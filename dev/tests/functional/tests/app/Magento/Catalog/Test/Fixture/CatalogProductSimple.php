@@ -90,6 +90,7 @@ class CatalogProductSimple extends InjectableFixture
             'qty' => 10.0000,
             'is_in_stock' => 'In Stock',
         ],
+        'website_ids' => ['Main Website'],
     ];
 
     protected $category_ids = [
@@ -98,6 +99,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'product-details',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
@@ -308,22 +310,6 @@ class CatalogProductSimple extends InjectableFixture
         'group' => 'product-details',
     ];
 
-    protected $news_from_date = [
-        'attribute_code' => 'news_from_date',
-        'backend_type' => 'datetime',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'date',
-    ];
-
-    protected $news_to_date = [
-        'attribute_code' => 'news_to_date',
-        'backend_type' => 'datetime',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'date',
-    ];
-
     protected $old_id = [
         'attribute_code' => 'old_id',
         'backend_type' => 'int',
@@ -360,10 +346,10 @@ class CatalogProductSimple extends InjectableFixture
 
     protected $quantity_and_stock_status = [
         'attribute_code' => 'quantity_and_stock_status',
-        'backend_type' => 'int',
+        'backend_type' => 'array',
         'is_required' => '0',
-        'default_value' => 'In Stock',
-        'input' => 'select',
+        'default_value' => '',
+        'input' => '',
         'group' => 'product-details',
     ];
 
@@ -558,8 +544,35 @@ class CatalogProductSimple extends InjectableFixture
     protected $website_ids = [
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
-        'default_value' => ['Main Website'],
+        'default_value' => 'Main Website',
         'group' => 'websites',
+    ];
+
+    protected $is_returnable = [
+        'attribute_code' => 'is_returnable',
+        'backend_type' => 'varchar',
+        'is_required' => '0',
+        'default_value' => '2',
+        'input' => 'select',
+        'group' => 'autosettings',
+    ];
+
+    protected $news_from_date = [
+        'attribute_code' => 'news_from_date',
+        'backend_type' => 'datetime',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'date',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
+    ];
+
+    protected $news_to_date = [
+        'attribute_code' => 'news_to_date',
+        'backend_type' => 'datetime',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'date',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     public function getCategoryIds()
@@ -690,16 +703,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getName()
     {
         return $this->getData('name');
-    }
-
-    public function getNewsFromDate()
-    {
-        return $this->getData('news_from_date');
-    }
-
-    public function getNewsToDate()
-    {
-        return $this->getData('news_to_date');
     }
 
     public function getOldId()
@@ -845,5 +848,20 @@ class CatalogProductSimple extends InjectableFixture
     public function getWebsiteIds()
     {
         return $this->getData('website_ids');
+    }
+
+    public function getIsReturnable()
+    {
+        return $this->getData('is_returnable');
+    }
+
+    public function getNewsFromDate()
+    {
+        return $this->getData('news_from_date');
+    }
+
+    public function getNewsToDate()
+    {
+        return $this->getData('news_to_date');
     }
 }

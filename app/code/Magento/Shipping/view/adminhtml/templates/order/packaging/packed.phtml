@@ -165,6 +165,8 @@
 </div>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
     function showPackedWindow() {
         var window = $('packed_window');
@@ -179,5 +181,9 @@
         $('packed_window').hide();
         $('popup-window-mask').hide();
     }
+    window.hidePackedWindow = hidePackedWindow;
+    window.showPackedWindow = showPackedWindow;
 //]]>
+
+});
 </script>

@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/mage"
+], function($){
     "use strict";
+
     $.widget('mage.paypalCheckout', {
         /**
          * Initialize store credit events
@@ -29,4 +34,4 @@
             }, this));
         }
     });
-})(jQuery, window);
+});

@@ -82,7 +82,7 @@ class AssertCatalogEventBlockAbsent extends AbstractConstraint
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
 
-        $this->categoryName = $product->getCategoryIds()[0]['name'];
+        $this->categoryName = $product->getCategoryIds()[0];
         $this->productName = $product->getName();
 
         $this->checkEventBlockOnCategoryPageAbsent();

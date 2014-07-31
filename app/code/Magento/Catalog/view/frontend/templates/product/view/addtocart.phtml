@@ -45,9 +45,12 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    (function ($) {
-        $('#product_addtocart_form').mage('validation', {
-            radioCheckboxClosest: '.nested'
-        });
-    })(jQuery);
+require([
+    "jquery",
+    "mage/mage"
+], function($){
+    $('#product_addtocart_form').mage('validation', {
+        radioCheckboxClosest: '.nested'
+    });
+});
 </script>
