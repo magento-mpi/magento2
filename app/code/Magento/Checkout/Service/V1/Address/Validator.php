@@ -70,10 +70,8 @@ class Validator
                         'Address with id ' . $addressData->getId() . ' belongs to another customer'
                     );
                 }
-
             }
         }
-
         return true;
     }
 }

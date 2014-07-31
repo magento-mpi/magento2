@@ -56,7 +56,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->addressFactoryMock = $this->getMock(
             '\Magento\Sales\Model\Quote\AddressFactory', ['create', '__wakeup'], [], '', false
         );
-        $this->quoteAddressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
+        $this->quoteAddressMock = $this->getMock(
+            '\Magento\Sales\Model\Quote\Address',
+            ['getCustomerId', 'load', 'getId'],
+            [],
+            '',
+            false
+        );
         $this->customerFactoryMock = $this->getMock(
             '\Magento\Customer\Model\CustomerFactory', ['create', '__wakeup'], [], '', false)
         ;
@@ -88,6 +94,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->customerMock));
 
         $this->customerMock->expects($this->once())->method('load')->with($customerId);
+        $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue(null));
+
         $addressData = $this->addressDataBuilder
             ->setCustomerId($customerId)
             ->setCompany('eBay Inc')
@@ -103,6 +111,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->customerFactoryMock->expects($this->never())->method('create');
         $this->customerMock->expects($this->never())->method('load');
+
         $this->addressFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->quoteAddressMock));
 
@@ -126,7 +135,74 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->model->validate($addressData));
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Address with id 100 belongs to another customer
+     */
+    public function testValidateWithAddressOfOtherCustomer()
+    {
+        $addressCustomer = 100;
+        $addressId = 100;
+
+        /** Address data object */
+        $addressData = $this->addressDataBuilder
+            ->setId($addressId)
+            ->setCompany('eBay Inc')
+            ->setCustomerId($addressCustomer)
+            ->create();
+
+        /** Customer mock */
+        $this->customerFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->customerMock));
+
+        $this->customerMock->expects($this->once())->method('load')->with($addressCustomer);
+        $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue($addressCustomer));
+
+        /** Quote address mock */
+        $this->addressFactoryMock->expects($this->once())->method('create')
+            ->will($this->returnValue($this->quoteAddressMock));
+
+        $this->quoteAddressMock->expects($this->once())->method('load')->with($addressId);
+        $this->quoteAddressMock->expects($this->once())->method('getId')->will($this->returnValue($addressId));
+        $this->quoteAddressMock->expects($this->any())->method('getCustomerId')
+            ->will($this->returnValue(10));
+
+        /** Validate */
+        $this->model->validate($addressData);
+    }
 
 
+    public function testValidateWithValidAddress()
+    {
+        $addressCustomer = 100;
+        $addressId = 100;
+
+        /** Address data object */
+        $addressData = $this->addressDataBuilder
+            ->setId($addressId)
+            ->setCompany('eBay Inc')
+            ->setCustomerId($addressCustomer)
+            ->create();
+
+        /** Customer mock */
+        $this->customerFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->customerMock));
+
+        $this->customerMock->expects($this->once())->method('load')->with($addressCustomer);
+        $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue($addressCustomer));
+
+        /** Quote address mock */
+        $this->addressFactoryMock->expects($this->once())->method('create')
+            ->will($this->returnValue($this->quoteAddressMock));
+
+        $this->quoteAddressMock->expects($this->once())->method('load')->with($addressId);
+        $this->quoteAddressMock->expects($this->once())->method('getId')->will($this->returnValue($addressId));
+        $this->quoteAddressMock->expects($this->any())->method('getCustomerId')
+            ->will($this->returnValue($addressCustomer));
+
+        /** Validate */
+        $this->model->validate($addressData);
+    }
 }
-
