@@ -60,12 +60,28 @@ class Builder
      */
     protected function _getCombineTablesToJoin(Combine $combine)
     {
-        $tables = [];
+        $tables = $this->_getChildCombineTablesToJoin($combine);
+        return $tables;
+    }
+
+    /**
+     * Get child for given conditions combination
+     *
+     * @param Combine $combine
+     * @param array $tables
+     * @return array
+     */
+    protected function _getChildCombineTablesToJoin(Combine $combine, $tables = array())
+    {
         foreach ($combine->getConditions() as $condition) {
-            /** @var $condition AbstractCondition */
-            foreach ($condition->getTablesToJoin() as $alias => $table) {
-                if (!isset($tables[$alias])) {
-                    $tables[$alias] = $table;
+            if ($condition->getConditions()) {
+                $tables = $this->_getChildCombineTablesToJoin($condition);
+            } else {
+                /** @var $condition AbstractCondition */
+                foreach ($condition->getTablesToJoin() as $alias => $table) {
+                    if (!isset($tables[$alias])) {
+                        $tables[$alias] = $table;
+                    }
                 }
             }
         }
