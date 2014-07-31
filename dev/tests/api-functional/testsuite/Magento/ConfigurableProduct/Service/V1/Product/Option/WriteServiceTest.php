@@ -88,7 +88,7 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @param $productSku
+     * @param string $productSku
      * @return array
      */
     protected function getConfigurableAttribute($productSku)
