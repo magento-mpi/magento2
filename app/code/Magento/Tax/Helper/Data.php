@@ -314,35 +314,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function needPriceConversion($store = null)
     {
-        $res = false;
-        if ($this->priceIncludesTax($store)) {
-            switch ($this->getPriceDisplayType($store)) {
-                case Config::DISPLAY_TYPE_EXCLUDING_TAX:
-                case Config::DISPLAY_TYPE_BOTH:
-                    return self::PRICE_CONVERSION_MINUS;
-                case Config::DISPLAY_TYPE_INCLUDING_TAX:
-                    $res = true;
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            switch ($this->getPriceDisplayType($store)) {
-                case Config::DISPLAY_TYPE_INCLUDING_TAX:
-                case Config::DISPLAY_TYPE_BOTH:
-                    return self::PRICE_CONVERSION_PLUS;
-                case Config::DISPLAY_TYPE_EXCLUDING_TAX:
-                    $res = false;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        if ($res === false) {
-            $res = $this->displayTaxColumn();
-        }
-        return $res;
+        return $this->_config->needPriceConversion($store);
     }
 
     /**
