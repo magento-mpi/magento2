@@ -35,6 +35,15 @@
     <assertCustomerSegmentMatchedCustomersInGrid module="Magento_CustomerSegment">
         <severeness>low</severeness>
     </assertCustomerSegmentMatchedCustomersInGrid>
+    <assertCustomerSegmentNotInGrid module="Magento_CustomerSegment">
+        <severeness>low</severeness>
+    </assertCustomerSegmentNotInGrid>
+    <assertCustomerSegmentNotApplicableToBanner module="Magento_CustomerSegment">
+        <severeness>low</severeness>
+    </assertCustomerSegmentNotApplicableToBanner>
+    <assertCustomerSegmentSuccessDeleteMessage module="Magento_CustomerSegment">
+        <severeness>low</severeness>
+    </assertCustomerSegmentSuccessDeleteMessage>
     <assertCustomerSegmentReportMessage module="Magento_CustomerSegment">
         <severeness>high</severeness>
     </assertCustomerSegmentReportMessage>
