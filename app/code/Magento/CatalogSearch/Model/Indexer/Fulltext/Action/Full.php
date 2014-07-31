@@ -380,7 +380,8 @@ class Full
         )->join(
             ['stock_status' => $this->getTable('cataloginventory_stock_status')],
             $writeAdapter->quoteInto(
-                'stock_status.product_id = e.entity_id AND stock_status.website_id = ?', $websiteId
+                'stock_status.product_id = e.entity_id AND stock_status.website_id = ?',
+                $websiteId
             ),
             ['in_stock' => 'stock_status']
         );

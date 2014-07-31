@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 namespace Magento\Search\Model\Resource\Solr;
-use string;
 
 /**
  * Search engine resource model
