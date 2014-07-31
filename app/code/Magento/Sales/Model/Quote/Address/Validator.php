@@ -57,4 +57,4 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
 
         return empty($messages);
     }
-} 
+}
