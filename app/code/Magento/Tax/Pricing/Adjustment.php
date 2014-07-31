@@ -41,7 +41,8 @@ class Adjustment implements AdjustmentInterface
 
     /**
      * @param TaxHelper $taxHelper
-     * @param int $sortOrder
+     * @param \Magento\Catalog\Helper\Data $catalogHelper
+     * @param int|null $sortOrder
      */
     public function __construct(TaxHelper $taxHelper, \Magento\Catalog\Helper\Data $catalogHelper, $sortOrder = null)
     {
@@ -90,8 +91,17 @@ class Adjustment implements AdjustmentInterface
     public function extractAdjustment($amount, SaleableInterface $saleableItem)
     {
         if ($this->taxHelper->priceIncludesTax()) {
-            $adjustedAmount = $this->catalogHelper->getTaxPrice($saleableItem, $amount, false, null, null, null, null,
-                null, false);
+            $adjustedAmount = $this->catalogHelper->getTaxPrice(
+                $saleableItem,
+                $amount,
+                false,
+                null,
+                null,
+                null,
+                null,
+                null,
+                false
+            );
             $result = $amount - $adjustedAmount;
         } else {
             $result = 0.;
@@ -109,8 +119,17 @@ class Adjustment implements AdjustmentInterface
     public function applyAdjustment($amount, SaleableInterface $saleableItem)
     {
         $includingTax = !$this->taxHelper->priceIncludesTax();
-        return $this->catalogHelper->getTaxPrice($saleableItem, $amount, $includingTax, null, null, null, null,
-            null, false);
+        return $this->catalogHelper->getTaxPrice(
+            $saleableItem,
+            $amount,
+            $includingTax,
+            null,
+            null,
+            null,
+            null,
+            null,
+            false
+        );
     }
 
     /**

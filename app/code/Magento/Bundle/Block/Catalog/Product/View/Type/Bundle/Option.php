@@ -51,8 +51,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -65,8 +65,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Core\Helper\Data $coreHelper,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
