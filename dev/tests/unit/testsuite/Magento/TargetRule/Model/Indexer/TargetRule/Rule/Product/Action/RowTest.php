@@ -81,7 +81,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $productsToClean = array_unique(array_merge($oldProductIds, $newProductIds));
         $rule = $this->getMock(
             '\Magento\TargetRule\Model\Rule',
-            ['load', 'getResource', 'getMatchingProductIds', '__sleep', '__wakeup'],
+            ['load', 'getResource', 'getMatchingProductIds', 'getId', '__sleep', '__wakeup'],
             [],
             '',
             false
@@ -117,6 +117,10 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $ruleResource->expects($this->once())
             ->method('cleanCachedDataByProductIds')
             ->with($productsToClean);
+
+        $rule->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(1));
 
         $rule->expects($this->once())
             ->method('getMatchingProductIds')
