@@ -38,4 +38,7 @@
         </arguments>
     </type>
     <preference for="Magento\Framework\Authorization\RoleLocator" type="Magento\Webapi\Model\WebapiRoleLocator" />
+    <type name="Magento\Framework\Authorization">
+        <plugin name="guestAuthorization" type="Magento\Webapi\Model\Plugin\GuestAuthorization" />
+    </type>
 </config>

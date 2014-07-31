@@ -66,7 +66,7 @@ class CompositeUserContext implements \Magento\Authorization\Model\UserContextIn
      */
     public function getUserType()
     {
-        return $this->getUserContext() ? $this->getUserContext()->getUserType() : '';
+        return $this->getUserContext() ? $this->getUserContext()->getUserType() : null;
     }
 
     /**

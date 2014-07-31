@@ -135,12 +135,15 @@ class TokenUserContext implements UserContextInterface
         switch ($this->userType) {
             case UserContextInterface::USER_TYPE_INTEGRATION:
                 $this->userId = $this->integrationService->findByConsumerId($token->getConsumerId())->getId();
+                $this->userType = UserContextInterface::USER_TYPE_INTEGRATION;
                 break;
             case UserContextInterface::USER_TYPE_ADMIN:
                 $this->userId = $token->getAdminId();
+                $this->userType = UserContextInterface::USER_TYPE_ADMIN;
                 break;
             case UserContextInterface::USER_TYPE_CUSTOMER:
                 $this->userId = $token->getCustomerId();
+                $this->userType = UserContextInterface::USER_TYPE_CUSTOMER;
                 break;
             default:
                 /* this is an unknown user type so reset the cached user type */

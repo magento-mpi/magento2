@@ -240,7 +240,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     {
         foreach ($parameters as $name => $paramData) {
             if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
-                if ($paramData[Converter::KEY_VALUE] == "%customer_id%"
+                if ($paramData[Converter::KEY_VALUE] == '%customer_id%'
                     && $this->userContext->getUserType() === UserContextInterface::USER_TYPE_CUSTOMER
                 ) {
                     $value = $this->userContext->getUserId();

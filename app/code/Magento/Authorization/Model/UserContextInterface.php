@@ -32,7 +32,7 @@ interface UserContextInterface
     /**
      * Retrieve current user type.
      *
-     * @return string
+     * @return int
      */
     public function getUserType();
 }
