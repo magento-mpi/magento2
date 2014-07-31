@@ -25,6 +25,22 @@
             <argument name="layer" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced</argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="catalogSearchProductChange" type="Magento\CatalogSearch\Model\Indexer\Plugin\Product"/>
+    </type>
+    <type name="Magento\CatalogSearch\Model\Indexer\Plugin\Product">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Action">
+        <plugin name="catalogSearchProductActionChange" type="Magento\CatalogSearch\Model\Indexer\Plugin\Product\Action"/>
+    </type>
+    <type name="Magento\CatalogSearch\Model\Indexer\Plugin\Product\Action">
+        <arguments>
+            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
+        </arguments>
+    </type>
     <type name="Magento\Store\Model\Resource\Store">
         <plugin name="catalogsearchFulltextIndexerStoreView" type="Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Store\View" />
     </type>
