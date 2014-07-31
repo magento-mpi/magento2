@@ -7,11 +7,11 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
-use Magento\ConfigurableProduct\Service\V1\Data\Option;
-use Magento\ConfigurableProduct\Service\V1\Data\OptionBuilder;
-use Magento\ConfigurableProduct\Service\V1\Data\Option\Value;
-use Magento\ConfigurableProduct\Service\V1\Data\Option\ValueBuilder;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory;
+use Magento\ConfigurableProduct\Service\V1\Data\Option\ValueBuilder;
+use Magento\ConfigurableProduct\Service\V1\Data\Option;
+use Magento\ConfigurableProduct\Service\V1\Data\Option\ValueConverter;
 
 class OptionConverter
 {
@@ -26,15 +26,31 @@ class OptionConverter
     protected $valueBuilder;
 
     /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory
+     */
+    private $attributeFactory;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\Option\ValueConverter
+     */
+    private $valueConverter;
+
+    /**
      * @param OptionBuilder $optionBuilder
      * @param ValueBuilder $valueBuilder
+     * @param AttributeFactory $attributeFactory
+     * @param ValueConverter $valueConverter
      */
     public function __construct(
         OptionBuilder $optionBuilder,
-        ValueBuilder $valueBuilder
+        ValueBuilder $valueBuilder,
+        AttributeFactory $attributeFactory,
+        ValueConverter $valueConverter
     ) {
         $this->optionBuilder = $optionBuilder;
         $this->valueBuilder = $valueBuilder;
+        $this->attributeFactory = $attributeFactory;
+        $this->valueConverter = $valueConverter;
     }
 
     /**
@@ -66,5 +82,32 @@ class OptionConverter
         ];
 
         return $this->optionBuilder->populateWithArray($data)->create();
+    }
+
+    /**
+     * @param Option $option
+     * @param Attribute $configurableAttribute
+     * @return Attribute
+     */
+    public function getModelFromData(Option $option, Attribute $configurableAttribute)
+    {
+        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $returnConfigurableAttribute */
+        $returnConfigurableAttribute = $this->attributeFactory->create();
+        $returnConfigurableAttribute->setData($configurableAttribute->getData());
+        $returnConfigurableAttribute->addData($option->__toArray());
+        $returnConfigurableAttribute->setId($configurableAttribute->getId());
+        $returnConfigurableAttribute->setAttributeId($configurableAttribute->getAttributeId());
+        $returnConfigurableAttribute->setValues($configurableAttribute->getPrices());
+
+        $values = $option->getValues();
+        if (!is_null($values)) {
+            $prices = [];
+            foreach ($values as $value) {
+                $prices[] = $this->valueConverter->convertArrayFromData($value);
+            }
+            $returnConfigurableAttribute->setValues($prices);
+        }
+
+        return $returnConfigurableAttribute;
     }
 }

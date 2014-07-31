@@ -11,18 +11,92 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class OptionConverterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ObjectManager */
-    protected $objectManager;
+    /**
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\OptionConverter
+     */
+    private $converter;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $configurableAttribute;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\Option|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $option;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $attributeFactory;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\Option\ValueConverter|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $valueConverter;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Service\V1\Data\Option\Value|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $value;
 
     protected function setUp()
     {
-        $this->objectManager = new ObjectManager($this);
+        $helper = new ObjectManager($this);
+
+        $this->configurableAttribute = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute'
+        )
+            ->setMethods(
+                [
+                    'setData',
+                    'getData',
+                    'addData',
+                    '__wakeup',
+                    'getId',
+                    'setId',
+                    'getAttributeId',
+                    'setAttributeId',
+                    'setValues',
+                ]
+            )
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->option = $this->getMockBuilder('Magento\ConfigurableProduct\Service\V1\Data\Option')
+            ->setMethods(['__toArray', 'getValues'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->valueConverter = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Service\V1\Data\Option\ValueConverter'
+        )
+            ->setMethods(['convertArrayFromData'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->value = $this->getMockBuilder('Magento\ConfigurableProduct\Service\V1\Data\Option\Value')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->attributeFactory = $this->getMockBuilder(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory'
+        )
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->attributeFactory->expects($this->any())->method('create')
+            ->will($this->returnValue($this->configurableAttribute));
+
+        $this->converter = $helper->getObject(
+            'Magento\ConfigurableProduct\Service\V1\Data\OptionConverter',
+            ['attributeFactory' => $this->attributeFactory, 'valueConverter' => $this->valueConverter]
+        );
     }
 
     public function testConvertFromModel()
     {
-        /** @var \Magento\ConfigurableProduct\Service\V1\Data\OptionConverter $converter */
-        $converter = $this->objectManager->getObject('Magento\ConfigurableProduct\Service\V1\Data\OptionConverter');
         $converterMock = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute')
             ->disableOriginalConstructor()
             ->setMethods(['getId', 'getData', 'getLabel', '__sleep', '__wakeup'])
@@ -36,7 +110,7 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase
         $converterMock->expects($this->at(4))->method('getData')->with('position')->will($this->returnValue(3));
         $converterMock->expects($this->at(5))->method('getData')->with('use_default')->will($this->returnValue(true));
         /** @var \Magento\ConfigurableProduct\Service\V1\Data\Option $option */
-        $option = $converter->convertFromModel($converterMock);
+        $option = $this->converter->convertFromModel($converterMock);
 
         $this->assertEquals(1, $option->getId());
         $this->assertEquals(2, $option->getAttributeId());
@@ -48,5 +122,30 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $value->getIndex());
         $this->assertEquals(12, $value->getPrice());
         $this->assertEquals(true, $value->isPercent());
+    }
+
+    public function testGetModelFromData()
+    {
+        $data = ['data'];
+        $id = 33;
+        $this->configurableAttribute->expects($this->any())->method('getData')->will($this->returnValue($data));
+        $this->configurableAttribute->expects($this->once())->method('setData')->with($this->equalTo($data));
+        $this->configurableAttribute->expects($this->once())->method('addData')->with($this->equalTo($data));
+        $this->configurableAttribute->expects($this->any())->method('getId')->will($this->returnValue($id));
+        $this->configurableAttribute->expects($this->once())->method('setId')->with($this->equalTo($id));
+        $this->configurableAttribute->expects($this->any())->method('getAttributeId')->will($this->returnValue($id));
+        $this->configurableAttribute->expects($this->once())->method('setAttributeId')->with($this->equalTo($id));
+        $this->configurableAttribute->expects($this->any())->method('getValues')->will($this->returnValue($data));
+        $this->configurableAttribute->expects($this->any())->method('setValues')->with($this->equalTo($data));
+
+        $this->option->expects($this->any())->method('getValues')->will($this->returnValue([$this->value]));
+        $this->option->expects($this->any())->method('__toArray')->will($this->returnValue($data));
+
+        $this->valueConverter->expects($this->any())->method('convertArrayFromData')
+            ->with($this->equalTo($this->value))
+            ->will($this->returnValue($data[0]));
+
+        $result = $this->converter->getModelFromData($this->option, $this->configurableAttribute);
+        $this->assertEquals($this->configurableAttribute, $result);
     }
 }

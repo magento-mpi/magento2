@@ -122,6 +122,28 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function update($productSku, $optionId, Option $option)
+    {
+        $product = $this->getProduct($productSku);
+
+        $configurableAttribute = $this->configurableAttributeFactory->create();
+        $configurableAttribute->load($optionId);
+        if (!$configurableAttribute->getId() || $configurableAttribute->getProductId() != $product->getId()) {
+            throw new NoSuchEntityException('Option with id "%1" not found', [$optionId]);
+        }
+        $configurableAttribute = $this->optionConverter->getModelFromData($option, $configurableAttribute);
+        try {
+            $configurableAttribute->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not update option with id "%1"', [$optionId]);
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove($productSku, $optionId)
     {
         $product = $this->getProduct($productSku);

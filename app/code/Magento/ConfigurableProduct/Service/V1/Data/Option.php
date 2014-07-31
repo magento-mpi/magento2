@@ -34,7 +34,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getAttributeId()
     {
@@ -66,7 +66,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * @return \Magento\ConfigurableProduct\Service\V1\Data\Option\Value[]
+     * @return \Magento\ConfigurableProduct\Service\V1\Data\Option\Value[]|null
      */
     public function getValues()
     {
