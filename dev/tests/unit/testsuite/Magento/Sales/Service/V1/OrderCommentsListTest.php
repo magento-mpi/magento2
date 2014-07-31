@@ -80,8 +80,8 @@ class OrderCommentsListTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->searchResultsBuilderMock = $this->getMock(
-            'Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder',
-            ['setItems', 'setSearchCriteria', 'create'],
+            'Magento\Sales\Service\V1\Data\OrderStatusHistorySearchResultsBuilder',
+            ['setItems', 'setSearchCriteria', 'create', 'setTotalCount'],
             [],
             '',
             false
@@ -155,6 +155,10 @@ class OrderCommentsListTest extends \PHPUnit_Framework_TestCase
         $this->searchResultsBuilderMock->expects($this->once())
             ->method('setItems')
             ->with($this->equalTo([$this->dataObjectMock]))
+            ->will($this->returnSelf());
+        $this->searchResultsBuilderMock->expects($this->once())
+            ->method('setTotalCount')
+            ->with($this->equalTo(1))
             ->will($this->returnSelf());
         $this->searchResultsBuilderMock->expects($this->once())
             ->method('setSearchCriteria')
