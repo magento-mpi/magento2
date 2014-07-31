@@ -27,14 +27,16 @@ try {
     switch ($options['edition']) {
         case 'ce':
             $lists[] = 'ee.txt';
-            execVerbose("{$gitCmd} mv CHANGELOG_CE.md CHANGELOG.md");
+            copyAll("{$dir}/dev/build/publication/extra_files/ce", $dir);
             break;
         case 'ee':
+            copyAll("{$dir}/dev/build/publication/extra_files/ee", $dir);
             execVerbose("{$gitCmd} mv app/etc/enterprise/module.xml.dist app/etc/enterprise/module.xml");
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
+    execVerbose("{$gitCmd} add .");
 
     // remove files that do not belong to edition
     $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($dir);
@@ -72,5 +74,31 @@ function assertCondition($condition, $error)
 {
     if (!$condition) {
         throw new \Exception($error);
+    }
+}
+
+/**
+ * Copy all files maintaining the directory structure
+ *
+ * @param string $from
+ * @param string $to
+ * @return void
+ */
+function copyAll($from, $to)
+{
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($from));
+    /** @var SplFileInfo $file */
+    foreach ($iterator as $file) {
+        if (!$file->isDir()) {
+            $source = $file->getPathname();
+            $relative = substr($source, strlen($from));
+            $dest = $to . $relative;
+            $targetDir = dirname($dest);
+            if (!is_dir($targetDir)) {
+                mkdir($relative, 0755, true);
+            }
+            echo "Copy {$source} to {$dest}\n";
+            copy($source, $dest);
+        }
     }
 }

@@ -81,13 +81,6 @@ try {
 
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
 
-    // Travis CI config
-    copy(__DIR__ . '/travis/.travis.yml', $targetDir . '/.travis.yml');
-    execVerbose("$gitCmd add .travis.yml");
-    $integrationTestsLocalConfig = 'dev/tests/integration/etc/local-mysql.travis.xml.dist';
-    copy(__DIR__ . "/travis/$integrationTestsLocalConfig", $targetDir . "/$integrationTestsLocalConfig");
-    execVerbose("$gitCmd add $integrationTestsLocalConfig");
-
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
     execVerbose(
