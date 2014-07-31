@@ -101,6 +101,16 @@ class Config
     const DISPLAY_TYPE_BOTH = 3;
 
     /**
+     * Price conversion constant for positive
+     */
+    const PRICE_CONVERSION_PLUS = 1;
+
+    /**
+     * Price conversion constant for negative
+     */
+    const PRICE_CONVERSION_MINUS = 2;
+
+    /**
      * @var bool|null
      */
     protected $_priceIncludesTax = null;

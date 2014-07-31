@@ -24,16 +24,6 @@ use Magento\Customer\Model\Session as CustomerSession;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * Price conversion constant for positive
-     */
-    const PRICE_CONVERSION_PLUS = 1;
-
-    /**
-     * Price conversion constant for negative
-     */
-    const PRICE_CONVERSION_MINUS = 2;
-
-    /**
      * Default tax class for customers
      */
     const CONFIG_DEFAULT_CUSTOMER_TAX_CLASS = 'tax/classes/default_customer_tax_class';
