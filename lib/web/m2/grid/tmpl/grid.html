@@ -1,0 +1,15 @@
+<div class="hor-scroll">
+    <table class="data">
+        <thead>
+            <tr class="headings">
+                <th mage-grid-header-cell ng-repeat="header in headings" class="{{header.class}}">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in rows" class="{{row.class}}">
+                <td ng-repeat="field in row.rowData" ng-bind-html="toTrusted(field.content)" class="{{field.class}}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
