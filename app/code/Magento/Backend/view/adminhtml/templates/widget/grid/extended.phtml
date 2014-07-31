@@ -233,7 +233,7 @@ $numColumns = sizeof($this->getColumns());
 
     var deps = ['mage/adminhtml/grid'];
 
-    <?php if ( strpos($this->getRowClickCallback(), 'order.') !== false ): ?>
+    <?php if (strpos($this->getRowClickCallback(), 'order.')!==false): ?>
     deps.push('Magento_Sales/order/create/form')
     <?php endif; ?>
 
