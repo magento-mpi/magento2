@@ -2723,4 +2723,12 @@ return array(
         'Magento\CatalogImportExport\Model\Export\RowCustomizer',
         'Magento\ConfigurableImportExport\Model\Export\RowCustomizer'
     ],
+    [
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Grouped',
+        'Magento\GroupedImportExport\Model\Export\Product\Type\Grouped'
+    ],
+    [
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Grouped',
+        'Magento\GroupedImportExport\Model\Import\Product\Type\Grouped'
+    ],
 );

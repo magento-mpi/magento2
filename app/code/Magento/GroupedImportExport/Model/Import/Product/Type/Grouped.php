@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogImportExport\Model\Import\Product\Type;
+namespace Magento\GroupedImportExport\Model\Import\Product\Type;
 
-class Grouped extends AbstractType
+class Grouped extends \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType
 {
     /**
      * Column names that holds values with particular meaning.
