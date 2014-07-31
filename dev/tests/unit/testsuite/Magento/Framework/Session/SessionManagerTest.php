@@ -18,6 +18,7 @@ namespace Magento\Framework\Session {
      *
      * @param string $varName
      * @param string $newValue
+     * @return bool
      */
     function ini_set($varName, $newValue)
     {
@@ -26,39 +27,22 @@ namespace Magento\Framework\Session {
             SessionManagerTest::assertSame(SessionManagerTest::SESSION_USE_ONLY_COOKIES, $varName);
             SessionManagerTest::assertSame(SessionManagerTest::SESSION_USE_ONLY_COOKIES_ENABLE, $newValue);
         }
-
-        call_user_func_array('\ini_set', func_get_args());
-    }
-
-    /**
-     * Mock headers_sent to prevent regenerateId from returning early
-     *
-     * @return bool false
-     */
-    function headers_sent()
-    {
-        global $mockPHPFunctions;
-        if ($mockPHPFunctions) {
-            return false;
-        } else {
-            return call_user_func_array('\headers_sent', func_get_args());
-        }
+        return call_user_func_array('\ini_set', func_get_args());
     }
 
     /**
      * Mock session_regenerate_id to fail if false is passed
      *
      * @param bool $var
+     * @return bool
      */
     function session_regenerate_id($var)
     {
         global $mockPHPFunctions;
         if ($mockPHPFunctions) {
             SessionManagerTest::assertTrue($var);
-        } else {
-            return call_user_func_array('\session_regenerate_id', func_get_args());
         }
-        return true;
+        return call_user_func_array('\session_regenerate_id', func_get_args());
     }
 
     use Magento\TestFramework\Helper\ObjectManager;
