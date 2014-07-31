@@ -20,4 +20,10 @@
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>versionsGrid</name>
+        <class>Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\VersionsGrid</class>
+        <locator>#bannerGrid</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

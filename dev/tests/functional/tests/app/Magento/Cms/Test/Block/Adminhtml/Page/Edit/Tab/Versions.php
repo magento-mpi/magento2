@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab;
+
+use Mtf\Client\Element;
+use Magento\Backend\Test\Block\Widget\Tab;
+
+/**
+ * Class Versions
+ * Versions tab on New Cms page.
+ */
+class Versions extends Tab
+{
+    /**
+     * Returns versions grid
+     *
+     * @return \Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\VersionsGrid
+     */
+    public function getVersionsGrid()
+    {
+        return $this->blockFactory->create(
+            'Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\VersionsGrid',
+            ['element' => $this->_rootElement->find('#page_tabs_versions_content')]
+        );
+    }
+}

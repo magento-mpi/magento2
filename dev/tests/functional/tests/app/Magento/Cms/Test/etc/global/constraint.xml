@@ -108,4 +108,30 @@
     <assertCmsPageInGrid module="Magento_Cms">
         <severeness>low</severeness>
     </assertCmsPageInGrid>
+    <assertCmsCurrentlyPublishedRevision module="Magento_Cms">
+        <severeness>medium</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <cmsNew class="Magento\Cms\Test\Page\Adminhtml\CmsNew" />
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+            <cmsRevisionEdit class="Magento\Cms\Test\Page\Adminhtml\CmsRevisionEdit" />
+        </require>
+    </assertCmsCurrentlyPublishedRevision>
+    <assertCmsPageVersionInGrid module="Magento_Cms">
+        <severeness>medium</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <cmsNew class="Magento\Cms\Test\Page\Adminhtml\CmsNew" />
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+        </require>
+    </assertCmsPageVersionInGrid>
+    <assertCmsPageInitialVersionInGrid module="Magento_Cms">
+        <severeness>low</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <cmsInitial class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <cmsNew class="Magento\Cms\Test\Page\Adminhtml\CmsNew" />
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+        </require>
+    </assertCmsPageInitialVersionInGrid>
 </constraint>
