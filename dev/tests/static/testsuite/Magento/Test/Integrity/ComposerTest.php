@@ -125,6 +125,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($packageType, $json->type);
         $this->assertHasMap($json);
         $this->assertMapConsistent($dir, $json);
+        $this->assertDependsNotOnInstaller($json->require);
         switch ($packageType) {
             case 'magento2-module':
                 $xml = simplexml_load_file("$dir/etc/module.xml");
@@ -222,6 +223,20 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             'magento/framework',
             $json,
             'This component is expected to depend on magento/framework'
+        );
+    }
+
+    /**
+     * Make sure a component does not depends on magento/magento-composer-installer component
+     *
+     * @param \StdClass $json
+     */
+    private function assertDependsNotOnInstaller(\StdClass $json)
+    {
+        $this->assertObjectNotHasAttribute(
+            'magento/magento-composer-installer',
+            $json,
+            'This component should not depend on magento/magento-composer-installer'
         );
     }
 
@@ -361,7 +376,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 throw new \Exception("Unexpected element 'in extra->component_paths' section");
             }
         }
-        while(list(, list($component, $path)) = each($flat)) {
+        while (list(, list($component, $path)) = each($flat)) {
             $this->assertFileExists(
                 self::$root . '/' . $path,
                 "Missing or invalid component path: {$component} -> {$path}"
