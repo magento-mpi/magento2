@@ -58,7 +58,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         );
         $this->quoteAddressMock = $this->getMock(
             '\Magento\Sales\Model\Quote\Address',
-            ['getCustomerId', 'load', 'getId'],
+            ['getCustomerId', 'load', 'getId', '__wakeup'],
             [],
             '',
             false
