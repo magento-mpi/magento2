@@ -19,19 +19,11 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     protected $_schema = null;
 
     /**
-     * Path to corresponding XSD file with validation rules for separate config files
-     *
-     * @var string
-     */
-    protected $_perFileSchema = null;
-
-    /**
      * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      */
     public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader)
     {
         $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Theme') . '/page_layouts.xsd';
-        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Magento_Theme') . '/page_layouts_file.xsd';
     }
 
     /**
@@ -51,6 +43,6 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
      */
     public function getPerFileSchema()
     {
-        return $this->_perFileSchema;
+        return $this->_schema;
     }
 }
