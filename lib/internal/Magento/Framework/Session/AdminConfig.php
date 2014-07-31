@@ -80,7 +80,9 @@ class AdminConfig extends Config
      */
     public function setCookiePath($cookiePath)
     {
-        $cookiePath = (string)$cookiePath;
+        if (gettype($cookiePath) != 'string') {
+            throw new \InvalidArgumentException('Cookie path is not a string');
+        }
 
         $adminPath = $this->frontNameResolver->getFrontName();
 
