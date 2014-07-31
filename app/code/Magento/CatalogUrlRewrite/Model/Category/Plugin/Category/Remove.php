@@ -15,6 +15,7 @@ use Magento\Catalog\Model\Category;
 use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
 use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
 use Magento\Catalog\Model\CategoryFactory;
+use Magento\Store\Model\Store;
 
 class Remove
 {
@@ -74,29 +75,15 @@ class Remove
             UrlRewrite::ENTITY_ID => $categoryId,
             UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
         ]);
-        $category = $this->categoryFactory->create()->load($categoryId);
-        $collection = $category->getProductCollection()
-            ->addAttributeToSelect('url_key')
-            ->addAttributeToSelect('url_path');
+        $collection = $this->categoryFactory->create()
+            ->load($categoryId)
+            ->getProductCollection()
+            ->addAttributeToSelect(['url_key', 'url_path', 'name']);
         $productUrls = [];
         foreach ($collection as $product) {
-            $this->clearProductUrls($product->getId());
+            $product->setStoreId(Store::DEFAULT_STORE_ID);
             $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
         }
         $this->urlPersist->replace($productUrls);
-    }
-
-    /**
-     * @param $productId
-     * @return void
-     */
-    protected function clearProductUrls($productId)
-    {
-        $this->urlPersist->deleteByEntityData(
-            [
-                UrlRewrite::ENTITY_ID => $productId,
-                UrlRewrite::ENTITY_TYPE => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
-            ]
-        );
     }
 }

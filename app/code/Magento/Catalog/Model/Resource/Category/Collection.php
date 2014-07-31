@@ -319,6 +319,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             ),
             'left'
         );
+        return $this;
     }
 
     /**

@@ -103,7 +103,9 @@ class ProductUrlPathGenerator
     public function generateUrlKey($product)
     {
         $urlKey = $product->getUrlKey();
-        return $product->formatUrlKey($urlKey === '' ? $product->getName() : $urlKey);
+        return $product->formatUrlKey(
+            ($urlKey === '' || is_null($urlKey)) ? $product->getName() : $urlKey
+        );
     }
 
     /**

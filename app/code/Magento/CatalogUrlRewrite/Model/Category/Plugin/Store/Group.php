@@ -10,9 +10,11 @@ namespace Magento\CatalogUrlRewrite\Model\Category\Plugin\Store;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Model\ProductFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
 use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
+use Magento\Store\Model\Store;
 
 class Group
 {
@@ -21,6 +23,9 @@ class Group
 
     /** @var CategoryFactory */
     protected $categoryFactory;
+
+    /** @var ProductFactory */
+    protected $productFactory;
 
     /** @var CategoryUrlGenerator */
     protected $categoryUrlGenerator;
@@ -34,6 +39,7 @@ class Group
     /**
      * @param UrlPersistInterface $urlPersist
      * @param CategoryFactory $categoryFactory
+     * @param ProductFactory $productFactory
      * @param CategoryUrlGenerator $categoryUrlGenerator
      * @param ProductUrlGenerator $productUrlGenerator
      * @param StoreManagerInterface $storeManager
@@ -41,77 +47,107 @@ class Group
     public function __construct(
         UrlPersistInterface $urlPersist,
         CategoryFactory $categoryFactory,
+        ProductFactory $productFactory,
         CategoryUrlGenerator $categoryUrlGenerator,
         ProductUrlGenerator $productUrlGenerator,
         StoreManagerInterface $storeManager
     ) {
         $this->urlPersist = $urlPersist;
         $this->categoryFactory = $categoryFactory;
+        $this->productFactory = $productFactory;
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->productUrlGenerator = $productUrlGenerator;
         $this->storeManager = $storeManager;
     }
 
     /**
+     * @param \Magento\Store\Model\Resource\Group $object
+     * @param callable $proceed
      * @param \Magento\Store\Model\Group $group
-     * @param \Magento\Store\Model\Group $result
-     * @return \Magento\Store\Model\Group
+     *
+     * @return \Magento\Store\Model\Resource\Group
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterSave(\Magento\Store\Model\Group $group, \Magento\Store\Model\Group $result)
-    {
+    public function aroundSave(
+        \Magento\Store\Model\Resource\Group $object,
+        \Closure $proceed,
+        \Magento\Store\Model\Group $group
+    ) {
+        $originGroup = $group;
+        $result = $proceed($originGroup);
         if (!$group->isObjectNew()
             && ($group->dataHasChangedFor('website_id')
                 || $group->dataHasChangedFor('root_category_id'))
         ) {
             $this->storeManager->reinitStores();
-            $categories = $this->categoryFactory->create()
-                ->load($group->getRootCategoryId())
-                ->getChildrenCategories();
             foreach ($group->getStoreIds() as $storeId) {
                 $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $storeId]);
-
-                foreach ($categories as $category) {
-                    /** @var \Magento\Catalog\Model\Category $category */
-                    $category->setStoreId($storeId);
-                    $urls = $this->categoryUrlGenerator->generate($category);
-                    if ($urls) {
-                        $this->urlPersist->replace(array_merge(
-                            $urls,
-                            $this->generateProductUrlRewrites($category)
-                        ));
-                    }
-                }
             }
+
+            $this->urlPersist->replace(
+                $this->generateCategoryUrls($group->getRootCategoryId(), $group->getStoreIds())
+            );
+
+            $this->urlPersist->replace(
+                $this->generateProductUrls($group->getWebsiteId(), $group->getOrigData('website_id'))
+            );
         }
 
         return $result;
     }
 
     /**
-     * Generate url rewrites for products assigned to category
+     * Generate url rewrites for products assigned to website
      *
-     * @param \Magento\Catalog\Model\Category $category
+     * @param $websiteId
+     * @param $originWebsiteId
      * @return array
      */
-    protected function generateProductUrlRewrites(\Magento\Catalog\Model\Category $category)
+    protected function generateProductUrls($websiteId, $originWebsiteId)
     {
-        $collection = $category->getProductCollection()
-            ->addAttributeToSelect('url_key')
-            ->addAttributeToSelect('url_path');
-        $productUrls = [];
+        $urls = [];
+        $websiteIds = $websiteId != $originWebsiteId
+            ? [$websiteId, $originWebsiteId]
+            : [$websiteId];
+        $collection = $this->productFactory->create()
+            ->getCollection()
+            ->addCategoryIds()
+            ->addAttributeToSelect(array('name', 'url_path'))
+            ->addWebsiteFilter($websiteIds);
         foreach ($collection as $product) {
-            $product->setStoreId($category->getStoreId());
-            $product->setStoreIds($category->getStoreIds());
-            $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
-        }
-
-        foreach ($category->getChildrenCategories() as $subCategory) {
-            $productUrls = array_merge(
-                $productUrls,
-                $this->generateProductUrlRewrites($subCategory)
+            /** @var \Magento\Catalog\Model\Product $product */
+            $product->setStoreId(Store::DEFAULT_STORE_ID);
+            $urls = array_merge(
+                $urls,
+                $this->productUrlGenerator->generate($product)
             );
         }
 
-        return $productUrls;
+        return $urls;
+    }
+
+    /**
+     * @param int $rootCategoryId
+     * @param array $storeIds
+     * @return array
+     */
+    protected function generateCategoryUrls($rootCategoryId, $storeIds)
+    {
+        $urls = [];
+        $categories = $this->categoryFactory->create()
+            ->load($rootCategoryId)
+            ->getAllChildren(true);
+        $categories = array_diff($categories, [$rootCategoryId]);
+        foreach ($categories as $categoryId) {
+            /** @var \Magento\Catalog\Model\Category $category */
+            $category = $this->categoryFactory->create()->load($categoryId);
+            $category->setStoreId(Store::DEFAULT_STORE_ID);
+            $category->setStoreIds($storeIds);
+            $urls = array_merge(
+                $urls,
+                $this->categoryUrlGenerator->generate($category)
+            );
+        }
+        return $urls;
     }
 }
