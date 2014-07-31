@@ -16,7 +16,7 @@ interface OrderCommentsListInterface
      * Invoke OrderCommentsList service
      *
      * @param int $id
-     * @return \Magento\Sales\Service\V1\Data\OrderStatusHistorySearchResults
+     * @return \Magento\Framework\Service\V1\Data\SearchResults
      */
     public function invoke($id);
 }
