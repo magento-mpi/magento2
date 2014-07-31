@@ -9,10 +9,6 @@
  * @license     {license_link}
  */
 
-// User for Git, which will be the author of the commit
-define('GIT_USERNAME', 'mage2-team');
-define('GIT_EMAIL', 'mage2-team@magento.com');
-
 // get CLI options, define variables
 define(
     'SYNOPSIS',
@@ -21,12 +17,10 @@ php -f publish.php --
     --source="<repository>" --source-point="<branch name or commit ID>"
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
     --changelog-file="<markdown_file>"
-    [--no-push]
-
 SYNOPSIS
 );
 $options = getopt('', array(
-    'source:', 'source-point:', 'target:', 'target-branch::', 'target-dir::', 'changelog-file:', 'no-push'
+    'source:', 'source-point:', 'target:', 'target-branch::', 'target-dir::', 'changelog-file:'
 ));
 if (empty($options['source']) || empty($options['source-point']) || empty($options['target'])
     || empty($options['changelog-file'])) {
@@ -34,13 +28,14 @@ if (empty($options['source']) || empty($options['source-point']) || empty($optio
     exit(1);
 }
 
+require_once(__DIR__ . '/functions.php');
+
 $sourceRepository = $options['source'];
 $targetRepository = $options['target'];
 $sourcePoint = $options['source-point'];
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
 $changelogFile = $options['changelog-file'];
-$canPush = !isset($options['no-push']);
 
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
 
@@ -105,65 +100,14 @@ try {
         $targetDir
     );
 
-    // commit and push
+    // commit
     execVerbose("$gitCmd add --update");
     execVerbose("$gitCmd status");
-    execVerbose("$gitCmd config user.name " . GIT_USERNAME);
-    execVerbose("$gitCmd config user.email " . GIT_EMAIL);
+    execVerbose("$gitCmd config user.name " . getGitUsername());
+    execVerbose("$gitCmd config user.email " . getGitEmail());
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
 
-    if ($canPush) {
-        execVerbose("$gitCmd push origin $targetBranch");
-    }
 } catch (Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
     exit(1);
-}
-
-/**
- * Execute a command with automatic escaping of arguments
- *
- * @param string $command
- * @return array
- * @throws Exception
- */
-function execVerbose($command)
-{
-    $args = func_get_args();
-    $args = array_map('escapeshellarg', $args);
-    $args[0] = $command;
-    $command = call_user_func_array('sprintf', $args);
-    echo $command . PHP_EOL;
-    exec($command, $output, $exitCode);
-    foreach ($output as $line) {
-        echo $line . PHP_EOL;
-    }
-    if (0 !== $exitCode) {
-        throw new Exception("Command has failed with exit code: $exitCode.");
-    }
-    return $output;
-}
-
-/**
- * Get the top section of a text in markdown format
- *
- * @param string $contents
- * @return string
- * @throws Exception
- * @link http://daringfireball.net/projects/markdown/syntax
- */
-function getTopMarkdownSection($contents)
-{
-    $parts = preg_split('/^[=\-]+\s*$/m', $contents);
-    if (!isset($parts[1])) {
-        throw new Exception("No commit message found in the changelog file.");
-    }
-    list($title, $body) = $parts;
-    if (!preg_match("/^\d(.\d+){3}[\w-.]*$/", $title)) {
-        throw new Exception("No version found on top of the changelog file.");
-    }
-    $body = explode("\n", trim($body));
-    array_pop($body);
-    $body = implode("\n", $body);
-    return $title . $body;
 }

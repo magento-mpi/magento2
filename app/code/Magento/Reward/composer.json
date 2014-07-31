@@ -15,8 +15,17 @@
         "magento/module-newsletter": "0.1.0",
         "magento/module-cms": "0.1.0",
         "magento/module-sales-rule": "0.1.0",
-        "magento/framework": "0.1.0"
+        "magento/framework": "0.1.0",
+        "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
-    "version": "0.1.0"
+    "version": "0.1.0",
+    "extra": {
+        "map": [
+            [
+                "*",
+                "Magento/Reward"
+            ]
+        ]
+    }
 }
