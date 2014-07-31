@@ -8,11 +8,7 @@
  */
 -->
 <page_layouts>
-    <layouts default="no_id">
-        <layout>
-            <label translate="true">Empty</label>
-            <template>empty.phtml</template>
-            <layout_handle>page_empty</layout_handle>
-        </layout>
-    </layouts>
+    <layout>
+        <label translate="true">Empty</label>
+    </layout>
 </page_layouts>
