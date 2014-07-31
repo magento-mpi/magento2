@@ -18,14 +18,16 @@ namespace Magento\Framework\Session {
      *
      * @param string $varName
      * @param string $newValue
-     * @return bool
+     * @return bool|string
      */
     function ini_set($varName, $newValue)
     {
         global $mockPHPFunctions;
         if ($mockPHPFunctions) {
+            SessionManagerTest::$isIniSetInvoked = true;
             SessionManagerTest::assertSame(SessionManagerTest::SESSION_USE_ONLY_COOKIES, $varName);
             SessionManagerTest::assertSame(SessionManagerTest::SESSION_USE_ONLY_COOKIES_ENABLE, $newValue);
+            return true;
         }
         return call_user_func_array('\ini_set', func_get_args());
     }
@@ -41,11 +43,11 @@ namespace Magento\Framework\Session {
         global $mockPHPFunctions;
         if ($mockPHPFunctions) {
             SessionManagerTest::assertTrue($var);
+            return true;
         }
         return call_user_func_array('\session_regenerate_id', func_get_args());
     }
 
-    use Magento\TestFramework\Helper\ObjectManager;
 
     /**
      * Test SessionManager
@@ -57,7 +59,7 @@ namespace Magento\Framework\Session {
         const SESSION_USE_ONLY_COOKIES_ENABLE = '1';
 
         /**
-         * @var ObjectManager
+         * @var \Magento\TestFramework\Helper\ObjectManager
          */
         private $objectManager;
 
@@ -71,6 +73,11 @@ namespace Magento\Framework\Session {
          */
         private $mockSessionConfig;
 
+        /**
+         * @var bool
+         */
+        public static $isIniSetInvoked;
+
         public function setUp()
         {
             global $mockPHPFunctions;
@@ -79,7 +86,7 @@ namespace Magento\Framework\Session {
                 ->disableOriginalConstructor()
                 ->getMock();
 
-            $this->objectManager = new ObjectManager($this);
+            $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
             $arguments = ['sessionConfig' => $this->mockSessionConfig];
             $this->sessionManager = $this->objectManager->getObject(
                 'Magento\Framework\Session\SessionManager',
@@ -89,10 +96,9 @@ namespace Magento\Framework\Session {
 
         public function testSessionManagerConstructor()
         {
+            self::$isIniSetInvoked = false;
             $this->objectManager->getObject('Magento\Framework\Session\SessionManager');
-            $expectedValue = '1';
-            $sessionUseOnlyCookies = ini_get(self::SESSION_USE_ONLY_COOKIES);
-            $this->assertSame($expectedValue, $sessionUseOnlyCookies);
+            $this->assertTrue(SessionManagerTest::$isIniSetInvoked);
         }
 
         /**
