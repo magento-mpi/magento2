@@ -18,34 +18,6 @@ use Mtf\Client\Element\Locator;
 class Registrants extends Element
 {
     /**
-     * Recipient firstname selector
-     *
-     * @var string
-     */
-    protected $recipientFirstname = '[name="registrant[%s][firstname]"]';
-
-    /**
-     * Recipient lastname selector
-     *
-     * @var string
-     */
-    protected $recipientLastname = '[name="registrant[%s][lastname]"]';
-
-    /**
-     * Recipient email selector
-     *
-     * @var string
-     */
-    protected $recipientEmail = '[name="registrant[%s][email]"]';
-
-    /**
-     * Recipient role selector
-     *
-     * @var string
-     */
-    protected $recipientRole = '[name="registrant[%s][role]"]';
-
-    /**
      * Add registrant button selector
      *
      * @var string
@@ -60,16 +32,15 @@ class Registrants extends Element
     protected $registrant = '[id="registrant:%d"]';
 
     /**
-     * Recipient roles
+     * Recipient fields selectors
      *
      * @var array
      */
-    protected $roles = [
-        'mom' => 'Mother',
-        'dad' => 'Father',
-        'groom' => 'Groom',
-        'bride' => 'Bride',
-        'partner' => 'Partner'
+    protected $recipient = [
+        'firstname' => '[name$="[firstname]"]',
+        'lastname' => '[name$="[lastname]"]',
+        'email' => '[name$="[email]"]',
+        'role' => '[name$="[role]"]',
     ];
 
     /**
@@ -81,15 +52,16 @@ class Registrants extends Element
     public function setValue($value)
     {
         foreach ($value as $key => $recipient) {
+            $registrant = $this->find(sprintf($this->registrant, $key));
             if ($key !== 0) {
                 $this->find($this->addRegistrant)->click();
             }
-            $this->find(sprintf($this->recipientFirstname, $key))->setValue($recipient['firstname']);
-            $this->find(sprintf($this->recipientLastname, $key))->setValue($recipient['lastname']);
-            $this->find(sprintf($this->recipientEmail, $key))->setValue($recipient['email']);
-            if (isset($recipient['role'])) {
-                $this->find(sprintf($this->recipientRole, $key), Locator::SELECTOR_CSS, 'select')
-                    ->setValue($recipient['role']);
+            foreach ($recipient as $field => $value) {
+                if ($field === 'role') {
+                    $registrant->find($this->recipient[$field], Locator::SELECTOR_CSS, 'select')->setValue($value);
+                } else {
+                    $registrant->find($this->recipient[$field])->setValue($value);
+                }
             }
         }
     }
@@ -103,14 +75,19 @@ class Registrants extends Element
     {
         $recipients = [];
         $key = 0;
-        while ($this->find(sprintf($this->registrant, $key))->isVisible()) {
-            $recipients[$key]['firstname'] = $this->find(sprintf($this->recipientFirstname, $key))->getValue();
-            $recipients[$key]['lastname'] = $this->find(sprintf($this->recipientLastname, $key))->getValue();
-            $recipients[$key]['email'] = $this->find(sprintf($this->recipientEmail, $key))->getValue();
-            if ($this->find(sprintf($this->recipientRole, $key))->isVisible()) {
-                $recipients[$key]['role'] = $this->roles[$this->find(sprintf($this->recipientRole, $key))->getValue()];
+        $registrant = $this->find(sprintf($this->registrant, $key));
+        while ($registrant->isVisible()) {
+            $recipients[$key]['firstname'] = $registrant->find($this->recipient['firstname'])->getValue();
+            $recipients[$key]['lastname'] = $registrant->find($this->recipient['lastname'])->getValue();
+            $recipients[$key]['email'] = $registrant->find($this->recipient['email'])->getValue();
+            if ($registrant->find($this->recipient['role'])->isVisible()) {
+                $recipients[$key]['role'] = $registrant->find(
+                    $this->recipient['role'],
+                    Locator::SELECTOR_CSS,
+                    'select'
+                )->getValue();
             }
-            ++$key;
+            $registrant = $this->find(sprintf($this->registrant, ++$key));
         }
 
         return $recipients;

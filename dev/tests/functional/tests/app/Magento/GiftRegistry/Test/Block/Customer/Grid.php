@@ -38,7 +38,7 @@ class Grid extends AbstractGrid
      * @param GiftRegistry $giftRegistry
      * @return bool
      */
-    public function isInGrid(GiftRegistry $giftRegistry)
+    public function isGiftRegistryInGrid(GiftRegistry $giftRegistry)
     {
         return $this->_rootElement->find(sprintf($this->eventSelector, $giftRegistry->getTitle()))->isVisible();
     }

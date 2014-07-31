@@ -8,23 +8,26 @@
 
 namespace Magento\GiftRegistry\Test\Page;
 
-use Magento\Checkout\Test\Page\CheckoutCart as OriginCheckoutCart;
-
 /**
  * Class CheckoutCart
  */
-class CheckoutCart extends OriginCheckoutCart
+class CheckoutCart extends \Magento\Checkout\Test\Page\CheckoutCart
 {
-    const MCA = 'giftregistry/cart';
+    const MCA = 'giftregistry/checkout/cart';
 
-    protected $_blocks = [
-        'giftRegistryCart' => [
+    /**
+     * Initialize blocks
+     * @return void
+     */
+    protected function _init()
+    {
+        $this->_blocks['giftRegistryCart'] = [
             'name' => 'giftRegistryCart',
             'class' => 'Magento\GiftRegistry\Test\Block\Cart\Link',
             'locator' => '#add-cart-items-to-gift-registry',
             'strategy' => 'css selector',
-        ],
-    ];
+        ];
+    }
 
     /**
      * @return \Magento\GiftRegistry\Test\Block\Cart\Link

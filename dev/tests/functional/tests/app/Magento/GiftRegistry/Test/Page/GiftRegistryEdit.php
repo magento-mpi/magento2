@@ -12,8 +12,6 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class GiftRegistryEdit
- *
- * @package Magento\GiftRegistry\Test\Page
  */
 class GiftRegistryEdit extends FrontendPage
 {

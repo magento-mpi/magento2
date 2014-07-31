@@ -13,7 +13,7 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 
 /**
  * Class AssertGiftRegistrySuccessSaveMessage
- * Assert that after save a Gift Registry "You saved this gift registry." successful message appears
+ * Assert that after save a Gift Registry successful message appears
  */
 class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
 {

@@ -14,7 +14,7 @@ use Magento\GiftRegistry\TEst\Fixture\GiftRegistry;
 
 /**
  * Class AssertGiftRegistryInGrid
- * Assert that created Gift Registry can be found at Gift Registry grid by title
+ * Assert that gift registry is present in grid
  */
 class AssertGiftRegistryInGrid extends AbstractConstraint
 {
@@ -26,7 +26,7 @@ class AssertGiftRegistryInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that gift registry is present in grid
+     * Assert that created Gift Registry can be found at Gift Registry grid by title
      *
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistry $giftRegistry
@@ -35,7 +35,7 @@ class AssertGiftRegistryInGrid extends AbstractConstraint
     public function processAssert(GiftRegistryIndex $giftRegistryIndex, GiftRegistry $giftRegistry)
     {
         \PHPUnit_Framework_Assert::assertTrue(
-            $giftRegistryIndex->open()->getGiftRegistryGrid()->isInGrid($giftRegistry),
+            $giftRegistryIndex->open()->getGiftRegistryGrid()->isGiftRegistryInGrid($giftRegistry),
             'Gift registry \'' . $giftRegistry->getTitle() . '\' is not present in grid.'
         );
     }

@@ -8,13 +8,13 @@
 
 namespace Magento\GiftRegistry\Test\Block\Customer;
 
-use Magento\Backend\Test\Block\GridPageActions;
+use Mtf\Block\Block;
 
 /**
  * Class ActionsToolbar
  * Gift registry frontend actions block
  */
-class ActionsToolbar extends GridPageActions
+class ActionsToolbar extends Block
 {
     /**
      * "Add New" button
@@ -22,4 +22,12 @@ class ActionsToolbar extends GridPageActions
      * @var string
      */
     protected $addNewButton = '.add';
+
+    /**
+     * Click on "Add New" button
+     */
+    public function addNew()
+    {
+        $this->_rootElement->find($this->addNewButton)->click();
+    }
 }

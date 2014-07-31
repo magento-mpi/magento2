@@ -147,11 +147,8 @@ class CreateGiftRegistryEntityTest extends Injectable
      * @param CustomerInjectable $customer
      * @return void
      */
-    public function test(
-        GiftRegistry $giftRegistry,
-        AddressInjectable $address,
-        CustomerInjectable $customer
-    ) {
+    public function test(GiftRegistry $giftRegistry, AddressInjectable $address, CustomerInjectable $customer)
+    {
         // Steps
         $this->cmsIndex->open();
         if (!$this->cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {

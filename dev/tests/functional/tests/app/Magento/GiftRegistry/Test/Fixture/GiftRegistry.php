@@ -27,7 +27,7 @@ class GiftRegistry extends InjectableFixture
     protected $handlerInterface = 'Magento\GiftRegistry\Test\Handler\GiftRegistry\GiftRegistryInterface';
 
     protected $defaultDataSet = [
-        'type_id' => '1',
+        'type_id' => 'Birthday',
         'title' => 'Title%isolation%',
         'message' => 'Test message.',
         'event_country' => 'United States',

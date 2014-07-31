@@ -8,12 +8,13 @@
 
 namespace Magento\Bundle\Test\Page\Product;
 
-use Mtf\Page\FrontendPage;
+use Magento\Catalog\Test\Page\Product\CatalogProductView as ParentCatalogProductView;
 
 /**
  * Class CatalogProductView
+ * Frontend bundle product view page
  */
-class CatalogProductView extends FrontendPage
+class CatalogProductView extends ParentCatalogProductView
 {
     const MCA = 'bundle/catalog/product/view';
 
