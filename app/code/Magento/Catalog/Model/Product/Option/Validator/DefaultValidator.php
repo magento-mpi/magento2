@@ -98,8 +98,8 @@ class DefaultValidator extends \Magento\Framework\Validator\AbstractValidator
     /**
      * Validate option title
      *
-     * @param $title
-     * @param $storeId
+     * @param string $title
+     * @param int $storeId
      * @return bool
      */
     protected function isValidOptionTitle($title, $storeId)

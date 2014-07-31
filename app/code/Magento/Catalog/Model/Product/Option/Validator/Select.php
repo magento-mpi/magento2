@@ -66,9 +66,9 @@ class Select extends DefaultValidator
     /**
      * Validate option price
      *
-     * @param $priceType
-     * @param $price
-     * @param $storeId
+     * @param string $priceType
+     * @param int $price
+     * @param int $storeId
      * @return bool
      */
     protected function isValidOptionPrice($priceType, $price, $storeId)

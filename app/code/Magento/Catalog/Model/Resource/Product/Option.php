@@ -65,6 +65,10 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $this->_init('catalog_product_option', 'option_id');
     }
 
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $data
+     * @return $this|void
+     */
     public function save(\Magento\Framework\Model\AbstractModel $data)
     {
         parent::save($data);
@@ -303,9 +307,9 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Get first col from from first row for option table
      *
-     * @param $tableName
-     * @param $optionId
-     * @param $storeId
+     * @param string $tableName
+     * @param int $optionId
+     * @param int $storeId
      * @return string
      */
     protected function getColFromOptionTable($tableName, $optionId, $storeId)

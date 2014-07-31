@@ -274,9 +274,9 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Get first col from from first row for option table
      *
-     * @param $tableName
-     * @param $optionId
-     * @param $storeId
+     * @param string $tableName
+     * @param int $optionId
+     * @param int $storeId
      * @return string
      */
     protected function getOptionIdFromOptionTable($tableName, $optionId, $storeId)
