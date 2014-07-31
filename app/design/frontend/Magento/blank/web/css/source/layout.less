@@ -29,7 +29,6 @@
         &:extend(.add-box-sizing all);
         .mix-flex-flex(@_basis: 100%);
         .css(padding-bottom, @indent-xl-base);
-        min-height: 300px;
         .mix-flex-order(1);
     }
     .sidebar-main {
@@ -71,6 +70,7 @@
     .column.main {
         #layout-columns > .main();
         &:extend(.add-box-sizing-desktop all);
+        min-height: 300px;
     }
 
     .sidebar-main {

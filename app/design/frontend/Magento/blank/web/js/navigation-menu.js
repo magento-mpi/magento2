@@ -302,7 +302,7 @@ define([
             mainContainer: 'body',
             pageWrapper: '.page-wrapper',
             openedMenuClass: 'opened',
-            toggleActionPlaceholder: '.block.search',
+            toggleActionPlaceholder: '.block-search',
             itemWithSubmenu: 'li.parent',
             titleWithSubmenu: 'li.parent > a',
             submenu: 'li.parent > .submenu',

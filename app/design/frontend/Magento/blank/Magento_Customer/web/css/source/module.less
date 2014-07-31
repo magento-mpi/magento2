@@ -112,15 +112,16 @@
             }
         }
     }
-    .block.account-nav {
+    .sidebar .block-account-nav {
         .css(background, @sidebar-background);
-        padding: 15px 0;
+        margin: 0 0 40px;
+    }
+    .block-account-nav {
         .title {
-            padding: 0 18px;
-            margin-bottom: 25px;
-            strong {
-                .heading(h3);
-            }
+            display: none;
+        }
+        .content {
+            padding: 15px 0;
         }
         .nav.items {
             padding: 0;
@@ -209,6 +210,80 @@
 .widget {
     img {
         max-width: 100%;
+    }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .account {
+        .data.table {
+            &:extend(.table-vertical-mobile all);
+            .col.actions {
+                padding-top: 9px;
+                padding-bottom: 15px;
+                &:before {
+                    &:extend(.visually-hidden-mobile all);
+                }
+            }
+        }
+        .toolbar {
+            .toolbar-amount,
+            .limiter,
+            .pages {
+                margin-bottom: 25px;
+            }
+        }
+        .block-account-nav {
+            margin-left: -@layout-width-xs-indent;
+            margin-right: -@layout-width-xs-indent;
+            margin-top: -(@indent-base + 1);
+            .title {
+                .icon-font(
+                    @_icon-font-content: @icon-down,
+                    @_icon-font-size: 30px,
+                    @_icon-font-position: after
+                );
+                border-top: @border-width-base solid @border-color-base;
+                border-bottom: @border-width-base solid @border-color-base;
+                cursor: pointer;
+                display: block;
+                font-weight: @font-weight-semibold;
+                margin-bottom: 0;
+                overflow: hidden;
+                padding: 7px 20px;
+                position: relative;
+                &:after {
+                    position: absolute;
+                    right: 0;
+                    top: -5px;
+                }
+                strong {
+                    margin: 0;
+                }
+            }
+            .content {
+                display: none;
+            }
+            &.active {
+                .title {
+                    .icon-font-symbol(
+                        @_icon-font-content: @icon-prev,
+                        @_icon-font-position: after
+                    );
+                }
+                .content {
+                    display: block;
+                }
+            }
+        }
+    }
+    .control.captcha-image {
+        .captcha-img {
+            display: block;
+            .css(margin-bottom, @indent-s-base);
+        }
     }
 }
 
@@ -328,38 +403,6 @@
         white-space: nowrap;
         .captcha-img {
             margin: 0 10px 0 0;
-        }
-    }
-
-}
-
-//
-//    Mobile
-//--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
-    .account {
-        .data.table {
-            &:extend(.table-vertical-mobile all);
-            .col.actions {
-                padding-top: 9px;
-                padding-bottom: 15px;
-                &:before {
-                    &:extend(.visually-hidden-mobile all);
-                }
-            }
-        }
-        .toolbar {
-            .toolbar-amount,
-            .limiter,
-            .pages {
-                margin-bottom: 25px;
-            }
-        }
-    }
-    .control.captcha-image {
-        .captcha-img {
-            display: block;
-            .css(margin-bottom, @indent-s-base);
         }
     }
 }

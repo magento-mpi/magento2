@@ -128,8 +128,12 @@
             }
         }
     }
-    .block.account-nav {
-        margin-bottom: 20px;
+    .sidebar {
+        .block-account-nav {
+            margin-bottom: 40px;
+        }
+    }
+    .block-account-nav {
         .title {
             &:extend(.abstract-toggling-title all);
             border-bottom: @border-width-base solid @border-color-base;
@@ -319,7 +323,7 @@
             );
             margin-bottom: 0;
         }
-        .block.account-nav {
+        .block-account-nav {
              .title {
                 &:extend(.visually-hidden-desktop all);
             }
@@ -447,13 +451,15 @@
             }
         }
 
-        .block.account-nav {
+        .block-account-nav {
             margin-left: -@layout-width-xs-indent;
             margin-right: -@layout-width-xs-indent;
             margin-top: -(@indent-base + 1);
             .content {
                 display: none;
-                &-toggled {
+            }
+            &.active {
+                .content {
                     display: block;
                 }
             }

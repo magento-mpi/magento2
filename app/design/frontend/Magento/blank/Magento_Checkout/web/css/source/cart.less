@@ -182,7 +182,7 @@
         }
         .item {
             &-actions td {
-                padding-bottom: 20px;
+                padding-bottom: 10px;
                 text-align: center;
                 white-space: normal;
             }
@@ -204,6 +204,7 @@
             &:extend(button all);
             .link-as-button();
             margin-left: 10px;
+            margin-bottom: 10px;
             &:first-child {
                 margin-left: 0;
             }
@@ -231,12 +232,11 @@
             &-item-name {
                 display: inline-block;
                 font-weight: @font-weight-base;
-                max-width: 130px;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
         }
-        //  Product options
+        // Product options
         .cart-item-options {
             font-size: @font-size-s;
             margin-top: @indent-s-base;

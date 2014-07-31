@@ -12,10 +12,12 @@
 @autocomplete-item-hover: #e8e8e8;
 @autocomplete-item-amount-color: #999;
 
-.block.search {
+.block-search {
     margin-bottom: 0;
-    .title {
-        display: none;
+    .block {
+        &-title {
+            display: none;
+        }
     }
     .label {
         .icon-font(
@@ -55,7 +57,7 @@
 
 }
 
-.search.autocomplete {
+.search-autocomplete {
     display: none;
     position: absolute;
     z-index: 3;
@@ -63,6 +65,7 @@
     margin-top: -15px;
     &:extend(.add-box-sizing all);
     ul {
+        .list-reset-styles();
         li {
             &:not(:empty) {
                 background: @autocomplete-background;
@@ -139,7 +142,7 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .block.search {
+    .block-search {
         position: relative;
         float: right;
         padding-left: 15px;
@@ -185,7 +188,7 @@
             padding: 5px 0;
         }
     }
-    .search.autocomplete {
+    .search-autocomplete {
         margin-top: 0;
     }
 }
