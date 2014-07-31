@@ -30,8 +30,10 @@ try {
             copyAll("{$dir}/dev/build/publication/extra_files/ce", $dir);
             break;
         case 'ee':
+            $moduleXml = "{$dir}/app/etc/enterprise/module.xml";
+            echo "Copy {$moduleXml}.dist to {$moduleXml}\n";
+            copy("{$moduleXml}.dist", $moduleXml);
             copyAll("{$dir}/dev/build/publication/extra_files/ee", $dir);
-            execVerbose("{$gitCmd} mv app/etc/enterprise/module.xml.dist app/etc/enterprise/module.xml");
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
