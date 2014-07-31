@@ -30,7 +30,7 @@ class AssertCustomerSegmentSuccessDeleteMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success delete message is displayed after Customer Segments deleted
+     * Assert that success delete message is displayed after Customer Segments has been deleted
      *
      * @param CustomerSegmentIndex $customerSegmentIndex
      * @return void
@@ -43,8 +43,6 @@ class AssertCustomerSegmentSuccessDeleteMessage extends AbstractConstraint
             self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success delete message is displayed.'
-            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
-            . "\nActual: " . $actualMessage
         );
     }
 
@@ -55,6 +53,6 @@ class AssertCustomerSegmentSuccessDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Assert that success delete message is displayed';
+        return 'Customer Segments success delete message is displayed';
     }
 }

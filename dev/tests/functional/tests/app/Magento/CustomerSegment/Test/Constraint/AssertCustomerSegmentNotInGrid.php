@@ -48,6 +48,6 @@ class AssertCustomerSegmentNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer Segments is not present in grid.';
+        return 'Customer Segments is absent in grid.';
     }
 }
