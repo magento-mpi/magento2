@@ -147,6 +147,7 @@
         "zendframework/zend-soap": "2.0.3",
         "zendframework/zend-uri": "2.0.3",
         "zendframework/zend-validator": "2.0.3",
+        "zendframework/zend-servicemanager": "2.0.3",
         "zendframework/zend-code": "2.0.3",
         "zendframework/zendframework1": "1.12.0",
         "oyejorge/less.php": "1.7.0",
