@@ -16,7 +16,7 @@ use Magento\Sales\Service\V1\Data\OrderStatusHistoryBuilder;
  * Class OrderCommentAddTest
  * @package Magento\Sales\Service\V1
  */
-class OrderCommentAddTest extends WebapiAbstract
+class OrderStatusHistoryAddTest extends WebapiAbstract
 {
     const SERVICE_READ_NAME = 'salesOrderStatusHistoryAddV1';
     const SERVICE_VERSION = 'V1';
