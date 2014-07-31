@@ -103,7 +103,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionConverterMock = $this->getMockBuilder(
             'Magento\ConfigurableProduct\Service\V1\Data\OptionConverter'
         )
-            ->setMethods(['getModelFromData', 'convertFromModel'])
+            ->setMethods(['getModelFromData', 'convertFromModel', 'convertArrayFromData'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -188,6 +188,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())->method('setStoreId')->with(0);
         $productMock->expects($this->once())->method('save');
 
+        $this->optionConverterMock->expects($this->once())->method('convertArrayFromData')->with($option);
         $this->optionConverterMock->expects($this->once())->method('convertFromModel');
 
         $this->writeService->add($productSku, $option);
