@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/decorate"
+], function($){
     "use strict";
+ 
     $.widget('mage.rmaTrackInfo', {
 
         /**
@@ -93,4 +98,5 @@
         }
     });
 
-})(jQuery, window);
+
+});

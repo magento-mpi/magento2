@@ -27,8 +27,15 @@
         <type>flat</type>
         <entity_type>cms_block</entity_type>
         <collection>Magento\Cms\Model\Resource\Block\Collection</collection>
-        <identifier>identifier</identifier>
-        <fields />
+        <fields>
+            <store_id>
+                <attribute_code>store_id</attribute_code>
+                <backend_type>virtual</backend_type>
+                <is_required>1</is_required>
+                <default_value>0</default_value>
+                <input>multiselect</input>
+            </store_id>
+        </fields>
         <data_set />
         <data_config />
     </cmsBlock>

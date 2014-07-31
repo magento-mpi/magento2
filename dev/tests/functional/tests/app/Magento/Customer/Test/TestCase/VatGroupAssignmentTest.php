@@ -81,10 +81,10 @@ class VatGroupAssignmentTest extends Functional
         $email = $this->vatFixture->getCustomer()->getEmail();
         $this->assertTrue(
             $grid->isRowVisible(
-                array(
+                [
                     'email' => $email,
                     'group' => $groupName,
-                )
+                ]
             )
         );
     }

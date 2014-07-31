@@ -7,15 +7,15 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
  * Class ReadServiceTest
+ *
  * @package Magento\Catalog\Service\V1\Product\Attribute
  */
 class ReadServiceTest extends WebapiAbstract
@@ -25,7 +25,7 @@ class ReadServiceTest extends WebapiAbstract
     const RESOURCE_PATH = '/V1/products/attributes';
 
     /**
-     * Checks retrieving product attribute types
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testTypes()
     {
@@ -46,8 +46,9 @@ class ReadServiceTest extends WebapiAbstract
     }
 
     /**
+     * @param string $attributeCode
      * @dataProvider infoDataProvider
-     * @param $attributeCode
+     * @magentoApiDataFixture Magento/Catalog/_files/product_attribute.php
      */
     public function testInfo($attributeCode)
     {
@@ -78,10 +79,10 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function infoDataProvider()
     {
-        return array(
-            array('price'),
-            array(95),
-        );
+        return [
+            ['test_attribute_code_333'],
+            [95],
+        ];
     }
 
     /**
@@ -89,6 +90,10 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testSearch($filterGroups, $expectedAttributes, $sortData)
     {
+        $this->markTestIncomplete(
+            'The test relies on system state that is incorrect as it is very fragile. '
+            . 'It must prepare its own data to rely on.'
+        );
         list($sortField, $sortValue) = $sortData;
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
@@ -142,8 +147,18 @@ class ReadServiceTest extends WebapiAbstract
             unset($attribute['id']);
         }
         $this->assertEquals(
-            array_map(function($i) { return $i['code'];}, $expectedAttributes),
-            array_map(function($i) { return $i['attribute_code'];}, $searchResults['items'])
+            array_map(
+                function ($i) {
+                    return $i['code'];
+                },
+                $expectedAttributes
+            ),
+            array_map(
+                function ($i) {
+                    return $i['attribute_code'];
+                },
+                $searchResults['items']
+            )
         );
     }
 

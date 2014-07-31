@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+
     $.widget('mage.fileElement', {
         options: {
             hiddenFieldSuffix: '_value',
@@ -35,4 +39,5 @@
             return str ? str.replace(/([ ;&,.+*~\':"!\^$\[\]()=>|\/@])/g, '\\$1') : str;
         }
     });
-})(jQuery);
+
+});

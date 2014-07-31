@@ -6,7 +6,13 @@
  */
 /*jshint jquery:true*/
 
-(function($) {
+define([
+    "jquery",
+    "jquery/template",
+    "matchMedia",
+    "mage/dropdowns",
+    "mage/terms"
+],function($) {
     'use strict';
 
     $.widget('mage.navigationMenu', {
@@ -547,4 +553,4 @@
             }
         }
     });
-})(window.jQuery);
+});

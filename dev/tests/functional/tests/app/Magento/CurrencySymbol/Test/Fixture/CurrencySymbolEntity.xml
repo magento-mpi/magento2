@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity">
+    <module>Magento_CurrencySymbol</module>
+    <type>flat</type>
+    <entity_type>core_config_data</entity_type>
+    <fields>
+        <config_id>
+            <attribute_code>config_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </config_id>
+        <scope>
+            <attribute_code>scope</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value>default</default_value>
+            <input></input>
+        </scope>
+        <scope_id>
+            <attribute_code>scope_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </scope_id>
+        <path>
+            <attribute_code>path</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value>general</default_value>
+            <input></input>
+        </path>
+        <value>
+            <attribute_code>value</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </value>
+        <inherit_custom_currency_symbol>
+            <attribute_code>inherit_custom_currency_symbol</attribute_code>
+            <backend_type>virtual</backend_type>
+            <input>checkbox</input>
+        </inherit_custom_currency_symbol>
+        <custom_currency_symbol>
+            <attribute_code>custom_currency_symbol</attribute_code>
+            <backend_type>virtual</backend_type>
+            <input></input>
+        </custom_currency_symbol>
+        <code>
+            <attribute_code>code</attribute_code>
+            <backend_type>virtual</backend_type>
+            <input></input>
+        </code>
+    </fields>
+    <repository_class>Magento\CurrencySymbol\Test\Repository\CurrencySymbolEntity</repository_class>
+    <handler_interface>Magento\CurrencySymbol\Test\Handler\CurrencySymbolEntity\CurrencySymbolEntityInterface</handler_interface>
+</fixture>

@@ -52,8 +52,10 @@
     </div>
 </div>
 <script>
-    //<![CDATA[
-    (function ($) {
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
         $('.product-add-form').mage('slide', {
             'slideSpeed': 1500,
             'slideSelector': '#bundle-slide',
@@ -64,7 +66,6 @@
             'autostart': true
             <?php endif;?>
         });
-    })(jQuery);
-    //]]>
+    });
 </script>
 <?php endif; ?>

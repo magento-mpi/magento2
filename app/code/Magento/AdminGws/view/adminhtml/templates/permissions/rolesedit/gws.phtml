@@ -55,7 +55,13 @@
         </div>
 
         <script type="text/javascript">
-        //<![CDATA[
+require([
+    "jquery",
+    "prototype",
+    "mage/mage",
+    "mage/validation"
+], function(jQuery){
+
         // checkboxes validation
 <?php foreach ($this->getWebsites() as $websiteId => $website): ?>
         $('gws_website_<?php echo $websiteId ?>').advaiceContainer = 'gws_validation_container';
@@ -65,8 +71,7 @@
 <?php endforeach;?>
 <?php endif; ?>
 <?php endforeach;?>
-        jQuery.mage.extend('validation', 'validation',
-            '<?php echo $this->getViewFileUrl('Magento_AdminGws::permissions/rolesedit/validation-rules.js'); ?>');
+        jQuery.mage.extend('validation', 'validation', 'Magento_AdminGws/permissions/rolesedit/validation-rules');
 
         // checkboxes relation logic
         <?php if ($this->getGwsIsAll()):?>
@@ -126,13 +131,13 @@
                     }
                 }
             }
-        }
+        };
 
         rwc = new gwsController();
         rwc.isClick = false;
         rwc.isWebsiteChecked();
-        rwc.isClick = true;
-        //]]>
-        </script>
+        rwc.isClick = true;        
+});
+</script>
     </fieldset>
 </div>
