@@ -62,6 +62,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\ConfigurableProduct\Service\V1\Data\Option|\PHPUnit_Framework_MockObject_MockObject
      */
     private $metadata;
+    /**
+     * @var \Magento\Catalog\Model\System\Config\Source\Inputtype|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $inputType;
 
     public function setUp()
     {
@@ -80,10 +84,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['__wakeup', 'getTypeId', 'getTypeInstance'])
+            ->setMethods(['__wakeup', 'getTypeId'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->product->expects($this->any())->method('getTypeInstance')->will($this->returnValue($this->productType));
 
         $this->option = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute')
             ->setMethods(['__wakeup', 'getId', 'getProductAttribute'])
@@ -120,11 +123,18 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->inputType = $this->getMockBuilder('Magento\Catalog\Model\System\Config\Source\Inputtype')
+            ->setMethods(['toOptionArray'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->model = $objectManager->getObject(
             'Magento\ConfigurableProduct\Service\V1\Product\Option\ReadService',
             [
-                'productRepository' => $this->productRepository,
-                'optionConverter'   => $this->optionConverter
+                'productRepository'               => $this->productRepository,
+                'optionConverter'                 => $this->optionConverter,
+                'configurableProductTypeInstance' => $this->productType,
+                'inputType'                       => $this->inputType,
             ]
         );
     }
@@ -242,8 +252,23 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::OPTION_TYPE, $this->model->getType($productSku, $optionId));
     }
 
+    public function testGetTypes()
+    {
+        $optionArray = array(
+            array('value' => 'multiselect', 'label' => __('Multiple Select')),
+            array('value' => 'select', 'label' => __('Dropdown'))
+        );
+        $expectedResult = ['multiselect', 'select'];
+
+        $this->inputType->expects($this->once())
+            ->method('toOptionArray')
+            ->will($this->returnValue($optionArray));
+        $this->assertEquals($expectedResult, $this->model->getTypes());
+    }
+
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage Requested option doesn't exist: 3
      */
     public function testGetNoSuchEntityException()
     {
@@ -263,7 +288,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->configurableAttributeCollection->expects($this->once())
             ->method('addFieldToFilter')
-            ->with(self::ATTRIBUTE_ID_FIELD_NAME, $optionId);
+            ->with(self::ATTRIBUTE_ID_FIELD_NAME, $optionId)
+            ->will($this->returnSelf());
 
         $this->configurableAttributeCollection->expects($this->once())
             ->method('getFirstItem')
@@ -287,6 +313,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Magento\Webapi\Exception
      * @expectedExceptionCode 403
+     * @expectedExceptionMessage Only implemented for configurable product: oneSku
      */
     public function testGetListWebApiException()
     {

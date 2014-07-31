@@ -41,4 +41,13 @@ interface ReadServiceInterface
      * @throws \Magento\Webapi\Exception
      */
     public function getType($productSku, $optionId);
+
+    /**
+     * Get all available option types for configurable product
+     *
+     * @return array|string[]
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Webapi\Exception
+     */
+    public function getTypes();
 }
