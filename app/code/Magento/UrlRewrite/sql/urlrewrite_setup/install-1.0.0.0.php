@@ -48,9 +48,9 @@ $table = $installer->getConnection()->newTable(
     'Target Path'
 )->addColumn(
     'redirect_type',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    32,
-    array('nullable' => true),
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Redirect Type'
 )->addColumn(
     'store_id',

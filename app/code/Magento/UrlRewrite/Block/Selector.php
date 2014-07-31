@@ -7,7 +7,7 @@
  */
 namespace Magento\UrlRewrite\Block;
 
-class Selector extends \Magento\Framework\View\Element\Template
+class Selector extends \Magento\Backend\Block\Template
 {
     /**
      * List of available modes from source model

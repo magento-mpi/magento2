@@ -87,7 +87,7 @@ class UrlRewrite extends AbstractObject
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getRedirectType()
     {
