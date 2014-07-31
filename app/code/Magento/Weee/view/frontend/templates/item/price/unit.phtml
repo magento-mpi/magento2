@@ -19,14 +19,14 @@ $item = $this->getItem();
         <?php else: ?>
             <span class="cart price">
         <?php endif; ?>
-            <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getUnitDisplayPriceInclTax()); ?>
+            <?php echo $this->formatPrice($this->getUnitDisplayPriceInclTax()); ?>
             </span>
 
         <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($item)): ?>
             <div class="cart-tax-info" id="unit-item-tax-details<?php echo $item->getId(); ?>" style="display: none;">
                 <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($item) as $tax): ?>
                     <span class="weee" data-th="<?php echo $tax['title']; ?>">
-                        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($tax['amount_incl_tax'], true, true); ?>
+                        <?php echo $this->formatPrice($tax['amount_incl_tax'], true, true); ?>
                     </span>
                 <?php endforeach; ?>
             </div>
@@ -35,7 +35,7 @@ $item = $this->getItem();
                 <div class="cart-tax-total"
                     data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $item->getId(); ?>"}'>
                     <span class="weee" data-th="<?php echo $this->escapeHtml(__('Total incl. tax')); ?>">
-                        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getFinalUnitDisplayPriceInclTax()); ?>
+                        <?php echo $this->formatPrice($this->getFinalUnitDisplayPriceInclTax()); ?>
                     </span>
                 </div>
             <?php endif; ?>
@@ -51,7 +51,7 @@ $item = $this->getItem();
         <?php else: ?>
             <span class="cart price">
         <?php endif; ?>
-                <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getUnitDisplayPriceExclTax()); ?>
+                <?php echo $this->formatPrice($this->getUnitDisplayPriceExclTax()); ?>
             </span>
 
         <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($item)): ?>
@@ -59,7 +59,7 @@ $item = $this->getItem();
                 style="display:none;">
                 <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($item) as $tax): ?>
                     <span class="weee" data-th="<?php echo $tax['title']; ?>">
-                        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($tax['amount'], true, true); ?>
+                        <?php echo $this->formatPrice($tax['amount'], true, true); ?>
                     </span>
                 <?php endforeach; ?>
             </div>
@@ -68,7 +68,7 @@ $item = $this->getItem();
                 <div class="cart-tax-total"
                     data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $item->getId(); ?>"}'>
                     <span class="weee" data-th="<?php echo $this->escapeHtml(__('Total')); ?>">
-                        <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getFinalUnitDisplayPriceExclTax()); ?>
+                        <?php echo $this->formatPrice($this->getFinalUnitDisplayPriceExclTax()); ?>
                     </span>
                 </div>
             <?php endif; ?>

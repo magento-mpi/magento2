@@ -9,7 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="checkout_onepage_review_item_renderers" />
-    <update handle="checkout_item_price_renderers" />
     <block class="Magento\Checkout\Block\Onepage\Review\Info" name="order_review" output="1" template="onepage/review/info.phtml">
         <block class="Magento\Framework\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />
         <block class="Magento\Checkout\Block\Cart\Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>

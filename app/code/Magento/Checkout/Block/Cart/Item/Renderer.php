@@ -525,10 +525,10 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     /**
      * Return the unit price html
      *
-     * @param $item
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @return string
      */
-    public function getUnitPriceHtml($item)
+    public function getUnitPriceHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
     {
         /** @var Renderer $block */
         $block = $this->getLayout()->getBlock('checkout.item.price.unit');
@@ -539,10 +539,10 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     /**
      * Return row total html
      *
-     * @param $item
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem  $item
      * @return string
      */
-    public function getRowTotalHtml($item)
+    public function getRowTotalHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
     {
         /** @var Renderer $block */
         $block = $this->getLayout()->getBlock('checkout.item.price.row');
@@ -553,10 +553,10 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     /**
      * Return item price html for sidebar
      *
-     * @param $item
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem  $item
      * @return string
      */
-    public function getSidebarItemPriceHtml($item)
+    public function getSidebarItemPriceHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
     {
         /** @var Renderer $block */
         $block = $this->getLayout()->getBlock('checkout.cart.item.price.sidebar');

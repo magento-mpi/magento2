@@ -8,6 +8,7 @@
 namespace Magento\Weee\Block\Item\Price;
 
 use Magento\Weee\Model\Tax as WeeeDisplayConfig;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Item price render block
@@ -22,18 +23,26 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
     protected $weeeHelper;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Weee\Helper\Data $weeeHelper
+     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Weee\Helper\Data $weeeHelper,
+        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->weeeHelper = $weeeHelper;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $taxHelper, $data);
         $this->_isScopePrivate = true;
     }
@@ -229,4 +238,14 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
         return true;
     }
 
+    /**
+     * Format price
+     *
+     * @param float $price
+     * @return string
+     */
+    public function formatPrice($price)
+    {
+        return $this->priceCurrency->format($price);
+    }
 }

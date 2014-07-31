@@ -18,7 +18,7 @@
                 <span class="label display"><?php echo __('Price'); ?></span>
             <?php endif; ?>
             <span class="value display">
-                <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getUnitDisplayPriceExclTax()) ?>
+                <?php echo $this->formatPrice($this->getUnitDisplayPriceExclTax()) ?>
             </span>
         </div>
 
@@ -26,21 +26,21 @@
             <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
                 <div class="rate weee">
                     <span class="label weee"><?php echo $tax['title']; ?></span>
-                    <span class="value weee"><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($tax['amount'],true,true); ?></span>
+                    <span class="value weee"><?php echo $this->formatPrice($tax['amount'],true,true); ?></span>
                 </div>
             <?php endforeach; ?>
 
             <?php if ($this->displayFinalPrice()): ?>
                 <div class="rate weee total">
                     <span class="label weee"><?php echo __('Total:'); ?></span>
-                    <span class="value weee"><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getFinalUnitDisplayPriceExclTax()); ?></span>
+                    <span class="value weee"><?php echo $this->formatPrice($this->getFinalUnitDisplayPriceExclTax()); ?></span>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
     <?php endif; ?>
 
 <?php if ($this->displayPriceInclTax() || $this->displayBothPrices()): ?>
-<?php $_incl = $this->helper('Magento\Checkout\Helper\Data')->getPriceInclTax($_item); ?>
+<?php $_incl = $this->getPriceInclTax($_item); ?>
     <div class="rate">
         <?php if ($this->displayBothPrices()): ?>
             <span class="label tax incl"><?php echo __('Incl. Tax'); ?></span>
@@ -49,21 +49,21 @@
         <?php endif; ?>
 
         <span class="value display">
-                <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getUnitDisplayPriceInclTax()) ?>
+                <?php echo $this->formatPrice($this->getUnitDisplayPriceInclTax()) ?>
         </span>
     </div>
     <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
         <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
             <div class="rate weee">
                 <span class="label weee"><?php echo $tax['title']; ?></span>
-                <span class="value weee"><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($tax['amount_incl_tax'],true,true); ?></span>
+                <span class="value weee"><?php echo $this->formatPrice($tax['amount_incl_tax'],true,true); ?></span>
             </div>
         <?php endforeach; ?>
 
         <?php if ($this->displayFinalPrice()): ?>
             <div class="rate weee total">
                 <span class="label weee"><?php echo __('Total:'); ?></span>
-                <span class="value weee"><?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getFinalUnitDisplayPriceInclTax()); ?></span>
+                <span class="value weee"><?php echo $this->formatPrice($this->getFinalUnitDisplayPriceInclTax()); ?></span>
             </div>
         <?php endif; ?>
     <?php endif; ?>
