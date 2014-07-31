@@ -8,7 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <remove name="root"/>
     <update handle="formkey"/>
-    <block class="Magento\Banner\Block\Adminhtml\Banner\Grid" name="banner_grid" output="1"/>
+    <container name="root">
+        <block class="Magento\Banner\Block\Adminhtml\Banner\Grid" name="banner_grid"/>
+    </container>
 </layout>

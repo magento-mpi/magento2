@@ -79,7 +79,8 @@ class Page extends Layout
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
         $this->addPageLayoutHandles([], $this->getDefaultLayoutHandle());
-        $pageLayout = $this->pageConfig->getPageLayout() ?: $update->getDefaultPageLayout();
+        $defaultPageLayout = $update->isLayoutDefined() ? null : $update->getDefaultPageLayout() ;
+        $pageLayout = $this->pageConfig->getPageLayout() ?: $defaultPageLayout;
         if ($pageLayout) {
             $update->addHandle($pageLayout);
             $this->setTemplate(self::DEFAULT_ROOT_TEMPLATE);

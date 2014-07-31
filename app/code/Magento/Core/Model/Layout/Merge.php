@@ -276,6 +276,22 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     }
 
     /**
+     * Check current handles if layout was defined on it
+     *
+     * @return bool
+     */
+    public function isLayoutDefined()
+    {
+        $fullLayoutXml = $this->getFileLayoutUpdatesXml();
+        foreach ($this->getHandles() as $handle) {
+            if ($xml = $fullLayoutXml->xpath("layout[@id='{$handle}']")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get handle xml node by handle name
      *
      * @param string $handleName
@@ -419,10 +435,10 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        $updates = '<?xml version="1.0"?>' .
-            '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' .
-            $updates .
-            '</layout>';
+        $updates = '<?xml version="1.0"?>'
+            . '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . $updates
+            . '</layout>';
         return $this->_loadXmlString($updates);
     }
 
@@ -463,7 +479,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
         $_profilerKey = 'layout_package_update:' . $handle;
         \Magento\Framework\Profiler::start($_profilerKey);
         $layout = $this->getFileLayoutUpdatesXml();
-        foreach ($layout->xpath("handle[@id='{$handle}']") as $updateXml) {
+        foreach ($layout->xpath("*[self::handle or self::layout][@id='{$handle}']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
@@ -637,8 +653,9 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
                 );
             }
             $handleName = basename($file->getFilename(), '.xml');
-            $handleAttributes = 'id="' . $handleName . '"' . $this->_renderXmlAttributes($fileXml);
-            $handleStr = '<handle ' . $handleAttributes . '>' . $fileXml->innerXml() . '</handle>';
+            $tagName = $fileXml->getName() === 'layout' ? 'layout' : 'handle';
+            $handleAttributes = ' id="' . $handleName . '"' . $this->_renderXmlAttributes($fileXml);
+            $handleStr = '<' . $tagName . $handleAttributes . '>' . $fileXml->innerXml() . '</' . $tagName . '>';
             $layoutStr .= $handleStr;
         }
         libxml_use_internal_errors($useErrors);

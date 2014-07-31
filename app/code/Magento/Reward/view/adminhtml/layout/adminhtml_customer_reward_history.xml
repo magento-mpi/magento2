@@ -9,5 +9,5 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="adminhtml_customer_reward_history_block"/>
-    <container name="adminhtml.reward.history.customer.edit.tab.container" label="Reward Points History" output="1"/>
+    <container name="adminhtml.reward.history.customer.edit.tab.container" label="Reward Points History"/>
 </layout>

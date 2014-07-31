@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <update handle="multiplewishlist_report_customer_wishlist_block"/>
     <referenceContainer name="page.main.actions">
         <block class="Magento\Backend\Block\Store\Switcher"
@@ -28,4 +28,4 @@
     <referenceContainer name="content">
         <block class="Magento\MultipleWishlist\Block\Adminhtml\Report\Customer\Wishlist" name="adminhtml.block.report.customer.wishlist.container" template="Magento_Reports::report/grid/container.phtml" />
     </referenceContainer>
-</layout>
+</page>

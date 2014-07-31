@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <block class="Magento\Checkout\Block\Onepage\Shipping\Method\Available" name="shipping_method" output="1" template="onepage/shipping_method/available.phtml"/>
+    <container name="root">
+        <block class="Magento\Checkout\Block\Onepage\Shipping\Method\Available" name="shipping_method" template="onepage/shipping_method/available.phtml"/>
+    </container>
 </layout>

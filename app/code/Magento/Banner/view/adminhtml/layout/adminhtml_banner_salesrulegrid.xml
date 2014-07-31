@@ -8,6 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <remove name="root"/>
-    <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule" name="banner_salesrule_grid" output="1"/>
+    <container name="root">
+        <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule" name="banner_salesrule_grid"/>
+    </container>
 </layout>

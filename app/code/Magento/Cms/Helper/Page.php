@@ -30,13 +30,6 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_HOME_PAGE = 'web/default/cms_home_page';
 
     /**
-     * Catalog product
-     *
-     * @var \Magento\Theme\Helper\Layout
-     */
-    protected $_pageLayout;
-
-    /**
      * Design package instance
      *
      * @var \Magento\Framework\View\DesignInterface
@@ -91,19 +84,18 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Cms\Model\Page $page
-     * @param \Magento\Theme\Helper\Layout $pageLayout
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\App\ViewInterface $view
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Cms\Model\Page $page,
-        \Magento\Theme\Helper\Layout $pageLayout,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -115,7 +107,6 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
         $this->messageManager = $messageManager;
         $this->_view = $view;
         $this->_page = $page;
-        $this->_pageLayout = $pageLayout;
         $this->_design = $design;
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
@@ -191,7 +182,6 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
 
         $this->_view->getLayout()->getUpdate()->addHandle('cms_page_view');
         $this->_view->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
-        $this->_view->addActionLayoutHandles();
 
         $this->_eventManager->dispatch(
             'cms_page_render',
@@ -214,10 +204,6 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
             $contentHeading = $this->_escaper->escapeHtml($this->_page->getContentHeading());
             $contentHeadingBlock->setContentHeading($contentHeading);
         }
-
-//        if ($this->_page->getRootTemplate()) {
-//            $this->_pageLayout->applyTemplate($this->_page->getRootTemplate());
-//        }
 
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
         $messageBlock = $this->_view->getLayout()->getMessagesBlock();

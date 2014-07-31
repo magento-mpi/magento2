@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <block class="Magento\Rma\Block\Returns\Tracking" name="tracking" output="1" template="return/tracking.phtml" cacheable="false"/>
+    <container name="root">
+        <block class="Magento\Rma\Block\Returns\Tracking" name="tracking" template="return/tracking.phtml" cacheable="false"/>
+    </container>
 </layout>

@@ -8,6 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <remove name="root"/>
-    <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form\Grid" name="cms_page_grid" output="1"/>
+    <container name="root">
+        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form\Grid" name="cms_page_grid"/>
+    </container>
 </layout>

@@ -8,5 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <block class="Magento\Rss\Block\Order\NewOrder" output="1" name="rss.order.new"/>
+    <container name="root">
+        <block class="Magento\Rss\Block\Order\NewOrder" name="rss.order.new"/>
+    </container>
 </layout>
