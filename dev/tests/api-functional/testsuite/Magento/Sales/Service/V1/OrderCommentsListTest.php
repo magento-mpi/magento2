@@ -12,7 +12,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class OrderCommentsListTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'salesOrderCommentsListServiceV1';
+    const SERVICE_NAME = 'salesOrderCommentsListV1';
 
     const SERVICE_VERSION = 'V1';
 

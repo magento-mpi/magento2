@@ -12,8 +12,11 @@
     <option value="${_value_}">${_text_}</option>
 </script>
 <script type="text/javascript">
+require(['jquery', "mage/mage"], function(jQuery){
+
     <?php $selectedGrAddressesIndexes = $this->getGiftregistrySelectedAddressesIndexes(); ?>
     <?php $selectedGrAddressesIndexesJson = '[' . implode(',', $selectedGrAddressesIndexes) . ']'; ?>
+    
     (function($) {
         'use strict';
         $(document).ready(function() {
@@ -28,5 +31,7 @@
             });
         });
     })(jQuery);
+
+});
 </script>
 <?php endif; ?>

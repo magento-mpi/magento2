@@ -4,8 +4,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+require([
+    "jquery",
+    "mage/translate",
+    "prototype"
+], function(jQuery){
 
-var VarienRulesForm = new Class.create();
+window.VarienRulesForm = new Class.create();
+
 VarienRulesForm.prototype = {
     initialize : function(parent, newChildUrl){
         this.parent = $(parent);
@@ -363,3 +369,5 @@ VarienRulesForm.prototype = {
         this.updateElement.value = this.chooserSelectedItems.keys().join(', ');
     }
 };
+
+});

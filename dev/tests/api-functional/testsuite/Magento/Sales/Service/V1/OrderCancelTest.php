@@ -14,7 +14,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderCancelTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderCancelServiceV1';
+    const SERVICE_NAME = 'salesOrderCancelV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php

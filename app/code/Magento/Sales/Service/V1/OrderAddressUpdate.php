@@ -34,11 +34,11 @@ class OrderAddressUpdate implements OrderAddressUpdateInterface
      * Invoke order address update service
      *
      * @param \Magento\Sales\Service\V1\Data\OrderAddress $orderAddress
-     * @return int|mixed
+     * @return bool
      */
     public function invoke(OrderAddress $orderAddress)
     {
         $orderAddressModel = $this->addressConverter->getModel($orderAddress);
-        return $orderAddressModel->save();
+        return (bool)$orderAddressModel->save();
     }
 }

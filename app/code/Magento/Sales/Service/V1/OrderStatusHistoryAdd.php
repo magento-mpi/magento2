@@ -43,12 +43,12 @@ class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
      *
      * @param int $id
      * @param \Magento\Sales\Service\V1\Data\OrderStatusHistory $statusHistory
-     * @return int|mixed
+     * @return bool
      */
     public function invoke($id, $statusHistory)
     {
         $order = $this->orderRepository->get($id);
         $order->addStatusHistory($this->historyConverter->getModel($statusHistory));
-        return $order->save();
+        return (bool)$order->save();
     }
 }

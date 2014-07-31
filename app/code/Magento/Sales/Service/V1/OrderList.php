@@ -60,6 +60,7 @@ class OrderList implements OrderListInterface
             $orders[] = $this->orderMapper->extractDto($order);
         }
         return $this->searchResultsBuilder->setItems($orders)
+            ->setTotalCount(count($order))
             ->setSearchCriteria($searchCriteria)
             ->create();
     }

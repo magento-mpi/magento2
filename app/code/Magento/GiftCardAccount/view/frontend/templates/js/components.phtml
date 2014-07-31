@@ -7,19 +7,18 @@
  */
 ?>
 <script type="text/javascript">
-    (function($) {
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
         "use strict";
         /**
          * Declaration of resources needed for defined components
          */
         $.mage.component({
-            giftCard: [
-                "<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/gift-card.js') ?>"
-            ],
-            paymentMethod: [
-                "<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/payment-method.js') ?>"
-            ]
+            giftCard: 'Magento_GiftCardAccount/js/gift-card',
+            paymentMethod: 'Magento_GiftCardAccount/js/payment-method'
         });
-    })(jQuery);
+    });
 </script>
 <?php echo $this->getChildHtml() ?>

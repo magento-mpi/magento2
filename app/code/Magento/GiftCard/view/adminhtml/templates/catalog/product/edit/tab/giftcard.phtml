@@ -60,8 +60,12 @@
                             <?php echo __('Use Config Settings') ?>
                         </label>
                         <script type="text/javascript">
-                            toggleValueElements($('giftcard_use_config_is_redeemable'), $('giftcard_use_config_is_redeemable').up('.field'));
-                        </script>
+require(['prototype'], function(){
+
+    toggleValueElements($('giftcard_use_config_is_redeemable'), $('giftcard_use_config_is_redeemable').up('.field'));
+                        
+});
+</script>
                     </div>
                 </div>
 
@@ -102,8 +106,12 @@
                             <?php echo __('Use Config Settings') ?>
                         </label>
                         <script type="text/javascript">
-                            toggleValueElements($('giftcard_use_config_lifetime'), $('giftcard_use_config_lifetime').up('.field'));
-                        </script>
+require(['prototype'], function(){
+
+    toggleValueElements($('giftcard_use_config_lifetime'), $('giftcard_use_config_lifetime').up('.field'));
+                        
+});
+</script>
                     </div>
                 </div>
 
@@ -147,8 +155,10 @@
                             <?php echo __('Use Config Settings') ?>
                         </label>
                         <script type="text/javascript">
-                            toggleValueElements($('giftcard_use_config_allow_message'), $('giftcard_use_config_allow_message').up('.field'));
-                        </script>
+require(['prototype'], function(){
+    toggleValueElements($('giftcard_use_config_allow_message'), $('giftcard_use_config_allow_message').up('.field'));                    
+});
+</script>
                     </div>
                 </div>
 
@@ -190,7 +200,11 @@
                         <label for="giftcard_use_config_email_template" class="normal">
                             <?php echo __('Use Config Settings') ?>
                         </label>
-                        <script type="text/javascript">toggleValueElements($('giftcard_use_config_email_template'), $('giftcard_use_config_email_template').up('.field'));</script>
+                        <script type="text/javascript">
+require(['prototype'], function(){
+    toggleValueElements($('giftcard_use_config_email_template'), $('giftcard_use_config_email_template').up('.field'));
+});
+</script>
                     </div>
                 </div>
             </fieldset>
@@ -199,6 +213,8 @@
 </div>
 
 <script type="text/javascript">
+require(['jquery'], function(jQuery){
+
     //<![CDATA[
 jQuery(function($){
     window.toggleDefault = function (field)
@@ -241,4 +257,6 @@ jQuery(function($){
     });
 });
     //]]>
+
+});
 </script>

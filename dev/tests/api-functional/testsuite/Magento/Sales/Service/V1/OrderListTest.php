@@ -18,7 +18,7 @@ class OrderListTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/orders';
 
-    const SERVICE_READ_NAME = 'salesOrderListServiceV1';
+    const SERVICE_READ_NAME = 'salesOrderListV1';
 
     const SERVICE_VERSION = 'V1';
 

@@ -34,14 +34,17 @@ class AssertCustomerCustomAttributeInCustomerSegment extends AbstractConstraint
      * @param CustomerSegmentNew $customerSegmentNew
      * @param CustomerSegmentIndex $customerSegmentIndex
      * @param CustomerCustomAttribute $customerAttribute
+     * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
      */
     public function processAssert(
         CustomerSegment $customerSegment,
         CustomerSegmentNew $customerSegmentNew,
         CustomerSegmentIndex $customerSegmentIndex,
-        CustomerCustomAttribute $customerAttribute
+        CustomerCustomAttribute $customerAttribute,
+        CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
+        $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
         $customerSegmentIndex->open();
         $customerSegmentIndex->getPageActionsBlock()->addNew();
         $customerSegmentNew->getFormTabs()->fill($customerSegment);

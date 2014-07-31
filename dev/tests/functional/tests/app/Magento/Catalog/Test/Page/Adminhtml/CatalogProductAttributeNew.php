@@ -19,6 +19,12 @@ class CatalogProductAttributeNew extends BackendPage
     const MCA = 'catalog/product_attribute/new';
 
     protected $_blocks = [
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages',
+            'strategy' => 'css selector',
+        ],
         'pageActions' => [
             'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
@@ -32,6 +38,14 @@ class CatalogProductAttributeNew extends BackendPage
             'strategy' => 'css selector',
         ],
     ];
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
+    }
 
     /**
      * @return \Magento\Backend\Test\Block\FormPageActions

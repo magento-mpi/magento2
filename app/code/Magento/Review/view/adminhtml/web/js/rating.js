@@ -4,9 +4,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     'use strict';
+    
     $.widget("marketing.ratingControl", {
         options: {
             colorFilled: '#333',
@@ -50,4 +53,5 @@
             checkedInputs.prevAll('label').css('color', this.options.colorUnfilled).data('checked', false);
         }
     });
-})(jQuery);
+
+});

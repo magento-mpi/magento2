@@ -18,7 +18,7 @@ class OrderGetStatusTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/orders/%d/status';
 
-    const SERVICE_READ_NAME = 'salesOrderGetStatusServiceV1';
+    const SERVICE_READ_NAME = 'salesOrderGetStatusV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -51,7 +51,7 @@ class OrderGetStatusTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'info'
+                'operation' => self::SERVICE_READ_NAME . 'invoke'
             ]
         ];
 
