@@ -45,6 +45,20 @@ namespace Magento\Framework\Session {
         return call_user_func_array('\session_regenerate_id', func_get_args());
     }
 
+    /**
+     * Mock headers_sent to return false
+     * 
+     * @return bool
+     */
+    function headers_sent()
+    {
+        global $mockPHPFunctions;
+        if ($mockPHPFunctions) {
+            return false;
+        }
+        return call_user_func_array('\headers_sent', func_get_args());
+    }
+
     use Magento\TestFramework\Helper\ObjectManager;
 
     /**
