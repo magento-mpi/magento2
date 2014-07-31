@@ -29,7 +29,7 @@ class Option extends AbstractObject
     /**
      * Get option id
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -39,7 +39,7 @@ class Option extends AbstractObject
     /**
      * Get option title
      *
-     * @return string
+     * @return string|null
      */
     public function getTitle()
     {
@@ -49,7 +49,7 @@ class Option extends AbstractObject
     /**
      * Get is required option
      *
-     * @return bool
+     * @return bool|null
      */
     public function isRequired()
     {
@@ -59,7 +59,7 @@ class Option extends AbstractObject
     /**
      * Get input type
      *
-     * @return string
+     * @return string|null
      */
     public function getType()
     {
@@ -69,7 +69,7 @@ class Option extends AbstractObject
     /**
      * Get option position
      *
-     * @return int
+     * @return int|null
      */
     public function getPosition()
     {
@@ -79,7 +79,7 @@ class Option extends AbstractObject
     /**
      * Get product sku
      *
-     * @return string
+     * @return string|null
      */
     public function getSku()
     {

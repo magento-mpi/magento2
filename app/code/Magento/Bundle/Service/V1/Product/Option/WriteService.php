@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\StoreManager;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Webapi\Exception;
 
 class WriteService implements WriteServiceInterface
@@ -40,13 +40,13 @@ class WriteService implements WriteServiceInterface
      * @param ProductRepository $productRepository
      * @param Type $type
      * @param OptionConverter $optionConverter
-     * @param StoreManager $storeManager
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         ProductRepository $productRepository,
         Type $type,
         OptionConverter $optionConverter,
-        StoreManager $storeManager
+        StoreManagerInterface $storeManager
     ) {
         $this->productRepository = $productRepository;
         $this->type = $type;
@@ -61,16 +61,11 @@ class WriteService implements WriteServiceInterface
     {
         $product = $this->getProduct($productSku);
         $optionCollection = $this->type->getOptionsCollection($product);
+        $optionCollection->setIdFilter($optionId);
 
         /** @var \Magento\Bundle\Model\Option $removeOption */
-        $removeOption = null;
-        /** @var \Magento\Bundle\Model\Option $option */
-        foreach ($optionCollection as $option) {
-            if ($option->getId() == $optionId) {
-                $removeOption = $option;
-            }
-        }
-        if ($removeOption === null) {
+        $removeOption = $optionCollection->getFirstItem();
+        if (!$removeOption->getId()) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
         $removeOption->delete();
@@ -90,10 +85,37 @@ class WriteService implements WriteServiceInterface
         try {
             $optionModel->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not save option');
+            throw new CouldNotSaveException('Could not save option', [], $e);
         }
 
-        return $this->optionConverter->createDataFromModel($optionModel, $product);
+        return $optionModel->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update($productSku, $optionId, \Magento\Bundle\Service\V1\Data\Product\Option $option)
+    {
+        $product = $this->getProduct($productSku);
+        $optionCollection = $this->type->getOptionsCollection($product);
+        $optionCollection->setIdFilter($optionId);
+
+        /** @var \Magento\Bundle\Model\Option $optionModel */
+        $optionModel = $optionCollection->getFirstItem();
+        $updateOption = $this->optionConverter->getModelFromData($option, $optionModel);
+
+        if (!$updateOption->getId()) {
+            throw new NoSuchEntityException('Requested option doesn\'t exist');
+        }
+        $updateOption->setStoreId($this->storeManager->getStore()->getId());
+
+        try {
+            $updateOption->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not save option', [], $e);
+        }
+
+        return true;
     }
 
     /**
@@ -106,7 +128,14 @@ class WriteService implements WriteServiceInterface
         $product = $this->productRepository->get($productSku);
 
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-            throw new Exception('Only implemented for bundle product', Exception::HTTP_FORBIDDEN);
+            throw new Exception(
+                'Product with specified sku: "%1" is not a bundle product',
+                Exception::HTTP_FORBIDDEN,
+                Exception::HTTP_FORBIDDEN,
+                [
+                    $product->getSku()
+                ]
+            );
         }
 
         return $product;

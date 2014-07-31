@@ -51,6 +51,12 @@
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
+    <route url="/V1/bundle-products/:productSku/option/:optionId" method="PUT">
+        <service class="Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface" method="update" />
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
     <route url="/V1/bundle-products/:productSku/option/:optionId" method="DELETE">
         <service class="Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface" method="remove" />
         <resources>
