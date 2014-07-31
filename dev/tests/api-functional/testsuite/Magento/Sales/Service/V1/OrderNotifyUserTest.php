@@ -14,7 +14,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderNotifyUserTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderNotifyUserServiceV1';
+    const SERVICE_NAME = 'salesOrderNotifyUserV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php

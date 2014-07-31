@@ -42,6 +42,7 @@ class OrderCommentsListTest extends WebapiAbstract
         ];
         $requestData = ['id' => $order->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue(true);
         foreach ($result['items'] as $history) {
             $orderHistoryStatus = $objectManager->get('Magento\Sales\Model\Order\Status\History')
                 ->load($history['entity_id']);

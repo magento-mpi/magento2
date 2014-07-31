@@ -7,11 +7,11 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Sales\Model\Order\Status\HistoryRepository;
+//use ;
 use Magento\Sales\Service\V1\Data\OrderStatusHistoryMapper;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder;
+use Magento\Sales\Service\V1\Data\OrderStatusHistorySearchResultsBuilder;
 
 /**
  * Class OrderCommentsList
@@ -19,7 +19,7 @@ use Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder;
 class OrderCommentsList implements OrderCommentsListInterface
 {
     /**
-     * @var HistoryRepository
+     * @var \Magento\Sales\Model\Order\Status\HistoryRepository
      */
     protected $historyRepository;
 
@@ -39,23 +39,23 @@ class OrderCommentsList implements OrderCommentsListInterface
     protected $filterBuilder;
 
     /**
-     * @var OrderSearchResultsBuilder
+     * @var OrderStatusHistorySearchResultsBuilder
      */
     protected $searchResultsBuilder;
 
     /**
-     * @param HistoryRepository $historyRepository
+     * @param \Magento\Sales\Model\Order\Status\HistoryRepository $historyRepository
      * @param OrderStatusHistoryMapper $historyMapper
      * @param SearchCriteriaBuilder $criteriaBuilder
      * @param FilterBuilder $filterBuilder
-     * @param OrderSearchResultsBuilder $searchResultsBuilder
+     * @param OrderStatusHistorySearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
-        HistoryRepository $historyRepository,
+        \Magento\Sales\Model\Order\Status\HistoryRepository $historyRepository,
         OrderStatusHistoryMapper $historyMapper,
         SearchCriteriaBuilder $criteriaBuilder,
         FilterBuilder $filterBuilder,
-        OrderSearchResultsBuilder $searchResultsBuilder
+        OrderStatusHistorySearchResultsBuilder $searchResultsBuilder
     ) {
         $this->historyRepository = $historyRepository;
         $this->historyMapper = $historyMapper;
@@ -68,7 +68,7 @@ class OrderCommentsList implements OrderCommentsListInterface
      * Invoke OrderCommentsList service
      *
      * @param int $id
-     * @return \Magento\Framework\Service\V1\Data\SearchResults
+     * @return \Magento\Sales\Service\V1\Data\OrderStatusHistorySearchResults
      */
     public function invoke($id)
     {
@@ -82,6 +82,7 @@ class OrderCommentsList implements OrderCommentsListInterface
         }
         return $this->searchResultsBuilder->setItems($comments)
             ->setSearchCriteria($criteria)
+            ->setTotalCount(count($comments))
             ->create();
     }
 }
