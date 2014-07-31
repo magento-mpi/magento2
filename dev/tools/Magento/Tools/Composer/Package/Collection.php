@@ -118,8 +118,8 @@ class Collection
     private function massUpdate($subjectName, $targetValue)
     {
         foreach ($this->packages as $package) {
-            if ($package->get("{'require'}->{$subjectName}")) {
-                $package->set("{'require'}->{$subjectName}", $targetValue);
+            if ($package->get("require->{$subjectName}")) {
+                $package->set("require->{$subjectName}", $targetValue);
             }
         }
     }
