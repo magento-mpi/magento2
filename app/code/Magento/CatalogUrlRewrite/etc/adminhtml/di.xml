@@ -20,4 +20,7 @@
     <type name="Magento\CatalogImportExport\Model\Import\Product">
         <plugin name="import_save_plugin" type="Magento\CatalogUrlRewrite\Model\Product\Plugin\Import"/>
     </type>
+    <type name="Magento\Catalog\Model\Resource\Category">
+        <plugin name="category_move_plugin" type="Magento\CatalogUrlRewrite\Model\Category\Plugin\Category\Move"/>
+    </type>
 </config>

@@ -46,7 +46,7 @@ class Observer
         $this->categoryUrlGenerator = $categoryUrlGenerator;
         $this->productUrlGenerator = $productUrlGenerator;
         $this->urlPersist = $urlPersist;
-        $this->catalogData = $scopeConfig;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**

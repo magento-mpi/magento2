@@ -119,6 +119,6 @@ class CategoryUrlPathGenerator
     public function generateUrlKey($category)
     {
         $urlKey = $category->getUrlKey();
-        return $category->formatUrlKey($urlKey === '' ? $category->getName() : $urlKey);
+        return $category->formatUrlKey($urlKey == '' ? $category->getName() : $urlKey);
     }
 }
