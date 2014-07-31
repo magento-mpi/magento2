@@ -7,11 +7,13 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
-class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
+
+class OptionBuilder extends AbstractObjectBuilder
 {
     /**
-     * @param int $value 
-     * @return self 
+     * @param int $value
+     * @return $this
      */
     public function setId($value)
     {
@@ -20,7 +22,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
 
     /**
      * @param string $value
-     * @return self
+     * @return $this
      */
     public function setAttributeId($value)
     {
@@ -28,8 +30,8 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     }
 
     /**
-     * @param string $value 
-     * @return self 
+     * @param string $value
+     * @return $this
      */
     public function setLabel($value)
     {
@@ -37,8 +39,17 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     }
 
     /**
-     * @param bool $value 
-     * @return self 
+     * @param string $value
+     * @return $this
+     */
+    public function setType($value)
+    {
+        return $this->_set(Option::TYPE, $value);
+    }
+
+    /**
+     * @param bool $value
+     * @return $this
      */
     public function useDefault($value)
     {
@@ -47,7 +58,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
 
     /**
      * @param \Magento\ConfigurableProduct\Service\V1\Data\Option\Value[] $value
-     * @return self 
+     * @return $this
      */
     public function setValues($value)
     {

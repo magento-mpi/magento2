@@ -8,9 +8,8 @@
 namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\Catalog\Model\ProductRepository;
-use Magento\Catalog\Model\System\Config\Source\Inputtype;
+use Magento\Catalog\Model\System\Config\Source\Inputtype as InputType;
 use Magento\Catalog\Service\V1\Data\Product;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Interceptor;
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection;
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\ConfigurableProduct\Service\V1\Data\OptionConverter;
@@ -20,40 +19,38 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableT
 
 class ReadService implements ReadServiceInterface
 {
-    const TYPE_FIELD_NAME = 'frontend_input';
     /**
      * @var OptionConverter
      */
     private $optionConverter;
-
     /**
      * @var ProductRepository
      */
     private $productRepository;
     /**
-     * @var Interceptor
+     * @var ConfigurableType
      */
-    private $configurableProductTypeInstance;
+    private $configurableType;
     /**
-     * @var \Magento\Catalog\Model\System\Config\Source\Inputtype
+     * @var InputType
      */
     private $inputType;
 
     /**
      * @param ProductRepository $productRepository
      * @param OptionConverter $optionConverter
-     * @param Interceptor $configurableProductTypeInstance
-     * @param Inputtype $inputType
+     * @param ConfigurableType $configurableType
+     * @param InputType $inputType
      */
     public function __construct(
         ProductRepository $productRepository,
         OptionConverter $optionConverter,
-        Interceptor $configurableProductTypeInstance,
-        Inputtype $inputType
+        ConfigurableType $configurableType,
+        InputType $inputType
     ) {
         $this->productRepository = $productRepository;
         $this->optionConverter = $optionConverter;
-        $this->configurableProductTypeInstance = $configurableProductTypeInstance;
+        $this->configurableType = $configurableType;
         $this->inputType = $inputType;
     }
 
@@ -64,7 +61,12 @@ class ReadService implements ReadServiceInterface
     {
         $product = $this->getProduct($productSku);
         $collection = $this->getConfigurableAttributesCollection($product);
-        $configurableAttribute = $this->getOptionById($optionId, $collection);
+        $collection->addFieldToFilter($collection->getResource()->getIdFieldName(), $optionId);
+        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $configurableAttribute */
+        $configurableAttribute = $collection->getFirstItem();
+        if (!$configurableAttribute->getId()) {
+            throw new NoSuchEntityException(sprintf('Requested option doesn\'t exist: %s', $optionId));
+        }
         return $this->optionConverter->convertFromModel($configurableAttribute);
     }
 
@@ -75,21 +77,10 @@ class ReadService implements ReadServiceInterface
     {
         $options = [];
         $product = $this->getProduct($productSku);
-        foreach ($this->getConfigurableAttributesCollection($product) as $configurableAttribute) {
-            $options[] = $this->optionConverter->convertFromModel($configurableAttribute);
+        foreach ($this->getConfigurableAttributesCollection($product) as $option) {
+            $options[] = $this->optionConverter->convertFromModel($option);
         }
         return $options;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getType($productSku, $optionId)
-    {
-        $product = $this->getProduct($productSku);
-        $collection = $this->getConfigurableAttributesCollection($product);
-        $configurableAttribute = $this->getOptionById($optionId, $collection);
-        return $configurableAttribute->getProductAttribute()->getData(static::TYPE_FIELD_NAME);
     }
 
     /**
@@ -116,7 +107,10 @@ class ReadService implements ReadServiceInterface
     {
         $product = $this->productRepository->get($productSku);
         if (ConfigurableType::TYPE_CODE !== $product->getTypeId()) {
-            throw new Exception("Only implemented for configurable product: $productSku", Exception::HTTP_FORBIDDEN, Exception::HTTP_BAD_REQUEST, [$productSku]);
+            throw new Exception(
+                sprintf('Only implemented for configurable product: %s', $productSku),
+                Exception::HTTP_FORBIDDEN
+            );
         }
         return $product;
     }
@@ -129,23 +123,6 @@ class ReadService implements ReadServiceInterface
      */
     private function getConfigurableAttributesCollection(\Magento\Catalog\Model\Product $product)
     {
-        return $this->configurableProductTypeInstance->getConfigurableAttributeCollection($product);
-    }
-
-    /**
-     * @param int $optionId
-     * @param Collection $collection
-     * @return ConfigurableType\Attribute
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    private function getOptionById($optionId, Collection $collection)
-    {
-        $collection->addFieldToFilter($collection->getResource()->getIdFieldName(), $optionId);
-        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $configurableAttribute */
-        $configurableAttribute = $collection->getFirstItem();
-        if (!$configurableAttribute->getId()) {
-            throw new NoSuchEntityException('Requested option doesn\'t exist: %1', [$optionId]);
-        }
-        return $configurableAttribute;
+        return $this->configurableType->getConfigurableAttributeCollection($product);
     }
 }
