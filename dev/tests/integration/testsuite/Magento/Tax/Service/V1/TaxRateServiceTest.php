@@ -44,12 +44,24 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $taxRateFixtureFactory;
 
+    /**
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    private $countryFactory;
+
+    /**
+     * @var  \Magento\Directory\Model\RegionFactory
+     */
+    private $regionFactory;
+
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
         $this->taxRateService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRateServiceInterface');
         $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
         $this->taxRateFixtureFactory = new TaxRuleFixtureFactory();
+        $this->countryFactory = $this->objectManager->create('\Magento\Directory\Model\CountryFactory');
+        $this->regionFactory = $this->objectManager->create('\Magento\Directory\Model\RegionFactory');
     }
 
     /**
@@ -166,9 +178,6 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateTaxRateWithExceptionMessages($dataArray, $errorMessages)
     {
         $expectedErrorMessages = [
-            'country_id is a required field.',
-            'percentage_rate is a required field.',
-            'code is a required field.'
         ];
         $expectedErrorMessages = array_merge($expectedErrorMessages, $errorMessages);
         $taxRate = $this->taxRateBuilder->populateWithArray($dataArray)->create();
@@ -189,6 +198,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'invalidZipRange' => [
                 ['zip_range' => ['from' => 'from', 'to' => 'to']],
                 'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
                     'Invalid value of "from" provided for the zip_from field.',
                     'Invalid value of "to" provided for the zip_to field.'
                 ]
@@ -196,22 +208,69 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'emptyZipRange' => [
                 ['zip_range' => ['from' => '', 'to' => '']],
                 'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
                     'Invalid value of "" provided for the zip_from field.',
                     'Invalid value of "" provided for the zip_to field.'
                 ]
             ],
             'empty' => [
                 [],
-                'error' => ['postcode is a required field.']
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
             ],
             'zipRangeAndPostcode' => [
                 ['postcode' => 78727, 'zip_range' => ['from' => 78765, 'to' => 78780]],
-                'error' => []
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.'
+                ]
             ],
             'higherRange' => [
                 ['zip_range' => ['from' => 78780, 'to' => 78765]],
-                'error' => ['Range To should be equal or greater than Range From.']
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'Range To should be equal or greater than Range From.'
+                ]
+            ],
+            'invalidCountry' => [
+                ['country_id' => 'XX'],
+                'error' => [
+                    'Invalid value of "XX" provided for the country_id field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
+            ],
+            'invalidRegion1' => [
+                ['region_id' => '-'],
+                'error' => [
+                    'country_id is a required field.',
+                    'Invalid value of "-" provided for the region_id field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
+            ],
+            'invalidRegion2' => [
+                ['region_id' => '999'],
+                'error' => [
+                    'country_id is a required field.',
+                    'Invalid value of "999" provided for the region_id field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
             ]
+
         ];
     }
 
