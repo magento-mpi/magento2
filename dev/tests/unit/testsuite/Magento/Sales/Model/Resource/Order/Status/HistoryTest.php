@@ -97,7 +97,20 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->validatorMock->expects($this->once())
             ->method('validate')
-            ->will($this->returnSelf());
+            ->will($this->returnValue([]));
+        $this->historyResource->save($this->historyMock);
+    }
+
+    /**
+     * test _beforeSaveMethod via save()
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage Cannot save comment:
+     */
+    public function testValidate()
+    {
+        $this->validatorMock->expects($this->once())
+            ->method('validate')
+            ->will($this->returnValue(['Some warnings']));
         $this->historyResource->save($this->historyMock);
     }
 }
