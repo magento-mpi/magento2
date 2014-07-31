@@ -7,7 +7,6 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
-use Magento\Catalog\Model\Resource\Eav\Attribute as EavAttribute;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
@@ -23,16 +22,30 @@ class ReadServiceTest extends WebapiAbstract
     public function testGet()
     {
         $productSku = 'configurable';
-        $attribute = $this->getAttribute();
-        $configurableAttribute = $this->getConfigurableAttribute($attribute);
 
-        /** @var array $result */
-        $result = $this->get($productSku, $configurableAttribute->getId());
+        $options = $this->getList($productSku);
+        $this->assertTrue(is_array($options));
+        $this->assertNotEmpty($options);
+        foreach ($options as $option) {
+            /** @var array $result */
+            $result = $this->get($productSku, $option['id']);
 
-        $this->assertNotEmpty($result);
-        $this->assertEquals($attribute->getId(), $result['attribute_id']);
-        $this->assertEquals($configurableAttribute->getId(), $result['id']);
+            $this->assertTrue(is_array($result));
+            $this->assertNotEmpty($result);
 
+            $this->assertArrayHasKey('id', $result);
+            $this->assertEquals($option['id'], $result['id']);
+
+            $this->assertArrayHasKey('attribute_id', $result);
+            $this->assertEquals($option['attribute_id'], $result['attribute_id']);
+
+            $this->assertArrayHasKey('label', $result);
+            $this->assertEquals($option['label'], $result['label']);
+
+            $this->assertArrayHasKey('values', $result);
+            $this->assertTrue(is_array($result['values']));
+            $this->assertEquals($option['values'], $result['values']);
+        }
     }
 
     /**
@@ -41,22 +54,58 @@ class ReadServiceTest extends WebapiAbstract
     public function testGetList()
     {
         $productSku = 'configurable';
-        $attribute = $this->getAttribute();
-        $configurableAttribute = $this->getConfigurableAttribute($attribute);
 
         /** @var array $result */
         $result = $this->getList($productSku);
 
         $this->assertNotEmpty($result);
-        $this->assertEquals($attribute->getId(), $result[0]['attribute_id']);
-        $this->assertEquals($configurableAttribute->getId(), $result[0]['id']);
+        $this->assertTrue(is_array($result));
+        $this->assertArrayHasKey(0, $result);
+
+        $option = $result[0];
+
+        $this->assertNotEmpty($option);
+        $this->assertTrue(is_array($option));
+
+        $this->assertArrayHasKey('label', $option);
+        $this->assertEquals($option['label'], 'Test Configurable');
+
+        $this->assertArrayHasKey('values', $option);
+        $this->assertTrue(is_array($option));
+        $this->assertNotEmpty($option);
+
+        $expectedValues = array(
+            ['price' => 5, 'price_is_percent' => 0],
+            ['price' => 5, 'price_is_percent' => 0]
+        );
+
+        $this->assertCount(count($expectedValues), $option['values']);
+
+        foreach ($option['values'] as $key => $value) {
+            $this->assertTrue(is_array($value));
+            $this->assertNotEmpty($value);
+
+            $this->assertArrayHasKey($key, $expectedValues);
+            $expectedValue = $expectedValues[$key];
+
+            $this->assertArrayHasKey('price', $value);
+            $this->assertEquals($expectedValue['price'], $value['price']);
+
+            $this->assertArrayHasKey('price_is_percent', $value);
+            $this->assertEquals($expectedValue['price_is_percent'], $value['price_is_percent']);
+        }
+    }
+
+    public function testGetTypes()
+    {
+        $expectedTypes = array('multiselect', 'select');
+        $result = $this->getTypes();
+        $this->assertEquals($expectedTypes, $result);
     }
 
     /**
-     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      * @expectedException \Exception
-     * @expectedExceptionCode 404
-     * @expectedExceptionMessage "Requested product doesn't exist: product_not_exist"
+     * @expectedExceptionMessage Requested product doesn't exist
      */
     public function testGetUndefinedProduct()
     {
@@ -67,13 +116,12 @@ class ReadServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      * @expectedException \Exception
-     * @expectedExceptionCode 404
-     * @expectedExceptionMessage "Requested option doesn't exist: option_not_exist"
+     * @expectedExceptionMessage Requested option doesn't exist: -42
      */
     public function testGetUndefinedOption()
     {
         $productSku = 'configurable';
-        $attributeId = 'option_not_exist';
+        $attributeId = -42;
         $this->get($productSku, $attributeId);
     }
 
@@ -95,7 +143,7 @@ class ReadServiceTest extends WebapiAbstract
                 'operation'      => self::SERVICE_READ_NAME . 'get'
             ]
         ];
-        return $this->_webApiCall($serviceInfo, ['productId' => $productSku, 'optionId' => $optionId]);
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
     }
 
     /**
@@ -115,32 +163,25 @@ class ReadServiceTest extends WebapiAbstract
                 'operation'      => self::SERVICE_READ_NAME . 'getList'
             ]
         ];
-        return $this->_webApiCall($serviceInfo, ['productId' => $productSku]);
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }
 
     /**
-     * @param string $attributeCode
-     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
+     * @return array
      */
-    protected function getAttribute($attributeCode = 'test_configurable')
+    protected function getTypes()
     {
-        /** @var $attribute EavAttribute */
-        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Resource\Eav\Attribute'
-        );
-        return $attribute->load($attributeCode, 'attribute_code');
-    }
-
-    /**
-     * @param EavAttribute $attribute
-     * @return \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute
-     */
-    protected function getConfigurableAttribute(EavAttribute $attribute)
-    {
-        /** @var $attribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
-        $configurableAttribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute'
-        );
-        return $configurableAttribute->load($attribute->getId(), 'attribute_id');
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => str_replace(':productSku/', '', self::RESOURCE_PATH) . 'types',
+                'httpMethod'   => Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service'        => self::SERVICE_READ_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation'      => self::SERVICE_READ_NAME . 'getTypes'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo);
     }
 }
