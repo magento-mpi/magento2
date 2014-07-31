@@ -59,9 +59,8 @@ class WriteServiceTest extends WebapiAbstract
     public function testUpdate()
     {
         $productSku = 'configurable';
-        $attribute = $this->getAttribute();
-        $configurableAttribute = $this->getConfigurableAttribute($attribute->getId())->getData();
-        $optionId = $configurableAttribute['product_super_attribute_id'];
+        $configurableAttribute = $this->getConfigurableAttribute($productSku);
+        $optionId = $configurableAttribute[0]['id'];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options' . '/' . $optionId,
@@ -84,33 +83,28 @@ class WriteServiceTest extends WebapiAbstract
                 'option' => $option
             ]
         ));
-        $configurableAttribute = $this->getConfigurableAttribute($attribute->getId())->getData();
-        $this->assertEquals($option['label'], $configurableAttribute['label']);
+        $configurableAttribute = $this->getConfigurableAttribute($productSku);
+        $this->assertEquals($option['label'], $configurableAttribute[0]['label']);
     }
 
     /**
-     * @param string $attributeCode
-     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
+     * @param $productSku
+     * @return array
      */
-    protected function getAttribute($attributeCode = 'test_configurable')
+    protected function getConfigurableAttribute($productSku)
     {
-        /** @var $attribute EavAttribute */
-        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Resource\Eav\Attribute'
-        );
-        return $attribute->load($attributeCode, 'attribute_code');
-    }
-
-    /**
-     * @param int $attributeId
-     * @return \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute
-     */
-    protected function getConfigurableAttribute($attributeId)
-    {
-        /** @var $attribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
-        $configurableAttribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute'
-        );
-        return $configurableAttribute->load($attributeId, 'attribute_id');
+        $readServiceName = 'configurableProductProductOptionReadServiceV1';
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options/all',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => $readServiceName,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => $readServiceName . 'getList'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }
 }
