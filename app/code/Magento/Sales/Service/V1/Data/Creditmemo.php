@@ -255,116 +255,6 @@ class Creditmemo extends DataObject
     const DISCOUNT_DESCRIPTION = 'discount_description';
 
     /**
-     * float
-     */
-    const BASE_CUSTOMER_BALANCE_AMOUNT = 'base_customer_balance_amount';
-
-    /**
-     * float
-     */
-    const CUSTOMER_BALANCE_AMOUNT = 'customer_balance_amount';
-
-    /**
-     * float
-     */
-    const BS_CUSTOMER_BAL_TOTAL_REFUNDED = 'bs_customer_bal_total_refunded';
-
-    /**
-     * float
-     */
-    const CUSTOMER_BAL_TOTAL_REFUNDED = 'customer_bal_total_refunded';
-
-    /**
-     * float
-     */
-    const BASE_GIFT_CARDS_AMOUNT = 'base_gift_cards_amount';
-
-    /**
-     * float
-     */
-    const GIFT_CARDS_AMOUNT = 'gift_cards_amount';
-
-    /**
-     * float
-     */
-    const GW_BASE_PRICE = 'gw_base_price';
-
-    /**
-     * float
-     */
-    const GW_PRICE = 'gw_price';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_PRICE = 'gw_items_base_price';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_PRICE = 'gw_items_price';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_PRICE = 'gw_card_base_price';
-
-    /**
-     * float
-     */
-    const GW_CARD_PRICE = 'gw_card_price';
-
-    /**
-     * float
-     */
-    const GW_BASE_TAX_AMOUNT = 'gw_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_TAX_AMOUNT = 'gw_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_BASE_TAX_AMOUNT = 'gw_items_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_ITEMS_TAX_AMOUNT = 'gw_items_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_CARD_BASE_TAX_AMOUNT = 'gw_card_base_tax_amount';
-
-    /**
-     * float
-     */
-    const GW_CARD_TAX_AMOUNT = 'gw_card_tax_amount';
-
-    /**
-     * float
-     */
-    const BASE_REWARD_CURRENCY_AMOUNT = 'base_reward_currency_amount';
-
-    /**
-     * float
-     */
-    const REWARD_CURRENCY_AMOUNT = 'reward_currency_amount';
-
-    /**
-     * int
-     */
-    const REWARD_POINTS_BALANCE = 'reward_points_balance';
-
-    /**
-     * int
-     */
-    const REWARD_POINTS_BALANCE_REFUND = 'reward_points_balance_refund';
-
-    /**
      * Returns adjustment
      *
      * @return float
@@ -435,16 +325,6 @@ class Creditmemo extends DataObject
     }
 
     /**
-     * Returns base_customer_balance_amount
-     *
-     * @return float
-     */
-    public function getBaseCustomerBalanceAmount()
-    {
-        return $this->_get(self::BASE_CUSTOMER_BALANCE_AMOUNT);
-    }
-
-    /**
      * Returns base_discount_amount
      *
      * @return float
@@ -452,16 +332,6 @@ class Creditmemo extends DataObject
     public function getBaseDiscountAmount()
     {
         return $this->_get(self::BASE_DISCOUNT_AMOUNT);
-    }
-
-    /**
-     * Returns base_gift_cards_amount
-     *
-     * @return float
-     */
-    public function getBaseGiftCardsAmount()
-    {
-        return $this->_get(self::BASE_GIFT_CARDS_AMOUNT);
     }
 
     /**
@@ -482,16 +352,6 @@ class Creditmemo extends DataObject
     public function getBaseHiddenTaxAmount()
     {
         return $this->_get(self::BASE_HIDDEN_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns base_reward_currency_amount
-     *
-     * @return float
-     */
-    public function getBaseRewardCurrencyAmount()
-    {
-        return $this->_get(self::BASE_REWARD_CURRENCY_AMOUNT);
     }
 
     /**
@@ -595,16 +455,6 @@ class Creditmemo extends DataObject
     }
 
     /**
-     * Returns bs_customer_bal_total_refunded
-     *
-     * @return float
-     */
-    public function getBsCustomerBalTotalRefunded()
-    {
-        return $this->_get(self::BS_CUSTOMER_BAL_TOTAL_REFUNDED);
-    }
-
-    /**
      * Returns created_at
      *
      * @return string
@@ -622,26 +472,6 @@ class Creditmemo extends DataObject
     public function getCreditmemoStatus()
     {
         return $this->_get(self::CREDITMEMO_STATUS);
-    }
-
-    /**
-     * Returns customer_balance_amount
-     *
-     * @return float
-     */
-    public function getCustomerBalanceAmount()
-    {
-        return $this->_get(self::CUSTOMER_BALANCE_AMOUNT);
-    }
-
-    /**
-     * Returns customer_bal_total_refunded
-     *
-     * @return float
-     */
-    public function getCustomerBalTotalRefunded()
-    {
-        return $this->_get(self::CUSTOMER_BAL_TOTAL_REFUNDED);
     }
 
     /**
@@ -685,16 +515,6 @@ class Creditmemo extends DataObject
     }
 
     /**
-     * Returns gift_cards_amount
-     *
-     * @return float
-     */
-    public function getGiftCardsAmount()
-    {
-        return $this->_get(self::GIFT_CARDS_AMOUNT);
-    }
-
-    /**
      * Returns global_currency_code
      *
      * @return string
@@ -714,125 +534,6 @@ class Creditmemo extends DataObject
         return $this->_get(self::GRAND_TOTAL);
     }
 
-    /**
-     * Returns gw_base_price
-     *
-     * @return float
-     */
-    public function getGwBasePrice()
-    {
-        return $this->_get(self::GW_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwBaseTaxAmount()
-    {
-        return $this->_get(self::GW_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_card_base_price
-     *
-     * @return float
-     */
-    public function getGwCardBasePrice()
-    {
-        return $this->_get(self::GW_CARD_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_card_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwCardBaseTaxAmount()
-    {
-        return $this->_get(self::GW_CARD_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_card_price
-     *
-     * @return float
-     */
-    public function getGwCardPrice()
-    {
-        return $this->_get(self::GW_CARD_PRICE);
-    }
-
-    /**
-     * Returns gw_card_tax_amount
-     *
-     * @return float
-     */
-    public function getGwCardTaxAmount()
-    {
-        return $this->_get(self::GW_CARD_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_items_base_price
-     *
-     * @return float
-     */
-    public function getGwItemsBasePrice()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_PRICE);
-    }
-
-    /**
-     * Returns gw_items_base_tax_amount
-     *
-     * @return float
-     */
-    public function getGwItemsBaseTaxAmount()
-    {
-        return $this->_get(self::GW_ITEMS_BASE_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_items_price
-     *
-     * @return float
-     */
-    public function getGwItemsPrice()
-    {
-        return $this->_get(self::GW_ITEMS_PRICE);
-    }
-
-    /**
-     * Returns gw_items_tax_amount
-     *
-     * @return float
-     */
-    public function getGwItemsTaxAmount()
-    {
-        return $this->_get(self::GW_ITEMS_TAX_AMOUNT);
-    }
-
-    /**
-     * Returns gw_price
-     *
-     * @return float
-     */
-    public function getGwPrice()
-    {
-        return $this->_get(self::GW_PRICE);
-    }
-
-    /**
-     * Returns gw_tax_amount
-     *
-     * @return float
-     */
-    public function getGwTaxAmount()
-    {
-        return $this->_get(self::GW_TAX_AMOUNT);
-    }
 
     /**
      * Returns hidden_tax_amount
@@ -882,36 +583,6 @@ class Creditmemo extends DataObject
     public function getOrderId()
     {
         return $this->_get(self::ORDER_ID);
-    }
-
-    /**
-     * Returns reward_currency_amount
-     *
-     * @return float
-     */
-    public function getRewardCurrencyAmount()
-    {
-        return $this->_get(self::REWARD_CURRENCY_AMOUNT);
-    }
-
-    /**
-     * Returns reward_points_balance
-     *
-     * @return int
-     */
-    public function getRewardPointsBalance()
-    {
-        return $this->_get(self::REWARD_POINTS_BALANCE);
-    }
-
-    /**
-     * Returns reward_points_balance_refund
-     *
-     * @return int
-     */
-    public function getRewardPointsBalanceRefund()
-    {
-        return $this->_get(self::REWARD_POINTS_BALANCE_REFUND);
     }
 
     /**
