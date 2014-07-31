@@ -189,7 +189,7 @@ namespace Magento\Framework\Stdlib\Cookie {
             $scopeMock = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\CookieScope')
                 ->setMethods(['getPublicCookieMetadata'])
                 ->disableOriginalConstructor()->getMock();
-            $scopeMock->expects($this->once())->method('getPublicCookieMetadata')->withAnyParameters()->will(
+            $scopeMock->expects($this->once())->method('getPublicCookieMetadata')->with()->will(
                 $this->returnValue($publicCookieMetadata)
             );
 
