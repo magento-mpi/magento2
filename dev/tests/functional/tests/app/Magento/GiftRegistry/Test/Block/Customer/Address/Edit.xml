@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <wrapper>address</wrapper>
+    <fields>
+        <firstname/>
+        <lastname/>
+        <company/>
+        <street>
+            <selector>[id="address:street1"]</selector>
+        </street>
+        <city/>
+        <region_id>
+            <input>select</input>
+        </region_id>
+        <postcode/>
+        <country_id>
+            <input>select</input>
+        </country_id>
+        <telephone/>
+        <fax/>
+    </fields>
+</mapping>

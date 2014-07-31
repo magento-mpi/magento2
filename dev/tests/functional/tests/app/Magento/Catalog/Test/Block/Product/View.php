@@ -151,6 +151,13 @@ class View extends Block
     protected $clickAddToCompare = '.action.tocompare';
 
     /**
+     * "Add to Wishlist" button
+     *
+     * @var string
+     */
+    protected $addToWishlist = '[data-action="add-to-wishlist"]';
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
@@ -478,5 +485,15 @@ class View extends Block
     public function clickAddToCompare()
     {
         $this->_rootElement->find($this->clickAddToCompare, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Click "Add to Wishlist" button
+     *
+     * @return void
+     */
+    public function addToWishlist()
+    {
+        $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
     }
 }
