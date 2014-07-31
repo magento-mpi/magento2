@@ -1,0 +1,59 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin;
+
+class Attribute extends AbstractPlugin
+{
+    /**
+     * Invalidate indexer on attribute save (searchable flag change)
+     *
+     * @param \Magento\Catalog\Model\Resource\Attribute|\Magento\Store\Model\Resource\Group $subject
+     * @param \Closure $proceed
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     *
+     * @return \Magento\Catalog\Model\Resource\Attribute
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function aroundSave(
+        \Magento\Catalog\Model\Resource\Attribute $subject,
+        \Closure $proceed,
+        \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+    ) {
+        $needInvalidation = !$attribute->isObjectNew() && $attribute->dataHasChangedFor('is_searchable');
+        $result = $proceed($attribute);
+        if ($needInvalidation) {
+            $this->getIndexer()->invalidate();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Invalidate indexer on searchable attribute delete
+     *
+     * @param \Magento\Catalog\Model\Resource\Attribute $subject
+     * @param \Closure $proceed
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     *
+     * @return \Magento\Catalog\Model\Resource\Attribute
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function aroundDelete(
+        \Magento\Catalog\Model\Resource\Attribute $subject,
+        \Closure $proceed,
+        \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+    ) {
+        $needInvalidation = !$attribute->isObjectNew() && $attribute->getIsSearchable();
+        $result = $proceed($attribute);
+        if ($needInvalidation) {
+            $this->getIndexer()->invalidate();
+        }
+
+        return $result;
+    }
+}
