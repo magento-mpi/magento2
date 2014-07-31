@@ -52,15 +52,9 @@ class Observer
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $observer->getEvent()->getProduct();
 
-        if ($product->dataHasChangedFor('url_key')
-            || $product->getIsChangedCategories()
-            || $product->getIsChangedWebsites()
-        ) {
-            $urls = $this->urlGenerator->generate($product);
-
-            if ($urls) {
-                $this->urlPersist->replace($urls);
-            } else {
+        $isChangedWebsites = $product->getIsChangedWebsites();
+        if ($product->dataHasChangedFor('url_key') || $product->getIsChangedCategories() || $isChangedWebsites) {
+            if ($isChangedWebsites) {
                 $this->urlPersist->deleteByEntityData(
                     [
                         UrlRewrite::ENTITY_ID => $product->getId(),
@@ -68,6 +62,7 @@ class Observer
                     ]
                 );
             }
+            $this->urlPersist->replace($this->urlGenerator->generate($product));
         }
     }
 

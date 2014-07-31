@@ -110,7 +110,6 @@ class Observer
         $productUrls = [];
         foreach ($collection as $product) {
             $product->setStoreId($category->getStoreId());
-            $product->setStoreIds($category->getStoreIds());
             $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
             $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
         }
