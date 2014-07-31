@@ -26,14 +26,6 @@ class Url extends \Magento\Framework\Object
     protected $_url;
 
     /**
-     * Static URL Rewrite Instance
-     *
-     * @TODO: UrlRewrite
-     * @var \Magento\UrlRewrite\Model\UrlRewrite
-     */
-    protected $_urlRewrite;
-
-    /**
      * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filter;
@@ -60,6 +52,9 @@ class Url extends \Magento\Framework\Object
     /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
     protected $productUrlPathGenerator;
 
+    /** @var \Magento\UrlRewrite\Service\V1\UrlMatcherInterface */
+    protected $urlMatcher;
+
     /**
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -67,6 +62,7 @@ class Url extends \Magento\Framework\Object
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
+     * @param \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
      * @param array $data
      */
     public function __construct(
@@ -76,15 +72,17 @@ class Url extends \Magento\Framework\Object
         \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
+        \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher,
         array $data = array()
     ) {
+        parent::__construct($data);
         $this->_url = $url;
         $this->_storeManager = $storeManager;
         $this->_catalogCategory = $catalogCategory;
         $this->filter = $filter;
         $this->_sidResolver = $sidResolver;
         $this->productUrlPathGenerator = $productUrlPathGenerator;
-        parent::__construct($data);
+        $this->urlMatcher = $urlMatcher;
     }
 
     /**
@@ -95,18 +93,6 @@ class Url extends \Magento\Framework\Object
     public function getUrlInstance()
     {
         return $this->_url;
-    }
-
-    /**
-     * Retrieve URL Rewrite Instance
-     *
-     * @TODO: UrlRewrite
-     * @return \Magento\UrlRewrite\Model\UrlRewrite
-     */
-    public function getUrlRewrite()
-    {
-        // @TODO: UrlRewrite
-        return $this->_urlRewrite;
     }
 
     /**
@@ -197,13 +183,13 @@ class Url extends \Magento\Framework\Object
         } else {
             $requestPath = $product->getRequestPath();
             if (empty($requestPath) && $requestPath !== false) {
-                $idPath = sprintf('product/%d', $product->getEntityId());
-                if ($categoryId) {
-                    $idPath = sprintf('%s/%d', $idPath, $categoryId);
-                }
-                $rewrite = $this->getUrlRewrite();
-                $rewrite->setStoreId($storeId)->loadByIdPath($idPath);
-                if ($rewrite->getId()) {
+                /** @TODO: UrlRewrite: Build product URL inside particular category */
+                $rewrite = $this->urlMatcher->findByEntity(
+                    $product->getId(),
+                    \Magento\CatalogUrlRewrite\Model\Product\UrlGenerator::ENTITY_TYPE_PRODUCT,
+                    $storeId
+                );
+                if ($rewrite) {
                     $requestPath = $rewrite->getRequestPath();
                     $product->setRequestPath($requestPath);
                 } else {

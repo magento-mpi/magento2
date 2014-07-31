@@ -27,17 +27,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             array('translitUrl')
         )->getMock();
 
-        // @TODO: UrlRewrite
-        $rewriteFactory = $this->getMockBuilder(
-            'Magento\UrlRewrite\Model\UrlRewriteFactory'
-        )->disableOriginalConstructor()->setMethods(
-            array('create')
-        )->getMock();
-
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             'Magento\Catalog\Model\Product\Url',
-            array('urlRewriteFactory' => $rewriteFactory, 'filter' => $this->filter)
+            array('filter' => $this->filter)
         );
     }
 

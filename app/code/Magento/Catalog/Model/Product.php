@@ -24,6 +24,7 @@ use Magento\Framework\Object\IdentityInterface;
  * @method Resource\Product\Collection getCollection()
  * @method string getUrlKey()
  * @method Product setUrlKey(string $urlKey)
+ * @method Product setRequestPath(string $requestPath)
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */

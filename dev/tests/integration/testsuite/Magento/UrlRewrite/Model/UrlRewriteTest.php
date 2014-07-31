@@ -61,48 +61,6 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testLoadByIdPath()
-    {
-        $this->_model->setStoreId(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Store\Model\StoreManagerInterface'
-            )->getDefaultStoreView()->getId()
-        )->setRequestPath(
-            'product1.html'
-        )->setTargetPath(
-            'catalog/product/view/id/1'
-        )->setIdPath(
-            'product/1'
-        )->setIsSystem(
-            1
-        )->setOptions(
-            'RP'
-        )->save();
-
-        try {
-            $read = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                'Magento\UrlRewrite\Model\UrlRewrite'
-            );
-            $read->setStoreId(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Store\Model\StoreManagerInterface'
-                )->getDefaultStoreView()->getId()
-            )->loadByIdPath(
-                'product/1'
-            );
-            $this->assertEquals($this->_model->getStoreId(), $read->getStoreId());
-            $this->assertEquals($this->_model->getRequestPath(), $read->getRequestPath());
-            $this->assertEquals($this->_model->getTargetPath(), $read->getTargetPath());
-            $this->assertEquals($this->_model->getIdPath(), $read->getIdPath());
-            $this->assertEquals($this->_model->getIsSystem(), $read->getIsSystem());
-            $this->assertEquals($this->_model->getOptions(), $read->getOptions());
-            $this->_model->delete();
-        } catch (\Exception $e) {
-            $this->_model->delete();
-            throw $e;
-        }
-    }
-
     public function testHasOption()
     {
         $this->_model->setOptions('RP');
