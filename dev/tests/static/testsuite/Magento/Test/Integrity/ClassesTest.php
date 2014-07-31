@@ -471,8 +471,6 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
             $directories = array(
                 '/app/code/',
                 '/lib/internal/',
-                '/downloader/app/',
-                '/downloader/lib/',
                 '/dev/tools/',
                 '/dev/tests/api-functional/framework/',
                 '/dev/tests/functional/',

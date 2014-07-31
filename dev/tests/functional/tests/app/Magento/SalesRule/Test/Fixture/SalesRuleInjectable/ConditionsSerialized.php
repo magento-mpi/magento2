@@ -51,7 +51,7 @@ class ConditionsSerialized implements FixtureInterface
         $this->params = $params;
         foreach ($this->chooserGrid as $conditionsType => $chooserGrid) {
             $data = preg_replace(
-                '#(' . preg_quote($conditionsType) . '\|.*?\|)(.*?)#',
+                '#(' . preg_quote($conditionsType) . '\|.*?\|)([^\d].*?)#',
                 '${1}%' . $chooserGrid['class'] . '#' . $chooserGrid['field'] . '%${2}',
                 $data
             );
