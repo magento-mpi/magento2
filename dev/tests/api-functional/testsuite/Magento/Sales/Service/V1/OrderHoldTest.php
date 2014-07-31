@@ -14,7 +14,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderHoldTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderHoldServiceV1';
+    const SERVICE_NAME = 'salesOrderHoldV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
