@@ -13,7 +13,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Interface TokenServiceInterface
+ * Interface providing token generation for Admins and Customers
  */
 interface TokenServiceInterface
 {
