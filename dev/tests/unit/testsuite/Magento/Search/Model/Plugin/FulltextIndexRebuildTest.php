@@ -42,11 +42,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_fulltextSearchMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $subjectMock;
 
     protected function setUp()
@@ -62,13 +57,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
         $this->_searchEngineMock = $this->getMock(
             'Magento\Search\Model\Resource\Solr\Engine',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $this->_fulltextSearchMock = $this->getMock(
-            'Magento\CatalogSearch\Model\Fulltext',
             array(),
             array(),
             '',
@@ -185,10 +173,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
         $this->_engineProviderMock->expects($this->never())->method('get');
 
-        $this->assertEquals(
-            $this->_fulltextSearchMock,
-            $this->_model->afterExecuteFull($this->subjectMock, $this->_fulltextSearchMock)
-        );
+        $this->_model->afterExecuteFull($this->subjectMock);
     }
 
     /**
@@ -216,10 +201,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_searchEngineMock)
         );
 
-        $this->assertEquals(
-            $this->_fulltextSearchMock,
-            $this->_model->afterExecuteFull($this->subjectMock, $this->_fulltextSearchMock)
-        );
+        $this->_model->afterExecuteFull($this->subjectMock);
     }
 
     /**
@@ -262,10 +244,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
         $this->_cacheMock->expects($this->once())->method('clean')->will($this->returnValue(array($cacheTag)));
 
-        $this->assertEquals(
-            $this->_fulltextSearchMock,
-            $this->_model->afterExecuteFull($this->subjectMock, $this->_fulltextSearchMock)
-        );
+        $this->_model->afterExecuteFull($this->subjectMock);
     }
 
     /**
@@ -308,9 +287,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
         $this->_cacheMock->expects($this->once())->method('clean')->will($this->returnValue(array($cacheTag)));
 
-        $this->assertEquals(
-            $this->_fulltextSearchMock,
-            $this->_model->afterExecuteFull($this->subjectMock, $this->_fulltextSearchMock)
-        );
+        $this->_model->afterExecuteFull($this->subjectMock);
     }
 }

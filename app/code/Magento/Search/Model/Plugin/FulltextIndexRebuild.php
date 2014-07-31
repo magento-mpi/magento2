@@ -60,9 +60,11 @@ class FulltextIndexRebuild
     /**
      * Hold commit at indexation start if needed
      *
+     * @param \Magento\CatalogSearch\Model\Fulltext $subject
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeExecuteFull()
+    public function beforeExecuteFull(\Magento\CatalogSearch\Model\Fulltext $subject)
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
             $engine = $this->_engineProvider->get();
@@ -77,9 +79,11 @@ class FulltextIndexRebuild
      * Make index optimization if documents were added to index.
      * Allow commit if it was held.
      *
+     * @param \Magento\CatalogSearch\Model\Fulltext $subject
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterExecuteFull()
+    public function afterExecuteFull(\Magento\CatalogSearch\Model\Fulltext $subject)
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 
