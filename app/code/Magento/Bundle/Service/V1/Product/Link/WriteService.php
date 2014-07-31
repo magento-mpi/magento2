@@ -153,7 +153,7 @@ class WriteService implements WriteServiceInterface
         $removeSelectionIds = array();
         foreach ($this->getOptions($product) as $option) {
             foreach ($option->getSelections() as $selection) {
-                if ((strtolower($selection->getSku()) == $childSku) && ($selection->getOptionId() == $optionId)) {
+                if ((strcasecmp($selection->getSku(), $childSku) == 0) && ($selection->getOptionId() == $optionId)) {
                     $removeSelectionIds[] = $selection->getSelectionId();
                     continue;
                 }
