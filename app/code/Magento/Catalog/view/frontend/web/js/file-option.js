@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define(["jquery","jquery/ui"], function($){
     $.widget('mage.fileOption', {
         options: {
         },
@@ -53,5 +53,4 @@
             this.fileNameSpan.css('text-decoration', this.fileDeleteFlag ? 'line-through' : 'none');
         }
     });
-})(jQuery);
-
+});

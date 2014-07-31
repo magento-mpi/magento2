@@ -37,9 +37,9 @@ abstract class AbstractCustomerCustomAttributesEntityTest extends Injectable
     /**
      * Fixture CustomerCustomAttribute
      *
-     * @var CustomerCustomAttribute
+     * @var CustomerCustomAttribute\null
      */
-    protected $customerCustomAttribute;
+    protected $customerCustomAttribute = null;
 
     /**
      * Preparing customer
@@ -77,9 +77,13 @@ abstract class AbstractCustomerCustomAttributesEntityTest extends Injectable
      */
     public function tearDown()
     {
+        if ($this->customerCustomAttribute == null) {
+            return;
+        }
         $filter = ['frontend_label' => $this->customerCustomAttribute->getFrontendLabel()];
         $this->customerAttributeIndex->open();
         $this->customerAttributeIndex->getCustomerCustomAttributesGrid()->searchAndOpen($filter);
         $this->customerAttributeNew->getFormPageActions()->delete();
+        $this->customerCustomAttribute = null;
     }
 }

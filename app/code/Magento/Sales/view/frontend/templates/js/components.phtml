@@ -6,26 +6,4 @@
  * @license     {license_link}
  */
 ?>
-<script type="text/javascript">
-    (function($) {
-        "use strict";
-        /**
-         * Declaration of resources needed for defined components
-         */
-        $.mage.component({
-            extraOptions: [
-                '<?php echo $this->getViewFileUrl('Magento_GiftMessage::extra-options.js') ?>'
-            ],
-            giftMessage: [
-                '<?php echo $this->getViewFileUrl('Magento_Sales::gift-message.js') ?>'
-            ],
-            giftOptions: [
-                '<?php echo $this->getViewFileUrl('Magento_GiftMessage::gift-options.js') ?>'
-            ],
-            ordersReturns: [
-                '<?php echo $this->getViewFileUrl('Magento_Sales::orders-returns.js') ?>'
-            ]
-        });
-    })(jQuery);
-</script>
 <?php echo $this->getChildHtml() ?>

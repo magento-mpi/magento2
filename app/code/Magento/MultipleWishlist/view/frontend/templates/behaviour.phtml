@@ -86,6 +86,12 @@
     if ($canCreateWishlist || !empty($shortWishList)):
 ?>
 <script type="text/javascript">
+require([
+    'jquery',
+    'mage/mage',
+    'mage/dropdowns'
+], function(jQuery){
+
     <?php if (count($this->getWishlistShortList()) > 0): ?>
     (function($) {
         $('body').mage('multipleWishlist', {
@@ -110,5 +116,7 @@
             });
     }(jQuery));
     <?php endif; ?>
+
+});
 </script>
 <?php endif; ?>

@@ -90,9 +90,11 @@
     </div>
 </div>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-    var wishlistBlockId = 'sidebar_data_<?php echo $this->escapeJsQuote($this->getDataId()); ?>';
-    var wishlistBlock = {
+    wishlistBlockId = 'sidebar_data_<?php echo $this->escapeJsQuote($this->getDataId()); ?>';
+    wishlistBlock = {
         table : $(wishlistBlockId).down('.content table'),
         selector : $(wishlistBlockId).down('.head select'),
         init : function() {
@@ -111,4 +113,6 @@
     };
     wishlistBlock.init();
 //]]>
+
+});
 </script>
