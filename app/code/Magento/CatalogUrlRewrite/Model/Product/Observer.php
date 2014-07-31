@@ -23,22 +23,16 @@ class Observer
      */
     protected $urlPersist;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
-    protected $productUrlPathGenerator;
-
     /**
      * @param UrlGenerator $urlGenerator
      * @param UrlPersistInterface $urlPersist
-     * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
      */
     public function __construct(
         UrlGenerator $urlGenerator,
-        UrlPersistInterface $urlPersist,
-        \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
+        UrlPersistInterface $urlPersist
     ) {
         $this->urlGenerator = $urlGenerator;
         $this->urlPersist = $urlPersist;
-        $this->productUrlPathGenerator = $productUrlPathGenerator;
     }
 
     /**
