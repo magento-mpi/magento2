@@ -69,8 +69,13 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-        $this->subjectMock = $this->getMock('Magento\CatalogSearch\Model\Fulltext', array(), array(), '', false);
+        $this->subjectMock = $this->getMock(
+            'Magento\CatalogSearch\Model\Indexer\Fulltext',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(
