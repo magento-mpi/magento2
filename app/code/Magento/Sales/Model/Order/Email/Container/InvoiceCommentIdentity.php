@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Sales\Model\Order\Email\Container;
 
 class InvoiceCommentIdentity extends Container implements IdentityInterface
