@@ -103,7 +103,7 @@ class WriteService implements WriteServiceInterface
 
         try {
             $product->setTypeId(ConfigurableType::TYPE_CODE);
-            $product->setConfigurableAttributesData(array($option->__toArray()));
+            $product->setConfigurableAttributesData([$this->optionConverter->convertArrayFromData($option)]);
             $product->setStoreId($this->storeManager->getStore(Store::ADMIN_CODE)->getId());
             $product->save();
         } catch (\Exception $e) {

@@ -86,6 +86,27 @@ class OptionConverter
 
     /**
      * @param Option $option
+     * @return array
+     */
+    public function convertArrayFromData(Option $option)
+    {
+        $values = [];
+        if (is_array($option->getValues())) {
+            foreach ($option->getValues() as $value) {
+                $values[] = $this->valueConverter->convertArrayFromData($value);
+            }
+        }
+        return [
+            'attribute_id' => $option->getAttributeId(),
+            'position' => $option->getPosition(),
+            'use_default' => $option->isUseDefault(),
+            'label' => $option->getLabel(),
+            'values' => $values
+        ];
+    }
+
+    /**
+     * @param Option $option
      * @param Attribute $configurableAttribute
      * @return Attribute
      */
