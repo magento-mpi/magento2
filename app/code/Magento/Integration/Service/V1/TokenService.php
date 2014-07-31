@@ -103,10 +103,10 @@ class TokenService implements TokenServiceInterface
     protected function validateCredentials($username, $password)
     {
         $exception = new InputException();
-        if (strlen($username) == 0) {
+        if (!is_string($username) || strlen($username) == 0) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'username']);
         }
-        if (strlen($password) == 0) {
+        if (!is_string($username) || strlen($password) == 0) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'password']);
         }
         if ($exception->wasErrorAdded()) {
