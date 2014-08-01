@@ -31,7 +31,7 @@ class AssertCustomerSegmentMatchedCustomerWithCart extends AbstractAssertCustome
     public function assert()
     {
         $errors = '';
-        $formTabs = $this->customerSegmentNew->getFormTabs();
+        $formTabs = $this->customerSegmentNew->getCustomerSegmentForm();
         $this->customerSegmentIndex->open();
         $this->customerSegmentIndex->getGrid()->searchAndOpen(
             ['grid_segment_name' => $this->customerSegment->getName()]

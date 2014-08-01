@@ -30,10 +30,10 @@ class Reward extends InjectableFixture
     protected $handlerInterface = 'Magento\Reward\Test\Handler\Reward\RewardInterface';
 
     protected $defaultDataSet = [
-        'website_id' => 'Main Website',
+        'website_id' => 'Main Website/Main Website Store/Default Store View',
         'customer_group_id' => ['dataSet' => 'All Customer Groups'],
         'direction' => 'Points to Currency',
-        'value' => 10,
+        'points_delta' => 10,
         'equal_value' => 1
     ];
 
@@ -59,6 +59,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'group' => 'reward_points'
     ];
 
     protected $points_balance = [
@@ -128,6 +129,12 @@ class Reward extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $points_delta = [
+        'attribute_code' => 'points_delta',
+        'backend_type' => 'virtual',
+        'group' => 'reward_points'
+    ];
+
     protected $value = [
         'attribute_code' => 'value',
         'backend_type' => 'virtual',
@@ -136,6 +143,12 @@ class Reward extends InjectableFixture
     protected $equal_value = [
         'attribute_code' => 'equal_value',
         'backend_type' => 'virtual',
+    ];
+
+    protected $comment = [
+        'attribute_code' => 'comment',
+        'backend_type' => 'virtual',
+        'group' => 'reward_points'
     ];
 
     public function getRewardId()
@@ -198,6 +211,11 @@ class Reward extends InjectableFixture
         return $this->getData('subscribe_warnings');
     }
 
+    public function getPointsDelta()
+    {
+        return $this->getData('points_delta');
+    }
+
     public function getValue()
     {
         return $this->getData('value');
@@ -206,5 +224,10 @@ class Reward extends InjectableFixture
     public function getEqualValue()
     {
         return $this->getData('equal_value');
+    }
+
+    public function getComment()
+    {
+        return $this->getData('comment');
     }
 }
