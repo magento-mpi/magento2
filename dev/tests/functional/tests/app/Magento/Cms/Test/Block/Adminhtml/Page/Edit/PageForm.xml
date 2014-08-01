@@ -77,9 +77,4 @@
             </meta_description>
         </fields>
     </meta_data>
-    <versions>
-        <class>\Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\Versions</class>
-        <selector>#page_tabs_versions</selector>
-        <strategy>css selector</strategy>
-    </versions>
 </tabs>

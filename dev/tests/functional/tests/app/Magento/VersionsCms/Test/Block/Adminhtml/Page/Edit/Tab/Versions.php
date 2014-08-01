@@ -18,6 +18,13 @@ use Magento\Backend\Test\Block\Widget\Tab;
 class Versions extends Tab
 {
     /**
+     * Versions block selector
+     *
+     * @var string
+     */
+    protected $versions = '#versions';
+
+    /**
      * Returns versions grid
      *
      * @return \Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\Tab\VersionsGrid
@@ -26,7 +33,7 @@ class Versions extends Tab
     {
         return $this->blockFactory->create(
             'Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\Tab\VersionsGrid',
-            ['element' => $this->_rootElement->find('#page_tabs_versions_content')]
+            ['element' => $this->_rootElement->find($this->versions)]
         );
     }
 }

@@ -8,7 +8,6 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
-use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
@@ -75,7 +74,7 @@ class PageForm extends FormTabs
      * Open tab
      *
      * @param string $tabName
-     * @return Tab
+     * @return self
      */
     public function openTab($tabName)
     {
@@ -84,29 +83,11 @@ class PageForm extends FormTabs
             ? $this->tabs[$tabName]['strategy']
             : Locator::SELECTOR_CSS;
         $tab = $this->_rootElement->find($selector, $strategy);
+        $tab->click();
         if ($tabName == 'content') {
-            if (!$tab->isVisible()) {
-                $this->clickCurrentlyPublishedRevision();
-                $this->reinitRootElement();
-                $this->openTab($tabName);
-            } else {
-                $tab->click();
-                $this->toggleEditor();
-            }
-        } else {
-            $tab->click();
+            $this->toggleEditor();
         }
 
         return $this;
-    }
-
-    /**
-     * Click on 'Currently Published Revision' link
-     *
-     * @return void
-     */
-    public function clickCurrentlyPublishedRevision()
-    {
-        $this->_rootElement->find($this->currentlyPublishedRevision)->click();
     }
 }

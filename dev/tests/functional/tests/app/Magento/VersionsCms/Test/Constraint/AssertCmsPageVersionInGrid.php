@@ -9,7 +9,6 @@
 namespace Magento\VersionsCms\Test\Constraint;
 
 use Magento\Cms\Test\Fixture\CmsPage;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
 
@@ -17,7 +16,7 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
  * Class AssertCmsPageVersionInGrid
  * Assert that created CMS page version can be found on CMS page Versions tab in grid
  */
-class AssertCmsPageVersionInGrid extends AbstractConstraint
+class AssertCmsPageVersionInGrid extends AssertCmsPageInitialVersionInGrid
 {
     /**
      * Constraint severeness
@@ -25,48 +24,6 @@ class AssertCmsPageVersionInGrid extends AbstractConstraint
      * @var string
      */
     protected $severeness = 'medium';
-
-    /**
-     * CmsNew Page
-     *
-     * @var CmsNew
-     */
-    protected $cmsNew;
-
-    /**
-     * CmsIndex Page
-     *
-     * @var CmsIndex
-     */
-    protected $cmsIndex;
-
-    /**
-     * Prepare filter and perform assert
-     *
-     * @param CmsPage $cms
-     * @param array $results
-     * @internal param array $filter
-     * @return void
-     */
-    public function prepareFilter(CmsPage $cms, array $results)
-    {
-        preg_match('/\d+/', $results['revision'], $matches);
-        $filter = [
-            'label' => $cms->getTitle(),
-            'owner' => $results['owner'],
-            'access_level' => $results['access_level'],
-            'quantity' => $matches[0],
-        ];
-        \PHPUnit_Framework_Assert::assertTrue(
-            $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter, false),
-            'CMS Page Version with '
-            . 'label \'' . $filter['label'] . '\', '
-            . 'owner \'' . $filter['owner'] . '\', '
-            . 'access level \'' . $filter['access_level'] . '\', '
-            . 'quantity \'' . $filter['quantity'] . '\', '
-            . 'is absent in CMS Page Versions grid.'
-        );
-    }
 
     /**
      * Assert that created CMS page version can be found on CMS page Versions tab in grid via:
@@ -92,7 +49,7 @@ class AssertCmsPageVersionInGrid extends AbstractConstraint
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
         $this->cmsNew->getPageForm()->openTab('versions');
-        $this->prepareFilter($cms, $results);
+        $this->searchVersion($cms, $results);
     }
 
     /**

@@ -14,7 +14,6 @@
             <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
             <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
-            <cmsRevisionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit" />
         </require>
     </assertCmsCurrentlyPublishedRevision>
     <assertCmsPageVersionInGrid module="Magento_VersionsCms">
