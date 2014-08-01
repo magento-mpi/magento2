@@ -231,7 +231,7 @@ class PhpCookieManager implements CookieManager
      */
     private function extractValue($parameter, array $metadataArray, $defaultValue)
     {
-        if (isset($metadataArray[$parameter])) {
+        if (array_key_exists($parameter, $metadataArray)) {
             return $metadataArray[$parameter];
         } else {
             return $defaultValue;
