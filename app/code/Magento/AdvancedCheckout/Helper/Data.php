@@ -464,7 +464,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                                 $this->_storeManager->getStore()->formatPrice(
                                     $this->_storeManager->getStore()->convertPrice(
                                         $this->_catalogData->getTaxPrice(
-                                            $itemProduct, $itemProduct->getFinalPrice(), true
+                                            $itemProduct,
+                                            $itemProduct->getFinalPrice(),
+                                            true
                                         )
                                     )
                                 )

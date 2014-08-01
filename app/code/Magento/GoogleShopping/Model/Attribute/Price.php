@@ -66,8 +66,8 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService
-     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -84,8 +84,8 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Tax\Helper\Data $taxData,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService,
-        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
