@@ -1218,6 +1218,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             '{{table}}.entity_type = \'' . UrlGenerator::ENTITY_TYPE_PRODUCT . '\'',
             'left'
         );
+        return $this;
     }
 
     /**

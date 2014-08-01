@@ -329,6 +329,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                 . $connection->quoteInto(' AND url_rewrite.entity_type = ?', UrlGenerator::ENTITY_TYPE_CATEGORY),
              ['request_path']
         );
+        return $this;
     }
 
     /**
