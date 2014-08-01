@@ -300,7 +300,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
             $product = $currentProduct;
         }
 
-        $priceTax = $catalogHelper->getTaxPrice($product, $price, false);
+        $priceTax = $catalogHelper->getTaxPrice($product, $price);
         $priceIncTax = $catalogHelper->getTaxPrice($product, $price, true);
 
         $formatted = $coreHelper->currencyByStore($priceTax, $product->getStore(), true, $includeContainer);

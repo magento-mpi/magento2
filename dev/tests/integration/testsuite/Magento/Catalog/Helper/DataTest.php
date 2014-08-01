@@ -258,9 +258,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
      * @magentoDbIsolation enabled
-     * @dataProvider getPriceDataProvider
+     * @dataProvider getTaxPriceDataProvider
      */
-    public function testGetPrice($input, $expectOutputPrice, $configs = [], $productClassName = 'DefaultProductClass')
+    public function testGetTaxPrice(
+        $input,
+        $expectOutputPrice,
+        $configs = [],
+        $productClassName = 'DefaultProductClass'
+    )
     {
         $this->setUpDefaultRules();
         $fixtureProductId = 1;
@@ -273,7 +278,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->scopeConfig->setValue($config['path'], $config['value'], ScopeInterface::SCOPE_STORE, 'default');
         }
 
-        $price = $this->helper->getPrice(
+        $price = $this->helper->getTaxPrice(
             $product,
             $input->getPrice(),
             $input->getIncludingTax(),
@@ -290,7 +295,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function getPriceDataProvider()
+    public function getTaxPriceDataProvider()
     {
         return [
             'price is 0' => [
