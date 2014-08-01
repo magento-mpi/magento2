@@ -42,7 +42,7 @@ class GiftRegistry extends AbstractRepository
                 ]
             ],
             'address' => [
-                'preset' => 'default'
+                'dataSet' => 'US_address_without_email'
             ]
         ];
 
@@ -65,7 +65,7 @@ class GiftRegistry extends AbstractRepository
                 ]
             ],
             'address' => [
-                'preset' => 'default'
+                'dataSet' => 'US_address_without_email'
             ]
         ];
 
@@ -89,7 +89,7 @@ class GiftRegistry extends AbstractRepository
                 ]
             ],
             'address' => [
-                'preset' => 'default'
+                'dataSet' => 'US_address_without_email'
             ]
         ];
     }

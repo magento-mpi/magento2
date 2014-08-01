@@ -80,5 +80,17 @@ class AddressInjectable extends AbstractRepository
             'default_billing' => 'Yes',
             'default_shipping' => 'Yes',
         ];
+
+        $this->_data['US_address_without_email'] = [
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'company' => 'Magento %isolation%',
+            'street' => '6161 West Centinela Avenue',
+            'city' => 'Culver City',
+            'region_id' => 'California',
+            'postcode' => '90230',
+            'country_id' => 'United States',
+            'telephone' => '555-55-555-55',
+        ];
     }
 }

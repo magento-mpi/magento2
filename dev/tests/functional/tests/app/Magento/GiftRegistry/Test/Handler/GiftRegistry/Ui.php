@@ -19,6 +19,7 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
 
 /**
  * Class Ui
+ * Ui handler for creating gift registry
  */
 class Ui extends AbstractUi implements GiftRegistryInterface
 {

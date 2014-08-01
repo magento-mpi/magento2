@@ -14,7 +14,7 @@ use Magento\GiftRegistry\TEst\Fixture\GiftRegistry;
 
 /**
  * Class AssertGiftRegistryNotInGrid
- * Assert that gift registry is not present in grid
+ * Assert that gift registry is absent in grid
  */
 class AssertGiftRegistryNotInGrid extends AbstractConstraint
 {
@@ -47,6 +47,6 @@ class AssertGiftRegistryNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry is not present in grid.';
+        return 'Gift registry is absent in grid.';
     }
 }

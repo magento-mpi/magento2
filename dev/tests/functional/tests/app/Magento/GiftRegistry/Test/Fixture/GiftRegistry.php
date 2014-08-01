@@ -12,8 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class GiftRegistry
- *
- * @package Magento\GiftRegistry\Test\Fixture
+ * Fixture for gift registry
  */
 class GiftRegistry extends InjectableFixture
 {
@@ -28,7 +27,24 @@ class GiftRegistry extends InjectableFixture
     protected $handlerInterface = 'Magento\GiftRegistry\Test\Handler\GiftRegistry\GiftRegistryInterface';
 
     protected $defaultDataSet = [
-        'is_public' => null,
+        'type_id' => 'Birthday',
+        'title' => 'Title%isolation%',
+        'message' => 'Test message.',
+        'event_country' => 'United States',
+        'event_country_region' => 'California',
+        'event_date' => ['pattern' => '1/12/2024'],
+        'is_active' => 'Active',
+        'is_public' => 'Public',
+        'person_ids' => [
+            [
+                'email' => 'email@test%isolation%.com',
+                'firstname' => 'FirstName%isolation%',
+                'lastname' => 'LastName%isolation%',
+            ]
+        ],
+        'address' => [
+            'dataSet' => 'US_address_without_email'
+        ]
     ];
 
     protected $entity_id = [
@@ -166,7 +182,7 @@ class GiftRegistry extends InjectableFixture
     ];
 
     protected $person_ids = [
-        'attribute_code' => 'person_id',
+        'attribute_code' => 'person_ids',
         'backend_type' => 'int',
         'is_required' => '1',
         'default_value' => '',

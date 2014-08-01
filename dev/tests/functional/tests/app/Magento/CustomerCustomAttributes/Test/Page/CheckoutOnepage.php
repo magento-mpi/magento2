@@ -8,14 +8,10 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Page;
 
-use Mtf\Page\FrontendPage;
-
 /**
  * Class CheckoutOnepage
- *
- * @package Magento\CustomerCustomAttributes\Test\Page
  */
-class CheckoutOnepage extends FrontendPage
+class CheckoutOnepage extends \Magento\Checkout\Test\Page\CheckoutOnepage
 {
     const MCA = 'checkout/onepage/index';
 

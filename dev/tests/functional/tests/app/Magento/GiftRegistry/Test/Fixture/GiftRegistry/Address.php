@@ -8,6 +8,7 @@
 
 namespace Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -33,14 +34,16 @@ class Address implements FixtureInterface
     /**
      * Constructor
      *
+     * @param FixtureFactory $fixtureFactory
      * @param array $params [optional]
      * @param array $data [optional]
      */
-    public function __construct(array $params, array $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if (isset($data['preset'])) {
-            $this->data = $this->getPreset($data['preset']);
+        if (isset($data['dataSet'])) {
+            $address = $fixtureFactory->createByCode('addressInjectable', ['dataSet' => $data['dataSet']]);
+            $this->data = $address->getData();
         } else {
             $this->data = $data;
         }
@@ -77,34 +80,5 @@ class Address implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
-    }
-
-    /**
-     * Preset for address gift registry
-     *
-     * @param string $name
-     * @return array|null
-     */
-    protected function getPreset($name)
-    {
-        $presets = [
-            'default' => [
-                'firstname' => 'John',
-                'lastname' => 'Doe',
-                'company' => 'Magento %isolation%',
-                'street' => '6161 West Centinela Avenue',
-                'city' => 'Culver City',
-                'region_id' => 'California',
-                'postcode' => '90230',
-                'country_id' => 'United States',
-                'telephone' => '555-55-555-55',
-            ]
-        ];
-
-        if (!isset($presets[$name])) {
-            return null;
-        }
-
-        return $presets[$name];
     }
 }

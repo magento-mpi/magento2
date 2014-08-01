@@ -24,7 +24,7 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
  *
  * Preconditions:
  * 1. Register Customer
- * 2. Gift Registry created
+ * 2. Gift Registry is created
  *
  * Steps:
  * 1. Go to frontend
@@ -94,10 +94,8 @@ class DeleteGiftRegistryEntityTest extends Injectable
      * @param CustomerInjectable $customer
      * @return array
      */
-    public function __prepare(
-        CatalogProductSimple $product,
-        CustomerInjectable $customer
-    ) {
+    public function __prepare(CatalogProductSimple $product, CustomerInjectable $customer)
+    {
         $product->persist();
         $customer->persist();
 
@@ -116,14 +114,17 @@ class DeleteGiftRegistryEntityTest extends Injectable
      */
     public function test(CustomerInjectable $customer, GiftRegistry $giftRegistry)
     {
-        // Steps
+        // Preconditions
         if (!$this->cmsIndex->open()->getLinksBlock()->isLinkVisible('Log Out')) {
             $this->cmsIndex->open()->getLinksBlock()->openLink("Log In");
             $this->customerAccountLogin->getLoginBlock()->login($customer);
         }
         $giftRegistry->persist();
-        $this->cmsIndex->open()->getLinksBlock()->openLink("My Account");
+
+        // Steps
+        $this->cmsIndex->open();
+        $this->cmsIndex->getLinksBlock()->openLink("My Account");
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Registry');
-        $this->giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Delete');
+        $this->giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Delete', true);
     }
 }

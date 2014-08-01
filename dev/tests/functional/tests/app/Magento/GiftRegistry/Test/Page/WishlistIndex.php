@@ -8,7 +8,6 @@
 
 namespace Magento\GiftRegistry\Test\Page;
 
-
 /**
  * Class WishlistIndex
  */
@@ -26,7 +25,7 @@ class WishlistIndex extends \Magento\Wishlist\Test\Page\WishlistIndex
         $this->_blocks['wishlistBlock'] = [
             'name' => 'wishlistBlock',
             'class' => 'Magento\GiftRegistry\Test\Block\Customer\Wishlist',
-            'locator' => '.column.main',
+            'locator' => '#wishlist-view-form',
             'strategy' => 'css selector',
         ];
     }

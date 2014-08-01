@@ -11,7 +11,7 @@
     <block>
         <name>wishlistBlock</name>
         <class>Magento\GiftRegistry\Test\Block\Customer\Wishlist</class>
-        <locator>.column.main</locator>
+        <locator>#wishlist-view-form</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

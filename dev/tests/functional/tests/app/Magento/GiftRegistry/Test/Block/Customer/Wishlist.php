@@ -53,11 +53,10 @@ class Wishlist extends Block
     public function isGiftRegistryAvailable(GiftRegistry $giftRegistry)
     {
         $addGiftRegistry = $this->_rootElement->find($this->addGiftRegistry);
-        if ($addGiftRegistry->isVisible()) {
-            $addGiftRegistry->click();
-        } else {
+        if (!$addGiftRegistry->isVisible()) {
             return false;
         }
+        $addGiftRegistry->click();
         $selector = sprintf($this->giftRegistry, $giftRegistry->getTitle());
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }

@@ -59,7 +59,6 @@ class Address extends Element
             'selector' => '.shipping_address [name$="[telephone]"]',
             'input' => null
         ],
-
     ];
 
     /**
