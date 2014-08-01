@@ -49,14 +49,26 @@ class MassDeleteCustomerBackendEntityTest extends Injectable
     protected $customerIndexEditPage;
 
     /**
+     * Factory for fixture
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * Preparing pages for test
      *
+     * @param FixtureFactory $fixtureFactory
      * @param CustomerIndex $customerIndexPage
      * @param CustomerIndexEdit $customerIndexEditPage
      * @return void
      */
-    public function __inject(CustomerIndex $customerIndexPage, CustomerIndexEdit $customerIndexEditPage)
-    {
+    public function __inject(
+        FixtureFactory $fixtureFactory,
+        CustomerIndex $customerIndexPage,
+        CustomerIndexEdit $customerIndexEditPage
+    ) {
+        $this->fixtureFactory = $fixtureFactory;
         $this->customerIndexPage = $customerIndexPage;
         $this->customerIndexEditPage = $customerIndexEditPage;
     }
@@ -64,17 +76,14 @@ class MassDeleteCustomerBackendEntityTest extends Injectable
     /**
      * Runs Delete Customer Backend Entity test
      *
-     * @param FixtureFactory $fixtureFactory
      * @param int $customersQty
      * @param int $customersQtyToDelete
      * @return array
      */
-    public function test(FixtureFactory $fixtureFactory, $customersQty, $customersQtyToDelete)
+    public function test($customersQty, $customersQtyToDelete)
     {
         // Preconditions:
-        $customers = $this->createCustomers($customersQty, $fixtureFactory);
-
-
+        $customers = $this->createCustomers($customersQty);
         $deleteCustomers = [];
         for ($i = 0; $i < $customersQtyToDelete; $i++) {
             $deleteCustomers[] = ['email' => $customers[$i]->getEmail()];
@@ -89,18 +98,18 @@ class MassDeleteCustomerBackendEntityTest extends Injectable
     /**
      * Create Customers
      *
-     * @param $customersQty
-     * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @param int $customersQty
+     * @return CustomerInjectable[]
      */
-    protected function createCustomers($customersQty, FixtureFactory $fixtureFactory)
+    protected function createCustomers($customersQty)
     {
         $customers = [];
-        for ($i = 1; $i <= $customersQty; $i++) {
-            $customer = $fixtureFactory->createByCode('customerInjectable',['dataSet' => 'default',]);
+        for ($i = 0; $i < $customersQty; $i++) {
+            $customer = $this->fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
             $customer->persist();
             $customers[] = $customer;
         }
+
         return $customers;
     }
 }

@@ -31,7 +31,7 @@ class AssertCustomerMassDeleteNotInGrid extends AbstractConstraint
      * @param CustomerIndex $customerIndexPage
      * @param AssertCustomerNotInGrid $assertCustomerNotInGrid
      * @param int $customersQtyToDelete
-     * @param array $customers
+     * @param CustomerInjectable[] $customers
      * @return void
      */
     public function processAssert(
@@ -52,6 +52,6 @@ class AssertCustomerMassDeleteNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customers is absent in Customer grid.';
+        return 'Deleted customers are absent in Customer grid.';
     }
 }

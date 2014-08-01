@@ -26,12 +26,12 @@ class AssertCustomerMassDeleteInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that mass deleted customers availability in Customer Grid
+     * Assert that customers which haven't been deleted are present in customer grid
      *
      * @param CustomerIndex $pageCustomerIndex
      * @param AssertCustomerInGrid $assertCustomerInGrid
      * @param int $customersQtyToDelete
-     * @param array $customers
+     * @param CustomerInjectable[] $customers
      * @return void
      */
     public function processAssert(
@@ -41,9 +41,8 @@ class AssertCustomerMassDeleteInGrid extends AbstractConstraint
         $customers
     ) {
         $customers = array_slice($customers, $customersQtyToDelete);
-        $count = count($customers);
-        for ($i = 1; $i <= $count; $i++) {
-            $assertCustomerInGrid->processAssert($customers[$i - 1], $pageCustomerIndex);
+        foreach($customers as $customer) {
+            $assertCustomerInGrid->processAssert($customer, $pageCustomerIndex);
         }
     }
 
@@ -54,6 +53,6 @@ class AssertCustomerMassDeleteInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customers is present in Customer grid.';
+        return 'Customers are present in Customer grid.';
     }
 }
