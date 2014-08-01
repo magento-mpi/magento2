@@ -88,7 +88,8 @@ class RowTest extends \PHPUnit_Framework_TestCase
         );
         $this->_rule->loadPost($data);
         $this->_rule->save();
-        
+        $this->_rule->prepareMatchingProducts();
+
         $this->assertEquals(2, count($this->_rule->getMatchingProductIds()));
 
         $data = array(
