@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <name>
+            <selector>select</selector>
+            <input>select</input>
+        </name>
+        <qty>
+            <selector>//input[@class = "qty"]</selector>
+            <strategy>xpath</strategy>
+        </qty>
+    </fields>
+</mapping>

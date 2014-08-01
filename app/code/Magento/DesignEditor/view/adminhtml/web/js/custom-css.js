@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate"
+], function($){
     'use strict';
+
     $.widget('vde.customCssPanel', {
         options: {
             saveCustomCssUrl: null,
@@ -95,4 +100,5 @@
             }
         }
     });
-})(window.jQuery);
+
+});

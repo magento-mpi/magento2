@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+
     $.widget('mage.downloadable', {
         _create: function() {
             this.element.find(this.options.linkElement).on('change', $.proxy(function() {
@@ -39,4 +43,4 @@
             }).trigger('reloadPrice');
         }
     });
-})(jQuery);
+});

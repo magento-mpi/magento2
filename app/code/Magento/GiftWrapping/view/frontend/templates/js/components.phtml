@@ -7,16 +7,17 @@
  */
 ?>
 <script type="text/javascript">
-    (function($) {
-        "use strict";
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        'use strict';
         /**
          * Declaration of resources needed for defined components
          */
         $.mage.component({
-            giftWrapping: [
-                '<?php echo $this->getViewFileUrl('Magento_GiftWrapping::gift-wrapping.js') ?>'
-            ]
+            giftWrapping: 'Magento_GiftWrapping/gift-wrapping'
         });
-    })(jQuery);
+    });
 </script>
 <?php echo $this->getChildHtml() ?>

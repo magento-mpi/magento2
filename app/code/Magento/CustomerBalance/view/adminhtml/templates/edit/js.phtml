@@ -7,9 +7,7 @@
  */
 ?>
 <script type="text/javascript">
-//<![CDATA[
-updateEmailWebsites = function ()
-{
+updateEmailWebsites = function () {
     var emailWebsites = $('<?php echo $this->getPrefix() ?>store_id');
     var balanceWebsites = $('<?php echo $this->getPrefix() ?>website_id');
     var selectedWebsite = $('<?php echo $this->getPrefix() ?>website_id') ? $('<?php echo $this->getPrefix() ?>website_id').value : '<?php echo $this->getCustomerWebsite() ?>';
@@ -42,6 +40,5 @@ updateEmailWebsites = function ()
     if (container[0]) {
         container[0].innerHTML = '<strong>[' + allowedWebsites[selectedWebsite].currency_code + ']</strong>';
     }
-}
-//]]>
+};
 </script>

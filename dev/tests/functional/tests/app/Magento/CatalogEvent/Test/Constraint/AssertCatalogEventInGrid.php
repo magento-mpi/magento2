@@ -63,7 +63,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
         CatalogEventIndex $catalogEventIndex,
         CatalogEventEntity $catalogEventOriginal = null
     ) {
-        $categoryName = $product->getCategoryIds()[0]['name'];
+        $categoryName = $product->getCategoryIds()[0];
         $dateStart = strtotime($catalogEvent->getDateStart());
         $dateEnd = strtotime($catalogEvent->getDateEnd());
         $currentDay = strtotime('now');
