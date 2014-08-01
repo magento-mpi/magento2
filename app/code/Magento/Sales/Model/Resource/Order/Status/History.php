@@ -24,6 +24,7 @@ class History extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
+     * @param History\Validator $validator
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
@@ -58,6 +59,7 @@ class History extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      *
      * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
@@ -70,5 +72,4 @@ class History extends \Magento\Sales\Model\Resource\Order\AbstractOrder
         }
         return $this;
     }
-
 }

@@ -61,7 +61,7 @@ class OrderMapper
     protected function getItems(\Magento\Sales\Model\Order $object)
     {
         $items = [];
-        foreach($object->getItemsCollection() as $item) {
+        foreach ($object->getItemsCollection() as $item) {
             $items[] = $this->orderItemMapper->extractDto($item);
         }
         return $items;
@@ -76,7 +76,7 @@ class OrderMapper
     protected function getPayments(\Magento\Sales\Model\Order $object)
     {
         $payments = [];
-        foreach($object->getPaymentsCollection() as $payment) {
+        foreach ($object->getPaymentsCollection() as $payment) {
             $payments[] = $this->orderPaymentMapper->extractDto($payment);
         }
         return $payments;

@@ -77,7 +77,7 @@ class OrderCommentsList implements OrderCommentsListInterface
         );
         $criteria = $this->criteriaBuilder->create();
         $comments = [];
-        foreach($this->historyRepository->find($criteria) as $comment) {
+        foreach ($this->historyRepository->find($criteria) as $comment) {
             $comments[] = $this->historyMapper->extractDto($comment);
         }
         return $this->searchResultsBuilder->setItems($comments)

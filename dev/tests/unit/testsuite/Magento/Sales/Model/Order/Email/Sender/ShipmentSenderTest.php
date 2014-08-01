@@ -69,13 +69,7 @@ class ShipmentSenderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->paymentHelper = $this->getMock(
-            '\Magento\Payment\Helper\Data',
-            ['getInfoBlockHtml'],
-            [],
-            '',
-            false
-        );
+        $this->paymentHelper = $this->getMock('\Magento\Payment\Helper\Data', ['getInfoBlockHtml'], [], '', false);
         $this->paymentHelper->expects($this->any())
             ->method('getInfoBlockHtml')
             ->will($this->returnValue('payment'));
@@ -106,17 +100,6 @@ class ShipmentSenderTest extends \PHPUnit_Framework_TestCase
         $this->identityContainerMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->storeMock));
-
-        $this->paymentHelper = $this->getMock(
-            '\Magento\Payment\Helper\Data',
-            ['getInfoBlockHtml'],
-            [],
-            '',
-            false
-        );
-        $this->paymentHelper->expects($this->any())
-            ->method('getInfoBlockHtml')
-            ->will($this->returnValue('payment'));
 
         $this->orderMock = $this->getMock(
             '\Magento\Sales\Model\Order',

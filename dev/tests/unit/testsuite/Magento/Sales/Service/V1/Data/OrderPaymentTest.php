@@ -7,6 +7,12 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
+/**
+ * Class OrderPaymentTest
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @package Magento\Sales\Service\V1\Data
+ */
 class OrderPaymentTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAccountStatus()

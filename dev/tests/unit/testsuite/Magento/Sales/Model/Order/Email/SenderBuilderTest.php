@@ -5,14 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Model\Order\Email\Sender;
-
-use Magento\Sales\Model\Order\Email\SenderBuilder;
+namespace Magento\Sales\Model\Order\Email;
 
 class SenderBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Model\Order\Email\SenderBuilder
+     * @var SenderBuilder
      */
     protected $senderBuilder;
 
@@ -78,7 +76,6 @@ class SenderBuilderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
 
         $this->templateContainerMock->expects($this->once())
             ->method('getTemplateId')

@@ -20,7 +20,13 @@ class OrderNotifyUserTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $orderRepository = $this->getMock('\Magento\Sales\Model\OrderRepository', ['get'], [], '', false);
         $notifier = $this->getMock('\Magento\Sales\Model\Notifier', ['notify', '__wakeup'], [], '', false);
-        $order = $this->getMock('\Magento\Sales\Model\Order', ['__wakeup', 'sendNewOrderEmail', 'getEmailSent'], [], '', false);
+        $order = $this->getMock(
+            '\Magento\Sales\Model\Order',
+            ['__wakeup', 'sendNewOrderEmail', 'getEmailSent'],
+            [],
+            '',
+            false
+        );
 
         $service = $objectManager->getObject(
             'Magento\Sales\Service\V1\OrderNotifyUser',

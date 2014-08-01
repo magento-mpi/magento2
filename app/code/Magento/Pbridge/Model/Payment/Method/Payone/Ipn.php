@@ -256,8 +256,8 @@ class Ipn
         if ($invoice = $payment->getCreatedInvoice()) {
             $this->orderSender->send($order);
             $order->addStatusHistoryComment(
-                    __('Notified customer about invoice #%1.', $invoice->getIncrementId())
-                )
+                __('Notified customer about invoice #%1.', $invoice->getIncrementId())
+            )
                 ->setIsCustomerNotified(true)
                 ->save();
         }

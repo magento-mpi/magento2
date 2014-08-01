@@ -46,6 +46,8 @@ class SenderBuilder
 
     /**
      * Prepare and send email message
+     *
+     * @return void
      */
     public function send()
     {
@@ -70,6 +72,8 @@ class SenderBuilder
 
     /**
      * Prepare and send copy email message
+     *
+     * @return void
      */
     public function sendCopyTo()
     {
@@ -89,6 +93,8 @@ class SenderBuilder
 
     /**
      * Configure email template
+     *
+     * @return void
      */
     protected function configureEmailTemplate()
     {

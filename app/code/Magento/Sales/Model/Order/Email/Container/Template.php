@@ -33,6 +33,7 @@ class Template
      * Set email template variables
      *
      * @param array $vars
+     * @return void
      */
     public function setTemplateVars(array $vars)
     {
@@ -43,6 +44,7 @@ class Template
      * Set email template options
      *
      * @param array $options
+     * @return void
      */
     public function setTemplateOptions(array $options)
     {
@@ -73,6 +75,7 @@ class Template
      * Set email template id
      *
      * @param int $id
+     * @return void
      */
     public function setTemplateId($id)
     {

@@ -66,6 +66,7 @@ abstract class Sender
 
     /**
      * @param Order $order
+     * @return void
      */
     protected function prepareTemplate(Order $order)
     {
