@@ -64,7 +64,6 @@ class Group
      * @param \Magento\Store\Model\Resource\Group $object
      * @param callable $proceed
      * @param \Magento\Store\Model\Group $group
-     *
      * @return \Magento\Store\Model\Resource\Group
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -99,8 +98,8 @@ class Group
     /**
      * Generate url rewrites for products assigned to website
      *
-     * @param $websiteId
-     * @param $originWebsiteId
+     * @param int $websiteId
+     * @param int $originWebsiteId
      * @return array
      */
     protected function generateProductUrls($websiteId, $originWebsiteId)
@@ -112,7 +111,7 @@ class Group
         $collection = $this->productFactory->create()
             ->getCollection()
             ->addCategoryIds()
-            ->addAttributeToSelect(array('name', 'url_path'))
+            ->addAttributeToSelect(array('name', 'url_path', 'url_key'))
             ->addWebsiteFilter($websiteIds);
         foreach ($collection as $product) {
             /** @var \Magento\Catalog\Model\Product $product */
@@ -134,13 +133,9 @@ class Group
     protected function generateCategoryUrls($rootCategoryId, $storeIds)
     {
         $urls = [];
-        $categories = $this->categoryFactory->create()
-            ->load($rootCategoryId)
-            ->getAllChildren(true);
-        $categories = array_diff($categories, [$rootCategoryId]);
-        foreach ($categories as $categoryId) {
+        $categories = $this->categoryFactory->create()->getCategories($rootCategoryId, 1, false, true);
+        foreach ($categories as $category) {
             /** @var \Magento\Catalog\Model\Category $category */
-            $category = $this->categoryFactory->create()->load($categoryId);
             $category->setStoreId(Store::DEFAULT_STORE_ID);
             $category->setStoreIds($storeIds);
             $urls = array_merge(

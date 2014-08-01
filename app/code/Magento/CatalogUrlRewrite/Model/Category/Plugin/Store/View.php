@@ -90,24 +90,23 @@ class View
     /**
      * Generate url rewrites for products assigned to website
      *
-     * @param $websiteId
-     * @param $originWebsiteId
+     * @param int $websiteId
+     * @param int $originWebsiteId
      * @return array
      */
     protected function generateProductUrls($websiteId, $originWebsiteId)
     {
         $urls = [];
-        $websiteIds = $websiteId != $originWebsiteId
+        $websiteIds = $websiteId != $originWebsiteId && !is_null($originWebsiteId)
             ? [$websiteId, $originWebsiteId]
             : [$websiteId];
         $collection = $this->productFactory->create()
             ->getCollection()
             ->addCategoryIds()
-            ->addAttributeToSelect(array('name', 'url_path'))
+            ->addAttributeToSelect(array('name', 'url_path', 'url_key'))
             ->addWebsiteFilter($websiteIds);
         foreach ($collection as $product) {
             /** @var \Magento\Catalog\Model\Product $product */
-            $product->setStoreId(Store::DEFAULT_STORE_ID);
             $urls = array_merge(
                 $urls,
                 $this->productUrlGenerator->generate($product)
@@ -117,19 +116,16 @@ class View
     }
 
     /**
-     * @param Store $store
+     * @param int $rootCategoryId
+     * @param int $storeId
      * @return array
      */
     protected function generateCategoryUrls($rootCategoryId, $storeId)
     {
         $urls = [];
-        $categories = $this->categoryFactory->create()
-            ->load($rootCategoryId)
-            ->getAllChildren(true);
-        $categories = array_diff($categories, [$rootCategoryId]);
-        foreach ($categories as $categoryId) {
+        $categories = $this->categoryFactory->create()->getCategories($rootCategoryId, 1, false, true);
+        foreach ($categories as $category) {
             /** @var \Magento\Catalog\Model\Category $category */
-            $category = $this->categoryFactory->create()->load($categoryId);
             $category->setStoreId($storeId);
             $urls = array_merge(
                 $urls,

@@ -64,6 +64,7 @@ class Import
 
     /**
      * @param ImportProduct $import
+     * @return void
      */
     protected function clearProductUrls(ImportProduct $import)
     {
