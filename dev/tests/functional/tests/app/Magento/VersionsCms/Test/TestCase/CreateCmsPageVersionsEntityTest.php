@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\TestCase;
+namespace Magento\VersionsCms\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage;
@@ -69,6 +69,8 @@ class CreateCmsPageVersionsEntityTest extends Injectable
      * @param CmsPage $cms
      * @param array $results
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function test(CmsPage $cmsInitial, CmsPage $cms, array $results)
     {

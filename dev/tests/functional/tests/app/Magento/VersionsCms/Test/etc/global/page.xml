@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <cmsNew>
+        <mca>admin/cms_page/new/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsNew</class>
+    </cmsNew>
+    <cmsRevisionEdit>
+        <mca>admin/cms_page_revision/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Cms\Test\Page\Adminhtml\CmsRevisionEdit</class>
+    </cmsRevisionEdit>
+</page>

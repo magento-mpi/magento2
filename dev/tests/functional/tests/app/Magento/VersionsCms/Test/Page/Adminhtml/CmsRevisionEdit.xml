@@ -17,7 +17,7 @@
     <block>
         <name>content</name>
         <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content</class>
-        <locator>[id="content"]</locator>
+        <locator>#content</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

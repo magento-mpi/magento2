@@ -6,17 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Constraint;
+namespace Magento\VersionsCms\Test\Constraint;
 
 use Magento\Cms\Test\Fixture\CmsPage;
 use Mtf\Constraint\AbstractAssertForm;
-use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
-use Magento\Cms\Test\Page\Adminhtml\CmsRevisionEdit;
+use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
+use Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit;
 
 /**
  * Class AssertCmsCurrentlyPublishedRevision
- *
  * Assert that link to Currently Published Revision on CMS Page Information Form is available
  */
 class AssertCmsCurrentlyPublishedRevision extends AbstractAssertForm

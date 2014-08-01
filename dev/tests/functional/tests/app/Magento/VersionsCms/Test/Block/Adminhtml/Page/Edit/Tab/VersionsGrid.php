@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab;
+namespace Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\Tab;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid;

@@ -6,16 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Constraint;
+namespace Magento\VersionsCms\Test\Constraint;
 
 use Magento\Cms\Test\Fixture\CmsPage;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
+use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
 
 /**
  * Class AssertCmsPageVersionInGrid
- *
  * Assert that created CMS page version can be found on CMS page Versions tab in grid
  */
 class AssertCmsPageVersionInGrid extends AbstractConstraint
@@ -28,21 +27,29 @@ class AssertCmsPageVersionInGrid extends AbstractConstraint
     protected $severeness = 'medium';
 
     /**
-     * Assert that created CMS page version can be found on CMS page Versions tab in grid via:
-     * Version label, Owner, Quantity, Access Level
+     * CmsNew Page
+     *
+     * @var CmsNew
+     */
+    protected $cmsNew;
+
+    /**
+     * CmsIndex Page
+     *
+     * @var CmsIndex
+     */
+    protected $cmsIndex;
+
+    /**
+     * Prepare filter and perform assert
      *
      * @param CmsPage $cms
-     * @param CmsNew $cmsNew
-     * @param CmsIndex $cmsIndex
      * @param array $results
+     * @internal param array $filter
      * @return void
      */
-    public function processAssert(CmsPage $cms, CmsNew $cmsNew, CmsIndex $cmsIndex, array $results)
+    public function prepareFilter(CmsPage $cms, array $results)
     {
-        $filter = ['title' => $cms->getTitle()];
-        $cmsIndex->open();
-        $cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
-        $cmsNew->getPageForm()->openTab('versions');
         preg_match('/\d+/', $results['revision'], $matches);
         $filter = [
             'label' => $cms->getTitle(),
@@ -51,7 +58,7 @@ class AssertCmsPageVersionInGrid extends AbstractConstraint
             'quantity' => $matches[0],
         ];
         \PHPUnit_Framework_Assert::assertTrue(
-            $cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter),
+            $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter, false),
             'CMS Page Version with '
             . 'label \'' . $filter['label'] . '\', '
             . 'owner \'' . $filter['owner'] . '\', '
@@ -59,6 +66,33 @@ class AssertCmsPageVersionInGrid extends AbstractConstraint
             . 'quantity \'' . $filter['quantity'] . '\', '
             . 'is absent in CMS Page Versions grid.'
         );
+    }
+
+    /**
+     * Assert that created CMS page version can be found on CMS page Versions tab in grid via:
+     * Version label, Owner, Quantity, Access Level
+     *
+     * @param CmsPage $cms
+     * @param CmsNew $cmsNew
+     * @param CmsIndex $cmsIndex
+     * @param array $results
+     * @param CmsPage $cmsInitial[optional]
+     * @return void
+     */
+    public function processAssert(
+        CmsPage $cms,
+        CmsNew $cmsNew,
+        CmsIndex $cmsIndex,
+        array $results,
+        CmsPage $cmsInitial = null
+    ) {
+        $this->cmsIndex = $cmsIndex;
+        $this->cmsNew = $cmsNew;
+        $filter = ['title' => $cms->getTitle()];
+        $this->cmsIndex->open();
+        $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
+        $this->cmsNew->getPageForm()->openTab('versions');
+        $this->prepareFilter($cms, $results);
     }
 
     /**

@@ -42,9 +42,4 @@
         <mca>cms/page</mca>
         <class>Magento\Cms\Test\Page\CmsPage</class>
     </cmsPage>
-    <cmsRevisionEdit>
-        <mca>admin/cms_page_revision/edit</mca>
-        <area>adminhtml</area>
-        <class>Magento\Cms\Test\Page\Adminhtml\CmsRevisionEdit</class>
-    </cmsRevisionEdit>
 </page>

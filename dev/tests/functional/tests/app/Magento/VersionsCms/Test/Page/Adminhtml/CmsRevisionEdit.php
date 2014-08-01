@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Page\Adminhtml;
+namespace Magento\VersionsCms\Test\Page\Adminhtml;
 
 use Mtf\Page\BackendPage;
 
@@ -28,7 +28,7 @@ class CmsRevisionEdit extends BackendPage
         'content' => [
             'name' => 'content',
             'class' => 'Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content',
-            'locator' => '[id="content"]',
+            'locator' => '#content',
             'strategy' => 'css selector',
         ],
     ];

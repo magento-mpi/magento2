@@ -109,14 +109,4 @@ class PageForm extends FormTabs
     {
         $this->_rootElement->find($this->currentlyPublishedRevision)->click();
     }
-
-    /**
-     * Get 'Currently Published Revision' link text
-     *
-     * @return string
-     */
-    public function getCurrentlyPublishedRevisionText()
-    {
-        return $this->_rootElement->find($this->currentlyPublishedRevision)->getText();
-    }
 }

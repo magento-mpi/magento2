@@ -31,12 +31,6 @@ class CmsNew extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'versionsGrid' => [
-            'name' => 'versionsGrid',
-            'class' => 'Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\VersionsGrid',
-            'locator' => '#bannerGrid',
-            'strategy' => 'css selector',
-        ],
     ];
 
     /**
@@ -53,13 +47,5 @@ class CmsNew extends BackendPage
     public function getPageMainActions()
     {
         return $this->getBlockInstance('pageMainActions');
-    }
-
-    /**
-     * @return \Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\VersionsGrid
-     */
-    public function getVersionsGrid()
-    {
-        return $this->getBlockInstance('versionsGrid');
     }
 }
