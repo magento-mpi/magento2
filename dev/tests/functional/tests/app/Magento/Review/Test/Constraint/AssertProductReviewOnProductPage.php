@@ -46,6 +46,7 @@ class AssertProductReviewOnProductPage extends AbstractConstraint
         $catalogProductView->open();
 
         $reviewBlock = $catalogProductView->getCustomerReviewBlock();
+        $catalogProductView->getViewBlock()->selectTab('Reviews');
         foreach ($review->getData() as $name => $value) {
             $reviewValue = $reviewBlock->getFieldValue($name);
             if (($reviewValue !== null) && (0 !== strcasecmp($value, trim($reviewValue)))) {

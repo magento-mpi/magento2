@@ -25,6 +25,13 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 class View extends Block
 {
     /**
+     * XPath selector for tab
+     *
+     * @var string
+     */
+    protected $tabSelector = './/div[@data-role="collapsible" and a[contains(text(),"%s")]]';
+
+    /**
      * Custom options CSS selector
      *
      * @var string
@@ -335,7 +342,7 @@ class View extends Block
      */
     public function getProductOptions()
     {
-        $options = array();
+        $options = [];
         for ($i = 2; $i <= 3; $i++) {
             $options[] = $this->_rootElement->find(".super-attribute-select option:nth-child({$i})")->getText();
         }
@@ -495,5 +502,16 @@ class View extends Block
     public function addToWishlist()
     {
         $this->_rootElement->find($this->addToWishlist, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Select tab on the product page
+     *
+     * @param string $name
+     * @return void
+     */
+    public function selectTab($name)
+    {
+        $this->_rootElement->find(sprintf($this->tabSelector, $name), Locator::SELECTOR_XPATH)->click();
     }
 }
