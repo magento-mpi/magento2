@@ -52,7 +52,7 @@ var <?php echo $this->getJsObjectName() ?>;
 
 var deps = ['mage/adminhtml/grid'];
 
-<?php if ( strpos($this->getRowClickCallback(), 'order.') ): ?>
+<?php if (strpos($this->getRowClickCallback(), 'order.')!==false): ?>
 deps.push('Magento_Sales/order/create/form')
 <?php endif; ?>
 
