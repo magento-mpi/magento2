@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Model\Resource\Order\Status\History;
+namespace Magento\Sales\Model\Order\Status\History;
 
 use Magento\Sales\Model\Order\Status\History;
 

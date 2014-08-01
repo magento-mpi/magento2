@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Status;
 
+use Magento\Sales\Model\Order\Status\History\Validator;
+
 /**
  * Flat sales order status history resource
  *
@@ -15,7 +17,7 @@ namespace Magento\Sales\Model\Resource\Order\Status;
 class History extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
-     * @var History\Validator
+     * @var Validator
      */
     protected $validator;
 
@@ -24,14 +26,14 @@ class History extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
-     * @param History\Validator $validator
+     * @param Validator $validator
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
-        History\Validator $validator
+        Validator $validator
     ) {
         $this->validator = $validator;
         parent::__construct($resource, $dateTime, $eventManager, $eavEntityTypeFactory);
@@ -57,7 +59,7 @@ class History extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
@@ -67,7 +69,7 @@ class History extends \Magento\Sales\Model\Resource\Order\AbstractOrder
         $warnings = $this->validator->validate($object);
         if (!empty($warnings)) {
             throw new \Magento\Framework\Model\Exception(
-                __("Cannot save comment") . ":\n" . implode("\n", $warnings)
+                __('Cannot save comment') . ":\n" . implode("\n", $warnings)
             );
         }
         return $this;
