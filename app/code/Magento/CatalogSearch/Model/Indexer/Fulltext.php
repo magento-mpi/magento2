@@ -53,9 +53,6 @@ class Fulltext implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
     public function execute($ids)
     {
         $this->indexer->load(self::INDEXER_ID);
-        if ($this->indexer->isInvalid()) {
-            return;
-        }
 
         /** @var Fulltext\Action\Rows $action */
         $action = $this->rowsActionFactory->create();

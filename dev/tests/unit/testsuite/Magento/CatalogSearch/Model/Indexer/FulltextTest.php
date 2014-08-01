@@ -64,25 +64,7 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testExecuteWithIndexerInvalid()
-    {
-        $this->indexerMock->expects(
-            $this->once()
-        )->method(
-            'load'
-        )->with(
-            \Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID
-        )->will(
-            $this->returnSelf()
-        );
-        $this->indexerMock->expects($this->once())->method('isInvalid')->will($this->returnValue(true));
-
-        $this->rowsMock->expects($this->never())->method('create');
-
-        $this->model->execute(array(1, 2, 3));
-    }
-
-    public function testExecuteWithIndexerNotWorking()
+    public function testExecuteWithIndexer()
     {
         $ids = array(1, 2, 3);
 
@@ -95,7 +77,6 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnSelf()
         );
-        $this->indexerMock->expects($this->once())->method('isInvalid')->will($this->returnValue(false));
 
         $rowMock = $this->getMock(
             'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Rows',
