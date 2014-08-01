@@ -62,7 +62,7 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
 
         $expectedMessage = sprintf(
             'Each %d Reward points can be redeemed for $%s.',
-            $reward->getValue(),
+            $reward->getPointsDelta(),
             $reward->getEqualValue()
         );
 

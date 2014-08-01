@@ -48,8 +48,9 @@ class AssertRewardPointsBalance extends AbstractConstraint
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param RewardCustomerInfo $rewardCustomerInfo
-     * @param Reward $rate
      * @param string $registrationReward
+     * @param Reward $rate
+     * @param Reward $updateRate
      * @return void
      */
     public function processAssert(
@@ -58,9 +59,12 @@ class AssertRewardPointsBalance extends AbstractConstraint
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         RewardCustomerInfo $rewardCustomerInfo,
+        $registrationReward,
         Reward $rate,
-        $registrationReward
+        Reward $updateRate = null
     ) {
+        $rate = $updateRate === null ? $rate : $updateRate;
+
         $customerAccountLogout->open();
         $customerAccountLogin->open();
         $customerAccountLogin->getLoginBlock()->login($customer);

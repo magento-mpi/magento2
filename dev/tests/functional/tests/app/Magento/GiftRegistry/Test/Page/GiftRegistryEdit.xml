@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="giftregistry/index/edit" >
+    <block>
+        <name>actionsToolbarBlock</name>
+        <class>Magento\GiftRegistry\Test\Block\Customer\Edit\ActionsToolbar</class>
+        <locator>//div[div/button[@id="submit.save"]]</locator>
+        <strategy>xpath</strategy>
+    </block>
+    <block>
+        <name>shippingAddressForm</name>
+        <class>Magento\GiftRegistry\Test\Block\Customer\Address\Edit</class>
+        <locator>.shipping_address</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>customerEditForm</name>
+        <class>Magento\GiftRegistry\Test\Block\Customer\Edit</class>
+        <locator>.form-giftregistry-edit</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
