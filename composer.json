@@ -36,7 +36,6 @@
         "magento/module-cms": "self.version",
         "magento/module-cms-url-rewrite": "self.version",
         "magento/module-configurable-product": "self.version",
-        "magento/module-connect": "self.version",
         "magento/module-contact": "self.version",
         "magento/module-core": "self.version",
         "magento/module-cron": "self.version",
