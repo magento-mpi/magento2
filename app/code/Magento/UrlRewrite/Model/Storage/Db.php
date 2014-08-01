@@ -23,6 +23,11 @@ class Db extends AbstractStorage
     const TABLE_NAME = 'url_rewrite';
 
     /**
+     * Code of "Integrity constraint violation: 1062 Duplicate entry" error
+     */
+    const ERROR_CODE_DUPLICATE_ENTRY = 23000;
+
+    /**
      * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $connection;
@@ -76,7 +81,14 @@ class Db extends AbstractStorage
      */
     protected function doAddMultiple($data)
     {
-        $this->connection->insertMultiple(self::TABLE_NAME, $data);
+        try {
+            $this->connection->insertMultiple(self::TABLE_NAME, $data);
+        } catch (\Exception $e) {
+            if ($e->getCode() === self::ERROR_CODE_DUPLICATE_ENTRY) {
+                throw new DuplicateEntryException();
+            }
+            throw $e;
+        }
     }
 
     /**

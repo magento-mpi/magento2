@@ -36,6 +36,7 @@ interface StorageInterface
      *
      * @param array $urls
      * @return void
+     * @throws Storage\DuplicateEntryException
      */
     public function addMultiple(array $urls);
 

@@ -16,8 +16,9 @@ interface UrlPersistInterface
      * Save new url rewrites and remove old if exist.
      *
      * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[] $urls
-     * @throws \InvalidArgumentException
      * @return void
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function replace(array $urls);
 

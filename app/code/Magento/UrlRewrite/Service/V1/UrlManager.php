@@ -11,7 +11,7 @@ use Magento\UrlRewrite\Service\V1\Data\Filter;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\StorageInterface;
-use Magento\Framework\Model\Exception;
+use Magento\UrlRewrite\Model\Storage\DuplicateEntryException;
 
 /**
  * Url Manager
@@ -46,14 +46,11 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
         if (!$urls) {
             return;
         }
+        $this->storage->deleteByFilter($this->createFilterBasedOnUrls($urls));
         try {
-            $this->storage->deleteByFilter($this->createFilterBasedOnUrls($urls));
             $this->storage->addMultiple($urls);
-        } catch (\Exception $e) {
-            if ($e->getCode() === 23000) { //@TODO MAGETWO-26606
-                throw new Exception(__('URL key for specified store already exists.'));
-            }
-            throw $e;
+        } catch (DuplicateEntryException $e) {
+            throw new \RuntimeException(__('URL key for specified store already exists.'));
         }
     }
 

@@ -88,6 +88,7 @@ abstract class AbstractStorage implements StorageInterface
      *
      * @param array $data
      * @return int
+     * @throws DuplicateEntryException
      */
     abstract protected function doAddMultiple($data);
 
