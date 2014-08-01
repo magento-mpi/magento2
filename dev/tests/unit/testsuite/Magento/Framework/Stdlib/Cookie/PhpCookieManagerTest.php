@@ -13,6 +13,7 @@ namespace {
 
 namespace Magento\Framework\Stdlib\Cookie {
     // @codingStandardsIgnoreEnd
+    use Magento\Framework\Exception\InputException;
 
     /**
      * Mock global setcookie function
@@ -167,8 +168,7 @@ namespace Magento\Framework\Stdlib\Cookie {
 
             /** @var \Magento\Framework\Stdlib\Cookie\CookieMetaData $cookieMetaData */
             $cookieMetaData = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\CookieMetaData');
-            /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Stdlib\Cookie\PhpCookieManager
-             * $mockCookieManager */
+            /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
             $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
                 ->setMethods(['setPublicCookie', 'setSensitiveCookie'])
                 ->disableOriginalConstructor()->getMock();
@@ -194,12 +194,13 @@ namespace Magento\Framework\Stdlib\Cookie {
                 $this->returnValue($publicCookieMetadata)
             );
 
-            $cookieManager = $this->objectManager->getObject(
+            /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
+            $mockCookieManager = $this->objectManager->getObject(
                 'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
                 ['scope' => $scopeMock]
             );
             $this->assertEquals(self::COOKIE_VALUE, $this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
-            $cookieManager->deleteCookie(self::DELETE_COOKIE_NAME);
+            $mockCookieManager->deleteCookie(self::DELETE_COOKIE_NAME);
             $this->assertNull($this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
         }
 
@@ -209,9 +210,7 @@ namespace Magento\Framework\Stdlib\Cookie {
 
             /** @var \Magento\Framework\Stdlib\Cookie\CookieMetaData $cookieMetaData */
             $cookieMetaData = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\CookieMetaData');
-            /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Stdlib\Cookie\PhpCookieManager
-             * $mockCookieManager
-             */
+            /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
             $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
                 ->setMethods(['setPublicCookie', 'setSensitiveCookie'])
                 ->disableOriginalConstructor()->getMock();
@@ -244,11 +243,11 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ->will($this->returnValue($sensitiveCookieMetadata)
             );
 
-            $cookieManager = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PhpCookieManager',
+            $mockCookieManager = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PhpCookieManager',
                 ['scope' => $scopeMock]
             );
 
-            $cookieManager->setSensitiveCookie(
+            $mockCookieManager->setSensitiveCookie(
                 PhpCookieManagerTest::SENSITIVE_COOKIE_NAME_NO_METADATA,
                 'cookie_value'
             );
@@ -385,6 +384,42 @@ namespace Magento\Framework\Stdlib\Cookie {
                 'cookie_value',
                 $publicCookieMetadata
             );
+        }
+
+        public function testSetCookieBadName()
+        {
+            /** @var \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata $publicCookieMetadata */
+            $publicCookieMetadata = $this->objectManager->getObject(
+                'Magento\Framework\Stdlib\Cookie\PublicCookieMetadata',
+                [
+                    'metadata' => [
+                        'domain' => null,
+                        'path' => null,
+                        'secure' => false,
+                        'http_only' => false,
+                    ],
+                ]
+            );
+
+            $cookieManager = $this->objectManager->getObject(
+                'Magento\Framework\Stdlib\Cookie\PhpCookieManager'
+            );
+
+            $cookieValue = 'some_value';
+
+            try {
+                $cookieManager->setPublicCookie(
+                    '',
+                    $cookieValue,
+                    $publicCookieMetadata
+                );
+                $this->fail('Failed to throw exception of bad cookie name');
+            } catch (InputException $e) {
+                $this->assertEquals(
+                    'Cookie name cannot be empty and cannot contain these characters: =,; \\t\\r\\n\\013\\014',
+                    $e->getMessage()
+                );
+            }
         }
 
         public function testSetCookieSizeTooLarge()

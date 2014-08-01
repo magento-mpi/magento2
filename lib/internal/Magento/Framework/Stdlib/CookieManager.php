@@ -14,6 +14,7 @@ use Magento\Framework\Stdlib\Cookie\FailureToSendException;
 use Magento\Framework\Stdlib\Cookie\BrowserNotSupportedException;
 use Magento\Framework\Stdlib\Cookie\CookieSizeLimitReachedException;
 use Magento\Framework\Stdlib\Cookie\CookieMetadata;
+use Magento\Framework\Exception\InputException;
 
 /**
  * CookieManager helps manage the setting, retrieving and deleting of cookies.
@@ -36,6 +37,7 @@ interface CookieManager
      * @throws FailureToSendException Cookie couldn't be sent to the browser.  If this exception isn't thrown,
      * there is still no guarantee that the browser received and accepted the cookie.
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
+     * @throws InputException If the cookie name is empty or contains invalid characters.
      */
     public function setSensitiveCookie($name, $value, SensitiveCookieMetadata $metadata = null);
 
@@ -51,6 +53,7 @@ interface CookieManager
      * @return void
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
+     * @throws InputException If the cookie name is empty or contains invalid characters.
      */
     public function setPublicCookie($name, $value, PublicCookieMetadata $metadata = null);
 
@@ -73,6 +76,7 @@ interface CookieManager
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
      *     If this exception isn't thrown, there is still no guarantee that the browser
      *     received and accepted the request to delete this cookie.
+     * @throws InputException If the cookie name is empty or contains invalid characters.
      */
     public function deleteCookie($name, CookieMetadata $metadata = null);
 }

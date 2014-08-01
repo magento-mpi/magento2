@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
-use Magento\Backend\Model\Config\Backend\Cookie;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Stdlib\CookieManager as CookieManager;
 
 /**
@@ -64,6 +64,7 @@ class PhpCookieManager implements CookieManager
      * @throws FailureToSendException Cookie couldn't be sent to the browser.  If this exception isn't thrown,
      * there is still no guarantee that the browser received and accepted the cookie.
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
+     * @throws InputException If the cookie name is empty or contains invalid characters.
      */
     public function setSensitiveCookie($name, $value, SensitiveCookieMetadata $metadata = null)
     {
@@ -89,6 +90,7 @@ class PhpCookieManager implements CookieManager
      * @return void
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
+     * @throws InputException If the cookie name is empty or contains invalid characters.
      */
     public function setPublicCookie($name, $value, PublicCookieMetadata $metadata = null)
     {
@@ -109,6 +111,7 @@ class PhpCookieManager implements CookieManager
      * @return void
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
+     * @throws InputException If the cookie name is empty or contains invalid characters.
      */
     private function setCookie($name, $value, array $metadataArray)
     {
@@ -159,9 +162,16 @@ class PhpCookieManager implements CookieManager
      * @param string|null $value
      * @return void if it is possible to send the cookie
      * @throws CookieSizeLimitReachedException Thrown when the cookie is too big to store any additional data.
+     * @throws InputException If the cookie name is empty or contains invalid characters.
      */
     private function checkAbilityToSendCookie($name, $value)
     {
+        if ($name == '' || preg_match("/[=,; \t\r\n\013\014]/", $name)) {
+            throw new InputException(
+                'Cookie name cannot be empty and cannot contain these characters: =,; \\t\\r\\n\\013\\014'
+            );
+        }
+
         $numCookies = count($_COOKIE);
 
         if (!isset($_COOKIE[$name])) {
@@ -249,6 +259,7 @@ class PhpCookieManager implements CookieManager
      * @throws FailureToSendException If cookie couldn't be sent to the browser.
      *     If this exception isn't thrown, there is still no guarantee that the browser
      *     received and accepted the request to delete this cookie.
+     * @throws InputException If the cookie name is empty or contains invalid characters.
      */
     public function deleteCookie($name, CookieMetadata $metadata = null)
     {
@@ -262,6 +273,8 @@ class PhpCookieManager implements CookieManager
 
         // explicitly set an expiration time in the metadataArray.
         $metadataArray[PhpCookieManager::KEY_EXPIRE_TIME] = PhpCookieManager::EXPIRE_NOW_TIME;
+
+        $this->checkAbilityToSendCookie($name, '');
 
         // cookie value set to empty string to delete from the remote client
         $this->setCookie($name, '', $metadataArray);
