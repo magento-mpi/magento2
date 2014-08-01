@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 /** @var $this \Magento\Catalog\Model\Resource\Setup */
+$this->installEntities();
 $entityTypeId = $this->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
 $attributeSetId = $this->getAttributeSetId($entityTypeId, 'Default');
 

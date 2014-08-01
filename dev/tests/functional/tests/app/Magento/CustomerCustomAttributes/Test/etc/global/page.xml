@@ -18,4 +18,13 @@
         <area>adminhtml</area>
         <class>Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew</class>
     </customerAttributeNew>
+    <checkoutOnepage>
+        <mca>checkout/onepage/index</mca>
+        <class>Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage</class>
+    </checkoutOnepage>
+    <salesOrderCreateIndex>
+        <mca>sales/order_create</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex</class>
+    </salesOrderCreateIndex>
 </page>

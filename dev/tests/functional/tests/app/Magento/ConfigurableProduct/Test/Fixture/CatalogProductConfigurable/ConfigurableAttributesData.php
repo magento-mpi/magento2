@@ -517,7 +517,7 @@ class ConfigurableAttributesData implements FixtureInterface
                     ]
                 ]
             ],
-            'one_variations' => [
+            'one_variation' => [
                 'attributes_data' => [
                     [
                         'id' => '%id%',

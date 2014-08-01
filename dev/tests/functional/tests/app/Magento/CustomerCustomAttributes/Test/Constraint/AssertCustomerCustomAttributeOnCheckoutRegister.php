@@ -8,9 +8,10 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Checkout\Test\Page\CheckoutOnepage;
+use Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
@@ -31,29 +32,39 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
     /**
      * Assert that created customer attribute is available during register customer on checkout
      *
+     * @param CmsIndex $cmsIndex
      * @param CatalogProductSimple $productSimple
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage
      * @param CatalogProductView $catalogProductViewPage
      * @param CustomerCustomAttribute $customerAttribute
+     * @param CustomerCustomAttribute $initialCustomerAttribute
      * @return void
      */
     public function processAssert(
+        CmsIndex $cmsIndex,
         CatalogProductSimple $productSimple,
         CheckoutCart $checkoutCart,
         CheckoutOnepage $checkoutOnepage,
         CatalogProductView $catalogProductViewPage,
-        CustomerCustomAttribute $customerAttribute
+        CustomerCustomAttribute $customerAttribute,
+        CustomerCustomAttribute $initialCustomerAttribute = null
     ) {
         // Precondition
         $productSimple->persist();
 
+        $cmsIndex->open();
+        if ($cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
+            $cmsIndex->getLinksBlock()->openLink("Log Out");
+        }
+
         // Steps
+        $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
         $catalogProductViewPage->init($productSimple);
         $catalogProductViewPage->open();
         $catalogProductViewPage->getViewBlock()->clickAddToCartButton();
         $checkoutCart->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
-        $checkoutOnepage->getLoginBlock()->guestCheckout();
+        $checkoutOnepage->getLoginBlock()->registerCustomer();
         \PHPUnit_Framework_Assert::assertTrue(
             $checkoutOnepage->getBillingBlock()->isCustomerAttributeVisible($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '

@@ -20,6 +20,13 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 class AssertCustomerSegmentForm extends AbstractAssertForm
 {
     /**
+     * Skipped fields for verify data
+     *
+     * @var array
+     */
+    protected $skippedFields = ['conditions_serialized', 'segment_id'];
+
+    /**
      * Constraint severeness
      *
      * @var string
