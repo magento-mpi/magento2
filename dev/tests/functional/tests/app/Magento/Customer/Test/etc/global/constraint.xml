@@ -105,4 +105,7 @@
             <address class="Magento\Customer\Test\Fixture\AddressInjectable" />
         </require>
     </assertCustomerDefaultAddresses>
+    <assertCustomerMassDeleteSuccessMessage module="Magento_Customer">
+        <severeness>low</severeness>
+    </assertCustomerMassDeleteSuccessMessage>
 </constraint>

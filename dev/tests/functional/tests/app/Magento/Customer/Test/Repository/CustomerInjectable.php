@@ -27,7 +27,7 @@ class CustomerInjectable extends AbstractRepository
         $this->_data['default'] = [
             'firstname' => 'John',
             'lastname' => 'Doe',
-            'group_id' => 'General',
+            'group_id' => ['dataSet' => 'General'],
             'email' => 'JohnDoe_%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
@@ -41,13 +41,13 @@ class CustomerInjectable extends AbstractRepository
             'password_confirmation' => '123123q',
             'dob' => '01/01/1990',
             'gender' => 'Male',
-            'group_id' => 'General',
+            'group_id' => ['dataSet' => 'General'],
         ];
 
         $this->_data['johndoe_retailer'] = [
             'firstname' => 'John',
             'lastname' => 'Doe',
-            'group_id' => 'Retailer',
+            'group_id' => ['dataSet' => 'Retailer'],
             'email' => 'JohnDoe_%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
