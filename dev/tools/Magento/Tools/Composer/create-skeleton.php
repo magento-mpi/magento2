@@ -91,9 +91,14 @@ try {
     exit($e->getMessage());
 }
 
-function is_dir_empty($dir) {
+/**
+ * @param string $dir
+ * @return bool
+ */
+function is_dir_empty($dir)
+{
     if (!is_readable($dir)) {
-        return NULL;
+        return null;
     }
     return (count(scandir($dir)) == 2);
 }
