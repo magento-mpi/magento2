@@ -30,9 +30,9 @@ class CookieMetadata
     /**
      * @param array $metadata
      */
-    public function __construct($metadata = null)
+    public function __construct($metadata = [])
     {
-        if (is_null($metadata)) {
+        if (!is_array($metadata)) {
             $metadata = [];
         }
         $this->metadata = $metadata;
