@@ -43,13 +43,6 @@ try {
     $logger->info(sprintf("Your Magento installation directory (Source Directory): %s ", $sourceDir));
     $logger->info(sprintf("Your skeleton output directory (Destination Directory): %s ", $destinationDir));
 
-    $reader = new Reader($sourceDir);
-    $components = [];
-    $counter = count($components);
-    foreach ($reader->getPatterns() as $pattern) {
-        $components[] = $sourceDir  . '/' . $pattern;
-    }
-
     try {
         if (!file_exists($destinationDir)) {
             mkdir($destinationDir, 0777, true);
@@ -66,15 +59,8 @@ try {
         );
     }
 
-    $excludes = array_merge(
-        $components,
-        array(
-            $sourceDir . '/.git',
-            $sourceDir . '/.idea',
-            $sourceDir . '/app/vendor_autoload.php',
-            $destinationDir
-        )
-    );
+    $reader = new Reader($sourceDir);
+    $excludes = $reader->getExcludePaths();
 
     $directory = new \RecursiveDirectoryIterator($sourceDir, \RecursiveDirectoryIterator::SKIP_DOTS);
     $directory = new ExcludeFilter($directory, $excludes);

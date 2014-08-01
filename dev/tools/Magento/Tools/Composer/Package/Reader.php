@@ -197,12 +197,13 @@ class Reader
      *
      * @return array
      */
-    private function getExcludePaths()
+    public function getExcludePaths()
     {
         $excludes = [];
         foreach ($this->patterns as $pattern) {
             $excludes[] = $this->rootDir . '/' . $pattern;
         }
+        $excludes[] = $this->rootDir . '/.idea';
         $excludes[] = $this->rootDir . '/.git';
         $excludes[] = $this->rootDir . '/app/etc/vendor_path.php';
 
