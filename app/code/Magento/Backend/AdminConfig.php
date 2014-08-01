@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Session;
+namespace Magento\Backend;
 
 use Magento\Backend\App\Area\FrontNameResolver;
 
@@ -16,7 +16,7 @@ use Magento\Backend\App\Area\FrontNameResolver;
  *
  * @method Config setSaveHandler()
  */
-class AdminConfig extends Config
+class AdminConfig extends \Magento\Framework\Session\Config
 {
     /**
      * @var FrontNameResolver $frontNameResolver
@@ -68,28 +68,29 @@ class AdminConfig extends Config
         );
 
         $baseUrl = $this->_httpRequest->getBaseUrl();
-        $this->setCookiePath($baseUrl);
+        $adminPath = $this->extractAdminPath($baseUrl);
+        $this->setCookiePath($adminPath);
     }
 
     /**
-     * Set session.cookie_path
+     * Determine the admin path
      *
-     * @param string $cookiePath
-     * @return $this
+     * @param string $baseUrl
+     * @return string
      * @throws \InvalidArgumentException
      */
-    public function setCookiePath($cookiePath)
+    private function extractAdminPath($baseUrl)
     {
-        if (gettype($cookiePath) != 'string') {
-            throw new \InvalidArgumentException('Cookie path is not a string');
+        if (!is_string($baseUrl)) {
+            throw new \InvalidArgumentException('Cookie path is not a string.');
         }
 
         $adminPath = $this->frontNameResolver->getFrontName();
 
-        if (!substr($cookiePath, -1) || ('/' != substr($cookiePath, -1))) {
-            $cookiePath = $cookiePath . '/';
+        if (!substr($baseUrl, -1) || ('/' != substr($baseUrl, -1))) {
+            $baseUrl = $baseUrl . '/';
         }
 
-        return parent::setCookiePath($cookiePath . $adminPath);
+        return $baseUrl . $adminPath;
     }
 }
