@@ -41,7 +41,7 @@ class AssertCmsPageInitialVersionInGrid extends AbstractConstraint
     protected $cmsIndex;
 
     /**
-     * Prepare filter and perform assert
+     * Search version by filter and perform assert
      *
      * @param CmsPage $cms
      * @param array $results
