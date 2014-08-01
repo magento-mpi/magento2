@@ -1,17 +1,18 @@
 <?php
-namespace Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute;
-
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\ConfigurableProduct\Service\V1\Data\Option;
+
 class Value extends \Magento\Framework\Service\Data\AbstractObject
 {
-    const INDEX = 'value_index';
-    const PRICE = 'pricing_value';
-    const PRICE_IS_PERCENT = 'is_percent';
+    const INDEX = 'index';
+    const PRICE = 'price';
+    const IS_PERCENT = 'is_percent';
 
     /**
      * @return float|null
@@ -24,9 +25,9 @@ class Value extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * @return int|null
      */
-    public function getPriceIsPercent()
+    public function isPercent()
     {
-        return $this->_get(self::PRICE_IS_PERCENT);
+        return $this->_get(self::IS_PERCENT);
     }
 
     /**

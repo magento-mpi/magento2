@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ConfigurableProduct\Service\V1\Data\ConfigurableAttribute;
+namespace Magento\ConfigurableProduct\Service\V1\Data\Option;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
@@ -24,9 +24,9 @@ class ValueBuilder extends AbstractObjectBuilder
      * @param int $value 
      * @return self 
      */
-    public function setPriceIsPercent($value)
+    public function setPercent($value)
     {
-        return $this->_set(Value::PRICE_IS_PERCENT, $value);
+        return $this->_set(Value::IS_PERCENT, $value);
     }
 
     /**
