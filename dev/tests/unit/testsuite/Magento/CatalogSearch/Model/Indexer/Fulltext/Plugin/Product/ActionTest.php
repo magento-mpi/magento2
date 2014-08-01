@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogSearch\Model\Indexer\Plugin\Product;
+namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Product;
+
+use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Product\Action;
 
 class ActionTest extends \PHPUnit_Framework_TestCase
 {

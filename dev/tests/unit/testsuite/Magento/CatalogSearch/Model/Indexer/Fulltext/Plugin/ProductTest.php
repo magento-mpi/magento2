@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogSearch\Model\Indexer\Plugin;
+namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin;
+
+use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Product;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {

@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin;
 
+use Magento\CatalogSearch\Model\Indexer\Fulltext;
+
 abstract class AbstractPlugin
 {
     /**
@@ -31,8 +33,34 @@ abstract class AbstractPlugin
     protected function getIndexer()
     {
         if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID);
+            $this->indexer->load(Fulltext::INDEXER_ID);
         }
         return $this->indexer;
+    }
+
+    /**
+     * Reindex by product if indexer is not scheduled
+     *
+     * @param int $productId
+     * @return void
+     */
+    protected function reindexRow($productId)
+    {
+        if (!$this->getIndexer()->isScheduled()) {
+            $this->getIndexer()->reindexRow($productId);
+        }
+    }
+
+    /**
+     * Reindex by product if indexer is not scheduled
+     *
+     * @param int[] $productIds
+     * @return void
+     */
+    protected function reindexList(array $productIds)
+    {
+        if (!$this->getIndexer()->isScheduled()) {
+            $this->getIndexer()->reindexList($productIds);
+        }
     }
 }
