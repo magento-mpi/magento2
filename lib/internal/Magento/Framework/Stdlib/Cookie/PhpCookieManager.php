@@ -266,8 +266,7 @@ class PhpCookieManager implements CookieManager
         // Remove the cookie
         unset($_COOKIE[$name]);
 
-        $metadata = $this->scope->getCookieMetadata($metadata);
-        $metadataArray = $metadata->__toArray();
+        $metadataArray = $this->scope->getCookieMetadata($metadata)->__toArray();
 
         // explicitly set an expiration time in the metadataArray.
         $metadataArray[PhpCookieManager::KEY_EXPIRE_TIME] = PhpCookieManager::EXPIRE_NOW_TIME;
