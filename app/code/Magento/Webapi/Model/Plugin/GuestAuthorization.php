@@ -21,9 +21,9 @@ class GuestAuthorization
      * @param callable $proceed
      * @param string $resource
      * @param string $privilege
-     *
      * @return bool true If resource permission is anonymous,
      * to allow any user access without further checks in parent method
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundIsAllowed(
         \Magento\Framework\Authorization $subject,
