@@ -30,8 +30,6 @@ class AssertCustomerInGrid extends AbstractConstraint
      *
      * @param CustomerInjectable $customer
      * @param CustomerIndex $pageCustomerIndex
-     * @param $customersQtyToDelete
-     * @param $customers
      * @param CustomerInjectable $initialCustomer [optional]
      * @return void
      *
@@ -40,51 +38,26 @@ class AssertCustomerInGrid extends AbstractConstraint
     public function processAssert(
         CustomerInjectable $customer,
         CustomerIndex $pageCustomerIndex,
-        $customersQtyToDelete = null,
-        $customers = null,
         CustomerInjectable $initialCustomer = null
     ) {
-        $pageCustomerIndex->open();
-        if ($customers === null) {
-            if ($initialCustomer) {
-                $customer = $customer->hasData()
-                    ? array_merge($initialCustomer->getData(), $customer->getData())
-                    : $initialCustomer->getData();
-            } else {
-                $customer = $customer->getData();
-            }
-            $name = (isset($customer['prefix']) ? $customer['prefix'] . ' ' : '')
-                . $customer['firstname']
-                . (isset($customer['middlename']) ? ' ' . $customer['middlename'] : '')
-                . ' ' . $customer['lastname']
-                . (isset($customer['suffix']) ? ' ' . $customer['suffix'] : '');
-            $filter = [
-                'name' => $name,
-                'email' => $customer['email'],
-            ];
-            $this->checkCustomersInGrid($pageCustomerIndex, $filter);
+        if ($initialCustomer) {
+            $customer = $customer->hasData()
+                ? array_merge($initialCustomer->getData(), $customer->getData())
+                : $initialCustomer->getData();
         } else {
-            $customers = array_slice($customers, $customersQtyToDelete);
-            $count = count($customers);
-            for ($i = 1; $i <= $count; $i++) {
-                $filter = [
-                    'name' => $customers[$i - 1]['firstname'] . ' ' . $customers[$i - 1]['lastname'],
-                    'email' => $customers[$i - 1]['email'],
-                ];
-                $this->checkCustomersInGrid($pageCustomerIndex, $filter);
-            }
+            $customer = $customer->getData();
         }
-    }
+        $name = (isset($customer['prefix']) ? $customer['prefix'] . ' ' : '')
+            . $customer['firstname']
+            . (isset($customer['middlename']) ? ' ' . $customer['middlename'] : '')
+            . ' ' . $customer['lastname']
+            . (isset($customer['suffix']) ? ' ' . $customer['suffix'] : '');
+        $filter = [
+            'name' => $name,
+            'email' => $customer['email'],
+        ];
 
-    /**
-     * Check customers in grid
-     *
-     * @param CustomerIndex $pageCustomerIndex
-     * @param array $filter
-     * $return void
-     */
-    protected function checkCustomersInGrid(CustomerIndex $pageCustomerIndex, array $filter)
-    {
+        $pageCustomerIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $pageCustomerIndex->getCustomerGridBlock()->isRowVisible($filter),
             'Customer with '

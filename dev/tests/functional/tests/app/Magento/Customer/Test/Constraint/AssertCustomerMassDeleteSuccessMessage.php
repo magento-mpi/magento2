@@ -38,9 +38,8 @@ class AssertCustomerMassDeleteSuccessMessage extends AbstractConstraint
      */
     public function processAssert($customersQtyToDelete, CustomerIndex $customerIndexPage)
     {
-        $deleteMessage = sprintf(self::SUCCESS_DELETE_MESSAGE, $customersQtyToDelete);
         \PHPUnit_Framework_Assert::assertEquals(
-            $deleteMessage,
+            sprintf(self::SUCCESS_DELETE_MESSAGE, $customersQtyToDelete),
             $customerIndexPage->getMessagesBlock()->getSuccessMessages(),
             'Wrong delete message is displayed.'
         );

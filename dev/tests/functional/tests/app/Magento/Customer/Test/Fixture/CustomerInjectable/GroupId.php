@@ -49,28 +49,14 @@ class GroupId implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if (isset($data['dataSet']) && $data['dataSet'] !== '-' || isset($data['presets'])) {
-            if (isset($data['presets'])) {
-                $data['presets'] = explode(',', $data['presets']);
-                foreach ($data['presets'] as $value) {
-                    /** @var CustomerGroupInjectable $customerGroup */
-                    $customerGroup = $fixtureFactory->createByCode('customerGroupInjectable', ['dataSet' => $value]);
-                    if (!$customerGroup->hasData('customer_group_id')) {
-                        $customerGroup->persist();
-                    }
-                    $this->data = $customerGroup->getCustomerGroupCode();
-                    $this->customerGroupFixture = $customerGroup;
-                }
-            } elseif (isset($data['dataSet']) && $data['dataSet'] !== '-') {
-                $dataSet = $data['dataSet'];
-                /** @var CustomerGroupInjectable $customerGroup */
-                $customerGroup = $fixtureFactory->createByCode('customerGroupInjectable', ['dataSet' => $dataSet]);
-                if (!$customerGroup->hasData('customer_group_id')) {
-                    $customerGroup->persist();
-                }
-                $this->data = $customerGroup->getCustomerGroupCode();
-                $this->customerGroupFixture = $customerGroup;
+        if (isset($data['dataSet'])) {
+            /** @var CustomerGroupInjectable $customerGroup */
+            $customerGroup = $fixtureFactory->createByCode('customerGroupInjectable', ['dataSet' => $data['dataSet']]);
+            if (!$customerGroup->hasData('customer_group_id')) {
+                $customerGroup->persist();
             }
+            $this->data = $customerGroup->getCustomerGroupCode();
+            $this->customerGroupFixture = $customerGroup;
         }
         if (isset($data['customerGroup']) && $data['customerGroup'] instanceof CustomerGroupInjectable) {
             $this->data = $data['customerGroup']->getCustomerGroupCode();
@@ -93,6 +79,7 @@ class GroupId implements FixtureInterface
      *
      * @param int|null $key [optional]
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {

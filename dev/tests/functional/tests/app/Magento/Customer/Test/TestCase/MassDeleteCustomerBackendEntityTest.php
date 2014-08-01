@@ -35,11 +35,15 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 class MassDeleteCustomerBackendEntityTest extends Injectable
 {
     /**
+     * Customer Index page
+     *
      * @var CustomerIndex
      */
     protected $customerIndexPage;
 
     /**
+     * Customer Index Edit page
+     *
      * @var CustomerIndexEdit
      */
     protected $customerIndexEditPage;
@@ -68,30 +72,35 @@ class MassDeleteCustomerBackendEntityTest extends Injectable
     public function test(FixtureFactory $fixtureFactory, $customersQty, $customersQtyToDelete)
     {
         // Preconditions:
-        $customers = [];
-        for ($i = 1; $i <= $customersQty; $i++) {
-            $customer = $fixtureFactory->createByCode(
-                'customerInjectable',
-                [
-                    'dataSet' => 'default',
-                    'data' => [
-                        'firstname' => 'John' . $i,
-                        'lastname' => 'Doe' . $i,
-                    ],
-                ]
-            );
-            $customer->persist();
-            $customers[] = $customer->getData();
-        }
+        $customers = $this->createCustomers($customersQty, $fixtureFactory);
+
 
         $deleteCustomers = [];
-        for ($i = 0; $i <= $customersQtyToDelete - 1; $i++) {
-            $deleteCustomers[] = ['email' => $customers[$i]['email']];
+        for ($i = 0; $i < $customersQtyToDelete; $i++) {
+            $deleteCustomers[] = ['email' => $customers[$i]->getEmail()];
         }
         // Steps:
         $this->customerIndexPage->open();
         $this->customerIndexPage->getCustomerGridBlock()->massaction($deleteCustomers, 'Delete', true);
 
         return ['customers' => $customers];
+    }
+
+    /**
+     * Create Customers
+     *
+     * @param $customersQty
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    protected function createCustomers($customersQty, FixtureFactory $fixtureFactory)
+    {
+        $customers = [];
+        for ($i = 1; $i <= $customersQty; $i++) {
+            $customer = $fixtureFactory->createByCode('customerInjectable',['dataSet' => 'default',]);
+            $customer->persist();
+            $customers[] = $customer;
+        }
+        return $customers;
     }
 }

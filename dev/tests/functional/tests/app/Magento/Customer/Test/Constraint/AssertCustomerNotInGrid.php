@@ -14,6 +14,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 
 /**
  * Class AssertCustomerNotInGrid
+ * Check that customer is not in customer's grid
  */
 class AssertCustomerNotInGrid extends AbstractConstraint
 {
@@ -29,49 +30,21 @@ class AssertCustomerNotInGrid extends AbstractConstraint
      *
      * @param CustomerInjectable $customer
      * @param CustomerIndex $customerIndexPage
-     * @param int $customersQtyToDelete
-     * @param array $customers
      * @return void
      */
     public function processAssert(
         CustomerInjectable $customer,
-        CustomerIndex $customerIndexPage,
-        $customersQtyToDelete = null,
-        $customers = null
+        CustomerIndex $customerIndexPage
     ) {
+        $filter = [
+            'email' => $customer->getEmail()
+        ];
 
         $customerIndexPage->open();
-        if ($customers !== null) {
-            $this->checkMassDeleteCustomers($customersQtyToDelete, $customerIndexPage, $customers);
-        } else {
-            $filter = [
-                'email' => $customer->getEmail()
-            ];
-
-            $customerIndexPage->open();
-            \PHPUnit_Framework_Assert::assertFalse(
-                $customerIndexPage->getCustomerGridBlock()->isRowVisible($filter),
-                "Customer with email {$filter['email']} is present in Customer grid."
-            );
-        }
-    }
-
-    /**
-     * Check mass delete Customers in grid
-     *
-     * @param $customersQtyToDelete
-     * @param CustomerIndex $customerIndexPage
-     * @param $customers
-     * @return void
-     */
-    protected function checkMassDeleteCustomers($customersQtyToDelete, CustomerIndex $customerIndexPage, $customers)
-    {
-        for ($i = 0; $i <= $customersQtyToDelete - 1; $i++) {
-            \PHPUnit_Framework_Assert::assertFalse(
-                $customerIndexPage->getCustomerGridBlock()->isRowVisible(['email' => $customers[$i]['email']]),
-                "Customer with email {$customers[$i]['email']} is present in Customer grid."
-            );
-        }
+        \PHPUnit_Framework_Assert::assertFalse(
+            $customerIndexPage->getCustomerGridBlock()->isRowVisible($filter),
+            "Customer with email {$filter['email']} is present in Customer grid."
+        );
     }
 
     /**

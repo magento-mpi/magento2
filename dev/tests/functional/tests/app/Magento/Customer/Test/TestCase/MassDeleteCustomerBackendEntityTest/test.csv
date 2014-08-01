@@ -1,2 +1,2 @@
 "customer/dataSet";"customersQty";"customersQtyToDelete";"constraint"
-"default";"3";"2";"assertCustomerMassDeleteSuccessMessage, assertCustomerNotInGrid, assertCustomerInGrid"
+"default";"3";"2";"assertCustomerMassDeleteSuccessMessage, assertCustomerMassDeleteNotInGrid, assertCustomerMassDeleteInGrid"

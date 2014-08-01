@@ -107,5 +107,14 @@
     </assertCustomerDefaultAddresses>
     <assertCustomerMassDeleteSuccessMessage module="Magento_Customer">
         <severeness>low</severeness>
+        <require />
     </assertCustomerMassDeleteSuccessMessage>
+    <assertCustomerMassDeleteNotInGrid module="Magento_Customer">
+        <severeness>low</severeness>
+        <require />
+    </assertCustomerMassDeleteNotInGrid>
+    <assertCustomerMassDeleteInGrid module="Magento_Customer">
+        <severeness>low</severeness>
+        <require />
+    </assertCustomerMassDeleteInGrid>
 </constraint>
