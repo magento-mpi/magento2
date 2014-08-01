@@ -251,7 +251,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
      * @param array $params
      * @return CookieScope
      */
-    private function createCookieScope($params = [])
+    protected function createCookieScope($params = [])
     {
         $params = array_merge($this->defaultScopeParams, $params);
         return $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\CookieScope', $params);
@@ -263,7 +263,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
      * @param array $metadata
      * @return SensitiveCookieMetadata
      */
-    public function createSensitiveMetadata($metadata = [])
+    protected function createSensitiveMetadata($metadata = [])
     {
         return $this->objectManager->getObject(
             'Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata',
@@ -277,7 +277,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
      * @param array $metadata
      * @return PublicCookieMetadata
      */
-    public function createPublicMetadata($metadata = [])
+    protected function createPublicMetadata($metadata = [])
     {
         return $this->objectManager->getObject(
             'Magento\Framework\Stdlib\Cookie\PublicCookieMetadata',
@@ -291,7 +291,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
      * @param array $metadata
      * @return CookieMetadata
      */
-    public function createCookieMetadata($metadata = [])
+    protected function createCookieMetadata($metadata = [])
     {
         return $this->objectManager->getObject(
             'Magento\Framework\Stdlib\Cookie\CookieMetadata',
