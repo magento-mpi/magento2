@@ -13,7 +13,7 @@
 define(
     'SYNOPSIS',
 <<<SYNOPSIS
-php -f publish.php --
+php -f prepare_publication.php --
     --source="<repository>" --source-point="<branch name or commit ID>"
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
     --changelog-file="<markdown_file>"

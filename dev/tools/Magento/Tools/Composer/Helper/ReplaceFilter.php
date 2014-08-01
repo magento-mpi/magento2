@@ -40,7 +40,7 @@ class ReplaceFilter
      */
     public function removeMissing(Package $package)
     {
-        $replace = $package->get('replace');
+        $replace = (array)$package->get('replace');
         foreach (array_keys($replace) as $key) {
             $locations = $this->getExpectedComponentLocations($key, $package);
             $newLocations = [];

@@ -13,7 +13,7 @@
 define(
     'SYNOPSIS',
 <<<SYNOPSIS
-php -f publish.php --
+php -f prepare_packages.php --
     --source-dir="<directory>"
     --changelog-file="<markdown_file>"
     --target-satis-repo="<repository>" [--target-satis-dir=="<directory>"]
