@@ -85,7 +85,13 @@ try {
         }
         execVerbose("$gitSkeletonCmd rm -r $file");
     }
-    execVerbose("unzip $satisTargetDir/_packages/magento_product-* -d $skeletonTargetDir");
+
+    //create skeleton package directory
+    execVerbose(
+        'php -f ' . __DIR__ . '/../../tools/Magento/Tools/Composer/create-skeleton.php -- '
+        . "--source=$sourceSkeletonDir --destination=$skeletonTargetDir"
+    );
+    //remove product zip package if exist
     execVerbose("rm -f $satisTargetDir/_packages/magento_product-*");
 
     // commit changes to satis repo
