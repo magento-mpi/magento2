@@ -47,4 +47,59 @@ class WriteServiceTest extends WebapiAbstract
 
         $this->assertGreaterThan(0, $result);
     }
+
+    /**
+     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
+     */
+    public function testUpdate()
+    {
+        $productSku = 'configurable';
+        $configurableAttribute = $this->getConfigurableAttribute($productSku);
+        $optionId = $configurableAttribute[0]['id'];
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options' . '/' . $optionId,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'update'
+            ]
+        ];
+
+        $option = [
+            'label' => 'Update Test Configurable'
+        ];
+        $this->assertTrue($this->_webApiCall($serviceInfo,
+            [
+                'productSku' => $productSku,
+                'optionId' => $optionId,
+                'option' => $option
+            ]
+        ));
+        $configurableAttribute = $this->getConfigurableAttribute($productSku);
+        $this->assertEquals($option['label'], $configurableAttribute[0]['label']);
+    }
+
+    /**
+     * @param string $productSku
+     * @return array
+     */
+    protected function getConfigurableAttribute($productSku)
+    {
+        $readServiceName = 'configurableProductProductOptionReadServiceV1';
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options/all',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => $readServiceName,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => $readServiceName . 'getList'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
+    }
 }
