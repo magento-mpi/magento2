@@ -44,19 +44,12 @@ try {
     $logger->info(sprintf("Your skeleton output directory (Destination Directory): %s ", $destinationDir));
 
     try {
-        if (!file_exists($destinationDir)) {
+        if (!is_dir($destinationDir)) {
             mkdir($destinationDir, 0777, true);
         }
     } catch (\Exception $ex) {
         $logger->error(sprintf("ERROR: Creating Directory %s failed. Message: %s", $destinationDir, $ex->getMessage()));
         exit($e->getCode());
-    }
-
-    if (!is_dir_empty($destinationDir)) {
-        throw new \Exception(
-            "Your destination directory $destinationDir is not empty!
-            Please clean up the directory, and run the tool again!"
-        );
     }
 
     $reader = new Reader($sourceDir);
@@ -86,19 +79,10 @@ try {
     );
 
 } catch (\Zend_Console_Getopt_Exception $e) {
-    exit($e->getUsageMessage());
+    echo $e->getUsageMessage();
+    exit(1);
 } catch (\Exception $e) {
-    exit($e->getMessage());
+    echo $e;
+    exit(1);
 }
 
-/**
- * @param string $dir
- * @return bool
- */
-function is_dir_empty($dir)
-{
-    if (!is_readable($dir)) {
-        return null;
-    }
-    return (count(scandir($dir)) == 2);
-}
