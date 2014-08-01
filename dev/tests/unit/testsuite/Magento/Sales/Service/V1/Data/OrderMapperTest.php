@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Service\V1;
+namespace Magento\Sales\Service\V1\Data;
 
 /**
  * Class OrderGetTest

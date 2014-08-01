@@ -20,7 +20,7 @@ interface OrderStatusHistoryAddInterface
      *
      * @param int $id
      * @param OrderStatusHistory $statusHistory
-     * @return int|mixed
+     * @return bool
      */
     public function invoke($id, OrderStatusHistory $statusHistory);
 }

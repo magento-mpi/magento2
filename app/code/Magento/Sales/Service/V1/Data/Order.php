@@ -1492,21 +1492,33 @@ class Order extends DataObject
         return $this->_get(self::X_FORWARDED_FOR);
     }
 
+    /**
+     * @return \Magento\Sales\Service\V1\Data\OrderItem[]
+     */
     public function getItems()
     {
         return $this->_get(self::ITEMS);
     }
 
+    /**
+     * @return \Magento\Sales\Service\V1\Data\OrderAddress
+     */
     public function getBillingAddress()
     {
         return $this->_get(self::BILLING_ADDRESS);
     }
 
+    /**
+     * @return \Magento\Sales\Service\V1\Data\OrderAddress
+     */
     public function getShippingAddress()
     {
         return $this->_get(self::SHIPPING_ADDRESS);
     }
 
+    /**
+     * @return \Magento\Sales\Service\V1\Data\OrderPayment[]
+     */
     public function getPayments()
     {
         return $this->_get(self::PAYMENTS);

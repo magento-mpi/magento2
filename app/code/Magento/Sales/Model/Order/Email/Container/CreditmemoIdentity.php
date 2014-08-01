@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Sales\Model\Order\Email\Container;
 
 class CreditmemoIdentity extends Container implements IdentityInterface

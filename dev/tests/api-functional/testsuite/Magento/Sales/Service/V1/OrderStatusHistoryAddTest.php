@@ -16,9 +16,9 @@ use Magento\Sales\Service\V1\Data\OrderStatusHistoryBuilder;
  * Class OrderCommentAddTest
  * @package Magento\Sales\Service\V1
  */
-class OrderCommentAddTest extends WebapiAbstract
+class OrderStatusHistoryAddTest extends WebapiAbstract
 {
-    const SERVICE_READ_NAME = 'salesOrderStatusHistoryAddServiceV1';
+    const SERVICE_READ_NAME = 'salesOrderStatusHistoryAddV1';
     const SERVICE_VERSION = 'V1';
     const ORDER_INCREMENT_ID = '100000001';
 
@@ -33,20 +33,27 @@ class OrderCommentAddTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Sales/_files/order.php
+     * @m1agentoApiDataFixture Magento/Sales/_files/order.php
      */
     public function testOrderCommentAdd()
     {
-        $commentData = [
-            OrderStatusHistory::COMMENT => 'Hello',
-            OrderStatusHistory::IS_CUSTOMER_NOTIFIED => true
-        ];
-        $requestData = ['statusHistory' => $commentData];
-
         /** @var \Magento\Sales\Model\Order $order */
         $order = $this->objectManager->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId(self::ORDER_INCREMENT_ID);
 
+        $commentData = [
+            OrderStatusHistory::COMMENT => 'Hello',
+            OrderStatusHistory::ENTITY_ID => null,
+            OrderStatusHistory::IS_CUSTOMER_NOTIFIED => true,
+            OrderStatusHistory::CREATED_AT => null,
+            OrderStatusHistory::PARENT_ID => $order->getId(),
+            OrderStatusHistory::ENTITY_NAME => null,
+            OrderStatusHistory::STATUS => null,
+            OrderStatusHistory::IS_VISIBLE_ON_FRONT => true,
+        ];
+
+
+        $requestData = ['id'=> $order->getId(), 'statusHistory' => $commentData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/orders/' . $order->getId() .'/comment',
@@ -55,7 +62,7 @@ class OrderCommentAddTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'info'
+                'operation' => self::SERVICE_READ_NAME . 'invoke'
             ]
         ];
 
@@ -65,7 +72,14 @@ class OrderCommentAddTest extends WebapiAbstract
         $statusHistoryComment = $order->load($order->getId())->getAllStatusHistory()[0];
 
         foreach ($commentData as $key => $value) {
-            $this->assertEquals($value, $statusHistoryComment->getData($key));
+            $this->assertEquals($commentData[OrderStatusHistory::COMMENT], $statusHistoryComment->getComment());
+            $this->assertEquals($commentData[OrderStatusHistory::PARENT_ID], $statusHistoryComment->getParentId());
+            $this->assertEquals(
+                $commentData[OrderStatusHistory::IS_CUSTOMER_NOTIFIED], $statusHistoryComment->getIsCustomerNotified()
+            );
+            $this->assertEquals(
+                $commentData[OrderStatusHistory::IS_VISIBLE_ON_FRONT], $statusHistoryComment->getIsVisibleOnFront()
+            );
         }
     }
 }
