@@ -57,7 +57,7 @@ class CookieMetadataFactory
     }
 
     /**
-     * Creates aookieMetadata object with the supplied metadata.
+     * Creates CookieMetadata object with the supplied metadata.
      *
      * @param array $metadata
      * @return CookieMetadata
