@@ -397,8 +397,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     {
         $dependenciesListed = [];
         $dependenciesFound = [];
-        $rootMainlineJson = json_decode(file_get_contents(BP . '/composer.json'));
-        foreach ($rootMainlineJson->{'replace'} as $key=>$value) {
+        $rootMainlineJson = self::$rootJson;
+        foreach ($rootMainlineJson->replace as $key=>$value) {
             if (strncmp($key, 'magento', strlen('magento')) === 0) {
                 $dependenciesListed[] = $key;
             }
@@ -409,11 +409,15 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             foreach (glob(BP. "/{$pattern}/*", GLOB_ONLYDIR) as $dir) {
                 if (file_exists($dir . '/composer.json')) {
                     $json = json_decode(file_get_contents($dir . '/composer.json'));
-                    $dependenciesFound[] = $json->{'name'};
+                    $dependenciesFound[] = $json->name;
                 }
             }
         }
         sort($dependenciesFound);
-        $this->assertEquals($dependenciesListed, $dependenciesFound);
+        $this->assertEquals(
+            $dependenciesFound,
+            $dependenciesListed,
+            'The mainline composer.json does not match with currently available components!'
+        );
     }
 }
