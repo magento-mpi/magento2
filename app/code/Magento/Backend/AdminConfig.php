@@ -50,10 +50,6 @@ class AdminConfig extends \Magento\Framework\Session\Config
         $cacheLimiter = null,
         $lifetimePath = self::XML_PATH_COOKIE_LIFETIME
     ) {
-        // Need to set $this->frontNameResolver prior to calling the parent constructor,
-        // as parent constructor calls setCookiePath().
-        $this->frontNameResolver = $frontNameResolver;
-
         parent::__construct(
             $scopeConfig,
             $stringHelper,
@@ -66,6 +62,8 @@ class AdminConfig extends \Magento\Framework\Session\Config
             $cacheLimiter,
             $lifetimePath
         );
+
+        $this->frontNameResolver = $frontNameResolver;
 
         $baseUrl = $this->_httpRequest->getBaseUrl();
         $adminPath = $this->extractAdminPath($baseUrl);

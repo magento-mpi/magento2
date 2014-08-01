@@ -149,7 +149,7 @@ class Config implements ConfigInterface
             $this->setOption('session.cache_limiter', $cacheLimiter);
         }
 
-        $lifetime = $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_LIFETIME, $this->_scopeType);
+        $lifetime = $this->_scopeConfig->getValue($lifetimePath, $this->_scopeType);
         $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
         $this->setCookieLifetime($lifetime);
 
