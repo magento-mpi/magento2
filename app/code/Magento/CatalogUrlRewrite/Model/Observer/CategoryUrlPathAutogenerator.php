@@ -27,7 +27,7 @@ class CategoryUrlPathAutogenerator
      * @param Observer $observer
      * @return void
      */
-    public function __invoke(Observer $observer)
+    public function invoke(Observer $observer)
     {
         /** @var Category $category */
         $category = $observer->getEvent()->getCategory();

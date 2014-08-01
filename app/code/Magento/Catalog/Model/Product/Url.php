@@ -163,7 +163,7 @@ class Url extends \Magento\Framework\Object
      * @param array $params
      * @return string
      */
-    public function getUrl($product, $params = array())
+    public function getUrl(\Magento\Catalog\Model\Product $product, $params = array())
     {
         $routePath = '';
         $routeParams = $params;

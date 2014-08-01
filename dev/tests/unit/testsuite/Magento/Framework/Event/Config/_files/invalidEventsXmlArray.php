@@ -64,7 +64,7 @@ return array(
         'name="observer_name" method="_wrong name"/></event></config>',
         array(
             "Element 'observer', attribute 'method': [facet 'pattern'] The value '_wrong name' is not accepted by" .
-            " the pattern '[a-zA-Z]+|__invoke'.",
+            " the pattern '[a-zA-Z]+'.",
             "Element 'observer', attribute 'method': '_wrong name' is not a valid value of the atomic type " .
             "'methodName'."
         )

@@ -27,7 +27,7 @@ class ProductUrlKeyAutogenerator
      * @param Observer $observer
      * @return void
      */
-    public function __invoke(Observer $observer)
+    public function invoke(Observer $observer)
     {
         /** @var Product $product */
         $product = $observer->getEvent()->getProduct();
