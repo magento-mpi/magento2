@@ -60,8 +60,8 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRateService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRateServiceInterface');
         $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
         $this->taxRateFixtureFactory = new TaxRuleFixtureFactory();
-        $this->countryFactory = $this->objectManager->create('\Magento\Directory\Model\CountryFactory');
-        $this->regionFactory = $this->objectManager->create('\Magento\Directory\Model\RegionFactory');
+        $this->countryFactory = $this->objectManager->create('Magento\Directory\Model\CountryFactory');
+        $this->regionFactory = $this->objectManager->create('Magento\Directory\Model\RegionFactory');
     }
 
     /**
@@ -82,7 +82,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $taxRateServiceData = $this->taxRateService->createTaxRate($taxRate);
 
         //Assertions
-        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
+        $this->assertInstanceOf('Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
         $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
         $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
         $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
@@ -100,7 +100,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateTaxRateWithTitles()
     {
-        $store = $this->objectManager->get('\Magento\Store\Model\Store');
+        $store = $this->objectManager->get('Magento\Store\Model\Store');
         $store->load('test', 'code');
 
         $taxData = [
@@ -122,7 +122,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $taxRateServiceData = $this->taxRateService->createTaxRate($taxRate);
 
         //Assertions
-        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
+        $this->assertInstanceOf('Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
         $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
         $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
         $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
@@ -268,6 +268,17 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                     'percentage_rate is a required field.',
                     'code is a required field.',
                     'postcode is a required field.'
+                ]
+            ],
+            'emptyPercentageRate' => [
+                ['country_id' => 'US',
+                    'region_id' => '8',
+                    'percentage_rate' => '',
+                    'code' => 'US-CA-*-Rate' . rand(),
+                    'zip_range' => ['from' => 78765, 'to' => 78780]
+                ],
+                'error' => [
+                    'percentage_rate is a required field.'
                 ]
             ]
 
@@ -496,7 +507,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
     public function searchTaxRatesDataProvider()
     {
-        $filterBuilder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
 
         return [
             'eq' => [

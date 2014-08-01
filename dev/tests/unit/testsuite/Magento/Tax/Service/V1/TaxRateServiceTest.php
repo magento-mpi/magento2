@@ -104,10 +104,10 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
 
-        $this->countryFactoryMock = $this->getMockBuilder('\Magento\Directory\Model\CountryFactory')
+        $this->countryFactoryMock = $this->getMockBuilder('Magento\Directory\Model\CountryFactory')
             ->disableOriginalConstructor()->setMethods(['create'])
             ->getMock();
-        $countryMock = $this->getMockBuilder('\Magento\Directory\Model\Country')
+        $countryMock = $this->getMockBuilder('Magento\Directory\Model\Country')
             ->disableOriginalConstructor()
             ->getMock();
         $countryMock->expects($this->any())->method('loadByCode')->will($this->returnValue($countryMock));
@@ -116,10 +116,10 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($countryMock));
 
-        $this->regionFactoryMock = $this->getMockBuilder('\Magento\Directory\Model\RegionFactory')
+        $this->regionFactoryMock = $this->getMockBuilder('Magento\Directory\Model\RegionFactory')
             ->disableOriginalConstructor()->setMethods(['create'])
             ->getMock();
-        $regionMock = $this->getMockBuilder('\Magento\Directory\Model\Region')
+        $regionMock = $this->getMockBuilder('Magento\Directory\Model\Region')
             ->disableOriginalConstructor()
             ->getMock();
         $regionMock->expects($this->any())->method('load')->will($this->returnValue($regionMock));
@@ -197,10 +197,10 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         // create mock country object with invalid country
-        $this->countryFactoryMock = $this->getMockBuilder('\Magento\Directory\Model\CountryFactory')
+        $this->countryFactoryMock = $this->getMockBuilder('Magento\Directory\Model\CountryFactory')
             ->disableOriginalConstructor()->setMethods(['create'])
             ->getMock();
-        $countryMock = $this->getMockBuilder('\Magento\Directory\Model\Country')
+        $countryMock = $this->getMockBuilder('Magento\Directory\Model\Country')
             ->disableOriginalConstructor()
             ->getMock();
         $countryMock->expects($this->any())->method('loadByCode')->will($this->returnValue($countryMock));
@@ -231,10 +231,10 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         // create mock country object with invalid region
-        $this->regionFactoryMock = $this->getMockBuilder('\Magento\Directory\Model\RegionFactory')
+        $this->regionFactoryMock = $this->getMockBuilder('Magento\Directory\Model\RegionFactory')
             ->disableOriginalConstructor()->setMethods(['create'])
             ->getMock();
-        $regionMock = $this->getMockBuilder('\Magento\Directory\Model\Region')
+        $regionMock = $this->getMockBuilder('Magento\Directory\Model\Region')
             ->disableOriginalConstructor()
             ->getMock();
         $regionMock->expects($this->any())->method('load')->will($this->returnValue($regionMock));
