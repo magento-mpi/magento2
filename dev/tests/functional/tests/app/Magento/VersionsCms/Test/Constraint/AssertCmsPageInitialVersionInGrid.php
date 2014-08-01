@@ -57,7 +57,7 @@ class AssertCmsPageInitialVersionInGrid extends AbstractConstraint
             'quantity' => $matches[0],
         ];
         \PHPUnit_Framework_Assert::assertTrue(
-            $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter, false),
+            $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->isRowVisible($filter),
             'CMS Page Version with '
             . 'label \'' . $filter['label'] . '\', '
             . 'owner \'' . $filter['owner'] . '\', '
