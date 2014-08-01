@@ -284,7 +284,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
     {
         $fullLayoutXml = $this->getFileLayoutUpdatesXml();
         foreach ($this->getHandles() as $handle) {
-            if ($xml = $fullLayoutXml->xpath("layout[@id='{$handle}']")) {
+            if ($fullLayoutXml->xpath("layout[@id='{$handle}']")) {
                 return true;
             }
         }
