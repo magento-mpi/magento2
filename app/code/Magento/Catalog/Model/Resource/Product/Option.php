@@ -247,7 +247,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $writeAdapter = $this->_getWriteAdapter();
         $titleTableName = $this->getTable('catalog_product_option_title');
-        foreach([\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId()] as $storeId) {
+        foreach ([\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId()] as $storeId) {
             $existInCurrentStore = $this->getColFromOptionTable($titleTableName, (int)$object->getId(), (int)$storeId);
             $existInDefaultStore = $this->getColFromOptionTable(
                 $titleTableName,

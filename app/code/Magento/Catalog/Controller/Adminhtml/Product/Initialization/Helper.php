@@ -129,7 +129,6 @@ class Helper
                 $this->request->getPost('options_use_default')
             );
             $product->setProductOptions($options);
-            $a = var_export($options, true);
         }
 
         $product->setCanSaveCustomOptions(
@@ -153,7 +152,7 @@ class Helper
         }
         if (is_array($overwriteOptions)) {
             $options = array_replace_recursive($productOptions, $overwriteOptions);
-            array_walk_recursive($options, function(&$item) {
+            array_walk_recursive($options, function (&$item) {
                 if ($item === "") {
                     $item = null;
                 }
