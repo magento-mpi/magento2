@@ -141,6 +141,7 @@ class CustomerInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'select',
         'group' => 'account_information',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\GroupId'
     ];
 
     protected $lastname = [

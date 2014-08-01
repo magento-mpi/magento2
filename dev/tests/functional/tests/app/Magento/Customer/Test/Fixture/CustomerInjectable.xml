@@ -107,6 +107,7 @@
             <default_value></default_value>
             <input>select</input>
             <group>account_information</group>
+            <source>Magento\Customer\Test\Fixture\CustomerInjectable\GroupId</source>
         </group_id>
         <lastname>
             <attribute_code>lastname</attribute_code>
