@@ -23,7 +23,7 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
      */
     public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('view', 'Magento_Theme') . '/base/page_layouts.xsd';
+        $this->_schema = $moduleReader->getModuleDir('view', 'Magento_Theme') . '/base/layouts.xsd';
     }
 
     /**

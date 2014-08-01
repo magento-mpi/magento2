@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="page_layouts.xsd">
+<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="layouts.xsd">
     <layout id="empty">
         <label translate="true">Empty</label>
     </layout>
