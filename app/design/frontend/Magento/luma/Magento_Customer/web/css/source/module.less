@@ -421,7 +421,7 @@
 .responsive-smaller(@break) when (@break = @screen-m) {
     .account {
         .data.table {
-            &:extend(.table-vertical-mobile all);
+            &:extend(.table-vertical-mobile-m all);
             td {
                 &:first-child {
                     padding-top: 15px;
@@ -434,7 +434,7 @@
         .column.main {
             .block:not(.widget) {
                 .block-title {
-                    &:extend(.add-clearfix-mobile all);
+                    &:extend(.add-clearfix-mobile-m all);
                     > .action {
                         float: right;
                         .css(margin-top, @indent-xs-base);

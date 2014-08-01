@@ -267,6 +267,12 @@
     } 
 }
 
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .visually-hidden-mobile-m {
+        .visually-hidden();
+    }
+}
+
 //
 //    Clearfix
 //--------------------------------------
@@ -349,9 +355,20 @@
 //
 //    Action addto
 //--------------------------------------
-.abstract-action-addto {
+.abstract-action-addto-product {
     &:extend(.action-link-button all);
     .button-s();
+}
+
+.abstract-actions-addto-gridlist {
+    .icon-font(
+        @_icon-font-content: '',
+        @_icon-font-size: 29px,
+        @_icon-font-color: @text-color-muted,
+        @_icon-font-text-hide: true,
+        @_icon-font-vertical-align: middle,
+        @_icon-font-line-height: 24px
+    );
 }
 
 //
@@ -395,7 +412,7 @@
 //
 //    Vertical Table
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-smaller(@break) when (@break = @screen-m) {
     .table-vertical-mobile {
         .table-responsive();
         tbody > tr {

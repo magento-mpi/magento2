@@ -105,39 +105,13 @@
                 font-weight: normal;
             }
         }
-
-        .towishlist {
-            display: inline-block;
-            margin-top: 5px;
-            .icon-font(
-                @icon-wishlist-full,
-                @_icon-font-size: 18px,
-                @_icon-font-color: @addto-color,
-                @_icon-font-color-hover: @addto-hover-color,
-                @_icon-font-text-hide: true,
-                @_icon-font-vertical-align: middle,
-                @_icon-font-line-height: normal
-            );
-            &:before {
-                width: 30px;
-            }
+        .tocompare {
+            &:extend(.abstract-actions-addto-gridlist all);
         }
         .tocompare {
-            margin-top: 5px;
-            display: inline-block;
-            display: none;
-            .icon-font(
-                @icon-compare-full,
-                @_icon-font-size: 18px,
-                @_icon-font-color: @addto-color,
-                @_icon-font-color-hover: @addto-hover-color,
-                @_icon-font-text-hide: true,
-                @_icon-font-vertical-align: middle,
-                @_icon-font-line-height: normal
+            .icon-font-symbol(
+                @icon-compare-full
             );
-            &:before {
-                width: 30px;
-            }
         }
         .tocart {
             white-space: nowrap;

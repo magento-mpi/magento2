@@ -50,6 +50,7 @@
             }
         }
 
+        .table-comparison &,
         .product-items &,
         .product-addto-links & {
             > .action {
@@ -63,7 +64,7 @@
                     .css(box-shadow, none);
                 }
                 &.split {
-                    &:extend(.abstract-add-to-actions all);
+                    &:extend(.abstract-actions-addto all);
                     .icon-font-symbol(
                         @_icon-font-content: @icon-wishlist-full,
                         @_icon-font-position: before
@@ -86,6 +87,7 @@
                 }
             }
         }
+        .table-comparison &,
         .product-items & {
             > .action {
                 padding: 0;

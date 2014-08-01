@@ -15,7 +15,18 @@
 .product-info-main,
 .block-bundle-summary {
     .action.towishlist {
-        &:extend(.abstract-add-to-actions all);
+        &:extend(.abstract-actions-addto all);
+        .icon-font-symbol(
+            @_icon-font-content: @icon-wishlist-full,
+            @_icon-font-position: before
+        );
+    }
+}
+
+.product-item,
+.table-comparison {
+    .towishlist {
+        &:extend(.abstract-actions-addto-gridlist all);
         .icon-font-symbol(
             @_icon-font-content: @icon-wishlist-full,
             @_icon-font-position: before

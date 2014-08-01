@@ -332,12 +332,17 @@
 .responsive-smaller(@break) when (@break = @screen-s) {
     .visually-hidden-mobile {
         .visually-hidden();
-    } 
+    }
+}
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .visually-hidden-mobile-m {
+        .visually-hidden();
+    }
 }
 .responsive(@break) when (@break = @screen-m) {
     .visually-hidden-desktop {
         .visually-hidden();
-    } 
+    }
 }
 
 //
@@ -359,6 +364,11 @@
     }
 }
 
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .add-clearfix-mobile-m {
+        .clearfix();
+    }
+}
 //
 //    Box-sizing
 //--------------------------------------
@@ -461,7 +471,7 @@
 //
 //    Add to Actions
 //--------------------------------------
-.abstract-add-to-actions {
+.abstract-actions-addto {
     color: @addto-color;
     display: inline-block;
     line-height: 26px;
@@ -480,7 +490,22 @@
         text-decoration: none;
     }
 }
-
+.abstract-actions-addto-gridlist {
+    display: inline-block;
+    margin-top: 5px;
+    .icon-font(
+        @_icon-font-content: '',
+        @_icon-font-size: 18px,
+        @_icon-font-color: @addto-color,
+        @_icon-font-color-hover: @addto-hover-color,
+        @_icon-font-text-hide: true,
+        @_icon-font-vertical-align: middle,
+        @_icon-font-line-height: normal
+    );
+    &:before {
+        width: 30px;
+    }
+}
 //
 //    Box-tocart block
 //--------------------------------------
@@ -506,8 +531,8 @@
 //
 //    Vertical Table
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
-    .table-vertical-mobile  {
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .table-vertical-mobile {
         .table-responsive();
     }
 }
