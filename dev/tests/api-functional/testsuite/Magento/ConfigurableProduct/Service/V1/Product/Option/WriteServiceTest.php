@@ -10,8 +10,6 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
-use Magento\TestFramework\Helper\Bootstrap;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -44,8 +42,9 @@ class WriteServiceTest extends WebapiAbstract
             'values' => []
         ];
 
-        $option = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'option' => $option]);
+        /** @var int $result */
+        $result = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'option' => $option]);
 
-        $this->assertTrue(is_int($option));
+        $this->assertGreaterThan(0, $result);
     }
 }
