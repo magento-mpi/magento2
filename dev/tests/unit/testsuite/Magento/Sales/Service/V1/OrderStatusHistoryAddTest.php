@@ -11,7 +11,8 @@ use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\Order\Status\HistoryConverter;
 
 /**
- * Class OrderGetTest
+ * Class OrderStatusHistoryAddTest
+ * @package Magento\Sales\Service\V1
  */
 class OrderStatusHistoryAddTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,9 +56,6 @@ class OrderStatusHistoryAddTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * test order list service
-     */
     public function testInvoke()
     {
         $id = 1;
@@ -77,6 +75,6 @@ class OrderStatusHistoryAddTest extends \PHPUnit_Framework_TestCase
             ->with($id)
             ->will($this->returnValue($orderMock));
 
-        $this->service->invoke($id, $dataObject);
+        $this->assertTrue($this->service->invoke($id, $dataObject));
     }
 }

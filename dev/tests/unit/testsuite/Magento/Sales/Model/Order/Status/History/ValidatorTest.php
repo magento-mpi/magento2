@@ -5,23 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Model\Resource\Order\Status\History;
+namespace Magento\Sales\Model\Order\Status\History;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidate()
     {
-        $history = $this->getMock('Magento\Sales\Model\Resource\Order\Status\History', ['hasData'], [], '', false);
+        $history = $this->getMock('Magento\Sales\Model\Order\Status\History', ['hasData'], [], '', false);
         $history->expects($this->any())
             ->method('hasData')
             ->will($this->returnValue(true));
         $validator = new Validator();
-        $this->assertEquals([], $validator->validate($history));
+        $this->assertEmpty($validator->validate($history));
     }
 
     public function testValidateNegative()
     {
-        $history = $this->getMock('Magento\Sales\Model\Resource\Order\Status\History', ['hasData'], [], '', false);
+        $history = $this->getMock('Magento\Sales\Model\Order\Status\History', ['hasData'], [], '', false);
         $history->expects($this->any())
             ->method('hasData')
             ->with('parent_id')

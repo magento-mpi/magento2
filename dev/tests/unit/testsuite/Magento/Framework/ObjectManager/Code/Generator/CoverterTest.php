@@ -11,7 +11,8 @@ use Magento\Framework\Code\Generator\Io;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
- * Class RepositoryTest
+ * Class ConverterTest
+ * @package Magento\Framework\ObjectManager\Code\Generator
  */
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -75,9 +76,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * generate repository name
-     */
     public function testGenerate()
     {
         $generatedCode = 'Generated code';
