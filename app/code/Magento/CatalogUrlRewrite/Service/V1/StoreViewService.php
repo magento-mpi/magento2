@@ -51,6 +51,18 @@ class StoreViewService
     }
 
     /**
+     * Check is root category for store view
+     *
+     * @param int $categoryId
+     * @param int $storeId
+     * @return bool
+     */
+    public function isRootCategoryForStore($categoryId, $storeId)
+    {
+        return $categoryId == $this->storeManager->getStore($storeId)->getRootCategoryId();
+    }
+
+    /**
      * Check that product has overridden url key for specific store
      *
      * @param int $storeId

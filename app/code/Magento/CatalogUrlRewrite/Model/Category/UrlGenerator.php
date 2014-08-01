@@ -161,7 +161,7 @@ class UrlGenerator
         $urls = [];
         foreach ($this->urlMatcher->findAllByFilter($this->getFilter($storeId, false)) as $url) {
             $targetPath = $url->getRedirectType()
-                ? $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category)
+                ? $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category, $storeId)
                 : $url->getTargetPath();
             $requestPath = $url->getRequestPath();
             if ($requestPath !== $targetPath) {
@@ -185,7 +185,7 @@ class UrlGenerator
             $urls[] = $this->createUrlRewrite(
                 $storeId,
                 $url->getRequestPath(),
-                $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category),
+                $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category, $storeId),
                 OptionProvider::PERMANENT,
                 false
             );

@@ -93,7 +93,7 @@ class Edit extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
                 );
                 break;
         }
-        $this->_title->add(__($editBlock->getHeaderText()));
+        $this->_title->add($editBlock->getHeaderText());
         $this->_addContent($editBlock);
         if (in_array($mode, array(self::PRODUCT_MODE, self::CATEGORY_MODE))) {
             $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);

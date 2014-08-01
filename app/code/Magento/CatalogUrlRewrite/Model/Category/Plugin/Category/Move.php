@@ -40,9 +40,9 @@ class Move
         $newParent,
         $afterCategoryId
     ) {
-        $proceed($category, $newParent, $afterCategoryId);
+        $result = $proceed($category, $newParent, $afterCategoryId);
         $category->setUrlKey($this->categoryUrlPathGenerator->generateUrlKey($category))
             ->setUrlPath($this->categoryUrlPathGenerator->getUrlPath($category));
-        return $proceed;
+        return $result;
     }
 }
