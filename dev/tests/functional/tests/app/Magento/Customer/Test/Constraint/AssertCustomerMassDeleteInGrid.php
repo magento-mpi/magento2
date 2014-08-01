@@ -41,7 +41,7 @@ class AssertCustomerMassDeleteInGrid extends AbstractConstraint
         $customers
     ) {
         $customers = array_slice($customers, $customersQtyToDelete);
-        foreach($customers as $customer) {
+        foreach ($customers as $customer) {
             $assertCustomerInGrid->processAssert($customer, $pageCustomerIndex);
         }
     }
