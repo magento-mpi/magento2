@@ -39,7 +39,7 @@ if ($this->isOrPositionBefore()) {
         <a href="<?php echo $linkImage['href']?>"><img src="<?php echo $linkImage['src']?>" /></a>
     <?php endif; ?>
     <script type="text/javascript">
-require(['jquery', 'Magento_Paypal/js/paypal-checkout.js'], function($){
+require(['jquery', 'Magento_Paypal/js/paypal-checkout'], function($){
 
     $('.paypal-logo.<?php echo $shortcutHtmlId ?>').paypalCheckout({
         confirmMessage: "<?php echo $this->escapeJsQuote($this->getConfirmationMessage())?>",
