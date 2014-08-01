@@ -15,7 +15,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class WriteServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'configurableProductProductOptionsWriteServiceV1';
+    const SERVICE_NAME = 'configurableProductProductOptionWriteServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/configurable-products';
 
@@ -45,6 +45,8 @@ class WriteServiceTest extends WebapiAbstract
         ];
 
         $option = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'option' => $option]);
+
+        $this->assertTrue(is_int($option));
 
         $this->assertArrayHasKey('id', $option);
         $this->assertArrayHasKey('attribute_id', $option);

@@ -7,9 +7,7 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
-
-class Option extends AbstractObject
+class Option extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
      * Constants defined for keys of array
@@ -38,7 +36,7 @@ class Option extends AbstractObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getAttributeId()
     {
@@ -62,6 +60,14 @@ class Option extends AbstractObject
     }
 
     /**
+     * @return int|null
+     */
+    public function getPosition()
+    {
+        return $this->_get(self::POSITION);
+    }
+
+    /**
      * @return bool|null
      */
     public function isUseDefault()
@@ -70,7 +76,7 @@ class Option extends AbstractObject
     }
 
     /**
-     * @return \Magento\ConfigurableProduct\Service\V1\Data\Option\Value[]
+     * @return \Magento\ConfigurableProduct\Service\V1\Data\Option\Value[]|null
      */
     public function getValues()
     {

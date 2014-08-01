@@ -97,7 +97,7 @@ class ReadService implements ReadServiceInterface
                 );
                 $priceInfo = $valueInfo['price'];
                 $price += (!empty($priceInfo['is_percent']) ? $product->getPrice() / 100.0 : 1.0)
-                    * $priceInfo['pricing_value'];
+                    * $priceInfo['price'];
             }
             $this->productBuilder->setPrice($price);
             $this->productBuilder->setName($product->getName() . $suffix);

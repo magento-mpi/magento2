@@ -16,10 +16,16 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableT
 use Magento\Eav\Model\Config as EavConfig;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type as ProductType;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Webapi\Exception;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class WriteService implements WriteServiceInterface
 {
     /**
@@ -45,21 +51,37 @@ class WriteService implements WriteServiceInterface
     protected $optionConverter;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
+     */
+    private $productType;
+
+    /**
      * @param ProductRepository $productRepository
      * @param ConfigurableAttributeFactory $configurableAttributeFactory
      * @param EavConfig $eavConfig
      * @param OptionConverter $optionConverter
+     * @param StoreManagerInterface $storeManager
+     * @param ConfigurableType $productType
      */
     public function __construct(
         ProductRepository $productRepository,
         ConfigurableAttributeFactory $configurableAttributeFactory,
         EavConfig $eavConfig,
-        OptionConverter $optionConverter
+        OptionConverter $optionConverter,
+        StoreManagerInterface $storeManager,
+        ConfigurableType $productType
     ) {
         $this->productRepository = $productRepository;
         $this->configurableAttributeFactory = $configurableAttributeFactory;
         $this->eavConfig = $eavConfig;
         $this->optionConverter = $optionConverter;
+        $this->storeManager = $storeManager;
+        $this->productType = $productType;
     }
 
     /**
@@ -70,7 +92,7 @@ class WriteService implements WriteServiceInterface
         $product = $this->productRepository->get($productSku);
         $allowedTypes = [ProductType::TYPE_SIMPLE, ProductType::TYPE_VIRTUAL, ConfigurableType::TYPE_CODE];
         if (!in_array($product->getTypeId(), $allowedTypes)) {
-            throw new \DomainException('Incompatible product type');
+            throw new \InvalidArgumentException('Incompatible product type');
         }
 
         $eavAttribute = $this->eavConfig->getAttribute(Product::ENTITY, $option->getAttributeId());
@@ -82,17 +104,83 @@ class WriteService implements WriteServiceInterface
             throw new CouldNotSaveException('Product already has this option');
         }
 
-        $product->setTypeId(ConfigurableType::TYPE_CODE);
-        $product->setConfigurableAttributesData(array($option->__toArray()));
-        $product->setStoreId(0);
-        $product->save();
+        try {
+            $product->setTypeId(ConfigurableType::TYPE_CODE);
+            $product->setConfigurableAttributesData([$this->optionConverter->convertArrayFromData($option)]);
+            $product->setStoreId($this->storeManager->getStore(Store::ADMIN_CODE)->getId());
+            $product->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('An error occurred while saving option');
+        }
 
         $configurableAttribute = $this->configurableAttributeFactory->create();
         $configurableAttribute->loadByProductAndAttribute($product, $eavAttribute);
         if (!$configurableAttribute->getId()) {
-            throw new CouldNotSaveException('Could not save product option');
+            throw new CouldNotSaveException('An error occurred while saving option');
         }
 
-        return $this->optionConverter->convertFromModel($configurableAttribute);
+        return $configurableAttribute->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update($productSku, $optionId, Option $option)
+    {
+        $product = $this->getProduct($productSku);
+
+        $configurableAttribute = $this->configurableAttributeFactory->create();
+        $configurableAttribute->load($optionId);
+        if (!$configurableAttribute->getId() || $configurableAttribute->getProductId() != $product->getId()) {
+            throw new NoSuchEntityException('Option with id "%1" not found', [$optionId]);
+        }
+        $configurableAttribute = $this->optionConverter->getModelFromData($option, $configurableAttribute);
+        try {
+            $configurableAttribute->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not update option with id "%1"', [$optionId]);
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($productSku, $optionId)
+    {
+        $product = $this->getProduct($productSku);
+
+        $attributeCollection = $this->productType->getConfigurableAttributeCollection($product);
+        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $option */
+        $option = $attributeCollection->getItemById($optionId);
+
+        if ($option === null) {
+            throw new NoSuchEntityException('Requested option doesn\'t exist');
+        }
+        $option->delete();
+
+        return true;
+    }
+
+    /**
+     * @param string $productSku
+     * @return \Magento\Catalog\Model\Product
+     * @throws \Magento\Webapi\Exception
+     */
+    private function getProduct($productSku)
+    {
+        $product = $this->productRepository->get($productSku);
+        if (ConfigurableType::TYPE_CODE !== $product->getTypeId()) {
+            throw new Exception(
+                'Product with specified sku: "%1" is not a configurable product',
+                Exception::HTTP_FORBIDDEN,
+                Exception::HTTP_FORBIDDEN,
+                [
+                    $product->getSku()
+                ]
+            );
+        }
+        return $product;
     }
 }

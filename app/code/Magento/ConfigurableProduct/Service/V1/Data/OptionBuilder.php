@@ -7,9 +7,7 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObjectBuilder;
-
-class OptionBuilder extends AbstractObjectBuilder
+class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param int $value
@@ -39,8 +37,17 @@ class OptionBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * @param string $value
+     * @param int $value
      * @return $this
+     */
+    public function setPosition($value)
+    {
+        return $this->_set(Option::POSITION, $value);
+    }
+
+    /**
+     * @param bool $value 
+     * @return self 
      */
     public function setType($value)
     {
@@ -51,7 +58,7 @@ class OptionBuilder extends AbstractObjectBuilder
      * @param bool $value
      * @return $this
      */
-    public function useDefault($value)
+    public function setUseDefault($value)
     {
         return $this->_set(Option::USE_DEFAULT, $value);
     }

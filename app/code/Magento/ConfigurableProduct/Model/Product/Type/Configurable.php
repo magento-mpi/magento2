@@ -393,7 +393,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
      */
-    public function getConfigurableAttributeCollection($product)
+    public function getConfigurableAttributeCollection(\Magento\Catalog\Model\Product $product)
     {
         return $this->_attributeCollectionFactory->create()->setProductFilter($product);
     }
@@ -536,11 +536,10 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
                 /** @var $configurableAttribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
                 $configurableAttribute = $this->_configurableAttributeFactory->create();
                 if (!$product->getIsDuplicate()) {
-                    if (isset($attributeData['id'])) {
+                    if (!empty($attributeData['id'])) {
                         $configurableAttribute->load($attributeData['id']);
                         $attributeData['attribute_id'] = $configurableAttribute->getAttributeId();
-                        unset($attributeData['id']);
-                    } elseif (isset($attributeData['attribute_id'])) {
+                    } elseif (!empty($attributeData['attribute_id'])) {
                         $attribute = $this->_eavConfig->getAttribute(
                             \Magento\Catalog\Model\Product::ENTITY, $attributeData['attribute_id']
                         );
@@ -553,6 +552,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
                         $configurableAttribute->loadByProductAndAttribute($product, $attribute);
                     }
                 }
+                unset($attributeData['id']);
                 $configurableAttribute
                     ->addData($attributeData)
                     ->setStoreId($product->getStoreId())

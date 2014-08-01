@@ -26,38 +26,6 @@ use Magento\Framework\Model\Context;
 class Attribute extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $productFactory;
-
-    /**
-     * @var \Magento\Catalog\Model\Product
-     */
-    protected $product;
-
-    /**
-     * @param Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
-     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
-    )
-    {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->productFactory = $productFactory;
-    }
-
-
-    /**
      * Initialize resource model
      *
      * @return void
@@ -65,21 +33,6 @@ class Attribute extends \Magento\Framework\Model\AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute');
-    }
-
-    /**
-     * Retrieve product instance by product id
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function getProduct()
-    {
-        if (null === $this->product) {
-            if ($this->getProductId()) {
-                $this->product = $this->productFactory->create()->load($this->getProductId());
-            }
-        }
-        return $this->product;
     }
 
     /**

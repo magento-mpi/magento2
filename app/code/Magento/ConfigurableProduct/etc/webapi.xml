@@ -45,12 +45,6 @@
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
-    <route url="/V1/configurable-products/:productSku/options/:optionId/type" method="GET">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" method="getType" />
-        <resources>
-            <resource ref="Magento_Catalog::products" />
-        </resources>
-    </route>
     <route url="/V1/configurable-products/options/types" method="GET">
         <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" method="getTypes" />
         <resources>
@@ -59,6 +53,18 @@
     </route>
     <route url="/V1/configurable-products/:productSku/options" method="POST">
         <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\WriteServiceInterface" method="add" />
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
+    <route url="/V1/configurable-products/:productSku/options/:optionId" method="PUT">
+        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\WriteServiceInterface" method="update" />
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
+    <route url="/V1/configurable-products/:productSku/options/:optionId" method="DELETE">
+        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\WriteServiceInterface" method="remove" />
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
