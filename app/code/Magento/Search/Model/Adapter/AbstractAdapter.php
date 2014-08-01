@@ -82,7 +82,7 @@ abstract class AbstractAdapter
      *
      * @var string[]
      */
-    protected $_usedFields = array('sku', 'visibility', 'in_stock');
+    protected $_usedFields = array('sku', 'visibility');
 
     /**
      * Defines text type fields
@@ -148,7 +148,6 @@ abstract class AbstractAdapter
         self::UNIQUE_KEY,
         'id',
         'store_id',
-        'in_stock',
         'category_ids',
         'visibility'
     );

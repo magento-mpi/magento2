@@ -377,13 +377,6 @@ class Full
             ['website' => $this->getTable('catalog_product_website')],
             $writeAdapter->quoteInto('website.product_id = e.entity_id AND website.website_id = ?', $websiteId),
             []
-        )->join(
-            ['stock_status' => $this->getTable('cataloginventory_stock_status')],
-            $writeAdapter->quoteInto(
-                'stock_status.product_id = e.entity_id AND stock_status.website_id = ?',
-                $websiteId
-            ),
-            ['in_stock' => 'stock_status']
         );
 
         if (!is_null($productIds)) {
@@ -685,10 +678,6 @@ class Full
             if ($data) {
                 $index['options'] = $data;
             }
-        }
-
-        if (isset($productData['in_stock'])) {
-            $index['in_stock'] = $productData['in_stock'];
         }
 
         if ($this->engineProvider->get()) {
