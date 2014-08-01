@@ -21,7 +21,6 @@ $destinationDir = __DIR__ . '/_skeleton';
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-
             'source|s=s' => 'Source directory. Default value ' . realpath(BP),
             'destination|d=s' => 'Destination directory. Default value ' . $destinationDir,
         )
