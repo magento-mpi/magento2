@@ -54,11 +54,8 @@ class AssertGiftRegistryForm extends AbstractAssertForm
     ) {
         $giftRegistryIndex->open();
         $giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Edit');
-        $formData = array_merge(
-            $giftRegistryEdit->getCustomerEditForm()->getData(),
-            $giftRegistryEdit->getShippingAddressForm()->getData()
-        );
-        $fixtureData = array_merge($giftRegistry->getData(), $address->getData());
+        $formData = $giftRegistryEdit->getCustomerEditForm()->getData();
+        $fixtureData = $giftRegistry->getData();
         $errors = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }

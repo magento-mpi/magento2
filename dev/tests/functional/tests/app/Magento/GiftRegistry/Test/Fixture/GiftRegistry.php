@@ -35,9 +35,16 @@ class GiftRegistry extends InjectableFixture
         'event_date' => ['pattern' => '1/12/2024'],
         'is_active' => 'Active',
         'is_public' => 'Public',
-        'email' => 'email@test%isolation%.com',
-        'firstname' => 'FirstName%isolation%',
-        'lastname' => 'LastName%isolation%',
+        'person_ids' => [
+            [
+                'email' => 'email@test%isolation%.com',
+                'firstname' => 'FirstName%isolation%',
+                'lastname' => 'LastName%isolation%',
+            ]
+        ],
+        'address' => [
+            'dataSet' => 'US_address_without_email'
+        ]
     ];
 
     protected $entity_id = [
@@ -192,6 +199,12 @@ class GiftRegistry extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $address = [
+        'attribute_code' => 'address',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\GiftRegistry\Test\Fixture\GiftRegistry\Address',
+    ];
+
     public function getEntityId()
     {
         return $this->getData('entity_id');
@@ -290,5 +303,10 @@ class GiftRegistry extends InjectableFixture
     public function getBabyGender()
     {
         return $this->getData('baby_gender');
+    }
+
+    public function getAddress()
+    {
+        return $this->getData('address');
     }
 }

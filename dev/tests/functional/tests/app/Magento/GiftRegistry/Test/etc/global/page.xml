@@ -28,4 +28,8 @@
         <mca>giftregistry/cart</mca>
         <class>Magento\GiftRegistry\Test\Page\CheckoutCart</class>
     </checkoutCart>
+    <wishlistIndex>
+        <mca>giftregistry/wishlist</mca>
+        <class>Magento\GiftRegistry\Test\Page\WishlistIndex</class>
+    </wishlistIndex>
 </page>

@@ -6,41 +6,22 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Test\TestCase;
+namespace Magento\GiftRegistry\Test\Handler\GiftRegistry;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Ui as AbstractUi;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
-use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
-use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for Create GiftRegistryEntity
- *
- * Test Flow:
- *
- * Preconditions:
- * 1. Register Customer
- *
- * Steps:
- * 1. Go to frontend
- * 2. Login as a Customer
- * 3. Go to My Account -> Gift Registry
- * 4. Press button "Add New"
- * 5. Choose Gift Registry type from DataSet
- * 6. Press next
- * 7. Fill data from DataSet
- * 8. Perform Asserts
- *
- * @group Gift_Registry_(CS)
- * @ZephyrId MAGETWO-26176
+ * Class Ui
+ * Ui handler for creating gift registry
  */
-class CreateGiftRegistryEntityTest extends Injectable
+class Ui extends AbstractUi implements GiftRegistryInterface
 {
     /**
      * Cms index page
@@ -55,13 +36,6 @@ class CreateGiftRegistryEntityTest extends Injectable
      * @var CustomerAccountLogin
      */
     protected $customerAccountLogin;
-
-    /**
-     * Customer from precondition
-     *
-     * @var CustomerInjectable
-     */
-    protected $customer;
 
     /**
      * Customer account index page
@@ -92,17 +66,15 @@ class CreateGiftRegistryEntityTest extends Injectable
     protected $giftRegistryEdit;
 
     /**
-     * Injection data
-     *
+     * @constructor
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogout
      * @param CustomerAccountIndex $customerAccountIndex
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryAddSelect $giftRegistryAddSelect
      * @param GiftRegistryEdit $giftRegistryEdit
-     * @return void
      */
-    public function __inject(
+    public function __construct(
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogout,
         CustomerAccountIndex $customerAccountIndex,
@@ -119,45 +91,19 @@ class CreateGiftRegistryEntityTest extends Injectable
     }
 
     /**
-     * Create customer and product
+     * Create gift registry
      *
-     * @param CatalogProductSimple $product
-     * @param CustomerInjectable $customer
-     * @return array
+     * @param FixtureInterface $fixture
+     * @return mixed|void
      */
-    public function __prepare(
-        CatalogProductSimple $product,
-        CustomerInjectable $customer
-    ) {
-        $product->persist();
-        $customer->persist();
-
-        return [
-            'customer' => $customer,
-            'product' => $product
-        ];
-    }
-
-    /**
-     * Create Gift Registry entity test
-     *
-     * @param GiftRegistry $giftRegistry
-     * @param CustomerInjectable $customer
-     * @return void
-     */
-    public function test(GiftRegistry $giftRegistry, CustomerInjectable $customer)
+    public function persist(FixtureInterface $fixture = null)
     {
-        // Steps
         $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Gift Registry");
         $this->giftRegistryIndex->getActionsToolbar()->addNew();
-        $this->giftRegistryAddSelect->getGiftRegistryTypeBlock()->selectGiftRegistryType($giftRegistry->getTypeId());
-        $this->giftRegistryEdit->getCustomerEditForm()->fill($giftRegistry);
+        $this->giftRegistryAddSelect->getGiftRegistryTypeBlock()->selectGiftRegistryType($fixture->getTypeId());
+        $this->giftRegistryEdit->getCustomerEditForm()->fill($fixture);
         $this->giftRegistryEdit->getActionsToolbarBlock()->save();
     }
 }

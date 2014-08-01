@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Wishlist\Test\Block\Customer;
+namespace Magento\GiftRegistry\Test\Block\Customer;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
@@ -52,7 +52,11 @@ class Wishlist extends Block
      */
     public function isGiftRegistryAvailable(GiftRegistry $giftRegistry)
     {
-        $this->openGiftRegistry();
+        $addGiftRegistry = $this->_rootElement->find($this->addGiftRegistry);
+        if (!$addGiftRegistry->isVisible()) {
+            return false;
+        }
+        $addGiftRegistry->click();
         $selector = sprintf($this->giftRegistry, $giftRegistry->getTitle());
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }

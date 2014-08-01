@@ -15,12 +15,6 @@
         <strategy>xpath</strategy>
     </block>
     <block>
-        <name>shippingAddressForm</name>
-        <class>Magento\GiftRegistry\Test\Block\Customer\Address\Edit</class>
-        <locator>.shipping_address</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
         <name>customerEditForm</name>
         <class>Magento\GiftRegistry\Test\Block\Customer\Edit</class>
         <locator>.form-giftregistry-edit</locator>

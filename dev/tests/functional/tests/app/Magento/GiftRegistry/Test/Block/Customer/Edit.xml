@@ -39,5 +39,10 @@
             <selector>.recipients</selector>
             <strategy>css selector</strategy>
         </person_ids>
+        <address>
+            <class>\Magento\GiftRegistry\Test\Block\Customer\Edit\Address</class>
+            <selector>.shipping_address</selector>
+            <strategy>css selector</strategy>
+        </address>
     </fields>
 </mapping>
