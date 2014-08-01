@@ -34,7 +34,7 @@ class CookieMetadataFactory
      * @param array $metadata
      * @return SensitiveCookieMetadata
      */
-    public function createSensitiveCookieMetadata($metadata)
+    public function createSensitiveCookieMetadata($metadata = [])
     {
         return $this->objectManager->create(
             'Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata',
@@ -48,7 +48,7 @@ class CookieMetadataFactory
      * @param array $metadata
      * @return PublicCookieMetadata
      */
-    public function createPublicCookieMetadata($metadata)
+    public function createPublicCookieMetadata($metadata = [])
     {
         return $this->objectManager->create(
             'Magento\Framework\Stdlib\Cookie\PublicCookieMetadata',

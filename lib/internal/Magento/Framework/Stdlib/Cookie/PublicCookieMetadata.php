@@ -28,11 +28,11 @@ class PublicCookieMetadata extends CookieMetadata
      * The cookie duration can be translated into an expiration date at the time the cookie is sent.
      *
      * @param int $duration Time in seconds.
-     * @return void
+     * @return $this
      */
     public function setDuration($duration)
     {
-        $this->set(self::KEY_DURATION, $duration);
+        return $this->set(self::KEY_DURATION, $duration);
     }
 
     /**
@@ -51,11 +51,11 @@ class PublicCookieMetadata extends CookieMetadata
      * Set HTTPOnly flag
      *
      * @param bool $httpOnly
-     * @return void
+     * @return $this
      */
     public function setHttpOnly($httpOnly)
     {
-        $this->set(self::KEY_HTTP_ONLY, $httpOnly);
+        return $this->set(self::KEY_HTTP_ONLY, $httpOnly);
     }
 
     /**
@@ -72,11 +72,11 @@ class PublicCookieMetadata extends CookieMetadata
      * Set whether the cookie is only available under HTTPS
      *
      * @param bool $secure
-     * @return void
+     * @return $this
      */
     public function setSecure($secure)
     {
-        $this->set(self::KEY_SECURE, $secure);
+        return $this->set(self::KEY_SECURE, $secure);
     }
 
     /**
