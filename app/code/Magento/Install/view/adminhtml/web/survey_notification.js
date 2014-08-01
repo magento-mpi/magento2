@@ -5,7 +5,10 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-jQuery(function ($) {
+define([
+    "jquery"
+], function($){
+
     $(document).ready(function(){
         $('body').on('surveyYes surveyNo', function(e, data) {
             if (e.type == 'surveyYes') {
@@ -19,4 +22,5 @@ jQuery(function ($) {
             })
         });
     });
+
 });
