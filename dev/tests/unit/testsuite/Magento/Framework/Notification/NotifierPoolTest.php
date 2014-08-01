@@ -47,7 +47,7 @@ class NotifierPoolTest extends \PHPUnit_Framework_TestCase
         $severity = \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL;
         $title = 'title';
         $description = 'desc';
-        foreach($this->notifiers as $notifier) {
+        foreach ($this->notifiers as $notifier) {
             $notifier->expects($this->once())->method('add')->with($severity, $title, $description);
         }
         $this->notifierPool->add($severity, $title, $description);
@@ -57,7 +57,7 @@ class NotifierPoolTest extends \PHPUnit_Framework_TestCase
     {
         $title = 'title';
         $description = 'desc';
-        foreach($this->notifiers as $notifier) {
+        foreach ($this->notifiers as $notifier) {
             $notifier->expects($this->once())->method('addCritical')->with($title, $description);
         }
         $this->notifierPool->addCritical($title, $description);
@@ -77,7 +77,7 @@ class NotifierPoolTest extends \PHPUnit_Framework_TestCase
     {
         $title = 'title';
         $description = 'desc';
-        foreach($this->notifiers as $notifier) {
+        foreach ($this->notifiers as $notifier) {
             $notifier->expects($this->once())->method('addMinor')->with($title, $description);
         }
         $this->notifierPool->addMinor($title, $description);
@@ -87,7 +87,7 @@ class NotifierPoolTest extends \PHPUnit_Framework_TestCase
     {
         $title = 'title';
         $description = 'desc';
-        foreach($this->notifiers as $notifier) {
+        foreach ($this->notifiers as $notifier) {
             $notifier->expects($this->once())->method('addNotice')->with($title, $description);
         }
         $this->notifierPool->addNotice($title, $description);

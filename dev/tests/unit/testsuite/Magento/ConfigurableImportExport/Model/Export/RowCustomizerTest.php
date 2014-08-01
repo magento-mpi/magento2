@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ConfigurableProduct\Model\Export;
+namespace Magento\ConfigurableImportExport\Model\Export;
 
 class RowCustomizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\CatalogImportExport\Model\Export\RowCustomizer
+     * @var \Magento\ConfigurableImportExport\Model\Export\RowCustomizer
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class RowCustomizerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_model = new \Magento\CatalogImportExport\Model\Export\RowCustomizer;
+        $this->_model = new \Magento\ConfigurableImportExport\Model\Export\RowCustomizer;
     }
 
     public function testPrepareData()

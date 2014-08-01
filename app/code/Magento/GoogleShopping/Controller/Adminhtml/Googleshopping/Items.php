@@ -9,6 +9,7 @@ namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
 use \Magento\Framework\Notification\NotifierInterface;
 use \Magento\Backend\App\Action;
+
 /**
  * GoogleShopping Admin Items Controller
  *

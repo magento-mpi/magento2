@@ -36,7 +36,7 @@ class NotifierListTest extends \PHPUnit_Framework_TestCase
         );
         $this->setExpectedException('InvalidArgumentException');
         $result = $notifierList->asArray();
-        foreach($result as $notifier) {
+        foreach ($result as $notifier) {
             $this->assertInstanceOf('Magento\Framework\Notification\NotifierInterface', $notifier);
         }
     }
