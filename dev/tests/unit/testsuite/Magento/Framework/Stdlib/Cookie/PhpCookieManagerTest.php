@@ -142,7 +142,6 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ->will(
                     $this->returnValue($cookieMetadata)
                 );
-            // $this->invokeCookieManager();
             $this->assertEquals(self::COOKIE_VALUE, $this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
             $this->cookieManager->deleteCookie(self::DELETE_COOKIE_NAME, $cookieMetadata);
             $this->assertNull($this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
@@ -161,7 +160,6 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ->will(
                     $this->returnValue($cookieMetadata)
                 );
-            //$this->invokeCookieManager();
             $this->assertEquals(
                 self::COOKIE_VALUE,
                 $this->cookieManager->getCookie(self::DELETE_COOKIE_NAME_NO_METADATA)
