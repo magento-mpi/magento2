@@ -70,6 +70,7 @@ div[data-role="doc-item"] span.label {
     font-weight: bold;
     color: #df3B02;
     line-height: 4em;
+    display: block;
 }
 
 div[data-role="doc-item"] span.label ~ div.items div[data-role="doc-item"] {
@@ -108,7 +109,10 @@ div[data-role="doc-item"].denoted {
 
 
 
-
+[data-role="dictionary"],
+[data-role="confoguration"] {
+    display: none;
+}
 
 code {
     background-color: transparent !important;
