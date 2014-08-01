@@ -56,9 +56,6 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
                 'cookieMetadata' => null
             ]
         );
-
-        $this->assertEmpty($cookieScope->getPublicCookieMetadata()->__toArray());
-        $this->assertEmpty($cookieScope->getCookieMetadata()->__toArray());
         $this->assertEquals($defaultValues, $cookieScope->getSensitiveCookieMetadata()->__toArray());
     }
 
@@ -74,14 +71,10 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $public = $this->createPublicMetadata($defaultValues);
         $cookieScope = $this->createCookieScope(
             [
-                'sensitiveCookieMetadata' => null,
                 'publicCookieMetadata' => $public,
-                'cookieMetadata' => null
             ]
         );
 
-        $this->assertEmpty($cookieScope->getSensitiveCookieMetadata()->__toArray());
-        $this->assertEmpty($cookieScope->getCookieMetadata()->__toArray());
         $this->assertEquals($defaultValues, $cookieScope->getPublicCookieMetadata()->__toArray());
     }
 
@@ -94,14 +87,9 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $cookieMetadata = $this->createCookieMetadata($defaultValues);
         $cookieScope = $this->createCookieScope(
             [
-                'sensitiveCookieMetadata' => null,
-                'publicCookieMetadata' => null,
-                'cookieMetadata' => $cookieMetadata
+                'deleteCookieMetadata' => $cookieMetadata
             ]
         );
-
-        $this->assertEmpty($cookieScope->getSensitiveCookieMetadata()->__toArray());
-        $this->assertEmpty($cookieScope->getPublicCookieMetadata()->__toArray());
         $this->assertEquals($defaultValues, $cookieScope->getCookieMetadata()->__toArray());
     }
 
@@ -119,14 +107,9 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $cookieScope = $this->createCookieScope(
             [
                 'sensitiveCookieMetadata' => $sensitive,
-                'publicCookieMetadata' => null,
-                'cookieMetadata' => null
             ]
         );
         $override = $this->createSensitiveMetadata($overrideValues);
-
-        $this->assertEmpty($cookieScope->getPublicCookieMetadata($this->createPublicMetadata())->__toArray());
-        $this->assertEmpty($cookieScope->getCookieMetadata($this->createCookieMetadata())->__toArray());
         $this->assertEquals($overrideValues, $cookieScope->getSensitiveCookieMetadata($override)->__toArray());
     }
 
@@ -149,18 +132,11 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $public = $this->createPublicMetadata($defaultValues);
         $cookieScope = $this->createCookieScope(
             [
-                'sensitiveCookieMetadata' => null,
                 'publicCookieMetadata' => $public,
-                'cookieMetadata' => null
             ]
         );
         $override = $this->createPublicMetadata($overrideValues);
 
-        $this->assertEquals(
-            [],
-            $cookieScope->getSensitiveCookieMetadata($this->createSensitiveMetadata())->__toArray()
-        );
-        $this->assertEmpty($cookieScope->getCookieMetadata($this->createCookieMetadata())->__toArray());
         $this->assertEquals($overrideValues, $cookieScope->getPublicCookieMetadata($override)->__toArray());
     }
 
@@ -174,24 +150,13 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             CookieMetadata::KEY_PATH => 'override path',
             CookieMetadata::KEY_DOMAIN => 'override domain',
         ];
-        $cookieMetadata = $this->createCookieMetadata($defaultValues);
+        $deleteCookieMetadata = $this->createCookieMetadata($defaultValues);
         $cookieScope = $this->createCookieScope(
             [
-                'sensitiveCookieMetadata' => null,
-                'publicCookieMetadata' => null,
-                'cookieMetadata' => $cookieMetadata
+                'deleteCookieMetadata' => $deleteCookieMetadata
             ]
         );
         $override = $this->createCookieMetadata($overrideValues);
-
-        $this->assertEquals(
-            [],
-            $cookieScope->getSensitiveCookieMetadata($this->createSensitiveMetadata())->__toArray()
-        );
-        $this->assertEquals(
-            [],
-            $cookieScope->getPublicCookieMetadata($this->createPublicMetadata())->__toArray()
-        );
         $this->assertEquals($overrideValues, $cookieScope->getCookieMetadata($override)->__toArray());
     }
 

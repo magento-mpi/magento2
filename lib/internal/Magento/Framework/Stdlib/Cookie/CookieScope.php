@@ -38,18 +38,18 @@ class CookieScope
      * @param CookieMetadataFactory $cookieMetadataFactory
      * @param SensitiveCookieMetadata $sensitiveCookieMetadata
      * @param PublicCookieMetadata $publicCookieMetadata
-     * @param CookieMetadata $cookieMetadata
+     * @param CookieMetadata $deleteCookieMetadata
      */
     public function __construct(
         CookieMetadataFactory $cookieMetadataFactory,
         SensitiveCookieMetadata $sensitiveCookieMetadata = null,
         PublicCookieMetadata $publicCookieMetadata = null,
-        CookieMetadata $cookieMetadata = null
+        CookieMetadata $deleteCookieMetadata = null
     ) {
         $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->sensitiveCookieMetadata = $sensitiveCookieMetadata;
         $this->publicCookieMetadata = $publicCookieMetadata;
-        $this->cookieMetadata = $cookieMetadata;
+        $this->cookieMetadata = $deleteCookieMetadata;
     }
 
     /**
