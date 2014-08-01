@@ -48,7 +48,7 @@ namespace Magento\Framework\Session {
         return call_user_func_array('\session_regenerate_id', func_get_args());
     }
 
-
+    
     /**
      * Test SessionManager
      *
@@ -106,6 +106,8 @@ namespace Magento\Framework\Session {
          */
         public function testRegenerateId()
         {
+            require_once __DIR__ . '/../../_files/session_backend_mock.php';
+
             $this->mockSessionConfig->expects($this->once())
                 ->method('getUseCookies')
                 ->will($this->returnValue(false));
