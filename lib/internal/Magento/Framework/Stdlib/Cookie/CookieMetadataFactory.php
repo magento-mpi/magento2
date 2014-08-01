@@ -55,4 +55,18 @@ class CookieMetadataFactory
             ['metadata' => $metadata]
         );
     }
+
+    /**
+     * Creates aookieMetadata object with the supplied metadata.
+     *
+     * @param array $metadata
+     * @return CookieMetadata
+     */
+    public function createCookieMetadata($metadata)
+    {
+        return $this->objectManager->create(
+            'Magento\Framework\Stdlib\Cookie\CookieMetadata',
+            ['metadata' => $metadata]
+        );
+    }
 }

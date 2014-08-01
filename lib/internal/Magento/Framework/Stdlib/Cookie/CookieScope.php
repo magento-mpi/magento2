@@ -24,6 +24,11 @@ class CookieScope
     private $publicCookieMetadata;
 
     /**
+     * @var CookieMetadata
+     */
+    private $cookieMetadata;
+
+    /**
      * @var CookieMetadataFactory
      */
     private $cookieMetadataFactory;
@@ -33,15 +38,18 @@ class CookieScope
      * @param CookieMetadataFactory $cookieMetadataFactory
      * @param SensitiveCookieMetadata $sensitiveCookieMetadata
      * @param PublicCookieMetadata $publicCookieMetadata
+     * @param CookieMetadata $cookieMetadata
      */
     public function __construct(
         CookieMetadataFactory $cookieMetadataFactory,
         SensitiveCookieMetadata $sensitiveCookieMetadata = null,
-        PublicCookieMetadata $publicCookieMetadata = null
+        PublicCookieMetadata $publicCookieMetadata = null,
+        CookieMetadata $cookieMetadata = null
     ) {
         $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->sensitiveCookieMetadata = $sensitiveCookieMetadata;
         $this->publicCookieMetadata = $publicCookieMetadata;
+        $this->cookieMetadata = $cookieMetadata;
     }
 
     /**
@@ -84,5 +92,26 @@ class CookieScope
         }
 
         return $this->cookieMetadataFactory->createPublicCookieMetadata($merged);
+    }
+
+    /**
+     * Merges the input override metadata with any defaults set on this Scope, and then returns a CookieMetadata
+     * object representing the merged values.
+     *
+     * @param CookieMetadata|null $override
+     * @return CookieMetadata
+     */
+    public function getCookieMetadata(CookieMetadata $override = null)
+    {
+        if (!is_null($this->cookieMetadata)) {
+            $merged = $this->cookieMetadata->__toArray();
+        } else {
+            $merged = [];
+        }
+        if (!is_null($override)) {
+            $merged = array_merge($merged, $override->__toArray());
+        }
+
+        return $this->cookieMetadataFactory->createCookieMetadata($merged);
     }
 }
