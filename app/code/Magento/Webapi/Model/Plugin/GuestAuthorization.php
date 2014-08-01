@@ -8,6 +8,8 @@
 
 namespace Magento\Webapi\Model\Plugin;
 
+use Magento\Integration\Service\V1\AuthorizationServiceInterface as AuthorizationService;
+
 /**
  * Plugin around \Magento\Framework\Authorization::isAllowed to allow guest users to access resources with
  * anonymous permission.
@@ -31,7 +33,7 @@ class GuestAuthorization
         $resource,
         $privilege = null
     ) {
-        if ($resource == 'anonymous') {
+        if ($resource == AuthorizationService::PERMISSION_ANONYMOUS) {
             return true;
         } else {
             return $proceed($resource, $privilege);

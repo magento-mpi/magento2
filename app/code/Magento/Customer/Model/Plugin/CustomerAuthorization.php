@@ -9,6 +9,7 @@
 namespace Magento\Customer\Model\Plugin;
 
 use Magento\Authorization\Model\UserContextInterface;
+use Magento\Integration\Service\V1\AuthorizationServiceInterface as AuthorizationService;
 
 /**
  * Plugin around \Magento\Framework\Authorization::isAllowed to allow customer users to access resources with
@@ -48,7 +49,7 @@ class CustomerAuthorization
         $resource,
         $privilege = null
     ) {
-        if ($resource == 'self'
+        if ($resource == AuthorizationService::PERMISSION_SELF
             && $this->userContext->getUserId()
             && $this->userContext->getUserType() === UserContextInterface::USER_TYPE_CUSTOMER
         ) {

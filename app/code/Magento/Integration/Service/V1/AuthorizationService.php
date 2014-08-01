@@ -29,9 +29,6 @@ use Magento\Framework\Logger;
  */
 class AuthorizationService implements AuthorizationServiceInterface
 {
-    const PERMISSION_ANONYMOUS = 'anonymous';
-    const PERMISSION_SELF = 'self';
-
     /**
      * @var AclBuilder
      */
