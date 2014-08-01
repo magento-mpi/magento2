@@ -41,6 +41,8 @@ class ValidatorException extends \Magento\Framework\Exception\InputException
                     $message .= $propertyMessage;
                 }
             }
+        } else {
+            $this->_messages = [$message];
         }
         parent::__construct($message, $params, $cause);
     }
