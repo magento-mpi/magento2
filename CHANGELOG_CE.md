@@ -53,6 +53,7 @@
   * Fixed an error occurring when opening the Tax Zones and Rates page in the backend
   * Fixed a 404 error occurring while searching products on the New Review page
   * Fixed an error when performing search in the Tax rate grid
+  * Fixed fatal error instead error message if add customer address via API with invalid value of customer address attribute
 * Payments implementation:
   * Ported correct behaviour for Fraud Management in PayPal Payflow Pro from M1 to M2
   * Implemented ability to use negative line items for PayPal Payflowpro
