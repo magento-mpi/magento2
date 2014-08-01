@@ -167,7 +167,8 @@ namespace Magento\Framework\Stdlib\Cookie {
 
             /** @var \Magento\Framework\Stdlib\Cookie\CookieMetaData $cookieMetaData */
             $cookieMetaData = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\CookieMetaData');
-            /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
+            /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Stdlib\Cookie\PhpCookieManager
+             * $mockCookieManager */
             $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
                 ->setMethods(['setPublicCookie', 'setSensitiveCookie'])
                 ->disableOriginalConstructor()->getMock();
@@ -193,13 +194,12 @@ namespace Magento\Framework\Stdlib\Cookie {
                 $this->returnValue($publicCookieMetadata)
             );
 
-            /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
-            $mockCookieManager = $this->objectManager->getObject(
+            $cookieManager = $this->objectManager->getObject(
                 'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
                 ['scope' => $scopeMock]
             );
             $this->assertEquals(self::COOKIE_VALUE, $this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
-            $mockCookieManager->deleteCookie(self::DELETE_COOKIE_NAME);
+            $cookieManager->deleteCookie(self::DELETE_COOKIE_NAME);
             $this->assertNull($this->cookieManager->getCookie(self::DELETE_COOKIE_NAME));
         }
 
@@ -209,7 +209,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
             /** @var \Magento\Framework\Stdlib\Cookie\CookieMetaData $cookieMetaData */
             $cookieMetaData = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\CookieMetaData');
-            /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager $mockCookieManager */
+            /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Stdlib\Cookie\PhpCookieManager
+             * $mockCookieManager
+             */
             $mockCookieManager = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
                 ->setMethods(['setPublicCookie', 'setSensitiveCookie'])
                 ->disableOriginalConstructor()->getMock();
@@ -242,11 +244,11 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ->will($this->returnValue($sensitiveCookieMetadata)
             );
 
-            $mockCookieManager = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PhpCookieManager',
+            $cookieManager = $this->objectManager->getObject('Magento\Framework\Stdlib\Cookie\PhpCookieManager',
                 ['scope' => $scopeMock]
             );
 
-            $mockCookieManager->setSensitiveCookie(
+            $cookieManager->setSensitiveCookie(
                 PhpCookieManagerTest::SENSITIVE_COOKIE_NAME_NO_METADATA,
                 'cookie_value'
             );
