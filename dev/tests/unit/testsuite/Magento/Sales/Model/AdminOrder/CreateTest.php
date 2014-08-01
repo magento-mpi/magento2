@@ -208,7 +208,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->sessionQuoteMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $this->itemUpdater->expects($this->once())
             ->method('update')
-            ->with($this->equalTo($itemMock), $this->equalTo($items[1]));
+            ->with($this->equalTo($itemMock), $this->equalTo($items[1]))
+            ->will($this->returnSelf());
 
         $this->adminOrderCreate->setRecollect(false);
         $this->adminOrderCreate->updateQuoteItems($items);
