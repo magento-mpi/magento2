@@ -54,11 +54,11 @@ class CookieMetadata
      * Set the domain for the cookie
      *
      * @param string $domain
-     * @return void
+     * @return $this
      */
     public function setDomain($domain)
     {
-        $this->set(self::KEY_DOMAIN, $domain);
+        return $this->set(self::KEY_DOMAIN, $domain);
     }
 
     /**
@@ -75,11 +75,11 @@ class CookieMetadata
      * Set path of the cookie
      *
      * @param string $path
-     * @return void
+     * @return $this
      */
     public function setPath($path)
     {
-        $this->set(self::KEY_PATH, $path);
+        return $this->set(self::KEY_PATH, $path);
     }
 
     /**
@@ -111,10 +111,11 @@ class CookieMetadata
      *
      * @param string $name
      * @param int|float|string|bool|null $value
-     * @return void
+     * @return $this
      */
     protected function set($name, $value)
     {
         $this->metadata[$name] = $value;
+        return $this;
     }
 }
