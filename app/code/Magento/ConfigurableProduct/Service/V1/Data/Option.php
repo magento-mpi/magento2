@@ -16,6 +16,8 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
 
     const LABEL = 'label';
 
+    const TYPE = 'type';
+
     const USE_DEFAULT = 'use_default';
 
     const POSITION = 'position';
@@ -47,6 +49,14 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     public function getLabel()
     {
         return $this->_get(self::LABEL);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getType()
+    {
+        return $this->_get(self::TYPE);
     }
 
     /**

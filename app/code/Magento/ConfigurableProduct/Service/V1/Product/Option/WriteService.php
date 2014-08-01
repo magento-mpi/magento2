@@ -119,7 +119,7 @@ class WriteService implements WriteServiceInterface
             throw new CouldNotSaveException('An error occurred while saving option');
         }
 
-        return $this->optionConverter->convertFromModel($configurableAttribute);
+        return $configurableAttribute->getId();
     }
 
     /**

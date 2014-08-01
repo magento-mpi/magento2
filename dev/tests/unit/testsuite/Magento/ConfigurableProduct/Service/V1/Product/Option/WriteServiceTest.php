@@ -189,7 +189,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())->method('save');
 
         $this->optionConverterMock->expects($this->once())->method('convertArrayFromData')->with($option);
-        $this->optionConverterMock->expects($this->once())->method('convertFromModel');
 
         $this->writeService->add($productSku, $option);
     }

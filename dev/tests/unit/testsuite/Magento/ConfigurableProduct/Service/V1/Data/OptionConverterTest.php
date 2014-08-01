@@ -99,16 +99,31 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase
     {
         $converterMock = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute')
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getData', 'getLabel', '__sleep', '__wakeup'])
+            ->setMethods(['getId', 'getData', 'getLabel', '__sleep', '__wakeup', 'getProductAttribute'])
             ->getMock();
+
+        $productAttribute = $this->getMockBuilder('Magento\Catalog\Model\Resource\Eav\Attribute')
+            ->disableOriginalConstructor()
+            ->setMethods(['getFrontend', '__wakeup'])
+            ->getMock();
+
+        $frontend = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\Frontend\DefaultFrontend')
+            ->disableOriginalConstructor()
+            ->setMethods(['getInputType'])
+            ->getMock();
+
+        $productAttribute->expects($this->any())->method('getFrontend')->will($this->returnValue($frontend));
+        $frontend->expects($this->once())->method('getInputType')->will($this->returnValue('select'));
 
         $prices = ['value_index' => 1, 'pricing_value' => 12, 'is_percent' => true];
         $converterMock->expects($this->at(0))->method('getData')->with('prices')->will($this->returnValue([$prices]));
         $converterMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $converterMock->expects($this->at(2))->method('getData')->with('attribute_id')->will($this->returnValue(2));
         $converterMock->expects($this->once())->method('getLabel')->will($this->returnValue('Test Label'));
-        $converterMock->expects($this->at(4))->method('getData')->with('position')->will($this->returnValue(3));
-        $converterMock->expects($this->at(5))->method('getData')->with('use_default')->will($this->returnValue(true));
+        $converterMock->expects($this->any())->method('getProductAttribute')->will($this->returnValue($productAttribute));
+        $converterMock->expects($this->at(5))->method('getData')->with('position')->will($this->returnValue(3));
+        $converterMock->expects($this->at(6))->method('getData')->with('use_default')->will($this->returnValue(true));
+
         /** @var \Magento\ConfigurableProduct\Service\V1\Data\Option $option */
         $option = $this->converter->convertFromModel($converterMock);
 

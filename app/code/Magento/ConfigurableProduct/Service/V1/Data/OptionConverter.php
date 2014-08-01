@@ -54,7 +54,7 @@ class OptionConverter
     }
 
     /**
-     * Convert configurable attribute to option service object
+     * Convert configurable attribute to option data object
      *
      * @param Attribute $configurableAttribute
      * @return \Magento\ConfigurableProduct\Service\V1\Data\Option
@@ -72,10 +72,12 @@ class OptionConverter
                     ->create();
             }
         }
+
         $data = [
             Option::ID => $configurableAttribute->getId(),
             Option::ATTRIBUTE_ID => $configurableAttribute->getAttributeId(),
             Option::LABEL => $configurableAttribute->getLabel(),
+            Option::TYPE => $configurableAttribute->getProductAttribute()->getFrontend()->getInputType(),
             Option::POSITION => $configurableAttribute->getPosition(),
             Option::USE_DEFAULT => $configurableAttribute->getData('use_default'),
             Option::VALUES => $values
