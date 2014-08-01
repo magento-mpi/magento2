@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<page mca="wishlist/index/index" >
+<page mca="giftregistry/wishlist/index" >
     <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.messages</locator>
+        <name>wishlistBlock</name>
+        <class>Magento\GiftRegistry\Test\Block\Customer\Wishlist</class>
+        <locator>.column.main</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

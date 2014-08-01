@@ -24,12 +24,6 @@ class GiftRegistryEdit extends FrontendPage
             'locator' => '//div[div/button[@id="submit.save"]]',
             'strategy' => 'xpath',
         ],
-        'shippingAddressForm' => [
-            'name' => 'shippingAddressForm',
-            'class' => 'Magento\GiftRegistry\Test\Block\Customer\Address\Edit',
-            'locator' => '.shipping_address',
-            'strategy' => 'css selector',
-        ],
         'customerEditForm' => [
             'name' => 'customerEditForm',
             'class' => 'Magento\GiftRegistry\Test\Block\Customer\Edit',
@@ -44,14 +38,6 @@ class GiftRegistryEdit extends FrontendPage
     public function getActionsToolbarBlock()
     {
         return $this->getBlockInstance('actionsToolbarBlock');
-    }
-
-    /**
-     * @return \Magento\GiftRegistry\Test\Block\Customer\Address\Edit
-     */
-    public function getShippingAddressForm()
-    {
-        return $this->getBlockInstance('shippingAddressForm');
     }
 
     /**

@@ -10,37 +10,33 @@ namespace Magento\GiftRegistry\Test\TestCase;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Mtf\TestCase\Injectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
-use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
-use Mtf\TestCase\Injectable;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 
 /**
- * Test Creation for Create GiftRegistryEntity
+ * Test Creation for Delete frontend GiftRegistryEntity
  *
  * Test Flow:
  *
  * Preconditions:
  * 1. Register Customer
+ * 2. Gift Registry created
  *
  * Steps:
  * 1. Go to frontend
  * 2. Login as a Customer
  * 3. Go to My Account -> Gift Registry
- * 4. Press button "Add New"
- * 5. Choose Gift Registry type from DataSet
- * 6. Press next
- * 7. Fill data from DataSet
- * 8. Perform Asserts
+ * 4. Press on appropriate Gift Registry "Delete" button
+ * 5. Perform Asserts
  *
  * @group Gift_Registry_(CS)
- * @ZephyrId MAGETWO-26176
+ * @ZephyrId MAGETWO-26648
  */
-class CreateGiftRegistryEntityTest extends Injectable
+class DeleteGiftRegistryEntityTest extends Injectable
 {
     /**
      * Cms index page
@@ -57,13 +53,6 @@ class CreateGiftRegistryEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
-     * Customer from precondition
-     *
-     * @var CustomerInjectable
-     */
-    protected $customer;
-
-    /**
      * Customer account index page
      *
      * @var CustomerAccountIndex
@@ -78,44 +67,24 @@ class CreateGiftRegistryEntityTest extends Injectable
     protected $giftRegistryIndex;
 
     /**
-     * Gift Registry select type page
-     *
-     * @var GiftRegistryAddSelect
-     */
-    protected $giftRegistryAddSelect;
-
-    /**
-     * Gift Registry edit type page
-     *
-     * @var GiftRegistryEdit
-     */
-    protected $giftRegistryEdit;
-
-    /**
      * Injection data
      *
      * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogout
+     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param GiftRegistryIndex $giftRegistryIndex
-     * @param GiftRegistryAddSelect $giftRegistryAddSelect
-     * @param GiftRegistryEdit $giftRegistryEdit
      * @return void
      */
     public function __inject(
         CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogout,
+        CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
-        GiftRegistryIndex $giftRegistryIndex,
-        GiftRegistryAddSelect $giftRegistryAddSelect,
-        GiftRegistryEdit $giftRegistryEdit
+        GiftRegistryIndex $giftRegistryIndex
     ) {
         $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogout;
+        $this->customerAccountLogin = $customerAccountLogin;
         $this->customerAccountIndex = $customerAccountIndex;
         $this->giftRegistryIndex = $giftRegistryIndex;
-        $this->giftRegistryAddSelect = $giftRegistryAddSelect;
-        $this->giftRegistryEdit = $giftRegistryEdit;
     }
 
     /**
@@ -141,23 +110,20 @@ class CreateGiftRegistryEntityTest extends Injectable
     /**
      * Create Gift Registry entity test
      *
-     * @param GiftRegistry $giftRegistry
      * @param CustomerInjectable $customer
+     * @param GiftRegistry $giftRegistry
      * @return void
      */
-    public function test(GiftRegistry $giftRegistry, CustomerInjectable $customer)
+    public function test(CustomerInjectable $customer, GiftRegistry $giftRegistry)
     {
         // Steps
-        $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
+        if (!$this->cmsIndex->open()->getLinksBlock()->isLinkVisible('Log Out')) {
+            $this->cmsIndex->open()->getLinksBlock()->openLink("Log In");
             $this->customerAccountLogin->getLoginBlock()->login($customer);
         }
-        $this->cmsIndex->getLinksBlock()->openLink("My Account");
-        $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Gift Registry");
-        $this->giftRegistryIndex->getActionsToolbar()->addNew();
-        $this->giftRegistryAddSelect->getGiftRegistryTypeBlock()->selectGiftRegistryType($giftRegistry->getTypeId());
-        $this->giftRegistryEdit->getCustomerEditForm()->fill($giftRegistry);
-        $this->giftRegistryEdit->getActionsToolbarBlock()->save();
+        $giftRegistry->persist();
+        $this->cmsIndex->open()->getLinksBlock()->openLink("My Account");
+        $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Registry');
+        $this->giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Delete');
     }
 }

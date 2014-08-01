@@ -89,11 +89,11 @@ class Registrants extends Element
         $key = 0;
         $registrant = $this->find(sprintf($this->registrant, $key));
         while ($registrant->isVisible()) {
-            foreach ($this->recipient as $field => $selector) {
+            foreach ($this->recipient as $field => $locator) {
                 $element = $registrant->find(
-                    $selector['selector'],
+                    $locator['selector'],
                     Locator::SELECTOR_CSS,
-                    $selector['input']
+                    $locator['input']
                 );
                 if ($element->isVisible()) {
                     $recipients[$key][$field] = $element->getValue();

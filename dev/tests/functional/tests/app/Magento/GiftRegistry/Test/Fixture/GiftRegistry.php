@@ -12,7 +12,8 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class GiftRegistry
- * Fixture for gift registry
+ *
+ * @package Magento\GiftRegistry\Test\Fixture
  */
 class GiftRegistry extends InjectableFixture
 {
@@ -27,17 +28,7 @@ class GiftRegistry extends InjectableFixture
     protected $handlerInterface = 'Magento\GiftRegistry\Test\Handler\GiftRegistry\GiftRegistryInterface';
 
     protected $defaultDataSet = [
-        'type_id' => 'Birthday',
-        'title' => 'Title%isolation%',
-        'message' => 'Test message.',
-        'event_country' => 'United States',
-        'event_country_region' => 'California',
-        'event_date' => ['pattern' => '1/12/2024'],
-        'is_active' => 'Active',
-        'is_public' => 'Public',
-        'email' => 'email@test%isolation%.com',
-        'firstname' => 'FirstName%isolation%',
-        'lastname' => 'LastName%isolation%',
+        'is_public' => null,
     ];
 
     protected $entity_id = [
@@ -175,7 +166,7 @@ class GiftRegistry extends InjectableFixture
     ];
 
     protected $person_ids = [
-        'attribute_code' => 'person_ids',
+        'attribute_code' => 'person_id',
         'backend_type' => 'int',
         'is_required' => '1',
         'default_value' => '',
@@ -190,6 +181,12 @@ class GiftRegistry extends InjectableFixture
     protected $baby_gender = [
         'attribute_code' => 'baby_gender',
         'backend_type' => 'virtual',
+    ];
+
+    protected $address = [
+        'attribute_code' => 'address',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\GiftRegistry\Test\Fixture\GiftRegistry\Address',
     ];
 
     public function getEntityId()
@@ -290,5 +287,10 @@ class GiftRegistry extends InjectableFixture
     public function getBabyGender()
     {
         return $this->getData('baby_gender');
+    }
+
+    public function getAddress()
+    {
+        return $this->getData('address');
     }
 }

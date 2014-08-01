@@ -29,4 +29,7 @@
     <assertGiftRegistryInactiveNotInWishlist module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistryInactiveNotInWishlist>
+    <assertGiftRegistryNotInGrid module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryNotInGrid>
 </constraint>

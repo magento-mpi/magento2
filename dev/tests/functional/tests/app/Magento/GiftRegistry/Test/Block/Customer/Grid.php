@@ -54,5 +54,8 @@ class Grid extends AbstractGrid
     {
         $selector = sprintf($this->eventActionSelector, $event, $action);
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
+        if ($action === 'Delete') {
+            $this->_rootElement->acceptAlert();
+        }
     }
 }

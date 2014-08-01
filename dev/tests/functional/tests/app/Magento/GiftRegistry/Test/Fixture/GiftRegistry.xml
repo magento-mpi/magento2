@@ -149,6 +149,11 @@
             <attribute_code>baby_gender</attribute_code>
             <backend_type>virtual</backend_type>
         </baby_gender>
+        <address>
+            <attribute_code>address</attribute_code>
+            <backend_type>virtual</backend_type>
+            <source>Magento\GiftRegistry\Test\Fixture\GiftRegistry\Address</source>
+        </address>
     </fields>
     <repository_class>Magento\GiftRegistry\Test\Repository\GiftRegistry</repository_class>
     <handler_interface>Magento\GiftRegistry\Test\Handler\GiftRegistry\GiftRegistryInterface</handler_interface>
