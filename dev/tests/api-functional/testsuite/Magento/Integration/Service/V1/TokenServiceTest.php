@@ -123,24 +123,26 @@ class TokenServiceTest extends WebapiAbstract
         $this->assertEquals($expectedExceptionData, $exceptionData);
     }
 
+    /**
+     * @magentoApiDataFixture Magento/User/_files/user_with_role.php
+     */
     public function testCreateAdminAccessToken()
     {
-        $this->markTestIncomplete('More investigation needed to create the backend user with correct privileges.');
-        $defaultAdminUser = 'User';
+        $adminUserNameFromFixture = 'adminUser';
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
+                'resourcePath' => self::RESOURCE_PATH_ADMIN_TOKEN,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ]
         ];
         $requestData = [
-            'username' => $defaultAdminUser,
+            'username' => $adminUserNameFromFixture,
             'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         ];
         $accessToken = $this->_webApiCall($serviceInfo, $requestData);
 
-        $adminUserId = $this->userModel->loadByUsername($defaultAdminUser)->getId();
+        $adminUserId = $this->userModel->loadByUsername($adminUserNameFromFixture)->getId();
         /** @var $token TokenModel */
         $token = $this->tokenModel
             ->loadByAdminId($adminUserId)

@@ -10,14 +10,12 @@ namespace Magento\Integration\Service\V1;
 
 use Magento\Customer\Service\V1\CustomerAccountService;
 use Magento\Framework\Exception\InputException;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\User\Model\User as UserModel;
 
 /**
  * Test class for \Magento\Integration\Service\V1\TokenService.
- *
- * @magentoDbIsolation enabled
  */
 class TokenServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -91,15 +89,17 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
         $this->tokenService->createCustomerAccessToken($customerUserName, $password);
     }
 
+    /**
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
+     */
     public function testCreateAdminAccessToken()
     {
-        $defaultAdminUser = 'User';
-        //Using integration tests fixtures' default admin username and password
+        $adminUserNameFromFixture = 'adminUser';
         $accessToken = $this->tokenService->createAdminAccessToken(
-            $defaultAdminUser,
+            $adminUserNameFromFixture,
             \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         );
-        $adminUserId = $this->userModel->loadByUsername($defaultAdminUser)->getId();
+        $adminUserId = $this->userModel->loadByUsername($adminUserNameFromFixture)->getId();
         /** @var $token TokenModel */
         $token = $this->tokenModel
             ->loadByAdminId($adminUserId)
@@ -142,6 +142,7 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
             'Check for null credentials' => [null, null]
         ];
     }
+
     /**
      * Assert for presence of Input exception messages
      *
