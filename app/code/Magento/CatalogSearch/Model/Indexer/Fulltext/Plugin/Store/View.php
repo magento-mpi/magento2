@@ -16,7 +16,7 @@ class View extends AbstractPlugin
      *
      * @param \Magento\Store\Model\Resource\Store $subject
      * @param \Closure $proceed
-     * @param \Magento\Store\Model\Store $store
+     * @param \Magento\Framework\Model\AbstractModel $store
      *
      * @return \Magento\Store\Model\Resource\Store
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -24,7 +24,7 @@ class View extends AbstractPlugin
     public function aroundSave(
         \Magento\Store\Model\Resource\Store $subject,
         \Closure $proceed,
-        \Magento\Store\Model\Store $store
+        \Magento\Framework\Model\AbstractModel $store
     ) {
         $needInvalidation = $store->isObjectNew();
         $result = $proceed($store);

@@ -16,7 +16,7 @@ class Group extends AbstractPlugin
      *
      * @param \Magento\Store\Model\Resource\Group $subject
      * @param \Closure $proceed
-     * @param \Magento\Store\Model\Group $group
+     * @param \Magento\Framework\Model\AbstractModel $group
      *
      * @return \Magento\Store\Model\Resource\Group
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -24,7 +24,7 @@ class Group extends AbstractPlugin
     public function aroundSave(
         \Magento\Store\Model\Resource\Group $subject,
         \Closure $proceed,
-        \Magento\Store\Model\Group $group
+        \Magento\Framework\Model\AbstractModel $group
     ) {
         $needInvalidation = !$group->isObjectNew() && $group->dataHasChangedFor('website_id');
         $result = $proceed($group);

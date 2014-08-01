@@ -1787,7 +1787,6 @@ return array(
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
     ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
-    ['getRatesForAllCustomerTaxClasses', 'Magento\Tax\Model\Calculation'],
     ['rebuildIndex', 'Magento\CatalogSearch\Model\Fulltext', 'Magento\CatalogSearch\Model\Indexer\Fulltext::execute'],
     ['cleanIndex', 'Magento\CatalogSearch\Model\Fulltext'],
     ['setAllowTableChanges', 'Magento\CatalogSearch\Model\Fulltext'],
