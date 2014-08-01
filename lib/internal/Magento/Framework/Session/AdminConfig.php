@@ -35,6 +35,7 @@ class AdminConfig extends Config
      * @param null|string $cacheLimiter
      * @param string $lifetimePath
      * @param FrontNameResolver $frontNameResolver
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -48,8 +49,7 @@ class AdminConfig extends Config
         $savePath = null,
         $cacheLimiter = null,
         $lifetimePath = self::XML_PATH_COOKIE_LIFETIME
-    )
-    {
+    ) {
         // Need to set $this->frontNameResolver prior to calling the parent constructor,
         // as parent constructor calls setCookiePath().
         $this->frontNameResolver = $frontNameResolver;
