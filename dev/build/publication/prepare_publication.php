@@ -79,7 +79,9 @@ try {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
 
+    echo 'Parsing top section of CHANGELOG.md:' . PHP_EOL;
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
+    echo $commitMsg . PHP_EOL;
 
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
