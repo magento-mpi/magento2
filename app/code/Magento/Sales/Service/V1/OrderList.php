@@ -56,7 +56,7 @@ class OrderList implements OrderListInterface
     public function invoke(SearchCriteria $searchCriteria)
     {
         $orders = [];
-        foreach($this->orderRepository->find($searchCriteria) as $order) {
+        foreach ($this->orderRepository->find($searchCriteria) as $order) {
             $orders[] = $this->orderMapper->extractDto($order);
         }
         return $this->searchResultsBuilder->setItems($orders)

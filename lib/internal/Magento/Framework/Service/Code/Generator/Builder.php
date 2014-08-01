@@ -56,7 +56,8 @@ class Builder extends EntityAbstract
             if (!($method->isConstructor() ||
                     $method->isFinal() ||
                     $method->isStatic() ||
-                    $method->isDestructor()) && !in_array(
+                    $method->isDestructor()) &&
+                !in_array(
                     $method->getName(),
                     array('__sleep', '__wakeup', '__clone')
                 )
@@ -73,6 +74,7 @@ class Builder extends EntityAbstract
     /**
      * Retrieve method info
      *
+     * @param \ReflectionClass $class
      * @param \ReflectionMethod $method
      * @return array
      */
@@ -94,7 +96,9 @@ class Builder extends EntityAbstract
     }
 
     /**
-     * {@inheritdoc}
+     * Validate data
+     *
+     * @return bool
      */
     protected function _validateData()
     {

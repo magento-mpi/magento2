@@ -144,7 +144,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testCanSendNewOrderEmail($scopeConfigValue)
     {
-        $this->setupScopeConfigIsSetFlag(\Magento\Sales\Model\Order\Email\Container\OrderIdentity::XML_PATH_EMAIL_ENABLED, $scopeConfigValue);
+        $this->setupScopeConfigIsSetFlag(
+            \Magento\Sales\Model\Order\Email\Container\OrderIdentity::XML_PATH_EMAIL_ENABLED,
+            $scopeConfigValue
+        );
 
         $this->assertEquals($scopeConfigValue, $this->helper->canSendNewOrderEmail($this->storeMock));
     }

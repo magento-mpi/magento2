@@ -7,6 +7,12 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
+/**
+ * Class CreditmemoTest
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @package Magento\Sales\Service\V1\Data
+ */
 class CreditmemoTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAdjustment()

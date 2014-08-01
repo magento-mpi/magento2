@@ -43,9 +43,9 @@ abstract class Email extends \Magento\Backend\App\Action
         $historyItem = $this->_objectManager->create(
             'Magento\Sales\Model\Resource\Order\Status\History\Collection'
         )->getUnnotifiedForInstance(
-                $invoice,
-                \Magento\Sales\Model\Order\Invoice::HISTORY_ENTITY_NAME
-            );
+            $invoice,
+            \Magento\Sales\Model\Order\Invoice::HISTORY_ENTITY_NAME
+        );
         if ($historyItem) {
             $historyItem->setIsCustomerNotified(1);
             $historyItem->save();

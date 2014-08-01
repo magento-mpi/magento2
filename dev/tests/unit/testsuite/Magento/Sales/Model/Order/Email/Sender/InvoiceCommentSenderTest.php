@@ -95,17 +95,6 @@ class InvoiceCommentSenderTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($this->storeMock));
 
-//        $this->paymentHelper = $this->getMock(
-//            '\Magento\Payment\Helper\Data',
-//            ['getInfoBlockHtml'],
-//            [],
-//            '',
-//            false
-//        );
-//        $this->paymentHelper->expects($this->any())
-//            ->method('getInfoBlockHtml')
-//            ->will($this->returnValue('payment'));
-
         $this->orderMock = $this->getMock(
             '\Magento\Sales\Model\Order',
             [

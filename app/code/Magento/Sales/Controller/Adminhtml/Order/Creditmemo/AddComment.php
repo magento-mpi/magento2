@@ -68,7 +68,7 @@ class AddComment extends \Magento\Backend\App\Action
             );
             $comment->save();
 
-            $this->creditmemoSender->send($creditmemo,!empty($data['is_customer_notified']), $data['comment']);
+            $this->creditmemoSender->send($creditmemo, !empty($data['is_customer_notified']), $data['comment']);
 
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('creditmemo_comments')->toHtml();

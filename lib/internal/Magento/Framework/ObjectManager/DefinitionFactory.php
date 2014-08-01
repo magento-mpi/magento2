@@ -126,7 +126,7 @@ class DefinitionFactory
                         => '\Magento\Framework\Service\Code\Generator\Mapper',
                     SearchResults::ENTITY_TYPE
                         => '\Magento\Framework\Service\Code\Generator\SearchResults',
-                    ConverterGenerator::ENTITY_TYPE 
+                    ConverterGenerator::ENTITY_TYPE
                         => '\Magento\Framework\ObjectManager\Code\Generator\Converter',
                 )
             );
