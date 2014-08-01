@@ -20,17 +20,17 @@ class OrderNotifyUser implements OrderNotifyUserInterface
     protected $orderRepository;
 
     /**
-     * @var \Magento\Sales\Model\Notifier
+     * @var \Magento\Sales\Model\OrderNotifier
      */
     protected $notifier;
 
     /**
      * @param OrderRepository $orderRepository
-     * @param \Magento\Sales\Model\Notifier $notifier
+     * @param \Magento\Sales\Model\OrderNotifier $notifier
      */
     public function __construct(
         OrderRepository $orderRepository,
-        \Magento\Sales\Model\Notifier $notifier
+        \Magento\Sales\Model\OrderNotifier $notifier
     ) {
         $this->orderRepository = $orderRepository;
         $this->notifier = $notifier;

@@ -9,7 +9,7 @@
 namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
-use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Email\Sender;
 use Magento\Framework\Logger;
 use Magento\Framework\Mail\Exception;
 
@@ -17,7 +17,7 @@ use Magento\Framework\Mail\Exception;
  * Class Notifier
  * @package Magento\Sales\Model
  */
-class Notifier extends \Magento\Framework\Model\AbstractModel
+abstract class AbstractNotifier extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var CollectionFactory
@@ -30,42 +30,42 @@ class Notifier extends \Magento\Framework\Model\AbstractModel
     protected $logger;
 
     /**
-     * @var OrderSender
+     * @var Sender
      */
-    protected $orderSender;
+    protected $sender;
 
     /**
      * @param CollectionFactory $historyCollectionFactory
      * @param Logger $logger
-     * @param OrderSender $orderSender
+     * @param Sender $sender
      */
     public function __construct(
         CollectionFactory $historyCollectionFactory,
         Logger $logger,
-        OrderSender $orderSender
+        Sender $sender
     ) {
         $this->historyCollectionFactory = $historyCollectionFactory;
         $this->logger = $logger;
-        $this->orderSender = $orderSender;
+        $this->sender = $sender;
     }
 
     /**
      * Notify user
      *
-     * @param Order $order
+     * @param AbstractModel $model
      * @return bool
      * @throws \Magento\Framework\Mail\Exception
      */
-    public function notify(\Magento\Sales\Model\Order $order)
+    public function notify(\Magento\Sales\Model\AbstractModel $model)
     {
         try {
-            $this->orderSender->send($order);
-            if (!$order->getEmailSent()) {
+            $this->sender->send($model);
+            if (!$model->getEmailSent()) {
                 return false;
             }
             $historyItem = $this->historyCollectionFactory->create()->getUnnotifiedForInstance(
-                $order,
-                \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME
+                $model,
+                $model::HISTORY_ENTITY_NAME
             );
             if ($historyItem) {
                 $historyItem->setIsCustomerNotified(1);

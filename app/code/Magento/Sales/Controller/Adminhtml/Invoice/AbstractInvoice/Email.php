@@ -36,20 +36,9 @@ abstract class Email extends \Magento\Backend\App\Action
             return;
         }
 
-        /** @var InvoiceSender $invoiceSender */
-        $invoiceSender = $this->_objectManager->create('Magento\Sales\Model\Order\Email\Sender\InvoiceSender');
-        $invoiceSender->send($invoice);
+        $this->_objectManager->create('Magento\Sales\Model\OrderNotifier')
+            ->notify($invoice);
 
-        $historyItem = $this->_objectManager->create(
-            'Magento\Sales\Model\Resource\Order\Status\History\Collection'
-        )->getUnnotifiedForInstance(
-                $invoice,
-                \Magento\Sales\Model\Order\Invoice::HISTORY_ENTITY_NAME
-            );
-        if ($historyItem) {
-            $historyItem->setIsCustomerNotified(1);
-            $historyItem->save();
-        }
         $this->messageManager->addSuccess(__('We sent the message.'));
         $this->_redirect(
             'sales/invoice/view',

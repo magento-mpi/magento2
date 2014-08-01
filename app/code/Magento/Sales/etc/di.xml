@@ -20,6 +20,7 @@
     <preference for="Magento\Sales\Service\V1\OrderAddressUpdateInterface" type="Magento\Sales\Service\V1\OrderAddressUpdate"/>
     <preference for="Magento\Sales\Service\V1\InvoiceGetInterface" type="Magento\Sales\Service\V1\InvoiceGet"/>
     <preference for="Magento\Sales\Service\V1\InvoiceListInterface" type="Magento\Sales\Service\V1\InvoiceList"/>
+    <preference for="Magento\Sales\Service\V1\OrderInvoiceEmailInterface" type="Magento\Sales\Service\V1\OrderInvoiceEmail"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>

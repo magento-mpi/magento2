@@ -12,9 +12,9 @@ use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 use Magento\Framework\Mail\Exception;
 
 /**
- * Class NotifierTest
+ * Class InvoiceNotifierTest
  */
-class NotifierTest extends \PHPUnit_Framework_TestCase
+class InvoiceNotifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CollectionFactory |\PHPUnit_Framework_MockObject_MockObject
@@ -22,14 +22,14 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
     protected $historyCollectionFactory;
 
     /**
-     * @var \Magento\Sales\Model\Notifier
+     * @var \Magento\Sales\Model\InvoiceNotifier
      */
     protected $notifier;
 
     /**
-     * @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order\Invoice|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $order;
+    protected $invoice;
 
     /**
      * @var \Magento\Framework\ObjectManager |\PHPUnit_Framework_MockObject_MockObject
@@ -39,7 +39,7 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\ObjectManager\ObjectManager |\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $orderSenderMock;
+    protected $invoiceSenderMock;
 
     public function setUp()
     {
@@ -50,15 +50,15 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->order = $this->getMock(
-            'Magento\Sales\Model\Order',
+        $this->invoice = $this->getMock(
+            'Magento\Sales\Model\Order\Invoice',
             ['__wakeUp', 'getEmailSent'],
             [],
             '',
             false
         );
-        $this->orderSenderMock = $this->getMock(
-            'Magento\Sales\Model\Order\Email\Sender\OrderSender',
+        $this->invoiceSenderMock = $this->getMock(
+            'Magento\Sales\Model\Order\Email\Sender\InvoiceSender',
             ['send'],
             [],
             '',
@@ -71,10 +71,10 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->notifier = new Notifier(
+        $this->notifier = new InvoiceNotifier(
             $this->historyCollectionFactory,
             $this->loggerMock,
-            $this->orderSenderMock
+            $this->invoiceSenderMock
         );
     }
 
@@ -104,20 +104,20 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             ->method('save');
         $historyCollection->expects($this->once())
             ->method('getUnnotifiedForInstance')
-            ->with($this->order, \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME)
+            ->with($this->invoice, \Magento\Sales\Model\Order\Invoice::HISTORY_ENTITY_NAME)
             ->will($this->returnValue($historyItem));
-        $this->order->expects($this->once())
+        $this->invoice->expects($this->once())
             ->method('getEmailSent')
             ->will($this->returnValue(true));
         $this->historyCollectionFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($historyCollection));
 
-        $this->orderSenderMock->expects($this->once())
+        $this->invoiceSenderMock->expects($this->once())
             ->method('send')
-            ->with($this->equalTo($this->order));
+            ->with($this->equalTo($this->invoice));
 
-        $this->assertTrue($this->notifier->notify($this->order));
+        $this->assertTrue($this->notifier->notify($this->invoice));
     }
 
     /**
@@ -125,10 +125,10 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotifyFail()
     {
-        $this->order->expects($this->once())
+        $this->invoice->expects($this->once())
             ->method('getEmailSent')
             ->will($this->returnValue(false));
-        $this->assertFalse($this->notifier->notify($this->order));
+        $this->assertFalse($this->notifier->notify($this->invoice));
     }
 
     /**
@@ -137,13 +137,13 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
     public function testNotifyException()
     {
         $exception = new Exception('Email has not been sent');
-        $this->orderSenderMock->expects($this->once())
+        $this->invoiceSenderMock->expects($this->once())
             ->method('send')
-            ->with($this->equalTo($this->order))
+            ->with($this->equalTo($this->invoice))
             ->will($this->throwException($exception));
         $this->loggerMock->expects($this->once())
             ->method('logException')
             ->with($this->equalTo($exception));
-        $this->assertFalse($this->notifier->notify($this->order));
+        $this->assertFalse($this->notifier->notify($this->invoice));
     }
 }
