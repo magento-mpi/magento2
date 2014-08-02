@@ -8,18 +8,15 @@
  */
 -->
 <requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <request query="sugegsted_search_container" index="product">
+    <request query="sugegsted_search_container_1" index="product_1">
         <queries>
             <query xsi:type="boolQuery" name="sugested_search_container" boost="2">
                 <queryReference clause="must" ref="fulltext_search_query" />
-                <queryReference clause="should" ref="fulltext_search_query1" />
-                <queryReference clause="should" ref="fulltext_search_query2" />
-                <queryReference clause="not" ref="fulltext_search_query3" />
-                <queryReference clause="not" ref="fulltext_search_query4" />
+                <queryReference clause="should" ref="sugegsted_search_container_2_query" />
             </query>
 
             <query xsi:type="boolQuery" name="suggested_search_container_dd" boost="2">
-                <queryReference clause="not" ref="fulltext_search_query4" />
+                <queryReference clause="not" ref="fulltext_search_query" />
             </query>
 
             <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
@@ -28,7 +25,7 @@
             </query>
 
             <query xsi:type="filteredQuery" name="promoted_documents_boost">
-                <queryReference ref="fulltext_search_query4" />
+                <queryReference ref="fulltext_search_query" />
             </query>
 
             <query xsi:type="filteredQuery" name="promoted_documents_boost2">
@@ -70,6 +67,33 @@
              </bucket>
         </aggregation>
         <from>10</from>
+        <size>10</size>
+    </request>
+    <request query="sugegsted_search_container_2" index="product_2">
+        <queries>
+            <query xsi:type="boolQuery" name="sugegsted_search_container_2_query" boost="2">
+                <queryReference clause="not" ref="fulltext_search_query" />
+            </query>
+        </queries>
+        <filters>
+            <filter xsi:type="rangeFilter" field="promoted" name="price" from="10" to="100" />
+        </filters>
+        <aggregation>
+            <bucket xsi:type="termBucket" name="category_bucket" field="category">
+                <metrics>
+                    <metric type="sum" />
+                </metrics>
+            </bucket>
+            <bucket xsi:type="rangeBucket" name="price_bucket" field="price">
+                <metrics>
+                    <metric type="sum" />
+                </metrics>
+                <ranges>
+                    <range from="" to="50" />
+                </ranges>
+            </bucket>
+        </aggregation>
+        <from>0</from>
         <size>10</size>
     </request>
 </requests>
