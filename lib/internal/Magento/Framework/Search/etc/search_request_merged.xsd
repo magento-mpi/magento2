@@ -19,9 +19,21 @@
             <xs:selector xpath=".//query"/>
             <xs:field xpath="@name"/>
         </xs:key>
-
-        <xs:keyref name="type_constraint" refer="queryKey">
+        <xs:keyref name="queryReference" refer="queryKey">
             <xs:selector xpath=".//queryReference"/>
+            <xs:field xpath="@ref"/>
+        </xs:keyref>
+        <xs:keyref name="requestMainQuery" refer="queryKey">
+            <xs:selector xpath=".//request"/>
+            <xs:field xpath="@query"/>
+        </xs:keyref>
+
+        <xs:key name="filterKey">
+            <xs:selector xpath=".//filter"/>
+            <xs:field xpath="@name"/>
+        </xs:key>
+        <xs:keyref name="filterReference" refer="filterKey">
+            <xs:selector xpath=".//filterReference"/>
             <xs:field xpath="@ref"/>
         </xs:keyref>
     </xs:element>
