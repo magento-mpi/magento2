@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Checkout\Block\Cart\Shipping;
+namespace Magento\Checkout\Block\Shipping;
 
 use Magento\Framework\Object;
 
