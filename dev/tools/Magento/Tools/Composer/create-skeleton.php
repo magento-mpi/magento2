@@ -54,6 +54,7 @@ try {
 
     $reader = new Reader($sourceDir);
     $excludes = $reader->getExcludePaths();
+    $excludes[] = $destinationDir;
 
     $directory = new \RecursiveDirectoryIterator($sourceDir, \RecursiveDirectoryIterator::SKIP_DOTS);
     $directory = new ExcludeFilter($directory, $excludes);
@@ -85,4 +86,3 @@ try {
     echo $e;
     exit(1);
 }
-
