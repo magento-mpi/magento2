@@ -39,6 +39,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private static $rootJson;
 
     /**
+     * @var array
+     */
+    private static $dependencies;
+
+    /**
      * @var string
      */
     private static $composerPath = 'composer';
@@ -52,6 +57,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         self::$isComposerAvailable = self::isComposerAvailable();
         self::$root = Files::init()->getPathToSource();
         self::$rootJson = json_decode(file_get_contents(self::$root . '/composer.json'));
+        self::$dependencies = [];
     }
 
     /**
@@ -93,6 +99,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         foreach (glob("{$root}/lib/internal/Magento/*", GLOB_ONLYDIR) as $dir) {
             $result[] = [$dir, 'magento2-library'];
         }
+        $result[] = [$root, 'project'];
+
         return $result;
     }
 
@@ -123,8 +131,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertVersionInSync($json->name, $json->version);
         $this->assertObjectHasAttribute('require', $json);
         $this->assertEquals($packageType, $json->type);
-        $this->assertHasMap($json);
-        $this->assertMapConsistent($dir, $json);
+        if ($packageType !== 'project') {
+            self::$dependencies[] = $json->name;
+            $this->assertHasMap($json);
+            $this->assertMapConsistent($dir, $json);
+        }
         switch ($packageType) {
             case 'magento2-module':
                 $xml = simplexml_load_file("$dir/etc/module.xml");
@@ -146,6 +157,21 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             case 'magento2-library':
                 $this->assertDependsOnPhp($json->require);
                 $this->assertRegExp('/^magento\/framework$/', $json->name);
+                break;
+            case 'project':
+                sort(self::$dependencies);
+                $dependenciesListed = [];
+                foreach (self::$rootJson->replace as $key => $value) {
+                    if (strncmp($key, 'magento', strlen('magento')) === 0) {
+                        $dependenciesListed[] = $key;
+                    }
+                }
+                sort($dependenciesListed);
+                $this->assertEquals(
+                    self::$dependencies,
+                    $dependenciesListed,
+                    'The Mainline root composer.json does not match with currently available components.'
+                );
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown package type {$packageType}");
@@ -372,37 +398,5 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 "The {$component} is specified in 'extra->component_paths', but missing in 'replace' section"
             );
         }
-    }
-
-    /**
-     * Test if all the dependencies exist in working directory as well as if something is missing
-     *
-     */
-    public function testRootReplaceInSync()
-    {
-        $dependenciesListed = [];
-        $dependenciesFound = [];
-        $rootMainlineJson = self::$rootJson;
-        foreach ($rootMainlineJson->replace as $key => $value) {
-            if (strncmp($key, 'magento', strlen('magento')) === 0) {
-                $dependenciesListed[] = $key;
-            }
-        }
-        sort($dependenciesListed);
-        $reader = new Reader(BP . '/dev/tools/Magento/Tools/Composer');
-        foreach ($reader->getPatterns() as $pattern) {
-            foreach (glob(BP. "/{$pattern}/*", GLOB_ONLYDIR) as $dir) {
-                if (file_exists($dir . '/composer.json')) {
-                    $json = json_decode(file_get_contents($dir . '/composer.json'));
-                    $dependenciesFound[] = $json->name;
-                }
-            }
-        }
-        sort($dependenciesFound);
-        $this->assertEquals(
-            $dependenciesFound,
-            $dependenciesListed,
-            'The mainline composer.json does not match with currently available components!'
-        );
     }
 }
