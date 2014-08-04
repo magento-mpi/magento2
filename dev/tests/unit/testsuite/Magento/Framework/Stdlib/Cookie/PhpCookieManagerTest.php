@@ -467,14 +467,8 @@ namespace Magento\Framework\Stdlib\Cookie {
         /**
          * Assert public, sensitive and delete cookie
          *
-         * @param $name
-         * @param $value
-         * @param $expiry
-         * @param $path
-         * @param $domain
-         * @param $secure
-         * @param $httpOnly
-         * @return bool
+         * Suppressing UnusedFormalParameter, since PHPMD doesn't detect the callback call.
+         * @SuppressWarnings(PHPMD.UnusedFormalParameter)
          */
         public static function assertCookie($name, $value, $expiry, $path, $domain, $secure, $httpOnly)
         {
@@ -490,6 +484,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert delete cookie
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertDeleteCookie(
             $name,
@@ -511,6 +508,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert delete cookie with no meta data
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertDeleteCookieWithNoMetadata(
             $name,
@@ -532,6 +532,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert sensitive cookie with no meta data
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertSensitiveCookieWithNoMetaData(
             $name,
@@ -553,6 +556,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert sensitive cookie with no domain and path
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertSensitiveCookieNoDomainNoPath(
             $name,
@@ -574,6 +580,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert sensitive cookie with domain and path
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertSensitiveCookieWithDomainAndPath(
             $name,
@@ -595,6 +604,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert public cookie with no metadata
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertPublicCookieWithNoMetaData(
             $name,
@@ -616,6 +628,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert public cookie with no domain and path
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertPublicCookieWithNoDomainNoPath(
             $name,
@@ -637,6 +652,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert public cookie with default values
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertPublicCookieWithDefaultValues(
             $name,
@@ -658,6 +676,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert public cookie with no field set
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertPublicCookieWithSomeFieldSet(
             $name,
@@ -679,6 +700,9 @@ namespace Magento\Framework\Stdlib\Cookie {
 
         /**
          * Assert cookie size
+         *
+         * Suppressing UnusedPrivateMethod, since PHPMD doesn't detect callback method use.
+         * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
          */
         private static function assertCookieSize(
             $name,
@@ -691,6 +715,7 @@ namespace Magento\Framework\Stdlib\Cookie {
         ) {
             self::assertEquals(self::MAX_COOKIE_SIZE_TEST_NAME, $name);
             self::assertEquals(self::COOKIE_VALUE, $value);
+            self::assertEquals(self::COOKIE_EXPIRE_END_OF_SESSION, $expiry);
             self::assertFalse($secure);
             self::assertFalse($httpOnly);
             self::assertEquals('', $domain);

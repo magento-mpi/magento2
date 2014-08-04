@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Framework\Stdlib\Cookie;
+
 use Magento\Framework\Exception\LocalizedException;
 
 /**
