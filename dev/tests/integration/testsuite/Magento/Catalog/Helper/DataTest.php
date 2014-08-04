@@ -511,20 +511,4 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->taxRuleFixtureFactory->deleteTaxClasses(array_values($this->taxClasses));
         }
     }
-
-    /**
-     * @magentoConfigFixture default_store tax/classes/default_customer_tax_class 1
-     */
-    public function testGetDefaultCustomerTaxClass()
-    {
-        $this->assertEquals(1, $this->helper->getDefaultCustomerTaxClass());
-    }
-
-    /**
-     * @magentoConfigFixture default_store tax/classes/default_product_tax_class 1
-     */
-    public function testGetDefaultProductTaxClass()
-    {
-        $this->assertEquals(1, $this->helper->getDefaultProductTaxClass());
-    }
 }
