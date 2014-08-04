@@ -9,6 +9,10 @@ namespace Magento\ConfigurableProduct\Service\V1\Data\Option;
 
 class ValueConverter
 {
+    /**
+     * @param Value $value
+     * @return array
+     */
     public function convertArrayFromData(Value $value)
     {
         return [

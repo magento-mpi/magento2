@@ -66,6 +66,11 @@ class OptionConverter
         return $optionModel;
     }
 
+    /**
+     * @param Option $option
+     * @param OptionModel $optionModel
+     * @return OptionModel
+     */
     public function getModelFromData(Option $option, OptionModel $optionModel)
     {
         $newOptionModel = $this->optionFactory->create();
