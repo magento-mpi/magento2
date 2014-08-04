@@ -14,11 +14,11 @@ interface FilterInterface
     /**
      * #@+ Filter Types
      */
-    const TYPE_TERM = 'term';
+    const TYPE_TERM = 'termFilter';
 
-    const TYPE_BOOL = 'bool';
+    const TYPE_BOOL = 'boolFilter';
 
-    const TYPE_RANGE = 'range';
+    const TYPE_RANGE = 'rangeFilter';
 
     /**#@-*/
 

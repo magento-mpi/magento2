@@ -7,6 +7,10 @@
  */
 namespace Magento\Framework\Search\Request;
 
+use Magento\Framework\Search\Request\FilterInterface;
+use Magento\Framework\Search\Request\Query\Filter;
+use Magento\Framework\Search\Request\QueryInterface;
+
 class Mapper
 {
     /**
@@ -43,7 +47,7 @@ class Mapper
      * Get Query Interface by name
      *
      * @param $queryName
-     * @return \Magento\Framework\Search\Request\QueryInterface
+     * @return QueryInterface
      */
     public function get($queryName)
     {
@@ -55,7 +59,7 @@ class Mapper
      *
      * @param string $queryName
      * @throws \Exception
-     * @return \Magento\Framework\Search\Request\QueryInterface
+     * @return QueryInterface
      */
     private function mapQuery($queryName)
     {
@@ -64,7 +68,7 @@ class Mapper
         }
         $query = $this->queries[$queryName];
         switch ($query['type']) {
-            case 'matchQuery':
+            case QueryInterface::TYPE_MATCH:
                 $query = $this->objectManager->create(
                     'Magento\Framework\Search\Request\Query\Match',
                     [
@@ -74,14 +78,14 @@ class Mapper
                     ]
                 );
                 break;
-            case 'filteredQuery':
+            case QueryInterface::TYPE_FILTER:
                 if (isset($query['queryReference'][0])) {
                     $reference = $this->mapQuery($query['queryReference'][0]['ref']);
-                    $referenceType = \Magento\Framework\Search\Request\Query\Filter::REFERENCE_QUERY;
+                    $referenceType = Filter::REFERENCE_QUERY;
                 } else {
                     if (isset($query['filterReference'][0])) {
                         $reference = $this->mapFilter($query['filterReference'][0]['ref']);
-                        $referenceType = \Magento\Framework\Search\Request\Query\Filter::REFERENCE_FILTER;
+                        $referenceType = Filter::REFERENCE_FILTER;
                     } else {
                         throw new \Exception('Reference is not provided');
                     }
@@ -96,7 +100,7 @@ class Mapper
                     ]
                 );
                 break;
-            case 'boolQuery':
+            case QueryInterface::TYPE_BOOL:
                 $aggregatedByType = $this->aggregateQueriesByType($query['queryReference']);
                 $query = $this->objectManager->create(
                     'Magento\Framework\Search\Request\Query\Bool',
@@ -147,7 +151,7 @@ class Mapper
      *
      * @param $filterName
      * @throws \Exception
-     * @return \Magento\Framework\Search\Request\FilterInterface
+     * @return FilterInterface
      */
     private function mapFilter($filterName)
     {
@@ -156,7 +160,7 @@ class Mapper
         }
         $filter = $this->filters[$filterName];
         switch ($filter['type']) {
-            case 'termFilter':
+            case FilterInterface::TYPE_TERM:
                 $filter = $this->objectManager->create(
                     'Magento\Framework\Search\Request\Filter\Term',
                     [
@@ -166,7 +170,7 @@ class Mapper
                     ]
                 );
                 break;
-            case 'rangeFilter':
+            case FilterInterface::TYPE_RANGE:
                 $filter = $this->objectManager->create(
                     'Magento\Framework\Search\Request\Filter\Range',
                     [
@@ -178,7 +182,7 @@ class Mapper
                 );
 
                 break;
-            case 'boolFilter':
+            case FilterInterface::TYPE_BOOL:
                 $aggregatedByType = $this->aggregateFiltersByType($filter['filterReference']);
                 $filter = $this->objectManager->create(
                     'Magento\Framework\Search\Request\Filter\Bool',

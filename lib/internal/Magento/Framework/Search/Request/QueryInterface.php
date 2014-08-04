@@ -14,11 +14,11 @@ interface QueryInterface
     /**
      * #@+ Query Types
      */
-    const TYPE_MATCH = 'match';
+    const TYPE_MATCH = 'matchQuery';
 
-    const TYPE_BOOL = 'bool';
+    const TYPE_BOOL = 'boolQuery';
 
-    const TYPE_FILTER = 'filter';
+    const TYPE_FILTER = 'filteredQuery';
 
     /**#@-*/
 
