@@ -6,15 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Service\V1\Cart\ShippingMethod;
+namespace Magento\Checkout\Service\V1\ShippingMethod;
 
 
 interface WriteServiceInterface
 {
     /**
+     * Set shipping method and carrier for the specified cart
+     *
+     * @param int $cartId
      * @param string $carrierId
      * @param string $methodId
      * @return bool
      */
-    public function method($carrierId, $methodId);
+    public function setMethod($cartId, $carrierId, $methodId);
 }
