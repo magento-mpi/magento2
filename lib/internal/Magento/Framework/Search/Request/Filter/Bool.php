@@ -43,14 +43,14 @@ class Bool implements FilterInterface
      * @param string $name
      * @param array $must
      * @param array $should
-     * @param array $mustNot
+     * @param array $not
      */
-    public function __construct($name, array $must, array $should, array $mustNot)
+    public function __construct($name, array $must = [], array $should = [], array $not = [])
     {
         $this->name = $name;
         $this->must = $must;
         $this->should = $should;
-        $this->mustNot = $mustNot;
+        $this->mustNot = $not;
     }
 
     /**

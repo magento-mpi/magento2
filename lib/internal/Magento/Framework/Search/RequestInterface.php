@@ -30,14 +30,6 @@ interface RequestInterface
     public function getIndex();
 
     /**
-     * Get Filter
-     *
-     * @param string $filterName
-     * @return FilterInterface|FilterInterface[]
-     */
-    public function getFilter($filterName = null);
-
-    /**
      * Get Aggregation Buckets
      *
      * @return BucketInterface[]

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search\Request\Filter;
+namespace Magento\Framework\Search\Request\Query;
 
 use Magento\Framework\Search\Request\QueryInterface;
 
@@ -89,7 +89,7 @@ class Filter implements QueryInterface
     /**
      * Get Reference
      *
-     * @return string
+     * @return mixed
      */
     public function getReference()
     {

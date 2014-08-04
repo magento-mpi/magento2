@@ -402,6 +402,8 @@
     <virtualType name="Magento\Framework\Search\Config\Reader\Filesystem" type="Magento\Framework\Config\Reader\Filesystem">
         <arguments>
             <argument name="fileName" xsi:type="string">search_request.xml</argument>
+            <argument name="schemaLocator" xsi:type="object">Magento\Framework\Search\Request\Config\SchemaLocator</argument>
+            <argument name="converter" xsi:type="object">Magento\Framework\Search\Request\Config\Converter</argument>
             <argument name="idAttributes" xsi:type="array">
                 <item name="/requests/request" xsi:type="string">@name</item>
                 <item name="/requests/request/queries/query" xsi:type="string">@name</item>
@@ -410,4 +412,10 @@
             </argument>
         </arguments>
     </virtualType>
+
+    <type name="Magento\Framework\Search\Request\Config">
+        <arguments>
+            <argument name="reader" xsi:type="object">Magento\Framework\Search\Config\Reader\Filesystem</argument>
+        </arguments>
+    </type>
 </config>

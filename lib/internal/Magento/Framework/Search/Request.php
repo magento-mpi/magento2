@@ -26,11 +26,6 @@ class Request implements RequestInterface
     protected $index;
 
     /**
-     * @var FilterInterface[]
-     */
-    protected $filters;
-
-    /**
      * @var BucketInterface[]
      */
     protected $buckets;
@@ -55,24 +50,21 @@ class Request implements RequestInterface
     /**
      * @param string $name
      * @param string $indexName
-     * @param FilterInterface[] $filters
-     * @param BucketInterface[] $buckets
      * @param QueryInterface $query
      * @param int|null $from
      * @param int|null $size
+     * @param BucketInterface[] $buckets
      */
     public function __construct(
         $name,
         $indexName,
-        array $filters,
-        array $buckets,
         QueryInterface $query,
         $from = null,
-        $size = null
+        $size = null,
+        array $buckets = null
     ) {
         $this->name = $name;
         $this->index =$indexName;
-        $this->filters = $filters;
         $this->buckets = $buckets;
         $this->query = $query;
         $this->from = $from;
@@ -93,17 +85,6 @@ class Request implements RequestInterface
     public function getIndex()
     {
         return $this->index;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilter($filterName = null)
-    {
-        if (isset($filterName)) {
-            return $this->filters[$filterName];
-        }
-        return $this->filters;
     }
 
     /**

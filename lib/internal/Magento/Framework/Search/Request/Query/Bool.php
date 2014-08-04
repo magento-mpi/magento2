@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Search\Request\Filter;
+namespace Magento\Framework\Search\Request\Query;
 
 use Magento\Framework\Search\Request\QueryInterface;
 
@@ -53,15 +53,15 @@ class Bool implements QueryInterface
      * @param int|null $boost
      * @param array $must
      * @param array $should
-     * @param array $mustNot
+     * @param array $not
      */
-    public function __construct($name, $boost, array $must, array $should, array $mustNot)
+    public function __construct($name, $boost, array $must = [], array $should = [], array $not = [])
     {
         $this->name = $name;
         $this->boost = $boost;
         $this->must = $must;
         $this->should = $should;
-        $this->mustNot = $mustNot;
+        $this->mustNot = $not;
     }
 
     /**
