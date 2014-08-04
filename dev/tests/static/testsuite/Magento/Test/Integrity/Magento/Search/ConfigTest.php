@@ -18,7 +18,7 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
      */
     protected function _getXsd()
     {
-        return '/lib/internal/Magento/Framework/Search/etc/search_request.xsd';
+        return '/lib/internal/Magento/Framework/Search/etc/search_request_merged.xsd';
     }
 
     /**
@@ -58,28 +58,30 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
      */
     protected function _getKnownValidPartialXml()
     {
-        return __DIR__ . '/_files/valid.xml';
+        return __DIR__ . '/_files/valid_partial.xml';
     }
 
-    public function testFileSchemaUsingPartialXml()
-    {
-        parent::testFileSchemaUsingPartialXml();
-    }
-
+    /**
+     * @param null $expectedErrors
+     */
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
-        $this->markTestSkipped('shema redefine problem');
         $expectedErrors = array_filter(
             explode(
                 "\n",
                 "
 Element 'from': This element is not expected. Expected is ( filters ).
+No match found for key-sequence ['sugegsted_search_container'] of keyref 'requestQueryReference'.
+Element 'queryReference': No match found for key-sequence ['fulltext_search_query4'] of keyref 'queryReference'.
 "
             )
         );
         parent::testSchemaUsingInvalidXml($expectedErrors);
     }
 
+    /**
+     * @param null $expectedErrors
+     */
     public function testFileSchemaUsingInvalidXml($expectedErrors = null)
     {
         $expectedErrors = array_filter(
@@ -100,12 +102,6 @@ Element 'request': Missing child element(s). Expected is ( from )."
             )
         );
         parent::testFileSchemaUsingInvalidXml($expectedErrors);
-    }
-
-    public function testSchemaUsingPartialXml($expectedErrors = null)
-    {
-        $this->markTestSkipped('shema redefine problem');
-        parent::testSchemaUsingPartialXml();
     }
 
     /**
@@ -130,7 +126,6 @@ Element 'request': Missing child element(s). Expected is ( from )."
 
     public function testSchemaUsingValidXml()
     {
-        $this->markTestSkipped('shema redefine problem');
         parent::testSchemaUsingValidXml();
     }
 }

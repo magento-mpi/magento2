@@ -8,20 +8,25 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
-  <xs:redefine schemaLocation="search_request.xsd">
-     <xs:complexType name="requests">
+    <xs:include schemaLocation="requests.xsd"/>
+    <xs:complexType name="requests">
         <xs:sequence>
-          <xs:element type="request" name="request" minOccurs="1">
-            <xs:keyref name="queryNameRef" refer="queryName">
-              <xs:selector xpath=".//queryReference" />
-              <xs:field xpath="@ref" />
-            </xs:keyref>
-            <xs:keyref name="filterNameRef" refer="filterName">
-              <xs:selector xpath=".//filterReference" />
-              <xs:field xpath="@ref" />
-            </xs:keyref>
-          </xs:element>
+            <xs:element type="request" name="request" maxOccurs="unbounded">
+                <xs:keyref name="requestQueryReference" refer="queryName">
+                    <xs:selector xpath="."/>
+                    <xs:field xpath="@query"/>
+                </xs:keyref>
+                <xs:keyref name="queryReference" refer="queryName">
+                    <xs:selector xpath=".//queryReference"/>
+                    <xs:field xpath="@ref"/>
+                </xs:keyref>
+
+                <xs:keyref name="filterReference" refer="filterName">
+                    <xs:selector xpath=".//filterReference"/>
+                    <xs:field xpath="@ref"/>
+                </xs:keyref>
+            </xs:element>
         </xs:sequence>
-      </xs:complexType>
-  </xs:redefine>
+    </xs:complexType>
+    <xs:element name="requests" type="requests"/>
 </xs:schema>

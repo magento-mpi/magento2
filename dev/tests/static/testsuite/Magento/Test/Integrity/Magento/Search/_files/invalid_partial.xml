@@ -8,14 +8,14 @@
  */
 -->
 <requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <request query="sugegsted_search_container" index="product">
+    <request query="sugested_search_container" index="product">
         <queries>
             <query xsi:type="boolQuery" name="sugested_search_container" boost="2">
-                <queryReference clause="not" ref="fulltext_search_query4" />
+                <queryReference clause="not" ref="fulltext_search_query" />
             </query>
 
             <query xsi:type="boolQuery" name="suggested_search_container_dd" boost="2">
-                <queryReference clause="not" ref="fulltext_search_query4" />
+                <queryReference clause="not" ref="fulltext_search_query" />
             </query>
 
             <query xsi:type="matchQuery" name="fulltext_search_query" boost="5">
@@ -35,9 +35,9 @@
             <filter xsi:type="termFilter" name="promoted_documents_boost"  />
             <filter xsi:type="rangeFilter" field="promoted" name="price_name" from="10" to="100" />
             <filter xsi:type="boolFilter" name="price_name1">
-                <filterReference clause="must" ref="promoted_documents_filter" />
+                <filterReference clause="must" ref="price_name" />
                 <filterReference />
-                <filterReference clause="must" ref="promoted_documents_filter" />
+                <filterReference clause="must" ref="price_name" />
             </filter>
             <filter xsi:type="termFilter" name="promoted_boost" field="promoted" value="1" />
             <filter xsi:type="rangeFilter" field="promoted" name="price" from="10" to="100" />
