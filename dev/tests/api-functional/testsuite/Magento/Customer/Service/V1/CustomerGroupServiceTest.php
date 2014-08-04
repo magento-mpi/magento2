@@ -940,35 +940,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
         } catch (\SoapFault $e) {
             $this->assertContains($expectedMessage, $e->getMessage(), "SoapFault does not contain expected message.");
         } catch (\Exception $e) {
-            $errorObj = $this->_processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals($expectedParameters, $errorObj['parameters']);
         }
-    }
-
-    /**
-     * @param \Exception $e
-     * @return array
-     * <pre> ex.
-     * 'message' => "No such entity with %fieldName1 = %value1, %fieldName2 = %value2"
-     * 'parameters' => [
-     *      "fieldName1" => "email",
-     *      "value1" => "dummy@example.com",
-     *      "fieldName2" => "websiteId",
-     *      "value2" => 0
-     * ]
-     *
-     * </pre>
-     */
-    protected function _processRestExceptionResult(\Exception $e)
-    {
-        $error = json_decode($e->getMessage(), true);
-        //Remove line breaks and replace with space
-        $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
-        // remove trace and type, will only be present if server is in dev mode
-        unset($error['trace']);
-        unset($error['type']);
-        return $error;
     }
 
     /**
