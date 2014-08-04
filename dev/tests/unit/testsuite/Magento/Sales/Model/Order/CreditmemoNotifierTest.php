@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Model;
+namespace Magento\Sales\Model\Order;
 
 use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 use Magento\Framework\Mail\Exception;
 
 /**
- * Class OrderNotifierTest
+ * Class CreditmemoNotifierTest
  */
-class OrderNotifierTest extends \PHPUnit_Framework_TestCase
+class CreditmemoNotifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CollectionFactory |\PHPUnit_Framework_MockObject_MockObject
@@ -22,14 +22,14 @@ class OrderNotifierTest extends \PHPUnit_Framework_TestCase
     protected $historyCollectionFactory;
 
     /**
-     * @var \Magento\Sales\Model\OrderNotifier
+     * @var \Magento\Sales\Model\CreditmemoNotifier
      */
     protected $notifier;
 
     /**
      * @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $order;
+    protected $creditmemo;
 
     /**
      * @var \Magento\Framework\ObjectManager |\PHPUnit_Framework_MockObject_MockObject
@@ -39,7 +39,7 @@ class OrderNotifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\ObjectManager\ObjectManager |\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $orderSenderMock;
+    protected $creditmemoSenderMock;
 
     public function setUp()
     {
@@ -50,15 +50,15 @@ class OrderNotifierTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->order = $this->getMock(
-            'Magento\Sales\Model\Order',
+        $this->creditmemo = $this->getMock(
+            'Magento\Sales\Model\Order\Creditmemo',
             ['__wakeUp', 'getEmailSent'],
             [],
             '',
             false
         );
-        $this->orderSenderMock = $this->getMock(
-            'Magento\Sales\Model\Order\Email\Sender\OrderSender',
+        $this->creditmemoSenderMock = $this->getMock(
+            'Magento\Sales\Model\Order\Email\Sender\CreditmemoSender',
             ['send'],
             [],
             '',
@@ -71,10 +71,10 @@ class OrderNotifierTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->notifier = new OrderNotifier(
+        $this->notifier = new CreditmemoNotifier(
             $this->historyCollectionFactory,
             $this->loggerMock,
-            $this->orderSenderMock
+            $this->creditmemoSenderMock
         );
     }
 
@@ -104,20 +104,20 @@ class OrderNotifierTest extends \PHPUnit_Framework_TestCase
             ->method('save');
         $historyCollection->expects($this->once())
             ->method('getUnnotifiedForInstance')
-            ->with($this->order)
+            ->with($this->creditmemo)
             ->will($this->returnValue($historyItem));
-        $this->order->expects($this->once())
+        $this->creditmemo->expects($this->once())
             ->method('getEmailSent')
             ->will($this->returnValue(true));
         $this->historyCollectionFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($historyCollection));
 
-        $this->orderSenderMock->expects($this->once())
+        $this->creditmemoSenderMock->expects($this->once())
             ->method('send')
-            ->with($this->equalTo($this->order));
+            ->with($this->equalTo($this->creditmemo));
 
-        $this->assertTrue($this->notifier->notify($this->order));
+        $this->assertTrue($this->notifier->notify($this->creditmemo));
     }
 
     /**
@@ -125,10 +125,10 @@ class OrderNotifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotifyFail()
     {
-        $this->order->expects($this->once())
+        $this->creditmemo->expects($this->once())
             ->method('getEmailSent')
             ->will($this->returnValue(false));
-        $this->assertFalse($this->notifier->notify($this->order));
+        $this->assertFalse($this->notifier->notify($this->creditmemo));
     }
 
     /**
@@ -137,13 +137,13 @@ class OrderNotifierTest extends \PHPUnit_Framework_TestCase
     public function testNotifyException()
     {
         $exception = new Exception('Email has not been sent');
-        $this->orderSenderMock->expects($this->once())
+        $this->creditmemoSenderMock->expects($this->once())
             ->method('send')
-            ->with($this->equalTo($this->order))
+            ->with($this->equalTo($this->creditmemo))
             ->will($this->throwException($exception));
         $this->loggerMock->expects($this->once())
             ->method('logException')
             ->with($this->equalTo($exception));
-        $this->assertFalse($this->notifier->notify($this->order));
+        $this->assertFalse($this->notifier->notify($this->creditmemo));
     }
 }

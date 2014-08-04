@@ -17,12 +17,12 @@ class OrderInvoiceEmailTest extends WebapiAbstract
     const SERVICE_NAME = 'salesOrderInvoiceSendEmailV1';
 
     /**
-     * @magentoApiDataFixture Magento/Sales/_files/order.php
+     * @magentoApiDataFixture Magento/Sales/_files/invoice.php
      */
     public function testOrderInvoiceEmail()
     {
         $invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Invoice');
+            ->create('Magento\Sales\Model\Order\Invoice');
         $invoice->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [

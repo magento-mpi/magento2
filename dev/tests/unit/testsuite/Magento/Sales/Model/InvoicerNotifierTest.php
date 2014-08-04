@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Model;
+namespace Magento\Sales\Model\Order;
 
 use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 use Magento\Framework\Mail\Exception;
@@ -104,7 +104,7 @@ class InvoiceNotifierTest extends \PHPUnit_Framework_TestCase
             ->method('save');
         $historyCollection->expects($this->once())
             ->method('getUnnotifiedForInstance')
-            ->with($this->invoice, \Magento\Sales\Model\Order\Invoice::HISTORY_ENTITY_NAME)
+            ->with($this->invoice)
             ->will($this->returnValue($historyItem));
         $this->invoice->expects($this->once())
             ->method('getEmailSent')
