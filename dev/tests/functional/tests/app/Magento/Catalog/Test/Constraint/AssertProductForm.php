@@ -12,6 +12,7 @@ use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options;
 
 /**
  * Class AssertProductForm
@@ -23,7 +24,16 @@ class AssertProductForm extends AbstractAssertForm
      *
      * @var array
      */
-    protected $sortFields = [];
+    protected $sortFields = [
+        'custom_options::title'
+    ];
+
+    /**
+     * Formatting options for array values
+     *
+     * @var array
+     */
+    protected $specialArray = [];
 
     /**
      * Constraint severeness
@@ -67,11 +77,35 @@ class AssertProductForm extends AbstractAssertForm
         if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
             $data['website_ids'] = [$data['website_ids']];
         }
+        if (isset($data['custom_options']['import'])) {
+            $data['custom_options'] = Options::prepareCustomOptions($data['custom_options']);
+        }
+        if (!empty($this->specialArray)) {
+            $data = $this->prepareSpecialPriceArray($data);
+        }
 
         foreach ($sortFields as $path) {
             $data = $this->sortDataByPath($data, $path);
         }
         return $data;
+    }
+
+    /**
+     * Prepare special price array for Bundle product
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function prepareSpecialPriceArray(array $fields)
+    {
+        foreach ($this->specialArray as $key => $value) {
+            if (array_key_exists($key, $fields)) {
+                if (isset($value['type']) && $value['type'] == 'date') {
+                    $fields[$key] = vsprintf('%d/%d/%d', explode('/', $fields[$key]));
+                }
+            }
+        }
+        return $fields;
     }
 
     /**
