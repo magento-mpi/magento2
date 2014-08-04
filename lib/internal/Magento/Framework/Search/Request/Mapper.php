@@ -60,7 +60,7 @@ class Mapper
     private function mapQuery($queryName)
     {
         if (!isset($this->queries[$queryName])) {
-            throw new \Exception('Query ' . $queryName . ' does not exists');
+            throw new \Exception('Query ' . $queryName . ' does not exist');
         }
         $query = $this->queries[$queryName];
         switch ($query['type']) {
@@ -152,7 +152,7 @@ class Mapper
     private function mapFilter($filterName)
     {
         if (!isset($this->filters[$filterName])) {
-            throw new \Exception('Filter ' . $filterName . ' does not exists');
+            throw new \Exception('Filter ' . $filterName . ' does not exist');
         }
         $filter = $this->filters[$filterName];
         switch ($filter['type']) {

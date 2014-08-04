@@ -52,7 +52,7 @@ class Data implements \Magento\Framework\Config\DataInterface
         $cacheId
     ) {
         $data = $cache->load($cacheId);
-        if (1 || false === $data) {
+        if (false === $data) {
             $data = $reader->read();
             $cache->save(serialize($data), $cacheId);
         } else {
