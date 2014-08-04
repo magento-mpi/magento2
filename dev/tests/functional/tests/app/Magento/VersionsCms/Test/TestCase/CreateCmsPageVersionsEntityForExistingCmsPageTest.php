@@ -33,7 +33,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
  * @group CMS_Versioning_(PS)
  * @ZephyrId MAGETWO-26738
  */
-class CreateCmsPageVersionsEntityTest extends Injectable
+class CreateCmsPageVersionsEntityForExistingCmsPageTest extends Injectable
 {
     /**
      * CmsIndex page
