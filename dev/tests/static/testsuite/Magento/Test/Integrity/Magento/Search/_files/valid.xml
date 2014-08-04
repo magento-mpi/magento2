@@ -69,7 +69,11 @@
     <request query="sugegsted_search_container_2" index="product_2">
         <queries>
             <query xsi:type="boolQuery" name="sugegsted_search_container_2" boost="2">
-                <queryReference clause="not" ref="fulltext_search_query" />
+                <queryReference clause="not" ref="fulltext_search_query_c_2" />
+            </query>
+            <query xsi:type="matchQuery" name="fulltext_search_query_c_2" boost="5">
+                <match field="title" value="%request.title%" boost="2" />
+                <match field="description" value="%request.description%" />
             </query>
         </queries>
         <filters>
