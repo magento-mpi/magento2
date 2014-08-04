@@ -64,4 +64,5 @@ $quote->setCustomerIsGuest(
 );
 $quote->getPayment()->setMethod('checkmo');
 $quote->setIsMultiShipping('1');
+$quote->collectTotals();
 $quote->save();
