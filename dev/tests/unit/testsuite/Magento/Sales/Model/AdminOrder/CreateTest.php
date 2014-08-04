@@ -55,8 +55,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
         $this->formFactoryMock = $this->getMock(
             'Magento\Customer\Model\Metadata\FormFactory',
-            array(),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
