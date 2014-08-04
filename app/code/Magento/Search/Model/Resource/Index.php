@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Search\Model\Resource;
+
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
 use Magento\CatalogSearch\Model\Resource\Helper;
 use Magento\Store\Model\StoreManagerInterface;
