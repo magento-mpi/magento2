@@ -50,10 +50,14 @@ class RequestFactory
      * @param string $requestName
      * @param array $bindValues
      * @return \Magento\Framework\Search\Request
+     * @throws \InvalidArgumentException
      */
     public function create($requestName, array $bindValues = array())
     {
         $data = $this->config->get($requestName);
+        if (is_null($data)) {
+            throw new \InvalidArgumentException("Request name '{$requestName}' doesn't exist.");
+        }
         $data = $this->replaceBinds((array)$data, array_keys($bindValues), array_values($bindValues));
         return $this->convert($data);
     }
