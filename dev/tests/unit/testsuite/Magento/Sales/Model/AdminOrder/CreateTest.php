@@ -34,6 +34,11 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Sales\Model\Quote\Item\Updater|\PHPUnit_Framework_MockObject_MockObject */
     protected $itemUpdater;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $objectFactory;
+
     protected function setUp()
     {
         $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
@@ -72,6 +77,11 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         $this->itemUpdater = $this->getMock('Magento\Sales\Model\Quote\Item\Updater', array(), array(), '', false);
 
+        $this->objectFactory = $this->getMockBuilder('\Magento\Framework\Object\Factory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->adminOrderCreate = $objectManagerHelper->getObject(
             'Magento\Sales\Model\AdminOrder\Create',
@@ -91,7 +101,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
                 'customerBuilder' => $this->customerBuilderMock,
                 'customerHelper' => $customerHelperMock,
                 'customerGroupService' => $this->customerGroupServiceMock,
-                'quoteItemUpdater' => $this->itemUpdater
+                'quoteItemUpdater' => $this->itemUpdater,
+                'objectFactory' => $this->objectFactory
             )
         );
     }
