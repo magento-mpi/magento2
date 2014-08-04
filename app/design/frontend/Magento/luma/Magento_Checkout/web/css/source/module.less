@@ -444,13 +444,53 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
     .checkout-onepage-index {
-        .action.toggle.nav {
+        .nav-toggle {
             display: none;
         } 
         .logo {
             margin-left: 0;
         }
-    } 
+    }
+    .opc-wrapper {
+        .data.table {
+            &:extend(.table-vertical-mobile all);
+            tbody tr {
+                td:not(:last-child) {
+                    border: none;
+                }
+                td:last-child {
+                    border-top: none;
+                    border-bottom: @border-width-base solid @border-color-base;
+                }
+                .col {
+                    &.qty,
+                    &.price,
+                    &.subtotal {
+                        text-align: left;
+                    }
+                }
+            }
+            tfoot {
+                .mark,
+                .amount {
+                    padding: 5px 15px;
+                }
+            }
+            .grand.totals {
+                .mark {
+                    padding: 5px 15px;
+                }
+                .amount {
+                    padding: 5px 15px 0;
+                    strong {
+                        border-top: none;
+                        border-bottom: @border-width-base solid @border-color-base;
+                        padding-bottom: 5px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 //

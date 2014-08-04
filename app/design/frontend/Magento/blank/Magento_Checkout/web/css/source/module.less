@@ -295,6 +295,36 @@
     }
 }
 
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .opc-wrapper {
+        .data.table {
+            &:extend(.table-vertical-mobile all);
+            tbody tr {
+                &:first-child,
+                &:last-child {
+                    td {
+                        border: 0;
+                    }
+                }
+                td:last-child {
+                    border-bottom: @border-width-base solid @border-color-base;
+                }
+                .col {
+                    &.qty,
+                    &.price,
+                    &.subtotal {
+                        text-align: left;
+                    }
+                }
+            }
+        }
+    }
+}
+
 //
 //    Desktop
 //--------------------------------------
