@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: plewis
- * Date: 8/3/14
- * Time: 12:58 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\TestFramework\TestCase\Webapi;
@@ -36,7 +36,7 @@ class Curl extends Adapter\Rest\CurlClient
      * @param array $headers
      * @return array
      */
-    public function get($resourcePath, $data = array(), $headers = array())
+    public function get($resourcePath, $data = [], $headers = [])
     {
         $url = $this->constructResourceUrl($resourcePath);
         if (!empty($data)) {
