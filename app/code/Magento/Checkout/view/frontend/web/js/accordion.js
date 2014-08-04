@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true browser:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     'use strict';
+
     // mage.accordion base functionality
     $.widget('mage.accordion', $.ui.accordion, {
         options: {
@@ -37,4 +41,5 @@
             $(this.options.activeSelector).addClass('allow active').find('h2').trigger('click');
         }
     });
-})(jQuery);
+
+});

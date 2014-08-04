@@ -94,5 +94,15 @@
             <attribute_code>reward_warning_notification</attribute_code>
             <backend_type>virtual</backend_type>
         </reward_warning_notification>
+        <value>
+            <attribute_code>value</attribute_code>
+            <backend_type>virtual</backend_type>
+        </value>
+        <equal_value>
+            <attribute_code>equal_value</attribute_code>
+            <backend_type>virtual</backend_type>
+        </equal_value>
     </fields>
+    <repository_class>Magento\Reward\Test\Repository\Reward</repository_class>
+    <handler_interface>Magento\Reward\Test\Handler\Reward\RewardInterface</handler_interface>
 </fixture>

@@ -8,11 +8,11 @@
 
 namespace Magento\Checkout\Test\Block\Onepage;
 
+use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
-use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 
 /**
  * Class Billing
@@ -42,7 +42,7 @@ class Billing extends Form
     protected $waitElement = '.loading-mask';
 
     /**
-     * Locator for customer attribute on Checkout page
+     * Locator for customer attribute on New Order page
      *
      * @var string
      */
@@ -78,7 +78,7 @@ class Billing extends Form
     }
 
     /**
-     * Check if Customer custom Attribute visible
+     * Check for visible customer attribute
      *
      * @param CustomerCustomAttribute $customerAttribute
      * @return bool

@@ -5,8 +5,13 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate"
+], function($){
     "use strict";
+    
     $.widget('mage.relatedProducts', {
         options: {
             relatedCheckbox: '.related-checkbox', // Class name for a related product's input checkbox.
@@ -91,4 +96,4 @@
             return o;
         }
     });
-})(jQuery);
+});

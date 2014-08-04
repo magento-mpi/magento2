@@ -23,7 +23,7 @@
     <block>
         <name>rewardPointsBlock</name>
         <class>Magento\Reward\Test\Block\Customer\RewardPoints</class>
-        <locator>//div[div[contains(@class, "block reward")]]</locator>
+        <locator>//div[div[contains(@class, "block-reward-info")]]</locator>
         <strategy>xpath</strategy>
     </block>
 </page>

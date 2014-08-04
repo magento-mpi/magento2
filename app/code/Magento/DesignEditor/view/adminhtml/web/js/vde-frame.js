@@ -4,9 +4,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+
     /**
      * Widget vde frame
      */
@@ -63,4 +66,5 @@
             this._resizeFrame();
         }
     });
-})( jQuery );
+
+});
