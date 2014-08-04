@@ -265,8 +265,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $expectOutputPrice,
         $configs = [],
         $productClassName = 'DefaultProductClass'
-    )
-    {
+    ) {
         $this->setUpDefaultRules();
         $fixtureProductId = 1;
         /** @var \Magento\Catalog\Model\Product $product */
