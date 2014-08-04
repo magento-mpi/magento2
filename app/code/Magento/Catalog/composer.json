@@ -23,14 +23,13 @@
         "magento/module-catalog-rule": "0.1.0-alpha89",
         "magento/module-sales": "0.1.0-alpha89",
         "magento/module-catalog-search": "0.1.0-alpha89",
-        "magento/module-weee": "0.1.0-alpha89",
         "magento/module-product-alert": "0.1.0-alpha89",
         "magento/module-url-rewrite": "0.1.0-alpha89",
         "magento/framework": "0.1.0-alpha89",
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
-    "version": "0.1.0-alpha89",
+    "version": "0.1.0",
     "extra": {
         "map": [
             [

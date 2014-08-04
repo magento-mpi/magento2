@@ -9,7 +9,6 @@
         "magento/module-sales": "0.1.0-alpha89",
         "magento/module-eav": "0.1.0-alpha89",
         "magento/module-core": "0.1.0-alpha89",
-        "magento/module-tax": "0.1.0-alpha89",
         "magento/module-backend": "0.1.0-alpha89",
         "magento/module-customer": "0.1.0-alpha89",
         "magento/module-directory": "0.1.0-alpha89",
@@ -23,7 +22,7 @@
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
-    "version": "0.1.0-alpha89",
+    "version": "0.1.0",
     "extra": {
         "map": [
             [
