@@ -380,4 +380,35 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->setSavePath('some_save_path');
         $this->assertEquals($this->config->getOption('save_path'), 'some_save_path');
     }
+
+    public function testSetLifetimePath()
+    {
+        $getValueReturnMap = [
+            [
+                'test_web/test_cookie/test_cookie_lifetime', 'store', null, 7200
+            ],
+            [
+                'web/cookie/cookie_path', 'store', null, ''
+            ],
+        ];
+
+        $this->_configMock
+            ->method('getValue')
+            ->will($this->returnValueMap($getValueReturnMap));
+
+        $config = new \Magento\Framework\Session\Config(
+            $this->_configMock,
+            $this->_stringHelperMock,
+            $this->_requestMock,
+            $this->_appState,
+            $this->_filesystem,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER,
+            __DIR__,
+            null,
+            'test_web/test_cookie/test_cookie_lifetime'
+        );
+
+        $this->assertEquals(7200, $config->getCookieLifetime());
+    }
 }

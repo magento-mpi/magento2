@@ -75,4 +75,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('files', $this->_model->getSaveHandler());
     }
+
+    /**
+     * Unable to add integration tests for testGetLifetimePathNonDefault
+     *
+     * Error: Cannot modify header information - headers already sent
+     */
+    public function testGetLifetimePathNonDefault()
+    {
+
+    }
 }
