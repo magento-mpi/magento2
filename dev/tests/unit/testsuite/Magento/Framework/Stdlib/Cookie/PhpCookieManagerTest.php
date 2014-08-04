@@ -221,23 +221,14 @@ namespace Magento\Framework\Stdlib\Cookie {
             $sensitiveCookieMetadata = $this->objectManager
                 ->getObject('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata');
 
-            $scopeMock = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\CookieScope')
-                ->setMethods(['getSensitiveCookieMetadata'])
-                ->disableOriginalConstructor()
-                ->getMock();
-            $scopeMock->expects($this->once())
+            $this->scopeMock->expects($this->any())
                 ->method('getSensitiveCookieMetadata')
                 ->with()
                 ->will(
                     $this->returnValue($sensitiveCookieMetadata)
                 );
 
-            $cookieManagerWithMockScope = $this->objectManager->getObject(
-                'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
-                ['scope' => $scopeMock]
-            );
-
-            $cookieManagerWithMockScope->setSensitiveCookie(
+            $this->cookieManager->setSensitiveCookie(
                 self::SENSITIVE_COOKIE_NAME_NO_METADATA,
                 'cookie_value'
             );
@@ -257,6 +248,15 @@ namespace Magento\Framework\Stdlib\Cookie {
                             'path' => null,
                         ],
                     ]
+                );
+
+
+
+            $this->scopeMock->expects($this->any())
+                ->method('getSensitiveCookieMetadata')
+                ->with($sensitiveCookieMetadata)
+                ->will(
+                    $this->returnValue($sensitiveCookieMetadata)
                 );
 
             $this->cookieManager->setSensitiveCookie(
@@ -282,6 +282,12 @@ namespace Magento\Framework\Stdlib\Cookie {
                     ]
                 );
 
+            $this->scopeMock->expects($this->any())
+                ->method('getSensitiveCookieMetadata')
+                ->with($sensitiveCookieMetadata)
+                ->will(
+                    $this->returnValue($sensitiveCookieMetadata)
+                );
             $this->cookieManager->setSensitiveCookie(
                 self::SENSITIVE_COOKIE_NAME_WITH_DOMAIN_AND_PATH,
                 'cookie_value',
@@ -298,23 +304,14 @@ namespace Magento\Framework\Stdlib\Cookie {
                 'Magento\Framework\Stdlib\Cookie\PublicCookieMetadata'
             );
 
-            $scopeMock = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\CookieScope')
-                ->setMethods(['getPublicCookieMetadata'])
-                ->disableOriginalConstructor()
-                ->getMock();
-            $scopeMock->expects($this->once())
+            $this->scopeMock->expects($this->any())
                 ->method('getPublicCookieMetadata')
                 ->with()
                 ->will(
                     $this->returnValue($publicCookieMetadata)
                 );
 
-            $cookieManagerWithMockScope = $this->objectManager->getObject(
-                'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
-                ['scope' => $scopeMock]
-            );
-
-            $cookieManagerWithMockScope->setPublicCookie(
+            $this->cookieManager->setPublicCookie(
                 self::PUBLIC_COOKIE_NAME_NO_METADATA,
                 'cookie_value'
             );
@@ -336,11 +333,19 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ]
             );
 
+            $this->scopeMock->expects($this->any())
+                ->method('getPublicCookieMetadata')
+                ->with($publicCookieMetadata)
+                ->will(
+                    $this->returnValue($publicCookieMetadata)
+                );
+
             $this->cookieManager->setPublicCookie(
                 self::PUBLIC_COOKIE_NAME_DEFAULT_VALUES,
                 'cookie_value',
                 $publicCookieMetadata
             );
+
             $this->assertTrue(self::$isSetCookieInvoked);
         }
 
@@ -358,6 +363,13 @@ namespace Magento\Framework\Stdlib\Cookie {
                     ],
                 ]
             );
+
+            $this->scopeMock->expects($this->any())
+                ->method('getPublicCookieMetadata')
+                ->with($publicCookieMetadata)
+                ->will(
+                    $this->returnValue($publicCookieMetadata)
+                );
 
             $this->cookieManager->setPublicCookie(
                 self::PUBLIC_COOKIE_NAME_SOME_FIELDS_SET,
@@ -382,11 +394,19 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ]
             );
 
+            $badCookieName = '';
             $cookieValue = 'some_value';
+
+            $this->scopeMock->expects($this->any())
+                ->method('getPublicCookieMetadata')
+                ->with()
+                ->will(
+                    $this->returnValue($publicCookieMetadata)
+                );
 
             try {
                 $this->cookieManager->setPublicCookie(
-                    '',
+                    $badCookieName,
                     $cookieValue,
                     $publicCookieMetadata
                 );
@@ -415,10 +435,18 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ]
             );
 
+            $this->scopeMock->expects($this->any())
+                ->method('getPublicCookieMetadata')
+                ->with()
+                ->will(
+                    $this->returnValue($publicCookieMetadata)
+                );
+
             $cookieValue = '';
             for ($i = 0; $i < self::MAX_COOKIE_SIZE + 1; $i++) {
                 $cookieValue = $cookieValue . 'a';
             }
+
 
             try {
                 $this->cookieManager->setPublicCookie(
@@ -448,6 +476,13 @@ namespace Magento\Framework\Stdlib\Cookie {
             for ($i = count($_COOKIE); $i < self::MAX_NUM_COOKIES; $i++) {
                 $_COOKIE['test_cookie_' . $i] = 'some_value';
             }
+
+            $this->scopeMock->expects($this->any())
+                ->method('getPublicCookieMetadata')
+                ->with()
+                ->will(
+                    $this->returnValue($publicCookieMetadata)
+                );
 
             try {
                 $this->cookieManager->setPublicCookie(
