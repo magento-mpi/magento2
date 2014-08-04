@@ -25,14 +25,12 @@ class IntegrationFormPageActions extends FormPageActions
     protected $saveNewButton = '[data-ui-id="integration-edit-content-save-split-button-button"]';
 
     /**
-     * Click on "Save" button
+     * Click on "Save" with split button
      *
      * @return void
      */
     public function saveNew()
     {
         $this->_rootElement->find($this->saveNewButton)->click();
-        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
-        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
     }
 }
