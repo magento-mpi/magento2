@@ -13,11 +13,6 @@ class RequestFactory
     const CACHE_PREFIX = 'search_request::';
 
     /**
-     * @var \Magento\Framework\Config\CacheInterface
-     */
-    private $cache;
-
-    /**
      * @var Request\Config
      */
     private $config;
@@ -32,16 +27,13 @@ class RequestFactory
      *
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Search\Request\Config $config
-     * @param \Magento\Framework\Config\CacheInterface $cache
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\Search\Request\Config $config,
-        \Magento\Framework\Config\CacheInterface $cache
+        \Magento\Framework\Search\Request\Config $config
     ) {
         $this->objectManager = $objectManager;
         $this->config = $config;
-        $this->cache = $cache;
     }
 
     /**
@@ -108,5 +100,4 @@ class RequestFactory
             ]
         );
     }
-
 }
