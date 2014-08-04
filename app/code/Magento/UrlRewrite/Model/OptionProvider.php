@@ -11,6 +11,9 @@ namespace Magento\UrlRewrite\Model;
 
 use Magento\Framework\Option\ArrayInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class OptionProvider implements ArrayInterface
 {
     /**
