@@ -8,6 +8,7 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Backend\Block\Widget\Grid\Column\Renderer\Input;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\InputException;
 use Magento\Tax\Service\V1\Data\TaxRule;
@@ -118,7 +119,46 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function testCreateTaxRuleInvalid()
+    public function testCreateTaxRuleInvalidTaxClassIds()
+    {
+        $taxRuleData = [
+            TaxRule::CODE => 'code',
+            // These TaxClassIds exist, but '2' is should be a productTaxClassId and
+            // '3' should be a customerTaxClassId. See MAGETWO-25683.
+            TaxRule::CUSTOMER_TAX_CLASS_IDS => [2],
+            TaxRule::PRODUCT_TAX_CLASS_IDS => [3],
+            TaxRule::TAX_RATE_IDS => [1],
+            TaxRule::PRIORITY => 0,
+            TaxRule::SORT_ORDER => 0,
+        ];
+        // Tax rule data object created
+        $taxRule = $this->taxRuleBuilder->populateWithArray($taxRuleData)->create();
+
+        try {
+            //Tax rule service call
+            $this->taxRuleService->createTaxRule($taxRule);
+            $this->fail('Did not throw expected InputException');
+        } catch (InputException $e) {
+            $expectedCustomerTaxClassIdParams = [
+                'fieldName' => $taxRule::CUSTOMER_TAX_CLASS_IDS,
+                'value'     => 2,
+            ];
+            $expectedProductTaxClassIdParams = [
+                'fieldName' => $taxRule::PRODUCT_TAX_CLASS_IDS,
+                'value'    => 3,
+            ];
+
+            $actualErrors = $e->getErrors();
+            $this->assertEquals(2, count($actualErrors));
+            $this->assertEquals($expectedCustomerTaxClassIdParams, $actualErrors[0]->getParameters());
+            $this->assertEquals($expectedProductTaxClassIdParams, $actualErrors[1]->getParameters());
+        }
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testCreateTaxRuleInvalidSortOrder()
     {
         $taxRuleData = [
             TaxRule::CODE => 'code',
