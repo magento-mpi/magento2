@@ -285,7 +285,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $taxRule = $taxRuleBuilder
-            ->setId(2)
             ->setCode('code')
             ->setCustomerTaxClassIds([3])
             ->setProductTaxClassIds([2])
@@ -307,6 +306,24 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $result = $this->taxRuleService->createTaxRule($taxRule);
 
         $this->assertSame($expectedTaxRule, $result);
+    }
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testCreateTaxRuleSpecifyingId()
+    {
+        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $taxRule = $taxRuleBuilder
+            ->setId(9)
+            ->setCode('code')
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+
+        $this->taxRuleService->createTaxRule($taxRule);
     }
 
     /**
@@ -350,7 +367,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             ],
             'negative fields' => [
                 [
-                    'id' => 3,
                     'customer_tax_class_ids' => [3],
                     'product_tax_class_ids' => [2],
                     'tax_rate_ids' => [1],
@@ -373,7 +389,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $taxRule = $taxRuleBuilder
-            ->setId(2)
             ->setCode('code')
             ->setCustomerTaxClassIds([3])
             ->setProductTaxClassIds([2])
@@ -396,7 +411,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $taxRule = $taxRuleBuilder
-            ->setId(2)
             ->setCode('code')
             ->setCustomerTaxClassIds([2])
             ->setProductTaxClassIds([3])

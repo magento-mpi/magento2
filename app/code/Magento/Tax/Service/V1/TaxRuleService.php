@@ -113,6 +113,11 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     public function createTaxRule(TaxRule $rule)
     {
+        // See if a tax rule with that $rule->getId() is specified. If so, throw an exception.
+        if (!is_null($rule->getId())) {
+            throw new InputException('TaxRule ID should not be specified.');
+        }
+
         $taxRuleModel = $this->saveTaxRule($rule);
         return $this->converter->createTaxRuleDataObjectFromModel($taxRuleModel);
     }

@@ -119,6 +119,29 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
+    public function testCreateTaxRuleSpecifyingId()
+    {
+        $taxRuleDataObject = $this->taxRuleBuilder
+            ->setId(123)
+            ->setCode('code')
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+
+        try {
+            $this->taxRuleService->createTaxRule($taxRuleDataObject);
+            $this->fail('Did not throw expected InputException');
+        } catch (InputException $e) {
+            $this->assertEquals('TaxRule ID should not be specified.', $e->getMessage());
+        }
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testCreateTaxRuleInvalidTaxClassIds()
     {
         $taxRuleData = [
