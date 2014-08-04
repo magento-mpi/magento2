@@ -36,7 +36,7 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-26648
  */
-class DeleteGiftRegistryEntityTest extends Injectable
+class DeleteGiftRegistryFrontendEntityTest extends Injectable
 {
     /**
      * Cms index page
