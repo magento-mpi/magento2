@@ -38,7 +38,7 @@ class Attribute extends AbstractPlugin
      *
      * @param \Magento\Catalog\Model\Resource\Attribute $subject
      * @param \Closure $proceed
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @param \Magento\Framework\Model\AbstractModel $attribute
      *
      * @return \Magento\Catalog\Model\Resource\Attribute
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -46,7 +46,7 @@ class Attribute extends AbstractPlugin
     public function aroundDelete(
         \Magento\Catalog\Model\Resource\Attribute $subject,
         \Closure $proceed,
-        \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+        \Magento\Framework\Model\AbstractModel$attribute
     ) {
         $needInvalidation = !$attribute->isObjectNew() && $attribute->getIsSearchable();
         $result = $proceed($attribute);
