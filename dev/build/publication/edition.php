@@ -18,6 +18,7 @@ try {
     assertCondition(isset($options['dir']), USAGE);
     $dir = $options['dir'];
     assertCondition($dir && is_dir($dir), "The specified directory doesn't exist: {$options['dir']}");
+    $dir = rtrim(str_replace('\\', '/', $dir), '/');
     assertCondition(isset($options['edition']), USAGE);
 
     $lists = array('common.txt');
