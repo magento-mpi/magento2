@@ -13,18 +13,74 @@
 
 .wishlist {
     &.split.button {
-        &:extend(.abstract-split-button all);
-        margin-bottom: 10px;
-        .product-info-main &,
-        .item.product &,
-        .block-bundle-summary &,
-        .comparison & {
-            .split,
-            .toggle {
-                .button-s();
+        .dropdown-split(
+            @_options-selector : ~".items",
+            @_dropdown-split-button-border-radius-fix: true,
+            @_dropdown-split-list-item-padding: 5px 5px 5px 23px,
+            @_dropdown-split-toggle-icon-content: @icon-down,
+            @_dropdown-split-toggle-active-icon-content: @icon-up,
+            @_icon-font-size: 22px,
+            @_icon-font-color: @addto-color,
+            @_icon-font-color-hover: @addto-hover-color,
+            @_dropdown-split-list-pointer-position: left,
+            @_dropdown-split-list-min-width: 200px
+        );
+        vertical-align: middle;
+        .items .item:last-child {
+            background: #e2e2e2;
+            &:hover {
+                background: @dropdown-list-item-hover;
             }
-            .toggle {
-                padding: 0;
+        }
+        .action.new {
+            .icon-font(
+                @_icon-font-content: @icon-expand,
+                @_icon-font-size: 10px,
+                @_icon-font-line-height: 10px,
+                @_icon-font-vertical-align: middle
+            );
+             &:before {
+                margin-left: -17px;
+                margin-right: 5px;
+            }
+        }
+        .table-comparison &,
+        .product-items & {
+            > .action {
+                .button-as-link();
+                &.split {
+                    &:extend(.abstract-actions-addto-gridlist all);
+                    .icon-font-symbol(
+                        @_icon-font-content: @icon-wishlist-empty
+                    );
+                }
+                &:active,
+                &:focus,
+                &:hover {
+                    box-shadow: none;
+                    color: @addto-hover-color;
+                }
+            }
+            > .action.toggle {
+                &:before {
+                    content: "";
+                    border-left: 1px solid lighten(@addto-color, 30%);
+                    float: left;
+                    height: 15px;
+                    margin-top: 3px;
+                }
+            }
+        }
+        .product-info-main &,
+        .block-bundle-summary & {
+            .action {
+                &.split,
+                &.toggle {
+                    .button-s();
+                }
+                &.toggle {
+                    padding: 0;
+                } 
             }
         }
     }
@@ -41,6 +97,9 @@
     }
     &.overlay {
         .window-overlay();
+        &.active {
+            display: block;
+        }
     }
 }
 
