@@ -161,7 +161,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             case 'project':
                 sort(self::$dependencies);
                 $dependenciesListed = [];
-                foreach (self::$rootJson->replace as $key => $value) {
+                foreach (array_keys((array) self::$rootJson->replace) as $key) {
                     if (strncmp($key, 'magento', strlen('magento')) === 0) {
                         $dependenciesListed[] = $key;
                     }
@@ -170,7 +170,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals(
                     self::$dependencies,
                     $dependenciesListed,
-                    'The Mainline root composer.json does not match with currently available components.'
+                    'The root composer.json does not match with currently available components.'
                 );
                 break;
             default:
@@ -275,7 +275,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 "Dependency on the component {$package} is found at the etc/module.xml, but missing in composer.json"
             );
         }
-        foreach ($json as $key => $value) {
+        foreach (array_keys((array) $json) as $key) {
             if (0 === strpos($key, 'magento/module-', 0)) {
                 $this->assertContains(
                     $key,
