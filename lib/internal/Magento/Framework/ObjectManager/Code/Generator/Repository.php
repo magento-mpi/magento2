@@ -100,6 +100,8 @@ class Repository extends \Magento\Framework\Code\Generator\EntityAbstract
 
     /**
      * Returns collection factory class name
+     *
+     * @return string
      */
     protected function _getCollectionFactoryClassName()
     {

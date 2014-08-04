@@ -7,6 +7,12 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
+/**
+ * Class CreditmemoTest
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @package Magento\Sales\Service\V1\Data
+ */
 class CreditmemoTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAdjustment()
@@ -121,22 +127,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test_value_base_currency_code', $object->getBaseCurrencyCode());
     }
 
-    public function testGetBaseCustomerBalanceAmount()
-    {
-        $data = ['base_customer_balance_amount' => 'test_value_base_customer_balance_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_base_customer_balance_amount', $object->getBaseCustomerBalanceAmount());
-    }
-
     public function testGetBaseDiscountAmount()
     {
         $data = ['base_discount_amount' => 'test_value_base_discount_amount'];
@@ -151,22 +141,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
 
         $this->assertEquals('test_value_base_discount_amount', $object->getBaseDiscountAmount());
-    }
-
-    public function testGetBaseGiftCardsAmount()
-    {
-        $data = ['base_gift_cards_amount' => 'test_value_base_gift_cards_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_base_gift_cards_amount', $object->getBaseGiftCardsAmount());
     }
 
     public function testGetBaseGrandTotal()
@@ -199,22 +173,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
 
         $this->assertEquals('test_value_base_hidden_tax_amount', $object->getBaseHiddenTaxAmount());
-    }
-
-    public function testGetBaseRewardCurrencyAmount()
-    {
-        $data = ['base_reward_currency_amount' => 'test_value_base_reward_currency_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_base_reward_currency_amount', $object->getBaseRewardCurrencyAmount());
     }
 
     public function testGetBaseShippingAmount()
@@ -377,22 +335,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test_value_billing_address_id', $object->getBillingAddressId());
     }
 
-    public function testGetBsCustomerBalTotalRefunded()
-    {
-        $data = ['bs_customer_bal_total_refunded' => 'test_value_bs_customer_bal_total_refunded'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_bs_customer_bal_total_refunded', $object->getBsCustomerBalTotalRefunded());
-    }
-
     public function testGetCreatedAt()
     {
         $data = ['created_at' => 'test_value_created_at'];
@@ -423,38 +365,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
 
         $this->assertEquals('test_value_creditmemo_status', $object->getCreditmemoStatus());
-    }
-
-    public function testGetCustomerBalanceAmount()
-    {
-        $data = ['customer_balance_amount' => 'test_value_customer_balance_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_customer_balance_amount', $object->getCustomerBalanceAmount());
-    }
-
-    public function testGetCustomerBalTotalRefunded()
-    {
-        $data = ['customer_bal_total_refunded' => 'test_value_customer_bal_total_refunded'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_customer_bal_total_refunded', $object->getCustomerBalTotalRefunded());
     }
 
     public function testGetDiscountAmount()
@@ -521,22 +431,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test_value_entity_id', $object->getEntityId());
     }
 
-    public function testGetGiftCardsAmount()
-    {
-        $data = ['gift_cards_amount' => 'test_value_gift_cards_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gift_cards_amount', $object->getGiftCardsAmount());
-    }
-
     public function testGetGlobalCurrencyCode()
     {
         $data = ['global_currency_code' => 'test_value_global_currency_code'];
@@ -567,198 +461,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
 
         $this->assertEquals('test_value_grand_total', $object->getGrandTotal());
-    }
-
-    public function testGetGwBasePrice()
-    {
-        $data = ['gw_base_price' => 'test_value_gw_base_price'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_base_price', $object->getGwBasePrice());
-    }
-
-    public function testGetGwBaseTaxAmount()
-    {
-        $data = ['gw_base_tax_amount' => 'test_value_gw_base_tax_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_base_tax_amount', $object->getGwBaseTaxAmount());
-    }
-
-    public function testGetGwCardBasePrice()
-    {
-        $data = ['gw_card_base_price' => 'test_value_gw_card_base_price'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_card_base_price', $object->getGwCardBasePrice());
-    }
-
-    public function testGetGwCardBaseTaxAmount()
-    {
-        $data = ['gw_card_base_tax_amount' => 'test_value_gw_card_base_tax_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_card_base_tax_amount', $object->getGwCardBaseTaxAmount());
-    }
-
-    public function testGetGwCardPrice()
-    {
-        $data = ['gw_card_price' => 'test_value_gw_card_price'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_card_price', $object->getGwCardPrice());
-    }
-
-    public function testGetGwCardTaxAmount()
-    {
-        $data = ['gw_card_tax_amount' => 'test_value_gw_card_tax_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_card_tax_amount', $object->getGwCardTaxAmount());
-    }
-
-    public function testGetGwItemsBasePrice()
-    {
-        $data = ['gw_items_base_price' => 'test_value_gw_items_base_price'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_items_base_price', $object->getGwItemsBasePrice());
-    }
-
-    public function testGetGwItemsBaseTaxAmount()
-    {
-        $data = ['gw_items_base_tax_amount' => 'test_value_gw_items_base_tax_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_items_base_tax_amount', $object->getGwItemsBaseTaxAmount());
-    }
-
-    public function testGetGwItemsPrice()
-    {
-        $data = ['gw_items_price' => 'test_value_gw_items_price'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_items_price', $object->getGwItemsPrice());
-    }
-
-    public function testGetGwItemsTaxAmount()
-    {
-        $data = ['gw_items_tax_amount' => 'test_value_gw_items_tax_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_items_tax_amount', $object->getGwItemsTaxAmount());
-    }
-
-    public function testGetGwPrice()
-    {
-        $data = ['gw_price' => 'test_value_gw_price'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_price', $object->getGwPrice());
-    }
-
-    public function testGetGwTaxAmount()
-    {
-        $data = ['gw_tax_amount' => 'test_value_gw_tax_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_gw_tax_amount', $object->getGwTaxAmount());
     }
 
     public function testGetHiddenTaxAmount()
@@ -839,54 +541,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
 
         $this->assertEquals('test_value_order_id', $object->getOrderId());
-    }
-
-    public function testGetRewardCurrencyAmount()
-    {
-        $data = ['reward_currency_amount' => 'test_value_reward_currency_amount'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_reward_currency_amount', $object->getRewardCurrencyAmount());
-    }
-
-    public function testGetRewardPointsBalance()
-    {
-        $data = ['reward_points_balance' => 'test_value_reward_points_balance'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_reward_points_balance', $object->getRewardPointsBalance());
-    }
-
-    public function testGetRewardPointsBalanceRefund()
-    {
-        $data = ['reward_points_balance_refund' => 'test_value_reward_points_balance_refund'];
-        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
-            ->setMethods(['getData'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
-        $abstractBuilderMock->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($data));
-
-        $object = new \Magento\Sales\Service\V1\Data\Creditmemo($abstractBuilderMock);
-
-        $this->assertEquals('test_value_reward_points_balance_refund', $object->getRewardPointsBalanceRefund());
     }
 
     public function testGetShippingAddressId()

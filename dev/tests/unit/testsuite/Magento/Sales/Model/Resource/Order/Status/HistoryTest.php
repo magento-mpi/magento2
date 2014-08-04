@@ -24,7 +24,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     protected $appResourceMock;
 
     /**
-     * @var \Magento\Sales\Model\Order\Address|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order\Status\History|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $historyMock;
 
@@ -34,20 +34,13 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     protected $adapterMock;
 
     /**
-     * @var \Magento\Sales\Model\Order\Address\Validator|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order\Status\History\Validator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $validatorMock;
 
 
     public function setUp()
     {
-        $this->historyMock = $this->getMock(
-            'Magento\Sales\Model\Order\Status\History',
-            [],
-            [],
-            '',
-            false
-        );
         $this->appResourceMock = $this->getMock(
             'Magento\Framework\App\Resource',
             [],
@@ -63,7 +56,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->validatorMock = $this->getMock(
-            'Magento\Sales\Model\Resource\Order\Status\History\Validator',
+            'Magento\Sales\Model\Order\Status\History\Validator',
             [],
             [],
             '',
@@ -95,9 +88,38 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
+        $historyMock = $this->getMock(
+            'Magento\Sales\Model\Order\Status\History',
+            [],
+            [],
+            '',
+            false
+        );
         $this->validatorMock->expects($this->once())
             ->method('validate')
-            ->will($this->returnSelf());
-        $this->historyResource->save($this->historyMock);
+            ->with($historyMock)
+            ->will($this->returnValue([]));
+        $this->historyResource->save($historyMock);
+    }
+    
+    /**
+     * test _beforeSaveMethod via save()
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage Cannot save comment:
+     */
+    public function testValidate()
+    {
+        $historyMock = $this->getMock(
+            'Magento\Sales\Model\Order\Status\History',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->validatorMock->expects($this->once())
+            ->method('validate')
+            ->with($historyMock)
+            ->will($this->returnValue(['Some warnings']));
+        $this->historyResource->save($historyMock);
     }
 }

@@ -97,6 +97,8 @@ try {
             SearchResults::ENTITY_TYPE => 'Magento\Framework\Service\Code\Generator\SearchResults',
         )
     );
+    $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
+    spl_autoload_register(array($autoloader, 'load'));
     foreach (array('php', 'additional') as $type) {
         sort($entities[$type]);
         foreach ($entities[$type] as $entityName) {

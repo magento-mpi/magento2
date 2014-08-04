@@ -1795,4 +1795,7 @@ return array(
     ['sendEmail', 'Magento\Sales\Model\Order\Invoice'],
     ['sendUpdateEmail', 'Magento\Sales\Model\Order\Invoice'],
     ['_getEmails', 'Magento\Sales\Model\Order\Invoice'],
+    ['sendEmail', 'Magento\Sales\Model\Order\Shipment'],
+    ['sendUpdateEmail', 'Magento\Sales\Model\Order\Shipment'],
+    ['_getEmails', 'Magento\Sales\Model\Order\Shipment'],
 );

@@ -65,6 +65,7 @@ class OrderSender extends Sender
      * Prepare email template with variables
      *
      * @param Order $order
+     * @return void
      */
     protected function prepareTemplate(Order $order)
     {

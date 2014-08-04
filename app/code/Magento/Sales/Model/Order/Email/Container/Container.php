@@ -40,6 +40,10 @@ abstract class Container implements IdentityInterface
      */
     protected $customerEmail;
 
+    /**
+     * @param ScopeConfigInterface $scopeConfig
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager
@@ -67,6 +71,7 @@ abstract class Container implements IdentityInterface
      * Set current store
      *
      * @param Store $store
+     * @return void
      */
     public function setStore(Store $store)
     {
@@ -91,6 +96,7 @@ abstract class Container implements IdentityInterface
      * Set customer name
      *
      * @param string $name
+     * @return void
      */
     public function setCustomerName($name)
     {
@@ -101,6 +107,7 @@ abstract class Container implements IdentityInterface
      * Set customer email
      *
      * @param string $email
+     * @return void
      */
     public function setCustomerEmail($email)
     {

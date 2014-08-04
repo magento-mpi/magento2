@@ -66,32 +66,4 @@ class GenerateSearchResultsTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->assertTrue($model->generate());
     }
-
-    /**
-     * test protected _validateData()
-     */
-    public function testValidateData()
-    {
-        $sourceClassName = 'Magento_Module_Controller_Index';
-        $resultClassName = 'Magento_Module_Controller';
-
-        $includePathMock = $this->getMockBuilder('Magento\Framework\Autoload\IncludePath')
-            ->disableOriginalConstructor()
-            ->setMethods(['getFile'])
-            ->getMock();
-        $includePathMock->expects($this->at(0))
-            ->method('getFile')
-            ->with($sourceClassName)
-            ->will($this->returnValue(true));
-        $includePathMock->expects($this->at(1))
-            ->method('getFile')
-            ->with($resultClassName)
-            ->will($this->returnValue(false));
-
-        $searchResults = new SearchResults(
-            null, null, null, null, $includePathMock
-        );
-        $searchResults->init($sourceClassName, $resultClassName);
-        $this->assertFalse($searchResults->generate());
-    }
 }

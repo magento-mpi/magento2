@@ -7,8 +7,6 @@
  */
 namespace Magento\Shipping\Block\Adminhtml\Create;
 
-use \Magentp\Sales\Model\Order\Email\Container\ShipmentIdentity;
-
 /**
  * Adminhtml shipment items grid
  */
@@ -135,8 +133,6 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function canSendShipmentEmail()
     {
-        $this->shipmentIdentity->setStore($this->getOrder()->getStore());
-        $this->shipmentIdentity->isEnabled();
         return $this->_salesData->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
     }
 
