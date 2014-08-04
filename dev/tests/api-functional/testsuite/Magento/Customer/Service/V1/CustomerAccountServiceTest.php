@@ -738,7 +738,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testUpdateCustomerNoWebsiteId()
     {
-        $customerData = $this->_createSampleCustomer();
+        $customerData = $this->customerHelper->createSampleCustomer();
         $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
@@ -777,8 +777,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
-            $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals($expectedMessage, $e->getMessage());
+            $errorObj =  $this->customerHelper->processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message'], 'Invalid message: "'.$e->getMessage().'"');
             $this->assertEquals(HTTPExceptionCodes::HTTP_INTERNAL_ERROR, $e->getCode());
         }
     }
