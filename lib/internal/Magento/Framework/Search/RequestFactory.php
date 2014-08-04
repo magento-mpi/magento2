@@ -51,7 +51,6 @@ class RequestFactory
      * @param string $requestName
      * @param array $bindValues
      * @return \Magento\Framework\Search\Request
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function create($requestName, array $bindValues = array())
     {

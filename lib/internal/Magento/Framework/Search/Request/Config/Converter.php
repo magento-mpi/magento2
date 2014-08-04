@@ -29,7 +29,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $request = $this->mergeAttributes((array)$simpleXmlNode);
             $request['queries'] = $this->convertNodes($simpleXmlNode->queries, 'name');
             $request['filters'] = $this->convertNodes($simpleXmlNode->filters, 'name');
-            $request['aggregation'] = $this->convertNodes($simpleXmlNode->aggregation, 'name');
+            //$request['aggregation'] = $this->convertNodes($simpleXmlNode->aggregation, 'name');
             $requests[$name] = $request;
         }
         return $requests;
@@ -41,7 +41,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      * @param $data
      * @return array
      */
-    protected function mergeAttributes(SimpleXMLElement $data)
+    protected function mergeAttributes($data)
     {
         if (isset($data['@attributes'])) {
             $data = array_merge($data, $data['@attributes']);
@@ -78,7 +78,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                     $element[$child->getName()][] = $this->convertToArray($child);
                 }
             }
-            $type = (string)$node->attributes('http://www.w3.org/2001/XMLSchema-instance')['type'];
+            $type = (string)$node->attributes('xsi', true)['type'];
             if (!empty($type)) {
                 $element['type'] = $type;
             }
