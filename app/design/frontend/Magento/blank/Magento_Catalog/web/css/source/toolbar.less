@@ -8,8 +8,6 @@
 
 @toolbar-mode-icon-font-size: 24px;
 @toolbar-element-background: @panel-bg;
-@pager-action-background: @toolbar-element-background;
-@pager-action-background-hover: darken(@toolbar-element-background, 7%);
 @pager-font-weight: @font-weight-bold;
 
 .page-products .columns {
@@ -23,7 +21,7 @@
         display: block;
         float: left;
         line-height: @toolbar-mode-icon-font-size+2;
-        padding: 7px 0;
+        padding: 8px 0 0;
         margin: 0;
         vertical-align: middle;
         .products.wrapper ~ .toolbar & {
@@ -31,16 +29,18 @@
         }
     }
     &-products {
-        background: @toolbar-element-background;
         margin-bottom: @indent-xl-base;
         text-align: center;
-        padding: @indent-s-base;
+        padding: 0 @indent-s-base;
         &:extend(.add-clearfix all);
         .pages {
             display: none;
             .products.wrapper ~ & {
                 display: block;
             }
+        }
+        .limiter {
+            display: none;
         }
     }
 }
@@ -73,7 +73,6 @@
 }
 
 .limiter {
-    display: none;
     &-options {
         width: auto;
         margin: 0 5px 0 7px;

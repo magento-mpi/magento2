@@ -6,7 +6,6 @@
 //  * @license     {license_link}
 //  */
 
-
 .rating-summary {
     .mixin-rating-summary();
     .rating-result {
@@ -26,7 +25,7 @@
 }
 
 //
-//    Add reviewblock
+//    Add review block
 //--------------------------------------
 .block {
     &.add.review {
@@ -72,10 +71,11 @@
     }
 }
 
-.customer.review.view {
+.customer-review.view {
+    margin-bottom: @indent-base;
     .review.title,
-    .ratings.summary.items,
-    .product.details {
+    .ratings-summary,
+    .product-details {
         margin-bottom: @indent-base;
     }
 }

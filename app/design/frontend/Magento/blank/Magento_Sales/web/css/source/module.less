@@ -195,6 +195,7 @@
                     &.subtotal {
                         &:before {
                             content: attr(data-th) ":";
+                            vertical-align: top;
                         }
                     }
                     &.label {
@@ -229,6 +230,15 @@
             }
             .action.print {
                 display: none;
+            }
+        }
+        .toolbar {
+            &:extend(.add-clearfix-desktop all);
+            .pages {
+                float: right;
+            }
+            .limiter {
+                clear: both;
             }
         }
     }
