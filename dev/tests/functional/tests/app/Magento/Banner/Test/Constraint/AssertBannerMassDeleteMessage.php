@@ -34,7 +34,7 @@ class AssertBannerMassDeleteMessage extends AbstractConstraint
      * Assert that success delete message is appeared after banner has been deleted
      *
      * @param BannerInjectable $banner
-     * @param BannerIndex $bannerIndex
+     * @param BannerIndex|BannerIndex[] $bannerIndex
      * @return void
      */
     public function processAssert(BannerInjectable $banner, BannerIndex $bannerIndex)

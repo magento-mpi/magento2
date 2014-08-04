@@ -28,6 +28,7 @@ define([
                 registerCustomerPasswordSelector: '#co-billing-form .field.password,#co-billing-form .field.confirm',
                 suggestRegistration: false
             },
+            pageMessages: '#maincontent .messages .message',
             sectionSelectorPrefix: 'opc-',
             billingSection: 'billing',
             ajaxLoaderPlaceButton: false,
@@ -158,6 +159,9 @@ define([
                 loginRegister   = $( checkout.loginRegisterSelector )[0],
                 method          = 'register',
                 action          = 'show';
+
+            //Remove page messages
+            $(this.options.pageMessages).remove();
             
             if (json.isGuestCheckoutAllowed) {
                 
@@ -272,5 +276,4 @@ define([
             }
         }
     });
-
 });

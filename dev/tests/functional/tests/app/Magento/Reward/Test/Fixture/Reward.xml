@@ -36,6 +36,7 @@
             <is_required />
             <default_value>0</default_value>
             <input />
+            <group>reward_points</group>
         </website_id>
         <points_balance>
             <attribute_code>points_balance</attribute_code>
@@ -94,6 +95,11 @@
             <attribute_code>reward_warning_notification</attribute_code>
             <backend_type>virtual</backend_type>
         </reward_warning_notification>
+        <points_delta>
+            <attribute_code>points_delta</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>reward_points</group>
+        </points_delta>
         <value>
             <attribute_code>value</attribute_code>
             <backend_type>virtual</backend_type>
@@ -102,6 +108,11 @@
             <attribute_code>equal_value</attribute_code>
             <backend_type>virtual</backend_type>
         </equal_value>
+        <comment>
+            <attribute_code>comment</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>reward_points</group>
+        </comment>
     </fields>
     <repository_class>Magento\Reward\Test\Repository\Reward</repository_class>
     <handler_interface>Magento\Reward\Test\Handler\Reward\RewardInterface</handler_interface>
