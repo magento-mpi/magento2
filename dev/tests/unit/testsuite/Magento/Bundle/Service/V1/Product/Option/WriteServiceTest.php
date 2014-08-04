@@ -9,6 +9,11 @@ namespace Magento\Bundle\Service\V1\Product\Option;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Class WriteServiceTest
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
