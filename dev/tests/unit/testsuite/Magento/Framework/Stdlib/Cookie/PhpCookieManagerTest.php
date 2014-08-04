@@ -221,7 +221,7 @@ namespace Magento\Framework\Stdlib\Cookie {
             $sensitiveCookieMetadata = $this->objectManager
                 ->getObject('Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata');
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getSensitiveCookieMetadata')
                 ->with()
                 ->will(
@@ -252,7 +252,7 @@ namespace Magento\Framework\Stdlib\Cookie {
 
 
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getSensitiveCookieMetadata')
                 ->with($sensitiveCookieMetadata)
                 ->will(
@@ -282,7 +282,7 @@ namespace Magento\Framework\Stdlib\Cookie {
                     ]
                 );
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getSensitiveCookieMetadata')
                 ->with($sensitiveCookieMetadata)
                 ->will(
@@ -304,7 +304,7 @@ namespace Magento\Framework\Stdlib\Cookie {
                 'Magento\Framework\Stdlib\Cookie\PublicCookieMetadata'
             );
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getPublicCookieMetadata')
                 ->with()
                 ->will(
@@ -333,7 +333,7 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ]
             );
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getPublicCookieMetadata')
                 ->with($publicCookieMetadata)
                 ->will(
@@ -364,7 +364,7 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ]
             );
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getPublicCookieMetadata')
                 ->with($publicCookieMetadata)
                 ->will(
@@ -397,7 +397,7 @@ namespace Magento\Framework\Stdlib\Cookie {
             $badCookieName = '';
             $cookieValue = 'some_value';
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getPublicCookieMetadata')
                 ->with()
                 ->will(
@@ -435,7 +435,7 @@ namespace Magento\Framework\Stdlib\Cookie {
                 ]
             );
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getPublicCookieMetadata')
                 ->with()
                 ->will(
@@ -477,7 +477,7 @@ namespace Magento\Framework\Stdlib\Cookie {
                 $_COOKIE['test_cookie_' . $i] = 'some_value';
             }
 
-            $this->scopeMock->expects($this->any())
+            $this->scopeMock->expects($this->once())
                 ->method('getPublicCookieMetadata')
                 ->with()
                 ->will(
