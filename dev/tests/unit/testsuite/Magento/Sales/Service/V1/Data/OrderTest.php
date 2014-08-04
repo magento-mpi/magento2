@@ -7,6 +7,13 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
+/**
+ * Class OrderTest
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @package Magento\Sales\Service\V1\Data
+ */
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAdjustmentNegative()

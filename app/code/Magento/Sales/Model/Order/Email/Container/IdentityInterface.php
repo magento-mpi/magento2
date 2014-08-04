@@ -1,27 +1,54 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace  Magento\Sales\Model\Order\Email\Container;
 
 use \Magento\Store\Model\Store;
 
 interface IdentityInterface
 {
+    /**
+     * @return bool
+     */
     public function isEnabled();
 
     /**
-     * @return array
+     * @return array|bool
      */
     public function getEmailCopyTo();
 
+    /**
+     * @return mixed
+     */
     public function getCopyMethod();
 
+    /**
+     * @return mixed
+     */
     public function getGuestTemplateId();
 
+    /**
+     * @return mixed
+     */
     public function getTemplateId();
 
+    /**
+     * @return mixed
+     */
     public function getEmailIdentity();
 
+    /**
+     * @return string
+     */
     public function getCustomerEmail();
 
+    /**
+     * @return string
+     */
     public function getCustomerName();
 
     /**
@@ -29,9 +56,21 @@ interface IdentityInterface
      */
     public function getStore();
 
+    /**
+     * @param Store $store
+     * @return mixed
+     */
     public function setStore(Store $store);
 
+    /**
+     * @param string $email
+     * @return mixed
+     */
     public function setCustomerEmail($email);
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function setCustomerName($name);
 }

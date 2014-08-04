@@ -7,6 +7,12 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
+/**
+ * Class OrderItemTest
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @package Magento\Sales\Service\V1\Data
+ */
 class OrderItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAdditionalData()

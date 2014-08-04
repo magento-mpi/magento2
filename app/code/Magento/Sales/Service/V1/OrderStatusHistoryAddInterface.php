@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Service\V1;
 
+use Magento\Sales\Service\V1\Data\OrderStatusHistory;
+
 /**
  * Interface OrderCommentsAddInterface
  * @package Magento\Sales\Service\V1
@@ -20,5 +22,5 @@ interface OrderStatusHistoryAddInterface
      * @param \Magento\Sales\Service\V1\Data\OrderStatusHistory $statusHistory
      * @return bool
      */
-    public function invoke($id, $statusHistory);
+    public function invoke($id, OrderStatusHistory $statusHistory);
 }

@@ -9,6 +9,7 @@ namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\Order\Status\HistoryConverter;
+use Magento\Sales\Service\V1\Data\OrderStatusHistory;
 
 /**
  * Class OrderStatusHistoryAdd
@@ -45,10 +46,11 @@ class OrderStatusHistoryAdd implements OrderStatusHistoryAddInterface
      * @param \Magento\Sales\Service\V1\Data\OrderStatusHistory $statusHistory
      * @return bool
      */
-    public function invoke($id, $statusHistory)
+    public function invoke($id, OrderStatusHistory $statusHistory)
     {
         $order = $this->orderRepository->get($id);
         $order->addStatusHistory($this->historyConverter->getModel($statusHistory));
-        return (bool)$order->save();
+        $order->save();
+        return true;
     }
 }

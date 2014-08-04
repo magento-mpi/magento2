@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Sales\Model\Order\Email\Container;
 
 class InvoiceCommentIdentity extends Container implements IdentityInterface
@@ -11,6 +17,9 @@ class InvoiceCommentIdentity extends Container implements IdentityInterface
     const XML_PATH_EMAIL_ENABLED = 'sales_email/invoice_comment/enabled';
 
 
+    /**
+     * @return bool
+     */
     public function isEnabled()
     {
         return $this->scopeConfig->isSetFlag(
@@ -20,6 +29,9 @@ class InvoiceCommentIdentity extends Container implements IdentityInterface
         );
     }
 
+    /**
+     * @return array|bool
+     */
     public function getEmailCopyTo()
     {
         $data = $this->getConfigValue(self::XML_PATH_EMAIL_COPY_TO, $this->getStore()->getStoreId());
@@ -29,21 +41,33 @@ class InvoiceCommentIdentity extends Container implements IdentityInterface
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCopyMethod()
     {
         return $this->getConfigValue(self::XML_PATH_EMAIL_COPY_METHOD, $this->getStore()->getStoreId());
     }
 
+    /**
+     * @return mixed
+     */
     public function getGuestTemplateId()
     {
         return $this->getConfigValue(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $this->getStore()->getStoreId());
     }
 
+    /**
+     * @return mixed
+     */
     public function getTemplateId()
     {
         return $this->getConfigValue(self::XML_PATH_EMAIL_TEMPLATE, $this->getStore()->getStoreId());
     }
 
+    /**
+     * @return mixed
+     */
     public function getEmailIdentity()
     {
         return $this->getConfigValue(self::XML_PATH_EMAIL_IDENTITY, $this->getStore()->getStoreId());
