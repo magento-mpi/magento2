@@ -13,6 +13,11 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection;
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Class ReadServiceTest
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
     const TYPE_FIELD_NAME = 'frontend_input';

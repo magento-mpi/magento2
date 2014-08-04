@@ -16,6 +16,11 @@ use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribu
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Class WriteServiceTest
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ObjectManager */
