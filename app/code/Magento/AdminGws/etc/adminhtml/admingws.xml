@@ -28,7 +28,7 @@
         <callback class="Magento\CatalogEvent\Model\Resource\Event\Collection" method="limitCatalogEvents" />
         <callback class="Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection" method="addStoreFilter" />
         <callback class="Magento\Catalog\Model\Resource\Category\Collection" method="limitCatalogCategories" />
-        <callback class="Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection" method="limitUrlRewrites" />
+        <callback class="Magento\UrlRewrite\Model\Resource\UrlRewriteCollection" method="limitUrlRewrites" />
         <callback class="Magento\Review\Model\Resource\Rating\Collection" method="limitRatings" />
         <callback class="Magento\GoogleShopping\Model\Resource\Item\Collection" method="addStoreFilter" />
         <callback class="Magento\Sitemap\Model\Resource\Sitemap\Collection" method="addStoreFilter" />

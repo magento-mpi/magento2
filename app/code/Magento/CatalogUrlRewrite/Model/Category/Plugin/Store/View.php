@@ -13,8 +13,8 @@ use Magento\Catalog\Model\ProductFactory;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
-use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
-use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
+use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Store\Model\Store;
 
 class View
@@ -28,28 +28,28 @@ class View
     /** @var ProductFactory */
     protected $productFactory;
 
-    /** @var CategoryUrlGenerator */
-    protected $categoryUrlGenerator;
+    /** @var CategoryUrlRewriteGenerator */
+    protected $categoryUrlRewriteGenerator;
 
-    /** @var ProductUrlGenerator */
-    protected $productUrlGenerator;
+    /** @var ProductUrlRewriteGenerator */
+    protected $productUrlRewriteGenerator;
 
     /**
      * @param UrlPersistInterface $urlPersist
      * @param CategoryFactory $categoryFactory
      * @param ProductFactory $productFactory
-     * @param CategoryUrlGenerator $categoryUrlGenerator
-     * @param ProductUrlGenerator $productUrlGenerator
+     * @param CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator
+     * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      */
     public function __construct(
         UrlPersistInterface $urlPersist,
         CategoryFactory $categoryFactory,
         ProductFactory $productFactory,
-        CategoryUrlGenerator $categoryUrlGenerator,
-        ProductUrlGenerator $productUrlGenerator
+        CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator,
+        ProductUrlRewriteGenerator $productUrlRewriteGenerator
     ) {
-        $this->categoryUrlGenerator = $categoryUrlGenerator;
-        $this->productUrlGenerator = $productUrlGenerator;
+        $this->categoryUrlRewriteGenerator = $categoryUrlRewriteGenerator;
+        $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
         $this->urlPersist = $urlPersist;
         $this->categoryFactory = $categoryFactory;
         $this->productFactory = $productFactory;
@@ -109,7 +109,7 @@ class View
             /** @var \Magento\Catalog\Model\Product $product */
             $urls = array_merge(
                 $urls,
-                $this->productUrlGenerator->generate($product)
+                $this->productUrlRewriteGenerator->generate($product)
             );
         }
         return $urls;
@@ -129,7 +129,7 @@ class View
             $category->setStoreId($storeId);
             $urls = array_merge(
                 $urls,
-                $this->categoryUrlGenerator->generate($category)
+                $this->categoryUrlRewriteGenerator->generate($category)
             );
         }
         return $urls;

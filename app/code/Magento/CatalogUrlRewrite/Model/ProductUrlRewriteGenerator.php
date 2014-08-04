@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogUrlRewrite\Model\Product;
+namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
@@ -17,10 +17,7 @@ use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
-/**
- * Product Generator
- */
-class UrlGenerator
+class ProductUrlRewriteGenerator
 {
     /**
      * TODO: think about better place for this const (@TODO: UrlRewrite)
@@ -54,20 +51,20 @@ class UrlGenerator
      */
     protected $product;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
+    /** @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator */
     protected $productUrlPathGenerator;
 
     /**
      * @param FilterFactory $filterFactory
      * @param UrlMatcherInterface $urlMatcher
-     * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
      * @param StoreViewService $storeViewService
      * @param Converter $converter
      */
     public function __construct(
         FilterFactory $filterFactory,
         UrlMatcherInterface $urlMatcher,
-        \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
+        \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
         StoreViewService $storeViewService,
         Converter $converter
     ) {

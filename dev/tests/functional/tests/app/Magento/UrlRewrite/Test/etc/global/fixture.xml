@@ -11,7 +11,7 @@
     <urlRewrite module="Magento_UrlRewrite">
         <type>virtual</type>
         <entity_type>url_rewrite</entity_type>
-        <collection>Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection</collection>
+        <collection>Magento\UrlRewrite\Model\Resource\UrlRewriteCollection</collection>
         <identifier>request_path</identifier>
         <fields>
             <id>

@@ -10,7 +10,7 @@ namespace Magento\CatalogUrlRewrite\Model\Product\Plugin;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
-use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\ImportExport\Model\Import as ImportExport;
 use Magento\CatalogImportExport\Model\Import\Product as ImportProduct;
 
@@ -22,22 +22,22 @@ class Import
     /** @var UrlPersistInterface */
     protected $urlPersist;
 
-    /** @var ProductUrlGenerator */
-    protected $productUrlGenerator;
+    /** @var ProductUrlRewriteGenerator */
+    protected $productUrlRewriteGenerator;
 
     /**
      * @param ProductFactory $productFactory
      * @param UrlPersistInterface $urlPersist
-     * @param ProductUrlGenerator $productUrlGenerator
+     * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      */
     public function __construct(
         ProductFactory $productFactory,
         UrlPersistInterface $urlPersist,
-        ProductUrlGenerator $productUrlGenerator
+        ProductUrlRewriteGenerator $productUrlRewriteGenerator
     ) {
         $this->productFactory = $productFactory;
         $this->urlPersist = $urlPersist;
-        $this->productUrlGenerator = $productUrlGenerator;
+        $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
     }
 
     /**
@@ -50,7 +50,7 @@ class Import
         if ($import->getAffectedEntityIds()) {
             foreach ($import->getAffectedEntityIds() as $productId) {
                 $product = $this->productFactory->create()->load($productId);
-                $productUrls = $this->productUrlGenerator->generate($product);
+                $productUrls = $this->productUrlRewriteGenerator->generate($product);
                 if ($productUrls) {
                     $this->urlPersist->replace($productUrls);
                 }
@@ -82,7 +82,7 @@ class Import
                 $this->urlPersist->deleteByEntityData(
                     [
                         UrlRewrite::ENTITY_ID => $productId,
-                        UrlRewrite::ENTITY_TYPE => ProductUrlGenerator::ENTITY_TYPE_PRODUCT,
+                        UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
                     ]
                 );
             }

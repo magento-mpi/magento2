@@ -10,13 +10,14 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 
 class Observer
 {
     /**
-     * @var UrlGenerator
+     * @var ProductUrlRewriteGenerator
      */
-    protected $urlGenerator;
+    protected $productUrlRewriteGenerator;
 
     /**
      * @var UrlPersistInterface
@@ -24,14 +25,14 @@ class Observer
     protected $urlPersist;
 
     /**
-     * @param UrlGenerator $urlGenerator
+     * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      * @param UrlPersistInterface $urlPersist
      */
     public function __construct(
-        UrlGenerator $urlGenerator,
+        ProductUrlRewriteGenerator $productUrlRewriteGenerator,
         UrlPersistInterface $urlPersist
     ) {
-        $this->urlGenerator = $urlGenerator;
+        $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
         $this->urlPersist = $urlPersist;
     }
 
@@ -52,11 +53,11 @@ class Observer
                 $this->urlPersist->deleteByEntityData(
                     [
                         UrlRewrite::ENTITY_ID => $product->getId(),
-                        UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_PRODUCT,
+                        UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
                     ]
                 );
             }
-            $this->urlPersist->replace($this->urlGenerator->generate($product));
+            $this->urlPersist->replace($this->productUrlRewriteGenerator->generate($product));
         }
     }
 
@@ -75,7 +76,7 @@ class Observer
             $this->urlPersist->deleteByEntityData(
                 [
                     UrlRewrite::ENTITY_ID => $product->getId(),
-                    UrlRewrite::ENTITY_TYPE => UrlGenerator::ENTITY_TYPE_PRODUCT,
+                    UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
                 ]
             );
         }

@@ -2245,7 +2245,7 @@ return array(
     array('Magento\Backend\Helper\Media\Js'),
     array(
         'Magento\Core\Model\Resource\Url\Rewrite\Collection',
-        'Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection'
+        'Magento\UrlRewrite\Model\Resource\UrlRewriteCollection'
     ),
     array(
         'Magento\Core\Model\Resource\Url\Rewrite',

@@ -9,8 +9,8 @@ namespace Magento\CatalogUrlRewrite\Model\Category;
 
 use Magento\Catalog\Model\Category;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
-use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
+use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
@@ -19,11 +19,11 @@ use Magento\Catalog\Block\Adminhtml\Form\Renderer\Attribute\Urlkey;
 
 class Observer
 {
-    /** @var CategoryUrlGenerator */
-    protected $categoryUrlGenerator;
+    /** @var CategoryUrlRewriteGenerator */
+    protected $categoryUrlRewriteGenerator;
 
-    /** @var ProductUrlGenerator */
-    protected $productUrlGenerator;
+    /** @var ProductUrlRewriteGenerator */
+    protected $productUrlRewriteGenerator;
 
     /** @var UrlPersistInterface */
     protected $urlPersist;
@@ -32,19 +32,19 @@ class Observer
     protected $scopeConfig;
 
     /**
-     * @param CategoryUrlGenerator $categoryUrlGenerator
-     * @param ProductUrlGenerator $productUrlGenerator
+     * @param CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator
+     * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      * @param UrlPersistInterface $urlPersist
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        CategoryUrlGenerator $categoryUrlGenerator,
-        ProductUrlGenerator $productUrlGenerator,
+        CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator,
+        ProductUrlRewriteGenerator $productUrlRewriteGenerator,
         UrlPersistInterface $urlPersist,
         ScopeConfigInterface $scopeConfig
     ) {
-        $this->categoryUrlGenerator = $categoryUrlGenerator;
-        $this->productUrlGenerator = $productUrlGenerator;
+        $this->categoryUrlRewriteGenerator = $categoryUrlRewriteGenerator;
+        $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
         $this->urlPersist = $urlPersist;
         $this->scopeConfig = $scopeConfig;
     }
@@ -64,7 +64,7 @@ class Observer
         }
         if ($category->dataHasChangedFor('url_key') || $category->dataHasChangedFor('affected_product_ids')) {
             $urlRewrites = array_merge(
-                $this->categoryUrlGenerator->generate($category),
+                $this->categoryUrlRewriteGenerator->generate($category),
                 $this->generateProductUrlRewrites($category)
             );
             $this->urlPersist->replace($urlRewrites);
@@ -87,7 +87,7 @@ class Observer
             );
             $category->setData('save_rewrites_history', $saveRewritesHistory);
             $urlRewrites = array_merge(
-                $this->categoryUrlGenerator->generate($category),
+                $this->categoryUrlRewriteGenerator->generate($category),
                 $this->generateProductUrlRewrites($category)
             );
             //@TODO BUG fix generation of Product Url Rewrites for children
@@ -111,7 +111,7 @@ class Observer
         foreach ($collection as $product) {
             $product->setStoreId($category->getStoreId());
             $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
-            $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
+            $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));
         }
         return $productUrls;
     }
@@ -129,7 +129,7 @@ class Observer
                 $this->urlPersist->deleteByEntityData(
                     [
                         UrlRewrite::ENTITY_ID => $categoryId,
-                        UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
+                        UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
                     ]
                 );
             }

@@ -8,15 +8,14 @@
 namespace Magento\CmsUrlRewrite\Model;
 
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\CmsUrlRewrite\Service\V1\CmsPageUrlGeneratorInterface;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 
 class Observer
 {
     /**
-     * @var CmsPageUrlGeneratorInterface
+     * @var CmsPageUrlRewriteGenerator
      */
-    protected $urlGenerator;
+    protected $cmsPageUrlRewriteGenerator;
 
     /**
      * @var UrlPersistInterface
@@ -24,12 +23,12 @@ class Observer
     protected $urlPersist;
 
     /**
-     * @param CmsPageUrlGeneratorInterface $urlGenerator
+     * @param CmsPageUrlRewriteGenerator $cmsPageUrlRewriteGenerator
      * @param UrlPersistInterface $urlPersist
      */
-    public function __construct(CmsPageUrlGeneratorInterface $urlGenerator, UrlPersistInterface $urlPersist)
+    public function __construct(CmsPageUrlRewriteGenerator $cmsPageUrlRewriteGenerator, UrlPersistInterface $urlPersist)
     {
-        $this->urlGenerator = $urlGenerator;
+        $this->cmsPageUrlRewriteGenerator = $cmsPageUrlRewriteGenerator;
         $this->urlPersist = $urlPersist;
     }
 
@@ -45,7 +44,7 @@ class Observer
         $cmsPage = $observer->getEvent()->getObject();
         if ($cmsPage->dataHasChangedFor('identifier')) {
             // TODO: fix service parameter
-            $urls = $this->urlGenerator->generate($cmsPage);
+            $urls = $this->cmsPageUrlRewriteGenerator->generate($cmsPage);
             $this->urlPersist->replace($urls);
         }
     }

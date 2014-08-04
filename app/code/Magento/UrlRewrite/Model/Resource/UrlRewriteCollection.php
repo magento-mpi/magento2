@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRewrite\Model\Resource\UrlRewrite;
+namespace Magento\UrlRewrite\Model\Resource;
 
-class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
+class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store Manager Model

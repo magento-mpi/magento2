@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CmsUrlRewrite\Service\V1;
+namespace Magento\CmsUrlRewrite\Model;
 
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
-class CmsPageUrlGenerator implements CmsPageUrlGeneratorInterface
+class CmsPageUrlRewriteGenerator
 {
     /**
      * Entity type code
@@ -48,8 +48,8 @@ class CmsPageUrlGenerator implements CmsPageUrlGeneratorInterface
     }
 
     /**
-     * {@inheritdoc}
-     * TODO: fix service parameter
+     * @param \Magento\Cms\Model\Page $cmsPage
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
     public function generate($cmsPage)
     {

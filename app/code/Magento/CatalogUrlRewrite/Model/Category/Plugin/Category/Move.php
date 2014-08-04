@@ -10,7 +10,7 @@ namespace Magento\CatalogUrlRewrite\Model\Category\Plugin\Category;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\Catalog\Model\Category;
-use Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator;
+use Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator;
 
 class Move
 {

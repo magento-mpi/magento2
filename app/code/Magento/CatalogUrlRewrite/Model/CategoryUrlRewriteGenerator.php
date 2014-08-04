@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogUrlRewrite\Model\Category;
+namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 use Magento\Store\Model\Store;
@@ -15,10 +15,7 @@ use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
-/**
- * Category Url Generator
- */
-class UrlGenerator
+class CategoryUrlRewriteGenerator
 {
     /** Entity type @TODO: think about better place for this const (@TODO: UrlRewrite) */
     const ENTITY_TYPE_CATEGORY = 'category';
@@ -38,7 +35,7 @@ class UrlGenerator
     /** @var \Magento\Catalog\Model\Category */
     protected $category;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
+    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
     protected $categoryUrlPathGenerator;
 
     /**
@@ -46,14 +43,14 @@ class UrlGenerator
      * @param UrlMatcherInterface $urlMatcher
      * @param StoreViewService $storeViewService
      * @param Converter $converter
-     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
     public function __construct(
         FilterFactory $filterFactory,
         UrlMatcherInterface $urlMatcher,
         StoreViewService $storeViewService,
         Converter $converter,
-        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
+        \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
     ) {
         $this->filterFactory = $filterFactory;
         $this->urlMatcher = $urlMatcher;

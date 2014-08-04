@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Model;
 
 use Magento\Framework\Profiler;
-use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator;
+use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 
 /**
  * Catalog category
@@ -164,7 +164,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      */
     protected $productIndexer;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator */
+    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
     protected $categoryUrlPathGenerator;
 
     /** @var \Magento\UrlRewrite\Service\V1\UrlMatcherInterface */
@@ -186,7 +186,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param Indexer\Category\Flat\State $flatState
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
-     * @param \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -208,7 +208,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         Indexer\Category\Flat\State $flatState,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
-        \Magento\CatalogUrlRewrite\Model\Category\CategoryUrlPathGenerator $categoryUrlPathGenerator,
+        \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -541,7 +541,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
 
             $rewrite = $this->urlMatcher->findByEntity(
                 $this->getId(),
-                UrlGenerator::ENTITY_TYPE_CATEGORY,
+                CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
                 $this->getStoreId()
             );
             if ($rewrite) {

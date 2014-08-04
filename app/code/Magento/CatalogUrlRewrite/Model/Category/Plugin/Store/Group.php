@@ -12,8 +12,8 @@ use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
-use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
+use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Store\Model\Store;
 
 class Group
@@ -27,11 +27,11 @@ class Group
     /** @var ProductFactory */
     protected $productFactory;
 
-    /** @var CategoryUrlGenerator */
-    protected $categoryUrlGenerator;
+    /** @var CategoryUrlRewriteGenerator */
+    protected $categoryUrlRewriteGenerator;
 
-    /** @var ProductUrlGenerator */
-    protected $productUrlGenerator;
+    /** @var ProductUrlRewriteGenerator */
+    protected $productUrlRewriteGenerator;
 
     /** @var StoreManagerInterface  */
     protected $storeManager;
@@ -40,23 +40,23 @@ class Group
      * @param UrlPersistInterface $urlPersist
      * @param CategoryFactory $categoryFactory
      * @param ProductFactory $productFactory
-     * @param CategoryUrlGenerator $categoryUrlGenerator
-     * @param ProductUrlGenerator $productUrlGenerator
+     * @param CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator
+     * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         UrlPersistInterface $urlPersist,
         CategoryFactory $categoryFactory,
         ProductFactory $productFactory,
-        CategoryUrlGenerator $categoryUrlGenerator,
-        ProductUrlGenerator $productUrlGenerator,
+        CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator,
+        ProductUrlRewriteGenerator $productUrlRewriteGenerator,
         StoreManagerInterface $storeManager
     ) {
         $this->urlPersist = $urlPersist;
         $this->categoryFactory = $categoryFactory;
         $this->productFactory = $productFactory;
-        $this->categoryUrlGenerator = $categoryUrlGenerator;
-        $this->productUrlGenerator = $productUrlGenerator;
+        $this->categoryUrlRewriteGenerator = $categoryUrlRewriteGenerator;
+        $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
         $this->storeManager = $storeManager;
     }
 
@@ -118,7 +118,7 @@ class Group
             $product->setStoreId(Store::DEFAULT_STORE_ID);
             $urls = array_merge(
                 $urls,
-                $this->productUrlGenerator->generate($product)
+                $this->productUrlRewriteGenerator->generate($product)
             );
         }
 
@@ -140,7 +140,7 @@ class Group
             $category->setStoreIds($storeIds);
             $urls = array_merge(
                 $urls,
-                $this->categoryUrlGenerator->generate($category)
+                $this->categoryUrlRewriteGenerator->generate($category)
             );
         }
         return $urls;

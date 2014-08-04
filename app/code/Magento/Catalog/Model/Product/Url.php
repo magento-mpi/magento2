@@ -49,7 +49,7 @@ class Url extends \Magento\Framework\Object
      */
     protected $_sidResolver;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator */
+    /** @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator */
     protected $productUrlPathGenerator;
 
     /** @var \Magento\UrlRewrite\Service\V1\UrlMatcherInterface */
@@ -61,7 +61,7 @@ class Url extends \Magento\Framework\Object
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
-     * @param \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
      * @param \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
      * @param array $data
      */
@@ -71,7 +71,7 @@ class Url extends \Magento\Framework\Object
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
-        \Magento\CatalogUrlRewrite\Model\Product\ProductUrlPathGenerator $productUrlPathGenerator,
+        \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
         \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher,
         array $data = array()
     ) {
@@ -186,7 +186,7 @@ class Url extends \Magento\Framework\Object
                 /** @TODO: UrlRewrite: Build product URL inside particular category */
                 $rewrite = $this->urlMatcher->findByEntity(
                     $product->getId(),
-                    \Magento\CatalogUrlRewrite\Model\Product\UrlGenerator::ENTITY_TYPE_PRODUCT,
+                    \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
                     $storeId
                 );
                 if ($rewrite) {

@@ -12,10 +12,7 @@ use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Service\V1\Data\Filter;
 
-/**
- * Db storage
- */
-class Db extends AbstractStorage
+class DbStorage extends AbstractStorage
 {
     /**
      * DB Storage table name

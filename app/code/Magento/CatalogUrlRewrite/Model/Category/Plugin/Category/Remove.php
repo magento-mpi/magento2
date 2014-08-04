@@ -12,8 +12,8 @@ use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 use Magento\Catalog\Model\Category;
-use Magento\CatalogUrlRewrite\Model\Category\UrlGenerator as CategoryUrlGenerator;
-use Magento\CatalogUrlRewrite\Model\Product\UrlGenerator as ProductUrlGenerator;
+use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Store\Model\Store;
 
@@ -28,25 +28,25 @@ class Remove
     /** @var  CategoryFactory */
     protected $categoryFactory;
 
-    /** @var ProductUrlGenerator */
-    protected $productUrlGenerator;
+    /** @var ProductUrlRewriteGenerator */
+    protected $productUrlRewriteGenerator;
 
     /**
      * @param UrlPersistInterface $urlPersist
      * @param FilterFactory $filterFactory
      * @param CategoryFactory $categoryFactory
-     * @param ProductUrlGenerator $productUrlGenerator
+     * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      */
     public function __construct(
         UrlPersistInterface $urlPersist,
         FilterFactory $filterFactory,
         CategoryFactory $categoryFactory,
-        ProductUrlGenerator $productUrlGenerator
+        ProductUrlRewriteGenerator $productUrlRewriteGenerator
     ) {
         $this->urlPersist = $urlPersist;
         $this->filterFactory = $filterFactory;
         $this->categoryFactory = $categoryFactory;
-        $this->productUrlGenerator = $productUrlGenerator;
+        $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
     }
 
     /**
@@ -73,7 +73,7 @@ class Remove
     {
         $this->urlPersist->deleteByEntityData([
             UrlRewrite::ENTITY_ID => $categoryId,
-            UrlRewrite::ENTITY_TYPE => CategoryUrlGenerator::ENTITY_TYPE_CATEGORY,
+            UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
         ]);
         $collection = $this->categoryFactory->create()
             ->load($categoryId)
@@ -82,7 +82,7 @@ class Remove
         $productUrls = [];
         foreach ($collection as $product) {
             $product->setStoreId(Store::DEFAULT_STORE_ID);
-            $productUrls = array_merge($productUrls, $this->productUrlGenerator->generate($product));
+            $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));
         }
         $this->urlPersist->replace($productUrls);
     }

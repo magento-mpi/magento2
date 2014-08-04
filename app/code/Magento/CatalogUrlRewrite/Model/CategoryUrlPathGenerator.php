@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogUrlRewrite\Model\Category;
+namespace Magento\CatalogUrlRewrite\Model;
 
 /**
  * @TODO: UrlRewrite: split this class by different responsibilities
