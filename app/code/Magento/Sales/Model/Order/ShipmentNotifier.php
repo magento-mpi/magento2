@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Model;
+namespace Magento\Sales\Model\Order;
 
 use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
-use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
+use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 use Magento\Framework\Logger;
 
 /**
- * Class InvoiceNotifier
+ * Class ShipmentNotifier
  * @package Magento\Sales\Model
  */
-class InvoiceNotifier extends \Magento\Sales\Model\AbstractNotifier
+class ShipmentNotifier extends \Magento\Sales\Model\AbstractNotifier
 {
     /**
      * @var CollectionFactory
@@ -29,19 +29,19 @@ class InvoiceNotifier extends \Magento\Sales\Model\AbstractNotifier
     protected $logger;
 
     /**
-     * @var InvoiceSender
+     * @var ShipmentSender
      */
     protected $sender;
 
     /**
      * @param CollectionFactory $historyCollectionFactory
      * @param Logger $logger
-     * @param InvoiceSender $sender
+     * @param ShipmentSender $sender
      */
     public function __construct(
         CollectionFactory $historyCollectionFactory,
         Logger $logger,
-        InvoiceSender $sender
+        ShipmentSender $sender
     ) {
         $this->historyCollectionFactory = $historyCollectionFactory;
         $this->logger = $logger;

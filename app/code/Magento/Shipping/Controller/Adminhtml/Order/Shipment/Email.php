@@ -56,19 +56,9 @@ class Email extends \Magento\Backend\App\Action
         try {
             $shipment = $this->shipmentLoader->load($this->_request);
             if ($shipment) {
-                $this->shipmentSender->send($shipment, true);
+                $this->_objectManager->create('Magento\Sales\Model\ShipmentNotifier')
+                    ->notify($shipment);
                 $shipment->save();
-
-                $historyItem = $this->_objectManager->create(
-                    'Magento\Sales\Model\Resource\Order\Status\History\Collection'
-                )->getUnnotifiedForInstance(
-                    $shipment,
-                    \Magento\Sales\Model\Order\Shipment::HISTORY_ENTITY_NAME
-                );
-                if ($historyItem) {
-                    $historyItem->setIsCustomerNotified(1);
-                    $historyItem->save();
-                }
                 $this->messageManager->addSuccess(__('You sent the shipment.'));
             }
         } catch (\Magento\Framework\Model\Exception $e) {

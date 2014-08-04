@@ -118,8 +118,10 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
 
     /*
      * Identifier for order history item
+     *
+     * @var string
      */
-    const HISTORY_ENTITY_NAME = 'creditmemo';
+    protected $entityType = 'creditmemo';
 
     /**
      * @var array
@@ -288,7 +290,17 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         if (!$this->_order instanceof \Magento\Sales\Model\Order) {
             $this->_order = $this->_orderFactory->create()->load($this->getOrderId());
         }
-        return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
+        return $this->_order->setHistoryEntityName($this->entityType);
+    }
+
+    /**
+     * Return order entity type
+     *
+     * @return string
+     */
+    public function getEntityType()
+    {
+        return $this->entityType;
     }
 
     /**

@@ -63,10 +63,8 @@ abstract class AbstractNotifier extends \Magento\Framework\Model\AbstractModel
             if (!$model->getEmailSent()) {
                 return false;
             }
-            $historyItem = $this->historyCollectionFactory->create()->getUnnotifiedForInstance(
-                $model,
-                $model::HISTORY_ENTITY_NAME
-            );
+            $historyItem = $this->historyCollectionFactory->create()
+                ->getUnnotifiedForInstance($model);
             if ($historyItem) {
                 $historyItem->setIsCustomerNotified(1);
                 $historyItem->save();

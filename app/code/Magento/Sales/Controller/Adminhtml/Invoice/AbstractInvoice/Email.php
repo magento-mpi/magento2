@@ -8,8 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice;
 
-use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
-
 abstract class Email extends \Magento\Backend\App\Action
 {
     /**
@@ -36,7 +34,7 @@ abstract class Email extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_objectManager->create('Magento\Sales\Model\OrderNotifier')
+        $this->_objectManager->create('Magento\Sales\Model\InvoiceNotifier')
             ->notify($invoice);
 
         $this->messageManager->addSuccess(__('We sent the message.'));
