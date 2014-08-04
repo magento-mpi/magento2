@@ -12,7 +12,7 @@ class Value extends \Magento\Framework\Service\Data\AbstractObject
 {
     const INDEX = 'index';
     const PRICE = 'price';
-    const IS_PERCENT = 'is_percent';
+    const IS_PERCENT = 'percent';
 
     /**
      * @return float|null
