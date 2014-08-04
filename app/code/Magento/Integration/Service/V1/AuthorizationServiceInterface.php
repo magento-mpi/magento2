@@ -16,7 +16,7 @@ use Magento\Framework\Exception\LocalizedException;
 interface AuthorizationServiceInterface
 {
     /**#@+
-     * Permission types for guest/anonymous and self access
+     * Permission type
      */
     const PERMISSION_ANONYMOUS = 'anonymous';
     const PERMISSION_SELF = 'self';

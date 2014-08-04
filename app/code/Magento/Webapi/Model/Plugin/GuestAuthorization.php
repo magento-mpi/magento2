@@ -11,8 +11,9 @@ namespace Magento\Webapi\Model\Plugin;
 use Magento\Integration\Service\V1\AuthorizationServiceInterface as AuthorizationService;
 
 /**
- * Plugin around \Magento\Framework\Authorization::isAllowed to allow guest users to access resources with
- * anonymous permission.
+ * Plugin around \Magento\Framework\Authorization::isAllowed
+ *
+ * Plugin to allow guest users to access resources with anonymous permission
  */
 class GuestAuthorization
 {

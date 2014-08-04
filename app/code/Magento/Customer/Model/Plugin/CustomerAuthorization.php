@@ -12,8 +12,9 @@ use Magento\Authorization\Model\UserContextInterface;
 use Magento\Integration\Service\V1\AuthorizationServiceInterface as AuthorizationService;
 
 /**
- * Plugin around \Magento\Framework\Authorization::isAllowed to allow customer users to access resources with
- * self permission.
+ * Plugin around \Magento\Framework\Authorization::isAllowed
+ *
+ * Plugin to allow customer users to access resources with self permission
  */
 class CustomerAuthorization
 {
@@ -33,7 +34,7 @@ class CustomerAuthorization
     }
 
     /**
-     * Check if resource for which access is needed has self  permissions defined in webapi config.
+     * Check if resource for which access is needed has self permissions defined in webapi config.
      *
      * @param \Magento\Framework\Authorization $subject
      * @param callable $proceed
@@ -42,6 +43,7 @@ class CustomerAuthorization
      *
      * @return bool true If resource permission is self, to allow
      * customer access without further checks in parent method
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundIsAllowed(
         \Magento\Framework\Authorization $subject,
