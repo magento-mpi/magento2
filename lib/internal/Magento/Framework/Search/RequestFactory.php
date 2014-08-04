@@ -30,8 +30,8 @@ class RequestFactory
     /**
      * Request Pool constructor
      *
-     * @param Request\Config $config
-     * @param Request\Mapper $mapperFactory
+     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\Search\Request\Config $config
      * @param \Magento\Framework\Config\CacheInterface $cache
      */
     public function __construct(
