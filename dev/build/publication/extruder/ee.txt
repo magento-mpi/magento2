@@ -173,6 +173,7 @@ dev/tests/functional/tests/app/Magento/Shipping
 dev/tests/functional/tests/app/Magento/TargetRule
 dev/tests/functional/tests/app/Magento/Tax/Test/TestCase/AutomaticTaxApplyingTest.php
 dev/tests/functional/tests/app/Magento/User/Test/TestCase/UserWithRestrictedRoleTest.php
+dev/tests/functional/tests/app/Magento/VersionsCms
 dev/tests/functional/tests/app/Magento/Widget
 dev/tests/functional/testsuites/Mtf/TestSuite/BatCETests.php
 dev/tests/functional/testsuites/Mtf/TestSuite/BatTests.php

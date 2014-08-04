@@ -33,6 +33,7 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
      */
     public function processAssert(CustomerAccountIndex $customerAccountIndex, AddressInjectable $address)
     {
+        $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Account Dashboard');
         $defaultBillingAddress = explode(
             "\n",
             $customerAccountIndex->getDashboardAddress()->getDefaultBillingAddressText()
@@ -74,10 +75,8 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
     {
         $errorMessages = [];
         foreach ($pattern as $key => $value) {
-            if ($value !== $address[$key]) {
-                $errorMessages[] = "Data in fields is not equal."
-                    . "\nExpected: " . $value
-                    . "\nActual: " . $pattern[$key];
+            if (!in_array($value, $address)) {
+                $errorMessages[] = "Data '$value' in fields is not found.";
             }
         }
         return $errorMessages;
