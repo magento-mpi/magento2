@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 define(
-'USAGE',
+    'USAGE',
     'USAGE: php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>"'
     . ' [--build] [--additional="<dev_build_ce.txt>"]'
 );

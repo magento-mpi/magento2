@@ -15,7 +15,7 @@ use \Magento\Tools\Composer\Helper\ReplaceFilter;
 require __DIR__ . '/../../../bootstrap.php';
 
 define(
-'USAGE',
+    'USAGE',
     "Usage: php -f create-root.php --"
     . " [--skeleton] [--wildcard] [--source-dir=<path>] [--target-file=<path>] [--set=<option:value>]
     --skeleton - whether to render the result as a project skeleton.
