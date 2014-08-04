@@ -134,16 +134,16 @@ class AclRetriever
     }
 
     /**
-     * Check if there role can be associated with user having provided user type.
+     * Check if the role can be associated with user having provided user type.
      *
-     * Roles cannot be created for guests and customers.
+     * Roles can be created for integrations and admin users only.
      *
      * @param int $userType
      * @return bool
      */
     protected function _canRoleBeCreatedForUserType($userType)
     {
-        return ($userType != UserContextInterface::USER_TYPE_CUSTOMER)
-            && ($userType != UserContextInterface::USER_TYPE_GUEST);
+        return ($userType == UserContextInterface::USER_TYPE_INTEGRATION)
+            || ($userType == UserContextInterface::USER_TYPE_ADMIN);
     }
 }
