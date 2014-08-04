@@ -32,6 +32,8 @@
 
 @toolbar-mode-icon-font-size: 26px;
 
+@import "toolbar.less";
+
 .product-item-grid(@_layout-class, @_product-items) when not (@_layout-class = false) and not (@_product-items = '') {
     .@{_layout-class} & {
         .css(width, 100% / @_product-items);
@@ -247,93 +249,6 @@
                     }
                 }
             }
-        }
-    }
-
-    &.toolbar {
-        padding: @indent-s-base;
-        background: @panel-bg;
-        margin-bottom: @indent-xl-base;
-        text-align: center;
-        &:extend(.add-box-sizing all);
-        .settings,
-        .pages,
-        .pager {
-            margin-bottom: @indent-s-base;
-            &:last-child {
-                margin-bottom: 0;
-            }
-        }
-        .modes {
-            display: inline-block;
-            margin-right: @indent-base;
-            margin-bottom: @indent-s-base;
-            .label {
-                .visually-hidden();
-            }
-            .mode {
-                border: 1px solid @border-color-base;
-                font-weight: @font-weight-base;
-                color: @text-color-muted;
-                text-align: center;
-                width: floor(@toolbar-mode-icon-font-size * @line-height-base);
-                .icon-text-hide();
-                &.active {
-                    background: #e5e5e5;
-                    color: #c7c7c7;
-                }
-            }
-            .mode + .mode {
-                margin-left: -4px;
-                border-left: none;
-            }
-            .mode.grid {
-                .icon-font(
-                    @icon-grid,
-                    @_icon-font-size: @toolbar-mode-icon-font-size
-                );
-            }
-            .mode.list {
-                .icon-font(
-                    @icon-list,
-                    @_icon-font-size: @toolbar-mode-icon-font-size
-                );
-            }
-        }
-        .sorter {
-            display: inline-block;
-            select {
-                .form-element-size(@_width: auto);
-            }
-            .action.sort.asc {
-                .icon-font(
-                    @icon-arrow-down,
-                    @_icon-font-size: 27px,
-                    @_icon-font-color: @text-color-muted
-                );
-                .icon-text-hide();
-            }
-            .action.sort.desc {
-                .icon-font(
-                    @icon-arrow-up,
-                    @_icon-font-size: 27px,
-                    @_icon-font-color: @text-color-muted
-                );
-                .icon-text-hide();
-            }
-        }
-        .limiter {
-            display: inline;
-            margin-left: @indent-base;
-            select {
-                .form-element-size(@_width: auto);
-            }
-            .text {
-                display: none;
-            }
-        }
-        .amount {
-            display: inline;
         }
     }
 }
