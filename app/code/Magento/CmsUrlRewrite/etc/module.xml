@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+    <module name="Magento_CmsUrlRewrite" schema_version="1.0.0.0" active="false">
+        <depends>
+            <module name="Magento_Store"/>
+            <module name="Magento_UrlRedirect"/>
+        </depends>
+    </module>
+</config>

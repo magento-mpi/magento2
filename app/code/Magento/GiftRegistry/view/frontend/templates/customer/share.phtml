@@ -9,7 +9,7 @@
 <script id="add-recipient-tmpl" type="text/x-jQuery-tmpl">
     <div class="actions-toolbar">
         <div class="secondary">
-            <button type="button" class="action remove" id="btn-remove${_index_}"><span><?php echo __('Remove Recipient') ?></span></button>
+            <button type="button" class="action remove" id="btn-remove${_index_}"><span><?php echo __('Remove') ?></span></button>
         </div>
     </div>
     <fieldset class="fieldset">
@@ -32,7 +32,7 @@
     <?php echo $this->getFormHeader() ?>
 </h2>
 
-<form action="<?php echo $this->getSendUrl() ?>" method="post" id="giftregistry-sharing-form" class="form giftregistry validation share" data-hasrequired="<?php echo __('* Required Fields') ?>">
+<form action="<?php echo $this->getSendUrl() ?>" method="post" id="giftregistry-sharing-form" class="form form-giftregistry-share validation" data-hasrequired="<?php echo __('* Required Fields') ?>">
     <fieldset class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
         <legend class="legend"><span><?php echo __('Sender:') ?></span></legend>
@@ -94,6 +94,8 @@
 </form>
 
 <script type="text/javascript">
+require(['jquery', 'mage/mage'], function(jQuery){
+
     (function($) {
         var formDataPost;
         <?php if (is_array($this->getFormData('recipients'))): ?>
@@ -112,4 +114,6 @@
             formDataPost: {"formData": formDataPost, "templateFields": ['recipients-name', 'recipients-email']}
         }).mage('validation');
     })(jQuery);
+
+});
 </script>

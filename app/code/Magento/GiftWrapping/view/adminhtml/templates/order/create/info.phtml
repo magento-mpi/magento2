@@ -6,14 +6,15 @@
  * @license     {license_link}
  */
 ?>
-
 <div id="orderCreateGiftWrapping" class="box-right">
     <?php echo $this->getChildHtml('wrapping.order.create.info.content'); ?>
 </div>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-var giftWrappingOrder = {
+giftWrappingOrder = {
     designsInfo : <?php echo $this->getDesignsInfo()->toJson() ?>,
     cardInfo : <?php echo $this->getCardInfo()->toJson() ?>,
     allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>,
@@ -127,4 +128,6 @@ giftWrappingOrder.setCardPrice(null, <?php echo $this->getWrappingPrintedCardVal
 Event.observe(document, 'quote_items:afterIFrameLoaded',  giftWrappingOrder.refresh.bind(giftWrappingOrder));
 Event.observe(document, 'product_to_add:afterIFrameLoaded',  giftWrappingOrder.refresh.bind(giftWrappingOrder));
 //]]>
+
+});
 </script>

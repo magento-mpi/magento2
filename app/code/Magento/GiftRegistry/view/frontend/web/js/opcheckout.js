@@ -5,10 +5,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template"
+], function($){
     'use strict';
-    $.widget('mage.opcheckout', $.mage.opcheckout, {
+    $.widget('mage.opcShippingInfo', $.mage.opcShippingInfo, {
         options: {
             giftRegistry: {
                 radioTemplateSelector: '#gift-registry-billing',
@@ -28,9 +31,9 @@
             $('.choice', this.options.billing.form).last()
                 .after($(this.options.giftRegistry.radioTemplateSelector).tmpl());
             var shippingCheckbox = $(this.options.giftRegistry.checkboxTemplateSelector).tmpl();
+            shippingCheckbox.on('click', $.proxy(this._checkboxHandler, this));
             $('.choice', this.options.shipping.form).last()
                 .after(shippingCheckbox);
-            shippingCheckbox.on('click', $.proxy(this._checkboxHandler, this));
         },
 
         /**
@@ -60,6 +63,7 @@
                     if (response.goto_section) {
                         response.goto_section = null;
                     }
+                    $('#use_gr_address').prop('checked', true);
                     //Trigger indicating billing save. eg. GiftMessage listens to this to inject gift options
                     this.element.trigger('billingSave');
                     //Trigger shipping save
@@ -71,4 +75,5 @@
             }
         }
     });
-})(jQuery, window);
+
+});

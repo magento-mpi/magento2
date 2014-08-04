@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CustomerSegment
+ * Customer Segment fixture
  */
 class CustomerSegment extends InjectableFixture
 {
@@ -44,6 +45,7 @@ class CustomerSegment extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => '',
+        'group' => null,
     ];
 
     protected $name = [
@@ -52,6 +54,7 @@ class CustomerSegment extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'general_properties',
     ];
 
     protected $description = [
@@ -60,6 +63,7 @@ class CustomerSegment extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'general_properties',
     ];
 
     protected $is_active = [
@@ -68,6 +72,7 @@ class CustomerSegment extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'group' => 'general_properties',
     ];
 
     protected $conditions_serialized = [
@@ -76,6 +81,7 @@ class CustomerSegment extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'conditions',
     ];
 
     protected $processing_frequency = [
@@ -100,11 +106,13 @@ class CustomerSegment extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'group' => 'general_properties',
     ];
 
     protected $website_ids = [
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
+        'group' => 'general_properties',
     ];
 
     public function getSegmentId()

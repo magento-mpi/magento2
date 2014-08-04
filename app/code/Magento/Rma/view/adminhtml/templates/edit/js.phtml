@@ -6,11 +6,14 @@
  * @license     {license_link}
  */
 ?>
-
+<?php
+/** @var Magento\Rma\Block\Adminhtml\Rma\Edit\Js $this */
+?>
 <script type="text/javascript">
+require(['prototype', 'Magento_Rma/rma'], function(){
+
 //<![CDATA[
     document.observe('dom:loaded', function () {
-        var rma = new AdminRma(<?php ///*echo $this->getOrderDataJson()*/ ?>);
         rma.setLoadAttributesUrl('<?php echo $this->getLoadAttributesUrl() ?>');
         rma.setLoadSplitLineUrl('<?php echo $this->getLoadSplitLineUrl() ?>');
         rma.setDeleteLineLabel('<?php echo __('Delete Line') ?>');
@@ -28,6 +31,12 @@
         if ($('get-shipping-method-and-rates')) {
             $('get-shipping-method-and-rates').observe('click', rma.showShippingMethods.bind(rma));
         }
+        $$('input.rowId').each(function(el, val) {
+            rma.getAjaxData($(el).value, true);
+        });
+        rma.callLoadProductsCallback();
     });
 //]]>
+
+});
 </script>

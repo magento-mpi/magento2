@@ -56,7 +56,10 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     {
         if ($product->getData('price')) {
             return $product->getData('price');
-        } elseif (!$product->getAllowOpenAmount() && (count($this->getAmounts($product)) === 1)) {
+        } elseif (!$product->getAllowOpenAmount()
+            && (count($this->getAmounts($product)) === 1)
+            && !$product->hasCustomOptions()
+        ) {
             $amounts = $this->getAmounts($product);
             $amount = array_shift($amounts);
             return $amount['website_value'];

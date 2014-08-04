@@ -6,8 +6,17 @@
  */
 /*jshint browser:true jquery:true expr:true sub:true*/
 /*global alert confirm*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template",
+    "mage/validation/validation",
+    "mage/dataPost",
+    "mage/translate",
+    "mage/dropdowns"
+], function($){
     'use strict';
+    
     $.widget('mage.multipleWishlist', {
         options: {
             createTmplSelector: '#popup-tmpl',
@@ -424,4 +433,5 @@
             });
         }
     });
-})(jQuery);
+
+});

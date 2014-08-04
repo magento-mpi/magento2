@@ -51,7 +51,7 @@ class Preview extends \Magento\Backend\App\Action implements RevisionInterface
         }
 
         $this->_title->add(__('Pages'));
-        $page = $this->pageLoader->load();
+        $page = $this->pageLoader->load($this->_request->getParam('page_id'));
         $this->_view->loadLayout();
 
         $stores = $page->getStoreId();

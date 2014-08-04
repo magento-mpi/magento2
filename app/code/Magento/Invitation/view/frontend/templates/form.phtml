@@ -10,7 +10,7 @@
 <?php echo $this->getChildHtml('form_before')?>
 <?php $maxPerSend = $this->getMaxInvitationsPerSend(); ?>
 <?php if ($maxPerSend): ?>
-    <form id="invitationForm" action="" method="post" class="form add invitations" data-mage-init='{"validation": {}}' data-hasrequired="<?php echo __('* Required Fields') ?>">
+    <form id="invitationForm" action="" method="post" class="form form-add-invitations" data-mage-init='{"validation": {}}' data-hasrequired="<?php echo __('* Required Fields') ?>">
         <fieldset class="fieldset">
             <legend class="legend"><span><?php echo __('Invite your friends by entering their email addresses.'); ?></span></legend>
             <br>
@@ -41,6 +41,8 @@
         </div>
     </form>
     <script type="text/javascript">
+require(['jquery', 'mage/mage', 'jquery/validate'], function(jQuery){
+
         (function($) {
             /**
              * All input fields have the same name attribute 'email[]',
@@ -57,7 +59,9 @@
             }});
             $('#invitationForm').mage('validation');
         })(jQuery);
-    </script>
+    
+});
+</script>
 <?php else:?>
     <div class="message info empty"><span><?php echo __('You cannot send more invitations'); ?></span></div>
     <div class="actions">
