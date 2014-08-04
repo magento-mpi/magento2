@@ -14,7 +14,7 @@ namespace Magento\Authorization\Model;
 interface UserContextInterface
 {
     /**#@+
-     * User types
+     * User type
      */
     const USER_TYPE_INTEGRATION = 1;
     const USER_TYPE_ADMIN = 2;
