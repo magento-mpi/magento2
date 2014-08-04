@@ -80,14 +80,19 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getFrontName')
             ->will($this->returnValue('backend'));
 
-        $adminConfig = new \Magento\Backend\AdminConfig(
+        $config = new \Magento\Framework\Session\Config(
             $this->configMock,
             $this->stringHelperMock,
             $this->requestMock,
             $this->appState,
             $this->filesystem,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $mockFrontnameResolver
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+
+        $adminConfig = new \Magento\Backend\AdminConfig(
+            $mockFrontnameResolver,
+            $config,
+            $this->requestMock
         );
 
         $this->assertEquals('/backend', $adminConfig->getCookiePath());

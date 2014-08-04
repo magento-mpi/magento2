@@ -16,7 +16,7 @@ use Magento\Framework\Session\Config\ConfigInterface;
  *
  * @method Config setSaveHandler()
  */
-class Config implements ConfigInterface
+final class Config implements ConfigInterface
 {
     /**
      * Configuration path for session save method
