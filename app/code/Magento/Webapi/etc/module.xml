@@ -21,7 +21,7 @@
             <module name="Magento_Core"/>
             <module name="Magento_Integration"/>
             <module name="Magento_Backend"/>
-            <module name="Magento_User" type="soft"/>
+            <module name="Magento_User"/>
         </depends>
     </module>
 </config>
