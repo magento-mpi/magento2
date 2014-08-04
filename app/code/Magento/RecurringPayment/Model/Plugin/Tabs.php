@@ -28,6 +28,7 @@ class Tabs
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection $result
      *
      * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGetGroupCollection(\Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs $subject, $result)
     {
