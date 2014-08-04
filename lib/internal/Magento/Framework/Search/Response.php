@@ -12,4 +12,3 @@ namespace Magento\Framework\Search;
 class Response implements ResponseInterface
 {
 }
-

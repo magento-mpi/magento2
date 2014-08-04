@@ -1,7 +1,6 @@
 <?php
 /**
  * Search Request
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,10 +8,12 @@
  */
 namespace Magento\Framework\Search;
 
-use Magento\Framework\Search\Request\FilterInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Framework\Search\Request\QueryInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Request implements RequestInterface
 {
     /**
@@ -64,7 +65,7 @@ class Request implements RequestInterface
         array $buckets = null
     ) {
         $this->name = $name;
-        $this->index =$indexName;
+        $this->index = $indexName;
         $this->buckets = $buckets;
         $this->query = $query;
         $this->from = $from;

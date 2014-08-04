@@ -1,7 +1,6 @@
 <?php
 /**
  * Search Request Pool
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -93,14 +92,17 @@ class RequestFactory
                 'filters' => $data['filters']
             ]
         );
-        return $this->objectManager->create('Magento\Framework\Search\Request', [
-            'name' => $data['query'],
-            'indexName' => $data['index'],
-            'from' => $data['from'],
-            'size' => $data['size'],
-            'query' => $mapper->get($data['query']),
-            'buckets' => [],
-        ]);
+        return $this->objectManager->create(
+            'Magento\Framework\Search\Request',
+            [
+                'name' => $data['query'],
+                'indexName' => $data['index'],
+                'from' => $data['from'],
+                'size' => $data['size'],
+                'query' => $mapper->get($data['query']),
+                'buckets' => [],
+            ]
+        );
     }
 
 }
