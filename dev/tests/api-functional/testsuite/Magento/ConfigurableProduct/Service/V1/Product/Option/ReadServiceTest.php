@@ -75,8 +75,8 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertNotEmpty($option);
 
         $expectedValues = array(
-            ['price' => 5, 'price_is_percent' => 0],
-            ['price' => 5, 'price_is_percent' => 0]
+            ['price' => 5, 'percent' => 0],
+            ['price' => 5, 'percent' => 0]
         );
 
         $this->assertCount(count($expectedValues), $option['values']);
@@ -91,8 +91,8 @@ class ReadServiceTest extends WebapiAbstract
             $this->assertArrayHasKey('price', $value);
             $this->assertEquals($expectedValue['price'], $value['price']);
 
-            $this->assertArrayHasKey('price_is_percent', $value);
-            $this->assertEquals($expectedValue['price_is_percent'], $value['price_is_percent']);
+            $this->assertArrayHasKey('percent', $value);
+            $this->assertEquals($expectedValue['percent'], $value['percent']);
         }
     }
 
