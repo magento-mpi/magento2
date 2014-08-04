@@ -7,6 +7,8 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Data;
 
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class OptionConverterTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +19,7 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase
     private $converter;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     * @var Attribute|\PHPUnit_Framework_MockObject_MockObject
      */
     private $configurableAttribute;
 
@@ -27,7 +29,7 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase
     private $option;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var AttributeFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     private $attributeFactory;
 
@@ -120,7 +122,8 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase
         $converterMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $converterMock->expects($this->at(2))->method('getData')->with('attribute_id')->will($this->returnValue(2));
         $converterMock->expects($this->once())->method('getLabel')->will($this->returnValue('Test Label'));
-        $converterMock->expects($this->any())->method('getProductAttribute')->will($this->returnValue($productAttribute));
+        $converterMock->expects($this->any())->method('getProductAttribute')
+            ->will($this->returnValue($productAttribute));
         $converterMock->expects($this->at(5))->method('getData')->with('position')->will($this->returnValue(3));
         $converterMock->expects($this->at(6))->method('getData')->with('use_default')->will($this->returnValue(true));
 

@@ -10,7 +10,9 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
+use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection;
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\TestFramework\Helper\ObjectManager;
 
@@ -55,12 +57,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     private $productTypeMock;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     private $attributeCollectionMock;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     * @var Attribute|\PHPUnit_Framework_MockObject_MockObject
      */
     private $attributeMock;
 

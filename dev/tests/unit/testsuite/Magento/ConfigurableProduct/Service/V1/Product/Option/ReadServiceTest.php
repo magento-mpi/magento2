@@ -8,6 +8,9 @@
 namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
+use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute as ResourceAttribute;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
+use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +23,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $eavAttribute;
     /**
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     * @var ResourceAttribute|\PHPUnit_Framework_MockObject_MockObject
      */
     private $attributeResource;
     /**
@@ -49,12 +52,12 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     private $product;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     * @var Attribute|\PHPUnit_Framework_MockObject_MockObject
      */
     private $option;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     private $configurableAttributeCollection;
 
