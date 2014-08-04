@@ -110,7 +110,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'entity_id' => $model->getEntityId(),
             'request_path' => $model->getRequestPath(),
             'target_path' => $model->getTargetPath(),
-            'options' => $model->getOptions(),
+            'redirect_type' => $model->getRedirectType(),
             'description' => $model->getDescription()
         );
 
@@ -162,6 +162,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
+        $this->_prepareStoreElement($fieldset);
+
         $fieldset->addField(
             'request_path',
             'text',
@@ -190,14 +192,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var $optionsModel \Magento\UrlRedirect\Model\OptionProvider */
         $optionsModel = $this->_optionFactory->create();
         $fieldset->addField(
-            'options',
+            'redirect_type',
             'select',
             array(
                 'label' => __('Redirect'),
                 'title' => __('Redirect'),
-                'name' => 'options',
+                'name' => 'redirect_type',
                 'options' => $optionsModel->getAllOptions(),
-                'value' => $this->_formValues['options']
+                'value' => $this->_formValues['redirect_type']
             )
         );
 
@@ -215,8 +217,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        $this->_prepareStoreElement($fieldset);
-
         $this->setForm($form);
         $this->_formPostInit($form);
 
@@ -231,9 +231,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareStoreElement($fieldset)
     {
-        // get store switcher or a hidden field with it's id
         if ($this->_storeManager->isSingleStoreMode()) {
-
+            $fieldset->addField(
+                'store_id',
+                'hidden',
+                array('name' => 'store_id', 'value' => $this->_storeManager->getStore(true)->getId())
+            );
         } else {
             /** @var $renderer \Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element */
             $renderer = $this->getLayout()->createBlock(
@@ -249,7 +252,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'name' => 'store_id',
                     'required' => true,
                     'values' => $this->_getRestrictedStoresList(),
-                    'disabled' => $this->_getModel()->getIsSystem(),
                     'value' => $this->_formValues['store_id']
                 )
             );

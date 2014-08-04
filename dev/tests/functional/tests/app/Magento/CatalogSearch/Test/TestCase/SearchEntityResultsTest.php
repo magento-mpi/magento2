@@ -50,7 +50,7 @@ class SearchEntityResultsTest extends Injectable
     }
 
     /**
-     * Run suggest searching result test
+     * Run searching result test
      *
      * @param string $products
      * @param CatalogSearchQuery $catalogSearch

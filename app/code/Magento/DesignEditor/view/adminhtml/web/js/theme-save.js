@@ -4,9 +4,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "Magento_DesignEditor/js/dialog"
+], function($){
+
     /**
      * Widget theme save
      */
@@ -172,7 +177,7 @@
 
             //NOTE: Line below makes copy of eventData to have an ability to unset 'confirm.message' later
             // and to not miss this 'confirm.message' for next calls of _onSaveAndAssign
-            var tempData = jQuery.extend({}, eventData);
+            var tempData = $.extend({}, eventData);
             tempData.saveAfter = function() {};
             tempData.reportToSession = 0;
             $('body').trigger(this.options.saveConfirmEvent, tempData);
@@ -233,4 +238,5 @@
             this._super();
         }
     });
-})( jQuery );
+
+});

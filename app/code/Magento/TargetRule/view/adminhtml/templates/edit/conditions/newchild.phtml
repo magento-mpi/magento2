@@ -44,6 +44,8 @@
 </span></span>&nbsp;
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
 function setValueToElementValueChanger(changerId, value)
 {
@@ -54,5 +56,8 @@ function setValueToElementValueChanger(changerId, value)
     elementValueChanger.value = value;
     elementValueChanger.container.rulesObject.hideParamInputField(elementValueChanger.container);
 }
+window.setValueToElementValueChanger = setValueToElementValueChanger;
 //]]>
+
+});
 </script>

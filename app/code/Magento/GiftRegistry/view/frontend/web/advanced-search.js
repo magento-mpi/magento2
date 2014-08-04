@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+
     $.widget('mage.advancedSearch', {
         options: {
             ajaxSpinnerSelector: '#gr-please-wait',
@@ -33,4 +37,5 @@
             }, this));
         }
     });
-})(jQuery);
+
+});

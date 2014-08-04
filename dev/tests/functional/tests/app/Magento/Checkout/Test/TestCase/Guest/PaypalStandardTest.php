@@ -70,13 +70,6 @@ class PaypalStandardTest extends Functional
         //Verify order in Backend
         /** @var \Magento\Checkout\Test\Page\CheckoutOnepageSuccess $successPage */
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
-        $this->assertContains(
-            'Your order has been received.',
-            $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.'
-        );
-
-        /** @var  string $orderId */
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }

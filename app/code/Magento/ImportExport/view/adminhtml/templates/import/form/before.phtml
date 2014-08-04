@@ -10,9 +10,11 @@
 /** @var $this \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before */
 ?>
 <script type="text/javascript">
+require(['jquery', 'prototype'], function(jQuery){
+
 //<![CDATA[
     // Temporary Class will be replaced after refactoring of import/export functionality
-    var varienImport = {
+    varienImport = {
         /**
          * Name and ID for iframe for data POST-ing.
          * @type {string}
@@ -191,4 +193,6 @@
         }
     };
 //]]>
+
+});
 </script>

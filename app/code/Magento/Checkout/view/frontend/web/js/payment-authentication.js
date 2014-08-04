@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+    
     $.widget('mage.paymentAuthentication', {
         options : {
             bodySelector: '[data-container="body"]'
@@ -28,4 +32,5 @@
             }
         }
     });
-})(jQuery);
+
+});

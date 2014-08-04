@@ -44,7 +44,7 @@ class CreateOrderTest extends Functional
         //Steps
         $orderGridPage->open();
         $orderCreatePage->getActionsBlock()->addNew();
-        $orderCreatePage->getCustomerBlock()->selectCustomer($fixture);
+        $orderCreatePage->getCustomerBlock()->selectCustomer($fixture->getCustomer());
         $orderCreatePage->getStoreBlock()->selectStoreView($fixture);
 
         $orderCreatePage->getCreateBlock()->addProducts($fixture);
