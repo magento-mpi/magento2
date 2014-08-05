@@ -28,7 +28,7 @@ class AgreementBuilder extends AbstractObjectBuilder
     /**
      * Set agreement name
      *
-     * @param string
+     * @param string $value
      * @return $this
      */
     public function setName($value)
@@ -39,7 +39,7 @@ class AgreementBuilder extends AbstractObjectBuilder
     /**
      * Set agreement content
      *
-     * @param string
+     * @param string $value
      * @return $this
      */
     public function setContent($value)
@@ -50,7 +50,7 @@ class AgreementBuilder extends AbstractObjectBuilder
     /**
      * Set agreement content height (optional CSS property)
      *
-     * @param string
+     * @param string $value
      * @return $this
      */
     public function setContentHeight($value)
@@ -61,7 +61,7 @@ class AgreementBuilder extends AbstractObjectBuilder
     /**
      * Set agreement checkbox text
      *
-     * @param string
+     * @param string $value
      * @return $this
      */
     public function setCheckboxText($value)
