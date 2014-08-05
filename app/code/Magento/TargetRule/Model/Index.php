@@ -7,6 +7,7 @@
  */
 namespace Magento\TargetRule\Model;
 
+use Magento\Index\Model\Event;
 /**
  * TargetRule Product Index by Rule Product List Type Model
  *
@@ -20,42 +21,8 @@ namespace Magento\TargetRule\Model;
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
+class Index extends \Magento\Framework\Model\AbstractModel
 {
-    /**
-     * Reindex products target-rules event type
-     */
-    const EVENT_TYPE_REINDEX_PRODUCTS = 'reindex_targetrules';
-
-    /**
-     * Clean target-rules event type
-     */
-    const EVENT_TYPE_CLEAN_TARGETRULES = 'clean_targetrule_index';
-
-    /**
-     * Product entity for indexers
-     */
-    const ENTITY_PRODUCT = 'targetrule_product';
-
-    /**
-     * Target-rule entity for indexers
-     */
-    const ENTITY_TARGETRULE = 'targetrule_entity';
-
-    /**
-     * Matched entities
-     *
-     * @var array
-     */
-    protected $_matchedEntities = array();
-
-    /**
-     * Whether the indexer should be displayed on process/list page
-     *
-     * @var bool
-     */
-    protected $_isVisible = false;
-
     /**
      * Target rule data
      *
@@ -358,24 +325,22 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     }
 
     /**
-     * Register indexer required data inside event object
+     * Get Indexer description
      *
-     * @param \Magento\Index\Model\Event $event
-     * @return void
+     * @return string
      */
-    protected function _registerEvent(\Magento\Index\Model\Event $event)
+    public function getDescription()
     {
-
+        return '';
     }
 
     /**
-     * Process event based on event state data
+     * Rebuild all index data
      *
-     * @param \Magento\Index\Model\Event $event
-     * @return void
+     * @return  void
      */
-    protected function _processEvent(\Magento\Index\Model\Event $event)
+    public function reindexAll()
     {
-
+        $this->_getResource()->reindexAll();
     }
 }
