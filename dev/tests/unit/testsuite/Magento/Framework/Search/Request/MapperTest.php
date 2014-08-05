@@ -287,25 +287,25 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                     ]
                 ]
             ],
-//            [
-//                [
-//                    'someQuery' => [
-//                        'type' => QueryInterface::TYPE_BOOL,
-//                        'name' => 'someName',
-//                        'queryReference' => [
-//                            [
-//                                'ref' => 'someQueryMatch',
-//                                'clause' => 'someClause',
-//                            ]
-//                        ]
-//                    ],
-//                    'someQueryMatch' => [
-//                        'type' => QueryInterface::TYPE_MATCH,
-//                        'name' => 'someName',
-//                        'match' => 'someMatches'
-//                    ]
-//                ]
-//            ]
+            [
+                [
+                    'someQuery' => [
+                        'type' => QueryInterface::TYPE_FILTER,
+                        'name' => 'someName',
+                        'queryReference' => [
+                            [
+                                'ref' => 'someQueryMatch',
+                                'clause' => 'someClause',
+                            ]
+                        ]
+                    ],
+                    'someQueryMatch' => [
+                        'type' => QueryInterface::TYPE_MATCH,
+                        'name' => 'someName',
+                        'match' => 'someMatches'
+                    ]
+                ]
+            ]
         ];
     }
 
