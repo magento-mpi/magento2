@@ -12,7 +12,6 @@ use \Magento\Checkout\Service\V1\Data\Cart\Coupon as Coupon;
 
 class ReadService implements ReadServiceInterface
 {
-
     /**
      * @var \Magento\Checkout\Service\V1\QuoteLoader
      */
@@ -48,12 +47,11 @@ class ReadService implements ReadServiceInterface
      */
     public function get($cartId)
     {
-        $output = [];
         $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $storeId);
         $data = [Coupon::COUPON_CODE => $quote->getCouponCode()];
-        $output[] = $this->couponBuilder->populateWithArray($data)->create();
-        return $output;
+        $this->couponBuilder->populateWithArray($data)->create();
+        return $this->couponBuilder->populateWithArray($data)->create();
     }
 }

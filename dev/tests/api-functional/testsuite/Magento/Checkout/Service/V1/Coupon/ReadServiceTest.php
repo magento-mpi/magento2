@@ -37,11 +37,9 @@ class ReadServiceTest extends WebapiAbstract
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
-        $output = [];
         $data = [
             Coupon::COUPON_CODE => $quote->getCouponCode()
         ];
-        $output[] = $data;
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/coupons',
@@ -55,6 +53,6 @@ class ReadServiceTest extends WebapiAbstract
         );
 
         $requestData = ["cartId" => $cartId];
-        $this->assertEquals($output, $this->_webApiCall($serviceInfo, $requestData));
+        $this->assertEquals($data, $this->_webApiCall($serviceInfo, $requestData));
     }
 }

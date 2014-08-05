@@ -9,11 +9,13 @@
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
+ * Coupon data for quote
+ *
  * @codeCoverageIgnore
  */
 class Coupon extends \Magento\Framework\Service\Data\AbstractObject
 {
-    /**#@+
+    /**
      * Constants defined for keys of array
      */
     const COUPON_CODE = 'coupon_code';
