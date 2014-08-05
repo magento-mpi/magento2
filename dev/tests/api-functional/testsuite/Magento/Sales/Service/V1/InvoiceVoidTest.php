@@ -17,7 +17,7 @@ class InvoiceVoidTest extends WebapiAbstract
     const SERVICE_NAME = 'salesInvoiceVoidV1';
 
     /**
-     * @m1agentoApiDataFixture Magento/Sales/_files/invoice.php
+     * @magentoApiDataFixture Magento/Sales/_files/invoice.php
      * @expectedException \Exception
      */
     public function testInvoiceVoid()
