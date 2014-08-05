@@ -1,0 +1,3 @@
+"reward/data/website_id";"reward/data/points_delta";"reward/data/comment";"constraint"
+"-";"+100";"comment%isolation%";"assertCustomerSuccessSaveMessage, assertRewardInHistoryGrid"
+"Main Website/Main Website Store/Default Store View";"-50";"comment%isolation%";"assertCustomerSuccessSaveMessage, assertRewardInHistoryGrid"

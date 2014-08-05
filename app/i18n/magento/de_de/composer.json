@@ -1,9 +1,10 @@
 {
     "name": "magento/language-de_de",
     "description": "German (Germany) language",
-    "version": "0.1.0",
+    "version": "0.1.0-alpha89",
     "require": {
-        "magento/framework": "0.1.0"
+        "magento/framework": "0.1.0-alpha89",
+        "magento/magento-composer-installer": "*"
     },
     "type": "magento2-language",
     "extra": {
