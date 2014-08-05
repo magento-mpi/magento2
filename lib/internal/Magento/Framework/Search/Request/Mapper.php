@@ -7,9 +7,7 @@
  */
 namespace Magento\Framework\Search\Request;
 
-use Magento\Framework\Search\Request\FilterInterface;
 use Magento\Framework\Search\Request\Query\Filter;
-use Magento\Framework\Search\Request\QueryInterface;
 
 class Mapper
 {
@@ -82,13 +80,11 @@ class Mapper
                 if (isset($query['queryReference'][0])) {
                     $reference = $this->mapQuery($query['queryReference'][0]['ref']);
                     $referenceType = Filter::REFERENCE_QUERY;
+                } elseif (isset($query['filterReference'][0])) {
+                    $reference = $this->mapFilter($query['filterReference'][0]['ref']);
+                    $referenceType = Filter::REFERENCE_FILTER;
                 } else {
-                    if (isset($query['filterReference'][0])) {
-                        $reference = $this->mapFilter($query['filterReference'][0]['ref']);
-                        $referenceType = Filter::REFERENCE_FILTER;
-                    } else {
-                        throw new \Exception('Reference is not provided');
-                    }
+                    throw new \Exception('Reference is not provided');
                 }
                 $query = $this->objectManager->create(
                     'Magento\Framework\Search\Request\Query\Filter',
