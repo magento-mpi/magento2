@@ -10,6 +10,9 @@ namespace Magento\Checkout\Service\V1\Coupon;
 use \Magento\Checkout\Service\V1\Data\Cart\CouponBuilder as CouponBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\Coupon as Coupon;
 
+/**
+ * Class ReadService
+ */
 class ReadService implements ReadServiceInterface
 {
     /**
