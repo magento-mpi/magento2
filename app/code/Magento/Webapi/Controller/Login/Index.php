@@ -85,7 +85,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->session->start('frontend');
         $this->session->setUserId($customerData->getId());
         $this->session->setUserType(UserIdentifier::USER_TYPE_CUSTOMER);
-        $this->session->regenerateId(true);
+        $this->session->regenerateId();
     }
 
     /**
