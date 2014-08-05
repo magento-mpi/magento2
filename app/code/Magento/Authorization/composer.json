@@ -13,7 +13,7 @@
         "map": [
             [
                 "*",
-                "Magento/Authz"
+                "Magento/Authorization"
             ]
         ]
     }
