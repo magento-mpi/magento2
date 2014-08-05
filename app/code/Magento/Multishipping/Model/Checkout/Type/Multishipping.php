@@ -8,6 +8,7 @@
 namespace Magento\Multishipping\Model\Checkout\Type;
 
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 /**
  * Multishipping checkout model
@@ -88,6 +89,11 @@ class Multishipping extends \Magento\Framework\Object
     protected $_customerAddressService;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -100,6 +106,7 @@ class Multishipping extends \Magento\Framework\Object
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
      * @param \Magento\Multishipping\Helper\Data $helper
+     * @param OrderSender $orderSender
      * @param array $data
      */
     public function __construct(
@@ -115,6 +122,7 @@ class Multishipping extends \Magento\Framework\Object
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
         \Magento\Multishipping\Helper\Data $helper,
+        OrderSender $orderSender,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -129,6 +137,7 @@ class Multishipping extends \Magento\Framework\Object
         $this->_customerSession = $customerSession;
         $this->_orderFactory = $orderFactory;
         $this->_customerAddressService = $customerAddressService;
+        $this->orderSender = $orderSender;
         parent::__construct($data);
         $this->_init();
     }
@@ -623,7 +632,7 @@ class Multishipping extends \Magento\Framework\Object
                 $order->place();
                 $order->save();
                 if ($order->getCanSendNewEmailFlag()) {
-                    $order->sendNewOrderEmail();
+                    $this->orderSender->send($order);
                 }
                 $orderIds[$order->getId()] = $order->getIncrementId();
             }

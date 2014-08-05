@@ -122,7 +122,6 @@ class Files
                     $files,
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
-                    self::getFiles(array("{$this->_path}/downloader"), '*.php'),
                     self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php')
                 );
             }
@@ -144,8 +143,6 @@ class Files
      * @param bool $appCode   application PHP-code
      * @param bool $devTests
      * @param bool $devTools
-     * @param bool $downloaderApp
-     * @param bool $downloaderLib
      * @param bool $lib
      * @param bool $asDataSet
      * @return array
@@ -154,13 +151,10 @@ class Files
         $appCode = true,
         $devTests = true,
         $devTools = true,
-        $downloaderApp = true,
-        $downloaderLib = true,
         $lib = true,
         $asDataSet = true
     ) {
-        $key = __METHOD__ .
-            "/{$this->_path}/{$appCode}/{$devTests}/{$devTools}/{$downloaderApp}/{$downloaderLib}/{$lib}";
+        $key = __METHOD__ . "/{$this->_path}/{$appCode}/{$devTests}/{$devTools}/{$lib}";
         if (!isset(self::$_cache[$key])) {
             $files = array();
             if ($appCode) {
@@ -171,12 +165,6 @@ class Files
             }
             if ($devTools) {
                 $files = array_merge($files, self::getFiles(array("{$this->_path}/dev/tools/Magento"), '*.php'));
-            }
-            if ($downloaderApp) {
-                $files = array_merge($files, self::getFiles(array("{$this->_path}/downloader/app/Magento"), '*.php'));
-            }
-            if ($downloaderLib) {
-                $files = array_merge($files, self::getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php'));
             }
             if ($lib) {
                 $files = array_merge($files, self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php'));
@@ -794,7 +782,6 @@ class Files
             array(
                 $this->_path . '/app',
                 $this->_path . '/dev',
-                $this->_path . '/downloader',
                 $this->_path . '/lib',
                 $this->_path . '/pub'
             ),
@@ -879,8 +866,6 @@ class Files
         $directories = array(
             '/app/code/',
             '/lib/internal/',
-            '/downloader/app/',
-            '/downloader/lib/',
             '/dev/tools/',
             '/dev/tools/performance_toolkit/framework/',
             '/dev/tests/api-functional/framework/',

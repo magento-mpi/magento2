@@ -47,11 +47,5 @@ class EnterpriseConfigurator implements ConfiguratorInterface
             $enablerPath . 'enterprise/module.xml.dist',
             $enablerPath . 'enterprise/module.xml'
         );
-
-        //set downloader chanel
-        $configFile = $this->_basePath . '/downloader/config.ini';
-        $content = $this->_filesystemDriver->fileGetContents($configFile);
-        $content = str_replace('community', 'enterprise', $content);
-        $this->_filesystemDriver->filePutContents($configFile, $content);
     }
 }

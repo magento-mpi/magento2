@@ -16,6 +16,8 @@
 <?php $_rand = rand(); ?>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
     opFile<?php echo $_rand; ?> = {
         initializeFile: function(inputBox) {
@@ -54,6 +56,8 @@
         }
     };
 //]]>
+
+});
 </script>
 
 <div class="field<?php if ($_option->getIsRequire()) echo ' required' ?>">

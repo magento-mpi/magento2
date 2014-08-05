@@ -8,8 +8,15 @@
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/
-(function($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/validation/validation",
+    "Magento_Checkout/js/accordion",
+    "mage/translate"
+], function($){
     'use strict';
+
     // Base widget, handle ajax events and first section(Checkout Method) in one page checkout accordion
     $.widget('mage.opcCheckoutMethod', {
         options: {
@@ -21,6 +28,7 @@
                 registerCustomerPasswordSelector: '#co-billing-form .field.password,#co-billing-form .field.confirm',
                 suggestRegistration: false
             },
+            pageMessages: '#maincontent .messages .message',
             sectionSelectorPrefix: 'opc-',
             billingSection: 'billing',
             ajaxLoaderPlaceButton: false,
@@ -151,6 +159,9 @@
                 loginRegister   = $( checkout.loginRegisterSelector )[0],
                 method          = 'register',
                 action          = 'show';
+
+            //Remove page messages
+            $(this.options.pageMessages).remove();
             
             if (json.isGuestCheckoutAllowed) {
                 
@@ -265,4 +276,4 @@
             }
         }
     });
-})(jQuery, window);
+});

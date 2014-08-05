@@ -16,58 +16,66 @@ use Mtf\Repository\AbstractRepository;
 class Widget extends AbstractRepository
 {
     /**
+     * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array('config' => $defaultConfig, 'data' => $this->getFrontEndAppData());
-    }
+        $this->_data['default'] = [
+            'title' => 'Test Frontend App',
+            'store_ids' => [
+                '0' => '0'
+            ],
+            'widget_instance' => [
+                '0' => [
+                    'page_group' => 'all_pages',
+                    'all_pages' => [
+                        'page_id' => '0',
+                        'layout_handle' => 'default',
+                        'for' => 'all',
+                        'block' => 'content',
+                        'template' => 'widget/block.phtml'
+                    ]
+                ]
+            ],
+            'parameters' => [
+                'display_mode' => 'catalogrule'
+            ],
+            'theme_id' => '2'
+        ];
 
-    /**
-     * Data for Front End App Type
-     */
-    protected function getFrontEndAppData()
-    {
-        return array(
-            'fields' => array(
-                // Title
-                'title' => array(
-                    'value' => 'Test Frontend App'
-                ),
-                // All Store Views
-                'store_ids' => array(
-                    'value' => array(
-                        '0' => '0'
-                    )
-                ),
-                // Layout Updates
-                'widget_instance' => array(
-                    'value' => array(
-                        '0' => array(
-                            // Display On = All Pages
-                            'page_group' => 'all_pages',
-                            'all_pages' => array(
-                                'page_id' => '0',
-                                'layout_handle' => 'default',
-                                'for' => 'all',
-                                // Container = Main Content Area
-                                'block' => 'content',
-                                'template' => 'widget/block.phtml'
-                            )
-                        )
-                    )
-                ),
-                // Catalog Promotions Related
-                'parameters' => array(
-                    'value' => array(
-                        'display_mode' => 'catalogrule'
-                    )
-                )
-            ),
-            'theme' => '2'
-        );
+        $this->_data['banner_rotator'] = [
+            'code' => 'magento_banner',
+            'title' => 'Banner Rotator %isolation%',
+            'store_ids' => [
+                '0' => '0'
+            ],
+            'widget_instance' => [
+                '0' => [
+                    'page_group' => 'all_pages',
+                    'all_pages' => [
+                        'page_id' => '0',
+                        'layout_handle' => 'default',
+                        'for' => 'all',
+                        'block' => 'content',
+                        'template' => 'widget/block.phtml'
+                    ]
+                ]
+            ],
+            //TODO 'parameters' array should be deleted while creating functional test for widget (MTA-296)
+            'parameters' => [
+                'display_mode' => 'catalogrule'
+            ],
+            //TODO 'theme_id' should be specified via UI and data source should be used
+            'theme_id' => '2'
+        ];
+
+        $this->_data['widget_banner_rotator'] = [
+            'code' => 'Banner Rotator',
+            'theme_id' => 'Magento Blank',
+        ];
     }
 }
