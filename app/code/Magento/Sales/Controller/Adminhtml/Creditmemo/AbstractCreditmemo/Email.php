@@ -8,8 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo;
 
-use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
-
 class Email extends \Magento\Backend\App\Action
 {
     /**
@@ -35,10 +33,10 @@ class Email extends \Magento\Backend\App\Action
         if (!$creditmemo) {
             return;
         }
-        $this->_objectManager->create('Magento\Sales\Model\CreditmemoNotifier')
+        $this->_objectManager->create('Magento\Sales\Model\Order\CreditmemoNotifier')
             ->notify($creditmemo);
 
         $this->messageManager->addSuccess(__('We sent the message.'));
-        $this->_redirect('sales/order_creditmemo/view', array('creditmemo_id' => $creditmemoId));
+        $this->_redirect('sales/order_creditmemo/view', ['creditmemo_id' => $creditmemoId]);
     }
 }
