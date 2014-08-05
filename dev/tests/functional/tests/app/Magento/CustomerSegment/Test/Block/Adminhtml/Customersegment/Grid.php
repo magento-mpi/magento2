@@ -25,6 +25,13 @@ class Grid extends AbstractGrid
     protected $editLink = 'td[class*=col-grid_segment_name]';
 
     /**
+     * First row selector
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '[data-role="row"] td[data-column="grid_segment_id"]';
+
+    /**
      * Filters array mapping
      *
      * @var array
@@ -42,4 +49,24 @@ class Grid extends AbstractGrid
             'input' => 'select',
         ],
     ];
+
+    /**
+     * Check whether first row is visible
+     *
+     * @return bool
+     */
+    public function isFirstRowVisible()
+    {
+        return $this->_rootElement->find($this->firstRowSelector)->isVisible();
+    }
+
+    /**
+     * Open first item in grid
+     *
+     * @return void
+     */
+    public function openFirstRow()
+    {
+        $this->_rootElement->find($this->firstRowSelector)->click();
+    }
 }

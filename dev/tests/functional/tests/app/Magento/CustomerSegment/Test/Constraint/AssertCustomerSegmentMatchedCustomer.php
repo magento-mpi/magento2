@@ -44,12 +44,12 @@ class AssertCustomerSegmentMatchedCustomer extends AbstractConstraint
         CustomerSegmentNew $customerSegmentNew
     ) {
         $customerSegmentIndex->open();
-        $formTabs = $customerSegmentNew->getFormTabs();
+        $formTabs = $customerSegmentNew->getCustomerSegmentForm();
         $customerSegmentIndex->getGrid()->searchAndOpen(['grid_segment_name' => $customerSegment->getName()]);
         $customerSegmentGrid = $formTabs->getMatchedCustomers()->getCustomersGrid();
         $formTabs->openTab('matched_customers');
         \PHPUnit_Framework_Assert::assertTrue(
-            $customerSegmentGrid->isRowVisible(['email' => $customer->getEmail()]),
+            $customerSegmentGrid->isRowVisible(['grid_email' => $customer->getEmail()]),
             'Customer is absent in grid.'
         );
         $customerSegmentGrid->resetFilter();

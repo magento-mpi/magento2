@@ -72,5 +72,10 @@ class Widget extends AbstractRepository
             //TODO 'theme_id' should be specified via UI and data source should be used
             'theme_id' => '2'
         ];
+
+        $this->_data['widget_banner_rotator'] = [
+            'code' => 'Banner Rotator',
+            'theme_id' => 'Magento Blank',
+        ];
     }
 }

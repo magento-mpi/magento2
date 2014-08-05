@@ -123,10 +123,10 @@ class DeleteTargetRuleEntityTest extends Injectable
     {
         return [
             'conditions_serialized' => [
-                '%category_1%' => $product1->getCategoryIds()[0]['id'],
+                '%category_1%' => $product1->getDataFieldConfig('category_ids')['source']->getIds()[0],
             ],
             'actions_serialized' => [
-                '%category_2%' => $product2->getCategoryIds()[0]['id'],
+                '%category_2%' => $product2->getDataFieldConfig('category_ids')['source']->getIds()[0],
             ],
         ];
     }
