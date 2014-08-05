@@ -34,5 +34,5 @@
     <preference for="Magento\Checkout\Service\V1\Cart\ReadServiceInterface" type="Magento\Checkout\Service\V1\Cart\ReadService" />
     <preference for="\Magento\Checkout\Service\V1\Cart\WriteServiceInterface" type="Magento\Checkout\Service\V1\Cart\WriteService" />
     <preference for="Magento\Checkout\Service\V1\ShippingMethod\WriteServiceInterface" type="Magento\Checkout\Service\V1\ShippingMethod\WriteService" />
-    <preference for="Magento\Checkout\Service\V1\Coupon\ReadServiceInterface" type="Magento\Checkout\Service\V1\Coupon\ReadService" />
+    <preference for="Magento\Checkout\Service\V1\ShippingMethod\ReadServiceInterface" type="Magento\Checkout\Service\V1\ShippingMethod\ReadService" />
 </config>
