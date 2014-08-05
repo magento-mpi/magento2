@@ -403,6 +403,91 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
     }
 
+    public function testGetFilterBool()
+    {
+        $queries = [
+            'someQuery' => [
+                'type' => QueryInterface::TYPE_FILTER,
+                'name' => 'someName',
+                'filterReference' => [
+                    [
+                        'ref' => 'someFilter'
+                    ]
+                ]
+            ]
+        ];
+        $filters = [
+            'someFilter' => [
+                'type' => FilterInterface::TYPE_BOOL,
+                'name' => 'someName',
+                'filterReference' => [
+                    [
+                        'ref' => 'someFilterTerm',
+                        'clause' => 'someClause'
+                    ]
+                ]
+            ],
+            'someFilterTerm' => [
+                'type' => FilterInterface::TYPE_TERM,
+                'name' => 'someName',
+                'field' => 'someField',
+                'value' => 'someValue'
+            ]
+        ];
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'filters' => $filters
+            ]
+        );
+
+        $filter = $filters['someFilterTerm'];
+        $this->objectManager->expects($this->at(0))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Filter\Term'),
+                $this->equalTo(
+                    [
+                        'name' => $filter['name'],
+                        'field' => $filter['field'],
+                        'value' => $filter['value']
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->filterTerm));
+        $filter = $filters['someFilter'];
+        $this->objectManager->expects($this->at(1))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Filter\Bool'),
+                $this->equalTo(
+                    [
+                        'name' => $filter['name'],
+                        'someClause' => ['someFilterTerm' => $this->filterTerm]
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->filterBool));
+        $query = $queries['someQuery'];
+        $this->objectManager->expects($this->at(2))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
+                $this->equalTo(
+                    [
+                        'name' => $query['name'],
+                        'boost' => 1,
+                        'reference' => $this->filterBool,
+                        'referenceType' => Filter::REFERENCE_FILTER
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->queryFilter));
+
+        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Invalid filter type
