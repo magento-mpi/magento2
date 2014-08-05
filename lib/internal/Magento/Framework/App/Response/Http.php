@@ -9,6 +9,12 @@
  */
 namespace Magento\Framework\App\Response;
 
+use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
+use Magento\Framework\Stdlib\Cookie\CookieMetadata;
+use Magento\Framework\App\Http\Context;
+
 class Http extends \Zend_Controller_Response_Http implements HttpInterface
 {
     /**
@@ -17,9 +23,14 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
     const COOKIE_VARY_STRING = 'X-Magento-Vary';
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie\PhpCookieManager
      */
-    protected $cookie;
+    protected $cookieManager;
+
+    /**
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     */
+    protected $cookieMetadataFactory;
 
     /**
      * @var \Magento\Framework\App\Http\Context
@@ -27,12 +38,17 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
     protected $context;
 
     /**
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie\PhpCookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param \Magento\Framework\App\Http\Context $context
      */
-    public function __construct(\Magento\Framework\Stdlib\Cookie $cookie, \Magento\Framework\App\Http\Context $context)
-    {
-        $this->cookie = $cookie;
+    public function __construct(
+        PhpCookieManager $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory,
+        Context $context
+    ) {
+        $this->cookieManager = $cookieManager;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->context = $context;
     }
 
@@ -56,17 +72,26 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
 
     /**
      * Send Vary coookie
+     *
      * @return void
      */
     public function sendVary()
     {
         $data = $this->context->getData();
+        $cookieName = self::COOKIE_VARY_STRING;
         if (!empty($data)) {
             ksort($data);
-            $vary = sha1(serialize($data));
-            $this->cookie->set(self::COOKIE_VARY_STRING, $vary, null, '/');
+            $cookieValue = sha1(serialize($data));
+            $metadataArray = [
+                PublicCookieMetadata::KEY_DURATION => null,
+                PublicCookieMetadata::KEY_PATH => '/'
+            ];
+            $publicCookMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata($metadataArray);
+            $this->cookieManager->setPublicCookie($cookieName, $cookieValue, $publicCookMetadata);
         } else {
-            $this->cookie->set(self::COOKIE_VARY_STRING, null, -1, '/');
+            $metadataArray = [CookieMetadata::KEY_PATH => '/'];
+            $cookieMetadata = $this->cookieMetadataFactory->createCookieMetadata($metadataArray);
+            $this->cookieManager->deleteCookie($cookieName, $cookieMetadata);
         }
     }
 
