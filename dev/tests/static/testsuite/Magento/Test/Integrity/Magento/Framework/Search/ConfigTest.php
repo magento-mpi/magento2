@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Integrity\Magento\Search;
+namespace Magento\Test\Integrity\Magento\Framework\Search;
 
 class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 {
