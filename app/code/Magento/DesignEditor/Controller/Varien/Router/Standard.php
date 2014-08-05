@@ -120,7 +120,7 @@ class Standard extends \Magento\Core\App\Router\Base
 
         // prepare request to imitate
         $this->_prepareVdeRequest($request);
-        /*
+        /**
          * Deprecated line of code was here which should be adopted if needed:
          * $this->_urlRewriteService->applyRewrites($request);
          */
