@@ -779,7 +779,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj =  $this->customerHelper->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message'], 'Invalid message: "'.$e->getMessage().'"');
-            $this->assertEquals(HTTPExceptionCodes::HTTP_INTERNAL_ERROR, $e->getCode());
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
 
