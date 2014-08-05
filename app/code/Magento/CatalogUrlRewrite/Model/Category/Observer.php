@@ -90,7 +90,6 @@ class Observer
                 $this->categoryUrlRewriteGenerator->generate($category),
                 $this->generateProductUrlRewrites($category)
             );
-            //@TODO BUG fix generation of Product Url Rewrites for children
             $this->deleteCategoryRewritesForChildren($category);
             $this->urlPersist->replace($urlRewrites);
         }
@@ -104,13 +103,31 @@ class Observer
      */
     protected function generateProductUrlRewrites(Category $category)
     {
-        $collection = $category->getProductCollection()
+        $saveRewriteHistory = $category->getData('save_rewrites_history');
+        $storeId = $category->getStoreId();
+        $productUrls = $this->getCategoryProductsUrlRewrites($category, $storeId, $saveRewriteHistory);
+        foreach ($category->getChildrenCategories() as $childCategory) {
+            $productUrls = array_merge($productUrls, $this->getCategoryProductsUrlRewrites($childCategory, $storeId,
+                $saveRewriteHistory));
+        }
+        return $productUrls;
+    }
+
+    /**
+     * @param Category $category
+     * @param int $storeId
+     * @param bool $saveRewriteHistory
+     * @return array
+     */
+    protected function getCategoryProductsUrlRewrites(Category $category, $storeId, $saveRewriteHistory)
+    {
+        $categories = $category->getProductCollection()
             ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('url_path');
         $productUrls = [];
-        foreach ($collection as $product) {
-            $product->setStoreId($category->getStoreId());
-            $product->setData('save_rewrites_history', $category->getData('save_rewrites_history'));
+        foreach ($categories as $product) {
+            $product->setStoreId($storeId);
+            $product->setData('save_rewrites_history', $saveRewriteHistory);
             $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));
         }
         return $productUrls;

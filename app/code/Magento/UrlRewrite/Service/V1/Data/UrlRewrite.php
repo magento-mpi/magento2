@@ -25,6 +25,7 @@ class UrlRewrite extends AbstractObject
     const STORE_ID = 'store_id';
     const REDIRECT_TYPE = 'redirect_type';
     const DESCRIPTION = 'description';
+    const META_DATA = 'meta_data';
     /**#@-*/
 
     /**
@@ -100,5 +101,14 @@ class UrlRewrite extends AbstractObject
     public function getDescription()
     {
         return $this->_get(self::DESCRIPTION);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetaData()
+    {
+        $metaData = $this->_get(self::META_DATA);
+        return !empty($metaData) ? unserialize($metaData) : [];
     }
 }

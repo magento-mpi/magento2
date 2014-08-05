@@ -51,6 +51,11 @@ class ProductUrlRewriteGenerator
      */
     protected $product;
 
+    /**
+     * @var null|\Magento\Catalog\Model\Resource\Category\Collection
+     */
+    protected $categories = null;
+
     /** @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator */
     protected $productUrlPathGenerator;
 
@@ -81,6 +86,7 @@ class ProductUrlRewriteGenerator
     public function generate(Product $product)
     {
         $this->product = $product;
+        $this->categories = null;
         $storeId = $this->product->getStoreId();
 
         $urls = $this->isGlobalScope($storeId)
@@ -159,19 +165,32 @@ class ProductUrlRewriteGenerator
     protected function generateRewritesBasedOnCategories($storeId)
     {
         $urls = [];
-        $collection = $this->product->getCategoryCollection()
-            ->addAttributeToSelect('url_key')
-            ->addAttributeToSelect('url_path');
-        foreach ($collection as $category) {
+        foreach ($this->getCategories() as $category) {
             if ($this->isCategoryProperForGenerating($category, $storeId)) {
                 $urls[] = $this->createUrlRewrite(
                     $storeId,
                     $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId, $category),
-                    $this->productUrlPathGenerator->getCanonicalUrlPathWithCategory($this->product, $category)
+                    $this->productUrlPathGenerator->getCanonicalUrlPathWithCategory($this->product, $category),
+                    0,
+                    true,
+                    $this->buildMetaDataForCategory($category)
                 );
             }
         }
         return $urls;
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     */
+    protected function getCategories()
+    {
+        if (!$this->categories) {
+            $this->categories = $this->product->getCategoryCollection()
+                ->addAttributeToSelect('url_key')
+                ->addAttributeToSelect('url_path');
+        }
+        return $this->categories;
     }
 
     /**
@@ -221,13 +240,18 @@ class ProductUrlRewriteGenerator
     {
         $urls = [];
         if ($this->product->getData('save_rewrites_history')) {
-            $urls[] = $this->createUrlRewrite(
-                $url->getStoreId(),
-                $url->getRequestPath(),
-                $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId),
-                OptionProvider::PERMANENT,
-                false
-            );
+            $category = $this->retrieveCategoryFromMetaData($url);
+            $targetPath = $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId, $category);
+            if ($url->getRequestPath() !== $targetPath) {
+                $urls[] = $this->createUrlRewrite(
+                    $url->getStoreId(),
+                    $url->getRequestPath(),
+                    $targetPath,
+                    OptionProvider::PERMANENT,
+                    false,
+                    $this->buildMetaDataForCategory($category, $url)
+                );
+            }
         }
         return $urls;
     }
@@ -240,15 +264,57 @@ class ProductUrlRewriteGenerator
     protected function generateForCustom($url, $storeId)
     {
         $urls = [];
-        $targetPath = $url->getRedirectType()
-            //@TODO needs define which type should be generated(with/without category)
-            ? $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId)
-            : $url->getTargetPath();
-        $requestPath = $url->getRequestPath();
-        if ($requestPath !== $targetPath) {
-            $urls[] = $this->createUrlRewrite($storeId, $requestPath, $targetPath, $url->getRedirectType(), false);
+        $category = $this->retrieveCategoryFromMetaData($url);
+        $targetPath = $this->isCustomUrlRewrite($url) || !$url->getRedirectType()
+            ? $url->getTargetPath()
+            : $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId, $category);
+
+        if ($url->getRequestPath() !== $targetPath) {
+            $urls[] = $this->createUrlRewrite($storeId, $url->getRequestPath(), $targetPath, $url->getRedirectType(),
+                false, $this->buildMetaDataForCategory($category, $url));
         }
         return $urls;
+    }
+
+    /**
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
+     * @return \Magento\Catalog\Model\Category|null
+     */
+    protected function retrieveCategoryFromMetaData($url)
+    {
+        $metaData = $url->getMetaData();
+        if (isset($metaData['category_id'])) {
+            foreach ($this->getCategories() as $category) {
+                if ($category->getId() == $metaData['category_id']) {
+                    return $category;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param Category $category
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
+     * @return null|string
+     */
+    protected function buildMetaDataForCategory(Category $category = null, $url = null)
+    {
+        $metaData = $url ? $url->getMetaData() : [];
+        if ($category) {
+            $metaData['category_id'] = $category->getId();
+        }
+        return $metaData ? serialize($metaData) : null;
+    }
+
+    /**
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
+     * @return bool
+     */
+    protected function isCustomUrlRewrite($url)
+    {
+        $metaData = $url->getMetaData();
+        return !empty($metaData['is_custom']);
     }
 
     /**
@@ -259,6 +325,7 @@ class ProductUrlRewriteGenerator
      * @param string $targetPath
      * @param bool $isAutoGenerated
      * @param int $redirectType
+     * @param null|string $metaData
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite
      */
     protected function createUrlRewrite(
@@ -266,7 +333,8 @@ class ProductUrlRewriteGenerator
         $requestPath,
         $targetPath,
         $redirectType = 0,
-        $isAutoGenerated = true
+        $isAutoGenerated = true,
+        $metaData = null
     ) {
         return $this->converter->convertArrayToObject(
             [
@@ -277,6 +345,7 @@ class ProductUrlRewriteGenerator
                 UrlRewrite::TARGET_PATH => $targetPath,
                 UrlRewrite::REDIRECT_TYPE => $redirectType,
                 UrlRewrite::IS_AUTOGENERATED => $isAutoGenerated,
+                UrlRewrite::META_DATA => $metaData,
             ]
         );
     }
