@@ -133,10 +133,10 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-        if ($object->getStoreId() != \Magento\Store\Model\Store::DEFAULT_STORE_ID
-            && $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE
-            && $object->getPrice()
+        if ($scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE
             && $priceType
+            && $object->getPrice()
+            && $object->getStoreId() != \Magento\Store\Model\Store::DEFAULT_STORE_ID
         ) {
 
             $baseCurrency = $this->_config->getValue(
@@ -229,11 +229,6 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
             );
             $optionTypeId = $this->_getReadAdapter()->fetchOne($select);
             $existInCurrentStore = $this->getOptionIdFromOptionTable($titleTable, (int)$object->getId(), (int)$storeId);
-            $existInDefaultStore = $this->getOptionIdFromOptionTable(
-                $titleTable,
-                (int)$object->getId(),
-                \Magento\Store\Model\Store::DEFAULT_STORE_ID
-            );
             if ($object->getTitle()) {
                 if ($existInCurrentStore) {
                     if ($storeId == $object->getStoreId()) {
@@ -245,6 +240,11 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
                         $this->_getWriteAdapter()->update($titleTable, $bind, $where);
                     }
                 } else {
+                    $existInDefaultStore = $this->getOptionIdFromOptionTable(
+                        $titleTable,
+                        (int)$object->getId(),
+                        \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                    );
                     // we should insert record into not default store only of if it does not exist in default store
                     if (($storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID && !$existInDefaultStore)
                         || ($storeId != \Magento\Store\Model\Store::DEFAULT_STORE_ID && !$existInCurrentStore)
@@ -258,8 +258,9 @@ class Value extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     }
                 }
             } else {
-                if ($optionTypeId && $object->getStoreId() > \Magento\Store\Model\Store::DEFAULT_STORE_ID
-                    && $storeId
+                if ($storeId
+                    && $optionTypeId
+                    && $object->getStoreId() > \Magento\Store\Model\Store::DEFAULT_STORE_ID
                 ) {
                     $where = array(
                         'option_type_id = ?' => (int)$optionTypeId,

@@ -46,7 +46,7 @@ class Select extends DefaultValidator
             return false;
         }
 
-        $storeId = $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+        $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         if ($option->getProduct()) {
             $storeId = $option->getProduct()->getStoreId();
         }
