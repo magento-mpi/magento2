@@ -142,8 +142,8 @@ class TaxRuleServiceTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Did not throw expected InputException');
         } catch (\Exception $e) {
-            $this->assertContains('{"fieldName":"customer_tax_class_ids","value":2}', $e->getMessage());
-            $this->assertContains('{"fieldName":"product_tax_class_ids","value":3}', $e->getMessage());
+            $this->assertContains("{\"fieldName\":\"customer_tax_class_ids\",\"value\":2}", $e->getMessage());
+            $this->assertContains("{\"fieldName\":\"product_tax_class_ids\",\"value\":3}", $e->getMessage());
         }
     }
 
