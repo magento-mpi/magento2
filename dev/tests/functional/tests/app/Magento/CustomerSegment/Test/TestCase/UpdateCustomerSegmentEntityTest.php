@@ -188,7 +188,7 @@ class UpdateCustomerSegmentEntityTest extends Injectable
                 'grid_segment_name' => $customerSegmentOriginal->getName(),
             ]
         );
-        $this->customerSegmentNew->getFormTabs()->fill($customerSegment);
+        $this->customerSegmentNew->getCustomerSegmentForm()->fill($customerSegment);
         $this->customerSegmentNew->getPageMainActions()->save();
 
         return ['customerSegment' => $this->mergeFixture($customerSegment, $customerSegmentOriginal)];
