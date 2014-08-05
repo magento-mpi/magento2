@@ -211,24 +211,17 @@ class Top extends Template implements IdentityInterface
                 'position' => 40
             ],
 
-            'releaseNotes' => [
-                'id' => 'releaseNotes',
-                'label' => 'Release Notes',
-                'path' => 'releasenotes',
-                'position' => 50
-            ],
-
             'examples' => [
                 'id' => 'examples',
                 'label' => 'Examples',
                 'path' => 'examples',
-                'position' => 60
+                'position' => 50
             ],
 
             'tools' => [
-                'id' => 'Tools',
+                'id' => 'tools',
                 'label' => 'Tools',
-                'position' => 70,
+                'position' => 60,
                 'children' => [
                     'Export' => [
                         'id' => 'Export',
@@ -236,7 +229,21 @@ class Top extends Template implements IdentityInterface
                         'position' => 40
                     ]
                 ]
-            ]
+            ],
+
+            'help' => [
+                'id' => 'help',
+                'label' => 'Help',
+                'position' => 70,
+                'children' => [
+                    'howto' => [
+                        'id' => 'howto',
+                        'label' => 'How-to',
+                        'path' => 'help/howto',
+                        'position' => 40
+                    ]
+                ]
+            ],
         ];
 
         $html = '';

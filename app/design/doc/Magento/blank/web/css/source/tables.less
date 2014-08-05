@@ -1,0 +1,38 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.table-wrapper {
+    .table-overflow();
+    position: relative; // to hide unnecessary horizontal scrollbar in Safari
+    > table {
+        .table-caption(@_table-caption-hide: true);
+    }
+    margin-bottom: @indent-base;
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .table-wrapper {
+        overflow-y: visible;
+        overflow-x: visible;
+        > table {
+            > thead,
+            > tbody,
+            > tfoot {
+                > tr {
+                    > th,
+                    > td {
+                        //white-space: normal;
+                    }
+                }
+            }
+        }
+    }
+}
