@@ -73,7 +73,6 @@ class CatalogProductGrouped extends InjectableFixture
         if (!isset($this->data['url_key']) && isset($this->data['name'])) {
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
         }
-
     }
 
     protected $dataConfig = [
@@ -87,7 +86,6 @@ class CatalogProductGrouped extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'GroupedProduct_%isolation%',
         'sku' => 'GroupedProduct_%isolation%',
-        'price' => '100',
         'tax_class' => 'Taxable Goods',
         'description' => 'This is description for grouped product',
         'short_description' => 'This is short description for grouped product',
@@ -103,7 +101,8 @@ class CatalogProductGrouped extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds'
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $country_of_manufacture = [
@@ -310,6 +309,11 @@ class CatalogProductGrouped extends InjectableFixture
 
     ];
 
+    protected $stock_data = [
+        'attribute_code' => 'stock_data',
+        'group' => 'advanced-inventory'
+    ];
+
     protected $related_tgtr_position_behavior = [
         'attribute_code' => 'related_tgtr_position_behavior',
         'backend_type' => 'int',
@@ -461,7 +465,14 @@ class CatalogProductGrouped extends InjectableFixture
     protected $website_ids = [
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
-        'default_value' => 'Main Website',
+        'default_value' => ['Main Website'],
+        'group' => 'websites',
+    ];
+
+    protected $price = [
+        'attribute_code' => 'price',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped\Price',
     ];
 
     public function getCategoryIds()

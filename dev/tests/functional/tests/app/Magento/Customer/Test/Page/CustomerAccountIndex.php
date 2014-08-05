@@ -44,6 +44,18 @@ class CustomerAccountIndex extends FrontendPage
             'locator' => '.nav.items',
             'strategy' => 'css selector',
         ],
+        'infoBlock' => [
+            'name' => 'infoBlock',
+            'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Info',
+            'locator' => '.column.main',
+            'strategy' => 'css selector',
+        ],
+        'compareProductsBlock' => [
+            'name' => 'compareProductsBlock',
+            'class' => 'Magento\Catalog\Test\Block\Product\Compare\Sidebar',
+            'locator' => '.block.compare',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -78,5 +90,25 @@ class CustomerAccountIndex extends FrontendPage
     public function getAccountMenuBlock()
     {
         return $this->getBlockInstance('accountMenuBlock');
+    }
+
+    /**
+     * Get Account Info Block
+     *
+     * @return \Magento\Customer\Test\Block\Account\Dashboard\Info
+     */
+    public function getInfoBlock()
+    {
+        return $this->getBlockInstance('infoBlock');
+    }
+
+    /**
+     * Get compare products block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\Compare\Sidebar
+     */
+    public function getCompareProductsBlock()
+    {
+        return $this->getBlockInstance('compareProductsBlock');
     }
 }

@@ -5,11 +5,17 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/validate"
+], function($){
+    "use strict";
+
     /**
      * This widget handles Order By Sku Failure rendering.
      */
-    "use strict";
+    
     $.widget('mage.orderBySkuFailure', {
         options: {
             qtyInputSelector: '[data-role="input-qty"]',
@@ -77,4 +83,5 @@
         "validate-greater-than-zero": ""
     });
 
-})(jQuery);
+
+});

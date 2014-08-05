@@ -149,39 +149,41 @@
     </fieldset>
 
     <script type="text/javascript">
-        (function($) {
-            var formDataPost;
-            <?php $i = 0; ?>
-            <?php if ($_data): ?>
-                <?php $formDataPost = $_data->getItems(); ?>
-                <?php if (is_array($formDataPost)): ?>
-                    formDataPost = <?php echo json_encode($formDataPost); ?>;
-                <?php endif; ?>
-            <?php endif; ?>
-            $('#rma_create_form').mage('fileElement').mage('rmaCreate', {
-                formDataPost: formDataPost,
-                templateRegistrant: '#template-registrant',
-                registrantOptions: '#registrant-options',
-                addItemToReturn: 'add-item-to-return',
-                btnRemove: 'delete',
-                row: '#row',
-                addRow: 'additional row',
-                qtyReqBlock: '#qty_requested_block',
-                remQtyBlock: '#remaining_quantity_block',
-                remQty: '#remaining_quantity',
-                reasonOtherRow: '#reason_other',
-                reasonOtherInput: '#items:reason_other',
-                radioItem: '#radio:item',
-                orderItemId: '#item:order_item_id',
-                itemsItem: 'items:item',
-                itemsReason: 'items:reason',
-                firstItemId: '<?php echo $firstItemId; ?>',
-                productType: '<?php echo $productType?>',
-                availableQuantity: '<?php echo ($availableQty) ? $availableQty : 0 ?>',
-                prodTypeBundle: '<?php echo \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE ?>'
-            }).mage('validation', {ignore: ':hidden:not(input[id$="_value"])'});
-        })(jQuery);
-    </script>
+require(["jquery", "mage/mage"], function($){
+
+    var formDataPost;
+    <?php $i = 0; ?>
+    <?php if ($_data): ?>
+        <?php $formDataPost = $_data->getItems(); ?>
+        <?php if (is_array($formDataPost)): ?>
+            formDataPost = <?php echo json_encode($formDataPost); ?>;
+        <?php endif; ?>
+    <?php endif; ?>
+    $('#rma_create_form').mage('fileElement').mage('rmaCreate', {
+        formDataPost: formDataPost,
+        templateRegistrant: '#template-registrant',
+        registrantOptions: '#registrant-options',
+        addItemToReturn: 'add-item-to-return',
+        btnRemove: 'delete',
+        row: '#row',
+        addRow: 'additional row',
+        qtyReqBlock: '#qty_requested_block',
+        remQtyBlock: '#remaining_quantity_block',
+        remQty: '#remaining_quantity',
+        reasonOtherRow: '#reason_other',
+        reasonOtherInput: '#items:reason_other',
+        radioItem: '#radio:item',
+        orderItemId: '#item:order_item_id',
+        itemsItem: 'items:item',
+        itemsReason: 'items:reason',
+        firstItemId: '<?php echo $firstItemId; ?>',
+        productType: '<?php echo $productType?>',
+        availableQuantity: '<?php echo ($availableQty) ? $availableQty : 0 ?>',
+        prodTypeBundle: '<?php echo \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE ?>'
+    }).mage('validation', {ignore: ':hidden:not(input[id$="_value"])'});
+    
+});
+</script>
     <fieldset class="fieldset">
         <legend class="legend"><legend><?php echo __('Return Items Information') ?></legend></legend>
         <br>

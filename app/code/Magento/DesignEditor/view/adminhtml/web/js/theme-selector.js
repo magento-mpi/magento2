@@ -4,8 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "Magento_DesignEditor/js/dialog"
+], function($){
 
-(function($) {
     /**
      * Theme quick edit controls
      */
@@ -166,4 +171,5 @@
         });
     });
 
-})(jQuery);
+
+});

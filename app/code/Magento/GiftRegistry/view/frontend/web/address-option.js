@@ -7,8 +7,14 @@
  */
 /*jshint jquery:true*/
 /*global alert:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate",
+    "jquery/template"
+], function($){
     "use strict";
+
     $.widget('mage.addressOption', {
         options: {
             addressOptionTmpl: '#address-option-tmpl' // 'Use gift registry shipping address' option.
@@ -67,4 +73,5 @@
             }
         }
     });
-})(jQuery);
+
+});

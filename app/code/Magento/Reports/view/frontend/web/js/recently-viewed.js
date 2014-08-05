@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+
     $.widget('mage.recentlyViewedProducts', {
         options: {
             localStorageKey: "recently-viewed-products",
@@ -47,4 +51,5 @@
             window.localStorage.setItem(this.options.localStorageKey, JSON.stringify(products));
         }
     });
-})(jQuery);
+
+});

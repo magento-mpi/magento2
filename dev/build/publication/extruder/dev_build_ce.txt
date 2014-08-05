@@ -14,13 +14,16 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Banner
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Layer
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/Flat
-~dev/tests/functional/tests/app/Magento/Bundle/Test/Constraint
-~dev/tests/functional/tests/app/Magento/Bundle/Test/TestCase/CreateBundleEntityTest
-~dev/tests/functional/tests/app/Magento/Bundle/Test/TestCase/CreateBundleEntityTest.php
-~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleProductEntityTest
-~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleProductEntityTest.php
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/AddCompareProductsTest
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/AddCompareProductsTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapConfigurableTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapTest.php
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ClearAllCompareProductsTest
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ClearAllCompareProductsTest.php
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteCompareProductsTest
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DeleteCompareProductsTest.php
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DuplicateProductEntityTest
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/DuplicateProductEntityTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/OutOfStockTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ValidateOrderOfProductType.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CrosssellTest.php
@@ -54,6 +57,7 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Customer/Test/Repository/VatGroup.php
 ~dev/tests/functional/tests/app/Magento/Customer/Test/TestCase/VatGroupAssignmentTest.php
 ~dev/tests/functional/tests/app/Magento/CustomerBalance
+~dev/tests/functional/tests/app/Magento/CustomerCustomAttributes
 ~dev/tests/functional/tests/app/Magento/CustomerSegment
 ~dev/tests/functional/tests/app/Magento/CustomerBalance
 ~dev/tests/functional/tests/app/Magento/Directory
@@ -67,6 +71,7 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Paypal
 ~dev/tests/functional/tests/app/Magento/Pci
 ~dev/tests/functional/tests/app/Magento/RecurringPayment
+~dev/tests/functional/tests/app/Magento/Reward
 ~dev/tests/functional/tests/app/Magento/Rma
 ~dev/tests/functional/tests/app/Magento/Sales
 ~dev/tests/functional/tests/app/Magento/SalesRule

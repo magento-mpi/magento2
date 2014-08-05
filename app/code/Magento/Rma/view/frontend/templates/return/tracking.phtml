@@ -40,11 +40,13 @@
 <?php endforeach; ?>
 <?php if ($this->isPrintShippingLabelAllowed()): ?>
 <script type="text/javascript">
-    (function($) {
+require(['jquery'], function($){
+
         $('#rma_track_info').on('mage.setUpRmaOptions', function(e, rmaTrackInfo) {
             rmaTrackInfo.options.deleteLabelUrl = '<?php echo $this->getDeleteLabelUrl() ?>';
             rmaTrackInfo.options.deleteMsg = '<?php echo __('Are you sure you want to delete this tracking information?') ?>';
         });
-    })(jQuery);
+
+});
 </script>
 <?php endif; ?>
