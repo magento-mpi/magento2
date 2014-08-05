@@ -12,7 +12,6 @@ use Mtf\Constraint\AbstractAssertForm;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Class AssertGiftRegistryForm
@@ -43,14 +42,12 @@ class AssertGiftRegistryForm extends AbstractAssertForm
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryEdit $giftRegistryEdit
      * @param GiftRegistry $giftRegistry
-     * @param AddressInjectable $address
      * @return void
      */
     public function processAssert(
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryEdit $giftRegistryEdit,
-        GiftRegistry $giftRegistry,
-        AddressInjectable $address
+        GiftRegistry $giftRegistry
     ) {
         $giftRegistryIndex->open();
         $giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Edit');

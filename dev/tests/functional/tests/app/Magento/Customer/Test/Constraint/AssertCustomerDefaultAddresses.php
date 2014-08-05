@@ -74,7 +74,7 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
     protected function verifyForm(array $pattern, array $address)
     {
         $errorMessages = [];
-        foreach ($pattern as $key => $value) {
+        foreach ($pattern as $value) {
             if (!in_array($value, $address)) {
                 $errorMessages[] = "Data '$value' in fields is not found.";
             }
@@ -92,7 +92,7 @@ class AssertCustomerDefaultAddresses extends AbstractConstraint
     {
         $pattern = [];
         $regionId = $address->getRegionId();
-        $region = $regionId ? $regionId: $address->getRegion();
+        $region = $regionId ? $regionId : $address->getRegion();
 
         $pattern[] = $address->getFirstname() . " " . $address->getLastname();
         $pattern[] = $address->getCompany();
