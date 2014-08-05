@@ -8,6 +8,7 @@
 
 namespace Magento\Integration\Test\Block\Adminhtml\Integration\Edit;
 
+use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\FormPageActions;
 
 /**
@@ -21,5 +22,15 @@ class IntegrationFormPageActions extends FormPageActions
      *
      * @var string
      */
-    protected $saveButton = '[data-ui-id="integration-edit-content-save-button"]';
+    protected $saveNewButton = '[data-ui-id="integration-edit-content-save-split-button-button"]';
+
+    /**
+     * Click on "Save" with split button
+     *
+     * @return void
+     */
+    public function saveNew()
+    {
+        $this->_rootElement->find($this->saveNewButton)->click();
+    }
 }
