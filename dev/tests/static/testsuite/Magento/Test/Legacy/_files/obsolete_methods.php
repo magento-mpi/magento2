@@ -1786,5 +1786,6 @@ return array(
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
-    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
+    ['getDeleteUrl', '\Magento\Checkout\Block\Cart\Item\Renderer'],
+    ['getPriceHtml', '\Magento\Catalog\Block\Product\AbstractProduct', '\Magento\Catalog\Block\Product\AbstractProduct::getProductPriceHtml'],
 );
