@@ -7,19 +7,6 @@
  */
 namespace Magento\TargetRule\Model;
 
-/**
- * TargetRule Product Index by Rule Product List Type Model
- *
- * @method \Magento\TargetRule\Model\Resource\Index getResource()
- * @method \Magento\TargetRule\Model\Index setEntityId(int $value)
- * @method int getTypeId()
- * @method \Magento\TargetRule\Model\Index setTypeId(int $value)
- * @method int getFlag()
- * @method \Magento\TargetRule\Model\Index setFlag(int $value)
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- * @SuppressWarnings(PHPMD.LongVariable)
- */
 class Index extends \Magento\Framework\Model\AbstractModel
 {
     /**
@@ -313,33 +300,4 @@ class Index extends \Magento\Framework\Model\AbstractModel
         return $this->_getResource()->select();
     }
 
-    /**
-     * Get Indexer name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return __('Target Rules');
-    }
-
-    /**
-     * Get Indexer description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return '';
-    }
-
-    /**
-     * Rebuild all index data
-     *
-     * @return  void
-     */
-    public function reindexAll()
-    {
-        $this->_getResource()->reindexAll();
-    }
 }
