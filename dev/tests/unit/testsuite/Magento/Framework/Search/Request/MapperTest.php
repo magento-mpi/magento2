@@ -32,6 +32,11 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     private $queryBool;
 
+    /**
+     * @var \Magento\Framework\Search\Request\Query\Filter|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $queryFilter;
+
     protected function setUp()
     {
         $this->helper = new ObjectManager($this);
@@ -46,6 +51,10 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->queryBool = $this->getMockBuilder('Magento\Framework\Search\Request\Query\Bool')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->queryFilter = $this->getMockBuilder('Magento\Framework\Search\Request\Query\Filter')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -125,9 +134,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                     ]
                 )
             )
-            ->will($this->returnValue($this->queryBool));
+            ->will($this->returnValue($this->queryFilter));
 
-        $this->assertEquals($this->queryBool, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
     }
 
     /**
