@@ -87,4 +87,10 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/invoices/:id/void" method="POST">
+        <service class="Magento\Sales\Service\V1\InvoiceVoidInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
 </routes>
