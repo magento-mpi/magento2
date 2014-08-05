@@ -8,7 +8,6 @@
 
 namespace Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Form as ParentForm;
 
 /**
@@ -17,5 +16,5 @@ use Magento\Backend\Test\Block\Widget\Form as ParentForm;
  */
 class Form extends ParentForm
 {
-
+    //
 }
