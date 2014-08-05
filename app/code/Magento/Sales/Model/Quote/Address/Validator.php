@@ -18,11 +18,20 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
     protected $countryFactory;
 
     /**
-     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
-    public function __construct(\Magento\Directory\Model\CountryFactory $countryFactory)
-    {
+    protected $carrierFactory;
+
+    /**
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
+     */
+    public function __construct(
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory
+    ) {
         $this->countryFactory = $countryFactory;
+        $this->carrierFactory = $carrierFactory;
     }
 
     /**
@@ -53,8 +62,34 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
             }
         }
 
+        if ($value->getShippingMethod()) {
+            $shippingMethodErrors = $this->validateShippingMethod($value);
+            $messages = array_merge($messages, $shippingMethodErrors);
+        }
         $this->_addMessages($messages);
 
         return empty($messages);
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return array error messages if any
+     */
+    protected function validateShippingMethod($address)
+    {
+        $messages = [];
+        list($carrierCode, $method) = explode('_', $address->getShippingMethod());
+        /** @var \Magento\Shipping\Model\Carrier\CarrierInterface $carrier */
+        $carrier = $this->carrierFactory->get($carrierCode);
+        if (!$carrier) {
+            $messages['invalid_carrier'] = "Wrong carrier code: " . $carrierCode;
+            return $messages;
+        }
+        $allowedMethods = array_keys($carrier->getAllowedMethods());
+        if (empty($method) || !in_array($method, $allowedMethods)) {
+            $messages['invalid_shipping_method'] = "Wrong method code: " . $method;
+        }
+
+        return $messages;
     }
 }

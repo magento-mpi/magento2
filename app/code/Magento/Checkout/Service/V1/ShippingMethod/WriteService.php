@@ -8,6 +8,7 @@
 
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
+use \Magento\Framework\Exception\CouldNotSaveException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -36,11 +37,10 @@ class WriteService implements WriteServiceInterface
         $this->storeManager = $storeManager;
     }
 
-
     /**
      * {@inheritdoc}
      */
-    public function setMethod($cartId, $carrierId, $methodId)
+    public function setMethod($cartId, $carrierCode, $methodCode)
     {
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
         if ($quote->isVirtual()) {
@@ -49,11 +49,14 @@ class WriteService implements WriteServiceInterface
             );
         }
         $address = $quote->getShippingAddress();
-        //validate shipping info
-        $rates = $address->getAllShippingRates();
 
-
-        $address->setShippingMethod($carrierId . '_' . $methodId);
+        $address->setShippingMethod($carrierCode . '_' . $methodCode);
+        try {
+            $address->save();
+        } catch(\Exception $e) {
+            throw new CouldNotSaveException('Cannot update shipping address. ' . $e->getMessage());
+        }
+        return true;
     }
 
 }

@@ -15,9 +15,12 @@ interface WriteServiceInterface
      * Set shipping method and carrier for the specified cart
      *
      * @param int $cartId
-     * @param string $carrierId
-     * @param string $methodId
+     * @param string $carrierCode
+     * @param string $methodCode
+     *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      */
-    public function setMethod($cartId, $carrierId, $methodId);
+    public function setMethod($cartId, $carrierCode, $methodCode);
 }
