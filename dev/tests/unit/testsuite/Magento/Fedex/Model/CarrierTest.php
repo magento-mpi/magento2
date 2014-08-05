@@ -40,7 +40,8 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
             ['load', 'getIso2Code', '__wakeup'],
             [],
             '',
-            false);
+            false
+        );
         $country->expects($this->any())->method('load')->will($this->returnSelf());
         $countryFactory = $this->getMock('Magento\Directory\Model\CountryFactory', ['create'], [], '', false);
         $countryFactory->expects($this->any())->method('create')->will($this->returnValue($country));
@@ -122,6 +123,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function testCollectRatesRateAmountOriginBased($amount, $rateType, $expected)
     {
+        // @codingStandardsIgnoreStart
         $netAmount = new \Magento\Framework\Object([]);
         $netAmount->Amount = $amount;
 
@@ -147,6 +149,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         foreach ($this->_model->collectRates($request)->getAllRates() as $allRates) {
             $this->assertEquals($expected, $allRates->getData('cost'));
         }
+        // @codingStandardsIgnoreEnd
     }
 
     public function collectRatesDataProvider()
