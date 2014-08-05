@@ -239,6 +239,38 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $mapper->get('someQuery');
     }
 
+    /**
+     * @expectedException \Exception
+     */
+    public function testGetFilterException()
+    {
+        $queries = [
+            'someQuery' => [
+                'type' => QueryInterface::TYPE_FILTER,
+                'name' => 'someName',
+                'boost' => 3,
+                'filterReference' => [
+                    [
+                        'ref' => 'someQueryMatch',
+                        'clause' => 'someClause',
+                    ]
+                ]
+            ]
+        ];
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'filters' => []
+            ]
+        );
+
+        $this->assertEquals($this->queryBool, $mapper->get('someQuery'));
+    }
+
     public function getQueryMatchProvider()
     {
         return [
