@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\VersionsCms\Test\Fixture\Version">
+    <module>Magento_VersionsCms</module>
+    <type>virtual</type>
+    <entity_type>magento_versionscms_page_version</entity_type>
+    <collection>Magento\VersionsCms\Model\Resource\Page\Version\Collection</collection>
+    <fields>
+        <label>
+            <attribute_code>label</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input>text</input>
+        </label>
+        <access_level>
+            <attribute_code>access_level</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input>select</input>
+        </access_level>
+        <user_id>
+            <attribute_code>user_id</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input>select</input>
+            <source>Magento\VersionsCms\Test\Fixture\Version\UserId</source>
+        </user_id>
+    </fields>
+</fixture>
