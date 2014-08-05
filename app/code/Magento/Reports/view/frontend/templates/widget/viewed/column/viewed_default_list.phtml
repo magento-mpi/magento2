@@ -53,7 +53,14 @@ if ($exist = $this->getRecentlyViewedProducts()) {
                                 <?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getName(), 'name') ?>
                             </a>
                         </strong>
-                        <?php echo $this->getPriceHtml($_product, true, '-widget-viewed-'.$suffix) ?>
+                        <?php echo $this->getProductPriceHtml(
+                            $_product,
+                            \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
+                            \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
+                            [
+                                'price_id_suffix' => '-widget-viewed-' . $suffix
+                            ]
+                        ) ?>
                         <div class="product actions">
                             <?php if($_product->isSaleable()): ?>
                             <div class="primary">
