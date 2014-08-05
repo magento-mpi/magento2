@@ -10,6 +10,10 @@ namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
 
+/**
+ * Class Api
+ * @package Magento\Doc\Document\Type
+ */
 class Api extends AbstractType implements ApiInterface
 {
     /**

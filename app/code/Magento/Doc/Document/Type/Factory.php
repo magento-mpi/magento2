@@ -13,6 +13,10 @@ namespace Magento\Doc\Document\Type;
 
 use Magento\Framework\Exception;
 
+/**
+ * Class Factory
+ * @package Magento\Doc\Document\Type
+ */
 class Factory
 {
     /**

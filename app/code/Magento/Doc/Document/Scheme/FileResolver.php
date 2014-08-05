@@ -11,6 +11,10 @@ namespace Magento\Doc\Document\Scheme;
 
 use Magento\Framework\View\DesignInterface;
 
+/**
+ * Class FileResolver
+ * @package Magento\Doc\Document\Scheme
+ */
 class FileResolver
 {
     /**

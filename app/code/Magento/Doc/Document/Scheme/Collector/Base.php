@@ -14,6 +14,10 @@ use Magento\Framework\App\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\Framework\View\File\Factory;
 
+/**
+ * Class Base
+ * @package Magento\Doc\Document\Scheme\Collector
+ */
 class Base implements CollectorInterface
 {
     /**

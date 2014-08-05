@@ -10,6 +10,10 @@ namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
 
+/**
+ * Class Article
+ * @package Magento\Doc\Document\Type
+ */
 class Article extends AbstractType implements ArticleInterface
 {
     /**

@@ -17,7 +17,7 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
             scheme = source.attr('scheme'),
             name = source.attr('doc-name');
         jQuery.ajax({
-            url: '/doc/index',
+            url: '/doc',
             method: 'POST',
             data: {
                 action: 'save',
@@ -148,7 +148,7 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
         save: function(element) {
             var content = jQuery('#document').html();
             jQuery.ajax({
-                url: '/doc/wiki',
+                url: '/doc',
                 method: 'POST',
                 data: {
                     action: 'save',
@@ -168,7 +168,7 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
             var item = jQuery(el);
             var word = item.attr('href');
             if (dictionary.content[word]) {
-                item.attr('title', dictionary.content[word].definition)
+                item.attr('title', dictionary.content[word].description)
                 item.attr('href', dictionary.content[word].url)
             }
         });
@@ -240,10 +240,10 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
                 }
             }
             buffer.button.removeClass('isActive');
-            if (final) {
+            //if (final) {
                 buffer.val(final);
                 buffer.show();
-            }
+            //}
         };
         document.getElementById('toolbar-speech').addEventListener('click', function (event) {
             var element = event.target || event.srcElement;

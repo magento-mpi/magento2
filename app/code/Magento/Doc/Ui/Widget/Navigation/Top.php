@@ -8,13 +8,12 @@
 namespace Magento\Doc\Ui\Widget\Navigation;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * Top navigation
  *
  */
-class Top extends Template implements IdentityInterface
+class Top extends Template
 {
     /**
      * @return void
@@ -27,16 +26,6 @@ class Top extends Template implements IdentityInterface
                 'cache_tags' => ['doc-menu']
             ]
         );
-    }
-
-    /**
-     * Return identifiers for produced content
-     *
-     * @return array
-     */
-    public function getIdentities()
-    {
-        return [\Magento\Doc\Document::CACHE_TAG];
     }
 
     /**
@@ -204,19 +193,7 @@ class Top extends Template implements IdentityInterface
                 ]
             ],
 
-            'dictionary' => [
-                'id' => 'dictionary',
-                'label' => 'Dictionary',
-                'path' => 'dictionary',
-                'position' => 40
-            ],
 
-            'examples' => [
-                'id' => 'examples',
-                'label' => 'Examples',
-                'path' => 'examples',
-                'position' => 50
-            ],
 
             'tools' => [
                 'id' => 'tools',
@@ -240,8 +217,21 @@ class Top extends Template implements IdentityInterface
                         'id' => 'howto',
                         'label' => 'How-to',
                         'path' => 'help/howto',
-                        'position' => 40
-                    ]
+                        'position' => 10
+                    ],
+                    'dictionary' => [
+                        'id' => 'dictionary',
+                        'label' => 'Dictionary',
+                        'path' => 'help/dictionary',
+                        'position' => 20
+                    ],
+
+                    'examples' => [
+                        'id' => 'examples',
+                        'label' => 'Examples',
+                        'path' => 'help/examples',
+                        'position' => 30
+                    ],
                 ]
             ],
         ];

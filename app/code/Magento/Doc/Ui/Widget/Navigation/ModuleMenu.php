@@ -8,9 +8,8 @@
 namespace Magento\Doc\Ui\Widget\Navigation;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Block\IdentityInterface;
 
-class ModuleMenu extends Template implements IdentityInterface
+class ModuleMenu extends Template
 {
     /**
      * @var \Magento\Framework\Module\ModuleList
@@ -29,16 +28,6 @@ class ModuleMenu extends Template implements IdentityInterface
     {
         $this->moduleList = $moduleList;
         parent::__construct($context, $data);
-    }
-
-    /**
-     * Return identifiers for produced content
-     *
-     * @return array
-     */
-    public function getIdentities()
-    {
-        return [\Magento\Doc\Document::CACHE_TAG];
     }
 
     /**
@@ -64,7 +53,7 @@ class ModuleMenu extends Template implements IdentityInterface
         $modules = $this->moduleList->getModules();
         $output = '<ul class="modules">';
         foreach ($modules as $module) {
-            $output .= '<li><a href="'. $this->getUrl('doc/module/index', ['article' => $module['name']]).'">' . substr($module['name'], 8) . '</a></li>';
+            $output .= '<li><a href="'. $this->getUrl('doc/api/module', ['article' => $module['name']]).'">' . substr($module['name'], 8) . '</a></li>';
         }
         $output .= '</ul>';
         return $output;

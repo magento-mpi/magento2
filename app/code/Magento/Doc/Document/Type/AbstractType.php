@@ -8,6 +8,10 @@
 
 namespace Magento\Doc\Document\Type;
 
+/**
+ * Class AbstractType
+ * @package Magento\Doc\Document\Type
+ */
 abstract class AbstractType
 {
     /**

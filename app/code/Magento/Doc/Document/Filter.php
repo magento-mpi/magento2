@@ -365,8 +365,8 @@ class Filter extends \Magento\Framework\Filter\Template
     {
         $params = $this->_getIncludeParameters($construction[2]);
         if (isset($this->dictionary['content'][$params['name']])) {
-            return '<a title="' . $this->dictionary['content'][$params['name']]['definition']
-                . '" href="' . $this->dictionary['content'][$params['name']]['url'] . '">' . $params['label'] . '</a>';
+            return '<a title="' . $this->dictionary['content'][$params['name']]['description']
+                . '" href="#link-me">' . $params['label'] . '</a>';
         } else {
             return $params['label'];
         }

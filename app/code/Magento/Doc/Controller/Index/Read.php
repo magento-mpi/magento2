@@ -5,18 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\Controller\Api;
+namespace Magento\Doc\Controller\Index;
 
 use Magento\Doc\App\Controller\AbstractAction;
 
-class Reference extends AbstractAction
+/**
+ * Class Read
+ * @package Magento\Doc\Controller\Dictionary
+ */
+class Read extends AbstractAction
 {
     /**
      * @return void
      */
     public function execute()
     {
-        $this->_view->loadLayout(['default', 'api_reference']);
+        $this->_view->loadLayout(['default', $this->_request->getParam('ui_handle')]);
 
         $this->_view->renderLayout();
     }

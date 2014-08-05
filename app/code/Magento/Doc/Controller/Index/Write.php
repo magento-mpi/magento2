@@ -11,7 +11,11 @@ use Magento\Doc\App\Controller\AbstractAction;
 use Magento\Framework\View\TemplateEnginePool;
 use Magento\Framework\App\Filesystem;
 
-class Index extends AbstractAction
+/**
+ * Class Write
+ * @package Magento\Doc\Controller\Index
+ */
+class Write extends AbstractAction
 {
     /**
      * @var \Magento\Framework\View\TemplateEnginePool
@@ -37,16 +41,6 @@ class Index extends AbstractAction
      * @return void
      */
     public function execute()
-    {
-        if ($this->_request->isPost()) {
-            $this->processPost();
-        } else {
-            $this->_view->loadLayout(['default', 'index']);
-            $this->_view->renderLayout();
-        }
-    }
-
-    protected function processPost()
     {
         $action = $this->_request->getParam('action');
         $content = $this->_request->getParam('content');

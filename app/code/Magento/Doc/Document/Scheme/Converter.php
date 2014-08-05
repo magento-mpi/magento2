@@ -10,6 +10,10 @@ namespace Magento\Doc\Document\Scheme;
 use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Stdlib\BooleanUtils;
 
+/**
+ * Class Converter
+ * @package Magento\Doc\Document\Scheme
+ */
 class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
@@ -116,9 +120,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 }
                 break;
             case 'label':
-            case 'definition':
-            case 'url':
-            case 'state_hash':
+            case 'description':
                 $data= $node->nodeValue;
                 break;
             default:
@@ -138,7 +140,6 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 } else {
                     $data = $node->nodeValue;
                 }
-
                 //throw new \Exception("Invalid application config. Unknown node: {$node->nodeName}.");
         }
         return $data;

@@ -8,7 +8,9 @@
 namespace Magento\Doc\Document\Content\Dom;
 
 /**
+ * Class NodeMergingConfig
  * Configuration of identifier attributes to be taken into account during merging
+ * @package Magento\Doc\Document\Content\Dom
  */
 class NodeMergingConfig
 {

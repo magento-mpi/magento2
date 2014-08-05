@@ -8,7 +8,9 @@
 namespace Magento\Doc\Document\Content\Dom;
 
 /**
+ * Class NodePathMatcher
  * Matching of XPath expressions to path patterns
+ * @package Magento\Doc\Document\Content\Dom
  */
 class NodePathMatcher
 {

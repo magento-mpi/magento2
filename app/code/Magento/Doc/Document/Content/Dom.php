@@ -11,6 +11,10 @@ namespace Magento\Doc\Document\Content;
 use Magento\Doc\Document\Content\Dom\NodeMergingConfig;
 use Magento\Doc\Document\Content\Dom\NodePathMatcher;
 
+/**
+ * Class Dom
+ * @package Magento\Doc\Document\Content
+ */
 class Dom
 {
     /**

@@ -34,8 +34,7 @@
         <arguments>
             <argument name="engines" xsi:type="array">
                 <item name="xhtml" xsi:type="string">Magento\Doc\TemplateEngine\Xhtml</item>
-                <item name="html" xsi:type="string">Magento\Doc\TemplateEngine\Html</item>
-                <item name="md" xsi:type="string">Magento\Doc\TemplateEngine\Md</item>
+                <item name="html" xsi:type="string">Magento\Doc\TemplateEngine\Xhtml</item>
             </argument>
         </arguments>
     </type>

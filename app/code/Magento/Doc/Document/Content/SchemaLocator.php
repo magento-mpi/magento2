@@ -7,6 +7,10 @@
  */
 namespace Magento\Doc\Document\Content;
 
+/**
+ * Class SchemaLocator
+ * @package Magento\Doc\Document\Content
+ */
 class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**

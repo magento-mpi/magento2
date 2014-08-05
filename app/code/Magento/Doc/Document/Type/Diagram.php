@@ -10,6 +10,10 @@ namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
 
+/**
+ * Class Diagram
+ * @package Magento\Doc\Document\Type
+ */
 class Diagram extends AbstractType implements DiagramInterface
 {
     /**

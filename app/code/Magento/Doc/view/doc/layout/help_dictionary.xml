@@ -12,7 +12,7 @@
     <referenceContainer name="column.main">
         <block class="Magento\Doc\Ui\Widget\Document" name="document_content" template="Magento_Doc::html/widget/document.phtml">
             <arguments>
-                <argument name="scheme" xsi:type="string">dictionary</argument>
+                <argument name="scheme" xsi:type="string">help/dictionary</argument>
                 <argument name="asis" xsi:type="boolean">true</argument>
             </arguments>
         </block>

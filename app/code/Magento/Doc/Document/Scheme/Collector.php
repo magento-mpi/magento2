@@ -12,6 +12,10 @@ use Magento\Doc\Document\Scheme\Collector\Base;
 use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\View\File\FileList\Factory;
 
+/**
+ * Class Collector
+ * @package Magento\Doc\Document\Scheme
+ */
 class Collector implements CollectorInterface
 {
     /**

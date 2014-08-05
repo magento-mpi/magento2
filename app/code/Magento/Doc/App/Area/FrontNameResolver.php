@@ -9,6 +9,10 @@
  */
 namespace Magento\Doc\App\Area;
 
+/**
+ * Class FrontNameResolver
+ * @package Magento\Doc\App\Area
+ */
 class FrontNameResolver implements \Magento\Framework\App\Area\FrontNameResolverInterface
 {
     const PARAM_WIKI_FRONT_NAME = 'doc.frontName';

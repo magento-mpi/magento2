@@ -13,6 +13,10 @@ use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\View\File\FileList\Factory;
 
+/**
+ * Class Collector
+ * @package Magento\Doc\Document\Content
+ */
 class Collector implements CollectorInterface
 {
     /**
@@ -30,10 +34,8 @@ class Collector implements CollectorInterface
     protected $baseFiles;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Framework\View\File\FileList\Factory $fileListFactory
-     * @param \Magento\Framework\View\File\CollectorInterface $baseFiles
+     * @param Factory $fileListFactory
+     * @param Base $baseFiles
      */
     public function __construct(
         Factory $fileListFactory,

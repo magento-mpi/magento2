@@ -1,6 +1,6 @@
 <?php
 /**
- * Default WIKI route path for backend area
+ * Default route path for doc area
  *
  * {license_notice}
  *
@@ -9,6 +9,10 @@
  */
 namespace Magento\Doc\App;
 
+/**
+ * Class DefaultPath
+ * @package Magento\Doc\App
+ */
 class DefaultPath implements \Magento\Framework\App\DefaultPathInterface
 {
     /**
@@ -19,9 +23,7 @@ class DefaultPath implements \Magento\Framework\App\DefaultPathInterface
     public function __construct()
     {
         $this->parts = [
-            'area' => 'doc',
-            'controller' => 'index',
-            'action' => 'index'
+            'area' => 'doc'
         ];
     }
 

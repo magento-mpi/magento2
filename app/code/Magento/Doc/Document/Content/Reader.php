@@ -7,6 +7,10 @@
  */
 namespace Magento\Doc\Document\Content;
 
+/**
+ * Class Reader
+ * @package Magento\Doc\Document\Content
+ */
 class Reader
 {
     /**

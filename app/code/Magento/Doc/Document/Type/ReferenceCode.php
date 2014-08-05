@@ -10,6 +10,10 @@ namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
 
+/**
+ * Class ReferenceCode
+ * @package Magento\Doc\Document\Type
+ */
 class ReferenceCode extends AbstractType implements ReferenceInterface
 {
     /**

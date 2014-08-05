@@ -10,6 +10,10 @@ namespace Magento\Doc\DocumentReader;
 use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Stdlib\BooleanUtils;
 
+/**
+ * Class Mapper
+ * @package Magento\Doc\DocumentReader
+ */
 class Mapper implements \Magento\Framework\Config\ConverterInterface
 {
     /**

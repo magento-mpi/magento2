@@ -10,6 +10,10 @@ namespace Magento\Doc\Document\Scheme;
 use Magento\Framework\Config\ValidationStateInterface;
 use Magento\Doc\Document\Filter;
 
+/**
+ * Class Reader
+ * @package Magento\Doc\Document\Scheme
+ */
 class Reader
 {
     /**
@@ -85,7 +89,7 @@ class Reader
         ValidationStateInterface $validationState,
         Filter $filter,
         $idAttributes = [],
-        $domDocumentClass = 'Magento\Doc\Document\Scheme\Dom',
+        $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'doc'
     ) {
         $this->fileResolver = $fileResolver;
@@ -115,11 +119,17 @@ class Reader
             return [];
         }
         $output = $this->_readFiles($fileList);
-        $this->applyTemplates($output);
+        $this->applyScheme($output);
         return $output;
     }
 
-    protected function applyTemplates(array & $parent)
+    /**
+     * Apply reference scheme to the element
+     *
+     * @param array $parent
+     * @return null
+     */
+    protected function applyScheme(array & $parent)
     {
         if (isset($parent['content'])) {
             foreach ($parent['content'] as & $child) {
@@ -134,7 +144,7 @@ class Reader
                         }
                     }
                 } else {
-                    $this->applyTemplates($child);
+                    $this->applyScheme($child);
                 }
             }
         }
