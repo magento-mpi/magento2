@@ -1,0 +1,23 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Sales\Service\V1;
+
+/**
+ * Interface InvoiceCaptureInterface
+ */
+interface InvoiceCaptureInterface
+{
+    /**
+     * Invoke InvoiceCapture service
+     *
+     * @param int $id
+     * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function invoke($id);
+}
