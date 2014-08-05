@@ -36,14 +36,14 @@ class ProductForm extends FormTabs
      *
      * @var string
      */
-    protected $variationsTab = '#product_info_tabs_super_config_content .title';
+    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
 
     /**
      * Variations wrapper selector
      *
      * @var string
      */
-    protected $variationsWrapper = '#product_info_tabs_super_config_content';
+    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
 
     /**
      * New variation set button selector
