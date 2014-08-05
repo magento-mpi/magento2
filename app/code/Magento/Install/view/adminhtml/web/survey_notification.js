@@ -19,7 +19,7 @@ define([
                 url: data.surveyAction,
                 type: 'post',
                 data: {decision: data.decision}
-            })
+            });
         });
     });
 
