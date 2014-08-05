@@ -66,15 +66,6 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * @param \Magento\Framework\Model\AbstractModel $data
-     * @return $this|void
-     */
-    public function save(\Magento\Framework\Model\AbstractModel $data)
-    {
-        parent::save($data);
-    }
-
-    /**
      * Save options store data
      *
      * @param \Magento\Framework\Model\AbstractModel $object
