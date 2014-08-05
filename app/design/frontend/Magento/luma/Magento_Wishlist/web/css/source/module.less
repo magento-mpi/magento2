@@ -13,20 +13,11 @@
 }
 
 .product-info-main,
-.block-bundle-summary {
-    .action.towishlist {
-        &:extend(.abstract-actions-addto all);
-        .icon-font-symbol(
-            @_icon-font-content: @icon-wishlist-full,
-            @_icon-font-position: before
-        );
-    }
-}
-
+.block-bundle-summary,
 .product-item,
 .table-comparison {
-    .towishlist {
-        &:extend(.abstract-actions-addto-gridlist all);
+    .action.towishlist {
+        &:extend(.abstract-actions-addto all);
         .icon-font-symbol(
             @_icon-font-content: @icon-wishlist-full,
             @_icon-font-position: before

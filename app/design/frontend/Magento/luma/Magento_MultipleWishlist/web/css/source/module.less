@@ -22,9 +22,11 @@
             @_icon-font-size: 12px,
             @_icon-font-color: @addto-color,
             @_icon-font-color-hover: @addto-hover-color,
+            @_icon-font-vertical-align: middle,
             @_dropdown-split-list-pointer-position: left,
             @_dropdown-split-list-min-width: 200px
         );
+
         margin-right: 5%;
         vertical-align: middle;
         .items {
@@ -41,82 +43,65 @@
                 @_icon-font-content: @icon-expand,
                 @_icon-font-size: 10px,
                 @_icon-font-line-height: 10px,
-                @_icon-font-vertical-align: middle,
-                @_icon-font-display: block
+                @_icon-font-vertical-align: middle
             );
-            &:before {
+             &:before {
                 margin-left: -17px;
                 margin-right: 5px;
             }
         }
 
-        .table-comparison &,
-        .product-items &,
-        .product-addto-links & {
-            > .action {
-                .button-as-link(
-                    @_link-color: @addto-color,
-                    @_link-color-hover: @addto-hover-color
+        > .action {
+            &:extend(.abstract-action-button-as-link all);
+            box-shadow: none;
+            &.split {
+                &:extend(.abstract-actions-addto all);
+                margin-right: 5px;
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-wishlist-full
                 );
-                .css(box-shadow, none);
-                &:active,
-                &:focus {
-                    .css(box-shadow, none);
+                &:before {
+                    margin: 0;
                 }
-                &.split {
-                    &:extend(.abstract-actions-addto all);
-                    .icon-font-symbol(
-                        @_icon-font-content: @icon-wishlist-full,
-                        @_icon-font-position: before
-                    );
-                }
-                &.toggle {
-                    .css(box-shadow, none);
-                    line-height: 26px;
-                    width: 26px;
-                }
-                &:hover {
-                    color: @addto-hover-color;
-                    text-decoration: none;
-                }
-                &.split:active,
-                &.split:focus,
-                &.toggle:active,
-                &.toggle:focus {
-                    box-shadow: none;
-                }
+            }
+            &:active,
+            &:focus,
+            &:hover {
+                box-shadow: none;
+                color: @addto-hover-color;
+            }
+        }
+        > .action.toggle {
+            &:before {
+                content: "";
+                border-left: 1px solid @addto-color;
+                float: left;
+                height: 15px;
+                margin: 3px 4px 0 0;
             }
         }
         .table-comparison &,
         .product-items & {
             > .action {
-                padding: 0;
-                &:before {
-                    margin-right:0;
-                }
-                span {
-                    .visually-hidden();
-                }
-            }
-            > .action.toggle {
-                &:before {
-                    content: "";
-                    border-left: 1px solid @addto-color;
-                    margin-right: 4px;
+                &.split {
+                    span {
+                        &:extend(.visually-hidden all);
+                    }
                 }
             }
         }
-
+        .product-info-main &,
+        .block-bundle-summary & {
+            > .action {
+                &.split {
+                }
+            }
+        }
     }
     &.window.popup {
         .popup();
         &.active {
             display: block;
-        }
-        .field {
-        }
-        .actions-toolbar {
-            &:extend(.reset-left-margin all);
         }
     }
     &.overlay {
@@ -186,9 +171,6 @@
             .css(top, @desktop-popup-position-top);
             right: auto;
             bottom: auto;
-            .field {
-                .form-field-type-revert(@_type: block);
-            }
         }
     }
 }

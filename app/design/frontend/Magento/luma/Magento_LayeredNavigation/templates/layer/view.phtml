@@ -33,7 +33,7 @@
                 <?php if ($filter->getItemsCount()): ?>
                     <?php if(!$wrapOptions): ?>
                         <strong class="block-subtitle filter-subtitle"><?php echo __('Shopping Options') ?></strong>
-                        <div class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": true}}'>
+                        <div class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
                     <?php  $wrapOptions = true; endif; ?>
                     <div data-role="collapsible" class="filter-options-item">
                         <div data-role="title" class="filter-options-title"><?php echo __($filter->getName()) ?></div>

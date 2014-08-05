@@ -19,6 +19,7 @@
             @_dropdown-split-list-item-padding: 5px 5px 5px 23px,
             @_dropdown-split-toggle-icon-content: @icon-down,
             @_dropdown-split-toggle-active-icon-content: @icon-up,
+            @_dropdown-split-toggle-actions-padding: false,
             @_icon-font-size: 22px,
             @_icon-font-color: @addto-color,
             @_icon-font-color-hover: @addto-hover-color,
@@ -26,6 +27,9 @@
             @_dropdown-split-list-min-width: 200px
         );
         vertical-align: middle;
+        .items {
+            text-align: left;
+        }
         .items .item:last-child {
             background: #e2e2e2;
             &:hover {
@@ -47,7 +51,7 @@
         .table-comparison &,
         .product-items & {
             > .action {
-                .button-as-link();
+                &:extend(.abstract-action-button-as-link all);
                 &.split {
                     &:extend(.abstract-actions-addto-gridlist all);
                     .icon-font-symbol(
@@ -80,7 +84,7 @@
                 }
                 &.toggle {
                     padding: 0;
-                } 
+                }
             }
         }
     }
@@ -88,11 +92,6 @@
         .popup();
         &.active {
             display: block;
-        }
-        .field {
-        }
-        .actions-toolbar {
-            &:extend(.reset-left-margin all);
         }
     }
     &.overlay {
