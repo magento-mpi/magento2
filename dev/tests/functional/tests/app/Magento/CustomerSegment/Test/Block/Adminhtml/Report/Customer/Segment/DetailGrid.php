@@ -2,21 +2,20 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Detail;
+namespace Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment;
 
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
+use Magento\Backend\Test\Block\Widget\Grid as WidgetGrid;
 
 /**
- * Class MatchedCustomerGrid
- * Backend segment matched customer grid
+ * Class DetailGrid
+ * Customer segment report grid
  */
-class Grid extends AbstractGrid
+class DetailGrid extends WidgetGrid
 {
     /**
      * XPath for segment grid row
@@ -48,11 +47,43 @@ class Grid extends AbstractGrid
      *
      * @var array
      */
-    protected $filters = array(
-        'email' => array(
-            'selector' => '#segmentGrid_filter_grid_email'
-        )
-    );
+    protected $filters = [
+        'entity_id_from' => [
+            'selector' => 'input[name="grid_entity_id[from]"]'
+        ],
+        'entity_id_to' => [
+            'selector' => 'input[name="grid_entity_id[to]"]'
+        ],
+        'grid_name' => [
+            'selector' => 'input[name="grid_name"]'
+        ],
+        'grid_email' => [
+            'selector' => 'input[name="grid_email"]',
+        ],
+        'grid_group' => [
+            'selector' => 'select[name="grid_group"]',
+            'input' => 'select'
+        ],
+        'grid_telephone' => [
+            'selector' => 'input[name="grid_telephone"]'
+        ],
+        'grid_billing_postcode' => [
+            'selector' => 'input[name="grid_billing_postcode"]'
+        ],
+        'grid_billing_country_id' => [
+            'selector' => 'select[name="grid_billing_country_id"]',
+            'input' => 'select'
+        ],
+        'grid_billing_region' => [
+            'selector' => 'input[name="grid_billing_region"]'
+        ],
+        'grid_customer_since_from' => [
+            'selector' => 'input[name="grid_customer_since[from]"]'
+        ],
+        'grid_customer_since_to' => [
+            'selector' => 'input[name="grid_customer_since[to]"]'
+        ],
+    ];
 
     /**
      * Get Name text from matched customer grid
