@@ -257,6 +257,12 @@ class CustomerInjectable extends InjectableFixture
         'group' => null,
     ];
 
+    protected $gift_registry = [
+        'attribute_code' => 'gift_registry',
+        'backend_type' => 'virtual',
+        'group' => 'gift_registry',
+    ];
+
     public function getAddress()
     {
         return $this->getData('address');

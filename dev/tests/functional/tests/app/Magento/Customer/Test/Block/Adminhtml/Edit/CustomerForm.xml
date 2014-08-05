@@ -33,4 +33,9 @@
         <selector>#customer_info_tabs_addresses</selector>
         <strategy>css selector</strategy>
     </addresses>
+    <gift_registry>
+        <class>\Magento\Customer\Test\Block\Adminhtml\Edit\Tab\GiftRegistry</class>
+        <selector>#customer_info_tabs_giftregistry</selector>
+        <strategy>css selector</strategy>
+    </gift_registry>
 </tabs>

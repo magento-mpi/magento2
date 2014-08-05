@@ -206,6 +206,11 @@
             <attribute_code>password_confirmation</attribute_code>
             <backend_type>virtual</backend_type>
         </password_confirmation>
+        <gift_registry>
+            <attribute_code>gift_registry</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>gift_registry</group>
+        </gift_registry>
     </fields>
     <handler_interface>Magento\Customer\Test\Handler\CustomerInjectable\CustomerInjectableInterface</handler_interface>
 </fixture>

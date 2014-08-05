@@ -16,6 +16,7 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryAddSelect;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Class Ui
@@ -99,6 +100,11 @@ class Ui extends AbstractUi implements GiftRegistryInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $this->cmsIndex->open();
+        $customer = $fixture->getDataFieldConfig('customer_id')['source']->getPreset();
+        if ($customer !== null && !$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
+            $this->cmsIndex->getLinksBlock()->openLink("Log In");
+            $this->customerAccountLogin->getLoginBlock()->login($customer);
+        }
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Gift Registry");
         $this->giftRegistryIndex->getActionsToolbar()->addNew();
