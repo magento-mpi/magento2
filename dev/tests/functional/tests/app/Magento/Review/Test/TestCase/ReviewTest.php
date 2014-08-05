@@ -98,7 +98,7 @@ class ReviewTest extends Functional
         $reviewsBlock = $productPage->getCustomerReviewBlock();
         $reviewsSummaryBlock->getViewReviewLink()->click();
         $this->assertContains(
-            sprintf('You\'re reviewing:%s', $productFixture->getName()),
+            sprintf("You're reviewing:\n%s", $productFixture->getName()),
             $reviewForm->getLegend()->getText()
         );
         $this->verifyReview($reviewsBlock, $reviewFixture);
