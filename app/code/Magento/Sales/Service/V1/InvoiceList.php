@@ -60,7 +60,7 @@ class InvoiceList implements InvoiceListInterface
             $invoices[] = $this->invoiceMapper->extractDto($invoice);
         }
         return $this->searchResultsBuilder->setItems($invoices)
-            ->setTotalCount(count($invoice))
+            ->setTotalCount(count($invoices))
             ->setSearchCriteria($searchCriteria)
             ->create();
     }
