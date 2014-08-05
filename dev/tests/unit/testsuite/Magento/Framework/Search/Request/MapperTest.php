@@ -338,6 +338,71 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
     }
 
+    public function testGetFilterRange()
+    {
+        $queries = [
+            'someQuery' => [
+                'type' => QueryInterface::TYPE_FILTER,
+                'name' => 'someName',
+                'filterReference' => [
+                    [
+                        'ref' => 'someFilter'
+                    ]
+                ]
+            ]
+        ];
+        $filters = [
+            'someFilter' => [
+                'type' => FilterInterface::TYPE_RANGE,
+                'name' => 'someName',
+                'field' => 'someField',
+                'from' => 'from',
+                'to' => 'to'
+            ]
+        ];
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'filters' => $filters
+            ]
+        );
+
+        $filter = $filters['someFilter'];
+        $this->objectManager->expects($this->at(0))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Filter\Range'),
+                $this->equalTo(
+                    [
+                        'name' => $filter['name'],
+                        'field' => $filter['field'],
+                        'from' => $filter['from'],
+                        'to' => $filter['to']
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->filterRange));
+        $query = $queries['someQuery'];
+        $this->objectManager->expects($this->at(1))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
+                $this->equalTo(
+                    [
+                        'name' => $query['name'],
+                        'boost' => 1,
+                        'reference' => $this->filterRange,
+                        'referenceType' => Filter::REFERENCE_FILTER
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->queryFilter));
+
+        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Invalid filter type
