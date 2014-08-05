@@ -19,7 +19,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     /**
      * Filters array mapping
      *
-     * @var array $filters
+     * @var array
      */
     protected $filters = [
         'code' => [

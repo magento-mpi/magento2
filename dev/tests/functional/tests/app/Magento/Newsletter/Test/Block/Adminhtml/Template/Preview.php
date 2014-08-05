@@ -9,9 +9,9 @@
 namespace Magento\Newsletter\Test\Block\Adminhtml\Template;
 
 use Mtf\Block\Block;
-use Mtf\Block\BlockFactory;
 use Mtf\Client\Browser;
 use Mtf\Client\Element;
+use Mtf\Block\BlockFactory;
 
 /**
  * Class Preview

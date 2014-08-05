@@ -42,7 +42,7 @@ class Curl extends AbstractCurl implements TemplateInterface
         $response = $curl->read();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Newsletter template creation by curl handler was not successful! Response: $response");
+            throw new \Exception("Newsletter template creation by curl was not successful! Response: $response");
         }
         $curl->close();
     }
