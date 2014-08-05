@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Search\Request;
 
+use Magento\Framework\Search\Request\Query\Filter;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class MapperTest extends \PHPUnit_Framework_TestCase
@@ -80,6 +81,76 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->queryMatch));
 
         $this->assertEquals($this->queryMatch, $mapper->get('someQuery'));
+    }
+
+    /**
+     * @param $queries
+     * @dataProvider getQueryFilterQueryReferenceProvider
+     */
+    public function testGetQueryFilterQueryReference($queries)
+    {
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'filters' => []
+            ]
+        );
+
+        $query = $queries['someQueryMatch'];
+        $this->objectManager->expects($this->at(0))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Query\Match'),
+                $this->equalTo(
+                    [
+                        'name' => $query['name'],
+                        'boost' => 1,
+                        'matches' => 'someMatches'
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->queryMatch));
+        $query = $queries['someQuery'];
+        $this->objectManager->expects($this->at(1))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
+                $this->equalTo(
+                    [
+                        'name' => $query['name'],
+                        'boost' => isset($query['boost']) ? $query['boost'] : 1,
+                        'reference' => $this->queryMatch,
+                        'referenceType' => Filter::REFERENCE_QUERY
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->queryBool));
+
+        $this->assertEquals($this->queryBool, $mapper->get('someQuery'));
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Reference is not provided
+     */
+    public function testGetQueryFilterReferenceException()
+    {
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => [
+                    'someQuery' => [
+                        'type' => QueryInterface::TYPE_FILTER
+                    ]
+                ],
+                'filters' => []
+            ]
+        );
+
+        $mapper->get('someQuery');
     }
 
     /**
@@ -193,6 +264,51 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function getQueryFilterQueryReferenceProvider()
+    {
+        return [
+            [
+                [
+                    'someQuery' => [
+                        'type' => QueryInterface::TYPE_FILTER,
+                        'name' => 'someName',
+                        'boost' => 3,
+                        'queryReference' => [
+                            [
+                                'ref' => 'someQueryMatch',
+                                'clause' => 'someClause',
+                            ]
+                        ]
+                    ],
+                    'someQueryMatch' => [
+                        'type' => QueryInterface::TYPE_MATCH,
+                        'name' => 'someName',
+                        'match' => 'someMatches'
+                    ]
+                ]
+            ],
+//            [
+//                [
+//                    'someQuery' => [
+//                        'type' => QueryInterface::TYPE_BOOL,
+//                        'name' => 'someName',
+//                        'queryReference' => [
+//                            [
+//                                'ref' => 'someQueryMatch',
+//                                'clause' => 'someClause',
+//                            ]
+//                        ]
+//                    ],
+//                    'someQueryMatch' => [
+//                        'type' => QueryInterface::TYPE_MATCH,
+//                        'name' => 'someName',
+//                        'match' => 'someMatches'
+//                    ]
+//                ]
+//            ]
+        ];
+    }
+
     public function getQueryBoolProvider()
     {
         return [
@@ -234,7 +350,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                         'match' => 'someMatches'
                     ]
                 ]
-            ],
+            ]
         ];
     }
 }
