@@ -7,7 +7,6 @@
  */
 namespace Magento\TargetRule\Model;
 
-use Magento\Index\Model\Event;
 /**
  * TargetRule Product Index by Rule Product List Type Model
  *
