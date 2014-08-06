@@ -7,6 +7,9 @@
  */
 namespace Magento\Framework\App\Response;
 
+use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
+use Magento\Framework\Stdlib\Cookie\CookieMetadata;
+
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -15,20 +18,39 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager
      */
-    protected $_cookieMock;
+    protected $_cookieManagerMock;
 
     /**
-     * @var \Magento\Framework\App\Http\Context
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
-    protected $_context;
+    protected $_cookieMetadataFactoryMock;
+
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Http\Context
+     */
+    protected $_contextMock;
 
     protected function setUp()
     {
-        $this->_cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
-        $this->_context = new \Magento\Framework\App\Http\Context();
-        $this->_model = new Http($this->_cookieMock, $this->_context);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_cookieMetadataFactoryMock = $this->getMockBuilder(
+            'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
+        )->disableOriginalConstructor()->getMock();
+        $this->_cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
+            ->disableOriginalConstructor()->getMock();
+        $this->_contextMock = $this->getMockBuilder('Magento\Framework\App\Http\Context')->disableOriginalConstructor()
+            ->getMock();
+        $this->_model = $objectManager->getObject(
+            'Magento\Framework\App\Response\Http',
+            [
+                'cookieManager' => $this->_cookieManagerMock,
+                'cookieMetadataFactory' => $this->_cookieMetadataFactoryMock,
+                'context' => $this->_contextMock
+            ]
+        );
         $this->_model->headersSentThrowsException = false;
         $this->_model->setHeader('name', 'value');
     }
@@ -52,23 +74,52 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSendVary()
     {
-        $vary = array('some-vary-key' => 'some-vary-value');
-        $expected = sha1(serialize($vary));
+        $data = ['some-vary-key' => 'some-vary-value'];
+        $expectedCookieName = Http::COOKIE_VARY_STRING;
+        $expectedCookieValue = sha1(serialize($data));
+        $publicCookieMetadataMock = $this->getMock('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata');
+        $this->_contextMock->expects($this->once())
+            ->method('getData')
+            ->with()
+            ->will(
+                $this->returnValue($data)
+            );
 
-        $this->_context->setValue('some-vary-key', 'some-vary-value', 'default');
-        $this->_cookieMock
-            ->expects($this->once())
-            ->method('set')
-            ->with(Http::COOKIE_VARY_STRING, $expected);
+        $this->_cookieMetadataFactoryMock->expects($this->once())
+            ->method('createPublicCookieMetadata')
+            ->with(
+                [
+                    PublicCookieMetadata::KEY_DURATION => null,
+                    PublicCookieMetadata::KEY_PATH => '/'
+                ]
+            )
+            ->will(
+                $this->returnValue($publicCookieMetadataMock)
+            );
+        $this->_cookieManagerMock->expects($this->once())
+            ->method('setPublicCookie')
+            ->with($expectedCookieName, $expectedCookieValue, $publicCookieMetadataMock);
         $this->_model->sendVary();
     }
 
     public function testSendVaryEmptyData()
     {
-        $this->_cookieMock
-            ->expects($this->once())
-            ->method('set')
-            ->with(Http::COOKIE_VARY_STRING, null, -1, '/');
+        $expectedCookieName = Http::COOKIE_VARY_STRING;
+        $cookieMetadataMock = $this->getMock('Magento\Framework\Stdlib\Cookie\CookieMetadata');
+
+        $this->_cookieMetadataFactoryMock->expects($this->once())
+            ->method('createCookieMetadata')
+            ->with(
+                [
+                    CookieMetadata::KEY_PATH => '/'
+                ]
+            )
+            ->will(
+                $this->returnValue($cookieMetadataMock)
+            );
+        $this->_cookieManagerMock->expects($this->once())
+            ->method('deleteCookie')
+            ->with($expectedCookieName, $cookieMetadataMock);
         $this->_model->sendVary();
     }
 
