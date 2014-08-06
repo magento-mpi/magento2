@@ -21,6 +21,7 @@
     <preference for="Magento\Sales\Service\V1\InvoiceGetInterface" type="Magento\Sales\Service\V1\InvoiceGet"/>
     <preference for="Magento\Sales\Service\V1\InvoiceListInterface" type="Magento\Sales\Service\V1\InvoiceList"/>
     <preference for="Magento\Sales\Service\V1\OrderInvoiceEmailInterface" type="Magento\Sales\Service\V1\OrderInvoiceEmail"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoListInterface" type="Magento\Sales\Service\V1\CreditmemoList"/>
     <preference for="Magento\Sales\Service\V1\InvoiceVoidInterface" type="Magento\Sales\Service\V1\InvoiceVoid"/>
     <preference for="Magento\Sales\Service\V1\InvoiceCaptureInterface" type="Magento\Sales\Service\V1\InvoiceCapture"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
