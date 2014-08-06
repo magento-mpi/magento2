@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\VersionsCms\Test\TestCaseMagento\VersionsCms\Test\TestCase;
+namespace Magento\VersionsCms\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage;

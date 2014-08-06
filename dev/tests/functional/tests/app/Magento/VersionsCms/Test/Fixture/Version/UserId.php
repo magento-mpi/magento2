@@ -15,6 +15,9 @@ use Magento\User\Test\Fixture\User;
 /**
  * Class UserId
  * Prepare Owner for Cms Page Version
+ *
+ * Data keys:
+ *  - dataSet
  */
 class UserId implements FixtureInterface
 {
