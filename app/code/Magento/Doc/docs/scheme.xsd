@@ -28,9 +28,9 @@
             <xs:element name="content" type="contentType" />
             <xs:element name="artifacts" type="contentType" />
         </xs:choice>
-        <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="type" type="xs:string" use="required"/>
-        <xs:attribute name="module" type="xs:string" use="required"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="module" type="xs:string" use="optional"/>
         <xs:attribute name="scheme" type="xs:string" use="optional"/>
         <xs:attribute name="reference" type="xs:string" use="optional"/>
         <xs:attribute name="signed-off-architect" type="xs:boolean" use="optional"/>

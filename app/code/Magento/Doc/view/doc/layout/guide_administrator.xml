@@ -9,22 +9,5 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceContainer name="column.main">
-        <block class="Magento\Doc\Ui\Widget\Document" name="document_content" template="Magento_Doc::html/widget/document.phtml">
-            <arguments>
-                <argument name="scheme" xsi:type="string">guide/administrator</argument>
-            </arguments>
-        </block>
-    </referenceContainer>
-    <referenceContainer name="column.toolbar">
-        <block class="Magento\Doc\Ui\Widget\Toolbar" name="document_toolbar" template="Magento_Doc::html/widget/toolbar.phtml"/>
-    </referenceContainer>
-    <referenceContainer name="column.sidebar">
-        <block class="Magento\Doc\Ui\Widget\Outline" name="modules_menu" template="Magento_Doc::html/widget/outline.phtml">
-            <arguments>
-                <argument name="scheme" xsi:type="string">guide/administrator</argument>
-                <argument name="url_path" xsi:type="string">*/guide/administrator</argument>
-            </arguments>
-        </block>
-    </referenceContainer>
+    <update handle="default_documentation_blocks"/>
 </layout>

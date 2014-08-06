@@ -1,4 +1,4 @@
-define('doc', ['mage', 'jquery'], function(mage, jQuery){
+define(['jquery'], function(jQuery){
     var currentContentArea;
     var dictionary = {};
     jQuery.each(jQuery('[data-role="dictionary"]'), function(id, element) {
@@ -17,7 +17,7 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
             scheme = source.attr('scheme'),
             name = source.attr('doc-name');
         jQuery.ajax({
-            url: '/doc',
+            url: '/doc/index',
             method: 'POST',
             data: {
                 action: 'save',
@@ -148,7 +148,7 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
         save: function(element) {
             var content = jQuery('#document').html();
             jQuery.ajax({
-                url: '/doc',
+                url: '/doc/wiki',
                 method: 'POST',
                 data: {
                     action: 'save',
@@ -168,7 +168,7 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
             var item = jQuery(el);
             var word = item.attr('href');
             if (dictionary.content[word]) {
-                item.attr('title', dictionary.content[word].description)
+                item.attr('title', dictionary.content[word].definition)
                 item.attr('href', dictionary.content[word].url)
             }
         });
@@ -204,16 +204,11 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
             item.on('click', function (event) {
                 event.stopPropagation();
             });
+        },
+        'reference-scheme': function(item) {
+            init.article(item);
         }
     };
-
-    jQuery.each(jQuery.find('div[data-role="doc-item"]'), function (id, el) {
-        var item = jQuery(el);
-        var dataType = item.attr('data-type');
-        if (init[dataType]) {
-            init[dataType](item);
-        }
-    });
 
     document.getElementById('toolbar-save').addEventListener('click', function (event) {
         jQuery.each(pageItems, function (id, item) {
@@ -240,10 +235,10 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
                 }
             }
             buffer.button.removeClass('isActive');
-            //if (final) {
+            if (final) {
                 buffer.val(final);
                 buffer.show();
-            //}
+            }
         };
         document.getElementById('toolbar-speech').addEventListener('click', function (event) {
             var element = event.target || event.srcElement;
@@ -258,4 +253,15 @@ define('doc', ['mage', 'jquery'], function(mage, jQuery){
             }
         });
     }
+
+    return function(el, config) {
+        var element = jQuery(el);
+        jQuery.each(element.find('div[data-role="doc-item"]'), function (id, el) {
+            var item = jQuery(el);
+            var dataType = item.attr('data-type');
+            if (init[dataType]) {
+                init[dataType](item);
+            }
+        });
+    };
 });

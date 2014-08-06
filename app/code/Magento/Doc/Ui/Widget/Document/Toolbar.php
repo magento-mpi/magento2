@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\Ui\Widget;
+namespace Magento\Doc\Ui\Widget\Document;
 
 use Magento\Framework\View\Element\Template;
 

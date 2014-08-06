@@ -8,22 +8,23 @@
 namespace Magento\Doc\Ui\Widget\Navigation;
 
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\Module\ModuleList;
 
-class ModuleMenu extends Template
+class Module extends Template
 {
     /**
-     * @var \Magento\Framework\Module\ModuleList
+     * @var ModuleList
      */
     protected $moduleList;
 
     /**
      * @param Template\Context $context
-     * @param \Magento\Framework\Module\ModuleList $moduleList
+     * @param ModuleList $moduleList
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Framework\Module\ModuleList $moduleList,
+        ModuleList $moduleList,
         array $data = [])
     {
         $this->moduleList = $moduleList;
@@ -46,16 +47,12 @@ class ModuleMenu extends Template
     }
 
     /**
-     * @return string
+     * Retrieve active modules array
+     *
+     * @return array
      */
-    public function renderMenuHtml()
+    public function getModules()
     {
-        $modules = $this->moduleList->getModules();
-        $output = '<ul class="modules">';
-        foreach ($modules as $module) {
-            $output .= '<li><a href="'. $this->getUrl('doc/api/module', ['article' => $module['name']]).'">' . substr($module['name'], 8) . '</a></li>';
-        }
-        $output .= '</ul>';
-        return $output;
+        return $this->moduleList->getModules();
     }
 }

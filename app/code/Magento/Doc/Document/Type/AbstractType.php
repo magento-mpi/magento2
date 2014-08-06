@@ -8,6 +8,8 @@
 
 namespace Magento\Doc\Document\Type;
 
+use Magento\Doc\Document\Item;
+
 /**
  * Class AbstractType
  * @package Magento\Doc\Document\Type
@@ -17,9 +19,8 @@ abstract class AbstractType
     /**
      * Get item's content
      *
-     * @param string $filePath
-     * @param array $item
+     * @param Item $item
      * @return string
      */
-    abstract public function getContent($filePath, $item);
+    abstract public function getContent(Item $item);
 }

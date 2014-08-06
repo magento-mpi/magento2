@@ -9,6 +9,7 @@
 namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
+use Magento\Doc\Document\Item;
 
 /**
  * Class ReferenceCode
@@ -33,18 +34,17 @@ class ReferenceCode extends AbstractType implements ReferenceInterface
     }
 
     /**
-     * Get item's content
+     * Get code content
      *
-     * @param string $filePath
-     * @param array $item
+     * @param Item $item
      * @return string
      */
-    public function getContent($filePath, $item)
+    public function getContent(Item $item)
     {
-        $filePath = $item['scheme'] . '/' . $item['name'] . '.xhtml';
+        $filePath = $item->getData('scheme') . '/' . $item->getData('name') . '.xhtml';
         $result = $this->content->get($filePath);
         if (!$result) {
-            list ($class, $method) = explode('::', $item['reference']);
+            list ($class, $method) = explode('::', $item->getData('reference'));
             $refMethod = new \ReflectionMethod($class, $method);
             $start = $refMethod->getStartLine();
             $end = $refMethod->getEndLine();

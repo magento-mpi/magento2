@@ -9,6 +9,7 @@
 namespace Magento\Doc\Document\Type;
 
 use Magento\Doc\Document\Content;
+use Magento\Doc\Document\Item;
 
 /**
  * Class Article
@@ -35,13 +36,12 @@ class Article extends AbstractType implements ArticleInterface
     /**
      * Get item's content
      *
-     * @param string $filePath
-     * @param array $item
+     * @param Item $item
      * @return string
      */
-    public function getContent($filePath, $item)
+    public function getContent(Item $item)
     {
-        $filePath = $item['scheme'] . '/' . $item['name'] . '.xhtml';
+        $filePath = $item->getData('scheme') . '/' . $item->getData('name') . '.xhtml';
         return $this->content->get($filePath);
     }
 }

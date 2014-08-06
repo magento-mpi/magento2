@@ -164,8 +164,19 @@ class Dom
         } else {
             /* Add node as is to the document under the same parent element */
             $parentMatchedNode = $this->_getMatchedNode($parentPath);
-            $newNode = $this->_dom->importNode($node, true);
+            $newNode = $this->_dom->importNode($node);
             $parentMatchedNode->appendChild($newNode);
+            if ($this->_isTextNode($node)) {
+                /* skip the case when the matched node has children, otherwise they get overridden */
+                $newNode->nodeValue = $node->childNodes->item(0)->nodeValue;
+            } else {
+                /* recursive merge for all child nodes */
+                foreach ($node->childNodes as $childNode) {
+                    if ($childNode instanceof \DOMElement) {
+                        $this->_mergeNode($childNode, $parentPath . '/' . $newNode->tagName);
+                    }
+                }
+            }
         }
     }
 
@@ -204,18 +215,24 @@ class Dom
     protected function _getNodePathByParent(\DOMElement $node, $parentPath)
     {
         $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
-        $path = $parentPath . '/' . $prefix . $node->tagName;
+        $path = $prefix . $node->tagName;
         $idAttribute = $this->_nodeMergingConfig->getIdAttribute($path);
-        if (is_array($idAttribute)) {
-            $constraints = [];
-            foreach ($idAttribute as $attribute) {
-                $value = $node->getAttribute($attribute);
-                $constraints[] = "@{$attribute}='{$value}'";
+        if ($idAttribute) {
+            $path = '//' . $path;
+            if (is_array($idAttribute)) {
+                $constraints = [];
+                foreach ($idAttribute as $attribute) {
+                    $value = $node->getAttribute($attribute);
+                    $constraints[] = "@{$attribute}='{$value}'";
+                }
+                $path .= '[' . join(' and ', $constraints) . ']';
+            } elseif ($idAttribute && ($value = $node->getAttribute($idAttribute))) {
+                $path .= "[@{$idAttribute}='{$value}']";
             }
-            $path .= '[' . join(' and ', $constraints) . ']';
-        } elseif ($idAttribute && ($value = $node->getAttribute($idAttribute))) {
-            $path .= "[@{$idAttribute}='{$value}']";
+        } else {
+            $path = $parentPath . $path;
         }
+
         return $path;
     }
 

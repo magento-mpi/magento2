@@ -20,8 +20,19 @@ class Read extends AbstractAction
      */
     public function execute()
     {
-        $this->_view->loadLayout(['default', $this->_request->getParam('ui_handle')]);
+        $this->_view->loadLayout(['default', $this->getDocSchemeLayoutHandleName()]);
 
         $this->_view->renderLayout();
+    }
+
+    /**
+     * Build layout handle name based on Documentation Scheme name
+     *
+     * @return string
+     */
+    protected function getDocSchemeLayoutHandleName()
+    {
+        $docScheme = $this->_request->getParam('doc_scheme', 'index');
+        return str_replace('/', '_', strtolower($docScheme));
     }
 }

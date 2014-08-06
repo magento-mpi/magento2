@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\Ui\Widget;
+namespace Magento\Doc\Ui\Widget\Document;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -38,7 +38,7 @@ class Outline extends Template
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->scheme = $this->getData('scheme');
+        $this->scheme = $this->_request->getParam('doc_scheme');
         $this->document = $schemeReader->get($this->scheme . '.xml');
     }
 
@@ -101,11 +101,7 @@ class Outline extends Template
         $html = array();
         $html[] = $htmlLi;
 
-        if ($this->getData('url_path')) {
-            $url = $this->getUrl($this->getData('url_path'), ['article' => $item['name']]);
-        } else {
-            $url = '#';
-        }
+        $url = $this->getUrl('*/' . $this->scheme, ['article' => $item['name']]);
         $html[] = '<a href="' . $url . '"' . $linkClass . '>';
         $html[] = '<span>' . $item['label'] . '</span>';
         $html[] = '</a>';

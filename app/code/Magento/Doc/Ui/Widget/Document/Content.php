@@ -5,16 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Doc\Ui\Widget;
+namespace Magento\Doc\Ui\Widget\Document;
 
-use Magento\Framework\Object;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Doc\Document\Scheme;
+use Magento\Doc\Document\Item;
 use Magento\Doc\Document\Type\Factory;
 use Magento\Doc\Document\Filter;
 
-class Document extends Template
+class Content extends Template
 {
     /**
      * @var Scheme
@@ -47,7 +47,7 @@ class Document extends Template
     protected $schemeName;
 
     /**
-     * @var Object
+     * @var Item
      */
     protected $currentItem;
 
@@ -76,7 +76,7 @@ class Document extends Template
         $this->scheme = $scheme;
         $this->typeFactory = $typeFactory;
         $this->filter = $filter;
-        $this->schemeName = $this->getData('scheme');
+        $this->schemeName = $this->_request->getParam('doc_scheme');
         $this->document = $this->scheme->get($this->schemeName . '.xml');
         $this->dictionary = $this->scheme->get('dictionary.xml');
         $this->itemTemplate = $this->fetchView($this->getTemplateFile('Magento_Doc::html/widget/document/item.phtml'));
@@ -107,11 +107,7 @@ class Document extends Template
             $content .=  $this->renderItemHtml($name, $item);
         }
 
-        if (!$this->getData('asis')) {
-            return $this->processPlaceholders($content);
-        } else {
-            return $content;
-        }
+        return $this->processPlaceholders($content);
     }
 
     /**
@@ -122,8 +118,8 @@ class Document extends Template
     public function renderItemsHtml()
     {
         $html = '';
-        if ($this->currentItem->getContent()) {
-            $items = $this->currentItem->getContent();
+        if ($this->currentItem->getData('content')) {
+            $items = $this->currentItem->getData('content');
             foreach ($items as $name => $item) {
                 $html .= $this->renderItemHtml($name, $item);
             }
@@ -150,12 +146,11 @@ class Document extends Template
      */
     protected function renderItemHtml($name, array $item)
     {
-        $this->currentItem = new Object($item);
+        $this->currentItem = new Item($item);
         $vars = [
             'render' => $this,
             'name' => $name,
-            'schemeName' => $this->schemeName,
-            'content' => $this->getItemContent($name, $item),
+            'content' => $this->getCurrentItemContent(),
             'data' => $this->currentItem
         ];
         $this->filter->setVariables($vars);
@@ -165,15 +160,12 @@ class Document extends Template
     /**
      * Get item's content
      *
-     * @param string $name
-     * @param array $item
      * @return string
      */
-    protected function getItemContent($name, array $item)
+    protected function getCurrentItemContent()
     {
         $item['scheme'] = $this->schemeName;
-        $filePath = $item['module'] . '::' . $this->schemeName . '/' . $name . '.xhtml';
-        return $this->typeFactory->get($item['type'])->getContent($filePath, $item);
+        return $this->typeFactory->get($this->currentItem->getData('type'))->getContent($this->currentItem);
     }
 
     /**
