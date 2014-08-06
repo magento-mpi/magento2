@@ -68,7 +68,8 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
         )->setPageSize(
             1
         );
-        foreach ($this as $historyItem) {
+        $items = $this->getItems();
+        foreach ($this->getItems() as $historyItem) {
             return $historyItem;
         }
         return null;
