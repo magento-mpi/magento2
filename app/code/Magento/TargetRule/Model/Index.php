@@ -22,19 +22,9 @@ class Index extends \Magento\Framework\Model\AbstractModel
     protected $_session;
 
     /**
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexer;
-
-    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
-
-    /**
-     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
-     */
-    protected $_localeDate;
 
     /**
      * @var \Magento\TargetRule\Model\Resource\Rule\CollectionFactory
@@ -42,22 +32,14 @@ class Index extends \Magento\Framework\Model\AbstractModel
     protected $_ruleCollectionFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\TargetRule\Model\Resource\Index $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -65,22 +47,16 @@ class Index extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Index\Model\Indexer $indexer,
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_ruleCollectionFactory = $ruleFactory;
         $this->_storeManager = $storeManager;
-        $this->_localeDate = $localeDate;
-        $this->_indexer = $indexer;
         $this->_session = $session;
         $this->_targetRuleData = $targetRuleData;
-        $this->_productFactory = $productFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
