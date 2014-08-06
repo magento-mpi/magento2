@@ -120,6 +120,35 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
+    public function testGetQueryUsedStateException()
+    {
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => [
+                    'someQuery' => [
+                        'type' => QueryInterface::TYPE_BOOL,
+                        'name' => 'someName',
+                        'queryReference' => [
+                            [
+                                'clause' => 'someClause',
+                                'ref' => 'someQuery'
+                            ]
+                        ]
+                    ]
+                ],
+                'filters' => []
+            ]
+        );
+
+        $this->assertEquals($this->queryMatch, $mapper->get('someQuery'));
+    }
+
+    /**
      * @param $queries
      * @dataProvider getQueryFilterQueryReferenceProvider
      */
@@ -486,6 +515,45 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->queryFilter));
 
         $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
+    public function testGetFilterUsedStateException()
+    {
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => [
+                    'someQuery' => [
+                        'type' => QueryInterface::TYPE_FILTER,
+                        'name' => 'someName',
+                        'filterReference' => [
+                            [
+                                'ref' => 'someFilter'
+                            ]
+                        ]
+                    ]
+                ],
+                'filters' => [
+                    'someFilter' => [
+                        'type' => FilterInterface::TYPE_BOOL,
+                        'name' => 'someName',
+                        'filterReference' => [
+                            [
+                                'ref' => 'someFilter',
+                                'clause' => 'someClause'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        );
+
+        $this->assertEquals($this->queryMatch, $mapper->get('someQuery'));
     }
 
     /**
