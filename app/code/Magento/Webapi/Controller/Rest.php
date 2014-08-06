@@ -31,43 +31,63 @@ use Magento\Webapi\Controller\Rest\Router\Route;
  */
 class Rest implements \Magento\Framework\App\FrontControllerInterface
 {
-    /** @var Router */
+    /**
+     * @var Router
+     */
     protected $_router;
 
-    /** @var Route */
+    /**
+     * @var Route
+     */
     protected $_route;
 
-    /** @var RestRequest */
+    /**
+     * @var RestRequest
+     */
     protected $_request;
 
-    /** @var RestResponse */
+    /**
+     * @var RestResponse
+     */
     protected $_response;
 
-    /** @var \Magento\Framework\ObjectManager */
-    protected $_objectManager;
+    /**
+     * @var \Magento\Framework\ObjectManager
+     */
 
-    /** @var \Magento\Framework\App\State */
-    protected $_appState;
-
-    /** @var \Magento\Framework\View\LayoutInterface */
+    /**
+     * @var \Magento\Framework\View\LayoutInterface
+     */
     protected $_layout;
 
-    /** @var \Magento\Framework\Oauth\OauthInterface */
+    /**
+     * @var \Magento\Framework\Oauth\OauthInterface
+     */
     protected $_oauthService;
 
-    /** @var  \Magento\Framework\Oauth\Helper\Request */
+    /**
+     * @var  \Magento\Framework\Oauth\Helper\Request
+     */
     protected $_oauthHelper;
 
-    /** @var AuthorizationService */
+    /**
+     * @var AuthorizationService
+     */
     protected $_authorizationService;
 
-    /** @var ServiceArgsSerializer */
+    /**
+     * @var ServiceArgsSerializer
+     */
     protected $_serializer;
 
-    /** @var ErrorProcessor */
+    /**
+     * @var ErrorProcessor
+     */
     protected $_errorProcessor;
 
-    /** @var PathProcessor */
+    /**
+     * @var PathProcessor
+     */
     protected $_pathProcessor;
 
     /**
@@ -154,9 +174,6 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->areaList->getArea($this->_appState->getAreaCode())
             ->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         try {
-            if (!$this->_appState->isInstalled()) {
-                throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
-            }
             $this->_checkPermissions();
             $route = $this->_getCurrentRoute();
             if ($route->isSecure() && !$this->_request->isSecure()) {

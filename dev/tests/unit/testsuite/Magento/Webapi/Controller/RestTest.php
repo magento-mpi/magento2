@@ -16,34 +16,47 @@ use Magento\Framework\Exception\AuthorizationException;
  */
 class RestTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Webapi\Controller\Rest */
+    /**
+     * @var \Magento\Webapi\Controller\Rest
+     */
     protected $_restController;
 
-    /** @var \Magento\Webapi\Controller\Rest\Request */
+    /**
+     * @var \Magento\Webapi\Controller\Rest\Request
+     */
     protected $_requestMock;
 
-    /** @var \Magento\Webapi\Controller\Rest\Response */
+    /**
+     * @var \Magento\Webapi\Controller\Rest\Response
+     */
     protected $_responseMock;
 
-    /** @var \Magento\Webapi\Controller\Rest\Router */
+    /**
+     * @var \Magento\Webapi\Controller\Rest\Router
+     */
     protected $_routerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Webapi\Controller\Rest\Router\Route */
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Webapi\Controller\Rest\Router\Route
+     */
     protected $_routeMock;
 
-    /** @var \Magento\Framework\ObjectManager */
+    /**
+     * @var \Magento\Framework\ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var \stdClass */
+    /**
+     * @var \stdClass */
     protected $_serviceMock;
 
-    /** @var \Magento\Framework\App\State */
-    protected $_appStateMock;
-
-    /** @var \Magento\Framework\Oauth\OauthInterface */
+    /**
+     * @var \Magento\Framework\Oauth\OauthInterface
+     */
     protected $_oauthServiceMock;
 
-    /** @var \Magento\Authz\Service\AuthorizationV1Interface */
+    /**
+     * @var \Magento\Authz\Service\AuthorizationV1Interface
+     */
     protected $_authzServiceMock;
 
     /**
@@ -131,27 +144,12 @@ class RestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test redirected to install page
-     */
-    public function testRedirectToInstallPage()
-    {
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(false));
-        $expectedMsg = 'Magento is not yet installed';
-
-        $this->_restController->dispatch($this->_requestMock);
-        $this->assertTrue($this->_responseMock->isException());
-        $exceptionArray = $this->_responseMock->getException();
-        $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());
-    }
-
-    /**
      * Test Secure Request and Secure route combinations
      *
      * @dataProvider dataProviderSecureRequestSecureRoute
      */
     public function testSecureRouteAndRequest($isSecureRoute, $isSecureRequest)
     {
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue([]));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRoute));
         $this->_routeMock->expects($this->once())->method('getParameters')->will($this->returnValue([]));
@@ -179,7 +177,6 @@ class RestTest extends \PHPUnit_Framework_TestCase
      */
     public function testInSecureRequestOverSecureRoute()
     {
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue([]));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
@@ -197,7 +194,6 @@ class RestTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthorizationFailed()
     {
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(false));
         $this->_oauthServiceMock->expects(
             $this->any())->method('validateAccessTokenRequest')->will($this->returnValue('fred')
@@ -223,7 +219,6 @@ class RestTest extends \PHPUnit_Framework_TestCase
     public function testOverrideParams($requestData, $parameters, $expectedOverriddenParams)
     {
         $this->_routeMock->expects($this->once())->method('getParameters')->will($this->returnValue($parameters));
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('getRequestData')->will($this->returnValue($requestData));
 
