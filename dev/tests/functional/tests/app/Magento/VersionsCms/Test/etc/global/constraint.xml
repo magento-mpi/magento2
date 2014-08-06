@@ -33,4 +33,10 @@
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
     </assertCmsPageInitialVersionInGrid>
+    <assertCmsPageVersionSuccessSaveMessage module="Magento_VersionsCms">
+        <severeness>high</severeness>
+        <require>
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+        </require>
+    </assertCmsPageVersionSuccessSaveMessage>
 </constraint>
