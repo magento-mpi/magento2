@@ -26,6 +26,13 @@ class Grid extends ParentGrid
     protected $moreInformation = "By admin: admin. (%s)";
 
     /**
+     * Customer notified mapping
+     *
+     * @var array
+     */
+    protected $customerNotified = ['Yes' => 'Notified', 'No' => 'No'];
+
+    /**
      * Verify value in balance history grid
      *
      * @param CustomerBalance $customerBalance
@@ -35,7 +42,8 @@ class Grid extends ParentGrid
     {
         $moreInformation = $customerBalance->getAdditionalInfo();
         $gridRowValue = './/tr[td[contains(.,"' . abs($customerBalance->getBalanceDelta()) . '")]';
-        $gridRowValue .= ' and td[contains(.,"' .  $customerBalance->getIsCustomerNotified() . '")]';
+        $customerNotified = $this->customerNotified[$customerBalance->getIsCustomerNotified()];
+        $gridRowValue .= ' and td[contains(.,"' .  $customerNotified . '")]';
         if ($moreInformation) {
             $gridRowValue .= ' and td["' . sprintf($this->moreInformation, $moreInformation) . '"]';
         }
