@@ -19,6 +19,7 @@ use Magento\Tax\Model\Calculation\RateRegistry;
 use Magento\Tax\Model\Resource\Calculation\Rate\Collection;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder;
+use Magento\Framework\Service\V1\Data\SortOrder;
 
 /**
  * Handles tax rate CRUD operations
@@ -142,11 +143,12 @@ class TaxRateService implements TaxRateServiceInterface
         }
 
         $sortOrders = $searchCriteria->getSortOrders();
+        /** @var SortOrder $sortOrder */
         if ($sortOrders) {
-            foreach ($sortOrders as $field => $direction) {
+            foreach ($sortOrders as $sortOrder) {
                 $collection->addOrder(
-                    $this->translateField($field),
-                    $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+                    $this->translateField($sortOrder->getField()),
+                    ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
                 );
             }
         }

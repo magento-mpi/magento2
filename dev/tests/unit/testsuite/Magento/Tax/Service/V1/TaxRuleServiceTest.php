@@ -12,6 +12,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * Class TaxRuleServiceTest
@@ -421,9 +422,14 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
+        $sortOrderBuilder = $this->objectManager->getObject('\Magento\Framework\Service\V1\Data\SortOrderBuilder');
+        $sortOrder = $sortOrderBuilder
+            ->setField('id')
+            ->setDirection(SearchCriteria::SORT_ASC)
+            ->create();
         $searchCriteria = $searchCriteriaBuilder
             ->addFilter([$filter])
-            ->addSortOrder('id', \Magento\Framework\Service\V1\Data\SearchCriteria::SORT_ASC)
+            ->addSortOrder($sortOrder)
             ->create();
 
         /** @var \Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder $searchResultsBuilder */
