@@ -15,7 +15,7 @@
         </action>
     </referenceBlock>
     <referenceContainer name="sidebar.main">
-        <block class="Magento\Framework\View\Element\Template" name="customer_account_navigation_block" template="Magento_Theme::html\collapsible.phtml">
+        <block class="Magento\Framework\View\Element\Template" name="customer_account_navigation_block" template="Magento_Theme::html/collapsible.phtml">
             <arguments>
                 <argument name="block_title" translate="true" xsi:type="string">Account Dashboard</argument>
                 <argument name="block_css" xsi:type="string">block-account-nav</argument>
