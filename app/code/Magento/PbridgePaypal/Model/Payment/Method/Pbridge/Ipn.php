@@ -10,6 +10,8 @@ namespace Magento\PbridgePaypal\Model\Payment\Method\Pbridge;
 use Magento\Paypal\Model\Config;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Status\History;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
 
 /**
  * PayPal Instant Payment Notification processor model
@@ -98,23 +100,39 @@ class Ipn
     protected $_paypalInfo;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
+     * @var CreditmemoSender
+     */
+    protected $creditmemoSender;
+
+    /**
      * Construct
      *
      * @param \Magento\Paypal\Model\Info $paypalInfo
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param OrderSender $orderSender
+     * @param CreditmemoSender $creditmemoSender
      */
     public function __construct(
         \Magento\Paypal\Model\Info $paypalInfo,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\Logger $logger,
-        \Magento\Pbridge\Helper\Data $pbridgeData
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        OrderSender $orderSender,
+        CreditmemoSender $creditmemoSender
     ) {
         $this->_paypalInfo = $paypalInfo;
         $this->_orderFactory = $orderFactory;
         $this->_pbridgeData = $pbridgeData;
         $this->_logger = $logger;
+        $this->orderSender = $orderSender;
+        $this->creditmemoSender = $creditmemoSender;
     }
 
     /**
@@ -362,11 +380,12 @@ class Ipn
 
         // notify customer
         if ($invoice = $payment->getCreatedInvoice()) {
-            $comment = $order->sendNewOrderEmail()->addStatusHistoryComment(
+            $this->orderSender->send($order);
+            $comment = $order->addStatusHistoryComment(
                 __('Notified customer about invoice #%1.', $invoice->getIncrementId())
-            )->setIsCustomerNotified(
-                true
-            )->save();
+            );
+            $comment->setIsCustomerNotified(true)
+                ->save();
         }
     }
 
@@ -409,8 +428,8 @@ class Ipn
         // TODO: there is no way to close a capture right now
 
         if ($creditmemo = $payment->getCreatedCreditmemo()) {
-            $creditmemo->sendEmail();
-            $comment = $order->addStatusHistoryComment(
+            $this->creditmemoSender->send($creditmemo);
+            $order->addStatusHistoryComment(
                 __('Notified customer about creditmemo #%1.', $creditmemo->getIncrementId())
             )->setIsCustomerNotified(
                 true
