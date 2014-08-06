@@ -67,7 +67,7 @@ class NotifierPoolTest extends \PHPUnit_Framework_TestCase
     {
         $title = 'title';
         $description = 'desc';
-        foreach($this->notifiers as $notifier) {
+        foreach ($this->notifiers as $notifier) {
             $notifier->expects($this->once())->method('addMajor')->with($title, $description);
         }
         $this->notifierPool->addMajor($title, $description);
