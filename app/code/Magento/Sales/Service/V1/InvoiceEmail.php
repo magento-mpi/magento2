@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Sales\Model\InvoiceRepository;
+use Magento\Sales\Model\Order\InvoiceRepository;
 
 /**
  * Class InvoiceEmail
@@ -26,11 +26,11 @@ class InvoiceEmail implements InvoiceEmailInterface
 
     /**
      * @param InvoiceRepository $invoiceRepository
-     * @param \Magento\Sales\Model\InvoiceNotifier $notifier
+     * @param \Magento\Sales\Model\Order\InvoiceNotifier $notifier
      */
     public function __construct(
         InvoiceRepository $invoiceRepository,
-        \Magento\Sales\Model\InvoiceNotifier $notifier
+        \Magento\Sales\Model\Order\InvoiceNotifier $notifier
     ) {
         $this->invoiceRepository = $invoiceRepository;
         $this->invoiceNotifier = $notifier;
