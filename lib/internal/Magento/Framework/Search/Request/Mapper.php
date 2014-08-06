@@ -230,7 +230,7 @@ class Mapper
      */
     private function validateQueries()
     {
-        $allQueries = array_values($this->queries);
+        $allQueries = array_keys($this->queries);
         $notUsedQueries = implode(', ', array_diff($allQueries, $this->mappedQueries));
         if (!empty($notUsedQueries)) {
             throw new StateException('Query %1 not used in request hierarchy', [$notUsedQueries]);
@@ -242,7 +242,7 @@ class Mapper
      */
     private function validateFilters()
     {
-        $allFilters = array_values($this->filters);
+        $allFilters = array_keys($this->filters);
         $notUsedFilters = implode(', ', array_diff($allFilters, $this->mappedFilters));
         if (!empty($notUsedFilters)) {
             throw new StateException('Filter %1 not used in request hierarchy', [$notUsedFilters]);
