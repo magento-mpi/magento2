@@ -16,7 +16,7 @@ use Magento\Framework\Session\Config\ConfigInterface;
  *
  * @method Config setSaveHandler()
  */
-final class Config implements ConfigInterface
+class Config implements ConfigInterface
 {
     /**
      * Configuration path for session save method
@@ -220,10 +220,7 @@ final class Config implements ConfigInterface
     public function setOption($option, $value)
     {
         $option = $this->getFixedOptionName($option);
-        if (!array_key_exists($option, $this->options) || $this->options[$option] != $value) {
-            $this->setStorageOption($option, $value);
-            $this->options[$option] = $value;
-        }
+        $this->options[$option] = $value;
 
         return $this;
     }
@@ -237,7 +234,7 @@ final class Config implements ConfigInterface
     public function getOption($option)
     {
         $option = $this->getFixedOptionName($option);
-        if ($this->hasOption($option)) {
+        if (array_key_exists($option, $this->options)) {
             return $this->options[$option];
         }
 
@@ -248,18 +245,6 @@ final class Config implements ConfigInterface
         }
 
         return null;
-    }
-
-    /**
-     * Check to see if an internal option has been set for the key provided.
-     *
-     * @param string $option
-     * @return bool
-     */
-    public function hasOption($option)
-    {
-        $option = $this->getFixedOptionName($option);
-        return array_key_exists($option, $this->options);
     }
 
     /**
@@ -379,13 +364,6 @@ final class Config implements ConfigInterface
      */
     public function getCookiePath()
     {
-        if (!$this->hasOption('session.cookie_path')) {
-            $path = $this->_scopeConfig->getValue(self::XML_PATH_COOKIE_PATH, $this->_scopeType);
-            if (empty($path)) {
-                $path = $this->_httpRequest->getBasePath();
-            }
-            $this->setCookiePath($path);
-        }
         return (string)$this->getOption('session.cookie_path');
     }
 
@@ -486,24 +464,6 @@ final class Config implements ConfigInterface
     public function getUseCookies()
     {
         return (bool)$this->getOption('session.use_cookies');
-    }
-
-    /**
-     * Set storage option in backend configuration store
-     *
-     * @param string $option
-     * @param string $value
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    protected function setStorageOption($option, $value)
-    {
-        $result = ini_set($option, $value);
-        if ($result === false) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not a valid sessions-related ini setting.', $option));
-        }
-
-        return $this;
     }
 
     /**

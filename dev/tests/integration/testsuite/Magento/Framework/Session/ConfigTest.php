@@ -30,7 +30,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         /** @var $sessionManager \Magento\Framework\Session\SessionManager */
         $sessionManager = $this->_objectManager->get('Magento\Framework\Session\SessionManager');
         if ($sessionManager->isSessionExists()) {
-            $sessionManager->destroy();
+            $sessionManager->writeClose();
         }
         $this->_model = $this->_objectManager->create(
             'Magento\Framework\Session\Config',

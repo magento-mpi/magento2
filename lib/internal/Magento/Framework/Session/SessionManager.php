@@ -9,6 +9,8 @@
  */
 namespace Magento\Framework\Session;
 
+use Magento\Framework\Session\Config\ConfigInterface;
+
 /**
  * Session Manager
  */
@@ -79,7 +81,7 @@ class SessionManager implements SessionManagerInterface
      *
      * @param \Magento\Framework\App\Request\Http $request
      * @param SidResolverInterface $sidResolver
-     * @param Config\ConfigInterface $sessionConfig
+     * @param ConfigInterface $sessionConfig
      * @param SaveHandlerInterface $saveHandler
      * @param ValidatorInterface $validator
      * @param StorageInterface $storage
@@ -87,7 +89,7 @@ class SessionManager implements SessionManagerInterface
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
         SidResolverInterface $sidResolver,
-        Config\ConfigInterface $sessionConfig,
+        ConfigInterface $sessionConfig,
         SaveHandlerInterface $saveHandler,
         ValidatorInterface $validator,
         StorageInterface $storage
@@ -138,6 +140,8 @@ class SessionManager implements SessionManagerInterface
     {
         if (!$this->isSessionExists()) {
             \Magento\Framework\Profiler::start('session_start');
+            // Need to apply the config options so they can be ready by session_start
+            $this->initIniOptions();
             if (!empty($sessionName)) {
                 $this->setName($sessionName);
             }
@@ -482,5 +486,17 @@ class SessionManager implements SessionManagerInterface
             $this->sessionConfig->getCookieHttpOnly()
         );
         $this->clearSubDomainSessionCookie();
+    }
+
+    /**
+     * Performs ini_set for all of the config options so they can be read by session_start
+     *
+     * @return void
+     */
+    private function initIniOptions()
+    {
+        foreach ($this->sessionConfig->getOptions() as $option => $value) {
+            ini_set($option, $value);
+        }
     }
 }
