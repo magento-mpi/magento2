@@ -61,12 +61,12 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $subjectMock;
+    protected $requestMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $requestMock;
+    protected $cookieManagerMock;
 
     /**
      * Set up
@@ -78,7 +78,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context',
             array(), array(), '', false);
         $this->httpRequestMock = $this->getMock('Magento\Framework\App\Request\Http',
-            array('getCookie', 'getParam'), array(), '', false);
+            array('getParam'), array(), '', false);
         $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager',
             array('getWebsite', '__wakeup'), array(), '', false);
         $this->storeMock = $this->getMock('Magento\Store\Model\Store',
@@ -90,13 +90,15 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $this->closureMock = function () {
             return 'ExpectedValue';
         };
-        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
+        $this->cookieManagerMock = $this->getMock('\Magento\Framework\Stdlib\CookieManager');
+
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->plugin = new \Magento\Store\App\Action\Plugin\Context(
             $this->sessionMock,
             $this->httpContextMock,
             $this->httpRequestMock,
-            $this->storeManagerMock
+            $this->storeManagerMock,
+            $this->cookieManagerMock
         );
     }
 
@@ -126,7 +128,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('___store'))
             ->will($this->returnValue('default'));
 
-        $this->httpRequestMock->expects($this->once())
+        $this->cookieManagerMock->expects($this->once())
             ->method('getCookie')
             ->with($this->equalTo(\Magento\Store\Model\Store::COOKIE_NAME))
             ->will($this->returnValue(null));
@@ -139,7 +141,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             )));
         $this->assertEquals(
             'ExpectedValue',
-            $this->plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+            $this->plugin->aroundDispatch($this->closureMock, $this->requestMock)
         );
     }
 }
