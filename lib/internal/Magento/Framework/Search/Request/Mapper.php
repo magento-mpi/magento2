@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Search\Request;
 
+use Magento\Framework\Exception\StateException;
 use Magento\Framework\Search\Request\Query\Filter;
 
 class Mapper
@@ -20,6 +21,16 @@ class Mapper
      * @var array
      */
     private $filters;
+
+    /**
+     * @var string[]
+     */
+    private $mappedQueries;
+
+    /**
+     * @var string[]
+     */
+    private $mappedFilters;
 
     /**
      * @var \Magento\Framework\ObjectManager
@@ -39,6 +50,8 @@ class Mapper
         $this->objectManager = $objectManager;
         $this->queries = $queries;
         $this->filters = $filters;
+        $this->mappedQueries = [];
+        $this->mappedFilters = [];
     }
 
     /**
@@ -46,10 +59,13 @@ class Mapper
      *
      * @param string $queryName
      * @return QueryInterface
+     * @throws StateException
      */
     public function get($queryName)
     {
-        return $this->mapQuery($queryName);
+        $query = $this->mapQuery($queryName);
+        $this->validate();
+        return $query;
     }
 
     /**
@@ -63,7 +79,10 @@ class Mapper
     {
         if (!isset($this->queries[$queryName])) {
             throw new \Exception('Query ' . $queryName . ' does not exist');
+        } elseif (in_array($queryName, $this->mappedQueries)) {
+            throw new StateException('Cycle found. Query %1 already used in request hierarchy', [$queryName]);
         }
+        $this->mappedQueries[] = $queryName;
         $query = $this->queries[$queryName];
         switch ($query['type']) {
             case QueryInterface::TYPE_MATCH:
@@ -153,7 +172,10 @@ class Mapper
     {
         if (!isset($this->filters[$filterName])) {
             throw new \Exception('Filter ' . $filterName . ' does not exist');
+        } elseif (in_array($filterName, $this->mappedFilters)) {
+            throw new StateException('Cycle found. Filter %1 already used in request hierarchy', [$filterName]);
         }
+        $this->mappedFilters[] = $filterName;
         $filter = $this->filters[$filterName];
         switch ($filter['type']) {
             case FilterInterface::TYPE_TERM:
@@ -192,5 +214,38 @@ class Mapper
                 throw new \InvalidArgumentException('Invalid filter type');
         }
         return $filter;
+    }
+
+    /**
+     * @throws StateException
+     */
+    private function validate()
+    {
+        $this->validateQueries();
+        $this->validateFilters();
+    }
+
+    /**
+     * @throws StateException
+     */
+    private function validateQueries()
+    {
+        $allQueries = array_values($this->queries);
+        $notUsedQueries = implode(', ', array_diff($allQueries, $this->mappedQueries));
+        if (!empty($notUsedQueries)) {
+            throw new StateException('Query %1 not used in request hierarchy', [$notUsedQueries]);
+        }
+    }
+
+    /**
+     * @throws StateException
+     */
+    private function validateFilters()
+    {
+        $allFilters = array_values($this->filters);
+        $notUsedFilters = implode(', ', array_diff($allFilters, $this->mappedFilters));
+        if (!empty($notUsedFilters)) {
+            throw new StateException('Filter %1 not used in request hierarchy', [$notUsedFilters]);
+        }
     }
 }
