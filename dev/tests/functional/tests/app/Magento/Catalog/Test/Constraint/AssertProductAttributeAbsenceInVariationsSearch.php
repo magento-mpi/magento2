@@ -13,6 +13,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config as VariationsTab;
+use \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute as AttributeBlock;
 
 /**
  * Class AssertProductAttributeAbsenceInVariationsSearch
@@ -20,6 +22,11 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  */
 class AssertProductAttributeAbsenceInVariationsSearch extends AbstractConstraint
 {
+    /**
+     * Label "Variations" tab
+     */
+    const TAB_VARIATIONS = 'variations';
+
     /**
      * Constraint severeness
      *
@@ -45,9 +52,14 @@ class AssertProductAttributeAbsenceInVariationsSearch extends AbstractConstraint
     ) {
         $productGrid->open();
         $productGrid->getGridPageActionBlock()->addProduct('simple');
-        $productEdit->getForm()->openVariationsTab();
+
+        /** @var VariationsTab $variationsTab */
+        $variationsTab = $newProductPage->getForm()->getTabElement(self::TAB_VARIATIONS);
+        $variationsTab->showContent();
+        /** @var AttributeBlock $attributesBlock */
+        $attributesBlock = $variationsTab->getAttributeBlock();
         \PHPUnit_Framework_Assert::assertFalse(
-            $newProductPage->getForm()->checkAttributeInVariationsSearchAttributeForm($productAttribute),
+            $attributesBlock->getAttributeSelector()->isExistAttributeInSearchResult($productAttribute),
             "Product attribute found in Attribute Search form."
         );
     }

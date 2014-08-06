@@ -533,6 +533,12 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
+    protected $attributes = [
+        'attribute_code' => 'attributes',
+        'backend_type' => 'virtual',
+        'group' => 'product-details',
+    ];
+
     protected $custom_options = [
         'attribute_code' => 'custom_options',
         'backend_type' => 'virtual',
@@ -838,6 +844,11 @@ class CatalogProductSimple extends InjectableFixture
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
+    }
+
+    public function getAttribute()
+    {
+        return $this->getData('attributes');
     }
 
     public function getCustomOptions()

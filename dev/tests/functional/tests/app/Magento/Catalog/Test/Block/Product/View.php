@@ -13,7 +13,7 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class View
@@ -190,6 +190,32 @@ class View extends Block
     }
 
     /**
+     * This method returns the price box block.
+     *
+     * @return Price
+     */
+    public function getProductPriceBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Product\Price',
+            ['element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)]
+        );
+    }
+
+    /**
+     * This method returns the custom options block.
+     *
+     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
+     */
+    public function getCustomOptionsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Product\View\CustomOptions',
+            ['element' => $this->_rootElement->find($this->customOptionsSelector)]
+        );
+    }
+
+    /**
      * Add product to shopping cart
      *
      * @param FixtureInterface $product
@@ -274,32 +300,6 @@ class View extends Block
     }
 
     /**
-     * This method returns the price box block.
-     *
-     * @return Price
-     */
-    public function getProductPriceBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Product\Price',
-            ['element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)]
-        );
-    }
-
-    /**
-     * This method returns the custom options block.
-     *
-     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
-     */
-    public function getCustomOptionsBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Product\View\CustomOptions',
-            ['element' => $this->_rootElement->find($this->customOptionsSelector)]
-        );
-    }
-
-    /**
      * Return product price displayed on page
      *
      * @return array|string Returns arrays with keys corresponding to fixture keys
@@ -350,12 +350,12 @@ class View extends Block
     }
 
     /**
-     * Verify configurable product options
+     * Verify product options
      *
-     * @param ConfigurableProduct $product
+     * @param FixtureInterface $product
      * @return bool
      */
-    public function verifyProductOptions(ConfigurableProduct $product)
+    public function verifyProductOptions(FixtureInterface $product)
     {
         $attributes = $product->getConfigurableOptions();
         foreach ($attributes as $attributeName => $attribute) {
@@ -393,8 +393,15 @@ class View extends Block
             $this->getBundleBlock()->fillBundleOptions($bundleOptions);
         }
         if ($configureSection->isVisible()) {
-            $productOptions = $product->getProductOptions();
-            $this->getCustomOptionsBlock()->fillProductOptions($productOptions);
+            $configurableOptions = [];
+            foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
+                $configurableOptions[] = [
+                    'type' => 'Drop down',
+                    'frontend_label' => $attributeLabel,
+                    'option' => $options
+                ];
+            }
+            $this->getCustomOptionsBlock()->fillOptions($configurableOptions, $product->getProductOptions());
         }
     }
 

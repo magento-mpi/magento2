@@ -100,17 +100,16 @@ class ProductAdvancedPricingTest extends Functional
     {
         $productName = $product->getName();
         $specialPrice = $product->getProductSpecialPrice();
+        $cartItem = Factory::getPageFactory()->getCheckoutCart()->getCartBlock()->getCartItem($product);
+        $unitPrice = $cartItem->getPrice();
+        $subTotal = $cartItem->getSubtotalPrice();
 
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-
-        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-        $subTotal = $checkoutCartPage->getCartBlock()->getCartItemSubTotal($product);
         $this->assertEquals(
             $specialPrice,
             $unitPrice,
             'Incorrect unit price for ' . $productName
         );
-        $this->assertContains(
+        $this->assertEquals(
             $specialPrice,
             $subTotal,
             'Incorrect sub-total for ' . $productName

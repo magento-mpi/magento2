@@ -8,27 +8,24 @@
 
 namespace Magento\ConfigurableProduct\Test\Page\Adminhtml;
 
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit as ParentCatalogProductEdit;
+use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductEdit
+ * Product edit page(backend)
  */
-class CatalogProductEdit extends ParentCatalogProductEdit
+class CatalogProductEdit extends BackendPage
 {
     const MCA = 'configurable/catalog/product/edit';
 
-    /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        $this->_blocks['form'] = [
+    protected $_blocks = [
+        'form' => [
             'name' => 'form',
             'class' => 'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
-        ];
-    }
+        ],
+    ];
 
     /**
      * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm
@@ -38,3 +35,4 @@ class CatalogProductEdit extends ParentCatalogProductEdit
         return $this->getBlockInstance('form');
     }
 }
+

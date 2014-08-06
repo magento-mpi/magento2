@@ -416,6 +416,11 @@
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId</source>
             <group>product-details</group>
         </attribute_set_id>
+        <attributes>
+            <attribute_code>attributes</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>product-details</group>
+        </attributes>
         <custom_options>
             <attribute_code>custom_options</attribute_code>
             <backend_type>virtual</backend_type>

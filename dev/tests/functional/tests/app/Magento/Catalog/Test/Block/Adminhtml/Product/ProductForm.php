@@ -8,12 +8,13 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
-use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element;
+use Mtf\Fixture\DataFixture;
+use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\Product;
-use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
@@ -85,6 +86,10 @@ class ProductForm extends FormTabs
     {
         $tabs = $this->getFieldsByTabs($product);
 
+        if (null === $category && $product instanceof DataFixture) {
+            $categories = $product->getCategories();
+            $category = reset($categories);
+        }
         if ($category) {
             $tabs['product-details']['category_ids']['value'] = ($category instanceof InjectableFixture )
                 ? $category->getName()
@@ -92,7 +97,7 @@ class ProductForm extends FormTabs
         }
 
         $this->showAdvancedSettings();
-        return parent::fillTabs($tabs, $element);
+        return $this->fillTabs($tabs, $element);
     }
 
     /**
@@ -129,15 +134,17 @@ class ProductForm extends FormTabs
      */
     public function addNewCategory(Product $fixture)
     {
+        $this->openTab('product-details');
         $this->openNewCategoryDialog();
-        $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
+        $this->_rootElement->find('//ancestor::body//input[@id="new_category_name"]', Locator::SELECTOR_XPATH)
             ->setValue($fixture->getNewCategoryName());
 
         $this->clearCategorySelect();
         $this->selectParentCategory();
 
-        $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
-        $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
+        $buttonCreateCategory = '//ancestor::body//div[@class="ui-dialog-buttonset"]//button[contains(@class,"action-create")]';
+        $this->_rootElement->find($buttonCreateCategory, Locator::SELECTOR_XPATH)->click();
+        $this->waitForElementNotVisible($buttonCreateCategory, Locator::SELECTOR_XPATH);
     }
 
     /**
@@ -147,12 +154,11 @@ class ProductForm extends FormTabs
      */
     protected function selectParentCategory()
     {
-        // TODO should be removed after suggest widget implementation as typified element
-        $this->fillCategoryField(
-            'Default Category',
-            'new_category_parent-suggest',
-            '//*[@id="new_category_form_fieldset"]'
-        );
+        $this->_rootElement->find(
+            './/ancestor::body//*[@id="new_category_form_fieldset"]//*[contains(@class,"field-new_category_parent")]',
+            Locator::SELECTOR_XPATH,
+            '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\ParentCategoryIds'
+        )->setValue('Default Category');
     }
 
     /**
@@ -176,7 +182,7 @@ class ProductForm extends FormTabs
     protected function openNewCategoryDialog()
     {
         $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
-        $this->waitForElementVisible('input#new_category_name');
+        $this->waitForElementVisible('//ancestor::body//input[@id="new_category_name"]', Locator::SELECTOR_XPATH);
     }
 
     /**
@@ -206,35 +212,8 @@ class ProductForm extends FormTabs
         return $this->_rootElement->find(
             $this->attributeSearch,
             Locator::SELECTOR_CSS,
-            'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Attributes\Search'
+            'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\AttributeSelector'
         )->isExistAttributeInSearchResult($productAttribute);
-    }
-
-    /**
-     * Call method that checking present attribute in search result
-     *
-     * @param CatalogProductAttribute $productAttribute
-     * @return bool
-     */
-    public function checkAttributeInVariationsSearchAttributeForm(CatalogProductAttribute $productAttribute)
-    {
-        return $this->_rootElement->find(
-            $this->variationsAttributeSearch,
-            Locator::SELECTOR_CSS,
-            'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Variations\Search'
-        )->isExistAttributeInSearchResult($productAttribute);
-    }
-
-    /**
-     * Open Variations tab on Product form
-     *
-     * @return void
-     */
-    public function openVariationsTab()
-    {
-        if (!$this->_rootElement->find($this->variationsAttributeSearch, Locator::SELECTOR_CSS)->isVisible()) {
-            $this->_rootElement->find($this->variationsTab, Locator::SELECTOR_CSS)->click();
-        }
     }
 
     /**

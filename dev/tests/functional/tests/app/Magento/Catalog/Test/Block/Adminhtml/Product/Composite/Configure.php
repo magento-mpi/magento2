@@ -26,15 +26,15 @@ class Configure extends Form
      */
     public function fillOptions($productOptions)
     {
-        foreach ($productOptions as $attributeLabel => $attributeValue) {
+        foreach ($productOptions as $option) {
             $select = $this->_rootElement->find(
                 '//div[@class="product-options"]//label[text()="' .
-                $attributeLabel .
+                $option['attribute_label'] .
                 '"]//following-sibling::*//select',
                 Locator::SELECTOR_XPATH,
                 'select'
             );
-            $select->setValue($attributeValue);
+            $select->setValue($option['option_value']);
         }
         $this->_rootElement->find('.ui-dialog-buttonset button:nth-of-type(2)')->click();
     }

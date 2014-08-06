@@ -24,18 +24,6 @@ class CatalogProductEdit extends BackendPage
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
-        'productForm' => [
-            'name' => 'productForm',
-            'class' => 'Magento\Catalog\Test\Block\Backend\ProductForm',
-            'locator' => '[id="page:main-container"]',
-            'strategy' => 'css selector',
-        ],
-        'configurableProductForm' => [
-            'name' => 'configurableProductForm',
-            'class' => 'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm',
-            'locator' => '[id="page:main-container"]',
-            'strategy' => 'css selector',
-        ],
         'formAction' => [
             'name' => 'formAction',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
@@ -51,27 +39,11 @@ class CatalogProductEdit extends BackendPage
     ];
 
     /**
-     * @return \Magento\Catalog\Test\Block\Backend\ProductForm
-     */
-    public function getProductForm()
-    {
-        return $this->getBlockInstance('productForm');
-    }
-
-    /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm
      */
     public function getForm()
     {
         return $this->getBlockInstance('form');
-    }
-
-    /**
-     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm
-     */
-    public function getConfigurableProductForm()
-    {
-        return $this->getBlockInstance('configurableProductForm');
     }
 
     /**

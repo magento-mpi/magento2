@@ -43,10 +43,14 @@ class AssertProductInCart extends AbstractConstraint
         $catalogProductView->open();
         $productOptions = $product->getCustomOptions();
         if ($productOptions) {
-            $customOption = $catalogProductView->getCustomOptionsBlock();
-            $options = $customOption->getOptions();
-            $key = $productOptions[0]['title'];
-            $customOption->selectProductCustomOption($options[$key]['title']);
+            $checkoutData = [];
+            foreach ($productOptions as $key => $productOption) {
+                $checkoutData[] = [
+                    'attribute_label' => 'attribute_' . $key,
+                    'option_value' => 'option_0'
+                ];
+            }
+            $catalogProductView->getCustomOptionsBlock()->fillCustomOptions($productOptions, $checkoutData);
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 
@@ -63,8 +67,7 @@ class AssertProductInCart extends AbstractConstraint
      */
     protected function assertOnShoppingCart(FixtureInterface $product, CheckoutCart $checkoutCart)
     {
-        $cartBlock = $checkoutCart->getCartBlock();
-        $productName = $product->getName();
+        $cartItem = $checkoutCart->getCartBlock()->getCartItem($product);
         $productOptions = $product->getCustomOptions();
         $priceComparing = $product->getPrice();
 
@@ -80,8 +83,8 @@ class AssertProductInCart extends AbstractConstraint
         if (!empty($productOptions)) {
             $productOption = reset($productOptions);
             $optionsData = reset($productOption['options']);
-            $optionName = $cartBlock->getCartItemOptionsNameByProductName($productName);
-            $optionValue = $cartBlock->getCartItemOptionsValueByProductName($productName);
+            $optionName = $cartItem->getOptionsName();
+            $optionValue = $cartItem->getOptionsValue();
 
             \PHPUnit_Framework_Assert::assertTrue(
                 trim($optionName) === $productOption['title']
@@ -96,7 +99,7 @@ class AssertProductInCart extends AbstractConstraint
             }
         }
 
-        $price = $checkoutCart->getCartBlock()->getProductPriceByName($productName);
+        $price = $cartItem->getPrice();
         \PHPUnit_Framework_Assert::assertEquals(
             number_format($priceComparing, 2),
             $price,

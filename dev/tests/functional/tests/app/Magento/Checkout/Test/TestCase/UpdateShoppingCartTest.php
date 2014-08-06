@@ -97,7 +97,7 @@ class UpdateShoppingCartTest extends Injectable
         // Steps
         $this->catalogProductView->init($product);
         $this->catalogProductView->open()->getViewBlock()->clickAddToCart();
-        $this->checkoutCart->getCartBlock()->setProductQty($product->getName(), $cart->getQty());
+        $this->checkoutCart->getCartBlock()->getCartItem($product)->setQty($cart->getQty());
         $this->checkoutCart->getCartBlock()->updateShoppingCart();
     }
 }

@@ -154,7 +154,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice();
         $this->assertContains(
             $product->getProductPrice(),
             (string)$unitPrice,
@@ -216,7 +216,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // Verify price in the cart
         $this->assertContains(
             (string)($product->getProductPrice() * $this->discountDecimal),
-            (string)$checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product),
+            (string)$checkoutCartPage->getCartBlock()->getCartItem($product)->getPrice(),
             "Discount was not correctly applied"
         );
     }

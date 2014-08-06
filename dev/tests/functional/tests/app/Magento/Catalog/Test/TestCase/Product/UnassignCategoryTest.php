@@ -43,7 +43,7 @@ class UnassignCategoryTest extends Functional
         //Steps
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         $editProductPage->open(array('id' => $simple->getProductId()));
-        $productForm = $editProductPage->getProductForm();
+        $productForm = $editProductPage->getForm();
         $productForm->clearCategorySelect();
         $editProductPage->getFormAction()->save();
         //Verifying

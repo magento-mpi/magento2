@@ -85,7 +85,7 @@ class AssertBundlePriceType extends AbstractConstraint
         $fillData = $product->getDataFieldConfig('checkout_data')['source']->getPreset();
         $bundleBlock = $catalogProductView->getBundleViewBlock()->getBundleBlock();
         $bundleBlock->addToCart($fillData, $catalogProductView);
-        $cartBlock = $checkoutCartView->getCartBlock();
+        $cartItem = $checkoutCartView->getCartBlock()->getCartItem($product);
         $specialPrice = 0;
         if (isset($bundleData['group_price'])) {
             $specialPrice =
@@ -115,13 +115,13 @@ class AssertBundlePriceType extends AbstractConstraint
             $item['price'] -= $item['price'] * $specialPrice;
             \PHPUnit_Framework_Assert::assertEquals(
                 number_format($item['price'], 2),
-                $cartBlock->getPriceBundleOptions($index + 1),
+                $cartItem->getPriceBundleOptions($index + 1),
                 'Bundle item ' . ($index + 1) . ' options on frontend don\'t equal to fixture.'
             );
         }
         $sumOptionsPrice = $product->getDataFieldConfig('price')['source']->getPreset()['cart_price'];
 
-        $subTotal = number_format($cartBlock->getCartItemUnitPrice($product), 2);
+        $subTotal = number_format($cartItem->getPrice(), 2);
         \PHPUnit_Framework_Assert::assertEquals(
             $sumOptionsPrice,
             $subTotal,

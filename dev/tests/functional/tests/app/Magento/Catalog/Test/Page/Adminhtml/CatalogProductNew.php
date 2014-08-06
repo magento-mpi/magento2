@@ -25,28 +25,10 @@ class CatalogProductNew extends BackendPage
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
-        'productForm' => [
-            'name' => 'productForm',
-            'class' => 'Magento\Catalog\Test\Block\Backend\ProductForm',
-            'locator' => '[id="page:main-container"]',
-            'strategy' => 'css selector',
-        ],
-        'configurableProductForm' => [
-            'name' => 'configurableProductForm',
-            'class' => 'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm',
-            'locator' => 'body',
-            'strategy' => 'css selector',
-        ],
         'formAction' => [
             'name' => 'formAction',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
             'locator' => '.page-main-actions',
-            'strategy' => 'css selector',
-        ],
-        'affectedAttributeSetForm' => [
-            'name' => 'affectedAttributeSetForm',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\AffectedAttributeSetForm',
-            'locator' => '#affected-attribute-set-form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
@@ -82,27 +64,11 @@ class CatalogProductNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Backend\ProductForm
-     */
-    public function getProductForm()
-    {
-        return $this->getBlockInstance('productForm');
-    }
-
-    /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm
      */
     public function getForm()
     {
         return $this->getBlockInstance('form');
-    }
-
-    /**
-     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm
-     */
-    public function getConfigurableProductForm()
-    {
-        return $this->getBlockInstance('configurableProductForm');
     }
 
     /**
@@ -114,26 +80,10 @@ class CatalogProductNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\AffectedAttributeSetForm
-     */
-    public function getAffectedAttributeSetForm()
-    {
-        return $this->getBlockInstance('affectedAttributeSetForm');
-    }
-
-    /**
      * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
-    }
-
-    /**
-     * Switch back to main page from iframe
-     */
-    public function switchToMainPage()
-    {
-        $this->_browser->switchToFrame();
     }
 }

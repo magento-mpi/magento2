@@ -45,7 +45,7 @@ class EditSimpleProductTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $gridBlock = $productGridPage->getProductGrid();
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $productForm = $editProductPage->getProductForm();
+        $productForm = $editProductPage->getForm();
         $cachePage = Factory::getPageFactory()->getAdminCache();
 
         $productGridPage->open();

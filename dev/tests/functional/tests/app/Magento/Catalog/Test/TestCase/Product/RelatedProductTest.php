@@ -50,7 +50,7 @@ class RelatedProductTest extends Functional
         //Steps
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
-        $productForm = $editProductPage->getProductForm();
+        $productForm = $editProductPage->getForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormAction()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
@@ -60,7 +60,7 @@ class RelatedProductTest extends Functional
             array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
         );
         $assignToSimple1->switchData('add_related_product');
-        $productForm = $editProductPage->getProductForm();
+        $productForm = $editProductPage->getForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormAction()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();

@@ -12,6 +12,7 @@ use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options;
 
 /**
  * Class Custom Options
@@ -109,6 +110,19 @@ class CustomOptions extends Form
      * @var string
      */
     protected $optionByName = '//*[label//span[contains(.,"%s")]]';
+
+    /**
+     * Mapping options fields
+     *
+     * @var array
+     */
+    protected $optionsMappingData = [
+        'Drop-down' => [
+            'input' => 'select',
+            'selector' => '//select',
+            'strategy' => Locator::SELECTOR_XPATH
+        ]
+    ];
 
     /**
      * Get product options
@@ -390,113 +404,131 @@ class CustomOptions extends Form
      */
     protected function parseOptionText($optionText)
     {
-        preg_match('/\+?.([0-9.]+)$/', $optionText, $match);
-        $optionPrice = isset($match[1]) ? $match[1] : 0;
-        $optionTitle = isset($match[0])
-            ? substr($optionText, 0, strlen($optionText) - strlen($match[0]))
-            : $optionText;
+        preg_match('`^(.*?)\+\$(\d.*?)$`', $optionText, $match);
+        $optionPrice = isset($match[2]) ? str_replace(',', '', $match[2]) : 0;
+        $optionTitle = isset($match[1]) ? trim($match[1]) : $optionText;
 
         return [
-            'title' => trim($optionTitle),
+            'title' => $optionTitle,
             'price' => $optionPrice
         ];
     }
 
     /**
-     * Fill configurable product options
+     * Fill product custom options
      *
-     * @param array $productOptions
+     * @param array $options
+     * @param array $fillData
      * @return void
      */
-    public function fillProductOptions(array $productOptions)
+    public function fillCustomOptions(array $options, array $fillData)
     {
-        foreach ($productOptions as $attributeLabel => $attributeValue) {
-            $select = $this->_rootElement->find(
-                sprintf($this->selectByTitleLocator, $attributeLabel),
-                Locator::SELECTOR_XPATH,
-                'select'
+        $fields = $this->prepareCustomOptionsFields($options, $fillData);
+        $fieldsData = $this->optionsMappingData($fields);
+
+        foreach ($fieldsData as $attibuteLabel => $fieldData) {
+            $optionBlock = $this->_rootElement->find(
+                sprintf($this->optionByName, $attibuteLabel),
+                Locator::SELECTOR_XPATH
             );
-            $select->setValue($attributeValue);
+            $this->_fill($fieldsData, $optionBlock);
         }
     }
 
     /**
-     * Fill custom options
+     * Prepare custom option fields
      *
-     * @param array $customOptions
-     * @return void
-     */
-    public function fillCustomOptions(array $customOptions)
-    {
-        $type = strtolower(preg_replace('/[^a-zA-Z]/', '', $customOptions['type']));
-        $customOptions += $this->dataMapping([$type => []]);
-
-        $isDate = $customOptions['type'] == 'Date' ||
-            $customOptions['type'] == 'Time' ||
-            $customOptions['type'] == 'Date & Time';
-        $isChecked = $customOptions['type'] == 'Checkbox' || $customOptions['type'] == 'Radio Buttons';
-
-        if ($isDate) {
-            $customOptions['value'] = explode('/', $customOptions['value'][0]);
-            $customOptions['dateSelector'] = $this->setDateTypeSelector(count($customOptions['value']));
-        }
-
-        foreach ($customOptions['value'] as $key => $attributeValue) {
-            $selector = $customOptions[$type]['selector'];
-            if ($isDate) {
-                $selector .= $customOptions['dateSelector'][$key];
-            } elseif ($isChecked) {
-                $selector = str_replace('%product_name%', $attributeValue, $selector);
-                $attributeValue = 'Yes';
-            }
-
-            $select = $this->_rootElement->find(
-                sprintf($this->optionByName, $customOptions['title']) . $selector,
-                Locator::SELECTOR_XPATH,
-                $customOptions[$type]['input']
-            );
-            $select->setValue($attributeValue);
-        }
-    }
-
-    /**
-     * Set item data type selector
-     *
-     * @param int $count
+     * @param array $attributes
+     * @param array $fillData
      * @return array
      */
-    protected function setDateTypeSelector($count)
+    protected function prepareCustomOptionsFields(array $attributes, array $fillData)
     {
-        $result = [];
-        $parent = '';
-        for ($i = 0; $i < $count; $i++) {
-            if (!(($i + 1) % 4)) {
-                $parent = '//span';
-            }
-            $result[$i] = $parent . '//select[' . ($i % 3 + 1) . ']';
+        $fields = [];
+
+        foreach ($fillData as $field) {
+            $attributeKey = str_replace('attribute_', '', $field['attribute_label']);
+            $optionKey = str_replace('option_', '', $field['option_value']);
+            $attributeLable = $attributes[$attributeKey]['title'];
+
+            $fields[$attributeLable] = [
+                'type' => $attributes[$attributeKey]['type'],
+                'value' => $attributes[$attributeKey]['options'][$optionKey]['title'],
+            ];
         }
 
-        return $result;
+        return $fields;
     }
 
     /**
-     * Choose custom option in a drop down
+     * Fill product options
      *
-     * @param string $title
-     * @param string|null $value [optional]
+     * @param array $options
+     * @param array $fillData
      * @return void
      */
-    public function selectProductCustomOption($title, $value = null)
+    public function fillOptions(array $options, array $fillData)
     {
-        $select = $this->_rootElement->find(
-            sprintf($this->selectByTitleLocator, $title),
-            Locator::SELECTOR_XPATH,
-            'select'
-        );
+        $fields = $this->prepareOptionsFields($options, $fillData);
+        $fieldsData = $this->optionsMappingData($fields);
 
-        if (null === $value) {
-            $value = $select->find('.//option[@value != ""][1]', Locator::SELECTOR_XPATH)->getText();
+        foreach ($fieldsData as $attibuteLabel => $fieldData) {
+            $optionBlock = $this->_rootElement->find(
+                sprintf($this->optionByName, $attibuteLabel),
+                Locator::SELECTOR_XPATH
+            );
+            $this->_fill($fieldsData, $optionBlock);
         }
-        $select->setValue($value);
+    }
+
+    /**
+     * Prepare options fields
+     *
+     * @param array $attributes
+     * @param array $fillData
+     * @return array
+     */
+    protected function prepareOptionsFields(array $attributes, array $fillData)
+    {
+        $fields = [];
+
+        foreach ($fillData as $field) {
+            $attributeKey = str_replace('attribute_', '', $field['attribute_label']);
+            $optionKey = str_replace('option_', '', $field['option_value']);
+            $attributeLable = $attributes[$attributeKey]['frontend_label'];
+
+            $fields[$attributeLable] = [
+                'type' => $attributes[$attributeKey]['type'],
+                'value' => $attributes[$attributeKey]['options'][$optionKey],
+            ];
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Get mapping data for options
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function optionsMappingData(array $data)
+    {
+        $mapping = [];
+
+        foreach ($data as $key => $field) {
+            $mappingField = $this->optionsMappingData[$field['type']];
+
+            $mapping[$key]['selector'] = $mappingField['selector'];
+            $mapping[$key]['strategy'] = isset($mappingField['strategy'])
+                ? $mappingField['strategy']
+                : Locator::SELECTOR_CSS;
+            $mapping[$key]['input'] = isset($mappingField['input'])
+                ? $mappingField['input']
+                : null;
+            $mapping[$key]['value'] = $field['value'];
+        }
+
+        return $mapping;
     }
 }

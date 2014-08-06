@@ -20,7 +20,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
     /**
      * Configurable product
      *
-     * @var \Magento\Catalog\Test\Fixture\ConfigurableProduct
+     * @var \Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct
      */
     protected $configurableProduct;
 
@@ -34,7 +34,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
     /**
      * Return the configurable product
      *
-     * @return \Magento\Catalog\Test\Fixture\ConfigurableProduct
+     * @return \Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct
      */
     public function getConfigurableProduct()
     {
@@ -86,7 +86,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         $this->simpleProduct->switchData('simple_advanced_pricing');
         $this->simpleProduct->persist();
 
-        $this->configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $this->configurableProduct = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct();
         $this->configurableProduct->switchData('configurable_advanced_pricing');
         $this->configurableProduct->persist();
 
