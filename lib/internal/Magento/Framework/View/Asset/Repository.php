@@ -11,6 +11,7 @@ namespace Magento\Framework\View\Asset;
 use Magento\Framework\View\Asset\File;
 use \Magento\Framework\UrlInterface;
 use \Magento\Framework\App\Filesystem;
+use \Magento\Framework\View\Design\Theme\FlyweightFactory;
 
 /**
  * A repository service for view assets
@@ -34,9 +35,9 @@ class Repository
     private $design;
 
     /**
-     * @var \Magento\Framework\View\Design\Theme\Provider
+     * @var FlyweightFactory
      */
-    private $themeProvider;
+    private $themeFactory;
 
     /**
      * @var \Magento\Framework\View\Asset\Source
@@ -56,18 +57,18 @@ class Repository
     /**
      * @param \Magento\Framework\UrlInterface $baseUrl
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Framework\View\Design\Theme\Provider $themeProvider
+     * @param FlyweightFactory $themeFactory
      * @param \Magento\Framework\View\Asset\Source $assetSource
      */
     public function __construct(
         \Magento\Framework\UrlInterface $baseUrl,
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Framework\View\Design\Theme\Provider $themeProvider,
+        FlyweightFactory $themeFactory,
         \Magento\Framework\View\Asset\Source $assetSource
     ) {
         $this->baseUrl = $baseUrl;
         $this->design = $design;
-        $this->themeProvider = $themeProvider;
+        $this->themeFactory = $themeFactory;
         $this->assetSource = $assetSource;
     }
 
@@ -101,7 +102,7 @@ class Repository
         }
 
         if ($theme) {
-            $params['themeModel'] = $this->themeProvider->getThemeModel($theme, $area);
+            $params['themeModel'] = $this->themeFactory->create($theme, $area);
             if (!$params['themeModel']) {
                 throw new \UnexpectedValueException("Could not find theme '$theme' for area '$area'");
             }
