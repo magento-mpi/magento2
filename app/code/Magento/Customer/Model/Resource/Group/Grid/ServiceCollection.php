@@ -30,7 +30,7 @@ class ServiceCollection extends AbstractServiceCollection
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param CustomerGroupServiceInterface $groupService
-     * @param \Magento\Framework\Service\V1\Data\SortOrderBuilder $sortOrderBuilder
+     * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
         EntityFactory $entityFactory,
