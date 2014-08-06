@@ -8,7 +8,9 @@
 
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
-
+/**
+ * Interface to choose shipping method for cart address
+ */
 interface WriteServiceInterface
 {
     /**
@@ -20,6 +22,7 @@ interface WriteServiceInterface
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\InputException
      * @return bool
      */
     public function setMethod($cartId, $carrierCode, $methodCode);

@@ -29,6 +29,11 @@ class WriteService implements WriteServiceInterface
      */
     protected $storeManager;
 
+    /**
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
+     * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
+     */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
