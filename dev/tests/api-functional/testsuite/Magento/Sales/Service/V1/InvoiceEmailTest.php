@@ -14,12 +14,12 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderInvoiceEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'salesOrderInvoiceSendEmailV1';
+    const SERVICE_NAME = 'invoiceEmailV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/invoice.php
      */
-    public function testOrderInvoiceEmail()
+    public function testInvoiceEmail()
     {
         $invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order\Invoice');
