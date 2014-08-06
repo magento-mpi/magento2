@@ -87,6 +87,16 @@
                 }
             }
         }
+        .cart.table-wrapper & {
+            vertical-align: top;
+            > .action {
+                &.split {
+                }
+                &.toggle {
+                    padding: 4px 5px;
+                }
+            }
+        }
     }
     &.window.popup {
         .popup();
@@ -99,16 +109,6 @@
         &.active {
             display: block;
         }
-    }
-}
-
-.cart.table-wrapper .items .split.button {
-    &:extend(.abstract-split-button all);
-    .items {
-        text-align: left;
-    }
-    .action.new {
-        .button-reset();
     }
 }
 

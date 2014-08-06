@@ -200,14 +200,18 @@
                 }
             }
         }
-        .action {
-            &:extend(button all);
-            .link-as-button();
-            margin-left: 10px;
-            margin-bottom: 10px;
-            &:first-child {
-                margin-left: 0;
+        .actions {
+            > .action {
+                &:extend(button all);
+                .link-as-button();
+                margin-left: 10px;
+                margin-bottom: 10px;
+                &:first-child {
+                    margin-left: 0;
+                }  
             }
+        }
+        .action {
             &.help.map {
                 &:extend(.abstract-action-button-as-link all);
                 font-weight: @font-weight-base;
