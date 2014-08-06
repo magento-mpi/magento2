@@ -26,6 +26,7 @@
     <preference for="Magento\Sales\Service\V1\InvoiceCommentsListInterface" type="Magento\Sales\Service\V1\InvoiceCommentsList"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoListInterface" type="Magento\Sales\Service\V1\CreditmemoList"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoCommentsListInterface" type="Magento\Sales\Service\V1\CreditmemoCommentsList"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoCancelInterface" type="Magento\Sales\Service\V1\CreditmemoCancel"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>
