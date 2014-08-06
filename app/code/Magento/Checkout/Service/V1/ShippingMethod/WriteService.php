@@ -9,6 +9,8 @@
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
 use \Magento\Framework\Exception\CouldNotSaveException;
+use \Magento\Framework\Exception\NoSuchEntityException;
+use \Magento\Framework\Exception\InputException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -42,7 +44,12 @@ class WriteService implements WriteServiceInterface
      */
     public function setMethod($cartId, $carrierCode, $methodCode)
     {
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
+        if (0 == $quote->getItemsCount()) {
+            throw new InputException('Shipping method is not applicable for empty cart');
+        }
+
         if ($quote->isVirtual()) {
             throw new NoSuchEntityException(
                 'Cart contains virtual product(s) only. Shipping method is not applicable.'
@@ -51,6 +58,9 @@ class WriteService implements WriteServiceInterface
         $address = $quote->getShippingAddress();
 
         $address->setShippingMethod($carrierCode . '_' . $methodCode);
+        if (!$address->requestShippingRates()) {
+            throw new NoSuchEntityException('Carrier with such method not found: ' . $carrierCode . ', ' . $methodCode);
+        }
         try {
             $address->save();
         } catch(\Exception $e) {

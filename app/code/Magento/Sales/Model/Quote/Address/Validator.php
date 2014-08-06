@@ -62,34 +62,13 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
             }
         }
 
-        if ($value->getShippingMethod()) {
-            $shippingMethodErrors = $this->validateShippingMethod($value);
-            $messages = array_merge($messages, $shippingMethodErrors);
+        if ($value->getShippingMethod() &&
+            null === $value->getBaseShippingAmount() && null === $value->getShippingAmount()
+        ) {
+            $messages['invalid_shipping_rate'] = 'Shipping rate not calculated';
         }
         $this->_addMessages($messages);
 
         return empty($messages);
-    }
-
-    /**
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return array error messages if any
-     */
-    protected function validateShippingMethod($address)
-    {
-        $messages = [];
-        list($carrierCode, $method) = explode('_', $address->getShippingMethod());
-        /** @var \Magento\Shipping\Model\Carrier\CarrierInterface $carrier */
-        $carrier = $this->carrierFactory->get($carrierCode);
-        if (!$carrier) {
-            $messages['invalid_carrier'] = "Wrong carrier code: " . $carrierCode;
-            return $messages;
-        }
-        $allowedMethods = array_keys($carrier->getAllowedMethods());
-        if (empty($method) || !in_array($method, $allowedMethods)) {
-            $messages['invalid_shipping_method'] = "Wrong method code: " . $method;
-        }
-
-        return $messages;
     }
 }
