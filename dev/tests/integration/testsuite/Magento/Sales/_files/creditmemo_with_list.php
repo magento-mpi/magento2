@@ -17,5 +17,6 @@ $order->loadByIncrementId('100000001');
 $service = $objectManager->get('Magento\Sales\Model\Service\Order');
 $creditmemo = $service->prepareCreditmemo($order->getData());
 $creditmemo->setOrder($order);
-$creditmemo->setState('pending');
+$creditmemo->setState(Magento\Sales\Model\Order\Creditmemo::STATE_OPEN);
+$creditmemo->setIncrementId('100000001');
 $creditmemo->save();

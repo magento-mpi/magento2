@@ -117,6 +117,12 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/creditmemos/:id" method="GET">
+        <service class="Magento\Sales\Service\V1\CreditmemoGetInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
     <route url="/V1/creditmemos/:id" method="PUT">
         <service class="Magento\Sales\Service\V1\CreditmemoCancelInterface" method="invoke"/>
         <resources>

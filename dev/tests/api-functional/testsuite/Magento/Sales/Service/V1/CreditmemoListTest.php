@@ -63,7 +63,7 @@ class CreditmemoListTest extends WebapiAbstract
             [
                 $filterBuilder
                     ->setField('state')
-                    ->setValue('pending')
+                    ->setValue(\Magento\Sales\Model\Order\Creditmemo::STATE_OPEN)
                     ->create()
             ]
         );

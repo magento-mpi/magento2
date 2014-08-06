@@ -24,6 +24,7 @@
     <preference for="Magento\Sales\Service\V1\InvoiceVoidInterface" type="Magento\Sales\Service\V1\InvoiceVoid"/>
     <preference for="Magento\Sales\Service\V1\InvoiceCaptureInterface" type="Magento\Sales\Service\V1\InvoiceCapture"/>
     <preference for="Magento\Sales\Service\V1\InvoiceCommentsListInterface" type="Magento\Sales\Service\V1\InvoiceCommentsList"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoGetInterface" type="Magento\Sales\Service\V1\CreditmemoGet"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoListInterface" type="Magento\Sales\Service\V1\CreditmemoList"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoCommentsListInterface" type="Magento\Sales\Service\V1\CreditmemoCommentsList"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoCancelInterface" type="Magento\Sales\Service\V1\CreditmemoCancel"/>
