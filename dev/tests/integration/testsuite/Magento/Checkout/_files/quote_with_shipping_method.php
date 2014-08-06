@@ -18,4 +18,5 @@ $shippingAddress = $quote->getShippingAddress();
 $shippingAddress->setShippingMethod('flatrate_flatrate')
     ->setShippingDescription('Flat Rate - Fixed')
     ->setShippingAmount(10.0)
+    ->setBaseShippingAmount(12.0)
     ->save();

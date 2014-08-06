@@ -60,20 +60,23 @@ class ReadService implements ReadServiceInterface
                 'Cart contains virtual product(s) only. Shipping method is not applicable'
             );
         }
+
+        /** @var \Magento\Sales\Model\Quote\Address $quote */
         $shippingAddress = $quote->getShippingAddress();
 
         $shippingMethod = $shippingAddress->getShippingMethod();
         if ($shippingMethod) {
             $shippingMethodData = explode("_", $shippingMethod);
-            $output[ShippingMethod::KEY_CARRIER_CODE] = array_shift($shippingMethodData);
-            $output[ShippingMethod::KEY_METHOD_CODE] = array_shift($shippingMethodData);
+            $output[ShippingMethod::CARRIER_CODE] = array_shift($shippingMethodData);
+            $output[ShippingMethod::METHOD_CODE] = array_shift($shippingMethodData);
         } else {
             throw new NoSuchEntityException('Shipping method and carrier are not set for the quote');
         }
 
         $shippingDescription = $shippingAddress->getShippingDescription();
-        $output[ShippingMethod::KEY_DESCRIPTION] = ($shippingDescription) ? $shippingDescription : '';
-        $output[ShippingMethod::KEY_SHIPPING_AMOUNT] = (float) $shippingAddress->getShippingAmount();
+        $output[ShippingMethod::DESCRIPTION] = ($shippingDescription) ? $shippingDescription : '';
+        $output[ShippingMethod::SHIPPING_AMOUNT] = (float) $shippingAddress->getShippingAmount();
+        $output[ShippingMethod::BASE_SHIPPING_AMOUNT] = (float) $shippingAddress->getBaseShippingAmount();
 
         return $this->methodBuilder->populateWithArray($output)->create();
     }

@@ -20,7 +20,7 @@ class ShippingMethodBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setCarrierCode($value)
     {
-        return $this->_set(ShippingMethod::KEY_CARRIER_CODE, $value);
+        return $this->_set(ShippingMethod::CARRIER_CODE, $value);
     }
 
     /**
@@ -31,7 +31,7 @@ class ShippingMethodBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setMethodCode($value)
     {
-        return $this->_set(ShippingMethod::KEY_METHOD_CODE, $value);
+        return $this->_set(ShippingMethod::METHOD_CODE, $value);
     }
 
     /**
@@ -42,7 +42,7 @@ class ShippingMethodBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setDescription($value)
     {
-        return $this->_set(ShippingMethod::KEY_DESCRIPTION, $value);
+        return $this->_set(ShippingMethod::DESCRIPTION, $value);
     }
 
     /**
@@ -53,6 +53,17 @@ class ShippingMethodBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setAmount($value)
     {
-        return $this->_set(ShippingMethod::KEY_SHIPPING_AMOUNT, $value);
+        return $this->_set(ShippingMethod::SHIPPING_AMOUNT, $value);
+    }
+
+    /**
+     * Set base shipping amount
+     *
+     * @param float $value
+     * @return $this
+     */
+    public function setBaseAmount($value)
+    {
+        return $this->_set(ShippingMethod::BASE_SHIPPING_AMOUNT, $value);
     }
 }

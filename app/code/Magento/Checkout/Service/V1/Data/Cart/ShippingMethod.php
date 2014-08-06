@@ -17,13 +17,15 @@ class ShippingMethod extends \Magento\Framework\Service\Data\AbstractObject
     /**#@+
      * Constants defined for keys of array, makes typos less likely
      */
-    const KEY_CARRIER_CODE = 'carrier_code';
+    const CARRIER_CODE = 'carrier_code';
 
-    const KEY_METHOD_CODE = 'method_code';
+    const METHOD_CODE = 'method_code';
 
-    const KEY_DESCRIPTION = 'description';
+    const DESCRIPTION = 'description';
 
-    const KEY_SHIPPING_AMOUNT = 'amount';
+    const SHIPPING_AMOUNT = 'amount';
+
+    const BASE_SHIPPING_AMOUNT = 'base_amount';
     /**#@-*/
 
     /**
@@ -33,7 +35,7 @@ class ShippingMethod extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getCarrierCode()
     {
-        return $this->_get(self::KEY_CARRIER_CODE);
+        return $this->_get(self::CARRIER_CODE);
     }
 
     /**
@@ -43,7 +45,7 @@ class ShippingMethod extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getMethodCode()
     {
-        return $this->_get(self::KEY_METHOD_CODE);
+        return $this->_get(self::METHOD_CODE);
     }
 
     /**
@@ -53,7 +55,7 @@ class ShippingMethod extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getDescription()
     {
-        return $this->_get(self::KEY_DESCRIPTION);
+        return $this->_get(self::DESCRIPTION);
     }
 
     /**
@@ -63,6 +65,16 @@ class ShippingMethod extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getAmount()
     {
-        return $this->_get(self::KEY_SHIPPING_AMOUNT);
+        return $this->_get(self::SHIPPING_AMOUNT);
+    }
+
+    /**
+     * Get base shipping amount
+     *
+     * @return float
+     */
+    public function getBaseAmount()
+    {
+        return $this->_get(self::BASE_SHIPPING_AMOUNT);
     }
 }

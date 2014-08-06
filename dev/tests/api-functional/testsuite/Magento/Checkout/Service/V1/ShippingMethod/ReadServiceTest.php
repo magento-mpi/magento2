@@ -40,10 +40,11 @@ class ReadServiceTest extends WebapiAbstract
 
         $shippingAddress = $quote->getShippingAddress();
         $data = [
-            ShippingMethod::KEY_CARRIER_CODE => explode("_", $shippingAddress->getShippingMethod())[0],
-            ShippingMethod::KEY_METHOD_CODE => explode("_", $shippingAddress->getShippingMethod())[1],
-            ShippingMethod::KEY_DESCRIPTION => $shippingAddress->getShippingDescription(),
-            ShippingMethod::KEY_SHIPPING_AMOUNT => $shippingAddress->getShippingAmount(),
+            ShippingMethod::CARRIER_CODE => explode("_", $shippingAddress->getShippingMethod())[0],
+            ShippingMethod::METHOD_CODE => explode("_", $shippingAddress->getShippingMethod())[1],
+            ShippingMethod::DESCRIPTION => $shippingAddress->getShippingDescription(),
+            ShippingMethod::SHIPPING_AMOUNT => $shippingAddress->getShippingAmount(),
+            ShippingMethod::BASE_SHIPPING_AMOUNT => $shippingAddress->getBaseShippingAmount(),
         ];
 
         $requestData = ["cartId" => $cartId];
