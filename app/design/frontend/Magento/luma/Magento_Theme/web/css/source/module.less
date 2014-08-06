@@ -252,6 +252,10 @@ body {
 //    Navigation
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-m) {
+    .customer.name,
+    .customer-welcome + .authorization-link {
+        display: none;
+    }
     .nav-sections .switcher-trigger strong:after {
         font-size: 16px;
         right: -25px;
@@ -309,7 +313,7 @@ body {
         }
     }
 
-    .customer.welcome {
+    .customer-welcome {
         .dropdown(
             @_toggle-selector : ~".action.switch",
             @_options-selector : ~"ul",
@@ -344,6 +348,23 @@ body {
                 line-height: 1.4;
             }
         }
+        .customer-menu {
+            display: none;
+        }
+        &.active {
+            .action.switch {
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: after
+                );
+            }
+            .customer-menu {
+                display: block;
+            }
+        }
+        .greet {
+            display: none;
+        }
     }
 
     .header {
@@ -351,6 +372,7 @@ body {
             > .header.links {
                 float: right;
                 .list-inline();
+                margin-left: auto;
                 > li {
                     margin: 0 0 0 15px;
                     &.welcome,
@@ -359,11 +381,13 @@ body {
                         display: inline-block;
                     }
                 }
-                margin-left: auto;
                 > .authorization-link:after {
                     content: "or";
                     display: inline-block;
                     margin: 0 -5px 0 5px;
+                }
+                > .customer-welcome + .authorization-link {
+                    display: none;
                 }
             }
         }
