@@ -226,8 +226,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      */
     protected function optionNameConvert($optionName)
     {
-        $optionName = str_replace(['-', ' & '], "_", $optionName);
-        if ($end = strpos($optionName, ' ')) {
+        $optionName = str_replace(['-', ' & '], "_", trim($optionName));
+        $end = strpos($optionName, ' ');
+        if ($end !== false) {
             $optionName = substr($optionName, 0, $end);
         }
         return strtolower($optionName);

@@ -12,7 +12,6 @@ use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options;
 
 /**
  * Class Custom Options
@@ -120,10 +119,9 @@ class CustomOptions extends Form
      */
     public function getOptions(FixtureInterface $product = null)
     {
-        $dataOptions = ($product && $product->hasData('custom_options')) ? $product->getCustomOptions() : [];
-        if (isset($dataOptions['import'])) {
-            $dataOptions = Options::prepareCustomOptions($dataOptions);
-        }
+        $dataOptions = ($product && $product->hasData('custom_options'))
+            ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
+            : [];
         $listCustomOptions = $this->getListCustomOptions();
         $readyOptions = [];
         $result = [];
@@ -423,7 +421,7 @@ class CustomOptions extends Form
     }
 
     /**
-     * Fill custom option
+     * Fill custom options
      *
      * @param FixtureInterface $product
      * @param array $customOptions
@@ -438,7 +436,7 @@ class CustomOptions extends Form
     }
 
     /**
-     * Prepare custom option for fill
+     * Prepare custom options for fill
      *
      * @param FixtureInterface $product
      * @param array $customOptions
@@ -447,14 +445,11 @@ class CustomOptions extends Form
     protected function prepareCustomOptions(FixtureInterface $product, array $customOptions)
     {
         $options = [];
-        $productCustomOptions = $product->hasData('custom_options') ? $product->getCustomOptions() : null;
+        $productCustomOptions = $product->hasData('custom_options')
+            ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
+            : null;
 
         if ($productCustomOptions !== null) {
-            if (isset($productCustomOptions['import'])) {
-                $importOptions = $productCustomOptions['import']['options'];
-                $productCustomOptions = array_merge($productCustomOptions, $importOptions);
-            }
-
             foreach ($customOptions as $key => $option) {
                 $type = $productCustomOptions[$option['option'] - 1]['type'];
                 $title = $productCustomOptions[$option['option'] - 1]['title'];

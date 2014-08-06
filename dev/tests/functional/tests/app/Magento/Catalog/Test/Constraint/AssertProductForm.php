@@ -12,7 +12,6 @@ use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options;
 
 /**
  * Class AssertProductForm
@@ -59,7 +58,7 @@ class AssertProductForm extends AbstractAssertForm
         $productGrid->open();
         $productGrid->getProductGrid()->searchAndOpen($filter);
 
-        $fixtureData = $this->prepareFixtureData($product->getData(), $this->sortFields);
+        $fixtureData = $this->prepareFixtureData($product->getData(), $this->sortFields, $product);
         $formData = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
         $error = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
@@ -70,15 +69,16 @@ class AssertProductForm extends AbstractAssertForm
      *
      * @param array $data
      * @param array $sortFields [optional]
+     * @param FixtureInterface|null $product
      * @return array
      */
-    protected function prepareFixtureData(array $data, array $sortFields = [])
+    protected function prepareFixtureData(array $data, array $sortFields = [], FixtureInterface $product = null)
     {
         if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
             $data['website_ids'] = [$data['website_ids']];
         }
         if (isset($data['custom_options']['import'])) {
-            $data['custom_options'] = Options::prepareCustomOptions($data['custom_options']);
+            $data['custom_options'] = $product->getDataFieldConfig('custom_options')['source']->getCustomOptions();
         }
         if (!empty($this->specialArray)) {
             $data = $this->prepareSpecialPriceArray($data);
@@ -91,7 +91,7 @@ class AssertProductForm extends AbstractAssertForm
     }
 
     /**
-     * Prepare special price array for Bundle product
+     * Prepare special price array for product
      *
      * @param array $fields
      * @return array

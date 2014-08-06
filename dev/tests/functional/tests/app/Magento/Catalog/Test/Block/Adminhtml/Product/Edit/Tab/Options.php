@@ -49,11 +49,11 @@ class Options extends Tab
     protected $buttonImportOptions = '[data-ui-id="admin-product-options-import-button"]';
 
     /**
-     * Selector block Grid
+     * Selector block import products grid
      *
      * @var string
      */
-    protected $searchGridBlock = "ancestor::body//div[contains(@style,'display: block') and @role='dialog']";
+    protected $importGrid = "//ancestor::body/div[*[@id='import-container'] and contains(@style,'display: block')]";
 
     /**
      * Fill custom options form on tab
@@ -72,7 +72,7 @@ class Options extends Tab
         foreach ($fields['value'] as $keyRoot => $field) {
             if ($keyRoot === 'import') {
                 $this->importOptions($field['products']);
-                return $this;
+                continue;
             }
             $options = null;
             $this->_rootElement->find($this->buttonFormLocator)->click();
@@ -131,7 +131,7 @@ class Options extends Tab
     {
         return $this->blockFactory->create(
             'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\Search\Grid',
-            ['element' => $this->_rootElement->find($this->searchGridBlock, Locator::SELECTOR_XPATH)]
+            ['element' => $this->_rootElement->find($this->importGrid, Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -150,7 +150,7 @@ class Options extends Tab
             return $formData;
         }
         if (isset($fields['value']['import'])) {
-            $fields['value'] = self::prepareCustomOptions($fields['value']);
+            $fields['value'] = $this->prepareCustomOptions($fields['value']);
         }
 
         foreach ($fields['value'] as $keyRoot => $field) {
@@ -194,7 +194,7 @@ class Options extends Tab
      * @param array $options
      * @return array
      */
-    static function prepareCustomOptions(array $options)
+    protected function prepareCustomOptions(array $options)
     {
         $importOptions = $options['import']['options'];
         $options = array_merge($options, $importOptions);

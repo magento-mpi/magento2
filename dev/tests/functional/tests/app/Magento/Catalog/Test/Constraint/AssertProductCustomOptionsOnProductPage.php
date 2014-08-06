@@ -11,7 +11,6 @@ namespace Magento\Catalog\Test\Constraint;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options;
 
 /**
  * Class AssertProductCustomOptionsOnProductPage
@@ -137,12 +136,10 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
      */
     protected function prepareOptions(FixtureInterface $product, $actualPrice = null)
     {
-        $customOptions = $product->getCustomOptions();
-        if (isset($customOptions['import'])) {
-            $customOptions = Options::prepareCustomOptions($customOptions);
-        }
         $result = [];
-
+        $customOptions = $product->hasData('custom_options')
+            ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
+            : null;
         $actualPrice = $actualPrice ? $actualPrice : $product->getPrice();
         foreach ($customOptions as $customOption) {
             $skippedField = isset($this->skippedFieldOptions[$customOption['type']])

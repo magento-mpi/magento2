@@ -17,7 +17,7 @@ use Mtf\Fixture\FixtureInterface;
  *
  * Data keys:
  *  - preset (Custom options preset name)
- *  - products (comma separated sku identifiers)
+ *  - import_products (comma separated sku identifiers)
  */
 class CustomOptions implements FixtureInterface
 {
@@ -27,6 +27,13 @@ class CustomOptions implements FixtureInterface
      * @var array
      */
     protected $data;
+
+    /**
+     * Custom options data
+     *
+     * @var array
+     */
+    protected $customOptions;
 
     /**
      * Data set configuration settings
@@ -45,7 +52,7 @@ class CustomOptions implements FixtureInterface
     {
         $this->params = $params;
         if (isset($data['preset'])) {
-            $this->data = $this->getPreset($data['preset']);
+            $this->customOptions = $this->data = $this->replaceData($this->getPreset($data['preset']), mt_rand());
         }
         if (isset($data['import_products'])) {
             $importData = explode(',', $data['import_products']);
@@ -54,12 +61,35 @@ class CustomOptions implements FixtureInterface
             foreach ($importData as $item) {
                 list($fixture, $dataSet) = explode('::', $item);
                 $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-                $product->persist();
+                if ($product->hasData('id') !== null) {
+                    $product->persist();
+                }
                 $importCustomOptions = array_merge($importCustomOptions, $product->getCustomOptions());
                 $importProducts[] = $product->getSku();
             }
+            $this->customOptions = array_merge($this->data, $importCustomOptions);
             $this->data['import'] = ['options' => $importCustomOptions, 'products' => $importProducts];
         }
+    }
+
+    /**
+     * Replace custom options data
+     *
+     * @param array $data
+     * @param int $replace
+     * @return array
+     */
+    protected function replaceData(array $data, $replace)
+    {
+        $result = [];
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $value = $this->replaceData($value, $replace);
+            }
+            $result[$key] = str_replace('%isolation%', $replace, $value);
+        }
+
+        return $result;
     }
 
     /**
@@ -75,7 +105,7 @@ class CustomOptions implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string $key [optional]
      * @return mixed
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -83,6 +113,16 @@ class CustomOptions implements FixtureInterface
     public function getData($key = null)
     {
         return $this->data;
+    }
+
+    /**
+     * Return all custom options
+     *
+     * @return array
+     */
+    public function getCustomOptions()
+    {
+        return $this->customOptions;
     }
 
     /**
