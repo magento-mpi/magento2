@@ -35,7 +35,6 @@ class Converter
     public function toDataObject(\Magento\Sales\Model\Quote\Payment $object)
     {
         $data = [
-            QuotePaymentMethod::PAYMENT_ID => $object->getId(),
             QuotePaymentMethod::METHOD => $object->getMethod(),
             QuotePaymentMethod::PO_NUMBER => $object->getPoNumber(),
             QuotePaymentMethod::CC_CID => $object->getCcCidEnc(),

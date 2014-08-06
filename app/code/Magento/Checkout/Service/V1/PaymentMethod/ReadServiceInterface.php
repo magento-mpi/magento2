@@ -14,10 +14,10 @@ interface ReadServiceInterface
      * Get list of payment methods
      *
      * @param int $cartId
-     * @return \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod[]
+     * @return \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getSelectedMethods($cartId);
+    public function getPayment($cartId);
 
     /**
      * Get the list of available payment methods for a shopping cart

@@ -18,34 +18,14 @@ use Magento\Framework\Exception\LocalizedException;
 class Builder
 {
     /**
-     * @var \Magento\Checkout\Service\V1\Data\Cart\PaymentMethodBuilder
-     */
-    protected $builder;
-
-    /**
-     * @var \Magento\Sales\Model\Quote\PaymentFactory
-     */
-    protected $factory;
-
-    /**
-     * @param \Magento\Sales\Model\Quote\PaymentFactory $factory
-     */
-    public function __construct(
-        \Magento\Sales\Model\Quote\PaymentFactory $factory
-    ) {
-        $this->factory = $factory;
-    }
-
-    /**
      * @param QuotePaymentMethod $object
      * @param Quote $quote
      * @return \Magento\Sales\Model\Quote\Payment
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function fromDataObject(QuotePaymentMethod $object, Quote $quote)
+    public function build(QuotePaymentMethod $object, Quote $quote)
     {
-        $payment = $this->factory->create();
-        $payment->setQuote($quote);
+        $payment = $quote->getPayment();
         try {
             $payment->importData($object->__toArray());
         } catch(\Exception $e) {

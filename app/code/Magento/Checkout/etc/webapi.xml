@@ -82,13 +82,13 @@
         </resources>
     </route>
     <route url="/V1/carts/:cartId/selected-payment-methods" method="GET">
-        <service class="Magento\Checkout\Service\V1\PaymentMethod\ReadServiceInterface" method="getSelectedMethods"/>
+        <service class="Magento\Checkout\Service\V1\PaymentMethod\ReadServiceInterface" method="getPayment"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/carts/:cartId/selected-payment-methods" method="POST">
-        <service class="Magento\Checkout\Service\V1\PaymentMethod\WriteServiceInterface" method="add"/>
+    <route url="/V1/carts/:cartId/selected-payment-methods" method="PUT">
+        <service class="Magento\Checkout\Service\V1\PaymentMethod\WriteServiceInterface" method="set"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>

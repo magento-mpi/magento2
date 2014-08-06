@@ -30,7 +30,7 @@ class Converter
      *
      * @return QuotePaymentMethod
      */
-    public function toDataObject(\Magento\Payment\Model\Method\AbstractMethod $object)
+    public function toDataObject(\Magento\Payment\Model\MethodInterface $object)
     {
         $data = [
             QuotePaymentMethod::CODE => $object->getCode(),

@@ -13,6 +13,7 @@ use \Magento\Store\Model\StoreManagerInterface;
 use Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Converter as QuoteMethodConverter;
 use Magento\Checkout\Service\V1\Data\PaymentMethod\Converter as PaymentMethodConverter;
 use \Magento\Payment\Model\MethodList;
+use \Magento\Framework\Exception\State\InvalidTransitionException;
 
 class ReadService implements ReadServiceInterface
 {
@@ -65,18 +66,16 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getSelectedMethods($cartId)
+    public function getPayment($cartId)
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
 
-        $output = array();
-
-        foreach($quote->getPaymentsCollection() as  $item) {
-            $output[] = $this->quoteMethodConverter->toDataObject($item);
+        $payment = $quote->getPayment();
+        if (!$payment) {
+            throw new InvalidTransitionException('Payment method is not set');
         }
-
-        return $output;
+        return $this->quoteMethodConverter->toDataObject($payment);
     }
 
     /**

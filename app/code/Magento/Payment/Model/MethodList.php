@@ -34,6 +34,10 @@ class MethodList
         $this->methodSpecificationFactory = $specificationFactory;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Payment\Model\MethodInterface[]
+     */
     public function getAvailableMethods(\Magento\Sales\Model\Quote $quote = null)
     {
         $store = $quote ? $quote->getStoreId() : null;

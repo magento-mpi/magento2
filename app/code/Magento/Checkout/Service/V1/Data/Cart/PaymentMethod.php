@@ -10,8 +10,6 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
 
 class PaymentMethod extends \Magento\Framework\Service\Data\AbstractObject
 {
-    const PAYMENT_ID = 'payment_id';
-
     /**
      * Payment method
      */
@@ -51,16 +49,6 @@ class PaymentMethod extends \Magento\Framework\Service\Data\AbstractObject
      * Credit card expiration month
      */
     const CC_EXP_MONTH = 'cc_exp_month';
-
-    /**
-     * Get payment method id
-     *
-     * @return int
-     */
-    public function getPaymentId()
-    {
-        return $this->_get(self::PAYMENT_ID);
-    }
 
     /**
      * Get purchase order number

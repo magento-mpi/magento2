@@ -14,17 +14,6 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
 class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
-     * Get payment method id
-     *
-     * @param int $value
-     * @return int
-     */
-    public function setPaymentId($value)
-    {
-        return $this->_set(PaymentMethod::PAYMENT_ID, $value);
-    }
-
-    /**
      * Get purchase order number
      *
      * @param string $value

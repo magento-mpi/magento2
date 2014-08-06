@@ -17,5 +17,5 @@ interface WriteServiceInterface
      * @param int $cartId
      * @return int
      */
-    public function add(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId);
+    public function set(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId);
 }

@@ -10,8 +10,8 @@ namespace Magento\Checkout\Service\V1\PaymentMethod;
 
 use \Magento\Checkout\Service\V1\QuoteLoader;
 use \Magento\Store\Model\StoreManagerInterface;
-use Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Converter as QuoteMethodConverter;
-use Magento\Checkout\Service\V1\Data\PaymentMethod\Converter as PaymentMethodConverter;
+use \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Builder;
+use \Magento\Framework\Exception\State\InvalidTransitionException;
 use \Magento\Payment\Model\MethodList;
 
 class WriteService implements WriteServiceInterface
@@ -27,14 +27,9 @@ class WriteService implements WriteServiceInterface
     protected $quoteLoader;
 
     /**
-     * @var QuoteMethodConverter
+     * @var Builder
      */
-    protected $quoteMethodConverter;
-
-    /**
-     * @var PaymentMethodConverter
-     */
-    protected $paymentMethodConverter;
+    protected $paymentMethodBuilder;
 
     /**
      * @var MethodList
@@ -44,35 +39,52 @@ class WriteService implements WriteServiceInterface
     /**
      * @param QuoteLoader $quoteLoader
      * @param StoreManagerInterface $storeManager
-     * @param QuoteMethodConverter $quoteMethodConverter
-     * @param PaymentMethodConverter $paymentMethodConverter
-     * @param MethodList $methodList
+     * @param Builder $paymentMethodBuilder
      */
     public function __construct(
         QuoteLoader $quoteLoader,
         StoreManagerInterface $storeManager,
-        QuoteMethodConverter $quoteMethodConverter,
-        PaymentMethodConverter $paymentMethodConverter,
+        Builder $paymentMethodBuilder,
         MethodList $methodList
     ) {
         $this->storeManager = $storeManager;
         $this->quoteLoader = $quoteLoader;
-        $this->quoteMethodConverter = $quoteMethodConverter;
-        $this->paymentMethodConverter = $paymentMethodConverter;
+        $this->paymentMethodBuilder = $paymentMethodBuilder;
         $this->methodList = $methodList;
     }
+
     /**
      * {@inheritdoc}
      */
-    public function add(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId)
+    public function set(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId)
     {
-        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
+        if ($quote->getPaymentsCollection()->getSize()) {
+            throw new InvalidTransitionException('Payment method already set');
+        }
+        $payment = $this->paymentMethodBuilder->build($method, $quote);
+        if ($quote->isVirtual()) {
+            // check if billing address is set
+            if (is_null($quote->getBillingAddress()->getId())) {
+                throw new InvalidTransitionException('Billing address is not set');
+            }
+            $quote->getBillingAddress()->setPaymentMethod($payment->getMethod());
+        } else {
+            // check if shipping address is set
+            if (is_null($quote->getShippingAddress()->getId())) {
+                throw new InvalidTransitionException('Shipping address is not set');
+            }
+            $quote->getShippingAddress()->setPaymentMethod($payment->getMethod());
+        }
 
-        $paymentMethod = $this->quoteMethodConverter->fromDataObject($method);
-        $paymentMethod->unsetData($paymentMethod->getIdFieldName());
-        $paymentMethod->setQuote($quote);
-        $paymentMethod->save();
-        return $paymentMethod->getId();
+        if (!$quote->isVirtual() && $quote->getShippingAddress()) {
+            $quote->getShippingAddress()->setCollectShippingRates(true);
+        }
+
+        $quote->setTotalsCollectedFlag(false)
+            ->collectTotals()
+            ->save();
+
+        return $quote->getPayment()->getId();
     }
 }
