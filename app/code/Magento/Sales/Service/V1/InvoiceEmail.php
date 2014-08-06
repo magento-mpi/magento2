@@ -10,9 +10,9 @@ namespace Magento\Sales\Service\V1;
 use Magento\Sales\Model\InvoiceRepository;
 
 /**
- * Class OrderInvoiceEmail
+ * Class InvoiceEmail
  */
-class OrderInvoiceEmail implements OrderInvoiceEmailInterface
+class InvoiceEmail implements InvoiceEmailInterface
 {
     /**
      * @var InvoiceRepository

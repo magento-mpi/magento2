@@ -82,7 +82,7 @@
         </resources>
     </route>
     <route url="/V1/invoices/:id/emails" method="POST">
-        <service class="Magento\Sales\Service\V1\OrderInvoiceEmailInterface" method="invoke"/>
+        <service class="Magento\Sales\Service\V1\InvoiceEmailInterface" method="invoke"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>

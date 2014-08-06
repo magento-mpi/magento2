@@ -10,7 +10,7 @@ namespace Magento\Sales\Service\V1;
 /**
  * Interface InvoiceEmailInterface
  */
-interface OrderInvoiceEmailInterface
+interface InvoiceEmailInterface
 {
     /**
      * Invoke getInvoice service

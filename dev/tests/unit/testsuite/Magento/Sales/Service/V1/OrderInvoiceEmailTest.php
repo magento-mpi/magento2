@@ -9,11 +9,11 @@
 namespace Magento\Sales\Service\V1;
 
 /**
- * Test Class OrderInvoiceEmailTest for Order Service
+ * Test Class InvoiceEmailTest for Order Service
  *
  * @package Magento\Sales\Service\V1
  */
-class OrderInvoiceEmailTest extends \PHPUnit_Framework_TestCase
+class InvoiceEmailTest extends \PHPUnit_Framework_TestCase
 {
     public function testInvoke()
     {
@@ -30,7 +30,7 @@ class OrderInvoiceEmailTest extends \PHPUnit_Framework_TestCase
         );
 
         $service = $objectManager->getObject(
-            'Magento\Sales\Service\V1\OrderInvoiceEmail',
+            'Magento\Sales\Service\V1\InvoiceEmail',
             [
                 'invoiceRepository' => $invoiceRepository,
                 'notifier' => $notifier
