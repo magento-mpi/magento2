@@ -34,13 +34,6 @@ class Reader
     protected $fileResolver;
 
     /**
-     * Config mapper
-     *
-     * @var Mapper
-     */
-    protected $mapper;
-
-    /**
      * The name of file that stores configuration
      *
      * @var string
@@ -77,31 +70,25 @@ class Reader
 
     /**
      * @param FileResolver $fileResolver
-     * @param Mapper $mapper
      * @param SchemaLocator $schemaLocator
-     * @param \Magento\Framework\Config\ValidationStateInterface $validationState
+     * @param ValidationState $validationState
      * @param array $idAttributes
      * @param string $domDocumentClass
-     * @param string $defaultScope
      */
     public function __construct(
         FileResolver $fileResolver,
-        Mapper $mapper,
         SchemaLocator $schemaLocator,
-        \Magento\Framework\Config\ValidationStateInterface $validationState,
+        ValidationState $validationState,
         $idAttributes = [],
-        $domDocumentClass = 'Magento\Doc\Document\Content\Dom',
-        $defaultScope = 'global'
+        $domDocumentClass = 'Magento\Doc\Document\Content\Dom'
     ) {
         $this->fileResolver = $fileResolver;
-        $this->mapper = $mapper;
         $this->idAttributes = array_replace($this->idAttributes, $idAttributes);
         $this->schemaFile = $schemaLocator->getSchema();
         $this->isValidated = $validationState->isValidated();
         $this->perFileSchema = $schemaLocator->getPerFileSchema() &&
         $this->isValidated ? $schemaLocator->getPerFileSchema() : null;
         $this->domDocumentClass = $domDocumentClass;
-        $this->defaultScope = $defaultScope;
     }
 
     /**
@@ -131,6 +118,7 @@ class Reader
     {
         /** @var \Magento\Framework\Config\Dom $merger */
         $merger = null;
+        $html = '';
         foreach ($fragments as $key => $fragment) {
             if (!$fragment) {
                 continue;
@@ -152,16 +140,14 @@ class Reader
                 throw new \Magento\Framework\Exception($message . implode("\n", $errors));
             }
         }
+
         if ($merger) {
-            $html = '';
             $dom = $merger->getDom();
             foreach ($dom->firstChild->childNodes as $node) {
                 $html .= $dom->saveHTML($node);
             }
-            return $html;
-        } else {
-            return '';
         }
+        return $html;
     }
 
     /**

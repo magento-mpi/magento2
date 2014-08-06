@@ -72,4 +72,15 @@
             <argument name="subDir" xsi:type="string">docs</argument>
         </arguments>
     </virtualType>
+
+    <type name="Magento\Doc\Document\Scheme\ValidationState">
+        <arguments>
+            <argument name="appMode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Doc\Document\Content\ValidationState">
+        <arguments>
+            <argument name="appMode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
+        </arguments>
+    </type>
 </config>

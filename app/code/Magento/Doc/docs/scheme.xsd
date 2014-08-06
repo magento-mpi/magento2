@@ -26,7 +26,7 @@
             <xs:element name="label" type="textType" />
             <xs:element name="description" type="textType" />
             <xs:element name="content" type="contentType" />
-            <xs:element name="artifacts" type="contentType" />
+            <xs:element name="resources" type="contentType" />
         </xs:choice>
         <xs:attribute name="type" type="xs:string" use="required"/>
         <xs:attribute name="name" type="xs:string" use="required"/>

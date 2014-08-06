@@ -59,9 +59,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     {
         $data = [];
         switch ($node->nodeName) {
-            case 'dictionary':
-            case 'variables':
             case 'content':
+            case 'resources':
                 /** @var \DOMNode $itemNode */
                 foreach ($node->childNodes as $itemNode) {
                     if ($itemNode->nodeType != XML_ELEMENT_NODE) {
@@ -76,12 +75,10 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                                 $itemData[$itemAttribute->nodeName] = $itemAttribute->nodeValue;
                             }
 
-                            $itemDisabledNode = $itemAttributes->getNamedItem('disabled');
-                            if ($itemDisabledNode) {
-                                $itemData['disabled'] = $this->booleanUtils->toBoolean(
-                                    $itemDisabledNode->nodeValue
-                                );
-                            }
+                            $attributes = [
+                                'signed-off-architect', 'signed-off-po', 'signed-off-tw'
+                            ];
+                            $this->fetchBooleans($itemAttributes, $attributes, $itemData);
 
                             if ($itemNode->childNodes) {
                                 /** @var \DOMNode $childNode */
@@ -104,44 +101,31 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 }
                 $output[$node->nodeName] = $data;
                 break;
-            case 'replace':
-                foreach ($node->attributes as $itemAttribute) {
-                    $data[$itemAttribute->nodeName] = $itemAttribute->nodeValue;
-                }
-                if ($node->childNodes) {
-                    /** @var \DOMNode $childNode */
-                    foreach ($node->childNodes as $childNode) {
-                        if ($childNode->nodeType != XML_ELEMENT_NODE) {
-                            continue;
-                        }
-                        $nodeName = $childNode->nodeName;
-                        $data[$nodeName] = $this->convertNode($childNode);
-                    }
-                }
-                break;
             case 'label':
             case 'description':
-                $data= $node->nodeValue;
+                $data = $node->nodeValue;
                 break;
             default:
-                if ($node->childNodes) {
-                    foreach ($node->attributes as $attribute) {
-                        $data[$attribute->nodeName] = $attribute->nodeValue;
-                    }
-                    $nodeData = [];
-                    /** @var \DOMNode $childNode */
-                    foreach ($node->childNodes as $childNode) {
-                        if ($childNode->nodeType != XML_ELEMENT_NODE) {
-                            continue;
-                        }
-                        $nodeData[$childNode->nodeName] = $this->convertNode($childNode);
-                    }
-                    $data[$node->nodeName] = $nodeData;
-                } else {
-                    $data = $node->nodeValue;
-                }
-                //throw new \Exception("Invalid application config. Unknown node: {$node->nodeName}.");
+                throw new \Exception("Invalid application config. Unknown node: {$node->nodeName}.");
+                break;
         }
         return $data;
+    }
+
+    /**
+     * @param \DOMNamedNodeMap $itemAttributes
+     * @param array $attributes
+     * @param array $itemData
+     */
+    protected function fetchBooleans(\DOMNamedNodeMap $itemAttributes, array $attributes, array &$itemData)
+    {
+        foreach ($attributes as $attribute) {
+            $attributeNode = $itemAttributes->getNamedItem($attribute);
+            if ($attributeNode) {
+                $itemData[$attribute] = $this->booleanUtils->toBoolean(
+                    $attributeNode->nodeValue
+                );
+            }
+        }
     }
 }

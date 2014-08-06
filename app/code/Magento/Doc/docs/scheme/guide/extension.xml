@@ -14,7 +14,7 @@
         </item>
         <item name="Section1" type="article" module="Magento_Core">
             <label>Section1</label>
-            <artifacts>
+            <resources>
                 <item name="Overview" type="table|image|diagram" module="Magento_Doc">
                     <label>Overview</label>
                 </item>
@@ -22,7 +22,7 @@
                     <label>API Methods</label>
                     <description>Here is the information regarding ....</description>
                 </item>
-            </artifacts>
+            </resources>
         </item>
     </content>
 </scheme>

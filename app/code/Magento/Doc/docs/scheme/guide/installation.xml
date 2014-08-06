@@ -11,11 +11,11 @@
     <content>
         <item name="SystemRequirements" type="article" module="Magento_Doc">
             <label>System Requirements</label>
-            <artifacts>
+            <resources>
                 <item name="DeploymentDiagram" type="diagram" module="Magento_Doc">
                     <label>Deployment diagram</label>
                 </item>
-            </artifacts>
+            </resources>
         </item>
         <item name="InstallingPhp" type="article" module="Magento_Doc">
             <label>Installing Php</label>

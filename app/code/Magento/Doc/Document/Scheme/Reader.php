@@ -76,7 +76,7 @@ class Reader
      * @param FileResolver $fileResolver
      * @param Converter $converter
      * @param SchemaLocator $schemaLocator
-     * @param ValidationStateInterface $validationState
+     * @param ValidationState $validationState
      * @param Filter $filter
      * @param array $idAttributes
      * @param string $domDocumentClass
@@ -86,7 +86,7 @@ class Reader
         FileResolver $fileResolver,
         Converter $converter,
         SchemaLocator $schemaLocator,
-        ValidationStateInterface $validationState,
+        ValidationState $validationState,
         Filter $filter,
         $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',

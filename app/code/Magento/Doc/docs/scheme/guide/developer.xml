@@ -22,11 +22,11 @@
         </item>
         <item name="ModularArchitecture" type="article" module="Magento_Doc">
             <label>Modular Architecture</label>
-            <artifacts>
+            <resources>
                 <item name="ModularArchitectureDiagram" type="diagram" module="Magento_Doc">
                     <label>Modular Architecture Diagram</label>
                 </item>
-            </artifacts>
+            </resources>
         </item>
         <item name="ViewLayer" type="article" module="Magento_Doc">
             <label>View Layer</label>
