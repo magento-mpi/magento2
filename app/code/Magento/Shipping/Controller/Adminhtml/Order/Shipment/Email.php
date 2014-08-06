@@ -19,22 +19,14 @@ class Email extends \Magento\Backend\App\Action
     protected $shipmentLoader;
 
     /**
-     * @var ShipmentSender
-     */
-    protected $shipmentSender;
-
-    /**
      * @param Action\Context $context
      * @param \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader $shipmentLoader
-     * @param ShipmentSender $shipmentSender
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader $shipmentLoader,
-        ShipmentSender $shipmentSender
+        \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader $shipmentLoader
     ) {
         $this->shipmentLoader = $shipmentLoader;
-        $this->shipmentSender = $shipmentSender;
         parent::__construct($context);
     }
 
@@ -56,7 +48,7 @@ class Email extends \Magento\Backend\App\Action
         try {
             $shipment = $this->shipmentLoader->load($this->_request);
             if ($shipment) {
-                $this->_objectManager->create('Magento\Sales\Model\ShipmentNotifier')
+                $this->_objectManager->create('Magento\Shipping\Model\ShipmentNotifier')
                     ->notify($shipment);
                 $shipment->save();
                 $this->messageManager->addSuccess(__('You sent the shipment.'));

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Controller\Adminhtml\Order;
+namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\App\Action\Context;
@@ -16,7 +16,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Email
      */
-    protected $orderEmail;
+    protected $shipmentEmail;
 
     /**
      * @var Context|\PHPUnit_Framework_MockObject_MockObject
@@ -58,9 +58,21 @@ class EmailTest extends \PHPUnit_Framework_TestCase
      */
     protected $helper;
 
+    /**
+     * @var \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $shipmentLoader;
+
     public function setUp()
     {
         $objectManagerHelper = new ObjectManagerHelper($this);
+        $this->shipmentLoader = $this->getMock(
+            'Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader',
+            ['load'],
+            [],
+            '',
+            false
+        );
         $this->context = $this->getMock(
             'Magento\Backend\App\Action\Context',
             [
@@ -106,7 +118,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->session = $this->getMock('Magento\Backend\Model\Session', ['setIsUrlNotice'], [], '', false);
-        $this->actionFlag = $this->getMock('Magento\Framework\App\ActionFlag', ['get', 'set'], [], '', false);
+        $this->actionFlag = $this->getMock('Magento\Framework\App\ActionFlag', ['get'], [], '', false);
         $this->helper = $this->getMock('\Magento\Backend\Helper\Data', ['getUrl'], [], '', false);
         $this->context->expects($this->once())
             ->method('getMessageManager')
@@ -129,10 +141,11 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->context->expects($this->once())
             ->method('getHelper')
             ->will($this->returnValue($this->helper));
-        $this->orderEmail = $objectManagerHelper->getObject(
-            'Magento\Sales\Controller\Adminhtml\Order\Email',
+        $this->shipmentEmail = $objectManagerHelper->getObject(
+            'Magento\Shipping\Controller\Adminhtml\Order\Shipment\Email',
             [
                 'context' => $this->context,
+                'shipmentLoader' => $this->shipmentLoader,
                 'request' => $this->request,
                 'response' => $this->response
             ]
@@ -141,74 +154,38 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 
     public function testEmail()
     {
-        $orderId = 10000031;
-        $orderClassName = 'Magento\Sales\Model\Order';
-        $orderNotifierClassName = 'Magento\Sales\Model\OrderNotifier';
-        $order = $this->getMock($orderClassName, ['load', 'getId', '__wakeup'], [], '', false);
-        $cmNotifier = $this->getMock($orderNotifierClassName, ['notify', '__wakeup'], [], '', false);
+        $shipmentId = 1000012;
+        $shipment = $this->getMock('Magento\Sales\Model\Order\Shipment', ['load', 'save', '__wakeup'], [], '', false);
+        $shipmentNotifierClassName = 'Magento\Shipping\Model\ShipmentNotifier';
+        $shipmentNotifier = $this->getMock($shipmentNotifierClassName, ['notify', '__wakeup'], [], '', false);
 
         $this->request->expects($this->once())
             ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
-        $this->objectManager->expects($this->at(0))
-            ->method('create')
-            ->with($orderClassName)
-            ->will($this->returnValue($order));
-        $order->expects($this->once())
+            ->with('shipment_id')
+            ->will($this->returnValue($shipmentId));
+        $this->shipmentLoader->expects($this->once())
             ->method('load')
-            ->with($orderId)
+            ->with($this->request)
+            ->will($this->returnValue($shipment));
+        $shipment->expects($this->once())
+            ->method('save')
             ->will($this->returnSelf());
-        $order->expects($this->atLeastOnce())
-            ->method('getId')
-            ->will($this->returnValue($orderId));
-        $this->objectManager->expects($this->at(1))
+        $this->objectManager->expects($this->once())
             ->method('create')
-            ->with($orderNotifierClassName)
-            ->will($this->returnValue($cmNotifier));
-        $cmNotifier->expects($this->once())
+            ->with($shipmentNotifierClassName)
+            ->will($this->returnValue($shipmentNotifier));
+        $shipmentNotifier->expects($this->once())
             ->method('notify')
+            ->with($shipment)
             ->will($this->returnValue(true));
         $this->messageManager->expects($this->once())
             ->method('addSuccess')
-            ->with('You sent the order email.');
-        $path = 'sales/order/view';
-        $arguments = ['order_id' => $orderId];
+            ->with('You sent the shipment.');
+        $path = '*/*/view';
+        $arguments = ['shipment_id' => $shipmentId];
         $this->prepareRedirect($path, $arguments, 0);
 
-        $this->orderEmail->execute();
-    }
-
-    public function testEmailNoOrderId()
-    {
-        $orderClassName = 'Magento\Sales\Model\Order';
-        $order = $this->getMock($orderClassName, ['load', 'getId', '__wakeup'], [], '', false);
-        $this->request->expects($this->once())
-            ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue(null));
-
-        $this->objectManager->expects($this->at(0))
-            ->method('create')
-            ->with($orderClassName)
-            ->will($this->returnValue($order));
-        $order->expects($this->once())
-            ->method('load')
-            ->with(null)
-            ->will($this->returnSelf());
-        $this->messageManager->expects($this->once())
-            ->method('addError')
-            ->with('This order no longer exists.');
-
-        $this->actionFlag->expects($this->once())
-            ->method('set')
-            ->with('', 'no-dispatch', true)
-            ->will($this->returnValue(true));
-        $path = 'sales/*/';
-        $this->prepareRedirect($path, [], 0);
-
-        $this->orderEmail->execute();
-
+        $this->shipmentEmail->execute();
     }
 
     /**
@@ -226,7 +203,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->method('setIsUrlNotice')
             ->with(true);
 
-        $url = $path . '/' . (!empty($arguments) ? $arguments['order_id'] : '');
+        $url = $path . '/' . (!empty($arguments) ? $arguments['shipment_id'] : '');
         $this->helper->expects($this->at($index))
             ->method('getUrl')
             ->with($path, $arguments)

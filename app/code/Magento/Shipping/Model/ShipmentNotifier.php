@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Model\Order;
+namespace Magento\Shipping\Model;
 
 use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
@@ -14,7 +14,7 @@ use Magento\Framework\Logger;
 
 /**
  * Class ShipmentNotifier
- * @package Magento\Sales\Model
+ * @package Magento\Shipping\Model
  */
 class ShipmentNotifier extends \Magento\Sales\Model\AbstractNotifier
 {
