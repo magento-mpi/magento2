@@ -11,7 +11,6 @@ namespace Magento\Framework\Stdlib;
 use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
 use Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata;
 use Magento\Framework\Stdlib\Cookie\FailureToSendException;
-use Magento\Framework\Stdlib\Cookie\BrowserNotSupportedException;
 use Magento\Framework\Stdlib\Cookie\CookieSizeLimitReachedException;
 use Magento\Framework\Stdlib\Cookie\CookieMetadata;
 use Magento\Framework\Exception\InputException;
