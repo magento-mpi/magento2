@@ -23,29 +23,29 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_cmsPage;
 
     /**
-     * @var \Magento\Theme\Model\Layout\Source\Layout
+     * @var \Magento\Core\Model\PageLayout\Config\Builder
      */
-    protected $_pageLayout;
+    protected $pageLayoutBuilder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
      * @param \Magento\Cms\Model\Page $cmsPage
      * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\PageLayout\Config\Builder $pageLayoutBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
         \Magento\Cms\Model\Page $cmsPage,
         \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\PageLayout\Config\Builder $pageLayoutBuilder,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        $this->_cmsPage = $cmsPage;
-        $this->_pageLayout = $pageLayout;
+         $this->_cmsPage = $cmsPage;
+        $this->pageLayoutBuilder = $pageLayoutBuilder;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -87,12 +87,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->addColumn('identifier', array('header' => __('URL Key'), 'index' => 'identifier'));
 
         $this->addColumn(
-            'root_template',
+            'page_layout',
             array(
                 'header' => __('Layout'),
-                'index' => 'root_template',
+                'index' => 'page_layout',
                 'type' => 'options',
-                'options' => $this->_pageLayout->getOptions()
+                'options' => $this->pageLayoutBuilder->getPageLayoutsConfig()->toOptionArray()
             )
         );
 

@@ -12,7 +12,7 @@
     <layout id="empty">
         <label translate="true">Empty</label>
     </layout>
-    <layout id="one_column">
+    <layout id="1column">
         <label translate="true">1 column</label>
     </layout>
 </page_layouts>

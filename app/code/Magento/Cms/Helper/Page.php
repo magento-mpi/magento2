@@ -168,14 +168,14 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
                 $this->_design->setDesignTheme($this->_page->getCustomTheme());
             }
         }
-        if ($this->_page->getRootTemplate()) {
-            if ($this->_page->getCustomRootTemplate()
-                && $this->_page->getCustomRootTemplate() != 'empty'
+        if ($this->_page->getPageLayout()) {
+            if ($this->_page->getCustomPageLayout()
+                && $this->_page->getCustomPageLayout() != 'empty'
                 && $inRange
             ) {
-                $handle = $this->_page->getCustomRootTemplate();
+                $handle = $this->_page->getCustomPageLayout();
             } else {
-                $handle = $this->_page->getRootTemplate();
+                $handle = $this->_page->getPageLayout();
             }
             $this->pageConfig->setPageLayout($handle);
         }

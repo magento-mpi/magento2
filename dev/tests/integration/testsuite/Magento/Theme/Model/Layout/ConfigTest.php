@@ -40,20 +40,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $empty = array(
             'label' => 'Empty',
             'code' => 'empty',
-            'template' => 'empty.phtml',
             'layout_handle' => 'page_empty',
             'is_default' => '0'
         );
         $oneColumn = array(
             'label' => '1 column',
-            'code' => 'one_column',
-            'template' => '1column.phtml',
+            'code' => '1column',
             'layout_handle' => 'page_one_column',
             'is_default' => '1'
         );
         $result = $this->_model->getPageLayouts();
         $this->assertEquals($empty, $result['empty']->getData());
-        $this->assertEquals($oneColumn, $result['one_column']->getData());
+        $this->assertEquals($oneColumn, $result['1column']->getData());
     }
 
     public function testGetPageLayout()
@@ -61,7 +59,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $empty = array(
             'label' => 'Empty',
             'code' => 'empty',
-            'template' => 'empty.phtml',
             'layout_handle' => 'page_empty',
             'is_default' => '0'
         );

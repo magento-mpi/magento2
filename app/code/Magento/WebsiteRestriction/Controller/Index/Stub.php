@@ -130,10 +130,10 @@ class Stub extends \Magento\Framework\App\Action\Action
             }
 
             $this->_view->addActionLayoutHandles();
-            if ($page->getRootTemplate()) {
+            if ($page->getPageLayout()) {
                 /** @var \Magento\Framework\View\Page\Config $pageConfig */
                 $pageConfig = $this->_objectManager->get('Magento\Framework\View\Page\Config');
-                $pageConfig->setPageLayout($page->getRootTemplate());
+                $pageConfig->setPageLayout($page->getPageLayout());
             }
 
             $this->_view->loadLayoutUpdates();

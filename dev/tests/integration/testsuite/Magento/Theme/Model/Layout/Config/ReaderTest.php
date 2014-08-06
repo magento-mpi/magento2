@@ -49,8 +49,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ),
             'one_column' => array(
                 'label' => '1 column',
-                'code' => 'one_column',
-                'template' => '1column.phtml',
+                'code' => '1column',
                 'layout_handle' => 'page_one_column',
                 'is_default' => '1'
             )
@@ -77,15 +76,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ),
             'one_column' => array(
                 'label' => '1 column modified',
-                'code' => 'one_column',
-                'template' => '1column.phtml',
+                'code' => '1column',
                 'layout_handle' => 'page_one_column',
                 'is_default' => '1'
             ),
             'two_columns_left' => array(
                 'label' => '2 columns with left bar',
-                'code' => 'two_columns_left',
-                'template' => '2columns-left.phtml',
+                'code' => '2columns-left',
                 'layout_handle' => 'page_two_columns_left',
                 'is_default' => '0'
             )

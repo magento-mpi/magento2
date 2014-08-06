@@ -34,14 +34,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'empty' => array(
                 'label' => 'Empty',
                 'code' => 'empty',
-                'template' => 'empty.phtml',
                 'layout_handle' => 'page_empty',
                 'is_default' => 0
             ),
             'one_column' => array(
                 'label' => '1 column',
-                'code' => 'one_column',
-                'template' => '1column.phtml',
+                'code' => '1column',
                 'layout_handle' => 'page_one_column',
                 'is_default' => 1
             )

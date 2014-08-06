@@ -229,7 +229,7 @@ EOD;
 $privacyPageData = array(
     'title' => 'Privacy Policy',
     'content_heading' => 'Privacy Policy',
-    'root_template' => 'one_column',
+    'page_layout' => '1column',
     'identifier' => 'privacy-policy-cookie-restriction-mode',
     'content' => $pageContent,
     'is_active' => 1,

@@ -9,10 +9,10 @@
 -->
 <page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Theme/view/base/layouts.xsd">
-    <layout id="one_column">
+    <layout id="1column">
         <label translate="true">1 column modified</label>
     </layout>
-    <layout id="two_columns_left">
+    <layout id="2columns-left">
         <label translate="true">2 columns with left bar</label>
     </layout>
 </page_layouts>
