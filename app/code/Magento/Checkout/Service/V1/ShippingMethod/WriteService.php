@@ -69,7 +69,7 @@ class WriteService implements WriteServiceInterface
         try {
             $address->save();
         } catch(\Exception $e) {
-            throw new CouldNotSaveException('Cannot update shipping address. ' . $e->getMessage());
+            throw new CouldNotSaveException('Cannot set shipping method. ' . $e->getMessage());
         }
         return true;
     }

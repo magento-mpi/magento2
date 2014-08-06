@@ -18,20 +18,12 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
     protected $countryFactory;
 
     /**
-     * @var \Magento\Shipping\Model\CarrierFactory
-     */
-    protected $carrierFactory;
-
-    /**
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      */
     public function __construct(
-        \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Shipping\Model\CarrierFactory $carrierFactory
+        \Magento\Directory\Model\CountryFactory $countryFactory
     ) {
         $this->countryFactory = $countryFactory;
-        $this->carrierFactory = $carrierFactory;
     }
 
     /**
@@ -62,11 +54,6 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
             }
         }
 
-        if ($value->getShippingMethod() &&
-            null === $value->getBaseShippingAmount() && null === $value->getShippingAmount()
-        ) {
-            $messages['invalid_shipping_rate'] = 'Shipping rate not calculated';
-        }
         $this->_addMessages($messages);
 
         return empty($messages);

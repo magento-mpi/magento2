@@ -18,23 +18,22 @@ class WriteServiceTest extends WebapiAbstract
      */
     private $objectManager;
 
+    /**
+     * @var \Magento\Sales\Model\Quote
+     */
+    protected $quote;
 
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->quote = $this->objectManager->create('\Magento\Sales\Model\Quote');
     }
 
-    /**
-     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
-     */
-    public function testSetMethod()
+    protected function getServiceInfo()
     {
-        /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->objectManager->create('\Magento\Sales\Model\Quote');
-        $quote->load('test_order_1', 'reserved_order_id');
-        $serviceInfo = array(
+        return array(
             'rest' => array(
-                'resourcePath' => '/V1/carts/' . $quote->getId() . '/selected-shipping-method',
+                'resourcePath' => '/V1/carts/' . $this->quote->getId() . '/selected-shipping-method',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ),
             'soap' => array(
@@ -43,13 +42,47 @@ class WriteServiceTest extends WebapiAbstract
                 'operation' => 'checkoutShippingMethodWriteServiceV1SetMethod',
             ),
         );
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
+     */
+    public function testSetMethod()
+    {
+        $this->quote->load('test_order_1', 'reserved_order_id');
+        $serviceInfo = $this->getServiceInfo();
 
         $requestData = array(
-            'cartId' => $quote->getId(),
+            'cartId' => $this->quote->getId(),
             'carrierCode' => 'flatrate',
             'methodCode' => 'flatrate'
         );
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(true, $result);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
+     * @expectedExceptionMessage Carrier with such method not found
+     */
+    public function testSetMethodWrongMethod()
+    {
+        $this->quote->load('test_order_1', 'reserved_order_id');
+        $serviceInfo = $this->getServiceInfo();
+
+        $requestData = array(
+            'cartId' => $this->quote->getId(),
+            'carrierCode' => 'flatrate',
+            'methodCode' => 'wrongMethod'
+        );
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch(\SoapFault $e) {
+            $message = $e->getMessage();
+        } catch(\Exception $e) {
+            $message = json_decode($e->getMessage())->message;
+        }
+        $this->assertEquals('Carrier with such method not found: flatrate, wrongMethod', $message);
+
     }
 }
