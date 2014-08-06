@@ -27,7 +27,7 @@ class CmsVersionEdit extends BackendPage
         ],
         'versionForm' => [
             'name' => 'versionForm',
-            'class' => 'Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\Form',
+            'class' => 'Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\VersionForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
@@ -42,7 +42,7 @@ class CmsVersionEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\Form
+     * @return \Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\VersionForm
      */
     public function getVersionForm()
     {

@@ -9,7 +9,7 @@
 -->
 <fixture>
     <version module="Magento_VersionsCms">
-        <type>virtual</type>
+        <type>flat</type>
         <entity_type>magento_versionscms_page_version</entity_type>
         <collection>Magento\VersionsCms\Model\Resource\Page\Version\Collection</collection>
     </version>

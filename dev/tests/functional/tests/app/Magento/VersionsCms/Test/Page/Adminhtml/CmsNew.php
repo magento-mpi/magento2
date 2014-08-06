@@ -8,13 +8,13 @@
 
 namespace Magento\VersionsCms\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew as ParentCmsNew;
 
 /**
  * Class CmsNew
  * Cms Page Edit on backend
  */
-class CmsNew extends BackendPage
+class CmsNew extends ParentCmsNew
 {
     const MCA = 'admin/cms_page/new/index';
 

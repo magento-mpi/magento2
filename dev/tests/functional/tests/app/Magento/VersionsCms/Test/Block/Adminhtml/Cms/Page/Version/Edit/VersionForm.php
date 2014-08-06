@@ -11,10 +11,10 @@ namespace Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit;
 use Magento\Backend\Test\Block\Widget\Form as ParentForm;
 
 /**
- * Class Form
+ * Class VersionForm
  * Block Version Information form
  */
-class Form extends ParentForm
+class VersionForm extends ParentForm
 {
     //
 }

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\VersionsCms\Test\TestCase;
+namespace Magento\VersionsCms\Test\TestCaseMagento\VersionsCms\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage;
@@ -16,7 +16,7 @@ use Magento\VersionsCms\Test\Fixture\Version;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 
 /**
- * Test Creation for EditCmsPageVersionsEntity
+ * Test Creation for UpdateCmsPageVersionsEntity
  *
  * Test Flow:
  *
@@ -37,7 +37,7 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
  * @group CMS_Versioning_(PS)
  * @ZephyrId MAGETWO-26960
  */
-class EditCmsPageVersionsEntityTest extends Injectable
+class UpdateCmsPageVersionsEntityTest extends Injectable
 {
     /**
      * CmsIndex page
@@ -85,9 +85,9 @@ class EditCmsPageVersionsEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Version $version, $quantity)
     {
+        $this->markTestIncomplete('MAGETWO-26802');
         // Precondition
         $cms->persist();
-
         // Steps
         $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();
@@ -97,12 +97,12 @@ class EditCmsPageVersionsEntityTest extends Injectable
         $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->searchAndOpen($filter);
         $this->cmsVersionEdit->getVersionForm()->fill($version);
         $this->cmsVersionEdit->getFormPageActions()->save();
-        $results = [
+        return ['results' => [
             'label' => $version->getLabel(),
             'owner' => $version->getUserId(),
             'access_level' => $version->getAccessLevel(),
             'quantity' => $quantity,
+            ]
         ];
-        return ['results' => $results];
     }
 }

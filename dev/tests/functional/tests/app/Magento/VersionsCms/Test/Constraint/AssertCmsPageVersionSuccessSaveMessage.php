@@ -34,10 +34,9 @@ class AssertCmsPageVersionSuccessSaveMessage extends AbstractConstraint
      */
     public function processAssert(CmsNew $cmsNew)
     {
-        $actualMessage = $cmsNew->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_SAVE_MESSAGE,
-            $actualMessage,
+            $cmsNew->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
     }
