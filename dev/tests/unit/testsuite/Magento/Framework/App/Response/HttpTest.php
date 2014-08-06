@@ -18,7 +18,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\PhpCookieManager
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\CookieManager
      */
     protected $_cookieManagerMock;
 
@@ -39,7 +39,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_cookieMetadataFactoryMock = $this->getMockBuilder(
             'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
         )->disableOriginalConstructor()->getMock();
-        $this->_cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\Cookie\PhpCookieManager')
+        $this->_cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\CookieManager')
             ->disableOriginalConstructor()->getMock();
         $this->_contextMock = $this->getMockBuilder('Magento\Framework\App\Http\Context')->disableOriginalConstructor()
             ->getMock();

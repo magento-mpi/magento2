@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\App\Response;
 
-use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
+use Magento\Framework\Stdlib\CookieManager;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
 use Magento\Framework\Stdlib\Cookie\CookieMetadata;
@@ -23,7 +23,7 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
     const COOKIE_VARY_STRING = 'X-Magento-Vary';
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie\PhpCookieManager
+     * @var \Magento\Framework\Stdlib\CookieManager
      */
     protected $cookieManager;
 
@@ -38,12 +38,12 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
     protected $context;
 
     /**
-     * @param \Magento\Framework\Stdlib\Cookie\PhpCookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param \Magento\Framework\App\Http\Context $context
      */
     public function __construct(
-        PhpCookieManager $cookieManager,
+        CookieManager $cookieManager,
         CookieMetadataFactory $cookieMetadataFactory,
         Context $context
     ) {
