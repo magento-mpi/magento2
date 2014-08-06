@@ -99,12 +99,6 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/invoices/:id/comments" method="GET">
-        <service class="Magento\Sales\Service\V1\InvoiceCommentsListInterface" method="invoke"/>
-        <resources>
-            <resource ref="Magento_Sales::sales" />
-        </resources>
-    </route>
     <route url="/V1/creditmemos" method="GET">
         <service class="Magento\Sales\Service\V1\CreditmemoListInterface" method="invoke"/>
         <resources>
@@ -113,6 +107,12 @@
     </route>
     <route url="/V1/creditmemos/:id/comments" method="GET">
         <service class="Magento\Sales\Service\V1\CreditmemoCommentsListInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/creditmemos/:id" method="GET">
+        <service class="Magento\Sales\Service\V1\CreditmemoGetInterface" method="invoke"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>
