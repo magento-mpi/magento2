@@ -40,7 +40,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->factory = $helper->getObject(
-            '\Magento\Framework\Search\RequestFactory',
+            'Magento\Framework\Search\RequestFactory',
             [
                 'objectManager' => $this->objectManager,
                 'config' => $this->config
