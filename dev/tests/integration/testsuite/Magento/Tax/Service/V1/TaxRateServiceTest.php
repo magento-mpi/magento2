@@ -250,6 +250,15 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                     'postcode is a required field.'
                 ]
             ],
+            'invalidCountry2' => [
+                ['country_id' => ' '],
+                'error' => [
+                    'country_id is a required field.',
+                    'percentage_rate is a required field.',
+                    'code is a required field.',
+                    'postcode is a required field.'
+                ]
+            ],
             'invalidRegion1' => [
                 ['region_id' => '-'],
                 'error' => [
@@ -260,11 +269,10 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                     'postcode is a required field.'
                 ]
             ],
-            'invalidRegion2' => [
-                ['region_id' => '999'],
+            'spaceRegion' => [
+                ['region_id' => ' '],
                 'error' => [
                     'country_id is a required field.',
-                    'Invalid value of "999" provided for the region_id field.',
                     'percentage_rate is a required field.',
                     'code is a required field.',
                     'postcode is a required field.'

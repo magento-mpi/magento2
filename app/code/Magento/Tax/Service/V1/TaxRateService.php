@@ -265,14 +265,14 @@ class TaxRateService implements TaxRateServiceInterface
     {
         $exception = new InputException();
 
-        $countryCode = trim($taxRate->getCountryId());
+        $countryCode = $taxRate->getCountryId();
         if (!\Zend_Validate::is($countryCode, 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'country_id']);
         } else if (!\Zend_Validate::is($this->countryFactory->create()->loadByCode($countryCode)->getId(), 'NotEmpty')) {
             $exception->addError(InputException::INVALID_FIELD_VALUE, ['fieldName' => 'country_id', 'value' => $countryCode]);
         }
 
-        $regionCode = trim($taxRate->getRegionId());
+        $regionCode = $taxRate->getRegionId();
         if (\Zend_Validate::is($regionCode, 'NotEmpty') &&
             !\Zend_Validate::is($this->_regionFactory->create()->load($regionCode)->getId(), 'NotEmpty')) {
             $exception->addError(InputException::INVALID_FIELD_VALUE, ['fieldName' => 'region_id', 'value' => $regionCode]);
