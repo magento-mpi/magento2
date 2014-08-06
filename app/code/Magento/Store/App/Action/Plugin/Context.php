@@ -65,6 +65,7 @@ class Context
      * @return mixed
      */
     public function aroundDispatch(
+        \Magento\Framework\App\Action\Action $subject,
         \Closure $proceed,
         \Magento\Framework\App\RequestInterface $request
     ) {
