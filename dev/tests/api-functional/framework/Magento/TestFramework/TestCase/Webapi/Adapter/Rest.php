@@ -10,7 +10,6 @@
 
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-use Magento\Webapi\Model\Config\Converter;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Webapi\Model\Rest\Config;
 
