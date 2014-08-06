@@ -47,7 +47,12 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
                 'CaPSed BLOCK NAME',
                 array('cAp$Ed PaRaM1', 'caPs2', 'bUT-TOn')
             ),
-            array(' data-ui-id="block-0-1-2" ', '!block!', range(0, 3))
+            array(
+                ' data-ui-id="capsed-block-name-cap-ed-param1-caps2-but-ton-but-ton" ',
+                'CaPSed BLOCK NAME',
+                array('cAp$Ed PaRaM1', 'caPs2', 'bUT-TOn', 'bUT-TOn')
+            ),
+            array(' data-ui-id="block-0-1-2-3-4" ', '!block!', range(0, 5))
         );
     }
 

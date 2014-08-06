@@ -673,11 +673,13 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      * @param string|null $arg1
      * @param string|null $arg2
      * @param string|null $arg3
+     * @param string|null $arg4
+     * @param string|null $arg5
      * @return string
      */
-    public function getUiId($arg1 = null, $arg2 = null, $arg3 = null)
+    public function getUiId($arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
     {
-        return ' data-ui-id="' . $this->getJsId($arg1, $arg2, $arg3) . '" ';
+        return ' data-ui-id="' . $this->getJsId($arg1, $arg2, $arg3, $arg4, $arg5) . '" ';
     }
 
     /**
@@ -688,19 +690,27 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
      * @param string|null $arg1
      * @param string|null $arg2
      * @param string|null $arg3
+     * @param string|null $arg4
+     * @param string|null $arg5
      * @return string
      */
-    public function getJsId($arg1 = null, $arg2 = null, $arg3 = null)
+    public function getJsId($arg1 = null, $arg2 = null, $arg3 = null, $arg4 = null, $arg5 = null)
     {
         $args = [];
         if (!is_null($arg1)) {
             $args[] = $arg1;
-            if (!is_null($arg2)) {
-                $args[] = $arg2;
-                if (!is_null($arg3)) {
-                    $args[] = $arg3;
-                }
-            }
+        }
+        if (!is_null($arg2)) {
+            $args[] = $arg2;
+        }
+        if (!is_null($arg3)) {
+            $args[] = $arg3;
+        }
+        if (!is_null($arg4)) {
+            $args[] = $arg4;
+        }
+        if (!is_null($arg5)) {
+            $args[] = $arg5;
         }
         $rawId = $this->_nameInLayout . '-' . implode('-', $args);
         return trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($rawId)), '-');
