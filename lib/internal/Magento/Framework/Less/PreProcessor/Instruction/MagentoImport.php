@@ -13,6 +13,7 @@ use Magento\Framework\View\Asset\LocalInterface;
 use Magento\Framework\View\DesignInterface;
 use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\Asset\File\FallbackContext;
+use Magento\Framework\View\Design\Theme\FlyweightFactory;
 
 /**
  * LESS @magento_import instruction preprocessor
@@ -45,29 +46,29 @@ class MagentoImport implements PreProcessorInterface
     protected $assetRepo;
 
     /**
-     * @var \Magento\Framework\View\Design\Theme\Provider
+     * @var FlyweightFactory
      */
-    protected $themeProvider;
+    protected $themeFactory;
 
     /**
      * @param DesignInterface $design
      * @param CollectorInterface $fileSource
      * @param ErrorHandlerInterface $errorHandler
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
-     * @param \Magento\Framework\View\Design\Theme\Provider $themeProvider
+     * @param FlyweightFactory $themeFactory
      */
     public function __construct(
         DesignInterface $design,
         CollectorInterface $fileSource,
         ErrorHandlerInterface $errorHandler,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Magento\Framework\View\Design\Theme\Provider $themeProvider
+        FlyweightFactory $themeFactory
     ) {
         $this->design = $design;
         $this->fileSource = $fileSource;
         $this->errorHandler = $errorHandler;
         $this->assetRepo = $assetRepo;
-        $this->themeProvider = $themeProvider;
+        $this->themeFactory = $themeFactory;
     }
 
     /**
@@ -119,7 +120,7 @@ class MagentoImport implements PreProcessorInterface
     {
         $context = $asset->getContext();
         if ($context instanceof FallbackContext) {
-            return $this->themeProvider->getThemeModel($context->getThemePath(), $context->getAreaCode());
+            return $this->themeFactory->create($context->getThemePath(), $context->getAreaCode());
         }
         return $this->design->getDesignTheme();
     }

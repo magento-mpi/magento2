@@ -9,6 +9,7 @@
 namespace Magento\Framework\View\Asset;
 
 use Magento\Framework\View\Design\FileResolution\Fallback\Resolver\Simple;
+use Magento\Framework\View\Design\Theme\FlyweightFactory;
 
 /**
  * A service for preprocessing content of assets
@@ -53,23 +54,23 @@ class Source
     protected $fallback;
 
     /**
-     * @var \Magento\Framework\View\Design\Theme\Provider
+     * @var FlyweightFactory
      */
-    protected $themeProvider;
+    protected $themeFactory;
 
     /**
      * @param PreProcessor\Cache $cache
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param PreProcessor\Pool $preProcessorPool
      * @param \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallback
-     * @param \Magento\Framework\View\Design\Theme\Provider $themeProvider
+     * @param FlyweightFactory $themeFactory
      */
     public function __construct(
         PreProcessor\Cache $cache,
         \Magento\Framework\App\Filesystem $filesystem,
         PreProcessor\Pool $preProcessorPool,
         \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallback,
-        \Magento\Framework\View\Design\Theme\Provider $themeProvider
+        FlyweightFactory $themeFactory
     ) {
         $this->cache = $cache;
         $this->filesystem = $filesystem;
@@ -77,7 +78,7 @@ class Source
         $this->varDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->preProcessorPool = $preProcessorPool;
         $this->fallback = $fallback;
-        $this->themeProvider = $themeProvider;
+        $this->themeFactory = $themeFactory;
     }
 
     /**
@@ -201,7 +202,7 @@ class Source
         LocalInterface $asset,
         \Magento\Framework\View\Asset\File\FallbackContext $context
     ) {
-        $themeModel = $this->themeProvider->getThemeModel($context->getThemePath(), $context->getAreaCode());
+        $themeModel = $this->themeFactory->create($context->getThemePath(), $context->getAreaCode());
         $sourceFile = $this->fallback->getFile(
             $context->getAreaCode(),
             $themeModel,
