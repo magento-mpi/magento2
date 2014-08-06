@@ -49,6 +49,7 @@ class AssertRewardPointsMessageOnShoppingCart extends AbstractConstraint
         CheckoutCart $checkoutCart,
         $checkoutReward
     ) {
+
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productView->getViewBlock()->clickAddToCartButton();
 
