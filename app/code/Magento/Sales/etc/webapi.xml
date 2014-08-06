@@ -99,4 +99,10 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/invoices/:id/comments" method="GET">
+        <service class="Magento\Sales\Service\V1\InvoiceCommentsListInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
 </routes>
