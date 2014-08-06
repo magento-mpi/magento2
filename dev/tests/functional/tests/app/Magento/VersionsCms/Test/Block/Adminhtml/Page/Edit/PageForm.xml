@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <versions>
+        <class>\Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\Tab\Versions</class>
+        <selector>#page_tabs_versions</selector>
+        <strategy>css selector</strategy>
+    </versions>
+    <revision_content>
+        <class>\Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content</class>
+        <selector>#page_tabs_content_section</selector>
+        <strategy>css selector</strategy>
+    </revision_content>
+</tabs>

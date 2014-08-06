@@ -120,6 +120,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ->method('validate')
             ->with($historyMock)
             ->will($this->returnValue(['Some warnings']));
-        $this->historyResource->save($historyMock);
+        $this->assertEquals($this->historyResource, $this->historyResource->save($historyMock));
     }
 }

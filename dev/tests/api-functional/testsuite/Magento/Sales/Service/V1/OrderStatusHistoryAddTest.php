@@ -33,7 +33,7 @@ class OrderStatusHistoryAddTest extends WebapiAbstract
     }
 
     /**
-     * @m1agentoApiDataFixture Magento/Sales/_files/order.php
+     * @magentoApiDataFixture Magento/Sales/_files/order.php
      */
     public function testOrderCommentAdd()
     {
