@@ -61,6 +61,12 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
+    protected $subjectMock;
+
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     protected $requestMock;
 
     /**
@@ -74,24 +80,24 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->sessionMock = $this->getMock('Magento\Framework\Session\Generic',
-            array('getCurrencyCode'), array(), '', false);
+            ['getCurrencyCode'], [], '', false);
         $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context',
-            array(), array(), '', false);
+            [], [], '', false);
         $this->httpRequestMock = $this->getMock('Magento\Framework\App\Request\Http',
-            array('getParam'), array(), '', false);
+            ['getParam'], [], '', false);
         $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager',
-            array('getWebsite', '__wakeup'), array(), '', false);
+            ['getWebsite', '__wakeup'], [], '', false);
         $this->storeMock = $this->getMock('Magento\Store\Model\Store',
-            array('__wakeup', 'getDefaultCurrency'), array(), '', false);
+            ['__wakeup', 'getDefaultCurrency'], [], '', false);
         $this->currencyMock = $this->getMock('Magento\Directory\Model\Currency',
-            array('getCode', '__wakeup'), array(), '', false);
+            ['getCode', '__wakeup'], [], '', false);
         $this->websiteMock = $this->getMock('Magento\Store\Model\Website',
-            array('getDefaultStore', '__wakeup'), array(), '', false);
+            ['getDefaultStore', '__wakeup'], [], '', false);
         $this->closureMock = function () {
             return 'ExpectedValue';
         };
         $this->cookieManagerMock = $this->getMock('\Magento\Framework\Stdlib\CookieManager');
-
+        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->plugin = new \Magento\Store\App\Action\Plugin\Context(
             $this->sessionMock,
@@ -135,13 +141,13 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
         $this->httpContextMock->expects($this->atLeastOnce())
             ->method('setValue')
-            ->will($this->returnValueMap(array(
-                array(\Magento\Core\Helper\Data::CONTEXT_CURRENCY, 'UAH', 'UAH', $this->httpContextMock),
-                array(\Magento\Core\Helper\Data::CONTEXT_STORE, 'default', 'default', $this->httpContextMock),
-            )));
+            ->will($this->returnValueMap([
+                [\Magento\Core\Helper\Data::CONTEXT_CURRENCY, 'UAH', 'UAH', $this->httpContextMock],
+                [\Magento\Core\Helper\Data::CONTEXT_STORE, 'default', 'default', $this->httpContextMock],
+            ]));
         $this->assertEquals(
             'ExpectedValue',
-            $this->plugin->aroundDispatch($this->closureMock, $this->requestMock)
+            $this->plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
         );
     }
 }
