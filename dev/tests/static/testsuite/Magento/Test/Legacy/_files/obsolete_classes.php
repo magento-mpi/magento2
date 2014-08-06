@@ -2709,4 +2709,5 @@ return array(
     ['Magento\Catalog\Helper\Product\Price'],
     ['Magento\Tax\Model\Config\Source\TaxClass\Product', 'Magento\Tax\Model\TaxClass\Source\Product'],
     ['Magento\Tax\Model\Config\Source\TaxClass\Customer', 'Magento\Tax\Model\TaxClass\Source\Customer'],
+    ['\Magento\Theme\Helper\Layout']
 );

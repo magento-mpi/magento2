@@ -7,8 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <update handle="page_two_columns_left"/>
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceBlock name="root">
         <action method="addBodyClass">
             <argument name="class" xsi:type="string">page-products</argument>

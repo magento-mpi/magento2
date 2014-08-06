@@ -44,12 +44,18 @@ class View extends \Magento\Framework\App\Action\Action
     protected $_storeManager;
 
     /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -57,13 +63,15 @@ class View extends \Magento\Framework\App\Action\Action
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\View\Page\Config $pageConfig
     ) {
         $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;
         $this->_catalogDesign = $catalogDesign;
         $this->_catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
+        $this->pageConfig = $pageConfig;
         parent::__construct($context);
     }
 
@@ -126,6 +134,10 @@ class View extends \Magento\Framework\App\Action\Action
 
             $this->_catalogSession->setLastViewedCategoryId($category->getId());
 
+            // apply custom layout (page) template once the blocks are generated
+            if ($settings->getPageLayout()) {
+                $this->pageConfig->setPageLayout($settings->getPageLayout());
+            }
             $update = $this->_view->getLayout()->getUpdate();
             $update->addHandle('default');
             if ($category->getIsAnchor()) {
@@ -141,10 +153,6 @@ class View extends \Magento\Framework\App\Action\Action
             }
             $this->_view->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
 
-            // apply custom layout (page) template once the blocks are generated
-            if ($settings->getPageLayout()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyHandle($settings->getPageLayout());
-            }
             $this->_view->loadLayoutUpdates();
 
             // apply custom layout update once layout is loaded

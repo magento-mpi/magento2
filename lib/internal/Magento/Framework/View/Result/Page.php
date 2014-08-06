@@ -79,6 +79,18 @@ class Page extends Layout
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
         $this->addPageLayoutHandles([], $this->getDefaultLayoutHandle());
+        $this->addDefaultPageLayout();
+        return $this;
+    }
+
+    /**
+     * Add default page layout regarding definition in layout
+     *
+     * @return $this
+     */
+    protected function addDefaultPageLayout()
+    {
+        $update = $this->getLayout()->getUpdate();
         $defaultPageLayout = $update->isLayoutDefined() ? null : $update->getDefaultPageLayout() ;
         $pageLayout = $this->pageConfig->getPageLayout() ?: $defaultPageLayout;
         if ($pageLayout) {

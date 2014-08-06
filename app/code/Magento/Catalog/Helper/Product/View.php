@@ -6,13 +6,11 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog category helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Helper\Product;
 
+/**
+ * Catalog category helper
+ */
 class View extends \Magento\Framework\App\Helper\AbstractHelper
 {
     // List of exceptions throwable during prepareAndRender() method
@@ -42,13 +40,6 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_catalogProduct = null;
 
     /**
-     * Catalog product
-     *
-     * @var \Magento\Theme\Helper\Layout
-     */
-    protected $_pageLayout = null;
-
-    /**
      * Catalog design
      *
      * @var \Magento\Catalog\Model\Design
@@ -68,6 +59,11 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_view;
 
     /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
+    /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
@@ -77,9 +73,9 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Theme\Helper\Layout $pageLayout
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\ViewInterface $view
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $messageGroups
      */
@@ -88,19 +84,19 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Theme\Helper\Layout $pageLayout,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\ViewInterface $view,
+        \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         array $messageGroups = array()
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_catalogDesign = $catalogDesign;
         $this->_catalogProduct = $catalogProduct;
-        $this->_pageLayout = $pageLayout;
         $this->_coreRegistry = $coreRegistry;
         $this->_view = $view;
         $this->messageGroups = $messageGroups;
+        $this->pageConfig = $pageConfig;
         $this->messageManager = $messageManager;
         parent::__construct($context);
     }
@@ -122,8 +118,12 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
             $this->_catalogDesign->applyCustomDesign($settings->getCustomDesign());
         }
 
+        // Apply custom page layout
+        if ($settings->getPageLayout()) {
+            $this->pageConfig->setPageLayout($settings->getPageLayout());
+        }
+
         $update = $this->_view->getLayout()->getUpdate();
-        $update->addHandle('default');
 
         if ($params && $params->getBeforeHandles()) {
             foreach ($params->getBeforeHandles() as $handle) {
@@ -160,11 +160,6 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
 
         $this->_view->generateLayoutXml();
         $this->_view->generateLayoutBlocks();
-
-        // Apply custom layout (page) template once the blocks are generated
-        if ($settings->getPageLayout()) {
-            $this->_pageLayout->applyTemplate($settings->getPageLayout());
-        }
 
         $currentCategory = $this->_coreRegistry->registry('current_category');
         $root = $this->_view->getLayout()->getBlock('root');
