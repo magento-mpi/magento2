@@ -47,7 +47,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
                 'CaPSed BLOCK NAME',
                 array('cAp$Ed PaRaM1', 'caPs2', 'bUT-TOn')
             ),
-            array(' data-ui-id="block-0-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20" ', '!block!', range(0, 20))
+            array(' data-ui-id="block-0-1-2" ', '!block!', range(0, 3))
         );
     }
 
