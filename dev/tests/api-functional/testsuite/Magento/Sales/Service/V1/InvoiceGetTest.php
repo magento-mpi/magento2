@@ -18,6 +18,8 @@ class InvoiceGetTest extends WebapiAbstract
 
     const SERVICE_VERSION = 'V1';
 
+    const INVOICE_INCREMENT_ID = '100000001';
+
     /**
      * @var \Magento\Framework\ObjectManager
      */
@@ -33,8 +35,14 @@ class InvoiceGetTest extends WebapiAbstract
      */
     public function testInvoiceGet()
     {
+        $expectedInvoiceData = [
+            'grand_total' => '100.0000',
+            'subtotal' => '100.0000',
+            'increment_id' => self::INVOICE_INCREMENT_ID
+        ];
         /** @var \Magento\Sales\Model\Order\Invoice $invoice */
         $invoice = $this->objectManager->create('Magento\Sales\Model\Order\Invoice');
+        $invoice->loadByIncrementId(self::INVOICE_INCREMENT_ID);
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $invoice->getId(),
@@ -47,6 +55,9 @@ class InvoiceGetTest extends WebapiAbstract
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $invoice->getId()]);
-        $this->assertTrue($result);
+        foreach ($expectedInvoiceData as $field => $value) {
+            $this->assertArrayHasKey($field, $result);
+            $this->assertEquals($value, $result[$field]);
+        }
     }
 }
