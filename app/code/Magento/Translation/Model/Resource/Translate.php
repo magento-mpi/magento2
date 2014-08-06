@@ -61,10 +61,6 @@ class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implemen
      */
     public function getTranslationArray($storeId = null, $locale = null)
     {
-        if (!$this->_appState->isInstalled()) {
-            return array();
-        }
-
         if (is_null($storeId)) {
             $storeId = $this->getStoreId();
         }
@@ -94,10 +90,6 @@ class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implemen
      */
     public function getTranslationArrayByStrings(array $strings, $storeId = null)
     {
-        if (!$this->_appState->isInstalled()) {
-            return array();
-        }
-
         if (is_null($storeId)) {
             $storeId = $this->getStoreId();
         }
