@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route url="/V1/orders/:id" method="GET">
+        <service class="Magento\Sales\Service\V1\OrderGetInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders/:id/cancellation" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderCancelInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders" method="GET">
+        <service class="Magento\Sales\Service\V1\OrderListInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders/:id/status" method="GET">
+        <service class="Magento\Sales\Service\V1\OrderGetStatusInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders/:id/emails" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderNotifyUserInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders/:id/hold" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderHoldInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders/:id/unhold" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderUnHoldInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders/:id/comment" method="POST">
+        <service class="Magento\Sales\Service\V1\OrderStatusHistoryAddInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders/:id/comments" method="GET">
+        <service class="Magento\Sales\Service\V1\OrderCommentsListInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/orders/:id" method="PUT">
+        <service class="Magento\Sales\Service\V1\OrderAddressUpdateInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+</routes>
