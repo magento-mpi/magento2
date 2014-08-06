@@ -61,7 +61,7 @@
 
 }
 
-.search.autocomplete {
+.search-autocomplete {
     display: none;
     position: absolute;
     z-index: 3;
@@ -69,6 +69,7 @@
     margin-top: -15px;
     &:extend(.add-box-sizing all);
     ul {
+        .list-reset-styles();
         &:not(:empty) {
             background: @autocomplete-background;
             border: @autocomplete-border;
@@ -195,7 +196,7 @@
             }
         }
     }
-    .search.autocomplete {
+    .search-autocomplete {
         margin-top: 0;
     }
 }
