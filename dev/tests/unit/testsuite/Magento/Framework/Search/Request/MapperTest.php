@@ -122,6 +122,52 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Magento\Framework\Exception\StateException
      */
+    public function testGetQueryNotUsedStateException()
+    {
+        $queries = [
+            'someQuery' => [
+                'type' => QueryInterface::TYPE_MATCH,
+                'name' => 'someName',
+                'boost' => 3,
+                'match' => 'someMatches'
+            ],
+            'notUsedQuery' => [
+                'type' => QueryInterface::TYPE_MATCH,
+                'name' => 'someName',
+                'boost' => 3,
+                'match' => 'someMatches'
+            ]
+        ];
+        $query = $queries['someQuery'];
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'filters' => []
+            ]
+        );
+
+        $this->objectManager->expects($this->once())->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Query\Match'),
+                $this->equalTo(
+                    [
+                        'name' => $query['name'],
+                        'boost' => isset($query['boost']) ? $query['boost'] : 1,
+                        'matches' => $query['match']
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->queryMatch));
+
+        $this->assertEquals($this->queryMatch, $mapper->get('someQuery'));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
     public function testGetQueryUsedStateException()
     {
         /** @var \Magento\Framework\Search\Request\Mapper $mapper */
@@ -508,6 +554,78 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                         'name' => $query['name'],
                         'boost' => 1,
                         'reference' => $this->filterBool,
+                        'referenceType' => Filter::REFERENCE_FILTER
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->queryFilter));
+
+        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
+    public function testGetFilterNotUsedStateException()
+    {
+        $queries = [
+            'someQuery' => [
+                'type' => QueryInterface::TYPE_FILTER,
+                'name' => 'someName',
+                'filterReference' => [
+                    [
+                        'ref' => 'someFilter'
+                    ]
+                ]
+            ]
+        ];
+        $filters = [
+            'someFilter' => [
+                'type' => FilterInterface::TYPE_TERM,
+                'name' => 'someName',
+                'field' => 'someField',
+                'value' => 'someValue'
+            ],
+            'notUsedFilter' => [
+                'type' => FilterInterface::TYPE_TERM,
+                'name' => 'someName',
+                'field' => 'someField',
+                'value' => 'someValue'
+            ]
+        ];
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'filters' => $filters
+            ]
+        );
+
+        $filter = $filters['someFilter'];
+        $this->objectManager->expects($this->at(0))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Filter\Term'),
+                $this->equalTo(
+                    [
+                        'name' => $filter['name'],
+                        'field' => $filter['field'],
+                        'value' => $filter['value']
+                    ]
+                )
+            )
+            ->will($this->returnValue($this->filterTerm));
+        $query = $queries['someQuery'];
+        $this->objectManager->expects($this->at(1))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
+                $this->equalTo(
+                    [
+                        'name' => $query['name'],
+                        'boost' => 1,
+                        'reference' => $this->filterTerm,
                         'referenceType' => Filter::REFERENCE_FILTER
                     ]
                 )
