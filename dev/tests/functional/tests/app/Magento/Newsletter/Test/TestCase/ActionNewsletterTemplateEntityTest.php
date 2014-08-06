@@ -64,6 +64,6 @@ class ActionNewsletterTemplateEntityTest extends Injectable
         // Steps
         $this->templateIndex->open();
         $this->templateIndex->getNewsletterTemplateGrid()->search(['code' => $newsletter->getCode()]);
-        $this->templateIndex->getNewsletterTemplateGrid()->newsletterTemplateAction($action);
+        $this->templateIndex->getNewsletterTemplateGrid()->performAction($action);
     }
 }

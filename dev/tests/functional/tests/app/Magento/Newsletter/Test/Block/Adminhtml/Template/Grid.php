@@ -23,7 +23,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'code' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-text-1-filter-code"]'
+            'selector' => 'input[name="code"]'
         ]
     ];
 
@@ -37,10 +37,10 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     /**
      * Action for newsletter template
      *
-     * @param $action
+     * @param string $action
      * @return void
      */
-    public function newsletterTemplateAction($action)
+    public function performAction($action)
     {
         $this->_rootElement->find($this->action, Locator::SELECTOR_CSS, 'select')->setValue($action);
     }

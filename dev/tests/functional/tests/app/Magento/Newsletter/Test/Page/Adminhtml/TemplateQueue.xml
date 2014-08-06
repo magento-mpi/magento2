@@ -17,7 +17,7 @@
     <block>
         <name>editForm</name>
         <class>Magento\Backend\Test\Block\Widget\Form</class>
-        <locator>[id="page:main-container"]</locator>
+        <locator>#queue_edit_form</locator>
         <strategy>css selector</strategy>
     </block>
     <block>

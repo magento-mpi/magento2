@@ -37,8 +37,10 @@ class AssertNewsletterPreview extends AbstractConstraint
     public function processAssert(Browser $browser, TemplatePreview $templatePreview, Template $newsletter)
     {
         $browser->selectWindow();
+        $content = $templatePreview->getContent()->getPageContent();
+        $browser->closeWindow();
         \PHPUnit_Framework_Assert::assertEquals(
-            $templatePreview->getContent()->getPageContent(),
+            $content,
             $newsletter->getText(),
             'Template content not correct information.'
         );
@@ -51,6 +53,6 @@ class AssertNewsletterPreview extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Newsletter preview opened in new window.';
+        return 'Newsletter preview opened in new window and has valid content.';
     }
 }

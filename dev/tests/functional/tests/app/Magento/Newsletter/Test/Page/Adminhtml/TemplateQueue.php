@@ -28,7 +28,7 @@ class TemplateQueue extends BackendPage
         'editForm' => [
             'name' => 'editForm',
             'class' => 'Magento\Backend\Test\Block\Widget\Form',
-            'locator' => '[id="page:main-container"]',
+            'locator' => '#queue_edit_form',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
