@@ -45,7 +45,7 @@ class InvoiceMapper
     protected function getItems(Invoice $object)
     {
         $items = [];
-        foreach($object->getAllItems() as $item) {
+        foreach ($object->getAllItems() as $item) {
             $items[] = $this->invoiceItemMapper->extractDto($item);
         }
         return $items;
@@ -54,7 +54,6 @@ class InvoiceMapper
     /**
      * @param Invoice $object
      * @return \Magento\Framework\Service\Data\AbstractObject
-     * @return mixed
      */
     public function extractDto(Invoice $object)
     {
