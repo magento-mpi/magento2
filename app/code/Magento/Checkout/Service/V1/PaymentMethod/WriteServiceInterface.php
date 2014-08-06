@@ -18,13 +18,4 @@ interface WriteServiceInterface
      * @return int
      */
     public function add(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId);
-
-    /**
-     * Remove payment method from selected list
-     *
-     * @param int $methodId
-     * @param int $cartId
-     * @return bool
-     */
-    public function remove($methodId, $cartId);
 }

@@ -8,9 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <type name="Magento\Payment\Helper\Data">
-        <plugin name="offline_methods" type="\Magento\Checkout\Model\Payment\Method\Plugin\Offline" />
-    </type>
+    <preference for="Magento\Authorizenet\Helper\HelperInterface" type="Magento\Authorizenet\Helper\Data" />
 </config>
 
 

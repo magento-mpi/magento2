@@ -53,7 +53,7 @@ class ReadService implements ReadServiceInterface
         StoreManagerInterface $storeManager,
         QuoteMethodConverter $quoteMethodConverter,
         PaymentMethodConverter $paymentMethodConverter,
-       MethodList $methodList
+        MethodList $methodList
     ) {
         $this->storeManager = $storeManager;
         $this->quoteLoader = $quoteLoader;
