@@ -186,7 +186,7 @@ class Reader
             }
         }
 
-        $output = array();
+        $output = [];
         if ($configMerger) {
             $output = $this->converter->convert($configMerger->getDom());
         }

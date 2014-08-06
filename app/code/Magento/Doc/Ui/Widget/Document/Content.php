@@ -57,6 +57,11 @@ class Content extends Template
     protected $itemTemplate;
 
     /**
+     * @var string
+     */
+    protected $errorTemplate;
+
+    /**
      * Constructor
      *
      * @param Context $context
@@ -78,8 +83,9 @@ class Content extends Template
         $this->filter = $filter;
         $this->schemeName = $this->_request->getParam('doc_scheme');
         $this->document = $this->scheme->get($this->schemeName . '.xml');
-        $this->dictionary = $this->scheme->get('dictionary.xml');
+        $this->dictionary = $this->scheme->get('help/dictionary.xml');
         $this->itemTemplate = $this->fetchView($this->getTemplateFile('Magento_Doc::html/widget/document/item.phtml'));
+        $this->errorTemplate = $this->fetchView($this->getTemplateFile('Magento_Doc::html/widget/document/item.error.phtml'));
     }
 
     /**
@@ -146,26 +152,27 @@ class Content extends Template
      */
     protected function renderItemHtml($name, array $item)
     {
-        $this->currentItem = new Item($item);
-        $vars = [
-            'render' => $this,
-            'name' => $name,
-            'content' => $this->getCurrentItemContent(),
-            'data' => $this->currentItem
-        ];
-        $this->filter->setVariables($vars);
-        return $this->filter->preProcess($this->itemTemplate);
-    }
-
-    /**
-     * Get item's content
-     *
-     * @return string
-     */
-    protected function getCurrentItemContent()
-    {
         $item['scheme'] = $this->schemeName;
-        return $this->typeFactory->get($this->currentItem->getData('type'))->getContent($this->currentItem);
+        $this->currentItem = new Item($item);
+        try {
+            $content = $this->typeFactory->get($this->currentItem->getData('type'))->getContent($this->currentItem);
+            $vars = [
+                'render' => $this,
+                'name' => $name,
+                'content' => $content,
+                'data' => $this->currentItem
+            ];
+            $this->filter->setVariables($vars);
+            return $this->filter->preProcess($this->itemTemplate);
+        } catch (\Exception $e) {
+            $vars = [
+                'render' => $this,
+                'message' => $e->getMessage(),
+                'data' => $this->currentItem
+            ];
+            $this->filter->setVariables($vars);
+            return $this->filter->preProcess($this->errorTemplate);
+        }
     }
 
     /**
