@@ -12,7 +12,6 @@ use Mtf\Constraint\AbstractAssertForm;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Class AssertGiftRegistryForm
@@ -43,19 +42,21 @@ class AssertGiftRegistryForm extends AbstractAssertForm
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryEdit $giftRegistryEdit
      * @param GiftRegistry $giftRegistry
-     * @param AddressInjectable $address
+     * @param GiftRegistry $giftRegistryOrigin [optional]
      * @return void
      */
     public function processAssert(
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryEdit $giftRegistryEdit,
         GiftRegistry $giftRegistry,
-        AddressInjectable $address
+        GiftRegistry $giftRegistryOrigin = null
     ) {
+        $fixtureData = $giftRegistryOrigin != null
+            ? array_merge($giftRegistryOrigin->getData(), $giftRegistry->getData())
+            : $giftRegistry->getData();
         $giftRegistryIndex->open();
-        $giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Edit');
+        $giftRegistryIndex->getGiftRegistryGrid()->eventAction($fixtureData['title'], 'Edit');
         $formData = $giftRegistryEdit->getCustomerEditForm()->getData();
-        $fixtureData = $giftRegistry->getData();
         $errors = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
