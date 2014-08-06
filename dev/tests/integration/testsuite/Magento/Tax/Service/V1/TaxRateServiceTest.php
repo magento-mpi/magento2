@@ -177,16 +177,13 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateTaxRateWithExceptionMessages($dataArray, $errorMessages)
     {
-        $expectedErrorMessages = [
-        ];
-        $expectedErrorMessages = array_merge($expectedErrorMessages, $errorMessages);
         $taxRate = $this->taxRateBuilder->populateWithArray($dataArray)->create();
         try {
             $this->taxRateService->createTaxRate($taxRate);
         } catch (InputException $exception) {
             $errors = $exception->getErrors();
             foreach ($errors as $key => $error) {
-                $this->assertEquals($expectedErrorMessages[$key], $error->getMessage());
+                $this->assertEquals($errorMessages[$key], $error->getMessage());
             }
             throw $exception;
         }
