@@ -19,10 +19,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $cookieManagerMock = $this->getMock('\Magento\Framework\Stdlib\CookieManager');
         $this->_routerListMock = $this->getMock('\Magento\Framework\App\Route\ConfigInterface');
         $infoProcessorMock = $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface');
         $infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
-        $this->_model = new \Magento\Framework\App\Request\Http($this->_routerListMock, $infoProcessorMock);
+        $this->_model = new \Magento\Framework\App\Request\Http(
+            $this->_routerListMock,
+            $infoProcessorMock,
+            $cookieManagerMock
+        );
     }
 
     /**

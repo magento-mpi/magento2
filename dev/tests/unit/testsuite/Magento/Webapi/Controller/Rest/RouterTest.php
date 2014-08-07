@@ -38,10 +38,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $areaListMock = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
         $configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
         $areaListMock->expects($this->once())->method('getFrontName')->will($this->returnValue('rest'));
+        $cookieManagerMock = $this->getMock('\Magento\Framework\Stdlib\CookieManager');
+
         $this->_request = new \Magento\Webapi\Controller\Rest\Request(
             $areaListMock,
             $configScopeMock,
-            $deserializerFactory
+            $deserializerFactory,
+            $cookieManagerMock
         );
         /** Initialize SUT. */
         $this->_router = new \Magento\Webapi\Controller\Rest\Router($this->_apiConfigMock);
