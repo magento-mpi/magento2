@@ -97,6 +97,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Framework\Session\ValidatorInterface $validator
      * @param \Magento\Framework\Session\StorageInterface $storage
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
@@ -117,6 +118,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
@@ -140,7 +142,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_httpContext = $httpContext;
-        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $cookieManager);
         $this->start($sessionName);
         $this->_converter = $converter;
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
