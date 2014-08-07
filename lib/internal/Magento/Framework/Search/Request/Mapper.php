@@ -58,6 +58,8 @@ class Mapper
         $this->objectManager = $objectManager;
         $this->queries = $queries;
         $this->filters = $filters;
+        $this->mappedQueries = [];
+        $this->mappedFilters = [];
 
         $this->rootQuery = $this->get($rootQueryName);
     }
@@ -80,8 +82,6 @@ class Mapper
      */
     private function get($queryName)
     {
-        $this->mappedQueries = [];
-        $this->mappedFilters = [];
         $query = $this->mapQuery($queryName);
         $this->validate();
         return $query;
