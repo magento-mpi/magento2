@@ -95,17 +95,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     public function testGetQueryMatch($queries)
     {
         $query = $queries[self::ROOT_QUERY];
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
-        $mapper = $this->helper->getObject(
-            'Magento\Framework\Search\Request\Mapper',
-            [
-                'objectManager' => $this->objectManager,
-                'queries' => $queries,
-                'rootQueryName' => self::ROOT_QUERY,
-                'filters' => []
-            ]
-        );
-
         $this->objectManager->expects($this->once())->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Query\Match'),
@@ -118,6 +107,18 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->queryMatch));
+
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'filters' => []
+            ]
+        );
 
         $this->assertEquals($this->queryMatch, $mapper->getRootQuery());
     }
@@ -142,17 +143,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $query = $queries['someQuery'];
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
-        $mapper = $this->helper->getObject(
-            'Magento\Framework\Search\Request\Mapper',
-            [
-                'objectManager' => $this->objectManager,
-                'queries' => $queries,
-                'rootQueryName' => self::ROOT_QUERY,
-                'filters' => []
-            ]
-        );
-
         $this->objectManager->expects($this->once())->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Query\Match'),
@@ -165,6 +155,18 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->queryMatch));
+
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'filters' => []
+            ]
+        );
 
         $this->assertEquals($this->queryMatch, $mapper->getRootQuery());
     }
@@ -205,17 +207,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQueryFilterQueryReference($queries)
     {
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
-        $mapper = $this->helper->getObject(
-            'Magento\Framework\Search\Request\Mapper',
-            [
-                'objectManager' => $this->objectManager,
-                'queries' => $queries,
-                'rootQueryName' => self::ROOT_QUERY,
-                'filters' => []
-            ]
-        );
-
         $query = $queries['someQueryMatch'];
         $this->objectManager->expects($this->at(0))->method('create')
             ->with(
@@ -243,6 +234,17 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->queryFilter));
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'filters' => []
+            ]
+        );
 
         $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
@@ -277,17 +279,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQueryBool($queries)
     {
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
-        $mapper = $this->helper->getObject(
-            'Magento\Framework\Search\Request\Mapper',
-            [
-                'objectManager' => $this->objectManager,
-                'queries' => $queries,
-                'rootQueryName' => self::ROOT_QUERY,
-                'filters' => []
-            ]
-        );
-
         $query = $queries['someQueryMatch'];
         $this->objectManager->expects($this->at(0))->method('create')
             ->with(
@@ -314,6 +305,17 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->queryBool));
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'filters' => []
+            ]
+        );
 
         $this->assertEquals($this->queryBool, $mapper->getRootQuery());
     }
@@ -382,17 +384,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
-        $mapper = $this->helper->getObject(
-            'Magento\Framework\Search\Request\Mapper',
-            [
-                'objectManager' => $this->objectManager,
-                'queries' => $queries,
-                'rootQueryName' => self::ROOT_QUERY,
-                'filters' => $filters
-            ]
-        );
-
         $filter = $filters['someFilter'];
         $this->objectManager->expects($this->at(0))->method('create')
             ->with(
@@ -421,6 +412,17 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryFilter));
 
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'filters' => $filters
+            ]
+        );
+
         $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
 
@@ -446,17 +448,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'to' => 'to'
             ]
         ];
-
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
-        $mapper = $this->helper->getObject(
-            'Magento\Framework\Search\Request\Mapper',
-            [
-                'objectManager' => $this->objectManager,
-                'queries' => $queries,
-                'rootQueryName' => self::ROOT_QUERY,
-                'filters' => $filters
-            ]
-        );
 
         $filter = $filters['someFilter'];
         $this->objectManager->expects($this->at(0))->method('create')
@@ -486,6 +477,17 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->queryFilter));
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'filters' => $filters
+            ]
+        );
 
         $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
@@ -521,17 +523,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'value' => 'someValue'
             ]
         ];
-
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
-        $mapper = $this->helper->getObject(
-            'Magento\Framework\Search\Request\Mapper',
-            [
-                'objectManager' => $this->objectManager,
-                'queries' => $queries,
-                'rootQueryName' => self::ROOT_QUERY,
-                'filters' => $filters
-            ]
-        );
 
         $filter = $filters['someFilterTerm'];
         $this->objectManager->expects($this->at(0))->method('create')
@@ -573,6 +564,17 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryFilter));
 
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'filters' => $filters
+            ]
+        );
+
         $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
 
@@ -607,17 +609,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
-        $mapper = $this->helper->getObject(
-            'Magento\Framework\Search\Request\Mapper',
-            [
-                'objectManager' => $this->objectManager,
-                'queries' => $queries,
-                'rootQueryName' => self::ROOT_QUERY,
-                'filters' => $filters
-            ]
-        );
-
         $filter = $filters['someFilter'];
         $this->objectManager->expects($this->at(0))->method('create')
             ->with(
@@ -645,6 +636,17 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->queryFilter));
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'filters' => $filters
+            ]
+        );
 
         $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
