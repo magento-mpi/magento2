@@ -37,6 +37,17 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var \Magento\Framework\Stdlib\CookieManager
+     */
+    protected $_cookieManagerMock;
+
+
+    public function setUp()
+    {
+        $this->_cookieManagerMock = $this->getMock('\Magento\Framework\Stdlib\CookieManager');
+    }
+
+    /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param bool $isVde
      * @param bool $isLoggedIn
@@ -67,6 +78,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
      */
     public function matchDataProvider()
     {
+        $this->_cookieManagerMock = $this->getMock('\Magento\Framework\Stdlib\CookieManager');
         $uri    = self::TEST_HOST . '/' . self::VDE_FRONT_NAME . self::TEST_PATH;
         $notVdeUrl = self::TEST_HOST . self::TEST_PATH;
 
@@ -81,7 +93,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         $matchedRequest = $this->getMock(
             'Magento\Framework\App\Request\Http',
             array('_isFrontArea'),
-            array($routerListMock, $infoProcessorMock, $uri)
+            array($routerListMock, $infoProcessorMock, $this->_cookieManagerMock, $uri)
         );
 
         $matchedController = $this->getMockForAbstractClass(
@@ -123,7 +135,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             'not vde request' => array(
                 '$request' => $this->getMock(
                         'Magento\Framework\App\Request\Http', array('_isFrontArea'), array(
-                            $routerListMock, $infoProcessorMock, $notVdeUrl
+                            $routerListMock, $infoProcessorMock, $this->_cookieManagerMock, $notVdeUrl
                         )
                     ),
                 '$isVde'           => false,
@@ -133,7 +145,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
                 '$request' => $this->getMock(
                         'Magento\Framework\App\Request\Http',
                         array('_isFrontArea'),
-                        array($routerListMock, $infoProcessorMock, $uri)
+                        array($routerListMock, $infoProcessorMock, $this->_cookieManagerMock, $uri)
                     ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
@@ -142,7 +154,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
                 '$request' => $this->getMock(
                         'Magento\Framework\App\Request\Http',
                         array('_isFrontArea'),
-                        array($routerListMock, $infoProcessorMock, $uri)
+                        array($routerListMock, $infoProcessorMock, $this->_cookieManagerMock, $uri)
                     ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
