@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Model\Order;
+namespace Magento\Shipping\Model;
 
 use Magento\Sales\Model\Resource\OrderFactory;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
