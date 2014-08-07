@@ -39,11 +39,6 @@ class Mapper
     private $objectManager;
 
     /**
-     * @var string
-     */
-    private $rootQueryName;
-
-    /**
      * @var QueryInterface
      */
     private $rootQuery = null;
@@ -63,9 +58,8 @@ class Mapper
         $this->objectManager = $objectManager;
         $this->queries = $queries;
         $this->filters = $filters;
-        $this->rootQueryName = $rootQueryName;
 
-        $this->getRootQuery();
+        $this->rootQuery = $this->get($rootQueryName);
     }
 
     /**
@@ -74,9 +68,6 @@ class Mapper
      */
     public function getRootQuery()
     {
-        if ($this->rootQuery === null) {
-            $this->rootQuery = $this->get($this->rootQueryName);
-        }
         return $this->rootQuery;
     }
 
