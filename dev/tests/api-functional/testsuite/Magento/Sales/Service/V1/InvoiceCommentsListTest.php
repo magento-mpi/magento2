@@ -27,10 +27,13 @@ class InvoiceCommentsListTest extends WebapiAbstract
         $comment = 'Test comment';
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-        $invoice = $objectManager->get('Magento\Sales\Model\Order\Invoice')->loadByIncrementId('100000001');
-        $invoice->addComment($comment);
-        $invoice->save();
+        /** @var \Magento\Sales\Model\Resource\Order\Invoice\Collection $invoiceCollection */
+        $invoiceCollection = $objectManager->get('Magento\Sales\Model\Resource\Order\Invoice\Collection');
+        $invoice = $invoiceCollection->getFirstItem();
+        $invoiceComment = $objectManager->get('Magento\Sales\Model\Order\Invoice\Comment');
+        $invoiceComment->setComment($comment);
+        $invoiceComment->setParentId($invoice->getId());
+        $invoiceComment->save();
 
         $serviceInfo = [
             'rest' => [
