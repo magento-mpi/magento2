@@ -8,10 +8,9 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
-use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
-use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class PageForm
@@ -72,10 +71,20 @@ class PageForm extends FormTabs
     }
 
     /**
+     * Click on 'Currently Published Revision' link
+     *
+     * @return void
+     */
+    protected function clickCurrentlyPublishedRevision()
+    {
+        $this->_rootElement->find($this->currentlyPublishedRevision)->click();
+    }
+
+    /**
      * Open tab
      *
      * @param string $tabName
-     * @return Tab
+     * @return $this
      */
     public function openTab($tabName)
     {
@@ -86,27 +95,17 @@ class PageForm extends FormTabs
         $tab = $this->_rootElement->find($selector, $strategy);
         if ($tabName == 'content') {
             if (!$tab->isVisible()) {
+                $this->openTab('page_information');
                 $this->clickCurrentlyPublishedRevision();
                 $this->reinitRootElement();
-                $this->openTab($tabName);
             } else {
                 $tab->click();
-                $this->toggleEditor();
             }
+            $this->toggleEditor();
         } else {
             $tab->click();
         }
 
         return $this;
-    }
-
-    /**
-     * Click on 'Currently Published Revision' link
-     *
-     * @return void
-     */
-    protected function clickCurrentlyPublishedRevision()
-    {
-        $this->_rootElement->find($this->currentlyPublishedRevision)->click();
     }
 }
