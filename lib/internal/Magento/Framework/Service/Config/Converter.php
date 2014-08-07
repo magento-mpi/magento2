@@ -33,7 +33,10 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             foreach ($attributes as $attribute) {
                 $code = $attribute->getAttribute('code');
                 $codeType = $attribute->getAttribute('type');
-                $typeConfig[$code] = $codeType;
+
+                if ($code && $codeType) {
+                    $typeConfig[$code] = $codeType;
+                }
             }
 
             $output[$typeName] = $typeConfig;

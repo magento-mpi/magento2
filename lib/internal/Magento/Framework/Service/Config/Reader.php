@@ -15,8 +15,8 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      * @var array
      */
     protected $_idAttributes = array(
-        '/config/extended_attributes' => 'for',
-        '/config/extended_attributes/field' => 'name'
+        '/config/custom_attributes' => 'for',
+        '/config/custom_attributes/attribute' => 'code'
     );
 
     /**
