@@ -481,15 +481,12 @@ class SessionManager implements SessionManagerInterface
             return;
         }
 
-        setcookie(
-            $this->getName(),
-            '',
-            0,
-            $this->sessionConfig->getCookiePath(),
-            $this->sessionConfig->getCookieDomain(),
-            $this->sessionConfig->getCookieSecure(),
-            $this->sessionConfig->getCookieHttpOnly()
-        );
+        $metadata = new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata();
+        $metadata->setPath($this->sessionConfig->getCookiePath());
+        $metadata->setDomain($this->sessionConfig->getCookieDomain());
+        $metadata->setSecure($this->sessionConfig->getCookieSecure());
+        $metadata->setHttpOnly($this->sessionConfig->getCookieHttpOnly());
+        $this->cookieManager->setPublicCookie($this->getName(), '', $metadata);
         $this->clearSubDomainSessionCookie();
     }
 }
