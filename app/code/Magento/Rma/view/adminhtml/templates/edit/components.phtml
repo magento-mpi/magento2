@@ -7,9 +7,9 @@
  */
 ?>
 <script type="text/javascript">
-    (function($) {
+    require(['jquery','mage/mage'],function($) {
         $.mage
             .extend('validation', 'validation',
-            '<?php echo $this->getViewFileUrl('Magento_Rma::validation.js') ?>');
-    })(jQuery);
+            'Magento_Rma/validation');
+    });
 </script>
