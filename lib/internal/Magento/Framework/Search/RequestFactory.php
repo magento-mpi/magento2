@@ -85,6 +85,7 @@ class RequestFactory
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $data['queries'],
+                'aggregation' => $data['aggregation'],
                 'filters' => $data['filters']
             ]
         );
@@ -96,7 +97,7 @@ class RequestFactory
                 'from' => $data['from'],
                 'size' => $data['size'],
                 'query' => $mapper->get($data['query']),
-                'buckets' => [],
+                'buckets' => $mapper->getBuckets(),
             ]
         );
     }

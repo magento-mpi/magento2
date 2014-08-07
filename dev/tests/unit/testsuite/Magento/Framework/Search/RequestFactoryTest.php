@@ -56,6 +56,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             'queries' => ':str',
             'filters' => 'f',
             'query' => 'q',
+            'aggregation' => 'a',
             'index' => 'i',
             'from' => 1,
             'size' => 15
@@ -81,6 +82,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
                     [
                         'objectManager' => $this->objectManager,
                         'queries' => $bindValues[':str'],
+                        'aggregation' => $configData['aggregation'],
                         'filters' => $configData['filters']
                     ]
                 )
@@ -104,6 +106,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 
         $mapper->expects($this->once())->method('get')->with($this->equalTo($configData['query']))
             ->will($this->returnValue($mappedQuery));
+        $mapper->expects($this->once())->method('getBuckets')->will($this->returnValue([]));
 
         $this->assertEquals($request, $this->factory->create($requestName, $bindValues));
     }
