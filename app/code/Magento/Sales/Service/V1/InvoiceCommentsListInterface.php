@@ -12,7 +12,6 @@ namespace Magento\Sales\Service\V1;
  */
 interface InvoiceCommentsListInterface
 {
-
     /**
      * Invoke InvoiceCommentsList service
      *

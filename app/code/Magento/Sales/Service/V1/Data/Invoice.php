@@ -504,7 +504,7 @@ class Invoice extends DataObject
     /**
      * Returns invoice items
      *
-     * @return InvoiceItem[]
+     * @return \Magento\Sales\Service\V1\Data\InvoiceItem[]
      */
     public function getItems()
     {
@@ -514,7 +514,7 @@ class Invoice extends DataObject
     /**
      * Return invoice comments
      *
-     * @return Comment[]
+     * @return \Magento\Sales\Service\V1\Data\Comment[]
      */
     public function getComments()
     {

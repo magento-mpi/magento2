@@ -18,12 +18,12 @@ class CreditmemoGetTest extends WebapiAbstract
     /**
      * Resource path
      */
-    const RESOURCE_PATH = '/V1/creditmemos';
+    const RESOURCE_PATH = '/V1/creditmemo';
 
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesOrderCreditmemoGetServiceV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoGetV1';
 
     /**
      * Service version
@@ -80,7 +80,7 @@ class CreditmemoGetTest extends WebapiAbstract
     /**
      * Test creditmemo get service
      *
-     * @m111agentoApiDataFixture Magento/Sales/_files/creditmemo_with_list.php
+     * @magentoApiDataFixture Magento/Sales/_files/creditmemo_with_list.php
      */
     public function testCreditmemoGet()
     {
@@ -95,16 +95,16 @@ class CreditmemoGetTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'info'
+                'operation' => self::SERVICE_READ_NAME . 'invoke'
             ]
         ];
 
-        $expected = $this->_webApiCall($serviceInfo, ['id' => $creditmemo->getId()]);
-        $actual = $creditmemo->getData();
-        foreach ($this->requiredFields as $field) {
-            $this->assertArrayHasKey($field, $expected);
-            $this->assertEquals($expected[$field], $actual[$field]);
-        }
+        $actual = $this->_webApiCall($serviceInfo, ['id' => $creditmemo->getId()]);
+        $expected = $creditmemo->getData();
 
+        foreach ($this->requiredFields as $field) {
+            $this->assertArrayHasKey($field, $actual);
+            $this->assertEquals($actual[$field], $expected[$field]);
+        }
     }
 }

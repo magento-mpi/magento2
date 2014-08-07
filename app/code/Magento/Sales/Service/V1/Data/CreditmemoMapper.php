@@ -37,10 +37,10 @@ class CreditmemoMapper
     /**
      * Returns array of items
      *
-     * @param Creditmemo $creditmemo
-     * @return Creditmemo[]
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\Sales\Service\V1\Data\CreditmemoItem[]
      */
-    protected function getItems(Creditmemo $creditmemo)
+    protected function getItems(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $items = [];
         foreach ($creditmemo->getAllItems() as $item) {

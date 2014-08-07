@@ -546,7 +546,9 @@ class Creditmemo extends DataObject
     }
 
     /**
-     * @return CreditmemoItem[]
+     * Return creditmemo items
+     *
+     * @return \Magento\Sales\Service\V1\Data\CreditmemoItem[]
      */
     public function getItems()
     {

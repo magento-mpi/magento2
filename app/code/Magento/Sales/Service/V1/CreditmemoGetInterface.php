@@ -16,7 +16,7 @@ interface CreditmemoGetInterface
      * Invoke creditmemo get service
      *
      * @param int $id
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return \Magento\Sales\Service\V1\Data\Creditmemo
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function invoke($id);
