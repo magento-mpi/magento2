@@ -250,29 +250,29 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Set cookie instance
+     * Set CookieManager instance
      *
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @return $this
      */
-    public function setCookie($cookie)
+    public function setCookieManager($cookieManager)
     {
-        return $this->setData('_cookie', $cookie);
+        return $this->setData('_cookie_manager', $cookieManager);
     }
 
     /**
-     * Retrieve Cookie instance
+     * Retrieve CookieManager instance
      *
      * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\Framework\Stdlib\Cookie
+     * @return \Magento\Framework\Stdlib\CookieManager
      */
-    public function getCookie()
+    public function getCookieManager()
     {
-        $cookie = $this->_getData('_cookie');
-        if (!$cookie instanceof \Magento\Framework\Stdlib\Cookie) {
-            throw new \Magento\Framework\Model\Exception(__('Please define a correct Cookie instance.'));
+        $cookieManager = $this->_getData('_cookie_manager');
+        if (!$cookieManager instanceof \Magento\Framework\Stdlib\CookieManager) {
+            throw new \Magento\Framework\Model\Exception(__('Please define a correct CookieManager instance.'));
         }
-        return $cookie;
+        return $cookieManager;
     }
 
     /**
@@ -517,14 +517,14 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
      */
     protected function _sentCountByCookies($increment = false)
     {
-        $cookie = $this->_sendfriendData->getCookieName();
+        $cookieName = $this->_sendfriendData->getCookieName();
         $time = time();
         $newTimes = array();
 
-        if (isset($this->_lastCookieValue[$cookie])) {
-            $oldTimes = $this->_lastCookieValue[$cookie];
+        if (isset($this->_lastCookieValue[$cookieName])) {
+            $oldTimes = $this->_lastCookieValue[$cookieName];
         } else {
-            $oldTimes = $this->getCookie()->get($cookie);
+            $oldTimes = $this->getCookieManager()->getCookie($cookieName);
         }
 
         if ($oldTimes) {
@@ -540,8 +540,8 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
         if ($increment) {
             $newTimes[] = $time;
             $newValue = implode(',', $newTimes);
-            $this->getCookie()->set($cookie, $newValue);
-            $this->_lastCookieValue[$cookie] = $newValue;
+            $this->getCookieManager()->setPublicCookie($cookieName, $newValue);
+            $this->_lastCookieValue[$cookieName] = $newValue;
         }
 
         return count($newTimes);

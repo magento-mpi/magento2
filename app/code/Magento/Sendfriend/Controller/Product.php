@@ -114,8 +114,8 @@ class Product extends \Magento\Framework\App\Action\Action
         /** @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress */
         $remoteAddress = $this->_objectManager->get('Magento\Framework\HTTP\PhpEnvironment\RemoteAddress');
 
-        /** @var \Magento\Framework\Stdlib\Cookie $cookie */
-        $cookie = $this->_objectManager->get('Magento\Framework\Stdlib\Cookie');
+        /** @var \Magento\Framework\Stdlib\CookieManager $cookieManager */
+        $cookieManager = $this->_objectManager->get('Magento\Framework\Stdlib\CookieManager');
 
         /** @var \Magento\Store\Model\StoreManagerInterface $store */
         $store = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
@@ -123,7 +123,7 @@ class Product extends \Magento\Framework\App\Action\Action
         /** @var \Magento\Sendfriend\Model\Sendfriend $model */
         $model = $this->_objectManager->create('Magento\Sendfriend\Model\Sendfriend');
         $model->setRemoteAddr($remoteAddress->getRemoteAddress(true));
-        $model->setCookie($cookie);
+        $model->setCookieManager($cookieManager);
         $model->setWebsiteId($store->getStore()->getWebsiteId());
 
         $this->_coreRegistry->register('send_to_friend_model', $model);
