@@ -26,7 +26,7 @@ class InvoiceEmailTest extends WebapiAbstract
         $invoice->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/invoices/'. $invoice->getId() . '/emails',
+                'resourcePath' => '/V1/invoice/'. $invoice->getId() . '/email',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [

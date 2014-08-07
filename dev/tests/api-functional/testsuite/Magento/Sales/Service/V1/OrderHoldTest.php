@@ -25,7 +25,7 @@ class OrderHoldTest extends WebapiAbstract
         $order = $objectManager->get('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/'. $order->getId() . '/hold',
+                'resourcePath' => '/V1/order/'. $order->getId() . '/hold',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [

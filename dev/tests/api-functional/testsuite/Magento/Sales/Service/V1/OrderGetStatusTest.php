@@ -16,7 +16,7 @@ use Magento\Webapi\Model\Rest\Config;
  */
 class OrderGetStatusTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/orders/%d/status';
+    const RESOURCE_PATH = '/V1/order/%d/status';
 
     const SERVICE_READ_NAME = 'salesOrderGetStatusV1';
 

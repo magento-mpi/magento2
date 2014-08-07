@@ -31,7 +31,7 @@ class CreditmemoCommentsListTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/creditmemos/' . $creditmemo->getId() . '/comments',
+                'resourcePath' => '/V1/creditmemo/' . $creditmemo->getId() . '/comments',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [

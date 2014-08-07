@@ -27,7 +27,7 @@ class InvoiceCaptureTest extends WebapiAbstract
         $invoice = $objectManager->get('Magento\Sales\Model\Order\Invoice')->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/invoices/'. $invoice->getId() . '/capture',
+                'resourcePath' => '/V1/invoice/'. $invoice->getId() . '/capture',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [

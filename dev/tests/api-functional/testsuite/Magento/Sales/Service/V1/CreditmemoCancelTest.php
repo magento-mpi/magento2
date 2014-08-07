@@ -5,11 +5,10 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class CreditmemoCancelTest extends WebapiAbstract
 {
@@ -29,7 +28,7 @@ class CreditmemoCancelTest extends WebapiAbstract
         $creditmemo = $creditmemoFactory->create()->load(self::CREDITMEMO_INCREMENT_ID, 'increment_id');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/creditmemos/'. $creditmemo->getId(),
+                'resourcePath' => '/V1/creditmemo/'. $creditmemo->getId(),
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [

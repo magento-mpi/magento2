@@ -26,7 +26,7 @@ class OrderNotifyUserTest extends WebapiAbstract
         $order->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/'. $order->getId() . '/emails',
+                'resourcePath' => '/V1/order/'. $order->getId() . '/email',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [

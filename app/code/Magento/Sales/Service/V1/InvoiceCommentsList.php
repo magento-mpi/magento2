@@ -68,7 +68,7 @@ class InvoiceCommentsList implements InvoiceCommentsListInterface
      * Invoke InvoiceCommentsList service
      *
      * @param int $id
-     * @return \Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder
+     * @return \Magento\Sales\Service\V1\Data\CommentSearchResults
      */
     public function invoke($id)
     {

@@ -10,6 +10,9 @@ namespace Magento\Sales\Service\V1;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
+/**
+ * Class InvoiceCommentsListTest
+ */
 class InvoiceCommentsListTest extends WebapiAbstract
 {
     const SERVICE_NAME = 'salesInvoiceCommentsListV1';
@@ -26,12 +29,12 @@ class InvoiceCommentsListTest extends WebapiAbstract
 
         /** @var \Magento\Sales\Model\Order\Invoice $invoice */
         $invoice = $objectManager->get('Magento\Sales\Model\Order\Invoice')->loadByIncrementId('100000001');
-        $history = $invoice->addComment($comment);
-        $history->save();
+        $invoice->addComment($comment);
+        $invoice->save();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/invoices/' . $invoice->getId() . '/comments',
+                'resourcePath' => '/V1/invoice/' . $invoice->getId() . '/comments',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -42,10 +45,11 @@ class InvoiceCommentsListTest extends WebapiAbstract
         ];
         $requestData = ['id' => $invoice->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);
-        foreach ($result['items'] as $history) {
+        foreach ($result['items'] as $item) {
+            /** @var \Magento\Sales\Model\Order\Invoice\Comment $invoiceHistoryStatus */
             $invoiceHistoryStatus = $objectManager->get('Magento\Sales\Model\Order\Invoice\Comment')
-                ->load($history['entity_id']);
-            $this->assertEquals($invoiceHistoryStatus->getComment(), $history['comment']);
+                ->load($item['entity_id']);
+            $this->assertEquals($invoiceHistoryStatus->getComment(), $item['comment']);
         }
     }
 }
