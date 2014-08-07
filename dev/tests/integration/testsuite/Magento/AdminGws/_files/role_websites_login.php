@@ -16,8 +16,8 @@ if (!isset($scope)) {
     $scope = 'websites';
 }
 
-/** @var $role \Magento\User\Model\Role */
-$role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
+/** @var $role \Magento\Authorization\Model\Role */
+$role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Authorization\Model\Role');
 $role->setName('admingws_role')->setGwsIsAll(0)->setRoleType('G')->setPid('1');
 if ('websites' == $scope) {
     $role->setGwsWebsites(
@@ -34,8 +34,8 @@ if ('websites' == $scope) {
 }
 $role->save();
 
-/** @var $rule \Magento\User\Model\Rules */
-$rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Rules');
+/** @var $rule \Magento\Authorization\Model\Rules */
+$rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Authorization\Model\Rules');
 $rule->setRoleId($role->getId())->setResources(array('Magento_Adminhtml::all'))->saveRel();
 
 $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
