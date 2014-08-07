@@ -189,6 +189,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function createDataProvider()
     {
         return [
