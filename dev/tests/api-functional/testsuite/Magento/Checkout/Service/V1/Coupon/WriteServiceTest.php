@@ -8,6 +8,7 @@
 
 namespace Magento\Checkout\Service\V1\Coupon;
 
+use Magento\Checkout\Service\V1\Data\Cart\Coupon;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
@@ -51,5 +52,75 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
         $quote->load('test_order_1', 'reserved_order_id');
         $this->assertEquals('', $quote->getCouponCode());
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
+     * @expectedException \Exception
+     * @expectedExceptionMessage Coupon code is not valid
+     */
+    public function testSetCouponThrowsExceptionIfCouponDoesNotExist()
+    {
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $quote->load('test_order_1', 'reserved_order_id');
+        $cartId = $quote->getId();
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . $cartId . '/coupons',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Set',
+            ),
+        );
+
+        $data = [Coupon::COUPON_CODE => 'newCode'];
+
+        $requestData = [
+            "cartId" => $cartId,
+            "couponCodeData" => $data
+        ];
+
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_not_logged_in.php
+     * @magentoApiDataFixture Magento/Checkout/_files/discount_10percent.php
+     */
+    public function testSetCouponSuccess()
+    {
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $quote->load('test_order_1', 'reserved_order_id');
+        $cartId = $quote->getId();
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . $cartId . '/coupons',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ),
+            'soap' => array(
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Set',
+            ),
+        );
+
+        $salesRule = $this->objectManager->create('Magento\SalesRule\Model\Rule');
+        $salesRule->load('Test Coupon', 'name');
+
+        $data = [Coupon::COUPON_CODE => $salesRule->getCouponCode()];
+
+        $requestData = [
+            "cartId" => $cartId,
+            "couponCodeData" => $data
+        ];
+
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
     }
 }
