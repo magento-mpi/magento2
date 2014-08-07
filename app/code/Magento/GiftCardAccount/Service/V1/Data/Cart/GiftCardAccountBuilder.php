@@ -29,6 +29,8 @@ class GiftCardAccountBuilder extends \Magento\Framework\Service\Data\AbstractObj
     const BASE_GIFT_CARDS_AMOUNT_USED = 'base_gift_cards_amount_used';
 
     /**
+     * Set Gift cards codes
+     *
      * @param string[] $value
      * @return $this
      */
@@ -38,6 +40,8 @@ class GiftCardAccountBuilder extends \Magento\Framework\Service\Data\AbstractObj
     }
 
     /**
+     * Set Gift cards amount in quote currency
+     *
      * @param int|null $value
      * @return $this
      */
@@ -47,6 +51,8 @@ class GiftCardAccountBuilder extends \Magento\Framework\Service\Data\AbstractObj
     }
 
     /**
+     * Set Gift card amount in base currency
+     *
      * @param int|null $value
      * @return $this
      */
@@ -56,6 +62,8 @@ class GiftCardAccountBuilder extends \Magento\Framework\Service\Data\AbstractObj
     }
 
     /**
+     * Set used gift card amount in quote currency
+     *
      * @param int|null $value
      * @return $this
      */
@@ -65,6 +73,8 @@ class GiftCardAccountBuilder extends \Magento\Framework\Service\Data\AbstractObj
     }
 
     /**
+     * Set used gift card amount in base currency
+     *
      * @param int|null $value
      * @return $this
      */

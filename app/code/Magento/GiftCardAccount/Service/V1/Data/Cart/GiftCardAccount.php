@@ -28,7 +28,11 @@ class GiftCardAccount extends \Magento\Framework\Service\Data\AbstractObject
 
     const BASE_GIFT_CARDS_AMOUNT_USED = 'base_gift_cards_amount_used';
 
+    /**#@-*/
+
     /**
+     * Gift cards codes
+     *
      * @return string[]
      */
     public function getGiftCards()
@@ -37,6 +41,8 @@ class GiftCardAccount extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Gift cards amount in quote currency
+     *
      * @return int|null
      */
     public function getGiftCardsAmount()
@@ -45,6 +51,8 @@ class GiftCardAccount extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Gift cards amount in base currency
+     *
      * @return int|null
      */
     public function getBaseGiftCardsAmount()
@@ -53,6 +61,8 @@ class GiftCardAccount extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Gift cards amount used in quote currency
+     *
      * @return int|null
      */
     public function getGiftCardsAmountUsed()
@@ -61,6 +71,8 @@ class GiftCardAccount extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Gift cards amount used in base currency
+     *
      * @return int|null
      */
     public function getBaseGiftCardsAmountUsed()

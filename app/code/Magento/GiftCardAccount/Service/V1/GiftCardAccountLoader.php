@@ -29,6 +29,8 @@ class GiftCardAccountLoader
     }
 
     /**
+     * Load gift card account by code
+     *
      * @param string $code
      * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      * @throws \Magento\Framework\Exception\NoSuchEntityException

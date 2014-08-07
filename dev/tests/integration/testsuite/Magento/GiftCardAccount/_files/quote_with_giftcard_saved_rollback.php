@@ -10,6 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+require __DIR__ . '/../../Checkout/_files/quote_with_address_saved_rollback.php';
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$quote = $objectManager->create('\Magento\Sales\Model\Quote');
-$quote->load('test_order_1', 'reserved_order_id')->delete();
+$giftCardAccount = $objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount');
+$giftCardAccount->loadByCode('giftcardaccount_fixture')->delete();
