@@ -25,7 +25,7 @@ class OrderCancelTest extends WebapiAbstract
         $order = $objectManager->get('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/order/'. $order->getId() . '/cancel',
+                'resourcePath' => '/V1/order/' . $order->getId() . '/cancel',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [

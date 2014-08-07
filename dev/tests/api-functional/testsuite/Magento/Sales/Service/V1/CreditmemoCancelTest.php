@@ -28,7 +28,7 @@ class CreditmemoCancelTest extends WebapiAbstract
         $creditmemo = $creditmemoFactory->create()->load(self::CREDITMEMO_INCREMENT_ID, 'increment_id');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/creditmemo/'. $creditmemo->getId(),
+                'resourcePath' => '/V1/creditmemo/' . $creditmemo->getId(),
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
