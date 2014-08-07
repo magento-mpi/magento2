@@ -135,7 +135,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getCouponCode')->will($this->returnValue($couponCode));
         $this->quoteMock->expects($this->once())->method('setCouponCode')->with($couponCode);
         $exceptionMessage = 'Could not apply coupon code';
-        $exception = new \Magento\Framework\Exception\CouldNotSaveException($exceptionMessage);
+        $exception = new \Magento\Framework\Exception\CouldNotDeleteException($exceptionMessage);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
 
@@ -214,7 +214,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedException \Magento\Framework\Exception\CouldNotDeleteException
      * @expectedExceptionMessage Could not delete coupon code
      */
     public function testDeleteWhenCouldNotDeleteCoupon()
@@ -241,7 +241,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedException \Magento\Framework\Exception\CouldNotDeleteException
      * @expectedExceptionMessage Could not delete coupon code
      */
     public function testDeleteWhenCouponIsNotEmpty()

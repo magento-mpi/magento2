@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Checkout\Service\V1\Coupon;
+namespace Magento\GiftCardAccount\Service\V1;
 
-use \Magento\Checkout\Service\V1\Data\Cart\CouponBuilder as CouponBuilder;
-use Magento\Framework\Exception\CouldNotDeleteException;
+use \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccountBuilder as GiftCardAccountBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Class WriteService
@@ -23,9 +23,9 @@ class WriteService implements WriteServiceInterface
     protected $quoteLoader;
 
     /**
-     * @var CouponBuilder
+     * @var GiftCardAccountBuilder
      */
-    protected $couponBuilder;
+    protected $giftCardBuilder;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -33,24 +33,40 @@ class WriteService implements WriteServiceInterface
     protected $storeManager;
 
     /**
+     * @var \Magento\GiftCardAccount\Helper\Data
+     */
+    protected $giftCardHelper;
+
+    /**
+     * @var \Magento\GiftCardAccount\Service\V1\GiftCardAccountLoader
+     */
+    protected $giftCardLoader;
+
+    /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
-     * @param CouponBuilder $couponBuilder
+     * @param GiftCardAccountBuilder $giftCardBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardHelper
+     * @param \Magento\GiftCardAccount\Service\V1\GiftCardAccountLoader $loader
      */
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
-        CouponBuilder $couponBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        GiftCardAccountBuilder $giftCardBuilder,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\GiftCardAccount\Helper\Data $giftCardHelper,
+        \Magento\GiftCardAccount\Service\V1\GiftCardAccountLoader $loader
     ) {
         $this->quoteLoader = $quoteLoader;
-        $this->couponBuilder = $couponBuilder;
+        $this->giftCardBuilder = $giftCardBuilder;
         $this->storeManager = $storeManager;
+        $this->giftCardHelper = $giftCardHelper;
+        $this->giftCardLoader = $loader;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function set($cartId, \Magento\Checkout\Service\V1\Data\Cart\Coupon $couponCodeData)
+    public function set($cartId, \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount $giftCardAccountData)
     {
         $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
@@ -58,17 +74,12 @@ class WriteService implements WriteServiceInterface
         if (!$quote->getItemsCount()) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain products");
         }
-        $quote->getShippingAddress()->setCollectShippingRates(true);
-        $couponCode = trim($couponCodeData->getCouponCode());
-
+        $cardCode = $giftCardAccountData->getGiftCards();
+        $giftCard = $this->giftCardLoader->load(array_shift($cardCode));
         try {
-            $quote->setCouponCode($couponCode);
-            $quote->collectTotals()->save();
+            $giftCard->addToCart(true, $quote);
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not apply coupon code');
-        }
-        if ($quote->getCouponCode() != $couponCode) {
-            throw new NoSuchEntityException('Coupon code is not valid');
+            throw new CouldNotSaveException('Could not add gift card code');
         }
         return true;
     }
@@ -76,7 +87,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function delete($cartId)
+    public function delete($cartId, $couponCode)
     {
         $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */
@@ -84,15 +95,12 @@ class WriteService implements WriteServiceInterface
         if (!$quote->getItemsCount()) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain products");
         }
-        $quote->getShippingAddress()->setCollectShippingRates(true);
+        $giftCard = $this->giftCardLoader->load($couponCode);
+
         try {
-            $quote->setCouponCode('');
-            $quote->collectTotals()->save();
+            $giftCard->removeFromCart(true, $quote);
         } catch (\Exception $e) {
-            throw new CouldNotDeleteException('Could not delete coupon code');
-        }
-        if ($quote->getCouponCode() != '') {
-            throw new CouldNotDeleteException('Could not delete coupon code');
+            throw new CouldNotDeleteException('Could not delete gift card from quote');
         }
         return true;
     }
