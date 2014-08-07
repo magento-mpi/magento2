@@ -12,7 +12,7 @@ use Magento\Webapi\Model\Rest\Config;
 
 class InvoiceGetTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/invoices';
+    const RESOURCE_PATH = '/V1/invoice';
 
     const SERVICE_READ_NAME = 'salesInvoiceGetServiceV1';
 
@@ -51,7 +51,7 @@ class InvoiceGetTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'info'
+                'operation' => self::SERVICE_READ_NAME . 'invoke'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $invoice->getId()]);

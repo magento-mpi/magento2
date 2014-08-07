@@ -31,7 +31,7 @@ class OrderCommentsListTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/' . $order->getId() . '/comments',
+                'resourcePath' => '/V1/order/' . $order->getId() . '/comments',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [

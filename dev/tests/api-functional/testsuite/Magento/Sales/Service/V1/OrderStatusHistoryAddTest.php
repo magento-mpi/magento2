@@ -56,7 +56,7 @@ class OrderStatusHistoryAddTest extends WebapiAbstract
         $requestData = ['id'=> $order->getId(), 'statusHistory' => $commentData];
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/' . $order->getId() .'/comment',
+                'resourcePath' => '/V1/order/' . $order->getId() .'/comment',
                 'httpMethod' => Config::HTTP_METHOD_POST
             ],
             'soap' => [

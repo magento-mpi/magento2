@@ -16,7 +16,7 @@ interface CreditmemoCommentsListInterface
      * Invoke CreditmemoCommentsList service
      *
      * @param int $id
-     * @return \Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder
+     * @return \Magento\Sales\Service\V1\Data\CommentSearchResults
      */
     public function invoke($id);
 }

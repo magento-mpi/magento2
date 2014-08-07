@@ -26,10 +26,8 @@ class InvoiceMapper
      * @param InvoiceBuilder $invoiceBuilder
      * @param InvoiceItemMapper $invoiceItemMapper
      */
-    public function __construct(
-        InvoiceBuilder $invoiceBuilder,
-        InvoiceItemMapper $invoiceItemMapper
-    ) {
+    public function __construct(InvoiceBuilder $invoiceBuilder, InvoiceItemMapper $invoiceItemMapper)
+    {
         $this->invoiceBuilder = $invoiceBuilder;
         $this->invoiceItemMapper = $invoiceItemMapper;
     }
