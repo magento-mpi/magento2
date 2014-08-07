@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Block\Adminhtml\Edit\Tab\GiftRegistry;
+namespace Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Tab\GiftRegistry;
 
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 

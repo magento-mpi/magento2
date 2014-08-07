@@ -74,9 +74,11 @@ class CustomerId implements FixtureInterface
     }
 
     /**
+     * Get customer fixture
+     *
      * @return array
      */
-    public function getPreset()
+    public function getCustomerId()
     {
         return $this->data;
     }

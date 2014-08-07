@@ -119,7 +119,7 @@ class DeleteGiftRegistryEntityBackendTest extends Injectable
             ['data' => ['gift_registry' => $giftRegistry->getData()]]
         );
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen(
-            ['email' => $giftRegistry->getDataFieldConfig('customer_id')['source']->getPreset()->getEmail()]
+            ['email' => $giftRegistry->getDataFieldConfig('customer_id')['source']->getCustomerId()->getEmail()]
         );
         $this->customerIndexEdit->getCustomerForm()->fill($customer);
         $this->giftRegistryCustomerEdit->getActionsToolbarBlock()->delete();

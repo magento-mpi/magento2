@@ -6,12 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Block\Adminhtml\Edit\Tab;
+namespace Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Tab;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Customer\Test\Block\Adminhtml\Edit\Tab\GiftRegistry\Grid;
+use Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Tab\GiftRegistry\Grid;
 
 /**
  * Class GiftRegistry
@@ -34,7 +33,7 @@ class GiftRegistry extends Tab
     protected function getSearchGridBlock()
     {
         return $this->blockFactory->create(
-            'Magento\Customer\Test\Block\Adminhtml\Edit\Tab\GiftRegistry\Grid',
+            'Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Tab\GiftRegistry\Grid',
             ['element' => $this->_rootElement->find($this->giftRegistryGrid)]
         );
     }
