@@ -71,7 +71,13 @@ class SourceTest extends \PHPUnit_Framework_TestCase
         );
         $this->theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
 
-        $themeFactory = $this->getMock('\Magento\Framework\View\Design\Theme\FlyweightFactory', array(), array(), '', false);
+        $themeFactory = $this->getMock(
+            '\Magento\Framework\View\Design\Theme\FlyweightFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $themeFactory->expects($this->any())
             ->method('create')
             ->with('magento_theme', 'frontend')

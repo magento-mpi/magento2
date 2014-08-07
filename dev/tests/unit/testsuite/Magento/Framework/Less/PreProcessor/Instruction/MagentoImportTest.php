@@ -55,7 +55,7 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', [], [], '', false);
         $this->asset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         $this->assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', [], [], '', false);
-        $this->themeFactory = $this->getMock('\Magento\Framework\View\Design\Theme\FlyweightFactory', [], [], '', false);
+        $this->themeFactory = $this->getMock('Magento\Framework\View\Design\Theme\FlyweightFactory', [], [], '', false);
         $this->object = new \Magento\Framework\Less\PreProcessor\Instruction\MagentoImport(
             $this->design,
             $this->fileSource,
