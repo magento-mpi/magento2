@@ -7,8 +7,6 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
-use Magento\Sales\Model\Order\Creditmemo;
-
 /**
  * Class CreditmemoMapper
  */
@@ -37,10 +35,10 @@ class CreditmemoMapper
     /**
      * Returns array of items
      *
-     * @param Creditmemo $creditmemo
-     * @return array
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\Sales\Service\V1\Data\CreditmemoItem[]
      */
-    protected function getItems(Creditmemo $creditmemo)
+    protected function getItems(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $items = [];
         foreach ($creditmemo->getAllItems() as $item) {
@@ -51,10 +49,10 @@ class CreditmemoMapper
     }
 
     /**
-     * @param Creditmemo $creditmemo
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @return \Magento\Framework\Service\Data\AbstractObject
      */
-    public function extractDto(Creditmemo $creditmemo)
+    public function extractDto(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $this->creditmemoBuilder->populateWithArray($creditmemo->getData());
         $this->creditmemoBuilder->setItems($this->getItems($creditmemo));

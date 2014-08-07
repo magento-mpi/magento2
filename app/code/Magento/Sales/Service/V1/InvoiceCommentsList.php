@@ -7,10 +7,10 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Sales\Model\Order\Invoice\CommentRepository;
 use Magento\Sales\Service\V1\Data\CommentMapper;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Sales\Model\Order\Invoice\CommentRepository;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder;
 
 /**
@@ -19,36 +19,36 @@ use Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder;
 class InvoiceCommentsList implements InvoiceCommentsListInterface
 {
     /**
-     * @var CommentRepository
+     * @var \Magento\Sales\Model\Order\Invoice\CommentRepository
      */
     protected $commentRepository;
 
     /**
-     * @var CommentMapper
+     * @var \Magento\Sales\Service\V1\Data\CommentMapper
      */
     protected $commentMapper;
 
     /**
-     * @var SearchCriteriaBuilder
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
      */
     protected $criteriaBuilder;
 
     /**
-     * @var FilterBuilder
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
      */
     protected $filterBuilder;
 
     /**
-     * @var CommentSearchResultsBuilder
+     * @var \Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder
      */
     protected $searchResultsBuilder;
 
     /**
-     * @param CommentRepository $commentRepository
-     * @param CommentMapper $commentMapper
-     * @param SearchCriteriaBuilder $criteriaBuilder
-     * @param FilterBuilder $filterBuilder
-     * @param CommentSearchResultsBuilder $searchResultsBuilder
+     * @param \Magento\Sales\Model\Order\Invoice\CommentRepository $commentRepository
+     * @param \Magento\Sales\Service\V1\Data\CommentMapper $commentMapper
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
         CommentRepository $commentRepository,
