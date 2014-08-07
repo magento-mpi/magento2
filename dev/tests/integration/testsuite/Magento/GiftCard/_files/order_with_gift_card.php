@@ -59,6 +59,8 @@ $orderItem->setProductId(
 $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
 $order->addItem(
     $orderItem
+)->setCustomerEmail(
+    'someone@foobar.com'
 )->setIncrementId(
     '100000001'
 )->setCustomerIsGuest(
