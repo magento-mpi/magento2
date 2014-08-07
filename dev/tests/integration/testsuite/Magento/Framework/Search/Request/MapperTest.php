@@ -13,7 +13,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     {
         $config = include __DIR__ . '/../_files/search_request_config.php';
         $request = reset($config);
-        $mapper = $this->object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $mapper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create(
                 '\Magento\Framework\Search\Request\Mapper',
                 [
