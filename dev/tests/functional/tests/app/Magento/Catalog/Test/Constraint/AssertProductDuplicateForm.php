@@ -64,7 +64,7 @@ class AssertProductDuplicateForm extends AssertProductForm
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
         $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->prepareFixtureData($product->getData());
+        $fixtureData = $this->prepareFixtureData($product->getData(), $product);
 
         $errors = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
