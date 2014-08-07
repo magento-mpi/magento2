@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
-use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Service\Data\AbstractObject;
 use Magento\Framework\Service\DataObjectConverter;
@@ -36,8 +36,8 @@ class Handler
     /** @var SoapConfig */
     protected $_apiConfig;
 
-    /** @var AuthorizationService */
-    protected $_authorizationService;
+    /** @var AuthorizationInterface */
+    protected $_authorization;
 
     /** @var DataObjectConverter */
     protected $_dataObjectConverter;
@@ -51,7 +51,7 @@ class Handler
      * @param SoapRequest $request
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
-     * @param AuthorizationService $authorizationService
+     * @param AuthorizationInterface $authorization
      * @param DataObjectConverter $dataObjectConverter
      * @param ServiceArgsSerializer $serializer
      */
@@ -59,14 +59,14 @@ class Handler
         SoapRequest $request,
         \Magento\Framework\ObjectManager $objectManager,
         SoapConfig $apiConfig,
-        AuthorizationService $authorizationService,
+        AuthorizationInterface $authorization,
         DataObjectConverter $dataObjectConverter,
         ServiceArgsSerializer $serializer
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
-        $this->_authorizationService = $authorizationService;
+        $this->_authorization = $authorization;
         $this->_dataObjectConverter = $dataObjectConverter;
         $this->_serializer = $serializer;
     }
@@ -94,8 +94,8 @@ class Handler
         }
 
         $isAllowed = false;
-        foreach ($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] as $resources) {
-            if ($this->_authorizationService->isAllowed($resources)) {
+        foreach ($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES] as $resource) {
+            if ($this->_authorization->isAllowed($resource)) {
                 $isAllowed = true;
                 break;
             }

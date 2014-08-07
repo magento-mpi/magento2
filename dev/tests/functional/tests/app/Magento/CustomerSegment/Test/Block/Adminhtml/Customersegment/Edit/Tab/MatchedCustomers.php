@@ -27,12 +27,12 @@ class MatchedCustomers extends Tab
     /**
      * Get Customer Segment edit form
      *
-     * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Detail\Grid
+     * @return \Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\DetailGrid
      */
     public function getCustomersGrid()
     {
         return $this->blockFactory->create(
-            'Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\Detail\Grid',
+            'Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment\DetailGrid',
             ['element' => $this->_rootElement->find($this->gridPath)]
         );
     }
