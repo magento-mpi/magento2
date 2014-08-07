@@ -22,7 +22,7 @@ class InvoiceNotifierTest extends \PHPUnit_Framework_TestCase
     protected $historyCollectionFactory;
 
     /**
-     * @var \Magento\Sales\Model\InvoiceNotifier
+     * @var \Magento\Sales\Model\Order\InvoiceNotifier
      */
     protected $notifier;
 
