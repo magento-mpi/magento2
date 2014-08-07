@@ -21,7 +21,7 @@ class CmsVersionEdit extends BackendPage
     protected $_blocks = [
         'formPageActions' => [
             'name' => 'formPageActions',
-            'class' => 'Magento\Backend\Test\Block\FormPageActions',
+            'class' => 'Magento\VersionsCms\Test\Block\Adminhtml\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -34,7 +34,7 @@ class CmsVersionEdit extends BackendPage
     ];
 
     /**
-     * @return \Magento\Backend\Test\Block\FormPageActions
+     * @return \Magento\VersionsCms\Test\Block\Adminhtml\FormPageActions
      */
     public function getFormPageActions()
     {

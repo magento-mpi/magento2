@@ -39,4 +39,24 @@
             <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
         </require>
     </assertCmsPageVersionSuccessSaveMessage>
+    <assertCmsPageVersionSuccessDeleteMessage module="Magento_VersionsCms">
+        <severeness>medium</severeness>
+        <require>
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+        </require>
+    </assertCmsPageVersionSuccessDeleteMessage>
+    <assertCmsPageVersionNotInGrid module="Magento_VersionsCms">
+        <severeness>low</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+        </require>
+    </assertCmsPageVersionNotInGrid>
+    <assertCmsPageVersionErrorDeleteMessage module="Magento_VersionsCms">
+        <severeness>medium</severeness>
+        <require>
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+        </require>
+    </assertCmsPageVersionErrorDeleteMessage>
 </constraint>
