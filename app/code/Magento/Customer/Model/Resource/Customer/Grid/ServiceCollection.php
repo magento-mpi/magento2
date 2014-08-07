@@ -36,8 +36,8 @@ class ServiceCollection extends AbstractServiceCollection
         EntityFactory $entityFactory,
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        CustomerAccountServiceInterface $accountService,
-        SortOrderBuilder $sortOrderBuilder
+        SortOrderBuilder $sortOrderBuilder,
+        CustomerAccountServiceInterface $accountService
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
         $this->accountService = $accountService;

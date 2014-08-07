@@ -235,7 +235,8 @@ class TaxClassService implements TaxClassServiceInterface
         /** @var SortOrder $sortOrder */
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $sortOrder) {
-                $collection->addOrder($sortOrder->getField(),
+                $collection->addOrder(
+                    $sortOrder->getField(),
                     ($sortOrder->getDirection() == SearchCriteria::SORT_ASC) ? 'ASC' : 'DESC'
                 );
             }

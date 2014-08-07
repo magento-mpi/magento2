@@ -46,9 +46,9 @@ class TaxRuleCollection extends AbstractServiceCollection
         EntityFactory $entityFactory,
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        SortOrderBuilder $sortOrderBuilder,
         TaxRuleServiceInterface $ruleService,
-        TaxRuleConverter $ruleConverter,
-        SortOrderBuilder $sortOrderBuilder
+        TaxRuleConverter $ruleConverter
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
         $this->ruleService = $ruleService;
