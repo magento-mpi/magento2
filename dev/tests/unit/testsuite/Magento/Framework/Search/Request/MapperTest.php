@@ -160,10 +160,22 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][1]['type']])],
                 [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][2]['type']])],
                 [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][3]['type']])],
-                [$this->equalTo($rangeClass), $this->equalTo(['from' => $bucket['range'][0]['from'], 'to' => $bucket['range'][0]['to']])],
-                [$this->equalTo($rangeClass), $this->equalTo(['from' => $bucket['range'][1]['from'], 'to' => $bucket['range'][1]['to']])],
-                [$this->equalTo($rangeClass), $this->equalTo(['from' => $bucket['range'][2]['from'], 'to' => $bucket['range'][2]['to']])],
-                [$this->equalTo($bucketClass), $this->equalTo($arguments)]
+                [
+                    $this->equalTo($rangeClass),
+                    $this->equalTo(['from' => $bucket['range'][0]['from'], 'to' => $bucket['range'][0]['to']])
+                ],
+                [
+                    $this->equalTo($rangeClass),
+                    $this->equalTo(['from' => $bucket['range'][1]['from'], 'to' => $bucket['range'][1]['to']])
+                ],
+                [
+                    $this->equalTo($rangeClass),
+                    $this->equalTo(['from' => $bucket['range'][2]['from'], 'to' => $bucket['range'][2]['to']])
+                ],
+                [
+                    $this->equalTo($bucketClass),
+                    $this->equalTo($arguments)
+                ]
             )
             ->will($this->returnValue(null));
 

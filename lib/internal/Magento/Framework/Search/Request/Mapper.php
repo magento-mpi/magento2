@@ -211,7 +211,7 @@ class Mapper
     public function getBuckets()
     {
         $buckets = array();
-        foreach($this->aggregation as $bucketData)
+        foreach ($this->aggregation as $bucketData)
         {
             $arguments =
             [
@@ -222,7 +222,9 @@ class Mapper
             switch ($bucketData['type']) {
                 case BucketInterface::TYPE_TERM:
                     $bucket = $this->objectManager->create(
-                        'Magento\Framework\Search\Request\Aggregation\TermBucket', $arguments);
+                        'Magento\Framework\Search\Request\Aggregation\TermBucket',
+                        $arguments
+                    );
                     break;
                 case BucketInterface::TYPE_RANGE:
                     $bucket = $this->objectManager->create(
@@ -250,7 +252,7 @@ class Mapper
     private function mapMetrics(array $metrics)
     {
         $metricObjects = array();
-        foreach($metrics as $metric) {
+        foreach ($metrics as $metric) {
             $metricObjects[] = $this->objectManager->create(
                 'Magento\Framework\Search\Request\Aggregation\Metric',
                 [
@@ -270,7 +272,7 @@ class Mapper
     private function mapRanges(array $ranges)
     {
         $rangeObjects = array();
-        foreach($ranges as $range) {
+        foreach ($ranges as $range) {
             $rangeObjects[] = $this->objectManager->create(
                 'Magento\Framework\Search\Request\Aggregation\Range',
                 [
