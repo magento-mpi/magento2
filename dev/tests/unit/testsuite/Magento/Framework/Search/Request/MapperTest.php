@@ -12,6 +12,8 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class MapperTest extends \PHPUnit_Framework_TestCase
 {
+    const ROOT_QUERY = 'someQuery';
+
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
@@ -92,13 +94,14 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQueryMatch($queries)
     {
-        $query = $queries['someQuery'];
+        $query = $queries[self::ROOT_QUERY];
         /** @var \Magento\Framework\Search\Request\Mapper $mapper */
         $mapper = $this->helper->getObject(
             'Magento\Framework\Search\Request\Mapper',
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
@@ -116,7 +119,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryMatch));
 
-        $this->assertEquals($this->queryMatch, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryMatch, $mapper->getRootQuery());
     }
 
     /**
@@ -125,7 +128,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     public function testGetQueryNotUsedStateException()
     {
         $queries = [
-            'someQuery' => [
+            self::ROOT_QUERY => [
                 'type' => QueryInterface::TYPE_MATCH,
                 'name' => 'someName',
                 'boost' => 3,
@@ -145,6 +148,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
@@ -162,7 +166,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryMatch));
 
-        $this->assertEquals($this->queryMatch, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryMatch, $mapper->getRootQuery());
     }
 
     /**
@@ -176,7 +180,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => QueryInterface::TYPE_BOOL,
                         'name' => 'someName',
                         'queryReference' => [
@@ -187,11 +191,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                         ]
                     ]
                 ],
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
 
-        $this->assertEquals($this->queryMatch, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryMatch, $mapper->getRootQuery());
     }
 
     /**
@@ -206,6 +211,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
@@ -223,7 +229,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->queryMatch));
-        $query = $queries['someQuery'];
+        $query = $queries[self::ROOT_QUERY];
         $this->objectManager->expects($this->at(1))->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
@@ -238,7 +244,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryFilter));
 
-        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
 
     /**
@@ -257,11 +263,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                         'type' => QueryInterface::TYPE_FILTER
                     ]
                 ],
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
 
-        $mapper->get('someQuery');
+        $mapper->getRootQuery();
     }
 
     /**
@@ -276,6 +283,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
@@ -293,7 +301,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->queryMatch));
-        $query = $queries['someQuery'];
+        $query = $queries[self::ROOT_QUERY];
         $this->objectManager->expects($this->at(1))->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Query\Bool'),
@@ -307,7 +315,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryBool));
 
-        $this->assertEquals($this->queryBool, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryBool, $mapper->getRootQuery());
     }
 
     /**
@@ -321,15 +329,16 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => 'invalid_type'
                     ]
                 ],
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
 
-        $mapper->get('someQuery');
+        $mapper->getRootQuery();
     }
 
     /**
@@ -343,17 +352,18 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => [],
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
 
-        $mapper->get('someQuery');
+        $mapper->getRootQuery();
     }
 
     public function testGetFilterTerm()
     {
         $queries = [
-            'someQuery' => [
+            self::ROOT_QUERY => [
                 'type' => QueryInterface::TYPE_FILTER,
                 'name' => 'someName',
                 'filterReference' => [
@@ -378,6 +388,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => $filters
             ]
         );
@@ -395,7 +406,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->filterTerm));
-        $query = $queries['someQuery'];
+        $query = $queries[self::ROOT_QUERY];
         $this->objectManager->expects($this->at(1))->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
@@ -410,13 +421,13 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryFilter));
 
-        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
 
     public function testGetFilterRange()
     {
         $queries = [
-            'someQuery' => [
+            self::ROOT_QUERY => [
                 'type' => QueryInterface::TYPE_FILTER,
                 'name' => 'someName',
                 'filterReference' => [
@@ -442,6 +453,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => $filters
             ]
         );
@@ -460,7 +472,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->filterRange));
-        $query = $queries['someQuery'];
+        $query = $queries[self::ROOT_QUERY];
         $this->objectManager->expects($this->at(1))->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
@@ -475,13 +487,13 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryFilter));
 
-        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
 
     public function testGetFilterBool()
     {
         $queries = [
-            'someQuery' => [
+            self::ROOT_QUERY => [
                 'type' => QueryInterface::TYPE_FILTER,
                 'name' => 'someName',
                 'filterReference' => [
@@ -516,6 +528,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => $filters
             ]
         );
@@ -545,7 +558,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->filterBool));
-        $query = $queries['someQuery'];
+        $query = $queries[self::ROOT_QUERY];
         $this->objectManager->expects($this->at(2))->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
@@ -560,7 +573,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryFilter));
 
-        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
 
     /**
@@ -569,7 +582,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     public function testGetFilterNotUsedStateException()
     {
         $queries = [
-            'someQuery' => [
+            self::ROOT_QUERY => [
                 'type' => QueryInterface::TYPE_FILTER,
                 'name' => 'someName',
                 'filterReference' => [
@@ -600,6 +613,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => $filters
             ]
         );
@@ -617,7 +631,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->will($this->returnValue($this->filterTerm));
-        $query = $queries['someQuery'];
+        $query = $queries[self::ROOT_QUERY];
         $this->objectManager->expects($this->at(1))->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request\Query\Filter'),
@@ -632,7 +646,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->queryFilter));
 
-        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
 
     /**
@@ -646,7 +660,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => QueryInterface::TYPE_FILTER,
                         'name' => 'someName',
                         'filterReference' => [
@@ -656,6 +670,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                         ]
                     ]
                 ],
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => [
                     'someFilter' => [
                         'type' => FilterInterface::TYPE_BOOL,
@@ -671,7 +686,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertEquals($this->queryMatch, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryMatch, $mapper->getRootQuery());
     }
 
     /**
@@ -681,7 +696,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     public function testGetFilterInvalidArgumentException()
     {
         $queries = [
-            'someQuery' => [
+            self::ROOT_QUERY => [
                 'type' => QueryInterface::TYPE_FILTER,
                 'name' => 'someName',
                 'filterReference' => [
@@ -703,11 +718,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => $filters
             ]
         );
 
-        $this->assertEquals($this->queryFilter, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryFilter, $mapper->getRootQuery());
     }
 
     /**
@@ -716,7 +732,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     public function testGetFilterException()
     {
         $queries = [
-            'someQuery' => [
+            self::ROOT_QUERY => [
                 'type' => QueryInterface::TYPE_FILTER,
                 'name' => 'someName',
                 'boost' => 3,
@@ -735,11 +751,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             [
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
                 'filters' => []
             ]
         );
 
-        $this->assertEquals($this->queryBool, $mapper->get('someQuery'));
+        $this->assertEquals($this->queryBool, $mapper->getRootQuery());
     }
 
     public function getQueryMatchProvider()
@@ -747,7 +764,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => QueryInterface::TYPE_MATCH,
                         'name' => 'someName',
                         'boost' => 3,
@@ -757,7 +774,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => QueryInterface::TYPE_MATCH,
                         'name' => 'someName',
                         'match' => 'someMatches'
@@ -772,7 +789,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => QueryInterface::TYPE_FILTER,
                         'name' => 'someName',
                         'boost' => 3,
@@ -792,7 +809,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => QueryInterface::TYPE_FILTER,
                         'name' => 'someName',
                         'queryReference' => [
@@ -817,7 +834,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => QueryInterface::TYPE_BOOL,
                         'name' => 'someName',
                         'boost' => 3,
@@ -837,7 +854,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    'someQuery' => [
+                    self::ROOT_QUERY => [
                         'type' => QueryInterface::TYPE_BOOL,
                         'name' => 'someName',
                         'queryReference' => [
