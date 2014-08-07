@@ -141,14 +141,12 @@ class TaxRuleServiceTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Did not throw expected InputException');
+        } catch (\SoapFault $e) {
+            $this->assertContains('One or more input exceptions have occurred.', $e->getMessage());
         } catch (\Exception $e) {
             $this->assertContains('One or more input exceptions have occurred.', $e->getMessage());
-            /**
-             * TODO: These assertions should pass, even when not in developer mode. Filing as bug report.
-             *
-             * $this->assertContains('{"fieldName":"customer_tax_class_ids","value":2}', $e->getMessage());
-             * $this->assertContains('{"fieldName":"product_tax_class_ids","value":3}', $e->getMessage());
-             */
+            $this->assertContains('{"fieldName":"customer_tax_class_ids","value":2}', $e->getMessage());
+            $this->assertContains('{"fieldName":"product_tax_class_ids","value":3}', $e->getMessage());
         }
     }
 
