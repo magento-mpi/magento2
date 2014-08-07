@@ -1,7 +1,6 @@
 <?php
 /**
  * Bool Query
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -14,13 +13,6 @@ use Magento\Framework\Search\Request\QueryInterface;
 class Bool implements QueryInterface
 {
     /**
-     * Query Name
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
      * Boost
      *
      * @var int|null
@@ -28,11 +20,11 @@ class Bool implements QueryInterface
     protected $boost;
 
     /**
-     * Query names to which result set MUST satisfy
+     * Query Name
      *
-     * @var array
+     * @var string
      */
-    protected $must = array();
+    protected $name;
 
     /**
      * Query names to which result set SHOULD satisfy
@@ -40,6 +32,13 @@ class Bool implements QueryInterface
      * @var array
      */
     protected $should = array();
+
+    /**
+     * Query names to which result set MUST satisfy
+     *
+     * @var array
+     */
+    protected $must = array();
 
     /**
      * Query names to which result set MUST NOT satisfy
@@ -89,16 +88,6 @@ class Bool implements QueryInterface
     }
 
     /**
-     * Get Must queries
-     *
-     * @return array
-     */
-    public function getMust()
-    {
-        return $this->must;
-    }
-
-    /**
      * Get Should queries
      *
      * @return array
@@ -106,6 +95,16 @@ class Bool implements QueryInterface
     public function getShould()
     {
         return $this->should;
+    }
+
+    /**
+     * Get Must queries
+     *
+     * @return array
+     */
+    public function getMust()
+    {
+        return $this->must;
     }
 
     /**

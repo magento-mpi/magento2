@@ -1,7 +1,6 @@
 <?php
 /**
  * Search Request xml converter
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -38,7 +37,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     /**
      * Merge attributes in node data
      *
-     * @param $data
+     * @param array $data
      * @return array
      */
     protected function mergeAttributes($data)
@@ -56,7 +55,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      * @param \SimpleXMLElement $node
      * @return array
      */
-    protected function convertToArray(\SimpleXMLElement $node) {
+    protected function convertToArray(\SimpleXMLElement $node)
+    {
         return $this->mergeAttributes(json_decode(json_encode($node), true));
     }
 
@@ -64,7 +64,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      * Convert nodes to array
      *
      * @param \SimpleXMLElement $nodes
-     * @param $name
+     * @param string $name
      * @return array
      */
     protected function convertNodes(\SimpleXMLElement $nodes, $name)
@@ -73,7 +73,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
         /** @var \SimpleXMLElement $node */
         foreach ($nodes->children() as $node) {
             $element = $this->convertToArray($node->attributes());
-            if (count($node->children()) > 0 ) {
+            if (count($node->children()) > 0) {
                 foreach ($node->children() as $child) {
                     $element[$child->getName()][] = $this->convertToArray($child);
                 }

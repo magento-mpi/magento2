@@ -1,7 +1,6 @@
 <?php
 /**
  * Bool Filter
- *
  * {license_notice}
  *
  * @copyright   {copyright}

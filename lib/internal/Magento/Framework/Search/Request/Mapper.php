@@ -44,7 +44,7 @@ class Mapper
     /**
      * Get Query Interface by name
      *
-     * @param $queryName
+     * @param string $queryName
      * @return QueryInterface
      */
     public function get($queryName)
@@ -115,7 +115,7 @@ class Mapper
     /**
      * Aggregate Queries by clause
      *
-     * @param $data
+     * @param array $data
      * @return array
      */
     private function aggregateQueriesByType($data)
@@ -130,7 +130,7 @@ class Mapper
     /**
      * Aggregate Filters by clause
      *
-     * @param $data
+     * @param array $data
      * @return array
      */
     private function aggregateFiltersByType($data)
@@ -145,7 +145,7 @@ class Mapper
     /**
      * Convert array to Filter instance
      *
-     * @param $filterName
+     * @param string $filterName
      * @throws \Exception
      * @return FilterInterface
      */
