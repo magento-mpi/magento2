@@ -8,6 +8,7 @@
 namespace Magento\Checkout\Test\Block;
 
 use Exception;
+use Magento\Banner\Test\Fixture\BannerInjectable;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -85,6 +86,13 @@ class Cart extends Block
      * @var string
      */
     protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
+
+    /**
+     * Widget Banner CSS selector
+     *
+     * @var string
+     */
+    protected $widgetBanner = './/*/li[text()="%s"]';
 
     /**
      * Get sub-total for the specified item in the cart
@@ -337,5 +345,18 @@ class Cart extends Block
     {
         $formatPrice = sprintf($this->bundleOptions, $index, $itemIndex);
         return trim($this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText(), $currency);
+    }
+
+    /**
+     * Check Widget Banners
+     *
+     * @param BannerInjectable $banner
+     * @return bool
+     */
+    public function checkWidgetBanners(BannerInjectable $banner)
+    {
+        return $this->_rootElement
+            ->find(sprintf($this->widgetBanner, $banner->getStoreContents()['value_0']), Locator::SELECTOR_XPATH)
+            ->isVisible();
     }
 }

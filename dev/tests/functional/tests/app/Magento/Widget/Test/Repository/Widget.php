@@ -67,7 +67,7 @@ class Widget extends AbstractRepository
             ],
             //TODO 'parameters' array should be deleted while creating functional test for widget (MTA-296)
             'parameters' => [
-                'display_mode' => 'catalogrule'
+                'display_mode' => 'fixed'
             ],
             //TODO 'theme_id' should be specified via UI and data source should be used
             'theme_id' => '2'
@@ -76,6 +76,54 @@ class Widget extends AbstractRepository
         $this->_data['widget_banner_rotator'] = [
             'code' => 'Banner Rotator',
             'theme_id' => 'Magento Blank',
+        ];
+
+        $this->_data['banner_rotator_non_anchor_categories'] = [
+            'code' => 'magento_banner',
+            'title' => 'Banner Rotator %isolation%',
+            'store_ids' => [
+                '0' => '0'
+            ],
+            'widget_instance' => [
+                '0' => [
+                    'page_group' => 'notanchor_categories',
+                    'notanchor_categories' => [
+                        'page_id' => '0',
+                        'layout_handle' => 'default',
+                        'for' => 'all',
+                        'block' => 'content',
+                        'template' => 'widget/block.phtml'
+                    ]
+                ]
+            ],
+            'parameters' => [
+                'display_mode' => 'fixed'
+            ],
+            'theme_id' => '2'
+        ];
+
+        $this->_data['banner_rotator_shoping_cart'] = [
+            'code' => 'magento_banner',
+            'title' => 'Banner Rotator %isolation%',
+            'store_ids' => [
+                '0' => '0'
+            ],
+            'widget_instance' => [
+                '0' => [
+                    'page_group' => 'pages',
+                    'pages' => [
+                        'page_id' => '0',
+                        'layout_handle' => 'checkout_cart_index',
+                        'for' => 'all',
+                        'block' => 'content',
+                        'template' => 'widget/block.phtml'
+                    ]
+                ]
+            ],
+            'parameters' => [
+                'display_mode' => 'fixed'
+            ],
+            'theme_id' => '2'
         ];
     }
 }

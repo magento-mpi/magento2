@@ -46,7 +46,7 @@ class AssertBannerNotInWidgetOptions extends AbstractConstraint
         $widgetInstanceNew->open();
         $widgetInstanceNew->getForm()->fill($widget);
         $widgetInstanceNew->getForm()->clickContinue();
-        $widgetInstanceEdit->getForm()->openTab('widget_options');
+        $widgetInstanceEdit->getWidgetForm()->openTab('widget_options');
 
         \PHPUnit_Framework_Assert::assertFalse(
             $widgetInstanceEdit->getBannerGrid()->isRowVisible(['banner' => $banner->getName()]),
