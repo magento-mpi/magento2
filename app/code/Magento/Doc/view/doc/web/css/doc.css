@@ -76,6 +76,9 @@ div[data-role="doc-item"] span.label {
 div[data-role="doc-item"] span.label ~ div.items div[data-role="doc-item"] {
     font-size: .9em;
 }
+/**
+    switch using H1,H2,H3 instead of nesting styling.
+*/
 
 *[data-role="doc-item-content-src"] {
     display: none;
