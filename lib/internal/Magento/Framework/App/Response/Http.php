@@ -11,8 +11,6 @@ namespace Magento\Framework\App\Response;
 
 use Magento\Framework\Stdlib\CookieManager;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
-use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
-use Magento\Framework\Stdlib\Cookie\CookieMetadata;
 use Magento\Framework\App\Http\Context;
 
 class Http extends \Zend_Controller_Response_Http implements HttpInterface
@@ -82,15 +80,12 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
         if (!empty($data)) {
             ksort($data);
             $cookieValue = sha1(serialize($data));
-            $metadataArray = [
-                PublicCookieMetadata::KEY_DURATION => null,
-                PublicCookieMetadata::KEY_PATH => '/'
-            ];
-            $publicCookMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata($metadataArray);
+            $publicCookMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+                ->setPath('/');
             $this->cookieManager->setPublicCookie($cookieName, $cookieValue, $publicCookMetadata);
         } else {
-            $metadataArray = [CookieMetadata::KEY_PATH => '/'];
-            $cookieMetadata = $this->cookieMetadataFactory->createCookieMetadata($metadataArray);
+            $cookieMetadata = $this->cookieMetadataFactory->createCookieMetadata()
+                ->setPath('/');
             $this->cookieManager->deleteCookie($cookieName, $cookieMetadata);
         }
     }

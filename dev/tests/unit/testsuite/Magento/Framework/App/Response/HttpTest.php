@@ -78,6 +78,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $expectedCookieName = Http::COOKIE_VARY_STRING;
         $expectedCookieValue = sha1(serialize($data));
         $publicCookieMetadataMock = $this->getMock('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata');
+        $publicCookieMetadataMock->expects($this->once())
+            ->method('setPath')
+            ->with('/')
+            ->will($this->returnValue($publicCookieMetadataMock));
+
         $this->_contextMock->expects($this->once())
             ->method('getData')
             ->with()
@@ -87,15 +92,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $this->_cookieMetadataFactoryMock->expects($this->once())
             ->method('createPublicCookieMetadata')
-            ->with(
-                [
-                    PublicCookieMetadata::KEY_DURATION => null,
-                    PublicCookieMetadata::KEY_PATH => '/'
-                ]
-            )
+            ->with()
             ->will(
                 $this->returnValue($publicCookieMetadataMock)
             );
+
         $this->_cookieManagerMock->expects($this->once())
             ->method('setPublicCookie')
             ->with($expectedCookieName, $expectedCookieValue, $publicCookieMetadataMock);
@@ -106,17 +107,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $expectedCookieName = Http::COOKIE_VARY_STRING;
         $cookieMetadataMock = $this->getMock('Magento\Framework\Stdlib\Cookie\CookieMetadata');
+        $cookieMetadataMock->expects($this->once())
+            ->method('setPath')
+            ->with('/')
+            ->will($this->returnValue($cookieMetadataMock));
 
         $this->_cookieMetadataFactoryMock->expects($this->once())
             ->method('createCookieMetadata')
-            ->with(
-                [
-                    CookieMetadata::KEY_PATH => '/'
-                ]
-            )
-            ->will(
-                $this->returnValue($cookieMetadataMock)
-            );
+            ->with()
+            ->will($this->returnValue($cookieMetadataMock));
+
         $this->_cookieManagerMock->expects($this->once())
             ->method('deleteCookie')
             ->with($expectedCookieName, $cookieMetadataMock);
