@@ -9,7 +9,6 @@ namespace Magento\Doc\Ui;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Doc\Document\Scheme;
 use Magento\Doc\Document\Filter;
 
 class Widget extends Template
@@ -17,28 +16,19 @@ class Widget extends Template
     /**
      * Template pre-processor
      *
-     * @var \Magento\Doc\Document\Filter
+     * @var Filter
      */
     protected $filter;
-
-    /**
-     * Dictionary items array
-     *
-     * @var array
-     */
-    protected $dictionary;
 
     /**
      * Constructor
      *
      * @param Context $context
-     * @param Scheme $scheme
      * @param Filter $filter
      * @param array $data
      */
     public function __construct(
         Context $context,
-        Scheme $scheme,
         Filter $filter,
         array $data = []
     ) {
@@ -49,7 +39,6 @@ class Widget extends Template
                 'render' => $this
             ]
         );
-        $this->dictionary = $scheme->get('dictionary.xml');
     }
 
     /**
@@ -71,6 +60,6 @@ class Widget extends Template
      */
     protected function preProcess($content)
     {
-        return $this->filter->preProcess($content, $this->dictionary);
+        return $this->filter->preProcess($content);
     }
 }

@@ -32,21 +32,6 @@ class Module extends Template
     }
 
     /**
-     * Get Key pieces for caching block content
-     *
-     * @return array
-     */
-    public function getCacheKeyInfo()
-    {
-        $tags = [
-            'MODULE_MENU',
-            'template' => $this->getTemplate(),
-            'name' => $this->getNameInLayout()
-        ];
-        return $tags;
-    }
-
-    /**
      * Retrieve active modules array
      *
      * @return array

@@ -10,7 +10,7 @@ namespace Magento\Doc\Ui;
 class Page extends Widget
 {
     /**
-     * Render content HTML
+     * Render HTML page content
      * (add doctype)
      *
      * @return string

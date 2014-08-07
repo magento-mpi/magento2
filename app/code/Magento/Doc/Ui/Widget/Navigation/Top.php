@@ -16,34 +16,6 @@ use Magento\Framework\View\Element\Template;
 class Top extends Template
 {
     /**
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->addData(
-            [
-                //'cache_lifetime' => false,
-                'cache_tags' => ['doc-menu']
-            ]
-        );
-    }
-
-    /**
-     * Get Key pieces for caching block content
-     *
-     * @return array
-     */
-    public function getCacheKeyInfo()
-    {
-        $tags = [
-            'DOCUMENTATION_NAVIGATION',
-            'template' => $this->getTemplate(),
-            'name' => $this->getNameInLayout()
-        ];
-        return $tags;
-    }
-
-    /**
      * Render category to html
      *
      * @param array $item
@@ -193,12 +165,10 @@ class Top extends Template
                 ]
             ],
 
-
-
             'tools' => [
                 'id' => 'tools',
                 'label' => 'Tools',
-                'position' => 60,
+                'position' => 40,
                 'children' => [
                     'Export' => [
                         'id' => 'Export',
@@ -211,7 +181,7 @@ class Top extends Template
             'help' => [
                 'id' => 'help',
                 'label' => 'Help',
-                'position' => 70,
+                'position' => 50,
                 'children' => [
                     'howto' => [
                         'id' => 'howto',
@@ -226,10 +196,10 @@ class Top extends Template
                         'position' => 20
                     ],
 
-                    'examples' => [
-                        'id' => 'examples',
+                    'example' => [
+                        'id' => 'example',
                         'label' => 'Examples',
-                        'path' => 'help/examples',
+                        'path' => 'help/example',
                         'position' => 30
                     ],
                 ]

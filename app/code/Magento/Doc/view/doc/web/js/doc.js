@@ -50,6 +50,9 @@ define(['jquery'], function(jQuery){
         }
     };
     var initWysiwyg = function (element) {
+        if (element.attr('readonly')) {
+            return;
+        }
         var content = jQuery(element.find('*[data-role="doc-item-content"]')[0]);
         var srcContent = jQuery(element.find('*[data-role="doc-item-content-src"]')[0]);
 
@@ -81,6 +84,9 @@ define(['jquery'], function(jQuery){
         }
     };
     var initEditor = function(element) {
+        if (element.attr('readonly')) {
+            return;
+        }
         var content = jQuery(element.find('*[data-role="doc-item-content"]')[0]);
         var srcContent = jQuery(element.find('*[data-role="doc-item-content-src"]')[0]);
         currentContentArea = srcContent[0];

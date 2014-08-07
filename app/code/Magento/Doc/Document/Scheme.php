@@ -27,6 +27,8 @@ class Scheme
     }
 
     /**
+     * Load and merge scheme files of the given name from all modules
+     *
      * @param string $fileName
      * @param null $scope
      * @return array

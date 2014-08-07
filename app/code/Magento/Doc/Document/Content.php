@@ -27,9 +27,11 @@ class Content
     }
 
     /**
+     * Load and merge content files of the given name from all modules
+     *
      * @param string $fileName
      * @param null $scope
-     * @return array
+     * @return string
      */
     public function get($fileName, $scope = null)
     {

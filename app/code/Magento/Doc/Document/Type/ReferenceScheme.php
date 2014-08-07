@@ -74,6 +74,7 @@ class ReferenceScheme extends AbstractType implements ReferenceInterface
                 // update original item info
                 $item->setData('scheme', $schemeName);
                 $item->setData('module', $refItem->getData('module'));
+                $item->setData('readonly', true);
             }
         }
         return $result;
