@@ -31,6 +31,9 @@ class Observer
     /** @var ScopeConfigInterface */
     protected $scopeConfig;
 
+    /** @var array */
+    protected $skipProductList;
+
     /**
      * @param CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator
      * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
@@ -103,12 +106,15 @@ class Observer
      */
     protected function generateProductUrlRewrites(Category $category)
     {
+        $this->skipProductList = [];
         $saveRewriteHistory = $category->getData('save_rewrites_history');
         $storeId = $category->getStoreId();
         $productUrls = $this->getCategoryProductsUrlRewrites($category, $storeId, $saveRewriteHistory);
         foreach ($category->getChildrenCategories() as $childCategory) {
-            $productUrls = array_merge($productUrls, $this->getCategoryProductsUrlRewrites($childCategory, $storeId,
-                $saveRewriteHistory));
+            $productUrls = array_merge(
+                $productUrls,
+                $this->getCategoryProductsUrlRewrites($childCategory, $storeId, $saveRewriteHistory)
+            );
         }
         return $productUrls;
     }
@@ -117,15 +123,20 @@ class Observer
      * @param Category $category
      * @param int $storeId
      * @param bool $saveRewriteHistory
-     * @return array
+     * @return UrlRewrite[]
      */
     protected function getCategoryProductsUrlRewrites(Category $category, $storeId, $saveRewriteHistory)
     {
-        $categories = $category->getProductCollection()
+        /** @var \Magento\Catalog\Model\Resource\Product\Collection $productCollection */
+        $productCollection = $category->getProductCollection()
             ->addAttributeToSelect('url_key')
             ->addAttributeToSelect('url_path');
         $productUrls = [];
-        foreach ($categories as $product) {
+        foreach ($productCollection as $product) {
+            if (in_array($product->getId(), $this->skipProductList)) {
+                continue;
+            }
+            $this->skipProductList[] = $product->getId();
             $product->setStoreId($storeId);
             $product->setData('save_rewrites_history', $saveRewriteHistory);
             $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));

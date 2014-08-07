@@ -71,7 +71,7 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'nullable' => false, 'default' => 0),
     'Is rewrite generated automatically flag'
 )->addColumn(
-    'meta_data',
+    'metadata',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),

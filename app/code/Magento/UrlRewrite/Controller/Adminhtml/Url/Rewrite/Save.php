@@ -152,7 +152,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
                     ->setRedirectType($this->getRequest()->getParam('redirect_type'))
                     ->setDescription($this->getRequest()->getParam('description'))
                     ->setRequestPath($requestPath)
-                    ->setMetaData(serialize(['is_custom' => true]));
+                    ->setMetadata(serialize(['is_user_generated' => true]));
 
                 $this->_onUrlRewriteSaveBefore($model);
 
