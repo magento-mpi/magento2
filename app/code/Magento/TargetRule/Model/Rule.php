@@ -287,7 +287,14 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->setCollectedAttributes(array());
         $this->getConditions()->collectValidatedAttributes($productCollection);
         $this->_sqlBuilder->attachConditionToCollection($productCollection, $this->getConditions());
-        $this->_productIds = $productCollection->getAllIds();
+        $productCollectionIds = array_unique($productCollection->getAllIds());
+        $this->_productIds = array();
+        foreach ($productCollectionIds as $productId) {
+            $product = $this->_productFactory->create()->load($productId);
+            if ($this->validate($product)) {
+                $this->_productIds[] = $productId;
+            }
+        }
         return $this;
     }
 

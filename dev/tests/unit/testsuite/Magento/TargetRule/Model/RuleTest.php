@@ -74,7 +74,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
         $productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            ['getCollection', '__sleep', '__wakeup'],
+            ['getCollection', '__sleep', '__wakeup', 'load', 'getId'],
             [],
             '',
             false
@@ -84,7 +84,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             ->method('getCollection')
             ->will($this->returnValue($productCollection));
 
-        $this->_productFactory->expects($this->once())
+        $productMock->expects($this->any())
+            ->method('load')
+            ->will($this->returnSelf());
+
+        $this->_productFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($productMock));
 

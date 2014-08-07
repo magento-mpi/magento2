@@ -127,7 +127,7 @@ class Builder
             }
             $sql = str_replace(
                 ':field',
-                $this->_connection->quoteIdentifier($argument),
+                $this->_connection->getIfNullSql($this->_connection->quoteIdentifier($argument), 0),
                 $this->_conditionOperatorMap[$conditionOperator]
             );
             return $this->_expressionFactory->create(
