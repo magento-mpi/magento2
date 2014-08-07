@@ -83,7 +83,6 @@ class Media implements AppInterface
     protected $directory;
 
     /**
-     * @param State $applicationState
      * @param ObjectManager $objectManager
      * @param Request $request
      * @param Response $response
@@ -95,7 +94,6 @@ class Media implements AppInterface
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        State $applicationState,
         ObjectManager $objectManager,
         Request $request,
         Response $response,
@@ -106,7 +104,6 @@ class Media implements AppInterface
         $relativeFileName,
         \Magento\Framework\App\Filesystem $filesystem
     ) {
-        $this->_applicationState = $applicationState;
         $this->_objectManager = $objectManager;
         $this->_request = $request;
         $this->_response = $response;
@@ -127,10 +124,6 @@ class Media implements AppInterface
     public function launch()
     {
         try {
-            if (!$this->_applicationState->isInstalled()) {
-                $this->_response->setHttpResponseCode(404);
-                return $this->_response;
-            }
             if (!$this->_mediaDirectory) {
                 $config = $this->_objectManager->create(
                     'Magento\Core\Model\File\Storage\Config',
