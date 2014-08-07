@@ -46,9 +46,9 @@ class TaxRateCollection extends AbstractServiceCollection
         EntityFactory $entityFactory,
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        SortOrderBuilder $sortOrderBuilder,
         TaxRateServiceInterface $rateService,
-        Converter $rateConverter,
-        SortOrderBuilder $sortOrderBuilder
+        Converter $rateConverter
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
         $this->rateService = $rateService;

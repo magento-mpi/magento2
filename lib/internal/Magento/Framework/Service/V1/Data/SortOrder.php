@@ -37,4 +37,4 @@ class SortOrder extends AbstractObject
     {
         return $this->_get(SortOrder::DIRECTION);
     }
-} 
+}
