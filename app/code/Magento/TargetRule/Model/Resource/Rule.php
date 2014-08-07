@@ -33,11 +33,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     );
 
     /**
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexer;
-
-    /**
      * @var ModuleManager
      */
     protected $moduleManager;
@@ -54,19 +49,16 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Index\Model\Indexer $indexer
      * @param ModuleManager $moduleManager
      * @param EventManagerInterface $eventManager
      * @param CacheContext $context
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Index\Model\Indexer $indexer,
         ModuleManager $moduleManager,
         EventManagerInterface $eventManager,
         CacheContext $context
     ) {
-        $this->_indexer = $indexer;
         $this->moduleManager = $moduleManager;
         $this->eventManager = $eventManager;
         $this->context = $context;

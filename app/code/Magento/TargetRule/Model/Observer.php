@@ -14,11 +14,6 @@ namespace Magento\TargetRule\Model;
 class Observer
 {
     /**
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexer;
-
-    /**
      * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor
      */
     protected $_productRuleIndexerProcessor;
@@ -29,16 +24,13 @@ class Observer
     protected $_productRuleIndexer;
 
     /**
-     * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleIndexerProcessor
      * @param \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule $productRuleIndexer
      */
     public function __construct(
-        \Magento\Index\Model\Indexer $indexer,
         \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor $productRuleIndexerProcessor,
         \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule $productRuleIndexer
     ) {
-        $this->_indexer = $indexer;
         $this->_productRuleIndexerProcessor = $productRuleIndexerProcessor;
         $this->_productRuleIndexer = $productRuleIndexer;
     }
