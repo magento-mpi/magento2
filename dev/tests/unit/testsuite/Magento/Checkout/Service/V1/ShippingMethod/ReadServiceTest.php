@@ -10,6 +10,7 @@
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,8 +49,14 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $methodBuilderMock;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
     protected function setUp()
     {
+        $this->objectManager = new ObjectManager($this);
         $this->quoteLoaderMock = $this->getMock('\Magento\Checkout\Service\V1\QuoteLoader', [], [], '', false);
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->methodBuilderMock =
@@ -64,26 +71,14 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->service = new ReadService($this->quoteLoaderMock, $this->storeManagerMock, $this->methodBuilderMock);
-    }
-
-    /**
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage Cart contains virtual product(s) only. Shipping method is not applicable
-     */
-    public function testGetMethodWithVirtualProductException()
-    {
-        $storeId = 12;
-        $cartId = 666;
-
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
-        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->quoteLoaderMock->expects($this->once())
-            ->method('load')->with($cartId, $storeId)->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(true));
-        $this->quoteMock->expects($this->never())->method('getShippingAddress');
-
-        $this->service->getMethod($cartId);
+        $this->service = $this->objectManager->getObject(
+            '\Magento\Checkout\Service\V1\ShippingMethod\ReadService',
+            [
+                'quoteLoader' => $this->quoteLoaderMock,
+                'storeManager' => $this->storeManagerMock,
+                'methodBuilder' => $this->methodBuilderMock,
+            ]
+        );
     }
 
     /**
@@ -99,7 +94,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $this->quoteLoaderMock->expects($this->once())
             ->method('load')->with($cartId, $storeId)->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
         $this->quoteAddressMock->expects($this->once())->method('getShippingMethod')->will($this->returnValue(false));
@@ -119,7 +113,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $this->quoteLoaderMock->expects($this->once())
             ->method('load')->with($cartId, $storeId)->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
         $this->quoteAddressMock->expects($this->once())

@@ -19,4 +19,13 @@ interface ReadServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getMethod($cartId);
+
+
+    /**
+     * Get list of applicable shipping methods for quote
+     *
+     * @param int $cartId
+     * @return \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod[]
+     */
+    public function getList($cartId);
 }

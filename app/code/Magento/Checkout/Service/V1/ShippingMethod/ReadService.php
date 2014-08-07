@@ -30,6 +30,11 @@ class ReadService implements ReadServiceInterface
     protected $methodBuilder;
 
     /**
+     * @var \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter
+     */
+    protected $converter;
+
+    /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param ShippingMethodBuilder $methodBuilder
@@ -37,10 +42,12 @@ class ReadService implements ReadServiceInterface
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter $converter,
         \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder $methodBuilder
     ) {
         $this->quoteLoader = $quoteLoader;
         $this->storeManager = $storeManager;
+        $this->converter = $converter;
         $this->methodBuilder = $methodBuilder;
     }
 
@@ -55,13 +62,8 @@ class ReadService implements ReadServiceInterface
 
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $storeId);
-        if ($quote->isVirtual()) {
-            throw new NoSuchEntityException(
-                'Cart contains virtual product(s) only. Shipping method is not applicable'
-            );
-        }
 
-        /** @var \Magento\Sales\Model\Quote\Address $quote */
+        /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
         $shippingAddress = $quote->getShippingAddress();
 
         $shippingMethod = $shippingAddress->getShippingMethod();
@@ -79,5 +81,30 @@ class ReadService implements ReadServiceInterface
         $output[ShippingMethod::BASE_SHIPPING_AMOUNT] = (float) $shippingAddress->getBaseShippingAmount();
 
         return $this->methodBuilder->populateWithArray($output)->create();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getList($cartId)
+    {
+        $output = [];
+
+        $storeId = $this->storeManager->getStore()->getId();
+
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->quoteLoader->load($cartId, $storeId);
+
+        // no methods applicable for empty carts or carts with virtual products
+        if ($quote->isVirtual() || 0 == $quote->getItemsCount()) {
+            return [];
+        }
+
+        $quote->getShippingAddress()->requestShippingRates();
+        $shippingRates = $quote->getShippingAddress()->getAllShippingRates();
+        foreach ($shippingRates as $rate) {
+            $output[] = $this->converter->modelToDataObject($rate);
+        }
+        return $output;
     }
 }

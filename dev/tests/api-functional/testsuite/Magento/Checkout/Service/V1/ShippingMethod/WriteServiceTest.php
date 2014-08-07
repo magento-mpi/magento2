@@ -63,7 +63,6 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
-     * @expectedExceptionMessage Carrier with such method not found
      */
     public function testSetMethodWrongMethod()
     {
