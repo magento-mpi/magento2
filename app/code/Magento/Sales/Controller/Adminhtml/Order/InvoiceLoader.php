@@ -45,15 +45,15 @@ class InvoiceLoader
     /**
      * Load invoice
      *
-     * @param RequestInterface $request
-     * @return bool
+     * @param int $orderId
+     * @param null|int $invoiceId
+     * @param array $invoiceItems
+     * @return \Magento\Sales\Model\Order\Invoice | bool
      * @throws \Exception
      */
-    public function load(RequestInterface $request)
+    public function load($orderId, $invoiceId = null, array $invoiceItems = [])
     {
         $invoice = false;
-        $invoiceId = $request->getParam('invoice_id');
-        $orderId = $request->getParam('order_id');
         if ($invoiceId) {
             $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             if (!$invoice->getId()) {
@@ -76,17 +76,12 @@ class InvoiceLoader
                 $this->messageManager->addError(__('The order does not allow an invoice to be created.'));
                 return false;
             }
-            $savedQtys = array();
-            $data = $request->getParam('invoice');
-            if (isset($data['items'])) {
-                $savedQtys = $data['items'];
-            }
 
             $invoice = $this->_objectManager->create(
                 'Magento\Sales\Model\Service\Order',
                 array('order' => $order)
             )->prepareInvoice(
-                $savedQtys
+                $invoiceItems
             );
             if (!$invoice->getTotalQty()) {
                 throw new \Exception(__('Cannot create an invoice without products.'));

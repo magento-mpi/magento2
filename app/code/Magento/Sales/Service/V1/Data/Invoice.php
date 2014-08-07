@@ -60,6 +60,9 @@ class Invoice extends DataObject
     const DISCOUNT_DESCRIPTION = 'discount_description';
     const ITEMS = 'items';
     const COMMENTS = 'comments';
+    const COMMENT_TEXT = 'comment_text';
+    const COMMENT_CUSTOMER_NOTIFY = 'comment_customer_notify';
+    const CAPTURE_CASE = 'capture_case';
 
     /**
      * Returns base_currency_code
@@ -504,20 +507,50 @@ class Invoice extends DataObject
     /**
      * Returns invoice items
      *
-     * @return InvoiceItem[]
+     * @return \Magento\Sales\Service\V1\Data\InvoiceItem[]
      */
     public function getItems()
     {
-        return $this->_get(self::ITEMS);
+        return (array)$this->_get(self::ITEMS);
     }
 
     /**
      * Return invoice comments
      *
-     * @return Comment[]
+     * @return \Magento\Sales\Service\V1\Data\Comment[]
      */
     public function getComments()
     {
         return $this->_get(self::COMMENTS);
+    }
+
+    /**
+     * Return invoice comment
+     *
+     * @return string
+     */
+    public function getCommentText()
+    {
+        return $this->_get(self::COMMENT_TEXT);
+    }
+
+    /**
+     * Return customer notification flag
+     *
+     * @return string
+     */
+    public function getCommentCustomerNotify()
+    {
+        return $this->_get(self::COMMENT_CUSTOMER_NOTIFY);
+    }
+
+    /**
+     * Return capture
+     *
+     * @return string
+     */
+    public function getCaptureCase()
+    {
+        return $this->_get(self::CAPTURE_CASE);
     }
 }

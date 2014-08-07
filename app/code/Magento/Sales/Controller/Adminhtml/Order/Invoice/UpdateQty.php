@@ -47,7 +47,11 @@ class UpdateQty extends \Magento\Backend\App\Action
     {
         try {
             $this->_title->add(__('Invoices'));
-            $invoice = $this->invoiceLoader->load($this->_request);
+            $orderId = $this->getRequest()->getParam('order_id');
+            $invoiceId = $this->getRequest()->getParam('invoice_id');
+            $invoiceData = $this->getRequest()->getParam('invoice', []);
+            $invoiceData = isset($invoiceData['items']) ? $invoiceData['items'] : [];
+            $invoice = $this->invoiceLoader->load($orderId, $invoiceId, $invoiceData);
             // Save invoice comment text in current invoice object in order to display it in corresponding view
             $invoiceRawData = $this->getRequest()->getParam('invoice');
             $invoiceRawCommentText = $invoiceRawData['comment_text'];

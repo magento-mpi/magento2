@@ -732,7 +732,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
 
         $object = new \Magento\Sales\Service\V1\Data\Invoice($abstractBuilderMock);
 
-        $this->assertEquals('test_value_items', $object->getItems());
+        $this->assertEquals(['test_value_items'], $object->getItems());
     }
 
     public function testGetComments()
@@ -749,5 +749,53 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
         $object = new \Magento\Sales\Service\V1\Data\Invoice($abstractBuilderMock);
 
         $this->assertEquals('test_value_comments', $object->getComments());
+    }
+
+    public function testGetCommentText()
+    {
+        $data = ['comment_text' => 'test_value_comment_text'];
+        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
+            ->setMethods(['getData'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $abstractBuilderMock->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($data));
+
+        $object = new \Magento\Sales\Service\V1\Data\Invoice($abstractBuilderMock);
+
+        $this->assertEquals('test_value_comment_text', $object->getCommentText());
+    }
+
+    public function testGetCommentCustomerNotify()
+    {
+        $data = ['comment_customer_notify' => 'test_value_comment_customer_notify'];
+        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
+            ->setMethods(['getData'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $abstractBuilderMock->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($data));
+
+        $object = new \Magento\Sales\Service\V1\Data\Invoice($abstractBuilderMock);
+
+        $this->assertEquals('test_value_comment_customer_notify', $object->getCommentCustomerNotify());
+    }
+
+    public function testGetCaptureCase()
+    {
+        $data = ['capture_case' => 'test_value_capture_case'];
+        $abstractBuilderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
+            ->setMethods(['getData'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $abstractBuilderMock->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($data));
+
+        $object = new \Magento\Sales\Service\V1\Data\Invoice($abstractBuilderMock);
+
+        $this->assertEquals('test_value_capture_case', $object->getCaptureCase());
     }
 }
