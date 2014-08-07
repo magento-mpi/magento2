@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Search\Request;
 
+use Magento\Framework\Data\Argument\Interpreter\NullTypeTest;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Search\Request\Query\Filter;
 
@@ -38,20 +39,45 @@ class Mapper
     private $objectManager;
 
     /**
+     * @var string
+     */
+    private $rootQueryName;
+
+    /**
+     * @var QueryInterface
+     */
+    private $rootQuery = null;
+
+    /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param array $queries
+     * @param string $rootQueryName
      * @param array $filters
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
         array $queries,
+        $rootQueryName,
         array $filters = null
     ) {
         $this->objectManager = $objectManager;
         $this->queries = $queries;
         $this->filters = $filters;
-        $this->mappedQueries = [];
-        $this->mappedFilters = [];
+        $this->rootQueryName = $rootQueryName;
+
+        $this->getRootQuery();
+    }
+
+    /**
+     * @return QueryInterface
+     * @throws StateException
+     */
+    public function getRootQuery()
+    {
+        if ($this->rootQuery === null) {
+            $this->rootQuery = $this->get($this->rootQueryName);
+        }
+        return $this->rootQuery;
     }
 
     /**
@@ -61,8 +87,10 @@ class Mapper
      * @return QueryInterface
      * @throws StateException
      */
-    public function get($queryName)
+    private function get($queryName)
     {
+        $this->mappedQueries = [];
+        $this->mappedFilters = [];
         $query = $this->mapQuery($queryName);
         $this->validate();
         return $query;
@@ -232,11 +260,7 @@ class Mapper
      */
     private function validateQueries()
     {
-        $allQueries = array_keys($this->queries);
-        $notUsedQueries = implode(', ', array_diff($allQueries, $this->mappedQueries));
-        if (!empty($notUsedQueries)) {
-            throw new StateException('Query %1 not used in request hierarchy', [$notUsedQueries]);
-        }
+        $this->validateNotUsed($this->queries, $this->mappedQueries, 'Query %1 not used in request hierarchy');
     }
 
     /**
@@ -245,10 +269,15 @@ class Mapper
      */
     private function validateFilters()
     {
-        $allFilters = array_keys($this->filters);
-        $notUsedFilters = implode(', ', array_diff($allFilters, $this->mappedFilters));
-        if (!empty($notUsedFilters)) {
-            throw new StateException('Filter %1 not used in request hierarchy', [$notUsedFilters]);
+        $this->validateNotUsed($this->filters, $this->mappedFilters, 'Filter %1 not used in request hierarchy');
+    }
+
+    private function validateNotUsed($elements, $mappedElements, $errorMessage)
+    {
+        $allElements = array_keys($elements);
+        $notUsedElements = implode(', ', array_diff($allElements, $mappedElements));
+        if (!empty($notUsedElements)) {
+            throw new StateException($errorMessage, [$notUsedElements]);
         }
     }
 }
