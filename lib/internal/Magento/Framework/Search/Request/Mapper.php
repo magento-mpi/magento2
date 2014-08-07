@@ -217,6 +217,7 @@ class Mapper
     }
 
     /**
+     * @return void
      * @throws StateException
      */
     private function validate()
@@ -226,6 +227,7 @@ class Mapper
     }
 
     /**
+     * @return void
      * @throws StateException
      */
     private function validateQueries()
@@ -238,6 +240,7 @@ class Mapper
     }
 
     /**
+     * @return void
      * @throws StateException
      */
     private function validateFilters()
