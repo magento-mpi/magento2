@@ -2714,7 +2714,6 @@ system_configuration:
                                     dropdowns:
                                         magento_adminnotification: //select[@id='Magento_AdminNotification']
                                         magento_authorizenet: //select[@id='Magento_Authorizenet']
-                                        magento_authz: //select[@id='Magento_Authz']
                                         magento_backup: //select[@id='Magento_Backup']
                                         magento_bundle: //select[@id='Magento_Bundle']
                                         magento_captcha: //select[@id='Magento_Captcha']

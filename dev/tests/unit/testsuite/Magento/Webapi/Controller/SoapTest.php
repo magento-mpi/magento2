@@ -32,9 +32,6 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\State */
     protected $_appStateMock;
 
-    /** @var \Magento\Framework\Oauth\Oauth */
-    protected $_oauthServiceMock;
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Locale\ResolverInterface
      */
@@ -83,10 +80,6 @@ class SoapTest extends \PHPUnit_Framework_TestCase
 
         $layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface');
 
-        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Framework\Oauth\Oauth')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->_responseMock->expects($this->any())->method('clearHeaders')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
@@ -103,7 +96,6 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $this->_errorProcessorMock,
             $this->_appStateMock,
             $layoutMock,
-            $this->_oauthServiceMock,
             $localeResolverMock,
             $pathProcessorMock,
             $areaListMock
@@ -161,13 +153,6 @@ EXPECTED_MESSAGE;
     {
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
         $this->_soapServerMock->expects($this->once())->method('handle');
-        $this->_oauthServiceMock->expects(
-            $this->once()
-        )->method(
-            'validateAccessToken'
-        )->will(
-            $this->returnValue(true)
-        );
         $response = $this->_soapController->dispatch($this->_requestMock);
         $this->assertEquals(200, $response->getHttpResponseCode());
     }
@@ -231,13 +216,3 @@ EXPECTED_MESSAGE;
     }
 }
 
-/**
- * The function became available in CLI mode since PHP 5.5.7 which doesn't fit Magento minimal requirement.
- * @see http://php.net/manual/en/function.getallheaders.php
- * @return array
- */
-function getallheaders()
-{
-    // Mixed case on purpose
-    return array('authOrization' => 'OAuth access_token');
-}
