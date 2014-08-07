@@ -17,7 +17,7 @@ use Mtf\Fixture\FixtureInterface;
  *
  * Data keys:
  *  - preset (Custom options preset name)
- *  - import_products (comma separated sku identifiers)
+ *  - import_products (comma separated data set name)
  */
 class CustomOptions implements FixtureInterface
 {
@@ -52,7 +52,8 @@ class CustomOptions implements FixtureInterface
     {
         $this->params = $params;
         if (isset($data['preset'])) {
-            $this->customOptions = $this->data = $this->replaceData($this->getPreset($data['preset']), mt_rand());
+            $this->data = $this->replaceData($this->getPreset($data['preset']), mt_rand());
+            $this->customOptions = $this->data;
         }
         if (isset($data['import_products'])) {
             $importData = explode(',', $data['import_products']);

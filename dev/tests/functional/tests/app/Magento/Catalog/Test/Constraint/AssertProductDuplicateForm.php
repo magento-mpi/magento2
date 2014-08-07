@@ -74,10 +74,11 @@ class AssertProductDuplicateForm extends AssertProductForm
      * Prepares fixture data for comparison
      *
      * @param array $data
+     * @param FixtureInterface $product
      * @param array $sortFields [optional]
      * @return array
      */
-    protected function prepareFixtureData(array $data, array $sortFields = [])
+    protected function prepareFixtureData(array $data, FixtureInterface $product, array $sortFields = [])
     {
         $compareData = array_filter($data);
 
