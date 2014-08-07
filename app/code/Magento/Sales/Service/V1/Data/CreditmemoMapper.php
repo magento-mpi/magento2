@@ -38,7 +38,7 @@ class CreditmemoMapper
      * Returns array of items
      *
      * @param Creditmemo $creditmemo
-     * @return array
+     * @return Creditmemo[]
      */
     protected function getItems(Creditmemo $creditmemo)
     {

@@ -43,7 +43,13 @@ class ShipmentTest extends \PHPUnit_Framework_TestCase
             'localeDate' => $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', [], [], '', false),
             'dateTime' => $this->getMock('Magento\Framework\Stdlib\DateTime', [], [], '', false),
             'orderFactory' => $this->orderFactory,
-            'shipmentItemCollectionFactory' => $this->getMock('Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory', [], [], '', false),
+            'shipmentItemCollectionFactory' => $this->getMock(
+                    'Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory',
+                    [],
+                    [],
+                    '',
+                    false
+                ),
             'trackCollectionFactory' => $this->getMock(
                     'Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory',
                     [],
@@ -105,5 +111,4 @@ class ShipmentTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('shipment', $this->shipment->getEntityType());
     }
-
 }
