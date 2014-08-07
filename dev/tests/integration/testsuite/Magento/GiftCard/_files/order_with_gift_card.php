@@ -60,7 +60,7 @@ $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Ma
 $order->addItem(
     $orderItem
 )->setCustomerEmail(
-    'someone@foobar.com'
+    'someone@example.com'
 )->setIncrementId(
     '100000001'
 )->setCustomerIsGuest(
