@@ -190,10 +190,10 @@ class CreateCustomerSegmentEntityTest extends Injectable
         //Steps
         $this->customerSegmentIndex->open();
         $this->customerSegmentIndex->getPageActionsBlock()->addNew();
-        $this->customerSegmentNew->getFormTabs()->fill($customerSegment);
+        $this->customerSegmentNew->getCustomerSegmentForm()->fill($customerSegment);
         $this->customerSegmentNew->getPageMainActions()->saveAndContinue();
-        $this->customerSegmentNew->getFormTabs()->openTab('conditions');
-        $this->customerSegmentNew->getFormTabs()->fill($customerSegmentConditions, null, $replace);
+        $this->customerSegmentNew->getCustomerSegmentForm()->openTab('conditions');
+        $this->customerSegmentNew->getCustomerSegmentForm()->fill($customerSegmentConditions, null, $replace);
         $this->customerSegmentNew->getPageMainActions()->save();
 
         \PHPUnit_Framework_Assert::assertThat($this->getName(), $assertCustomerSegmentSuccessSaveMessage);

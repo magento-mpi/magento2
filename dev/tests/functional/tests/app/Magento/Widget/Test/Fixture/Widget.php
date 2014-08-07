@@ -83,11 +83,15 @@ class Widget extends InjectableFixture
     protected $code = [
         'attribute_code' => 'code',
         'backend_type' => 'virtual',
+        'input' => 'select',
+        'group' => 'settings',
     ];
 
     protected $theme_id = [
         'attribute_code' => 'theme_id',
         'backend_type' => 'virtual',
+        'input' => 'select',
+        'group' => 'settings',
     ];
 
     protected $store_ids = [
