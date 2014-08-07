@@ -193,5 +193,99 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->service->set($cartId, $this->couponCodeDataMock));
     }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage Cart 65 doesn't contain products
+     */
+    public function testDeleteWhenCartDoesNotContainsProducts()
+    {
+        $storeId = 24;
+        $cartId = 65;
+
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+        $this->quoteLoaderMock->expects($this->once())
+            ->method('load')->with($cartId, $storeId)->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(0));
+        $this->quoteMock->expects($this->never())->method('getShippingAddress');
+
+        $this->service->delete($cartId);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedExceptionMessage Could not delete coupon code
+     */
+    public function testDeleteWhenCouldNotDeleteCoupon()
+    {
+        $storeId = 24;
+        $cartId = 65;
+
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+        $this->quoteLoaderMock->expects($this->once())
+            ->method('load')->with($cartId, $storeId)->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
+        $this->quoteMock->expects($this->once())
+            ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
+        $this->quoteAddressMock->expects($this->once())->method('setCollectShippingRates')->with(true);
+        $this->quoteMock->expects($this->once())->method('setCouponCode')->with('');
+        $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
+        $exceptionMessage = 'Could not delete coupon code';
+        $exception = new \Magento\Framework\Exception\CouldNotSaveException($exceptionMessage);
+        $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
+
+        $this->service->delete($cartId);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedExceptionMessage Could not delete coupon code
+     */
+    public function testDeleteWhenCouponIsNotEmpty()
+    {
+        $storeId = 24;
+        $cartId = 65;
+
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+        $this->quoteLoaderMock->expects($this->once())
+            ->method('load')->with($cartId, $storeId)->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
+        $this->quoteMock->expects($this->once())
+            ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
+        $this->quoteAddressMock->expects($this->once())->method('setCollectShippingRates')->with(true);
+        $this->quoteMock->expects($this->once())->method('setCouponCode')->with('');
+        $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteMock->expects($this->once())->method('getCouponCode')->will($this->returnValue('123_ABC'));
+
+        $this->service->delete($cartId);
+    }
+
+    public function testDelete()
+    {
+        $storeId = 24;
+        $cartId = 65;
+
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+        $this->quoteLoaderMock->expects($this->once())
+            ->method('load')->with($cartId, $storeId)->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
+        $this->quoteMock->expects($this->once())
+            ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
+        $this->quoteAddressMock->expects($this->once())->method('setCollectShippingRates')->with(true);
+        $this->quoteMock->expects($this->once())->method('setCouponCode')->with('');
+        $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
+        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteMock->expects($this->once())->method('getCouponCode')->will($this->returnValue(''));
+
+        $this->assertTrue($this->service->delete($cartId));
+    }
 }
  
