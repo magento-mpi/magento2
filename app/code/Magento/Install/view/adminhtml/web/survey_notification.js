@@ -5,9 +5,8 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-define([
-    "jquery"
-], function($){
+require(["jquery"], function($){
+    "use strict";
 
     $(document).ready(function(){
         $('body').on('surveyYes surveyNo', function(e, data) {
