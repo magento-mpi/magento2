@@ -47,9 +47,9 @@ class GiftRegistry extends Tab
      */
     public function fillFormTab(array $fields, Element $context = null)
     {
-        if (isset($fields['gift_registry'])) {
+        if (!empty($fields)) {
             $filter = [
-                'title' => $fields['gift_registry']['value']['title']
+                'title' => $fields['title']
             ];
             $this->getSearchGridBlock()->searchAndOpen($filter);
         }

@@ -30,10 +30,10 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'title' => [
-            'selector' => '#customerGrid_filter_title'
+            'selector' => 'input[name="title"]'
         ],
         'registrants' => [
-            'selector' => '#customerGrid_filter_registrants'
+            'selector' => 'input[name="registrants"]'
         ],
     ];
 }

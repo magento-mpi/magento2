@@ -9,10 +9,8 @@
 namespace Magento\GiftRegistry\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
@@ -106,22 +104,18 @@ class DeleteGiftRegistryEntityBackendTest extends Injectable
     /**
      * Delete gift registry from customer account(backend)
      *
-     * @param FixtureFactory $fixtureFactory
      * @param GiftRegistry $giftRegistry
      * @return void
      */
-    public function test(FixtureFactory $fixtureFactory, GiftRegistry $giftRegistry)
+    public function test(GiftRegistry $giftRegistry)
     {
         $giftRegistry->persist();
-        $this->customerIndex->open();
-        $customer = $fixtureFactory->createByCode(
-            'customerInjectable',
-            ['data' => ['gift_registry' => $giftRegistry->getData()]]
-        );
-        $this->customerIndex->getCustomerGridBlock()->searchAndOpen(
+        $this->customerIndex->open()->getCustomerGridBlock()->searchAndOpen(
             ['email' => $giftRegistry->getDataFieldConfig('customer_id')['source']->getCustomerId()->getEmail()]
         );
-        $this->customerIndexEdit->getCustomerForm()->fill($customer);
+        $customerForm = $this->customerIndexEdit->getCustomerForm();
+        $customerForm->openTab('gift_registry');
+        $customerForm->getTabElement('gift_registry')->fillFormTab($giftRegistry->getData());
         $this->giftRegistryCustomerEdit->getActionsToolbarBlock()->delete();
     }
 
