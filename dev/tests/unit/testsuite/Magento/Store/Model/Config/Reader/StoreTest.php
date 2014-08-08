@@ -155,6 +155,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                 'key3' => 'store_db_value3'
             )
         );
+        echo "store test echo statement";
         $this->assertEquals($expectedData, $this->_model->read($storeCode));
     }
 
