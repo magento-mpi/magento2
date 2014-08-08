@@ -99,14 +99,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function tearDown()
     {
         unset($this->customerAccountService);
-        $model = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Attribute');
-        $model->load('address_user_attribute', 'attribute_code')
-            ->delete();
-        $model = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Attribute');
-        $model->load('user_attribute', 'attribute_code')
-            ->delete();
     }
 
     public function testCreateCustomer()
@@ -162,6 +154,40 @@ class CustomerAccountServiceTest extends WebapiAbstract
             }
             $this->assertEquals($expectedExceptionData, $exceptionData);
         }
+    }
+
+    /**
+     * Test customer activation when it is required
+     *
+     * @magentoConfigFixture default_store customer/create_account/confirm 0
+     */
+    public function testActivateCustomer()
+    {
+        $customerData = $this->customerHelper->createSampleCustomer();
+        $this->assertNotNull($customerData[Customer::CONFIRMATION], 'Customer activation is not required');
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/activateCustomer',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ActivateCustomer'
+            ]
+        ];
+
+        $requestData = ['confirmationKey' => $customerData[Customer::CONFIRMATION]];
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $requestData['customerId'] = $customerData[Customer::ID];
+        }
+
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+
+        $this->assertEquals($customerData[Customer::ID], $result[Customer::ID], 'Wrong customer!');
+        $this->assertArrayNotHasKey(Customer::CONFIRMATION, $result, 'Customer is not activated');
     }
 
     public function testGetCustomerDetails()
@@ -301,6 +327,60 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => '123@test'];
         $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
+    }
+
+    public function testResetPassword()
+    {
+        $this->markTestSkipped("Should be enabled after MAGETWO-26882");
+        $customerData = $this->customerHelper->createSampleCustomer();
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        $customerModel = Bootstrap::getObjectManager()->create('Magento\Customer\Model\CustomerFactory')
+            ->create();
+        $customerModel->load($customerData[Customer::ID]);
+        $rpToken = 'lsdj579slkj5987slkj595lkj';
+        $customerModel->setRpToken($rpToken);
+        $customerModel->setRpTokenCreatedAt(date('Y-m-d'));
+        $customerModel->save();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/resetPassword',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ResetPassword'
+            ]
+        ];
+
+        $newPassword = '123@test' . microtime();
+        $requestData = [
+            'resetToken'      => $rpToken,
+            'newPassword'     => $newPassword
+        ];
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $requestData['customerId'] = $customerData[Customer::ID];
+        }
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/authenticate',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Authenticate'
+            ]
+        ];
+
+        $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => $newPassword];
+        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
+
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
     }
 

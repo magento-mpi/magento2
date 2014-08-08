@@ -217,20 +217,21 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
         $this->_attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
             ->setFrontendInput($attribute->getFrontendInput())
-            ->setInputFilter($attribute->getInputFilter())
+            ->setInputFilter((string)$attribute->getInputFilter())
             ->setStoreLabel($attribute->getStoreLabel())
             ->setValidationRules($validationRules)
-            ->setVisible($attribute->getIsVisible())
-            ->setRequired($attribute->getIsRequired())
-            ->setMultilineCount($attribute->getMultilineCount())
-            ->setDataModel($attribute->getDataModel())
+            ->setVisible((boolean)$attribute->getIsVisible())
+            ->setRequired((boolean)$attribute->getIsRequired())
+            ->setMultilineCount((int)$attribute->getMultilineCount())
+            ->setDataModel((string)$attribute->getDataModel())
             ->setOptions($options)
             ->setFrontendClass($attribute->getFrontend()->getClass())
             ->setFrontendLabel($attribute->getFrontendLabel())
-            ->setNote($attribute->getNote())
-            ->setIsSystem($attribute->getIsSystem())
-            ->setIsUserDefined($attribute->getIsUserDefined())
-            ->setSortOrder($attribute->getSortOrder());
+            ->setNote((string)$attribute->getNote())
+            ->setIsSystem((boolean)$attribute->getIsSystem())
+            ->setIsUserDefined((boolean)$attribute->getIsUserDefined())
+            ->setBackendType($attribute->getBackendType())
+            ->setSortOrder((int)$attribute->getSortOrder());
 
         return $this->_attributeMetadataBuilder->create();
     }
