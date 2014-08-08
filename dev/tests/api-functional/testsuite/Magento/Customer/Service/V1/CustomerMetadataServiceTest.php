@@ -18,11 +18,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/customerMetadata";
 
-    public function setUp()
-    {
-        $this->_markTestAsRestOnly();
-    }
-
     /**
      * Test retrieval of attribute metadata for the specified entity type.
      *
@@ -34,8 +29,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAttributeMetadata($entityType, $attributeCode, $expectedMetadata)
     {
-        $this->_markTestAsRestOnly();
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$entityType/entity/$attributeCode/attribute",
@@ -74,8 +67,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     'input_filter' => null,
                     'store_label' => 'First Name',
                     'validation_rules' => [
-                        'max_text_length' => ['name' => 'max_text_length', 'value' => 255],
-                        'min_text_length' => ['name' => 'min_text_length', 'value' => 1]
+                        ['name' => 'max_text_length', 'value' => 255],
+                        ['name' => 'min_text_length', 'value' => 1]
                     ],
                     'visible' => '1',
                     'required' => '1',
@@ -85,9 +78,10 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     'frontend_class' => ' required-entry',
                     'frontend_label' => 'First Name',
                     'note' => null,
-                    'is_system' => '1',
-                    'is_user_defined' => '0',
-                    'sort_order' => '40'
+                    'system' => '1',
+                    'user_defined' => 0,
+                    'sort_order' => '40',
+                    'backend_type' => 'varchar'
                 ]
             ],
             Customer::GENDER => [
@@ -99,8 +93,8 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     'input_filter' => null,
                     'store_label' => 'Gender',
                     'validation_rules' => [],
-                    'visible' => '0',
-                    'required' => '0',
+                    'visible' => 0,
+                    'required' => 0,
                     'multiline_count' => '0',
                     'data_model' => null,
                     'options' => [
@@ -111,9 +105,10 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     'frontend_class' => '',
                     'frontend_label' => 'Gender',
                     'note' => null,
-                    'is_system' => '0',
-                    'is_user_defined' => '0',
-                    'sort_order' => '110'
+                    'system' => 0,
+                    'user_defined' => 0,
+                    'sort_order' => '110',
+                    'backend_type' => 'int'
                 ]
             ],
             Address::KEY_POSTCODE => [
@@ -133,9 +128,10 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     'frontend_class' => ' required-entry',
                     'frontend_label' => 'Zip/Postal Code',
                     'note' => null,
-                    'is_system' => '1',
-                    'is_user_defined' => '0',
-                    'sort_order' => '110'
+                    'system' => '1',
+                    'user_defined' => 0,
+                    'sort_order' => '110',
+                    'backend_type' => 'varchar'
                 ]
             ]
         ];
@@ -151,8 +147,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetCustomerAttributeMetadata($attributeCode, $expectedMetadata)
     {
-        $this->_markTestAsRestOnly();
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/customer/$attributeCode/attribute",
@@ -190,8 +184,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAllCustomerAttributeMetadata()
     {
-        $this->_markTestAsRestOnly();
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/customer/all",
@@ -227,8 +219,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAddressAttributeMetadata($attributeCode, $expectedMetadata)
     {
-        $this->_markTestAsRestOnly();
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/address/$attributeCode/attribute",

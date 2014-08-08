@@ -13,7 +13,7 @@
 .paypal {
     display: inline-block;
     vertical-align: top;
-    .minicart &,
+    .block-minicart &,
     .cart-summary & {
         display: block;
     }
@@ -36,7 +36,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.billing-agreements,
     .table-wrapper.billing-agreements-related {
         &:extend(.abstract-account-table-border all);
