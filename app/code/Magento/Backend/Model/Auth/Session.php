@@ -63,6 +63,7 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Framework\Session\ValidatorInterface $validator
      * @param \Magento\Framework\Session\StorageInterface $storage
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param \Magento\Framework\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
@@ -75,6 +76,7 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         \Magento\Framework\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\App\ConfigInterface $config,
@@ -84,7 +86,7 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
         $this->_cookie = $cookie;
-        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $cookieManager);
         $this->start();
     }
 

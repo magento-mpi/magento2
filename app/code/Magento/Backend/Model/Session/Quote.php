@@ -79,6 +79,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Framework\Session\ValidatorInterface $validator
      * @param \Magento\Framework\Session\StorageInterface $storage
+     * @param \\Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -92,6 +93,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -103,7 +105,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
         $this->_scopeConfig = $scopeConfig;
-        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $cookieManager);
         $this->start();
         if ($this->_storeManager->hasSingleStore()) {
             $this->setStoreId($this->_storeManager->getStore(true)->getId());
