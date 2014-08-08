@@ -36,13 +36,6 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
     protected $_appState;
 
     /**
-     * If it set to true, we will ignore applying scheme updates
-     *
-     * @var bool
-     */
-    protected $_skipModuleUpdate;
-
-    /**
      * Map that contains setup model names per resource name
      *
      * @var array
@@ -69,34 +62,17 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
      * @param State $appState
      * @param ModuleListInterface $moduleList
      * @param ResourceResolverInterface $resourceResolver
-     * @param bool $skipModuleUpdate
      */
     public function __construct(
         Updater\SetupFactory $setupFactory,
         State $appState,
         ModuleListInterface $moduleList,
-        ResourceResolverInterface $resourceResolver,
-        $skipModuleUpdate = false
+        ResourceResolverInterface $resourceResolver
     ) {
         $this->_appState = $appState;
         $this->_moduleList = $moduleList;
         $this->_resourceResolver = $resourceResolver;
         $this->_setupFactory = $setupFactory;
-        $this->_skipModuleUpdate = $skipModuleUpdate;
-    }
-
-    /**
-     * Check whether modules updates processing should be skipped
-     *
-     * @return bool
-     */
-    protected function _shouldSkipProcessModulesUpdates()
-    {
-        if (!$this->_appState->isInstalled()) {
-            return false;
-        }
-
-        return $this->_skipModuleUpdate;
     }
 
     /**
@@ -106,10 +82,6 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
      */
     public function updateScheme()
     {
-        if ($this->_shouldSkipProcessModulesUpdates()) {
-            return;
-        }
-
         \Magento\Framework\Profiler::start('apply_db_schema_updates');
         $this->_appState->setUpdateMode(true);
 

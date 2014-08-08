@@ -327,4 +327,5 @@ return array(
     ['_usageFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
     ['_couponFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
     ['_customerFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
+    ['_skipModuleUpdate', '\Magento\Framework\Module\Updater'],
 );
