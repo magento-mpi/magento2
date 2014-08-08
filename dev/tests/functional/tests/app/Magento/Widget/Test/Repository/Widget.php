@@ -77,5 +77,31 @@ class Widget extends AbstractRepository
             'code' => 'Banner Rotator',
             'theme_id' => 'Magento Blank',
         ];
+
+        $this->_data['gift_registry_search'] = [
+            'code' => 'magento_giftregistry_search',
+            'theme_id' => '2',
+            'title' => 'Search%isolation%',
+            'store_ids' => [
+                '0' => '0'
+            ],
+            'widget_instance' => [
+                '0' => [
+                    'page_group' => 'all_pages',
+                    'all_pages' => [
+                        'page_id' => '0',
+                        'layout_handle' => 'default',
+                        'for' => 'all',
+                        'block' => 'sidebar.main',
+                        'template' => 'search/widget/form.phtml',
+                    ]
+                ]
+            ],
+            'parameters' => [
+                'types' => [
+                    '0' => 'all'
+                ]
+            ]
+        ];
     }
 }

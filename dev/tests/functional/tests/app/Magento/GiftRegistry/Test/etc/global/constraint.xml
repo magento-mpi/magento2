@@ -32,4 +32,13 @@
     <assertGiftRegistryNotInGrid module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistryNotInGrid>
+    <assertGiftRegistryIsPresentOnSearchResult module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryIsPresentOnSearchResult>
+    <assertGiftRegistryProductsIsPresent module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryProductsIsPresent>
+    <assertGiftRegistryIsAbsentOnSearchResult module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryIsAbsentOnSearchResult>
 </constraint>

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="giftregistry/view/index" >
+    <block>
+        <name>giftRegistryItemsBlock</name>
+        <class>Magento\GiftRegistry\Test\Block\Items</class>
+        <locator>.giftregistry.items</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

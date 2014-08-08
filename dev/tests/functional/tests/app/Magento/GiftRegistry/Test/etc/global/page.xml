@@ -32,4 +32,16 @@
         <mca>giftregistry/wishlist</mca>
         <class>Magento\GiftRegistry\Test\Page\WishlistIndex</class>
     </wishlistIndex>
+    <giftRegistryShare>
+        <mca>giftregistry/index/share</mca>
+        <class>Magento\GiftRegistry\Test\Page\GiftRegistryShare</class>
+    </giftRegistryShare>
+    <giftRegistrySearchResults>
+        <mca>giftregistry/search/results</mca>
+        <class>Magento\GiftRegistry\Test\Page\GiftRegistrySearchResults</class>
+    </giftRegistrySearchResults>
+    <giftRegistryView>
+        <mca>giftregistry/view/index</mca>
+        <class>Magento\GiftRegistry\Test\Page\GiftRegistryView</class>
+    </giftRegistryView>
 </page>
