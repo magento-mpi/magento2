@@ -78,7 +78,7 @@ class WriteServiceTest extends WebapiAbstract
             ),
         );
 
-        $data = [Coupon::COUPON_CODE => 'newCode'];
+        $data = [Coupon::COUPON_CODE => 'invalid_coupon_code'];
 
         $requestData = [
             "cartId" => $cartId,
@@ -89,14 +89,14 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Checkout/_files/quote_not_logged_in.php
+     * @magentoApiDataFixture Magento/Sales/_files/quote.php
      * @magentoApiDataFixture Magento/Checkout/_files/discount_10percent.php
      */
     public function testSetCouponSuccess()
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
-        $quote->load('test_order_1', 'reserved_order_id');
+        $quote->load('test01', 'reserved_order_id');
         $cartId = $quote->getId();
 
         $serviceInfo = array(
@@ -114,7 +114,8 @@ class WriteServiceTest extends WebapiAbstract
         $salesRule = $this->objectManager->create('Magento\SalesRule\Model\Rule');
         $salesRule->load('Test Coupon', 'name');
 
-        $data = [Coupon::COUPON_CODE => $salesRule->getCouponCode()];
+        $couponCode = $salesRule->getCouponCode();
+        $data = [Coupon::COUPON_CODE => $couponCode];
 
         $requestData = [
             "cartId" => $cartId,
@@ -122,5 +123,10 @@ class WriteServiceTest extends WebapiAbstract
         ];
 
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+
+        $quoteWithCoupon = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $quoteWithCoupon->load('test01', 'reserved_order_id');
+
+        $this->assertEquals($quoteWithCoupon->getCouponCode(), $couponCode);
     }
 }

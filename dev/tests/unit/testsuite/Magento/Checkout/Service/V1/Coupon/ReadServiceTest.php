@@ -55,19 +55,20 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $cartId = 11;
         $storeId = 12;
+        $couponCode = 'test_coupon_code';
         $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
-        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
-        $quoteMock->expects($this->any())->method('getCouponCode')->will($this->returnValue(100500));
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', ['getCouponCode', '__wakeup'], [], '', false);
+        $quoteMock->expects($this->any())->method('getCouponCode')->will($this->returnValue($couponCode));
 
         $this->quoteLoaderMock->expects($this->once())
             ->method('load')
             ->with($cartId, $storeId)
             ->will($this->returnValue($quoteMock));
 
-        $data = [Coupon::COUPON_CODE => $quoteMock->getCouponCode()];
+        $data = [Coupon::COUPON_CODE => $couponCode];
 
         $this->couponBuilderMock->expects($this->once())
             ->method('populateWithArray')
