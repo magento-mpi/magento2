@@ -135,7 +135,7 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/invoices/" method="POST">
+    <route url="/V1/invoice/" method="POST">
         <service class="Magento\Sales\Service\V1\InvoiceCreateInterface" method="invoke"/>
         <resources>
             <resource ref="Magento_Sales::sales" />

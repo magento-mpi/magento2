@@ -10,9 +10,9 @@ namespace Magento\Sales\Service\V1;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
-class InvoiceGetTest extends WebapiAbstract
+class InvoiceCreateTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/invoices';
+    const RESOURCE_PATH = '/V1/invoice';
 
     const SERVICE_READ_NAME = 'salesInvoiceCreateV1';
 
@@ -93,7 +93,6 @@ class InvoiceGetTest extends WebapiAbstract
             'transaction_id' => null,
             'updated_at' => null,
             'items' => [],
-            'comments' => [],
             'comment_customer_notify' => null,
             'capture_case' => null
         ];
