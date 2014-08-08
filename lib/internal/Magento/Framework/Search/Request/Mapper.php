@@ -94,8 +94,10 @@ class Mapper
      * Convert array to Query instance
      *
      * @param string $queryName
-     * @throws \Exception
      * @return QueryInterface
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @throws StateException
      */
     private function mapQuery($queryName)
     {
