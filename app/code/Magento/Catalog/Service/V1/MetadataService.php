@@ -101,7 +101,7 @@ class MetadataService implements MetadataServiceInterface
     {
         /** @var AbstractAttribute $attribute */
         $attribute = $this->eavConfig->getAttribute($entityType, $attributeCode);
-        if ($attribute) {
+        if ($attribute->getId()) {
             $attributeMetadata = $this->createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
@@ -146,6 +146,9 @@ class MetadataService implements MetadataServiceInterface
                 $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
             );
         }
+        // Group attributes by id to prevent duplicates with different attribute sets
+        $attributeCollection->addAttributeGrouping();
+
         $totalCount = $attributeCollection->getSize();
 
         $attributeCollection->setCurPage($searchCriteria->getCurrentPage());
