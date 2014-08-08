@@ -21,7 +21,7 @@ define([
             review: {
                 continueSelector: '#opc-review [data-role=review-save]',
                 container: '#opc-review',
-                agreementFormSelector: '#checkout-agreements-form'
+                agreementGroupSelector: '#checkout-agreements'
             }
         },
 
@@ -34,16 +34,24 @@ define([
         },
 
         _saveOrder: function() {
-            var agreementForm = $(this.options.review.agreementFormSelector),
+            var agreementGroupSelector = $(this.options.review.agreementGroupSelector),
                 paymentForm = $(this.options.payment.form);
-            agreementForm.validation();
-            if (agreementForm.validation &&
-                agreementForm.validation('isValid') &&
+            var isAgreementValid = true;
+            agreementGroupSelector.find('form').each(
+                function(){
+                    $(this).validation();
+                    isAgreementValid = isAgreementValid && $(this).validation && $(this).validation('isValid');
+                }
+            );
+
+            if (isAgreementValid &&
                 paymentForm.validation &&
                 paymentForm.validation('isValid')) {
+                var serializedAgreement = '';
+                agreementGroupSelector.find('form').each(function(){serializedAgreement += '&' + $(this).serialize()});
                 this._ajaxContinue(
                     this.options.review.saveUrl,
-                    paymentForm.serialize() + '&' + agreementForm.serialize());
+                    paymentForm.serialize() + serializedAgreement);
             }
         }
     });
