@@ -20,7 +20,8 @@ class ShippingMethodConverter
     protected $builder;
 
     /**
-     * @param \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder $builder
+     * @param ShippingMethodBuilder $builder
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder $builder,

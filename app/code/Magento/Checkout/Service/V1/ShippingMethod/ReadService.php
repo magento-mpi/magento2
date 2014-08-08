@@ -37,6 +37,7 @@ class ReadService implements ReadServiceInterface
     /**
      * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter $converter
      * @param ShippingMethodBuilder $methodBuilder
      */
     public function __construct(

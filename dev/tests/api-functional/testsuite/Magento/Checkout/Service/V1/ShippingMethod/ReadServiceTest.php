@@ -120,6 +120,12 @@ class ReadServiceTest extends WebapiAbstract
         ];
     }
 
+    /**
+     * Service info
+     *
+     * @param int $cartId
+     * @return array
+     */
     protected function getListServiceInfo($cartId)
     {
         return [
