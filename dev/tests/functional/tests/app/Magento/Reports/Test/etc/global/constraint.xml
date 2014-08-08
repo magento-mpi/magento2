@@ -14,4 +14,7 @@
     <assertSearchTermReportForm module="Magento_Reports">
         <severeness>low</severeness>
     </assertSearchTermReportForm>
+    <assertLowStockProductInGrid module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertLowStockProductInGrid>
 </constraint>

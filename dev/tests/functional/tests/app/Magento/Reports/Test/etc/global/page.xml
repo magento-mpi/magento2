@@ -13,9 +13,9 @@
         <area>adminhtml</area>
         <class>Magento\Reports\Test\Page\Adminhtml\SearchIndex</class>
     </searchIndex>
-    <catalogSearchEdit>
-        <mca>admin/catalog_search/edit</mca>
+    <productLowStock>
+        <mca>reports/report_product/lowstock</mca>
         <area>adminhtml</area>
-        <class>Magento\Reports\Test\Page\Adminhtml\CatalogSearchEdit</class>
-    </catalogSearchEdit>
+        <class>Magento\Reports\Test\Page\Adminhtml\ProductLowStock</class>
+    </productLowStock>
 </page>
