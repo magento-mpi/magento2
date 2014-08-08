@@ -4,7 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define([
+require([
     "jquery",
     "jquery/ui",
     "prototype"
@@ -66,8 +66,6 @@ window.Product = {};
     });
 })(jQuery);
 
-window.onInitDisableFieldsList = [];
-
 function toogleFieldEditMode(toogleIdentifier, fieldContainer) {
     if ($(toogleIdentifier).checked) {
         enableFieldEditMode(fieldContainer);
@@ -90,12 +88,9 @@ function enableFieldEditMode(fieldContainer) {
     }
 }
 
-function initDisableFields(fieldContainer) {
-    onInitDisableFieldsList.push(fieldContainer);
-}
-
 function onCompleteDisableInited() {
-    onInitDisableFieldsList.each( function(item) {
+    jQuery.each(jQuery('input[data-disable]'), function() {
+        var item = jQuery(this).data('disable');
         disableFieldEditMode(item);
     });
 }
@@ -128,7 +123,6 @@ function onCustomUseParentChanged(element) {
 window.onCustomUseParentChanged = onCustomUseParentChanged;
 window.onUrlkeyChanged = onUrlkeyChanged;
 window.onCompleteDisableInited = onCompleteDisableInited;
-window.initDisableFields = initDisableFields;
 window.enableFieldEditMode = enableFieldEditMode;
 window.disableFieldEditMode = disableFieldEditMode;
 window.toogleFieldEditMode = toogleFieldEditMode;

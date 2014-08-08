@@ -134,11 +134,10 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
         $html = <<<HTML
 <span class="attribute-change-checkbox">
     <label>
-        <input type="checkbox" $nameAttributeHtml onclick="toogleFieldEditMode(this, '{$elementId}')" />
+        <input type="checkbox" $nameAttributeHtml onclick="toogleFieldEditMode(this, '{$elementId}')" data-disable="{$elementId}"/>
         {$checkboxLabel}
     </label>
 </span>
-<script>initDisableFields("{$elementId}")</script>
 HTML;
         if ($elementId === 'weight') {
             $html .= <<<HTML
