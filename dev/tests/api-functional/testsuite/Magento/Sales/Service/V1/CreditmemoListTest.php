@@ -24,7 +24,7 @@ class CreditmemoListTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesOrderCreditmemoListV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoListV1';
 
     /**
      * Service version
