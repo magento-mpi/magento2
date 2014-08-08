@@ -10,7 +10,6 @@
         "magento/module-log": "0.1.0",
         "magento/module-core": "0.1.0",
         "magento/module-backend": "0.1.0",
-        "magento/module-logging": "0.1.0",
         "magento/module-sales": "0.1.0",
         "magento/module-eav": "0.1.0",
         "magento/module-directory": "0.1.0",

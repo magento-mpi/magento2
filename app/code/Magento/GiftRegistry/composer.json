@@ -15,7 +15,6 @@
         "magento/module-theme": "0.1.0",
         "magento/module-backend": "0.1.0",
         "magento/module-widget": "0.1.0",
-        "magento/module-logging": "0.1.0",
         "magento/module-catalog-inventory": "0.1.0",
         "magento/module-gift-card": "0.1.0",
         "magento/module-newsletter": "0.1.0",
