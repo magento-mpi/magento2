@@ -25,9 +25,9 @@ class CreditmemoCommentsListTest extends WebapiAbstract
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var \Magento\Sales\Model\Order\Creditmemo $creditmemo */
-        $creditmemo = $objectManager->get('Magento\Sales\Model\Order\Creditmemo')->loadByIncrementId('100000001');
-        $history = $creditmemo->addComment($comment);
-        $history->save();
+        $creditmemo = $objectManager->get('Magento\Sales\Model\Order\Creditmemo')->load('100000001', 'increment_id');
+        $creditmemo->addComment($comment);
+        $creditmemo->save();
 
         $serviceInfo = [
             'rest' => [
@@ -42,10 +42,10 @@ class CreditmemoCommentsListTest extends WebapiAbstract
         ];
         $requestData = ['id' => $creditmemo->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);
-        foreach ($result['items'] as $history) {
-            $creditmemoHistoryStatus = $objectManager->get('Magento\Sales\Model\Order\Creditmemo\Comment')
-                ->load($history['entity_id']);
-            $this->assertEquals($creditmemoHistoryStatus->getComment(), $history['comment']);
+        foreach ($result['items'] as $item) {
+            $comment = $objectManager->get('Magento\Sales\Model\Order\Creditmemo\Comment')
+                ->load($item['entity_id']);
+            $this->assertEquals($comment->getComment(), $item['comment']);
         }
     }
 }

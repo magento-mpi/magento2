@@ -18,7 +18,6 @@ class CreditmemoCancelTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/creditmemo_with_list.php
-     * @expectedException \Exception
      */
     public function testCreditmemoCancel()
     {
@@ -28,7 +27,7 @@ class CreditmemoCancelTest extends WebapiAbstract
         $creditmemo = $creditmemoFactory->create()->load(self::CREDITMEMO_INCREMENT_ID, 'increment_id');
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/creditmemo/'. $creditmemo->getId(),
+                'resourcePath' => '/V1/creditmemo/' . $creditmemo->getId(),
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -38,6 +37,7 @@ class CreditmemoCancelTest extends WebapiAbstract
             ]
         ];
         $requestData = ['id' => $creditmemo->getId()];
-        $this->_webApiCall($serviceInfo, $requestData);
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($result);
     }
 }

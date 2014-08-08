@@ -51,7 +51,7 @@ class InvoiceListTest extends WebapiAbstract
             [
                 $filterBuilder
                     ->setField('state')
-                    ->setValue('pending')
+                    ->setValue(2)
                     ->create()
             ]
         );

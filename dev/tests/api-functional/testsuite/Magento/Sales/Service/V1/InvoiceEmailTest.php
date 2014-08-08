@@ -20,12 +20,12 @@ class InvoiceEmailTest extends WebapiAbstract
      */
     public function testInvoiceEmail()
     {
-        $invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order\Invoice');
-        $invoice->loadByIncrementId('100000001');
+        $objectManager= \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $invoiceCollection = $objectManager->get('Magento\Sales\Model\Resource\Order\Invoice\Collection');
+        $invoice = $invoiceCollection->getFirstItem();
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/invoice/'. $invoice->getId() . '/email',
+                'resourcePath' => '/V1/invoice/' . $invoice->getId() . '/email',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [

@@ -29,7 +29,7 @@ class OrderUnHoldTest extends WebapiAbstract
         }
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/order/'. $order->getId() . '/unhold',
+                'resourcePath' => '/V1/order/' . $order->getId() . '/unhold',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
