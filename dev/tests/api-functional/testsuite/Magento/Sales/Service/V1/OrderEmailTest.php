@@ -11,16 +11,16 @@ namespace Magento\Sales\Service\V1;
 use Magento\TestFramework\TestCase\WebapiAbstract,
     Magento\Webapi\Model\Rest\Config as RestConfig;
 
-class OrderNotifyUserTest extends WebapiAbstract
+class OrderEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesOrderNotifyUserV1';
+    const SERVICE_NAME = 'salesOrderEmailV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
      */
-    public function testOrderNotifyUser()
+    public function testOrderEmail()
     {
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order');
