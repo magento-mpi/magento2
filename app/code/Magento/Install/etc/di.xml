@@ -90,11 +90,6 @@
             <argument name="session" xsi:type="object">Magento\Install\Model\Session</argument>
         </arguments>
     </type>
-    <type name="Magento\Install\Controller\Wizard">
-        <arguments>
-            <argument name="session" xsi:type="object">Magento\Install\Model\Session</argument>
-        </arguments>
-    </type>
     <type name="Magento\Install\Model\Installer">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Install\Model\Session</argument>
