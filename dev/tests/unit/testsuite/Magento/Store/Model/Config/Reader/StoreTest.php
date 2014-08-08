@@ -56,6 +56,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $storeFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_storeMock));
 
         $this->_appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
         $placeholderProcessor = $this->getMock(
             'Magento\Store\Model\Config\Processor\Placeholder',
@@ -155,7 +156,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                 'key3' => 'store_db_value3'
             )
         );
-        echo "store test echo statement";
         $this->assertEquals($expectedData, $this->_model->read($storeCode));
     }
 
