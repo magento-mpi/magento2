@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Rss\Block;
+namespace Magento\Wishlist\Block;
 
 /**
  * Customer Shared Wishlist Rss Block
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
+class Rss extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Default MAP renderer type

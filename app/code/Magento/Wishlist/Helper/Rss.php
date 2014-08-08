@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rss\Helper;
+namespace Magento\Wishlist\Helper;
 
-class WishlistRss extends \Magento\Wishlist\Helper\Data
+class Rss extends \Magento\Wishlist\Helper\Data
 {
     /**
      * @var \Magento\Customer\Service\V1\Data\Customer
@@ -19,6 +19,11 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
      * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $_customerBuilder;
+
+    /*
+     * @var \Magento\Framework\Module\Manager
+     */
+    protected $moduleManager;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -32,6 +37,7 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Framework\Module\Manager $moduleManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -44,9 +50,11 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Framework\Module\Manager $moduleManager
     ) {
         $this->_customerBuilder = $customerBuilder;
+        $this->moduleManager = $moduleManager;
 
         parent::__construct(
             $context,
@@ -103,5 +111,16 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
         }
 
         return $this->_customer;
+    }
+
+    /**
+     * Is allow RSS
+     *
+     * @return bool
+     */
+    public function isRssAllow()
+    {
+        return $this->moduleManager->isEnabled('Magento_Rss')
+            && $this->_scopeConfig->isSetFlag('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }
