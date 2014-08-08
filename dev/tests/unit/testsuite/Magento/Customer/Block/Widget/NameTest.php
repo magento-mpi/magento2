@@ -83,7 +83,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->_metadataService->expects(
             $this->any()
         )->method(
-            'getCustomCustomerAttributeMetadata'
+            'getCustomAttributesMetadata'
         )->will(
             $this->returnValue([])
         );

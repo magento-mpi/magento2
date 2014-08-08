@@ -22,39 +22,6 @@ use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 class CustomerBuilder extends AbstractObjectBuilder
 {
     /**
-     * @var CustomerMetadataServiceInterface
-     */
-    protected $_metadataService;
-
-    /**
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
-     * @param CustomerMetadataServiceInterface $metadataService
-     */
-    public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
-        CustomerMetadataServiceInterface $metadataService
-    ) {
-        parent::__construct($objectFactory, $valueBuilder);
-        $this->_metadataService = $metadataService;
-    }
-
-    /**
-     * Template method used to configure the attribute codes for the custom attributes
-     *
-     * @return string[]
-     */
-    public function getCustomAttributesCodes()
-    {
-        $attributeCodes = array();
-        foreach ($this->_metadataService->getCustomCustomerAttributeMetadata() as $attribute) {
-            $attributeCodes[] = $attribute->getAttributeCode();
-        }
-        return $attributeCodes;
-    }
-
-    /**
      * Sets the default billing
      *
      * @param string $defaultBilling

@@ -33,12 +33,12 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService = $this->getMockBuilder(
             'Magento\Customer\Service\V1\CustomerMetadataService'
         )->setMethods(
-            array('getCustomCustomerAttributeMetadata')
+            array('getCustomAttributesMetadata')
         )->disableOriginalConstructor()->getMock();
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomCustomerAttributeMetadata'
+            'getCustomAttributesMetadata'
         )->will(
             $this->returnValue(
                 array(

@@ -16,6 +16,8 @@
                 type="Magento\Customer\Service\V1\CustomerAccountService" />
     <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerMetadataService" />
+    <preference for="Magento\Customer\Service\V1\AddressMetadataServiceInterface"
+                type="Magento\Customer\Service\V1\AddressMetadataService" />
     <type name="Magento\Customer\Model\Session">
         <arguments>
             <argument name="configShare" xsi:type="object">Magento\Customer\Model\Config\Share\Proxy</argument>
@@ -46,8 +48,6 @@
             <argument name="customerData" xsi:type="object">Magento\Customer\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Customer\Service\V1\Data\AddressBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Data\CustomerBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\CustomerGroupBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\Eav\OptionBuilder" shared="false" />
@@ -64,6 +64,16 @@
     <type name="Magento\Customer\Service\V1\CustomerAccountService">
         <arguments>
             <argument name="url" xsi:type="object">Magento\Framework\Url</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Service\V1\Data\CustomerBuilder" shared="false">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\CustomerMetadataServiceInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Service\V1\Data\AddressBuilder" shared="false">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\AddressMetadataServiceInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Model\ActionValidator\RemoveAction">

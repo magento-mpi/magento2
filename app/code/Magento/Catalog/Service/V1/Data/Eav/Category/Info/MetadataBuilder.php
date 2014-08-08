@@ -19,33 +19,6 @@ use Magento\Framework\Service\Data\ObjectFactory;
 class MetadataBuilder extends AbstractObjectBuilder
 {
     /**
-     * @param ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
-     * @param MetadataServiceInterface $metadataService
-     */
-    public function __construct(
-        ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
-        MetadataServiceInterface $metadataService
-    ) {
-        parent::__construct($objectFactory, $valueBuilder);
-        $this->metadataService = $metadataService;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getCustomAttributesCodes()
-    {
-        $attributeCodes = array();
-        foreach ($this->metadataService->getCustomAttributesMetadata() as $attribute) {
-            /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata @attribute */
-            $attributeCodes[] = $attribute->getAttributeCode();
-        }
-        return $attributeCodes;
-    }
-
-    /**
      * @param int $value
      * @return $this
      */

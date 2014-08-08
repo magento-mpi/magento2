@@ -7,10 +7,12 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Framework\Service\Data\Eav\MetadataServiceInterface;
+
 /**
  * Interface CustomerMetadataServiceInterface
  */
-interface CustomerMetadataServiceInterface
+interface CustomerMetadataServiceInterface extends MetadataServiceInterface
 {
     const ATTRIBUTE_SET_ID_CUSTOMER = 1;
 
@@ -70,7 +72,7 @@ interface CustomerMetadataServiceInterface
      *
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
-    public function getCustomCustomerAttributeMetadata();
+    public function getCustomAttributesMetadata();
 
     /**
      * Retrieve Customer Addresses EAV attribute metadata

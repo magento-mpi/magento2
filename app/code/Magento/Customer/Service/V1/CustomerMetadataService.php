@@ -238,7 +238,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     /**
      * @inheritdoc
      */
-    public function getCustomCustomerAttributeMetadata()
+    public function getCustomAttributesMetadata()
     {
         $customAttributes = [];
         if (!$this->customerDataObjectMethods) {

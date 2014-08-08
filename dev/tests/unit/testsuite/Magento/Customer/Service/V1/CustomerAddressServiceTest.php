@@ -237,7 +237,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $metadataService->expects(
             $this->any()
         )->method(
-            'getCustomCustomerAttributeMetadata'
+            'getCustomAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );

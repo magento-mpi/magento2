@@ -14,41 +14,6 @@ use Magento\Catalog\Service\V1\Category\MetadataServiceInterface;
 class CategoryBuilder extends AbstractObjectBuilder
 {
     /**
-     * @var MetadataServiceInterface
-     */
-    protected $metadataService;
-
-    /**
-     * Initialize dependencies
-     *
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
-     * @param MetadataServiceInterface $metadataService
-     */
-    public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
-        MetadataServiceInterface $metadataService
-    ) {
-        parent::__construct($objectFactory, $valueBuilder);
-        $this->metadataService = $metadataService;
-    }
-
-    /**
-     * Template method used to configure the attribute codes for the category attributes
-     *
-     * @return string[]
-     */
-    public function getCustomAttributesCodes()
-    {
-        $attributeCodes = array();
-        foreach ($this->metadataService->getCustomAttributesMetadata() as $attribute) {
-            $attributeCodes[] = $attribute->getAttributeCode();
-        }
-        return $attributeCodes;
-    }
-
-    /**
      * Set category id
      *
      * @param  int $value

@@ -32,6 +32,7 @@ class AddressBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomAttributesCodes()
     {
+        $this->markTestSkipped('Will be fixed in scope of MAGETWO-27167');
         $userDefinedAttributeCode = 'address_user_attribute';
         $attributeCodes = $this->_addressBuilder->getCustomAttributesCodes();
         $expectedAttributes = [$userDefinedAttributeCode];

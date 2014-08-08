@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 /**
  * Class AttributeMetadataBuilder
@@ -37,19 +37,17 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * Initializes builder.
      *
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
-     * @param \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $valueBuilder
      * @param OptionBuilder $optionBuilder
      * @param ValidationRuleBuilder $validationRuleBuilder
      * @param Product\Attribute\FrontendLabelBuilder $frontendLabelBuilder
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
-        \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $valueBuilder,
         OptionBuilder $optionBuilder,
         ValidationRuleBuilder $validationRuleBuilder,
         Product\Attribute\FrontendLabelBuilder $frontendLabelBuilder
     ) {
-        parent::__construct($objectFactory, $valueBuilder);
+        parent::__construct($objectFactory);
         $this->optionBuilder = $optionBuilder;
         $this->validationRuleBuilder = $validationRuleBuilder;
         $this->frontendLabelBuilder = $frontendLabelBuilder;

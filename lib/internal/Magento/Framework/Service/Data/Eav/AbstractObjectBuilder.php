@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Framework\Service\Data\Eav;
 
 /**
@@ -15,17 +16,25 @@ abstract class AbstractObjectBuilder extends \Magento\Framework\Service\Data\Abs
     /**
      * @var AttributeValueBuilder
      */
-    protected $_valueBuilder;
+    protected $valueBuilder;
+
+    /**
+     * @var MetadataServiceInterface
+     */
+    protected $metadataService;
 
     /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
+     * @param MetadataServiceInterface $metadataService
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder
+        AttributeValueBuilder $valueBuilder,
+        MetadataServiceInterface $metadataService
     ) {
-        $this->_valueBuilder = $valueBuilder;
+        $this->valueBuilder = $valueBuilder;
+        $this->metadataService = $metadataService;
         parent::__construct($objectFactory);
     }
 
@@ -62,7 +71,7 @@ abstract class AbstractObjectBuilder extends \Magento\Framework\Service\Data\Abs
         $customAttributesCodes = $this->getCustomAttributesCodes();
         /* If key corresponds to custom attribute code, populate custom attributes */
         if (in_array($attributeCode, $customAttributesCodes)) {
-            $valueObject = $this->_valueBuilder
+            $valueObject = $this->valueBuilder
                 ->setAttributeCode($attributeCode)
                 ->setValue($attributeValue)
                 ->create();
@@ -74,11 +83,15 @@ abstract class AbstractObjectBuilder extends \Magento\Framework\Service\Data\Abs
     /**
      * Template method used to configure the attribute codes for the custom attributes
      *
-     * @return string[]
+     * @return array
      */
     public function getCustomAttributesCodes()
     {
-        return array();
+        $attributeCodes = [];
+        foreach ($this->metadataService->getCustomAttributesMetadata() as $attribute) {
+            $attributeCodes[] = $attribute->getAttributeCode();
+        }
+        return $attributeCodes;
     }
 
     /**

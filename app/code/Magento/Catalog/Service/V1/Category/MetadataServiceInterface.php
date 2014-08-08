@@ -12,7 +12,7 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 /**
  * Class Category MetadataServiceInterface
  */
-interface MetadataServiceInterface
+interface MetadataServiceInterface extends \Magento\Framework\Service\Data\Eav\MetadataServiceInterface
 {
     /**#@+
      * Predefined constants
@@ -21,14 +21,6 @@ interface MetadataServiceInterface
 
     const DEFAULT_ATTRIBUTE_SET_ID = 3;
     /**#@-*/
-
-    /**
-     * Retrieve custom EAV attribute metadata of category
-     *
-     * @param int $attributeSetId
-     * @return AttributeMetadata[]
-     */
-    public function getCustomAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID);
 
     /**
      * Retrieve EAV attribute metadata of category

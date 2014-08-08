@@ -14,7 +14,7 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
  */
 class MetadataService implements MetadataServiceInterface
 {
-    /** @var  \Magento\Catalog\Service\V1\MetadataService */
+    /** @var  \Magento\Catalog\Service\V1\MetadataServiceInterface */
     protected $metadataService;
 
     /**
@@ -28,12 +28,12 @@ class MetadataService implements MetadataServiceInterface
     private $filterBuilder;
 
     /**
-     * @param \Magento\Catalog\Service\V1\MetadataService $metadataService
+     * @param \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\MetadataService $metadataService,
+        \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService,
         \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
     ) {
@@ -45,13 +45,13 @@ class MetadataService implements MetadataServiceInterface
     /**
      * Retrieve custom EAV attribute metadata of category
      *
-     * @param int $attributeSetId
      * @return AttributeMetadata[]
      */
-    public function getCustomAttributesMetadata($attributeSetId = MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID)
+    public function getCustomAttributesMetadata()
     {
         $customAttributes = [];
-        foreach ($this->getCategoryAttributesMetadata($attributeSetId) as $attributeMetadata) {
+        foreach ($this->getCategoryAttributesMetadata(MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID)
+                 as $attributeMetadata) {
             $customAttributes[] = $attributeMetadata;
         }
         return $customAttributes;
