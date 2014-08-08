@@ -30,17 +30,25 @@ class Product extends \Magento\Framework\App\Action\Action
     protected $_formKeyValidator;
 
     /**
+     * @var \Magento\Sendfriend\Model\Sendfriend
+     */
+    protected $sendFriend;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Sendfriend\Model\Sendfriend $sendFriend
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Sendfriend\Model\Sendfriend $sendFriend
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_formKeyValidator = $formKeyValidator;
+        $this->sendFriend = $sendFriend;
         parent::__construct($context);
     }
 
@@ -70,15 +78,15 @@ class Product extends \Magento\Framework\App\Action\Action
                     $this->_objectManager->create(
                         'Magento\Framework\UrlInterface'
                     )->getUrl(
-                        '*/*/send',
-                        array('_current' => true)
-                    )
+                            '*/*/send',
+                            array('_current' => true)
+                        )
                 );
                 $this->_objectManager->get(
                     'Magento\Catalog\Model\Session'
                 )->setSendfriendFormData(
-                    $request->getPost()
-                );
+                        $request->getPost()
+                    );
             }
         }
         return parent::dispatch($request);
@@ -111,23 +119,7 @@ class Product extends \Magento\Framework\App\Action\Action
      */
     protected function _initSendToFriendModel()
     {
-        /** @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress */
-        $remoteAddress = $this->_objectManager->get('Magento\Framework\HTTP\PhpEnvironment\RemoteAddress');
-
-        /** @var \Magento\Framework\Stdlib\CookieManager $cookieManager */
-        $cookieManager = $this->_objectManager->get('Magento\Framework\Stdlib\CookieManager');
-
-        /** @var \Magento\Store\Model\StoreManagerInterface $store */
-        $store = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
-
-        /** @var \Magento\Sendfriend\Model\Sendfriend $model */
-        $model = $this->_objectManager->create('Magento\Sendfriend\Model\Sendfriend');
-        $model->setRemoteAddr($remoteAddress->getRemoteAddress(true));
-        $model->setCookieManager($cookieManager);
-        $model->setWebsiteId($store->getStore()->getWebsiteId());
-
-        $this->_coreRegistry->register('send_to_friend_model', $model);
-
-        return $model;
+        $this->_coreRegistry->register('send_to_friend_model', $this->sendFriend);
+        return $this->sendFriend;
     }
 }
