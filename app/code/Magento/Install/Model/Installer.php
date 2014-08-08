@@ -22,7 +22,7 @@ class Installer extends \Magento\Framework\Object
     /**
      * DB updated model
      *
-     * @var \Magento\Framework\Module\UpdaterInterface
+     * @var \Magento\Framework\Module\Updater
      */
     protected $_dbUpdater;
 
@@ -167,7 +167,7 @@ class Installer extends \Magento\Framework\Object
 
     /**
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-     * @param \Magento\Framework\Module\UpdaterInterface $dbUpdater
+     * @param \Magento\Framework\Module\Updater $dbUpdater
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
@@ -194,7 +194,7 @@ class Installer extends \Magento\Framework\Object
      */
     public function __construct(
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\Framework\Module\UpdaterInterface $dbUpdater,
+        \Magento\Framework\Module\Updater $dbUpdater,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Framework\App\Cache\StateInterface $cacheState,

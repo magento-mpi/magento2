@@ -10,17 +10,9 @@
 namespace Magento\Framework\Module;
 
 use Magento\Framework\App\State;
-use Magento\Framework\Module\Updater\SetupFactory;
 
-class Updater implements \Magento\Framework\Module\UpdaterInterface
+class Updater
 {
-    /**
-     * Setup model factory
-     *
-     * @var SetupFactory
-     */
-    protected $_factory;
-
     /**
      * Flag which allow run data install/upgrade
      *
@@ -34,13 +26,6 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
      * @var \Magento\Framework\App\State
      */
     protected $_appState;
-
-    /**
-     * Map that contains setup model names per resource name
-     *
-     * @var array
-     */
-    protected $_resourceList;
 
     /**
      * @var ModuleListInterface
@@ -58,21 +43,29 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
     protected $_setupFactory;
 
     /**
+     * @var \Magento\Framework\Module\Manager
+     */
+    private $_moduleManager;
+
+    /**
      * @param Updater\SetupFactory $setupFactory
      * @param State $appState
      * @param ModuleListInterface $moduleList
      * @param ResourceResolverInterface $resourceResolver
+     * @param Manager $moduleManager
      */
     public function __construct(
         Updater\SetupFactory $setupFactory,
         State $appState,
         ModuleListInterface $moduleList,
-        ResourceResolverInterface $resourceResolver
+        ResourceResolverInterface $resourceResolver,
+        \Magento\Framework\Module\Manager $moduleManager
     ) {
         $this->_appState = $appState;
         $this->_moduleList = $moduleList;
         $this->_resourceResolver = $resourceResolver;
         $this->_setupFactory = $setupFactory;
+        $this->_moduleManager = $moduleManager;
     }
 
     /**
@@ -88,11 +81,13 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
         $afterApplyUpdates = array();
         foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
-                $setup = $this->_setupFactory->create($resourceName, $moduleName);
-                $setup->applyUpdates();
+                if (!$this->_moduleManager->isDbSchemaUpToDate($moduleName, $resourceName)) {
+                    $setup = $this->_setupFactory->create($resourceName, $moduleName);
+                    $setup->applyUpdates();
 
-                if ($setup->getCallAfterApplyAllUpdates()) {
-                    $afterApplyUpdates[] = $setup;
+                    if ($setup->getCallAfterApplyAllUpdates()) {
+                        $afterApplyUpdates[] = $setup;
+                    }
                 }
             }
         }
@@ -119,7 +114,9 @@ class Updater implements \Magento\Framework\Module\UpdaterInterface
         }
         foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
-                $this->_setupFactory->create($resourceName, $moduleName)->applyDataUpdates();
+                if (!$this->_moduleManager->isDbDataUpToDate($moduleName, $resourceName)) {
+                    $this->_setupFactory->create($resourceName, $moduleName)->applyDataUpdates();
+                }
             }
         }
     }
