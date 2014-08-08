@@ -6,8 +6,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\User\Controller\Adminhtml\User;
 
+/**
+ * Class InvalidateToken - used to invalidate/revoke all authentication tokens for a specific user.
+ *
+ * @package Magento\User\Controller\Adminhtml\User
+ */
 class InvalidateToken extends \Magento\User\Controller\Adminhtml\User
 {
     /**
@@ -15,14 +21,11 @@ class InvalidateToken extends \Magento\User\Controller\Adminhtml\User
      */
     public function execute()
     {
-        $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
-        $userSession = $this->_objectManager->get('Magento\Backend\Model\Auth\Session');
-
         if ($userId = $this->getRequest()->getParam('user_id')) {
             try {
                 /** @var \Magento\User\Model\User $model */
                 /*
-                 * TODO: insert code here to revoke all tokens
+                 * TODO: insert code here to revoke all tokens, see MAGETWO-26312
                  */
                 $this->messageManager->addSuccess(__('You have invalidated the user.'));
                 $this->_redirect('adminhtml/*/');
