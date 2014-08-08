@@ -93,7 +93,7 @@
         <?php if ($addressAttributes): ?>
             <?php $addressAttributes->setEntity($this->getAddress())->setEntityType('customer_address');?>
             <?php $addressAttributes->setFieldIdFormat('shipping:%1$s')->setFieldNameFormat('shipping[%1$s]');?>
-            <?php echo $addressAttributes->setExcludeFileAttributes(true)->setShowContainer(false)->toHtml()?>
+            <?php echo $addressAttributes->setShowContainer(false)->toHtml()?>
         <?php endif;?>
         <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
             <div class="field choice save">

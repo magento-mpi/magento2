@@ -74,7 +74,7 @@
     background-repeat: no-repeat;
     background-position: 100% 45%;
     background-size: 30px 60px;
-    padding-right: 20px;
+    padding-right: 25px;
     text-indent: 0.01em;
     text-overflow: '';
     &::-ms-expand{
@@ -114,7 +114,7 @@ select:focus ~ .tooltip .tooltip-content { display: block; }
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .fieldset {
         .legend {
             .css(border-bottom, @legend-border-bottom);

@@ -1,0 +1,29 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .reward-settings {
+        + .actions-toolbar {
+            margin-top: 10px;
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .reward-settings {
+        + .actions-toolbar {
+            margin-top: -32px;
+        }
+    }
+}
