@@ -351,12 +351,11 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider isUseStoreInUrlDataProvider
      */
-    public function testIsUseStoreInUrl($isInstalled, $storeInUrl, $disableStoreInUrl, $expectedResult)
+    public function testIsUseStoreInUrl($storeInUrl, $disableStoreInUrl, $expectedResult)
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $configMock = $this->getMock('Magento\Framework\App\Config\ReinitableConfigInterface');
         $appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false, false);
-        $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue($isInstalled));
 
         $params = $this->_modelParams;
         $params['context'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -386,11 +385,10 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function isUseStoreInUrlDataProvider()
     {
         return array(
-            array(true, true, null, true),
-            array(false, true, null, false),
-            array(true, false, null, false),
-            array(true, true, true, false),
-            array(true, true, false, true)
+            array(true, null, true),
+            array(false, null, false),
+            array(true, true, false),
+            array(true, false, true)
         );
     }
 }
