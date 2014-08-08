@@ -157,6 +157,8 @@ class Layer extends \Magento\Framework\Object
     public function prepareProductCollection($collection)
     {
         $this->collectionFilter->filter($collection, $this->getCurrentCategory());
+
+        return $this;
     }
 
     /**
@@ -257,15 +259,5 @@ class Layer extends \Magento\Framework\Object
         }
 
         return $state;
-    }
-
-    /**
-     * Get attribute sets identifiers of current product set
-     *
-     * @return array
-     */
-    protected function _getSetIds()
-    {
-        return $this->getProductCollection()->getSetIds();
     }
 }
