@@ -93,8 +93,6 @@ class InvoiceCreateTest extends WebapiAbstract
             'transaction_id' => null,
             'updated_at' => null,
             'items' => [],
-            'comment_customer_notify' => null,
-            'capture_case' => null
         ];
         $result = $this->_webApiCall($serviceInfo, ['invoiceDataObject' => $data]);
         $this->assertTrue($result);

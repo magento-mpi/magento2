@@ -29,20 +29,10 @@ class InvoiceConverter
      */
     public function getModel(Invoice $dataObject)
     {
-        $invoice = $this->invoiceLoader->load(
+        return $this->invoiceLoader->load(
             $dataObject->getOrderId(),
             $dataObject->getEntityId(),
             $dataObject->getItems()
         );
-        if ($dataObject->getCommentText()) {
-            $invoice->addComment($dataObject->getCommentText(), (bool)$dataObject->getCommentCustomerNotify());
-        }
-        if ($dataObject->getCaptureCase()) {
-            $invoice->setRequestedCaptureCase($dataObject->getCaptureCase());
-        }
-        if ($dataObject->getEmailSent()) {
-            $invoice->setEmailSent((bool)$dataObject->getEmailSent());
-        }
-        return $invoice;
     }
 }

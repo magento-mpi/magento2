@@ -33,9 +33,6 @@ class InvoiceConverterTest extends \PHPUnit_Framework_TestCase
         $orderId = 1;
         $invoiceId = 2;
         $items = [];
-        $commentText = 'comment text';
-        $captureCase = 'offline';
-        $emailSent = true;
 
         $invoiceDataObjectMock = $this->getMockBuilder('Magento\Sales\Service\V1\Data\Invoice')
             ->disableOriginalConstructor()
@@ -50,29 +47,11 @@ class InvoiceConverterTest extends \PHPUnit_Framework_TestCase
         $invoiceDataObjectMock->expects($this->any())
             ->method('getItems')
             ->will($this->returnValue($items));
-        $invoiceDataObjectMock->expects($this->any())
-            ->method('getCommentText')
-            ->will($this->returnValue($commentText));
-        $invoiceDataObjectMock->expects($this->any())
-            ->method('getCaptureCase')
-            ->will($this->returnValue($captureCase));
-        $invoiceDataObjectMock->expects($this->any())
-            ->method('getEmailSent')
-            ->will($this->returnValue($emailSent));
 
         $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
             ->disableOriginalConstructor()
-            ->setMethods(['setRequestedCaptureCase', 'addComment', 'setEmailSent'])
+            ->setMethods([])
             ->getMock();
-        $invoiceMock->expects($this->once())
-            ->method('addComment')
-            ->with($commentText, false);
-        $invoiceMock->expects($this->once())
-            ->method('setRequestedCaptureCase')
-            ->with($captureCase);
-        $invoiceMock->expects($this->once())
-            ->method('setEmailSent')
-            ->with($emailSent);
 
         $this->invoiceLoaderMock->expects($this->once())
             ->method('load')
