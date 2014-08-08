@@ -35,7 +35,7 @@
         <strategy>css selector</strategy>
     </content>
     <related_promotions>
-        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <class>Magento\Banner\Test\Block\Adminhtml\Banner\Edit\Tab\RelatedPromotions</class>
         <selector>#banner_info_tabs_promotions_section</selector>
         <strategy>css selector</strategy>
     </related_promotions>

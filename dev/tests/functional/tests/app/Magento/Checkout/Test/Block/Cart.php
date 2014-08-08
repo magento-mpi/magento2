@@ -88,13 +88,6 @@ class Cart extends Block
     protected $bundleOptions = './/dl[contains(@class, "cart-item-options")]/dd[%d]/span[@class="price"][%d]';
 
     /**
-     * Widget Banner CSS selector
-     *
-     * @var string
-     */
-    protected $widgetBanner = './/*/li[text()="%s"]';
-
-    /**
      * Get sub-total for the specified item in the cart
      *
      * @param SimpleProduct $product
@@ -345,18 +338,5 @@ class Cart extends Block
     {
         $formatPrice = sprintf($this->bundleOptions, $index, $itemIndex);
         return trim($this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText(), $currency);
-    }
-
-    /**
-     * Check Widget Banners
-     *
-     * @param BannerInjectable $banner
-     * @return bool
-     */
-    public function checkWidgetBanners(BannerInjectable $banner)
-    {
-        return $this->_rootElement
-            ->find(sprintf($this->widgetBanner, $banner->getStoreContents()['value_0']), Locator::SELECTOR_XPATH)
-            ->isVisible();
     }
 }

@@ -27,13 +27,12 @@ class Widget extends AbstractRepository
         $this->_data['default'] = [
             'title' => 'Test Frontend App',
             'store_ids' => [
-                '0' => '0'
+                '0' => 'Main Website Store'
             ],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',
                     'all_pages' => [
-                        'page_id' => '0',
                         'layout_handle' => 'default',
                         'for' => 'all',
                         'block' => 'content',
@@ -51,13 +50,12 @@ class Widget extends AbstractRepository
             'code' => 'magento_banner',
             'title' => 'Banner Rotator %isolation%',
             'store_ids' => [
-                '0' => '0'
+                '0' => 'Main Website Store'
             ],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'all_pages',
                     'all_pages' => [
-                        'page_id' => '0',
                         'layout_handle' => 'default',
                         'for' => 'all',
                         'block' => 'content',
@@ -82,13 +80,12 @@ class Widget extends AbstractRepository
             'code' => 'magento_banner',
             'title' => 'Banner Rotator %isolation%',
             'store_ids' => [
-                '0' => '0'
+                '0' => 'Main Website Store'
             ],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'notanchor_categories',
                     'notanchor_categories' => [
-                        'page_id' => '0',
                         'layout_handle' => 'default',
                         'for' => 'all',
                         'block' => 'content',
@@ -106,13 +103,12 @@ class Widget extends AbstractRepository
             'code' => 'magento_banner',
             'title' => 'Banner Rotator %isolation%',
             'store_ids' => [
-                '0' => '0'
+                '0' => 'Main Website Store'
             ],
             'widget_instance' => [
                 '0' => [
                     'page_group' => 'pages',
                     'pages' => [
-                        'page_id' => '0',
                         'layout_handle' => 'checkout_cart_index',
                         'for' => 'all',
                         'block' => 'content',

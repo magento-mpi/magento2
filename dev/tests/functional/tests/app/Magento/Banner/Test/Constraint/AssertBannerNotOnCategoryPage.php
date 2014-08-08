@@ -10,7 +10,7 @@ namespace Magento\Banner\Test\Constraint;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Banner\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
@@ -36,7 +36,7 @@ class AssertBannerNotOnCategoryPage extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param BannerInjectable $banner
      * @param CatalogCategoryView $catalogCategoryView
-     * @param CustomerInjectable|string $customer
+     * @param CustomerInjectable $customer
      * @param CustomerAccountLogin $customerAccountLogin
      * @return void
      */
@@ -45,12 +45,12 @@ class AssertBannerNotOnCategoryPage extends AbstractConstraint
         CmsIndex $cmsIndex,
         BannerInjectable $banner,
         CatalogCategoryView $catalogCategoryView,
-        $customer,
-        CustomerAccountLogin $customerAccountLogin
+        CustomerAccountLogin $customerAccountLogin,
+        CustomerInjectable $customer = null
     ) {
         $categoryName = $product->getCategoryIds()[0];
         $cmsIndex->open();
-        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out') && $customer instanceof CustomerInjectable) {
+        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out') && $customer !== null) {
             $cmsIndex->getLinksBlock()->openLink("Log In");
             $customerAccountLogin->getLoginBlock()->login($customer);
         }

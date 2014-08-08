@@ -26,7 +26,6 @@
         <locator>#related_salesrule_grid</locator>
         <strategy>css selector</strategy>
     </block>
-
     <block>
         <name>catalogPriceRulesGrid</name>
         <class>Magento\Banner\Test\Block\Adminhtml\Promo\CatalogPriceRulesGrid</class>

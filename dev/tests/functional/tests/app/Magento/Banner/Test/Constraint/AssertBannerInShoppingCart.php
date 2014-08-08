@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Banner\Test\Page\CheckoutCart;
 
 /**
  * Class AssertBannerInShoppingCart
@@ -40,7 +40,7 @@ class AssertBannerInShoppingCart extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CheckoutCart $pageCheckoutCart
      * @param BannerInjectable $banner
-     * @param CustomerInjectable|string $customer
+     * @param CustomerInjectable|null $customer
      * @param CustomerAccountLogin $customerAccountLogin
      * @return void
      */
@@ -51,11 +51,11 @@ class AssertBannerInShoppingCart extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView,
         CheckoutCart $pageCheckoutCart,
         BannerInjectable $banner,
-        $customer,
-        CustomerAccountLogin $customerAccountLogin
+        CustomerAccountLogin $customerAccountLogin,
+        CustomerInjectable $customer = null
     ) {
         $cmsIndex->open();
-        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out') && $customer instanceof CustomerInjectable) {
+        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out') && $customer !== null) {
             $cmsIndex->getLinksBlock()->openLink("Log In");
             $customerAccountLogin->getLoginBlock()->login($customer);
         }
@@ -66,7 +66,7 @@ class AssertBannerInShoppingCart extends AbstractConstraint
         $pageCatalogProductView->getViewBlock()->clickAddToCartButton();
         \PHPUnit_Framework_Assert::assertTrue(
             $pageCheckoutCart->getCartBlock()->checkWidgetBanners($banner),
-            'Banner is presents on Shopping Cart'
+            'Banner is absent on Shopping Cart'
         );
     }
 
@@ -77,6 +77,6 @@ class AssertBannerInShoppingCart extends AbstractConstraint
      */
     public function toString()
     {
-        return "Banner is absent on Shopping Cart.";
+        return "Banner is presents on Shopping Cart.";
     }
 }

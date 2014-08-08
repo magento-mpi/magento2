@@ -10,7 +10,6 @@ namespace Magento\Catalog\Test\Block\Category;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class View
@@ -24,13 +23,6 @@ class View extends Block
      * @var string
      */
     protected $description = '.category-description';
-
-    /**
-     * Widget Banner CSS selector
-     *
-     * @var string
-     */
-    protected $widgetBanner = './/*/li[text()="%s"]';
 
     /**
      * Get description
@@ -50,18 +42,5 @@ class View extends Block
     public function getContent()
     {
         return $this->_rootElement->getText();
-    }
-
-    /**
-     * Check Widget Banners
-     *
-     * @param BannerInjectable $banner
-     * @return bool
-     */
-    public function checkWidgetBanners(BannerInjectable $banner)
-    {
-        return $this->_rootElement
-            ->find(sprintf($this->widgetBanner, $banner->getStoreContents()['value_0']), Locator::SELECTOR_XPATH)
-            ->isVisible();
     }
 }

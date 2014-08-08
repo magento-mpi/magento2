@@ -25,7 +25,6 @@ class WidgetGrid extends AbstractGrid
      */
     protected $editLink = '//tr[td[contains(.,"%s")]]';
 
-
     /**
      * Filters array mapping
      *

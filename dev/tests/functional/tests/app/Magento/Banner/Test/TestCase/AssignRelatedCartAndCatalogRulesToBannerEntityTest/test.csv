@@ -1,4 +1,0 @@
-"widget";"customer";"customerSegment";"cmsPage/dataSet";"catalogPriceRule/dataSet";"isCatalogPriceRule";"cartPriceRule/dataSet";"isCartPriceRule";"banner/dataSet";"constraint"
-"banner_rotator_non_anchor_categories";"-";"-";"default";"active_catalog_price_rule_with_conditions";"Yes";-";"No";"default";"assertBannerSuccessSaveMessage, assertBannerInGrid, assertBannerNotInShoppingCart, assertBannerOnCategoryPage"
-"banner_rotator_shoping_cart";"-";"-";"default";"-";"No";"active_sales_rule_with_address";"Yes";"default";"assertBannerSuccessSaveMessage, assertBannerInGrid, assertBannerInShoppingCart, assertBannerNotOnCategoryPage"
-"banner_rotator_non_anchor_categories";"default";"active_customer_segment";"default";"active_catalog_price_rule_with_conditions";"Yes";"-";"No";"default";"assertBannerSuccessSaveMessage, assertBannerInGrid, assertBannerNotInShoppingCart, assertBannerOnCategoryPage"

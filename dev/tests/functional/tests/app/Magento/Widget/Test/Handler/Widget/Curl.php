@@ -23,6 +23,19 @@ use Mtf\System\Config;
 class Curl extends AbstractCurl
 {
     /**
+     * Mapping values for data.
+     *
+     * @var array
+     */
+    protected $mappingData = [
+        'store_ids' => [
+            '0' => [
+                'Main Website Store' => 0,
+                ]
+        ],
+    ];
+
+    /**
      * Post request for creating widget instance
      *
      * @param FixtureInterface $fixture [optional]
@@ -31,7 +44,7 @@ class Curl extends AbstractCurl
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $fixture->getData();
+        $data = $this->replaceMappingData($fixture->getData());
         $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $fixture->getData('code') .
                 '/theme_id/' . $fixture->getData('theme_id');
         unset($data['code']);
