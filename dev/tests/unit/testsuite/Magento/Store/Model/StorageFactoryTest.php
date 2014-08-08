@@ -181,35 +181,8 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             }));
     }
 
-    public function testGetInNotInstalledModeWithInternalCache()
+    public function testGetModeWithInternalCache()
     {
-        $this->_appStateMock->expects($this->exactly(2))->method('isInstalled')->will($this->returnValue(false));
-
-        $this->_objectManagerMock->expects(
-            $this->once()
-        )->method(
-            'create'
-        )->with(
-            $this->_defaultStorage
-        )->will(
-            $this->returnValue($this->_storeManager)
-        );
-
-        $this->_eventManagerMock->expects($this->never())->method('dispatch');
-        $this->_logMock->expects($this->never())->method('initForStore');
-        $this->_sidResolverMock->expects($this->never())->method('setUseSessionInUrl');
-
-        /** test create instance */
-        $this->assertEquals($this->_storeManager, $this->_model->get($this->_arguments));
-
-        /** test read instance from internal cache */
-        $this->assertEquals($this->_storeManager, $this->_model->get($this->_arguments));
-    }
-
-    public function testGetInstalledModeWithInternalCache()
-    {
-        $this->_appStateMock->expects($this->exactly(2))->method('isInstalled')->will($this->returnValue(true));
-
         $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->_storeManager->expects($this->exactly(3))->method('getStore')->will($this->returnValue($store));
@@ -271,8 +244,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWithInvalidStorageClassName()
     {
-        $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
-
         $invalidObject = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->_objectManagerMock->expects(
@@ -315,7 +286,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_arguments['scopeCode'] = $scopeCode;
         $this->_arguments['scopeType'] = $scopeType;
-        $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
 
         $this->website->expects($defaultGroupId === null ? $this->never() : $this->atLeastOnce())
             ->method('getDefaultGroupId')
@@ -355,7 +325,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_arguments['scopeType'] = 'unknown';
 
         $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($this->storage));
-        $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
 
         $this->_model->get($this->_arguments);
     }
@@ -371,8 +340,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_arguments['scopeCode'] = $scopeCode;
         $this->_arguments['scopeType'] = $scopeType;
-
-        $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
 
         $this->website->expects($this->any())->method('getDefaultGroupId')->will($this->returnValue(11));
 
@@ -414,8 +381,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFromRequest($isActiveStore, $isDefault)
     {
-        $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
-
         $storeDefault = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         if (!$isDefault) {
             $storeDefault->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(22));
