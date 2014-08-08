@@ -24,7 +24,7 @@
         </block>
         <block class="Magento\Theme\Block\Html\Head\Css" name="doc-jumly-css">
             <arguments>
-                <argument name="file" xsi:type="string">jumly/css/jumly.min.css</argument>
+                <argument name="file" xsi:type="string">Magento_Doc::jumly/css/jumly.min.css</argument>
             </arguments>
         </block>
 
