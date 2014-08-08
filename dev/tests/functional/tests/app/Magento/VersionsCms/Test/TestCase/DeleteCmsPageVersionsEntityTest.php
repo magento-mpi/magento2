@@ -89,9 +89,9 @@ class DeleteCmsPageVersionsEntityTest extends Injectable
     public function test(CmsPage $cms, Version $version, array $results, $initialVersionToDelete)
     {
         $this->markTestIncomplete('MAGETWO-26802');
+
         // Precondition
         $cms->persist();
-        // Steps
         $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
@@ -100,16 +100,15 @@ class DeleteCmsPageVersionsEntityTest extends Injectable
         $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->searchAndOpen($filter);
         $this->cmsVersionEdit->getVersionForm()->fill($version);
         $this->cmsVersionEdit->getFormPageActions()->saveAsNewVersion();
+
+        // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
         $this->cmsNew->getPageForm()->openTab('versions');
         $label = $initialVersionToDelete == 'Yes' ? $cms->getTitle() : $version->getLabel();
-        $deleteVersions[] = ['label' => $label];
-        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->massaction(
-            $deleteVersions,
-            'Delete',
-            true
-        );
+        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()
+            ->massaction([['label' => $label]], 'Delete', true);
+
         return [
             'results' => [
                 'label' => $label,

@@ -17,6 +17,9 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
  */
 class AssertCmsPageVersionSuccessDeleteMessage extends AbstractConstraint
 {
+    /**
+     * Text value to be checked
+     */
     const SUCCESS_SAVE_MESSAGE = 'A total of %d record(s) have been deleted.';
 
     /**

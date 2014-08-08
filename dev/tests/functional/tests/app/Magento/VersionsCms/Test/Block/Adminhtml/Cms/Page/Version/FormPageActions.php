@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\VersionsCms\Test\Block\Adminhtml;
+namespace Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version;
 
 /**
  * Class FormPageActions
@@ -19,7 +19,7 @@ class FormPageActions extends \Magento\Backend\Test\Block\FormPageActions
      *
      * @var string
      */
-    protected $saveAsNewVersion = '#new';
+    protected $saveAsNewVersion = '[data-ui-id="cms-page-version-edit-new-button"]';
 
     /**
      * Click on "Save as new version" button
