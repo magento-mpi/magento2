@@ -13,7 +13,7 @@ use Magento\Reports\Test\Page\Adminhtml\SearchIndex;
 
 /**
  * Class AssertSearchTermsInGrid
- * Assert that Search Terms report in grid
+ * Assert that Search Terms report in Search Terms grid
  */
 class AssertSearchTermsInGrid extends AbstractConstraint
 {
@@ -42,7 +42,7 @@ class AssertSearchTermsInGrid extends AbstractConstraint
         ];
         \PHPUnit_Framework_Assert::assertTrue(
             $searchIndex->getSearchGrid()->isRowVisible($filter),
-            'Search terms report is absent in grid.'
+            'Search terms report is absent in Search Terms grid.'
         );
     }
 
@@ -53,6 +53,6 @@ class AssertSearchTermsInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Search terms report in grid.';
+        return 'Search terms report is present in Search Terms grid.';
     }
 }

@@ -30,4 +30,11 @@ class SearchTermsGrid extends \Magento\Backend\Test\Block\Widget\Grid
             'selector' => 'input[name="popularity[from]"]'
         ],
     ];
+
+    /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = 'td[class*=col-query]';
 }

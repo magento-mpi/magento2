@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class SearchIndex
+ * Search report page
  */
 class SearchIndex extends BackendPage
 {
