@@ -12,8 +12,6 @@ $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->c
     array('data' => $addressData)
 );
 $billingAddress->setAddressType('billing');
-//$billingAddress->setEmail('co@co.co');
-
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)->setAddressType('shipping');
 
