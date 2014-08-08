@@ -45,7 +45,7 @@ class CreateTest extends Functional
         // pages & blocks
         $customerSegmentPage = Factory::getPageFactory()->getCustomersegmentIndex();
         $customerSegmentCreatePage = Factory::getPageFactory()->getCustomersegmentIndexNew();
-        $newCustomerSegmentForm = $customerSegmentCreatePage->getFormTabs();
+        $newCustomerSegmentForm = $customerSegmentCreatePage->getCustomerSegmentForm();
         // begin steps to add a customer segment
         $customerSegmentPage->open();
         $customerSegmentPage->getPageActionsBlock()->addNew();
@@ -59,7 +59,7 @@ class CreateTest extends Functional
             '\Magento\CustomerSegment\Test\Fixture\CustomerSegment',
             ['data' => ['conditions_serialized' => '[Group|is|Retailer]']]
         );
-        $customerSegmentCreatePage->getFormTabs()->openTab('conditions');
+        $customerSegmentCreatePage->getCustomerSegmentForm()->openTab('conditions');
         // add condition
         $newCustomerSegmentForm->fill($fixtureConditions);
         $customerSegmentCreatePage->getPageMainActions()->saveAndContinue();
@@ -67,10 +67,11 @@ class CreateTest extends Functional
         $conditionMessagesBlock = $customerSegmentCreatePage->getMessagesBlock();
         $conditionMessagesBlock->assertSuccessMessage();
         // open matched customers tab
-        $customerSegmentCreatePage->getFormTabs()->openTab('matched_customers');
+        $customerSegmentCreatePage->getCustomerSegmentForm()->openTab('matched_customers');
         // verify matched customers
-        $customerGridBlock = $customerSegmentCreatePage->getFormTabs()->getMatchedCustomers()->getCustomersGrid();
-        $customerGridBlock->search(array('email' => $customerFixture->getEmail()));
+        $customerGridBlock = $customerSegmentCreatePage->getCustomerSegmentForm()->getMatchedCustomers()
+            ->getCustomersGrid();
+        $customerGridBlock->search(['grid_email' => $customerFixture->getEmail()]);
         $this->assertEquals(
             $customerFixture->getEmail(),
             $customerGridBlock->getGridEmail(),

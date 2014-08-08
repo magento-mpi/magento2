@@ -42,7 +42,9 @@
                                    class="required-entry input-text"
                                    type="text"
                                    value="${title}"
-                                   data-store-label="${title}">
+                                   data-store-label="${title}"
+                                   {{if typeof(scopeTitleDisabled) != 'undefined' && scopeTitleDisabled != null}} disabled="disabled" {{/if}}
+                                   >
                             {{html checkboxScopeTitle}}
                         </div>
                     </div>
@@ -67,7 +69,7 @@
                     </div>
                 </fieldset>
             </fieldset>
-        </div>    
+        </div>
     </div>
 </script>
 
