@@ -375,7 +375,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-1) {
+.responsive-smaller(@break) when (@break = @screen-m) {
     .cart {
         &-discount {
             border-bottom: @border-width-base solid @border-color-base;
@@ -440,7 +440,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .checkout-cart-index {
         .page.main {
             padding-left: @layout-width-xs-indent;
