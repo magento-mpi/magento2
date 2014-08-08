@@ -44,7 +44,7 @@ class Comment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
         \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
         \Magento\Sales\Model\Order\Creditmemo\Comment\Validator $validator
     ) {
-        $this->_validator = $validator;
+        $this->validator = $validator;
         parent::__construct($resource, $dateTime, $eventManager, $eavEntityTypeFactory);
     }
 
@@ -68,7 +68,7 @@ class Comment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
-        $errors = $this->_validator->validate($object);
+        $errors = $this->validator->validate($object);
         if (!empty($errors)) {
             throw new \Magento\Framework\Model\Exception(
                 __("Cannot save comment") . ":\n" . implode("\n", $errors)

@@ -105,6 +105,12 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/invoice/comment" method="POST">
+        <service class="Magento\Sales\Service\V1\InvoiceAddCommentInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
     <route url="/V1/creditmemo/:id/comments" method="GET">
         <service class="Magento\Sales\Service\V1\CreditmemoCommentsListInterface" method="invoke"/>
         <resources>
