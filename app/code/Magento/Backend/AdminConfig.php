@@ -31,11 +31,11 @@ class AdminConfig extends Config
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param string $scopeType
+     * @param FrontNameResolver $frontNameResolver
      * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
      * @param string $lifetimePath
-     * @param FrontNameResolver $frontNameResolver
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
