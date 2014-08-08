@@ -259,10 +259,6 @@ class Form extends \Magento\Framework\View\Element\Template
     {
         $attributes = array();
         foreach ($this->getForm()->getUserAttributes() as $attribute) {
-            if ($this->getExcludeFileAttributes() && in_array($attribute->getFrontendInput(), array('image', 'file'))
-            ) {
-                continue;
-            }
             if ($attribute->getIsVisible()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;
             }
