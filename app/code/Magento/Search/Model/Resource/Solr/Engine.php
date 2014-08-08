@@ -317,7 +317,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function getResultCollection()
     {
-        return $this->_searchCollectionFactory->create()->setEngine($this);
+        return $this->_searchCollectionFactory->create();
     }
 
     /**

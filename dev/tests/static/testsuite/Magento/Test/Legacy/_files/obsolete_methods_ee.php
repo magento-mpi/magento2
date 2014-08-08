@@ -245,4 +245,7 @@ return array(
         'Magento\ScheduledImportExport\Model\Import',
         'Magento\ImportExport\Model\Import::invalidateIndex'
     ],
+    ['_beforeLoad', 'Magento\Search\Model\Resource\Collection'],
+    ['_afterLoad', 'Magento\Search\Model\Resource\Collection'],
+    ['setEngine', 'Magento\Search\Model\Resource\Collection'],
 );

@@ -50,5 +50,10 @@ return array(
     ['_transportBuilder', 'Magento\Rma\Model\Rma'],
     ['_rmaConfig', 'Magento\Rma\Model\Rma'],
     ['_historyFactory', 'Magento\Rma\Model\Rma'],
-    ['_inlineTranslation', 'Magento\Rma\Model\Rma']
+    ['_inlineTranslation', 'Magento\Rma\Model\Rma'],
+    [
+        '_searchedEntityIds',
+        'Magento\Search\Model\Resource\Collection',
+        'Magento\Search\Model\Resource\Collection::foundEntityIds'
+    ],
 );
