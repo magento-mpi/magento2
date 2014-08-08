@@ -20,6 +20,7 @@ class OrderGetStatusTest extends \PHPUnit_Framework_TestCase
      * @var OrderGetStatus
      */
     protected $service;
+
     /**
      * @var OrderRepository | \PHPUnit_Framework_MockObject_MockObject
      */

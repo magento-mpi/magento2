@@ -16,10 +16,12 @@ class OrderCancelTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Service\V1\OrderCancel
      */
     protected $orderCancel;
+
     /**
      * @var \Magento\Sales\Model\OrderRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $orderRepositoryMock;
+
     /**
      * @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */

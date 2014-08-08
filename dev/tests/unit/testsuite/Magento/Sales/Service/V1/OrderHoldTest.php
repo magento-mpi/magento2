@@ -16,15 +16,15 @@ class OrderHoldTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Service\V1\OrderHold
      */
     protected $orderHold;
+
     /**
      * @var \Magento\Sales\Model\OrderRepository|\PHPUnit_Framework_MockObject_MockObject
      */
-
     protected $orderRepositoryMock;
+
     /**
      * @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */
-
     protected $orderMock;
 
     protected function setUp()

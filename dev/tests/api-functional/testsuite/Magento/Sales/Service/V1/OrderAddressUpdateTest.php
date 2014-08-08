@@ -18,6 +18,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class OrderAddressUpdateTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
+
     const SERVICE_NAME = 'salesOrderAddressUpdateV1';
 
     /**

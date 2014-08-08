@@ -19,7 +19,9 @@ use Magento\Sales\Service\V1\Data\OrderStatusHistoryBuilder;
 class OrderStatusHistoryAddTest extends WebapiAbstract
 {
     const SERVICE_READ_NAME = 'salesOrderStatusHistoryAddV1';
+
     const SERVICE_VERSION = 'V1';
+
     const ORDER_INCREMENT_ID = '100000001';
 
     /**
