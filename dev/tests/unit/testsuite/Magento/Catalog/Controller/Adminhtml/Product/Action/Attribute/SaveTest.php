@@ -8,6 +8,10 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Action\Attribute;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class SaveTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribute\Save */
@@ -105,6 +109,9 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function prepareContext()
     {
         $this->request = $this->getMock(
@@ -185,7 +192,13 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->context->expects($this->any())->method('getLocaleResolver')
             ->will($this->returnValue($this->localeResolver));
 
-        $this->product = $this->getMock('Magento\Catalog\Model\Product', ['isProductsHasSku'], [], '', false);
+        $this->product = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            ['isProductsHasSku', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $this->stockItemService = $this->getMock(
             'Magento\CatalogInventory\Service\V1\StockItemService',
             ['getStockItem', 'saveStockItem'],
