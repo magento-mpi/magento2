@@ -8,6 +8,7 @@
 namespace Magento\Framework\Search\Request;
 
 use Magento\Framework\Search\Request\Query\Filter;
+use MAgento\Framework\Exception\StateException;
 
 class Mapper
 {
@@ -206,7 +207,7 @@ class Mapper
      * Build BucketInterface[] from array
      *
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws StateException
      */
     public function getBuckets()
     {
@@ -235,7 +236,7 @@ class Mapper
                     );
                     break;
                 default:
-                    throw new \InvalidArgumentException('Invalid bucket type');
+                    throw new StateException('Invalid bucket type');
             }
             $buckets[] = $bucket;
         }
