@@ -1,0 +1,101 @@
+<?php
+/** 
+ * 
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Checkout\Service\V1\Data\Cart;
+
+class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var ShippingMethodConverter
+     */
+    protected $converter;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $builderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeManagerMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $rateModelMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $currencyMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeMock;
+
+    protected function setUp()
+    {
+        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->builderMock =
+            $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder', [], [], '', false);
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
+        $this->currencyMock = $this->getMock('\Magento\Directory\Model\Currency', [], [], '', false);
+        $this->rateModelMock = $this->getMock('\Magento\Sales\Model\Quote\Address\Rate',
+            [
+                'getPrice',
+                'getCarrier',
+                'getMethod',
+                'getCarrierTitle',
+                '__wakeup',
+            ],
+            [],
+            '',
+            false);
+        $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+
+        $this->converter = $objectManager->getObject(
+            'Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter',
+            [
+                'builder' => $this->builderMock,
+                'storeManager' => $this->storeManagerMock,
+            ]
+        );
+    }
+
+    public function testModelToDataObject()
+    {
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())
+            ->method('getCurrentCurrency')
+            ->will($this->returnValue($this->currencyMock));
+        $data = [
+            ShippingMethod::CARRIER_CODE => 'CARRIER_CODE',
+            ShippingMethod::METHOD_CODE => 'METHOD_CODE',
+            ShippingMethod::BASE_SHIPPING_AMOUNT => '90.12',
+            ShippingMethod::SHIPPING_AMOUNT => '100.12',
+            ShippingMethod::DESCRIPTION => 'DESCRIPTION',
+        ];
+
+        $this->rateModelMock->expects($this->once())->method('getCarrier')->will($this->returnValue('CARRIER_CODE'));
+        $this->rateModelMock->expects($this->once())->method('getMethod')->will($this->returnValue('METHOD_CODE'));
+        $this->rateModelMock->expects($this->any())->method('getPrice')->will($this->returnValue(90.12));
+        $this->currencyMock->expects($this->once())
+            ->method('convert')->with(90.12, $this->currencyMock)->will($this->returnValue(100.12));
+        $this->rateModelMock->expects($this->once())
+            ->method('getCarrierTitle')->will($this->returnValue('DESCRIPTION'));
+        $this->builderMock->expects($this->once())
+            ->method('populateWithArray')->with($data)->will($this->returnValue($this->builderMock));
+        $this->builderMock->expects($this->once())->method('create')->will($this->returnValue('Expected Value'));
+
+        $this->assertEquals('Expected Value', $this->converter->modelToDataObject($this->rateModelMock));
+    }
+}
+ 
