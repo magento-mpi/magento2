@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Search\Request;
 
-use Magento\Framework\Data\Argument\Interpreter\NullTypeTest;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Search\Request\Query\Filter;
 
@@ -48,6 +47,9 @@ class Mapper
      * @param array $queries
      * @param string $rootQueryName
      * @param array $filters
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @throws StateException
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
@@ -64,7 +66,6 @@ class Mapper
 
     /**
      * @return QueryInterface
-     * @throws StateException
      */
     public function getRootQuery()
     {
@@ -76,6 +77,8 @@ class Mapper
      *
      * @param string $queryName
      * @return QueryInterface
+     * @throws \Exception
+     * @throws \InvalidArgumentException
      * @throws StateException
      */
     private function get($queryName)
@@ -184,8 +187,10 @@ class Mapper
      * Convert array to Filter instance
      *
      * @param string $filterName
-     * @throws \Exception
      * @return FilterInterface
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @throws StateException
      */
     private function mapFilter($filterName)
     {
