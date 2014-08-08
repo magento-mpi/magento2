@@ -33,28 +33,28 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     public function testGetOrder()
     {
         $this->assertNull($this->toolbar->getOrder());
-        $_COOKIE[Toolbar::ORDER_COOKIE_NAME] = "orderCookie";
+        $_COOKIE[Toolbar::ORDER_COOKIE_NAME] = 'orderCookie';
         $this->assertEquals('orderCookie', $this->toolbar->getOrder());
     }
 
     public function testGetDirection()
     {
         $this->assertNull($this->toolbar->getDirection());
-        $_COOKIE[Toolbar::DIRECTION_COOKIE_NAME] = "directionCookie";
+        $_COOKIE[Toolbar::DIRECTION_COOKIE_NAME] = 'directionCookie';
         $this->assertEquals('directionCookie', $this->toolbar->getDirection());
     }
 
     public function testGetMode()
     {
         $this->assertNull($this->toolbar->getMode());
-        $_COOKIE[Toolbar::MODE_COOKIE_NAME] = "modeCookie";
+        $_COOKIE[Toolbar::MODE_COOKIE_NAME] = 'modeCookie';
         $this->assertEquals('modeCookie', $this->toolbar->getMode());
     }
 
     public function testGetLimit()
     {
         $this->assertNull($this->toolbar->getLimit());
-        $_COOKIE[Toolbar::LIMIT_COOKIE_NAME] = "limitCookie";
+        $_COOKIE[Toolbar::LIMIT_COOKIE_NAME] = 'limitCookie';
         $this->assertEquals('limitCookie', $this->toolbar->getLimit());
     }
 }
