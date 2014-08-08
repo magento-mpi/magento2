@@ -166,6 +166,6 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
      */
     public function __sleep()
     {
-        return array('_body', '_exceptions', '_headers', '_headersRaw', '_httpResponseCode', 'context', 'cookie');
+        return ['_body', '_exceptions', '_headers', '_headersRaw', '_httpResponseCode', 'context'];
     }
 }
