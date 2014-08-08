@@ -13,7 +13,51 @@ namespace Magento\Core\Controller\Response;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     * @var \Magento\Framework\App\Response\Http
+     */
+    protected $response;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\CookieManager
+     */
+    protected $cookieManagerMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     */
+    protected $cookieMetadataFactoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Http\Context
+     */
+    protected $contextMock;
+
+    protected function setUp()
+    {
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->cookieMetadataFactoryMock = $this->getMockBuilder(
+            'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
+        )->disableOriginalConstructor()->getMock();
+        $this->cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\CookieManager')
+            ->disableOriginalConstructor()->getMock();
+        $this->contextMock = $this->getMockBuilder('Magento\Framework\App\Http\Context')->disableOriginalConstructor()
+            ->getMock();
+        $this->response = $objectManager->getObject(
+            'Magento\Framework\App\Response\Http',
+            [
+                'cookieManager' => $this->cookieManagerMock,
+                'cookieMetadataFactory' => $this->cookieMetadataFactoryMock,
+                'context' => $this->contextMock
+            ]
+        );
+        $this->response->headersSentThrowsException = false;
+
+    }
+
+    /**
+
      * Test for getHeader method
      *
      * @dataProvider headersDataProvider
@@ -22,12 +66,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeaderExists($header)
     {
-        $cookieMock = $this->getMock('\Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
-        $contextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
-        $response = new \Magento\Framework\App\Response\Http($cookieMock, $contextMock);
-        $response->headersSentThrowsException = false;
-        $response->setHeader($header['name'], $header['value'], $header['replace']);
-        $this->assertEquals($header, $response->getHeader($header['name']));
+        $this->response->setHeader($header['name'], $header['value'], $header['replace']);
+        $this->assertEquals($header, $this->response->getHeader($header['name']));
     }
 
     /**
@@ -37,10 +77,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function headersDataProvider()
     {
-        return array(
-            array(array('name' => 'X-Frame-Options', 'value' => 'SAMEORIGIN', 'replace' => true)),
-            array(array('name' => 'Test2', 'value' => 'Test2', 'replace' => false))
-        );
+        return [
+            [['name' => 'X-Frame-Options', 'value' => 'SAMEORIGIN', 'replace' => true]],
+            [['name' => 'Test2', 'value' => 'Test2', 'replace' => false]]
+        ];
     }
 
     /**
@@ -50,11 +90,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeaderNotExists()
     {
-        $cookieMock = $this->getMock('\Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
-        $contextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
-        $response = new \Magento\Framework\App\Response\Http($cookieMock, $contextMock);
-        $response->headersSentThrowsException = false;
-        $response->setHeader('Name', 'value', true);
-        $this->assertFalse($response->getHeader('Wrong name'));
+        $this->response->setHeader('Name', 'value', true);
+        $this->assertFalse($this->response->getHeader('Wrong name'));
     }
 }
