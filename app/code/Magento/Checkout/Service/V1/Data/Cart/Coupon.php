@@ -21,7 +21,7 @@ class Coupon extends \Magento\Framework\Service\Data\AbstractObject
     const COUPON_CODE = 'coupon_code';
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getCouponCode()
     {
