@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <searchIndex>
+        <mca>reports/index/search</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\SearchIndex</class>
+    </searchIndex>
+    <catalogSearchEdit>
+        <mca>admin/catalog_search/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reports\Test\Page\Adminhtml\CatalogSearchEdit</class>
+    </catalogSearchEdit>
+</page>
