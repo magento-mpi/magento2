@@ -77,8 +77,6 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
         $expectedData = array(
             'config' => array('key1' => 'default_db_value1', 'key2' => 'default_value2', 'key3' => 'default_db_value3')
         );
-        echo "default reader test echo statement";
-
         $this->assertEquals($expectedData, $this->_model->read());
     }
 }

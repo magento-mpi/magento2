@@ -137,7 +137,6 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
                 'key3' => 'website_db_value3'
             )
         );
-        echo "website test echo statement";
         $this->assertEquals($expectedData, $this->_model->read($websiteCode));
     }
 }
