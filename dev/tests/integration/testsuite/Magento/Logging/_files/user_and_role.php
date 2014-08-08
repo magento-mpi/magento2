@@ -23,5 +23,5 @@ $user->setUsername(
     1
 )->save();
 
-$role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
+$role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Authorization\Model\Role');
 $role->setName('newrole')->save();
