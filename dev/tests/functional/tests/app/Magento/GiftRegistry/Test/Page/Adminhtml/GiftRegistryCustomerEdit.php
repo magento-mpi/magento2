@@ -8,13 +8,13 @@
 
 namespace Magento\GiftRegistry\Test\Page\Adminhtml;
 
-use Mtf\Page\FrontendPage;
+use Mtf\Page\BackendPage;
 
 /**
  * Class GiftRegistryCustomerEdit
  * Gift registry page on backend
  */
-class GiftRegistryCustomerEdit extends FrontendPage
+class GiftRegistryCustomerEdit extends BackendPage
 {
     const MCA = 'giftregistry_customer/edit';
 

@@ -43,7 +43,9 @@ class CustomerId implements FixtureInterface
         $this->params = $params;
         if (isset($data['preset'])) {
             $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => $data['preset']]);
-            $customer->persist();
+            if ($customer->hasData('id') !== null) {
+                $customer->persist();
+            }
             $this->data = $customer;
         } else {
             $this->data = $data;

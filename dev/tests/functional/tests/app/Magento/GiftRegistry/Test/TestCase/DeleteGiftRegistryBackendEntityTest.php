@@ -37,7 +37,7 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-27034
  */
-class DeleteGiftRegistryEntityBackendTest extends Injectable
+class DeleteGiftRegistryBackendEntityTest extends Injectable
 {
     /**
      * Customer index page
@@ -109,13 +109,17 @@ class DeleteGiftRegistryEntityBackendTest extends Injectable
      */
     public function test(GiftRegistry $giftRegistry)
     {
+        // Steps
         $giftRegistry->persist();
-        $this->customerIndex->open()->getCustomerGridBlock()->searchAndOpen(
+        $this->customerIndex->open();
+        $this->customerIndex->getCustomerGridBlock()->searchAndOpen(
             ['email' => $giftRegistry->getDataFieldConfig('customer_id')['source']->getCustomerId()->getEmail()]
         );
         $customerForm = $this->customerIndexEdit->getCustomerForm();
         $customerForm->openTab('gift_registry');
-        $customerForm->getTabElement('gift_registry')->fillFormTab($giftRegistry->getData());
+        $fields = $giftRegistry->getData();
+        $filter = ['title' => $fields['title']];
+        $customerForm->getTabElement('gift_registry')->getSearchGridBlock()->searchAndOpen($filter);
         $this->giftRegistryCustomerEdit->getActionsToolbarBlock()->delete();
     }
 
