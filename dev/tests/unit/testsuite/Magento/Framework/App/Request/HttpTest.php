@@ -28,7 +28,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected $_infoProcessorMock;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManager
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cookieManagerMock;
 
@@ -38,7 +38,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_routerListMock = $this->getMock('Magento\Framework\App\Route\ConfigInterface');
         $this->_infoProcessorMock = $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface');
         $this->_infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
-        $this->_cookieManagerMock = $this->getMock('\Magento\Framework\Stdlib\CookieManager');
+        $this->_cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManager');
     }
 
     public function testGetOriginalPathInfoWithTestUri()
@@ -143,7 +143,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSetRouteNameWithRouter()
     {
-        $router = $this->getMock('\Magento\Framework\App\Router\AbstractRouter', array(), array(), '', false);
+        $router = $this->getMock('Magento\Framework\App\Router\AbstractRouter', array(), array(), '', false);
         $this->_routerListMock->expects($this->any())->method('getRouteFrontName')->will($this->returnValue($router));
         $this->_model = new Request($this->_routerListMock, $this->_infoProcessorMock, $this->_cookieManagerMock);
         $this->_model->setRouteName('RouterName');
@@ -397,6 +397,20 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->_model->getDistroBaseUrl());
 
         $_SERVER = $originalServerValue;
+    }
+
+    public function testGetCookie()
+    {
+        $key = "cookieName";
+        $default = "defaultValue";
+
+        $this->_model = new Request($this->_routerListMock, $this->_infoProcessorMock, $this->_cookieManagerMock);
+        $this->_cookieManagerMock
+            ->expects($this->once())
+            ->method('getCookie')
+            ->with($key, $default);
+
+        $this->_model->getCookie($key, $default);
     }
 
     public function serverVariablesProvider()

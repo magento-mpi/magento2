@@ -20,7 +20,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $areaListMock = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
         $configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
         $areaListMock->expects($this->once())->method('getFrontName')->will($this->returnValue('soap'));
-        $cookieManagerMock = $this->getMock('\Magento\Framework\Stdlib\CookieManager');
+        $cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManager');
 
         /** Initialize SUT. */
         $this->_soapRequest = new \Magento\Webapi\Controller\Soap\Request($areaListMock, $configScopeMock, $cookieManagerMock);

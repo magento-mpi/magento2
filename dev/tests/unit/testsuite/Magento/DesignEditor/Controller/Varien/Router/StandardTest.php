@@ -128,9 +128,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             array('matched' => $matchedRouter, 'not_matched' => $notMatchedRouter)
         );
 
-        $infoProcessorMock = $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface');
-        $infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
-
         $routers = array(
             'not vde request' => array(
                 '$request' => $this->getMock(
