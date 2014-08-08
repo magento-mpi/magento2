@@ -16,8 +16,8 @@ class Dimension
     private $value;
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      */
     public function __construct($name, $value)
     {
@@ -40,4 +40,4 @@ class Dimension
     {
         return $this->name;
     }
-} 
+}

@@ -9,10 +9,10 @@
 -->
 <requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <request query="sugegsted_search_container_1" index="product_1">
+        <dimensions>
+            <dimension name="scope" value="default" />
+        </dimensions>
         <queries>
-            <dimensions>
-              <dimension name="scope" value="default" />
-            </dimensions>
             <query xsi:type="boolQuery" name="sugegsted_search_container_1" boost="2">
                 <queryReference clause="must" ref="fulltext_search_query" />
                 <queryReference clause="should" ref="promoted_documents_boost" />

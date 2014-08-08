@@ -97,14 +97,14 @@ class RequestFactory
                 'size' => $data['size'],
                 'query' => $mapper->get($data['query']),
                 'demensions' => array_map(
-                    function($data) {
-                        return  $this->objectManager->create(
+                    function ($data) {
+                        return $this->objectManager->create(
                             'Magento\Framework\Search\Request\Dimension',
                             $data
                         );
                     },
                     isset($data['demensions']) ? $data['demensions'] : []
-                    ),
+                ),
                 'buckets' => [],
             ]
         );
