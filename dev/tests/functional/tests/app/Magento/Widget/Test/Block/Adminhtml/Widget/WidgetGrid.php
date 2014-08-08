@@ -14,7 +14,7 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class WidgetGrid
- * Widget grid
+ * Widget grid on the Widget Instance Index page
  */
 class WidgetGrid extends AbstractGrid
 {

@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class WidgetInstanceEdit
- *
- * @package Magento\Widget\Test\Page\Adminhtml
+ * Widget Instance Edit page
  */
 class WidgetInstanceEdit extends BackendPage
 {

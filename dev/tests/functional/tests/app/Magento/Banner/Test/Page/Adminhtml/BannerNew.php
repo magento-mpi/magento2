@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class BannerNew
+ * New banner page
  */
 class BannerNew extends BackendPage
 {

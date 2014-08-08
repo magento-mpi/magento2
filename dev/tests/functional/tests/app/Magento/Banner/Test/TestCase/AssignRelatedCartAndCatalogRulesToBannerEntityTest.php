@@ -41,7 +41,7 @@ use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
  * 5. Perform all assertions
  *
  * @group CMS_Content_(PS)
- * @ZephyrId MAGETWO-25272//////////////////////////////////////////////
+ * @ZephyrId MAGETWO-27159
  */
 class AssignRelatedCartAndCatalogRulesToBannerEntityTest extends Injectable
 {
