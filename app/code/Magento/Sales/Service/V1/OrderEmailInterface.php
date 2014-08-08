@@ -8,12 +8,12 @@
 namespace Magento\Sales\Service\V1;
 
 /**
- * Class OrderNotifyUser
+ * Class OrderEmail
  */
 interface OrderEmailInterface
 {
     /**
-     * Invoke notifyUser service
+     * Invoke OrderEmail service
      *
      * @param int $id
      * @return bool

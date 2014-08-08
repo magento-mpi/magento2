@@ -9,7 +9,7 @@
 namespace Magento\Sales\Service\V1;
 
 /**
- * Test Class OrderNotifyUserTest for Order Service
+ * Test Class OrderEmailTest for Order Service
  *
  * @package Magento\Sales\Service\V1
  */
@@ -30,7 +30,7 @@ class OrderEmailTest extends \PHPUnit_Framework_TestCase
         );
 
         $service = $objectManager->getObject(
-            'Magento\Sales\Service\V1\OrderNotifyUser',
+            'Magento\Sales\Service\V1\OrderEmail',
             [
                 'orderRepository' => $orderRepository,
                 'notifier' => $notifier

@@ -10,7 +10,7 @@ namespace Magento\Sales\Service\V1;
 use Magento\Sales\Model\OrderRepository;
 
 /**
- * Class OrderNotifyUser
+ * Class OrderEmail
  */
 class OrderEmail implements OrderEmailInterface
 {
