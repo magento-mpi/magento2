@@ -101,10 +101,18 @@ class CreditmemoGetTest extends WebapiAbstract
 
         $actual = $this->_webApiCall($serviceInfo, ['id' => $creditmemo->getId()]);
         $expected = $creditmemo->getData();
+        $expectedItems = $creditmemo->getAllItems();
+        $this->assertTrue(count($expectedItems) === count($actual['items']));
+
+        /** @var \Magento\Sales\Model\Order\Creditmemo\Item $item */
+        foreach ($expectedItems as $key => $item) {
+            $this->assertArrayHasKey($key, $actual['items']);
+            $this->assertEquals($item->getData(), $actual['items'][$key]);
+        }
 
         foreach ($this->requiredFields as $field) {
             $this->assertArrayHasKey($field, $actual);
-            $this->assertEquals($actual[$field], $expected[$field]);
+            $this->assertEquals($expected[$field], $actual[$field]);
         }
     }
 }

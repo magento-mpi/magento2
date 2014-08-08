@@ -111,7 +111,7 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/creditmemo" method="GET">
+    <route url="/V1/creditmemos" method="GET">
         <service class="Magento\Sales\Service\V1\CreditmemoListInterface" method="invoke"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
@@ -137,6 +137,12 @@
     </route>
     <route url="/V1/invoice/" method="POST">
         <service class="Magento\Sales\Service\V1\InvoiceCreateInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/creditmemo/comment" method="POST">
+        <service class="Magento\Sales\Service\V1\CreditmemoAddCommentInterface" method="invoke"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>
