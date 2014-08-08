@@ -263,6 +263,13 @@ class Mapper
         $this->validateNotUsed($this->filters, $this->mappedFilters, 'Filter %1 not used in request hierarchy');
     }
 
+    /**
+     * @param array $elements
+     * @param string[] $mappedElements
+     * @param string $errorMessage
+     * @return void
+     * @throws \Magento\Framework\Exception\StateException
+     */
     private function validateNotUsed($elements, $mappedElements, $errorMessage)
     {
         $allElements = array_keys($elements);
