@@ -211,8 +211,7 @@ class Mapper
     public function getBuckets()
     {
         $buckets = array();
-        foreach ($this->aggregation as $bucketData)
-        {
+        foreach ($this->aggregation as $bucketData) {
             $arguments =
             [
                 'name' => $bucketData['name'],
