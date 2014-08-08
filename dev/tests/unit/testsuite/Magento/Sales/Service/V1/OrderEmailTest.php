@@ -13,7 +13,7 @@ namespace Magento\Sales\Service\V1;
  *
  * @package Magento\Sales\Service\V1
  */
-class OrderNotifyUserTest extends \PHPUnit_Framework_TestCase
+class OrderEmailTest extends \PHPUnit_Framework_TestCase
 {
     public function testInvoke()
     {

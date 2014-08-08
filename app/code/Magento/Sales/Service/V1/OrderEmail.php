@@ -12,7 +12,7 @@ use Magento\Sales\Model\OrderRepository;
 /**
  * Class OrderNotifyUser
  */
-class OrderNotifyUser implements OrderNotifyUserInterface
+class OrderEmail implements OrderEmailInterface
 {
     /**
      * @var OrderRepository

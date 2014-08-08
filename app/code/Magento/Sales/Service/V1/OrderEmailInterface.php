@@ -10,7 +10,7 @@ namespace Magento\Sales\Service\V1;
 /**
  * Class OrderNotifyUser
  */
-interface OrderNotifyUserInterface
+interface OrderEmailInterface
 {
     /**
      * Invoke notifyUser service

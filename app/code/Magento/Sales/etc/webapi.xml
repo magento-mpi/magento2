@@ -34,7 +34,7 @@
         </resources>
     </route>
     <route url="/V1/order/:id/email" method="POST">
-        <service class="Magento\Sales\Service\V1\OrderNotifyUserInterface" method="invoke"/>
+        <service class="Magento\Sales\Service\V1\OrderEmailInterface" method="invoke"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>
@@ -111,7 +111,7 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
-    <route url="/V1/creditmemo" method="GET">
+    <route url="/V1/creditmemos" method="GET">
         <service class="Magento\Sales\Service\V1\CreditmemoListInterface" method="invoke"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
