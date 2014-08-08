@@ -9,6 +9,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
 
 /**
  * EAV attribute metadata service
@@ -58,12 +59,18 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $addressDataObjectMethods;
 
     /**
+     * @var ServiceConfigReader
+     */
+    private $serviceConfigReader;
+
+    /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
      * @param \Magento\Store\Model\StoreManager $storeManager
      * @param Data\Eav\OptionBuilder $optionBuilder
      * @param Data\Eav\ValidationRuleBuilder $validationRuleBuilder
      * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param ServiceConfigReader $serviceConfigReader
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
@@ -71,7 +78,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         \Magento\Store\Model\StoreManager $storeManager,
         Data\Eav\OptionBuilder $optionBuilder,
         Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
-        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder,
+        ServiceConfigReader $serviceConfigReader
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_attrFormCollectionFactory = $attrFormCollectionFactory;
@@ -79,6 +87,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         $this->_optionBuilder = $optionBuilder;
         $this->_validationRuleBuilder = $validationRuleBuilder;
         $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
+        $this->serviceConfigReader = $serviceConfigReader;
     }
 
     /**
@@ -241,10 +250,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getCustomAttributesMetadata()
     {
         $customAttributes = [];
+        $dataObjectClass = 'Magento\Customer\Service\V1\Data\Customer';
         if (!$this->customerDataObjectMethods) {
-            $this->customerDataObjectMethods = array_flip(
-                get_class_methods('Magento\Customer\Service\V1\Data\Customer')
-            );
+            $this->customerDataObjectMethods = array_flip(get_class_methods($dataObjectClass));
         }
         foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
@@ -259,7 +267,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
                 $customAttributes[] = $attributeMetadata;
             }
         }
-        return $customAttributes;
+        $customAttributesFromConfig = $this->getAttributesFromConfig($dataObjectClass);
+        return array_merge($customAttributes, $customAttributesFromConfig);
     }
 
     /**
@@ -268,10 +277,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getCustomAddressAttributeMetadata()
     {
         $customAttributes = [];
+        $dataObjectClass = 'Magento\Customer\Service\V1\Data\Address';
         if (!$this->addressDataObjectMethods) {
-            $this->addressDataObjectMethods = array_flip(
-                get_class_methods('Magento\Customer\Service\V1\Data\Address')
-            );
+            $this->addressDataObjectMethods = array_flip(get_class_methods($dataObjectClass));
         }
         foreach ($this->getAllAddressAttributeMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
@@ -283,6 +291,43 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
                 $customAttributes[] = $attributeMetadata;
             }
         }
-        return $customAttributes;
+        $customAttributesFromConfig = $this->getAttributesFromConfig($dataObjectClass);
+        return array_merge($customAttributes, $customAttributesFromConfig);
+    }
+
+    /**
+     * Retrieve attributes defined in a config for the specified data object class.
+     *
+     * @param string $dataObjectClass
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     */
+    protected function getAttributesFromConfig($dataObjectClass)
+    {
+        $attributes = [];
+        $allAttributes = $this->serviceConfigReader->read();
+        if (isset($allAttributes[$dataObjectClass]) && is_array($allAttributes[$dataObjectClass])) {
+            foreach ($allAttributes[$dataObjectClass] as $attributeCode => $dataModel) {
+                $this->_attributeMetadataBuilder
+                    ->setAttributeCode($attributeCode)
+                    ->setDataModel($dataModel)
+                    ->setFrontendInput('')
+                    ->setInputFilter('')
+                    ->setStoreLabel('')
+                    ->setValidationRules([])
+                    ->setVisible(true)
+                    ->setRequired(false)
+                    ->setMultilineCount(0)
+                    ->setOptions([])
+                    ->setFrontendClass('')
+                    ->setFrontendLabel('')
+                    ->setNote('')
+                    ->setIsSystem(true)
+                    ->setIsUserDefined(false)
+                    ->setSortOrder(0);
+
+                $attributes[$attributeCode] = $this->_attributeMetadataBuilder->create();
+            }
+        }
+        return $attributes;
     }
 }
