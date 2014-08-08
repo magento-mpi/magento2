@@ -17,22 +17,38 @@ class InvoiceCreate implements InvoiceCreateInterface
     protected $invoiceConverter;
 
     /**
-     * @param InvoiceConverter $invoiceConverter
+     * @var \Magento\Framework\Logger
      */
-    public function __construct(InvoiceConverter $invoiceConverter)
+    protected $logger;
+
+    /**
+     * @param InvoiceConverter $invoiceConverter
+     * @param \Magento\Framework\Logger $logger
+     */
+    public function __construct(InvoiceConverter $invoiceConverter, \Magento\Framework\Logger $logger)
     {
         $this->invoiceConverter = $invoiceConverter;
+        $this->logger = $logger;
     }
 
     /**
      * @param \Magento\Sales\Service\V1\Data\Invoice $invoiceDataObject
      * @return bool
+     * @throws \Exception
      */
     public function invoke(\Magento\Sales\Service\V1\Data\Invoice $invoiceDataObject)
     {
-        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-        $invoice = $this->invoiceConverter->getModel($invoiceDataObject);
-        $invoice->register();
-        return (bool)$invoice->save();
+        try {
+            /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+            $invoice = $this->invoiceConverter->getModel($invoiceDataObject);
+            if (!$invoice) {
+                return false;
+            }
+            $invoice->register();
+            return (bool)$invoice->save();
+        } catch (\Exception $e) {
+            $this->logger->logException($e);
+            throw new \Exception(__('An error has occurred during creating Invoice'));
+        }
     }
 }
