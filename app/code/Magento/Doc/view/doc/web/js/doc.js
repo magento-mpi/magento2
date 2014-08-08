@@ -55,40 +55,6 @@ define(['jquery'], function(jQuery){
             jEl.html(requiredHtml.replace(/%s/g, jEl.attr('data-type')));
         }
     };
-    var initWysiwyg = function (element) {
-        if (element.attr('readonly')) {
-            return;
-        }
-        var content = jQuery(element.find('*[data-role="doc-item-content"]')[0]);
-        var srcContent = jQuery(element.find('*[data-role="doc-item-content-src"]')[0]);
-
-        content.hide();
-        srcContent.show();
-        srcContent.css('min-height', content.height() + 100);
-
-        if (!element.editor) {
-            var editor = new wysihtml5.Editor(srcContent[0], {
-                toolbar:      "toolbar",
-                stylesheets: ["<?php echo $this->getViewFileUrl('Magento_Doc::wysihtml/css/editor.css') ?>"],
-                parserRules:  wysihtml5ParserRules
-            });
-            element.editor = editor;
-            editor.observe("change", function() {
-                if (srcContent.data('orig')) {
-                    if (srcContent.data('orig') !== srcContent.val()) {
-                        jQuery('#toolbar-save').addClass('hasChanges');
-                    } else {
-                        jQuery('#toolbar-save').removeClass('hasChanges');
-                    }
-                }
-            });
-            editor.focus();
-        } else {
-            srcContent.hide();
-            element.editor.currentView.show();
-            element.editor.focus();
-        }
-    };
     var initEditor = function(element) {
         if (element.attr('readonly')) {
             return;
@@ -111,13 +77,13 @@ define(['jquery'], function(jQuery){
             }
         });
 
-        jQuery.each(jQuery('#toolbar').find('[data-wysihtml5-command]'), function(id, button) {
+        jQuery.each(jQuery('#toolbar').find('[data-role-command]'), function(id, button) {
             button.addEventListener('mousedown', executeAction);
         });
     };
     var executeAction = function (event) {
         var button = event.srcElement || event.target;
-        var action = button.getAttribute('data-wysihtml5-command');
+        var action = button.getAttribute('data-role-command');
         if (actions[action]) {
             actions[action](button);
         }
@@ -193,7 +159,6 @@ define(['jquery'], function(jQuery){
 
             srcContent.data('orig', srcContent.val());
             content.on('click', function (event) {
-                //initWysiwyg(item);
                 initEditor(item);
                 event.stopPropagation();
             });

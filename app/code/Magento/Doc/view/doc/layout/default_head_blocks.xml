@@ -24,7 +24,7 @@
         </block>
         <block class="Magento\Theme\Block\Html\Head\Css" name="doc-jumly-css">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Doc::jumly/css/jumly.min.css</argument>
+                <argument name="file" xsi:type="string">jumly/css/jumly.min.css</argument>
             </arguments>
         </block>
 
@@ -50,22 +50,5 @@
         </block>
 
         <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml"/>
-
-
-        <block class="Magento\Theme\Block\Html\Head\Css" name="wysihtml-css">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Doc::wysihtml/css/style.css</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="wysihtml">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Doc::wysihtml/wysihtml.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="wysihtml-parser">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Doc::wysihtml/parser.js</argument>
-            </arguments>
-        </block>
     </referenceBlock>
 </layout>
