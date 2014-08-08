@@ -599,9 +599,9 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
      * @param string|null $default The default value to return if no value could be found for the given $name.
      * @return string|null
      */
-    public function getCookie($key = null, $default = null)
+    public function getCookie($name = null, $default = null)
     {
-        $this->_cookieManager->getCookie($key, $default);
+        $this->_cookieManager->getCookie($name, $default);
     }
 
 }
