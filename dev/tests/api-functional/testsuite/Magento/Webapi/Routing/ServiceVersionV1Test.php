@@ -84,7 +84,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     }
 
     /**
-     *  Test create item with missing proper resources to fail AuthZ
+     *  Test create item with missing proper resources
      */
     public function testCreateWithoutResources()
     {
