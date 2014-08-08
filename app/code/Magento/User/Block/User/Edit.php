@@ -50,6 +50,23 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->buttonList->update('save', 'label', __('Save User'));
         $this->buttonList->update('delete', 'label', __('Delete User'));
+
+        $objId = $this->getRequest()->getParam($this->_objectId);
+
+        if (!empty($objId)) {
+            $this->addButton(
+                'invalidate',
+                array(
+                    'label' => __('Invalidate User (non-functional)'),
+                    'class' => 'reset',
+                    'onclick' => 'deleteConfirm(\'' . __(
+                            'Are you sure you want to invalidate this user?'
+                        ) . '\', \'' . $this->getInvalidateUrl() . '\')'
+                )
+            );
+        }
+
+
     }
 
     /**
@@ -74,4 +91,15 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         return $this->getUrl('adminhtml/*/validate', array('_current' => true));
     }
+
+    /**
+     * Return invalidate url for edit form
+     *
+     * @return string
+     */
+    public function getInvalidateUrl()
+    {
+        return $this->getUrl('adminhtml/*/invalidatetoken', array('_current' => true));
+    }
+
 }
