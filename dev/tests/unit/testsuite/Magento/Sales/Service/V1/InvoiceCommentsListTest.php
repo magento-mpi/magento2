@@ -16,34 +16,42 @@ class InvoiceCommentsListTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Service\V1\InvoiceCommentsList
      */
     protected $invoiceCommentsList;
+
     /**
      * @var \Magento\Sales\Model\Order\Invoice\CommentRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $commentRepositoryMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\CommentMapper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $commentMapperMock;
+
     /**
      * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $criteriaBuilderMock;
+
     /**
      * @var \Magento\Framework\Service\V1\Data\FilterBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filterBuilderMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\CommentSearchResultsBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchResultsBuilderMock;
+
     /**
      * @var \Magento\Sales\Model\Order\Invoice\Comment|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $invoiceCommentMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\Comment|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $dataObjectMock;
+
     /**
      * @var \Magento\Framework\Service\V1\Data\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
      */

@@ -13,7 +13,9 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 class CreditmemoEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
+
     const SERVICE_NAME = 'salesCreditmemoEmailV1';
+
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
     /**

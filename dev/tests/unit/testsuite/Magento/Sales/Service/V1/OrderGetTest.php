@@ -16,18 +16,22 @@ class OrderGetTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Service\V1\OrderGet
      */
     protected $orderGet;
+
     /**
      * @var \Magento\Sales\Model\OrderRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $orderRepositoryMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\OrderMapper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $orderMapperMock;
+
     /**
      * @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $orderMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\Order|\PHPUnit_Framework_MockObject_MockObject
      */

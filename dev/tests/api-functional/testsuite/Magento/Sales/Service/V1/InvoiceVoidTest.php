@@ -14,6 +14,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 class InvoiceVoidTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
+
     const SERVICE_NAME = 'salesInvoiceVoidV1';
 
     /**

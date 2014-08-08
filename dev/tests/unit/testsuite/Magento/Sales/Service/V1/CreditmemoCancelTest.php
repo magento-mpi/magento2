@@ -16,10 +16,12 @@ class CreditmemoCancelTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Service\V1\CreditmemoCancel
      */
     protected $creditmemoCancel;
+
     /**
      * @var \Magento\Sales\Model\Order\CreditmemoRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $creditmemoRepositoryMock;
+
     /**
      * @var \Magento\Sales\Model\Order\Creditmemo|\PHPUnit_Framework_MockObject_MockObject
      */

@@ -16,10 +16,12 @@ class InvoiceCaptureTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Service\V1\InvoiceCapture
      */
     protected $invoiceCapture;
+
     /**
      * @var \Magento\Sales\Model\Order\InvoiceRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $invoiceRepositoryMock;
+
     /**
      * @var \Magento\Sales\Model\Order\Invoice|\PHPUnit_Framework_MockObject_MockObject
      */

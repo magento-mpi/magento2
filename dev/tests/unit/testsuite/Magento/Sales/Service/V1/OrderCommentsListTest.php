@@ -16,34 +16,42 @@ class OrderCommentsListTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Service\V1\OrderCommentsList
      */
     protected $orderCommentsList;
+
     /**
      * @var \Magento\Sales\Model\Order\Status\HistoryRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $historyRepositoryMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\OrderStatusHistoryMapper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $historyMapperMock;
+
     /**
      * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $criteriaBuilderMock;
+
     /**
      * @var \Magento\Framework\Service\V1\Data\FilterBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filterBuilderMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\OrderSearchResultsBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchResultsBuilderMock;
+
     /**
      * @var \Magento\Sales\Model\Order\Status\History|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $orderCommentMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\OrderStatusHistory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $dataObjectMock;
+
     /**
      * @var \Magento\Framework\Service\V1\Data\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
      */

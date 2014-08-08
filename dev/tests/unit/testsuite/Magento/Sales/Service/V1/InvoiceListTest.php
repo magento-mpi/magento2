@@ -16,26 +16,32 @@ class InvoiceListTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Sales\Service\V1\InvoiceList
      */
     protected $invoiceList;
+
     /**
      * @var \Magento\Sales\Model\Order\InvoiceRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $invoiceRepositoryMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\InvoiceMapper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $invoiceMapperMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\InvoiceSearchResultsBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchResultsBuilderMock;
+
     /**
      * @var \Magento\Framework\Service\V1\Data\SearchCriteria|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchCriteriaMock;
+
     /**
      * @var \Magento\Sales\Model\Order\Invoice|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $invoiceMock;
+
     /**
      * @var \Magento\Sales\Service\V1\Data\Invoice|\PHPUnit_Framework_MockObject_MockObject
      */

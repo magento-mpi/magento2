@@ -13,7 +13,9 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 class CreditmemoCancelTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
+
     const SERVICE_NAME = 'salesCreditmemoCancelV1';
+
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
     /**
