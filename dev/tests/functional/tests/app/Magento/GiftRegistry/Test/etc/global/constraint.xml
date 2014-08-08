@@ -32,4 +32,16 @@
     <assertGiftRegistryNotInGrid module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistryNotInGrid>
+    <assertGiftRegistryTypeSuccessSaveMessage module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeSuccessSaveMessage>
+    <assertGiftRegistryTypeInGrid module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeInGrid>
+    <assertGiftRegistryTypeOnFrontend module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeOnFrontend>
+    <assertGiftRegistryTypeForm module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeForm>
 </constraint>

@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <general>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#magento_giftregistry_tabs_general_section</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <code>
+                <selector>[name="type[code]"]</selector>
+                <strategy>css selector</strategy>
+            </code>
+            <label>
+                <selector>[name="type[label]"]</selector>
+                <strategy>css selector</strategy>
+            </label>
+            <sort_order>
+                <selector>[name="type[sort_order]"]</selector>
+                <strategy>css selector</strategy>
+            </sort_order>
+            <is_listed>
+                <selector>[name="type[is_listed]"]</selector>
+                <strategy>css selector</strategy>
+                <input>select</input>
+            </is_listed>
+        </fields>
+    </general>
+    <attributes>
+        <class>\Magento\GiftRegistry\Test\Block\Adminhtml\Edit\Attribute\Attribute</class>
+        <selector>#magento_giftregistry_tabs_registry_attributes</selector>
+        <strategy>css selector</strategy>
+    </attributes>
+</tabs>
