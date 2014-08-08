@@ -14,7 +14,6 @@ define([
     "mage/terms"
 ],function($) {
     'use strict';
-
     $.widget('mage.navigationMenu', {
         options: {
             itemsContainer: '> ul',
@@ -298,7 +297,7 @@ define([
             mainContainer: 'body',
             pageWrapper: '.page-wrapper',
             openedMenuClass: 'opened',
-            toggleActionPlaceholder: '.block.search',
+            toggleActionPlaceholder: '.block-search',
             itemWithSubmenu: 'li.parent',
             titleWithSubmenu: 'li.parent > a',
             submenu: 'li.parent > .submenu',

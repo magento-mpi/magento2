@@ -110,10 +110,9 @@ interface SessionManagerInterface
     /**
      * Renew session id and update session cookie
      *
-     * @param bool $deleteOldSession
      * @return SessionManagerInterface
      */
-    public function regenerateId($deleteOldSession = true);
+    public function regenerateId();
 
     /**
      * Expire the session cookie
