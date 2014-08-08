@@ -7,6 +7,10 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
+/**
+ * Class InvoiceConverterTest
+ * @package Magento\Sales\Service\V1\Data
+ */
 class InvoiceConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**

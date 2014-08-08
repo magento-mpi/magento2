@@ -9,6 +9,10 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use Magento\Backend\App\Action;
 
+/**
+ * Class AddCommentTest
+ * @package Magento\Sales\Controller\Adminhtml\Order\Invoice
+ */
 class AddCommentTest extends \PHPUnit_Framework_TestCase
 {
     /**

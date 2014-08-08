@@ -7,6 +7,10 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
+/**
+ * Class NewActionTest
+ * @package Magento\Sales\Controller\Adminhtml\Order\Invoice
+ */
 class NewActionTest extends \PHPUnit_Framework_TestCase
 {
     /**

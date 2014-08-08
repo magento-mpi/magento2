@@ -7,6 +7,10 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
+/**
+ * Class InvoiceConverter
+ * @package Magento\Sales\Service\V1\Data
+ */
 class InvoiceConverter
 {
     /**

@@ -9,6 +9,10 @@ namespace Magento\Sales\Controller\Adminhtml\Order;
 
 use Magento\Backend\App\Action;
 
+/**
+ * Class InvoiceLoaderTest
+ * @package Magento\Sales\Controller\Adminhtml\Order
+ */
 class InvoiceLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**

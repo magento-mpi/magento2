@@ -9,6 +9,10 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use Magento\Backend\App\Action;
 
+/**
+ * Class CaptureTest
+ * @package Magento\Sales\Controller\Adminhtml\Order\Invoice
+ */
 class CaptureTest extends \PHPUnit_Framework_TestCase
 {
     /**

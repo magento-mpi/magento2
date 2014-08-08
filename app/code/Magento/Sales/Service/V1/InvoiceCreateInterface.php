@@ -7,6 +7,10 @@
  */
 namespace Magento\Sales\Service\V1;
 
+/**
+ * Interface InvoiceCreateInterface
+ * @package Magento\Sales\Service\V1
+ */
 interface InvoiceCreateInterface
 {
     /**

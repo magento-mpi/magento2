@@ -10,6 +10,10 @@ namespace Magento\Sales\Service\V1;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
+/**
+ * Class InvoiceCreateTest
+ * @package Magento\Sales\Service\V1
+ */
 class InvoiceCreateTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/invoice';

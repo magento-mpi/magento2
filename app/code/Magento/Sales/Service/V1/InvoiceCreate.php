@@ -9,6 +9,10 @@ namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Service\V1\Data\InvoiceConverter;
 
+/**
+ * Class InvoiceCreate
+ * @package Magento\Sales\Service\V1
+ */
 class InvoiceCreate implements InvoiceCreateInterface
 {
     /**
