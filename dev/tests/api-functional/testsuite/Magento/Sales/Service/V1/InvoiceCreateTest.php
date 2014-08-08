@@ -47,8 +47,6 @@ class InvoiceCreateTest extends WebapiAbstract
         ];
         $data = [
             'order_id' => $order->getId(),
-            'comment_text' => 'test comment',
-
             'base_currency_code' => null,
             'base_discount_amount' => null,
             'base_grand_total' => null,
