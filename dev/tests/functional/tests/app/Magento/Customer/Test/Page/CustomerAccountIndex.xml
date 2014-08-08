@@ -44,10 +44,4 @@
         <locator>.block.compare</locator>
         <strategy>css selector</strategy>
     </block>
-    <block>
-        <name>giftRegistrySearchWidgetForm</name>
-        <class>Magento\GiftRegistry\Test\Block\Search\Widget\Form</class>
-        <locator>.block.giftregistry</locator>
-        <strategy>css selector</strategy>
-    </block>
 </page>

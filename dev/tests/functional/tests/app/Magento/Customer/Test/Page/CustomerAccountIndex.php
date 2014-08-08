@@ -55,12 +55,6 @@ class CustomerAccountIndex extends FrontendPage
             'locator' => '.block.compare',
             'strategy' => 'css selector',
         ],
-        'giftRegistrySearchWidgetForm' => [
-            'name' => 'giftRegistrySearchWidgetForm',
-            'class' => 'Magento\GiftRegistry\Test\Block\Search\Widget\Form',
-            'locator' => '.block.giftregistry',
-            'strategy' => 'css selector',
-        ],
     ];
 
     /**
@@ -109,13 +103,5 @@ class CustomerAccountIndex extends FrontendPage
     public function getCompareProductsBlock()
     {
         return $this->getBlockInstance('compareProductsBlock');
-    }
-
-    /**
-     * @return \Magento\GiftRegistry\Test\Block\Search\Widget\Form
-     */
-    public function getGiftRegistrySearchWidgetForm()
-    {
-        return $this->getBlockInstance('giftRegistrySearchWidgetForm');
     }
 }
