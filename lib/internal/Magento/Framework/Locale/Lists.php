@@ -157,7 +157,7 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
     {
         $currencies = $this->getTranslationList('currencytoname');
         $options = array();
-        $allowed = $this->_getAllowedCurrencies();
+        $allowed = $this->_config->getAllowedCurrencies();
 
         foreach ($currencies as $name => $code) {
             if (!in_array($code, $allowed)) {
@@ -167,16 +167,6 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
             $options[] = array('label' => $name, 'value' => $code);
         }
         return $this->_sortOptionArray($options);
-    }
-
-    /**
-     * Retrieve array of allowed currencies
-     *
-     * @return array
-     */
-    protected function _getAllowedCurrencies()
-    {
-        return $this->_config->getAllowedCurrencies();
     }
 
     /**
