@@ -1,3 +1,10 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 body {
     line-height: 1.5;
 }
@@ -9,9 +16,6 @@ nav.navigation {
     line-height: 53px;
     padding: 0 20px;
 }
-
-
-
 
 .column-toolbar {
     position: fixed; left: 0; top: 0; width: 64px; height: 100%; z-index: 1000;
@@ -42,10 +46,6 @@ nav.navigation {
 .hasActivated:after {
     background-color: orange;
 }
-
-
-
-
 
 .column-main {
     position: relative; z-index: 800; width: 1200px;
@@ -97,11 +97,6 @@ div[data-role="doc-item"].denoted {
     background-color: #f7eed0;
 }
 
-
-
-
-
-
 .column-sidebar {
     position: relative; z-index: 900; height: 100%;
     float: right;
@@ -109,8 +104,6 @@ div[data-role="doc-item"].denoted {
     background-color: #ffffff;
     border-left: 1px solid grey;
 }
-
-
 
 [data-role="dictionary"],
 [data-role="confoguration"] {
@@ -120,8 +113,6 @@ div[data-role="doc-item"].denoted {
 code {
     background-color: transparent !important;
 }
-
-
 
 #top_bar {
     width: 100%;

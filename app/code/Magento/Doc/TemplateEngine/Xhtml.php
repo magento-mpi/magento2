@@ -1,15 +1,24 @@
 <?php
 /**
- * {license}
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Doc\TemplateEngine;
 
 use Magento\Framework\View\TemplateEngineInterface;
 
+/**
+ * Class Xhtml
+ * @package Magento\Doc\TemplateEngine
+ */
 class Xhtml implements TemplateEngineInterface
 {
     /**
+     * Render XHTML or HTML templates
+     *
      * @param \Magento\Framework\View\Element\BlockInterface $block
      * @param string $template
      * @param array $dictionary

@@ -16,7 +16,7 @@ use Magento\Doc\App\Controller\AbstractAction;
 class Read extends AbstractAction
 {
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function execute()
     {

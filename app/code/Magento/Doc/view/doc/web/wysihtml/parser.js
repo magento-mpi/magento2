@@ -1,10 +1,12 @@
 /**
- * Very simple basic rule set
+ * @license wysihtml5 v0.3.0
+ * https://github.com/xing/wysihtml5
  *
- * Allows
- *    <i>, <em>, <b>, <strong>, <p>, <div>, <a href="http://foo"></a>, <br>, <span>, <ol>, <ul>, <li>
+ * Author: Christopher Blum (https://github.com/tiff)
  *
- * For a proper documentation of the format check advanced.js
+ * Copyright (C) 2012 XING AG
+ * Licensed under the MIT license (MIT)
+ *
  */
 var wysihtml5ParserRules = {
   tags: {

@@ -16,16 +16,13 @@ namespace Magento\Doc\App;
 class DefaultPath implements \Magento\Framework\App\DefaultPathInterface
 {
     /**
+     * Define default values for path chunks
+     *
      * @var array
      */
-    protected $parts;
-
-    public function __construct()
-    {
-        $this->parts = [
-            'area' => 'doc'
-        ];
-    }
+    protected $parts = [
+        'area' => 'doc'
+    ];
 
     /**
      * Retrieve default path part by code

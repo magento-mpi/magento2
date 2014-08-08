@@ -23,11 +23,15 @@ class FrontNameResolver implements \Magento\Framework\App\Area\FrontNameResolver
     const AREA_CODE = 'doc';
 
     /**
+     * Default area front name
+     *
      * @var string
      */
     protected $defaultFrontName;
 
     /**
+     * Constructor
+     *
      * @param string $defaultFrontName
      */
     public function __construct($defaultFrontName = null)

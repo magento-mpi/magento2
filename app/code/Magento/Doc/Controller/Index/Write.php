@@ -38,7 +38,7 @@ class Write extends AbstractAction
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function execute()
     {
