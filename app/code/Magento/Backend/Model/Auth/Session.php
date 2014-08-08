@@ -7,6 +7,9 @@
  */
 namespace Magento\Backend\Model\Auth;
 
+use \Magento\Framework\Stdlib\CookieManager;
+use \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+
 /**
  * Backend Auth session model
  *
@@ -28,7 +31,7 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
     /**
-     * Whether it is the first page after successfull login
+     * Whether it is the first page after successful login
      *
      * @var boolean
      */
@@ -52,9 +55,14 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
     protected $_config;
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie
+     * @var CookieManager
      */
-    protected $_cookie;
+    protected $_cookieManager;
+
+    /**
+     * @var CookieMetadataFactory
+     */
+    protected $_cookieMetadataFactory;
 
     /**
      * @param \Magento\Framework\App\Request\Http $request
@@ -63,11 +71,11 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Framework\Session\ValidatorInterface $validator
      * @param \Magento\Framework\Session\StorageInterface $storage
-     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
+     * @param CookieManager $cookieManager
      * @param \Magento\Framework\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
+     * @param CookieMetadataFactory $cookieMetadataFactory
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -76,16 +84,17 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
-        \Magento\Framework\Stdlib\CookieManager $cookieManager,
+        CookieManager $cookieManager,
         \Magento\Framework\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\App\ConfigInterface $config,
-        \Magento\Framework\Stdlib\Cookie $cookie
+        CookieMetadataFactory $cookieMetadataFactory
     ) {
         $this->_config = $config;
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
-        $this->_cookie = $cookie;
+        $this->_cookieManager = $cookieManager;
+        $this->_cookieMetadataFactory = $cookieMetadataFactory;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $cookieManager);
         $this->start();
     }
@@ -173,22 +182,20 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         $currentTime = time();
 
         $this->setUpdatedAt($currentTime);
-        $cookieValue = $this->_cookie->get($this->getName());
+        $cookieValue = $this->_cookieManager->getCookie($this->getName());
         if ($cookieValue) {
-            $this->_cookie->set(
-                $this->getName(),
-                $cookieValue,
-                $lifetime,
-                $this->sessionConfig->getCookiePath(),
-                $this->sessionConfig->getCookieDomain(),
-                $this->sessionConfig->getCookieSecure(),
-                $this->sessionConfig->getCookieHttpOnly()
-            );
+            $cookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
+                ->setDuration($lifetime)
+                ->setPath($this->sessionConfig->getCookiePath())
+                ->setDomain($this->sessionConfig->getCookieDomain())
+                ->setSecure($this->sessionConfig->getCookieSecure())
+                ->setHttpOnly($this->sessionConfig->getCookieHttpOnly());
+            $this->_cookieManager->setPublicCookie($this->getName(), $cookieValue, $cookieMetadata);
         }
     }
 
     /**
-     * Check if it is the first page after successfull login
+     * Check if it is the first page after successful login
      *
      * @return bool
      */
