@@ -28,8 +28,20 @@ class CreditmemoEmailTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->creditmemoRepository = $this->getMock('\Magento\Sales\Model\Order\CreditmemoRepository', ['get'], [], '', false);
-        $this->notifier = $this->getMock('\Magento\Sales\Model\Order\CreditmemoNotifier', ['notify', '__wakeup'], [], '', false);
+        $this->creditmemoRepository = $this->getMock(
+            '\Magento\Sales\Model\Order\CreditmemoRepository',
+            ['get'],
+            [],
+            '',
+            false
+        );
+        $this->notifier = $this->getMock(
+            '\Magento\Sales\Model\Order\CreditmemoNotifier',
+            ['notify', '__wakeup'],
+            [],
+            '',
+            false
+        );
 
         $this->service = $objectManager->getObject(
             'Magento\Sales\Service\V1\CreditmemoEmail',

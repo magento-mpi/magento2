@@ -28,8 +28,20 @@ class InvoiceEmailTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->invoiceRepository = $this->getMock('\Magento\Sales\Model\Order\InvoiceRepository', ['get'], [], '', false);
-        $this->notifier = $this->getMock('\Magento\Sales\Model\Order\InvoiceNotifier', ['notify', '__wakeup'], [], '', false);
+        $this->invoiceRepository = $this->getMock(
+            '\Magento\Sales\Model\Order\InvoiceRepository',
+            ['get'],
+            [],
+            '',
+            false
+        );
+        $this->notifier = $this->getMock(
+            '\Magento\Sales\Model\Order\InvoiceNotifier',
+            ['notify', '__wakeup'],
+            [],
+            '',
+            false
+        );
 
         $this->service = $objectManager->getObject(
             'Magento\Sales\Service\V1\InvoiceEmail',
