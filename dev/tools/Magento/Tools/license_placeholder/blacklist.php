@@ -66,5 +66,5 @@ return array(
     'setup/pub/angular-ui-bootstrap',
     'setup/pub/angular-ui-router',
     'setup/pub/angular-ng-storage',
-    'app/code/Magento/Doc/web/jumly',
+    'app/code/Magento/Doc/view/doc/web/jumly',
 );
