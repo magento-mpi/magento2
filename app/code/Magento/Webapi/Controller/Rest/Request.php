@@ -37,15 +37,17 @@ class Request extends \Magento\Webapi\Controller\Request
      * @param \Magento\Framework\App\AreaList $areaList
      * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param null|string $uri
      */
     public function __construct(
         \Magento\Framework\App\AreaList $areaList,
         \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         $uri = null
     ) {
-        parent::__construct($areaList, $configScope, $uri);
+        parent::__construct($areaList, $configScope, $cookieManager, $uri);
         $this->_deserializerFactory = $deserializerFactory;
     }
 

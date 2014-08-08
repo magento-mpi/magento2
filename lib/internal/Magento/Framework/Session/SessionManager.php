@@ -75,6 +75,13 @@ class SessionManager implements SessionManagerInterface
     protected $storage;
 
     /**
+     * Cookie Manager
+     * 
+     * @var \Magento\Framework\Stdlib\CookieManager
+     */
+    protected $cookieManager;
+
+    /**
      * Constructor
      *
      * @param \Magento\Framework\App\Request\Http $request
@@ -83,6 +90,7 @@ class SessionManager implements SessionManagerInterface
      * @param SaveHandlerInterface $saveHandler
      * @param ValidatorInterface $validator
      * @param StorageInterface $storage
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -90,7 +98,8 @@ class SessionManager implements SessionManagerInterface
         Config\ConfigInterface $sessionConfig,
         SaveHandlerInterface $saveHandler,
         ValidatorInterface $validator,
-        StorageInterface $storage
+        StorageInterface $storage,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager
     ) {
         $this->request = $request;
         $this->sidResolver = $sidResolver;
@@ -98,6 +107,7 @@ class SessionManager implements SessionManagerInterface
         $this->saveHandler = $saveHandler;
         $this->validator = $validator;
         $this->storage = $storage;
+        $this->cookieManager = $cookieManager;
 
         // Enable session.use_only_cookies
         ini_set('session.use_only_cookies', '1');
@@ -448,15 +458,12 @@ class SessionManager implements SessionManagerInterface
         foreach (array_keys($this->_getHosts()) as $host) {
             // Delete cookies with the same name for parent domains
             if (strpos($this->sessionConfig->getCookieDomain(), $host) > 0) {
-                setcookie(
-                    $this->getName(),
-                    '',
-                    0,
-                    $this->sessionConfig->getCookiePath(),
-                    $host,
-                    $this->sessionConfig->getCookieSecure(),
-                    $this->sessionConfig->getCookieHttpOnly()
-                );
+                $metadata = new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata();
+                $metadata->setPath($this->sessionConfig->getCookiePath());
+                $metadata->setDomain($host);
+                $metadata->setSecure($this->sessionConfig->getCookieSecure());
+                $metadata->setHttpOnly($this->sessionConfig->getCookieHttpOnly());
+                $this->cookieManager->setPublicCookie($this->getName(), '', $metadata);
             }
         }
     }
@@ -474,15 +481,12 @@ class SessionManager implements SessionManagerInterface
             return;
         }
 
-        setcookie(
-            $this->getName(),
-            '',
-            0,
-            $this->sessionConfig->getCookiePath(),
-            $this->sessionConfig->getCookieDomain(),
-            $this->sessionConfig->getCookieSecure(),
-            $this->sessionConfig->getCookieHttpOnly()
-        );
+        $metadata = new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata();
+        $metadata->setPath($this->sessionConfig->getCookiePath());
+        $metadata->setDomain($this->sessionConfig->getCookieDomain());
+        $metadata->setSecure($this->sessionConfig->getCookieSecure());
+        $metadata->setHttpOnly($this->sessionConfig->getCookieHttpOnly());
+        $this->cookieManager->setPublicCookie($this->getName(), '', $metadata);
         $this->clearSubDomainSessionCookie();
     }
 }
