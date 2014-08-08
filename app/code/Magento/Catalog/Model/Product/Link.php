@@ -35,7 +35,7 @@ class Link extends \Magento\Framework\Model\AbstractModel
     /**
      * @var mixed
      */
-    protected $_attributeCollection = null;
+    protected $_attributes = null;
 
     /**
      * Product collection factory
@@ -153,7 +153,11 @@ class Link extends \Magento\Framework\Model\AbstractModel
         if (is_null($type)) {
             $type = $this->getLinkTypeId();
         }
-        return $this->_getResource()->getAttributesByType($type);
+        if (!isset($this->_attributes[$type])) {
+            $this->_attributes[$type] = $this->_getResource()->getAttributesByType($type);
+        }
+
+        return $this->_attributes[$type];
     }
 
     /**

@@ -9,7 +9,7 @@
 /** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
-$tableName = $installer->getTable('admin_rule');
+$tableName = $installer->getTable('authorization_rule');
 /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 $condition = $connection->prepareSqlCondition(
