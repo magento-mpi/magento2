@@ -62,7 +62,7 @@ class OrderAddressUpdateTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/orders/' . $order->getId(),
+                'resourcePath' => '/V1/order/' . $order->getId(),
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [

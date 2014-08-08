@@ -73,7 +73,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMock = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\Payment')
             ->disableOriginalConstructor()
-            ->setMethods(['isDeleted', 'canReviewPayment', 'canFetchTransactionInfo'])
+            ->setMethods(['isDeleted', 'canReviewPayment', 'canFetchTransactionInfo', '__wakeUp'])
             ->getMock();
         $paymentMock->expects($this->once())
             ->method('canReviewPayment')
@@ -93,7 +93,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMock = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\Payment')
             ->disableOriginalConstructor()
-            ->setMethods(['isDeleted', 'canReviewPayment', 'canFetchTransactionInfo'])
+            ->setMethods(['isDeleted', 'canReviewPayment', 'canFetchTransactionInfo', '__wakeUp'])
             ->getMock();
         $paymentMock->expects($this->once())
             ->method('canReviewPayment')
@@ -115,7 +115,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMock = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\Payment')
             ->disableOriginalConstructor()
-            ->setMethods(['isDeleted', 'canReviewPayment', 'canFetchTransactionInfo'])
+            ->setMethods(['isDeleted', 'canReviewPayment', 'canFetchTransactionInfo', '__wakeUp'])
             ->getMock();
         $paymentMock->expects($this->once())
             ->method('canReviewPayment')
@@ -140,7 +140,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMock = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\Payment')
             ->disableOriginalConstructor()
-            ->setMethods(['isDeleted', 'canReviewPayment', 'canFetchTransactionInfo'])
+            ->setMethods(['isDeleted', 'canReviewPayment', 'canFetchTransactionInfo', '__wakeUp'])
             ->getMock();
         $paymentMock->expects($this->once())
             ->method('canReviewPayment')
@@ -296,7 +296,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     {
         $itemMock = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\Item')
             ->disableOriginalConstructor()
-            ->setMethods(['isDeleted', 'filterByTypes', 'filterByParent', 'getQtyToInvoice'])
+            ->setMethods(['isDeleted', 'filterByTypes', 'filterByParent', 'getQtyToInvoice', '__wakeUp'])
             ->getMock();
 
         $itemMock->expects($this->once())
@@ -338,5 +338,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             [false],
             [true]
         ];
+    }
+
+    public function testGetEntityType()
+    {
+        $this->assertEquals('order', $this->order->getEntityType());
     }
 }

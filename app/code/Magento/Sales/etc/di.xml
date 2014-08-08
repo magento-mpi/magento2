@@ -20,8 +20,16 @@
     <preference for="Magento\Sales\Service\V1\OrderAddressUpdateInterface" type="Magento\Sales\Service\V1\OrderAddressUpdate"/>
     <preference for="Magento\Sales\Service\V1\InvoiceGetInterface" type="Magento\Sales\Service\V1\InvoiceGet"/>
     <preference for="Magento\Sales\Service\V1\InvoiceListInterface" type="Magento\Sales\Service\V1\InvoiceList"/>
-    <preference for="Magento\Sales\Service\V1\OrderInvoiceEmailInterface" type="Magento\Sales\Service\V1\OrderInvoiceEmail"/>
+    <preference for="Magento\Sales\Service\V1\InvoiceEmailInterface" type="Magento\Sales\Service\V1\InvoiceEmail"/>
+    <preference for="Magento\Sales\Service\V1\InvoiceVoidInterface" type="Magento\Sales\Service\V1\InvoiceVoid"/>
+    <preference for="Magento\Sales\Service\V1\InvoiceCaptureInterface" type="Magento\Sales\Service\V1\InvoiceCapture"/>
+    <preference for="Magento\Sales\Service\V1\InvoiceCommentsListInterface" type="Magento\Sales\Service\V1\InvoiceCommentsList"/>
     <preference for="Magento\Sales\Service\V1\InvoiceCreateInterface" type="Magento\Sales\Service\V1\InvoiceCreate"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoGetInterface" type="Magento\Sales\Service\V1\CreditmemoGet"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoListInterface" type="Magento\Sales\Service\V1\CreditmemoList"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoCommentsListInterface" type="Magento\Sales\Service\V1\CreditmemoCommentsList"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoCancelInterface" type="Magento\Sales\Service\V1\CreditmemoCancel"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoEmailInterface" type="Magento\Sales\Service\V1\CreditmemoEmail"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>

@@ -51,7 +51,7 @@ class OrderList implements OrderListInterface
      * Invoke OrderList service
      *
      * @param SearchCriteria $searchCriteria
-     * @return \Magento\Framework\Service\V1\Data\SearchResults
+     * @return \Magento\Sales\Service\V1\Data\OrderSearchResults
      */
     public function invoke(SearchCriteria $searchCriteria)
     {
@@ -60,7 +60,7 @@ class OrderList implements OrderListInterface
             $orders[] = $this->orderMapper->extractDto($order);
         }
         return $this->searchResultsBuilder->setItems($orders)
-            ->setTotalCount(count($order))
+            ->setTotalCount(count($orders))
             ->setSearchCriteria($searchCriteria)
             ->create();
     }

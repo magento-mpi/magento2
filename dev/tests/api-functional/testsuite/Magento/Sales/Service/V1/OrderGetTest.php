@@ -12,7 +12,7 @@ use Magento\Webapi\Model\Rest\Config;
 
 class OrderGetTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/orders';
+    const RESOURCE_PATH = '/V1/order';
 
     const SERVICE_READ_NAME = 'salesOrderGetV1';
 

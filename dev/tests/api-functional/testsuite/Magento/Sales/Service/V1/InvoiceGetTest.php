@@ -12,9 +12,9 @@ use Magento\Webapi\Model\Rest\Config;
 
 class InvoiceGetTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/invoices';
+    const RESOURCE_PATH = '/V1/invoice';
 
-    const SERVICE_READ_NAME = 'salesInvoiceGetServiceV1';
+    const SERVICE_READ_NAME = 'salesInvoiceGetV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -33,8 +33,15 @@ class InvoiceGetTest extends WebapiAbstract
      */
     public function testInvoiceGet()
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-        $invoice = $this->objectManager->create('Magento\Sales\Model\Order\Invoice');
+        $invoiceCollection = $objectManager->get('Magento\Sales\Model\Resource\Order\Invoice\Collection');
+        $invoice = $invoiceCollection->getFirstItem();
+        $expectedInvoiceData = [
+            'grand_total' => '100.0000',
+            'subtotal' => '100.0000',
+            'increment_id' => $invoice->getIncrementId()
+        ];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $invoice->getId(),
@@ -43,10 +50,13 @@ class InvoiceGetTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'info'
+                'operation' => self::SERVICE_READ_NAME . 'invoke'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $invoice->getId()]);
-        $this->assertTrue($result);
+        foreach ($expectedInvoiceData as $field => $value) {
+            $this->assertArrayHasKey($field, $result);
+            $this->assertEquals($value, $result[$field]);
+        }
     }
 }

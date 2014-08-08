@@ -50,8 +50,8 @@ class InvoiceListTest extends WebapiAbstract
         $searchCriteriaBuilder->addFilter(
             [
                 $filterBuilder
-                    ->setField('status')
-                    ->setValue('pending')
+                    ->setField('state')
+                    ->setValue(2)
                     ->create()
             ]
         );

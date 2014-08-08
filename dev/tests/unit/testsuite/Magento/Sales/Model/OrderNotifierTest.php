@@ -104,7 +104,7 @@ class OrderNotifierTest extends \PHPUnit_Framework_TestCase
             ->method('save');
         $historyCollection->expects($this->once())
             ->method('getUnnotifiedForInstance')
-            ->with($this->order, \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME)
+            ->with($this->order)
             ->will($this->returnValue($historyItem));
         $this->order->expects($this->once())
             ->method('getEmailSent')

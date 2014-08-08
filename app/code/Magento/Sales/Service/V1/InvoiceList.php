@@ -56,11 +56,11 @@ class InvoiceList implements InvoiceListInterface
     public function invoke(SearchCriteria $searchCriteria)
     {
         $invoices = [];
-        foreach($this->invoiceRepository->find($searchCriteria) as $invoice) {
+        foreach ($this->invoiceRepository->find($searchCriteria) as $invoice) {
             $invoices[] = $this->invoiceMapper->extractDto($invoice);
         }
         return $this->searchResultsBuilder->setItems($invoices)
-            ->setTotalCount(count($invoice))
+            ->setTotalCount(count($invoices))
             ->setSearchCriteria($searchCriteria)
             ->create();
     }

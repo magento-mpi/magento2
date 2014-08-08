@@ -7,8 +7,6 @@
  */
 namespace Magento\Sales\Service\V1\Data;
 
-use Magento\Sales\Model\Order\Invoice;
-
 /**
  * Class InvoiceMapper
  */
@@ -28,10 +26,8 @@ class InvoiceMapper
      * @param InvoiceBuilder $invoiceBuilder
      * @param InvoiceItemMapper $invoiceItemMapper
      */
-    public function __construct(
-        InvoiceBuilder $invoiceBuilder,
-        InvoiceItemMapper $invoiceItemMapper
-    ) {
+    public function __construct(InvoiceBuilder $invoiceBuilder, InvoiceItemMapper $invoiceItemMapper)
+    {
         $this->invoiceBuilder = $invoiceBuilder;
         $this->invoiceItemMapper = $invoiceItemMapper;
     }
@@ -39,24 +35,23 @@ class InvoiceMapper
     /**
      * Returns array of items
      *
-     * @param Invoice $object
+     * @param \Magento\Sales\Model\Order\Invoice $object
      * @return InvoiceItem[]
      */
-    protected function getItems(Invoice $object)
+    protected function getItems(\Magento\Sales\Model\Order\Invoice $object)
     {
         $items = [];
-        foreach($object->getAllItems() as $item) {
+        foreach ($object->getAllItems() as $item) {
             $items[] = $this->invoiceItemMapper->extractDto($item);
         }
         return $items;
     }
 
     /**
-     * @param Invoice $object
+     * @param \Magento\Sales\Model\Order\Invoice $object
      * @return \Magento\Framework\Service\Data\AbstractObject
-     * @return mixed
      */
-    public function extractDto(Invoice $object)
+    public function extractDto(\Magento\Sales\Model\Order\Invoice $object)
     {
         $this->invoiceBuilder->populateWithArray($object->getData());
         $this->invoiceBuilder->setItems($this->getItems($object));
