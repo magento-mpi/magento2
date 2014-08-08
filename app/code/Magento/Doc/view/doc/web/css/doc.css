@@ -10,7 +10,7 @@ body {
 }
 
 nav.navigation {
-    position: fixed; z-index: 1000;
+    z-index: 1000;
 }
 .navigation > ul > .level0 > a > span {
     line-height: 53px;
