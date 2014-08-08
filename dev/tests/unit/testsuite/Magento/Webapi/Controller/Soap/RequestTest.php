@@ -17,13 +17,18 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $areaListMock = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
-        $configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
+        $areaListMock = $this->getMock('Magento\Framework\App\AreaList', [], [], '', false);
         $areaListMock->expects($this->once())->method('getFrontName')->will($this->returnValue('soap'));
-        $cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManager');
 
         /** Initialize SUT. */
-        $this->_soapRequest = new \Magento\Webapi\Controller\Soap\Request($areaListMock, $configScopeMock, $cookieManagerMock);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_soapRequest = $objectManager->getObject(
+            'Magento\Webapi\Controller\Soap\Request',
+            [
+                'areaList' => $areaListMock
+            ]
+        );
+
         parent::setUp();
     }
 
