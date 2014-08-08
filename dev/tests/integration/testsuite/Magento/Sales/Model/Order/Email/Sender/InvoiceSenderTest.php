@@ -36,7 +36,7 @@ class InvoiceSenderTest extends \PHPUnit_Framework_TestCase
         $payment->setBlockMock($paymentInfoBlock);
 
         /** @var InvoiceSender $invoiceSender */
-        $invoiceSender = Bootstrap::getObjectManager()
+        $invoiceSender = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order\Email\Sender\OrderSender');
 
 
