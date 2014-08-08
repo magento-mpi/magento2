@@ -10,12 +10,6 @@
 <?php $entityCollection = $this->getEntityCollection(); ?>
 
 <?php if ($entityCollection->getSize()):?>
-    <?php if ($this->getChildHtml('pager')): ?>
-        <div class="toolbar giftregistry-toolbar top">
-            <?php echo $this->getChildHtml('pager'); ?>
-        </div>
-    <?php endif;?>
-
     <div class="table-wrapper giftregistry">
         <table id="giftregistry-table" class="data table table-giftregistry">
             <caption class="table caption"><?php echo __('Gift Registry') ?></caption>

@@ -93,7 +93,7 @@ class StockItemServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$productSku",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
