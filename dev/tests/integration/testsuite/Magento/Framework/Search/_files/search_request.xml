@@ -9,6 +9,9 @@
 -->
 <requests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <request query="suggested_search_container" index="product">
+        <dimensions>
+            <dimension name="scope" value="default" />
+        </dimensions>
         <queries>
             <query xsi:type="boolQuery" name="suggested_search_container" boost="2">
                 <queryReference clause="must" ref="fulltext_search_query" />
