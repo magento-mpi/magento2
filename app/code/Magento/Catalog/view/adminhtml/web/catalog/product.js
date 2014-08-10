@@ -4,7 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require([
+define([
     "jquery",
     "jquery/ui",
     "prototype"
@@ -89,7 +89,7 @@ function enableFieldEditMode(fieldContainer) {
 }
 
 function onCompleteDisableInited() {
-    jQuery.each(jQuery('input[data-disable]'), function() {
+    jQuery.each(jQuery('[data-disable]'), function() {
         var item = jQuery(this).data('disable');
         disableFieldEditMode(item);
     });
