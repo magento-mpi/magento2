@@ -19,7 +19,7 @@ class Switcher extends Block
      *
      * @var string
      */
-    protected $dropDownButton = '#language-switcher';
+    protected $dropDownButton = '#switcher-language-trigger';
 
     /**
      * Select store

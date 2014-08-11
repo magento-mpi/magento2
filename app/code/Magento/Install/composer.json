@@ -2,9 +2,8 @@
     "name": "magento/module-install",
     "description": "N/A",
     "require": {
-        "php": "5.4.*|5.5.*",
+        "php": "~5.4.11|~5.5.0",
         "magento/module-store": "0.1.0-alpha89",
-        "magento/module-admin-notification": "0.1.0-alpha89",
         "magento/module-directory": "0.1.0-alpha89",
         "magento/module-user": "0.1.0-alpha89",
         "magento/module-backend": "0.1.0-alpha89",

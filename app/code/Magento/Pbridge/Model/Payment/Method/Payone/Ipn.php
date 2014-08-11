@@ -8,6 +8,8 @@
 
 namespace Magento\Pbridge\Model\Payment\Method\Payone;
 
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+
 class Ipn
 {
     /*
@@ -50,21 +52,29 @@ class Ipn
     protected $_logger;
 
     /**
+     * @var OrderSender
+     */
+    protected $orderSender;
+
+    /**
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\HTTP\Adapter\Curl $curl
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Logger $logger
+     * @param OrderSender $orderSender
      */
     public function __construct(
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\HTTP\Adapter\Curl $curl,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Framework\Logger $logger
+        \Magento\Framework\Logger $logger,
+        OrderSender $orderSender
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_curl = $curl;
         $this->_orderFactory = $orderFactory;
         $this->_logger = $logger;
+        $this->orderSender = $orderSender;
     }
 
     /**
@@ -244,10 +254,10 @@ class Ipn
 
         // notify customer
         if ($invoice = $payment->getCreatedInvoice()) {
-            $order->sendNewOrderEmail()
-                ->addStatusHistoryComment(
-                    __('Notified customer about invoice #%1.', $invoice->getIncrementId())
-                )
+            $this->orderSender->send($order);
+            $order->addStatusHistoryComment(
+                __('Notified customer about invoice #%1.', $invoice->getIncrementId())
+            )
                 ->setIsCustomerNotified(true)
                 ->save();
         }

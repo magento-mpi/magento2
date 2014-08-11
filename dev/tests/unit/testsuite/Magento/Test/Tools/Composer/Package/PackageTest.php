@@ -76,4 +76,26 @@ class PackageTest extends \PHPUnit_Framework_TestCase
         $this->object->set('nested', $replace);
         $this->assertSame($replace, $this->object->get('nested'));
     }
+
+    public function testUnsetProperty()
+    {
+        $this->object->set('foo', '1.0');
+        $this->assertSame('1.0', $this->object->get('foo'));
+        $this->object->unsetProperty('foo');
+        $this->assertFalse($this->object->get('foo'));
+        $this->object->set('baz', ['3.0', '4.0']);
+        $this->assertSame(['3.0', '4.0'], $this->object->get('baz'));
+        $this->object->unsetProperty('baz');
+        $this->assertFalse($this->object->get('baz'));
+        $this->object->set('nested->one', '5.0');
+        $this->assertSame('5.0', $this->object->get('nested->one'));
+        $this->object->unsetProperty('nested->one');
+        $this->assertFalse($this->object->get('nested->one'));
+        $this->assertInstanceOf('\StdClass', $this->object->get('nested'));
+        $replace = new \StdClass;
+        $this->object->set('nested', $replace);
+        $this->assertSame($replace, $this->object->get('nested'));
+        $this->object->unsetProperty('nested');
+        $this->assertFalse($this->object->get('nested'));
+    }
 }
