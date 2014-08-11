@@ -2717,4 +2717,23 @@ return array(
         'Magento\GroupedImportExport\Model\Import\Product\Type\Grouped'
     ],
     ['Magento\Framework\View\Design\Theme\Provider'],
+    ['Magento\Install\Controller\Index'],
+    ['Magento\Install\Controller\Wizard'],
+    ['Magento\Install\Controller\Wizard\Administrator'],
+    ['Magento\Install\Controller\Wizard\AdministratorPost'],
+    ['Magento\Install\Controller\Wizard\Begin'],
+    ['Magento\Install\Controller\Wizard\BeginPost'],
+    ['Magento\Install\Controller\Wizard\Config'],
+    ['Magento\Install\Controller\Wizard\ConfigPost'],
+    ['Magento\Install\Controller\Wizard\Download'],
+    ['Magento\Install\Controller\Wizard\DownloadAuto'],
+    ['Magento\Install\Controller\Wizard\DownloadManual'],
+    ['Magento\Install\Controller\Wizard\DownloadPost'],
+    ['Magento\Install\Controller\Wizard\End'],
+    ['Magento\Install\Controller\Wizard\Index'],
+    ['Magento\Install\Controller\Wizard\Install'],
+    ['Magento\Install\Controller\Wizard\InstallDb'],
+    ['Magento\Install\Controller\Wizard\Locale'],
+    ['Magento\Install\Controller\Wizard\LocaleChange'],
+    ['Magento\Install\Controller\Wizard\LocalePost']
 );
