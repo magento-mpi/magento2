@@ -54,6 +54,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     /**
      * @var \Magento\Framework\ObjectManager
      */
+    protected $_objectManager;
 
     /**
      * @var \Magento\Framework\View\LayoutInterface
