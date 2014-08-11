@@ -255,5 +255,23 @@ class CatalogProductSimple extends AbstractRepository
             'weight' => 1,
             'custom_options' => ['preset' => 'all_types'],
         ];
+
+        $this->_data['low_stock_product'] = [
+            'sku' => 'low_stock_product%isolation%',
+            'name' => 'low_stock_product%isolation%',
+            'type_id' => 'simple',
+            'quantity_and_stock_status' => [
+                'qty' => 1.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'stock_data' => [
+                'use_config_notify_stock_qty' => 'No',
+                'notify_stock_qty' => 2,
+            ],
+            'weight' => 1,
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'price' => ['value' => 100, 'preset' => '-'],
+            'website_ids' => ['Main Website'],
+        ];
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Notification\NotifierList">
+        <arguments>
+            <argument name="notifiers" xsi:type="array">
+                <item name="adminnotification" xsi:type="string">Magento\AdminNotification\Model\Inbox</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
