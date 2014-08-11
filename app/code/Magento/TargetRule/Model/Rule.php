@@ -430,4 +430,16 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     {
         return $this;
     }
+
+    /**
+     * Validate rule conditions to determine if rule can run
+     *
+     * @param int $entityId
+     *
+     * @return bool
+     */
+    public function validateByEntityId($entityId)
+    {
+        return $this->getConditions()->validateByEntityId($entityId);
+    }
 }

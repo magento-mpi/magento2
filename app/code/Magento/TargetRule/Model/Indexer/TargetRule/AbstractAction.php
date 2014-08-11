@@ -18,11 +18,6 @@ namespace Magento\TargetRule\Model\Indexer\TargetRule;
 abstract class AbstractAction
 {
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * @var \Magento\TargetRule\Model\Resource\Rule\CollectionFactory
      */
     protected $_ruleCollectionFactory;
@@ -55,7 +50,6 @@ abstract class AbstractAction
     protected $_isIndexCleaned = [];
 
     /**
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\RuleFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory
      * @param \Magento\TargetRule\Model\Resource\Index $resource
@@ -63,14 +57,12 @@ abstract class AbstractAction
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\RuleFactory $ruleFactory,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory,
         \Magento\TargetRule\Model\Resource\Index $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
-        $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->_resource = $resource;
         $this->_ruleCollectionFactory = $ruleCollectionFactory;
@@ -156,10 +148,9 @@ abstract class AbstractAction
 
         $ruleCollection = $this->_ruleCollectionFactory->create();
 
-        $product = $this->_productFactory->create()->load($productId);
         foreach ($ruleCollection as $rule) {
             /** @var $rule \Magento\TargetRule\Model\Rule */
-            if ($rule->validate($product)) {
+            if ($rule->validateByEntityId($productId)) {
                 $matchedProductIds = $rule->getMatchingProductIds();
                 $rule->getResource()->bindRuleToEntity($rule->getId(), $matchedProductIds, 'product');
                 $rule->getResource()->cleanCachedDataByProductIds(
