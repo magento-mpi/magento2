@@ -272,4 +272,3 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->service->delete($cartId, $couponCode));
     }
 }
- 

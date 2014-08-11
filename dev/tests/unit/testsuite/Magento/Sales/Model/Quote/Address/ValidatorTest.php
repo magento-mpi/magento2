@@ -44,7 +44,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->countryFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->countryMock));
+        $this->countryFactoryMock
+            ->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->countryMock));
         $this->model = $objectManager->getObject(
             '\Magento\Sales\Model\Quote\Address\Validator',
             [

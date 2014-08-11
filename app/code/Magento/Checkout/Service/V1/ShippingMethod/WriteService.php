@@ -68,10 +68,9 @@ class WriteService implements WriteServiceInterface
         }
         try {
             $address->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CouldNotSaveException('Cannot set shipping method. ' . $e->getMessage());
         }
         return true;
     }
-
 }
