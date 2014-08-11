@@ -8,11 +8,12 @@
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;
 
 /**
  * Class AttributeMetadataBuilder
  */
-class AttributeMetadataBuilder extends AbstractObjectBuilder
+class AttributeMetadataBuilder extends AbstractObjectBuilder implements AttributeMetadataBuilderInterface
 {
     /**
      * Option builder
@@ -113,7 +114,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
 
     /**
      * Set options
-     * 
+     *
      * @param  \Magento\Catalog\Service\V1\Data\Eav\Option[] $options
      * @return $this
      */
