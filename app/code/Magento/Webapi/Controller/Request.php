@@ -73,6 +73,6 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
      */
     public function getCookie($name = null, $default = null)
     {
-        $this->_cookieManager->getCookie($name, $default);
+        return isset($name) ? $this->_cookieManager->getCookie($name, $default) : [];
     }
 }
