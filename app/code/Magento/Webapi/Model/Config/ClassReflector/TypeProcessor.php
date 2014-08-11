@@ -14,6 +14,36 @@ use Zend\Code\Reflection\ClassReflection;
  */
 class TypeProcessor
 {
+    /**#@+
+     * Pre-normalized type constants
+     *
+     * @var string
+     */
+    const STRING_TYPE = 'str';
+
+    const INT_TYPE = 'integer';
+
+    const BOOLEAN_TYPE = 'bool';
+
+    const ANY_TYPE = 'mixed';
+
+    /**#@+
+     * Normalized type constants
+     *
+     * @var string
+     */
+    const NORMALIZED_STRING_TYPE = 'string';
+
+    const NORMALIZED_INT_TYPE = 'int';
+
+    const NORMALIZED_FLOAT_TYPE = 'float';
+
+    const NORMALIZED_DOUBLE_TYPE = 'double';
+
+    const NORMALIZED_BOOLEAN_TYPE = 'boolean';
+
+    const NORMALIZED_ANY_TYPE = 'any';
+
     /**
      * Array of types data.
      * <pre>array(
@@ -98,7 +128,7 @@ class TypeProcessor
     public function process($type)
     {
         $typeName = $this->normalizeType($type);
-        if (!$this->isTypeSimple($typeName)) {
+        if (!$this->isTypeSimple($typeName) && !$this->isTypeAny($typeName)) {
             $typeSimple = $this->getArrayItemType($type);
             if (!(class_exists($typeSimple) || interface_exists($typeSimple))) {
                 throw new \LogicException(
@@ -270,9 +300,10 @@ class TypeProcessor
     public function normalizeType($type)
     {
         $normalizationMap = array(
-            'str' => 'string',
-            'integer' => 'int',
-            'bool' => 'boolean',
+            self::STRING_TYPE => self::NORMALIZED_STRING_TYPE,
+            self::INT_TYPE => self::NORMALIZED_INT_TYPE,
+            self::BOOLEAN_TYPE => self::NORMALIZED_BOOLEAN_TYPE,
+            self::ANY_TYPE => self::NORMALIZED_ANY_TYPE
         );
 
         return is_string($type) && isset($normalizationMap[$type]) ? $normalizationMap[$type] : $type;
@@ -291,7 +322,32 @@ class TypeProcessor
             $type = $this->getArrayItemType($type);
         }
 
-        return in_array($type, array('string', 'int', 'float', 'double', 'boolean'));
+        return in_array(
+            $type,
+            array(
+                self::NORMALIZED_STRING_TYPE,
+                self::NORMALIZED_INT_TYPE,
+                self::NORMALIZED_FLOAT_TYPE,
+                self::NORMALIZED_DOUBLE_TYPE,
+                self::NORMALIZED_BOOLEAN_TYPE
+            )
+        );
+    }
+
+    /**
+     * Check if given type is any type.
+     *
+     * @param string $type
+     * @return bool
+     */
+    public function isTypeAny($type)
+    {
+        $type = $this->normalizeType($type);
+        if ($this->isArrayType($type)) {
+            $type = $this->getArrayItemType($type);
+        }
+
+        return $type == self::NORMALIZED_ANY_TYPE;
     }
 
     /**
@@ -388,7 +444,7 @@ class TypeProcessor
                 }
             }
         } elseif (!$this->isArrayType($type) && !is_array($value)) {
-            if (!settype($value, $type)) {
+            if ($type !== 'mixed' && !settype($value, $type)) {
                 throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
             }
         } else {
