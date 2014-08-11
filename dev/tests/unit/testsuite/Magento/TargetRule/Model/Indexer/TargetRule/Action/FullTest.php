@@ -15,14 +15,6 @@ class FullTest extends \PHPUnit_Framework_TestCase
 {
     public function testFullReindex()
     {
-        $productFactoryMock = $this->getMock(
-            'Magento\Catalog\Model\ProductFactory',
-            array(),
-            array(),
-            '',
-            false
-        );
-
         $ruleFactoryMock = $this->getMock(
             'Magento\TargetRule\Model\RuleFactory',
             array(),
@@ -53,7 +45,6 @@ class FullTest extends \PHPUnit_Framework_TestCase
         $timezoneMock = $this->getMockForAbstractClass('\Magento\Framework\Stdlib\DateTime\TimezoneInterface');
 
         $model = new \Magento\TargetRule\Model\Indexer\TargetRule\Action\Full(
-            $productFactoryMock,
             $ruleFactoryMock,
             $collectionFactoryMock,
             $resourceMock,
