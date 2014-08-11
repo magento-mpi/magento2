@@ -27,6 +27,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         require_once __DIR__ . '/../../_files/session_backend_mock.php';
+        require_once __DIR__ . '/../../_files/session_set_name_mock.php';
         $requestMock = $helper->getObject('Magento\Framework\App\Request\Http');
         $helper->getObject('Magento\Backend\Model\Session', array('request' => $requestMock));
         $this->assertTrue(self::$sessionStart);

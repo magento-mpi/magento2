@@ -19,11 +19,6 @@ function session_status()
     return PHP_SESSION_NONE;
 }
 
-function session_name($name)
-{
-    SessionTest::assertEquals($name, 'adminhtml');
-}
-
 function session_start()
 {
     SessionTest::$sessionStart = true;
