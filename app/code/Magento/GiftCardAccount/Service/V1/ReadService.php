@@ -56,7 +56,7 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function get($cartId)
+    public function getList($cartId)
     {
         $storeId = $this->storeManager->getStore()->getId();
         /** @var  \Magento\Sales\Model\Quote $quote */

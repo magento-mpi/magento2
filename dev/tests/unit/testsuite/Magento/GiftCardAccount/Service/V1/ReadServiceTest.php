@@ -83,7 +83,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGet()
+    public function testGetList()
     {
         $cartId= 12;
         $storeId = 34;
@@ -121,7 +121,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue('Expected Value'));
 
-        $this->assertEquals('Expected Value', $this->service->get($cartId));
+        $this->assertEquals('Expected Value', $this->service->getList($cartId));
     }
 }
  

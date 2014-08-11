@@ -19,5 +19,5 @@ interface ReadServiceInterface
      * @return \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get($cartId);
+    public function getList($cartId);
 }

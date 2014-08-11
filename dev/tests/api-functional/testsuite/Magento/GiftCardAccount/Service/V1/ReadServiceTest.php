@@ -31,7 +31,7 @@ class ReadServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/GiftCardAccount/_files/quote_with_giftcard_saved.php
      */
-    public function testGet()
+    public function testGetList()
     {
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
@@ -53,7 +53,7 @@ class ReadServiceTest extends WebapiAbstract
             'soap' => array(
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get',
+                'operation' => self::SERVICE_NAME . 'GetList',
             ),
         );
 
