@@ -1,13 +1,13 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
 namespace Magento\Index\Model\System\Message;
 
-class IndexOutdated implements \Magento\AdminNotification\Model\System\MessageInterface
+class IndexOutdated implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * @var \Magento\Index\Model\Indexer

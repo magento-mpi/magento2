@@ -157,6 +157,8 @@ class TreeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $builder->expects($this->any())->method('setActive')->with($this->equalTo(true))
             ->will($this->returnSelf());
+        $builder->expects($this->any())->method('setProductCount')->with(4)
+            ->will($this->returnSelf());
         $builder->expects($this->any())->method('setChildren')->will($this->returnSelf());
         $builder->expects($this->any())->method('create')->will($this->returnValue([]));
 
@@ -171,7 +173,8 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'getName',
                     'getPosition',
                     'getLevel',
-                    'getIsActive'
+                    'getIsActive',
+                    'getProductCount'
                 ]
             )
             ->getMock();
@@ -184,6 +187,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $node->expects($this->any())->method('getPosition')->will($this->returnValue($currentLevel));
         $node->expects($this->any())->method('getLevel')->will($this->returnValue($currentLevel));
         $node->expects($this->any())->method('getIsActive')->will($this->returnValue(true));
+        $node->expects($this->any())->method('getProductCount')->will($this->returnValue(4));
         $this->tree->getTree($node, $depth, $currentLevel);
     }
 }

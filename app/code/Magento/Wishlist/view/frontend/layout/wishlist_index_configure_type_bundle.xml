@@ -8,13 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-bundle-js-product-summary-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Bundle::js/product-summary.js</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
     <referenceBlock name="root">
         <action method="addBodyClass">
             <argument name="value" xsi:type="string">type-bundle</argument>
@@ -30,7 +23,7 @@
                 </arguments>
             </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
-            <block class="Magento\Catalog\Block\Product\View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
+            <block class="Magento\Wishlist\Block\Item\Configure" name="product.info.addto.bundle" as="addto" template="item/configure/addto.phtml"/>
         </block>
     </referenceBlock>
     <referenceBlock name="product.info.options.wrapper">

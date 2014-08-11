@@ -15,7 +15,6 @@ use Mtf\Fixture\FixtureInterface;
 /**
  * Class Register
  * Register new customer on Frontend
- *
  */
 class Register extends Form
 {
@@ -25,6 +24,13 @@ class Register extends Form
      * @var string
      */
     protected $submit = '.action.submit';
+
+    /**
+     * Locator for customer attribute on New Order page
+     *
+     * @var string
+     */
+    protected $customerAttribute = "[name='%s']";
 
     /**
      * Create new customer account and fill billing address if it exists

@@ -36,8 +36,10 @@
 </div>
 
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
-var giftWrappingItem = {
+giftWrappingItem = {
     itemsInfo : <?php echo $this->getItemsInfo()->toJson() ?>,
     designsInfo : <?php echo $this->getDesignsInfo()->toJson() ?>,
     init : function() {
@@ -81,5 +83,7 @@ var giftWrappingItem = {
 }
 giftWrappingItem.init();
 //]]>
+
+});
 </script>
 <?php endif; ?>

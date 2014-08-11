@@ -53,7 +53,7 @@ class Address extends AbstractRepository
                     'company' => array(
                         'value' => 'Magento %isolation%'
                     ),
-                    'street_1' => array(
+                    'street' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),
                     'city' => array(
@@ -109,7 +109,7 @@ class Address extends AbstractRepository
                     'company' => array(
                         'value' => 'Magento %isolation%'
                     ),
-                    'street_1' => array(
+                    'street' => array(
                         'value' => '727 5th Ave'
                     ),
                     'city' => array(
@@ -148,7 +148,7 @@ class Address extends AbstractRepository
                     'company' => array(
                         'value' => 'Magento %isolation%'
                     ),
-                    'street_1' => array(
+                    'street' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),
                     'country_id' => array(
@@ -239,7 +239,7 @@ class Address extends AbstractRepository
                     'telephone' => array(
                         'value' => '444-44-444-44'
                     ),
-                    'street_1' => array(
+                    'street' => array(
                         'value' => '42 King Street West'
                     ),
                     'country_id' => array(
@@ -307,7 +307,7 @@ class Address extends AbstractRepository
                         'value' => 'Germany',
                         'input' => 'select'
                     ),
-                    'street_1' => array(
+                    'street' => array(
                         'value' => 'Augsburger Strabe 41'
                     ),
                     'city' => array(

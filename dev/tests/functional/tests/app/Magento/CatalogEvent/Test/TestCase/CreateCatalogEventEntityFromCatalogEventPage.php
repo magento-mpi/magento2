@@ -86,7 +86,7 @@ class CreateCatalogEventEntityFromCatalogEventPage extends Injectable
         //Steps
         $this->catalogEventIndex->open();
         $this->catalogEventIndex->getPageActions()->addNew();
-        $category = $product->getDataFieldConfig('category_ids')['source']->getCategory()[0];
+        $category = $product->getDataFieldConfig('category_ids')['source']->getCategories()[0];
         $this->catalogEventNew->getTreeCategories()->selectCategory($category->getPath() . '/' . $category->getName());
         $this->catalogEventNew->getEventForm()->fill($catalogEvent);
         $this->catalogEventNew->getPageActions()->save();

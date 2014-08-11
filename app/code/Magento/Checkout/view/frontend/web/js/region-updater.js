@@ -6,7 +6,13 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/template",
+    "mage/validation"
+], function($){
+
     $.widget('mage.regionUpdater', {
         options: {
             regionTemplate: '<option value="${value}" title="${title}" {{if isSelected}}selected="selected"{{/if}}>${title}</option>',
@@ -166,4 +172,5 @@
             });
         }
     });
-})(jQuery);
+
+});

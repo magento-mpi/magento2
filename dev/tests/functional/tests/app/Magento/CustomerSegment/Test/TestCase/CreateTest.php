@@ -17,6 +17,8 @@ class CreateTest extends Functional
 {
     /**
      * Login to backend as a precondition to test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -26,6 +28,7 @@ class CreateTest extends Functional
     /**
      * New Customer Segment creation for specific Customer Group
      *
+     * @return void
      * @ZephyrId MAGETWO-12393
      */
     public function testCreateCustomerSegment()
@@ -39,37 +42,36 @@ class CreateTest extends Functional
         // Start Customer Segment test
         // data
         $customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentGeneralProperties();
-        $conditionsFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions();
-        $conditionType = $conditionsFixture->getConditionType();
-        $conditionValue = $conditionsFixture->getConditionValue();
         // pages & blocks
         $customerSegmentPage = Factory::getPageFactory()->getCustomersegmentIndex();
         $customerSegmentCreatePage = Factory::getPageFactory()->getCustomersegmentIndexNew();
-        $newCustomerSegmentForm = $customerSegmentCreatePage->getNewCustomerSegmentForm();
-        $messagesBlock = $customerSegmentCreatePage->getMessagesBlock();
+        $newCustomerSegmentForm = $customerSegmentCreatePage->getCustomerSegmentForm();
         // begin steps to add a customer segment
-        $customerSegmentForm = $customerSegmentPage->getCustomerSegmentGridBlock();
         $customerSegmentPage->open();
-        $customerSegmentForm->addNewSegment();
+        $customerSegmentPage->getPageActionsBlock()->addNew();
         // fill General Properties
         $newCustomerSegmentForm->fill($customerSegmentFixture);
-        $customerSegmentCreatePage->getActions()->saveAndContinue();
-        $messagesBlock->assertSuccessMessage();
-        // open conditions tab
-        $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('conditions');
+        $customerSegmentCreatePage->getPageMainActions()->saveAndContinue();
+        $customerSegmentCreatePage->getMessagesBlock()->assertSuccessMessage();
+        // save conditions tab
+        $objectManager = Factory::getObjectManager();
+        $fixtureConditions = $objectManager->create(
+            '\Magento\CustomerSegment\Test\Fixture\CustomerSegment',
+            ['data' => ['conditions_serialized' => '[Group|is|Retailer]']]
+        );
+        $customerSegmentCreatePage->getCustomerSegmentForm()->openTab('conditions');
         // add condition
-        $addWidget = $customerSegmentCreatePage->getConditions();
-        $addWidget->addCustomerGroupCondition($conditionType, $conditionValue);
-        $saveWidget = $customerSegmentCreatePage->getSave();
-        $saveWidget->clickSaveAndContinue();
+        $newCustomerSegmentForm->fill($fixtureConditions);
+        $customerSegmentCreatePage->getPageMainActions()->saveAndContinue();
 
         $conditionMessagesBlock = $customerSegmentCreatePage->getMessagesBlock();
         $conditionMessagesBlock->assertSuccessMessage();
         // open matched customers tab
-        $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('matched_customers');
+        $customerSegmentCreatePage->getCustomerSegmentForm()->openTab('matched_customers');
         // verify matched customers
-        $customerGridBlock = $customerSegmentCreatePage->getCustomerGridBlock();
-        $customerGridBlock->search(array('email' => $customerFixture->getEmail()));
+        $customerGridBlock = $customerSegmentCreatePage->getCustomerSegmentForm()->getMatchedCustomers()
+            ->getCustomersGrid();
+        $customerGridBlock->search(['grid_email' => $customerFixture->getEmail()]);
         $this->assertEquals(
             $customerFixture->getEmail(),
             $customerGridBlock->getGridEmail(),

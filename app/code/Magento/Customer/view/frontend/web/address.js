@@ -6,8 +6,13 @@
  */
 /*jshint browser:true, jquery:true*/
 /*global confirm:true*/
-(function($, window) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate"
+], function($){
     "use strict";
+    
     $.widget('mage.address', {
         /**
          * Options common to all instances of this widget.
@@ -52,4 +57,4 @@
             return false;
         }
     });
-})(jQuery, window);
+});

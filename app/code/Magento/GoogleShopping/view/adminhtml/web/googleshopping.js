@@ -4,8 +4,13 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+define([
+    "jquery",
+    "prototype"
+], function(jQuery){
+
 if (typeof Mage == 'undefined') {
-    Mage = {};
+    window.Mage = {};
 }
 if (typeof Mage.GoogleShopping == 'undefined') {
     Mage.GoogleShopping = {
@@ -118,4 +123,6 @@ Event.observe(document, 'dom:loaded', function() {
         }
         Mage.GoogleShopping.poller.start(Mage.GoogleShopping.statusUrl);
     }
+});
+
 });

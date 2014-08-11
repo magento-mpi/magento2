@@ -21,6 +21,8 @@
     </div>
 </div>
 <script type="text/javascript">
+require(['prototype'], function(){
+
 //<![CDATA[
 /**
  * Fix ext compatibility with prototype 1.6
@@ -200,4 +202,6 @@ hierarchyNodes = {
 Event.observe(window, 'load', hierarchyNodes.initialize.bind(hierarchyNodes));
 // Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
 //]]>
+
+});
 </script>

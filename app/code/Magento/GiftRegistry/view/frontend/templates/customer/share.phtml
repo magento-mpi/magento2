@@ -94,6 +94,8 @@
 </form>
 
 <script type="text/javascript">
+require(['jquery', 'mage/mage'], function(jQuery){
+
     (function($) {
         var formDataPost;
         <?php if (is_array($this->getFormData('recipients'))): ?>
@@ -112,4 +114,6 @@
             formDataPost: {"formData": formDataPost, "templateFields": ['recipients-name', 'recipients-email']}
         }).mage('validation');
     })(jQuery);
+
+});
 </script>

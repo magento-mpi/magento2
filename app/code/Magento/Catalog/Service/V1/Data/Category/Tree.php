@@ -120,6 +120,7 @@ class Tree
             ->setPosition($node->getPosition())
             ->setLevel($node->getLevel())
             ->setActive($node->getIsActive())
+            ->setProductCount($node->getProductCount())
             ->setChildren([]);
 
         if ($node->hasChildren()) {

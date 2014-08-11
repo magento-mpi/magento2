@@ -6,20 +6,4 @@
  * @license     {license_link}
  */
 ?>
-<script type="text/javascript">
-    (function($) {
-        "use strict";
-        /**
-         * Declaration of resources needed for defined components
-         */
-        $.mage.component({
-            opcheckoutPaypalIframe: [
-                '<?php echo $this->getViewFileUrl('Magento_Paypal::js/opcheckout.js') ?>'
-            ],
-            orderReview: [
-                '<?php echo $this->getViewFileUrl('Magento_Paypal::order-review.js') ?>'
-            ]
-        });
-    })(jQuery);
-</script>
 <?php echo $this->getChildHtml() ?>

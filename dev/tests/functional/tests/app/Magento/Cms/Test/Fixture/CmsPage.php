@@ -34,64 +34,34 @@ class CmsPage extends InjectableFixture
         'store_id' => 'All Store Views',
         'is_active' => 'Published',
         'under_version_control' => 'No',
-        'content' => 'Text %isolation%',
+        'content' => [
+            'content' => 'Text %isolation%']
+    ];
+
+    protected $page_id = [
+        'attribute_code' => 'page_id',
+        'backend_type' => 'smallint',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => '',
     ];
 
     protected $title = [
         'attribute_code' => 'title',
         'backend_type' => 'varchar',
         'is_required' => '',
-        'default_value' => 'CMS Page%isolation%',
+        'default_value' => '',
+        'input' => '',
         'group' => 'page_information',
         'selector' => '#page_title'
     ];
 
-    protected $identifier = [
-        'attribute_code' => 'identifier',
+    protected $root_template = [
+        'attribute_code' => 'root_template',
         'backend_type' => 'varchar',
         'is_required' => '',
-        'default_value' => 'identifier%isolation%',
-        'group' => 'page_information',
-        'selector' => '#page_identifier'
-    ];
-
-    protected $store_id = [
-        'attribute_code' => 'store_id',
-        'backend_type' => 'virtual',
-        'is_required' => '1',
-        'default_value' => 'All Store Views',
-        'input' => 'multiselectgrouplist',
-        'group' => 'page_information',
-        'selector' => '#page_store_id'
-    ];
-
-    protected $is_active = [
-        'attribute_code' => 'is_active',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => 'Published',
-        'input' => 'select',
-        'group' => 'page_information',
-        'selector' => '#page_is_active'
-    ];
-
-    protected $under_version_control = [
-        'attribute_code' => 'under_version_control',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => 'No',
-        'input' => 'select',
-        'group' => 'page_information',
-        'selector' => '#page_under_version_control'
-    ];
-
-    protected $content = [
-        'attribute_code' => 'content',
-        'backend_type' => 'mediumtext',
-        'is_required' => '',
-        'default_value' => 'Test %isolation%',
-        'group' => 'content',
-        'selector' => '#page_content'
+        'default_value' => '',
+        'input' => '',
     ];
 
     protected $meta_keywords = [
@@ -112,103 +82,143 @@ class CmsPage extends InjectableFixture
         'selector' => '#page_meta_description'
     ];
 
-    protected $page_id = [
-        'attribute_code' => 'page_id',
-        'backend_type' => 'smallint',
-        'is_required' => '1',
-        'default_value' => ''
-    ];
-
-    protected $root_template = [
-        'attribute_code' => 'root_template',
+    protected $identifier = [
+        'attribute_code' => 'identifier',
         'backend_type' => 'varchar',
+        'group' => 'page_information',
         'is_required' => '',
-        'default_value' => ''
+        'default_value' => '',
+        'input' => '',
     ];
 
     protected $content_heading = [
         'attribute_code' => 'content_heading',
         'backend_type' => 'varchar',
         'is_required' => '',
+        'default_value' => '',
         'group' => 'content',
-        'default_value' => ''
+        'input' => '',
+    ];
+
+    protected $content = [
+        'attribute_code' => 'content',
+        'backend_type' => 'mediumtext',
+        'is_required' => '',
+        'default_value' => '',
+        'group' => 'content',
+        'input' => '',
+        'source' => 'Magento\Cms\Test\Fixture\CmsPage\Content',
     ];
 
     protected $creation_time = [
         'attribute_code' => 'creation_time',
         'backend_type' => 'timestamp',
         'is_required' => '',
-        'default_value' => ''
+        'default_value' => '',
+        'input' => '',
     ];
 
     protected $update_time = [
         'attribute_code' => 'update_time',
         'backend_type' => 'timestamp',
         'is_required' => '',
-        'default_value' => ''
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $is_active = [
+        'attribute_code' => 'is_active',
+        'backend_type' => 'smallint',
+        'is_required' => '',
+        'default_value' => '1',
+        'input' => '',
+        'group' => 'page_information',
     ];
 
     protected $sort_order = [
         'attribute_code' => 'sort_order',
         'backend_type' => 'smallint',
         'is_required' => '',
-        'default_value' => '0'
+        'default_value' => '0',
+        'input' => '',
     ];
 
     protected $layout_update_xml = [
         'attribute_code' => 'layout_update_xml',
         'backend_type' => 'text',
         'is_required' => '',
-        'default_value' => ''
+        'default_value' => '',
+        'input' => '',
     ];
 
     protected $custom_theme = [
         'attribute_code' => 'custom_theme',
         'backend_type' => 'varchar',
         'is_required' => '',
-        'default_value' => ''
+        'default_value' => '',
+        'input' => '',
     ];
 
     protected $custom_root_template = [
         'attribute_code' => 'custom_root_template',
         'backend_type' => 'varchar',
         'is_required' => '',
-        'default_value' => ''
+        'default_value' => '',
+        'input' => '',
     ];
 
     protected $custom_layout_update_xml = [
         'attribute_code' => 'custom_layout_update_xml',
         'backend_type' => 'text',
         'is_required' => '',
-        'default_value' => ''
+        'default_value' => '',
+        'input' => '',
     ];
 
     protected $custom_theme_from = [
         'attribute_code' => 'custom_theme_from',
         'backend_type' => 'date',
-        'is_required' => '',
-        'default_value' => ''
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     protected $custom_theme_to = [
         'attribute_code' => 'custom_theme_to',
         'backend_type' => 'date',
-        'is_required' => '',
-        'default_value' => ''
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     protected $published_revision_id = [
         'attribute_code' => 'published_revision_id',
         'backend_type' => 'int',
         'is_required' => '',
-        'default_value' => '0'
+        'default_value' => '0',
+        'input' => '',
     ];
 
     protected $website_root = [
         'attribute_code' => 'website_root',
         'backend_type' => 'smallint',
         'is_required' => '',
-        'default_value' => '1'
+        'default_value' => '1',
+        'input' => '',
+    ];
+
+    protected $under_version_control = [
+        'attribute_code' => 'under_version_control',
+        'backend_type' => 'smallint',
+        'is_required' => '',
+        'default_value' => '0',
+        'group' => 'page_information',
+        'input' => '',
+    ];
+
+    protected $store_id = [
+        'attribute_code' => 'store_id',
+        'backend_type' => 'virtual',
+        'is_required' => '1',
+        'default_value' => '0',
+        'group' => 'page_information',
+        'input' => 'multiselect',
     ];
 
     public function getPageId()

@@ -14,6 +14,9 @@
     <event name="customer_address_load_after">
         <observer name="magento_giftregistry" instance="Magento\GiftRegistry\Model\Observer" method="addressDataAfterLoad" />
     </event>
+    <event name="sales_quote_address_save_before">
+        <observer name="magento_giftregistry" instance="Magento\GiftRegistry\Model\Observer" method="addressDataBeforeSave" />
+    </event>
     <event name="sales_order_place_after">
         <observer name="magento_giftregistry" instance="Magento\GiftRegistry\Model\Observer" method="orderPlaced" />
     </event>

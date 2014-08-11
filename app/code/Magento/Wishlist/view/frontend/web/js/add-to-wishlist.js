@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+
     $.widget('mage.addToWishlist', {
         options: {
             bundleInfo: '[id^=bundle-option-]',
@@ -30,7 +34,10 @@
         },
         _updateWishlistData: function(event) {
             var dataToAdd = {};
-            dataToAdd[$(event.currentTarget).attr('name')] = $(event.currentTarget).val();
+            $(event.handleObj.selector).each(function(index, element){
+                dataToAdd[$(element).attr('name')] = $(element).val();
+            });
+
             $('[data-action="add-to-wishlist"]').each(function(index, element) {
                 var params = $(element).data('post');
                 params.data = $.extend({}, params.data, dataToAdd);
@@ -38,4 +45,5 @@
             });
         }
     });
-})(jQuery);
+
+});

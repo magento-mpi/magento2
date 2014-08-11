@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function ($, window) {
+define(["jquery","jquery/ui"], function($){
     $.widget('mage.compareList', {
         _create: function() {
 
@@ -53,4 +53,4 @@
 
         }
     });
-})(jQuery, window);
+});

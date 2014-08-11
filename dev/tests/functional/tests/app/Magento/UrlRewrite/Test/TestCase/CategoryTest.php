@@ -18,16 +18,12 @@ use Mtf\TestCase\Injectable;
  */
 class CategoryTest extends Injectable
 {
-    public function __inject()
-    {
-        //
-    }
-
     /**
      * Adding permanent redirect for category
      *
-     * @ZephyrId MAGETWO-12407
      * @param UrlRewriteCategory $urlRewriteCategory
+     * @return void
+     * @ZephyrId MAGETWO-12407
      */
     public function test(\Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory $urlRewriteCategory)
     {
@@ -61,10 +57,10 @@ class CategoryTest extends Injectable
     /**
      * Assert that request URL redirects to target URL
      *
-     *
      * @param string $requestUrl
      * @param string $targetUrl
      * @param string $message
+     * @return void
      */
     protected function assertUrlRewrite($requestUrl, $targetUrl, $message = '')
     {

@@ -6,8 +6,13 @@
  */
 /*jshint jquery:true*/
 /*global alert*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui",
+    "mage/translate"
+], function($){
     'use strict';
+
     $.widget('vde.quickStyleElement', {
         options: {
             changeEvent: 'change.quickStyleElement',
@@ -72,4 +77,5 @@
             });
         }
     });
-})(window.jQuery);
+
+});
