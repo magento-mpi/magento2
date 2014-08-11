@@ -32,7 +32,7 @@ class CustomerGroup extends AbstractPlugin
 
 
     /**
-     * Invalidate indexer on attribute save (searchable flag change)
+     * Invalidate indexer on customer group save
      *
      * @param \Magento\Customer\Model\Resource\Group $subject
      * @param \Closure $proceed
