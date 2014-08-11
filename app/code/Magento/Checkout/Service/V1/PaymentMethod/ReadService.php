@@ -72,7 +72,7 @@ class ReadService implements ReadServiceInterface
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
 
         $payment = $quote->getPayment();
-        if (!$payment) {
+        if (!$payment->getId()) {
             return null;
         }
         return $this->quoteMethodConverter->toDataObject($payment);

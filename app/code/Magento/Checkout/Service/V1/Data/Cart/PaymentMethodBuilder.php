@@ -17,7 +17,7 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
      * Get purchase order number
      *
      * @param string $value
-     * @return string|null
+     * @return $this
      */
     public function setPoNumber($value)
     {
@@ -28,7 +28,7 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
      * Get payment method code
      *
      * @param string $value
-     * @return string
+     * @return $this
      */
     public function setMethod($value)
     {
@@ -39,7 +39,7 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
      * Get credit card CID
      *
      * @param string $value
-     * @return string|null
+     * @return $this
      */
     public function setCcCid($value)
     {
@@ -50,7 +50,7 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
      * Get credit card owner
      *
      * @param string $value
-     * @return string|null
+     * @return $this
      */
     public function setCcOwner($value)
     {
@@ -61,7 +61,7 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
      * Get credit card number
      *
      * @param string $value
-     * @return string|null
+     * @return $this
      */
     public function setCcNumber($value)
     {
@@ -72,7 +72,7 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
      * Get credit card type
      *
      * @param string $value
-     * @return string|null
+     * @return $this
      */
     public function setCcType($value)
     {
@@ -83,7 +83,7 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
      * Get credit card expiration year
      *
      * @param string $value
-     * @return string|null
+     * @return $this
      */
     public function setCcExpYear($value)
     {
@@ -94,10 +94,21 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
      * Get credit card expiration month
      *
      * @param string $value
-     * @return string|null
+     * @return $this
      */
     public function setCcExpMonth($value)
     {
         return $this->_set(PaymentMethod::CC_EXP_MONTH, $value);
+    }
+
+    /**
+     * Set payment additional payment details
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setPaymentDetails($value)
+    {
+        return $this->_set(PaymentMethod::PAYMENT_DETAILS, $value);
     }
 }

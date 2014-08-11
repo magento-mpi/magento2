@@ -51,6 +51,11 @@ class PaymentMethod extends \Magento\Framework\Service\Data\AbstractObject
     const CC_EXP_MONTH = 'cc_exp_month';
 
     /**
+     * Additional payment details
+     */
+    const PAYMENT_DETAILS = 'payment_details';
+
+    /**
      * Get purchase order number
      *
      * @return string|null
@@ -128,5 +133,15 @@ class PaymentMethod extends \Magento\Framework\Service\Data\AbstractObject
     public function getCcExpMonth()
     {
         return $this->_get(self::CC_EXP_MONTH);
+    }
+
+    /**
+     * Get payment additional details
+     *
+     * @return string|null
+     */
+    public function getPaymentDetails()
+    {
+        return $this->_get(self::PAYMENT_DETAILS);
     }
 }

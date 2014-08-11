@@ -43,6 +43,7 @@ class Converter
             QuotePaymentMethod::CC_TYPE => $object->getCcType(),
             QuotePaymentMethod::CC_EXP_YEAR => $object->getCcExpYear(),
             QuotePaymentMethod::CC_EXP_MONTH => $object->getCcExpMonth(),
+            QuotePaymentMethod::PAYMENT_DETAILS => $object->getAdditionalData(),
         ];
 
         return $this->builder->populateWithArray($data)->create();

@@ -27,7 +27,16 @@ class Builder
     {
         $payment = $quote->getPayment();
         try {
-            $payment->importData($object->__toArray());
+            $data = $object->__toArray();
+            $additionalDataValue = $object->getPaymentDetails();
+            unset($data[QuotePaymentMethod::PAYMENT_DETAILS]);
+            if (!empty($additionalDataValue)) {
+                $additionalData = @unserialize($additionalDataValue);
+                if (is_array($additionalData) && !empty($additionalData)) {
+                    $data = array_merge($data, $additionalData);
+                }
+            }
+            $payment->importData($data);
         } catch(\Exception $e) {
             throw new LocalizedException('The requested Payment Method is not available.');
         }
