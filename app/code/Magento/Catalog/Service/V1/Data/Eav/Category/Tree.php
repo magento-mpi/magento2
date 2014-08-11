@@ -16,6 +16,7 @@ class Tree extends \Magento\Framework\Service\Data\AbstractObject
     const POSITION = 'position';
     const LEVEL = 'level';
     const CHILDREN = 'children';
+    const PRODUCT_COUNT = 'product_count';
 
     /**
      * Get category ID
@@ -75,6 +76,16 @@ class Tree extends \Magento\Framework\Service\Data\AbstractObject
     public function getLevel()
     {
         return $this->_get(self::LEVEL);
+    }
+
+    /**
+     * Get product count
+     *
+     * @return int
+     */
+    public function getProductCount()
+    {
+        return $this->_get(self::PRODUCT_COUNT);
     }
 
     /**
