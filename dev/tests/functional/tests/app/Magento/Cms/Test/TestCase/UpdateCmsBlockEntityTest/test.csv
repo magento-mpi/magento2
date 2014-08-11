@@ -1,0 +1,3 @@
+"cmsBlock/data/title";"cmsBlock/data/identifier";"cmsBlock/data/stores/dataSet/option_0";"cmsBlock/data/is_active";"cmsBlock/data/content";"constraint"
+"block_updated_%isolation%";"identifier_updated_%isolation%";"All Store Views";"Enabled";"description_updated_%isolation%";"assertCmsBlockSuccessSaveMessage, assertCmsBlockInGrid, assertCmsBlockOnCategoryPage"
+"block_updated_%isolation%";"identifier_updated_%isolation%";"default";"Disabled";"description_updated_%isolation%";"assertCmsBlockSuccessSaveMessage, assertCmsBlockInGrid, assertCmsBlockNotOnCategoryPage"

@@ -310,19 +310,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 'text',
-                'default_value_text',
+                'scope_default_value_text',
             ),
             array(
                 'textarea',
-                'default_value_textarea',
+                'scope_default_value_textarea',
             ),
             array(
                 'multiline',
-                'default_value_text',
+                'scope_default_value_text',
             ),
             array(
                 'date',
-                'default_value_date',
+                'scope_default_value_date',
             ),
             array(
                 'select',
@@ -334,7 +334,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 'boolean',
-                'default_value_yesno',
+                'scope_default_value_yesno',
             ),
             array(
                 'file',

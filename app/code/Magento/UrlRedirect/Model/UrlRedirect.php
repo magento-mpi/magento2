@@ -9,6 +9,12 @@
  */
 namespace Magento\UrlRedirect\Model;
 
+/**
+ * @method string getEntityType()
+ * @method UrlRedirect setEntityType(string $value)
+ * @method int getEntityId()
+ * @method UrlRedirect setEntityId(int $value)
+ */
 class UrlRedirect extends \Magento\Framework\Model\AbstractModel
 {
     /**

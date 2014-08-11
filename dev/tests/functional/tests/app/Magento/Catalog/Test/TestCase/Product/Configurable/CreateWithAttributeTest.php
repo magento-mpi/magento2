@@ -75,7 +75,7 @@ class CreateWithAttributeTest extends Functional
 
         //Steps
         $manageProductsGrid->open();
-        $manageProductsGrid->getProductBlock()->addProduct();
+        $manageProductsGrid->getGridPageActionBlock()->addProduct();
         $productForm->fill($product);
         $productForm->openTab(Product::GROUP_PRODUCT_DETAILS);
         $productForm->addNewCategory($product);

@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function($) {
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+    
     $.widget('mage.truncateOptions', {
         options: {
             detailsLink: 'a.details',
@@ -32,4 +36,5 @@
             $(event.currentTarget).find(this.options.truncatedFullValue).toggleClass('show');
         }
     });
-})(jQuery);
+
+});

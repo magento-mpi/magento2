@@ -12,9 +12,13 @@
  */
 ?>
 <script type="text/javascript">
+require(['prototype', "Magento_Rma/rma"], function(){
+
 //<![CDATA[
-    var rma = new AdminRma();
+    rma = new AdminRma();
 //]]>
+
+});
 </script>
 <script type="text/javascript" src="<?php echo $this->getViewFileUrl('Magento_Rma::details-validator.js') ?>"></script>
 <div class="clearfix">
