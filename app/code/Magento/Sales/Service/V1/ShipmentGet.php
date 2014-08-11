@@ -13,7 +13,7 @@ use Magento\Sales\Service\V1\Data\ShipmentMapper;
 /**
  * Class ShipmentGet
  */
-class ShipmentGet implements OrderGetInterface
+class ShipmentGet implements ShipmentGetInterface
 {
     /**
      * @var ShipmentRepository
