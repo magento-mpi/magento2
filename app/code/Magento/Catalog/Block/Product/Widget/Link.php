@@ -15,17 +15,8 @@ namespace Magento\Catalog\Block\Product\Widget;
 
 class Link extends \Magento\Catalog\Block\Widget\Link
 {
+    /** @TODO: UrlRewrite: Build product URL inside particular category */
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
-     * @param array $data
+     * __construct()
      */
-    public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Resource\Product $catalogProduct,
-        array $data = array()
-    ) {
-        parent::__construct($context, $data);
-        $this->_entityResource = $catalogProduct;
-    }
 }

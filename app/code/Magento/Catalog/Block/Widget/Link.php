@@ -13,6 +13,8 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
+use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
+
 class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
     /**
@@ -36,58 +38,81 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
     protected $_anchorText;
 
     /**
-     * Url rewrite
+     * Url matcher
      *
-     * @TODO: UrlRewrite
-     * @var \Magento\UrlRewrite\Model\Resource\UrlRewrite
+     * @var UrlMatcherInterface
      */
-    protected $_urlRewrite;
+    protected $urlMatcher;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param UrlMatcherInterface $urlMatcher
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        /** @TODO: UrlRewrite: Build product URL inside particular category */
+        UrlMatcherInterface $urlMatcher,
         array $data = array()
     ) {
         parent::__construct($context, $data);
+        $this->urlMatcher = $urlMatcher;
     }
 
     /**
      * Prepare url using passed id path and return it
      * or return false if path was not found in url rewrites.
      *
+     * @throws \RuntimeException
      * @return string|false
      */
     public function getHref()
     {
-        if (!$this->_href) {
-
-            if ($this->hasStoreId()) {
-                $store = $this->_storeManager->getStore($this->getStoreId());
-            } else {
-                $store = $this->_storeManager->getStore();
+        if ($this->_href === null) {
+            if (!$this->getData('id_path')) {
+                throw new \RuntimeException('Parameter id_path is not set.');
             }
+            $rewriteData = $this->parseIdPath($this->getData('id_path'));
 
-            /* @var $store \Magento\Store\Model\Store */
-            $href = "";
-            if ($this->getData('id_path')) {
-                $href = $this->_urlRewrite->getRequestPathByIdPath($this->getData('id_path'), $store);
-                if (!$href) {
-                    return false;
+            $href = false;
+            $store = $this->hasStoreId() ? $this->_storeManager->getStore($this->getStoreId())
+                : $this->_storeManager->getStore();
+
+            /** @TODO: UrlRewrite: Build product URL inside particular category */
+            $rewrite = $this->urlMatcher->findByEntity(
+                $rewriteData[1],
+                $rewriteData[0],
+                $store->getId()
+                /** @TODO: UrlRewrite: Additional parameters */
+            );
+
+            if ($rewrite) {
+                $href = $store->getUrl('', ['_direct' => $rewrite->getRequestPath()]);
+
+                if (strpos($href, '___store') === false) {
+                    $href .= (strpos($href, '?') === false ? '?' : '&') . '___store=' . $store->getCode();
                 }
             }
-
-            $this->_href = $store->getUrl('', array('_direct' => $href));
+            $this->_href = $href;
         }
-
-        if (strpos($this->_href, "___store") === false) {
-            $symbol = strpos($this->_href, "?") === false ? "?" : "&";
-            $this->_href = $this->_href . $symbol . "___store=" . $store->getCode();
-        }
-
         return $this->_href;
+    }
+
+    /**
+     * Parse id_path
+     *
+     * @param string $idPath
+     * @throws \RuntimeException
+     * @return array
+     */
+    protected function parseIdPath($idPath)
+    {
+        $rewriteData = explode('/', $idPath);
+
+        if (!isset($rewriteData[0]) || !isset($rewriteData[1])) {
+            throw new \RuntimeException('Wrong id_path structure.');
+        }
+        return $rewriteData;
     }
 
     /**
