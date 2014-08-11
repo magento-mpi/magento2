@@ -275,5 +275,4 @@ class Index extends \Magento\Framework\Model\AbstractModel
     {
         return $this->_getResource()->select();
     }
-
 }

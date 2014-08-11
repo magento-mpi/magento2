@@ -185,7 +185,8 @@ $installer->getConnection()->dropIndex(
 
 $installer->getConnection()->addIndex(
     $installer->getTable('magento_targetrule_index_crosssell'),
-    $installer->getIdxName('magento_targetrule_index_crosssell',
+    $installer->getIdxName(
+        'magento_targetrule_index_crosssell',
         array(
             'entity_id',
             'store_id',
@@ -322,7 +323,8 @@ $table = $installer->getConnection()
         array(
             'unsigned'  => true,
             'nullable'  => false,
-        ), 'Product Id'
+        ),
+        'Product Id'
     )->addIndex(
         $installer->getIdxName(
             'magento_targetrule_index_crosssell_product',
@@ -366,7 +368,7 @@ $table = $installer->getConnection()
         'product_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-            array(
+        array(
             'unsigned'  => true,
             'nullable'  => false,
         ),

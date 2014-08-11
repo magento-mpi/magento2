@@ -647,7 +647,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Get attribute set id for product
      *
-     * @param $productId
+     * @param int $productId
      * @return string
      */
     protected function _getAttributeSetId($productId)

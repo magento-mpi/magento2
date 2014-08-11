@@ -63,7 +63,8 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      * @param Context $context
      * @param array $data
      */
-    public function __construct(Context $context,array $data = array()) {
+    public function __construct(Context $context, array $data = array())
+    {
         $this->_assetRepo = $context->getAssetRepository();
         $this->_localeDate = $context->getLocaleDate();
         $this->_layout = $context->getLayout();
