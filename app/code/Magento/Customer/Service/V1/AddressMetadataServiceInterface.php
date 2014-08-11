@@ -19,26 +19,26 @@ interface AddressMetadataServiceInterface extends MetadataServiceInterface
     const ENTITY_TYPE_ADDRESS = 'customer_address';
 
     /**
+     * Retrieve all attributes for entityType filtered by form code
+     *
+     * @param string $formCode
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     */
+    public function getAttributes($formCode);
+
+    /**
      * Retrieve Customer Addresses EAV attribute metadata
      *
      * @param string $attributeCode
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getAddressAttributeMetadata($attributeCode);
+    public function getAttributeMetadata($attributeCode);
 
     /**
      * Get all attribute metadata for Addresses
      *
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
-    public function getAllAddressAttributeMetadata();
-
-    /**
-     * Get custom attribute metadata for customer address.
-     *
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
-     */
-    public function getCustomAddressAttributeMetadata();
-
+    public function getAllAttributeMetadata();
 }

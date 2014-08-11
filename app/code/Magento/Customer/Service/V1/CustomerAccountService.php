@@ -492,7 +492,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         /** @var Collection $collection */
         $collection = $this->customerFactory->create()->getCollection();
         // This is needed to make sure all the attributes are properly loaded
-        foreach ($this->customerMetadataService->getAllCustomerAttributeMetadata() as $metadata) {
+        foreach ($this->customerMetadataService->getAllAttributeMetadata() as $metadata) {
             $collection->addAttributeToSelect($metadata->getAttributeCode());
         }
         // Needed to enable filtering on name as a whole
@@ -814,7 +814,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private function getAttributeMetadata($attributeCode)
     {
         try {
-            return $this->customerMetadataService->getCustomerAttributeMetadata($attributeCode);
+            return $this->customerMetadataService->getAttributeMetadata($attributeCode);
         } catch (NoSuchEntityException $e) {
             return null;
         }

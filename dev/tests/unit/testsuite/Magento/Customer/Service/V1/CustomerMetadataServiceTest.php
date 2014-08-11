@@ -324,7 +324,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         try {
-            $service->getCustomerAttributeMetadata('attributeId');
+            $service->getAttributeMetadata('attributeId');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertSame(
@@ -372,47 +372,6 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 $e->getMessage()
             );
         }
-    }
-
-    public function testGetAllAttributeSetMetadataWithoutAttributeMetadata()
-    {
-        $this->_eavConfigMock->expects($this->any())->method('getAttribute')->will($this->returnValue(false));
-
-        $this->_eavConfigMock->expects(
-            $this->any()
-        )->method(
-            'getEntityAttributeCodes'
-        )->will(
-            $this->returnValue(array('bogus'))
-        );
-
-        $attributeColFactoryMock = $this->getMockBuilder(
-            '\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory'
-        )->disableOriginalConstructor()->getMock();
-
-        $storeManagerMock = $this->getMockBuilder(
-            '\Magento\Store\Model\StoreManager'
-        )->disableOriginalConstructor()->getMock();
-
-        $optionBuilder = $this->objectManager->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
-        $validationRuleBuilder = $this->objectManager
-            ->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
-
-        $attributeMetadataBuilder = $this->objectManager->getObject(
-            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
-            ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
-        );
-
-        $service = new CustomerMetadataService(
-            $this->_eavConfigMock,
-            $attributeColFactoryMock,
-            $storeManagerMock,
-            $optionBuilder,
-            $validationRuleBuilder,
-            $attributeMetadataBuilder
-        );
-
-        $this->assertEquals(array(), $service->getAllAttributeSetMetadata('entityType', 0, 1));
     }
 
     /**

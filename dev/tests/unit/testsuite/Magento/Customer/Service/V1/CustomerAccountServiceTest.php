@@ -1296,7 +1296,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1359,7 +1359,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1426,7 +1426,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getCustomerAttributeMetadata'
+            'getAttributeMetadata'
         )->will(
             $this->returnValue($mockAttribute)
         );
@@ -1476,7 +1476,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-                'getCustomerAttributeMetadata'
+                'getAttributeMetadata'
             )->will(
                 $this->returnValue($mockAttribute)
             );
@@ -1623,7 +1623,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllCustomerAttributeMetadata'
+            'getAllAttributeMetadata'
         )->will(
             $this->returnValue(array())
         );
@@ -1693,7 +1693,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllCustomerAttributeMetadata'
+            'getAllAttributeMetadata'
         )->will(
             $this->returnValue(array())
         );

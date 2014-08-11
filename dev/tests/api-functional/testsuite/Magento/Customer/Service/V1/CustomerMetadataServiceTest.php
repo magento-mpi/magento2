@@ -112,7 +112,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 ]
             ],
             Address::KEY_POSTCODE => [
-                CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
+                AddressMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
                 Address::KEY_POSTCODE,
                 [
                     'attribute_code' => 'postcode',

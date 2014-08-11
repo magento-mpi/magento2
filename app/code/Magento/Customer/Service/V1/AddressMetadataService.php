@@ -63,10 +63,26 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     }
 
     /**
-     * TODO: Rename to getAttributeMetadata
+     * {@inheritdoc}
+     */
+    public function getAttributes($formCode)
+    {
+        $attributes = [];
+        $attributesFormCollection = $this->attributeMetadataDataProvider->loadAttributesCollection(
+            self::ENTITY_TYPE_ADDRESS,
+            $formCode
+        );
+        foreach ($attributesFormCollection as $attribute) {
+            $attributes[$attribute->getAttributeCode()] = $this->attributeMetadataConverter
+                ->createMetadataAttribute($attribute);
+        }
+        return $attributes;
+    }
+
+    /**
      * @inheritdoc
      */
-    public function getAddressAttributeMetadata($attributeCode)
+    public function getAttributeMetadata($attributeCode)
     {
         /** @var AbstractAttribute $attribute */
         $attribute = $this->attributeMetadataDataProvider->getAttribute(self::ENTITY_TYPE_ADDRESS, $attributeCode);
@@ -87,10 +103,9 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     }
 
     /**
-     * TODO: Rename to getAllAttributeMetadata
      * @inheritdoc
      */
-    public function getAllAddressAttributeMetadata()
+    public function getAllAttributeMetadata()
     {
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
@@ -113,10 +128,9 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     }
 
     /**
-     * TODO : Rename to getCustomAttributesMetadata
      * @inheritdoc
      */
-    public function getCustomAddressAttributeMetadata()
+    public function getCustomAttributesMetadata()
     {
         $customAttributes = [];
         $dataObjectClass = 'Magento\Customer\Service\V1\Data\Address';
@@ -136,15 +150,6 @@ class AddressMetadataService implements AddressMetadataServiceInterface
         $customAttributesFromConfig = $this->getAttributesFromConfig($dataObjectClass);
         return array_merge($customAttributes, $customAttributesFromConfig);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCustomAttributesMetadata()
-    {
-        return $this->getCustomAddressAttributeMetadata();
-    }
-
 
     /**
      * Retrieve attributes defined in a config for the specified data object class.

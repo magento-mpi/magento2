@@ -58,7 +58,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         foreach ($attributes as $attributeCode => $attributeValue) {
             $this->assertNotNull($attributeCode);
             $this->assertNotNull($attributeValue);
-            $attributeMetadata = $this->_service->getCustomerAttributeMetadata($attributeCode);
+            $attributeMetadata = $this->_service->getAttributeMetadata($attributeCode);
             $attrMetadataCode = $attributeMetadata->getAttributeCode();
             $this->assertSame($attributeCode, $attrMetadataCode);
             if (($key = array_search($attrMetadataCode, $expectAttrsWOutVals)) !== false) {
@@ -80,7 +80,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomerAttributeMetadataNoSuchEntity()
     {
         try {
-            $this->_service->getCustomerAttributeMetadata('20');
+            $this->_service->getAttributeMetadata('20');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals('No such entity with entityType = customer, attributeCode = 20', $e->getMessage());
