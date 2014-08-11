@@ -53,17 +53,27 @@ class ReadServiceTest extends WebapiAbstract
     }
 
     /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_virtual_product_and_address.php
+     */
+    public function testGetMethodOfVirtualCart()
+    {
+        $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
+        $cartId = $quote->load('test_order_with_virtual_product', 'reserved_order_id')->getId();
+
+        $result = $this->_webApiCall($this->getSelectedMethodServiceInfo($cartId), ["cartId" => $cartId]);
+        $this->assertEquals([], $result);
+    }
+
+    /**
      * @magentoApiDataFixture Magento/Checkout/_files/quote_with_address_saved.php
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Shipping method and carrier are not set for the quote
      */
     public function testGetMethodOfCartWithNoShippingMethod()
     {
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $cartId = $quote->load('test_order_1', 'reserved_order_id')->getId();
 
-        $this->_webApiCall($this->getSelectedMethodServiceInfo($cartId), ["cartId" => $cartId]);
+        $result = $this->_webApiCall($this->getSelectedMethodServiceInfo($cartId), ["cartId" => $cartId]);
+        $this->assertEquals([], $result);
     }
 
     /**

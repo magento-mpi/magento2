@@ -16,7 +16,6 @@ interface ReadServiceInterface
      *
      * @param int $cartId
      * @return \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getMethod($cartId);
 

@@ -8,7 +8,6 @@
 
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder;
 
@@ -73,7 +72,7 @@ class ReadService implements ReadServiceInterface
             $output[ShippingMethod::CARRIER_CODE] = array_shift($shippingMethodData);
             $output[ShippingMethod::METHOD_CODE] = array_shift($shippingMethodData);
         } else {
-            throw new NoSuchEntityException('Shipping method and carrier are not set for the quote');
+            return null;
         }
 
         $shippingDescription = $shippingAddress->getShippingDescription();
