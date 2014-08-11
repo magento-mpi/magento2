@@ -95,7 +95,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
     {
         $this->request = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            array('isPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam'),
+            array('isPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getCookie'),
             array(),
             '',
             false

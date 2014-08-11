@@ -95,7 +95,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     protected function getRequestMock($mockMethods = [])
     {
-        $interfaceMethods = array('getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam');
+        $interfaceMethods = array('getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getCookie');
         return $this->getMock('Magento\Framework\App\RequestInterface', array_merge($interfaceMethods, $mockMethods));
     }
 

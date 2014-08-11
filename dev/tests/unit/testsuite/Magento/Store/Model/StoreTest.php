@@ -18,9 +18,25 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     protected $objectManagerHelper;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $requestMock;
+
     public function setUp()
     {
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', array(
+            'getRequestString',
+            'getModuleName',
+            'setModuleName',
+            'getActionName',
+            'setActionName',
+            'getParam',
+            'getQuery',
+            'getCookie',
+            'getDistroBaseUrl'
+        ), array(), '', false);
     }
 
     /**
@@ -139,16 +155,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBaseUrl($type, $secure, $expectedPath, $expectedBaseUrl)
     {
-        $request = $this->getMock('\Magento\Framework\App\RequestInterface', array(
-            'getRequestString',
-            'getModuleName',
-            'setModuleName',
-            'getActionName',
-            'setActionName',
-            'getParam',
-            'getDistroBaseUrl'
-        ), array(), '', false);
-        $request->expects($this->any())->method('getDistroBaseUrl')->will($this->returnValue('http://distro.com/'));
+        $this->requestMock->expects($this->any())->method('getDistroBaseUrl')->will($this->returnValue('http://distro.com/'));
 
         /** @var \Magento\Framework\App\Config\ReinitableConfigInterface $configMock */
         $configMock = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
@@ -165,7 +172,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'Magento\Store\Model\Store',
             array(
                 'config' => $configMock,
-                'request' => $request,
+                'request' => $this->requestMock,
                 'isCustomEntryPoint' => !$secure,
             )
         );
@@ -292,17 +299,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $config = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
 
-        $request = $this->getMock('\Magento\Framework\App\RequestInterface', array(
-            'getRequestString',
-            'getModuleName',
-            'setModuleName',
-            'getActionName',
-            'setActionName',
-            'getParam',
-            'getQuery'
-        ), array(), '', false);
-        $request->expects($this->atLeastOnce())->method('getRequestString')->will($this->returnValue(''));
-        $request->expects($this->atLeastOnce())->method('getQuery')->will($this->returnValue(array(
+
+        $this->requestMock->expects($this->atLeastOnce())->method('getRequestString')->will($this->returnValue(''));
+        $this->requestMock->expects($this->atLeastOnce())->method('getQuery')->will($this->returnValue(array(
             'SID' => 'sid'
         )));
 
@@ -320,7 +319,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Store\Model\Store $model */
         $model = $this->objectManagerHelper->getObject(
             'Magento\Store\Model\Store',
-            array('storeManager' => $storeManager, 'url' => $urlMock, 'request' => $request, 'config' => $config)
+            array('storeManager' => $storeManager, 'url' => $urlMock, 'request' => $this->requestMock, 'config' => $config)
         );
         $model->setStoreId(2);
         $model->setCode('scope_code');

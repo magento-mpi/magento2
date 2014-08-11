@@ -40,7 +40,7 @@ class FileTest extends AbstractFormTestCase
         $this->requestMock = $this->getMockBuilder(
             'Magento\Framework\App\RequestInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('getParam', 'getParams', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName')
+            array('getParam', 'getParams', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getCookie')
         )->getMock();
     }
 
