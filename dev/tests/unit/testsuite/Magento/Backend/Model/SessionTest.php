@@ -21,7 +21,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Magento\Backend\Model\Session::__construct
-     * @runInSeparateProcess
+     * @ runInSeparateProcess
      */
     public function testConstructor()
     {

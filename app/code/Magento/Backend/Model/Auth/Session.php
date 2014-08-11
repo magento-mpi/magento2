@@ -55,16 +55,6 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
     protected $_config;
 
     /**
-     * @var CookieManager
-     */
-    protected $_cookieManager;
-
-    /**
-     * @var CookieMetadataFactory
-     */
-    protected $_cookieMetadataFactory;
-
-    /**
      * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
@@ -93,9 +83,16 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         $this->_config = $config;
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
-        $this->_cookieManager = $cookieManager;
-        $this->_cookieMetadataFactory = $cookieMetadataFactory;
-        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $cookieManager);
+        parent::__construct(
+            $request,
+            $sidResolver,
+            $sessionConfig,
+            $saveHandler,
+            $validator,
+            $storage,
+            $cookieManager,
+            $cookieMetadataFactory
+        );
         $this->start();
     }
 
@@ -182,15 +179,15 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
         $currentTime = time();
 
         $this->setUpdatedAt($currentTime);
-        $cookieValue = $this->_cookieManager->getCookie($this->getName());
+        $cookieValue = $this->cookieManager->getCookie($this->getName());
         if ($cookieValue) {
-            $cookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
+            $cookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
                 ->setDuration($lifetime)
                 ->setPath($this->sessionConfig->getCookiePath())
                 ->setDomain($this->sessionConfig->getCookieDomain())
                 ->setSecure($this->sessionConfig->getCookieSecure())
                 ->setHttpOnly($this->sessionConfig->getCookieHttpOnly());
-            $this->_cookieManager->setPublicCookie($this->getName(), $cookieValue, $cookieMetadata);
+            $this->cookieManager->setPublicCookie($this->getName(), $cookieValue, $cookieMetadata);
         }
     }
 
