@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
+use Magento\Catalog\Model\Category;
+
 /**
  * @TODO: UrlRewrite: split this class by different responsibilities
  */
@@ -48,19 +50,28 @@ class CategoryUrlPathGenerator
      */
     public function getUrlPath($category)
     {
-        if ($category->getParentId() == 1) {
+        if ($category->getParentId() == Category::TREE_ROOT_ID) {
             return '';
         }
-        $path = $category->getData('url_path');
+        $path = $category->getUrlPath();
         if ($path !== null && !$category->dataHasChangedFor('url_key') && !$category->dataHasChangedFor('path_ids')) {
             return $path;
         }
         $path = $category->getUrlKey();
-        if ($category->getParentId()) {
+        if ($this->isNeedToGenerateUrlPathForParent($category)) {
             $parentPath = $this->getUrlPath($this->categoryFactory->create()->load($category->getParentId()));
             $path = $parentPath === '' ? $path : $parentPath . '/' . $path;
         }
         return $path;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Category $category
+     * @return bool
+     */
+    protected function isNeedToGenerateUrlPathForParent($category)
+    {
+        return $category->getParentId() && $category->getLevel() != 2;
     }
 
     /**
