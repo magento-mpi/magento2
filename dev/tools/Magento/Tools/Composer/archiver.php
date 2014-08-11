@@ -16,7 +16,7 @@ use \Magento\Tools\Composer\Package\Reader;
 /**
  * Composer Archiver Tool
  *
- * This tool creates archive (zip) packages for each component in Magento, as well as the skeleton package.
+ * This tool creates archive (zip) packages for each component in Magento
  */
 try {
     $opt = new \Zend_Console_Getopt(
@@ -64,42 +64,6 @@ try {
         $sourceDir = str_replace('\\', '/', realpath(dirname($package->getFile())));
         $noOfZips += Zipper::Zip($sourceDir, $generationDir . '/' . $fileName, []);
         $logger->info(sprintf("Created zip archive for %-40s [%9s]", $fileName, $version));
-    }
-
-    //Creating zipped folders for skeletons
-    $components = $reader->getPatterns();
-    $counter = count($components);
-    $curDir = str_replace('\\', '/', realpath($workingDir)) . '/';
-    for ($i = 0; $i < $counter; $i++) {
-        $components[$i] = $curDir . $components[$i];
-    }
-
-    $excludes = array_merge(
-        $components,
-        array(
-            $workingDir . '/.git',
-            $workingDir . '/.idea'
-        )
-    );
-
-    $name = '';
-    if (file_exists($workingDir . '/composer.json')) {
-        $json = json_decode(file_get_contents($workingDir . '/composer.json'));
-        $name = str_replace('/', '_', $json->name);
-        if ($name == '') {
-            throw new \Exception('Not a valid vendorPackage name', '1');
-        }
-        $noOfZips += Zipper::Zip(
-            $workingDir,
-            $generationDir . '/' . $name . '-'. $json->version . '.zip',
-            $excludes
-        );
-        $logger->info(sprintf("Created zip archive for %-40s [%9s]", $name, $json->version));
-    } else {
-        throw new \Exception(
-            'Did not find the composer.json file in '. $workingDir,
-            '1'
-        );
     }
 
     $logger->info(

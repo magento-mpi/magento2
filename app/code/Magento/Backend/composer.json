@@ -2,12 +2,11 @@
     "name": "magento/module-backend",
     "description": "N/A",
     "require": {
-        "php": "5.4.*|5.5.*",
+        "php": "~5.4.11|~5.5.0",
         "magento/module-store": "0.1.0-alpha89",
         "magento/module-directory": "0.1.0-alpha89",
         "magento/module-core": "0.1.0-alpha89",
         "magento/module-eav": "0.1.0-alpha89",
-        "magento/module-admin-notification": "0.1.0-alpha89",
         "magento/module-cron": "0.1.0-alpha89",
         "magento/module-sendfriend": "0.1.0-alpha89",
         "magento/module-theme": "0.1.0-alpha89",
