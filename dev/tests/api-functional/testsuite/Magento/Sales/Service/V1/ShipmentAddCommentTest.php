@@ -44,7 +44,7 @@ class ShipmentAddCommentTest extends WebapiAbstract
     /**
      * Test shipment add comment service
      *
-     * @m111agentoApiDataFixture Magento/Sales/_files/shipment.php
+     * @magentoApiDataFixture Magento/Sales/_files/shipment.php
      */
     public function testShipmentAddComment()
     {
