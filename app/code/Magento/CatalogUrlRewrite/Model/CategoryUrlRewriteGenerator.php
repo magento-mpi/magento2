@@ -17,8 +17,8 @@ use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
 class CategoryUrlRewriteGenerator
 {
-    /** Entity type @TODO: think about better place for this const (@TODO: UrlRewrite) */
-    const ENTITY_TYPE_CATEGORY = 'category';
+    /** Entity type code */
+    const ENTITY_TYPE = 'category';
 
     /** @var FilterFactory */
     protected $filterFactory;
@@ -158,7 +158,7 @@ class CategoryUrlRewriteGenerator
         $filter = $this->filterFactory->create();
         $filter->setStoreId($storeId)
             ->setEntityId($this->category->getId())
-            ->setEntityType(self::ENTITY_TYPE_CATEGORY);
+            ->setEntityType(self::ENTITY_TYPE);
 
         $urls = [];
         foreach ($this->urlMatcher->findAllByFilter($filter) as $url) {
@@ -245,7 +245,7 @@ class CategoryUrlRewriteGenerator
     ) {
         return $this->converter->convertArrayToObject(
             [
-                UrlRewrite::ENTITY_TYPE => self::ENTITY_TYPE_CATEGORY,
+                UrlRewrite::ENTITY_TYPE => self::ENTITY_TYPE,
                 UrlRewrite::ENTITY_ID => $this->category->getId(),
                 UrlRewrite::STORE_ID => $storeId,
                 UrlRewrite::REQUEST_PATH => $requestPath,

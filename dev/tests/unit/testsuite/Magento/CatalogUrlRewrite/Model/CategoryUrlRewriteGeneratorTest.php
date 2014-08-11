@@ -77,7 +77,7 @@ class CategoryUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
         return [
             [1, 'category.html', [
                 [
-                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
+                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'category.html',
@@ -87,7 +87,7 @@ class CategoryUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
                     'metadata' => null
                 ],
                 [
-                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
+                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
                     'entity_id' => 1,
                     'store_id' => 2,
                     'request_path' => 'category.html',
@@ -167,7 +167,7 @@ class CategoryUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
         return [
             [1, 1, 2, 'category.html', 'category/category-2.html', [
                 [
-                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
+                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'category.html',
@@ -177,7 +177,7 @@ class CategoryUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
                     'metadata' => null
                 ],
                 [
-                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
+                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
                     'entity_id' => 2,
                     'store_id' => 1,
                     'request_path' => 'category/category-2.html',

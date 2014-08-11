@@ -541,7 +541,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
 
             $rewrite = $this->urlMatcher->findByEntity(
                 $this->getId(),
-                CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
+                CategoryUrlRewriteGenerator::ENTITY_TYPE,
                 $this->getStoreId()
             );
             if ($rewrite) {

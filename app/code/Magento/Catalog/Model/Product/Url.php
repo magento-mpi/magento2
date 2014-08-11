@@ -186,7 +186,7 @@ class Url extends \Magento\Framework\Object
                 /** @TODO: UrlRewrite: Build product URL inside particular category */
                 $rewrite = $this->urlMatcher->findByEntity(
                     $product->getId(),
-                    \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
+                    \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE,
                     $storeId
                 );
                 if ($rewrite) {

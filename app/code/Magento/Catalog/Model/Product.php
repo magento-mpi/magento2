@@ -100,11 +100,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected static $_url;
 
     /**
-     * @var string
-     */
-    protected static $_urlRewrite;
-
-    /**
      * @var array
      */
     protected $_errors = array();

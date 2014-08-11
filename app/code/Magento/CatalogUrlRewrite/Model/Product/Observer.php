@@ -53,7 +53,7 @@ class Observer
                 $this->urlPersist->deleteByEntityData(
                     [
                         UrlRewrite::ENTITY_ID => $product->getId(),
-                        UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
+                        UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
                     ]
                 );
             }
@@ -76,7 +76,7 @@ class Observer
             $this->urlPersist->deleteByEntityData(
                 [
                     UrlRewrite::ENTITY_ID => $product->getId(),
-                    UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
+                    UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
                 ]
             );
         }

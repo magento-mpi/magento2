@@ -105,7 +105,7 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
         return [
             [1, 'simple-product.html', [
                 [
-                    'entity_type' => ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => ProductUrlRewriteGenerator::ENTITY_TYPE,
                     'entity_id' => 1,
                     'store_id' => 1,
                     'request_path' => 'simple-product.html',
@@ -115,7 +115,7 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
                     'metadata' => null
                 ],
                 [
-                    'entity_type' => ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
+                    'entity_type' => ProductUrlRewriteGenerator::ENTITY_TYPE,
                     'entity_id' => 1,
                     'store_id' => 2,
                     'request_path' => 'simple-product.html',

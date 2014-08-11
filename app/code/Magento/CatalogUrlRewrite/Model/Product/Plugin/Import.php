@@ -82,7 +82,7 @@ class Import
                 $this->urlPersist->deleteByEntityData(
                     [
                         UrlRewrite::ENTITY_ID => $productId,
-                        UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE_PRODUCT,
+                        UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
                     ]
                 );
             }

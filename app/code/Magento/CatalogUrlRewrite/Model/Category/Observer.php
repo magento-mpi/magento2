@@ -157,7 +157,7 @@ class Observer
                 $this->urlPersist->deleteByEntityData(
                     [
                         UrlRewrite::ENTITY_ID => $categoryId,
-                        UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE_CATEGORY,
+                        UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
                     ]
                 );
             }

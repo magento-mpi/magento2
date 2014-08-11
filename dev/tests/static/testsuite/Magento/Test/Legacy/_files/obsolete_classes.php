@@ -345,7 +345,6 @@ return array(
     ),
     array(
         'Mage_Adminhtml_Model_System_Config_Backend_Seo_Product',
-        'Magento\Catalog\Model\Config\Backend\Seo\Product'
     ),
     array(
         'Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array',

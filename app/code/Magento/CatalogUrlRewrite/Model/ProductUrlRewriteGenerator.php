@@ -20,11 +20,9 @@ use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 class ProductUrlRewriteGenerator
 {
     /**
-     * TODO: think about better place for this const (@TODO: UrlRewrite)
-     *
-     * Entity type
+     * Entity type code
      */
-    const ENTITY_TYPE_PRODUCT = 'product';
+    const ENTITY_TYPE = 'product';
 
     /**
      * @var FilterFactory
@@ -210,7 +208,7 @@ class ProductUrlRewriteGenerator
         $filter = $this->filterFactory->create();
         $filter->setStoreId($storeId)
             ->setEntityId($this->product->getId())
-            ->setEntityType(self::ENTITY_TYPE_PRODUCT);
+            ->setEntityType(self::ENTITY_TYPE);
 
         $urls = [];
         foreach ($this->urlMatcher->findAllByFilter($filter) as $url) {
@@ -331,7 +329,7 @@ class ProductUrlRewriteGenerator
     ) {
         return $this->converter->convertArrayToObject(
             [
-                UrlRewrite::ENTITY_TYPE => self::ENTITY_TYPE_PRODUCT,
+                UrlRewrite::ENTITY_TYPE => self::ENTITY_TYPE,
                 UrlRewrite::ENTITY_ID => $this->product->getId(),
                 UrlRewrite::STORE_ID => $storeId,
                 UrlRewrite::REQUEST_PATH => $requestPath,
