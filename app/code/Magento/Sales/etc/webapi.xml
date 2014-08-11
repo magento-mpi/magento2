@@ -153,6 +153,12 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/shipment/:id" method="GET">
+        <service class="Magento\Sales\Service\V1\ShipmentGetInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
     <route url="/V1/shipments" method="GET">
         <service class="Magento\Sales\Service\V1\ShipmentListInterface" method="invoke"/>
         <resources>
