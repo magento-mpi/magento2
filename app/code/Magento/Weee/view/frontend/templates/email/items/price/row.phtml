@@ -21,7 +21,7 @@ $_order = $_item->getOrder();
     <?php if ($this->displayBothPrices()): ?>
         <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
     <?php endif; ?>
-    <?php echo $this->formatPrice($this->getRowDisplayPriceExclTax()); ?>
+    <?php echo $_order->formatPrice($this->getRowDisplayPriceExclTax()); ?>
 
     <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
         <br />
@@ -45,7 +45,7 @@ $_order = $_item->getOrder();
     <?php if ($this->displayBothPrices()): ?>
         <br /><span class="label"><?php echo __('Incl. Tax'); ?>:</span>
     <?php endif; ?>
-    <?php echo $this->formatPrice($this->getRowDisplayPriceInclTax()); ?>
+    <?php echo $_order->formatPrice($this->getRowDisplayPriceInclTax()); ?>
     <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>
         <br />
         <?php if ($this->displayPriceWithWeeeDetails()): ?>

@@ -20,30 +20,21 @@ class Renderer extends \Magento\Tax\Block\Adminhtml\Items\Price\Renderer
 {
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
+     * @param \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $defaultColumnRenderer
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param ItemPriceRenderer $itemPriceRenderer
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
-        \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
+        \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $defaultColumnRenderer,
         \Magento\Tax\Helper\Data $taxHelper,
         ItemPriceRenderer $itemPriceRenderer,
         array $data = array()
     ) {
-        $this->_optionFactory = $optionFactory;
-        $this->itemPriceRenderer = $itemPriceRenderer;
-        $this->itemPriceRenderer->setZone('sales');
         parent::__construct(
             $context,
-            $stockItemService,
-            $registry,
-            $optionFactory,
+            $defaultColumnRenderer,
             $taxHelper,
             $itemPriceRenderer,
             $data

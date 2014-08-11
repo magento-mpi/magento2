@@ -17,7 +17,7 @@ use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
 /**
  * Sales Order items price column renderer
  */
-class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
+class Renderer extends \Magento\Backend\Block\Template
 {
     /**
      * @var \Magento\Tax\Helper\Data
@@ -30,33 +30,55 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
     protected $itemPriceRenderer;
 
     /**
+     * @var \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
+     */
+    protected $defaultColumnRenderer;
+
+    /**
+     * @var Item|QuoteItem|InvoiceItem|CreditmemoItem
+     */
+    protected $item;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
+     * @param \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $defaultColumnRenderer
      * @param TaxHelper $taxHelper
      * @param ItemPriceRenderer $itemPriceRenderer
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
-        \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
+        \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $defaultColumnRenderer,
         TaxHelper $taxHelper,
         ItemPriceRenderer $itemPriceRenderer,
         array $data = array()
     ) {
-        $this->_optionFactory = $optionFactory;
+        $this->defaultColumnRenderer = $defaultColumnRenderer;
         $this->itemPriceRenderer = $itemPriceRenderer;
         $this->itemPriceRenderer->setZone('sales');
-        parent::__construct($context, $stockItemService, $registry, $optionFactory, $data);
+        parent::__construct($context, $data);
     }
 
+    /**
+     * Set item
+     *
+     * @param Item|QuoteItem|InvoiceItem|CreditmemoItem $item
+     */
     public function setItem($item)
     {
         $this->itemPriceRenderer->setItem($item);
-        parent::setItem($item);
+        $this->defaultColumnRenderer->setItem($item);
+        $this->item = $item;
+    }
+
+    /**
+     * Return order item or quote item
+     *
+     * @return Item|QuoteItem
+     */
+    public function getItem()
+    {
+        return $this->defaultColumnRenderer->getItem();
     }
 
     /**
@@ -135,5 +157,17 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
         } else {
             return $this->getOrder()->formatPrice($price);
         }
+    }
+
+    /**
+     * Return html that contains both base price and display price
+     *
+     * @param float $basePrice
+     * @param float $displayPrice
+     * @return string
+     */
+    public function displayPrices($basePrice, $displayPrice)
+    {
+        return $this->defaultColumnRenderer->displayPrices($basePrice, $displayPrice);
     }
 }

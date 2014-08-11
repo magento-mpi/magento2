@@ -7,6 +7,10 @@
  */
 namespace Magento\Sales\Block\Order\Item\Renderer;
 
+use Magento\Sales\Model\Order\Item as OrderItem;
+use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
+use Magento\Sales\Model\Order\CreditMemo\Item as CreditMemoItem;
+
 /**
  * Order item render block
  */
@@ -229,12 +233,16 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
         return $block->toHtml();
     }
 
+    /**
+     * Return the total amount minus discount
+     *
+     * @param OrderItem|InvoiceItem|CreditmemoItem $_item
+     * @return mixed
+     */
     public function getTotalAmount($_item)
     {
         $totalAmount = $_item->getRowTotal()
-            - $_item->getDiscountAmount()
-            + $_item->getTaxAmount()
-            + $_item->getWeeeTaxAppliedRowAmount();
+            - $_item->getDiscountAmount();
 
         return $totalAmount;
     }

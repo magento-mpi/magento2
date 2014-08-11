@@ -23,10 +23,12 @@ class Renderer extends \Magento\Framework\View\Element\Template
      * Set item associated with this block
      *
      * @param Abstract $item
+     * @return $this
      */
     public function setItem($item)
     {
         $this->item = $item;
+        return $this;
     }
 
     /**
@@ -38,5 +40,4 @@ class Renderer extends \Magento\Framework\View\Element\Template
     {
         return $this->item;
     }
-
 }
