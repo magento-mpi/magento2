@@ -145,4 +145,37 @@ class Package
             $target->{$property} = $value;
         }
     }
+
+    /**
+     * Unset a property by specified path
+     *
+     * @param string $path
+     * @return void
+     */
+    public function unsetProperty($path)
+    {
+        $chain = explode('->', $path);
+        $this->traverseUnset($this->json, $chain, count($chain) - 1);
+    }
+
+    /**
+     * Traverse an \StdClass object recursively and unset the property by specified path (chain)
+     *
+     * @param \StdClass $json
+     * @param array $chain
+     * @param int $endIndex
+     * @param int $index
+     * @return void
+     */
+    private function traverseUnset(\StdClass $json, array $chain, $endIndex, $index = 0)
+    {
+        $key = $chain[$index];
+        if ($index < $endIndex) {
+            if (isset($json->{$key}) && isset($chain[$index + 1])) {
+                $this->traverseUnset($json->{$key}, $chain, $endIndex, $index + 1);
+            }
+        } else {
+            unset($json->{$key});
+        }
+    }
 }
