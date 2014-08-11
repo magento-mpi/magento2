@@ -24,7 +24,6 @@ $payment->setMethod('checkmo');
 /** @var \Magento\Sales\Model\Order\Item $orderItem */
 $orderItem = $objectManager->create('Magento\Sales\Model\Order\Item');
 $orderItem->setProductId($product->getId())->setQtyOrdered(2);
-$order->save();
 
 /** @var \Magento\Sales\Model\Order $order */
 $order = $objectManager->create('Magento\Sales\Model\Order');
@@ -51,6 +50,7 @@ $order->setIncrementId(
 )->setPayment(
     $payment
 );
+$order->save();
 
 $payment = $order->getPayment();
 $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -68,5 +68,6 @@ $packages = array(array('1'), array('2'));
 
 $shipment->addItem($objectManager->create('Magento\Sales\Model\Order\Shipment\Item'));
 $shipment->setPackages($packages);
+$shipment->setShipmentStatus(\Magento\Sales\Model\Order\Shipment::STATUS_NEW);
 
 $shipment->save();
