@@ -81,16 +81,22 @@ class RowTest extends \PHPUnit_Framework_TestCase
                 '1--1' => array(
                     'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
                     'attribute' => 'category_ids',
-                    'operator' => '==',
+                    'operator' => '()',
                     'value' => '11'
                 )
             )
         );
         $this->_rule->loadPost($data);
         $this->_rule->save();
-        $this->_rule->prepareMatchingProducts();
 
-        $this->assertEquals(2, count($this->_rule->getMatchingProductIds()));
+        $testSelect = $this->_rule->getResource()->getReadConnection()->select()->from(
+            $this->_rule->getResource()->getTable('magento_targetrule_product'),
+            'product_id'
+        )->where(
+            'rule_id = ?', $this->_rule->getId()
+        );
+
+        $this->assertEquals([3, 4], $this->_rule->getResource()->getReadConnection()->fetchCol($testSelect));
 
         $data = array(
             'name' => 'related',
@@ -115,8 +121,14 @@ class RowTest extends \PHPUnit_Framework_TestCase
         );
         $this->_rule->loadPost($data);
         $this->_rule->save();
-        $this->_rule->prepareMatchingProducts();
 
-        $this->assertEquals(1, count($this->_rule->getMatchingProductIds()));
+        $testSelect = $this->_rule->getResource()->getReadConnection()->select()->from(
+            $this->_rule->getResource()->getTable('magento_targetrule_product'),
+            'product_id'
+        )->where(
+                'rule_id = ?', $this->_rule->getId()
+            );
+
+        $this->assertEquals([2], $this->_rule->getResource()->getReadConnection()->fetchCol($testSelect));
     }
 }

@@ -364,6 +364,28 @@ class Combine extends AbstractCondition
      */
     public function validate(\Magento\Framework\Object $object)
     {
+        return $this->_isValid($object);
+    }
+
+    /**
+     * Validate by entity ID
+     *
+     * @param int $entityId
+     * @return mixed
+     */
+    public function validateByEntityId($entityId)
+    {
+        return $this->_isValid($entityId);
+    }
+
+    /**
+     * Is entity valid
+     *
+     * @param int|\Magento\Framework\Object $entity
+     * @return bool
+     */
+    protected function _isValid($entity)
+    {
         if (!$this->getConditions()) {
             return true;
         }
@@ -372,8 +394,11 @@ class Combine extends AbstractCondition
         $true = (bool)$this->getValue();
 
         foreach ($this->getConditions() as $cond) {
-            $validated = $cond->validate($object);
-
+            if ($entity instanceof \Magento\Framework\Object) {
+                $validated = $cond->validate($entity);
+            } else {
+                $validated = $cond->validateByEntityId($entity);
+            }
             if ($all && $validated !== $true) {
                 return false;
             } elseif (!$all && $validated === $true) {

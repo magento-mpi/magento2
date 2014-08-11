@@ -119,19 +119,20 @@ class Builder
     {
         $argument = $condition->getMappedSqlField();
         if ($argument) {
-            $conditionOperator = $condition->getOperator();
+            $conditionOperator = $condition->getOperatorForValidate();
 
-            $parsedValue = $condition->getValueParsed();
             if (!isset($this->_conditionOperatorMap[$conditionOperator])) {
                 throw new \Magento\Framework\Exception('Unknown condition operator');
             }
+
             $sql = str_replace(
                 ':field',
                 $this->_connection->getIfNullSql($this->_connection->quoteIdentifier($argument), 0),
                 $this->_conditionOperatorMap[$conditionOperator]
             );
+
             return $this->_expressionFactory->create(
-                ['expression' => $value . $this->_connection->quoteInto($sql, $parsedValue)]
+                ['expression' => $value . $this->_connection->quoteInto($sql, $condition->getBindArgumentValue())]
             );
         }
         return '';

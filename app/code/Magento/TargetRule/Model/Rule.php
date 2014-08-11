@@ -37,6 +37,7 @@ use Magento\Framework\Model\Exception;
  * @method \Magento\TargetRule\Model\Rule setActionSelect(string $value)
  * @method array getCustomerSegmentIds()
  * @method \Magento\TargetRule\Model\Rule setCustomerSegmentIds(array $ids)
+ * @method \Magento\TargetRule\Model\Rule\Condition\Combine getConditions()
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
@@ -287,11 +288,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->setCollectedAttributes(array());
         $this->getConditions()->collectValidatedAttributes($productCollection);
         $this->_sqlBuilder->attachConditionToCollection($productCollection, $this->getConditions());
-        $productCollectionIds = array_unique($productCollection->getAllIds());
         $this->_productIds = array();
-        foreach ($productCollectionIds as $productId) {
-            $product = $this->_productFactory->create()->load($productId);
-            if ($this->validate($product)) {
+        foreach (array_unique($productCollection->getAllIds()) as $productId) {
+            if ($this->getConditions()->validateByEntityId($productId)) {
                 $this->_productIds[] = $productId;
             }
         }

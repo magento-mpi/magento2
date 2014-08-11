@@ -167,15 +167,17 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getTablesToJoin()
     {
-        $tables = [];
-        $attribute = $this->getAttribute();
-        if ($attribute == 'category_ids') {
-            $tables['cp'] = [
-                'name' => 'catalog_category_product',
-                'condition' => 'cp.product_id = e.entity_id'
-            ];
-        }
-        return $tables;
+        return [];
+    }
+
+    /**
+     * Get value to bind
+     *
+     * @return array|float|int|mixed|string
+     */
+    public function getBindArgumentValue()
+    {
+        return $this->getValueParsed();
     }
 
     /**
@@ -185,8 +187,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getMappedSqlField()
     {
-
-        return ($this->getAttribute() == 'category_ids') ? 'cp.category_id' : $this->getAttribute();
+        return $this->getAttribute();
     }
 
     /**

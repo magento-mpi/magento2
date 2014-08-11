@@ -79,6 +79,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
      * Retrieve Product Table Name
      *
      * @return string
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getProductTable()
     {
@@ -124,12 +125,12 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
     /**
      * Clean products off the index
      *
-     * @param int $targetruleId
+     * @param int $productSetId
      * @return $this
      */
-    public function deleteIndexProducts($targetruleId)
+    public function deleteIndexProducts($productSetId)
     {
-        $this->_getWriteAdapter()->delete($this->getProductTable(), array('product_set_id = ?' => $targetruleId));
+        $this->_getWriteAdapter()->delete($this->getProductTable(), array('product_set_id = ?' => $productSetId));
 
         return $this;
     }
@@ -137,11 +138,11 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
     /**
      * Save product IDs for index
      *
-     * @param int $targetruleId
+     * @param int $productSetId
      * @param string|array $productIds
      * @return $this
      */
-    public function saveIndexProducts($targetruleId, $productIds)
+    public function saveIndexProducts($productSetId, $productIds)
     {
         if (is_string($productIds)) {
             $productIds = explode(',', $productIds);
@@ -151,7 +152,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
             $data = array();
             foreach ($productIds as $productId) {
                 $data[] = array(
-                    'product_set_id' => $targetruleId,
+                    'product_set_id' => $productSetId,
                     'product_id'    => $productId,
                 );
             }
@@ -185,9 +186,9 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
             ':customer_segment_id' => $segmentId
         );
 
-        $targetruleId = $this->_getReadAdapter()->fetchOne($select, $bind);
+        $productSetId = $this->_getReadAdapter()->fetchOne($select, $bind);
 
-        if (!$targetruleId) {
+        if (!$productSetId) {
             $data = array(
                 'entity_id'           => $object->getProduct()->getEntityId(),
                 'store_id'            => $object->getStoreId(),
@@ -195,11 +196,11 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
                 'customer_segment_id' => $segmentId,
             );
             $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
-            $targetruleId = $this->_getWriteAdapter()->lastInsertId();
+            $productSetId = $this->_getWriteAdapter()->lastInsertId();
         } else {
-            $this->deleteIndexProducts($targetruleId);
+            $this->deleteIndexProducts($productSetId);
         }
-        $this->saveIndexProducts($targetruleId, $productIds);
+        $this->saveIndexProducts($productSetId, $productIds);
 
         return $this;
     }

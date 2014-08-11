@@ -22,4 +22,11 @@ interface ConditionInterface
      * @return string
      */
     public function getMappedSqlField();
+
+    /**
+     * Get argument value to bind
+     *
+     * @return mixed
+     */
+    public function getBindArgumentValue();
 }
