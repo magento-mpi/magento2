@@ -12,14 +12,12 @@
         <sequence>
             <module name="Magento_Cms"/>
             <module name="Magento_Install"/>
-            <module name="Magento_AdminNotification"/>
             <module name="Magento_Widget"/>
             <module name="Magento_User"/>
         </sequence>
         <depends>
             <module name="Magento_Cms"/>
             <module name="Magento_Install"/>
-            <module name="Magento_AdminNotification"/>
             <module name="Magento_Backend"/>
             <module name="Magento_CatalogEvent"/>
             <module name="Magento_CatalogPermissions"/>

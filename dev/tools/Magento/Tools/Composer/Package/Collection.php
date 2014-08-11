@@ -89,7 +89,7 @@ class Collection
         $package->set('version', $version);
         $dependentVersion = $this->getDependentVersion($version);
         if ($dependentVersion) {
-            $this->massUpdateByKey($packageName, $dependentVersion);
+            $this->massUpdate($packageName, $dependentVersion);
         }
     }
 
@@ -109,20 +109,17 @@ class Collection
     }
 
     /**
-     * Perform a mass-update of versions in "require" and "replace" sections in all packages
+     * Perform a mass-update of versions in "require" section in all packages
      *
      * @param string $subjectName
      * @param string $targetValue
      * @return void
      */
-    private function massUpdateByKey($subjectName, $targetValue)
+    private function massUpdate($subjectName, $targetValue)
     {
-        $keys = ['require', 'replace'];
         foreach ($this->packages as $package) {
-            foreach ($keys as $key) {
-                if ($package->get("{$key}->{$subjectName}")) {
-                    $package->set("{$key}->{$subjectName}", $targetValue);
-                }
+            if ($package->get("require->{$subjectName}")) {
+                $package->set("require->{$subjectName}", $targetValue);
             }
         }
     }
