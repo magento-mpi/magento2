@@ -1799,7 +1799,6 @@ return array(
     ['sendEmail', 'Magento\Sales\Model\Order\Shipment'],
     ['sendUpdateEmail', 'Magento\Sales\Model\Order\Shipment'],
     ['_getEmails', 'Magento\Sales\Model\Order\Shipment'],
-    ['getDeleteUrl','\Magento\Checkout\Block\Cart\Item\Renderer'],
     ['rebuildIndex', 'Magento\CatalogSearch\Model\Fulltext', 'Magento\CatalogSearch\Model\Indexer\Fulltext::execute'],
     ['cleanIndex', 'Magento\CatalogSearch\Model\Fulltext'],
     ['setAllowTableChanges', 'Magento\CatalogSearch\Model\Fulltext'],
