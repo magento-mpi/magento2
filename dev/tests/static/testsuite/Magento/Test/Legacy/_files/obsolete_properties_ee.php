@@ -56,4 +56,7 @@ return array(
         'Magento\Search\Model\Resource\Collection',
         'Magento\Search\Model\Resource\Collection::foundEntityIds'
     ],
+    ['indexerFactory', 'Magento\Search\Model\Observer'],
+    ['_coreRegistry', 'Magento\Search\Model\Observer'],
+    ['_engineProvider', 'Magento\Search\Model\Observer'],
 );

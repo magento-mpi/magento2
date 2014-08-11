@@ -12,7 +12,7 @@ class Attribute extends AbstractPlugin
     /**
      * Invalidate indexer on attribute save (searchable flag change)
      *
-     * @param \Magento\Catalog\Model\Resource\Attribute|\Magento\Store\Model\Resource\Group $subject
+     * @param \Magento\Catalog\Model\Resource\Attribute $subject
      * @param \Closure $proceed
      * @param \Magento\Framework\Model\AbstractModel $attribute
      *

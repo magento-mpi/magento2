@@ -248,4 +248,8 @@ return array(
     ['_beforeLoad', 'Magento\Search\Model\Resource\Collection'],
     ['_afterLoad', 'Magento\Search\Model\Resource\Collection'],
     ['setEngine', 'Magento\Search\Model\Resource\Collection'],
+    ['customerGroupSaveAfter', 'Magento\Search\Model\Observer'],
+    ['saveStoreIdsBeforeScopeDelete', 'Magento\Search\Model\Observer'],
+    ['clearIndexForStores', 'Magento\Search\Model\Observer'],
+    ['runFulltextReindexAfterPriceReindex', 'Magento\Search\Model\Observer'],
 );

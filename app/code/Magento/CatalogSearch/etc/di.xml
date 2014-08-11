@@ -40,6 +40,9 @@
     <type name="Magento\Catalog\Model\Resource\Attribute">
         <plugin name="catalogsearchFulltextIndexerAttribute" type="Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Attribute"/>
     </type>
+    <type name="Magento\Customer\Model\Resource\Group">
+        <plugin name="catalogsearchFulltextIndexerCustomerGroup" type="Magento\Search\Model\Indexer\Fulltext\Plugin\CustomerGroup"/>
+    </type>
     <type name="Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
