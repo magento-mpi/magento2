@@ -113,6 +113,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $config = $fixture->getDataConfig();
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->prepareData($fixture, $prefix);
+
         return ['id' => $this->createProduct($data, $config)];
     }
 
@@ -131,14 +132,12 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $fields = $this->replaceMappingData($fixture->getData());
         // Getting Tax class id
         if ($fixture->hasData('tax_class_id')) {
-            $fields['tax_class_id'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
+            $fields['tax_class_id'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClassId();
         }
 
         if (!empty($fields['category_ids'])) {
             $categoryIds = [];
-            /** @var InjectableFixture $fixture */
             foreach ($fixture->getDataFieldConfig('category_ids')['source']->getCategories() as $category) {
-                /** @var CatalogCategory $category */
                 $categoryIds[] = $category->getId();
             }
             $fields['category_ids'] = $categoryIds;
@@ -262,7 +261,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $url = $this->getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -282,7 +281,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      */
     protected function getUrl(array $config)
     {
-        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
+        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : [];
         $params = '';
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
