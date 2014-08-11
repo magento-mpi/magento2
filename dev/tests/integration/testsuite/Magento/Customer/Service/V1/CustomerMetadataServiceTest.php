@@ -1,12 +1,11 @@
 <?php
 /**
- * Integration test for service layer \Magento\Customer\Service\Eav\AttributeMetadataV1
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1;
 
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -26,19 +25,6 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
         $this->_service = $objectManager->create('Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
-    }
-
-    public function testGetAttributeMetadataNoSuchEntity()
-    {
-        try {
-            $this->_service->getAttributeMetadata('customer_address', '1');
-            $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $e) {
-            $this->assertEquals(
-                'No such entity with entityType = customer_address, attributeCode = 1',
-                $e->getMessage()
-            );
-        }
     }
 
     /**
@@ -98,29 +84,6 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals('No such entity with entityType = customer, attributeCode = 20', $e->getMessage());
-        }
-    }
-
-    public function testGetAddressAttributeMetadata()
-    {
-        $vatValidMetadata = $this->_service->getAddressAttributeMetadata('vat_is_valid');
-
-        $this->assertNotNull($vatValidMetadata);
-        $this->assertEquals('vat_is_valid', $vatValidMetadata->getAttributeCode());
-        $this->assertEquals('text', $vatValidMetadata->getFrontendInput());
-        $this->assertEquals('VAT number validity', $vatValidMetadata->getStoreLabel());
-    }
-
-    public function testGetAddressAttributeMetadataNoSuchEntity()
-    {
-        try {
-            $this->_service->getAddressAttributeMetadata('1');
-            $this->fail('Expected exception not thrown.');
-        } catch (NoSuchEntityException $e) {
-            $this->assertEquals(
-                'No such entity with entityType = customer_address, attributeCode = 1',
-                $e->getMessage()
-            );
         }
     }
 }
