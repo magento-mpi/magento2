@@ -13,7 +13,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $response = new \Magento\TestFramework\Response(
             $this->getMock('Magento\Framework\Stdlib\CookieManager', [], [], '', false),
-            $this->getMock('Magento\Framework\Stdlib\Cookie\CookieMetadataFactory ', [], [], '', false),
+            $this->getMock('Magento\Framework\Stdlib\Cookie\CookieMetadataFactory', [], [], '', false),
             $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false)
         );
         $this->assertTrue($response->canSendHeaders());
