@@ -8,7 +8,7 @@
 
 namespace Magento\Backend\Test\Page;
 
-use Mtf\Page\Page;
+use Mtf\Page\BackendPage;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
@@ -17,7 +17,7 @@ use Mtf\Client\Element\Locator;
  * Cache Management page
  *
  */
-class AdminCache extends Page
+class AdminCache extends BackendPage
 {
     /**
      * URL part for cache management page

@@ -31,6 +31,12 @@ class WidgetInstanceEdit extends BackendPage
             'locator' => '#bannerGrid',
             'strategy' => 'css selector',
         ],
+        'pageAction' => [
+            'name' => 'pageAction',
+            'class' => 'Magento\Widget\Test\Block\Adminhtml\Widget\PageAction',
+            'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -47,5 +53,13 @@ class WidgetInstanceEdit extends BackendPage
     public function getBannerGrid()
     {
         return $this->getBlockInstance('bannerGrid');
+    }
+
+    /**
+     * @return \Magento\Widget\Test\Block\Adminhtml\Widget\PageAction
+     */
+    public function getPageAction()
+    {
+        return $this->getBlockInstance('pageAction');
     }
 }
