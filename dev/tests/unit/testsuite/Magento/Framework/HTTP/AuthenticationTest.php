@@ -70,10 +70,11 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAuthenticationFailed()
     {
-        $request = $this->getMock('\Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
-        $contextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
-        $response = new \Magento\Framework\App\Response\Http($cookieMock, $contextMock);
+        $request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManager', [], [], '', false);
+        $contextMock = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
+        $cookieFactoryMock = $this->getMock('Magento\Framework\Stdlib\Cookie\CookieMetadataFactory', [], [], '', false);
+        $response = new \Magento\Framework\App\Response\Http($cookieManagerMock, $cookieFactoryMock, $contextMock);
         $authentication = new \Magento\Framework\HTTP\Authentication($request, $response);
         $realm = uniqid();
         $response->headersSentThrowsException = false;
