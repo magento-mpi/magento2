@@ -30,6 +30,11 @@ class ProductUrlPathGenerator
     /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
     protected $categoryUrlPathGenerator;
 
+    /**
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param CategoryUrlPathGenerator $categoryUrlPathGenerator
+     */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -93,9 +98,7 @@ class ProductUrlPathGenerator
     public function generateUrlKey($product)
     {
         $urlKey = $product->getUrlKey();
-        return $product->formatUrlKey(
-            ($urlKey === '' || is_null($urlKey)) ? $product->getName() : $urlKey
-        );
+        return $product->formatUrlKey($urlKey === '' || $urlKey === null ? $product->getName() : $urlKey);
     }
 
     /**

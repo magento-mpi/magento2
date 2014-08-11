@@ -20,19 +20,19 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
     protected $categoryUrlPathGenerator;
 
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
-     * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
-     */
+    /** @var \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator */
+    protected $cmsPageUrlPathGenerator;
+
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
-        \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
+        \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
+        \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator
     ) {
         parent::__construct($context);
         $this->productUrlPathGenerator = $productUrlPathGenerator;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
+        $this->cmsPageUrlPathGenerator = $cmsPageUrlPathGenerator;
     }
 
     /**
@@ -105,10 +105,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
             return;
         }
 
-        /** @var $cmsPageUrlRewrite \Magento\Cms\Model\Page\Urlrewrite */
-        $cmsPageUrlRewrite = $this->_objectManager->create('Magento\Cms\Model\Page\Urlrewrite');
-
-        $model->setTargetPath($cmsPageUrlRewrite->generateTargetPath($cmsPage));
+        $model->setTargetPath($this->cmsPageUrlPathGenerator->getCanonicalUrlPath($cmsPage));
         $model->setEntityType(self::ENTITY_TYPE_CMS_PAGE);
         $model->setEntityId($cmsPage->getId());
     }

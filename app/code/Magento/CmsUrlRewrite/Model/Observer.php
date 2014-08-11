@@ -43,7 +43,6 @@ class Observer
         /** @var $cmsPage \Magento\Cms\Model\Page */
         $cmsPage = $observer->getEvent()->getObject();
         if ($cmsPage->dataHasChangedFor('identifier')) {
-            // TODO: fix service parameter
             $urls = $this->cmsPageUrlRewriteGenerator->generate($cmsPage);
             $this->urlPersist->replace($urls);
         }

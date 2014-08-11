@@ -20,10 +20,8 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
      */
     protected $_pageFactory;
 
-    /**
-     * @var \Magento\Cms\Model\Page\UrlrewriteFactory
-     */
-    protected $_urlRewriteFactory;
+    /** @var \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator */
+    protected $cmsPageUrlPathGenerator;
 
     /**
      * @param \Magento\Backend\Block\Widget\Context $context
@@ -33,8 +31,8 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
      * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory
      * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -47,11 +45,10 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator,
         array $data = array()
     ) {
-        $this->_urlRewriteFactory = $urlRewriteFactory;
         $this->_pageFactory = $pageFactory;
         parent::__construct(
             $context,
@@ -63,6 +60,7 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
             $adminhtmlData,
             $data
         );
+        $this->cmsPageUrlPathGenerator = $cmsPageUrlPathGenerator;
     }
 
     /**
@@ -88,23 +86,14 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         $targetPath = $this->getForm()->getElement('target_path');
 
         $model = $this->_getModel();
-        /** @var $cmsPageUrlrewrite \Magento\Cms\Model\Page\Urlrewrite */
-        $cmsPageUrlrewrite = $this->_urlRewriteFactory->create();
         if (!$model->getId()) {
             $sessionData = $this->_getSessionData();
             if (!isset($sessionData['request_path'])) {
-                $requestPath->setValue($cmsPageUrlrewrite->generateRequestPath($cmsPage));
+                $requestPath->setValue($this->cmsPageUrlPathGenerator->getUrlPath($cmsPage));
             }
-            $targetPath->setValue($cmsPageUrlrewrite->generateTargetPath($cmsPage));
-            $disablePaths = true;
-        } else {
-            $cmsPageUrlrewrite->load($this->_getModel()->getId(), 'url_rewrite_id');
-            $disablePaths = $cmsPageUrlrewrite->getId() > 0;
+            $targetPath->setValue($this->cmsPageUrlPathGenerator->getCanonicalUrlPath($cmsPage));
         }
-        if ($disablePaths) {
-            $targetPath->setData('disabled', true);
-        }
-
+        $targetPath->setData('disabled', true);
         return $this;
     }
 
