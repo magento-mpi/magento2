@@ -7,9 +7,9 @@
  */
 namespace Magento\Checkout\Service\V1\PaymentMethod;
 
-use Magento\Checkout\Service\V1\Data\PaymentMethod;
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
+use \Magento\Checkout\Service\V1\Data\PaymentMethod;
+use \Magento\TestFramework\TestCase\WebapiAbstract;
+use \Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -57,8 +57,8 @@ class ReadServiceTest extends WebapiAbstract
             PaymentMethod::TITLE => 'Check / Money order'
         ];
 
-        $this->assertEquals(1, count($requestResponce));
-        $this->assertEquals($expectedResponce, $requestResponce[0]);
+        $this->assertGreaterThan(0, count($requestResponce));
+        $this->assertContains($expectedResponce, $requestResponce);
     }
 
     /**

@@ -7,8 +7,8 @@
  */
 namespace Magento\Checkout\Service\V1\PaymentMethod;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
+use \Magento\TestFramework\TestCase\WebapiAbstract;
+use \Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -28,10 +28,8 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Checkout/_files/quote_with_payment_saved.php
-     * @expectedException \Exception
-     * @expectedExceptionMessage Payment method already set
      */
-    public function testSetPaymentWithErrorIfPaymentAlreadySet()
+    public function testSetPaymentIfPaymentAlreadySet()
     {
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
@@ -50,8 +48,26 @@ class WriteServiceTest extends WebapiAbstract
             ),
         );
 
-        $requestData = ["cartId" => $cartId, "method" => []];
-        $this->_webApiCall($serviceInfo, $requestData);
+        $requestData = [
+            "cartId" => $cartId,
+            "method" => [
+                'method' => 'checkmo',
+                'po_number' => '200',
+                'cc_cid' => '100',
+                'cc_owner' => 'tester',
+                'cc_type' => 'test',
+                'cc_exp_year' => '2014',
+                'cc_exp_month' => '1',
+            ]
+        ];
+
+        $responce = $this->_webApiCall($serviceInfo, $requestData);
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->assertEquals(['result' => null], $responce);
+        } else {
+            $this->assertEquals([], $responce);
+        }
     }
 
     /**

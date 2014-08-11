@@ -60,7 +60,7 @@ class WriteService implements WriteServiceInterface
     {
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
         if ($quote->getPaymentsCollection()->getSize()) {
-            throw new InvalidTransitionException('Payment method already set');
+            return null;
         }
         $payment = $this->paymentMethodBuilder->build($method, $quote);
         if ($quote->isVirtual()) {

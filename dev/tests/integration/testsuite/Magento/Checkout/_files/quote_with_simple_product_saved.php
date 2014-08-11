@@ -12,7 +12,7 @@ require 'simple_product.php';
 $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
 $quote->setStoreId(
     1
-)->setIsActive(
+    )->setIsActive(
         false
     )->setIsMultiShipping(
         false
