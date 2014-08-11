@@ -2,7 +2,7 @@
     "name": "magento/module-catalog-import-export",
     "description": "N/A",
     "require": {
-        "php": "5.4.*|5.5.*",
+        "php": "~5.4.11|~5.5.0",
         "magento/module-core": "0.1.0-alpha89",
         "magento/module-catalog": "0.1.0-alpha89",
         "magento/module-eav": "0.1.0-alpha89",
