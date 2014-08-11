@@ -59,7 +59,7 @@ class AttributeMetadataConverter
         }
         $validationRules = [];
         foreach ($attribute->getValidateRules() as $name => $value) {
-            $validationRules[$name] = $this->_validationRuleBuilder->setName($name)
+            $validationRules[] = $this->_validationRuleBuilder->setName($name)
                 ->setValue($value)
                 ->create();
         }
@@ -76,6 +76,7 @@ class AttributeMetadataConverter
             ->setOptions($options)
             ->setFrontendClass($attribute->getFrontend()->getClass())
             ->setFrontendLabel($attribute->getFrontendLabel())
+            ->setBackendType($attribute->getBackendType())
             ->setNote($attribute->getNote())
             ->setIsSystem($attribute->getIsSystem())
             ->setIsUserDefined($attribute->getIsUserDefined())
