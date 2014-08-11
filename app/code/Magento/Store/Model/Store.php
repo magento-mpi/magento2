@@ -608,7 +608,7 @@ class Store extends AbstractModel implements
      */
     protected function _updatePathUseRewrites($url)
     {
-        if ($this->getForceDisableRewrites() || !$this->_getConfig(self::XML_PATH_USE_REWRITES )) {
+        if ($this->getForceDisableRewrites() || !$this->_getConfig(self::XML_PATH_USE_REWRITES)) {
             if ($this->_isCustomEntryPoint()) {
                 $indexFileName = 'index.php';
             } else {
