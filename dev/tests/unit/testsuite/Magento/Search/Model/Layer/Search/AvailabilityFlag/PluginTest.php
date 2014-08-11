@@ -115,7 +115,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @param bool $expectedResult
      *
      * @dataProvider aroundIsEnabledDataProvider
-     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin:aroundIsEnabled
+     * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
      * @covers \Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin::canShowOptions
      */
     public function testAroundIsEnabled($itemsCount, $filters, $expectedResult)
@@ -131,7 +131,10 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             $this->fail('Subject should not be called in this scenario');
         };
 
-        $this->assertEquals($expectedResult, $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, $this->filters));
+        $this->assertEquals(
+            $expectedResult,
+            $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, $this->filters)
+        );
     }
 
     /**
