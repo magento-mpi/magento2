@@ -182,6 +182,66 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
+     * Load collection with filters applied
+     *
+     * @param string $entityType
+     * @param string $formCode
+     * @return \Magento\Customer\Model\Resource\Form\Attribute\Collection
+     */
+    private function _loadAttributesCollection($entityType, $formCode)
+    {
+        $attributesFormCollection = $this->_attrFormCollectionFactory->create();
+        $attributesFormCollection->setStore($this->_storeManager->getStore())
+            ->setEntityType($entityType)
+            ->addFormCodeFilter($formCode)
+            ->setSortOrder();
+
+        return $attributesFormCollection;
+    }
+
+    /**
+     * @param \Magento\Customer\Model\Attribute $attribute
+     * @return Data\Eav\AttributeMetadata
+     */
+    private function _createMetadataAttribute($attribute)
+    {
+        $options = [];
+        if ($attribute->usesSource()) {
+            foreach ($attribute->getSource()->getAllOptions() as $option) {
+                $options[] = $this->_optionBuilder->setLabel($option['label'])
+                    ->setValue($option['value'])
+                    ->create();
+            }
+        }
+        $validationRules = [];
+        foreach ($attribute->getValidateRules() as $name => $value) {
+            $validationRules[] = $this->_validationRuleBuilder->setName($name)
+                ->setValue($value)
+                ->create();
+        }
+
+        $this->_attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
+            ->setFrontendInput($attribute->getFrontendInput())
+            ->setInputFilter($attribute->getInputFilter())
+            ->setStoreLabel($attribute->getStoreLabel())
+            ->setValidationRules($validationRules)
+            ->setVisible($attribute->getIsVisible())
+            ->setRequired($attribute->getIsRequired())
+            ->setMultilineCount($attribute->getMultilineCount())
+            ->setDataModel($attribute->getDataModel())
+            ->setOptions($options)
+            ->setFrontendClass($attribute->getFrontend()->getClass())
+            ->setFrontendLabel($attribute->getFrontendLabel())
+            ->setBackendType($attribute->getBackendType())
+            ->setNote($attribute->getNote())
+            ->setIsSystem($attribute->getIsSystem())
+            ->setIsUserDefined($attribute->getIsUserDefined())
+            ->setSortOrder($attribute->getSortOrder());
+
+        return $this->_attributeMetadataBuilder->create();
+    }
+
+    /**
      * @inheritdoc
      */
     public function getCustomAttributesMetadata()
