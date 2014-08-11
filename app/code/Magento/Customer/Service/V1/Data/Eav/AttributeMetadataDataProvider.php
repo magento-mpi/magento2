@@ -10,6 +10,11 @@ namespace Magento\Customer\Service\V1\Data\Eav;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
+/**
+ * Attribute Metadata data provider class
+ *
+ * @package Magento\Customer\Service\V1\Data\Eav
+ */
 class AttributeMetadataDataProvider
 {
     /**
@@ -28,6 +33,8 @@ class AttributeMetadataDataProvider
     private $storeManager;
 
     /**
+     * Initialize data provider with data source
+     *
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
      * @param \Magento\Store\Model\StoreManager $storeManager
@@ -55,6 +62,8 @@ class AttributeMetadataDataProvider
     }
 
     /**
+     * Get all attribute codes for a given entity type and attribute set
+     *
      * @param string $entityType
      * @param int $attributeSetId
      * @param string|null $storeId

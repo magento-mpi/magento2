@@ -29,6 +29,8 @@ class AttributeMetadataConverter
     private $_attributeMetadataBuilder;
 
     /**
+     * Initialize the Converter
+     *
      * @param OptionBuilder $optionBuilder
      * @param ValidationRuleBuilder $validationRuleBuilder
      * @param AttributeMetadataBuilder $attributeMetadataBuilder
@@ -44,6 +46,8 @@ class AttributeMetadataConverter
     }
 
     /**
+     * Create AttributeMetadata Data object from the Attribute Model
+     *
      * @param \Magento\Customer\Model\Attribute $attribute
      * @return AttributeMetadata
      */

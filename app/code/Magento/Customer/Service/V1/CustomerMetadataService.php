@@ -112,8 +112,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
             self::ENTITY_TYPE_CUSTOMER,
-            self::ATTRIBUTE_SET_ID_CUSTOMER,
-            null
+            self::ATTRIBUTE_SET_ID_CUSTOMER
         );
 
         $attributesMetadata = [];

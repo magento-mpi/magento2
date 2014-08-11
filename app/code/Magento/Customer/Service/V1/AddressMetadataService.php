@@ -110,8 +110,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
             self::ENTITY_TYPE_ADDRESS,
-            self::ATTRIBUTE_SET_ID_ADDRESS,
-            null
+            self::ATTRIBUTE_SET_ID_ADDRESS
         );
 
         $attributesMetadata = [];
