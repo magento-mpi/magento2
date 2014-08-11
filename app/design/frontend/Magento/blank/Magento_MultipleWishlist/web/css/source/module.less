@@ -13,16 +13,88 @@
 
 .wishlist {
     &.split.button {
-        &:extend(.abstract-split-button all);
-        .product-info-main &,
-        .item.product &,
-        .block-bundle-summary & {
-            .split,
-            .toggle {
-                .button-s();
+        .dropdown-split(
+            @_options-selector : ~".items",
+            @_dropdown-split-button-border-radius-fix: true,
+            @_dropdown-split-list-item-padding: 5px 5px 5px 23px,
+            @_dropdown-split-toggle-icon-content: @icon-down,
+            @_dropdown-split-toggle-active-icon-content: @icon-up,
+            @_dropdown-split-toggle-actions-padding: false,
+            @_icon-font-size: 22px,
+            @_icon-font-color: @addto-color,
+            @_icon-font-color-hover: @addto-hover-color,
+            @_dropdown-split-list-pointer-position: left,
+            @_dropdown-split-list-min-width: 200px
+        );
+        vertical-align: middle;
+        .items {
+            text-align: left;
+        }
+        .items .item:last-child {
+            background: #e2e2e2;
+            &:hover {
+                background: @dropdown-list-item-hover;
             }
-            .toggle {
-                padding: 0;
+        }
+        .action.new {
+            .icon-font(
+                @_icon-font-content: @icon-expand,
+                @_icon-font-size: 10px,
+                @_icon-font-line-height: 10px,
+                @_icon-font-vertical-align: middle
+            );
+             &:before {
+                margin-left: -17px;
+                margin-right: 5px;
+            }
+        }
+        .table-comparison &,
+        .product-items & {
+            > .action {
+                &:extend(.abstract-action-button-as-link all);
+                &.split {
+                    &:extend(.abstract-actions-addto-gridlist all);
+                    .icon-font-symbol(
+                        @_icon-font-content: @icon-wishlist-empty
+                    );
+                }
+                &:active,
+                &:focus,
+                &:hover {
+                    box-shadow: none;
+                    color: @addto-hover-color;
+                }
+            }
+            > .action.toggle {
+                &:before {
+                    content: "";
+                    border-left: 1px solid lighten(@addto-color, 30%);
+                    float: left;
+                    height: 15px;
+                    margin-top: 3px;
+                }
+            }
+        }
+        .product-info-main &,
+        .block-bundle-summary & {
+            .action {
+                &.split,
+                &.toggle {
+                    .button-s();
+                }
+                &.toggle {
+                    padding: 0;
+                }
+            }
+        }
+        .cart.table-wrapper & {
+            margin-bottom: 10px;
+            > .action {
+                &.split {
+                }
+                &.toggle {
+                    padding: 4px 5px;
+                }
             }
         }
     }
@@ -31,24 +103,12 @@
         &.active {
             display: block;
         }
-        .field {
-        }
-        .actions-toolbar {
-            &:extend(.reset-left-margin all);
-        }
     }
     &.overlay {
         .window-overlay();
-    }
-}
-
-.cart.table-wrapper .items .split.button {
-    &:extend(.abstract-split-button all);
-    .items {
-        text-align: left;
-    }
-    .action.new {
-        .button-reset();
+        &.active {
+            display: block;
+        }
     }
 }
 
@@ -63,31 +123,38 @@
 }
 
 .block.wishlist.management {
-    .action.add.wishlist {
-        float: right;
-        margin-top: -8px;
-    }
     .title {
         .counter.qty {
             font-size: @font-size-base;
             margin-left: 15px;
         }
     }
-    .content {
-        .subtitle {
-            float: left;
-        }
-        .toolbar.wishlist {
-            float: right;
-            margin-top: 5px;
-        }
+    .toolbar-wishlist {
+        display: inline-block;
+        margin: 0;
     }
 }
 
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
+    .block.wishlist.management {
+        &:extend(.add-clearfix-desktop all);
+        .action.add.wishlist {
+            float: right;
+            margin-top: -8px;
+        }
+        .content {
+            .subtitle {
+                float: left;
+            }
+            .toolbar-wishlist {
+                float: right;
+                margin-top: 5px;
+            }
+        }
+    }
     .wishlist {
         &.window.popup {
             .css(width, @desktop-popup-width);

@@ -70,6 +70,23 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
+     * @dataProvider deleteSystemOrRootDataProvider
+     * @expectedException \Exception
+     */
+    public function testDeleteSystemOrRoot()
+    {
+        $this->deleteCategory($this->modelId);
+    }
+
+    public function deleteSystemOrRootDataProvider()
+    {
+        return array(
+            [\Magento\Catalog\Model\Category::TREE_ROOT_ID],
+            [2] //Default root category
+        );
+    }
+
+    /**
      * @magentoApiDataFixture Magento/Catalog/_files/category.php
      */
     public function testUpdate()
@@ -128,7 +145,7 @@ class WriteServiceTest extends WebapiAbstract
         return array(
             [402, 400, null, 2],
             [402, 400, 401, 2],
-            [402, 400, 100, 1],
+            [402, 400, 999, 2],
             [402, 400, 0, 1]
         );
     }

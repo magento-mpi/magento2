@@ -16,7 +16,7 @@ class Role extends \Magento\Framework\Object
     /**
      * Store ACL role model instance
      *
-     * @var \Magento\User\Model\Role
+     * @var \Magento\Authorization\Model\Role
      */
     protected $_adminRole;
 
@@ -97,7 +97,7 @@ class Role extends \Magento\Framework\Object
     /**
      * Set ACL role and determine its limitations
      *
-     * @param \Magento\User\Model\Role $role
+     * @param \Magento\Authorization\Model\Role $role
      * @return void
      */
     public function setAdminRole($role)
