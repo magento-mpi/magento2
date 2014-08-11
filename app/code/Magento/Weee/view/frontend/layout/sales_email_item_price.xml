@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" label="Email Creditmemo Items List" design_abstraction="custom">
+    <referenceBlock name="items">
+        <block class="Magento\Weee\Block\Item\Price\Renderer" name="item_price" template="email/items/price/row.phtml">
+            <arguments>
+                <argument name="zone" xsi:type="string">email</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+</layout>

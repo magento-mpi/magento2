@@ -32,6 +32,9 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     protected $item;
 
+    const STORE_ID = 'store_id';
+    const ZONE = 'zone';
+
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -58,8 +61,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
                 'getCalculationPrice',
                 'getRowTotal',
                 'getWeeeTaxAppliedRowAmount',
+                'getStoreId'
             ])
             ->getMock();
+
+        $this->item->expects($this->any())
+            ->method('getStoreId')
+            ->will($this->returnValue(self::STORE_ID));
 
         $this->renderer = $objectManager->getObject(
             '\Magento\Weee\Block\Item\Price\Renderer',
@@ -69,6 +77,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $this->renderer->setItem($this->item);
+        $this->renderer->setZone(self::ZONE);
     }
 
     /**
@@ -77,16 +86,23 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      * @param bool $hasWeeeAmount
      * @dataProvider testDisplayPriceWithWeeeDetailsDataProvider
      */
-    public function testDisplayPriceWithWeeeDetails($isWeeeEnabled, $showWeeeDetails, $hasWeeeAmount, $expectedValue)
-    {
+    public function testDisplayPriceWithWeeeDetails(
+        $isWeeeEnabled,
+        $showWeeeDetails,
+        $hasWeeeAmount,
+        $expectedValue
+    ) {
         $this->weeeHelper->expects($this->once())
             ->method('isEnabled')
             ->will($this->returnValue($isWeeeEnabled));
 
         $this->weeeHelper->expects($this->any())
             ->method('typeOfDisplay')
-            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR], 'sales', null)
-            ->will($this->returnValue($showWeeeDetails));
+            ->with(
+                [WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_EXCL_DESCR_INCL],
+                self::ZONE,
+                self::STORE_ID
+            )->will($this->returnValue($showWeeeDetails));
 
         $this->item->expects($this->any())
             ->method('getWeeeTaxAppliedAmount')
@@ -181,7 +197,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $this->weeeHelper->expects($this->any())
             ->method('typeOfDisplay')
-            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_INCL], 'sales')
+            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_INCL], self::ZONE)
             ->will($this->returnValue($includeWeee));
 
         $this->assertEquals($expectedValue, $this->renderer->getUnitDisplayPriceInclTax());
@@ -217,7 +233,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $this->weeeHelper->expects($this->any())
             ->method('typeOfDisplay')
-            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_INCL], 'sales')
+            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_INCL], self::ZONE)
             ->will($this->returnValue($includeWeee));
 
         $this->assertEquals($expectedValue, $this->renderer->getUnitDisplayPriceExclTax());
@@ -253,7 +269,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $this->weeeHelper->expects($this->any())
             ->method('typeOfDisplay')
-            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_INCL], 'sales')
+            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_INCL], self::ZONE)
             ->will($this->returnValue($includeWeee));
 
         $this->assertEquals($expectedValue, $this->renderer->getRowDisplayPriceExclTax());
@@ -290,7 +306,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $this->weeeHelper->expects($this->any())
             ->method('typeOfDisplay')
-            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_INCL], 'sales')
+            ->with([WeeeDisplayConfig::DISPLAY_INCL_DESCR, WeeeDisplayConfig::DISPLAY_INCL], self::ZONE)
             ->will($this->returnValue($includeWeee));
 
         $this->assertEquals($expectedValue, $this->renderer->getRowDisplayPriceInclTax());

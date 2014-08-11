@@ -8,7 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
-    <block class="Magento\Weee\Block\Item\Price\Renderer" name="checkout.item.price.unit" template="Magento_Weee::item/price/unit.phtml"/>
-    <block class="Magento\Weee\Block\Item\Price\Renderer" name="checkout.item.price.row" template="Magento_Weee::item/price/row.phtml"/>
+    <block class="Magento\Weee\Block\Item\Price\Renderer" name="checkout.item.price.unit" template="item/price/unit.phtml">
+        <arguments>
+            <argument name="zone" xsi:type="string">cart</argument>
+        </arguments>
+    </block>
+    <block class="Magento\Weee\Block\Item\Price\Renderer" name="checkout.item.price.row" template="item/price/row.phtml">
+        <arguments>
+            <argument name="zone" xsi:type="string">cart</argument>
+        </arguments>
+    </block>
 </layout>
 

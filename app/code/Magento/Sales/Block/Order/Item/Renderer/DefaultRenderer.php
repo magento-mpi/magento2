@@ -204,4 +204,38 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
     {
         return $this->escapeHtml($this->string->splitInjection($sku));
     }
+
+    /**
+     * Return item unit price html
+     *
+     * @return string
+     */
+    public function getItemPriceHtml()
+    {
+        $block = $this->getLayout()->getBlock('item_unit_price');
+        $block->setItem($this->getItem());
+        return $block->toHtml();
+    }
+
+    /**
+     * Return item row total html
+     *
+     * @return string
+     */
+    public function getItemRowTotalHtml()
+    {
+        $block = $this->getLayout()->getBlock('item_row_total');
+        $block->setItem($this->getItem());
+        return $block->toHtml();
+    }
+
+    public function getTotalAmount($_item)
+    {
+        $totalAmount = $_item->getRowTotal()
+            - $_item->getDiscountAmount()
+            + $_item->getTaxAmount()
+            + $_item->getWeeeTaxAppliedRowAmount();
+
+        return $totalAmount;
+    }
 }
