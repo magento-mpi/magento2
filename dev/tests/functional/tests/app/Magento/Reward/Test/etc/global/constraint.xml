@@ -83,4 +83,13 @@
             <checkoutCart class="Magento\Reward\Test\Page\CheckoutCart" />
         </require>
     </assertRewardPointsMessageOnShoppingCart>
+    <assertRewardInHistoryGrid module="Magento_Reward">
+        <severeness>low</severeness>
+        <require>
+            <customerIndexEdit class="Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit" />
+            <customerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <reward class="Magento\Reward\Test\Fixture\Reward" />
+        </require>
+    </assertRewardInHistoryGrid>
 </constraint>

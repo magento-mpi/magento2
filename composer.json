@@ -2,9 +2,9 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0",
+    "version": "0.1.0-alpha89",
     "require": {
-        "php": "5.4.*|5.5.*"
+        "php": "~5.4.11|~5.5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.*"
@@ -13,8 +13,8 @@
         "magento/module-admin-gws": "self.version",
         "magento/module-admin-notification": "self.version",
         "magento/module-advanced-checkout": "self.version",
+        "magento/module-authorization": "self.version",
         "magento/module-authorizenet": "self.version",
-        "magento/module-authz": "self.version",
         "magento/module-backend": "self.version",
         "magento/module-backup": "self.version",
         "magento/module-banner": "self.version",
@@ -35,6 +35,7 @@
         "magento/module-checkout-agreements": "self.version",
         "magento/module-cms": "self.version",
         "magento/module-cms-url-rewrite": "self.version",
+        "magento/module-configurable-import-export": "self.version",
         "magento/module-configurable-product": "self.version",
         "magento/module-contact": "self.version",
         "magento/module-core": "self.version",
@@ -64,6 +65,7 @@
         "magento/module-google-analytics": "self.version",
         "magento/module-google-optimizer": "self.version",
         "magento/module-google-shopping": "self.version",
+        "magento/module-grouped-import-export": "self.version",
         "magento/module-grouped-product": "self.version",
         "magento/module-import-export": "self.version",
         "magento/module-index": "self.version",
