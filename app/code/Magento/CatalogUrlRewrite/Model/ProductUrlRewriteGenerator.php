@@ -176,7 +176,7 @@ class ProductUrlRewriteGenerator
                 $urls[] = $this->createUrlRewrite(
                     $storeId,
                     $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId, $category),
-                    $this->productUrlPathGenerator->getCanonicalUrlPathWithCategory($this->product, $category),
+                    $this->productUrlPathGenerator->getCanonicalUrlPath($this->product, $category),
                     0,
                     true,
                     $this->buildMetadataForCategory($category)

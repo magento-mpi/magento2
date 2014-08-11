@@ -75,23 +75,13 @@ class ProductUrlPathGenerator
      * Get canonical product url path
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Category|null $category
      * @return string
      */
-    public function getCanonicalUrlPath($product)
+    public function getCanonicalUrlPath($product, $category = null)
     {
-        return 'catalog/product/view/id/' . $product->getId();
-    }
-
-    /**
-     * Get canonical product url path with category
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Catalog\Model\Category $category
-     * @return string
-     */
-    public function getCanonicalUrlPathWithCategory($product, $category)
-    {
-        return $this->getCanonicalUrlPath($product) . '/category/' . $category->getId();
+        $path =  'catalog/product/view/id/' . $product->getId();
+        return $category ? $path . '/category/' . $category->getId() : $path;
     }
 
     /**

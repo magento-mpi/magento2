@@ -112,8 +112,8 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
             $category = null;
             if ($this->_getProduct()->getId()) {
                 $product = $this->_getProduct();
-                $category = $this->_getCategory();
-            } elseif ($this->_getCategory()->getId()) {
+            }
+            if ($this->_getCategory()->getId()) {
                 $category = $this->_getCategory();
             }
 
@@ -130,7 +130,7 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
                     );
                 }
                 $targetPath->setValue($product
-                    ? $this->productUrlPathGenerator->getCanonicalUrlPathWithCategory($product, $category)
+                    ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
                     : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
                 );
                 $disablePaths = true;

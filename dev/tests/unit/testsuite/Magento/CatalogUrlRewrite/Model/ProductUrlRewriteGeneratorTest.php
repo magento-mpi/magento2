@@ -192,10 +192,11 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
                 }
             ));
         $this->productUrlPathGeneratorMock->expects($this->any())->method('getCanonicalUrlPath')
-            ->with($this->productMock)->will($this->returnValue($canonicalUrlPath));
-        $this->productUrlPathGeneratorMock->expects($this->any())->method('getCanonicalUrlPathWithCategory')
-            ->with($this->productMock, $categoryId ? $this->buildCategoryMock($categoryId) : null)
-            ->will($this->returnValue($canonicalUrlPathWithCategory));
+            ->will($this->returnCallback(
+                function ($product, $category) use ($canonicalUrlPath, $canonicalUrlPathWithCategory) {
+                    return $category ? $canonicalUrlPathWithCategory : $canonicalUrlPath;
+                }
+            ));
         $this->urlMatcherMock->expects($this->any())->method('findAllByFilter')
             ->will($this->returnValue($this->buildCurrentRewrites($currentRewrites)));
         $this->productMock->expects($this->any())->method('getData')->with('save_rewrites_history')

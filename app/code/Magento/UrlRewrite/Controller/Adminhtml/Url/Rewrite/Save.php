@@ -62,10 +62,12 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
             $isProduct = $product && $product->getId();
             $model->setEntityType($isProduct ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY);
             $model->setEntityId($isProduct ? $product->getId() : $category->getId());
-            $model->setTargetPath($isProduct
-                ? $this->productUrlPathGenerator->getCanonicalUrlPathWithCategory($product, $category)
-                : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
-            );
+            if ($model->isObjectNew()) {
+                $model->setTargetPath($isProduct
+                    ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
+                    : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
+                );
+            }
         }
     }
 
@@ -121,9 +123,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     {
         /** @var $category Category */
         $category = $this->_getCategory();
-        if ($category->getId()) {
-            $model->setCategoryId($category->getId());
-        } else {
+        if (!$category->getId()) {
             $category = null;
         }
         return $category;
@@ -148,7 +148,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
 
                 $model->setEntityType($this->getRequest()->getParam('entity_type', self::ENTITY_TYPE_CUSTOM))
                     ->setStoreId($this->getRequest()->getParam('store_id', 0))
-                    ->setTargetPath($this->getRequest()->getParam('target_path'))
+                    ->setTargetPath($this->getRequest()->getParam('target_path', $model->getTargetPath()))
                     ->setRedirectType($this->getRequest()->getParam('redirect_type'))
                     ->setDescription($this->getRequest()->getParam('description'))
                     ->setRequestPath($requestPath)
