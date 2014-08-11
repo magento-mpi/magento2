@@ -34,23 +34,31 @@ class Rss extends Action\Action implements IndexInterface
     protected $rssWishlistHelper;
 
     /**
-     * @var \Magento\Rss\Helper\Data
+     * @var \Magento\Rss\Helper\DataFactory
      */
-    protected $rssDataHelper;
+    protected $rssHelperFactory;
 
+    /**
+     * @param Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Wishlist\Helper\Rss $rssWishlitHelper
+     * @param \Magento\Rss\Helper\DataFactory $rssHelperFactory
+     */
     public function __construct(
         Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Wishlist\Helper\Rss $rssWishlitHelper,
-        \Magento\Rss\Helper\Data $rssDataHelper
+        \Magento\Rss\Helper\DataFactory $rssHelperFactory
     ) {
         $this->customerSession = $customerSession;
         $this->wishlistProvider = $wishlistProvider;
         $this->scopeConfig = $scopeConfig;
         $this->rssWishlistHelper = $rssWishlitHelper;
-        $this->rssDataHelper = $rssDataHelper;
+        $this->rssHelperFactory = $rssHelperFactory;
         parent::__construct($context);
     }
 
@@ -62,19 +70,23 @@ class Rss extends Action\Action implements IndexInterface
      */
     public function execute()
     {
-        if ($this->rssWishlistHelper->isRssAllow()) {
-            /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
-            $wishlist = $this->wishlistProvider->getWishlist();
-            if ($wishlist && ($wishlist->getVisibility()
-                || $this->customerSession->authenticate($this)
-                && $wishlist->getCustomerId() == $this->rssWishlistHelper->getCustomer()->getId())
-            ) {
-                $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-                $this->_view->loadLayout(false);
-                $this->_view->renderLayout();
-                return;
-            }
+        if (!$this->rssWishlistHelper->isRssAllow()) {
+            $this->_forward('noroute');
+            return;
         }
-        $this->rssDataHelper->sendEmptyRssFeed($this->getResponse());
+        /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
+        $wishlist = $this->wishlistProvider->getWishlist();
+        if ($wishlist && ($wishlist->getVisibility()
+            || $this->customerSession->authenticate($this)
+            && $wishlist->getCustomerId() == $this->rssWishlistHelper->getCustomer()->getId())
+        ) {
+            $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
+            $this->_view->loadLayout(false);
+            $this->_view->renderLayout();
+            return;
+        }
+        /** @var \Magento\Rss\Helper\Data $rssHelper */
+        $rssHelper = $this->rssHelperFactory->create();
+        $rssHelper->sendEmptyRssFeed($this->getResponse());
     }
 }

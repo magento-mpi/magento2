@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rss\Block;
+namespace Magento\Wishlist\Block;
 
-class WishlistTest extends \PHPUnit_Framework_TestCase
+class RssTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -52,7 +52,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\App\Helper\Context $contextHelper */
         $contextHelper = $this->_objectManager->create('Magento\Framework\App\Helper\Context');
 
-        $wishlistHelper = $this->_objectManager->create('Magento\Rss\Helper\WishlistRss',
+        $wishlistHelper = $this->_objectManager->create('Magento\Wishlist\Helper\Rss',
             [
                 'context' => $contextHelper,
                 'customerSession' => $this->_customerSession
@@ -61,7 +61,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Catalog\Block\Product\Context $context */
         $contextBlock = $this->_objectManager->create(
-            'Magento\Rss\Block\Context',
+            'Magento\Wishlist\Block\Context',
             [
                 'request' => $contextHelper->getRequest(),
                 'wishlistHelper' => $wishlistHelper
@@ -72,8 +72,8 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $request->setParam('wishlist_id', $wishlist->getId());
         $request->setParam('data', $this->_coreData->urlEncode($fixtureCustomerId));
 
-        /** @var \Magento\Rss\Block\Wishlist $block */
-        $block = $this->_objectManager->create('Magento\Rss\Block\Wishlist',
+        /** @var \Magento\Wishlist\Block\Rss $block */
+        $block = $this->_objectManager->create('Magento\Wishlist\Block\Rss',
             [
                 'context' => $contextBlock
             ]
@@ -89,4 +89,3 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $this->assertStringMatchesFormat($expectedSting, $block->toHtml());
     }
 }
- 
