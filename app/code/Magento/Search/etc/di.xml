@@ -64,4 +64,7 @@
     <type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
         <plugin name="search" type="Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>
     </type>
+    <type name="Magento\Customer\Model\Resource\Group">
+        <plugin name="catalogsearchFulltextIndexerCustomerGroup" type="Magento\Search\Model\Indexer\Fulltext\Plugin\CustomerGroup"/>
+    </type>
 </config>
