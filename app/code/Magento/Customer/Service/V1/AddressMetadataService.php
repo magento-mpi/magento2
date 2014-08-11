@@ -137,7 +137,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
         if (!$this->addressDataObjectMethods) {
             $this->addressDataObjectMethods = array_flip(get_class_methods($dataObjectClass));
         }
-        foreach ($this->getAllAddressAttributeMetadata() as $attributeMetadata) {
+        foreach ($this->getAllAttributeMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
             $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
             $isDataObjectMethod = isset($this->addressDataObjectMethods['get' . $camelCaseKey])
