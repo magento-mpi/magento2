@@ -34,10 +34,10 @@ define([
         },
 
         _saveOrder: function() {
-            var agreementGroupSelector = $(this.options.review.agreementGroupSelector),
+            var agreementFormsGroup = $(this.options.review.agreementGroupSelector),
                 paymentForm = $(this.options.payment.form);
             var isAgreementValid = true;
-            agreementGroupSelector.find('form').each(
+            agreementFormsGroup.find('form').each(
                 function(){
                     $(this).validation();
                     isAgreementValid = isAgreementValid && $(this).validation && $(this).validation('isValid');
@@ -48,7 +48,7 @@ define([
                 paymentForm.validation &&
                 paymentForm.validation('isValid')) {
                 var serializedAgreement = '';
-                agreementGroupSelector.find('form').each(function(){serializedAgreement += '&' + $(this).serialize()});
+                agreementFormsGroup.find('form').each(function(){serializedAgreement += '&' + $(this).serialize();});
                 this._ajaxContinue(
                     this.options.review.saveUrl,
                     paymentForm.serialize() + serializedAgreement);
