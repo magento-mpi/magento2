@@ -141,36 +141,35 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $value = 1;
         $type = 'string';
-        $this->assertSame('1', $this->_typeProcessor->processSimpleType($value, $type));
+        $this->assertSame('1', $this->_typeProcessor->processSimpleAndAnyType($value, $type));
     }
 
     public function testProcessSimpleTypeStringToInt()
     {
         $value = '1';
         $type = 'int';
-        $this->assertSame(1, $this->_typeProcessor->processSimpleType($value, $type));
+        $this->assertSame(1, $this->_typeProcessor->processSimpleAndAnyType($value, $type));
     }
 
     public function testProcessSimpleTypeMixed()
     {
         $value = 1;
         $type = 'mixed';
-        $this->_typeProcessor->processSimpleType($value, $type);
-        $this->assertSame(1, $this->_typeProcessor->processSimpleType($value, $type));
+        $this->assertSame(1, $this->_typeProcessor->processSimpleAndAnyType($value, $type));
     }
 
     public function testProcessSimpleTypeIntArrayToStringArray()
     {
         $value = [1, 2, 3, 4, 5];
         $type = 'string[]';
-        $this->assertSame(['1', '2', '3', '4', '5'], $this->_typeProcessor->processSimpleType($value, $type));
+        $this->assertSame(['1', '2', '3', '4', '5'], $this->_typeProcessor->processSimpleAndAnyType($value, $type));
     }
 
     public function testProcessSimpleTypeStringArrayToIntArray()
     {
         $value = ['1', '2', '3', '4', '5'];
         $type = 'int[]';
-        $this->assertSame([1, 2, 3, 4, 5], $this->_typeProcessor->processSimpleType($value, $type));
+        $this->assertSame([1, 2, 3, 4, 5], $this->_typeProcessor->processSimpleAndAnyType($value, $type));
     }
 
     /**
@@ -181,6 +180,6 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $value = 1;
         $type = 'int[]';
-        $this->_typeProcessor->processSimpleType($value, $type);
+        $this->_typeProcessor->processSimpleAndAnyType($value, $type);
     }
 }

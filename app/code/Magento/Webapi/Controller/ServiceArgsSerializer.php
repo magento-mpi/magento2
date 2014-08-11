@@ -149,7 +149,7 @@ class ServiceArgsSerializer
             $value = $this->_removeSoapItemNode($value);
         }
         if ($this->_typeProcessor->isTypeSimple($type) || $this->_typeProcessor->isTypeAny($type)) {
-            $result = $this->_typeProcessor->processSimpleType($value, $type);
+            $result = $this->_typeProcessor->processSimpleAndAnyType($value, $type);
         } else {
             /** Complex type or array of complex types */
             if ($isArrayType) {

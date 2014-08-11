@@ -426,14 +426,14 @@ class TypeProcessor
     }
 
     /**
-     * Convert the value to the requested simple type
+     * Convert the value to the requested simple or any type
      *
      * @param int|string|float|int[]|string[]|float[] $value
      * @param string $type Convert given value to the this simple type
      * @return int|string|float|int[]|string[]|float[] Return the value which is converted to type
      * @throws \Magento\Webapi\Exception
      */
-    public function processSimpleType($value, $type)
+    public function processSimpleAndAnyType($value, $type)
     {
         $invalidTypeMsg = 'Invalid type for value :"%s". Expected Type: "%s".';
         if ($this->isArrayType($type) && is_array($value)) {
@@ -444,7 +444,7 @@ class TypeProcessor
                 }
             }
         } elseif (!$this->isArrayType($type) && !is_array($value)) {
-            if ($type !== 'mixed' && !settype($value, $type)) {
+            if ($type !== self::ANY_TYPE && !settype($value, $type)) {
                 throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
             }
         } else {
