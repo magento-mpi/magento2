@@ -28,7 +28,7 @@ class AddressMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAddressAttributeMetadata()
     {
-        $vatValidMetadata = $this->_service->getAddressAttributeMetadata('vat_is_valid');
+        $vatValidMetadata = $this->_service->getAttributeMetadata('vat_is_valid');
 
         $this->assertNotNull($vatValidMetadata);
         $this->assertEquals('vat_is_valid', $vatValidMetadata->getAttributeCode());
@@ -39,7 +39,7 @@ class AddressMetadataServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAddressAttributeMetadataNoSuchEntity()
     {
         try {
-            $this->_service->getAddressAttributeMetadata('1');
+            $this->_service->getAttributeMetadata('1');
             $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $e) {
             $this->assertEquals(

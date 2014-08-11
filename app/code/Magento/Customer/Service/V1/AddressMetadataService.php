@@ -118,7 +118,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
 
         foreach ($attributeCodes as $attributeCode) {
             try {
-                $attributesMetadata[] = $this->getAddressAttributeMetadata(self::ENTITY_TYPE_ADDRESS, $attributeCode);
+                $attributesMetadata[] = $this->getAttributeMetadata($attributeCode);
             } catch (NoSuchEntityException $e) {
                 //If no such entity, skip
             }
