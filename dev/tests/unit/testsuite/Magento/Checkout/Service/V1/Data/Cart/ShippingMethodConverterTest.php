@@ -41,6 +41,11 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
      */
     protected $storeMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $shippingMethodMock;
+
     protected function setUp()
     {
         $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -48,6 +53,8 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
             $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder', [], [], '', false);
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->currencyMock = $this->getMock('\Magento\Directory\Model\Currency', [], [], '', false);
+        $this->shippingMethodMock =
+            $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\ShippingMethod', [], [], '', false);
         $this->rateModelMock = $this->getMock('\Magento\Sales\Model\Quote\Address\Rate',
             [
                 'getPrice',
@@ -93,9 +100,11 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getCarrierTitle')->will($this->returnValue('DESCRIPTION'));
         $this->builderMock->expects($this->once())
             ->method('populateWithArray')->with($data)->will($this->returnValue($this->builderMock));
-        $this->builderMock->expects($this->once())->method('create')->will($this->returnValue('Expected Value'));
+        $this->builderMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->shippingMethodMock));
 
-        $this->assertEquals('Expected Value', $this->converter->modelToDataObject($this->rateModelMock));
+        $this->assertEquals($this->shippingMethodMock, $this->converter->modelToDataObject($this->rateModelMock));
     }
 }
  

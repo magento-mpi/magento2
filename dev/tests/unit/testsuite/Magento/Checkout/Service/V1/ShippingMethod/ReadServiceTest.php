@@ -102,6 +102,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $shippingDescription
      * @dataProvider getMethodDataProvider
      */
     public function testGetMethod($shippingDescription)
@@ -136,6 +137,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->getMethod($cartId);
     }
 
+    /**
+     * @return array
+     */
     public function getMethodDataProvider()
     {
         return array(
