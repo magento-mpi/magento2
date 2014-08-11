@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
-use Magento\Backend\Model\Config\Backend\Design\Exception;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class LinkTest extends \PHPUnit_Framework_TestCase
