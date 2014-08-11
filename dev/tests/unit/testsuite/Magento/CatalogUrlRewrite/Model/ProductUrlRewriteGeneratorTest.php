@@ -8,6 +8,7 @@
 
 namespace Magento\CatalogUrlRewrite\Model;
 
+use Magento\Store\Model\Store;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\TestFramework\Helper\ObjectManager;
 
@@ -130,13 +131,13 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider globalScopeDataProvider
      */
-    public function testGorGlobalScope($productId, $urlPath, $results)
+    public function testForGlobalScope($productId, $urlPath, $results)
     {
         $this->productMock->expects($this->once())->method('getStoreIds')->will($this->returnValue([1, 2]));
         $this->storeViewServiceMock->expects($this->exactly(2))->method('doesProductHaveOverriddenUrlKeyForStore')
             ->will($this->returnValue(false));
 
-        $this->generate(0, $productId, null, $urlPath, null, null, $results);
+        $this->generate(null, $productId, null, $urlPath, null, null, $results);
     }
 
     /**
@@ -144,7 +145,7 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function urlRewritesDataProvider()
     {
-        return include __DIR__ . '/_files/productUrlRewritesDataProvider.php';
+        return require __DIR__ . '/_files/productUrlRewritesDataProvider.php';
     }
 
     /**

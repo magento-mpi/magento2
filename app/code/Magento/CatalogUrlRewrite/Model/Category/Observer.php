@@ -32,7 +32,7 @@ class Observer
     protected $scopeConfig;
 
     /** @var array */
-    protected $skipProductList;
+    protected $isSkippedProduct;
 
     /**
      * @param CategoryUrlRewriteGenerator $categoryUrlRewriteGenerator
@@ -106,7 +106,7 @@ class Observer
      */
     protected function generateProductUrlRewrites(Category $category)
     {
-        $this->skipProductList = [];
+        $this->isSkippedProduct = [];
         $saveRewriteHistory = $category->getData('save_rewrites_history');
         $storeId = $category->getStoreId();
         $productUrls = $this->getCategoryProductsUrlRewrites($category, $storeId, $saveRewriteHistory);
@@ -133,10 +133,10 @@ class Observer
             ->addAttributeToSelect('url_path');
         $productUrls = [];
         foreach ($productCollection as $product) {
-            if (in_array($product->getId(), $this->skipProductList)) {
+            if (isset($this->isSkippedProduct[$product->getId()])) {
                 continue;
             }
-            $this->skipProductList[] = $product->getId();
+            $this->isSkippedProduct[$product->getId()] = true;
             $product->setStoreId($storeId);
             $product->setData('save_rewrites_history', $saveRewriteHistory);
             $productUrls = array_merge($productUrls, $this->productUrlRewriteGenerator->generate($product));
