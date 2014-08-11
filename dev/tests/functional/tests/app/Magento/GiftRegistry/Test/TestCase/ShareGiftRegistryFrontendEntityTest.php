@@ -22,7 +22,7 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
 use Magento\GiftRegistry\Test\Page\GiftRegistryShare;
 
 /**
- * Test Creation for Sharing GiftRegistryEntity
+ * Test Creation for Sharing Frontend GiftRegistryEntity
  *
  * Test Flow:
  *
@@ -38,7 +38,7 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryShare;
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-27035
  */
-class SharingGiftRegistryEntityTest extends Injectable
+class ShareGiftRegistryFrontendEntityTest extends Injectable
 {
     /**
      * Cms index page
@@ -150,7 +150,7 @@ class SharingGiftRegistryEntityTest extends Injectable
     }
 
     /**
-     * Sharing Gift Registry entity test
+     * Sharing Frontend Gift Registry entity test
      *
      * @param CustomerInjectable $customer1
      * @param CustomerInjectable $customer2
@@ -180,7 +180,7 @@ class SharingGiftRegistryEntityTest extends Injectable
         $this->giftRegistryShare->getGiftRegistryShareForm()->shareGiftRegistry();
 
         return [
-            'recipientsQty' => count($recipients)
+            'recipients' => $recipients
         ];
     }
 }

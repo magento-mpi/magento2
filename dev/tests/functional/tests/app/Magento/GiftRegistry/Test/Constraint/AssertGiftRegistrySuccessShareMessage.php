@@ -33,13 +33,13 @@ class AssertGiftRegistrySuccessShareMessage extends AbstractConstraint
      * Assert that success message is displayed after gift registry has been shared
      *
      * @param GiftRegistryIndex $giftRegistryIndex
-     * @param int $recipientsQty
+     * @param array $recipients
      * @return void
      */
-    public function processAssert(GiftRegistryIndex $giftRegistryIndex, $recipientsQty)
+    public function processAssert(GiftRegistryIndex $giftRegistryIndex, $recipients)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            sprintf(self::SUCCESS_MESSAGE, $recipientsQty),
+            sprintf(self::SUCCESS_MESSAGE, count($recipients)),
             $giftRegistryIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );

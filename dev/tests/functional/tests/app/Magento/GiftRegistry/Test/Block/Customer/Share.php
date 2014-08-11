@@ -43,14 +43,7 @@ class Share extends Form
      *
      * @var string
      */
-    protected $recipientFirstName = '[name="recipients[%d][name]"]';
-
-    /**
-     * Recipient email selector
-     *
-     * @var string
-     */
-    protected $recipientEmail = '[name="recipients[%d][email]"]';
+    protected $recipient = '#row%d';
 
     /**
      * Click "Share Gift Registry" button
@@ -67,22 +60,19 @@ class Share extends Form
      *
      * @param string $message
      * @param array $recipients
-     * @throws \Exception
      * @return void
      */
     public function fillForm($message, array $recipients)
     {
         $this->_rootElement->find($this->senderMessage)->setValue($message);
-        if (count($recipients) > 3) {
-            throw new \Exception('Maximum 3 email addresses.');
-        }
         foreach ($recipients as $key => $recipient) {
             if ($key !== 0) {
                 $this->_rootElement->find($this->addRecipient)->click();
             }
+            $element = $this->_rootElement->find(sprintf($this->recipient, $key));
             /** @var CustomerInjectable $recipient */
-            $this->_rootElement->find(sprintf($this->recipientFirstName, $key))->setValue($recipient->getFirstname());
-            $this->_rootElement->find(sprintf($this->recipientEmail, $key))->setValue($recipient->getEmail());
+            $mapping = $this->dataMapping($recipient->getData());
+            $this->_fill($mapping, $element);
         }
     }
 }
