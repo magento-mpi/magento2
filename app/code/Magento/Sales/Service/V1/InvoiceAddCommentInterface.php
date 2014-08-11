@@ -19,6 +19,7 @@ interface InvoiceAddCommentInterface
      *
      * @param \Magento\Sales\Service\V1\Data\Comment $comment
      * @return bool
+     * @throws \Exception
      */
     public function invoke(Comment $comment);
 }

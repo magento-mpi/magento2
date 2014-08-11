@@ -10,12 +10,12 @@ namespace Magento\Sales\Service\V1;
 use Magento\Sales\Service\V1\Data\Comment;
 
 /**
- * Interface CreditmemoAddCommentInterface
+ * Class ShipmentAddCommentInterface
  */
-interface CreditmemoAddCommentInterface
+interface ShipmentAddCommentInterface
 {
     /**
-     * Invoke creditmemo add comment service
+     * Invoke shipment add comment service
      *
      * @param \Magento\Sales\Service\V1\Data\Comment $comment
      * @return bool

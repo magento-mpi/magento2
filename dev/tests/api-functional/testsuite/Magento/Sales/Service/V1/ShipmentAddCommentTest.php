@@ -12,19 +12,24 @@ use Magento\Sales\Service\V1\Data\Comment;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
- * Class InvoiceAddCommentTest
+ * Class ShipmentAddCommentTest
  */
-class InvoiceAddCommentTest extends WebapiAbstract
+class ShipmentAddCommentTest extends WebapiAbstract
 {
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesInvoiceAddCommentV1';
+    const SERVICE_READ_NAME = 'salesShipmentAddCommentV1';
 
     /**
      * Service version
      */
     const SERVICE_VERSION = 'V1';
+
+    /**
+     * Shipment increment id
+     */
+    const SHIPMENT_INCREMENT_ID = '100000001';
 
     /**
      * @var \Magento\Framework\ObjectManager
@@ -37,22 +42,21 @@ class InvoiceAddCommentTest extends WebapiAbstract
     }
 
     /**
-     * Test invoice add comment service
+     * Test shipment add comment service
      *
-     * @magentoApiDataFixture Magento/Sales/_files/invoice.php
+     * @m111agentoApiDataFixture Magento/Sales/_files/shipment.php
      */
-    public function testInvoiceAddComment()
+    public function testShipmentAddComment()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-        $invoiceCollection = $objectManager->get('Magento\Sales\Model\Resource\Order\Invoice\Collection');
-        $invoice = $invoiceCollection->getFirstItem();
+        /** @var \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory */
+        $shipmentFactory = $this->objectManager->create('Magento\Sales\Model\Order\ShipmentFactory');
+        $shipment = $shipmentFactory->create()->load(self::SHIPMENT_INCREMENT_ID, 'increment_id');
 
         $commentData = [
             Comment::COMMENT => 'Hello world!',
             Comment::ENTITY_ID => null,
             Comment::CREATED_AT => null,
-            Comment::PARENT_ID => $invoice->getId(),
+            Comment::PARENT_ID => $shipment->getId(),
             Comment::IS_VISIBLE_ON_FRONT => true,
             Comment::IS_CUSTOMER_NOTIFIED => true
         ];
@@ -60,7 +64,7 @@ class InvoiceAddCommentTest extends WebapiAbstract
         $requestData = ['comment' => $commentData];
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/invoice/comment',
+                'resourcePath' => '/V1/shipment/comment',
                 'httpMethod' => Config::HTTP_METHOD_POST
             ],
             'soap' => [

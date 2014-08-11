@@ -8,20 +8,20 @@
 namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Service\V1\Data\Comment;
-use Magento\Sales\Model\Order\Creditmemo\CommentConverter;
+use Magento\Sales\Model\Order\Shipment\CommentConverter;
 
 /**
- * Class CreditmemoAddComment
+ * Class ShipmentAddComment
  */
-class CreditmemoAddComment implements CreditmemoAddCommentInterface
+class ShipmentAddComment implements ShipmentAddCommentInterface
 {
     /**
-     * @var \Magento\Sales\Model\Order\Creditmemo\CommentConverter
+     * @var \Magento\Sales\Model\Order\Shipment\CommentConverter
      */
     protected $commentConverter;
 
     /**
-     * @param \Magento\Sales\Model\Order\Creditmemo\CommentConverter $commentConverter
+     * @param \Magento\Sales\Model\Order\Shipment\CommentConverter $commentConverter
      */
     public function __construct(CommentConverter $commentConverter)
     {
@@ -29,7 +29,7 @@ class CreditmemoAddComment implements CreditmemoAddCommentInterface
     }
 
     /**
-     * Invoke creditmemo add comment service
+     * Invoke shipment add comment service
      *
      * @param \Magento\Sales\Service\V1\Data\Comment $comment
      * @return bool
@@ -37,9 +37,9 @@ class CreditmemoAddComment implements CreditmemoAddCommentInterface
      */
     public function invoke(Comment $comment)
     {
-        /** @var \Magento\Sales\Model\Order\Creditmemo\Comment $commentModel */
-        $commentModel = $this->commentConverter->getModel($comment);
-        $commentModel->save();
+        /** @var \Magento\Sales\Model\Order\Shipment\Comment $shipmentModel */
+        $shipmentModel = $this->commentConverter->getModel($comment);
+        $shipmentModel->save();
 
         return true;
     }
