@@ -473,6 +473,8 @@ class CustomOptions extends Form
      * @param array|null $fields
      * @param string|null $parent
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function dataMapping(array $fields = null, $parent = null)
     {
