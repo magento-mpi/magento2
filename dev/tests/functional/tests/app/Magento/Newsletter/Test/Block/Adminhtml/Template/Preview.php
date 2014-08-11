@@ -12,6 +12,7 @@ use Mtf\Block\Block;
 use Mtf\Client\Browser;
 use Mtf\Client\Element;
 use Mtf\Block\BlockFactory;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Preview
@@ -53,7 +54,7 @@ class Preview extends Block
      */
     public function getPageContent()
     {
-        $this->browser->switchToFrame(new Element\Locator($this->iFrame));
+        $this->browser->switchToFrame(new Locator($this->iFrame));
         return $this->_rootElement->getText();
     }
 }
