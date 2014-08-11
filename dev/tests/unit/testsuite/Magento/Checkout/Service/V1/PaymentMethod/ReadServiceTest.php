@@ -71,11 +71,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Payment method is not set
-     */
-    public function testGetPaymentThrowsExceptionIfPaymentMethodNotSet()
+    public function testGetPaymentIfPaymentMethodNotSet()
     {
         $cartId = 11;
         $storeId = 12;
@@ -89,7 +85,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($cartId, $storeId)
             ->will($this->returnValue($quoteMock));
 
-        $this->service->getPayment($cartId);
+        $this->assertNull($this->service->getPayment($cartId));
     }
 
     public function testGetPaymentSuccess()

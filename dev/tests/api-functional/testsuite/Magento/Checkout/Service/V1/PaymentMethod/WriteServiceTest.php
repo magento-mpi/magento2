@@ -28,8 +28,10 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Checkout/_files/quote_with_payment_saved.php
+     * @expectedException \Exception
+     * @expectedExceptionMessage Payment method already set
      */
-    public function testSetPaymentIfPaymentAlreadySet()
+    public function testSetPaymentWithErrorIfPaymentAlreadySet()
     {
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
@@ -61,13 +63,7 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
 
-        $responce = $this->_webApiCall($serviceInfo, $requestData);
-
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->assertEquals(['result' => null], $responce);
-        } else {
-            $this->assertEquals([], $responce);
-        }
+        $this->_webApiCall($serviceInfo, $requestData);
     }
 
     /**

@@ -73,7 +73,7 @@ class ReadService implements ReadServiceInterface
 
         $payment = $quote->getPayment();
         if (!$payment) {
-            throw new InvalidTransitionException('Payment method is not set');
+            return null;
         }
         return $this->quoteMethodConverter->toDataObject($payment);
     }
