@@ -8,13 +8,25 @@
  */
 namespace Magento\Framework\ObjectManager\Profiler;
 
+use Magento\Framework\ObjectManager\Profiler\Tree\Item as Item;
+
 class Log
 {
     protected $objects;
 
     protected static $instance;
 
-    protected $stack = array();
+
+    /**
+     * @var Item
+     */
+    protected $currentItem = null;
+
+    protected $data = array();
+
+    protected $roots = array();
+
+    protected $used = array();
 
     public function __construct()
     {
@@ -29,44 +41,65 @@ class Log
         return self::$instance;
     }
 
+
     public function startCreating($class)
     {
-        array_push($this->stack, $class);
+        $parent = empty($this->currentItem) ? null : $this->currentItem;
+        $item = new Item($class, $parent);
+
+        if (!$parent) {
+            $this->roots[] = $item;
+        }
+
+        $this->currentItem = $item;
     }
 
-    public function stopCreating()
+    public function stopCreating($object)
     {
-        array_pop($this->stack);
+        $this->currentItem->setHash(spl_object_hash($object));
+        $this->currentItem = $this->currentItem->getParent();
     }
 
     public function add($object)
     {
-        $requestedFrom = count($this->stack) ? $this->stack[count($this->stack) - 1] : '';
-        $this->objects[get_class($object)][spl_object_hash($object)] = array(0, $requestedFrom);
+        if ($this->currentItem) {
+            $item = new Item(get_class($object), $this->currentItem);
+            $this->currentItem->addChild($item);
+        } else {
+            $item = new Item(get_class($object), null);
+            $this->roots[] = $item;
+        }
+        $item->setHash(spl_object_hash($object));
+
     }
 
     public function invoked($object)
     {
-        $class = get_class($object);
-        $this->objects[$class][spl_object_hash($object)][0]++;
+        $this->used[spl_object_hash($object)] = 1;
     }
 
     public function display()
     {
-        echo "<h3>Unused object list</h3>";
-        echo "<table>";
-        echo "<tr><th>Instance class</th><th>Requested from</th></tr>";
-        $totalUnused = $totalCreated = 0;
-        foreach ($this->objects as $class => $instances) {
-            foreach ($instances as $instance) {
-                $totalCreated ++;
-                if (!$instance[0]) {
-                    $totalUnused ++;
-                    echo "<tr><td>$class</td><td>$instance[1]</td></tr>";
-                }
-            }
+        echo '<table border="1" cellspacing="0" cellpadding="2">' . PHP_EOL;
+        echo '<caption>Creation chain (Red items are never used)</caption>>';
+        echo '<tbody>';
+        echo "<tr><th>Instance class</th></tr>";
+        foreach ($this->roots as $root) {
+            $this->displayItem($root);
         }
-        echo "</table>";
-        echo "Total unused : $totalUnused of $totalCreated";
+        echo '</tbody>';
+        echo '</table>';
+    }
+
+    protected function displayItem(Item $item, $level = 0)
+    {
+        $colorStyle = isset($this->used[$item->getHash()]) ? '' : ' style="color:red" ';
+
+        echo "<tr><td $colorStyle>" . str_repeat('·&nbsp;', $level) . $item->getClass() . ' - ' . $item->getHash() . '</td></tr>';
+
+        foreach ($item->getChildren() as $child) {
+            $this->displayItem($child, $level + 1);
+        }
+
     }
 }

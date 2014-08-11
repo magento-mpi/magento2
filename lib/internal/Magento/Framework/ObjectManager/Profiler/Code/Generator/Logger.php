@@ -70,7 +70,7 @@ class Logger extends \Magento\Framework\Code\Generator\EntityAbstract
             ),
             'body' => "\$this->log = \$log;"
                 . "\n\$this->subject = \$subject;"
-                . "\n\$this->log->add(\$subject);"
+                //. "\n\$this->log->add(\$subject);"
         );
     }
 
