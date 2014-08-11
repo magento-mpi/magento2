@@ -9,25 +9,36 @@
  */
 define(
     'USAGE',
-    'USAGE: php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>"'
-    . ' [--build] [--additional="<dev_build_ce.txt>"]'
+    'USAGE: php -f edition.php -- --dir="<working_directory>" --edition="<ce|ee>" [--internal]'
 );
 require __DIR__ . '/functions.php';
 try {
-    $options = getopt('', array('dir:', 'edition:', 'build', 'additional:'));
+    $options = getopt('', array('dir:', 'edition:', 'internal'));
     assertCondition(isset($options['dir']), USAGE);
     $dir = $options['dir'];
     assertCondition($dir && is_dir($dir), "The specified directory doesn't exist: {$options['dir']}");
     $dir = rtrim(str_replace('\\', '/', $dir), '/');
     assertCondition(isset($options['edition']), USAGE);
 
-    $lists = array('common.txt');
-    $isBuild = isset($options['build']);
-    if (!$isBuild) {
-        $lists[] = 'dev_build.txt';
-    } elseif (isset($options['additional'])) {
-        $lists[] = $options['additional'];
+    $lists = array('no-edition.txt');
+
+    $baseDir = __DIR__ . '/../../../';
+    $isTargetBaseDir = realpath($baseDir) == realpath($dir);
+    if (!$isTargetBaseDir) {
+        // remove service scripts, if edition tool is run outside of target directory
+        $lists[] = 'services.txt';
     }
+
+    $isInternal = isset($options['internal']) ? true : false;
+    if ($isInternal) {
+        if ($options['edition'] != 'ee') {
+            $lists[] = 'internal_ee.txt';
+        }
+    } else {
+        $lists[] = 'internal.txt';
+        $lists[] = 'internal_ee.txt';
+    }
+
     $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("{$dir}/.git"), escapeshellarg($dir));
     switch ($options['edition']) {
         case 'ce':
@@ -43,6 +54,7 @@ try {
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
+
     execVerbose("{$gitCmd} add .");
 
     // remove files that do not belong to edition

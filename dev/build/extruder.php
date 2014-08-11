@@ -75,6 +75,9 @@ try {
     if (empty($list)) {
         throw new Exception('List of files or directories to delete is empty.');
     }
+    // avoid multiple attempts to remove same file, including removal of a directory before removal of files in it
+    $list = array_unique($list);
+    rsort($list);
 
     // verbosity argument
     $verbose = isset($options['v']);
