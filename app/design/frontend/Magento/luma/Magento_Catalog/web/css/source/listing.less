@@ -10,21 +10,21 @@
 
 @product-grid-items-per-row-layout-default: 2;
 
-@product-grid-items-per-row-layout-1-break-point-0: 3;
-@product-grid-items-per-row-layout-1-break-point-1: 4;
-@product-grid-items-per-row-layout-1-break-point-2: 5;
+@product-grid-items-per-row-layout-1-screen-s: 3;
+@product-grid-items-per-row-layout-1-screen-m: 4;
+@product-grid-items-per-row-layout-1-screen-l: 5;
 
-@product-grid-items-per-row-layout-2-left-break-point-0: 3;
-@product-grid-items-per-row-layout-2-left-break-point-1: 4;
-@product-grid-items-per-row-layout-2-left-break-point-2: '';
+@product-grid-items-per-row-layout-2-left-screen-s: 3;
+@product-grid-items-per-row-layout-2-left-screen-m: 4;
+@product-grid-items-per-row-layout-2-left-screen-l: '';
 
-@product-grid-items-per-row-layout-2-right-break-point-0: 3;
-@product-grid-items-per-row-layout-2-right-break-point-1: 4;
-@product-grid-items-per-row-layout-2-right-break-point-2: '';
+@product-grid-items-per-row-layout-2-right-screen-s: 3;
+@product-grid-items-per-row-layout-2-right-screen-m: 4;
+@product-grid-items-per-row-layout-2-right-screen-l: '';
 
-@product-grid-items-per-row-layout-3-break-point-0: 3;
-@product-grid-items-per-row-layout-3-break-point-1: '';
-@product-grid-items-per-row-layout-3-break-point-2: '';
+@product-grid-items-per-row-layout-3-screen-s: 3;
+@product-grid-items-per-row-layout-3-screen-m: '';
+@product-grid-items-per-row-layout-3-screen-l: '';
 
 @product-grid-items-padding: 0 @indent-base @indent-base;
 @product-grid-items-margin: 0 0 @indent-l-base;
@@ -66,30 +66,30 @@
     .product-item-grid(@_layout-class: false, @product-grid-items-per-row-layout-default);
 }
 
-.responsive(@break) when (@break = @break-point-0) {
+.responsive(@break) when (@break = @screen-s) {
     .products.grid .item.product {
-        .product-item-grid(@layout-class-1column, @product-grid-items-per-row-layout-1-break-point-0);
-        .product-item-grid(@layout-class-2columns-left, @product-grid-items-per-row-layout-2-left-break-point-0);
-        .product-item-grid(@layout-class-2columns-right, @product-grid-items-per-row-layout-2-right-break-point-0);
-        .product-item-grid(@layout-class-3columns, @product-grid-items-per-row-layout-3-break-point-0);
+        .product-item-grid(@layout-class-1column, @product-grid-items-per-row-layout-1-screen-s);
+        .product-item-grid(@layout-class-2columns-left, @product-grid-items-per-row-layout-2-left-screen-s);
+        .product-item-grid(@layout-class-2columns-right, @product-grid-items-per-row-layout-2-right-screen-s);
+        .product-item-grid(@layout-class-3columns, @product-grid-items-per-row-layout-3-screen-s);
     }
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .products.grid .item.product {
-        .product-item-grid(@layout-class-1column, @product-grid-items-per-row-layout-1-break-point-1);
-        .product-item-grid(@layout-class-2columns-left, @product-grid-items-per-row-layout-2-left-break-point-1);
-        .product-item-grid(@layout-class-2columns-right, @product-grid-items-per-row-layout-2-right-break-point-1);
-        .product-item-grid(@layout-class-3columns, @product-grid-items-per-row-layout-3-break-point-1);
+        .product-item-grid(@layout-class-1column, @product-grid-items-per-row-layout-1-screen-m);
+        .product-item-grid(@layout-class-2columns-left, @product-grid-items-per-row-layout-2-left-screen-m);
+        .product-item-grid(@layout-class-2columns-right, @product-grid-items-per-row-layout-2-right-screen-m);
+        .product-item-grid(@layout-class-3columns, @product-grid-items-per-row-layout-3-screen-m);
     }
 }
 
-.responsive(@break) when (@break = @break-point-2) {
+.responsive(@break) when (@break = @screen-l) {
     .products.grid .item.product {
-        .product-item-grid(@layout-class-1column, @product-grid-items-per-row-layout-1-break-point-2);
-        .product-item-grid(@layout-class-2columns-left, @product-grid-items-per-row-layout-2-left-break-point-2);
-        .product-item-grid(@layout-class-2columns-right, @product-grid-items-per-row-layout-2-right-break-point-2);
-        .product-item-grid(@layout-class-3columns, @product-grid-items-per-row-layout-3-break-point-2);
+        .product-item-grid(@layout-class-1column, @product-grid-items-per-row-layout-1-screen-l);
+        .product-item-grid(@layout-class-2columns-left, @product-grid-items-per-row-layout-2-left-screen-l);
+        .product-item-grid(@layout-class-2columns-right, @product-grid-items-per-row-layout-2-right-screen-l);
+        .product-item-grid(@layout-class-3columns, @product-grid-items-per-row-layout-3-screen-l);
     }
 }
 
@@ -222,7 +222,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
 
     .products {
         &.list.items {

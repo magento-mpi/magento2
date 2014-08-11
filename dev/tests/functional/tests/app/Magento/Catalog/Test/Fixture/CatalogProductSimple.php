@@ -581,6 +581,12 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
+    protected $stock_data = [
+        'attribute_code' => 'stock_data',
+        'backend_type' => 'virtual',
+        'group' => 'advanced-inventory'
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -874,5 +880,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getNewsToDate()
     {
         return $this->getData('news_to_date');
+    }
+
+    public function getStockDate()
+    {
+        return $this->getData('stock_data');
     }
 }

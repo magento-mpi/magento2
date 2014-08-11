@@ -13,9 +13,11 @@
 }
 
 .product-info-main,
-.block-bundle-summary {
+.block-bundle-summary,
+.product-item,
+.table-comparison {
     .action.towishlist {
-        &:extend(.abstract-add-to-actions all);
+        &:extend(.abstract-actions-addto all);
         .icon-font-symbol(
             @_icon-font-content: @icon-wishlist-full,
             @_icon-font-position: before
