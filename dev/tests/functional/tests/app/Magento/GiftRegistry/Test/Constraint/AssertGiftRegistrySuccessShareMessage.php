@@ -20,7 +20,7 @@ class AssertGiftRegistrySuccessShareMessage extends AbstractConstraint
     /**
      * Success gift registry share message
      */
-    const SUCCESS_MESSAGE = 'You shared the gift registry for 1 emails.';
+    const SUCCESS_MESSAGE = 'You shared the gift registry for %d emails.';
 
     /**
      * Constraint severeness
@@ -33,12 +33,13 @@ class AssertGiftRegistrySuccessShareMessage extends AbstractConstraint
      * Assert that success message is displayed after gift registry has been shared
      *
      * @param GiftRegistryIndex $giftRegistryIndex
+     * @param int $recipientsQty
      * @return void
      */
-    public function processAssert(GiftRegistryIndex $giftRegistryIndex)
+    public function processAssert(GiftRegistryIndex $giftRegistryIndex, $recipientsQty)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            sprintf(self::SUCCESS_MESSAGE, $recipientsQty),
             $giftRegistryIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );

@@ -9,6 +9,7 @@
 namespace Magento\GiftRegistry\Test\Block\Customer;
 
 use Mtf\Block\Form;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Class Share
@@ -31,15 +32,25 @@ class Share extends Form
     protected $shareGiftRegistry = '.share';
 
     /**
-     * Set sender message
+     * Add recipient button selector
      *
-     * @param string $message
-     * @return void
+     * @var string
      */
-    public function setSenderMessage($message)
-    {
-        $this->_rootElement->find($this->senderMessage)->setValue($message);
-    }
+    protected $addRecipient = '#add-recipient-button';
+
+    /**
+     * Recipient first name selector
+     *
+     * @var string
+     */
+    protected $recipientFirstName = '[name="recipients[%d][name]"]';
+
+    /**
+     * Recipient email selector
+     *
+     * @var string
+     */
+    protected $recipientEmail = '[name="recipients[%d][email]"]';
 
     /**
      * Click "Share Gift Registry" button
@@ -49,5 +60,29 @@ class Share extends Form
     public function shareGiftRegistry()
     {
         $this->_rootElement->find($this->shareGiftRegistry)->click();
+    }
+
+    /**
+     * Fill share gift registry form
+     *
+     * @param string $message
+     * @param array $recipients
+     * @throws \Exception
+     * @return void
+     */
+    public function fillForm($message, array $recipients)
+    {
+        $this->_rootElement->find($this->senderMessage)->setValue($message);
+        if (count($recipients) > 3) {
+            throw new \Exception('Maximum 3 email addresses.');
+        }
+        foreach ($recipients as $key => $recipient) {
+            if ($key !== 0) {
+                $this->_rootElement->find($this->addRecipient)->click();
+            }
+            /** @var CustomerInjectable $recipient */
+            $this->_rootElement->find(sprintf($this->recipientFirstName, $key))->setValue($recipient->getFirstname());
+            $this->_rootElement->find(sprintf($this->recipientEmail, $key))->setValue($recipient->getEmail());
+        }
     }
 }

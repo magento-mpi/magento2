@@ -156,7 +156,7 @@ class SharingGiftRegistryEntityTest extends Injectable
      * @param CustomerInjectable $customer2
      * @param GiftRegistry $giftRegistry
      * @param string $message
-     * @return void
+     * @return array
      */
     public function test(
         CustomerInjectable $customer1,
@@ -172,16 +172,15 @@ class SharingGiftRegistryEntityTest extends Injectable
             $this->customerAccountLogin->getLoginBlock()->login($customer1);
         }
         // Create Gift Registry
-        $this->cmsIndex->getLinksBlock()->openLink("My Account");
-        $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Gift Registry");
-        $this->giftRegistryIndex->getActionsToolbar()->addNew();
-        $this->giftRegistryAddSelect->getGiftRegistryTypeBlock()->selectGiftRegistryType($giftRegistry->getTypeId());
-        $this->giftRegistryEdit->getCustomerEditForm()->fill($giftRegistry);
-        $this->giftRegistryEdit->getActionsToolbarBlock()->save();
+        $giftRegistry->persist();
         // Share Gift Registry with customer2
         $this->giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistry->getTitle(), 'Share');
-        $this->giftRegistryShare->getGiftRegistryShareForm()->setSenderMessage($message);
-        $this->giftRegistryShare->getGiftRegistryShareForm()->fill($customer2);
+        $recipients = [$customer2];
+        $this->giftRegistryShare->getGiftRegistryShareForm()->fillForm($message, $recipients);
         $this->giftRegistryShare->getGiftRegistryShareForm()->shareGiftRegistry();
+
+        return [
+            'recipientsQty' => count($recipients)
+        ];
     }
 }
