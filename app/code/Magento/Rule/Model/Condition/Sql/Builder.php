@@ -168,6 +168,8 @@ class Builder
      *
      * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param Combine $combine
+     *
+     * @return void
      */
     public function attachConditionToCollection(
         \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection,

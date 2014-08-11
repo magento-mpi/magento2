@@ -204,7 +204,8 @@ $installer->getConnection()->addIndex(
 
 $installer->getConnection()->addIndex(
     $installer->getTable('magento_targetrule_index_related'),
-    $installer->getIdxName('magento_targetrule_index_related',
+    $installer->getIdxName(
+        'magento_targetrule_index_related',
         array(
             'entity_id',
             'store_id',
@@ -223,7 +224,8 @@ $installer->getConnection()->addIndex(
 
 $installer->getConnection()->addIndex(
     $installer->getTable('magento_targetrule_index_upsell'),
-    $installer->getIdxName('magento_targetrule_index_upsell',
+    $installer->getIdxName(
+        'magento_targetrule_index_upsell',
         array(
             'entity_id',
             'store_id',
@@ -241,22 +243,26 @@ $installer->getConnection()->addIndex(
 );
 
 $installer->getConnection()
-    ->dropColumn($installer->getTable('magento_targetrule_index_crosssell'),
+    ->dropColumn(
+        $installer->getTable('magento_targetrule_index_crosssell'),
         'product_ids'
     );
 
 $installer->getConnection()
-    ->dropColumn($installer->getTable('magento_targetrule_index_related'),
+    ->dropColumn(
+        $installer->getTable('magento_targetrule_index_related'),
         'product_ids'
     );
 
 $installer->getConnection()
-    ->dropColumn($installer->getTable('magento_targetrule_index_upsell'),
+    ->dropColumn(
+        $installer->getTable('magento_targetrule_index_upsell'),
         'product_ids'
     );
 
 $installer->getConnection()
-    ->addColumn($installer->getTable('magento_targetrule_index_crosssell'),
+    ->addColumn(
+        $installer->getTable('magento_targetrule_index_crosssell'),
         'product_set_id',
         array(
             'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -269,7 +275,8 @@ $installer->getConnection()
     );
 
 $installer->getConnection()
-    ->addColumn($installer->getTable('magento_targetrule_index_related'),
+    ->addColumn(
+        $installer->getTable('magento_targetrule_index_related'),
         'product_set_id',
         array(
             'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -282,7 +289,8 @@ $installer->getConnection()
     );
 
 $installer->getConnection()
-    ->addColumn($installer->getTable('magento_targetrule_index_upsell'),
+    ->addColumn(
+        $installer->getTable('magento_targetrule_index_upsell'),
         'product_set_id',
         array(
             'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -294,22 +302,36 @@ $installer->getConnection()
         )
     );
 
-$table = $installer->getConnection()->newTable($installer->getTable('magento_targetrule_index_crosssell_product'))
-    ->addColumn('product_set_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-    ), 'TargetRule Id')
-    ->addColumn('product_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-    ), 'Product Id')
-    ->addIndex($installer->getIdxName('magento_targetrule_index_crosssell_product',
-            array('product_set_id', 'product_id'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+$table = $installer->getConnection()
+    ->newTable(
+        $installer->getTable('magento_targetrule_index_crosssell_product')
+    )->addColumn(
+        'product_set_id',
+        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+        array(
+            'identity'  => true,
+            'unsigned'  => true,
+            'nullable'  => false,
+        ),
+        'TargetRule Id'
+    )->addColumn(
+        'product_id',
+        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+        array(
+            'unsigned'  => true,
+            'nullable'  => false,
+        ), 'Product Id'
+    )->addIndex(
+        $installer->getIdxName(
+            'magento_targetrule_index_crosssell_product',
+            array('product_set_id', 'product_id'),
+            \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        ),
         array('product_set_id', 'product_id'),
         array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
-    )
-    ->addForeignKey(
+    )->addForeignKey(
         $installer->getFkName(
             'magento_targetrule_index_crosssell_product',
             'product_set_id',
@@ -321,27 +343,43 @@ $table = $installer->getConnection()->newTable($installer->getTable('magento_tar
         'product_set_id',
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->setComment('Enterprise Targetrule Index Crosssell Products');
+    )->setComment(
+        'Enterprise Targetrule Index Crosssell Products'
+    );
 
 $installer->getConnection()->createTable($table);
 
-$table = $installer->getConnection()->newTable($installer->getTable('magento_targetrule_index_related_product'))
-    ->addColumn('product_set_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-    ), 'TargetRule Id')
-    ->addColumn('product_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-    ), 'Product Id')
-    ->addIndex($installer->getIdxName('magento_targetrule_index_related_product',
-        array('product_set_id', 'product_id'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+$table = $installer->getConnection()
+    ->newTable(
+        $installer->getTable('magento_targetrule_index_related_product')
+    )->addColumn(
+        'product_set_id',
+        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+        array(
+            'identity'  => true,
+            'unsigned'  => true,
+            'nullable'  => false,
+        ),
+        'TargetRule Id'
+    )->addColumn(
+        'product_id',
+        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+            array(
+            'unsigned'  => true,
+            'nullable'  => false,
+        ),
+        'Product Id'
+    )->addIndex(
+        $installer->getIdxName(
+            'magento_targetrule_index_related_product',
+            array('product_set_id', 'product_id'),
+            \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        ),
         array('product_set_id', 'product_id'),
         array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
-    )
-    ->addForeignKey(
+    )->addForeignKey(
         $installer->getFkName(
             'magento_targetrule_index_related_product',
             'product_set_id',
@@ -353,27 +391,43 @@ $table = $installer->getConnection()->newTable($installer->getTable('magento_tar
         'product_set_id',
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->setComment('Enterprise Targetrule Index Related Products');
+    )->setComment(
+        'Enterprise Targetrule Index Related Products'
+    );
 
 $installer->getConnection()->createTable($table);
 
-$table = $installer->getConnection()->newTable($installer->getTable('magento_targetrule_index_upsell_product'))
-    ->addColumn('product_set_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-    ), 'TargetRule Id')
-    ->addColumn('product_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-    ), 'Product Id')
-    ->addIndex($installer->getIdxName('magento_targetrule_index_upsell_product',
-            array('product_set_id', 'product_id'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+$table = $installer->getConnection()
+    ->newTable(
+        $installer->getTable('magento_targetrule_index_upsell_product')
+    )->addColumn(
+        'product_set_id',
+        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+        array(
+            'identity'  => true,
+            'unsigned'  => true,
+            'nullable'  => false,
+        ),
+        'TargetRule Id'
+    )->addColumn(
+        'product_id',
+        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+        array(
+            'unsigned'  => true,
+            'nullable'  => false,
+        ),
+        'Product Id'
+    )->addIndex(
+        $installer->getIdxName(
+            'magento_targetrule_index_upsell_product',
+            array('product_set_id', 'product_id'),
+            \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        ),
         array('product_set_id', 'product_id'),
         array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
-    )
-    ->addForeignKey(
+    )->addForeignKey(
         $installer->getFkName(
             'magento_targetrule_index_upsell_product',
             'product_set_id',
@@ -385,8 +439,9 @@ $table = $installer->getConnection()->newTable($installer->getTable('magento_tar
         'product_set_id',
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->setComment('Enterprise Targetrule Index Upsell Products');
+    )->setComment(
+        'Enterprise Targetrule Index Upsell Products'
+    );
 
 $installer->getConnection()->createTable($table);
 

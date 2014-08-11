@@ -186,7 +186,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             foreach ($prefixes as $prefix) {
                 $dataKeys[] = $prefix . $var;
                 $productMock->setData($prefix . $var . '_default', 1);
-                $productMock->setData($prefix . $var, rand(0,111));
+                $productMock->setData($prefix . $var, rand(0, 111));
             }
         }
 
