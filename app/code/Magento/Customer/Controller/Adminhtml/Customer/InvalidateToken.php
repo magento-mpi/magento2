@@ -15,7 +15,6 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        die(__METHOD__);
         $currentCustomer = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getCustomer();
 
         if ($userId = $this->getRequest()->getParam('customer_id')) {
@@ -24,16 +23,16 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
                 /*
                  * TODO: insert code here to revoke all tokens
                  */
-                $this->messageManager->addSuccess(__('You have invalidated the user.'));
+                $this->messageManager->addSuccess(__('You have invalidated the customer.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
+                $this->_redirect('adminhtml/*/edit', array('customer_id' => $this->getRequest()->getParam('customer_id')));
                 return;
             }
         }
-        $this->messageManager->addError(__('We can\'t find a user to invalidate.'));
+        $this->messageManager->addError(__('We can\'t find a customer to invalidate.'));
         $this->_redirect('adminhtml/*/');
     }
 }
