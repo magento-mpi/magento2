@@ -80,6 +80,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
+        $paymentMock = $this->getMock('\Magento\Sales\Model\Quote\Payment', [], [], '', false);
+        $quoteMock->expects($this->once())->method('getPayment')->will($this->returnValue($paymentMock));
+        $paymentMock->expects($this->once())->method('getId')->will($this->returnValue(null));
+
         $this->quoteLoaderMock->expects($this->once())
             ->method('load')
             ->with($cartId, $storeId)
@@ -97,6 +101,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
         $paymentMock = $this->getMock('\Magento\Sales\Model\Quote\Payment', [], [], '', false);
+        $paymentMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $quoteMock->expects($this->once())->method('getPayment')->will($this->returnValue($paymentMock));
