@@ -12,7 +12,7 @@ $addressData = include __DIR__ . '/address_data.php';
 
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-$billingAddress = $objectManager->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
+$billingAddress = $objectManager->create('Magento\Sales\Model\Order\Address', ['data' => $addressData]);
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -27,29 +27,17 @@ $orderItem->setProductId($product->getId())->setQtyOrdered(2);
 
 /** @var \Magento\Sales\Model\Order $order */
 $order = $objectManager->create('Magento\Sales\Model\Order');
-$order->setIncrementId(
-    '100000001'
-)->setState(
-    \Magento\Sales\Model\Order::STATE_PROCESSING, true
-)->setSubtotal(
-    100
-)->setBaseSubtotal(
-    100
-)->setCustomerIsGuest(
-    true
-)->setCustomerEmail(
-    'customer@null.com'
-)->setBillingAddress(
-    $billingAddress
-)->setShippingAddress(
-    $shippingAddress
-)->setStoreId(
-    $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId()
-)->addItem(
-    $orderItem
-)->setPayment(
-    $payment
-);
+$order->setIncrementId('100000001')
+    ->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true)
+    ->setSubtotal(100)
+    ->setBaseSubtotal(100)
+    ->setCustomerIsGuest(true)
+    ->setCustomerEmail('customer@null.com')
+    ->setBillingAddress($billingAddress)
+    ->setShippingAddress($shippingAddress)
+    ->setStoreId($objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId())
+    ->addItem($orderItem)
+    ->setPayment($payment);
 $order->save();
 
 $payment = $order->getPayment();
@@ -64,7 +52,7 @@ $payment->setBlockMock($paymentInfoBlock);
 $shipment = $objectManager->create('Magento\Sales\Model\Order\Shipment');
 $shipment->setOrder($order);
 
-$packages = array(array('1'), array('2'));
+$packages = [['1'], ['2']];
 
 $shipment->addItem($objectManager->create('Magento\Sales\Model\Order\Shipment\Item'));
 $shipment->setPackages($packages);
