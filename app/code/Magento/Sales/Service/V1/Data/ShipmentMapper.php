@@ -8,8 +8,6 @@
 
 namespace Magento\Sales\Service\V1\Data;
 
-use Magento\Sales\Model\Order\Shipment;
-
 /**
  * Class ShipmentMapper
  */
@@ -61,7 +59,7 @@ class ShipmentMapper
     }
 
     /**
-     * @param Shipment $object
+     * @param \Magento\Sales\Model\Order\Shipment $object
      * @return \Magento\Sales\Service\V1\Data\Shipment
      */
     public function extractDto(\Magento\Sales\Model\Order\Shipment $object)
