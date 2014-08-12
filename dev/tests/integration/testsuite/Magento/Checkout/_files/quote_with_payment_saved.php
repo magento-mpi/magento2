@@ -12,6 +12,11 @@ $quote->setReservedOrderId(
     'test_order_1_with_payment'
 );
 
+$paymentDetails = [
+    'transaction_id' => 100500,
+    'consumer_key'   => '123123q'
+];
+
 $quote->getPayment()
     ->setMethod('checkmo')
     ->setPoNumber('poNumber')
@@ -20,6 +25,7 @@ $quote->getPayment()
     ->setCcNumberEnc('1000-2000-3000-4000')
     ->setCcType('visa')
     ->setCcExpYear(2014)
-    ->setCcExpMonth(1);
+    ->setCcExpMonth(1)
+    ->setAdditionalData(serialize($paymentDetails));
 
 $quote->collectTotals()->save();
