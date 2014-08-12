@@ -8,23 +8,29 @@
 
 namespace Magento\Banner\Test\Page;
 
-use Magento\Checkout\Test\Page\CheckoutCart as AbstractCheckoutCart;
-
 /**
  * Class CheckoutCart
+ * Shopping Cart Page
  */
-class CheckoutCart extends AbstractCheckoutCart
+class CheckoutCart extends \Magento\Checkout\Test\Page\CheckoutCart
 {
     const MCA = 'banner/checkout/cart';
 
-    protected $_blocks = [
-        'cartBlock' => [
+    /**
+     * Initialize page
+     *
+     * @return void
+     */
+    protected function _init()
+    {
+        parent::_init();
+        $this->_blocks['cartBlock'] = [
             'name' => 'cartBlock',
             'class' => 'Magento\Banner\Test\Block\Cart',
-            'locator' => '//div[contains(@class, "column main")]',
-            'strategy' => 'xpath',
-        ]
-    ];
+            'locator' => '.column.main',
+            'strategy' => 'css selector',
+        ];
+    }
 
     /**
      * @return \Magento\Banner\Test\Block\Cart

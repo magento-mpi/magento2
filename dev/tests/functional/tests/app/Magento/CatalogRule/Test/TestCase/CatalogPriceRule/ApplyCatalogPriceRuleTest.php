@@ -120,7 +120,6 @@ class ApplyCatalogPriceRuleTest extends Functional
             ['category_id' => $categoryId]
         );
         $catalogRuleFixture->switchData(CatalogPriceRule::CATALOG_PRICE_RULE_ALL_GROUPS);
-        //$this->markTestIncomplete('MAGETWO-27097');
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $catalogRuleCreatePage->getFormPageActions()->save();
 
@@ -240,8 +239,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexBanner();
         $frontendHomePage->open();
         $bannerBlock = $frontendHomePage->getBannersBlock();
-        $bannerText = $bannerBlock->getBannerText();
-        $this->assertNotEmpty($bannerText, "Banner is empty.");
+        $this->assertNotEmpty($bannerBlock->getBannerText(), "Banner is empty.");
 
         // open the category associated with the product
         $frontendHomePage->getTopmenu()->selectCategoryByName($products[0]->getCategoryName());

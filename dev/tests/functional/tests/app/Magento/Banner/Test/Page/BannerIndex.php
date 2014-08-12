@@ -14,7 +14,6 @@ use Mtf\Factory\Factory;
 /**
  * Class BannerIndex
  * Home page for frontend containing Banner
- *
  */
 class BannerIndex extends CmsIndex
 {

@@ -13,7 +13,7 @@ use Mtf\Block\Block;
 
 /**
  * Banners block
- *
+ * Banner block in Banner widget on frontend
  */
 class Banners extends Block
 {
@@ -21,17 +21,17 @@ class Banners extends Block
 
     /**
      * Return Banner content
+     *
+     * @return array
      */
     public function getBannerText()
     {
         $banners = $this->_rootElement->find($this->bannerText)->getElements();
         $bannersText = [];
         foreach ($banners as $banner) {
-            if (!$banner->isVisible()) {
-                throw new \Exception('Banner is not visible');
-            }
             $bannersText[] = $banner->getText();
         }
+
         return $bannersText;
     }
 }

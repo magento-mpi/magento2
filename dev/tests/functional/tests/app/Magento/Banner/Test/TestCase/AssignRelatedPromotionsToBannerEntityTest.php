@@ -155,10 +155,8 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
      * @param string $catalogPriceRule
      * @return array
      */
-    protected function createRules(
-        $catalogPriceRule,
-        $cartPriceRule
-    ) {
+    protected function createRules($catalogPriceRule, $cartPriceRule)
+    {
         $rules = [];
         if ($catalogPriceRule !== "-") {
             $catalogPriceRule = $this->fixtureFactory->createByCode('catalogRule', ['dataSet' => $catalogPriceRule]);

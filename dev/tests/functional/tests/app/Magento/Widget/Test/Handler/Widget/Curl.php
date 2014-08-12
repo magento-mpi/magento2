@@ -41,8 +41,8 @@ class Curl extends AbstractCurl
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $this->prepareData($fixture);
-        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $fixture->getData('code') .
-            '/theme_id/' . $fixture->getData('theme_id');
+        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/'
+            . $fixture->getData('code') . '/theme_id/' . $fixture->getData('theme_id');
         unset($data['code']);
         unset($data['theme_id']);
         $curl = new BackendDecorator(new CurlTransport(), new Config);

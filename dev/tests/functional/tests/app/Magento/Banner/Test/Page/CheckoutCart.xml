@@ -11,7 +11,7 @@
     <block>
         <name>cartBlock</name>
         <class>Magento\Banner\Test\Block\Cart</class>
-        <locator>//div[contains(@class, "column main")]</locator>
-        <strategy>xpath</strategy>
+        <locator>.column.main</locator>
+        <strategy>css selector</strategy>
     </block>
 </page>

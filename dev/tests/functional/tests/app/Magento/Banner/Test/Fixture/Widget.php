@@ -13,8 +13,6 @@ use Magento\Widget\Test\Fixture\Widget as ParentWidget;
 /**
  * Class Widget
  * Fixture for Widget
- *
- * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Widget extends ParentWidget
 {

@@ -8,24 +8,29 @@
 
 namespace Magento\Banner\Test\Page\Category;
 
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView as AbstractCatalogCategoryView;
-
 /**
  * Class CatalogCategoryView
  * Catalog Category page
  */
-class CatalogCategoryView extends AbstractCatalogCategoryView
+class CatalogCategoryView extends \Magento\Catalog\Test\Page\Category\CatalogCategoryView
 {
     const MCA = 'banner/catalog/category/view';
 
-    protected $_blocks = [
-        'viewBlock' => [
+    /**
+     * Initialize page
+     *
+     * @return void
+     */
+    protected function _init()
+    {
+        parent::_init();
+        $this->_blocks['viewBlock'] = [
             'name' => 'viewBlock',
             'class' => 'Magento\Banner\Test\Block\Category\View',
             'locator' => '.column.main',
             'strategy' => 'css selector',
-        ],
-    ];
+        ];
+    }
 
     /**
      * @return \Magento\Banner\Test\Block\Category\View
