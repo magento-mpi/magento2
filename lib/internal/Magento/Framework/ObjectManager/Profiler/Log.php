@@ -12,10 +12,7 @@ use Magento\Framework\ObjectManager\Profiler\Tree\Item as Item;
 
 class Log
 {
-    protected $objects;
-
     protected static $instance;
-
 
     /**
      * @var Item
@@ -27,6 +24,8 @@ class Log
     protected $roots = array();
 
     protected $used = array();
+
+    protected $stats = array('total' => 0, 'used' => 0, 'unused' => 0);
 
     public function __construct()
     {
@@ -44,6 +43,7 @@ class Log
 
     public function startCreating($class)
     {
+        $this->stats['total']++;
         $parent = empty($this->currentItem) ? null : $this->currentItem;
         $item = new Item($class, $parent);
 
@@ -62,6 +62,7 @@ class Log
 
     public function add($object)
     {
+        $this->stats['total']++;
         if ($this->currentItem) {
             $item = new Item(get_class($object), $this->currentItem);
             $this->currentItem->addChild($item);
@@ -80,8 +81,10 @@ class Log
 
     public function display()
     {
+        $this->stats['used'] = count($this->used);
+        $this->stats['unused'] = $this->stats['total'] - $this->stats['used'];
         echo '<table border="1" cellspacing="0" cellpadding="2">' . PHP_EOL;
-        echo '<caption>Creation chain (Red items are never used)</caption>>';
+        echo "<caption>Creation chain (Red items are never used) Total: {$this->stats['total']} Used: {$this->stats['used']} Not used: {$this->stats['unused']}</caption>";
         echo '<tbody>';
         echo "<tr><th>Instance class</th></tr>";
         foreach ($this->roots as $root) {

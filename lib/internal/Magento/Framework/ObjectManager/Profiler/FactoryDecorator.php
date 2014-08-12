@@ -48,8 +48,6 @@ class FactoryDecorator implements \Magento\Framework\ObjectManager\Factory
         $loggerClassName = get_class($result) . "\\Logger";
         $wrappedResult = new $loggerClassName($result, $this->log);
         $this->log->stopCreating($result);
-
-        //$this->log->add($result);
         return $wrappedResult;
     }
 }
