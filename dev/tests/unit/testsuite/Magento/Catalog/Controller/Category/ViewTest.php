@@ -163,8 +163,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->catalogDesign->expects($this->any())->method('getDesignSettings')->will($this->returnValue($settings));
 
-        $this->layoutHelper->expects($this->once())->method('applyHandle')->with($pageLayout);
-
         $this->action->execute();
     }
 }

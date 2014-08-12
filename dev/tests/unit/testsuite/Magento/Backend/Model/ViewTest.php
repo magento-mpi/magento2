@@ -28,12 +28,29 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $node = new \Magento\Framework\Simplexml\Element('<node/>');
         $this->_layoutMock->expects($this->once())->method('getNode')->will($this->returnValue($node));
         $this->_layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutProcessor));
+
+        $resultPage = $this->getMockBuilder('Magento\Framework\View\Result\Page')
+            ->disableOriginalConstructor()
+            ->setMethods(['getLayout', 'getDefaultLayoutHandle'])
+            ->getMock();
+        $resultPage->expects($this->atLeastOnce())
+            ->method('getLayout')
+            ->will($this->returnValue($this->_layoutMock));
+        $pageFactory = $this->getMockBuilder('Magento\Framework\View\Result\PageFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $pageFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($resultPage));
+
         $this->_view = $helper->getObject(
             'Magento\Backend\Model\View',
             array(
                 'aclFilter' => $aclFilter,
                 'layout' => $this->_layoutMock,
-                'request' => $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false)
+                'request' => $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false),
+                'pageFactory' => $pageFactory
             )
         );
     }
