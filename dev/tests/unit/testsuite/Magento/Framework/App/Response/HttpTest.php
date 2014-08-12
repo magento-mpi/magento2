@@ -15,61 +15,61 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\App\Response\Http
      */
-    protected $_model;
+    protected $model;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\CookieManager
      */
-    protected $_cookieManagerMock;
+    protected $cookieManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
-    protected $_cookieMetadataFactoryMock;
+    protected $cookieMetadataFactoryMock;
 
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Http\Context
      */
-    protected $_contextMock;
+    protected $contextMock;
 
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_cookieMetadataFactoryMock = $this->getMockBuilder(
+        $this->cookieMetadataFactoryMock = $this->getMockBuilder(
             'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
         )->disableOriginalConstructor()->getMock();
-        $this->_cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\CookieManager')
+        $this->cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\CookieManager')
             ->disableOriginalConstructor()->getMock();
-        $this->_contextMock = $this->getMockBuilder('Magento\Framework\App\Http\Context')->disableOriginalConstructor()
+        $this->contextMock = $this->getMockBuilder('Magento\Framework\App\Http\Context')->disableOriginalConstructor()
             ->getMock();
-        $this->_model = $objectManager->getObject(
+        $this->model = $objectManager->getObject(
             'Magento\Framework\App\Response\Http',
             [
-                'cookieManager' => $this->_cookieManagerMock,
-                'cookieMetadataFactory' => $this->_cookieMetadataFactoryMock,
-                'context' => $this->_contextMock
+                'cookieManager' => $this->cookieManagerMock,
+                'cookieMetadataFactory' => $this->cookieMetadataFactoryMock,
+                'context' => $this->contextMock
             ]
         );
-        $this->_model->headersSentThrowsException = false;
-        $this->_model->setHeader('name', 'value');
+        $this->model->headersSentThrowsException = false;
+        $this->model->setHeader('name', 'value');
     }
 
     protected function tearDown()
     {
-        unset($this->_model);
+        unset($this->model);
     }
 
     public function testGetHeaderWhenHeaderNameIsEqualsName()
     {
         $expected = array('name' => 'Name', 'value' => 'value', 'replace' => false);
-        $actual = $this->_model->getHeader('Name');
+        $actual = $this->model->getHeader('Name');
         $this->assertEquals($expected, $actual);
     }
 
     public function testGetHeaderWhenHeaderNameIsNotEqualsName()
     {
-        $this->assertFalse($this->_model->getHeader('Test'));
+        $this->assertFalse($this->model->getHeader('Test'));
     }
 
     public function testSendVary()
@@ -81,26 +81,26 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $publicCookieMetadataMock->expects($this->once())
             ->method('setPath')
             ->with('/')
-            ->will($this->returnValue($publicCookieMetadataMock));
+            ->will($this->returnSelf());
 
-        $this->_contextMock->expects($this->once())
+        $this->contextMock->expects($this->once())
             ->method('getData')
             ->with()
             ->will(
                 $this->returnValue($data)
             );
 
-        $this->_cookieMetadataFactoryMock->expects($this->once())
+        $this->cookieMetadataFactoryMock->expects($this->once())
             ->method('createPublicCookieMetadata')
             ->with()
             ->will(
                 $this->returnValue($publicCookieMetadataMock)
             );
 
-        $this->_cookieManagerMock->expects($this->once())
+        $this->cookieManagerMock->expects($this->once())
             ->method('setPublicCookie')
             ->with($expectedCookieName, $expectedCookieValue, $publicCookieMetadataMock);
-        $this->_model->sendVary();
+        $this->model->sendVary();
     }
 
     public function testSendVaryEmptyData()
@@ -110,17 +110,17 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $cookieMetadataMock->expects($this->once())
             ->method('setPath')
             ->with('/')
-            ->will($this->returnValue($cookieMetadataMock));
+            ->will($this->returnSelf());
 
-        $this->_cookieMetadataFactoryMock->expects($this->once())
+        $this->cookieMetadataFactoryMock->expects($this->once())
             ->method('createCookieMetadata')
             ->with()
             ->will($this->returnValue($cookieMetadataMock));
 
-        $this->_cookieManagerMock->expects($this->once())
+        $this->cookieManagerMock->expects($this->once())
             ->method('deleteCookie')
             ->with($expectedCookieName, $cookieMetadataMock);
-        $this->_model->sendVary();
+        $this->model->sendVary();
     }
 
     /**
@@ -133,10 +133,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $cacheControl = 'public, max-age=' . $ttl . ', s-maxage=' . $ttl;
         $between = 1000;
 
-        $this->_model->setPublicHeaders($ttl);
-        $this->assertEquals($pragma, $this->_model->getHeader('Pragma')['value']);
-        $this->assertEquals($cacheControl, $this->_model->getHeader('Cache-Control')['value']);
-        $expiresResult = time($this->_model->getHeader('Expires')['value']);
+        $this->model->setPublicHeaders($ttl);
+        $this->assertEquals($pragma, $this->model->getHeader('Pragma')['value']);
+        $this->assertEquals($cacheControl, $this->model->getHeader('Cache-Control')['value']);
+        $expiresResult = time($this->model->getHeader('Expires')['value']);
         $this->assertTrue($expiresResult > $between || $expiresResult < $between);
     }
 
@@ -149,7 +149,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'Time to live is a mandatory parameter for set public headers'
         );
-        $this->_model->setPublicHeaders(null);
+        $this->model->setPublicHeaders(null);
     }
 
     /**
@@ -162,10 +162,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $cacheControl = 'private, max-age=' . $ttl;
         $expires = gmdate('D, d M Y H:i:s T', strtotime('+' . $ttl . ' seconds'));
 
-        $this->_model->setPrivateHeaders($ttl);
-        $this->assertEquals($pragma, $this->_model->getHeader('Pragma')['value']);
-        $this->assertEquals($cacheControl, $this->_model->getHeader('Cache-Control')['value']);
-        $this->assertEquals($expires, $this->_model->getHeader('Expires')['value']);
+        $this->model->setPrivateHeaders($ttl);
+        $this->assertEquals($pragma, $this->model->getHeader('Pragma')['value']);
+        $this->assertEquals($cacheControl, $this->model->getHeader('Cache-Control')['value']);
+        $this->assertEquals($expires, $this->model->getHeader('Expires')['value']);
     }
 
     /**
@@ -177,7 +177,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'Time to live is a mandatory parameter for set private headers'
         );
-        $this->_model->setPrivateHeaders(null);
+        $this->model->setPrivateHeaders(null);
     }
 
     /**
@@ -189,10 +189,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $cacheControl = 'no-store, no-cache, must-revalidate, max-age=0';
         $expires = gmdate('D, d M Y H:i:s T', strtotime('-1 year'));
 
-        $this->_model->setNoCacheHeaders();
-        $this->assertEquals($pragma, $this->_model->getHeader('Pragma')['value']);
-        $this->assertEquals($cacheControl, $this->_model->getHeader('Cache-Control')['value']);
-        $this->assertEquals($expires, $this->_model->getHeader('Expires')['value']);
+        $this->model->setNoCacheHeaders();
+        $this->assertEquals($pragma, $this->model->getHeader('Pragma')['value']);
+        $this->assertEquals($cacheControl, $this->model->getHeader('Cache-Control')['value']);
+        $this->assertEquals($expires, $this->model->getHeader('Expires')['value']);
     }
 
     /**
@@ -200,9 +200,46 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testRepresentJson()
     {
-        $this->_model->setHeader('Content-Type', 'text/javascript');
-        $this->_model->representJson('json_string');
-        $this->assertEquals('application/json', $this->_model->getHeader('Content-Type')['value']);
-        $this->assertEquals('json_string', $this->_model->getBody('default'));
+        $this->model->setHeader('Content-Type', 'text/javascript');
+        $this->model->representJson('json_string');
+        $this->assertEquals('application/json', $this->model->getHeader('Content-Type')['value']);
+        $this->assertEquals('json_string', $this->model->getBody('default'));
+    }
+
+    /**
+     * Test for getHeader method
+     *
+     * @dataProvider headersDataProvider
+     * @covers       \Magento\Framework\App\Response\Http::getHeader
+     * @param string $header
+     */
+    public function testGetHeaderExists($header)
+    {
+        $this->model->setHeader($header['name'], $header['value'], $header['replace']);
+        $this->assertEquals($header, $this->model->getHeader($header['name']));
+    }
+
+    /**
+     * Data provider for testGetHeader
+     *
+     * @return array
+     */
+    public function headersDataProvider()
+    {
+        return [
+            [['name' => 'X-Frame-Options', 'value' => 'SAMEORIGIN', 'replace' => true]],
+            [['name' => 'Test2', 'value' => 'Test2', 'replace' => false]]
+        ];
+    }
+
+    /**
+     * Test for getHeader method. Validation for attempt to get not existing header
+     *
+     * @covers \Magento\Framework\App\Response\Http::getHeader
+     */
+    public function testGetHeaderNotExists()
+    {
+        $this->model->setHeader('Name', 'value', true);
+        $this->assertFalse($this->model->getHeader('Wrong name'));
     }
 }

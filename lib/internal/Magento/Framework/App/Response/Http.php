@@ -76,17 +76,16 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
     public function sendVary()
     {
         $data = $this->context->getData();
-        $cookieName = self::COOKIE_VARY_STRING;
         if (!empty($data)) {
             ksort($data);
             $cookieValue = sha1(serialize($data));
             $publicCookMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
                 ->setPath('/');
-            $this->cookieManager->setPublicCookie($cookieName, $cookieValue, $publicCookMetadata);
+            $this->cookieManager->setPublicCookie(self::COOKIE_VARY_STRING, $cookieValue, $publicCookMetadata);
         } else {
             $cookieMetadata = $this->cookieMetadataFactory->createCookieMetadata()
                 ->setPath('/');
-            $this->cookieManager->deleteCookie($cookieName, $cookieMetadata);
+            $this->cookieManager->deleteCookie(self::COOKIE_VARY_STRING, $cookieMetadata);
         }
     }
 

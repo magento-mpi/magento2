@@ -9,10 +9,15 @@ namespace Magento\Framework\App\Action;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * Test Forward
+ *
+ * getRequest,getResponse of AbstractAction class is also tested
+ */
 class ForwardTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Action\Forward
+     * @var \Magento\Framework\App\Action\Forward
      */
     protected $actionAbstract;
 
@@ -71,7 +76,7 @@ class ForwardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRequest()
     {
-        $this->assertEquals($this->request, $this->actionAbstract->getRequest());
+        $this->assertSame($this->request, $this->actionAbstract->getRequest());
     }
 
     /**
@@ -82,7 +87,7 @@ class ForwardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetResponse()
     {
-        $this->assertEquals($this->response, $this->actionAbstract->getResponse());
+        $this->assertSame($this->response, $this->actionAbstract->getResponse());
     }
 
     /**
