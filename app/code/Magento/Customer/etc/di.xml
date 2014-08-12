@@ -15,9 +15,9 @@
     <preference for="Magento\Customer\Service\V1\CustomerAccountServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAccountService" />
     <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
-                type="Magento\Customer\Service\V1\CustomerMetadataService" />
+                type="Magento\Customer\Service\V1\CustomerMetadataServiceCached" />
     <preference for="Magento\Customer\Service\V1\AddressMetadataServiceInterface"
-                type="Magento\Customer\Service\V1\AddressMetadataService" />
+                type="Magento\Customer\Service\V1\AddressMetadataServiceCached" />
     <type name="Magento\Customer\Model\Session">
         <arguments>
             <argument name="configShare" xsi:type="object">Magento\Customer\Model\Config\Share\Proxy</argument>
@@ -103,6 +103,16 @@
             <argument name="protectedModels" xsi:type="array">
                 <item name="customer" xsi:type="string">Magento\Customer\Model\Customer</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Service\V1\CustomerMetadataServiceCached">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\CustomerMetadataService</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Service\V1\AddressMetadataServiceCached">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\AddressMetadataService</argument>
         </arguments>
     </type>
 </config>
