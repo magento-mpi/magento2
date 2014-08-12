@@ -35,6 +35,11 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     protected $_resourceSetupMock;
 
     /**
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $moduleManager;
+
+    /**
      * @var \Magento\Framework\Module\Updater
      */
     protected $_model;
@@ -69,22 +74,28 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($resourceList))
         ;
 
-        $this->_factoryMock->expects($this->any())
-            ->method('create')
-            ->with('catalog_setup', 'Test_Module')
-            ->will($this->returnValue($this->_resourceSetupMock))
-        ;
+        $this->moduleManager = $this->getMock('\Magento\Framework\Module\Manager', [], [], '', false);
 
         $this->_model = new \Magento\Framework\Module\Updater(
             $this->_factoryMock,
             $this->_appStateMock,
             $this->_moduleListMock,
-            $this->_resourceResolver
+            $this->_resourceResolver,
+            $this->moduleManager
         );
     }
 
     public function testUpdateScheme()
     {
+        $this->moduleManager->expects($this->once())
+            ->method('isDbSchemaUpToDate')
+            ->with('Test_Module', 'catalog_setup')
+            ->will($this->returnValue(false));
+        $this->_factoryMock->expects($this->any())
+            ->method('create')
+            ->with('catalog_setup', 'Test_Module')
+            ->will($this->returnValue($this->_resourceSetupMock))
+        ;
         $this->_appStateMock->expects($this->at(0))->method('setUpdateMode')->with(true);
         $this->_appStateMock->expects($this->at(1))->method('setUpdateMode')->with(false);
         $this->_resourceSetupMock->expects($this->once())->method('applyUpdates');
@@ -96,27 +107,67 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $this->_model->updateScheme();
     }
 
+    public function testUpdateSchemeNoUpdates()
+    {
+        $this->moduleManager->expects($this->once())
+            ->method('isDbSchemaUpToDate')
+            ->with('Test_Module', 'catalog_setup')
+            ->will($this->returnValue(true));
+        $this->_factoryMock->expects($this->never())
+            ->method('create');
+        $this->_model->updateScheme();
+    }
+
     /**
      * @covers \Magento\Framework\Module\Updater::updateData
      */
     public function testUpdateDataNotApplied()
     {
-        $this->_resourceSetupMock->expects($this->never())->method('applyDataUpdates');
-
+        $this->_factoryMock->expects($this->never())
+            ->method('create');
         $this->_model->updateData();
     }
 
     public function testUpdateData()
     {
+        $this->moduleManager->expects($this->once())
+            ->method('isDbSchemaUpToDate')
+            ->with('Test_Module', 'catalog_setup')
+            ->will($this->returnValue(true));
+        $this->moduleManager->expects($this->once())
+            ->method('isDbDataUpToDate')
+            ->with('Test_Module', 'catalog_setup')
+            ->will($this->returnValue(false));
+        $this->_factoryMock->expects($this->any())
+            ->method('create')
+            ->with('catalog_setup', 'Test_Module')
+            ->will($this->returnValue($this->_resourceSetupMock))
+        ;
         $this->_appStateMock->expects($this->at(0))->method('setUpdateMode')->with(true);
         $this->_appStateMock->expects($this->at(1))->method('setUpdateMode')->with(false);
-        $this->_resourceSetupMock->expects($this->once())->method('applyUpdates');
-        $this->_resourceSetupMock->expects($this->once())->method('getCallAfterApplyAllUpdates')
-            ->will($this->returnValue(true));
-        $this->_resourceSetupMock->expects($this->once())->method('afterApplyAllUpdates');
-
         $this->_resourceSetupMock->expects($this->once())
             ->method('applyDataUpdates');
+
+        $this->_model->updateScheme();
+        $this->_model->updateData();
+    }
+
+    public function testUpdateDataNoUpdates()
+    {
+        $this->moduleManager->expects($this->once())
+            ->method('isDbSchemaUpToDate')
+            ->with('Test_Module', 'catalog_setup')
+            ->will($this->returnValue(true));
+        $this->moduleManager->expects($this->once())
+            ->method('isDbDataUpToDate')
+            ->with('Test_Module', 'catalog_setup')
+            ->will($this->returnValue(true));
+        $this->_factoryMock->expects($this->never())
+            ->method('create');
+        $this->_appStateMock->expects($this->at(0))->method('setUpdateMode')->with(true);
+        $this->_appStateMock->expects($this->at(1))->method('setUpdateMode')->with(false);
+        $this->_factoryMock->expects($this->never())
+            ->method('create');
 
         $this->_model->updateScheme();
         $this->_model->updateData();

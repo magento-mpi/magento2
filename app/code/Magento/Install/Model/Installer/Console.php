@@ -90,7 +90,7 @@ class Console
     /**
      * DB updater
      *
-     * @var \Magento\Framework\Module\UpdaterInterface
+     * @var \Magento\Framework\Module\Updater
      */
     protected $_dbUpdater;
 
@@ -122,7 +122,7 @@ class Console
 
     /**
      * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\Framework\Module\UpdaterInterface $dbUpdater
+     * @param \Magento\Framework\Module\Updater $dbUpdater
      * @param \Magento\Install\Model\Installer\Data $installerData
      * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param \Magento\Install\Model\Installer\Db\Mysql4 $db
@@ -130,7 +130,7 @@ class Console
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
-        \Magento\Framework\Module\UpdaterInterface $dbUpdater,
+        \Magento\Framework\Module\Updater $dbUpdater,
         \Magento\Install\Model\Installer\Data $installerData,
         \Magento\Framework\Locale\ListsInterface $localeLists,
         Db\Mysql4 $db,

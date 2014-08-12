@@ -328,4 +328,6 @@ return array(
     ['_couponFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
     ['_customerFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
     ['_skipModuleUpdate', '\Magento\Framework\Module\Updater'],
+    ['_factory', 'Magento\Framework\Module\Updater'],
+    ['_resourceList', 'Magento\Framework\Module\Updater'],
 );

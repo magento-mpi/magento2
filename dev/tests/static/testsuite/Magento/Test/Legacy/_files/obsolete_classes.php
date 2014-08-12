@@ -2739,4 +2739,6 @@ return array(
     ['Magento\Install\App\Action\Plugin\Dir'],
     ['\Magento\Framework\App\EntryPoint\EntryPoint', '\Magento\Framework\App\Bootstrap'],
     ['\Magento\Framework\App\EntryPointInterface', '\Magento\Framework\App\Bootstrap'],
+    ['Magento\Framework\Module\FrontController\Plugin\Install', '\Magento\Framework\Module\Plugin\DbStatusValidator'],
+    ['Magento\Framework\Module\UpdaterInterface'],
 );
