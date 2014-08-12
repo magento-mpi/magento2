@@ -38,6 +38,7 @@
     <preference for="Magento\Sales\Service\V1\ShipmentCommentsListInterface" type="Magento\Sales\Service\V1\ShipmentCommentsList"/>
     <preference for="Magento\Sales\Service\V1\ShipmentGetInterface" type="Magento\Sales\Service\V1\ShipmentGet"/>
     <preference for="Magento\Sales\Service\V1\ShipmentAddTrackInterface" type="Magento\Sales\Service\V1\ShipmentAddTrack"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentRemoveTrackInterface" type="Magento\Sales\Service\V1\ShipmentRemoveTrack"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>
