@@ -252,7 +252,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCustomerRemovesFlagThatShowsIfCustomerIsEmulated()
     {
-        $customerMock = $this->getMock('Magento\Customer\Model\Customer', array(), array() , '', false);
+        $customerMock = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
         $this->_storageMock->expects($this->once())->method('unsIsCustomerEmulated');
         $this->_model->setCustomer($customerMock);
     }
