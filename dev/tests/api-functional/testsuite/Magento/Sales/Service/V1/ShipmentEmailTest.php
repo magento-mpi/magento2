@@ -22,9 +22,9 @@ class ShipmentEmailTest extends WebapiAbstract
      */
     public function testShipmentEmail()
     {
-        $shipment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order\Shipment');
-        $shipment->loadByIncrementId('100000001');
+        $objectManager= \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $shipmentCollection = $objectManager->get('Magento\Sales\Model\Resource\Order\Shipment\Collection');
+        $shipment = $shipmentCollection->getFirstItem();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/shipment/' . $shipment->getId() . '/email',
