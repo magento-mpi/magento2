@@ -77,6 +77,6 @@ class AssertBannerInShoppingCart extends AbstractConstraint
      */
     public function toString()
     {
-        return "Banner is presents on Shopping Cart.";
+        return "Banner is present on Shopping Cart.";
     }
 }

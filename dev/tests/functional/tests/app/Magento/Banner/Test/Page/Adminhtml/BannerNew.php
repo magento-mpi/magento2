@@ -31,18 +31,6 @@ class BannerNew extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'cartPriceRulesGrid' => [
-            'name' => 'cartPriceRulesGrid',
-            'class' => 'Magento\Banner\Test\Block\Adminhtml\Promo\CartPriceRulesGrid',
-            'locator' => '#related_salesrule_grid',
-            'strategy' => 'css selector',
-        ],
-        'catalogPriceRulesGrid' => [
-            'name' => 'catalogPriceRulesGrid',
-            'class' => 'Magento\Banner\Test\Block\Adminhtml\Promo\CatalogPriceRulesGrid',
-            'locator' => '#related_catalogrule_grid',
-            'strategy' => 'css selector',
-        ],
     ];
 
     /**
@@ -59,21 +47,5 @@ class BannerNew extends BackendPage
     public function getPageMainActions()
     {
         return $this->getBlockInstance('pageMainActions');
-    }
-
-    /**
-     * @return \Magento\Banner\Test\Block\Adminhtml\Promo\CartPriceRulesGrid
-     */
-    public function getCartPriceRulesGrid()
-    {
-        return $this->getBlockInstance('cartPriceRulesGrid');
-    }
-
-    /**
-     * @return \Magento\Banner\Test\Block\Adminhtml\Promo\CatalogPriceRulesGrid
-     */
-    public function getCatalogPriceRulesGrid()
-    {
-        return $this->getBlockInstance('catalogPriceRulesGrid');
     }
 }

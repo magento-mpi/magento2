@@ -36,8 +36,8 @@ class AssertBannerOnCategoryPage extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param BannerInjectable $banner
      * @param CatalogCategoryView $catalogCategoryView
-     * @param CustomerInjectable $customer
      * @param CustomerAccountLogin $customerAccountLogin
+     * @param CustomerInjectable $customer[optional]
      * @return void
      */
     public function processAssert(

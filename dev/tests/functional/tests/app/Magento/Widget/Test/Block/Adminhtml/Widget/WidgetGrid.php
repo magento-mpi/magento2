@@ -9,7 +9,6 @@
 namespace Magento\Widget\Test\Block\Adminhtml\Widget;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -23,7 +22,7 @@ class WidgetGrid extends AbstractGrid
      *
      * @var string
      */
-    protected $editLink = '//tr[td[contains(.,"%s")]]';
+    protected $editLink = '//tr[td[contains(@class,"col-title")]]';
 
     /**
      * Filters array mapping
@@ -35,23 +34,4 @@ class WidgetGrid extends AbstractGrid
             'selector' => 'input[name="title"]'
         ]
     ];
-
-    /**
-     * Search item and open it
-     *
-     * @param array $filter
-     * @throws \Exception
-     */
-    public function searchAndOpen(array $filter)
-    {
-        $this->search($filter);
-        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
-        if ($rowItem->isVisible()) {
-            $editLink = sprintf($this->editLink, $filter['title']);
-            $rowItem->find($editLink, Locator::SELECTOR_XPATH)->click();
-            $this->waitForElement();
-        } else {
-            throw new \Exception('Searched item was not found.');
-        }
-    }
 }

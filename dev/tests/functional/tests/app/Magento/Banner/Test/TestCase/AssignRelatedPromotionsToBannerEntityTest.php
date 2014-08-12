@@ -11,7 +11,7 @@ namespace Magento\Banner\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Fixture\CmsPage;
-use Magento\Widget\Test\Fixture\Widget;
+use Magento\Banner\Test\Fixture\Widget;
 use Magento\Banner\Test\Fixture\BannerInjectable;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Banner\Test\Page\Adminhtml\BannerNew;
@@ -79,22 +79,24 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
      * @param BannerIndex $bannerIndex
      * @param BannerNew $bannerNew
      * @param CustomerAccountLogout $customerAccountLogout
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
         BannerIndex $bannerIndex,
         BannerNew $bannerNew,
-        CustomerAccountLogout $customerAccountLogout
+        CustomerAccountLogout $customerAccountLogout,
+        FixtureFactory $fixtureFactory
     ) {
         $this->customerAccountLogout = $customerAccountLogout;
         $this->bannerIndex = $bannerIndex;
         $this->bannerNew = $bannerNew;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
      * Creation for assign Related Cart and Catalog Rules to BannerEntity test
      *
-     * @param FixtureFactory $fixtureFactory
      * @param BannerInjectable $banner
      * @param CustomerInjectable|string $customer
      * @param CustomerSegment|string $customerSegment
@@ -105,7 +107,6 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
      * @return array
      */
     public function test(
-        FixtureFactory $fixtureFactory,
         BannerInjectable $banner,
         CmsPage $cmsPage,
         $catalogPriceRule,
@@ -114,8 +115,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
         $customerSegment,
         $widget
     ) {
-        // Precondition
-        $this->fixtureFactory = $fixtureFactory;
+        // Preconditions
         $customer = $this->createCustomer($customer);
         $customerSegment = $this->createCustomerSegment($customerSegment);
         $cmsPage->persist();
@@ -159,25 +159,16 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
         $catalogPriceRule,
         $cartPriceRule
     ) {
+        $rules = [];
         if ($catalogPriceRule !== "-") {
-            $catalogPriceRule = $this->fixtureFactory->createByCode(
-                'catalogRule',
-                ['dataSet' => $catalogPriceRule]
-            );
+            $catalogPriceRule = $this->fixtureFactory->createByCode('catalogRule', ['dataSet' => $catalogPriceRule]);
             $catalogPriceRule->persist();
             $rules['banner_catalog_rules'] = $catalogPriceRule->getId();
-        } else {
-            $rules['banner_catalog_rules'] = "";
         }
         if ($cartPriceRule !== "-") {
-            $cartPriceRule = $this->fixtureFactory->createByCode(
-                'salesRuleInjectable',
-                ['dataSet' => $cartPriceRule]
-            );
+            $cartPriceRule = $this->fixtureFactory->createByCode('salesRuleInjectable', ['dataSet' => $cartPriceRule]);
             $cartPriceRule->persist();
             $rules['banner_sales_rules'] = $cartPriceRule->getId();
-        } else {
-            $rules['banner_sales_rules'] = "";
         }
 
         return $rules;
@@ -186,7 +177,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     /**
      * Create Customer
      *
-     * @param CustomerInjectable|string $customer
+     * @param string $customer
      * @return CustomerInjectable|null
      */
     protected function createCustomer($customer)
@@ -194,36 +185,39 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
         if ($customer !== '-') {
             $customer = $this->fixtureFactory->createByCode('customerInjectable', ['dataSet' => $customer]);
             $customer->persist();
+
             return $customer;
         }
+
         return null;
     }
 
     /**
      * Create Customer Segment
      *
-     * @param CustomerSegment|string $customerSegment
-     * @return CustomerSegment|string
+     * @param string $customerSegment
+     * @return CustomerSegment|null
      */
     protected function createCustomerSegment($customerSegment)
     {
         if ($customerSegment !== '-') {
             $customerSegment = $this->fixtureFactory->createByCode('customerSegment', ['dataSet' => $customerSegment]);
             $customerSegment->persist();
+
+            return $customerSegment;
         }
-        return $customerSegment;
+
+        return null;
     }
 
     /**
-     * Create
+     * Create Product
+     *
      * @return CatalogProductSimple
      */
     protected function createProduct()
     {
-        $product = $this->fixtureFactory->createByCode(
-            'catalogProductSimple',
-            ['dataSet' => 'product_with_category']
-        );
+        $product = $this->fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'product_with_category']);
         $product->persist();
 
         return $product;
@@ -238,7 +232,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
      */
     protected function createBanner($customerSegment, BannerInjectable $banner)
     {
-        if ($customerSegment instanceof CustomerSegment) {
+        if ($customerSegment !== null) {
             $banner = $this->fixtureFactory->createByCode(
                 'bannerInjectable',
                 [
@@ -248,10 +242,9 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
                     ]
                 ]
             );
-            $banner->persist();
-        } else {
-            $banner->persist();
         }
+        $banner->persist();
+
         return $banner;
     }
 
@@ -264,8 +257,8 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
      */
     protected function createWidget($widget, BannerInjectable $banner)
     {
-        $widget = $this->fixtureFactory->createByCode(
-            'widget',
+        $widget = $this->fixtureFactory->create(
+            '\Magento\Banner\Test\Fixture\Widget',
             [
                 'dataSet' => $widget,
                 'data' => [

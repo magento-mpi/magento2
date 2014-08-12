@@ -8,14 +8,13 @@
 namespace Magento\Banner\Test\Block;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
-use Magento\Checkout\Test\Block\Cart as AbstractCart;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class Cart
  * Shopping cart block
  */
-class Cart extends AbstractCart
+class Cart extends \Magento\Checkout\Test\Block\Cart
 {
     /**
      * Widget Banner CSS selector

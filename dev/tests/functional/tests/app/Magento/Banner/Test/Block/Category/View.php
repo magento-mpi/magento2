@@ -9,14 +9,13 @@
 namespace Magento\Banner\Test\Block\Category;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
-use Magento\Catalog\Test\Block\Category\View as AbstractView;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class View
  * Category view block on the category page
  */
-class View extends AbstractView
+class View extends \Magento\Catalog\Test\Block\Category\View
 {
     /**
      * Widget Banner CSS selector

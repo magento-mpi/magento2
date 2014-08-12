@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Block\Category;
 
-use Magento\Banner\Test\Fixture\BannerInjectable;
 use Mtf\Block\Block;
 
 /**

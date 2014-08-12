@@ -42,7 +42,10 @@ class AssertBannerNotInWidgetOptions extends AbstractConstraint
         WidgetInstanceNew $widgetInstanceNew,
         WidgetInstanceEdit $widgetInstanceEdit
     ) {
-        $widget = $fixtureFactory->createByCode('widget', ['dataSet' => 'widget_banner_rotator']);
+        $widget = $fixtureFactory->create(
+            '\Magento\Banner\Test\Fixture\Widget',
+            ['dataSet' => 'widget_banner_rotator']
+        );
         $widgetInstanceNew->open();
         $widgetInstanceNew->getForm()->fill($widget);
         $widgetInstanceNew->getForm()->clickContinue();

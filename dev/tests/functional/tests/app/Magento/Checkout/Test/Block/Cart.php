@@ -8,7 +8,6 @@
 namespace Magento\Checkout\Test\Block;
 
 use Exception;
-use Magento\Banner\Test\Fixture\BannerInjectable;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;

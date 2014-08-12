@@ -20,16 +20,4 @@
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
-    <block>
-        <name>cartPriceRulesGrid</name>
-        <class>Magento\Banner\Test\Block\Adminhtml\Promo\CartPriceRulesGrid</class>
-        <locator>#related_salesrule_grid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>catalogPriceRulesGrid</name>
-        <class>Magento\Banner\Test\Block\Adminhtml\Promo\CatalogPriceRulesGrid</class>
-        <locator>#related_catalogrule_grid</locator>
-        <strategy>css selector</strategy>
-    </block>
 </page>
