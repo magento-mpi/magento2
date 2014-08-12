@@ -43,11 +43,13 @@ class RestTest extends \PHPUnit_Framework_TestCase
     protected $_routeMock;
 
     /**
-     * @var \Magento\Framework\ObjectManager */
+     * @var \Magento\Framework\ObjectManager
+     */
     protected $_objectManagerMock;
 
     /**
-     * @var \stdClass */
+     * @var \stdClass
+     */
     protected $_serviceMock;
 
     /**
@@ -55,7 +57,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
      */
     protected $_oauthServiceMock;
 
-    /** @var \Magento\Framework\AuthorizationInterface */
+    /**
+     * @var \Magento\Framework\AuthorizationInterface
+     */
     protected $_authorizationMock;
 
     /**
@@ -206,7 +210,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(false));
         $this->_oauthServiceMock->expects(
             $this->any())->method('validateAccessTokenRequest')->will($this->returnValue('fred')
-        );
+            );
         $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['5', '6']));
 
         $this->_restController->dispatch($this->_requestMock);
@@ -231,7 +235,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     {
         $this->_routeMock->expects($this->once())->method('getParameters')->will($this->returnValue($parameters));
         $this->_routeMock->expects($this->any())->method('getAclResources')->will($this->returnValue(['1']));
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
+        $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('getRequestData')->will($this->returnValue($requestData));
         $this->userContextMock->expects($this->any())->method('getUserId')->will($this->returnValue($userId));
         $this->userContextMock->expects($this->any())->method('getUserType')->will($this->returnValue($userType));

@@ -31,34 +31,25 @@ use Magento\Webapi\Model\PathProcessor;
  */
 class Rest implements \Magento\Framework\App\FrontControllerInterface
 {
-    /**
-     * @var Router
-     */
+    /** @var Router */
     protected $_router;
 
-    /**
-     * @var Route
-     */
+    /** @var Route */
     protected $_route;
 
-    /**
-     * @var RestRequest
-     */
+    /** @var RestRequest */
     protected $_request;
 
-    /**
-     * @var RestResponse
-     */
+    /** @var RestResponse */
     protected $_response;
 
-    /**
-     * @var \Magento\Framework\ObjectManager
-     */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
-    /**
-     * @var \Magento\Framework\View\LayoutInterface
-     */
+    /** @var \Magento\Framework\App\State */
+    protected $_appState;
+
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
 
     /** @var AuthorizationInterface */
@@ -67,14 +58,10 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     /** @var ServiceArgsSerializer */
     protected $_serializer;
 
-    /**
-     * @var ErrorProcessor
-     */
+    /** @var ErrorProcessor */
     protected $_errorProcessor;
 
-    /**
-     * @var PathProcessor
-     */
+    /** @var PathProcessor */
     protected $_pathProcessor;
 
     /**
@@ -160,8 +147,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->areaList->getArea($this->_appState->getAreaCode())
             ->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         try {
-            $this->_checkPermissions();
-            $route = $this->_getCurrentRoute();
+            $this->checkPermissions();
+            $route = $this->getCurrentRoute();
             if ($route->isSecure() && !$this->_request->isSecure()) {
                 throw new \Magento\Webapi\Exception(__('Operation allowed only in HTTPS'));
             }
@@ -278,7 +265,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
 
     /**
      * Perform authentication and authorization.
-     * 
+     *
      * @throws \Magento\Framework\Exception\AuthorizationException
      * @return void
      */
