@@ -56,7 +56,7 @@ class ShipmentMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->shipmentBuilderMock = $this->getMock(
             'Magento\Sales\Service\V1\Data\ShipmentBuilder',
-            ['populateWithArray', 'setItems', 'setTracks', 'create'],
+            ['populateWithArray', 'setItems', 'setTracks', 'create', 'setPackages'],
             [],
             '',
             false
@@ -77,7 +77,7 @@ class ShipmentMapperTest extends \PHPUnit_Framework_TestCase
         );
         $this->shipmentMock = $this->getMock(
             'Magento\Sales\Model\Order\Shipment',
-            ['getItemsCollection', 'getTracksCollection', 'getData', '__wakeup'],
+            ['getItemsCollection', 'getTracksCollection', 'getData', '__wakeup', 'getPackages'],
             [],
             '',
             false
@@ -109,6 +109,13 @@ class ShipmentMapperTest extends \PHPUnit_Framework_TestCase
         $this->shipmentBuilderMock->expects($this->once())
             ->method('populateWithArray')
             ->with($this->equalTo(['field-1' => 'value-1']))
+            ->will($this->returnSelf());
+        $this->shipmentMock->expects($this->once())
+            ->method('getPackages')
+            ->will($this->returnValue([[],[]]));
+        $this->shipmentBuilderMock->expects($this->once())
+            ->method('setPackages')
+            ->with($this->equalTo(serialize([[],[]])))
             ->will($this->returnSelf());
 
         $this->shipmentMock->expects($this->once())
