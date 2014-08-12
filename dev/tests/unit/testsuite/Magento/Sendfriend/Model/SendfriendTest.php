@@ -8,6 +8,8 @@
 
 namespace Magento\Sendfriend\Model;
 
+use Magento\TestFramework\Helper\ObjectManager;
+
 /**
  * Test Sendfriend
  *
@@ -24,47 +26,66 @@ class SendfriendTest extends \PHPUnit_Framework_TestCase
      */
     protected $cookieManagerMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $sendfriendDataMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeManagerMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $remoteAddressMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $resourceMock;
+
+
     public function setUp()
     {
-        $this->modelMock = $this->getMockBuilder('Magento\Sendfriend\Model\Sendfriend')
-            ->setMethods(['setData', '_getData', '__wakeup'])
-            ->disableOriginalConstructor()->getMock();
 
+        $objectManager = new ObjectManager($this);
+        $this->sendfriendDataMock = $this->getMockBuilder('Magento\Sendfriend\Helper\Data')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\CookieManager')
             ->disableOriginalConstructor()->getMock();
+        $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
+            ->disableOriginalConstructor()->getMock();
+        $this->remoteAddressMock = $this->getMockBuilder('Magento\Framework\HTTP\PhpEnvironment\RemoteAddress')
+            ->disableOriginalConstructor()->getMock();
+
+        $this->modelMock = $objectManager->getObject(
+            'Magento\Sendfriend\Model\Sendfriend',
+            [
+                'sendfriendData' => $this->sendfriendDataMock,
+                'cookieManager' => $this->cookieManagerMock,
+                'storeManager' => $this->storeManagerMock,
+                'remoteAddress' => $this->remoteAddressMock,
+            ]
+        );
+
     }
 
-    public function testSetCookieManager()
+    public function testGetSentCountWithCheckCookie()
     {
-        $this->modelMock->expects($this->once())
-            ->method('setData')
-            ->with('_cookie_manager', $this->cookieManagerMock);
+        $cookieName = 'testCookieName';
+        $this->sendfriendDataMock->expects($this->once())->method('getLimitBy')->with()->will(
+            $this->returnValue(\Magento\Sendfriend\Helper\Data::CHECK_COOKIE)
+        );
+        $this->sendfriendDataMock->expects($this->once())->method('getCookieName')->with()->will(
+            $this->returnValue($cookieName)
+        );
 
-        $this->modelMock->setCookieManager($this->cookieManagerMock);
-    }
-
-    public function testGetCookieManager()
-    {
-        $this->modelMock->expects($this->once())
-            ->method('_getData')
-            ->with('_cookie_manager')->will($this->returnValue($this->cookieManagerMock));
-        $result = $this->modelMock->getCookieManager();
-        $this->assertSame($this->cookieManagerMock, $result);
-    }
-
-    public function testGetCookieManagerWithException()
-    {
-        try {
-            $this->modelMock->expects($this->once())
-                ->method('_getData')
-                ->with('_cookie_manager')->will($this->returnValue(null));
-            $this->modelMock->getCookieManager();
-            $this->fail('Failed to model exception');
-        } catch (\Magento\Framework\Model\Exception $e) {
-            $this->assertEquals(
-                'Please define a correct CookieManager instance.',
-                $e->getMessage()
-            );
-        }
+        $this->cookieManagerMock->expects($this->once())->method('getCookie')->with($cookieName)->will(
+            $this->returnValue(30)
+        );
+        $this->assertEquals(0, $this->modelMock->getSentCount());
     }
 }

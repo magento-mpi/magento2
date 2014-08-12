@@ -119,7 +119,7 @@ class Product extends \Magento\Framework\App\Action\Action
      */
     protected function _initSendToFriendModel()
     {
-        $this->_coreRegistry->register('send_to_friend_model', $this->sendFriend);
+        $this->sendFriend->register();
         return $this->sendFriend;
     }
 }
