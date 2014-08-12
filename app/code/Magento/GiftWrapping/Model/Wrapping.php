@@ -26,6 +26,13 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     const IMAGE_TMP_PATH = 'tmp/wrapping/';
 
     /**
+     * Permitted extensions for wrapping image
+     *
+     * @var array
+     */
+    protected $_imageAllowedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
+
+    /**
      * Current store id
      *
      * @var int|null
@@ -53,12 +60,18 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     protected $_uploaderFactory;
 
     /**
+     * @var \Magento\GiftWrapping\Model\Wrapping\Validator
+     */
+    protected $_validator;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\GiftWrapping\Model\Wrapping\Validator $validator
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -70,6 +83,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\GiftWrapping\Model\Wrapping\Validator $validator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -78,6 +92,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         $this->_systemStore = $systemStore;
         $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $this->_uploaderFactory = $uploaderFactory;
+        $this->_validator = $validator;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -95,9 +110,16 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      * Perform actions before object save.
      *
      * @return void
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
+        $errors = $this->_validator->validate($this);
+        if (!empty($errors)) {
+            throw new \Magento\Framework\Model\Exception(
+                __('Cannot save Gift Wrapping:') . ' ' . implode(', ', $errors)
+            );
+        }
         if ($this->_storeManager->hasSingleStore()) {
             $this->setData('website_ids', array_keys($this->_systemStore->getWebsiteOptionHash()));
         }
@@ -203,7 +225,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
         try {
             /** @var $uploader \Magento\Core\Model\File\Uploader */
             $uploader = $this->_uploaderFactory->create(array('fileId' => $imageFieldName));
-            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+            $uploader->setAllowedExtensions($this->_imageAllowedExtensions);
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
             $uploader->setFilesDispersion(false);
@@ -218,6 +240,28 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
             }
         }
         return $this;
+    }
+
+    /**
+     * Set image through file contents and return new file name if succeed
+     *
+     * @param string $fileName
+     * @param string $imageContent
+     * @return bool|string
+     */
+    public function attachBinaryImage($fileName, $imageContent)
+    {
+        if (empty($fileName) || empty($imageContent)) {
+            return false;
+        }
+        $filePath = $this->_mediaDirectory->getAbsolutePath(self::IMAGE_PATH . $fileName);
+        $newFileName = \Magento\Core\Model\File\Uploader::getNewFileName($filePath);
+        $result = $this->_mediaDirectory->writeFile(self::IMAGE_PATH . $newFileName, $imageContent);
+        if ($result) {
+            $this->setImage($fileName);
+            return $newFileName;
+        }
+        return false;
     }
 
     /**
