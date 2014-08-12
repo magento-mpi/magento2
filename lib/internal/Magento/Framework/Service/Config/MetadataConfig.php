@@ -61,9 +61,8 @@ class MetadataConfig implements MetadataServiceInterface
              * via DI using virtual types. If configuration is missing, empty array should be returned.
              */
             $allAttributes = $this->serviceConfigReader->read();
-            if (isset($allAttributes[$this->dataObjectClassName]) && is_array(
-                    $allAttributes[$this->dataObjectClassName]
-                )
+            if (isset($allAttributes[$this->dataObjectClassName])
+                && is_array($allAttributes[$this->dataObjectClassName])
             ) {
                 $attributeCodes = array_keys($allAttributes[$this->dataObjectClassName]);
                 foreach ($attributeCodes as $attributeCode) {

@@ -151,8 +151,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
                 $customAttributes[] = $attributeMetadata;
             }
         }
-        // TODO: Attributes from config will be read for customer instead of address until implementation of
-        // TODO: MAGETWO-27167 in scope of which current metho will be moved to AddressMetadataService
         return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata());
     }
 }

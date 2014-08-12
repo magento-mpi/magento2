@@ -21,10 +21,36 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->configure(
+            [
+                'Magento\Framework\Service\Config\Reader' => [
+                    'arguments' => [
+                        'fileResolver' => ['instance' => 'Magento\Customer\Service\V1\FileResolverStub']
+                    ]
+                ]
+            ]
+        );
         $this->_customerAccountService = $objectManager->create(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
         $this->_service = $objectManager->create('Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
+    }
+
+    public function testGetCustomAttributesMetadata()
+    {
+        $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
+        $this->assertCount(3, $customAttributesMetadata, "Invalid number of attributes returned.");
+        $configAttributeCode = 'customer_attribute_1';
+        $configAttributeFound = false;
+        foreach ($customAttributesMetadata as $attribute) {
+            if ($attribute->getAttributeCode() == $configAttributeCode) {
+                $configAttributeFound = true;
+                break;
+            }
+        }
+        if (!$configAttributeFound) {
+            $this->fail("Custom attribute declared in the config not found.");
+        }
     }
 
     /**
