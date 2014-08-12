@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 class CreditmemoSenderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -14,20 +16,20 @@ class CreditmemoSenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSend()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()
+        Bootstrap::getInstance()
             ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
-        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $order = Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $creditmemo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $creditmemo = Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\Order\Creditmemo'
         );
         $creditmemo->setOrder($order);
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        $paymentInfoBlock = Bootstrap::getObjectManager()->get(
             'Magento\Payment\Helper\Data'
         )->getInfoBlock(
                 $payment
