@@ -145,7 +145,6 @@ class Page extends Layout
         if ($this->getTemplate()) {
             $layout = $this->getLayout();
             $this->assign('headContent', $layout->getBlock('head')->toHtml());
-            $layout->unsetElement('head');
             $output = $layout->getOutput();
             $this->translateInline->processResponseBody($output);
             $this->assign('layoutContent', $output);
