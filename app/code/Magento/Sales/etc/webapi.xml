@@ -189,4 +189,10 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/shipment/track/:id" method="DELETE">
+        <service class="Magento\Sales\Service\V1\ShipmentRemoveTrackInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
 </routes>
