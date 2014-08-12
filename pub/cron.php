@@ -7,10 +7,13 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+
+use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManager;
 
-require dirname(__DIR__) . '/app/bootstrap.php';
-umask(0);
-$params = array(StoreManager::PARAM_RUN_CODE => 'admin', \Magento\Store\Model\Store::CUSTOM_ENTRY_POINT_PARAM => true);
-$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $params);
-$entryPoint->run('Magento\Framework\App\Cron', array('parameters' => array('group::')));
+/** @var \Magento\Framework\App\Bootstrap $bootstrap */
+$bootstrap = require dirname(__DIR__) . '/app/bootstrap.php';
+$bootstrap->addParams([StoreManager::PARAM_RUN_CODE => 'admin', Store::CUSTOM_ENTRY_POINT_PARAM => true]);
+/** @var \Magento\Framework\App\Cron $app */
+$app = $bootstrap->createApplication('Magento\Framework\App\Cron', ['parameters' => ['group::']]);
+$bootstrap->run($app);
