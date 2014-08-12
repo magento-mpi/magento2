@@ -32,11 +32,6 @@ class WriteService implements WriteServiceInterface
     protected $paymentMethodBuilder;
 
     /**
-     * @var MethodList
-     */
-    protected $methodList;
-
-    /**
      * @param QuoteLoader $quoteLoader
      * @param StoreManagerInterface $storeManager
      * @param Builder $paymentMethodBuilder
@@ -44,13 +39,11 @@ class WriteService implements WriteServiceInterface
     public function __construct(
         QuoteLoader $quoteLoader,
         StoreManagerInterface $storeManager,
-        Builder $paymentMethodBuilder,
-        MethodList $methodList
+        Builder $paymentMethodBuilder
     ) {
         $this->storeManager = $storeManager;
         $this->quoteLoader = $quoteLoader;
         $this->paymentMethodBuilder = $paymentMethodBuilder;
-        $this->methodList = $methodList;
     }
 
     /**

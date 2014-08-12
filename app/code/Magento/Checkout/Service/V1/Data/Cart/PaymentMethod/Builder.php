@@ -37,7 +37,7 @@ class Builder
                 }
             }
             $payment->importData($data);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new LocalizedException('The requested Payment Method is not available.');
         }
         return $payment;

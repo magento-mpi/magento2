@@ -28,7 +28,8 @@ class Converter
     /**
      * Convert quote payment object to payment data object
      *
-     * @return QuotePaymentMethod
+     * @param \Magento\Payment\Model\MethodInterface $object
+     * @return \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod
      */
     public function toDataObject(\Magento\Payment\Model\MethodInterface $object)
     {

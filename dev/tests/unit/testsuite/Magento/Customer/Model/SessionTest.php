@@ -256,5 +256,4 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->_storageMock->expects($this->once())->method('unsIsCustomerEmulated');
         $this->_model->setCustomer($customerMock);
     }
-
 }
