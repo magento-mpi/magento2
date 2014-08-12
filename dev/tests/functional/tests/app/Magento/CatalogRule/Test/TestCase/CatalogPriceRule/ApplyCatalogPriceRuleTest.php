@@ -120,7 +120,6 @@ class ApplyCatalogPriceRuleTest extends Functional
             array('category_id' => $categoryId)
         );
         $catalogRuleFixture->switchData(CatalogPriceRule::CATALOG_PRICE_RULE_ALL_GROUPS);
-        $this->markTestIncomplete('MAGETWO-27097');
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $catalogRuleCreatePage->getFormPageActions()->save();
 
