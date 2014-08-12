@@ -12,15 +12,15 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 
 /**
- * Class AssertGiftRegistrySuccessSaveMessage
- * Assert that after save a Gift Registry successful message appears
+ * Class AssertGiftRegistrySuccessShareMessage
+ * Assert that after share Gift Registry successful message appears
  */
-class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
+class AssertGiftRegistrySuccessShareMessage extends AbstractConstraint
 {
     /**
-     * Success gift registry save message
+     * Success gift registry share message
      */
-    const SUCCESS_MESSAGE = 'You saved this gift registry.';
+    const SUCCESS_MESSAGE = 'You shared the gift registry for %d emails.';
 
     /**
      * Constraint severeness
@@ -30,15 +30,16 @@ class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after gift registry has been created
+     * Assert that success message is displayed after gift registry has been shared
      *
      * @param GiftRegistryIndex $giftRegistryIndex
+     * @param array $recipients
      * @return void
      */
-    public function processAssert(GiftRegistryIndex $giftRegistryIndex)
+    public function processAssert(GiftRegistryIndex $giftRegistryIndex, $recipients)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            sprintf(self::SUCCESS_MESSAGE, count($recipients)),
             $giftRegistryIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
@@ -51,6 +52,6 @@ class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry success save message is present.';
+        return 'Gift registry success share message is present.';
     }
 }
