@@ -35,4 +35,7 @@
     <assertGiftRegistrySuccessDeleteMessageOnBackend module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistrySuccessDeleteMessageOnBackend>
+    <assertGiftRegistrySuccessShareMessageOnBackend module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistrySuccessShareMessageOnBackend>
 </constraint>
