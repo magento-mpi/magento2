@@ -30,7 +30,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->urlMatcher = $this->getMock('Magento\UrlRewrite\Service\V1\UrlMatcherInterface');
+        $this->urlMatcher = $this->getMock('Magento\CatalogUrlRewrite\Service\V1\UrlManager', [], [], '', false);
 
         $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
@@ -90,7 +90,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $this->urlMatcher->expects($this->once())->method('findByEntity')
+        $this->urlMatcher->expects($this->once())->method('findByFilter')
             ->will($this->returnValue(false));
 
         $this->assertFalse($this->block->getHref());
@@ -129,8 +129,12 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $this->urlMatcher->expects($this->once())->method('findByEntity')
-            ->with('entity_id', 'entity_type', $storeId)
+        $this->urlMatcher->expects($this->once())->method('findByFilter')
+            ->with([
+                    'entity_id' => 'entity_id',
+                    'entity_type' => 'entity_type',
+                    'store_id' => $storeId,
+                ])
             ->will($this->returnValue($rewrite));
 
         $this->assertEquals($url . $separator . '___store=' . $storeCode, $this->block->getHref());

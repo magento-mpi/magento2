@@ -31,11 +31,6 @@ class Router implements \Magento\Framework\App\RouterInterface
     protected $urlMatcher;
 
     /**
-     * @var \Magento\Framework\App\ActionFactory
-     */
-    protected $actionFactory;
-
-    /**
      * @param \Magento\Framework\App\ActionFactory $actionFactory
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\State $appState

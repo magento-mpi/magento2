@@ -15,6 +15,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Store\Model\Store;
+use Magento\Framework\Model\AbstractModel;
 
 class Group
 {
@@ -63,14 +64,14 @@ class Group
     /**
      * @param \Magento\Store\Model\Resource\Group $object
      * @param callable $proceed
-     * @param \Magento\Store\Model\Group $group
+     * @param AbstractModel $group
      * @return \Magento\Store\Model\Resource\Group
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         \Magento\Store\Model\Resource\Group $object,
         \Closure $proceed,
-        \Magento\Store\Model\Group $group
+        AbstractModel $group
     ) {
         $originGroup = $group;
         $result = $proceed($originGroup);

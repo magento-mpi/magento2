@@ -16,6 +16,7 @@ use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Store\Model\Store;
+use Magento\Framework\Model\AbstractModel;
 
 class View
 {
@@ -58,15 +59,14 @@ class View
     /**
      * @param \Magento\Store\Model\Resource\Store $object
      * @param callable $proceed
-     * @param Store $store
-     *
+     * @param AbstractModel $store
      * @return \Magento\Store\Model\Resource\Store
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
         \Magento\Store\Model\Resource\Store $object,
         \Closure $proceed,
-        \Magento\Store\Model\Store $store
+        AbstractModel $store
     ) {
         $originStore = $store;
         $result = $proceed($originStore);
@@ -133,5 +133,22 @@ class View
             );
         }
         return $urls;
+    }
+
+    /**
+     * @param \Magento\Store\Model\Resource\Store $object
+     * @param callable $proceed
+     * @param AbstractModel $store
+     * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function aroundDelete(
+        \Magento\Store\Model\Resource\Store $object,
+        \Closure $proceed,
+        AbstractModel $store
+    ) {
+        $result = $proceed($store);
+        $this->urlPersist->deleteByEntityData([UrlRewrite::STORE_ID => $store->getId()]);
+        return $result;
     }
 }

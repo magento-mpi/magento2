@@ -11,7 +11,7 @@ use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Model\StorageInterface;
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
-use Magento\UrlRewrite\Service\V1\Data\Filter;
+use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
 
 /**
  * Abstract db storage
@@ -34,7 +34,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    public function findAllByFilter(Filter $filter)
+    public function findAllByFilter(FilterInterface $filter)
     {
         $rows = $this->doFindAllByFilter($filter);
 
@@ -48,7 +48,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * Find all rows by specific filter. Template method
      *
-     * @param Filter $filter
+     * @param FilterInterface $filter
      * @return array
      */
     abstract protected function doFindAllByFilter($filter);
@@ -56,7 +56,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    public function findByFilter(Filter $filter)
+    public function findByFilter(FilterInterface $filter)
     {
         $row = $this->doFindByFilter($filter);
 
@@ -66,7 +66,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * Find row by specific filter. Template method
      *
-     * @param Filter $filter
+     * @param FilterInterface $filter
      * @return array
      */
     abstract protected function doFindByFilter($filter);

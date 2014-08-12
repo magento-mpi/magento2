@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
-use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
+use Magento\CatalogUrlRewrite\Service\V1\UrlManager;
 
 class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
@@ -40,19 +40,19 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
     /**
      * Url matcher
      *
-     * @var UrlMatcherInterface
+     * @var UrlManager
      */
     protected $urlMatcher;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param UrlMatcherInterface $urlMatcher
+     * @param UrlManager $urlMatcher
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         /** @TODO: UrlRewrite: Build product URL inside particular category */
-        UrlMatcherInterface $urlMatcher,
+        UrlManager $urlMatcher,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -77,14 +77,17 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
             $href = false;
             $store = $this->hasStoreId() ? $this->_storeManager->getStore($this->getStoreId())
                 : $this->_storeManager->getStore();
+            $filterData = [
+                'entity_id'   => $rewriteData[1],
+                'entity_type' => $rewriteData[0],
+                'store_id'    => $store->getId(),
+            ];
+            if (!empty($rewriteData[2])) {
+                $filterData['category_id'] = $rewriteData[2];
+            }
 
             /** @TODO: UrlRewrite: Build product URL inside particular category */
-            $rewrite = $this->urlMatcher->findByEntity(
-                $rewriteData[1],
-                $rewriteData[0],
-                $store->getId()
-                /** @TODO: UrlRewrite: Additional parameters */
-            );
+            $rewrite = $this->urlMatcher->findByFilter($filterData);
 
             if ($rewrite) {
                 $href = $store->getUrl('', ['_direct' => $rewrite->getRequestPath()]);

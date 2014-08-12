@@ -633,9 +633,13 @@ class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
             array('i' => $this->getTable('catalog_category_product_index')),
             array('product_id', 'store_id', 'visibility')
         )->joinLeft(
-            array('r' => $this->getMainTable()),
-            'i.product_id = r.product_id AND i.store_id=r.store_id AND r.category_id IS NULL',
+            array('u' => $this->getMainTable()),
+            'i.product_id = u.entity_id AND i.store_id = u.store_id AND u.entity_type = "product"', //TODO: UrlRewrite string literal should be replaced to const
             array('request_path')
+        )->joinLeft(
+            array('r' => $this->getTable('url_rewrite_relation')),
+            'u.url_rewrite_id = r.url_rewrite_id AND r.category_id is NULL',
+            array()
         );
 
         $bind = array();

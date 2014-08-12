@@ -10,7 +10,8 @@ namespace Magento\UrlRewrite\Model\Storage;
 use Magento\Framework\App\Resource;
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
-use Magento\UrlRewrite\Service\V1\Data\Filter;
+use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
+use Magento\UrlRewrite\Model\Resource\Storage\DbStorage as DbStorageResource;
 
 class DbStorage extends AbstractStorage
 {
@@ -30,12 +31,19 @@ class DbStorage extends AbstractStorage
     protected $connection;
 
     /**
-     * @param Converter $converter
-     * @param \Magento\Framework\App\Resource $resource
+     * @var DbStorageResource
      */
-    public function __construct(Converter $converter, Resource $resource)
+    protected $dbResource;
+
+    /**
+     * @param Converter $converter
+     * @param Resource $resource
+     * @param DbStorageResource $dbResource
+     */
+    public function __construct(Converter $converter, Resource $resource, DbStorageResource $dbResource)
     {
         $this->connection = $resource->getConnection(Resource::DEFAULT_WRITE_RESOURCE);
+        $this->dbResource = $dbResource;
 
         parent::__construct($converter);
     }
@@ -43,13 +51,13 @@ class DbStorage extends AbstractStorage
     /**
      * Prepare select statement for specific filter
      *
-     * @param Filter $filter
+     * @param FilterInterface $filter
      * @return \Magento\Framework\DB\Select
      */
     protected function prepareSelect($filter)
     {
         $select = $this->connection->select();
-        $select->from(self::TABLE_NAME);
+        $select->from($this->dbResource->getTable(self::TABLE_NAME));
 
         foreach ($filter->getFilter() as $column => $value) {
             $select->where($this->connection->quoteIdentifier($column) . ' IN (?)', $value);
@@ -79,7 +87,7 @@ class DbStorage extends AbstractStorage
     protected function doAddMultiple($data)
     {
         try {
-            $this->connection->insertMultiple(self::TABLE_NAME, $data);
+            $this->connection->insertMultiple($this->dbResource->getTable(self::TABLE_NAME), $data);
         } catch (\Exception $e) {
             if ($e->getCode() === self::ERROR_CODE_DUPLICATE_ENTRY) {
                 throw new DuplicateEntryException();
@@ -91,8 +99,10 @@ class DbStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function deleteByFilter(Filter $filter)
+    public function deleteByFilter(FilterInterface $filter)
     {
-        $this->connection->query($this->prepareSelect($filter)->deleteFromSelect(self::TABLE_NAME));
+        $this->connection->query(
+            $this->prepareSelect($filter)->deleteFromSelect($this->dbResource->getTable(self::TABLE_NAME))
+        );
     }
 }
