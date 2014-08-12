@@ -225,18 +225,13 @@ class Full
     /**
      * Regenerate search index for store(s)
      *
-     * @param int|null $storeId
      * @param int|array|null $productIds
      * @return void
      */
-    protected function rebuildIndex($storeId = null, $productIds = null)
+    protected function rebuildIndex($productIds = null)
     {
-        if (is_null($storeId)) {
-            $storeIds = array_keys($this->storeManager->getStores());
-            foreach ($storeIds as $storeId) {
-                $this->rebuildStoreIndex($storeId, $productIds);
-            }
-        } else {
+        $storeIds = array_keys($this->storeManager->getStores());
+        foreach ($storeIds as $storeId) {
             $this->rebuildStoreIndex($storeId, $productIds);
         }
     }
