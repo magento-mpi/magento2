@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scheme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../scheme.xsd">
+    <content>
+        <item name="Overview" type="article" module="Magento_Doc">
+            <label>Overview</label>
+        </item>
+        <item name="ThemeStructure" type="article" module="Magento_Doc">
+            <label>Theme Structure</label>
+        </item>
+        <item name="CSS" type="article" module="Magento_Doc">
+            <label>CSS</label>
+        </item>
+        <item name="JavaScript" type="article" module="Magento_Doc">
+            <label>JavaScript</label>
+            <content>
+                <item name="JQueryWidgets 2" type="article" module="Magento_Doc">
+                    <label>JQuery Widgets 2 for frontend</label>
+                </item>
+                <item name="RequireJS" type="article" module="Magento_Doc">
+                    <label>RequireJS implementation</label>
+                </item>
+                <item name="JQueryWidgets" type="article" module="Magento_Doc">
+                    <label>JQuery Widgets for frontend</label>
+                    <content>
+
+                    </content>
+                </item>
+            </content>
+        </item>
+        <item name="XmlLayouts" type="article" module="Magento_Doc">
+            <label>XML Layouts</label>
+        </item>
+        <item name="Templates" type="article" module="Magento_Doc">
+            <label>Templates</label>
+        </item>
+    </content>
+</scheme>
