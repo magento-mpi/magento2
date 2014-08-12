@@ -101,7 +101,7 @@ class MetadataService implements MetadataServiceInterface
     {
         /** @var AbstractAttribute $attribute */
         $attribute = $this->eavConfig->getAttribute($entityType, $attributeCode);
-        if ($attribute) {
+        if ($attribute->getId()) {
             $attributeMetadata = $this->createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
