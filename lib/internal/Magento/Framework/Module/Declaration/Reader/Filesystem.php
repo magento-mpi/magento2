@@ -30,11 +30,6 @@ class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
     protected $_allowedModules;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $appState;
-
-    /**
      * @var \Magento\Framework\Module\DependencyManagerInterface
      */
     protected $dependencyManager;
@@ -54,7 +49,6 @@ class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
      * @param Dom $converter
      * @param SchemaLocator $schemaLocator
      * @param ValidationStateInterface $validationState
-     * @param State $appState
      * @param DependencyManagerInterface $dependencyManager
      * @param string $fileName
      * @param array $idAttributes
@@ -67,7 +61,6 @@ class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
         Dom $converter,
         SchemaLocator $schemaLocator,
         ValidationStateInterface $validationState,
-        State $appState,
         DependencyManagerInterface $dependencyManager,
         $fileName = 'module.xml',
         $idAttributes = array(),
@@ -86,7 +79,6 @@ class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
             $defaultScope
         );
         $this->_allowedModules = $allowedModules;
-        $this->appState = $appState;
         $this->dependencyManager = $dependencyManager;
     }
 
@@ -96,11 +88,8 @@ class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
     public function read($scope = null)
     {
         $activeModules = $this->_filterActiveModules(parent::read($scope));
-
-        if ($this->appState->isInstalled()) {
-            foreach ($activeModules as $moduleConfig) {
-                $this->dependencyManager->checkModuleDependencies($moduleConfig, $activeModules);
-            }
+        foreach ($activeModules as $moduleConfig) {
+            $this->dependencyManager->checkModuleDependencies($moduleConfig, $activeModules);
         }
         return $this->_sortModules($activeModules);
     }

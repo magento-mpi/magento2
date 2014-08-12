@@ -16,20 +16,12 @@ class StoreCheck
     protected $_storeManager;
 
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_appState;
-
-    /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\State $appState
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\State $appState
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
-        $this->_appState = $appState;
     }
 
     /**
@@ -46,12 +38,10 @@ class StoreCheck
         \Closure $proceed,
         \Magento\Framework\App\RequestInterface $request
     ) {
-        if ($this->_appState->isInstalled()) {
-            if (!$this->_storeManager->getStore()->getIsActive()) {
-                throw new \Magento\Store\Model\Exception(
-                    'Current store is not active.'
-                );
-            }
+        if (!$this->_storeManager->getStore()->getIsActive()) {
+            throw new \Magento\Store\Model\Exception(
+                'Current store is not active.'
+            );
         }
         return $proceed($request);
     }
