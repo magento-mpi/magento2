@@ -8,7 +8,9 @@
 namespace Magento\Weee\Block\Item\Price;
 
 use Magento\Weee\Model\Tax as WeeeDisplayConfig;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Sales\Model\Order\Item as OrderItem;
+use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
+use Magento\Sales\Model\Order\CreditMemo\Item as CreditMemoItem;
 
 /**
  * Item price render block
@@ -23,29 +25,19 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
     protected $weeeHelper;
 
     /**
-     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
-     */
-    protected $priceCurrency;
-
-    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Tax\Helper\Data $taxHelper
-     * @param \Magento\Checkout\Helper\Data $checkoutHelper
      * @param \Magento\Weee\Helper\Data $weeeHelper
-     * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Tax\Helper\Data $taxHelper,
-        \Magento\Checkout\Helper\Data $checkoutHelper,
         \Magento\Weee\Helper\Data $weeeHelper,
-        PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->weeeHelper = $weeeHelper;
-        $this->priceCurrency = $priceCurrency;
-        parent::__construct($context, $taxHelper, $checkoutHelper, $data);
+        parent::__construct($context, $taxHelper, $data);
         $this->_isScopePrivate = true;
     }
 
@@ -253,7 +245,7 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
         }
 
         if ($this->getIncludeWeeeFlag()) {
-            return $baseRowTotalExclTax + $this->getItem()->getBaseWeeeTaxAppliedRowAmount();
+            return $baseRowTotalExclTax + $this->getItem()->getBaseWeeeTaxAppliedRowAmnt();
         }
 
         return $baseRowTotalExclTax;
@@ -384,7 +376,7 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
             return $baseRowTotalExclTax;
         }
 
-        return $baseRowTotalExclTax + $this->getItem()->getBaseWeeeTaxAppliedRowAmount();
+        return $baseRowTotalExclTax + $this->getItem()->getBaseWeeeTaxAppliedRowAmnt();
     }
 
     /**
@@ -411,13 +403,36 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
     }
 
     /**
-     * Format price
+     * Return the total amount minus discount
      *
-     * @param float $price
-     * @return string
+     * @param OrderItem|InvoiceItem|CreditMemoItem $item
+     * @return mixed
      */
-    public function formatPrice($price)
+    public function getTotalAmount($item)
     {
-        return $this->priceCurrency->format($price);
+        $totalAmount = $item->getRowTotal()
+            - $item->getDiscountAmount()
+            + $item->getTaxAmount()
+            + $item->getHiddenTaxAmount()
+            + $this->weeeHelper->getRowWeeeTaxInclTax($item);
+
+        return $totalAmount;
+    }
+
+    /**
+     * Return the total amount minus discount
+     *
+     * @param OrderItem|InvoiceItem|CreditMemoItem $item
+     * @return mixed
+     */
+    public function getBaseTotalAmount($item)
+    {
+        $totalAmount = $item->getBaseRowTotal()
+            - $item->getBaseDiscountAmount()
+            + $item->getBaseTaxAmount()
+            + $item->getBaseHiddenTaxAmount()
+            + $this->weeeHelper->getBaseRowWeeeTaxInclTax($item);
+
+        return $totalAmount;
     }
 }

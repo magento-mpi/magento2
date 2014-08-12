@@ -484,16 +484,4 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         ];
         return $data;
     }
-
-    public function testFormatPrice()
-    {
-        $price = 10;
-        $formattedPrice ="$10.00";
-        $this->priceCurrency->expects($this->once())
-            ->method('format')
-            ->with($price)
-            ->will($this->returnValue($formattedPrice));
-
-        $this->assertEquals($formattedPrice, $this->renderer->formatPrice($price));
-    }
 }

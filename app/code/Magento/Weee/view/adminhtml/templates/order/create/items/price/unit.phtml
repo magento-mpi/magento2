@@ -42,7 +42,6 @@ $_item = $this->getItem();
     <?php if ($this->displayBothPrices()): ?>
         <br /><span class="label"><?php echo __('Incl. Tax'); ?>:</span>
     <?php endif; ?>
-    <?php $_incl = $this->helper('Magento\Checkout\Helper\Data')->getPriceInclTax($_item); ?>
     <?php echo $this->formatPrice($this->getUnitDisplayPriceInclTax()); ?>
 
     <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item)): ?>

@@ -121,12 +121,7 @@ class Renderer extends \Magento\Backend\Block\Template
      */
     public function getTotalAmount($item)
     {
-        $totalAmount = $item->getRowTotal()
-            + $item->getTaxAmount()
-            + $item->getHiddenTaxAmount()
-            - $item->getDiscountAmount();
-
-        return $totalAmount;
+        return $this->itemPriceRenderer->getTotalAmount($item);
     }
 
     /**
@@ -137,12 +132,7 @@ class Renderer extends \Magento\Backend\Block\Template
      */
     public function getBaseTotalAmount($item)
     {
-        $baseTotalAmount =  $item->getBaseRowTotal()
-            + $item->getBaseTaxAmount()
-            + $item->getBaseHiddenTaxAmount()
-            - $item->getBaseDiscountAmount();
-
-        return $baseTotalAmount;
+        return $this->itemPriceRenderer->getBaseTotalAmount($item);
     }
 
     /**
@@ -156,8 +146,10 @@ class Renderer extends \Magento\Backend\Block\Template
         $item = $this->getItem();
         if ($item instanceof QuoteItem) {
             return $item->getStore()->formatPrice($price);
+        }  elseif ($item instanceof Item) {
+            return $item->getOrder()->formatPrice($price);
         } else {
-            return $this->getOrder()->formatPrice($price);
+            return $item->getOrderItem()->getOrder()->formatPrice($price);
         }
     }
 

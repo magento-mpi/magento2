@@ -236,14 +236,29 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
     /**
      * Return the total amount minus discount
      *
-     * @param OrderItem|InvoiceItem|CreditmemoItem $_item
+     * @param OrderItem|InvoiceItem|CreditmemoItem $item
      * @return mixed
      */
-    public function getTotalAmount($_item)
+    public function getTotalAmount($item)
     {
-        $totalAmount = $_item->getRowTotal()
-            - $_item->getDiscountAmount();
+        $totalAmount = $item->getRowTotal()
+            + $item->getTaxAmount()
+            + $item->getHiddenTaxAmount()
+            + $item->getWeeeTaxAppliedRowAmount()
+            - $item->getDiscountAmount();
 
         return $totalAmount;
+    }
+
+    /**
+     * Return HTML for item total after discount
+     *
+     * @return string
+     */
+    public function getItemRowTotalAfterDiscountHtml()
+    {
+        $block = $this->getLayout()->getBlock('item_row_total_after_discount');
+        $block->setItem($this->getItem());
+        return $block->toHtml();
     }
 }

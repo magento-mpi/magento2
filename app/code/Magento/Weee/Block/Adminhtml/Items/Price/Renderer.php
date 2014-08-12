@@ -19,6 +19,11 @@ use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
 class Renderer extends \Magento\Tax\Block\Adminhtml\Items\Price\Renderer
 {
     /**
+     * @var \Magento\Weee\Block\Item\Price\Renderer
+     */
+    protected $itemPriceRenderer;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $defaultColumnRenderer
      * @param \Magento\Tax\Helper\Data $taxHelper
@@ -165,13 +170,7 @@ class Renderer extends \Magento\Tax\Block\Adminhtml\Items\Price\Renderer
      */
     public function getTotalAmount($item)
     {
-        $totalAmount = $item->getRowTotal()
-            + $item->getTaxAmount()
-            + $item->getHiddenTaxAmount()
-            + $item->getWeeeTaxAppliedRowAmount()
-            - $item->getDiscountAmount();
-
-        return $totalAmount;
+        return $this->itemPriceRenderer->getTotalAmount($item);
     }
 
     /**
@@ -182,12 +181,6 @@ class Renderer extends \Magento\Tax\Block\Adminhtml\Items\Price\Renderer
      */
     public function getBaseTotalAmount($item)
     {
-        $baseTotalAmount =  $item->getBaseRowTotal()
-            + $item->getBaseTaxAmount()
-            + $item->getBaseHiddenTaxAmount()
-            + $item->getBaseWeeeTaxAppliedRowAmnt()
-            - $item->getBaseDiscountAmount();
-
-        return $baseTotalAmount;
+        return $this->itemPriceRenderer->getBaseTotalAmount($item);
     }
 }

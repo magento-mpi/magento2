@@ -15,7 +15,6 @@ use Magento\Sales\Model\Order\Item as OrderItem;
 use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
 use Magento\Sales\Model\Order\CreditMemo\Item as CreditMemoItem;
 use Magento\Framework\Pricing\Render as PricingRender;
-use Magento\Checkout\Helper\Data as CheckoutHelper;
 
 /**
  * Item price render block
@@ -28,11 +27,6 @@ class Renderer extends \Magento\Framework\View\Element\Template
      * @var \Magento\Tax\Helper\Data
      */
     protected $taxHelper;
-
-    /**
-     * @var \Magento\Checkout\Helper\Data
-     */
-    protected $checkoutHelper;
 
     /**
      * @var QuoteItem|OrderItem|InvoiceItem|CreditMemoItem
@@ -56,17 +50,14 @@ class Renderer extends \Magento\Framework\View\Element\Template
      *
      * @param Context $context
      * @param TaxHelper $taxHelper
-     * @param CheckoutHelper $checkoutHelper
      * @param array $data
      */
     public function __construct(
         Context $context,
         TaxHelper $taxHelper,
-        CheckoutHelper $checkoutHelper,
         array $data = array()
     ) {
         $this->taxHelper = $taxHelper;
-        $this->checkoutHelper = $checkoutHelper;
         if (isset($data['zone'])) {
             $this->zone = $data['zone'];
         }
@@ -177,7 +168,6 @@ class Renderer extends \Magento\Framework\View\Element\Template
             default:
                 return $this->taxHelper->displayCartBothPrices($this->storeId);
         }
-        return $this->taxHelper->displayCartBothPrices($this->storeId);
     }
 
     /**
@@ -188,7 +178,14 @@ class Renderer extends \Magento\Framework\View\Element\Template
      */
     public function formatPrice($price)
     {
-        return $this->checkoutHelper->formatPrice($price);
+        $item = $this->getItem();
+        if ($item instanceof QuoteItem) {
+            return $item->getQuote()->getStore()->formatPrice($price);
+        } elseif ($item instanceof OrderItem) {
+            return $item->getOrder()->formatPrice($price);
+        } else {
+            return $item->getOrderItem()->getOrder()->formatPrice($price);
+        }
     }
 
     /**
@@ -205,5 +202,37 @@ class Renderer extends \Magento\Framework\View\Element\Template
         } else {
             return $item->getPrice();
         }
+    }
+
+    /**
+     * Return the total amount minus discount
+     *
+     * @param OrderItem|InvoiceItem|CreditmemoItem $item
+     * @return mixed
+     */
+    public function getTotalAmount($item)
+    {
+        $totalAmount = $item->getRowTotal()
+            - $item->getDiscountAmount()
+            + $item->getTaxAmount()
+            + $item->getHiddenTaxAmount();
+
+        return $totalAmount;
+    }
+
+    /**
+     * Return the total amount minus discount
+     *
+     * @param OrderItem|InvoiceItem|CreditmemoItem $item
+     * @return mixed
+     */
+    public function getBaseTotalAmount($item)
+    {
+        $totalAmount = $item->getBaseRowTotal()
+            - $item->getBaseDiscountAmount()
+            + $item->getBaseTaxAmount()
+            + $item->getBaseHiddenTaxAmount();
+
+        return $totalAmount;
     }
 }

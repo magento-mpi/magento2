@@ -68,6 +68,6 @@
     </td>
     <td class="col discount" data-th="<?php echo $this->escapeHtml(__('Discount Amount')); ?>"><?php echo $_order->formatPrice(-$_item->getDiscountAmount()) ?></td>
     <td class="cot total" data-th="<?php echo $this->escapeHtml(__('Row Total')); ?>">
-        <?php echo $_order->formatPrice($this->getTotalAmount($_item)) ?>
+        <?php echo $this->getItemRowTotalAfterDiscountHtml(); ?>
     </td>
 </tr>
