@@ -16,33 +16,23 @@ class TypeProcessor
 {
     /**#@+
      * Pre-normalized type constants
-     *
-     * @var string
      */
     const STRING_TYPE = 'str';
-
     const INT_TYPE = 'integer';
-
     const BOOLEAN_TYPE = 'bool';
-
     const ANY_TYPE = 'mixed';
+    /**#@-*/
 
     /**#@+
      * Normalized type constants
-     *
-     * @var string
      */
     const NORMALIZED_STRING_TYPE = 'string';
-
     const NORMALIZED_INT_TYPE = 'int';
-
     const NORMALIZED_FLOAT_TYPE = 'float';
-
     const NORMALIZED_DOUBLE_TYPE = 'double';
-
     const NORMALIZED_BOOLEAN_TYPE = 'boolean';
-
     const NORMALIZED_ANY_TYPE = 'any';
+    /**#@-*/
 
     /**
      * Array of types data.
@@ -347,7 +337,7 @@ class TypeProcessor
             $type = $this->getArrayItemType($type);
         }
 
-        return $type == self::NORMALIZED_ANY_TYPE;
+        return ($type == self::NORMALIZED_ANY_TYPE);
     }
 
     /**
