@@ -71,13 +71,7 @@ class StoreViewService
      */
     public function doesProductHaveOverriddenUrlKeyForStore($storeId, $productId)
     {
-        $attribute = $this->eavConfig->getAttribute(Product::ENTITY, 'url_key');
-        $select = $this->connection->select()
-            ->from($attribute->getBackendTable(), 'store_id')
-            ->where('attribute_id = ?', $attribute->getId())
-            ->where('entity_id = ?', $productId);
-
-        return in_array($storeId, $this->connection->fetchCol($select));
+        return $this->doesEntityHaveOverriddenUrlKeyForStore($storeId, $productId, Product::ENTITY);
     }
 
     /**
@@ -89,11 +83,24 @@ class StoreViewService
      */
     public function doesCategoryHaveOverriddenUrlKeyForStore($storeId, $categoryId)
     {
-        $attribute = $this->eavConfig->getAttribute(Category::ENTITY, 'url_key');
+        return $this->doesEntityHaveOverriddenUrlKeyForStore($storeId, $categoryId, Category::ENTITY);
+    }
+
+    /**
+     * Check that entity has overridden url key for specific store
+     *
+     * @param int $storeId
+     * @param int $entityId
+     * @param string $entityType
+     * @return bool
+     */
+    protected function doesEntityHaveOverriddenUrlKeyForStore($storeId, $entityId, $entityType)
+    {
+        $attribute = $this->eavConfig->getAttribute($entityType, 'url_key');
         $select = $this->connection->select()
             ->from($attribute->getBackendTable(), 'store_id')
             ->where('attribute_id = ?', $attribute->getId())
-            ->where('entity_id = ?', $categoryId);
+            ->where('entity_id = ?', $entityId);
 
         return in_array($storeId, $this->connection->fetchCol($select));
     }
