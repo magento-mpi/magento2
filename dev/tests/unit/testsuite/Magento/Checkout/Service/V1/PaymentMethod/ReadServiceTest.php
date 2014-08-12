@@ -111,10 +111,14 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($cartId, $storeId)
             ->will($this->returnValue($quoteMock));
 
+        $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod', [], [], '', false);
+
         $this->quoteMethodConverterMock->expects($this->once())
             ->method('toDataObject')
-            ->will($this->returnValue($paymentMock));
-        $this->assertEquals($paymentMock, $this->service->getPayment($cartId));
+            ->with($paymentMock)
+            ->will($this->returnValue($paymentMethodMock));
+
+        $this->assertEquals($paymentMethodMock, $this->service->getPayment($cartId));
     }
 
     public function testGetList()
@@ -142,11 +146,18 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($quoteMock)
             ->will($this->returnValue($methodList));
 
+        $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\PaymentMethod', [], [], '', false);
+
         $this->paymentMethodConverterMock->expects($this->any())
             ->method('toDataObject')
-            ->will($this->returnValue($this->getMock('\Magento\Payment\Model\MethodInterface')));
+            ->will($this->returnValue($paymentMethodMock));
 
-        $this->assertEquals($methodList, $this->service->getList($cartId));
+        $expectedResult = [
+            $this->getMock('\Magento\Checkout\Service\V1\Data\PaymentMethod', [], [], '', false),
+            $this->getMock('\Magento\Checkout\Service\V1\Data\PaymentMethod', [], [], '', false)
+        ];
+
+        $this->assertEquals($expectedResult, $this->service->getList($cartId));
     }
 }
  

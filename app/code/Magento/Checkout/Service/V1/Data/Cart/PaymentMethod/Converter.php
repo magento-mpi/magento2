@@ -37,9 +37,9 @@ class Converter
         $data = [
             QuotePaymentMethod::METHOD => $object->getMethod(),
             QuotePaymentMethod::PO_NUMBER => $object->getPoNumber(),
-            QuotePaymentMethod::CC_CID => $object->getCcCidEnc(),
+            QuotePaymentMethod::CC_CID => $object->getCcCid(),
             QuotePaymentMethod::CC_OWNER => $object->getCcOwner(),
-            QuotePaymentMethod::CC_NUMBER => $object->getCcNumberEnc(),
+            QuotePaymentMethod::CC_NUMBER => $object->getCcNumber(),
             QuotePaymentMethod::CC_TYPE => $object->getCcType(),
             QuotePaymentMethod::CC_EXP_YEAR => $object->getCcExpYear(),
             QuotePaymentMethod::CC_EXP_MONTH => $object->getCcExpMonth(),
