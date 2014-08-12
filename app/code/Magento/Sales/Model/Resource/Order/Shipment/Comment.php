@@ -24,7 +24,7 @@ class Comment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Validator
      *
-     * @var \Magento\Sales\Model\Order\Creditmemo\Comment\Validator
+     * @var \Magento\Sales\Model\Order\Shipment\Comment\Validator
      */
     protected $validator;
 

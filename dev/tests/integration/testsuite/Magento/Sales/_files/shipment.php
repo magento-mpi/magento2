@@ -17,12 +17,10 @@ $payment->setBlockMock($paymentInfoBlock);
 $shipment = $objectManager->create('Magento\Sales\Model\Order\Shipment');
 $shipment->setOrder($order);
 
-$packages = [['1'], ['2']];
-
 $shipmentItem = $objectManager->create('Magento\Sales\Model\Order\Shipment\Item');
 $shipmentItem->setOrderItem($orderItem);
 $shipment->addItem($shipmentItem);
-$shipment->setPackages($packages);
+$shipment->setPackages([['1'], ['2']]);
 $shipment->setShipmentStatus(\Magento\Sales\Model\Order\Shipment::STATUS_NEW);
 
 $shipment->save();

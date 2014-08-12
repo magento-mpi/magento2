@@ -37,9 +37,9 @@ class ShipmentAddComment implements ShipmentAddCommentInterface
      */
     public function invoke(Comment $comment)
     {
-        /** @var \Magento\Sales\Model\Order\Shipment\Comment $shipmentModel */
-        $shipmentModel = $this->commentConverter->getModel($comment);
-        $shipmentModel->save();
+        /** @var \Magento\Sales\Model\Order\Shipment\Comment $commentModel */
+        $commentModel = $this->commentConverter->getModel($comment);
+        $commentModel->save();
 
         return true;
     }
