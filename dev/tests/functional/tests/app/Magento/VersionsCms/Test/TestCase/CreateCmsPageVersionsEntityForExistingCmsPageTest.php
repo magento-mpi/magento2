@@ -33,7 +33,7 @@ use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
  * @group CMS_Versioning_(PS)
  * @ZephyrId MAGETWO-26738
  */
-class CreateCmsPageVersionsEntityTest extends Injectable
+class CreateCmsPageVersionsEntityForExistingCmsPageTest extends Injectable
 {
     /**
      * CmsIndex page
@@ -74,9 +74,9 @@ class CreateCmsPageVersionsEntityTest extends Injectable
      */
     public function test(CmsPage $cmsInitial, CmsPage $cms, array $results)
     {
+        $this->markTestIncomplete('MAGETWO-26802');
         // Precondition
         $cmsInitial->persist();
-
         // Steps
         $filter = ['title' => $cmsInitial->getTitle()];
         $this->cmsIndex->open();

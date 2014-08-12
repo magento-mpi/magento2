@@ -40,7 +40,7 @@ use Mtf\TestCase\Injectable;
  * @group Gift_Registry_(CS)
  * @ZephyrId MAGETWO-26176
  */
-class CreateGiftRegistryEntityTest extends Injectable
+class CreateGiftRegistryFrontendEntityTest extends Injectable
 {
     /**
      * Cms index page
@@ -55,13 +55,6 @@ class CreateGiftRegistryEntityTest extends Injectable
      * @var CustomerAccountLogin
      */
     protected $customerAccountLogin;
-
-    /**
-     * Customer from precondition
-     *
-     * @var CustomerInjectable
-     */
-    protected $customer;
 
     /**
      * Customer account index page
