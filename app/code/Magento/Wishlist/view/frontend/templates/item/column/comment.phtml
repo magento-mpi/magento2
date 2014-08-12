@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/* @var \Magento\Wishlist\Model\Item $item */
+
+$item = $this->getItem();
+?>
+
+<textarea placeholder="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->defaultCommentString() ?>" name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" title="<?php echo __('Comment') ?>"><?php echo($this->escapeHtml($item->getDescription())) ?></textarea>
+
+<?php foreach ($this->getChildNames() as $childName): ?>
+    <?php echo $this->getLayout()->renderElement($childName, false); ?>
+<?php endforeach;?>

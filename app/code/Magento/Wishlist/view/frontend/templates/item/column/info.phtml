@@ -10,20 +10,22 @@
 $item = $this->getItem();
 $product = $item->getProduct();
 ?>
-<strong class="product name">
-    <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>">
+<strong class="product-item-name">
+    <a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>" class="product-item-link">
         <?php echo $this->escapeHtml($product->getName()) ?>
     </a>
 </strong>
-<div class="product description">
-    <?php echo $this->escapeHtml($this->stripTags($product->getShortDescription()));?>
+
+<?php $description = $product->getShortDescription(); ?>
+<?php if ($description): ?>
+<div class="product-item-description">
+    <?php echo $this->escapeHtml($this->stripTags($description));?>
 </div>
-<textarea placeholder="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->defaultCommentString() ?>" name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" title="<?php echo __('Comment') ?>"><?php echo($this->escapeHtml($item->getDescription())) ?></textarea>
+<?php endif; ?>
+
 <?php $children = $this->getChildNames(); ?>
 <?php if ($children): ?>
-    <div class="product manage">
-        <?php foreach($children as $childName):?>
-            <?php echo $this->getLayout()->renderElement($childName, false);?>
-        <?php endforeach;?>
-    </div>
+    <?php foreach($children as $childName):?>
+        <?php echo $this->getLayout()->renderElement($childName, false);?>
+    <?php endforeach;?>
 <?php endif; ?>
