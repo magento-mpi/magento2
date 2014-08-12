@@ -6,6 +6,8 @@
  * @license    {license_link}
  */
 
+use \Magento\Framework\App\State as AppState;
+
 /**
  * Parse command line arguments
  */
@@ -58,7 +60,8 @@ INSTALLSCHEME;
         'admin_password' => '1234qasd',
         'use_secure' => 'no',
         'secure_base_url' => '"https://magento.local"',
-        'cleanup_database' => ''
+        'cleanup_database' => '',
+        'bootstrap' => '{"extra":{"key":"value"}}',
     );
     echo 'Example of installation:' . PHP_EOL;
     echo '  php -f ' . $_SERVER['argv'][0] . ' --';
@@ -73,12 +76,19 @@ INSTALLSCHEME;
     exit(1);
 }
 
-define('BARE_BOOTSTRAP', 1);
-require_once __DIR__ . '/../../app/bootstrap.php';
-
-$_SERVER[\Magento\Framework\App\State::PARAM_MODE] = isset($_SERVER[\Magento\Framework\App\State::PARAM_MODE])
-    ? $_SERVER[\Magento\Framework\App\State::PARAM_MODE]
-    : \Magento\Framework\App\State::MODE_DEVELOPER;
-
-$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
-$entryPoint->run('Magento\Install\App\Console', array('arguments' => $args));
+/** @var \Magento\Framework\App\Bootstrap $bootstrap */
+$bootstrap = require __DIR__ . '/../../app/bootstrap.php';
+$bootstrap->setIsInstalledRequirement(false);
+if (!isset($_SERVER[AppState::PARAM_MODE])) {
+    $bootstrap->addParams([AppState::PARAM_MODE => AppState::MODE_DEVELOPER]);
+}
+if (isset($args['bootstrap'])) {
+    $extra = json_decode($args['bootstrap'], true);
+    if (!is_array($extra)) {
+        throw new \Exception("Unable to decode JSON in the parameter 'bootstrap'");
+    }
+    $bootstrap->addParams($extra);
+}
+/** @var \Magento\Install\App\Console $app */
+$app = $bootstrap->createApplication('Magento\Install\App\Console', ['arguments' => $args]);
+$bootstrap->run($app);

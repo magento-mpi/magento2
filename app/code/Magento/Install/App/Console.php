@@ -10,6 +10,7 @@
 namespace Magento\Install\App;
 
 use Magento\Framework\App\Console\Response;
+use Magento\Framework\App\Bootstrap;
 
 class Console implements \Magento\Framework\AppInterface
 {
@@ -87,7 +88,6 @@ class Console implements \Magento\Framework\AppInterface
      */
     protected function _buildInitArguments(array $args)
     {
-        $directories = array();
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_URIS])) {
             $uris = unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
             foreach ($uris as $code => $uri) {
@@ -104,7 +104,7 @@ class Console implements \Magento\Framework\AppInterface
     }
 
     /**
-     * Install/Uninstall application
+     * Install application
      *
      * @param \Magento\Install\Model\Installer\Console $installer
      * @return void
@@ -120,18 +120,11 @@ class Console implements \Magento\Framework\AppInterface
             $config = (array)include $this->_arguments['config'];
             $this->_arguments = array_merge((array)$config, $this->_arguments);
         }
-        $isUninstallMode = isset($this->_arguments['uninstall']);
-        if ($isUninstallMode) {
-            $result = $installer->uninstall();
-        } else {
-            $result = $installer->install($this->_arguments);
-        }
+
+        $result = $installer->install($this->_arguments);
+
         if (!$installer->hasErrors()) {
-            if ($isUninstallMode) {
-                $msg = $result ? 'Uninstalled successfully' : 'Ignoring attempt to uninstall non-installed application';
-            } else {
-                $msg = 'Installed successfully' . ($result ? ' (encryption key "' . $result . '")' : '');
-            }
+            $msg = 'Installed successfully' . ($result ? ' (encryption key "' . $result . '")' : '');
             $this->_output->success($msg . PHP_EOL);
         } else {
             $this->_output->error(implode(PHP_EOL, $installer->getErrors()) . PHP_EOL);
@@ -148,15 +141,9 @@ class Console implements \Magento\Framework\AppInterface
         $areaCode = 'install';
         $this->_state->setAreaCode($areaCode);
         $this->_objectManager->configure($this->_loader->load($areaCode));
-        if (isset($this->_arguments['uninstall'])) {
-            $sessionConsole = $this->_objectManager->create('\Magento\Framework\Session\SessionConsole');
-            $installerModel = $this->_objectManager
-                ->create('Magento\Install\Model\Installer', ['session' => $sessionConsole]);
-            $installer = $this->_installerFactory
-                ->create(['installArgs' => $this->_arguments, 'installer' => $installerModel]);
-        } else {
-            $installer = $this->_installerFactory->create(array('installArgs' => $this->_arguments));
-        }
+
+        /** @var \Magento\Install\Model\Installer\Console $installer */
+        $installer = $this->_installerFactory->create(array('installArgs' => $this->_arguments));
 
         if (isset($this->_arguments['show_locales'])) {
             $this->_output->readableOutput($this->_output->prepareArray($installer->getAvailableLocales()));
@@ -180,5 +167,13 @@ class Console implements \Magento\Framework\AppInterface
         }
         $this->_response->setCode(0);
         return $this->_response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function catchException(Bootstrap $bootstrap, \Exception $exception)
+    {
+        return false;
     }
 }

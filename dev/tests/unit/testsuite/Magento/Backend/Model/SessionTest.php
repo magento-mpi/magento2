@@ -5,8 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Backend\Model;
 
+/**
+ * @bug https://github.com/sebastianbergmann/phpunit/issues/314
+ * Workaround: use the "require_once" below and declare "preserveGlobalState disabled" in the test class
+ */
+require_once __DIR__ . '/../../../../framework/bootstrap.php';
+
+/**
+ * @runInSeparateProcess
+ * @preserveGlobalState disabled
+ */
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,7 +32,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Magento\Backend\Model\Session::__construct
-     * @runInSeparateProcess
      */
     public function testConstructor()
     {

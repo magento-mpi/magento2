@@ -6,13 +6,11 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . '/../../app/bootstrap.php';
 use Magento\Store\Model\StoreManager;
 
-$params = array(
-    StoreManager::PARAM_RUN_CODE => 'admin',
-    StoreManager::PARAM_RUN_TYPE => 'store'
-);
-
-$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $params);
-$entryPoint->run('Magento\Indexer\App\Shell', array('entryFileName' => basename(__FILE__)));
+/** @var \Magento\Framework\App\Bootstrap $bootstrap */
+$bootstrap = require __DIR__ . '/../../app/bootstrap.php';
+$bootstrap->addParams([StoreManager::PARAM_RUN_CODE => 'admin', StoreManager::PARAM_RUN_TYPE => 'store']);
+/** @var Magento\Indexer\App\Shell $app */
+$app = $bootstrap->createApplication('Magento\Indexer\App\Shell', ['entryFileName' => basename(__FILE__)]);
+$bootstrap->run($app);

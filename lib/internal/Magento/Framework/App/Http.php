@@ -55,7 +55,7 @@ class Http implements \Magento\Framework\AppInterface
     protected $_filesystem;
 
     /**
-     * @var Response\Http
+     * @var ResponseHttp
      */
     protected $_response;
 
@@ -96,45 +96,55 @@ class Http implements \Magento\Framework\AppInterface
      */
     public function launch()
     {
-        try {
-            $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
-            $this->_state->setAreaCode($areaCode);
-            $this->_objectManager->configure($this->_configLoader->load($areaCode));
-            $this->_response = $this->_objectManager->get('Magento\Framework\App\FrontControllerInterface')
-                ->dispatch($this->_request);
-            // This event gives possibility to launch something before sending output (allow cookie setting)
-            $eventParams = array('request' => $this->_request, 'response' => $this->_response);
-            $this->_eventManager->dispatch('controller_front_send_response_before', $eventParams);
-        } catch (\Exception $exception) {
-            $message = $exception->getMessage() . "\n";
-            try {
-                if ($this->_state->getMode() == State::MODE_DEVELOPER) {
-                    $message .= '<pre>';
-                    $message .= $exception->getMessage() . "\n\n";
-                    $message .= $exception->getTraceAsString();
-                    $message .= '</pre>';
-                } else {
-                    $reportData = array($exception->getMessage(), $exception->getTraceAsString());
-                    // retrieve server data
-                    if (isset($_SERVER)) {
-                        if (isset($_SERVER['REQUEST_URI'])) {
-                            $reportData['url'] = $_SERVER['REQUEST_URI'];
-                        }
-                        if (isset($_SERVER['SCRIPT_NAME'])) {
-                            $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
-                        }
-                    }
-                    require_once $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/report.php';
-                    $processor = new \Magento\Framework\Error\Processor($this->_response);
-                    $processor->saveReport($reportData);
-                    $this->_response = $processor->processReport();
-                }
-            } catch (\Exception $exception) {
-                $message .= "Unknown error happened.";
-            }
-            $this->_response->setHttpResponseCode(500);
-            $this->_response->setBody($message);
-        }
+        $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());
+        $this->_state->setAreaCode($areaCode);
+        $this->_objectManager->configure($this->_configLoader->load($areaCode));
+        $this->_response = $this->_objectManager->get('Magento\Framework\App\FrontControllerInterface')
+            ->dispatch($this->_request);
+        // This event gives possibility to launch something before sending output (allow cookie setting)
+        $eventParams = array('request' => $this->_request, 'response' => $this->_response);
+        $this->_eventManager->dispatch('controller_front_send_response_before', $eventParams);
         return $this->_response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function catchException(Bootstrap $bootstrap, \Exception $exception)
+    {
+        switch ($bootstrap->getErrorCode()) {
+            case Bootstrap::ERR_MAINTENANCE:
+                require $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/503.php';
+                return true;
+            case Bootstrap::ERR_IS_INSTALLED:
+                $this->_response->setRedirect('/setup/'); // TODO: remove hardcode
+                $this->_response->sendHeaders();
+                return true;
+            default:
+                if ($bootstrap->isDeveloperMode()) {
+                    return false;
+                }
+        }
+        $message = $exception->getMessage() . "\n";
+        try {
+            $reportData = array($exception->getMessage(), $exception->getTraceAsString());
+            $params = $bootstrap->getParams();
+            if (isset($params['REQUEST_URI'])) {
+                $reportData['url'] = $params['REQUEST_URI'];
+            }
+            if (isset($params['SCRIPT_NAME'])) {
+                $reportData['script_name'] = $params['SCRIPT_NAME'];
+            }
+            require_once $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/report.php';
+            $processor = new \Magento\Framework\Error\Processor($this->_response);
+            $processor->saveReport($reportData);
+            $this->_response = $processor->processReport();
+            return true;
+        } catch (\Exception $exception) {
+            $message .= "Unknown error happened.";
+        }
+        $this->_response->setHttpResponseCode(500);
+        $this->_response->setBody($message);
+        return true;
     }
 }

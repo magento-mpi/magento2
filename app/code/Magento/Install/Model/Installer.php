@@ -247,16 +247,6 @@ class Installer extends \Magento\Framework\Object
     }
 
     /**
-     * Checking install status of application
-     *
-     * @return bool
-     */
-    public function isApplicationInstalled()
-    {
-        return $this->_appState->isInstalled();
-    }
-
-    /**
      * Get data model
      *
      * @return \Magento\Framework\Object
@@ -360,7 +350,8 @@ class Installer extends \Magento\Framework\Object
 
         $data = $this->_installerDb->checkDbConnectionData($data);
 
-        $this->_installerConfig->setConfigData($data)->install();
+        $data = $this->_installerConfig->install($data);
+        $this->getDataModel()->setConfigData($data);
 
         $this->_arguments->reload();
         $this->_resource->setTablePrefix($data['db_prefix']);

@@ -9,6 +9,16 @@
  */
 namespace Magento\Framework\App\Error;
 
+/**
+ * @bug https://github.com/sebastianbergmann/phpunit/issues/314
+ * Workaround: use the "require_once" below and declare "preserveGlobalState disabled" in the test class
+ */
+require_once __DIR__ . '/../../../../../framework/bootstrap.php';
+
+/**
+ * @runInSeparateProcess
+ * @preserveGlobalState disabled
+ */
 class HandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -74,7 +84,6 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      * Test for processException method report
      *
      * @covers \Magento\Framework\Error\Handler::processException
-     * @runInSeparateProcess
      */
     public function testProcessExceptionReport()
     {

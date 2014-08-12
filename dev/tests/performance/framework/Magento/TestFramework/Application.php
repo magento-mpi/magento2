@@ -30,7 +30,14 @@ class Application
      *
      * @var string
      */
-    protected $_installerScript;
+    protected $_installScript;
+
+    /**
+     * Path to shell uninstaller script
+     *
+     * @var string
+     */
+    protected $_uninstallScript;
 
     /**
      * @var \Magento\Framework\Shell
@@ -65,13 +72,26 @@ class Application
      */
     public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Framework\Shell $shell)
     {
-        $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
-        if (!is_file($installerScript)) {
-            throw new \Magento\Framework\Exception("File '{$installerScript}' is not found.");
-        }
-        $this->_installerScript = realpath($installerScript);
+        $shellDir = $config->getApplicationBaseDir() . '/dev/shell';
+        $this->_installScript = $this->_assertPath($shellDir . '/install.php');
+        $this->_uninstallScript = $this->_assertPath($shellDir . '/uninstall.php');
         $this->_config = $config;
         $this->_shell = $shell;
+    }
+
+    /**
+     * Asserts that a file exists and returns its real path
+     *
+     * @param string $path
+     * @return string
+     * @throws \Magento\Framework\Exception
+     */
+    private function _assertPath($path)
+    {
+        if (!is_file($path)) {
+            throw new \Magento\Framework\Exception("File '{$path}' is not found.");
+        }
+        return realpath($path);
     }
 
     /**
@@ -123,7 +143,7 @@ class Application
      */
     protected function _uninstall()
     {
-        $this->_shell->execute('php -f %s -- --uninstall', array($this->_installerScript));
+        $this->_shell->execute('php -f %s', array($this->_uninstallScript));
 
         $this->_isInstalled = false;
         $this->_fixtures = array();
@@ -153,7 +173,7 @@ class Application
         }
 
         $installCmd = 'php -f %s --';
-        $installCmdArgs = array($this->_installerScript);
+        $installCmdArgs = array($this->_installScript);
         foreach ($installOptions as $optionName => $optionValue) {
             $installCmd .= " --{$optionName} %s";
             $installCmdArgs[] = $optionValue;

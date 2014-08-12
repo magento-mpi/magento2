@@ -25,6 +25,9 @@ $path .= PATH_SEPARATOR . MTF_BP . '/vendor/magento/mtf';
 $path .= PATH_SEPARATOR . MTF_BP . '/vendor/phpunit/phpunit';
 set_include_path($path);
 
-$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
-$entryPoint->run('Mtf\Util\Generate\Factory');
+/** @var \Magento\Framework\App\Bootstrap $bootstrap */
+$bootstrap = require_once __DIR__ . '/../../../../../app/bootstrap.php';
+/** @var \Mtf\Util\Generate\Factory $app */
+$app = $bootstrap->createApplication('Mtf\Util\Generate\Factory');
+$bootstrap->run($app);
 \Mtf\Util\Generate\GenerateResult::displayResults();

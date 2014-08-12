@@ -2736,5 +2736,7 @@ return array(
     ['Magento\Install\Controller\Wizard\Locale'],
     ['Magento\Install\Controller\Wizard\LocaleChange'],
     ['Magento\Install\Controller\Wizard\LocalePost'],
-    ['Magento\Install\App\Action\Plugin\Dir']
+    ['Magento\Install\App\Action\Plugin\Dir'],
+    ['\Magento\Framework\App\EntryPoint\EntryPoint', '\Magento\Framework\App\Bootstrap'],
+    ['\Magento\Framework\App\EntryPointInterface', '\Magento\Framework\App\Bootstrap'],
 );
