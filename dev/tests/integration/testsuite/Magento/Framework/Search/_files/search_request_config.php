@@ -7,6 +7,12 @@
  */
 return [
     "suggested_search_container" => [
+        "dimensions" => [
+            "scope" => [
+                "name" => "scope",
+                "value" => "default"
+            ]
+        ],
         "queries" => [
             "suggested_search_container" => [
                 "name" => "suggested_search_container",
