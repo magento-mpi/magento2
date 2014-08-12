@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+require 'default_rollback.php';
 require __DIR__ . '/../../../Magento/Sales/_files/order.php';
 
 $payment = $order->getPayment();
