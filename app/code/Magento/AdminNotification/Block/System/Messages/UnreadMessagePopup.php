@@ -1,13 +1,13 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
 namespace Magento\AdminNotification\Block\System\Messages;
 
-use Magento\AdminNotification\Model\System\MessageInterface;
+use Magento\Framework\Notification\MessageInterface;
 
 class UnreadMessagePopup extends \Magento\Backend\Block\Template
 {

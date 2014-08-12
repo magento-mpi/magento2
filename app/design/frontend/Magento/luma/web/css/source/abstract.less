@@ -108,7 +108,7 @@
     .button-responsive();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .button-desktop {
         width: auto;
     }
@@ -117,7 +117,7 @@
 //
 //    Blocks in 2 columns
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .blocks-2columns {
         width: 48%;
         &:nth-child(1) {
@@ -181,7 +181,7 @@
     margin-bottom: @indent-xl-base;
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .abstract-margin-for-blocks-and-widgets-desktop {
         margin-bottom: @indent-xl-base + @indent-s-base;
     }
@@ -229,7 +229,7 @@
     margin-left: 0;
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .reset-left-margin-desktop {
         margin-left: 0;
     }
@@ -251,7 +251,7 @@
 //
 //    Action with icon remove with text for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .action-remove-desktop {
         margin-left: 90%;
     }
@@ -296,7 +296,7 @@
 //
 //    Add Recipient for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-recipients-desktop {
         .recipients {
             .field {
@@ -316,7 +316,7 @@
 //
 //    Margin for forms
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .margin-for-forms-desktop {
         margin-left: @form-field-type-inline-label-width;
     }
@@ -329,15 +329,20 @@
     .visually-hidden();
 }
 
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .visually-hidden-mobile {
         .visually-hidden();
-    } 
+    }
 }
-.responsive(@break) when (@break = @break-point-1) {
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .visually-hidden-mobile-m {
+        .visually-hidden();
+    }
+}
+.responsive(@break) when (@break = @screen-m) {
     .visually-hidden-desktop {
         .visually-hidden();
-    } 
+    }
 }
 
 //
@@ -347,18 +352,23 @@
     .clearfix();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-clearfix-desktop {
         .clearfix();
     }
 }
 
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .add-clearfix-mobile {
         .clearfix();
     }
 }
 
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .add-clearfix-mobile-m {
+        .clearfix();
+    }
+}
 //
 //    Box-sizing
 //--------------------------------------
@@ -366,7 +376,7 @@
     .box-sizing();
 }
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .add-box-sizing-desktop {
         .box-sizing();
     }
@@ -375,7 +385,7 @@
 //
 //    Revert field type
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .revert-field-type-desktop {
         .fieldset {
             > .field,
@@ -422,7 +432,7 @@
 //
 //    Field 2 column
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .form-field-column-2 {
         .fieldset {
             .field {
@@ -443,7 +453,7 @@
 //
 //    Field 1 column
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .form-field-revert-column-1 {
         .form-field-column-number(@_column-number: 1);
     }
@@ -461,10 +471,9 @@
 //
 //    Add to Actions
 //--------------------------------------
-.abstract-add-to-actions {
+.abstract-actions-addto {
     color: @addto-color;
     display: inline-block;
-    line-height: 26px;
     text-transform: uppercase;
     font-weight: @font-weight-semibold;
     letter-spacing: .05em;
@@ -491,7 +500,7 @@
 //
 //    General pages forms
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .abstract-forms-general-desktop {
         max-width: 500px;
         .legend {
@@ -506,8 +515,8 @@
 //
 //    Vertical Table
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
-    .table-vertical-mobile  {
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .table-vertical-mobile {
         .table-responsive();
     }
 }
@@ -515,7 +524,7 @@
 //
 //    Revert side paddings
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .abstract-revert-side-paddings {
         padding-left: 0;
         padding-right: 0;
@@ -601,7 +610,7 @@
 //
 //    Account pages: block font size
 //--------------------------------------
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .abstract-account-block-font-size {
         .font-size(16);
     }
@@ -617,12 +626,12 @@
 //
 //    Account pages: margin for table
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-account-table-margin-mobile {
         .css(margin-top, -@indent-base);
     }
 }
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .abstract-account-table-margin-desktop {
         .css(margin-top, -@indent-m-base);
     }
@@ -631,7 +640,7 @@
 //
 //    Account pages: table col actions
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-account-col-actions {
         padding-top: 9px;
         &:before {
@@ -643,7 +652,7 @@
 //
 //    Account pages: table border
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @break-point-0) {
+.responsive-smaller(@break) when (@break = @screen-s) {
     .abstract-account-table-border {
         border-top: 1px solid @account-title-border-color;
     }
@@ -653,7 +662,7 @@
 //    Action print with icon
 //--------------------------------------
 
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .abstract-action-print {
         .icon-font(
             @icon-print,
