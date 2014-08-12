@@ -30,7 +30,7 @@ class AssertGiftRegistryTypeSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that after save a Gift Registry type "You saved the gift registry type." successful message appears
+     * Assert that after save a Gift Registry type success message appears
      *
      * @param GiftRegistryIndex $giftRegistryIndex
      * @return void

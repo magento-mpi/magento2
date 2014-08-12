@@ -14,7 +14,7 @@ use Magento\GiftRegistry\TEst\Fixture\GiftRegistry;
 
 /**
  * Class AssertGiftRegistryTypeInGrid
- * Assert that created Gift Registry type can be found at Stores> Gift Registry grid in backend
+ * Assert that created Gift Registry type can be found at Stores > Gift Registry grid in backend
  */
 class AssertGiftRegistryTypeInGrid extends AbstractConstraint
 {
@@ -26,7 +26,7 @@ class AssertGiftRegistryTypeInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created Gift Registry type can be found at Stores> Gift Registry grid in backend
+     * Assert that created Gift Registry type can be found at Stores > Gift Registry grid in backend
      *
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistry $giftRegistry
@@ -34,6 +34,7 @@ class AssertGiftRegistryTypeInGrid extends AbstractConstraint
      */
     public function processAssert(GiftRegistryIndex $giftRegistryIndex, GiftRegistry $giftRegistry)
     {
+        $giftRegistryIndex->open();
         $filter = ['label' => $giftRegistry->getLabel()];
         \PHPUnit_Framework_Assert::assertTrue(
             $giftRegistryIndex->getGiftRegistryGrid()->isRowVisible($filter),
@@ -48,6 +49,6 @@ class AssertGiftRegistryTypeInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry is present in grid.';
+        return 'Gift registry type is present in GiftRegistryType grid.';
     }
 }

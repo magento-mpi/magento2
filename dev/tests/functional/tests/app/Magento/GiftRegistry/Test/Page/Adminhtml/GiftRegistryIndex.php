@@ -16,7 +16,7 @@ use Mtf\Page\BackendPage;
  */
 class GiftRegistryIndex extends BackendPage
 {
-    const MCA = 'admin/giftregistry';
+    const MCA = 'admin/giftregistry/index';
 
     protected $_blocks = [
         'pageActions' => [
@@ -33,7 +33,7 @@ class GiftRegistryIndex extends BackendPage
         ],
         'giftRegistryGrid' => [
             'name' => 'giftRegistryGrid',
-            'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Grid',
+            'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Grid',
             'locator' => '[data-grid-id="giftregistryGrid"]',
             'strategy' => 'css selector',
         ],
@@ -56,7 +56,7 @@ class GiftRegistryIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\GiftRegistry\Test\Block\Adminhtml\Grid
+     * @return \Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Grid
      */
     public function getGiftRegistryGrid()
     {

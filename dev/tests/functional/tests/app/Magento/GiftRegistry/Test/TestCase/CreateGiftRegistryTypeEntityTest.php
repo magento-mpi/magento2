@@ -62,7 +62,7 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
     public function __prepare(CustomerInjectable $customer)
     {
         $customer->persist();
-        return['customer' => $customer];
+        return ['customer' => $customer];
     }
 
     /**
@@ -78,7 +78,6 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
         $this->giftRegistryIndex = $giftRegistryIndex;
         $this->giftRegistryNew = $giftRegistryNew;
         $this->cmsIndex = $cmsIndex;
-
     }
 
     /**
@@ -91,7 +90,7 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
     {
         $this->giftRegistryIndex->open();
         $this->giftRegistryIndex->getPageActions()->addNew();
-        $this->giftRegistryNew->getTabs()->fill($giftRegistry);
+        $this->giftRegistryNew->getGiftRegistryForm()->fill($giftRegistry);
         $this->giftRegistryNew->getPageActions()->save();
     }
 

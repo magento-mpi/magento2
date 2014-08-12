@@ -21,8 +21,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>GiftRegistryForm</name>
-        <class>Magento\GiftRegistry\Test\Block\Adminhtml\Edit\Tabs</class>
+        <name>giftRegistryForm</name>
+        <class>Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\GiftRegistryForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

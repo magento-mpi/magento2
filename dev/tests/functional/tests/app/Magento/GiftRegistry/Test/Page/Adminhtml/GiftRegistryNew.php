@@ -31,9 +31,9 @@ class GiftRegistryNew extends BackendPage
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'tabs' => [
-            'name' => 'tabs',
-            'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Edit\Tabs',
+        'giftRegistryForm' => [
+            'name' => 'giftRegistryForm',
+            'class' => 'Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\GiftRegistryForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -56,10 +56,10 @@ class GiftRegistryNew extends BackendPage
     }
 
     /**
-     * @return \Magento\GiftRegistry\Test\Block\Adminhtml\Edit\Tabs
+     * @return \Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\GiftRegistryForm
      */
-    public function getTabs()
+    public function getGiftRegistryForm()
     {
-        return $this->getBlockInstance('tabs');
+        return $this->getBlockInstance('giftRegistryForm');
     }
 }

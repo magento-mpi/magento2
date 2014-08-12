@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/giftregistry" >
+<page mca="admin/giftregistry/index" >
     <block>
         <name>pageActions</name>
         <class>Magento\Backend\Test\Block\GridPageActions</class>
@@ -22,7 +22,7 @@
     </block>
     <block>
         <name>giftRegistryGrid</name>
-        <class>Magento\GiftRegistry\Test\Block\Adminhtml\Grid</class>
+        <class>Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Grid</class>
         <locator>[data-grid-id="giftregistryGrid"]</locator>
         <strategy>css selector</strategy>
     </block>

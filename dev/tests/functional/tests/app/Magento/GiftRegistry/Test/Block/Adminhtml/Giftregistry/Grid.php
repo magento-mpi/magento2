@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Test\Block\Adminhtml;
+namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry;
 
 /**
  * Class Grid
@@ -21,7 +21,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'label' => [
-            'selector' => '#giftregistryGrid_filter_label'
+            'selector' => 'input[name="label"]'
         ]
     ];
 

@@ -11,13 +11,13 @@ namespace Magento\GiftRegistry\Test\Constraint;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryNew;
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertGiftRegistryTypeForm
  * Assert that GiftRegistryType form filled correctly
  */
-class AssertGiftRegistryTypeForm extends AbstractConstraint
+class AssertGiftRegistryTypeForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness
@@ -27,6 +27,8 @@ class AssertGiftRegistryTypeForm extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Assert that GiftRegistryType form filled correctly
+     *
      * @param GiftRegistry $giftRegistry
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryNew $giftRegistryNew
@@ -39,11 +41,11 @@ class AssertGiftRegistryTypeForm extends AbstractConstraint
     ) {
         $filter = ['label' => $giftRegistry->getLabel()];
         $giftRegistryIndex->getGiftRegistryGrid()->searchAndOpen($filter);
-        $formData = $giftRegistryNew->getTabs()->getData($giftRegistry);
+        $formData = $giftRegistryNew->getGiftRegistryForm()->getData($giftRegistry);
         $fixtureData = $giftRegistry->getData();
         \PHPUnit_Framework_Assert::assertEquals(
-            $formData,
             $fixtureData,
+            $formData,
             'Form data is not equal to fixture data.'
         );
     }

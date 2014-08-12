@@ -19,7 +19,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftRegistryTypeOnFrontend
- * Assert that created Gift Registry type can be found at Customer Account> Gift Registry
+ * Assert that created Gift Registry type can be found at Customer Account > Gift Registry
  */
 class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
 {
@@ -31,7 +31,7 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created Gift Registry type can be found at Customer Account> Gift Registry
+     * Assert that created Gift Registry type can be found at Customer Account > Gift Registry
      *
      * @param CustomerInjectable $customer
      * @param GiftRegistry $giftRegistry
@@ -73,6 +73,6 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry is present in dropdown.';
+        return 'Gift Registry type was found at Customer Account > Gift Registry.';
     }
 }

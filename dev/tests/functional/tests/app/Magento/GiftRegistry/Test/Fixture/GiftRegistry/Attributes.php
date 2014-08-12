@@ -33,7 +33,7 @@ class Attributes implements FixtureInterface
     /**
      * Constructor
      *
-     * @param array $params [optional]
+     * @param array $params
      * @param array $data [optional]
      */
     public function __construct(array $params, array $data = [])
@@ -91,7 +91,7 @@ class Attributes implements FixtureInterface
             'text' => [
                 [
                     'code' => 'text_%isolation%',
-                    'type' => 'text',
+                    'type' => 'Custom Types/Text',
                     'group' => 'Event Information',
                     'label' => 'text_%isolation%',
                     'is_required' => 'Yes',
@@ -101,24 +101,24 @@ class Attributes implements FixtureInterface
             'select' => [
                 [
                     'code' => 'select_%isolation%',
-                    'type' => 'select',
+                    'type' => 'Custom Types/Select',
                     'group' => 'Gift Registry Properties',
                     'label' => 'select_%isolation%',
                     'is_required' => 'Yes',
                     'sort_order' => '20',
                     'options' => [
                         [
-                            'code' => 'code_%isolation%',
+                            'code' => 'code1_%isolation%',
                             'label' => 'label1_%isolation%',
                             'is_default' => 'Yes'
                         ],
                         [
-                            'code' => 'code_%isolation%',
+                            'code' => 'code2_%isolation%',
                             'label' => 'label2_%isolation%',
                             'is_default' => 'No'
                         ],
                         [
-                            'code' => 'code_%isolation%',
+                            'code' => 'code3_%isolation%',
                             'label' => 'label3_%isolation%',
                             'is_default' => 'No'
                         ]
@@ -128,7 +128,7 @@ class Attributes implements FixtureInterface
             'date' => [
                 [
                     'code' => 'date_%isolation%',
-                    'type' => 'date',
+                    'type' => 'Custom Types/Date',
                     'group' => 'Privacy Settings',
                     'label' => 'date_%isolation%',
                     'is_required' => 'Yes',
@@ -139,7 +139,7 @@ class Attributes implements FixtureInterface
             'country' => [
                 [
                     'code' => 'contry_%isolation%',
-                    'type' => 'country',
+                    'type' => 'Custom Types/Country',
                     'group' => 'Recipients Information',
                     'label' => 'country_%isolation%',
                     'is_required' => 'No',
@@ -149,7 +149,7 @@ class Attributes implements FixtureInterface
             ],
             'event_date' => [
                 [
-                    'type' => 'Event Date',
+                    'type' => 'Static Types/Event Date',
                     'label' => 'eventdate_%isolation%',
                     'is_required' => 'No',
                     'sort_order' => '50',
@@ -160,7 +160,7 @@ class Attributes implements FixtureInterface
             ],
             'event_country' => [
                 [
-                    'type' => 'Event Country',
+                    'type' => 'Static Types/Event Country',
                     'label' => 'eventcountry_%isolation%',
                     'is_required' => 'No',
                     'sort_order' => '60',
@@ -171,7 +171,7 @@ class Attributes implements FixtureInterface
             ],
             'event_location' => [
                 [
-                    'type' => 'Event Location',
+                    'type' => 'Static Types/Event Location',
                     'label' => 'eventlocation_%isolation%',
                     'is_required' => 'No',
                     'sort_order' => '70',
@@ -181,8 +181,7 @@ class Attributes implements FixtureInterface
             ],
             'role' => [
                 [
-                    'code' => 'role_%isolation%',
-                    'type' => 'role',
+                    'type' => 'Static Types/Role',
                     'label' => 'role_%isolation%',
                     'is_required' => 'No',
                     'sort_order' => '80',
@@ -190,17 +189,17 @@ class Attributes implements FixtureInterface
                     'is_listed' => 'No',
                     'options' => [
                         [
-                            'code' => 'code_%isolation%',
+                            'code' => 'code1_%isolation%',
                             'label' => 'label1_%isolation%',
                             'is_default' => 'Yes'
                         ],
                         [
-                            'code' => 'code_%isolation%',
+                            'code' => 'code2_%isolation%',
                             'label' => 'label2_%isolation%',
                             'is_default' => 'No'
                         ],
                         [
-                            'code' => 'code_%isolation%',
+                            'code' => 'code3_%isolation%',
                             'label' => 'label3_%isolation%',
                             'is_default' => 'No'
                         ]

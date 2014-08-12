@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Test\Block\Adminhtml\Edit;
+namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Tabs
+ * Class GiftRegistryForm
  * Backend GiftRegistry Form
  */
-class Tabs extends FormTabs
+class GiftRegistryForm extends FormTabs
 {
     //
 }

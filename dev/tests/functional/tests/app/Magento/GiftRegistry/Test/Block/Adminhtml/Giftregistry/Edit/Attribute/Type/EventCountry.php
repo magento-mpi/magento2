@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Test\Block\Adminhtml\Edit\Attribute\Type;
+namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
 use Mtf\Client\Element;
 

@@ -9,9 +9,6 @@
 -->
 <mapping strict="0">
     <fields>
-        <code>
-            <selector>[name$="[code]"]</selector>
-        </code>
         <type>
             <selector>[name$="[type]"]</selector>
             <input>optgroupselect</input>
