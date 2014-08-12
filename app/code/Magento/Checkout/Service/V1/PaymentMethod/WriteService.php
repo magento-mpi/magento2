@@ -52,9 +52,7 @@ class WriteService implements WriteServiceInterface
     public function set(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId)
     {
         $quote = $this->quoteLoader->load($cartId, $this->storeManager->getStore()->getId());
-        if ($quote->getPaymentsCollection()->getSize()) {
-            throw new InvalidTransitionException('Payment method already set');
-        }
+
         $payment = $this->paymentMethodBuilder->build($method, $quote);
         if ($quote->isVirtual()) {
             // check if billing address is set
