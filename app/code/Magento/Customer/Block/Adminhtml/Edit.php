@@ -103,6 +103,19 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 0
             );
         }
+
+        if ($customerId) {
+            $url = $this->getUrl('customer/customer/invalidateToken', array('customer_id' => $customerId));
+            $this->buttonList->add(
+                'invalidate_token',
+                array(
+                    'label' => __('Invalidate Token'),
+                    'onclick' => 'setLocation(\'' . $url . '\')',
+                    'class' => 'invalidate-token'
+                ),
+                10
+            );
+        }
     }
 
     /**
