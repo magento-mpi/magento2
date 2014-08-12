@@ -18,9 +18,9 @@ class Rows extends \Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full
     public function reindex(array $entityIds = array())
     {
         // Index basic products
-        $this->rebuildIndex(null, $entityIds);
+        $this->rebuildIndex($entityIds);
         // Index parent products
-        $this->rebuildIndex(null, $this->getProductIdsFromParents($entityIds));
+        $this->rebuildIndex($this->getProductIdsFromParents($entityIds));
     }
 
     /**
