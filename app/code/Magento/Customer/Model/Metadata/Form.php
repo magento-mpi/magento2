@@ -141,7 +141,6 @@ class Form
      * Retrieve attributes metadata for the form
      *
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
-     *
      * @throws \LogicException For undefined entity type
      */
     public function getAttributes()

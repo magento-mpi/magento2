@@ -19,7 +19,7 @@ interface CustomerMetadataServiceInterface extends MetadataServiceInterface
     const ENTITY_TYPE_CUSTOMER = 'customer';
 
     /**
-     * Retrieve all attributes for entityType filtered by form code
+     * Retrieve all attributes filtered by form code
      *
      * @param string $formCode
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
@@ -40,5 +40,5 @@ interface CustomerMetadataServiceInterface extends MetadataServiceInterface
      *
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
-    public function getAllAttributeMetadata();
+    public function getAllAttributesMetadata();
 }

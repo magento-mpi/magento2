@@ -15,17 +15,10 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\Config\MetadataConfig;
 
 /**
- * EAV attribute metadata service
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * Service to fetch customer related custom attributes
  */
 class CustomerMetadataService implements CustomerMetadataServiceInterface
 {
-    /**
-     * @var Data\Eav\AttributeMetadataBuilder
-     */
-    private $_attributeMetadataBuilder;
-
     /**
      * @var array
      */
@@ -47,18 +40,15 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $attributeMetadataDataProvider;
 
     /**
-     * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      * @param MetadataConfig $metadataConfig
      * @param AttributeMetadataConverter $attributeMetadataConverter
      * @param AttributeMetadataDataProvider $attributeMetadataDataProvider
      */
     public function __construct(
-        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder,
         MetadataConfig $metadataConfig,
         AttributeMetadataConverter $attributeMetadataConverter,
         AttributeMetadataDataProvider $attributeMetadataDataProvider
     ) {
-        $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
         $this->metadataConfig = $metadataConfig;
         $this->attributeMetadataConverter = $attributeMetadataConverter;
         $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
@@ -75,6 +65,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             $formCode
         );
         foreach ($attributesFormCollection as $attribute) {
+            /** @var $attribute \Magento\Customer\Model\Attribute */
             $attributes[$attribute->getAttributeCode()] = $this->attributeMetadataConverter
                 ->createMetadataAttribute($attribute);
         }
@@ -82,7 +73,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAttributeMetadata($attributeCode)
     {
@@ -105,9 +96,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getAllAttributeMetadata()
+    public function getAllAttributesMetadata()
     {
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
@@ -129,7 +120,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCustomAttributesMetadata()
     {
@@ -138,7 +129,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         if (!$this->customerDataObjectMethods) {
             $this->customerDataObjectMethods = array_flip(get_class_methods($dataObjectClass));
         }
-        foreach ($this->getAllAttributeMetadata() as $attributeMetadata) {
+        foreach ($this->getAllAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
             $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
             $isDataObjectMethod = isset($this->customerDataObjectMethods['get' . $camelCaseKey])

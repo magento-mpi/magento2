@@ -1623,7 +1623,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllAttributeMetadata'
+            'getAllAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );
@@ -1693,7 +1693,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService->expects(
             $this->any()
         )->method(
-            'getAllAttributeMetadata'
+            'getAllAttributesMetadata'
         )->will(
             $this->returnValue(array())
         );

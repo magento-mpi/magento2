@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1;
 
 use Magento\Framework\Service\Data\Eav\MetadataServiceInterface;
 
 /**
- * Interface providing apis to fetch Address related custom attributes
+ * Interface providing APIs to fetch Address related custom attributes
  */
 interface AddressMetadataServiceInterface extends MetadataServiceInterface
 {
@@ -40,5 +41,5 @@ interface AddressMetadataServiceInterface extends MetadataServiceInterface
      *
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
-    public function getAllAttributeMetadata();
+    public function getAllAttributesMetadata();
 }

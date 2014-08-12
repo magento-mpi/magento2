@@ -15,15 +15,10 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\Config\MetadataConfig;
 
 /**
- * Implementation to fetch to fetch Address related custom attributes
+ * Service to fetch customer address related custom attributes
  */
 class AddressMetadataService implements AddressMetadataServiceInterface
 {
-    /**
-     * @var Data\Eav\AttributeMetadataBuilder
-     */
-    private $_attributeMetadataBuilder;
-
     /**
      * @var array
      */
@@ -45,18 +40,15 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     private $attributeMetadataDataProvider;
 
     /**
-     * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      * @param MetadataConfig $metadataConfig
      * @param AttributeMetadataConverter $attributeMetadataConverter
      * @param AttributeMetadataDataProvider $attributeMetadataDataProvider
      */
     public function __construct(
-        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder,
         MetadataConfig $metadataConfig,
         AttributeMetadataConverter $attributeMetadataConverter,
         AttributeMetadataDataProvider $attributeMetadataDataProvider
     ) {
-        $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
         $this->metadataConfig = $metadataConfig;
         $this->attributeMetadataConverter = $attributeMetadataConverter;
         $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
@@ -105,7 +97,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getAllAttributeMetadata()
+    public function getAllAttributesMetadata()
     {
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
@@ -136,7 +128,7 @@ class AddressMetadataService implements AddressMetadataServiceInterface
         if (!$this->addressDataObjectMethods) {
             $this->addressDataObjectMethods = array_flip(get_class_methods($dataObjectClass));
         }
-        foreach ($this->getAllAttributeMetadata() as $attributeMetadata) {
+        foreach ($this->getAllAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
             $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
             $isDataObjectMethod = isset($this->addressDataObjectMethods['get' . $camelCaseKey])

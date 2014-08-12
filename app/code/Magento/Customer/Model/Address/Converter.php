@@ -115,7 +115,7 @@ class Converter
     {
         $addressId = $addressModel->getId();
 
-        $attributes = $this->_addressMetadataService->getAllAttributeMetadata();
+        $attributes = $this->_addressMetadataService->getAllAttributesMetadata();
         $addressData = array();
         foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();

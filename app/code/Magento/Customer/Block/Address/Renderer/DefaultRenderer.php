@@ -159,7 +159,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
                 break;
         }
 
-        $attributesMetadata = $this->_addressMetadataService->getAllAttributeMetadata();
+        $attributesMetadata = $this->_addressMetadataService->getAllAttributesMetadata();
         $data = array();
         foreach ($attributesMetadata as $attributeMetadata) {
             if (!$attributeMetadata->isVisible()) {

@@ -279,7 +279,7 @@ class Addresses extends GenericMetadata
         }
 
         if ($this->isReadonly()) {
-            foreach ($this->_addressMetadataService->getAllAttributeMetadata() as $attribute) {
+            foreach ($this->_addressMetadataService->getAllAttributesMetadata() as $attribute) {
                 $element = $form->getElement($attribute->getAttributeCode());
                 if ($element) {
                     $element->setReadonly(true, true);
