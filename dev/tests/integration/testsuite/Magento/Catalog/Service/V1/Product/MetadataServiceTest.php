@@ -31,7 +31,6 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomAttributesMetadata()
     {
         $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
-        $this->assertCount(81, $customAttributesMetadata, "Invalid number of attributes returned.");
         $configAttributeCode = 'stock_item';
         $configAttributeFound = false;
         foreach ($customAttributesMetadata as $attribute) {
