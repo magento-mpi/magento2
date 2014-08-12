@@ -46,15 +46,20 @@ class SampleRepository
      *
      * @param int $id
      * @return \Magento\Framework\ObjectManager\Code\Generator\Sample
+     * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function get($id)
     {
         if (!$id) {
-            throw new \Magento\Framework\Exception\NoSuchEntityException('Requested product doesn\'t exist');
+            throw new \Magento\Framework\Exception\InputException('ID required');
         }
         if (!isset($this->registry[$id])) {
-            $this->registry[$id] = $this->sampleFactory->create()->load($id);
+            $order = $this->orderFactory->create()->load($id);
+            if (!$order->getId()) {
+                throw new \Magento\Framework\Exception\NoSuchEntityException('Requested entity doesn\'t exist');
+            }
+            $this->registry[$id] = $order;
         }
         return $this->registry[$id];
     }
