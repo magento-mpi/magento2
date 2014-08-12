@@ -129,7 +129,7 @@ if (typeof Mage.GoogleShopping == 'undefined') {
                 Mage.GoogleShopping.poller.start(Mage.GoogleShopping.statusUrl);
             }
 
-        }, 1000);
+        }, 1500);
     });
 
 });
