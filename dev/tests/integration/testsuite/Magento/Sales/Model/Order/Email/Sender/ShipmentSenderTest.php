@@ -35,7 +35,7 @@ class ShipmentSenderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($shipment->getEmailSent());
 
-        $orderSender = Bootstrap::getObjectManager()
+        $orderSender = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order\Email\Sender\ShipmentSender');
         $result = $orderSender->send($shipment, true);
 
