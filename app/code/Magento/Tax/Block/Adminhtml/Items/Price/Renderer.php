@@ -63,12 +63,14 @@ class Renderer extends \Magento\Backend\Block\Template
      * Set item
      *
      * @param Item|QuoteItem|InvoiceItem|CreditmemoItem $item
+     * @return $this
      */
     public function setItem($item)
     {
         $this->itemPriceRenderer->setItem($item);
         $this->defaultColumnRenderer->setItem($item);
         $this->item = $item;
+        return $this;
     }
 
     /**

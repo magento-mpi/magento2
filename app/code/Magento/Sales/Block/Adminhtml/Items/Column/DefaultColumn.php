@@ -116,7 +116,7 @@ class DefaultColumn extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Calculate total amount for the item
      *
-     * @param QuoteItem|Item|InvoiceItem|CreditmemoItem
+     * @param QuoteItem|Item|InvoiceItem|CreditmemoItem $item
      * @return mixed
      */
     public function getTotalAmount($item)
