@@ -12,7 +12,7 @@ use Magento\Webapi\Model\Rest\Config;
 
 class ShipmentGetTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/order';
+    const RESOURCE_PATH = '/V1/shipment';
     const SERVICE_READ_NAME = 'salesShipmentGetV1';
     const SERVICE_VERSION = 'V1';
 
@@ -34,14 +34,6 @@ class ShipmentGetTest extends WebapiAbstract
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
         $shipmentCollection = $this->objectManager->get('Magento\Sales\Model\Resource\Order\Shipment\Collection');
         $shipment = $shipmentCollection->getFirstItem();
-
-        $expectedShipmentData = [
-            'base_subtotal' => '100.0000',
-            'subtotal' => '100.0000',
-            'customer_is_guest' => '1',
-            'increment_id' => $shipment->getId()
-        ];
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $shipment->getId(),
@@ -54,24 +46,30 @@ class ShipmentGetTest extends WebapiAbstract
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $shipment->getId()]);
-
-        foreach ($expectedShipmentData as $field => $value) {
-            $this->assertArrayHasKey($field, $result);
-            $this->assertEquals($value, $result[$field]);
+        $data = $result;
+        $this->assertArrayHasKey('items', $result);
+        $this->assertArrayHasKey('tracks', $result);
+        unset($data['items']);
+        unset($data['tracks']);
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $value = serialize($value);
+            }
+            $this->assertEquals($value, $shipment->getData($key), $key);
         }
-//
-//        $this->assertArrayHasKey('payments', $result);
-//        foreach ($expectedPayments as $field => $value) {
-//            $this->assertArrayHasKey($field, $result['payments'][0]);
-//            $this->assertEquals($value, $result['payments'][0][$field]);
-//        }
-//
-//        $this->assertArrayHasKey('billing_address', $result);
-//        $this->assertArrayHasKey('shipping_address', $result);
-//        foreach ($expectedBillingAddressNotEmpty as $field) {
-//            $this->assertArrayHasKey($field, $result['billing_address']);
-//
-//            $this->assertArrayHasKey($field, $result['shipping_address']);
-//        }
+        $shipmentItem = $this->objectManager->get('Magento\Sales\Model\Order\Shipment\Item');
+        foreach ($result['items'] as $item) {
+            $shipmentItem->load($item['entity_id']);
+            foreach($item as $key => $value) {
+                $this->assertEquals($value, $shipmentItem->getData($key), $key);
+            }
+        }
+        $shipmentTrack = $this->objectManager->get('Magento\Sales\Model\Order\Shipment\Track');
+        foreach ($result['tracks'] as $item) {
+            $shipmentTrack->load($item['entity_id']);
+            foreach($item as $key => $value) {
+                $this->assertEquals($value, $shipmentTrack->getData($key), $key);
+            }
+        }
     }
 }
