@@ -67,6 +67,7 @@ class ShipmentMapper
         $this->shipmentBuilder->populateWithArray($object->getData());
         $this->shipmentBuilder->setItems($this->getItems($object));
         $this->shipmentBuilder->setTracks($this->getTracks($object));
+        $this->shipmentBuilder->setPackages(serialize($object->getPackages()));
         return $this->shipmentBuilder->create();
     }
 }

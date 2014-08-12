@@ -29,7 +29,7 @@ class ShipmentGetTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Sales/_files/shipment.php
      */
-    public function testOrderGet()
+    public function testShipmentGet()
     {
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
         $shipmentCollection = $this->objectManager->get('Magento\Sales\Model\Resource\Order\Shipment\Collection');
@@ -52,23 +52,20 @@ class ShipmentGetTest extends WebapiAbstract
         unset($data['items']);
         unset($data['tracks']);
         foreach ($data as $key => $value) {
-            if (is_array($value)) {
-                $value = serialize($value);
-            }
-            $this->assertEquals($value, $shipment->getData($key), $key);
+            $this->assertEquals($shipment->getData($key), $value, $key);
         }
         $shipmentItem = $this->objectManager->get('Magento\Sales\Model\Order\Shipment\Item');
         foreach ($result['items'] as $item) {
             $shipmentItem->load($item['entity_id']);
             foreach($item as $key => $value) {
-                $this->assertEquals($value, $shipmentItem->getData($key), $key);
+                $this->assertEquals($shipmentItem->getData($key), $value, $key);
             }
         }
         $shipmentTrack = $this->objectManager->get('Magento\Sales\Model\Order\Shipment\Track');
         foreach ($result['tracks'] as $item) {
             $shipmentTrack->load($item['entity_id']);
             foreach($item as $key => $value) {
-                $this->assertEquals($value, $shipmentTrack->getData($key), $key);
+                $this->assertEquals($shipmentTrack->getData($key), $value, $key);
             }
         }
     }
