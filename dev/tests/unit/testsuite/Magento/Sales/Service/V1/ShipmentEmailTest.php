@@ -19,8 +19,8 @@ class ShipmentEmailTest extends \PHPUnit_Framework_TestCase
     {
         $orderId = 1;
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $shipmentRepository = $this->getMock('\Magento\Sales\Model\ShipmentRepository', ['get'], [], '', false);
-        $notifier = $this->getMock('\Magento\Shipping\Model\ShipmentNotifier', ['notify', '__wakeup'], [], '', false);
+        $shipmentRepository = $this->getMock('Magento\Sales\Model\Order\ShipmentRepository', ['get'], [], '', false);
+        $notifier = $this->getMock('Magento\Shipping\Model\ShipmentNotifier', ['notify', '__wakeup'], [], '', false);
         $order = $this->getMock(
             '\Magento\Sales\Model\Order',
             ['__wakeup', 'sendNewOrderEmail', 'getEmailSent'],
