@@ -89,6 +89,7 @@ function retrieveChangesAcrossForks($teamRepo, $featureBranch)
     $request = curl_init($githubChangesUrl);
     curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
     $response = curl_exec($request);
     $status = curl_getinfo($request);
     curl_close($request);
