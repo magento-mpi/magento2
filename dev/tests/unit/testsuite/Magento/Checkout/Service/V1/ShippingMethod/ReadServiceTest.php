@@ -81,10 +81,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage Shipping method and carrier are not set for the quote
-     */
     public function testGetMethodWhenShippingMethodAndCarrierAreNotSet()
     {
         $storeId = 12;
@@ -98,7 +94,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
         $this->quoteAddressMock->expects($this->once())->method('getShippingMethod')->will($this->returnValue(false));
 
-        $this->service->getMethod($cartId);
+        $this->assertNull($this->service->getMethod($cartId));
     }
 
     /**
@@ -148,4 +144,3 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
- 
