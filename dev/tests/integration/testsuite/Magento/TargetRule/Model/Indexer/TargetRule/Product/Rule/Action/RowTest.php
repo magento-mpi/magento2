@@ -10,7 +10,7 @@
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action;
 
-class RowTest extends \PHPUnit_Framework_TestCase
+class RowTest extends \Magento\TestFramework\Indexer\TestCase
 {
     /**
      * @var \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor
