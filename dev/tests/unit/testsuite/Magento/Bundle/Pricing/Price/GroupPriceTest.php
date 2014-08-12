@@ -58,6 +58,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Catalog\Pricing\Price\RegularPrice|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $regularPrice;
+
     /**
      * Set up test case
      */
@@ -173,15 +174,18 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('group_price'),
                 $this->equalTo(null)
             )
-            ->will($this->returnValue(
-                [
+            ->will(
+                $this->returnValue(
                     [
-                        'cust_group' => 3,
-                        'website_price' => 80
+                        [
+                            'cust_group' => 3,
+                            'website_price' => 80
+                        ]
                     ]
-                ]
 
-            ));
+                )
+            );
+        $this->assertEquals(20, $this->groupPrice->getValue());
         $this->assertEquals(20, $this->groupPrice->getValue());
     }
 }
