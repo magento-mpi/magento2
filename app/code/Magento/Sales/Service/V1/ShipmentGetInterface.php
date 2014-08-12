@@ -13,7 +13,7 @@ namespace Magento\Sales\Service\V1;
 interface ShipmentGetInterface
 {
     /**
-     * Invoke getOrder service
+     * Invoke getShipment service
      *
      * @param int $id
      * @return \Magento\Sales\Service\V1\Data\Shipment
