@@ -78,6 +78,11 @@ namespace Magento\Framework\Session {
         private $mockCookieManager;
 
         /**
+         * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory | \PHPUnit_Framework_MockObject_MockObject
+         */
+        private $mockCookieMetadataFactory;
+
+        /**
          * @var bool
          */
         public static $isIniSetInvoked;
@@ -92,11 +97,16 @@ namespace Magento\Framework\Session {
             $this->mockCookieManager = $this->getMockBuilder('\Magento\Framework\Stdlib\CookieManager')
                 ->disableOriginalConstructor()
                 ->getMock();
-
+            $this->mockCookieMetadataFactory = $this->getMockBuilder(
+                'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
+            )
+                ->disableOriginalConstructor()
+                ->getMock();
             $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
             $arguments = [
                 'sessionConfig' => $this->mockSessionConfig,
-                'cookieManager' => $this->mockCookieManager
+                'cookieManager' => $this->mockCookieManager,
+                'cookieMetadataFactory' => $this->mockCookieMetadataFactory
             ];
             $this->sessionManager = $this->objectManager->getObject(
                 'Magento\Framework\Session\SessionManager',
@@ -132,14 +142,20 @@ namespace Magento\Framework\Session {
         {
             $_SESSION = [];
             $_SESSION[SessionManagerInterface::HOST_KEY] = ['host1' => 'does_not_matter'];
+            $this->mockCookieMetadataFactory->expects($this->exactly(2))
+                ->method('createPublicCookieMetadata')
+                ->will($this->returnValue(new \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata()));
             $this->mockSessionConfig->expects($this->once())
                 ->method('getUseCookies')
                 ->will($this->returnValue(true));
             $this->mockSessionConfig->expects($this->any())
                 ->method('getCookieDomain')
                 ->will($this->returnValue('something.host1'));
+            $this->mockSessionConfig->expects($this->any())
+                ->method('getCookiePath')
+                ->will($this->returnValue('cookie/path'));
             $this->mockCookieManager->expects($this->exactly(2))
-                ->method('setPublicCookie');
+                ->method('deleteCookie');
             $this->sessionManager->expireSessionCookie();
         }
     }
