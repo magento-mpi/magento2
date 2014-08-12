@@ -10,7 +10,6 @@
         "magento/module-checkout": "0.1.0-alpha89",
         "magento/module-theme": "0.1.0-alpha89",
         "magento/module-catalog-inventory": "0.1.0-alpha89",
-        "magento/module-tax": "0.1.0-alpha89",
         "magento/module-backend": "0.1.0-alpha89",
         "magento/module-bundle": "0.1.0-alpha89",
         "magento/module-sales": "0.1.0-alpha89",
