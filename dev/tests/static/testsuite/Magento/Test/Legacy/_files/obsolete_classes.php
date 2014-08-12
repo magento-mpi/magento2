@@ -2735,5 +2735,6 @@ return array(
     ['Magento\Install\Controller\Wizard\InstallDb'],
     ['Magento\Install\Controller\Wizard\Locale'],
     ['Magento\Install\Controller\Wizard\LocaleChange'],
-    ['Magento\Install\Controller\Wizard\LocalePost']
+    ['Magento\Install\Controller\Wizard\LocalePost'],
+    ['Magento\Install\App\Action\Plugin\Dir']
 );
