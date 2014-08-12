@@ -549,6 +549,25 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $this->model->saveStockItemBySku($productSku, $stockItemDetailsDo);
     }
 
+    public function testProcessIsInStock()
+    {
+        $stockData = ['product_id' => 333];
+
+        $stockItemModel = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
+            ->setMethods(['getData', 'setData', 'processIsInStock', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->stockItemRegistry->expects($this->once())->method('retrieve')
+            ->with($this->equalTo($stockData['product_id']))
+            ->will($this->returnValue($stockItemModel));
+
+        $stockItemModel->expects($this->once())->method('setData')->with($this->equalTo($stockData));
+        $stockItemModel->expects($this->once())->method('processIsInStock');
+        $stockItemModel->expects($this->once())->method('getData')->will($this->returnValue($stockData));
+
+        $this->assertEquals($stockData, $this->model->processIsInStock($stockData));
+    }
+
     /**
      * @return array
      */
