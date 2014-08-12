@@ -9,6 +9,7 @@
 namespace Magento\MultipleWishlist\Test\Block\Widget;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Search
@@ -21,7 +22,7 @@ class Search extends Block
      *
      * @var string
      */
-    protected $searchButton = '[type="submit"]';
+    protected $searchButton = './/form[not(@style="display:none;")]//*[@type="submit"]';
 
     /**
      * Input field by customer email param
@@ -31,14 +32,36 @@ class Search extends Block
     protected $emailInput = '[name="params[email]"]';
 
     /**
+     * Search type selector
+     *
+     * @var string
+     */
+    protected $searchType = '[name="search_by"]';
+
+    /**
      * Search wish list by customer email
      *
      * @param string $email
+     * @return void
      */
     public function searchByEmail($email)
     {
+        if ($this->_rootElement->find($this->searchType, Locator::SELECTOR_CSS, 'select')->isVisible()) {
+            $this->selectSearchType('Wish List Owner Email Search');
+        }
         $this->_rootElement->find($this->emailInput)->setValue($email);
-        $this->clickButtonSearch();
+        $this->clickSearchButton();
+    }
+
+    /**
+     * Select search type
+     *
+     * @param string $type
+     * @return void
+     */
+    protected function selectSearchType($type)
+    {
+        $this->_rootElement->find($this->searchType, Locator::SELECTOR_CSS, 'select')->setValue($type);
     }
 
     /**
@@ -46,8 +69,8 @@ class Search extends Block
      *
      * @return void
      */
-    public function clickButtonSearch()
+    public function clickSearchButton()
     {
-        $this->_rootElement->find($this->searchButton)->click();
+        $this->_rootElement->find($this->searchButton, Locator::SELECTOR_XPATH)->click();
     }
 }

@@ -22,14 +22,14 @@ class Management extends Block
      *
      * @var string
      */
-    protected $addWishlist = '.action.add.wishlist';
+    protected $addWishlist = '#wishlist-create-button';
 
     /**
      * Wish list select selector
      *
      * @var string
      */
-    protected $wishlistSelect = '.actions.dropdown.wishlist span';
+    protected $wishlistSelect = '#wishlists-select span';
 
     /**
      * Options multiple wish list
@@ -57,7 +57,7 @@ class Management extends Block
      *
      * @return void
      */
-    public function clickCreateWishlist()
+    public function clickCreateNewWishlist()
     {
         $this->_rootElement->find($this->addWishlist)->click();
     }
@@ -69,7 +69,7 @@ class Management extends Block
      */
     public function getWishlists()
     {
-        $this->clickWishlistSelect();
+        $this->clickMultipleWishlistSelect();
         $options = trim($this->_rootElement->find($this->wishlistOptions)->getText());
         $options = explode("\n", $options);
         if (in_array('Create New Wish List', $options)) {
@@ -83,7 +83,7 @@ class Management extends Block
      *
      * @return void
      */
-    protected function clickWishlistSelect()
+    protected function clickMultipleWishlistSelect()
     {
         $this->_rootElement->find($this->wishlistSelect)->click();
     }
@@ -96,7 +96,7 @@ class Management extends Block
      */
     public function selectedWishlistByName($wishlistName)
     {
-        $this->clickWishlistSelect();
+        $this->clickMultipleWishlistSelect();
         $this->_rootElement->find(sprintf($this->wishlistItem, $wishlistName), Locator::SELECTOR_XPATH)->click();
     }
 
@@ -106,13 +106,9 @@ class Management extends Block
      * @param string $wishlistName
      * @return bool
      */
-    public function wishlistIsVisible($wishlistName)
+    public function isWishlistVisible($wishlistName)
     {
-        $isVisible = in_array($wishlistName, $this->getWishlists());
-        if ($isVisible != false) {
-            return true;
-        }
-        return false;
+        return in_array($wishlistName, $this->getWishlists());
     }
 
     /**

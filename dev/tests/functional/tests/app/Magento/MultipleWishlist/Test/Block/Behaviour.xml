@@ -9,7 +9,7 @@
 -->
 <mapping strict="0">
     <fields>
-        <name/>
+        <name />
         <visibility>
             <input>checkbox</input>
         </visibility>

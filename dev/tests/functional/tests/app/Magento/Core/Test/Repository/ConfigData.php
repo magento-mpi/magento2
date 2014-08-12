@@ -146,7 +146,7 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
-        $this->_data['inactive_multiple_wishlist_default'] = [
+        $this->_data['disabled_multiple_wishlist_default'] = [
             'section' => [
                 [
                     'path' => 'wishlist/general/multiple_enabled',

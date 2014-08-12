@@ -13,15 +13,23 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\MultipleWishlist\Test\Page\SearchResult;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\MultipleWishlist\Test\Page\CatalogCategoryView;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
- * Class AssertWishlistIsPublic
- * Assert that Wishlist can be find by another Customer (or guest) via "Wishlist Search".
+ * Abstract Class AbstractAssertMultipleWishlistState
+ * Assert that Wish list can be or can't be find by another Customer (or guest) via "Wishlist Search"
  */
-class AssertWishlistIsPublic extends AbstractConstraint
+abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
 {
+    /**
+     * Successful message
+     *
+     * @var string
+     */
+    protected $successfulMessage;
+
     /**
      * Constraint severeness
      *
@@ -38,6 +46,7 @@ class AssertWishlistIsPublic extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CustomerInjectable $customer
      * @param SearchResult $searchResult
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function processAssert(
@@ -46,11 +55,11 @@ class AssertWishlistIsPublic extends AbstractConstraint
         CatalogCategory $category,
         CatalogCategoryView $catalogCategoryView,
         CustomerInjectable $customer,
-        SearchResult $searchResult
+        SearchResult $searchResult,
+        CustomerAccountLogout $customerAccountLogout
     ) {
-        $this->logOut($cmsIndex);
-        $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
+        $customerAccountLogout->open();
+        $cmsIndex->open()->getTopmenu()->selectCategoryByName($category->getName());
         $catalogCategoryView->getWishlistSearchBlock()->searchByEmail($customer->getEmail());
         $this->assert($searchResult, $multipleWishlist);
     }
@@ -62,27 +71,7 @@ class AssertWishlistIsPublic extends AbstractConstraint
      * @param MultipleWishlist $multipleWishlist
      * @return void
      */
-    protected function assert(SearchResult $searchResult, MultipleWishlist $multipleWishlist)
-    {
-        \PHPUnit_Framework_Assert::assertTrue(
-            $searchResult->getWishlistSearchResultBlock()->visibleInGrid($multipleWishlist->getName()),
-            'Multiple wish list is not public.'
-        );
-    }
-
-    /**
-     * Log out customer
-     *
-     * @param CmsIndex $cmsIndex
-     * @return void
-     */
-    protected function logOut(CmsIndex $cmsIndex)
-    {
-        $cmsIndex->open();
-        if ($cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $cmsIndex->getLinksBlock()->openLink('Log Out');
-        }
-    }
+    abstract protected function assert(SearchResult $searchResult, MultipleWishlist $multipleWishlist);
 
     /**
      * Returns a string representation of the object.
@@ -91,6 +80,6 @@ class AssertWishlistIsPublic extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Multiple wish list is public.';
+        return $this->successfulMessage;
     }
 }

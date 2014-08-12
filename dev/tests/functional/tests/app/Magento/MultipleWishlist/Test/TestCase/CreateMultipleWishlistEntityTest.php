@@ -13,18 +13,21 @@ use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Client\Driver\Selenium\Browser;
-use Magento\Backend\Test\Page\AdminCache;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlistWidget;
 
 /**
  * Test Creation for CreateMultipleWishlistEntity
+ *
+ * Preconditions:
+ * 1. Enable Multiple Wishlist functionality & set "Number of Multiple Wish Lists = 3.
+ * 2. Create Customer Account.
  *
  * Test Flow:
  * 1. Login to frontend as a Customer.
@@ -39,11 +42,11 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlistWidget;
 class CreateMultipleWishlistEntityTest extends Injectable
 {
     /**
-     * Customer fixture
+     * Fixture factory
      *
-     * @var CustomerInjectable
+     * @var FixtureFactory
      */
-    protected $customer;
+    protected $fixtureFactory;
 
     /**
      * Cms index page
@@ -74,20 +77,6 @@ class CreateMultipleWishlistEntityTest extends Injectable
     protected $multipleWishlistIndex;
 
     /**
-     * Fixture factory
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
-     * Multiple wish list widget
-     *
-     * @var MultipleWishlistWidget
-     */
-    protected $wishlistSearch;
-
-    /**
      * Widget instance edit page
      *
      * @var WidgetInstanceEdit
@@ -113,34 +102,31 @@ class CreateMultipleWishlistEntityTest extends Injectable
      *
      * @param FixtureFactory $fixtureFactory
      * @param CustomerInjectable $customer
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CatalogCategory $category
-     * @param AdminCache $cache
+     * @param AdminCache $cachePage
      * @return array
      */
     public function __prepare(
         FixtureFactory $fixtureFactory,
         CustomerInjectable $customer,
-        CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
         CatalogCategory $category,
-        AdminCache $cache
+        AdminCache $cachePage
     ) {
         $this->fixtureFactory = $fixtureFactory;
-        $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogin;
-        $this->applyConfig('multiple_wishlist_default');
-        $this->customer = $this->createCustomer($customer);
+        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'multiple_wishlist_default']);
+        $config->persist();
+        $customer->persist();
         $category->persist();
-        $this->addWishlistSearch($cache);
+        $this->createWishlistSearchWidget($cachePage);
 
-        return ['category' => $category, 'customer' => $this->customer];
+        return ['category' => $category, 'customer' => $customer];
     }
 
     /**
      * Injection data
      *
+     * @param CmsIndex $cmsIndex
+     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param MultipleWishlistIndex $multipleWishlistIndex
      * @param WidgetInstanceEdit $widgetInstanceEdit
@@ -148,11 +134,15 @@ class CreateMultipleWishlistEntityTest extends Injectable
      * @return void
      */
     public function __inject(
+        CmsIndex $cmsIndex,
+        CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         MultipleWishlistIndex $multipleWishlistIndex,
         WidgetInstanceEdit $widgetInstanceEdit,
         Browser $browser
     ) {
+        $this->cmsIndex = $cmsIndex;
+        $this->customerAccountLogin = $customerAccountLogin;
         $this->multipleWishlistIndex = $multipleWishlistIndex;
         $this->customerAccountIndex = $customerAccountIndex;
         self::$widgetInstanceEdit = $widgetInstanceEdit;
@@ -163,54 +153,32 @@ class CreateMultipleWishlistEntityTest extends Injectable
      * Create new multiple wish list
      *
      * @param MultipleWishlist $multipleWishlist
+     * @param CustomerInjectable $customer
      * @return void
      */
-    public function test(MultipleWishlist $multipleWishlist)
+    public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer)
     {
         //Steps
-        $this->loginCustomer();
+        $this->loginCustomer($customer);
         $this->cmsIndex->open()->getLinksBlock()->openLink('My Account');
         $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
-        $this->multipleWishlistIndex->getManagementBlock()->clickCreateWishlist();
+        $this->multipleWishlistIndex->getManagementBlock()->clickCreateNewWishlist();
         $this->multipleWishlistIndex->getBehaviourBlock()->fill($multipleWishlist);
         $this->multipleWishlistIndex->getBehaviourBlock()->save();
     }
 
     /**
-     * Create customer
-     *
-     * @param CustomerInjectable $customer
-     * @return CustomerInjectable
-     */
-    protected function createCustomer(CustomerInjectable $customer)
-    {
-        $customer->persist();
-        return $customer;
-    }
-
-    /**
-     * Apply config data
-     *
-     * @param string $dataSet
-     * @return void
-     */
-    protected function applyConfig($dataSet)
-    {
-        $config = $this->fixtureFactory->createByCode('configData', ['dataSet' => $dataSet]);
-        $config->persist();
-    }
-
-    /**
      * Login customer
      *
+     * @param CustomerInjectable $customer
      * @return void
      */
-    protected function loginCustomer()
+    protected function loginCustomer(CustomerInjectable $customer)
     {
         $this->cmsIndex->open();
         if (!$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
             $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($this->customer);
+            $this->customerAccountLogin->getLoginBlock()->login($customer);
         }
     }
 
@@ -220,15 +188,16 @@ class CreateMultipleWishlistEntityTest extends Injectable
      * @param AdminCache $cache
      * @return void
      */
-    protected function addWishlistSearch(AdminCache $cache)
+    protected function createWishlistSearchWidget(AdminCache $cache)
     {
-        $wishlistSearch = $this->fixtureFactory->createByCode('multipleWishlistWidget', ['dataSet' => 'add_search']);
+        $wishlistSearch = $this->fixtureFactory->create(
+            'Magento\MultipleWishlist\Test\Fixture\Widget',
+            ['dataSet' => 'add_search']
+        );
         $wishlistSearch->persist();
         self::$wishlistId = $wishlistSearch->getId();
-        $this->wishlistSearch = $wishlistSearch;
         $cache->open();
         $cache->getActionsBlock()->flushMagentoCache();
-        $cache->getMessagesBlock()->assertSuccessMessage();
     }
 
     /**
@@ -238,13 +207,15 @@ class CreateMultipleWishlistEntityTest extends Injectable
      */
     public static function tearDownAfterClass()
     {
-        $fixtureFactory = ObjectManager::getInstance()->create('Mtf\Fixture\FixtureFactory');
-        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'inactive_multiple_wishlist_default']);
+        $config = ObjectManager::getInstance()->create(
+            'Magento\Core\Test\Fixture\ConfigData',
+            ['dataSet' => 'disabled_multiple_wishlist_default']
+        );
         $config->persist();
         self::$browser->open(
             $_ENV['app_backend_url'] . 'admin/widget_instance/edit/instance_id/'
             . self::$wishlistId . '/code/wishlist_search/'
         );
-        self::$widgetInstanceEdit->getPageAction()->deleteWishlist();
+        self::$widgetInstanceEdit->getFormPageActions()->delete();
     }
 }

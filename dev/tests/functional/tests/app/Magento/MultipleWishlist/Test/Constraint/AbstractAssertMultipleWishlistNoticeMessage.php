@@ -15,17 +15,24 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
 
 /**
- * Class AssertWishlistIsPublicNoticeMessage
- * Assert public notice message is displayed on "Edit Wish List" frontend page.
+ * Abstract Class AbstractAssertMultipleWishlistNoticeMessage
+ * Assert notice message is displayed on "Edit Wish List" frontend page
  */
-class AssertWishlistIsPublicNoticeMessage extends AbstractConstraint
+abstract class AbstractAssertMultipleWishlistNoticeMessage extends AbstractConstraint
 {
+    /**
+     * Successful message
+     *
+     * @var string
+     */
+    protected $successfulMessage;
+
     /**
      * Public notice message
      *
      * @var string
      */
-    protected $noticeMessage = 'This wishlist is publicly visible.';
+    protected $noticeMessage;
 
     /**
      * Constraint severeness
@@ -35,7 +42,7 @@ class AssertWishlistIsPublicNoticeMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert public notice message is displayed on "Edit Wish List" frontend page.
+     * Assert notice message is displayed on "Edit Wish List" frontend page.
      *
      * @param CmsIndex $cmsIndex
      * @param MultipleWishlistIndex $multipleWishlistIndex
@@ -66,6 +73,6 @@ class AssertWishlistIsPublicNoticeMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Notice message is accept.';
+        return $this->successfulMessage;
     }
 }

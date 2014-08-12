@@ -9,18 +9,8 @@
 -->
 <fixture>
     <multipleWishlist module="Magento_MultipleWishlist">
-        <module>Magento_MultipleWishlist</module>
         <entity_type>multiple_wishlist</entity_type>
-        <type>wishlist</type>
+        <type>eav</type>
         <collection>Magento\MultipleWishlist\Model\Resource\Item\Collection</collection>
     </multipleWishlist>
-    <multipleWishlistWidget module="Magento_MultipleWishlist">
-        <type>flat</type>
-        <entity_type>widget_instance</entity_type>
-        <collection>Magento\Widget\Model\Resource\Widget\Instance\Collection</collection>
-        <identifier />
-        <fields />
-        <data_set />
-        <data_config />
-    </multipleWishlistWidget>
 </fixture>

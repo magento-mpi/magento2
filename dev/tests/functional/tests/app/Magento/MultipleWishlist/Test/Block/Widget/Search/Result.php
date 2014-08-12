@@ -18,19 +18,19 @@ use Mtf\Client\Element\Locator;
 class Result extends Block
 {
     /**
-     * Search button button css selector
+     * Search row css selector
      *
      * @var string
      */
     protected $searchRow = '//td[contains(@class,"col list")][.="%s"]';
 
     /**
-     * Visible in grid
+     * Wish list is visible in grid
      *
      * @param string $name
      * @return bool
      */
-    public function visibleInGrid($name)
+    public function isWishlistVisibleInGrid($name)
     {
         return $this->_rootElement->find(sprintf($this->searchRow, $name), Locator::SELECTOR_XPATH)->isVisible();
     }
