@@ -12,7 +12,7 @@ $_item = $this->getItem();
 /** @var $_weeeHelper \Magento\Weee\Helper\Data */
 $_weeeHelper = $this->helper('Magento\Weee\Helper\Data');
 ?>
-<?php $_incl = $this->helper('Magento\Checkout\Helper\Data')->getPriceInclTax($_item); ?>
+<?php $_incl = $_item->getPriceInclTax(); ?>
 <?php if ($this->displayPriceWithWeeeDetails()): ?>
     <span class="cart tax total" data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $_item->getId(); ?>"}'>
 <?php else: ?>
