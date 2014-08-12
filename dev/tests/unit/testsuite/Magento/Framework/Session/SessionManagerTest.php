@@ -122,7 +122,7 @@ namespace Magento\Framework\Session {
         }
 
         /**
-         * @ runInSeparateProcess
+         * @runInSeparateProcess
          */
         public function testRegenerateId()
         {
