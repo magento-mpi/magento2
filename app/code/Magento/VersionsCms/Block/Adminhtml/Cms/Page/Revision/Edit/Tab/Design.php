@@ -28,6 +28,7 @@ class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
      * @param \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Core\Model\PageLayout\Config\Builder $pageLayoutBuilder
      * @param array $data
      */
     public function __construct(
@@ -37,10 +38,11 @@ class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
         \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Core\Model\PageLayout\Config\Builder $pageLayoutBuilder,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($context, $registry, $formFactory, $pageLayout, $labelFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $pageLayout, $labelFactory, $pageLayoutBuilder, $data);
     }
 
     /**
