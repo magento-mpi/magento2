@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_CustomerSegment">
     <customerSegmentIndex>
         <mca>customersegment</mca>
         <area>adminhtml</area>

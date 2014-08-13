@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Logging">
     <logging>
         <mca>admin/logging</mca>
         <area>adminhtml</area>

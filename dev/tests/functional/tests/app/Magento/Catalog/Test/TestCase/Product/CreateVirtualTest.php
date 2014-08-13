@@ -40,10 +40,9 @@ class CreateVirtualTest extends Functional
         $product->switchData('virtual');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
+        $createProductPage->open(['type' => 'virtual', 'set' => 4]);
         $productForm = $createProductPage->getProductForm();
         //Steps
-        $createProductPage->open();
         $productForm->fill($product);
         $createProductPage->getFormAction()->save();
         //Verifying

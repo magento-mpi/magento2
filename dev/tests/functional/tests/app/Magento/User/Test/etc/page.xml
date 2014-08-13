@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_User">
     <adminUserRoleIndex>
         <mca>admin/user_role/index</mca>
         <area>adminhtml</area>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Sales">
     <orderStatusIndex>
         <mca>sales/order_status/index</mca>
         <area>adminhtml</area>

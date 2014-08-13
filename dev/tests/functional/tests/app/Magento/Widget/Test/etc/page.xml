@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Widget">
     <widgetInstanceIndex>
         <mca>admin/widget_instance/index</mca>
         <area>adminhtml</area>

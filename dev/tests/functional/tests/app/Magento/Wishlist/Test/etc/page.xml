@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Wishlist">
     <wishlistIndex>
         <mca>wishlist/index/index</mca>
         <class>Magento\Wishlist\Test\Page\WishlistIndex</class>

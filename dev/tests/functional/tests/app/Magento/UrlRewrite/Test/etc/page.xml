@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_UrlRewrite">
     <urlrewriteIndex>
         <mca>admin/urlrewrite/index</mca>
         <area>adminhtml</area>

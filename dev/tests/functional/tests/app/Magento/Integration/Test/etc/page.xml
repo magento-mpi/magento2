@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Integration">
     <integrationIndex>
         <mca>admin/integration/index</mca>
         <area>adminhtml</area>

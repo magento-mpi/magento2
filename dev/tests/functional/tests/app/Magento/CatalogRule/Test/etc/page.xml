@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_CatalogRule">
     <catalogRuleNew>
         <mca>catalog_rule/promo_catalog/new</mca>
         <area>adminhtml</area>

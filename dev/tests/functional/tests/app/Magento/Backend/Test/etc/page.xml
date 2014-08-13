@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Backend">
     <systemConfig>
         <mca>admin/system_config</mca>
         <area>adminhtml</area>

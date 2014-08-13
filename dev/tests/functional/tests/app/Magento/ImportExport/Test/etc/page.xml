@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_ImportExport">
     <adminExportIndex>
         <mca>admin/export/index</mca>
         <area>adminhtml</area>

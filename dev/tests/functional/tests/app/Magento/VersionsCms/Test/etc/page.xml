@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_VersionsCms">
     <cmsNew>
         <mca>admin/cms_page/new/index</mca>
         <area>adminhtml</area>

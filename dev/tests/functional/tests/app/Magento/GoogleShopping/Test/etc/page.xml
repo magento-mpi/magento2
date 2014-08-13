@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_GoogleShopping">
     <googleShoppingTypesIndex>
         <mca>admin/googleshopping_types/index</mca>
         <area>adminhtml</area>

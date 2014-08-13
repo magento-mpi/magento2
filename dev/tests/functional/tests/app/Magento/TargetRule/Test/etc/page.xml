@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_TargetRule">
     <targetRuleIndex>
         <mca>admin/targetrule/index</mca>
         <area>adminhtml</area>

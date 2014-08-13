@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_CatalogSearch">
     <catalogsearchResult>
         <mca>catalogsearch/result</mca>
         <class>Magento\CatalogSearch\Test\Page\CatalogsearchResult</class>

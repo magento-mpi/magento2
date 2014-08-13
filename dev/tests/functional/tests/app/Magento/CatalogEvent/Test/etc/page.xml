@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_CatalogEvent">
     <adminCatalogEventNew>
         <mca>admin/catalog_event/new</mca>
         <area>adminhtml</area>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_GiftRegistry">
     <giftRegistryIndex>
         <mca>giftregistry/index</mca>
         <class>Magento\GiftRegistry\Test\Page\GiftRegistryIndex</class>

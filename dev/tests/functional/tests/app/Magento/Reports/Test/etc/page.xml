@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Reports">
     <searchIndex>
         <mca>reports/index/search</mca>
         <area>adminhtml</area>

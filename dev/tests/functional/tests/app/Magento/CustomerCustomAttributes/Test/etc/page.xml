@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_CustomerCustomAttributes">
     <customerAttributeIndex>
         <mca>admin/customer_attribute</mca>
         <area>adminhtml</area>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Reward">
     <exchangeRateIndex>
         <mca>admin/reward_rate/index</mca>
         <area>adminhtml</area>

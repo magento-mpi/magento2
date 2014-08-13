@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page module="Magento_Customer">
     <customerAccountCreate>
         <mca>customer/account/create</mca>
         <class>Magento\Customer\Test\Page\CustomerAccountCreate</class>
