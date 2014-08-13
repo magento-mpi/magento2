@@ -83,7 +83,7 @@ abstract class AbstractObjectBuilder extends \Magento\Framework\Service\Data\Abs
     /**
      * Template method used to configure the attribute codes for the custom attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getCustomAttributesCodes()
     {
