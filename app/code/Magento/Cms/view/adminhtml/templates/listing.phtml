@@ -1,8 +1,15 @@
 <div data-m2-init='{"m2/listing/component": ""}'>
   <h1>Listing</h1>
-
+  <strong>this</strong>
+  <input type="text" ng-model="model.props.query">
+  <div>{{model.props.query}}</div>
+  <strong>external</strong>
+  <input type="text" ng-model="model.$siblings.simpleFilter.props.query">
+  <div ng-repeat="item in model.get('items')">{{item.title}} {{item.url}}</div>
+  <button ng-click="model.removeLast()">Remove last</button>
   <script type="mage/initial">
     {
+      "query": "initial query for listing",
       "items": [
         {
           "title": "Enable Cookies",
@@ -29,8 +36,35 @@
             "type": "href",
             "template": "preview"
           }
+        },
+        {
+          "title": "Bla Cookies",
+          "url": "yo-cookies",
+          "layout": "2 column",
+          "store_id": "all",
+          "status": false,
+          "created": "04/04/2014",
+          "modified": "04/04/2014",
+          "action": {
+            "type": "href",
+            "template": "preview"
+          }
         }
       ]
+    }
+  </script>
+</div>
+<div data-m2-init='{"m2/filter/component": ""}'>
+  <h1>Filter</h1>
+  <strong>this</strong>
+  <input type="text" ng-model="model.props.query">
+  <div>{{model.props.query}}</div>
+  <strong>external</strong>
+  <input type="text" ng-model="model.$siblings.simpleListing.props.query">
+  
+  <script type="mage/initial">
+    {
+      "query": "initial query for filter"
     }
   </script>
 </div>
