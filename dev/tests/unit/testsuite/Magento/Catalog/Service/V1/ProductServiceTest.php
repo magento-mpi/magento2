@@ -9,7 +9,6 @@
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
 
 /**
  * Test for \Magento\Catalog\Service\V1\ProductService
@@ -85,8 +84,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->searchResultsBuilderMock = $this->getMockBuilder(
-                'Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder'
-            )->disableOriginalConstructor()
+            'Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder'
+        )->disableOriginalConstructor()
             ->getMock();
 
         $this->metadataServiceMock = $this->getMockBuilder(
@@ -133,20 +132,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $productService->delete($productSku);
-    }
-
-    /**
-     * @return ProductService
-     */
-    private function _createService()
-    {
-        $productService = $this->_objectManager->getObject(
-            'Magento\Catalog\Service\V1\ProductService',
-            [
-                'productLoader' => $this->_productLoaderMock
-            ]
-        );
-        return $productService;
     }
 
     public function testSearch()
@@ -227,17 +212,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $this->_searchBuilder->setCurrentPage(1);
         $this->_searchBuilder->setPageSize(10);
         $productService->search($this->_searchBuilder->create());
-    }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $mock
-     * @param array $valueMap
-     */
-    private function _mockReturnValue($mock, $valueMap)
-    {
-        foreach ($valueMap as $method => $value) {
-            $mock->expects($this->any())->method($method)->will($this->returnValue($value));
-        }
     }
 
     public function testGet()
@@ -383,5 +357,30 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productModel->expects($this->any())->method('getSku')->will($this->returnValue($productSku));
 
         $this->assertEquals($productSku, $productService->update(5, $product));
+    }
+
+    /**
+     * @return ProductService
+     */
+    private function _createService()
+    {
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'productLoader' => $this->_productLoaderMock
+            ]
+        );
+        return $productService;
+    }
+
+    /**
+     * @param \PHPUnit_Framework_MockObject_MockObject $mock
+     * @param array $valueMap
+     */
+    private function _mockReturnValue($mock, $valueMap)
+    {
+        foreach ($valueMap as $method => $value) {
+            $mock->expects($this->any())->method($method)->will($this->returnValue($value));
+        }
     }
 }
