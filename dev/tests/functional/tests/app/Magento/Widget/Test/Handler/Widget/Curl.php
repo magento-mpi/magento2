@@ -23,12 +23,14 @@ use Magento\Backend\Test\Handler\Extractor;
 class Curl extends AbstractCurl
 {
     /**
-     * Mapping values for Store Views
+     * Mapping values for data.
      *
      * @var array
      */
-    protected $storeIds = [
-        'All Store Views' => 0
+    protected $mappingData = [
+        'theme_id' => [
+            'Magento Blank' => 3,
+        ],
     ];
 
     /**
@@ -40,12 +42,12 @@ class Curl extends AbstractCurl
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $this->prepareData($fixture);
-        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/'
-            . $fixture->getData('code') . '/theme_id/' . $fixture->getData('theme_id');
+        $data = $this->replaceMappingData($fixture->getData());
+        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $fixture->getData('code') .
+            '/theme_id/' . $data['theme_id'];
         unset($data['code']);
         unset($data['theme_id']);
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
@@ -53,31 +55,10 @@ class Curl extends AbstractCurl
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Widget instance creation by curl handler was not successful! Response: $response");
         }
-
-        $url = 'admin/widget_instance/index/sort/instance_id/dir/desc';
-        $regExpPattern = '@^.*instance_id\/(\d+)\/.*' . $fixture->getTitle() . '@ms';
-        $extractor = new Extractor($url, $regExpPattern);
-
-        return ['id' => $extractor->getData()[1]];
-    }
-
-    /**
-     * Prepare data from text to values
-     *
-     * @param FixtureInterface $fixture
-     * @return array
-     */
-    protected function prepareData($fixture)
-    {
-        $data = $this->replaceMappingData($fixture->getData());
-        if (isset($data['store_ids'])) {
-            $storeIds = [];
-            foreach ($data['store_ids'] as $storeId) {
-                $storeIds[] = isset($this->storeIds[$storeId]) ? $this->storeIds[$storeId] : $storeId;
-            }
-            $data['store_ids'] = $storeIds;
+        $id = null;
+        if (preg_match_all('/\/widget_instance\/edit\/instance_id\/(\d+)/', $response, $matches)) {
+            $id = $matches[1][count($matches[1]) - 1];
         }
-
-        return $data;
+        return ['id' => $id];
     }
 }

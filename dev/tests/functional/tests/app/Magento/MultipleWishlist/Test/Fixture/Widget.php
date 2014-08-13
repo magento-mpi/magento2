@@ -8,16 +8,14 @@
 
 namespace Magento\MultipleWishlist\Test\Fixture;
 
-use Magento\Widget\Test\Fixture\Widget;
-
 /**
- * Class MultipleWishlistWidget
+ * Class Widget
  * Multiple wish list search widget
  */
-class MultipleWishlistWidget extends Widget
+class Widget extends \Magento\Widget\Test\Fixture\Widget
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\MultipleWishlist\Test\Repository\MultipleWishlistWidget';
+    protected $repositoryClass = 'Magento\MultipleWishlist\Test\Repository\Widget';
 }

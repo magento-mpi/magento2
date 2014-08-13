@@ -8,13 +8,11 @@
 
 namespace Magento\MultipleWishlist\Test\Repository;
 
-use Mtf\Repository\AbstractRepository;
-
 /**
- * Class MultipleWishlistWidget Repository
+ * Class Widget Repository
  * Repository for multiple wish list widget
  */
-class MultipleWishlistWidget extends AbstractRepository
+class Widget extends \Magento\Widget\Test\Repository\Widget
 {
     /**
      * @constructor
@@ -45,7 +43,7 @@ class MultipleWishlistWidget extends AbstractRepository
             'parameters' => [
                 'types' => ['email']
             ],
-            'theme_id' => '2',
+            'theme_id' => 'Magento Blank',
             'code' => 'wishlist_search',
             'sort_order' => 0
         ];

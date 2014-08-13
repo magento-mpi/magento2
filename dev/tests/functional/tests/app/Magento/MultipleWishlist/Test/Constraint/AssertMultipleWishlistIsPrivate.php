@@ -12,11 +12,18 @@ use Magento\MultipleWishlist\Test\Page\SearchResult;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
- * Class AssertWishlistIsPrivate
- * Assert that Wishlist can't be find by another Customer (or guest) via "Wishlist Search".
+ * Class AssertMultipleWishlistIsPrivate
+ * Assert that Wishlist can't be find by another Customer (or guest) via "Wishlist Search"
  */
-class AssertWishlistIsPrivate extends AssertWishlistIsPublic
+class AssertMultipleWishlistIsPrivate extends AbstractAssertMultipleWishlistState
 {
+    /**
+     * Successful message
+     *
+     * @var string
+     */
+    protected $successfulMessage = 'Multiple wish list is private.';
+
     /**
      * Assert wish list is private
      *
@@ -27,18 +34,8 @@ class AssertWishlistIsPrivate extends AssertWishlistIsPublic
     protected function assert(SearchResult $searchResult, MultipleWishlist $multipleWishlist)
     {
         \PHPUnit_Framework_Assert::assertFalse(
-            $searchResult->getWishlistSearchResultBlock()->visibleInGrid($multipleWishlist->getName()),
+            $searchResult->getWishlistSearchResultBlock()->isWishlistVisibleInGrid($multipleWishlist->getName()),
             'Multiple wish list is not private.'
         );
-    }
-
-    /**
-     * Returns a string representation of the object.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Multiple wish list is private.';
     }
 }

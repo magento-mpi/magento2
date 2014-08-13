@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\MultipleWishlist\Test\Fixture\MultipleWishlistWiget">
+<fixture class="Magento\MultipleWishlist\Test\Fixture\Widget">
     <module>Magento_Widget</module>
     <type>flat</type>
     <entity_type>widget_instance</entity_type>

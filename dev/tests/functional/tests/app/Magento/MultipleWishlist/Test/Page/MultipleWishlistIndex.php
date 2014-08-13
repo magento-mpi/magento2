@@ -28,8 +28,8 @@ class MultipleWishlistIndex extends WishlistIndex
             'managementBlock' => [
                 'name' => 'managementBlock',
                 'class' => 'Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Management',
-                'locator' => '.column.main',
-                'strategy' => 'css selector',
+                'locator' => '//*[*[contains(@class,"message notice") or contains(@class,"wishlist management")]]',
+                'strategy' => 'xpath',
             ],
             'behaviourBlock' => [
                 'name' => 'behaviourBlock',

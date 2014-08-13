@@ -13,10 +13,10 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
 
 /**
- * Class AssertWishlistSavedSuccessMessage
+ * Class AssertMultipleWishlistSuccessSaveMessage
  * Assert success save message is displayed
  */
-class AssertWishlistSavedSuccessMessage extends AbstractConstraint
+class AssertMultipleWishlistSuccessSaveMessage extends AbstractConstraint
 {
     /**
      * Text value to be checked
