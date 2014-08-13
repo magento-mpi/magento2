@@ -58,7 +58,7 @@ class Router implements \Magento\Framework\App\RouterInterface
      * Validate and Match Cms Page and modify request
      *
      * @param \Magento\Framework\App\RequestInterface $request
-     * @return mixed
+     * @return \Magento\Framework\App\ActionInterface|null
      */
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
@@ -77,16 +77,10 @@ class Router implements \Magento\Framework\App\RouterInterface
         if ($redirectType) {
             $this->response->setRedirect($urlRewrite->getTargetPath(), (int)$redirectType);
             $request->setDispatched(true);
-            return $this->actionFactory->createController(
-                'Magento\Framework\App\Action\Redirect',
-                array('request' => $request)
-            );
+            return $this->actionFactory->create('Magento\Framework\App\Action\Redirect', array('request' => $request));
         }
 
         $request->setPathInfo('/' . $urlRewrite->getTargetPath());
-        return $this->actionFactory->createController(
-            'Magento\Framework\App\Action\Forward',
-            array('request' => $request)
-        );
+        return $this->actionFactory->create('Magento\Framework\App\Action\Forward', array('request' => $request));
     }
 }
