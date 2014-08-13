@@ -391,12 +391,18 @@ class Installer extends \Magento\Framework\Object
         $unsecureBaseUrl = $this->_storeManager->getStore()->getBaseUrl('web');
         if (!empty($data['unsecure_base_url'])) {
             $unsecureBaseUrl = $data['unsecure_base_url'];
-            $this->_installSetup->setConfigData(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
+            $this->_installSetup->setConfigData(
+                \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
+                $unsecureBaseUrl
+            );
         }
 
         if (!empty($data['use_secure'])) {
             $this->_installSetup->setConfigData(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, 1);
-            $this->_installSetup->setConfigData(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
+            $this->_installSetup->setConfigData(
+                \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL,
+                $data['secure_base_url']
+            );
             if (!empty($data['use_secure_admin'])) {
                 $this->_installSetup->setConfigData(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
             }
@@ -415,7 +421,10 @@ class Installer extends \Magento\Framework\Object
             $this->_installSetup->setConfigData($this->_localeDate->getDefaultTimezonePath(), $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
-            $this->_installSetup->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
+            $this->_installSetup->setConfigData(
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                $locale['currency']
+            );
             $this->_installSetup->setConfigData(
                 \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
                 $locale['currency']
