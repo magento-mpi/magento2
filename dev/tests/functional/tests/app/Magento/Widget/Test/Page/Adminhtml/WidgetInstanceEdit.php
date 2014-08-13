@@ -31,9 +31,9 @@ class WidgetInstanceEdit extends BackendPage
             'locator' => '#bannerGrid',
             'strategy' => 'css selector',
         ],
-        'pageAction' => [
-            'name' => 'pageAction',
-            'class' => 'Magento\Widget\Test\Block\Adminhtml\Widget\PageAction',
+        'pageActionsBlock' => [
+            'name' => 'pageActionsBlock',
+            'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -42,7 +42,7 @@ class WidgetInstanceEdit extends BackendPage
     /**
      * @return \Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm
      */
-    public function getForm()
+    public function getWidgetForm()
     {
         return $this->getBlockInstance('widgetForm');
     }
@@ -56,10 +56,10 @@ class WidgetInstanceEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Widget\Test\Block\Adminhtml\Widget\PageAction
+     * @return \Magento\Backend\Test\Block\FormPageActions
      */
-    public function getPageAction()
+    public function getPageActionsBlock()
     {
-        return $this->getBlockInstance('pageAction');
+        return $this->getBlockInstance('pageActionsBlock');
     }
 }

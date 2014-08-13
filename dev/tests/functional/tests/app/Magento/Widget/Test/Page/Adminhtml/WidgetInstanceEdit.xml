@@ -21,8 +21,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>pageAction</name>
-        <class>Magento\Widget\Test\Block\Adminhtml\Widget\PageAction</class>
+        <name>pageActionsBlock</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
