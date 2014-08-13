@@ -84,4 +84,29 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertEquals('Carrier with such method not found: flatrate, wrongMethod', $message);
 
     }
+
+
+    /**
+     * @magentoApiDataFixture Magento/Checkout/_files/quote_with_simple_product_saved.php
+     */
+    public function testSetMethodWithoutShippingAddress()
+    {
+        $this->quote->load('test_order_with_simple_product_without_address', 'reserved_order_id');
+        $serviceInfo = $this->getServiceInfo();
+
+        $requestData = array(
+            'cartId' => $this->quote->getId(),
+            'carrierCode' => 'flatrate',
+            'methodCode' => 'flatrate'
+        );
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch(\SoapFault $e) {
+            $message = $e->getMessage();
+        } catch(\Exception $e) {
+            $message = json_decode($e->getMessage())->message;
+        }
+        $this->assertEquals('Shipping address is not set', $message);
+
+    }
 }
