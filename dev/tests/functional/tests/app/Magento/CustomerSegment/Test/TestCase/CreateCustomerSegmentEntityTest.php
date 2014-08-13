@@ -227,10 +227,12 @@ class CreateCustomerSegmentEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $this->promoQuoteIndex->open();
-        $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => $this->salesRule->getName()]);
-        $this->promoQuoteEdit->getFormPageActions()->delete();
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+        if ($this->salesRule instanceof SalesRuleInjectable) {
+            $this->promoQuoteIndex->open();
+            $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen(['name' => $this->salesRule->getName()]);
+            $this->promoQuoteEdit->getFormPageActions()->delete();
+            $this->cmsIndex->open();
+            $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+        }
     }
 }
