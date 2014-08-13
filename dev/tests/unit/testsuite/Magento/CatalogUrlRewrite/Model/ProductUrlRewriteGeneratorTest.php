@@ -134,7 +134,7 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testForGlobalScope($productId, $urlPath, $results)
     {
         $this->productMock->expects($this->once())->method('getStoreIds')->will($this->returnValue([1, 2]));
-        $this->storeViewServiceMock->expects($this->exactly(2))->method('doesProductHaveOverriddenUrlKeyForStore')
+        $this->storeViewServiceMock->expects($this->exactly(2))->method('doesEntityHaveOverriddenUrlKeyForStore')
             ->will($this->returnValue(false));
 
         $this->generate(null, $productId, null, $urlPath, null, null, $results);

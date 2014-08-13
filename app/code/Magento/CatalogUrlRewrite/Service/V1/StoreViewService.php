@@ -7,8 +7,6 @@
  */
 namespace Magento\CatalogUrlRewrite\Service\V1;
 
-use Magento\Catalog\Model\Category;
-use Magento\Catalog\Model\Product;
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
 use Magento\Store\Model\StoreManagerInterface;
@@ -63,40 +61,20 @@ class StoreViewService
     }
 
     /**
-     * Check that product has overridden url key for specific store
-     *
-     * @param int $storeId
-     * @param int $productId
-     * @return bool
-     */
-    public function doesProductHaveOverriddenUrlKeyForStore($storeId, $productId)
-    {
-        return $this->doesEntityHaveOverriddenUrlKeyForStore($storeId, $productId, Product::ENTITY);
-    }
-
-    /**
-     * Check that category has overridden url key for specific store
-     *
-     * @param int $storeId
-     * @param int $categoryId
-     * @return bool
-     */
-    public function doesCategoryHaveOverriddenUrlKeyForStore($storeId, $categoryId)
-    {
-        return $this->doesEntityHaveOverriddenUrlKeyForStore($storeId, $categoryId, Category::ENTITY);
-    }
-
-    /**
      * Check that entity has overridden url key for specific store
      *
      * @param int $storeId
      * @param int $entityId
      * @param string $entityType
+     * @throws \InvalidArgumentException
      * @return bool
      */
-    protected function doesEntityHaveOverriddenUrlKeyForStore($storeId, $entityId, $entityType)
+    public function doesEntityHaveOverriddenUrlKeyForStore($storeId, $entityId, $entityType)
     {
         $attribute = $this->eavConfig->getAttribute($entityType, 'url_key');
+        if (!$attribute) {
+            throw new \InvalidArgumentException(sprintf('Cannot retrieve attribute for entity type "%s"', $entityType));
+        }
         $select = $this->connection->select()
             ->from($attribute->getBackendTable(), 'store_id')
             ->where('attribute_id = ?', $attribute->getId())

@@ -106,7 +106,7 @@ class CategoryUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testGorGlobalScope($categoryId, $urlPath, $results)
     {
         $this->categoryMock->expects($this->once())->method('getStoreIds')->will($this->returnValue([0, 1, 2]));
-        $this->storeViewServiceMock->expects($this->exactly(2))->method('doesCategoryHaveOverriddenUrlKeyForStore')
+        $this->storeViewServiceMock->expects($this->exactly(2))->method('doesEntityHaveOverriddenUrlKeyForStore')
             ->will($this->returnValue(false));
         $canonicalUrlPath = 'catalog/category/view/id/' . $categoryId;
         $this->categoryMock->expects($this->any())->method('getId')->will($this->returnValue($categoryId));

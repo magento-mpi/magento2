@@ -20,9 +20,6 @@ class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Eav\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $config;
 
-    /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|\PHPUnit_Framework_MockObject_MockObject */
-    protected $attribute;
-
     /** @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject */
     protected $resource;
 
@@ -38,10 +35,6 @@ class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->config = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
-        $this->attribute = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\AbstractAttribute')
-            ->disableOriginalConstructor()
-            ->setMethods(['__wakeup', 'getBackendTable', 'getId',])
-            ->getMockForAbstractClass();
         $this->select = $this->getMock('Magento\Framework\Db\Select', [], [], '', false);
         $this->connection = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', [], [], '', false);
         $this->resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
@@ -72,6 +65,10 @@ class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider isRootCategoryForStoreDataProvider
+     * @param int $categoryId
+     * @param int $rootCategoryId
+     * @param int $storeId
+     * @param bool $result
      */
     public function testIsRootCategoryForStore($categoryId, $rootCategoryId, $storeId, $result)
     {
@@ -97,53 +94,43 @@ class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider overriddenUrlKeyForStoreDataProvider
+     * @param int $storeId
+     * @param array $fetchedStoreIds
+     * @param bool $result
      */
-    public function testDoesProductHaveOverriddenUrlKeyForStore($storeId, $fetchedStoreIds, $result)
+    public function testDoesEntityHaveOverriddenUrlKeyForStore($storeId, $fetchedStoreIds, $result)
     {
+        $entityType = 'entity_type';
         $productId = 'product_id';
-        $this->config->expects($this->once())->method('getAttribute')->with(Product::ENTITY, 'url_key')
-            ->will($this->returnValue($this->attribute));
-        $this->attribute->expects($this->once())->method('getBackendTable')->will($this->returnValue('backend_table'));
-        $this->attribute->expects($this->once())->method('getId')->will($this->returnValue('attribute-id'));
+        $attribute = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\AbstractAttribute')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup', 'getBackendTable', 'getId',])
+            ->getMockForAbstractClass();
+        $this->config->expects($this->once())->method('getAttribute')->with($entityType, 'url_key')
+            ->will($this->returnValue($attribute));
+        $attribute->expects($this->once())->method('getBackendTable')->will($this->returnValue('backend_table'));
+        $attribute->expects($this->once())->method('getId')->will($this->returnValue('attribute-id'));
         $this->select->expects($this->once())->method('from')->with('backend_table', 'store_id')
             ->will($this->returnSelf());
-        $this->select->expects($this->exactly(2))->method('where')->will($this->returnValueMap([
-            ['attribute_id = ?', 'attribute-id', null, $this->select],
-            ['entity_id = ?', $productId, null, $this->select],
-        ]));
+        $this->select->expects($this->any())->method('where')->will($this->returnSelf());
         $this->connection->expects($this->once())->method('select')->will($this->returnValue($this->select));
-        $this->connection->expects($this->once())->method('fetchCol')->with($this->select)
-            ->will($this->returnValue($fetchedStoreIds));
+        $this->connection->expects($this->once())->method('fetchCol')->will($this->returnValue($fetchedStoreIds));
 
         $this->assertEquals(
             $result,
-            $this->storeViewService->doesProductHaveOverriddenUrlKeyForStore($storeId, $productId)
+            $this->storeViewService->doesEntityHaveOverriddenUrlKeyForStore($storeId, $productId, $entityType)
         );
     }
 
     /**
-     * @dataProvider overriddenUrlKeyForStoreDataProvider
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Cannot retrieve attribute for entity type "invalid_type"
      */
-    public function testDoesCategoryHaveOverriddenUrlKeyForStore($storeId, $fetchedStoreIds, $result)
+    public function testInvalidAttributeRetrieve()
     {
-        $categoryId = 'category_id';
-        $this->config->expects($this->once())->method('getAttribute')->with(Category::ENTITY, 'url_key')
-            ->will($this->returnValue($this->attribute));
-        $this->attribute->expects($this->once())->method('getBackendTable')->will($this->returnValue('backend_table'));
-        $this->attribute->expects($this->once())->method('getId')->will($this->returnValue('attribute-id'));
-        $this->select->expects($this->once())->method('from')->with('backend_table', 'store_id')
-            ->will($this->returnSelf());
-        $this->select->expects($this->exactly(2))->method('where')->will($this->returnValueMap([
-            ['attribute_id = ?', 'attribute-id', null, $this->select],
-            ['entity_id = ?', $categoryId, null, $this->select],
-        ]));
-        $this->connection->expects($this->once())->method('select')->will($this->returnValue($this->select));
-        $this->connection->expects($this->once())->method('fetchCol')->with($this->select)
-            ->will($this->returnValue($fetchedStoreIds));
+        $invalidEntityType = 'invalid_type';
+        $this->config->expects($this->once())->method('getAttribute')->will($this->returnValue(false));
 
-        $this->assertEquals(
-            $result,
-            $this->storeViewService->doesCategoryHaveOverriddenUrlKeyForStore($storeId, $categoryId)
-        );
+        $this->storeViewService->doesEntityHaveOverriddenUrlKeyForStore(1, 1, $invalidEntityType);
     }
 }

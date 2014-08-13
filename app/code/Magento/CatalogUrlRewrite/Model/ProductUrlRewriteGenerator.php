@@ -121,7 +121,9 @@ class ProductUrlRewriteGenerator
         $urls = [];
         foreach ($this->product->getStoreIds() as $storeId) {
             /** @TODO: UrlRewrite: check 0 == $storeId  for store view scope */
-            if (!$this->storeViewService->doesProductHaveOverriddenUrlKeyForStore($storeId, $this->product->getId())) {
+            if (!$this->storeViewService
+                ->doesEntityHaveOverriddenUrlKeyForStore($storeId, $this->product->getId(), Product::ENTITY)
+            ) {
                 $urls = array_merge($urls, $this->generateForSpecificStoreView($storeId));
             }
         }

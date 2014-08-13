@@ -9,6 +9,7 @@ namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 use Magento\Store\Model\Store;
+use Magento\Catalog\Model\Category;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
@@ -85,7 +86,8 @@ class CategoryUrlRewriteGenerator
         $categoryId = $this->category->getId();
         foreach ($this->category->getStoreIds() as $storeId) {
             if ($this->isGlobalScope($storeId)
-                || $this->storeViewService->doesCategoryHaveOverriddenUrlKeyForStore($storeId, $categoryId)
+                || $this->storeViewService
+                    ->doesEntityHaveOverriddenUrlKeyForStore($storeId, $categoryId, Category::ENTITY)
             ) {
                 continue;
             }
