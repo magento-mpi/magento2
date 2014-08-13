@@ -14,6 +14,14 @@ use Magento\Catalog\Model\Category;
  */
 class CategoryUrlPathGenerator
 {
+    /**
+     * Minimal category level that can be considered for generate path
+     */
+    const MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING = 3;
+
+    /**
+     * XML path for category url suffix
+     */
     const XML_PATH_CATEGORY_URL_SUFFIX = 'catalog/seo/category_url_suffix';
 
     /**
@@ -71,7 +79,7 @@ class CategoryUrlPathGenerator
      */
     protected function isNeedToGenerateUrlPathForParent($category)
     {
-        return $category->getParentId() && $category->getLevel() != 2;
+        return $category->getParentId() && $category->getLevel() >= self::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING;
     }
 
     /**

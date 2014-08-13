@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Catalog\Model\Category;
 
 class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,16 +17,16 @@ class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
     protected $categoryUrlPathGenerator;
 
     /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $storeManagerMock;
+    protected $storeManager;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $scopeConfigMock;
+    protected $scopeConfig;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $categoryFactoryMock;
+    protected $categoryFactory;
 
     /** @var \Magento\Catalog\Model\Category|\PHPUnit_Framework_MockObject_MockObject */
-    protected $categoryMock;
+    protected $category;
 
     protected function setUp()
     {
@@ -42,34 +42,46 @@ class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
             'formatUrlKey',
             'getName',
         ];
-        $this->categoryMock = $this->getMock('Magento\Catalog\Model\Category', $categoryMethods, [], '', false);
-        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->categoryFactoryMock = $this->getMock('Magento\Catalog\Model\CategoryFactory', ['create']);
+        $this->category = $this->getMock('Magento\Catalog\Model\Category', $categoryMethods, [], '', false);
+        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->categoryFactory = $this->getMock('Magento\Catalog\Model\CategoryFactory', ['create']);
 
         $this->categoryUrlPathGenerator = (new ObjectManager($this))->getObject(
             'Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator',
             [
-                'storeManager' => $this->storeManagerMock,
-                'scopeConfig' => $this->scopeConfigMock,
-                'categoryFactory' => $this->categoryFactoryMock
+                'storeManager' => $this->storeManager,
+                'scopeConfig' => $this->scopeConfig,
+                'categoryFactory' => $this->categoryFactory
             ]
         );
     }
 
+    /**
+     * @return array
+     */
     public function getUrlPathDataProvider()
     {
+        $noGenerationLevel = CategoryUrlPathGenerator::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING - 1;
+        $requireGenerationLevel = CategoryUrlPathGenerator::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING;
         return [
-            [1, 'url-path', 1, '', false, false, ''],
-            [2, 'url-path', 2, '', false, false, 'url-path'],
-            [2, 'url-path', 2, 'url-key', true, false, 'url-key'],
-            [2, 'url-path', 2, 'url-key', false, true, 'url-key'],
-            [null, 'url-path', 3, 'url-key', false, true, 'url-key'],
+            [Category::TREE_ROOT_ID, 'url-path', $noGenerationLevel, '', false, false, ''],
+            ['parent_id', 'url-path', $noGenerationLevel, '', false, false, 'url-path'],
+            ['parent_id', 'url-path', $noGenerationLevel, 'url-key', true, false, 'url-key'],
+            ['parent_id', 'url-path', $noGenerationLevel, 'url-key', false, true, 'url-key'],
+            [null, 'url-path', $requireGenerationLevel, 'url-key', false, true, 'url-key'],
         ];
     }
 
     /**
      * @dataProvider getUrlPathDataProvider
+     * @param int $parentId
+     * @param string $urlPath
+     * @param int $level
+     * @param string $urlKey
+     * @param bool $dataChangedForUrlKey
+     * @param bool $dataChangedForPathIds
+     * @param string $result
      */
     public function testGetUrlPath(
         $parentId,
@@ -80,54 +92,63 @@ class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
         $dataChangedForPathIds,
         $result
     ) {
-        $this->categoryMock->expects($this->any())->method('getParentId')->will($this->returnValue($parentId));
-        $this->categoryMock->expects($this->any())->method('getLevel')->will($this->returnValue($level));
-        $this->categoryMock->expects($this->any())->method('getUrlPath')->will($this->returnValue($urlPath));
-        $this->categoryMock->expects($this->any())->method('getUrlKey')->will($this->returnValue($urlKey));
-        $this->categoryMock->expects($this->any())->method('dataHasChangedFor')
+        $this->category->expects($this->any())->method('getParentId')->will($this->returnValue($parentId));
+        $this->category->expects($this->any())->method('getLevel')->will($this->returnValue($level));
+        $this->category->expects($this->any())->method('getUrlPath')->will($this->returnValue($urlPath));
+        $this->category->expects($this->any())->method('getUrlKey')->will($this->returnValue($urlKey));
+        $this->category->expects($this->any())->method('dataHasChangedFor')
             ->will($this->returnValueMap([['url_key', $dataChangedForUrlKey], ['path_ids', $dataChangedForPathIds]]));
 
-        $this->assertEquals($result, $this->categoryUrlPathGenerator->getUrlPath($this->categoryMock));
+        $this->assertEquals($result, $this->categoryUrlPathGenerator->getUrlPath($this->category));
     }
 
+    /**
+     * @return array
+     */
     public function getUrlPathWithParentDataProvider()
     {
         return [
-            ['url-key', 2, 'parent-category-path', 'parent-category-path/url-key'],
-            ['url-key', 1, null, 'url-key'],
+            ['url-key', 'parent_id', 'parent-category-path', 'parent-category-path/url-key'],
+            ['url-key', Category::TREE_ROOT_ID, null, 'url-key'],
         ];
     }
 
     /**
      * @dataProvider getUrlPathWithParentDataProvider
+     * @param string $urlKey
+     * @param int $parentCategoryParentId
+     * @param string $parentUrlPath
+     * @param string $result
      */
     public function testGetUrlPathWithParent($urlKey, $parentCategoryParentId, $parentUrlPath, $result)
     {
-        $parentId = 3;
-        $level = 3;
         $urlPath = null;
-        $parentLevel = 2;
-        $this->categoryMock->expects($this->any())->method('getParentId')->will($this->returnValue($parentId));
-        $this->categoryMock->expects($this->any())->method('getLevel')->will($this->returnValue($level));
-        $this->categoryMock->expects($this->any())->method('getUrlPath')->will($this->returnValue($urlPath));
-        $this->categoryMock->expects($this->any())->method('getUrlKey')->will($this->returnValue($urlKey));
+        $parentLevel = CategoryUrlPathGenerator::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING - 1;
+        $this->category->expects($this->any())->method('getParentId')
+            ->will($this->returnValue('parent_id'));
+        $this->category->expects($this->any())->method('getLevel')
+            ->will($this->returnValue(CategoryUrlPathGenerator::MINIMAL_CATEGORY_LEVEL_FOR_PROCESSING));
+        $this->category->expects($this->any())->method('getUrlPath')->will($this->returnValue($urlPath));
+        $this->category->expects($this->any())->method('getUrlKey')->will($this->returnValue($urlKey));
         $methods = ['__wakeup', 'getUrlPath', 'getParentId', 'getLevel', 'dataHasChangedFor', 'load'];
-        $parentCategoryMock = $this->getMock('Magento\Catalog\Model\Category', $methods, [], '', false);
-        $parentCategoryMock->expects($this->any())->method('getParentId')
+        $parentCategory = $this->getMock('Magento\Catalog\Model\Category', $methods, [], '', false);
+        $parentCategory->expects($this->any())->method('getParentId')
             ->will($this->returnValue($parentCategoryParentId));
-        $parentCategoryMock->expects($this->any())->method('getLevel')->will($this->returnValue($parentLevel));
-        $parentCategoryMock->expects($this->any())->method('getUrlPath')->will($this->returnValue($parentUrlPath));
-        $parentCategoryMock->expects($this->any())->method('load')->will($this->returnSelf());
-        $parentCategoryMock->expects($this->any())->method('dataHasChangedFor')
+        $parentCategory->expects($this->any())->method('getLevel')->will($this->returnValue($parentLevel));
+        $parentCategory->expects($this->any())->method('getUrlPath')->will($this->returnValue($parentUrlPath));
+        $parentCategory->expects($this->any())->method('load')->will($this->returnSelf());
+        $parentCategory->expects($this->any())->method('dataHasChangedFor')
             ->will($this->returnValueMap([['url_key', false], ['path_ids', false]]));
 
-        $this->categoryFactoryMock->expects($this->once())->method('create')
-            ->will($this->returnValue($parentCategoryMock));
+        $this->categoryFactory->expects($this->once())->method('create')
+            ->will($this->returnValue($parentCategory));
 
-        $this->assertEquals($result, $this->categoryUrlPathGenerator->getUrlPath($this->categoryMock));
+        $this->assertEquals($result, $this->categoryUrlPathGenerator->getUrlPath($this->category));
     }
 
-
+    /**
+     * @return array
+     */
     public function getUrlPathWithSuffixDataProvider()
     {
         return [
@@ -138,23 +159,28 @@ class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getUrlPathWithSuffixDataProvider
+     * @param string $urlPath
+     * @param int $storeId
+     * @param int $categoryStoreId
+     * @param string $suffix
+     * @param string $result
      */
     public function testGetUrlPathWithSuffixAndStore($urlPath, $storeId, $categoryStoreId, $suffix, $result)
     {
-        $this->categoryMock->expects($this->any())->method('getStoreId')->will($this->returnValue($categoryStoreId));
-        $this->categoryMock->expects($this->once())->method('getParentId')->will($this->returnValue(2));
-        $this->categoryMock->expects($this->once())->method('getUrlPath')->will($this->returnValue($urlPath));
-        $this->categoryMock->expects($this->exactly(2))->method('dataHasChangedFor')
+        $this->category->expects($this->any())->method('getStoreId')->will($this->returnValue($categoryStoreId));
+        $this->category->expects($this->once())->method('getParentId')->will($this->returnValue(123));
+        $this->category->expects($this->once())->method('getUrlPath')->will($this->returnValue($urlPath));
+        $this->category->expects($this->exactly(2))->method('dataHasChangedFor')
             ->will($this->returnValueMap([['url_key', false], ['path_ids', false]]));
 
         $passedStoreId = $storeId ? $storeId : $categoryStoreId;
-        $this->scopeConfigMock->expects($this->once())->method('getValue')
+        $this->scopeConfig->expects($this->once())->method('getValue')
             ->with(CategoryUrlPathGenerator::XML_PATH_CATEGORY_URL_SUFFIX, ScopeInterface::SCOPE_STORE, $passedStoreId)
             ->will($this->returnValue($suffix));
 
         $this->assertEquals(
             $result,
-            $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->categoryMock, $storeId)
+            $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category, $storeId)
         );
     }
 
@@ -166,34 +192,37 @@ class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
         $suffix = '.html';
         $result = 'url-path.html';
 
-        $this->categoryMock->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
-        $this->categoryMock->expects($this->once())->method('getParentId')->will($this->returnValue(2));
-        $this->categoryMock->expects($this->once())->method('getUrlPath')->will($this->returnValue($urlPath));
-        $this->categoryMock->expects($this->exactly(2))->method('dataHasChangedFor')
+        $this->category->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
+        $this->category->expects($this->once())->method('getParentId')->will($this->returnValue('parent_id'));
+        $this->category->expects($this->once())->method('getUrlPath')->will($this->returnValue($urlPath));
+        $this->category->expects($this->exactly(2))->method('dataHasChangedFor')
             ->will($this->returnValueMap([['url_key', false], ['path_ids', false]]));
 
-        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $storeMock->expects($this->once())->method('getId')->will($this->returnValue($currentStoreId));
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
-        $this->scopeConfigMock->expects($this->once())->method('getValue')
+        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $store->expects($this->once())->method('getId')->will($this->returnValue($currentStoreId));
+        $this->storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
+        $this->scopeConfig->expects($this->once())->method('getValue')
             ->with(CategoryUrlPathGenerator::XML_PATH_CATEGORY_URL_SUFFIX, ScopeInterface::SCOPE_STORE, $currentStoreId)
             ->will($this->returnValue($suffix));
 
         $this->assertEquals(
             $result,
-            $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->categoryMock, $storeId)
+            $this->categoryUrlPathGenerator->getUrlPathWithSuffix($this->category, $storeId)
         );
     }
 
     public function testGetCanonicalUrlPath()
     {
-        $this->categoryMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->category->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->assertEquals(
             'catalog/category/view/id/1',
-            $this->categoryUrlPathGenerator->getCanonicalUrlPath($this->categoryMock)
+            $this->categoryUrlPathGenerator->getCanonicalUrlPath($this->category)
         );
     }
 
+    /**
+     * @return array
+     */
     public function generateUrlKeyDataProvider()
     {
         return [
@@ -204,13 +233,16 @@ class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider generateUrlKeyDataProvider
+     * @param string $urlKey
+     * @param string $name
+     * @param string $result
      */
     public function testGenerateUrlKey($urlKey, $name, $result)
     {
-        $this->categoryMock->expects($this->once())->method('getUrlKey')->will($this->returnValue($urlKey));
-        $this->categoryMock->expects($this->any())->method('getName')->will($this->returnValue($name));
-        $this->categoryMock->expects($this->once())->method('formatUrlKey')->will($this->returnArgument(0));
+        $this->category->expects($this->once())->method('getUrlKey')->will($this->returnValue($urlKey));
+        $this->category->expects($this->any())->method('getName')->will($this->returnValue($name));
+        $this->category->expects($this->once())->method('formatUrlKey')->will($this->returnArgument(0));
 
-        $this->assertEquals($result, $this->categoryUrlPathGenerator->generateUrlKey($this->categoryMock));
+        $this->assertEquals($result, $this->categoryUrlPathGenerator->generateUrlKey($this->category));
     }
 }
