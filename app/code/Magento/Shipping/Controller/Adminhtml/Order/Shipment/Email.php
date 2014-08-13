@@ -9,8 +9,12 @@
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
 use \Magento\Backend\App\Action;
-use \Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 
+/**
+ * Class Email
+ *
+ * @package Magento\Shipping\Controller\Adminhtml\Order\Shipment
+ */
 class Email extends \Magento\Backend\App\Action
 {
     /**
@@ -31,6 +35,8 @@ class Email extends \Magento\Backend\App\Action
     }
 
     /**
+     * Check if email sending is allowed for the current user
+     *
      * @return bool
      */
     protected function _isAllowed()

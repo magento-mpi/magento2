@@ -8,6 +8,11 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo;
 
+/**
+ * Class Email
+ *
+ * @package Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo
+ */
 class Email extends \Magento\Backend\App\Action
 {
     /**
