@@ -83,7 +83,7 @@ class Page extends Layout
         parent::initLayout();
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
-        $this->addPageLayoutHandles([], $this->getDefaultLayoutHandle());
+        $update->addHandle($this->getDefaultLayoutHandle());
         $pageLayout = $this->getPageLayout();
         if ($pageLayout) {
             $update->addHandle($pageLayout);
