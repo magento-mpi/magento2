@@ -38,4 +38,11 @@ interface ShipmentWriteInterface
      * @throws \Exception
      */
     public function addComment(Comment $comment);
+
+    /**
+     * @param \Magento\Sales\Service\V1\Data\Shipment $shipmentDataObject
+     * @return bool
+     * @throws \Exception
+     */
+    public function create(\Magento\Sales\Service\V1\Data\Shipment $shipmentDataObject);
 }

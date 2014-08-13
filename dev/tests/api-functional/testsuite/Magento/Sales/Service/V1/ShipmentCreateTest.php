@@ -18,7 +18,7 @@ class ShipmentCreateTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/shipment';
 
-    const SERVICE_READ_NAME = 'salesShipmentCreateV1';
+    const SERVICE_READ_NAME = 'salesShipmentWriteV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -46,7 +46,7 @@ class ShipmentCreateTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'create'
             ]
         ];
         $data = [

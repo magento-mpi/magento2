@@ -11,6 +11,7 @@ use Magento\Sales\Service\V1\Action\ShipmentAddTrack;
 use Magento\Sales\Service\V1\Action\ShipmentRemoveTrack;
 use Magento\Sales\Service\V1\Action\ShipmentEmail;
 use Magento\Sales\Service\V1\Action\ShipmentAddComment;
+use Magento\Sales\Service\V1\Action\ShipmentCreate;
 use Magento\Sales\Service\V1\Data\ShipmentTrack;
 use Magento\Sales\Service\V1\Data\Comment;
 
@@ -40,22 +41,30 @@ class ShipmentWrite implements ShipmentWriteInterface
     protected $shipmentAddComment;
 
     /**
+     * @var ShipmentCreate
+     */
+    protected $shipmentCreate;
+
+    /**
      * @param ShipmentAddTrack $shipmentAddTrack
      * @param ShipmentRemoveTrack $shipmentRemoveTrack
      * @param ShipmentEmail $shipmentEmail
      * @param ShipmentAddComment $shipmentAddComment
+     * @param ShipmentCreate $shipmentCreate
      */
     public function __construct(
         ShipmentAddTrack $shipmentAddTrack,
         ShipmentRemoveTrack $shipmentRemoveTrack,
         ShipmentEmail $shipmentEmail,
-        ShipmentAddComment $shipmentAddComment
+        ShipmentAddComment $shipmentAddComment,
+        ShipmentCreate $shipmentCreate
     )
     {
         $this->shipmentAddTrack = $shipmentAddTrack;
         $this->shipmentRemoveTrack = $shipmentRemoveTrack;
         $this->shipmentEmail = $shipmentEmail;
         $this->shipmentAddComment = $shipmentAddComment;
+        $this->shipmentCreate = $shipmentCreate;
     }
 
     /**
@@ -95,5 +104,15 @@ class ShipmentWrite implements ShipmentWriteInterface
     public function addComment(Comment $comment)
     {
         return $this->shipmentAddComment->invoke($comment);
+    }
+
+    /**
+     * @param \Magento\Sales\Service\V1\Data\Shipment $shipmentDataObject
+     * @return bool
+     * @throws \Exception
+     */
+    public function create(\Magento\Sales\Service\V1\Data\Shipment $shipmentDataObject)
+    {
+        return $this->shipmentCreate->invoke($shipmentDataObject);
     }
 }

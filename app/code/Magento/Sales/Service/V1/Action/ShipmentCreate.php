@@ -5,16 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Service\V1;
+namespace Magento\Sales\Service\V1\Action;
 
 use Magento\Sales\Service\V1\Data\ShipmentConverter;
 
 /**
  * Class ShipmentCreate
  *
- * @package Magento\Sales\Service\V1
  */
-class ShipmentCreate implements ShipmentCreateInterface
+class ShipmentCreate
 {
     /**
      * @var ShipmentConverter
@@ -39,7 +38,7 @@ class ShipmentCreate implements ShipmentCreateInterface
     /**
      * Invoke CreateShipment service
      *
-     * @param Data\Shipment $shipmentDataObject
+     * @param \Magento\Sales\Service\V1\Data\Shipment $shipmentDataObject
      * @return bool
      * @throws \Exception
      */

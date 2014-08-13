@@ -196,7 +196,7 @@
         </resources>
     </route>
     <route url="/V1/shipment/" method="POST">
-        <service class="Magento\Sales\Service\V1\ShipmentCreateInterface" method="invoke"/>
+        <service class="Magento\Sales\Service\V1\ShipmentWriteInterface" method="create"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>
