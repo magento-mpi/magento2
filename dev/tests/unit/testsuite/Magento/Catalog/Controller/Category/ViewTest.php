@@ -96,6 +96,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $action;
 
+    /**
+     * @var \Magento\Framework\View\Page\Config
+     */
+    protected $pageConfig;
+
     public function setUp()
     {
         $this->request = $this->getMock('Magento\Framework\App\RequestInterface');
@@ -128,12 +133,16 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->catalogDesign = $this->getMock('Magento\Catalog\Model\Design', [], [], '', false);
         $this->layoutHelper = $this->getMock('Magento\Theme\Helper\Layout', [], [], '', false);
+        $this->pageConfig = $this->getMockBuilder('Magento\Framework\View\Page\Config')
+            ->disableOriginalConstructor()->getMock();
+        $this->pageConfig->expects($this->any())->method('addBodyClass')->will($this->returnSelf());
 
         $this->action = (new ObjectManager($this))->getObject('Magento\Catalog\Controller\Category\View', [
             'context' => $this->context,
             'catalogDesign' => $this->catalogDesign,
             'categoryFactory' => $this->categoryFactory,
             'storeManager' => $this->storeManager,
+            'pageConfig' => $this->pageConfig
         ]);
     }
 

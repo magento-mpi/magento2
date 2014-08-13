@@ -34,12 +34,10 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'empty' => array(
                 'label' => 'Empty',
                 'code' => 'empty',
-                'is_default' => 0
             ),
             '1column' => array(
                 'label' => '1 column',
                 'code' => '1column',
-                'is_default' => 0
             )
         );
         $this->assertEquals($expectedResult, $this->_model->convert($dom), '', 0, 20);

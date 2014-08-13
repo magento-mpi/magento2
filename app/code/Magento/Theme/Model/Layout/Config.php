@@ -87,7 +87,7 @@ class Config
         $handles = array();
 
         foreach ($this->getPageLayouts() as $layout) {
-            $handles[$layout->getCode()] = $layout->getLayoutHandle();
+            $handles[$layout->getCode()] = $layout->getCode();
         }
 
         return $handles;

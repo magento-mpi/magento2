@@ -22,17 +22,22 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         /** @var $cache \Magento\Framework\App\Cache */
         $cache = $objectManager->create('Magento\Framework\App\Cache');
         $cache->clean();
-        $fileResolverMock = $this->getMockBuilder(
-            'Magento\Framework\Config\FileResolverInterface'
-        )->disableOriginalConstructor()->getMock();
         $configFile = file_get_contents(__DIR__ . '/_files/page_layouts.xml');
-        $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue(array($configFile)));
+        $fileResolverMock = $this->getMockBuilder('Magento\Framework\Config\FileResolverInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $fileResolverMock->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue(array($configFile)));
         $reader = $objectManager->create(
             'Magento\Theme\Model\Layout\Config\Reader',
             array('fileResolver' => $fileResolverMock)
         );
-        $data = $objectManager->create('Magento\Theme\Model\Layout\Config\Data', array('reader' => $reader));
-        $this->_model = $objectManager->create('Magento\Theme\Model\Layout\Config', array('dataStorage' => $data));
+        $dataStorage = $objectManager->create('Magento\Theme\Model\Layout\Config\Data', array('reader' => $reader));
+        $this->_model = $objectManager->create(
+            'Magento\Theme\Model\Layout\Config',
+            array('dataStorage' => $dataStorage)
+        );
     }
 
     public function testGetPageLayouts()
@@ -40,14 +45,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $empty = array(
             'label' => 'Empty',
             'code' => 'empty',
-            'layout_handle' => 'page_empty',
-            'is_default' => '0'
         );
         $oneColumn = array(
             'label' => '1 column',
             'code' => '1column',
-            'layout_handle' => 'page_one_column',
-            'is_default' => '1'
         );
         $result = $this->_model->getPageLayouts();
         $this->assertEquals($empty, $result['empty']->getData());
@@ -59,8 +60,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $empty = array(
             'label' => 'Empty',
             'code' => 'empty',
-            'layout_handle' => 'page_empty',
-            'is_default' => '0'
         );
         $this->assertEquals($empty, $this->_model->getPageLayout('empty')->getData());
         $this->assertFalse($this->_model->getPageLayout('unknownLayoutCode'));
@@ -68,7 +67,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPageLayoutHandles()
     {
-        $expected = array('empty' => 'page_empty', 'one_column' => 'page_one_column');
+        $expected = array('empty' => 'empty', '1column' => '1column');
         $this->assertEquals($expected, $this->_model->getPageLayoutHandles());
     }
 }

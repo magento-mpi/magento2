@@ -166,9 +166,7 @@ class View extends \Magento\Framework\App\Action\Action
             $this->_view->generateLayoutXml();
             $this->_view->generateLayoutBlocks();
 
-            /** @var \Magento\Framework\View\Page\Config $pageConfig */
-            $pageConfig = $this->_objectManager->get('Magento\Framework\View\Page\Config');
-            $pageConfig->addBodyClass('page-products')
+            $this->pageConfig->addBodyClass('page-products')
                 ->addBodyClass('categorypath-' . $category->getUrlPath())
                 ->addBodyClass('category-' . $category->getUrlKey());
 
