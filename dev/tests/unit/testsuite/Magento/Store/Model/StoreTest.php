@@ -26,7 +26,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', array(
+        $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [
             'getRequestString',
             'getModuleName',
             'setModuleName',
@@ -35,8 +35,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'getParam',
             'getQuery',
             'getCookie',
-            'getDistroBaseUrl'
-        ), [], '', false);
+            'getDistroBaseUrl',
+        ], [], '', false);
     }
 
     /**
