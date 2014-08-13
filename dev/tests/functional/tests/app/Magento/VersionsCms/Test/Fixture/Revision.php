@@ -17,7 +17,8 @@ use Mtf\Fixture\InjectableFixture;
 class Revision extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'created_at' => null,
+        'content' => 'Default Content',
+        'user_id' => '1',
     ];
 
     protected $revision_id = [

@@ -59,12 +59,12 @@
             <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
         </require>
     </assertCmsPageVersionErrorDeleteMessage>
-    <assertCmsPageRevisionSuccessDeleteMessage module="Magento_VersionsCms">
+    <assertCmsPageRevisionSuccessMassDeleteMessage module="Magento_VersionsCms">
         <severeness>medium</severeness>
         <require>
             <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
         </require>
-    </assertCmsPageRevisionSuccessDeleteMessage>
+    </assertCmsPageRevisionSuccessMassDeleteMessage>
     <assertCmsPageRevisionNotInGrid module="Magento_VersionsCms">
         <severeness>low</severeness>
         <require>
