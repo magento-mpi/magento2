@@ -11,7 +11,7 @@ namespace Magento\VersionsCms\Test\Constraint;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
-use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 
 /**
  * Class AssertCmsCurrentlyPublishedRevision
@@ -44,15 +44,15 @@ class AssertCmsCurrentlyPublishedRevision extends AbstractAssertForm
         $filter = ['title' => $cms->getTitle()];
         $cmsIndex->open();
         $cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
-        $formPublishedRevision = $cmsNew->getPageForm()->getCurrentlyPublishedRevisionText();
+        $formPublishedRevision = $cmsNew->getPageVersionsForm()->getCurrentlyPublishedRevisionText();
         $fixturePublishedRevision = $cms->getTitle() . '; ' . $results['revision'];
         \PHPUnit_Framework_Assert::assertEquals(
             $fixturePublishedRevision,
             $formPublishedRevision,
             'Link to Currently Published Revision not equals to passed in fixture.'
         );
-        $cmsNew->getPageForm()->openTab('content');
-        $formRevisionData = $cmsNew->getPageForm()->getTabElement('revision_content')->getContentData();
+        $cmsNew->getPageVersionsForm()->openTab('content');
+        $formRevisionData = $cmsNew->getPageVersionsForm()->getTabElement('revision_content')->getContentData();
         preg_match('/\d+/', $results['revision'], $matches);
         $fixtureRevisionData['revision'] = $matches[0];
         $fixtureRevisionData['version'] = $cms->getTitle();

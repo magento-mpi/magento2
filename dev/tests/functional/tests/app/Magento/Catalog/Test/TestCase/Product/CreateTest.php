@@ -41,7 +41,7 @@ class CreateTest extends Functional
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($product);
-        $productForm = $createProductPage->getProductForm();
+        $productForm = $createProductPage->getForm();
         //Steps
         $createProductPage->open();
         $productForm->fill($product);

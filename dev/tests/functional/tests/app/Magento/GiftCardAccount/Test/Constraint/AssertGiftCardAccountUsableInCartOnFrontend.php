@@ -9,7 +9,7 @@
 namespace Magento\GiftCardAccount\Test\Constraint;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\GiftCardAccount\Test\Page\CheckoutCart;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Mtf\Constraint\AbstractConstraint;

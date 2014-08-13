@@ -45,7 +45,7 @@ class AssertCustomerBalanceHistory extends AbstractConstraint
         $customerIndex->open();
         $filter = ['email' => $customer->getEmail()];
         $customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
-        $customerForm = $customerIndexEdit->getCustomerForm();
+        $customerForm = $customerIndexEdit->getCustomerBalanceForm();
         $customerForm->openTab('store_credit');
 
         \PHPUnit_Framework_Assert::assertTrue(

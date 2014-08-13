@@ -60,7 +60,7 @@
     <assertRewardPointsMessageOnCustomerRegistration module="Magento_Reward">
         <severeness>high</severeness>
         <require>
-            <customerAccountCreate class="Magento\Reward\Test\Page\CustomerAccountCreate" />
+            <customerAccountCreate class="Magento\Customer\Test\Page\CustomerAccountCreate" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
         </require>
     </assertRewardPointsMessageOnCustomerRegistration>
@@ -80,7 +80,7 @@
         <require>
             <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-            <checkoutCart class="Magento\Reward\Test\Page\CheckoutCart" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
     </assertRewardPointsMessageOnShoppingCart>
     <assertRewardInHistoryGrid module="Magento_Reward">

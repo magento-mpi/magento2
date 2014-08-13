@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry_customer/edit" >
-    <block>
-        <name>actionsToolbarBlock</name>
-        <class>Magento\GiftRegistry\Test\Block\Adminhtml\Edit\ActionsToolbar</class>
-        <locator>.page-main-actions</locator>
-        <strategy>css selector</strategy>
-    </block>
+<page mca="giftregistry_customer/edit"  module="Magento_GiftRegistry">
+    <blocks>
+        <actionsToolbarBlock>
+            <class>Magento\GiftRegistry\Test\Block\Adminhtml\Edit\ActionsToolbar</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </actionsToolbarBlock>
+    </blocks>
 </page>

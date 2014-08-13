@@ -8,12 +8,12 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\GiftCardAccount\Test\Page\CheckoutCart;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Constraint\AbstractConstraint;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
  * Class AssertGiftCardAccountIsNotUsableInCartOnFrontend

@@ -17,21 +17,23 @@ class RewardCustomerInfo extends FrontendPage
 {
     const MCA = 'reward/customer/info';
 
-    protected $_blocks = [
+    /**
+     * Blocks' config
+     *
+     * @var array
+     */
+    protected $blocks = [
         'messagesBlock' => [
-            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.page.messages',
             'strategy' => 'css selector',
         ],
         'accountMenuBlock' => [
-            'name' => 'accountMenuBlock',
             'class' => 'Magento\Customer\Test\Block\Account\Links',
             'locator' => '.nav.items',
             'strategy' => 'css selector',
         ],
         'rewardPointsBlock' => [
-            'name' => 'rewardPointsBlock',
             'class' => 'Magento\Reward\Test\Block\Customer\RewardPoints',
             'locator' => '//div[div[contains(@class, "block-reward-info")]]',
             'strategy' => 'xpath',

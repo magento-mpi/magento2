@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/widget_instance/new/"  module="Magento_Widget">
+<page mca="sales/order_status/new">
     <blocks>
-        <widgetForm>
-            <class>Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\WidgetForm</class>
+        <createBlock>
+            <class>Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Order\Create</class>
             <locator>[id="page:main-container"]</locator>
             <strategy>css selector</strategy>
-        </widgetForm>
+        </createBlock>
     </blocks>
 </page>

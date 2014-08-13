@@ -95,7 +95,7 @@ class CreatingCustomerBalanceEntityTest extends Injectable
         $this->customerIndex->open();
         $filter = ['email' => $this->customer->getEmail()];
         $this->customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
-        $this->customerIndexEdit->getCustomerForm()->fill($customerBalance);
+        $this->customerIndexEdit->getCustomerBalanceForm()->fill($customerBalance);
         $this->customerIndexEdit->getPageActionsBlock()->save();
     }
 }

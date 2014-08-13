@@ -22,9 +22,9 @@
         <mca>checkout/onepage/index</mca>
         <class>Magento\CustomerCustomAttributes\Test\Page\CheckoutOnepage</class>
     </checkoutOnepage>
-    <salesOrderCreateIndex>
+    <orderCreateIndex>
         <mca>sales/order_create</mca>
         <area>adminhtml</area>
         <class>Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex</class>
-    </salesOrderCreateIndex>
+    </orderCreateIndex>
 </page>

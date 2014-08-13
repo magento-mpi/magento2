@@ -45,7 +45,7 @@ class CreateConfigurableTest extends Functional
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getGridPageActionBlock()->addProduct('configurable');
-        $productForm = $createProductPage->getProductForm();
+        $productForm = $createProductPage->getForm();
         $productForm->fill($product);
         $createProductPage->getFormAction()->saveProduct($createProductPage, $product);
         //Verifying
@@ -69,10 +69,10 @@ class CreateConfigurableTest extends Functional
     protected function assertOnGrid($product)
     {
         //Search data
-        $configurableSearch = array(
+        $configurableSearch = [
             'sku' => $product->getProductSku(),
             'type' => 'Configurable Product'
-        );
+        ];
         $variationSkus = $product->getVariationSkus();
         //Page & Block
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
@@ -83,7 +83,7 @@ class CreateConfigurableTest extends Functional
         $this->assertTrue($gridBlock->isRowVisible($configurableSearch), 'Configurable product was not found.');
         foreach ($variationSkus as $sku) {
             $this->assertTrue(
-                $gridBlock->isRowVisible(array('sku' => $sku, 'type' => 'Simple Product')),
+                $gridBlock->isRowVisible(['sku' => $sku, 'type' => 'Simple Product']),
                 'Variation with sku "' . $sku . '" was not found.'
             );
         }

@@ -81,7 +81,7 @@
         <require>
             <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
             <salesOrder class="Magento\Sales\Test\Page\SalesOrder" />
-            <salesOrderCreateIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex" />
+            <orderCreateIndex class="Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex" />
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
         </require>
     </assertCustomerCustomAttributeOnCreateOrderBackend>
@@ -115,7 +115,7 @@
         <severeness>low</severeness>
         <require>
             <salesOrder class="Magento\Sales\Test\Page\SalesOrder" />
-            <salesOrderCreateIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\SalesOrderCreateIndex" />
+            <orderCreateIndex class="Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex" />
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
             <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
         </require>

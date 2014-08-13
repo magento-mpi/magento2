@@ -9,7 +9,7 @@
 namespace Magento\GiftCard\Test\Constraint;
 
 use Magento\GiftCard\Test\Fixture\GiftCardProduct;
-use Magento\GiftCard\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Constraint\AbstractConstraint;
 
 /**

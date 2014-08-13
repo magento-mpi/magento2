@@ -43,13 +43,13 @@ class RelatedProductTest extends Functional
         $simple1->persist();
         $assignToSimple1 = Factory::getFixtureFactory()->getMagentoCatalogRelatedProducts();
         $assignToSimple1->switchData('add_related_products');
-        $verify = array($assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable'));
+        $verify = [$assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable')];
         //Data
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         //Steps
         $productGridPage->open();
-        $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
+        $productGridPage->getProductGrid()->searchAndOpen(['sku' => $simple1->getProductSku()]);
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormAction()->save();
@@ -57,7 +57,7 @@ class RelatedProductTest extends Functional
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
-            array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
+            ['sku' => $assignToSimple1->getProduct('configurable')->getProductSku()]
         );
         $assignToSimple1->switchData('add_related_product');
         $productForm = $editProductPage->getProductForm();

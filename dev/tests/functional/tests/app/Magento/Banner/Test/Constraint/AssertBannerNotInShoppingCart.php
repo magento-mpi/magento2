@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Magento\Banner\Test\Page\CheckoutCart;
+use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
  * Class AssertBannerInShoppingCart

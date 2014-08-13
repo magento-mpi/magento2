@@ -11,7 +11,7 @@ namespace Magento\GroupedProduct\Test\Constraint;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
-use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertPriceOnProductPageInterface;
 
 /**
