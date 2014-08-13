@@ -65,42 +65,37 @@ class Wrapping implements WrappingInterface
     }
 
     /**
-     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping $data
+     * @param Data\Wrapping $data
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
      * @return int
      */
-    public function create(\Magento\GiftWrapping\Service\V1\Data\Wrapping $data)
+    public function create(Data\Wrapping $data)
     {
         $model = $this->wrappingConverter->getModel($data);
 
         $imageData = $data->getImage();
-        if ($imageData instanceof \Magento\GiftWrapping\Service\V1\Data\Wrapping\Image) {
-            $imageContent = @base64_decode($imageData->getBase64Content(), true);
-            $model->attachBinaryImage($imageData->getFileName(), $imageContent);
-        }
+        $imageContent = base64_decode($imageData->getBase64Content(), true);
+        $model->attachBinaryImage($imageData->getFileName(), $imageContent);
 
         $model->save();
         return $model->getId();
     }
 
     /**
-     * @param int $id
-     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping $data
+     * @param Data\Wrapping $data
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int id
      */
-    public function update($id, \Magento\GiftWrapping\Service\V1\Data\Wrapping $data)
+    public function update(Data\Wrapping $data)
     {
-        $model = $this->wrappingConverter->loadModel($id, $data);
+        $model = $this->wrappingConverter->loadModel($data);
         $imageData = $data->getImage();
-        if ($imageData instanceof \Magento\GiftWrapping\Service\V1\Data\Wrapping\Image) {
-            $imageContent = @base64_decode($imageData->getBase64Content(), true);
-            $model->attachBinaryImage($imageData->getFileName(), $imageContent);
-        }
+        $imageContent = base64_decode($imageData->getBase64Content(), true);
+        $model->attachBinaryImage($imageData->getFileName(), $imageContent);
+
         $model->save();
     }
 

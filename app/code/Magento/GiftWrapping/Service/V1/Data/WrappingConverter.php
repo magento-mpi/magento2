@@ -38,20 +38,22 @@ class WrappingConverter
     /**
      * Load model and assign data object
      *
-     * @param int $id
-     * @param \Magento\Framework\Service\Data\AbstractObject $dataObject
+     * @param Wrapping $data
      * @return \Magento\GiftWrapping\Model\Wrapping
      * @throws NoSuchEntityException
      */
-    public function loadModel($id, \Magento\Framework\Service\Data\AbstractObject $dataObject)
+    public function loadModel(Wrapping $data)
     {
         /** @var \Magento\GiftWrapping\Model\Wrapping $wrapping */
         $wrapping = $this->wrappingFactory->create();
-        $wrapping->load($id);
+        $wrapping->load($data->getWrappingId());
         if (!$wrapping->getId()) {
-            throw new NoSuchEntityException('Gift Wrapping with specified ID "%1" not found', [$id]);
+            throw new NoSuchEntityException(
+                'Gift Wrapping with specified ID "%1" not found',
+                [$data->getWrappingId()]
+            );
         }
-        $wrapping->addData($dataObject->__toArray());
+        $wrapping->addData($data->__toArray());
         return $wrapping;
     }
 }
