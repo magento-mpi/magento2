@@ -36,4 +36,14 @@
         <mca>giftregistry/index/share</mca>
         <class>Magento\GiftRegistry\Test\Page\GiftRegistryShare</class>
     </giftRegistryShare>
+    <giftRegistryIndex>
+        <mca>admin/giftregistry</mca>
+        <area>adminhtml</area>
+        <class>Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex</class>
+    </giftRegistryIndex>
+    <giftRegistryNew>
+        <mca>admin/giftregistry/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryNew</class>
+    </giftRegistryNew>
 </page>
