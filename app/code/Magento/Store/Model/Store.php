@@ -294,7 +294,6 @@ class Store extends AbstractModel implements
      */
     protected $_cookieManager;
 
-
     /**
      * @var \Magento\Framework\App\Http\Context
      */
@@ -346,7 +345,6 @@ class Store extends AbstractModel implements
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        
         $currencyInstalled,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
@@ -841,13 +839,13 @@ class Store extends AbstractModel implements
             $this->_getSession()->setCurrencyCode($code);
             $path = $this->_getSession()->getCookiePath();
             
-            $cookieMetadata = $this->_cookieMetadataFactory->createSensitiveCookieMetadata()
+            $sensitiveCookieMetadata = $this->_cookieMetadataFactory->createSensitiveCookieMetadata()
                 ->setPath($path);
             
             if ($code == $this->getDefaultCurrency()->getCurrencyCode()) {
-                $this->_cookieManager->setSensitiveCookie(self::COOKIE_CURRENCY, null, $cookieMetadata);
+                $this->_cookieManager->deleteCookie(self::COOKIE_CURRENCY, $sensitiveCookieMetadata);
             } else {
-                $this->_cookieManager->setSensitiveCookie(self::COOKIE_CURRENCY, $cookieMetadata);
+                $this->_cookieManager->setSensitiveCookie(self::COOKIE_CURRENCY, $code, $sensitiveCookieMetadata);
             }
             $this->_httpContext->setValue(
                 \Magento\Core\Helper\Data::CONTEXT_CURRENCY,

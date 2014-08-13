@@ -409,6 +409,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->cookieManagerMock->expects($this->atLeastOnce())
             ->method('getCookie')
+            ->with(Store::COOKIE_NAME)
             ->will($this->returnValue('store1'));
 
         $this->assertEquals($this->storage, $this->_model->get($this->_arguments));
