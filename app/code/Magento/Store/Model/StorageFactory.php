@@ -63,9 +63,9 @@ class StorageFactory
     protected $_writerModel;
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\CookieManager
      */
-    protected $_cookie;
+    protected $_cookieManager;
 
     /**
      * @var \Magento\Framework\App\Http\Context
@@ -78,15 +78,20 @@ class StorageFactory
     protected $request;
 
     /**
+     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+     */
+    protected $cookieMetadataFactory;
+    /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Framework\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param string $defaultStorageClassName
      * @param string $installedStorageClassName
      * @param string $writerModel
@@ -97,10 +102,11 @@ class StorageFactory
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\State $appState,
-        \Magento\Framework\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         $defaultStorageClassName = 'Magento\Store\Model\Storage\DefaultStorage',
         $installedStorageClassName = 'Magento\Store\Model\Storage\Db',
         $writerModel = ''
@@ -113,8 +119,9 @@ class StorageFactory
         $this->_appState = $appState;
         $this->_sidResolver = $sidResolver;
         $this->_writerModel = $writerModel;
-        $this->_cookie = $cookie;
+        $this->_cookieManager = $cookieManager;
         $this->_httpContext = $httpContext;
+        $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->_scopeConfig = $scopeConfig;
         $this->request = $request;
     }
@@ -271,12 +278,10 @@ class StorageFactory
      */
     protected function _checkCookieStore(\Magento\Store\Model\StoreManagerInterface $storage, $scopeType)
     {
-        if (!$this->_cookie->get()) {
-            return;
+        $storeCode = $this->_cookieManager->getCookie(Store::COOKIE_NAME);
+        if(isset($storeCode)) {
+            $this->setCurrentStore($storage, $storeCode, $scopeType);
         }
-
-        $storeCode = $this->_cookie->get(Store::COOKIE_NAME);
-        $this->setCurrentStore($storage, $storeCode, $scopeType);
     }
 
     /**
@@ -298,9 +303,11 @@ class StorageFactory
         if ($storage->getStore()->getCode() == $storeCode) {
             $store = $storage->getStore($storeCode);
             if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
-                $this->_cookie->set(Store::COOKIE_NAME, null);
+                $this->_cookieManager->setSensitiveCookie(Store::COOKIE_NAME, null);
             } else {
-                $this->_cookie->set(Store::COOKIE_NAME, $storage->getStore()->getCode(), true);
+                $cookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+                    ->setDuration(3600*24*365);
+                $this->_cookieManager->setPublicCookie(Store::COOKIE_NAME, $storage->getStore()->getCode(), $cookieMetadata);
                 $this->_httpContext->setValue(
                     Store::ENTITY,
                     $storage->getStore()->getCode(),
