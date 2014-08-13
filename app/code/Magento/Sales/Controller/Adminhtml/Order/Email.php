@@ -9,6 +9,11 @@ namespace Magento\Sales\Controller\Adminhtml\Order;
 
 use \Magento\Backend\App\Action;
 
+/**
+ * Class Email
+ *
+ * @package Magento\Sales\Controller\Adminhtml\Order
+ */
 class Email extends \Magento\Sales\Controller\Adminhtml\Order
 {
     /**

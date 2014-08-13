@@ -44,7 +44,7 @@ class InvoiceEmail
      */
     public function invoke($id)
     {
-        /** @var \Magento\Sales\Model\Order $invoice */
+        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
         $invoice = $this->invoiceRepository->get($id);
         return $this->invoiceNotifier->notify($invoice);
     }

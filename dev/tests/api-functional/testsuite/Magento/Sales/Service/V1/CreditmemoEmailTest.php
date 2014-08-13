@@ -10,6 +10,11 @@ namespace Magento\Sales\Service\V1;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
+/**
+ * Class CreditmemoEmailTest
+ *
+ * @package Magento\Sales\Service\V1
+ */
 class CreditmemoEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';

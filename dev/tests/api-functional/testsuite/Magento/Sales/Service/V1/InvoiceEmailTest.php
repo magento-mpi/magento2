@@ -10,6 +10,11 @@ namespace Magento\Sales\Service\V1;
 use Magento\TestFramework\TestCase\WebapiAbstract,
     Magento\Webapi\Model\Rest\Config as RestConfig;
 
+/**
+ * Class InvoiceEmailTest
+ *
+ * @package Magento\Sales\Service\V1
+ */
 class InvoiceEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';

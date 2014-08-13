@@ -11,6 +11,11 @@ namespace Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\App\Action\Context;
 
+/**
+ * Class EmailTest
+ *
+ * @package Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo
+ */
 class EmailTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -167,6 +172,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->prepareRedirect($cmId);
 
         $this->creditmemoEmail->execute();
+        $this->assertEquals($this->response, $this->creditmemoEmail->getResponse());
     }
 
     public function testEmailNoCreditmemoId()
@@ -175,8 +181,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')
             ->with('creditmemo_id')
             ->will($this->returnValue(null));
-        $this->creditmemoEmail->execute();
-
+        $this->assertNull($this->creditmemoEmail->execute());
     }
 
     public function testEmailNoCreditmemo()
@@ -197,11 +202,12 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->with($cmId)
             ->will($this->returnValue(null));
-        $this->creditmemoEmail->execute();
+
+        $this->assertNull($this->creditmemoEmail->execute());
     }
 
     /**
-     * @param $cmId
+     * @param int $cmId
      */
     protected function prepareRedirect($cmId)
     {

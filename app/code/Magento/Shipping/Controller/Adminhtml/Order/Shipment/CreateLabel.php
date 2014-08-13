@@ -54,7 +54,11 @@ class CreateLabel extends \Magento\Backend\App\Action
     {
         $response = new \Magento\Framework\Object();
         try {
-            $shipment = $this->shipmentLoader->load($this->_request);
+            $this->shipmentLoader->setOrderId($this->getRequest()->getParam('order_id'));
+            $this->shipmentLoader->setShipmentId($this->getRequest()->getParam('shipment_id'));
+            $this->shipmentLoader->setShipment($this->getRequest()->getParam('shipment'));
+            $this->shipmentLoader->setTracking($this->getRequest()->getParam('tracking'));
+            $shipment = $this->shipmentLoader->load();
             if ($this->labelGenerator->create($shipment, $this->_request)) {
                 $shipment->save();
                 $this->messageManager->addSuccess(__('You created the shipping label.'));

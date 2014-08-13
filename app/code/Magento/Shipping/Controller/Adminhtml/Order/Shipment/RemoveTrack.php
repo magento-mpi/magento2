@@ -49,7 +49,11 @@ class RemoveTrack extends \Magento\Backend\App\Action
         if ($track->getId()) {
             try {
                 $this->_title->add(__('Shipments'));
-                $shipment = $this->shipmentLoader->load($this->_request);
+                $this->shipmentLoader->setOrderId($this->getRequest()->getParam('order_id'));
+                $this->shipmentLoader->setShipmentId($this->getRequest()->getParam('shipment_id'));
+                $this->shipmentLoader->setShipment($this->getRequest()->getParam('shipment'));
+                $this->shipmentLoader->setTracking($this->getRequest()->getParam('tracking'));
+                $shipment = $this->shipmentLoader->load();
                 if ($shipment) {
                     $track->delete();
 
