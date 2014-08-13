@@ -80,10 +80,12 @@ class RequestFactory
      */
     private function convert($data)
     {
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
         $mapper = $this->objectManager->create(
             'Magento\Framework\Search\Request\Mapper',
             [
                 'objectManager' => $this->objectManager,
+                'rootQueryName' => $data['query'],
                 'queries' => $data['queries'],
                 'aggregation' => $data['aggregation'],
                 'filters' => $data['filters']
@@ -96,8 +98,17 @@ class RequestFactory
                 'indexName' => $data['index'],
                 'from' => $data['from'],
                 'size' => $data['size'],
-                'query' => $mapper->get($data['query']),
-                'buckets' => $mapper->getBuckets(),
+                'query' => $mapper->getRootQuery(),
+                'demensions' => array_map(
+                    function ($data) {
+                        return $this->objectManager->create(
+                            'Magento\Framework\Search\Request\Dimension',
+                            $data
+                        );
+                    },
+                    isset($data['demensions']) ? $data['demensions'] : []
+                ),
+                'buckets' => $mapper->getBuckets()
             ]
         );
     }

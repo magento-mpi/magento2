@@ -26,6 +26,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             /** @var \DOMElement $requestNode */
             $name = $requestNode->getAttribute('query');
             $request = $this->mergeAttributes((array)$simpleXmlNode);
+            $request['dimensions'] = $this->convertNodes($simpleXmlNode->dimensions, 'name');
             $request['queries'] = $this->convertNodes($simpleXmlNode->queries, 'name');
             $request['filters'] = $this->convertNodes($simpleXmlNode->filters, 'name');
             $request['aggregation'] = $this->convertNodes($simpleXmlNode->aggregation, 'name');
