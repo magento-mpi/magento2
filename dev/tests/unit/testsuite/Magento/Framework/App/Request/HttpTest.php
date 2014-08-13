@@ -402,7 +402,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $_SERVER = $originalServerValue;
     }
 
-    public function testGetCookie()
+    public function testGetCookieDefault()
     {
         $key = "cookieName";
         $default = "defaultValue";
@@ -410,11 +410,39 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_cookieManagerMock
             ->expects($this->once())
             ->method('getCookie')
-            ->with($key, $default);
+            ->with($key, $default)
+            ->will($this->returnValue($default));
 
-        $this->_model = $this->_model = $this->getModel();
-        
-        $this->_model->getCookie($key, $default);
+        $this->assertEquals($default, $this->getModel()->getCookie($key, $default));
+    }
+
+    public function testGetCookieNameExists()
+    {
+        $key = "cookieName";
+        $default = "defaultValue";
+        $value = "cookieValue";
+
+        $this->_cookieManagerMock
+            ->expects($this->once())
+            ->method('getCookie')
+            ->with($key, $default)
+            ->will($this->returnValue($value));
+
+        $this->assertEquals($value, $this->getModel()->getCookie($key, $default));
+    }
+
+    public function testGetCookieNullName()
+    {
+        $nullKey = null;
+        $default = "defaultValue";
+
+        $this->_cookieManagerMock
+            ->expects($this->once())
+            ->method('getCookie')
+            ->with($nullKey, $default)
+            ->will($this->returnValue($default));
+
+        $this->assertEquals($default, $this->getModel()->getCookie($nullKey, $default));
     }
 
     public function serverVariablesProvider()

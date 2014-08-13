@@ -69,10 +69,10 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
      *
      * @param string|null $name
      * @param string|null $default The default value to return if no value could be found for the given $name.
-     * @return string|null|array
+     * @return string|null
      */
     public function getCookie($name = null, $default = null)
     {
-        return isset($name) ? $this->_cookieManager->getCookie($name, $default) : [];
+        return $this->_cookieManager->getCookie($name, $default);
     }
 }

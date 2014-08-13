@@ -55,7 +55,7 @@ interface RequestInterface
      *
      * @param string|null $name
      * @param string|null $default
-     * @return string|null|array
+     * @return string|null
      */
     public function getCookie($name, $default);
 }
