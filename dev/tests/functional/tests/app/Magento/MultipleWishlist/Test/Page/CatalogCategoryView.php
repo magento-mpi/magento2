@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView as ParentCatalogCateg
  */
 class CatalogCategoryView extends ParentCatalogCategoryView
 {
-    const MCA = 'catalog/category_wishlist/view';
+    const MCA = 'wishlist/catalog/category/view';
 
     /**
      * Init page

@@ -21,13 +21,6 @@ use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
 abstract class AbstractAssertMultipleWishlistNoticeMessage extends AbstractConstraint
 {
     /**
-     * Successful message
-     *
-     * @var string
-     */
-    protected $successfulMessage;
-
-    /**
      * Public notice message
      *
      * @var string
@@ -42,7 +35,7 @@ abstract class AbstractAssertMultipleWishlistNoticeMessage extends AbstractConst
     protected $severeness = 'low';
 
     /**
-     * Assert notice message is displayed on "Edit Wish List" frontend page.
+     * Assert notice message is displayed on "Edit Wish List" frontend page
      *
      * @param CmsIndex $cmsIndex
      * @param MultipleWishlistIndex $multipleWishlistIndex
@@ -64,15 +57,5 @@ abstract class AbstractAssertMultipleWishlistNoticeMessage extends AbstractConst
             $multipleWishlistIndex->getManagementBlock()->getNoticeMessage(),
             'Wrong success message is displayed.'
         );
-    }
-
-    /**
-     * Returns a string representation of the object.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return $this->successfulMessage;
     }
 }

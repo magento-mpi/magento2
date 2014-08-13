@@ -216,6 +216,6 @@ class CreateMultipleWishlistEntityTest extends Injectable
             $_ENV['app_backend_url'] . 'admin/widget_instance/edit/instance_id/'
             . self::$wishlistId . '/code/wishlist_search/'
         );
-        self::$widgetInstanceEdit->getFormPageActions()->delete();
+        self::$widgetInstanceEdit->getPageActionsBlock()->delete();
     }
 }

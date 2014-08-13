@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/cache/" >
+<page mca="admin/cache/">
     <block>
         <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>

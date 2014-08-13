@@ -15,16 +15,19 @@ namespace Magento\MultipleWishlist\Test\Constraint;
 class AssertMultipleWishlistIsNoticePrivateMessage extends AbstractAssertMultipleWishlistNoticeMessage
 {
     /**
-     * Successful message
-     *
-     * @var string
-     */
-    protected $successfulMessage = 'Private notice message is accept.';
-
-    /**
      * Private notice message
      *
      * @var string
      */
     protected $noticeMessage = 'This wishlist is private. Only you can view this wishlist.';
+
+    /**
+     * Returns a string representation of the object
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return 'Private notice message is accept.';
+    }
 }

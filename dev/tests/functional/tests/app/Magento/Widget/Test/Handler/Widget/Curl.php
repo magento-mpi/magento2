@@ -15,7 +15,6 @@ use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
-use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Curl handler for creating widgetInstance/frontendApp
@@ -43,8 +42,8 @@ class Curl extends AbstractCurl
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $this->replaceMappingData($fixture->getData());
-        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $fixture->getData('code') .
-            '/theme_id/' . $data['theme_id'];
+        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/'
+            . $fixture->getData('code') . '/theme_id/' . $data['theme_id'];
         unset($data['code']);
         unset($data['theme_id']);
         $curl = new BackendDecorator(new CurlTransport(), new Config());

@@ -24,13 +24,6 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
 {
     /**
-     * Successful message
-     *
-     * @var string
-     */
-    protected $successfulMessage;
-
-    /**
      * Constraint severeness
      *
      * @var string
@@ -38,7 +31,7 @@ abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
     protected $severeness = 'Medium';
 
     /**
-     * Assert that Wishlist can be find by another Customer (or guest) via "Wishlist Search".
+     * Assert that Wishlist can be or can't be find by another Customer (or guest) via "Wishlist Search"
      *
      * @param MultipleWishlist $multipleWishlist
      * @param CmsIndex $cmsIndex
@@ -72,14 +65,4 @@ abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
      * @return void
      */
     abstract protected function assert(SearchResult $searchResult, MultipleWishlist $multipleWishlist);
-
-    /**
-     * Returns a string representation of the object.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return $this->successfulMessage;
-    }
 }

@@ -18,13 +18,6 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 class AssertMultipleWishlistIsPrivate extends AbstractAssertMultipleWishlistState
 {
     /**
-     * Successful message
-     *
-     * @var string
-     */
-    protected $successfulMessage = 'Multiple wish list is private.';
-
-    /**
      * Assert wish list is private
      *
      * @param SearchResult $searchResult
@@ -37,5 +30,15 @@ class AssertMultipleWishlistIsPrivate extends AbstractAssertMultipleWishlistStat
             $searchResult->getWishlistSearchResultBlock()->isWishlistVisibleInGrid($multipleWishlist->getName()),
             'Multiple wish list is not private.'
         );
+    }
+
+    /**
+     * Returns a string representation of the object
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return 'Multiple wish list is private.';
     }
 }

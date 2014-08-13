@@ -28,7 +28,7 @@ class AssertMultipleWishlistPresentInMyAccount extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that Wishlist exists
+     * Assert that Wishlist exists on 'My Account' page
      *
      * @param CmsIndex $cmsIndex
      * @param MultipleWishlistIndex $multipleWishlistIndex
@@ -49,7 +49,7 @@ class AssertMultipleWishlistPresentInMyAccount extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */
