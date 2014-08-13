@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\User\Block\User;
 
 /**
@@ -60,8 +61,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                     'label' => __('Invalidate User (non-functional)'),
                     'class' => 'reset',
                     'onclick' => 'deleteConfirm(\'' . __(
-                            'Are you sure you want to invalidate this user?'
-                        ) . '\', \'' . $this->getInvalidateUrl() . '\')'
+                            json_encode(utf8_encode('Are you sure you want to invalidate this user\'s tokens?'), JSON_HEX_APOS)
+                    ) . '\', \'' . $this->getInvalidateUrl() . '\')'
                 )
             );
         }
@@ -101,5 +102,4 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         return $this->getUrl('adminhtml/*/invalidatetoken', array('_current' => true));
     }
-
 }
