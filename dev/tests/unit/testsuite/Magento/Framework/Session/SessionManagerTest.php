@@ -5,12 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 // @codingStandardsIgnoreStart
 namespace {
     $mockPHPFunctions = false;
 }
 
 namespace Magento\Framework\Session {
+
+    /**
+     * @bug https://github.com/sebastianbergmann/phpunit/issues/314
+     * Workaround: use the "require_once" below and declare "preserveGlobalState disabled" in the test
+     */
+    require_once __DIR__ . '/../../../../framework/bootstrap.php';
+
     // @codingStandardsIgnoreEnd
 
     /**
@@ -48,7 +56,7 @@ namespace Magento\Framework\Session {
         return call_user_func_array('\session_regenerate_id', func_get_args());
     }
 
-    
+
     /**
      * Test SessionManager
      *
@@ -103,6 +111,7 @@ namespace Magento\Framework\Session {
 
         /**
          * @runInSeparateProcess
+         * @preserveGlobalState disabled
          */
         public function testRegenerateId()
         {

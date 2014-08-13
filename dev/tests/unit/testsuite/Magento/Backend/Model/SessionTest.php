@@ -15,7 +15,7 @@ namespace Magento\Backend\Model;
 require_once __DIR__ . '/../../../../framework/bootstrap.php';
 
 /**
- * @runInSeparateProcess
+ * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
 class SessionTest extends \PHPUnit_Framework_TestCase
@@ -30,9 +30,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public static $registerShutdownFunction = false;
 
-    /**
-     * @covers Magento\Backend\Model\Session::__construct
-     */
     public function testConstructor()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

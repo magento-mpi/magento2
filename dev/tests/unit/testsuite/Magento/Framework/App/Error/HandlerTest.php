@@ -16,7 +16,7 @@ namespace Magento\Framework\App\Error;
 require_once __DIR__ . '/../../../../../framework/bootstrap.php';
 
 /**
- * @runInSeparateProcess
+ * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
 class HandlerTest extends \PHPUnit_Framework_TestCase

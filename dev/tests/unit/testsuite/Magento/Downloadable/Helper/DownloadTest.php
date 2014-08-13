@@ -20,7 +20,7 @@ use Magento\Downloadable\Helper\File as DownloadableFile;
 require_once __DIR__ . '/../../../../framework/bootstrap.php';
 
 /**
- * @runInSeparateProcess
+ * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
  */
 class DownloadTest extends \PHPUnit_Framework_TestCase
