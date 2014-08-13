@@ -8,24 +8,35 @@
 
 namespace Magento\VersionsCms\Test\Page\Adminhtml;
 
-use Magento\Cms\Test\Page\Adminhtml\CmsNew as ParentCmsNew;
-
 /**
  * Class CmsNew
- * CMS New page on backend
+ * Cms Page Edit on backend
  */
-class CmsNew extends ParentCmsNew
+class CmsNew extends \Magento\Cms\Test\Page\Adminhtml\CmsNew
 {
     const MCA = 'admin/cms_page/new/index';
 
-    protected $_blocks = [
-        'pageForm' => [
+    /**
+     * Initialize page
+     *
+     * @return void
+     */
+    protected function _init()
+    {
+        parent::_init();
+        $this->_blocks['pageForm'] = [
             'name' => 'pageForm',
             'class' => 'Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\PageForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
-        ],
-    ];
+        ];
+        $this->_blocks['messagesBlock'] = [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages .messages',
+            'strategy' => 'css selector',
+        ];
+    }
 
     /**
      * @return \Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\PageForm
@@ -33,5 +44,13 @@ class CmsNew extends ParentCmsNew
     public function getPageForm()
     {
         return $this->getBlockInstance('pageForm');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }
