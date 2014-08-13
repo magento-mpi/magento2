@@ -11,6 +11,8 @@ use \Magento\Framework\Service\Data\Eav\AbstractObject;
 
 /**
  * Class AttributeMetadata
+ *
+ * @codeCoverageIgnore
  */
 class AttributeMetadata extends AbstractObject
 {

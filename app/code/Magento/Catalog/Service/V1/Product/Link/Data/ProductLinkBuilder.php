@@ -41,6 +41,7 @@ class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      *
      * @param string $type
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setType($type)
     {
@@ -52,6 +53,7 @@ class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      *
      * @param string $sku
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setSku($sku)
     {
@@ -63,6 +65,7 @@ class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      *
      * @param int $position
      * @return $this
+     * @codeCoverageIgnore
      */
     public function setPosition($position)
     {
