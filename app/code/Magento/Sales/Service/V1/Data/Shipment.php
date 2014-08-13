@@ -189,7 +189,7 @@ class Shipment extends DataObject
      */
     public function getItems()
     {
-        return $this->_get(self::ITEMS);
+        return (array)$this->_get(self::ITEMS);
     }
 
     /**
@@ -199,6 +199,6 @@ class Shipment extends DataObject
      */
     public function getTracks()
     {
-        return $this->_get(self::TRACKS);
+        return (array)$this->_get(self::TRACKS);
     }
 }
