@@ -10,6 +10,7 @@ namespace Magento\CatalogUrlRewrite\Model\Category\Plugin;
 use Magento\UrlRewrite\Model\StorageInterface;
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
+use Magento\UrlRewrite\Service\V1\UrlManager as UrlManagerService;
 use Magento\UrlRewrite\Model\UrlRewrite;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\Category\ProductFactory;
@@ -57,29 +58,25 @@ class Storage
         array $urls
     ) {
         $proceed($urls);
-        $params = [];
-        /** @var UrlRewrite $url */
-        foreach ($urls as $url) {
-            if ($url->getEntityType() == ProductUrlRewriteGenerator::ENTITY_TYPE) {
-                $data = $this->converter->convertObjectToArray($url);
-                if (!$data['metadata']) {
-                    unset($data['metadata']);
-                }
-                $params = array_merge($params, [$data]);
-            }
-        }
+        $params = $this->extractParameters($urls);
         if ($params) {
-            $records = $this->urlRewrite->getResourceCollection()->searchByParams($params);
+            /** @var \Magento\UrlRewrite\Model\Resource\UrlRewriteCollection $collection */
+            $collection = $this->urlRewrite->getResourceCollection();
+            $records = $collection->searchByParams($params);
+            $data = [];
             foreach ($records as $record) {
                 $record['metadata'] = $record['metadata'] ? unserialize($record['metadata']) : '';
                 if (empty($record['metadata']['category_id'])) {
                     continue;
                 }
-                $this->productFactory->create(['data' => array(
+                $data[] = [
                     'url_rewrite_id' => $record['url_rewrite_id'],
                     'category_id'    => $record['metadata']['category_id'],
                     'product_id'     => $record['entity_id'],
-                )])->setDataChanges(true)->save();
+                ];
+            }
+            if ($data) {
+                $this->productFactory->create()->getResource()->saveMultiple($data);
             }
         }
     }
@@ -97,11 +94,35 @@ class Storage
             $params[$column] = is_array($value) ? array_shift($value) : $value;
         }
         if ($params) {
-            //TODO: UrlRewrite it should be service
             $records = $this->urlRewrite->getResourceCollection()->searchByParams($params);
+            $data = [];
             foreach ($records as $record) {
-                $this->productFactory->create()->load($record['url_rewrite_id'])->delete();
+                $data[] = $record['url_rewrite_id'];
+            }
+            if ($data) {
+                $this->productFactory->create()->getResource()->removeMultiple($data);
             }
         }
+    }
+
+    /**
+     * @param UrlRewrite[] $urls
+     * @return array
+     */
+    protected function extractParameters(array $urls)
+    {
+        $params = [];
+        /** @var UrlRewrite $url */
+        foreach ($urls as $url) {
+            if ($url->getEntityType() == ProductUrlRewriteGenerator::ENTITY_TYPE) {
+                $data = $this->converter->convertObjectToArray($url);
+                if (!$data['metadata']) {
+                    unset($data['metadata']);
+                }
+                $params = array_merge($data, $params);
+            }
+        }
+
+        return $params;
     }
 }

@@ -8,7 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <virtualType name="Magento\CatalogUrlRewrite\Service\V1\Data\Filter\CategoryFilter" type="Magento\CatalogUrlRewrite\Service\V1\Data\Filter\DefaultFilter">
+    <virtualType name="catalogUrlRewriteFilter" type="Magento\CatalogUrlRewrite\Service\V1\Data\Filter\DefaultFilter">
         <arguments>
             <argument name="possibleFields" xsi:type="array">
                 <item name="entity_id" xsi:type="string">entity_id</item>
@@ -17,7 +17,7 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\CatalogUrlRewrite\Service\V1\Data\Filter\ProductFilter" type="Magento\CatalogUrlRewrite\Service\V1\Data\Filter\DefaultFilter">
+    <virtualType name="productUrlRewriteFilter" type="Magento\CatalogUrlRewrite\Service\V1\Data\Filter\DefaultFilter">
         <arguments>
             <argument name="possibleFields" xsi:type="array">
                 <item name="entity_id" xsi:type="string">entity_id</item>
@@ -30,8 +30,8 @@
     <type name="Magento\CatalogUrlRewrite\Service\V1\Data\FilterFactory">
         <arguments>
             <argument name="filterClasses" xsi:type="array">
-                <item name="category" xsi:type="string">Magento\CatalogUrlRewrite\Service\V1\Data\Filter\CategoryFilter</item>
-                <item name="product" xsi:type="string">Magento\CatalogUrlRewrite\Service\V1\Data\Filter\ProductFilter</item>
+                <item name="category" xsi:type="string">catalogUrlRewriteFilter</item>
+                <item name="product" xsi:type="string">productUrlRewriteFilter</item>
             </argument>
         </arguments>
     </type>

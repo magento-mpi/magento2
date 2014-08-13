@@ -12,7 +12,15 @@ use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
 
 class Product extends AbstractDb
 {
+    /**
+     * Product/Category relation table name
+     */
     const TABLE_NAME = 'url_rewrite_relation';
+
+    /**
+     * Chunk for mass insert
+     */
+    const CHUNK_SIZE = 100;
 
     /**
      * Primary key auto increment flag
@@ -31,6 +39,10 @@ class Product extends AbstractDb
         $this->_init(self::TABLE_NAME, 'url_rewrite_id');
     }
 
+    /**
+     * @param FilterInterface $filter
+     * @return array
+     */
     public function findByFilter(FilterInterface $filter)
     {
         $select = $this->prepareSelect($filter);
@@ -38,6 +50,10 @@ class Product extends AbstractDb
         return $this->getReadConnection()->fetchRow($select);
     }
 
+    /**
+     * @param FilterInterface $filter
+     * @return array
+     */
     public function findAllByFilter(FilterInterface $filter)
     {
         $select = $this->prepareSelect($filter);
@@ -45,6 +61,10 @@ class Product extends AbstractDb
         return $this->getReadConnection()->fetchAll($select);
     }
 
+    /**
+     * @param FilterInterface $filter
+     * @return \Magento\Framework\DB\Select
+     */
     protected function prepareSelect(FilterInterface $filter)
     {
         $data = $filter->getFilter();
@@ -65,5 +85,33 @@ class Product extends AbstractDb
             $select->where('relation.category_id is null');
         }
         return $select;
+    }
+
+    /**
+     * @param array $insertData
+     * @return int
+     */
+    public function saveMultiple(array $insertData)
+    {
+        $write = $this->_getWriteAdapter();
+        if (sizeof($insertData) <= self::CHUNK_SIZE) {
+            return $write->insertMultiple($this->getTable(self::TABLE_NAME), $insertData);
+        }
+        $data = array_chunk($insertData, self::CHUNK_SIZE);
+        $totalCount = 0;
+        foreach ($data as $insertData) {
+            $totalCount += $write->insertMultiple($this->getTable(self::TABLE_NAME), $insertData);
+        }
+        return $totalCount;
+    }
+
+    /**
+     * @param array $removeData
+     * @return int
+     */
+    public function removeMultiple(array $removeData)
+    {
+        $write = $this->_getWriteAdapter();
+        return $write->delete($this->getTable(self::TABLE_NAME), array('url_rewrite_id in (?)' => $removeData));
     }
 }

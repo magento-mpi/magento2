@@ -16,7 +16,12 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    protected $storeManager;
+
+    /**
+     * @var []
+     */
+    protected $indexFields;
 
     /**
      * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
@@ -37,7 +42,7 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
-        $this->_storeManager = $storeManager;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -60,7 +65,7 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
     public function addStoreFilter($store, $withAdmin = true)
     {
         if (!is_array($store)) {
-            $store = array($this->_storeManager->getStore($store)->getId());
+            $store = array($this->storeManager->getStore($store)->getId());
         }
         if ($withAdmin) {
             $store[] = 0;

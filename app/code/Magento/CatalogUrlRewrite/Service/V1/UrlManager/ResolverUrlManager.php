@@ -9,7 +9,7 @@ namespace Magento\CatalogUrlRewrite\Service\V1\UrlManager;
 
 use Magento\Framework\ObjectManager;
 use Magento\UrlRewrite\Service\V1\Data\IdentityInterface;
-use Magento\CatalogUrlRewrite\Service\V1\UrlMatcherInterface;
+use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
 class ResolverUrlManager
 {
@@ -18,8 +18,15 @@ class ResolverUrlManager
      */
     protected $objectManager;
 
+    /**
+     * @var array
+     */
     protected $managerClasses;
 
+    /**
+     * @param ObjectManager $objectManager
+     * @param array $managerClasses
+     */
     public function __construct(ObjectManager $objectManager, $managerClasses = [])
     {
         $this->objectManager = $objectManager;
@@ -41,9 +48,9 @@ class ResolverUrlManager
             $this->managerClasses[$filter->getFilterType()]
         );
 
-        if (!$managerObject instanceof UrlMatcherInterface) {
-            throw new \Exception('Invalidate manager object');
-        }
+//        if (!$managerObject instanceof UrlMatcherInterface) {
+//            throw new \Exception('Invalidate manager object');
+//        }
 
         return $managerObject;
     }

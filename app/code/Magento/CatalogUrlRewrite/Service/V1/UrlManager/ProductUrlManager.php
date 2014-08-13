@@ -20,7 +20,7 @@ class ProductUrlManager implements UrlMatcherInterface
     protected $product;
 
     /**
-     * @var
+     * @var Converter
      */
     protected $converter;
 
@@ -70,11 +70,7 @@ class ProductUrlManager implements UrlMatcherInterface
     }
 
     /**
-     * Match provided request path for store and if matched - return corresponding Data Object
-     *
-     * @param string $requestPath
-     * @param int $storeId
-     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite|null
+     * {@inheritdoc}
      */
     public function match($requestPath, $storeId)
     {
@@ -82,12 +78,7 @@ class ProductUrlManager implements UrlMatcherInterface
     }
 
     /**
-     * Match provided entity for store and if matched - return corresponding Data Object
-     *
-     * @param int $entityId
-     * @param int $entityType
-     * @param int $storeId
-     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite|null
+     * {@inheritdoc}
      */
     public function findByEntity($entityId, $entityType, $storeId)
     {

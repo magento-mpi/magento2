@@ -7,16 +7,23 @@
  */
 namespace Magento\CatalogUrlRewrite\Service\V1\Data\Filter;
 
-use Magento\UrlRewrite\Service\V1\Data\FilterInterface as UrlRewriteFilterInterface;
 use Magento\UrlRewrite\Service\V1\Data\IdentityInterface;
+use Magento\UrlRewrite\Service\V1\Data\Filter;
 
-class DefaultFilter implements IdentityInterface, UrlRewriteFilterInterface
+class DefaultFilter extends Filter implements IdentityInterface
 {
+    /**
+     * @var array
+     */
     protected $data = [];
 
+    /**
+     * @param array $possibleFields
+     * @param array $filterData
+     */
     public function __construct(
-        $possibleFields = [],
-        $filterData = []
+        array $filterData = [],
+        array $possibleFields = []
     ) {
         if ($filterData && $possibleFields) {
             $wrongFields = array_diff(array_keys($filterData), $possibleFields);
@@ -30,53 +37,10 @@ class DefaultFilter implements IdentityInterface, UrlRewriteFilterInterface
     }
 
     /**
-     * @param string $key
-     * @param mixed $value
-     * @return $this
+     * {@inheritdoc}
      */
-    protected function _set($key, $value)
-    {
-        $this->data[$key] = $value;
-        return $this;
-    }
-
-    public function getFilter()
-    {
-        return $this->data;
-    }
-
     public function getFilterType()
     {
         return $this->data['entity_type'];
-    }
-
-    /**
-     * @param int $entityId
-     *
-     * @return $this
-     */
-    public function setEntityId($entityId)
-    {
-        return $this->_set('entity_id', $entityId);
-    }
-
-    /**
-     * @param int|array $entityType
-     *
-     * @return $this
-     */
-    public function setEntityType($entityType)
-    {
-        return $this->_set('entity_type', $entityType);
-    }
-
-    /**
-     * @param int $storeId
-     *
-     * @return $this
-     */
-    public function setStoreId($storeId)
-    {
-        return $this->_set('store_id', $storeId);
     }
 }
