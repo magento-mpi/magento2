@@ -74,4 +74,52 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('English', $dto->getFrontendLabel()[0]->getLabel());
         $this->assertEquals('France', $dto->getFrontendLabel()[1]->getLabel());
     }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testGetAttributeMetadataNoSuchEntityException()
+    {
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $data = array(
+            'attribute_id' => 1,
+            'attribute_code' => 'description',
+            'frontend_label' => 'English',
+            'store_labels' => array(1 => 'France'),
+            'frontend_input' => 'textarea',
+        );
+
+        // eavConfigMock
+        $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array('getAttribute'), array(), '', false);
+        $eavConfigMock->expects($this->any())->method('getAttribute')->will($this->returnValue(null));
+
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $validationRuleBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\ValidationRuleBuilder');
+        $optionBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\OptionBuilder');
+        $frontendLabelBuilder = $helper
+            ->getObject('\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabelBuilder');
+        /** @var \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder $attrMetadataBuilder */
+        $attrMetadataBuilder = $objectManager->getObject(
+            'Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            [
+                'optionBuilder' => $optionBuilder,
+                'validationRuleBuilder' => $validationRuleBuilder,
+                'frontendLabelBuilder' => $frontendLabelBuilder,
+            ]
+        );
+
+        // create service
+        /** @var \Magento\Catalog\Service\V1\MetadataService $service */
+        $service = $objectManager->getObject(
+            'Magento\Catalog\Service\V1\MetadataService',
+            array(
+                'eavConfig' => $eavConfigMock,
+                'attributeMetadataBuilder'
+                => $attrMetadataBuilder
+            )
+        );
+
+        $service->getAttributeMetadata('entity_type', 'attr_code');
+    }
 }
