@@ -8,15 +8,17 @@
 
 namespace Magento\Checkout\Service\V1\Cart\PaymentMethod;
 
+use \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod;
+
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Converter
+     * @var \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Converter
      */
     protected $converter;
 
     /**
-     * @var ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
 
@@ -47,7 +49,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'getMethod', 'getPoNumber', 'getCcCid', 'getCcOwner', 'getCcNumber',
                 'getCcType', 'getCcExpYear', 'getCcExpMonth', 'getAdditionalData', '__wakeup'
             ],
-            [], '', false
+            [],
+            '',
+            false
         );
         $paymentMock->expects($this->once())->method('getMethod')->will($this->returnValue('checkmo'));
         $paymentMock->expects($this->once())->method('getPoNumber')->will($this->returnValue(100));
@@ -60,15 +64,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $paymentMock->expects($this->once())->method('getAdditionalData')->will($this->returnValue('test'));
 
         $data = [
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::METHOD => 'checkmo',
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::PO_NUMBER => 100,
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::CC_CID => 666,
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::CC_OWNER => 'tester',
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::CC_NUMBER => 100200300,
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::CC_TYPE => 'visa',
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::CC_EXP_YEAR => 2014,
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::CC_EXP_MONTH => 10,
-            \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod::PAYMENT_DETAILS => 'test',
+            PaymentMethod::METHOD => 'checkmo',
+            PaymentMethod::PO_NUMBER => 100,
+            PaymentMethod::CC_CID => 666,
+            PaymentMethod::CC_OWNER => 'tester',
+            PaymentMethod::CC_NUMBER => 100200300,
+            PaymentMethod::CC_TYPE => 'visa',
+            PaymentMethod::CC_EXP_YEAR => 2014,
+            PaymentMethod::CC_EXP_MONTH => 10,
+            PaymentMethod::PAYMENT_DETAILS => 'test',
         ];
 
         $this->paymentMethodBuilderMock->expects($this->once())

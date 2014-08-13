@@ -8,6 +8,8 @@
 
 namespace Magento\Checkout\Service\V1\Data\PaymentMethod;
 
+use \Magento\Checkout\Service\V1\Data\PaymentMethod;
+
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -16,7 +18,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     protected $converter;
 
     /**
-     * @var ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
 
@@ -42,13 +44,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertQuotePaymentObjectToPaymentDataObject()
     {
-        $paypalMethodMock = $this->getMock('\Magento\PbridgePaypal\Model\Payment\Method\Paypal', [], [], '', false);
-        $paypalMethodMock->expects($this->once())->method('getCode')->will($this->returnValue('paymentCode'));
-        $paypalMethodMock->expects($this->once())->method('getTitle')->will($this->returnValue('paymentTitle'));
+        $methodMock = $this->getMock('\Magento\Payment\Model\Method\AbstractMethod', [], [], '', false);
+        $methodMock->expects($this->once())->method('getCode')->will($this->returnValue('paymentCode'));
+        $methodMock->expects($this->once())->method('getTitle')->will($this->returnValue('paymentTitle'));
 
         $data = [
-            \Magento\Checkout\Service\V1\Data\PaymentMethod::TITLE => 'paymentTitle',
-            \Magento\Checkout\Service\V1\Data\PaymentMethod::CODE => 'paymentCode'
+            PaymentMethod::TITLE => 'paymentTitle',
+            PaymentMethod::CODE => 'paymentCode'
         ];
 
         $this->paymentMethodBuilderMock->expects($this->once())
@@ -62,6 +64,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($paymentMethodMock));
 
-        $this->assertEquals($paymentMethodMock, $this->converter->toDataObject($paypalMethodMock));
+        $this->assertEquals($paymentMethodMock, $this->converter->toDataObject($methodMock));
     }
 }

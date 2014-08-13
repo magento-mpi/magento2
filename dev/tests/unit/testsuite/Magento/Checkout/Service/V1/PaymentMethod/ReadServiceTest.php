@@ -17,7 +17,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     protected $service;
 
     /**
-     * @var ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
 
@@ -148,7 +148,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\PaymentMethod', [], [], '', false);
 
-        $this->paymentMethodConverterMock->expects($this->any())
+        $this->paymentMethodConverterMock->expects($this->atLeastOnce())
             ->method('toDataObject')
             ->will($this->returnValue($paymentMethodMock));
 

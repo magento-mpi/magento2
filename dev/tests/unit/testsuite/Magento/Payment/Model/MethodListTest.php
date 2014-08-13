@@ -16,7 +16,7 @@ class MethodListTest extends \PHPUnit_Framework_TestCase
     protected $methodList;
 
     /**
-     * @var ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
 
@@ -76,6 +76,7 @@ class MethodListTest extends \PHPUnit_Framework_TestCase
 
         $methodMock->expects($this->atLeastOnce())
             ->method('setInfoInstance')
+            ->with($this->getMock('\Magento\Sales\Model\Quote\Payment', [], [], '', false))
             ->will($this->returnSelf());
 
         $this->assertEquals([$methodMock], $this->methodList->getAvailableMethods($quoteMock));

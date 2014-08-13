@@ -11,12 +11,12 @@ namespace Magento\Checkout\Service\V1\Cart\PaymentMethod;
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Builder
+     * @var \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Builder
      */
     protected $builder;
 
     /**
-     * @var ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
 

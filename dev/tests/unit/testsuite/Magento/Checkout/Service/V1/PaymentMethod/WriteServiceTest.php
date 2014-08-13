@@ -17,7 +17,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $service;
 
     /**
-     * @var ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
 
