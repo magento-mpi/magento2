@@ -146,7 +146,7 @@ class Renderer extends \Magento\Backend\Block\Template
         $item = $this->getItem();
         if ($item instanceof QuoteItem) {
             return $item->getStore()->formatPrice($price);
-        }  elseif ($item instanceof Item) {
+        } elseif ($item instanceof Item) {
             return $item->getOrder()->formatPrice($price);
         } else {
             return $item->getOrderItem()->getOrder()->formatPrice($price);
