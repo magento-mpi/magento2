@@ -14,6 +14,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuil
      */
     const CUSTOM_ATTRIBUTE_1 = 'custom_attribute1';
     const CUSTOM_ATTRIBUTE_2 = 'custom_attribute2';
+    const CUSTOM_ATTRIBUTE_3 = 'custom_attribute3';
     /**#@-*/
 
     /**
@@ -45,6 +46,6 @@ class ItemBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuil
      */
     public function getCustomAttributesCodes()
     {
-        return [self::CUSTOM_ATTRIBUTE_1, self::CUSTOM_ATTRIBUTE_2];
+        return [self::CUSTOM_ATTRIBUTE_1, self::CUSTOM_ATTRIBUTE_2, self::CUSTOM_ATTRIBUTE_3];
     }
 }

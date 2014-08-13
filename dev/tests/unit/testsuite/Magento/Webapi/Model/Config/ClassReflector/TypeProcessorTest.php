@@ -93,7 +93,8 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->_typeProcessor->isTypeAny('mixed'));
         $this->assertTrue($this->_typeProcessor->isTypeAny('mixed[]'));
-        $this->assertFalse($this->_typeProcessor->isTypeAny('blah'));
+        $this->assertFalse($this->_typeProcessor->isTypeAny('int'));
+        $this->assertFalse($this->_typeProcessor->isTypeAny('int[]'));
     }
 
     public function testIsArrayType()

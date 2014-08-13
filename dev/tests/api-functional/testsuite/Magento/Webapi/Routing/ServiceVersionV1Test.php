@@ -76,6 +76,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
      */
     public function testItemAnyType()
     {
+        $this->_markTestAsRestOnly('Test will fail for SOAP because attribute values get converted to strings.');
         $customerAttributes = [
             ItemBuilder::CUSTOM_ATTRIBUTE_1 => [
                 AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_1,
@@ -84,6 +85,10 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             ItemBuilder::CUSTOM_ATTRIBUTE_2 => [
                 AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_2,
                 AttributeValue::VALUE => 12345
+            ],
+            ItemBuilder::CUSTOM_ATTRIBUTE_3 => [
+                AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_3,
+                AttributeValue::VALUE => true
             ]
         ];
 
@@ -93,11 +98,14 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $attributeValue2 = $this->valueBuilder
             ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_2])
             ->create();
+        $attributeValue3 = $this->valueBuilder
+            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_3])
+            ->create();
 
         $item = $this->itemBuilder
             ->setItemId(1)
             ->setName('testProductAnyType')
-            ->setCustomAttributes([$attributeValue1, $attributeValue2])
+            ->setCustomAttributes([$attributeValue1, $attributeValue2, $attributeValue3])
             ->create();
 
         $serviceInfo = [
@@ -109,8 +117,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         ];
         $requestData = $item->__toArray();
         $item = $this->_webApiCall($serviceInfo, ['item' => $requestData]);
-        $this->assertSame($attributeValue1->getValue(), $item['custom_attributes'][0]['value']); // we should get string '12345'
-        $this->assertSame($attributeValue2->getValue(), $item['custom_attributes'][1]['value']); // we should get integer 12345
+        $this->assertSame($attributeValue1->getValue(), $item['custom_attributes'][0]['value'], 'Serialized attribute value type does\'t match pre-defined type.'); // string '12345' is expected
+        $this->assertSame($attributeValue2->getValue(), $item['custom_attributes'][1]['value'], 'Serialized attribute value type does\'t match pre-defined type.'); // integer 12345 is expected
+        $this->assertSame($attributeValue3->getValue(), $item['custom_attributes'][2]['value'], 'Serialized attribute value type does\'t match pre-defined type.'); // boolean true is expected
     }
 
     /**
