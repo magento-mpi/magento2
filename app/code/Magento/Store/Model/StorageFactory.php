@@ -303,11 +303,11 @@ class StorageFactory
         if ($storage->getStore()->getCode() == $storeCode) {
             $store = $storage->getStore($storeCode);
             if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
-                $this->_cookieManager->setSensitiveCookie(Store::COOKIE_NAME, null);
+                $this->_cookieManager->deleteCookie(Store::COOKIE_NAME);
             } else {
-                $cookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+                $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
                     ->setDuration(3600*24*365);
-                $this->_cookieManager->setPublicCookie(Store::COOKIE_NAME, $storage->getStore()->getCode(), $cookieMetadata);
+                $this->_cookieManager->setPublicCookie(Store::COOKIE_NAME, $storage->getStore()->getCode(), $publicCookieMetadata);
                 $this->_httpContext->setValue(
                     Store::ENTITY,
                     $storage->getStore()->getCode(),

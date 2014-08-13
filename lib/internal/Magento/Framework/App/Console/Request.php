@@ -99,6 +99,5 @@ class Request implements \Magento\Framework\App\RequestInterface
      */
     public function getCookie($name, $default)
     {
-
     }
 }
