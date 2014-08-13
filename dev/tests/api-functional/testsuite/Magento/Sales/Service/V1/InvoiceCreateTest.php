@@ -36,7 +36,7 @@ class InvoiceCreateTest extends WebapiAbstract
      */
     public function testInvoke()
     {
-        /** @var \Magento\Sales\Model\Order\Invoice $order */
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $this->objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [

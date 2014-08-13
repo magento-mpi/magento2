@@ -73,7 +73,7 @@ class OrderRead implements OrderReadInterface
      */
     public function search(SearchCriteria $searchCriteria)
     {
-        return $this->orderList;
+        return $this->orderList->invoke($searchCriteria);
     }
 
     /**

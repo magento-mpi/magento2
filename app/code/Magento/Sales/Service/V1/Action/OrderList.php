@@ -50,7 +50,7 @@ class OrderList
     /**
      * Invoke OrderList service
      *
-     * @param SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Sales\Service\V1\Data\OrderSearchResults
      */
     public function invoke(SearchCriteria $searchCriteria)

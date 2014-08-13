@@ -32,12 +32,12 @@ class ShipmentCreateTest extends WebapiAbstract
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
     }
     /**
-     * @magentoApiDataFixture Magento/Sales/_files/shipment.php
+     * @magentoApiDataFixture Magento/Sales/_files/order.php
      */
     public function testInvoke()
     {
-        /** @var \Magento\Sales\Model\Order\Shipment $shipment */
-        $shipment = $this->objectManager->create('Magento\Sales\Model\Order\Shipment')->loadByIncrementId('100000001');
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $this->objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
@@ -50,12 +50,12 @@ class ShipmentCreateTest extends WebapiAbstract
             ]
         ];
         $data = [
-            'entity_id' => $shipment->getEntityId(),
+            'order_id' => $order->getId(),
+            'entity_id' => null,
             'store_id' => null,
             'total_weight' => null,
             'total_qty' => null,
             'email_sent' => null,
-            'order_id' => null,
             'customer_id' => null,
             'shipping_address_id' => null,
             'billing_address_id' => null,

@@ -15,7 +15,7 @@
     <preference for="Magento\Sales\Service\V1\CreditmemoReadInterface" type="Magento\Sales\Service\V1\CreditmemoRead"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoWriteInterface" type="Magento\Sales\Service\V1\CreditmemoWrite"/>
     <preference for="Magento\Sales\Service\V1\ShipmentReadInterface" type="Magento\Sales\Service\V1\ShipmentRead"/>
-    <preference for="Magento\Sales\Service\V1\ShipmentWriteInterface" type="Magento\Sales\Service\V1\ShipmentWriteComment"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentWriteInterface" type="Magento\Sales\Service\V1\ShipmentWrite"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>
