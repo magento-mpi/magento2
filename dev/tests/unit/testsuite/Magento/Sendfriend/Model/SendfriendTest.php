@@ -31,22 +31,6 @@ class SendfriendTest extends \PHPUnit_Framework_TestCase
      */
     protected $sendfriendDataMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $storeManagerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $remoteAddressMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $resourceMock;
-
-
     public function setUp()
     {
 
@@ -56,18 +40,12 @@ class SendfriendTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\CookieManager')
             ->disableOriginalConstructor()->getMock();
-        $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
-            ->disableOriginalConstructor()->getMock();
-        $this->remoteAddressMock = $this->getMockBuilder('Magento\Framework\HTTP\PhpEnvironment\RemoteAddress')
-            ->disableOriginalConstructor()->getMock();
 
         $this->modelMock = $objectManager->getObject(
             'Magento\Sendfriend\Model\Sendfriend',
             [
                 'sendfriendData' => $this->sendfriendDataMock,
                 'cookieManager' => $this->cookieManagerMock,
-                'storeManager' => $this->storeManagerMock,
-                'remoteAddress' => $this->remoteAddressMock,
             ]
         );
 
