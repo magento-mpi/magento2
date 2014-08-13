@@ -603,5 +603,4 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
     {
         return isset($name) ? $this->_cookieManager->getCookie($name, $default) : [];
     }
-
 }
