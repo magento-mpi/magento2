@@ -23,7 +23,6 @@
         "magento/module-catalog-rule": "0.1.0-alpha90",
         "magento/module-sales": "0.1.0-alpha90",
         "magento/module-catalog-search": "0.1.0-alpha90",
-        "magento/module-weee": "0.1.0-alpha90",
         "magento/module-product-alert": "0.1.0-alpha90",
         "magento/module-url-rewrite": "0.1.0-alpha90",
         "magento/framework": "0.1.0-alpha90",
