@@ -80,7 +80,7 @@ class Renderer extends \Magento\Backend\Block\Template
      */
     public function getItem()
     {
-        return $this->defaultColumnRenderer->getItem();
+        return $this->item;
     }
 
     /**
