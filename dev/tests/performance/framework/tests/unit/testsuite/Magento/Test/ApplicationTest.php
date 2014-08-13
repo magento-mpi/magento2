@@ -36,6 +36,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
+    protected $_uninstallScript;
+
+    /**
+     * @var string
+     */
     protected $_fixtureDir;
 
     /**
@@ -51,7 +56,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->_fixtureDir = __DIR__ . '/Performance/_files';
         $this->_fixtureConfigData = require $this->_fixtureDir . '/config_data.php';
 
-        $this->_installerScript = realpath($this->_fixtureDir . '/app_base_dir//dev/shell/install.php');
+        $this->_installerScript = realpath($this->_fixtureDir . '/app_base_dir/dev/shell/install.php');
+        $this->_uninstallScript = substr($this->_installerScript, 0, -11) . 'uninstall.php';
 
         $this->_config = new \Magento\TestFramework\Performance\Config(
             $this->_fixtureConfigData,
@@ -196,8 +202,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'execute'
         )->with(
-            $this->stringContains('--uninstall'),
-            $this->contains($this->_installerScript)
+            $this->anything(),
+            $this->contains($this->_uninstallScript)
         );
 
         $this->_shell->expects(
@@ -205,7 +211,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'execute'
         )->with(
-            $this->logicalNot($this->stringContains('--uninstall')),
+            $this->anything(),
             $this->contains($this->_installerScript)
         );
 
@@ -237,8 +243,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'execute'
         )->with(
-            $this->stringContains('--uninstall'),
-            $this->contains($this->_installerScript)
+            $this->anything(),
+            $this->contains($this->_uninstallScript)
         );
 
         $this->_shell->expects(
@@ -246,7 +252,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'execute'
         )->with(
-            $this->logicalNot($this->stringContains('--uninstall')),
+            $this->anything(),
             $this->contains($this->_installerScript)
         );
 
@@ -255,8 +261,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'execute'
         )->with(
-            $this->stringContains('--uninstall'),
-            $this->contains($this->_installerScript)
+            $this->anything(),
+            $this->contains($this->_uninstallScript)
         );
 
         $this->_shell->expects(
@@ -264,7 +270,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'execute'
         )->with(
-            $this->logicalNot($this->stringContains('--uninstall')),
+            $this->anything(),
             $this->contains($this->_installerScript)
         );
 
