@@ -10,7 +10,7 @@ namespace Magento\Backend\Model\Auth;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
- * Class SessionTest
+ * Class SessionTest tests Magento\Backend\Model\Auth\Session
  */
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,9 +25,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $sessionConfig;
 
     /**
-     * @var \Magento\Framework\Stdlib\Cookie | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\CookieManager | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $cookie;
+    protected $cookieManager;
 
     /**
      * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory | \PHPUnit_Framework_MockObject_MockObject
@@ -55,7 +55,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->config = $this->getMock('Magento\Backend\App\Config', ['getValue'], [], '', false);
-        $this->cookie = $this->getMock(
+        $this->cookieManager = $this->getMock(
             'Magento\Framework\Stdlib\Cookie\PhpCookieManager',
             ['getCookie', 'setPublicCookie'],
             [],
@@ -76,7 +76,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             [
                 'config' => $this->config,
                 'sessionConfig' => $this->sessionConfig,
-                'cookieManager' => $this->cookie,
+                'cookieManager' => $this->cookieManager,
                 'cookieMetadataFactory' => $this->cookieMetadataFactory,
                 'storage' => $this->storage
             ]
@@ -148,11 +148,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->method('createPublicCookieMetadata')
             ->will($this->returnValue($cookieMetadata));
 
-        $this->cookie->expects($this->once())
+        $this->cookieManager->expects($this->once())
             ->method('getCookie')
             ->with($name)
             ->will($this->returnValue($cookie));
-        $this->cookie->expects($this->once())
+        $this->cookieManager->expects($this->once())
             ->method('setPublicCookie')
             ->with($name, $cookie, $cookieMetadata);
 
