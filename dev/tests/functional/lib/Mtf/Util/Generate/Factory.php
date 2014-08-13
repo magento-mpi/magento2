@@ -9,6 +9,7 @@
 namespace Mtf\Util\Generate;
 
 use Magento\Framework\ObjectManager;
+use Magento\Framework\App;
 
 /**
  * Class Factory
@@ -60,5 +61,13 @@ class Factory extends AbstractGenerate
         $this->repository->launch();
 
         return $this->objectManager->get('Magento\Framework\App\ResponseInterface');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
+    {
+        return false;
     }
 }

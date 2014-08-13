@@ -9,6 +9,7 @@ namespace Mtf\Util\Generate;
 
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Magento\Framework\App;
 
 /**
  * Class TestCaseClass
@@ -258,5 +259,13 @@ class TestCase extends AbstractGenerate
         touch($newFilePath);
 
         $this->cnt++;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
+    {
+        return false;
     }
 }
