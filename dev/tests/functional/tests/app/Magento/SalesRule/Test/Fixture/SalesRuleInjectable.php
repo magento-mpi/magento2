@@ -30,8 +30,8 @@ class SalesRuleInjectable extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Default price rule %isolation%',
         'is_active' => 'Active',
-        'website_ids' => 'Main Website',
-        'customer_group_ids' => 'NOT LOGGED IN',
+        'website_ids' => ['Main Website'],
+        'customer_group_ids' => ['NOT LOGGED IN'],
         'coupon_type' => 'No Coupon',
         'simple_action' => 'Percent of product price discount',
         'discount_amount' => '50',

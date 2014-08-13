@@ -35,4 +35,19 @@
     <assertGiftRegistrySuccessDeleteMessageOnBackend module="Magento_GiftRegistry">
         <severeness>low</severeness>
     </assertGiftRegistrySuccessDeleteMessageOnBackend>
+    <assertGiftRegistrySuccessShareMessage module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistrySuccessShareMessage>
+    <assertGiftRegistryTypeSuccessSaveMessage module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeSuccessSaveMessage>
+    <assertGiftRegistryTypeInGrid module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeInGrid>
+    <assertGiftRegistryTypeOnFrontend module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeOnFrontend>
+    <assertGiftRegistryTypeForm module="Magento_GiftRegistry">
+        <severeness>low</severeness>
+    </assertGiftRegistryTypeForm>
 </constraint>
