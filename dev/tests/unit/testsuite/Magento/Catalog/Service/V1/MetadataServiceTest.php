@@ -56,11 +56,12 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         // create service
         /** @var \Magento\Catalog\Service\V1\MetadataService $service */
-        $service = $objectManager->getObject('Magento\Catalog\Service\V1\MetadataService',
+        $service = $objectManager->getObject(
+            'Magento\Catalog\Service\V1\MetadataService',
             array(
                 'eavConfig' => $eavConfigMock,
                 'attributeMetadataBuilder'
-                    => $attrMetadataBuilder
+                => $attrMetadataBuilder
             )
         );
 
