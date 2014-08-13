@@ -15,14 +15,12 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $currentCustomer = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getCustomer();
+        /** @var \Magento\Integration\Service\V1\TokenService $currentToken */
+        $currentToken = $this->_objectManager->get('\Magento\Integration\Service\V1\TokenService');
 
-        if ($userId = $this->getRequest()->getParam('customer_id')) {
+        if ($customerId = $this->getRequest()->getParam('customer_id')) {
             try {
-                /** @var \Magento\User\Model\User $model */
-                /*
-                 * TODO: insert code here to revoke all tokens
-                 */
+                $currentToken->revokeCustomerAccessToken($customerId);
                 $this->messageManager->addSuccess(__('You have invalidated the customer.'));
                 $this->_redirect('adminhtml/*/');
                 return;

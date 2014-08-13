@@ -13,6 +13,7 @@ use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
+use Magento\Integration\Model\Oauth\Token as Token;
 use Magento\User\Model\User as UserModel;
 
 /**
@@ -90,6 +91,27 @@ class TokenService implements TokenServiceInterface
         $this->validateCredentials($username, $password);
         $customerDataObject = $this->customerAccountService->authenticate($username, $password);
         return $this->tokenModelFactory->create()->createCustomerToken($customerDataObject->getId())->getToken();
+    }
+
+    /**
+     * Revoke token by customer id.
+     *
+     * @param int $customerId
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function revokeCustomerAccessToken($customerId)
+    {
+        $token = $this->tokenModelFactory->create()->loadByCustomerId($customerId);
+        if(!$token->getToken()) {
+            throw new LocalizedException("Token %token does not exist.", ['token' => $token->getToken()]);
+        }
+        try {
+            $token->setRevoked(1)->save();
+        } catch (\Exception $e) {
+            throw new LocalizedException("Token %token could not be revoked.", ['token' => $token->getToken()]);
+        }
+        return true;
     }
 
     /**
