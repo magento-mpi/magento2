@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Model\Order;
+namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Order\Builder as OrderBuilder;
 use Magento\Sales\Model\Order\ItemConverter;
@@ -17,7 +17,7 @@ use Magento\Sales\Service\V1\Data\Order as OrderData;
 /**
  * Converter class for \Magento\Sales\Model\Order
  */
-class CommentConverter
+class OrderConverter
 {
     /**
      * @var OrderBuilder
