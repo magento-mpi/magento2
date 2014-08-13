@@ -90,7 +90,7 @@ class Config
     /**
      * @param string $elementType
      * @param string $attribute
-     * @param $value
+     * @param string $value
      * @return $this
      */
     public function setElementAttribute($elementType, $attribute, $value)

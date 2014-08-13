@@ -97,7 +97,7 @@ class Aggregated implements CollectorInterface
 
     /**
      * @param ThemeInterface $theme
-     * @param $filePath
+     * @param string $filePath
      * @return array
      */
     public function getFilesContent(ThemeInterface $theme, $filePath)
