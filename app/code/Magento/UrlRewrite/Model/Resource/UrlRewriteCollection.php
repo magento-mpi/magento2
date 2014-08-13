@@ -9,6 +9,8 @@
  */
 namespace Magento\UrlRewrite\Model\Resource;
 
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+
 class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -17,11 +19,6 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
-
-    /**
-     * @var []
-     */
-    protected $indexFields;
 
     /**
      * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
@@ -99,12 +96,15 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
      */
     protected function prepareParams($params)
     {
+        $filteredFields = [UrlRewrite::METADATA, UrlRewrite::DESCRIPTION, UrlRewrite::REDIRECT_TYPE];
         $conditions = [];
         $select = clone $this->getSelect();
         $select->reset();
         foreach ($params as $field => $value) {
             if (is_array($value)) {
                 $conditions = array_merge($conditions, $this->prepareParams($value));
+                continue;
+            } elseif (in_array($field, $filteredFields)) {
                 continue;
             }
             $select->where($this->getConnection()->quoteIdentifier($field) . " = ?", $value, true);

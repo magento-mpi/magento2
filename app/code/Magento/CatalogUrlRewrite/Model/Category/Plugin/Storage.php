@@ -60,7 +60,7 @@ class Storage
         $proceed($urls);
         $params = $this->extractParameters($urls);
         if ($params) {
-            /** @var \Magento\UrlRewrite\Model\Resource\UrlRewriteCollection $collection */
+            /** @var \Magento\UrlRewrite\Model\Resource\UrlRewrite $collection */
             $collection = $this->urlRewrite->getResourceCollection();
             $records = $collection->searchByParams($params);
             $data = [];
@@ -119,7 +119,7 @@ class Storage
                 if (!$data['metadata']) {
                     unset($data['metadata']);
                 }
-                $params = array_merge($data, $params);
+                $params[] = $data;
             }
         }
 
