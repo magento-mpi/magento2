@@ -15,6 +15,6 @@
     </custom_attributes>
     <custom_attributes for="Magento\Customer\Service\V1\Data\Customer">
         <attribute code="custom_1" type="Magento\Customer\Service\V1\Data\CustomerCustom" />
-        <attribute code="custom_2" type="Magento\CustomerBalance\Service\V1\Data\CustomerCustom2" />
+        <attribute code="custom_2" type="Magento\CustomerExtra\Service\V1\Data\CustomerCustom2" />
     </custom_attributes>
 </config>

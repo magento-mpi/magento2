@@ -53,7 +53,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ],
             'Magento\Customer\Service\V1\Data\Customer' => [
                 'custom_1' => 'Magento\Customer\Service\V1\Data\CustomerCustom',
-                'custom_2' => 'Magento\CustomerBalance\Service\V1\Data\CustomerCustom2'
+                'custom_2' => 'Magento\CustomerExtra\Service\V1\Data\CustomerCustom2'
             ],
         ];
 
