@@ -16,7 +16,7 @@ use Magento\VersionsCms\Test\Fixture\Version;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 
 /**
- * Test Creation for DeleteCmsPageVersionsEntityTest
+ * Test Creation for MassDeleteCmsVersionsEntityTest
  *
  * Test Flow:
  *
@@ -31,14 +31,15 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
  * 2. Navigate to Content > Elements: Pages
  * 3. Open the page
  * 4. Open 'Versions' tab
- * 5. Open the version according to dataset in grid
- * 6. Click on 'Delete' button
+ * 5. Select the version according to dataset in grid
+ * 6. Select 'Delete' in Versions Mass Actions form
+ * 7. Click 'Submit'
  * 8. Perform appropriate assertions
  *
  * @group CMS_Versioning_(PS)
- * @ZephyrId
+ * @ZephyrId MAGETWO-27096
  */
-class DeleteCmsPageVersionsEntityTest extends Injectable
+class MassDeleteCmsVersionsEntityTest extends Injectable
 {
     /**
      * CmsIndex page
@@ -77,7 +78,7 @@ class DeleteCmsPageVersionsEntityTest extends Injectable
     }
 
     /**
-     * Delete Cms Page Versions Entity
+     * Mass Delete Cms Page Versions Entity
      *
      * @param CmsPage $cms
      * @param Version $version
@@ -101,14 +102,12 @@ class DeleteCmsPageVersionsEntityTest extends Injectable
         $this->cmsVersionEdit->getFormPageActions()->saveAsNewVersion();
 
         // Steps
-        $filter = ['title' => $cms->getTitle()];
         $this->cmsIndex->open();
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
         $this->cmsNew->getPageForm()->openTab('versions');
         $label = $initialVersionToDelete == 'Yes' ? $cms->getTitle() : $version->getLabel();
-        $filter = ['label' => $label];
-        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()->searchAndOpen($filter);
-        $this->cmsVersionEdit->getFormPageActions()->delete();
+        $this->cmsNew->getPageForm()->getTabElement('versions')->getVersionsGrid()
+            ->massaction([['label' => $label]], 'Delete', true);
 
         return [
             'results' => [
