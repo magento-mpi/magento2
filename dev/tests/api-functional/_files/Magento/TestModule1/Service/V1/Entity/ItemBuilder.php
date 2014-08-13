@@ -7,8 +7,15 @@
  */
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
+    /**#@+
+     * Custom attribute code constants
+     */
+    const CUSTOM_ATTRIBUTE_1 = 'custom_attribute1';
+    const CUSTOM_ATTRIBUTE_2 = 'custom_attribute2';
+    /**#@-*/
+
     /**
      * @param int $itemId
      *
@@ -29,5 +36,15 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     {
         $this->_data['name'] = $name;
         return $this;
+    }
+
+    /**
+     * Template method used to configure the attribute codes for the custom attributes
+     *
+     * @return string[]
+     */
+    public function getCustomAttributesCodes()
+    {
+        return [self::CUSTOM_ATTRIBUTE_1, self::CUSTOM_ATTRIBUTE_2];
     }
 }

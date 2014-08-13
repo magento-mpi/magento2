@@ -11,8 +11,11 @@
  */
 namespace Magento\Webapi\Routing;
 
+use Magento\Framework\Service\Data\Eav\AttributeValue;
 use Magento\TestFramework\Authentication\OauthHelper;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
 
 class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
@@ -29,17 +32,31 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
      */
     protected $_soapService = 'testModule1AllSoapAndRest';
 
+    /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder */
+    protected $valueBuilder;
+
+    /** @var ItemBuilder */
+    protected $itemBuilder;
+
     protected function setUp()
     {
         $this->_version = 'V1';
         $this->_soapService = 'testModule1AllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
+
+        $this->valueBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\Data\Eav\AttributeValueBuilder'
+        );
+
+        $this->itemBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\TestModule1\Service\V1\Entity\ItemBuilder'
+        );
     }
 
     /**
      *  Test get item
      */
-    public function testItem()
+    public function atestItem()
     {
         $itemId = 1;
         $serviceInfo = [
@@ -52,12 +69,54 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $requestData = ['itemId' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('testProduct1', $item['name'], 'Item was retrieved unsuccessfully');
+}
+
+    /**
+     *  Test get item with any type
+     */
+    public function testItemAnyType()
+    {
+        $customerAttributes = [
+            ItemBuilder::CUSTOM_ATTRIBUTE_1 => [
+                AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_1,
+                AttributeValue::VALUE => '12345'
+            ],
+            ItemBuilder::CUSTOM_ATTRIBUTE_2 => [
+                AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_2,
+                AttributeValue::VALUE => 12345
+            ]
+        ];
+
+        $attributeValue1 = $this->valueBuilder
+            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_1])
+            ->create();
+        $attributeValue2 = $this->valueBuilder
+            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_2])
+            ->create();
+
+        $item = $this->itemBuilder
+            ->setItemId(1)
+            ->setName('testProductAnyType')
+            ->setCustomAttributes([$attributeValue1, $attributeValue2])
+            ->create();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => $this->_restResourcePath . 'itemAnyType',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
+        ];
+        $requestData = $item->__toArray();
+        $item = $this->_webApiCall($serviceInfo, ['item' => $requestData]);
+        $this->assertSame($attributeValue1->getValue(), $item['custom_attributes'][0]['value']); // we should get string '12345'
+        $this->assertSame($attributeValue2->getValue(), $item['custom_attributes'][1]['value']); // we should get integer 12345
     }
 
     /**
      * Test fetching all items
      */
-    public function testItems()
+    public function atestItems()
     {
         $itemArr = [['item_id' => 1, 'name' => 'testProduct1'], ['item_id' => 2, 'name' => 'testProduct2']];
         $serviceInfo = [
@@ -71,7 +130,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Test create item
      */
-    public function testCreate()
+    public function atestCreate()
     {
         $createdItemName = 'createdItemName';
         $serviceInfo = [
@@ -86,7 +145,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Test create item with missing proper resources
      */
-    public function testCreateWithoutResources()
+    public function atestCreateWithoutResources()
     {
         $createdItemName = 'createdItemName';
         $serviceInfo = [
@@ -111,7 +170,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Test update item
      */
-    public function testUpdate()
+    public function atestUpdate()
     {
         $itemId = 1;
         $serviceInfo = [
@@ -129,7 +188,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Negative Test: Invoking non-existent delete api which is only available in V2
      */
-    public function testDelete()
+    public function atestDelete()
     {
         $itemId = 1;
         $serviceInfo = [
@@ -143,7 +202,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
 
-    public function testOverwritten()
+    public function atestOverwritten()
     {
         $this->_markTestAsRestOnly();
         $serviceInfo = [
@@ -156,7 +215,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->assertEquals(['item_id' => -55, 'name' => 'testProduct1'], $item);
     }
 
-    public function testDefaulted()
+    public function atestDefaulted()
     {
         $this->_markTestAsRestOnly();
         $serviceInfo = [
@@ -169,7 +228,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->assertEquals(['item_id' => 3, 'name' => 'Default Name'], $item);
     }
 
-    public function testDefaultedWithValue()
+    public function atestDefaultedWithValue()
     {
         $this->_markTestAsRestOnly();
         $serviceInfo = [
