@@ -1,7 +1,5 @@
 <?php
 /**
- * Github Publication
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,8 +8,17 @@
 
 namespace Mtf\TestSuite;
 
+/**
+ * Test suite prepared for Github Publication
+ *
+ */
 class GithubPublicationTests
 {
+    /**
+     * List of tests used for Github Publication
+     *
+     * @return mixed
+     */
     public static function suite()
     {
         $suite = new TestSuite('Github Publication');
@@ -27,7 +34,7 @@ class GithubPublicationTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ShippingCarrierTest');
 
         // Creating Refund for order paid with PayPal Express Checkout/Payflow Link/Payments Advanced/Payflow Pro/
-        // Payments Pro (MAGETWO-12436,MAGETWO-13061, MAGETWO-13062, MAGETWO-13063, MAGETWO-13059)
+        // Payments Pro (MAGETWO-12436, MAGETWO-13061, MAGETWO-13062, MAGETWO-13063, MAGETWO-13059)
         $suite->addTestSuite('Magento\Sales\Test\TestCase\OnlineRefundTest');
 
         // Adding temporary redirect for product (MAGETWO-12409)
@@ -51,7 +58,7 @@ class GithubPublicationTests
         // Creating Downloadable product with required fields only and assign it to the category (MAGETWO-13595)
         $suite->addTestSuite('Magento\Downloadable\Test\TestCase\Create\LinksPurchasedSeparatelyTest');
 
-        // Using ACL Role with full GWS Scope (without using Secret Key to URLs) (MAGETWO-12375)
+        // Using ACL Role with full GWS Scope (without using Secret Key to URLs) (MAGETWO-12375, MAGETWO-12385)
         $suite->addTestSuite('Magento\User\Test\TestCase\UserWithRestrictedRoleTest');
 
         // Creating simple product with creating new category  (required fields only) (MAGETWO-13345)
@@ -71,9 +78,6 @@ class GithubPublicationTests
 
         // Product Cross-selling (MAGETWO-12390)
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');
-
-        // Applying Catalog Price Rules to products and connect with banner ad (MAGETWO-12389)
-        $suite->addTestSuite('Magento\CatalogRule\Test\TestCase\CatalogPriceRule\ApplyCatalogPriceRuleTest');
 
         return $suite;
     }
