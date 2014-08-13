@@ -133,6 +133,8 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
      * @param FixtureInterface $product
      * @param int|null $actualPrice
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function prepareOptions(FixtureInterface $product, $actualPrice = null)
     {

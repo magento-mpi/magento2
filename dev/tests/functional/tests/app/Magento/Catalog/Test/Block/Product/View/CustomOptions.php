@@ -425,6 +425,8 @@ class CustomOptions extends Form
      * @param array $options
      * @param array $checkoutData
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function prepareCheckoutData(array $options, array $checkoutData)
     {

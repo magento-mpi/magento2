@@ -94,13 +94,16 @@ class Ui extends AbstractUi implements GiftRegistryInterface
     /**
      * Create gift registry
      *
-     * @param FixtureInterface $fixture
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|void
      */
     public function persist(FixtureInterface $fixture = null)
     {
         $this->cmsIndex->open();
-        $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomerId();
+        $customer = null;
+        if (is_object($fixture->getDataFieldConfig('customer_id')['source'])) {
+            $customer = $fixture->getDataFieldConfig('customer_id')['source']->getCustomerId();
+        }
         if ($customer !== null && !$this->cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
             $this->cmsIndex->getLinksBlock()->openLink("Log In");
             $this->customerAccountLogin->getLoginBlock()->login($customer);
