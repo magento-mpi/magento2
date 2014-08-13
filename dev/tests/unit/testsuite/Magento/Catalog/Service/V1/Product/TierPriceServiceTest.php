@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -60,17 +59,30 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->repositoryMock = $this->getMock(
-            '\Magento\Catalog\Model\ProductRepository', array(), array(), '', false
+            '\Magento\Catalog\Model\ProductRepository',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->priceBuilderMock = $this->getMock(
-            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder', array(), array(), '', false
+            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->groupServiceMock = $this->getMock('\Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $this->websiteMock =
             $this->getMock('Magento\Store\Model\Website', array('getId', '__wakeup'), array(), '', false);
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product',
-            array('getData', 'getIdBySku', 'load', '__wakeup', 'save', 'validate', 'setData'), array(), '', false);
+        $this->productMock = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array('getData', 'getIdBySku', 'load', '__wakeup', 'save', 'validate', 'setData'),
+            array(),
+            '',
+            false
+        );
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->priceModifierMock =
             $this->getMock('Magento\Catalog\Model\Product\PriceModifier', array(), array(), '', false);
@@ -201,15 +213,27 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
     public function testSetNewPriceWithGlobalPriceScope()
     {
         $priceBuilder = $this->getMock(
-            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder', array(), array(), '', false
+            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
-        $priceBuilder->expects($this->any())->method('getData')->will($this->returnValue(array(
-            'qty' => 3,
-            'value' => 100
-        )));
+        $priceBuilder->expects($this->any())->method('getData')->will(
+            $this->returnValue(
+                array(
+                    'qty' => 3,
+                    'value' => 100
+                )
+            )
+        );
         $price = new \Magento\Catalog\Service\V1\Data\Product\TierPrice($priceBuilder);
         $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder', array(), array(), '', false
+            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
         $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
         $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
@@ -218,9 +242,11 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getData')
             ->with('tier_price')
-            ->will($this->returnValue(
-                array(array('cust_group' => 1, 'website_id' => 0, 'price_qty' => 4, 'price' => 50))
-            ));
+            ->will(
+                $this->returnValue(
+                    array(array('cust_group' => 1, 'website_id' => 0, 'price_qty' => 4, 'price' => 50))
+                )
+            );
         $this->configMock
             ->expects($this->once())
             ->method('getValue')
@@ -241,15 +267,27 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
     public function testSetUpdatedPriceWithGlobalPriceScope()
     {
         $priceBuilder = $this->getMock(
-            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder', array(), array(), '', false
+            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
-        $priceBuilder->expects($this->any())->method('getData')->will($this->returnValue(array(
-            'qty' => 3,
-            'value' => 100
-        )));
+        $priceBuilder->expects($this->any())->method('getData')->will(
+            $this->returnValue(
+                array(
+                    'qty' => 3,
+                    'value' => 100
+                )
+            )
+        );
         $price = new \Magento\Catalog\Service\V1\Data\Product\TierPrice($priceBuilder);
         $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder', array(), array(), '', false
+            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
         $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
         $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
@@ -258,8 +296,10 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getData')
             ->with('tier_price')
-            ->will($this->returnValue(
-                array(array('cust_group' => 1, 'website_id' => 0, 'price_qty' => 3, 'price' => 50)))
+            ->will(
+                $this->returnValue(
+                    array(array('cust_group' => 1, 'website_id' => 0, 'price_qty' => 3, 'price' => 50))
+                )
             );
         $this->configMock
             ->expects($this->once())
@@ -284,15 +324,27 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
     public function testSetThrowsExceptionIfDoesntValidate()
     {
         $priceBuilder = $this->getMock(
-            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder', array(), array(), '', false
+            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
-        $priceBuilder->expects($this->any())->method('getData')->will($this->returnValue(array(
-            'qty' => 2,
-            'value' => 100
-        )));
+        $priceBuilder->expects($this->any())->method('getData')->will(
+            $this->returnValue(
+                array(
+                    'qty' => 2,
+                    'value' => 100
+                )
+            )
+        );
         $price = new \Magento\Catalog\Service\V1\Data\Product\TierPrice($priceBuilder);
         $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder', array(), array(), '', false
+            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
         $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
         $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
@@ -303,9 +355,11 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array()));
 
         $this->groupServiceMock->expects($this->once())->method('getGroup')->will($this->returnValue($group));
-        $this->productMock->expects($this->once())->method('validate')->will($this->returnValue(
+        $this->productMock->expects($this->once())->method('validate')->will(
+            $this->returnValue(
                 array('attr1' => '', 'attr2' => '')
-            ));
+            )
+        );
         $this->productMock->expects($this->never())->method('save');
         $this->service->set('product_sku', 1, $price);
     }
@@ -316,15 +370,27 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
     public function testSetThrowsExceptionIfCantSave()
     {
         $priceBuilder = $this->getMock(
-            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder', array(), array(), '', false
+            '\Magento\Catalog\Service\V1\Data\Product\TierPriceBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
-        $priceBuilder->expects($this->any())->method('getData')->will($this->returnValue(array(
-            'qty' => 2,
-            'value' => 100
-        )));
+        $priceBuilder->expects($this->any())->method('getData')->will(
+            $this->returnValue(
+                array(
+                    'qty' => 2,
+                    'value' => 100
+                )
+            )
+        );
         $price = new \Magento\Catalog\Service\V1\Data\Product\TierPrice($priceBuilder);
         $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder', array(), array(), '', false
+            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
+            array(),
+            array(),
+            '',
+            false
         );
         $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
         $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
