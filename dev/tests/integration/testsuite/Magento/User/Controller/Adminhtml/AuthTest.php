@@ -16,7 +16,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Test form existence
-     * @covers \Magento\User\Controller\Adminhtml\Auth::forgotpasswordAction
+     * @covers \Magento\User\Controller\Adminhtml\Auth\Forgotpassword::execute
      */
     public function testFormForgotpasswordAction()
     {
@@ -28,7 +28,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     /**
      * Test redirection to startup page after success password recovering posting
      *
-     * @covers \Magento\User\Controller\Adminhtml\Auth::forgotpasswordAction
+     * @covers \Magento\User\Controller\Adminhtml\Auth\Forgotpassword::execute
      */
     public function testForgotpasswordAction()
     {

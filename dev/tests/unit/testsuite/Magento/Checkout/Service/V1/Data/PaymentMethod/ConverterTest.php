@@ -65,4 +65,3 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($paymentMethodMock, $this->converter->toDataObject($paypalMethodMock));
     }
 }
- 
