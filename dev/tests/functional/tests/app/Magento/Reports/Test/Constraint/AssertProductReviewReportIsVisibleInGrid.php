@@ -38,7 +38,7 @@ class AssertProductReviewReportIsVisibleInGrid extends AbstractConstraint
         $name = $review->getDataFieldConfig('entity_id')['source']->getEntity()->getName();
         \PHPUnit_Framework_Assert::assertTrue(
             $productReportReview->getGridBlock()->isRowVisible(['title' => $name], false),
-            'Report for ' . $name . 'is\'n visible in grid'
+            'Review for ' . $name . ' product is not visible in reports grid.'
         );
     }
 
@@ -49,6 +49,6 @@ class AssertProductReviewReportIsVisibleInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'This report is visible in grid.';
+        return 'This Product Review Report is visible in reports grid.';
     }
 }

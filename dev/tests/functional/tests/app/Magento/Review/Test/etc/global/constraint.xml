@@ -62,7 +62,4 @@
     <assertProductReviewOnProductPage module="Magento_Review">
         <severeness>middle</severeness>
     </assertProductReviewOnProductPage>
-    <assertProductReviewIsVisibleInGrid module="Magento_Review">
-        <severeness>low</severeness>
-    </assertProductReviewIsVisibleInGrid>
 </constraint>

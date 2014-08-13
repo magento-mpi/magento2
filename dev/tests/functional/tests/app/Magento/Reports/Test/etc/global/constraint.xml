@@ -20,4 +20,7 @@
     <assertProductReviewReportIsVisibleInGrid module="Magento_Reports">
         <severeness>low</severeness>
     </assertProductReviewReportIsVisibleInGrid>
+    <assertProductReviewIsAvailableForProduct module="Magento_Reports">
+        <severeness>low</severeness>
+    </assertProductReviewIsAvailableForProduct>
 </constraint>

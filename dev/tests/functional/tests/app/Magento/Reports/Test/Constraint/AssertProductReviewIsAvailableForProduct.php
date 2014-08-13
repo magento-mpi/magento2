@@ -6,18 +6,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Review\Test\Constraint;
+namespace Magento\Reports\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Reports\Test\Page\Adminhtml\ProductReportReview;
+use Magento\Review\Test\Constraint\AssertProductReviewInGrid;
 
 /**
  * Class AssertProductReviewIsVisibleInGrid
- * Assert that review is visible in review grid
+ * Assert that review is visible in review grid for select product
  */
-class AssertProductReviewIsVisibleInGrid extends AbstractConstraint
+class AssertProductReviewIsAvailableForProduct extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,28 +28,28 @@ class AssertProductReviewIsVisibleInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that review is visible in review grid
+     * Assert that review is visible in review grid for select product
      *
      * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review
      * @param ProductReportReview $productReportReview
-     * @param AssertProductReviewInGrid $parentAssert
+     * @param AssertProductReviewInGrid $assertProductReviewInGrid
      * @return void
      */
     public function processAssert(
         ReviewIndex $reviewIndex,
         ReviewInjectable $review,
         ProductReportReview $productReportReview,
-        AssertProductReviewInGrid $parentAssert
+        AssertProductReviewInGrid $assertProductReviewInGrid
     ) {
         $productReportReview->open();
         $product = $review->getDataFieldConfig('entity_id')['source']->getEntity();
         $productReportReview->getGridBlock()->openReview($product->getName());
-        unset($parentAssert->filter['visible_in']);
-        $filter = $parentAssert->prepareFilter($product, $review, '');
+        unset($assertProductReviewInGrid->filter['visible_in']);
+        $filter = $assertProductReviewInGrid->prepareFilter($product, $review, '');
         \PHPUnit_Framework_Assert::assertTrue(
             $reviewIndex->getReviewGrid()->isRowVisible($filter, false),
-            'Review for ' . $product->getName() . 'is\'n visible in review grid'
+            'Review for ' . $product->getName() . ' product is not visible in reports grid.'
         );
     }
 
@@ -59,6 +60,6 @@ class AssertProductReviewIsVisibleInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'This review is visible in review grid.';
+        return 'This review is visible in review grid for select product.';
     }
 }

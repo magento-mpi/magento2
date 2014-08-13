@@ -1,2 +1,2 @@
 "review/dataSet";"constraint"
-"frontend_review";"assertProductReviewReportIsVisibleInGrid, assertProductReviewIsVisibleInGrid"
+"frontend_review";"assertProductReviewReportIsVisibleInGrid, assertProductReviewIsAvailableForProduct"
