@@ -17,6 +17,6 @@
             <container name="left" as="left" label="Left Column"/>
             <container name="content" as="content" label="Content"/>
         </block>
-        <block class="Magento\Install\Block\Db\Main" name="database" as="database"/>
     </container>
+    <block class="Magento\Install\Block\Db\Main" name="database" as="database"/>
 </layout>

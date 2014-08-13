@@ -9,7 +9,6 @@
 -->
 <page layout="empty" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
     <referenceContainer name="main.content">
-        <remove name="backend_page"/>
         <block class="Magento\Backend\Block\Template" name="content" template="admin/login.phtml">
             <block class="Magento\Backend\Block\Page\Copyright" name="copyright" as="copyright"/>
             <container name="form.additional.info" label="Form Additional Info"/>
