@@ -56,7 +56,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Test get item
      */
-    public function atestItem()
+    public function testItem()
     {
         $itemId = 1;
         $serviceInfo = [
@@ -116,7 +116,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      * Test fetching all items
      */
-    public function atestItems()
+    public function testItems()
     {
         $itemArr = [['item_id' => 1, 'name' => 'testProduct1'], ['item_id' => 2, 'name' => 'testProduct2']];
         $serviceInfo = [
@@ -130,7 +130,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Test create item
      */
-    public function atestCreate()
+    public function testCreate()
     {
         $createdItemName = 'createdItemName';
         $serviceInfo = [
@@ -145,7 +145,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Test create item with missing proper resources
      */
-    public function atestCreateWithoutResources()
+    public function testCreateWithoutResources()
     {
         $createdItemName = 'createdItemName';
         $serviceInfo = [
@@ -170,7 +170,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Test update item
      */
-    public function atestUpdate()
+    public function testUpdate()
     {
         $itemId = 1;
         $serviceInfo = [
@@ -188,7 +188,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     /**
      *  Negative Test: Invoking non-existent delete api which is only available in V2
      */
-    public function atestDelete()
+    public function testDelete()
     {
         $itemId = 1;
         $serviceInfo = [
@@ -202,7 +202,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
 
-    public function atestOverwritten()
+    public function testOverwritten()
     {
         $this->_markTestAsRestOnly();
         $serviceInfo = [
@@ -215,7 +215,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->assertEquals(['item_id' => -55, 'name' => 'testProduct1'], $item);
     }
 
-    public function atestDefaulted()
+    public function testDefaulted()
     {
         $this->_markTestAsRestOnly();
         $serviceInfo = [
@@ -228,7 +228,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->assertEquals(['item_id' => 3, 'name' => 'Default Name'], $item);
     }
 
-    public function atestDefaultedWithValue()
+    public function testDefaultedWithValue()
     {
         $this->_markTestAsRestOnly();
         $serviceInfo = [
