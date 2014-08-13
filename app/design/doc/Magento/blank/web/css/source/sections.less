@@ -1,0 +1,32 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.product.data.items {
+    .data-accordion();
+    margin-bottom: @indent-base;
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .product.data.items {
+        .data-tabs(
+            @_tab-content-border-top-status: true
+        );
+    }
+}
+
+@media only screen and (max-width: @screen-m) {
+    .product.data.items {
+        .data-accordion();
+        .data.item {
+            display: block;
+        }
+    }
+}

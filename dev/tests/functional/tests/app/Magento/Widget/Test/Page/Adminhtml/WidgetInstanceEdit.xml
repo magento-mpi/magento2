@@ -20,4 +20,10 @@
         <locator>#bannerGrid</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>pageActionsBlock</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>
