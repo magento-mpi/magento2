@@ -43,7 +43,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->_request = $this->getMock(
             'Magento\Webapi\Controller\Rest\Request',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
-            array($areaListMock, $configScopeMock, $this->_deserializerFactory, $this->_cookieManagerMock)
+            array($areaListMock, $configScopeMock,$this->_cookieManagerMock, $this->_deserializerFactory,)
         );
 
         parent::setUp();

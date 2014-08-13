@@ -154,7 +154,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($cookie));
         $this->cookie->expects($this->once())
             ->method('setPublicCookie')
-            ->with($name, $cookie, $cookieMetadata);// $lifetime, $path, $domain, $secure, $httpOnly);
+            ->with($name, $cookie, $cookieMetadata);
 
         $this->config->expects($this->once())
             ->method('getValue')
