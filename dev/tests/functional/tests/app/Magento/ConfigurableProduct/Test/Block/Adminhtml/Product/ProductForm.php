@@ -64,7 +64,7 @@ class ProductForm extends ParentForm
         $variations = $tabs['variations'];
 
         $attributesData = [];
-        if (isset($variations['configurable_attributes_data']['value'])){
+        if (isset($variations['configurable_attributes_data']['value'])) {
             foreach ($variations['configurable_attributes_data']['value'] as $key => $attribute) {
                 $attributesData[$key] = [
                     'frontend_label' => $attribute['label']['value']
@@ -91,7 +91,7 @@ class ProductForm extends ParentForm
         }
 
         $matrix = [];
-        if (isset($variations['variations-matrix'])){
+        if (isset($variations['variations-matrix'])) {
             foreach ($variations['variations-matrix']['value'] as $key => $variation) {
                 foreach ($variation['value'] as $name => $field) {
                     $matrix[$key][$name] = $field['value'];
@@ -111,4 +111,3 @@ class ProductForm extends ParentForm
         return $tabs;
     }
 }
-

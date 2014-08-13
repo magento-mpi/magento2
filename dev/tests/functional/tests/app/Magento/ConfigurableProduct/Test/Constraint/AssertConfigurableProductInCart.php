@@ -36,9 +36,10 @@ class AssertConfigurableProductInCart extends AbstractConstraint
         $catalogProductView->open();
         $catalogProductView->getViewBlock()->addToCart($product);
 
+        $checkoutData = $product->getDataFieldConfig('checkout_data')['source']->getPreset();
         $price = $checkoutCart->getCartBlock()->getCartItem($product)->getPrice();
         \PHPUnit_Framework_Assert::assertEquals(
-            $product->getCheckoutData()['checkoutItemForm']['price'],
+            $checkoutData['checkoutItemForm']['price'],
             $price,
             'Product price in shopping cart is not correct.'
         );
@@ -55,4 +56,3 @@ class AssertConfigurableProductInCart extends AbstractConstraint
         return 'Product price in shopping cart is correct.';
     }
 }
-

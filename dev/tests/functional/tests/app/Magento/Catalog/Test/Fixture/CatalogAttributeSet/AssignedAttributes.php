@@ -60,7 +60,7 @@ class AssignedAttributes implements FixtureInterface
                 $this->data[] = $attribute->getAttributeCode();
                 $this->attributes[] = $attribute;
             }
-        } elseif (isset($data['presets']) && is_array($data['presets'])){
+        } elseif (isset($data['presets']) && is_array($data['presets'])) {
             foreach ($data['presets'] as $attribute) {
                 /** @var CatalogProductAttribute $attribute */
                 $this->data[] = $attribute->getAttributeCode();

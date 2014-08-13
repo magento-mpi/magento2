@@ -63,4 +63,3 @@ class AssertChildProductIsNotDisplayedSeparately extends AbstractConstraint
         return 'Child products generated during configurable product creation are not visible on frontend(by default)';
     }
 }
-

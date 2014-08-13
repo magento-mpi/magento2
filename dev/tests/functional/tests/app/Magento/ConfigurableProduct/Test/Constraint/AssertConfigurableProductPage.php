@@ -27,7 +27,7 @@ class AssertConfigurableProductPage extends AbstractConstraint
      */
     public function processAssert()
     {
-        $d = 1;
+        //
     }
 
     /**
@@ -38,4 +38,3 @@ class AssertConfigurableProductPage extends AbstractConstraint
         //
     }
 }
-

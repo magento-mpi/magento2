@@ -41,8 +41,8 @@ class Items extends Block
             $configurableAttributes = $product->getConfigurableAttributes();
             $productOptions = $product->getProductOptions();
             $checkoutOption = current($productOptions);
-            $attributeKey = str_replace('attribute_', '', $checkoutOption['attribute_label']);
-            $optionKey = str_replace('option_', '', $checkoutOption['option_value']);
+            $attributeKey = $checkoutOption['title'];
+            $optionKey = $checkoutOption['value'];
             $attributeValue = $configurableAttributes[$attributeKey]['label']['value'];
             $optionValue = $configurableAttributes[$attributeKey][$optionKey]['option_label']['value'];
 

@@ -30,8 +30,8 @@ class CheckoutData extends AbstractCheckoutData
             'two_options' => [
                 'configurable_options' => [
                     [
-                        'title' => 'attribute_dropdown',
-                        'type' => 'Dropdown',
+                        'title' => 'attribute_0',
+                        'type' => 'dropdown',
                         'value' => 'option_0',
                     ]
                 ],
@@ -42,32 +42,32 @@ class CheckoutData extends AbstractCheckoutData
             'two_new_options' => [
                 'configurable_options' => [
                     [
-                        'title' => 'two_new_options_title',
-                        'type' => 'Dropdown',
+                        'title' => 'attribute_0',
+                        'type' => 'dropdown',
                         'value' => 'option_1',
                     ]
                 ],
                 'checkoutItemForm' => [
-                    'price' => 101,
+                    'price' => 102,
                 ]
             ],
             'two_new_options_with_special_price' =>[
                 'configurable_options' => [
                     [
-                        'title' => 'two_new_options_title',
-                        'type' => 'Dropdown',
+                        'title' => 'attribute_0',
+                        'type' => 'dropdown',
                         'value' => 'option_1',
                     ]
                 ],
                 'checkoutItemForm' => [
-                    'price' => 11,
+                    'price' => 12,
                 ]
             ],
             'two_options_with_assigned_product' => [
                 'configurable_options' => [
                     [
-                        'title' => 'attribute_dropdown',
-                        'type' => 'Dropdown',
+                        'title' => 'attribute_0',
+                        'type' => 'dropdown',
                         'value' => 'option_0',
                     ]
                 ],
@@ -83,4 +83,3 @@ class CheckoutData extends AbstractCheckoutData
         return $presets[$this->currentPreset];
     }
 }
-

@@ -92,7 +92,7 @@ class CreateWithAttributeTest extends Functional
 
         /** @var \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config $variations */
         $variations = $productForm->getTabElement('variations');
-        $variations->openVariationsTab();
+        $variations->showContent();
         $variations->getAttributeBlock()->fillAttributes([$attributeFields]);
     }
 
@@ -149,10 +149,10 @@ class CreateWithAttributeTest extends Functional
      */
     protected function assertOnGrid(Product $product)
     {
-        $configurableSearch = array(
+        $configurableSearch = [
             'sku' => $product->getProductSku(),
             'type' => 'Configurable Product',
-        );
+        ];
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         $gridBlock = $productGridPage->getProductGrid();

@@ -106,7 +106,7 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
      */
     protected function getProductPrice(CatalogProductView $catalogProductView)
     {
-        $prices = $catalogProductView->getViewBlock()->getProductPriceBlock()->getPrice();
+        $prices = $catalogProductView->getViewBlock()->getPriceBlock()->getPrice();
         $actualPrice = isset($prices['price_special_price'])
             ? $prices['price_special_price']
             : $prices['price_regular_price'];

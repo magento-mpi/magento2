@@ -35,4 +35,3 @@ class CatalogProductEdit extends BackendPage
         return $this->getBlockInstance('form');
     }
 }
-

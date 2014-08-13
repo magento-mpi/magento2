@@ -68,12 +68,14 @@ class Matrix extends Form
      */
     protected $configurableAttribute = 'td[data-column="name"] button.action-choose';
 
+    // @codingStandardsIgnoreStart
     /**
      * Selector for row on product grid by product id
      *
      * @var string
      */
     protected $selectAssociatedProduct = '//ancestor::div[*[@id="associated-products-container"]]//td[@data-column="entity_id" and (contains(text(),"%s"))]';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Fill variations
@@ -85,7 +87,10 @@ class Matrix extends Form
     {
         $count = 1;
         foreach ($matrix as $variation) {
-            $variationRow = $this->_rootElement->find(sprintf($this->variationRowByNumber, $count), Locator::SELECTOR_XPATH);
+            $variationRow = $this->_rootElement->find(
+                sprintf($this->variationRowByNumber, $count),
+                Locator::SELECTOR_XPATH
+            );
             $mapping = $this->dataMapping($variation);
 
             $this->_fill($mapping, $variationRow);
@@ -141,7 +146,8 @@ class Matrix extends Form
      * @param array $fields
      * @return array
      */
-    protected function getOptionalFields(Element $context, array $fields) {
+    protected function getOptionalFields(Element $context, array $fields)
+    {
         $data = [];
 
         foreach ($fields as $name => $params) {
@@ -154,4 +160,3 @@ class Matrix extends Form
         return $data;
     }
 }
-

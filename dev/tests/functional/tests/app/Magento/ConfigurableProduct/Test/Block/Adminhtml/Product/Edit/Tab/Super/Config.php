@@ -141,4 +141,3 @@ class Config extends Tab
         return ['configurable_attributes_data' => $data];
     }
 }
-

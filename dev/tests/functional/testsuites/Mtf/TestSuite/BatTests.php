@@ -19,8 +19,8 @@ class BatTests
         // Product
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleFixedTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateTest');
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateConfigurableTest');
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\Configurable\CreateWithAttributeTest');
+        $suite->addTestSuite('Magento\ConfigurableProduct\Test\TestCase\CreateConfigurableTest');
+        $suite->addTestSuite('Magento\ConfigurableProduct\Test\TestCase\CreateWithAttributeTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateSimpleWithCustomOptionsAndCategoryTest');
 
         // Category

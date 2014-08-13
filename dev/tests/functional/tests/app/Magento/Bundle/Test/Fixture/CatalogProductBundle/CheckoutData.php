@@ -69,51 +69,51 @@ class CheckoutData extends AbstractCheckoutData
                 'custom_options' => [
                     [
                         'option' => 1,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 2,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 3,
-                        'value' => ['Field'],
+                        'value' => 'Field',
                     ],
                     [
                         'option' => 4,
-                        'value' => ['Field'],
+                        'value' => 'Field',
                     ],
                     [
                         'option' => 5,
-                        'value' => ['Area'],
+                        'value' => 'Area',
                     ],
                     [
                         'option' => 7,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 8,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 9,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 10,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 11,
-                        'value' => ['12/12/2014'],
+                        'value' => '12/12/2014',
                     ],
                     [
                         'option' => 12,
-                        'value' => ['12/12/2014/12/30/AM'],
+                        'value' => '12/12/2014/12/30/AM',
                     ],
                     [
                         'option' => 13,
-                        'value' => ['12/12/AM'],
+                        'value' => '12/12/AM',
                     ],
                 ]
             ],
@@ -130,7 +130,7 @@ class CheckoutData extends AbstractCheckoutData
                 'custom_options' => [
                     [
                         'option' => 1,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                 ]
             ],
@@ -168,39 +168,39 @@ class CheckoutData extends AbstractCheckoutData
                 'custom_options' => [
                     [
                         'option' => 1,
-                        'value' => ['Field'],
+                        'value' => 'Field',
                     ],
                     [
                         'option' => 2,
-                        'value' => ['Area'],
+                        'value' => 'Area',
                     ],
                     [
                         'option' => 4,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 5,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 6,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 7,
-                        'value' => [1],
+                        'value' => 1,
                     ],
                     [
                         'option' => 8,
-                        'value' => ['12/12/2014'],
+                        'value' => '12/12/2014',
                     ],
                     [
                         'option' => 9,
-                        'value' => ['12/12/2014/12/30/AM'],
+                        'value' => '12/12/2014/12/30/AM',
                     ],
                     [
                         'option' => 10,
-                        'value' => ['12/12/AM'],
+                        'value' => '12/12/AM',
                     ],
                 ]
             ],

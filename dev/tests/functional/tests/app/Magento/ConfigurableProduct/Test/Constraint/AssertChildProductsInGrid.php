@@ -71,4 +71,3 @@ class AssertChildProductsInGrid extends AbstractConstraint
         return 'Child products generated during configurable product are present in products grid.';
     }
 }
-

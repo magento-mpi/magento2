@@ -23,8 +23,9 @@ class Configure extends Form
      * Fill options for the product
      *
      * @param array $productOptions
+     * @return void
      */
-    public function fillOptions($productOptions)
+    public function fillOptions(array $productOptions)
     {
         foreach ($productOptions as $option) {
             $select = $this->_rootElement->find(

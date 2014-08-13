@@ -41,7 +41,7 @@ class AdvancedPricingTab extends Tab
         foreach ($fields as $fieldName => $field) {
             // Fill form
             if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
-                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\AbstractOptions $optionsForm */
                 $optionsForm = $this->blockFactory->create(
                     __NAMESPACE__ . '\\' . $this->childrenForm[$fieldName],
                     ['element' => $context]
@@ -78,7 +78,7 @@ class AdvancedPricingTab extends Tab
         foreach ($fields as $fieldName => $field) {
             // Data collection forms
             if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
-                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\AbstractOptions $optionsForm */
                 $optionsForm = $this->blockFactory->create(
                     __NAMESPACE__ . '\\' . $this->childrenForm[$fieldName],
                     ['element' => $this->_rootElement]

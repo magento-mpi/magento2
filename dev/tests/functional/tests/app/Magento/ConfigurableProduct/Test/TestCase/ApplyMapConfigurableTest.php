@@ -105,7 +105,7 @@ class ApplyMapConfigurableTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->getMessagesBlock()->assertNoticeMessage();
         $productViewBlock = $productPage->getViewBlock();
-        $productPriceBlock = $productViewBlock->getProductPriceBlock();
+        $productPriceBlock = $productViewBlock->getPriceBlock();
         $this->assertFalse($productPriceBlock->isRegularPriceVisible(), 'Regular price is visible and not expected.');
         $productViewBlock->openMapBlockOnProductPage();
         $mapBlock = $productPage->getMapBlock();
@@ -126,12 +126,12 @@ class ApplyMapConfigurableTest extends Functional
             $configurableOptions = [];
             foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
                 $configurableOptions[] = [
-                    'type' => 'Drop down',
-                    'frontend_label' => $attributeLabel,
-                    'options' => $options
+                    'type' => 'dropdown',
+                    'title' => $attributeLabel,
+                    'value' => $options[0]
                 ];
             }
-            $productPage->getCustomOptionsBlock()->fillOptions($configurableOptions, $productOptions);
+            $productPage->getCustomOptionsBlock()->fillOptions($configurableOptions);
         }
         $productViewBlock->clickAddToCart();
     }

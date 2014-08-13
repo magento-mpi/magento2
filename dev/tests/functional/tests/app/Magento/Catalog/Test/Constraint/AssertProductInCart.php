@@ -41,16 +41,17 @@ class AssertProductInCart extends AbstractConstraint
         // Add product to cart
         $catalogProductView->init($product);
         $catalogProductView->open();
-        $productOptions = $product->getCustomOptions();
-        if ($productOptions) {
+        $customOptions = $product->getCustomOptions();
+
+        if ($customOptions) {
             $checkoutData = [];
-            foreach ($productOptions as $key => $productOption) {
-                $checkoutData[] = [
-                    'attribute_label' => 'attribute_' . $key,
-                    'option_value' => 'option_0'
+            foreach ($customOptions as $option) {
+                $checkoutData[$option['title']] = [
+                    'type' => 'dropdown',
+                    'value' => $option['options'][0]['title']
                 ];
             }
-            $catalogProductView->getCustomOptionsBlock()->fillCustomOptions($productOptions, $checkoutData);
+            $catalogProductView->getCustomOptionsBlock()->fillOptions($checkoutData);
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 

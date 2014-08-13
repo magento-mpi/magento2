@@ -11,6 +11,10 @@ namespace Magento\Checkout\Test\Block\Cart;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
+/**
+ * Class CartItem
+ * Product item block on checkout page
+ */
 class CartItem extends Block
 {
     /**
@@ -39,7 +43,7 @@ class CartItem extends Block
      *
      * @var string
      */
-    protected $subtotalPrice = '//td[@class="col subtotal"]//*[@class="excl tax"]//span[@class="price"]';
+    protected $subtotalPrice = './/td[@class="col subtotal"]//*[@class="excl tax"]//span[@class="price"]';
 
     /**
      * Get bundle options

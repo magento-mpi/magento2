@@ -14,6 +14,7 @@ use Mtf\Client\Browser;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element;
 use Magento\Backend\Test\Block\Widget\Form;
+use \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\AttributeSelector;
 
 /**
  * Class Attribute
@@ -40,12 +41,14 @@ class Attribute extends Form
         ]
     ];
 
+    // @codingStandardsIgnoreStart
     /**
      * Selector for "Create New Variations Set"
      *
      * @var string
      */
     protected $createNewVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
+    // @codingStandardsIgnoreEnd
 
     /**
      * New attribute frame selector
@@ -68,12 +71,14 @@ class Attribute extends Form
      */
     protected $saveAttribute = '[data-ui-id="attribute-edit-content-save-button"]';
 
+    // @codingStandardsIgnoreStart
     /**
      * Selector attribute block by label
      *
      * @var string
      */
     protected $attributeBlockByName = './/div[@id="configurable-attributes-container"]//div[contains(@id,"-wrapper") and (.//strong[@class="title"]/span[.="%s"])]';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Selector for attribute block
@@ -108,7 +113,7 @@ class Attribute extends Form
      *
      * @var string
      */
-    protected $attributeTitle = '[data-target$="-content"] > span';
+    protected $attributeTitle = '.title > span';
 
     /**
      * Selector for attribute content
@@ -274,7 +279,7 @@ class Attribute extends Form
     /**
      * Get attribute selector element
      *
-     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\AttributeSelector
+     * @return AttributeSelector
      */
     public function getAttributeSelector()
     {
@@ -361,7 +366,8 @@ class Attribute extends Form
      * @param array $fields
      * @return array
      */
-    protected function getOptionalFields(Element $context, array $fields = []) {
+    protected function getOptionalFields(Element $context, array $fields = [])
+    {
         $data = [];
 
         $fields = empty($fields) ? $this->mappingGetFields : $fields;
@@ -371,4 +377,3 @@ class Attribute extends Form
         return $data;
     }
 }
-

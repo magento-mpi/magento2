@@ -403,6 +403,12 @@ class ConfigurableAttributesData implements FixtureInterface
         }
     }
 
+    /**
+     * Prepare attributes data
+     *
+     * @param array $data
+     * @return void
+     */
     protected function prepareAttributesData(array $data)
     {
         foreach ($this->attributes as $attributeKey => $attribute) {
@@ -457,6 +463,11 @@ class ConfigurableAttributesData implements FixtureInterface
         }
     }
 
+    /**
+     * Create attribute set
+     *
+     * @return FixtureInterface
+     */
     protected function createAttributeSet()
     {
         $attributeSet = $this->fixtureFactory->createByCode(
@@ -497,6 +508,12 @@ class ConfigurableAttributesData implements FixtureInterface
         return $data;
     }
 
+    /**
+     * Get id of attribute option by composite key
+     *
+     * @param string $compositeKey
+     * @return int|null
+     */
     protected function getAttributeOptionId($compositeKey)
     {
         list($attributeKey, $optionKey) = explode(':', $compositeKey);
@@ -507,6 +524,9 @@ class ConfigurableAttributesData implements FixtureInterface
 
     /**
      * Prepare data for matrix
+     *
+     * @param array $data
+     * @return void
      */
     protected function prepareVariationsMatrix(array $data)
     {
@@ -542,7 +562,7 @@ class ConfigurableAttributesData implements FixtureInterface
      * @param string $attributeKey
      * @return array
      */
-    function addVariationMatrix(array $variationsMatrix, array $attribute, $attributeKey)
+    protected function addVariationMatrix(array $variationsMatrix, array $attribute, $attributeKey)
     {
         $result = [];
 
@@ -575,6 +595,11 @@ class ConfigurableAttributesData implements FixtureInterface
         return $result;
     }
 
+    /**
+     * Prepare data from source
+     *
+     * @return void
+     */
     protected function prepareData()
     {
         $attributeFields = [
@@ -699,4 +724,3 @@ class ConfigurableAttributesData implements FixtureInterface
         return $this->presets[$name];
     }
 }
-

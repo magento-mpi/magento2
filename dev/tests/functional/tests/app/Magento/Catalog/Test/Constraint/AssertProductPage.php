@@ -78,7 +78,7 @@ class AssertProductPage extends AbstractConstraint
     protected function prepareData(CatalogProductView $catalogProductView)
     {
         $viewBlock = $catalogProductView->getViewBlock();
-        $price = $viewBlock->getProductPriceBlock()->getPrice();
+        $price = $viewBlock->getPriceBlock()->getPrice();
         $data = [
             'onPage' => [
                 'name' => $viewBlock->getProductName(),
@@ -128,7 +128,7 @@ class AssertProductPage extends AbstractConstraint
      */
     protected function verifySpecialPrice(CatalogProductView $catalogProductView)
     {
-        $priceBlock = $catalogProductView->getViewBlock()->getProductPriceBlock();
+        $priceBlock = $catalogProductView->getViewBlock()->getPriceBlock();
         $price = $priceBlock->isVisible() ? $priceBlock->getPrice() : ['price_special_price' => null];
         $priceComparing = false;
 

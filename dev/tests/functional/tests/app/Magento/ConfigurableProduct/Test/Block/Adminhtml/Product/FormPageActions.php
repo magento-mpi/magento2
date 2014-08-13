@@ -12,7 +12,12 @@ use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions as CatalogFromPageActions;
 
-class FormPageActions extends CatalogFromPageActions {
+/**
+ * Class FormPageActions
+ * Page actions block on page
+ */
+class FormPageActions extends CatalogFromPageActions
+{
     /**
      * Selector for "Affected Attribute Set" popup form
      *
@@ -48,4 +53,3 @@ class FormPageActions extends CatalogFromPageActions {
         );
     }
 }
-

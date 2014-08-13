@@ -13,7 +13,7 @@ use Magento\Catalog\Test\Constraint\AssertProductForm;
 /**
  * Class AssertConfigurableProductForm
  */
-class assertConfigurableProductForm extends AssertProductForm
+class AssertConfigurableProductForm extends AssertProductForm
 {
     /**
      * List skipped fixture fields in verify
@@ -21,8 +21,7 @@ class assertConfigurableProductForm extends AssertProductForm
      * @var array
      */
     protected $skippedFixtureFields = [
-        'affected_attribute_set',
-        'quantity_and_stock_status', // delete
+        'affected_attribute_set'
     ];
 
     /**
@@ -123,4 +122,3 @@ class assertConfigurableProductForm extends AssertProductForm
         return 'Form data equal the fixture data.';
     }
 }
-

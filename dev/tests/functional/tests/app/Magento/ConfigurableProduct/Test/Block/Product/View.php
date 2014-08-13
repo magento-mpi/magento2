@@ -12,6 +12,10 @@ use \Magento\Catalog\Test\Block\Product\View as AbstractView;
 use Mtf\Fixture\FixtureInterface;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
+/**
+ * Class View
+ * Product view block on frontend page
+ */
 class View extends AbstractView
 {
     /**
@@ -35,7 +39,22 @@ class View extends AbstractView
     {
         /** @var ConfigurableProductInjectable $product */
         $attributesData = $product->getConfigurableAttributesData()['attributes_data'];
-        $checkoutData = $product->getCheckoutData();
-        $this->getOptionsBlock()->fillOptions($attributesData, $checkoutData);
+        $checkoutData = $product->getDataFieldConfig('checkout_data')['source']->getPreset();
+        $configurableCheckoutData = isset($checkoutData['configurable_options'])
+            ? $checkoutData['configurable_options']
+            : [];
+        $checkoutOptionsData = [];
+
+        foreach ($configurableCheckoutData as $checkoutOption) {
+            $attributeKey = $checkoutOption['title'];
+            $optionKey = $checkoutOption['value'];
+            $attributeLabel = $attributesData[$attributeKey]['frontend_label'];
+            $checkoutOptionsData[$attributeLabel] = [
+                'type' => 'dropdown',
+                'value' => $attributesData[$attributeKey]['options'][$optionKey]['label']
+            ];
+        }
+
+        $this->getOptionsBlock()->fillOptions($checkoutOptionsData);
     }
 }

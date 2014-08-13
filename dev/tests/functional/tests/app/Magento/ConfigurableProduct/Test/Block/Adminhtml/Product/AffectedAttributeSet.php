@@ -65,4 +65,3 @@ class AffectedAttributeSet extends ParentForm
         $this->_rootElement->find($this->confirmButton, Locator::SELECTOR_XPATH)->click();
     }
 }
-

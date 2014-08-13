@@ -14,6 +14,7 @@ use Magento\ConfigurableProduct\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
+// @codingStandardsIgnoreStart
 /**
  * Test Coverage for CreateConfigurableProductEntity
  *
@@ -38,6 +39,7 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
  * @group Configurable Product (MX)
  * @ZephyrId MAGETWO-26041
  */
+// @codingStandardsIgnoreEnd
 class CreateConfigurableProductEntityTest extends Injectable
 {
     /**

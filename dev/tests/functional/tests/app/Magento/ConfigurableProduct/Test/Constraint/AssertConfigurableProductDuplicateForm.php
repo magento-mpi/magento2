@@ -41,22 +41,22 @@ class AssertConfigurableProductDuplicateForm extends AbstractAssertForm
         $filter = ['sku' => $product->getSku() . '-1'];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-//        $form = $productPage->getForm();
-//        $formData = $form->getData($product);
-//        foreach (array_keys($formData['configurable_attributes_data']['matrix']) as $key) {
-//            unset($formData['configurable_attributes_data']['matrix'][$key]['price']);
-//        }
-//
-//        $fixtureData = $this->prepareFixtureData($product->getData());
-//        $attributes = $fixtureData['configurable_attributes_data']['attributes_data'];
-//        $matrix = $fixtureData['configurable_attributes_data']['matrix'];
-//        unset($fixtureData['configurable_attributes_data']);
-//
-//        $fixtureData['configurable_attributes_data']['attributes_data'] = $this->prepareAttributes($attributes);
-//        $fixtureData['configurable_attributes_data']['matrix'] = $this->prepareMatrix($matrix);
-//
-//        $errors = $this->verifyData($fixtureData, $formData);
-//        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
+        $form = $productPage->getForm();
+        $formData = $form->getData($product);
+        foreach (array_keys($formData['configurable_attributes_data']['matrix']) as $key) {
+            unset($formData['configurable_attributes_data']['matrix'][$key]['price']);
+        }
+
+        $fixtureData = $this->prepareFixtureData($product->getData());
+        $attributes = $fixtureData['configurable_attributes_data']['attributes_data'];
+        $matrix = $fixtureData['configurable_attributes_data']['matrix'];
+        unset($fixtureData['configurable_attributes_data']);
+
+        $fixtureData['configurable_attributes_data']['attributes_data'] = $this->prepareAttributes($attributes);
+        $fixtureData['configurable_attributes_data']['matrix'] = $this->prepareMatrix($matrix);
+
+        $errors = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 
     /**

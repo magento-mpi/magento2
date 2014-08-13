@@ -10,19 +10,9 @@
 <constraint>
     <assertConfigurableProductInCart module="Magento_ConfigurableProduct">
         <severeness>low</severeness>
-        <require>
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-            <configurable class="Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable" />
-            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
-        </require>
     </assertConfigurableProductInCart>
     <assertConfigurableProductDuplicateForm module="Magento_ConfigurableProduct">
         <severeness>high</severeness>
-        <require>
-            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
-            <productPage class="Magento\ConfigurableProduct\Test\Page\Adminhtml\CatalogProductEdit" />
-            <product class="Mtf\Fixture\FixtureInterface" />
-        </require>
     </assertConfigurableProductDuplicateForm>
     <assertChildProductIsNotDisplayedSeparately module="Magento_ConfigurableProduct">
         <severeness>middle</severeness>

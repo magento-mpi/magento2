@@ -13,7 +13,6 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class View
@@ -181,24 +180,11 @@ class View extends Block
      *
      * @return \Magento\Catalog\Test\Block\Product\Price
      */
-    protected function getPriceBlock()
+    public function getPriceBlock()
     {
         return $this->blockFactory->create(
             'Magento\Catalog\Test\Block\Product\Price',
             ['element' => $this->_rootElement->find($this->priceBlock, Locator::SELECTOR_XPATH)]
-        );
-    }
-
-    /**
-     * This method returns the price box block.
-     *
-     * @return Price
-     */
-    public function getProductPriceBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Product\Price',
-            ['element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)]
         );
     }
 
@@ -225,16 +211,6 @@ class View extends Block
     {
         $this->fillOptions($product);
         $this->clickAddToCart();
-    }
-
-    /**
-     * Find button 'Add to cart'
-     *
-     * @return boolean
-     */
-    public function addToCartIsVisible()
-    {
-        return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
     }
 
     /**
@@ -384,24 +360,24 @@ class View extends Block
      */
     public function fillOptions(FixtureInterface $product)
     {
-        $configureButton = $this->_rootElement->find($this->customizeButton);
         $configureSection = $this->_rootElement->find('.product-options-wrapper');
+        $configureButton = $this->_rootElement->find($this->customizeButton);
 
+        if ($configureSection->isVisible()) {
+            $checkoutData = [];
+            foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
+                $checkoutData[] = [
+                    'type' => 'dropdown',
+                    'title' => $attributeLabel,
+                    'value' => $options[0]
+                ];
+            }
+            $this->getCustomOptionsBlock()->fillOptions($checkoutData);
+        }
         if ($configureButton->isVisible()) {
             $configureButton->click();
             $bundleOptions = $product->getSelectionData();
             $this->getBundleBlock()->fillBundleOptions($bundleOptions);
-        }
-        if ($configureSection->isVisible()) {
-            $configurableOptions = [];
-            foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
-                $configurableOptions[] = [
-                    'type' => 'Drop down',
-                    'frontend_label' => $attributeLabel,
-                    'option' => $options
-                ];
-            }
-            $this->getCustomOptionsBlock()->fillOptions($configurableOptions, $product->getProductOptions());
         }
     }
 

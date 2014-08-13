@@ -54,25 +54,46 @@ class ProductForm extends FormTabs
     protected $advancedSettingContent = '#product_info_tabs-advanced [data-role="content"]';
 
     /**
-     * Variations Attribute Search locator the Product page
-     *
-     * @var string
-     */
-    protected $variationsAttributeSearch = '#variations-search-field';
-
-    /**
-     * Variations Tab locator the Product page
-     *
-     * @var string
-     */
-    protected $variationsTab = '#product_info_tabs_super_config_content .title';
-
-    /**
      * Custom Tab locator
      *
      * @var string
      */
     protected $customTab = './/*/a[contains(@id,"product_info_tabs_%s")]';
+
+    /**
+     * Button "New Category"
+     *
+     * @var string
+     */
+    protected $buttonNewCategory = '#add_category_button';
+
+    /**
+     * Dialog box "Create Category"
+     *
+     * @var string
+     */
+    protected $createCategoryDialog = './/ancestor::body//*[contains(@class,"mage-new-category-dialog")]';
+
+    /**
+     * "Parent Category" block on dialog box
+     *
+     * @var string
+     */
+    protected $parentCategoryBlock = '//*[contains(@class,"field-new_category_parent")]';
+
+    /**
+     * Field "Category Name" on dialog box
+     *
+     * @var string
+     */
+    protected $fieldNewCategoryName = '//input[@id="new_category_name"]';
+
+    /**
+     * Button "Create Category" on dialog box
+     *
+     * @var string
+     */
+    protected $createCategoryButton = '//button[contains(@class,"action-create")]';
 
     /**
      * Fill the product form
@@ -136,13 +157,15 @@ class ProductForm extends FormTabs
     {
         $this->openTab('product-details');
         $this->openNewCategoryDialog();
-        $this->_rootElement->find('//ancestor::body//input[@id="new_category_name"]', Locator::SELECTOR_XPATH)
-            ->setValue($fixture->getNewCategoryName());
+        $this->_rootElement->find(
+            $this->createCategoryDialog . $this->fieldNewCategoryName,
+            Locator::SELECTOR_XPATH
+        )->setValue($fixture->getNewCategoryName());
 
         $this->clearCategorySelect();
         $this->selectParentCategory();
 
-        $buttonCreateCategory = '//ancestor::body//div[@class="ui-dialog-buttonset"]//button[contains(@class,"action-create")]';
+        $buttonCreateCategory = $this->createCategoryDialog . $this->createCategoryButton;
         $this->_rootElement->find($buttonCreateCategory, Locator::SELECTOR_XPATH)->click();
         $this->waitForElementNotVisible($buttonCreateCategory, Locator::SELECTOR_XPATH);
     }
@@ -155,7 +178,7 @@ class ProductForm extends FormTabs
     protected function selectParentCategory()
     {
         $this->_rootElement->find(
-            './/ancestor::body//*[@id="new_category_form_fieldset"]//*[contains(@class,"field-new_category_parent")]',
+            $this->createCategoryDialog . $this->parentCategoryBlock,
             Locator::SELECTOR_XPATH,
             '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\ProductDetails\ParentCategoryIds'
         )->setValue('Default Category');
@@ -181,8 +204,8 @@ class ProductForm extends FormTabs
      */
     protected function openNewCategoryDialog()
     {
-        $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
-        $this->waitForElementVisible('//ancestor::body//input[@id="new_category_name"]', Locator::SELECTOR_XPATH);
+        $this->_rootElement->find($this->buttonNewCategory)->click();
+        $this->waitForElementVisible($this->createCategoryDialog, Locator::SELECTOR_XPATH);
     }
 
     /**

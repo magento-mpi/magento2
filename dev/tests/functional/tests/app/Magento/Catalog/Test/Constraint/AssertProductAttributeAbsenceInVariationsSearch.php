@@ -11,7 +11,6 @@ namespace Magento\Catalog\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config as VariationsTab;
 use \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute as AttributeBlock;
@@ -40,14 +39,12 @@ class AssertProductAttributeAbsenceInVariationsSearch extends AbstractConstraint
      * @param CatalogProductAttribute $productAttribute
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductNew $newProductPage
-     * @param CatalogProductEdit $productEdit
      * @return void
      */
     public function processAssert
     (
         CatalogProductAttribute $productAttribute,
         CatalogProductIndex $productGrid,
-        CatalogProductEdit $productEdit,
         CatalogProductNew $newProductPage
     ) {
         $productGrid->open();

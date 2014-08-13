@@ -21,12 +21,14 @@ use Mtf\Fixture\FixtureInterface;
  */
 class Cart extends Block
 {
+    // @codingStandardsIgnoreStart
     /**
      * Selector for cart item block
      *
      * @var string
      */
     protected $cartItemByProductName = './/tr[contains(@class,"item-info") and (.//*[contains(@class,"product-item-name")]/a[.="%s"])]';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Proceed to checkout block

@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\ConfigurableProduct\Test\Fixture;
 
 use Magento\Catalog\Test\Fixture\ProductAttribute;
@@ -27,7 +28,7 @@ class ConfigurableProduct extends Product
     /**
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Custom constructor to create configurable product with attribute
@@ -35,11 +36,11 @@ class ConfigurableProduct extends Product
      * @param Config $configuration
      * @param array $placeholders
      */
-    public function __construct(Config $configuration, $placeholders = array())
+    public function __construct(Config $configuration, $placeholders = [])
     {
         parent::__construct($configuration, $placeholders);
 
-        $this->_placeholders['attribute_label_1'] = array($this, 'attributeProvider');
+        $this->_placeholders['attribute_label_1'] = [$this, 'attributeProvider'];
     }
 
     /**
@@ -103,8 +104,8 @@ class ConfigurableProduct extends Product
     {
         $sku = '';
         $configurableAttributes = $this->getConfigurableAttributes();
-        $attributeKey = str_replace('attribute_', '', $selectedOption['attribute_label']);
-        $optionKey = str_replace('option_', '', $selectedOption['option_value']);
+        $attributeKey = $selectedOption['title'];
+        $optionKey = $selectedOption['value'];
         $optionValue = $configurableAttributes[$attributeKey][$optionKey]['option_label']['value'];
 
         foreach ($this->getVariationsMatrix() as $variation) {
@@ -128,7 +129,7 @@ class ConfigurableProduct extends Product
      */
     public function getVariationSkus()
     {
-        $variationSkus = array();
+        $variationSkus = [];
         foreach ($this->getVariationsMatrix() as $variation) {
             if (is_array($variation) && isset($variation['value']['name']['value'])) {
                 $variationSkus[] = $variation['value']['name']['value'];
@@ -146,7 +147,7 @@ class ConfigurableProduct extends Product
     public function getVariationsMatrix()
     {
         $variations = $this->getData('fields/variations-matrix/value');
-        return is_array($variations) ? $variations : array();
+        return is_array($variations) ? $variations : [];
     }
 
     /**
@@ -170,7 +171,7 @@ class ConfigurableProduct extends Product
     public function getConfigurableAttributes()
     {
         $attributes = $this->getData('fields/configurable_attributes_data/value');
-        return is_array($attributes) ? $attributes : array();
+        return is_array($attributes) ? $attributes : [];
     }
 
     /**
@@ -180,7 +181,7 @@ class ConfigurableProduct extends Product
      */
     public function getConfigurableOptions()
     {
-        $options = array();
+        $options = [];
         foreach ($this->getConfigurableAttributes() as $attribute) {
             foreach ($attribute as $option) {
                 if (isset($option['option_label']['value'])) {
@@ -323,8 +324,8 @@ class ConfigurableProduct extends Product
             'checkout' => array(
                 'selections' => array(
                     '0' => array(
-                        'attribute_label' => 'attribute_0',
-                        'option_value' => 'option_0'
+                        'title' => '0',
+                        'value' => '0'
                     )
                 ),
                 'special_price' => '10'
@@ -367,18 +368,10 @@ class ConfigurableProduct extends Product
     {
         $price = 0;
         $selections = $this->getData('checkout/selections');
+        $attributes = $this->getData('fields/configurable_attributes_data/value');
+
         foreach ($selections as $selection) {
-            $optionName = $selection['option_name'];
-            $attributes = $this->getData('fields/configurable_attributes_data/value');
-            foreach ($attributes as $attribute) {
-                $optionCount = 0;
-                while (isset($attribute[$optionCount])) {
-                    if ($attribute[$optionCount]['option_label']['value'] == $optionName) {
-                        $price += $attribute[$optionCount]['pricing_value']['value'];
-                    }
-                    ++$optionCount;
-                }
-            }
+            $price += $attributes[$selection['title']][$selection['value']]['pricing_value']['value'];
         }
         return $price;
     }
@@ -398,4 +391,3 @@ class ConfigurableProduct extends Product
         return $this;
     }
 }
-

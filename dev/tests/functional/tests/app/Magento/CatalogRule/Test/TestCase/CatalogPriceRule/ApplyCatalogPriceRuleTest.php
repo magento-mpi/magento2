@@ -52,12 +52,12 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Create Configurable Product with same category
         $configurable = Factory::getFixtureFactory()->getMagentoConfigurableProductConfigurableProduct(
-            array('categories' => $simple->getCategories())
+            ['categories' => $simple->getCategories()]
         );
         $configurable->switchData(Repository::CONFIGURABLE);
         $configurable->persist();
 
-        $products = array($simple, $configurable);
+        $products = [$simple, $configurable];
 
         // Create Customer
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
@@ -117,7 +117,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getEditForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
-            array('category_id' => $categoryId)
+            ['category_id' => $categoryId]
         );
         $catalogRuleFixture->switchData(CatalogPriceRule::CATALOG_PRICE_RULE_ALL_GROUPS);
         $this->markTestIncomplete('MAGETWO-27097');
@@ -182,18 +182,27 @@ class ApplyCatalogPriceRuleTest extends Functional
                 // Select option
                 $optionsBlock = $productPage->getCustomOptionsBlock();
                 $configurableOptions = [];
+                $checkoutData = [];
 
                 foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
                     $configurableOptions[] = [
-                        'type' => 'Drop-down',
-                        'frontend_label' => $attributeLabel,
-                        'options' => $options
+                        'type' => 'dropdown',
+                        'title' => $attributeLabel,
+                        'value' => $options
                     ];
                 }
-                $optionsBlock->fillOptions($configurableOptions, $product->getProductOptions());
+                foreach ($product->getProductOptions() as $checkoutOption) {
+                    $checkoutData[] = [
+                        'type' => $configurableOptions[$checkoutOption['title']]['type'],
+                        'title' => $configurableOptions[$checkoutOption['title']]['title'],
+                        'value' => $configurableOptions[$checkoutOption['title']]['value'][$checkoutOption['value']],
+                    ];
+                }
+
+                $optionsBlock->fillOptions($checkoutData);
                 $appliedRulePrice += $product->getProductOptionsPrice();
             }
-            $productPriceBlock = $productViewBlock->getProductPriceBlock();
+            $productPriceBlock = $productViewBlock->getPriceBlock();
             $this->assertContains((string)$appliedRulePrice, $productPriceBlock->getSpecialPrice());
 
             // Add to Cart
@@ -258,7 +267,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $this->verifyAddProducts($products);
 
         // Verify one page checkout prices
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(array('products' => $products));
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(['products' => $products]);
         $fixture->persist();
         $this->checkoutProcess($fixture);
 
