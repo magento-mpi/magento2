@@ -19,7 +19,7 @@ class ShipmentRemoveTrackTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesShipmentRemoveTrackV1';
+    const SERVICE_READ_NAME = 'salesShipmentWriteV1';
 
     /**
      * Service version
@@ -80,7 +80,7 @@ class ShipmentRemoveTrackTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'removeTrack'
             ]
         ];
 

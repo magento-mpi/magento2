@@ -15,7 +15,7 @@ class OrderHoldTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesOrderHoldV1';
+    const SERVICE_NAME = 'salesOrderWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -32,7 +32,7 @@ class OrderHoldTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'hold'
             ]
         ];
         $requestData = ['id' => $order->getId()];

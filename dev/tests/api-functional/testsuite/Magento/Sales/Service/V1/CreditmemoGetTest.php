@@ -23,7 +23,7 @@ class CreditmemoGetTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesCreditmemoGetV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoReadV1';
 
     /**
      * Service version
@@ -95,7 +95,7 @@ class CreditmemoGetTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'get'
             ]
         ];
 

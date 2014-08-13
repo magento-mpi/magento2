@@ -15,7 +15,7 @@ class InvoiceVoidTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesInvoiceVoidV1';
+    const SERVICE_NAME = 'salesInvoiceWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/invoice.php
@@ -34,7 +34,7 @@ class InvoiceVoidTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'void'
             ]
         ];
         $requestData = ['id' => $invoice->getId()];

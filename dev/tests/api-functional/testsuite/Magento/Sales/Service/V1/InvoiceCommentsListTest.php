@@ -15,7 +15,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
  */
 class InvoiceCommentsListTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'salesInvoiceCommentsListV1';
+    const SERVICE_NAME = 'salesInvoiceReadV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -43,7 +43,7 @@ class InvoiceCommentsListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'commentsList'
             ]
         ];
         $requestData = ['id' => $invoice->getId()];

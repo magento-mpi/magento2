@@ -12,7 +12,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class CreditmemoCommentsListTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'salesCreditmemoCommentsListV1';
+    const SERVICE_NAME = 'salesCreditmemoReadV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -37,7 +37,7 @@ class CreditmemoCommentsListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'commentsList'
             ]
         ];
         $requestData = ['id' => $creditmemo->getId()];

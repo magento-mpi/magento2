@@ -15,7 +15,7 @@ class ShipmentEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesShipmentEmailV1';
+    const SERVICE_NAME = 'salesShipmentWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/shipment.php
@@ -33,7 +33,7 @@ class ShipmentEmailTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'email'
             ]
         ];
         $requestData = ['id' => $shipment->getId()];

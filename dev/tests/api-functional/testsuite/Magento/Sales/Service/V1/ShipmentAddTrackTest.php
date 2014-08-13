@@ -19,7 +19,7 @@ class ShipmentAddTrackTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesShipmentAddTrackV1';
+    const SERVICE_READ_NAME = 'salesShipmentWriteV1';
 
     /**
      * Service version
@@ -76,7 +76,7 @@ class ShipmentAddTrackTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'addTrack'
             ]
         ];
 

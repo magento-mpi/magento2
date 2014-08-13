@@ -15,7 +15,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
  */
 class ShipmentCommentsListTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'salesShipmentCommentsListV1';
+    const SERVICE_NAME = 'salesShipmentWriteV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -43,7 +43,7 @@ class ShipmentCommentsListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'commentsList'
             ]
         ];
         $requestData = ['id' => $shipment->getId()];

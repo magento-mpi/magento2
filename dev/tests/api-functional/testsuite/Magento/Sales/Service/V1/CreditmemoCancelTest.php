@@ -14,7 +14,7 @@ class CreditmemoCancelTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesCreditmemoCancelV1';
+    const SERVICE_NAME = 'salesCreditmemoWriteV1';
 
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
@@ -35,7 +35,7 @@ class CreditmemoCancelTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'cancel'
             ]
         ];
         $requestData = ['id' => $creditmemo->getId()];

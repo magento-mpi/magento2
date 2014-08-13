@@ -18,7 +18,7 @@ class InvoiceCreateTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/invoice';
 
-    const SERVICE_READ_NAME = 'salesInvoiceCreateV1';
+    const SERVICE_READ_NAME = 'salesInvoiceWriteV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -46,7 +46,7 @@ class InvoiceCreateTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'create'
             ]
         ];
         $data = [

@@ -14,7 +14,7 @@ class CreditmemoEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesCreditmemoEmailV1';
+    const SERVICE_NAME = 'salesCreditmemoWriteV1';
 
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
@@ -35,7 +35,7 @@ class CreditmemoEmailTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'email'
             ]
         ];
         $requestData = ['id' => $creditmemo->getId()];

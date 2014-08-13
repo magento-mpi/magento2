@@ -13,7 +13,7 @@ use Magento\Webapi\Model\Rest\Config;
 class ShipmentGetTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/shipment';
-    const SERVICE_READ_NAME = 'salesShipmentGetV1';
+    const SERVICE_READ_NAME = 'salesShipmentReadV1';
     const SERVICE_VERSION = 'V1';
 
     /**
@@ -42,7 +42,7 @@ class ShipmentGetTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'get'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $shipment->getId()]);

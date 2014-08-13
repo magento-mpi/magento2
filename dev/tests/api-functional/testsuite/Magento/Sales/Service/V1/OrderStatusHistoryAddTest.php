@@ -18,7 +18,7 @@ use Magento\Sales\Service\V1\Data\OrderStatusHistoryBuilder;
  */
 class OrderStatusHistoryAddTest extends WebapiAbstract
 {
-    const SERVICE_READ_NAME = 'salesOrderStatusHistoryAddV1';
+    const SERVICE_READ_NAME = 'salesOrderWriteV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -64,7 +64,7 @@ class OrderStatusHistoryAddTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'statusHistoryAdd'
             ]
         ];
 

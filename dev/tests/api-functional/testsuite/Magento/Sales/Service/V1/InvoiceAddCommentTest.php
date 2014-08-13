@@ -19,7 +19,7 @@ class InvoiceAddCommentTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesInvoiceAddCommentV1';
+    const SERVICE_READ_NAME = 'salesInvoiceWriteV1';
 
     /**
      * Service version
@@ -66,7 +66,7 @@ class InvoiceAddCommentTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'addComment'
             ]
         ];
 

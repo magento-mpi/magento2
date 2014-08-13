@@ -18,7 +18,7 @@ class InvoiceListTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/invoices';
 
-    const SERVICE_READ_NAME = 'salesInvoiceListV1';
+    const SERVICE_READ_NAME = 'salesInvoiceReadV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -66,7 +66,7 @@ class InvoiceListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'search'
             ]
         ];
 

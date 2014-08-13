@@ -14,7 +14,7 @@ class InvoiceEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesInvoiceEmailV1';
+    const SERVICE_NAME = 'salesInvoiceWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/invoice.php
@@ -32,7 +32,7 @@ class InvoiceEmailTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'email'
             ]
         ];
         $requestData = ['id' => $invoice->getId()];

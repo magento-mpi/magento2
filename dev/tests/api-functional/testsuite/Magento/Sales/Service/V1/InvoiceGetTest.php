@@ -14,7 +14,7 @@ class InvoiceGetTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/invoice';
 
-    const SERVICE_READ_NAME = 'salesInvoiceGetV1';
+    const SERVICE_READ_NAME = 'salesInvoiceReadV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -50,7 +50,7 @@ class InvoiceGetTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'get'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $invoice->getId()]);

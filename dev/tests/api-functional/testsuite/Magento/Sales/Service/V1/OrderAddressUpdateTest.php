@@ -19,7 +19,7 @@ class OrderAddressUpdateTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesOrderAddressUpdateV1';
+    const SERVICE_NAME = 'salesOrderWriteV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -69,7 +69,7 @@ class OrderAddressUpdateTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'invoke'
+                'operation' => self::SERVICE_NAME . 'addressUpdate'
             ]
         ];
         $this->_webApiCall($serviceInfo, $requestData);

@@ -19,7 +19,7 @@ class CreditmemoAddCommentTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesCreditmemoAddCommentV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoWriteV1';
 
     /**
      * Service version
@@ -70,7 +70,7 @@ class CreditmemoAddCommentTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'addComment'
             ]
         ];
 
