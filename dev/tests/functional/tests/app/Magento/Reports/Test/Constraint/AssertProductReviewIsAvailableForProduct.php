@@ -60,6 +60,6 @@ class AssertProductReviewIsAvailableForProduct extends AbstractConstraint
      */
     public function toString()
     {
-        return 'This review is visible in review grid for select product.';
+        return 'Review is visible in review grid for select product.';
     }
 }

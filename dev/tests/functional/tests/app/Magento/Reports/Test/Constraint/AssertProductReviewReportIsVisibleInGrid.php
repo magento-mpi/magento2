@@ -49,6 +49,6 @@ class AssertProductReviewReportIsVisibleInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'This Product Review Report is visible in reports grid.';
+        return 'Product Review Report is visible in reports grid.';
     }
 }
