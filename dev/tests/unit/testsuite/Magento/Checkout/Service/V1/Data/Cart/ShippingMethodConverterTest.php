@@ -104,7 +104,10 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->shippingMethodMock));
 
-        $this->assertEquals($this->shippingMethodMock, $this->converter->modelToDataObject($this->rateModelMock));
+        $this->assertEquals(
+            $this->shippingMethodMock,
+            $this->converter->modelToDataObject($this->rateModelMock, 'USD')
+        );
     }
 }
  

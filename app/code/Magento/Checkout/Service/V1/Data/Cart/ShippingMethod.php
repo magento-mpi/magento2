@@ -21,11 +21,15 @@ class ShippingMethod extends \Magento\Framework\Service\Data\AbstractObject
 
     const METHOD_CODE = 'method_code';
 
-    const DESCRIPTION = 'description';
+    const CARRIER_TITLE = 'carrier_title';
+
+    const METHOD_TITLE = 'method_title';
 
     const SHIPPING_AMOUNT = 'amount';
 
     const BASE_SHIPPING_AMOUNT = 'base_amount';
+
+    const AVAILABLE = 'available';
     /**#@-*/
 
     /**
@@ -49,13 +53,23 @@ class ShippingMethod extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get shipping description
+     * Get shipping carrier title
      *
      * @return string|null
      */
-    public function getDescription()
+    public function getCarrierTitle()
     {
-        return $this->_get(self::DESCRIPTION);
+        return $this->_get(self::CARRIER_TITLE);
+    }
+
+    /**
+     * Get shipping method title
+     *
+     * @return string|null
+     */
+    public function getMethodTitle()
+    {
+        return $this->_get(self::METHOD_TITLE);
     }
 
     /**
@@ -76,5 +90,15 @@ class ShippingMethod extends \Magento\Framework\Service\Data\AbstractObject
     public function getBaseAmount()
     {
         return $this->_get(self::BASE_SHIPPING_AMOUNT);
+    }
+
+    /**
+     * Get availability flag of current method
+     *
+     * @return bool
+     */
+    public function getAvailable()
+    {
+        return $this->_get(self::AVAILABLE);
     }
 }

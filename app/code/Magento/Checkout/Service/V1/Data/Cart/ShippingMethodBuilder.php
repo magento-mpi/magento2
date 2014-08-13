@@ -35,14 +35,25 @@ class ShippingMethodBuilder extends \Magento\Framework\Service\Data\AbstractObje
     }
 
     /**
-     * Set shipping description
+     * Set shipping carrier title
      *
      * @param string $value
      * @return $this
      */
-    public function setDescription($value)
+    public function setCarrierTitle($value)
     {
-        return $this->_set(ShippingMethod::DESCRIPTION, $value);
+        return $this->_set(ShippingMethod::CARRIER_TITLE, $value);
+    }
+
+    /**
+     * Set shipping method title
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setMethodTitle($value)
+    {
+        return $this->_set(ShippingMethod::METHOD_TITLE, $value);
     }
 
     /**
@@ -65,5 +76,16 @@ class ShippingMethodBuilder extends \Magento\Framework\Service\Data\AbstractObje
     public function setBaseAmount($value)
     {
         return $this->_set(ShippingMethod::BASE_SHIPPING_AMOUNT, $value);
+    }
+
+    /**
+     * Set method availability flag
+     *
+     * @param bool $value
+     * @return $this
+     */
+    public function setAvailable($value)
+    {
+        return $this->_set(ShippingMethod::AVAILABLE, (bool)$value);
     }
 }

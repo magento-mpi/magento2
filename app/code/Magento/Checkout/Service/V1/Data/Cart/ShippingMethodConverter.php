@@ -33,21 +33,25 @@ class ShippingMethodConverter
 
     /**
      * Convert rate model to ShippingMethod data object
-     *
+     * @param string $quoteCurrencyCode
      * @param \Magento\Sales\Model\Quote\Address\Rate $rateModel
+     *
      * @return \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod
      */
-    public function modelToDataObject($rateModel)
+    public function modelToDataObject($rateModel, $quoteCurrencyCode)
     {
         /** @var \Magento\Directory\Model\Currency $currency */
         $currency = $this->storeManager->getStore()->getCurrentCurrency();
 
+        $errorMessage = $rateModel->getErrorMessage();
         $data = [
             ShippingMethod::CARRIER_CODE => $rateModel->getCarrier(),
             ShippingMethod::METHOD_CODE => $rateModel->getMethod(),
+            ShippingMethod::CARRIER_TITLE => $rateModel->getCarrierTitle(),
+            ShippingMethod::METHOD_TITLE => $rateModel->getMethodTitle(),
+            ShippingMethod::SHIPPING_AMOUNT => $currency->convert($rateModel->getPrice(), $quoteCurrencyCode),
             ShippingMethod::BASE_SHIPPING_AMOUNT => $rateModel->getPrice(),
-            ShippingMethod::SHIPPING_AMOUNT => $currency->convert($rateModel->getPrice(), $currency),
-            ShippingMethod::DESCRIPTION => $rateModel->getCarrierTitle(),
+            ShippingMethod::AVAILABLE => empty($errorMessage),
         ];
         $this->builder->populateWithArray($data);
         return $this->builder->create();

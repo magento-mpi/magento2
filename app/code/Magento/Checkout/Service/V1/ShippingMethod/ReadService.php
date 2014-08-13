@@ -10,6 +10,7 @@ namespace Magento\Checkout\Service\V1\ShippingMethod;
 
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder;
+use \Magento\Framework\Exception\StateException;
 
 class ReadService implements ReadServiceInterface
 {
@@ -56,8 +57,6 @@ class ReadService implements ReadServiceInterface
      */
     public function getMethod($cartId)
     {
-        $output = [];
-
         $storeId = $this->storeManager->getStore()->getId();
 
         /** @var \Magento\Sales\Model\Quote $quote */
@@ -65,20 +64,27 @@ class ReadService implements ReadServiceInterface
 
         /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
         $shippingAddress = $quote->getShippingAddress();
+        if (!$shippingAddress->getId()) {
+            throw new StateException('Shipping address not set.');
+        }
 
         $shippingMethod = $shippingAddress->getShippingMethod();
-        if ($shippingMethod) {
-            $shippingMethodData = explode("_", $shippingMethod);
-            $output[ShippingMethod::CARRIER_CODE] = array_shift($shippingMethodData);
-            $output[ShippingMethod::METHOD_CODE] = array_shift($shippingMethodData);
-        } else {
+        if (!$shippingMethod) {
             return null;
         }
 
-        $shippingDescription = $shippingAddress->getShippingDescription();
-        $output[ShippingMethod::DESCRIPTION] = ($shippingDescription) ? $shippingDescription : '';
-        $output[ShippingMethod::SHIPPING_AMOUNT] = (float) $shippingAddress->getShippingAmount();
-        $output[ShippingMethod::BASE_SHIPPING_AMOUNT] = (float) $shippingAddress->getBaseShippingAmount();
+        list($carrierCode, $methodCode) = explode('_', $shippingAddress->getShippingMethod());
+        list($carrierTitle, $methodTitle) = explode(' - ', $shippingAddress->getShippingDescription());
+
+        $output = [
+            ShippingMethod::CARRIER_CODE => $carrierCode,
+            ShippingMethod::METHOD_CODE => $methodCode,
+            ShippingMethod::CARRIER_TITLE => $carrierTitle,
+            ShippingMethod::METHOD_TITLE => $methodTitle,
+            ShippingMethod::SHIPPING_AMOUNT => $shippingAddress->getShippingAmount(),
+            ShippingMethod::BASE_SHIPPING_AMOUNT => $shippingAddress->getBaseShippingAmount(),
+            ShippingMethod::AVAILABLE => true,
+        ];
 
         return $this->methodBuilder->populateWithArray($output)->create();
     }
@@ -100,10 +106,14 @@ class ReadService implements ReadServiceInterface
             return [];
         }
 
-        $quote->getShippingAddress()->requestShippingRates();
+        $shippingAddress = $quote->getShippingAddress();
+        if (!$shippingAddress->getId()) {
+            throw new StateException('Shipping address not set.');
+        }
+        $shippingAddress->requestShippingRates();
         $shippingRates = $quote->getShippingAddress()->getAllShippingRates();
         foreach ($shippingRates as $rate) {
-            $output[] = $this->converter->modelToDataObject($rate);
+            $output[] = $this->converter->modelToDataObject($rate, $quote->getQuoteCurrencyCode());
         }
         return $output;
     }

@@ -40,12 +40,16 @@ class ReadServiceTest extends WebapiAbstract
         $cartId = $quote->getId();
 
         $shippingAddress = $quote->getShippingAddress();
+        list($carrierCode, $methodCode) = explode('_', $shippingAddress->getShippingMethod());
+        list($carrierTitle, $methodTitle) = explode(' - ', $shippingAddress->getShippingDescription());
         $data = [
-            ShippingMethod::CARRIER_CODE => explode("_", $shippingAddress->getShippingMethod())[0],
-            ShippingMethod::METHOD_CODE => explode("_", $shippingAddress->getShippingMethod())[1],
-            ShippingMethod::DESCRIPTION => $shippingAddress->getShippingDescription(),
+            ShippingMethod::CARRIER_CODE => $carrierCode,
+            ShippingMethod::METHOD_CODE => $methodCode,
+            ShippingMethod::CARRIER_TITLE => $carrierTitle,
+            ShippingMethod::METHOD_TITLE => $methodTitle,
             ShippingMethod::SHIPPING_AMOUNT => $shippingAddress->getShippingAmount(),
             ShippingMethod::BASE_SHIPPING_AMOUNT => $shippingAddress->getBaseShippingAmount(),
+            ShippingMethod:: AVAILABLE => true,
         ];
 
         $requestData = ["cartId" => $cartId];
@@ -102,7 +106,7 @@ class ReadServiceTest extends WebapiAbstract
         }
         $quote->getShippingAddress()->requestShippingRates();
         $expectedRates = $quote->getShippingAddress()->getAllShippingRates();
-        $expectedData = $this->convertRates($expectedRates);
+        $expectedData = $this->convertRates($expectedRates, $quote->getQuoteCurrencyCode());
 
         $requestData = ["cartId" => $cartId];
 
@@ -154,16 +158,17 @@ class ReadServiceTest extends WebapiAbstract
     /**
      * Convert rate models array to data array
      *
+     * @param string $currencyCode
      * @param \Magento\Sales\Model\Quote\Address\Rate[] $rates
      * @return array
      */
-    protected function convertRates($rates)
+    protected function convertRates($rates, $currencyCode)
     {
         $result = [];
         /** @var \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter $converter */
         $converter = $this->objectManager->create('\Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter');
         foreach ($rates as $rate) {
-            $result[] = $converter->modelToDataObject($rate)->__toArray();
+            $result[] = $converter->modelToDataObject($rate, $currencyCode)->__toArray();
         }
         return $result;
     }
