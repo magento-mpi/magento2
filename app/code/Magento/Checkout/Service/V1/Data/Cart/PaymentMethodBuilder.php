@@ -36,17 +36,6 @@ class PaymentMethodBuilder extends \Magento\Framework\Service\Data\AbstractObjec
     }
 
     /**
-     * Get credit card CID
-     *
-     * @param string $value
-     * @return $this
-     */
-    public function setCcCid($value)
-    {
-        return $this->_set(PaymentMethod::CC_CID, $value);
-    }
-
-    /**
      * Get credit card owner
      *
      * @param string $value

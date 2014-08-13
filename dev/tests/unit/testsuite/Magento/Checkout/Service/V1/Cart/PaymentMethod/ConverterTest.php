@@ -66,7 +66,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $data = [
             PaymentMethod::METHOD => 'checkmo',
             PaymentMethod::PO_NUMBER => 100,
-            PaymentMethod::CC_CID => 666,
             PaymentMethod::CC_OWNER => 'tester',
             PaymentMethod::CC_NUMBER => 100200300,
             PaymentMethod::CC_TYPE => 'visa',
@@ -89,4 +88,3 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($paymentMethodMock, $this->converter->toDataObject($paymentMock));
     }
 }
- 

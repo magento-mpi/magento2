@@ -76,16 +76,6 @@ class PaymentMethod extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get credit card CID encoded
-     *
-     * @return string|null
-     */
-    public function getCcCid()
-    {
-        return $this->_get(self::CC_CID);
-    }
-
-    /**
      * Get credit card owner
      *
      * @return string|null
