@@ -11,7 +11,7 @@
  * @license    {license_link}
  */
 
-define('GITHUB_URL_CHANGES', 'https://github.scm.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
+define('GITHUB_URL_CHANGES', 'https://github.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
 define(
     'USAGE',
 <<<USAGE
@@ -89,7 +89,6 @@ function retrieveChangesAcrossForks($teamRepo, $featureBranch)
     $request = curl_init($githubChangesUrl);
     curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
     $response = curl_exec($request);
     $status = curl_getinfo($request);
     curl_close($request);
