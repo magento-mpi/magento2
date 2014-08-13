@@ -14,6 +14,11 @@ require_once __DIR__ . '/../../app/bootstrap.php';
  */
 class ProcessorFactory
 {
+    /**
+     * Create Processor
+     *
+     * @return Processor
+     */
     public function createProcessor()
     {
         $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
