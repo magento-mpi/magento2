@@ -78,15 +78,15 @@ class Product extends \Magento\Framework\App\Action\Action
                     $this->_objectManager->create(
                         'Magento\Framework\UrlInterface'
                     )->getUrl(
-                            '*/*/send',
-                            array('_current' => true)
-                        )
+                        '*/*/send',
+                        array('_current' => true)
+                    )
                 );
                 $this->_objectManager->get(
                     'Magento\Catalog\Model\Session'
                 )->setSendfriendFormData(
-                        $request->getPost()
-                    );
+                    $request->getPost()
+                );
             }
         }
         return parent::dispatch($request);

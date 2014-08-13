@@ -186,27 +186,27 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
             $this->_transportBuilder->setTemplateIdentifier(
                 $this->_sendfriendData->getEmailTemplate()
             )->setTemplateOptions(
-                    array(
-                        'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                        'store' => $this->_storeManager->getStore()->getId()
-                    )
-                )->setFrom(
-                    $sender
-                )->setTemplateVars(
-                    array(
-                        'name' => $name,
-                        'email' => $email,
-                        'product_name' => $this->getProduct()->getName(),
-                        'product_url' => $this->getProduct()->getUrlInStore(),
-                        'message' => $message,
-                        'sender_name' => $sender['name'],
-                        'sender_email' => $sender['email'],
-                        'product_image' => $this->_catalogImage->init($this->getProduct(), 'small_image')->resize(75)
-                    )
-                )->addTo(
-                    $email,
-                    $name
-                );
+                array(
+                    'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+                    'store' => $this->_storeManager->getStore()->getId()
+                )
+            )->setFrom(
+                $sender
+            )->setTemplateVars(
+                array(
+                    'name' => $name,
+                    'email' => $email,
+                    'product_name' => $this->getProduct()->getName(),
+                    'product_url' => $this->getProduct()->getUrlInStore(),
+                    'message' => $message,
+                    'sender_name' => $sender['name'],
+                    'sender_email' => $sender['email'],
+                    'product_image' => $this->_catalogImage->init($this->getProduct(), 'small_image')->resize(75)
+                )
+            )->addTo(
+                $email,
+                $name
+            );
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
@@ -276,16 +276,16 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     {
         // validate array
         if (!is_array(
-                $recipients
-            ) or !isset(
+            $recipients
+        ) or !isset(
             $recipients['email']
-            ) or !isset(
+        ) or !isset(
             $recipients['name']
-            ) or !is_array(
-                $recipients['email']
-            ) or !is_array(
-                $recipients['name']
-            )
+        ) or !is_array(
+            $recipients['email']
+        ) or !is_array(
+            $recipients['name']
+        )
         ) {
             return $this;
         }
