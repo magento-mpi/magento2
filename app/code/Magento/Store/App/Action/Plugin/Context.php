@@ -60,6 +60,7 @@ class Context
     }
 
     /**
+     * @param \Magento\Framework\App\Action\Action $subject
      * @param callable $proceed
      * @param \Magento\Framework\App\RequestInterface $request
      * @return mixed
