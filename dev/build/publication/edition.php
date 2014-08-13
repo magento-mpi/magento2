@@ -21,19 +21,25 @@ try {
     assertCondition(isset($options['edition']), USAGE);
 
     $lists = array('no-edition.txt');
+    $includeLists = [];
 
     $baseDir = __DIR__ . '/../../../';
     $isTargetBaseDir = realpath($baseDir) == realpath($dir);
     if (!$isTargetBaseDir) {
         // remove service scripts, if edition tool is run outside of target directory
         $lists[] = 'services.txt';
+    } else {
+        $includeLists[] = 'services.txt';
     }
 
     $isInternal = isset($options['internal']) ? true : false;
     if ($isInternal) {
         if ($options['edition'] != 'ee') {
             $lists[] = 'internal_ee.txt';
+        } else {
+            $includeLists[] = 'internal_ee.txt';
         }
+        $includeLists[] = 'internal.txt';
     } else {
         $lists[] = 'internal.txt';
         $lists[] = 'internal_ee.txt';
@@ -46,6 +52,7 @@ try {
             copyAll("{$dir}/dev/build/publication/extra_files/ce", $dir);
             break;
         case 'ee':
+            $includeLists[] = 'ee.txt';
             $moduleXml = "{$dir}/app/etc/enterprise/module.xml";
             echo "Copy {$moduleXml}.dist to {$moduleXml}\n";
             copy("{$moduleXml}.dist", $moduleXml);
@@ -60,7 +67,10 @@ try {
     // remove files that do not belong to edition
     $command = 'php -f ' . __DIR__ . '/../extruder.php -- -v -w ' . escapeshellarg($dir);
     foreach ($lists as $list) {
-        $command .= ' -l ' . escapeshellarg(__DIR__ . '/extruder/' . $list);
+        $command .= ' -l ' . escapeshellarg(__DIR__ . '/edition/' . $list);
+    }
+    foreach ($includeLists as $list) {
+        $command .= ' -i ' . escapeshellarg(__DIR__ . '/edition/' . $list);
     }
     execVerbose($command, 'Extruder execution failed');
 
