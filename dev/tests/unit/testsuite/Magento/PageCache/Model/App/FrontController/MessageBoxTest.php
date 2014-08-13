@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\PageCache\Model\App\FrontController;
+
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
@@ -21,21 +22,21 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
     protected $msgBox;
 
     /**
-     * Cookie mock
+     * Cookie manager mock
      *
      * @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $cookieManagerMock;
 
     /**
-     * Cookie mock
+     * Public cookie metadata mock
      *
      * @var \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $publicCookieMetadataMock;
 
     /**
-     * Cookie mock
+     * Cookie metadata factory mock
      *
      * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -128,7 +129,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
                 1,
                 $this->publicCookieMetadataMock
             );
-        $this->assertEquals($this->responseMock, $this->msgBox->afterDispatch($this->objectMock, $this->responseMock));
+        $this->assertSame($this->responseMock, $this->msgBox->afterDispatch($this->objectMock, $this->responseMock));
     }
 
     /**
