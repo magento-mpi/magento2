@@ -67,9 +67,9 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
     /**
      * Retrieve a value from a cookie.
      *
-     * @param string $key
+     * @param string|null $name
      * @param string|null $default The default value to return if no value could be found for the given $name.
-     * @return string|null
+     * @return string|null|array
      */
     public function getCookie($name = null, $default = null)
     {
