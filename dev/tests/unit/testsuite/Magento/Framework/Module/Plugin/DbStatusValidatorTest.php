@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Module\Plugin;
 
-class ValidateDbTest extends \PHPUnit_Framework_TestCase
+class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Framework\Module\Plugin\DbStatusValidator
