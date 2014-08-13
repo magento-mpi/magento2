@@ -16,6 +16,8 @@ interface WriteServiceInterface
      * @param \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method
      * @param int $cartId
      * @return int
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function set(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId);
 }

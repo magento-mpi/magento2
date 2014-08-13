@@ -56,18 +56,17 @@ class WriteService implements WriteServiceInterface
         $payment = $this->paymentMethodBuilder->build($method, $quote);
         if ($quote->isVirtual()) {
             // check if billing address is set
-            if (is_null($quote->getBillingAddress()->getId())) {
+            if (is_null($quote->getBillingAddress()->getCountryId())) {
                 throw new InvalidTransitionException('Billing address is not set');
             }
             $quote->getBillingAddress()->setPaymentMethod($payment->getMethod());
         } else {
             // check if shipping address is set
-            if (is_null($quote->getShippingAddress()->getId())) {
+            if (is_null($quote->getShippingAddress()->getCountryId())) {
                 throw new InvalidTransitionException('Shipping address is not set');
             }
             $quote->getShippingAddress()->setPaymentMethod($payment->getMethod());
         }
-
         if (!$quote->isVirtual() && $quote->getShippingAddress()) {
             $quote->getShippingAddress()->setCollectShippingRates(true);
         }

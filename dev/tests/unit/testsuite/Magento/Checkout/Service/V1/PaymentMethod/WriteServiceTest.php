@@ -64,39 +64,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Payment method already set
-     */
-    public function testSetPaymentThrowsExceptionIfPaymentAlreadySet()
-    {
-        $cartId = 11;
-        $storeId = 12;
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
-        $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
-
-        $paymentsCollectionMock = $this->getMock(
-            '\Magento\Eav\Model\Entity\Collection\AbstractCollection', [], [], '', false
-        );
-
-        $paymentsCollectionMock->expects($this->once())->method('getSize')->will($this->returnValue(2));
-
-        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
-        $quoteMock->expects($this->any())
-            ->method('getPaymentsCollection')
-            ->will($this->returnValue($paymentsCollectionMock));
-
-        $this->quoteLoaderMock->expects($this->once())
-            ->method('load')
-            ->with($cartId, $storeId)
-            ->will($this->returnValue($quoteMock));
-
-        $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod', [], [], '', false);
-
-        $this->service->set($paymentMethodMock, $cartId);
-    }
-
-    /**
-     * @expectedException \Exception
      * @expectedExceptionMessage Billing address is not set
      */
     public function testSetVirtualQuotePaymentThrowsExceptionIfBillingAdressNotSet()
@@ -155,8 +122,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($paymentsCollectionMock));
         $quoteMock->expects($this->any())->method('isVirtual')->will($this->returnValue(true));
 
-        $billingAddressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
-        $billingAddressMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $billingAddressMock =
+            $this->getMock('\Magento\Sales\Model\Quote\Address', ['getCountryId', '__wakeup'], [], '', false);
+        $billingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue(1));
         $quoteMock->expects($this->any())->method('getBillingAddress')->will($this->returnValue($billingAddressMock));
 
         $quoteMock->expects($this->once())->method('setTotalsCollectedFlag')->will($this->returnSelf());
@@ -252,8 +220,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($paymentsCollectionMock));
         $quoteMock->expects($this->any())->method('isVirtual')->will($this->returnValue(false));
 
-        $shippingAddressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
-        $shippingAddressMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $shippingAddressMock =
+            $this->getMock('\Magento\Sales\Model\Quote\Address', ['getCountryId', '__wakeup'], [], '', false);
+        $shippingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue(1));
         $quoteMock->expects($this->any())->method('getShippingAddress')->will($this->returnValue($shippingAddressMock));
 
         $quoteMock->expects($this->once())->method('setTotalsCollectedFlag')->will($this->returnSelf());
