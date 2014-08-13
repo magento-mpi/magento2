@@ -21,11 +21,6 @@ class PaymentMethod extends \Magento\Framework\Service\Data\AbstractObject
     const PO_NUMBER = 'po_number';
 
     /**
-     * Credit card CID
-     */
-    const CC_CID = 'cc_cid';
-
-    /**
      * Credit card owner
      */
     const CC_OWNER = 'cc_owner';
