@@ -86,18 +86,7 @@ class ReadServiceTest extends WebapiAbstract
         $requestData = ["cartId" => $cartId];
         $requestResponse = $this->_webApiCall($serviceInfo, $requestData);
 
-        $expectedResponse = [
-            'method' => 'checkmo',
-            'po_number' => 'poNumber',
-            'cc_cid' => 'ccCid',
-            'cc_owner' => 'tester',
-            'cc_number' => '1000-2000-3000-4000',
-            'cc_type' => 'visa',
-            'cc_exp_year' => 2014,
-            'cc_exp_month' => 1,
-            'payment_details' => 'a:2:{s:14:"transaction_id";i:100500;s:12:"consumer_key";s:7:"123123q";}',
-        ];
-
-        $this->assertEquals($expectedResponse, $requestResponse);
+        $this->assertArrayHasKey('method', $requestResponse);
+        $this->assertEquals('checkmo', $requestResponse['method']);
     }
 }
