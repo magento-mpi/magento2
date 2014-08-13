@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogUrlRewrite\Service\V1;
 
+use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
 use Magento\CatalogUrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\Framework\ObjectManager;

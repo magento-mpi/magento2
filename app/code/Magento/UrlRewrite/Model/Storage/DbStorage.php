@@ -31,19 +31,18 @@ class DbStorage extends AbstractStorage
     protected $connection;
 
     /**
-     * @var DbStorageResource
+     * @var Resource
      */
-    protected $dbResource;
+    protected $resource;
 
     /**
      * @param Converter $converter
      * @param Resource $resource
-     * @param DbStorageResource $dbResource
      */
-    public function __construct(Converter $converter, Resource $resource, DbStorageResource $dbResource)
+    public function __construct(Converter $converter, Resource $resource)
     {
         $this->connection = $resource->getConnection(Resource::DEFAULT_WRITE_RESOURCE);
-        $this->dbResource = $dbResource;
+        $this->resource = $resource;
 
         parent::__construct($converter);
     }
@@ -57,7 +56,7 @@ class DbStorage extends AbstractStorage
     protected function prepareSelect($filter)
     {
         $select = $this->connection->select();
-        $select->from($this->dbResource->getTable(self::TABLE_NAME));
+        $select->from($this->resource->getTableName(self::TABLE_NAME));
 
         foreach ($filter->getFilter() as $column => $value) {
             $select->where($this->connection->quoteIdentifier($column) . ' IN (?)', $value);
@@ -87,7 +86,7 @@ class DbStorage extends AbstractStorage
     protected function doAddMultiple($data)
     {
         try {
-            $this->connection->insertMultiple($this->dbResource->getTable(self::TABLE_NAME), $data);
+            $this->connection->insertMultiple($this->resource->getTableName(self::TABLE_NAME), $data);
         } catch (\Exception $e) {
             if ($e->getCode() === self::ERROR_CODE_DUPLICATE_ENTRY) {
                 throw new DuplicateEntryException();
@@ -102,7 +101,7 @@ class DbStorage extends AbstractStorage
     public function deleteByFilter(FilterInterface $filter)
     {
         $this->connection->query(
-            $this->prepareSelect($filter)->deleteFromSelect($this->dbResource->getTable(self::TABLE_NAME))
+            $this->prepareSelect($filter)->deleteFromSelect($this->resource->getTableName(self::TABLE_NAME))
         );
     }
 }
