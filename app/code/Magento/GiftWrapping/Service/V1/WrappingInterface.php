@@ -27,14 +27,12 @@ interface WrappingInterface
     public function create(\Magento\GiftWrapping\Service\V1\Data\Wrapping $data);
 
     /**
-     * @param int $id
-     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping $data
+     * @param Data\Wrapping $data
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int id
      */
-    public function update($id, \Magento\GiftWrapping\Service\V1\Data\Wrapping $data);
+    public function update(Data\Wrapping $data);
 
     /**
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
