@@ -30,7 +30,7 @@ class BannerInjectable extends AbstractRepository
             'name' => 'banner_%isolation%',
             'is_enabled' => 'Yes',
             'use_customer_segment' => 'All',
-            'store_contents_not_use' => ['value_0' => 'No'],
+            'store_contents_not_use' => ['value_1' => 'Yes'],
             'store_contents' => ['value_0' => 'banner_content_%isolation%']
         ];
     }
