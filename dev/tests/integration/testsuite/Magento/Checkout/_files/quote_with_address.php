@@ -24,7 +24,7 @@ $quote = $objectManager->create('Magento\Sales\Model\Quote');
 $quote->setStoreId(
     1
 )->setIsActive(
-    false
+    true
 )->setIsMultiShipping(
     false
 )->assignCustomerWithAddressChange(

@@ -11,6 +11,8 @@ namespace Magento\Checkout\Service\V1\ShippingMethod;
 use \Magento\Framework\Exception\CouldNotSaveException;
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Exception\InputException;
+use \Magento\Framework\Exception\StateException;
+
 
 class WriteService implements WriteServiceInterface
 {
@@ -61,6 +63,9 @@ class WriteService implements WriteServiceInterface
             );
         }
         $address = $quote->getShippingAddress();
+        if (!$address->getId()) {
+            throw new StateException('Shipping address is not set');
+        }
 
         $address->setShippingMethod($carrierCode . '_' . $methodCode);
         if (!$address->requestShippingRates()) {
