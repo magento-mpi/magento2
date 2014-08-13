@@ -26,11 +26,22 @@ class Config extends \Magento\Framework\Config\AbstractXml
     /**
      * Get page layout that contains declared in system
      *
-     * @return array
+     * @return string[][]
      */
     public function getPageLayouts()
     {
         return $this->_data;
+    }
+
+    /**
+     * Checks that the page layout declared in configuration
+     *
+     * @param string $pageLayout
+     * @return bool
+     */
+    public function hasPageLayout($pageLayout)
+    {
+        return isset($this->_data[$pageLayout]);
     }
 
     /**
@@ -70,8 +81,8 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     protected function _getInitialXml()
     {
-        return '<?xml version="1.0" encoding="UTF-8"?>'.
-        '<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></page_layouts>';
+        return '<?xml version="1.0" encoding="UTF-8"?>'
+            .'<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></page_layouts>';
     }
 
     /**

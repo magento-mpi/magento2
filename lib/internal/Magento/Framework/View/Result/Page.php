@@ -35,6 +35,11 @@ class Page extends Layout
     protected $pageType;
 
     /**
+     * @var string
+     */
+    protected $pageLayout;
+
+    /**
      * @var \Magento\Framework\View\Page\Config
      */
     protected $pageConfig;
@@ -45,6 +50,11 @@ class Page extends Layout
     private $request;
 
     /**
+     * @var \Magento\Framework\View\PageLayout\Config
+     */
+    protected $layoutConfig;
+
+    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
@@ -52,6 +62,7 @@ class Page extends Layout
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Framework\App\RequestInterface $request
      * @param View\Page\Config $pageConfig
+     * @param \Magento\Core\Model\PageLayout\Config\Builder $configBuilder
      * @param string $pageType
      * @param array $data
      */
@@ -61,12 +72,14 @@ class Page extends Layout
         \Magento\Framework\Translate\InlineInterface $translateInline,
         RequestInterface $request,
         View\Page\Config $pageConfig,
+        \Magento\Core\Model\PageLayout\Config\Builder $configBuilder,
         $pageType,
         array $data = array()
     ) {
         $this->request = $request;
         $this->pageConfig = $pageConfig;
         $this->pageType = $pageType;
+        $this->layoutConfig = $configBuilder->getPageLayoutsConfig();
         parent::__construct($context, $layoutFactory, $translateInline, $data);
     }
 
@@ -79,25 +92,26 @@ class Page extends Layout
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
         $this->addPageLayoutHandles([], $this->getDefaultLayoutHandle());
-        $this->addDefaultPageLayout();
-        return $this;
-    }
-
-    /**
-     * Add default page layout regarding definition in layout
-     *
-     * @return $this
-     */
-    protected function addDefaultPageLayout()
-    {
-        $update = $this->getLayout()->getUpdate();
-        $defaultPageLayout = $update->isLayoutDefined() ? null : $update->getDefaultPageLayout() ;
-        $pageLayout = $this->pageConfig->getPageLayout() ?: $defaultPageLayout;
+        $pageLayout = $this->getPageLayout();
         if ($pageLayout) {
             $update->addHandle($pageLayout);
             $this->setTemplate(self::DEFAULT_ROOT_TEMPLATE);
         }
         return $this;
+    }
+
+    /**
+     * Get default page layout regarding definition in layout
+     *
+     * @return null|string
+     */
+    protected function getPageLayout()
+    {
+        if ($this->pageLayout === null) {
+            $update = $this->getLayout()->getUpdate();
+            $this->pageLayout = $update->isLayoutDefined() ? '' : $update->getPageLayout();
+        }
+        return $this->pageLayout;
     }
 
     /**
@@ -144,14 +158,36 @@ class Page extends Layout
     {
         if ($this->getTemplate()) {
             $layout = $this->getLayout();
+            $config = $this->getConfig();
+
             $this->assign('headContent', $layout->getBlock('head')->toHtml());
+            $this->addDefaultBodyClasses();
+            $this->assign('bodyClasses', $config->getElementAttribute($config::ELEMENT_TYPE_BODY, 'classes'));
+            $this->assign('bodyAttributes', $config->getElementAttribute($config::ELEMENT_TYPE_BODY, 'attributes'));
+            $this->assign('htmlAttributes', $config->getElementAttribute($config::ELEMENT_TYPE_HTML, 'attributes'));
+
             $output = $layout->getOutput();
             $this->translateInline->processResponseBody($output);
             $this->assign('layoutContent', $output);
-            // TODO: implement assign for variables: bodyClasses, bodyAttributes
             $response->appendBody($this->toHtml());
         } else {
             parent::renderResult($response);
+        }
+        return $this;
+    }
+
+    /**
+     * Add default body classes for current page layout
+     *
+     * @return $this
+     */
+    protected function addDefaultBodyClasses()
+    {
+        $config = $this->getConfig();
+        $config->addBodyClass($this->request->getFullActionName('-'));
+        $pageLayout = $this->getPageLayout();
+        if ($pageLayout) {
+            $config->addBodyClass('page-layout-' . $pageLayout);
         }
         return $this;
     }

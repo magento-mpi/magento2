@@ -162,20 +162,15 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_view->generateLayoutBlocks();
 
         $currentCategory = $this->_coreRegistry->registry('current_category');
-        $root = $this->_view->getLayout()->getBlock('root');
-        if ($root) {
-            $controllerClass = $this->_request->getFullActionName();
-            if ($controllerClass != 'catalog-product-view') {
-                $root->addBodyClass('catalog-product-view');
-            }
-            $root->addBodyClass('product-' . $product->getUrlKey());
-            if ($currentCategory instanceof \Magento\Catalog\Model\Category) {
-                $root->addBodyClass(
-                    'categorypath-' . $currentCategory->getUrlPath()
-                )->addBodyClass(
-                    'category-' . $currentCategory->getUrlKey()
-                );
-            }
+
+        $controllerClass = $this->_request->getFullActionName();
+        if ($controllerClass != 'catalog-product-view') {
+            $this->pageConfig->addBodyClass('catalog-product-view');
+        }
+        $this->pageConfig->addBodyClass('product-' . $product->getUrlKey());
+        if ($currentCategory instanceof \Magento\Catalog\Model\Category) {
+            $this->pageConfig->addBodyClass('categorypath-' . $currentCategory->getUrlPath())
+                ->addBodyClass('category-' . $currentCategory->getUrlKey());
         }
 
         return $this;

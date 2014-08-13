@@ -21,6 +21,21 @@ namespace Magento\Framework\View\Page;
 class Config
 {
     /**
+     * Constants of available types
+     */
+    const ELEMENT_TYPE_BODY = 'body';
+    const ELEMENT_TYPE_HTML = 'html';
+    /**  */
+
+    /**
+     * @var array
+     */
+    private $allowedTypes = [
+        self::ELEMENT_TYPE_BODY,
+        self::ELEMENT_TYPE_HTML
+    ];
+
+    /**
      * @var string
      */
     protected $title;
@@ -41,20 +56,22 @@ class Config
     protected $pageLayout;
 
     /**
-     * @var \Magento\Theme\Model\Layout\Config
+     * @var \Magento\Framework\View\PageLayout\Config
      */
     protected $layoutConfig;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Framework\View\Asset\Collection $assetCollection
-     * @param \Magento\Theme\Model\Layout\Config $layoutConfig
+     * @param \Magento\Core\Model\PageLayout\Config\Builder $configBuilder
      */
     public function __construct(
         \Magento\Framework\View\Asset\Collection $assetCollection,
-        \Magento\Theme\Model\Layout\Config $layoutConfig
+        \Magento\Core\Model\PageLayout\Config\Builder $configBuilder
     ) {
         $this->assetCollection = $assetCollection;
-        $this->layoutConfig = $layoutConfig;
+        $this->layoutConfig = $configBuilder->getPageLayoutsConfig();
     }
 
     /**
@@ -88,13 +105,33 @@ class Config
     }
 
     /**
+     * Add CSS class to page body tag
+     *
+     * @param string $className
+     * @return $this
+     */
+    public function addBodyClass($className)
+    {
+        $className = preg_replace('#[^a-z0-9]+#', '-', strtolower($className));
+        $bodyClasses = $this->getElementAttribute(self::ELEMENT_TYPE_BODY, 'classes');
+        $this->setElementAttribute(self::ELEMENT_TYPE_BODY, 'classes', $bodyClasses . ' ' . $className);
+        return $this;
+    }
+
+    /**
+     * Set additional element attribute
+     *
      * @param string $elementType
      * @param string $attribute
-     * @param string $value
+     * @param mixed $value
      * @return $this
+     * @throws \Magento\Framework\Exception
      */
     public function setElementAttribute($elementType, $attribute, $value)
     {
+        if (array_search($elementType, $this->allowedTypes) === false) {
+            throw new \Magento\Framework\Exception($elementType . ' isn\'t allowed');
+        }
         $this->elements[$elementType][$attribute] = $value;
         return $this;
     }
@@ -118,7 +155,7 @@ class Config
      */
     public function setPageLayout($handle)
     {
-        if (!$this->layoutConfig->getPageLayout($handle)) {
+        if (!$this->layoutConfig->hasPageLayout($handle)) {
             throw new \UnexpectedValueException($handle . ' page layout does not exist.');
         }
         $this->pageLayout = $handle;

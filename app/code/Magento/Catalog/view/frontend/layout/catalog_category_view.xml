@@ -8,11 +8,6 @@
  */
 -->
 <page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/page.xsd">
-    <referenceBlock name="root">
-        <action method="addBodyClass">
-            <argument name="class" xsi:type="string">page-products</argument>
-        </action>
-    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Category\View" name="category.image" template="Magento_Catalog::category/image.phtml"/>
         <block class="Magento\Catalog\Block\Category\View" name="category.description" template="Magento_Catalog::category/description.phtml"/>

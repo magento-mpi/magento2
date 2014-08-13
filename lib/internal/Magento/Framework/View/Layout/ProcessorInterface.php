@@ -73,7 +73,7 @@ interface ProcessorInterface
      *
      * @return null|string
      */
-    public function getDefaultPageLayout();
+    public function getPageLayout();
 
     /**
      * Retrieve all design abstractions that exist in the system.

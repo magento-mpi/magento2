@@ -166,14 +166,11 @@ class View extends \Magento\Framework\App\Action\Action
             $this->_view->generateLayoutXml();
             $this->_view->generateLayoutBlocks();
 
-            $root = $this->_view->getLayout()->getBlock('root');
-            if ($root) {
-                $root->addBodyClass(
-                    'categorypath-' . $category->getUrlPath()
-                )->addBodyClass(
-                    'category-' . $category->getUrlKey()
-                );
-            }
+            /** @var \Magento\Framework\View\Page\Config $pageConfig */
+            $pageConfig = $this->_objectManager->get('Magento\Framework\View\Page\Config');
+            $pageConfig->addBodyClass('page-products')
+                ->addBodyClass('categorypath-' . $category->getUrlPath())
+                ->addBodyClass('category-' . $category->getUrlKey());
 
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();

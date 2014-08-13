@@ -261,15 +261,13 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      *
      * @return null|string
      */
-    public function getDefaultPageLayout()
+    public function getPageLayout()
     {
         $defaultPageLayout = null;
         $layoutXml = $this->getFileLayoutUpdatesXml();
         foreach ($this->getHandles() as $handle) {
             foreach ($layoutXml->xpath("handle[@id='{$handle}'][@layout]") as $updateXml) {
-                if (isset($updateXml['layout'])) {
-                    $defaultPageLayout = (string)$updateXml['layout'];
-                }
+                $defaultPageLayout = (string)$updateXml['layout'];
             }
         }
         return $defaultPageLayout;
