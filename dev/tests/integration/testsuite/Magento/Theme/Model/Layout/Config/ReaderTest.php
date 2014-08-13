@@ -43,15 +43,10 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'empty' => array(
                 'label' => 'Empty',
                 'code' => 'empty',
-                'template' => 'empty.phtml',
-                'layout_handle' => 'page_empty',
-                'is_default' => '0'
             ),
-            'one_column' => array(
+            '1column' => array(
                 'label' => '1 column',
                 'code' => '1column',
-                'layout_handle' => 'page_one_column',
-                'is_default' => '1'
             )
         );
         $this->assertEquals($expected, $result);
@@ -70,21 +65,14 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'empty' => array(
                 'label' => 'Empty',
                 'code' => 'empty',
-                'template' => 'empty.phtml',
-                'layout_handle' => 'page_empty',
-                'is_default' => '0'
             ),
-            'one_column' => array(
+            '1column' => array(
                 'label' => '1 column modified',
                 'code' => '1column',
-                'layout_handle' => 'page_one_column',
-                'is_default' => '1'
             ),
-            'two_columns_left' => array(
+            '2columns-left' => array(
                 'label' => '2 columns with left bar',
                 'code' => '2columns-left',
-                'layout_handle' => 'page_two_columns_left',
-                'is_default' => '0'
             )
         );
         $this->assertEquals($expected, $result);

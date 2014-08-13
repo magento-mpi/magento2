@@ -50,11 +50,6 @@ class Page extends Layout
     private $request;
 
     /**
-     * @var \Magento\Framework\View\PageLayout\Config
-     */
-    protected $layoutConfig;
-
-    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
@@ -62,7 +57,6 @@ class Page extends Layout
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Framework\App\RequestInterface $request
      * @param View\Page\Config $pageConfig
-     * @param \Magento\Core\Model\PageLayout\Config\Builder $configBuilder
      * @param string $pageType
      * @param array $data
      */
@@ -72,14 +66,12 @@ class Page extends Layout
         \Magento\Framework\Translate\InlineInterface $translateInline,
         RequestInterface $request,
         View\Page\Config $pageConfig,
-        \Magento\Core\Model\PageLayout\Config\Builder $configBuilder,
         $pageType,
         array $data = array()
     ) {
         $this->request = $request;
         $this->pageConfig = $pageConfig;
         $this->pageType = $pageType;
-        $this->layoutConfig = $configBuilder->getPageLayoutsConfig();
         parent::__construct($context, $layoutFactory, $translateInline, $data);
     }
 
