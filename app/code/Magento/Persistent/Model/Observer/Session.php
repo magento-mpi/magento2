@@ -50,14 +50,12 @@ class Session
     protected $_checkoutSession;
 
     /**
-     * Construct
+     * Constructor
      *
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
-     * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      */
     public function __construct(
