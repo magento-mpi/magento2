@@ -10,6 +10,7 @@ namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute;
 
 use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 use Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute\Type\AttributeForm;
 
 /**
@@ -23,21 +24,14 @@ class Attribute extends Tab
      *
      * @var string
      */
-    protected $formSelector = '(//div[contains(@id,"registry_option_") and contains(@class,"fieldset-")])[last()]';
+    protected $formSelector = '//*[@id="registry_attribute_container"]/following::fieldset[%d]';
 
     /**
-     * Selector for attribute block by code
+     * Selector for attribute block by label
      *
      * @var string
      */
-    protected $attributeBlock = './/*[contains(@class,"option") and (.//*[contains(@name,"[label]") and @value="%s"])]';
-
-    /**
-     * Selector for options block
-     *
-     * @var string
-     */
-    protected $optionsBlock = './/tr[td/input[@value="%s"] and contains(@id,"registry_attribute")]';
+    protected $attributeBlock = './/fieldset[.//input[contains(@name, "label") and @value = "%s"]]';
 
     /**
      * Add attribute button selector
@@ -56,9 +50,8 @@ class Attribute extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $attributesFields = $fields['attributes']['value'];
-
-        foreach ($attributesFields as $attributeField) {
+        $attributeKey = 1;
+        foreach ($fields['attributes']['value'] as $attributeField) {
             $this->addAttribute();
             if (!isset($attributeField['type'])) {
                 throw new \Exception('Input type for attribute must be set.');
@@ -67,9 +60,15 @@ class Attribute extends Tab
             /** @var AttributeForm $attributeForm */
             $attributeForm = $this->blockFactory->create(
                 __NAMESPACE__ . '\Type\\' . $this->optionNameConvert($attributeField['type']),
-                ['element' => $this->_rootElement->find($this->formSelector, Element\Locator::SELECTOR_XPATH)]
+                [
+                    'element' => $this->_rootElement->find(
+                        sprintf($this->formSelector, $attributeKey),
+                        Locator::SELECTOR_XPATH
+                    )
+                ]
             );
             $attributeForm->fillForm($attributeField);
+            $attributeKey++;
         }
         return $this;
     }
@@ -121,26 +120,7 @@ class Attribute extends Tab
                 __NAMESPACE__ . '\Type\\' . $this->optionNameConvert($field['type']),
                 ['element' => $rootElement]
             );
-
             $formData['attributes'][$keyRoot] = $attributeForm->getDataOptions($field, $rootElement);
-
-            // Data collection for options
-            if (isset($field['options'])) {
-                foreach ($field['options'] as $option) {
-                    $optionsBlock = $this->_rootElement->find(
-                        sprintf($this->optionsBlock, $option['label']),
-                        Element\Locator::SELECTOR_XPATH
-                    );
-                    /** @var AttributeForm $optionForm */
-                    $optionForm = $this->blockFactory->create(
-                        __NAMESPACE__ . '\Type\Option',
-                        ['element' => $optionsBlock]
-                    );
-
-                    $optionData = $optionForm->getDataOptions($option, $optionsBlock);
-                    $formData['attributes'][$keyRoot]['options'][] = $optionData;
-                }
-            }
         }
         return $formData;
     }

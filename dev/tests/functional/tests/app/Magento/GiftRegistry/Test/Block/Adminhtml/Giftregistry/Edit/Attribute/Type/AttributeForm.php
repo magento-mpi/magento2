@@ -18,20 +18,6 @@ use Mtf\Block\Form;
 abstract class AttributeForm extends Form
 {
     /**
-     * Add new option button selector
-     *
-     * @var string
-     */
-    protected $addNewOption = '[id^="registry_add_select_row_button"]';
-
-    /**
-     * Options selector
-     *
-     * @var string
-     */
-    protected $optionSelector = '//tr[contains(@id,"registry_attribute") and contains(@id,"select")][last()]';
-
-    /**
      * Filling attribute form
      *
      * @param array $attributeFields

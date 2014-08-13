@@ -9,7 +9,6 @@
 namespace Mtf\Client\Driver\Selenium\Element;
 
 use Mtf\Client\Driver\Selenium\Element;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class OptgroupselectElement
@@ -31,12 +30,12 @@ class OptgroupselectElement extends SelectElement
      */
     public function getValue()
     {
-        $this->_eventManager->dispatchEvent(['get_value'], [(string) $this->_locator]);
+        $this->_eventManager->dispatchEvent(['get_value'], [(string)$this->_locator]);
         $selectedLabel = trim($this->_getWrappedElement()->selectedLabel());
         $value = trim(
-                $this->_getWrappedElement()->byXPath(sprintf($this->optGroup, $selectedLabel))->attribute('label'),
-                chr(0xC2) . chr(0xA0)
-            );
+            $this->_getWrappedElement()->byXPath(sprintf($this->optGroup, $selectedLabel))->attribute('label'),
+            chr(0xC2) . chr(0xA0)
+        );
         $value .= '/' . $selectedLabel;
         return $value;
     }
@@ -45,18 +44,15 @@ class OptgroupselectElement extends SelectElement
      * Select value in dropdown which has option groups
      *
      * @param string $value
-     * @throws \Exception
      * @return void
      */
     public function setValue($value)
     {
         $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
         list($group, $option) = explode('/', $value);
-        $optionLocator = './/optgroup[@label="' . $group . '"]/option[contains(text(), "' . $option . '")]';
-        $option = $this->_context->find($optionLocator, Locator::SELECTOR_XPATH);
-        if (!$option->isVisible()) {
-            throw new \Exception('[' . implode('/', $option) . '] option is not visible in optgroup dropdown.');
-        }
-        $option->click();
+        $optionLocator = ".//optgroup[@label='$group']/option[contains(text(), '$option')]";
+        $criteria = new \PHPUnit_Extensions_Selenium2TestCase_ElementCriteria('xpath');
+        $criteria->value($optionLocator);
+        $this->_getWrappedElement(true)->selectOptionByCriteria($criteria);
     }
 }
