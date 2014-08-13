@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -83,8 +82,6 @@ class CustomerAccountIndex extends FrontendPage
     }
 
     /**
-     * Get Account Menu Block
-     *
      * @return \Magento\Customer\Test\Block\Account\Links
      */
     public function getAccountMenuBlock()
@@ -93,8 +90,6 @@ class CustomerAccountIndex extends FrontendPage
     }
 
     /**
-     * Get Account Info Block
-     *
      * @return \Magento\Customer\Test\Block\Account\Dashboard\Info
      */
     public function getInfoBlock()
@@ -103,8 +98,6 @@ class CustomerAccountIndex extends FrontendPage
     }
 
     /**
-     * Get compare products block
-     *
      * @return \Magento\Catalog\Test\Block\Product\Compare\Sidebar
      */
     public function getCompareProductsBlock()
