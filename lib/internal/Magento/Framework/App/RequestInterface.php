@@ -51,9 +51,11 @@ interface RequestInterface
     public function getParam($key, $defaultValue = null);
 
     /**
+     * Retrieve cookie value
+     *
      * @param string|null $name
      * @param string|null $default
-     * @return string|null
+     * @return string|null|array
      */
     public function getCookie($name, $default);
 }
