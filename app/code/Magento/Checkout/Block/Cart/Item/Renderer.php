@@ -545,4 +545,60 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         $block->setItem($item);
         return $block->toHtml();
     }
+
+    /**
+     * Get unit price excluding tax html
+     *
+     * @param Item\AbstractItem $item
+     * @return string
+     */
+    public function getUnitPriceExclTaxHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
+    {
+        /** @var Renderer $block */
+        $block = $this->getLayout()->getBlock('checkout.onepage.review.item.price.unit.excl');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
+
+    /**
+     * Get unit price including tax html
+     *
+     * @param Item\AbstractItem $item
+     * @return string
+     */
+    public function getUnitPriceInclTaxHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
+    {
+        /** @var Renderer $block */
+        $block = $this->getLayout()->getBlock('checkout.onepage.review.item.price.unit.incl');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
+
+    /**
+     * Get row total excluding tax html
+     *
+     * @param Item\AbstractItem $item
+     * @return string
+     */
+    public function getRowtotalExclTaxHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
+    {
+        /** @var Renderer $block */
+        $block = $this->getLayout()->getBlock('checkout.onepage.review.item.price.rowtotal.excl');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
+
+    /**
+     * Get row total including tax html
+     *
+     * @param Item\AbstractItem $item
+     * @return string
+     */
+    public function getRowtotalInclTaxHtml(\Magento\Sales\Model\Quote\Item\AbstractItem  $item)
+    {
+        /** @var Renderer $block */
+        $block = $this->getLayout()->getBlock('checkout.onepage.review.item.price.rowtotal.incl');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
 }

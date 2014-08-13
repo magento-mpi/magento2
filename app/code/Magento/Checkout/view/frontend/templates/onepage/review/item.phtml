@@ -11,7 +11,7 @@
 $_item = $this->getItem();
 ?>
 <tr>
-    <td class="col item"><strong class="product name"><?php echo $this->escapeHtml($this->getProductName()) ?></strong>
+    <td class="col item" data-th="<?php echo $this->escapeHtml(__('Product Name'));?>"><strong class="product name"><?php echo $this->escapeHtml($this->getProductName()) ?></strong>
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="review-item-options">
             <?php foreach ($_options as $_option) : ?>
@@ -35,11 +35,25 @@ $_item = $this->getItem();
             <?php echo $addtInfoBlock->setItem($_item)->toHtml() ?>
         <?php endif;?>
     </td>
-    <td class="col price" data-th="<?php echo $this->escapeHtml(__('Price')); ?>">
-        <?php echo $this->getUnitPriceHtml($_item); ?>
+    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+    <td class="col price excl tax" data-th="<?php echo $this->escapeHtml(__('Price'));?>">
+        <?php echo $this->getUnitPriceExclTaxHtml($_item); ?>
     </td>
+    <?php endif; ?>
+    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceInclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+    <td class="col price incl tax">
+        <?php echo $this->getUnitPriceInclTaxHtml($_item); ?>
+    </td>
+    <?php endif; ?>
     <td class="col qty"><span class="qty"><?php echo $_item->getQty() ?></span></td>
-    <td class="col subtotal" data-th="<?php echo $this->escapeHtml(__('Subtotal'));?>">
-        <?php echo $this->getRowTotalHtml($_item); ?>
+    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+    <td class="col subtotal excl tax">
+        <?php echo $this->getRowtotalExclTaxHtml($_item); ?>
     </td>
+    <?php endif; ?>
+    <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceInclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
+    <td class="col subtotal incl tax">
+        <?php echo $this->getRowtotalInclTaxHtml($_item); ?>
+    </td>
+    <?php endif; ?>
 </tr>

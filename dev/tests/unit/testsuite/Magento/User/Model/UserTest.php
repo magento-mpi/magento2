@@ -94,7 +94,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             array('create')
         )->getMock();
         $roleFactoryMock = $this->getMockBuilder(
-            'Magento\User\Model\RoleFactory'
+            'Magento\Authorization\Model\RoleFactory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();

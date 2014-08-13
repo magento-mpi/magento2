@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\VersionsCms\Test\Fixture\Version">
+    <module>Magento_VersionsCms</module>
+    <type>flat</type>
+    <entity_type>magento_versionscms_page_version</entity_type>
+    <collection>Magento\VersionsCms\Model\Resource\Page\Version\Collection</collection>
+    <fields>
+        <version_id>
+            <attribute_code>version_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </version_id>
+        <label>
+            <attribute_code>label</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input>text</input>
+        </label>
+        <access_level>
+            <attribute_code>access_level</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input>select</input>
+        </access_level>
+        <page_id>
+            <attribute_code>page_id</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </page_id>
+        <user_id>
+            <attribute_code>user_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input>select</input>
+            <source>Magento\VersionsCms\Test\Fixture\Version\UserId</source>
+        </user_id>
+        <revisions_count>
+            <attribute_code>revisions_count</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </revisions_count>
+        <version_number>
+            <attribute_code>version_number</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </version_number>
+        <created_at>
+            <attribute_code>created_at</attribute_code>
+            <backend_type>timestamp</backend_type>
+            <is_required></is_required>
+            <default_value>CURRENT_TIMESTAMP</default_value>
+            <input></input>
+        </created_at>
+    </fields>
+</fixture>

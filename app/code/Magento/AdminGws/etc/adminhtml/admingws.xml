@@ -39,7 +39,7 @@
         <callback class="Magento\Newsletter\Model\Resource\Queue\Collection" method="addStoreFilter" />
         <callback class="Magento\Newsletter\Model\Resource\Subscriber\Collection" method="addStoreFilter" />
         <callback class="Magento\Core\Model\Resource\Design\Collection" method="addStoreFilter" />
-        <callback class="Magento\User\Model\Resource\Role\Collection" method="limitAdminPermissionRoles" />
+        <callback class="Magento\Authorization\Model\Resource\Role\Collection" method="limitAdminPermissionRoles" />
         <callback class="Magento\User\Model\Resource\User\Collection" method="limitAdminPermissionUsers" />
         <callback class="Magento\User\Model\Resource\Role\User\Collection" method="limitAdminPermissionUsers" />
         <callback class="Magento\Reports\Model\Resource\Quote\Collection" method="addStoreFilter" />

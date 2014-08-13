@@ -50,6 +50,7 @@ class CatalogProductSimple extends AbstractRepository
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
+            'weight' => 1,
             'attribute_set_id' => ['dataSet' => 'default'],
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
@@ -63,6 +64,7 @@ class CatalogProductSimple extends AbstractRepository
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
+            'weight' => 1,
             'attribute_set_id' => ['dataSet' => 'default'],
             'price' => ['value' => 40, 'preset' => '-'],
             'mtf_dataset_name' => '40_dollar_product',
@@ -78,6 +80,7 @@ class CatalogProductSimple extends AbstractRepository
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
+            'weight' => 1,
             'price' => ['value' => 100, 'preset' => 'MAGETWO-23036'],
             'category_ids' => ['presets' => 'default'],
             'mtf_dataset_name' => 'simple_with_category',
@@ -91,6 +94,7 @@ class CatalogProductSimple extends AbstractRepository
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
+            'weight' => 1,
             'attribute_set_id' => ['dataSet' => 'default'],
             'price' => ['value' => 100, 'preset' => ''],
             'category_ids' => ['presets' => 'default_subcategory'],
@@ -197,6 +201,7 @@ class CatalogProductSimple extends AbstractRepository
                 'qty' => 25.0000,
                 'is_in_stock' => 'In Stock',
             ],
+            'weight' => 1,
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
         ];
@@ -229,6 +234,44 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 300, 'preset' => '-'],
             'weight' => 1,
             'tier_price' => ['preset' => 'default'],
+        ];
+
+        $this->_data['with_two_custom_option'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 300, 'preset' => '-'],
+            'weight' => 1,
+            'custom_options' => ['preset' => 'two_options'],
+        ];
+
+        $this->_data['with_all_custom_option'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 300, 'preset' => '-'],
+            'weight' => 1,
+            'custom_options' => ['preset' => 'all_types'],
+        ];
+
+        $this->_data['low_stock_product'] = [
+            'sku' => 'low_stock_product%isolation%',
+            'name' => 'low_stock_product%isolation%',
+            'type_id' => 'simple',
+            'quantity_and_stock_status' => [
+                'qty' => 1.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'stock_data' => [
+                'use_config_notify_stock_qty' => 'No',
+                'notify_stock_qty' => 2,
+            ],
+            'weight' => 1,
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'price' => ['value' => 100, 'preset' => '-'],
+            'website_ids' => ['Main Website'],
         ];
     }
 }
