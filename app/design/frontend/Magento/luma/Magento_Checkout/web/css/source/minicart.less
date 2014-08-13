@@ -9,8 +9,7 @@
 //
 //    Minicart
 //--------------------------------------
-
-.block.minicart {
+.block-minicart {
     .items-total {
         float: left;
         margin: 0 10px;
@@ -37,6 +36,9 @@
         text-align: center;
         font-size: 14px;
     }
+    .empty.text {
+        text-align: center;
+    }
     > .content > .actions {
         margin-top: 15px;
         > .secondary {
@@ -61,7 +63,7 @@
 .minicart-wrapper {
     .dropdown(
         @_toggle-selector: ~".action.showcart",
-        @_options-selector: ~".block.minicart",
+        @_options-selector: ~".block-minicart",
         @_dropdown-toggle-icon-content: @icon-cart,
         @_dropdown-toggle-active-icon-content: @icon-cart,
         @_dropdown-list-item-padding: false,
@@ -74,8 +76,8 @@
         @_icon-font-color-active: @minicart-icons-color
     );
     float: right;
-    .block.minicart {
-        padding: 29px 25px 25px;
+    .block-minicart {
+        padding: 25px 20px;
         right: 0;
         width: 320px;
         > .title {
@@ -133,17 +135,7 @@
         }
     }
     .action.close {
-        position: absolute;
-        right: 14px;
-        top: 6px;
-        .icon-font(
-            @icon-remove,
-            @_icon-font-size: 16px,
-            @_icon-font-line-height: 16px,
-            @_icon-font-color: @text-color-muted,
-            @_icon-font-text-hide: true
-        );
-        .button-reset();
+        display: none;
     }
     .action.showcart {
         .text {
@@ -159,11 +151,11 @@
             color: @page-bg-color;
             clip: none;
             display: inline-block;
-            height: 30px;
-            line-height: 30px;
+            height: 24px;
+            line-height: 24px;
             max-width: 2em;
-            min-width: 20px;
-            margin: 0 0 0 7px;
+            min-width: 18px;
+            margin: 3px 0 0;
             padding: 0 3px;
             overflow: hidden;
             text-align: center;
@@ -228,10 +220,18 @@
 }
 
 //
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-xs) {
+    .minicart-wrapper .block-minicart {
+        width: 289px;
+    }
+}
+
+//
 //    Desktop
 //--------------------------------------
-
-.responsive(@break) when (@break = @break-point-1) {
+.responsive(@break) when (@break = @screen-m) {
     .minicart-wrapper {
         margin-left: 13px;
         .block.minicart {

@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -12,7 +12,7 @@ class Synchronized extends \Magento\AdminNotification\Model\Resource\System\Mess
     /**
      * Unread message list
      *
-     * @var \Magento\AdminNotification\Model\System\MessageInterface[]
+     * @var \Magento\Framework\Notification\MessageInterface[]
      */
     protected $_unreadMessages = array();
 
@@ -58,7 +58,7 @@ class Synchronized extends \Magento\AdminNotification\Model\Resource\System\Mess
     /**
      * Retrieve list of unread messages
      *
-     * @return \Magento\AdminNotification\Model\System\MessageInterface[]
+     * @return \Magento\Framework\Notification\MessageInterface[]
      */
     public function getUnread()
     {
