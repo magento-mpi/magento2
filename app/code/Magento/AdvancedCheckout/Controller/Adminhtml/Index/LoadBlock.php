@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml\Index;
+
 use Magento\AdvancedCheckout\Exception as AdvancedCheckoutException;
 use Magento\Framework\Model\Exception;
 
