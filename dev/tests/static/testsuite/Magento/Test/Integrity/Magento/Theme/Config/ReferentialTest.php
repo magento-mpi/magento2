@@ -76,6 +76,7 @@ class ReferentialTest extends \PHPUnit_Framework_TestCase
 
     public function testTemplateExists()
     {
+        $this->markTestIncomplete('Outdated test and will be fixed in scope of MAGETWO-26278');
         $missing = array();
         foreach (self::$_templates as $templateName) {
             if (!in_array($templateName, self::$_templateFileNames)) {

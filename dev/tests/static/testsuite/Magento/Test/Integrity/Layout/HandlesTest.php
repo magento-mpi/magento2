@@ -78,6 +78,7 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
 
     public function testLayoutFormat()
     {
+        $this->markTestIncomplete('Outdated test and will be fixed in scope of MAGETWO-26278');
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**

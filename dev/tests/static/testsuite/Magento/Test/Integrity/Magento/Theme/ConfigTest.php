@@ -20,6 +20,11 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
         parent::testFileSchemaUsingInvalidXml($expectedErrors);
     }
 
+    public function testFileSchemaUsingPartialXml()
+    {
+        $this->markTestIncomplete('Outdated test and will be fixed in scope of MAGETWO-26278');
+    }
+
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
         $expectedErrors = array(
