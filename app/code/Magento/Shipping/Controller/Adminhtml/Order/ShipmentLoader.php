@@ -21,7 +21,7 @@ use Magento\Framework\Object;
  * @method int getOrderId
  * @method int getShipmentId
  * @method array getShipment
- * @method array getTracking //!!!!!!!!!!!!!!
+ * @method array getTracking
  */
 class ShipmentLoader extends Object
 {
@@ -87,13 +87,13 @@ class ShipmentLoader extends Object
      *
      * @return array
      */
-    protected function _getItemQtys()
+    protected function getItemQtys()
     {
         $data = $this->getShipment();
         if (isset($data['items'])) {
             $qtys = $data['items'];
         } else {
-            $qtys = array();
+            $qtys = [];
         }
         return $qtys;
     }
@@ -136,8 +136,8 @@ class ShipmentLoader extends Object
                 return false;
             }
 
-            $savedQtys = $this->_getItemQtys();
-            $shipment = $this->orderServiceFactory->create(array('order' => $order))->prepareShipment($savedQtys);
+            $savedQtys = $this->getItemQtys();
+            $shipment = $this->orderServiceFactory->create(['order' => $order])->prepareShipment($savedQtys);
             if ($this->getTracking()) {
                 foreach ((array)$this->getTracking() as $data) {
                     if (empty($data['number'])) {

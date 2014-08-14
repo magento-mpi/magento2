@@ -63,9 +63,10 @@ class Save extends \Magento\Backend\App\Action
     protected function _saveShipment($shipment)
     {
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = $this->_objectManager->create(
+        $transaction = $this->_objectManager->create(
             'Magento\Framework\DB\Transaction'
-        )->addObject(
+        );
+        $transaction->addObject(
             $shipment
         )->addObject(
             $shipment->getOrder()
@@ -82,6 +83,8 @@ class Save extends \Magento\Backend\App\Action
      */
     public function execute()
     {
+        $data = $this->getRequest()->getParam('shipment');
+
         if (!empty($data['comment_text'])) {
             $this->_objectManager->get('Magento\Backend\Model\Session')->setCommentText($data['comment_text']);
         }
@@ -89,7 +92,7 @@ class Save extends \Magento\Backend\App\Action
         try {
             $this->shipmentLoader->setOrderId($this->getRequest()->getParam('order_id'));
             $this->shipmentLoader->setShipmentId($this->getRequest()->getParam('shipment_id'));
-            $this->shipmentLoader->setShipment($this->getRequest()->getParam('shipment'));
+            $this->shipmentLoader->setShipment($data);
             $this->shipmentLoader->setTracking($this->getRequest()->getParam('tracking'));
             $shipment = $this->shipmentLoader->load();
             if (!$shipment) {
@@ -154,7 +157,7 @@ class Save extends \Magento\Backend\App\Action
         if ($isNeedCreateLabel) {
             $this->getResponse()->representJson($responseAjax->toJson());
         } else {
-            $this->_redirect('sales/order/view', array('order_id' => $shipment->getOrderId()));
+            $this->_redirect('sales/order/view', ['order_id' => $shipment->getOrderId()]);
         }
     }
 }
