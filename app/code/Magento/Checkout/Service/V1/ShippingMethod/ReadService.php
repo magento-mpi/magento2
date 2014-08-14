@@ -110,7 +110,7 @@ class ReadService implements ReadServiceInterface
         if (!$shippingAddress->getCountryId()) {
             throw new StateException('Shipping address not set.');
         }
-        $shippingAddress->requestShippingRates();
+        $shippingAddress->collectShippingRates();
         $shippingRates = $shippingAddress->getGroupedAllShippingRates();
         foreach ($shippingRates as $carrierRates) {
             foreach ($carrierRates as $rate) {

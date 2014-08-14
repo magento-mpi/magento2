@@ -41,7 +41,7 @@ class ShippingMethodConverter
     public function modelToDataObject($rateModel, $quoteCurrencyCode)
     {
         /** @var \Magento\Directory\Model\Currency $currency */
-        $currency = $this->storeManager->getStore()->getCurrentCurrency();
+        $currency = $this->storeManager->getStore()->getBaseCurrency();
 
         $errorMessage = $rateModel->getErrorMessage();
         $data = [
