@@ -94,12 +94,12 @@ class TokenService implements TokenServiceInterface
     {
         $token = $this->tokenModelFactory->create()->loadByAdminId($adminId);
         if (!$token->getToken()) {
-            throw new LocalizedException("This user has no tokens to invalidate.");
+            throw new LocalizedException("Token does not exist.");
         }
         try {
             $token->setRevoked(1)->save();
         } catch (\Exception $e) {
-            throw new LocalizedException("Token %token could not be revoked.", ['token' => $token->getToken()]);
+            throw new LocalizedException("Token could not be revoked.");
         }
         return true;
     }

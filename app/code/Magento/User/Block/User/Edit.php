@@ -61,7 +61,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                     'label' => __('Invalidate Access Tokens'),
                     'class' => 'reset',
                     'onclick' => 'deleteConfirm(\'' . __(
-                            json_encode(utf8_encode('Are you sure you want to invalidate this user\'s tokens?'), JSON_HEX_APOS)
+                        json_encode(utf8_encode('Are you sure you want to invalidate this user\'s tokens?'), JSON_HEX_APOS)
                     ) . '\', \'' . $this->getInvalidateUrl() . '\')'
                 )
             );

@@ -36,6 +36,6 @@ class InvalidateToken extends \Magento\User\Controller\Adminhtml\User
             }
         }
         $this->messageManager->addError(__('We can\'t find a user to invalidate.'));
-        $this->_redirect('adminhtml/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
+        $this->_redirect('adminhtml/*');
     }
 }
