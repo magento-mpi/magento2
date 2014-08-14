@@ -25,8 +25,8 @@ class Location extends \Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Ex
     {
         $this->setElement($element);
         $js = '
-            require(["mage/registry", "prototype"], function(registry){
-            registry.get("adminSystemConfig", function(adminSystemConfig) {
+            require(["jquery", "prototype"], function(jQuery){
+            jQuery("body").on("adminConfigDefined", function() {
                 $$(".with-button button.button").each(function(configureButton) {
                     togglePaypalSolutionConfigureButton(configureButton, true);
                 });

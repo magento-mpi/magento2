@@ -24,11 +24,10 @@
 <script type="text/javascript">
 require([
     "jquery",
-    "mage/registry",
     "jquery/jquery.hashchange",
     "mage/mage",
     "prototype"
-], function(jQuery, registry){
+], function(jQuery){
 
     jQuery(function() {
         window.configForm = jQuery('#config-edit-form').mage('form').mage('validation', {
@@ -347,8 +346,9 @@ require([
 
         jQuery(window).hashchange(handleHash);
         handleHash();
-        registry.set('adminSystemConfig', adminSystemConfig);
-    });
 
+    });
+    
+    jQuery('body').trigger('adminConfigDefined');
 });
 </script>
