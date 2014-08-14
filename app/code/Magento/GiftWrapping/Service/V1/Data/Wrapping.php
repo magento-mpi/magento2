@@ -22,6 +22,7 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     const BASE_PRICE = 'base_price';
     const IMAGE = 'image';
     const IMAGE_URL = 'image_url';
+    const IMAGE_BINARY = 'image_binary';
     const WEBSITE_IDS = 'website_ids';
     /**#@-*/
 
@@ -58,11 +59,19 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * @return \Magento\GiftWrapping\Service\V1\Data\Wrapping\Image
+     * @return string
      */
     public function getImage()
     {
         return $this->_get(self::IMAGE);
+    }
+
+    /**
+     * @return \Magento\GiftWrapping\Service\V1\Data\Wrapping\Image|null
+     */
+    public function getImageBinary()
+    {
+        return $this->_get(self::IMAGE_BINARY);
     }
 
     /**

@@ -14,14 +14,14 @@ interface WrappingInterface
      *
      * @param int $id
      * @param int $storeId
-     * @return Data\Wrapping
+     * @return \Magento\GiftWrapping\Service\V1\Data\Wrapping
      */
     public function get($id, $storeId = null);
 
     /**
      * Create new gift wrapping with data object values
      *
-     * @param Data\Wrapping $data
+     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping $data
      * @return int
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      */
@@ -30,7 +30,7 @@ interface WrappingInterface
     /**
      * Update existing gift wrapping with data object values
      *
-     * @param Data\Wrapping $data
+     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping $data
      * @return int
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      */

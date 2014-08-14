@@ -47,11 +47,19 @@ class WrappingBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     }
 
     /**
-     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping\Image $image
+     * @param string $image
      */
     public function setImage($image)
     {
         $this->_set(WrappingData::IMAGE, $image);
+    }
+
+    /**
+     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping\Image $image
+     */
+    public function setImageBinary(Wrapping\Image $image)
+    {
+        $this->_set(WrappingData::IMAGE_BINARY, $image);
     }
 
     /**
