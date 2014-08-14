@@ -69,12 +69,12 @@ class Builder
 
     /**
      * @param $customerGender
-     * @return mixed
+     * @return \Magento\Sales\Model\Order\Customer\Builder
      */
     public function setGender($customerGender)
     {
         $this->customerGender = $customerGender;
-        return $customerGender;
+        return $this;
     }
 
     /**

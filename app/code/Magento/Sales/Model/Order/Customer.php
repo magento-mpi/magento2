@@ -108,7 +108,7 @@ class Customer
      */
     public function getId()
     {
-        return $this->getId();
+        return $this->customerId;
     }
 
     /**

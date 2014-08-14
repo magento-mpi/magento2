@@ -92,7 +92,7 @@ class OrderConverter
     {
         $items = [];
         foreach ($dataObject->getItems() as $item) {
-            $items[] = $this->itemConverter->toModel($item);
+            $items[] = $this->itemConverter->getModel($item);
         }
         return $items;
     }
@@ -102,14 +102,14 @@ class OrderConverter
     {
         $payments = [];
         foreach ($dataObject->getPayments() as $payment) {
-            $items[] = $this->itemConverter->toModel($payment);
+            $items[] = $this->itemConverter->getModel($payment);
         }
         return $payments;
     }
 
     public function getModel(OrderData $dataObject)
     {
-        return $this->orderBuilder->setCustomer($this->getCustomer($dataObject))
+        $this->orderBuilder->setCustomer($this->getCustomer($dataObject))
             ->setQuoteId($dataObject->getQuoteId())
             ->setAppliedRuleIds($dataObject->getAppliedRuleIds())
             ->setIsVirtual($dataObject->getIsVirtual())
@@ -125,11 +125,11 @@ class OrderConverter
             ->setStoreToBaseRate($dataObject->getStoreToBaseRate())
             ->setBaseToGlobalRate($dataObject->getBaseToGlobalRate())
             ->setCouponCode($dataObject->getCouponCode())
-            ->setBillingAddress($this->addressConverter->toModel($dataObject->getBillingAddress()))
-            ->setShippingAddress($this->addressConverter->toModel($dataObject->getShippingAddress()))
+            ->setBillingAddress($this->addressConverter->getModel($dataObject->getBillingAddress()))
+            ->setShippingAddress($this->addressConverter->getModel($dataObject->getShippingAddress()))
             ->setPayments($this->getPayments($dataObject))
-            ->setItems($this->getItems($dataObject))
-            ;
+            ->setItems($this->getItems($dataObject));
+        return $this->orderBuilder->create();
 
     }
 }
