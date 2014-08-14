@@ -15,6 +15,13 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
      */
     protected $layoutFactory;
 
+    /**
+     * Constructor
+     *
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
+     */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $registry,
