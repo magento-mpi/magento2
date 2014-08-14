@@ -306,7 +306,7 @@ class StorageFactory
                 $this->_cookieManager->deleteCookie(Store::COOKIE_NAME);
             } else {
                 $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
-                    ->setDuration(3600*24*365);
+                    ->setDurationOneYear();
                 $this->_cookieManager->setPublicCookie(Store::COOKIE_NAME, $storage->getStore()->getCode(), $publicCookieMetadata);
                 $this->_httpContext->setValue(
                     Store::ENTITY,

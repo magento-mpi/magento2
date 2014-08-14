@@ -225,7 +225,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
             $cookieMetadata = $this->_cookieMetadataFactory->createPublicCookieMetadata()
-                ->setDuration(3600*24*365);
+                ->setDurationOneYear();
             $this->_cookieManager->setPublicCookie(
                 \Magento\Store\Model\Store::COOKIE_NAME,
                 $currentStore->getCode(),
