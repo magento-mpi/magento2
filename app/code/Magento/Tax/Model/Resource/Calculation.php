@@ -204,7 +204,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     $row['percent'] = $this->_collectPercent($totalPercent, $currentRate);
                     $totalPercent += $row['percent'];
                 }
-                $row['id'] = implode('',$ids);
+                $row['id'] = implode('', $ids);
                 $result[] = $row;
                 $row = array();
                 $ids = array();
