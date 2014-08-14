@@ -64,7 +64,7 @@ class ReadService implements ReadServiceInterface
 
         /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
         $shippingAddress = $quote->getShippingAddress();
-        if (!$shippingAddress->getId()) {
+        if (!$shippingAddress->getCountryId()) {
             throw new StateException('Shipping address not set.');
         }
 
@@ -107,7 +107,7 @@ class ReadService implements ReadServiceInterface
         }
 
         $shippingAddress = $quote->getShippingAddress();
-        if (!$shippingAddress->getId()) {
+        if (!$shippingAddress->getCountryId()) {
             throw new StateException('Shipping address not set.');
         }
         $shippingAddress->requestShippingRates();

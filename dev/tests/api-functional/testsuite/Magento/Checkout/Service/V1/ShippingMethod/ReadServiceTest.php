@@ -49,7 +49,7 @@ class ReadServiceTest extends WebapiAbstract
             ShippingMethod::METHOD_TITLE => $methodTitle,
             ShippingMethod::SHIPPING_AMOUNT => $shippingAddress->getShippingAmount(),
             ShippingMethod::BASE_SHIPPING_AMOUNT => $shippingAddress->getBaseShippingAmount(),
-            ShippingMethod:: AVAILABLE => true,
+            ShippingMethod::AVAILABLE => true,
         ];
 
         $requestData = ["cartId" => $cartId];
@@ -99,7 +99,7 @@ class ReadServiceTest extends WebapiAbstract
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
-        $quote->load('test_order_1', 'reserved_order_id');
+        $quote->load(72);
         $cartId = $quote->getId();
         if (!$cartId) {
             $this->fail('quote fixture failed');
