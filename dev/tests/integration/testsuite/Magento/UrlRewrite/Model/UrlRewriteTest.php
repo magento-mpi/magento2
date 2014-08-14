@@ -137,6 +137,75 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testRewriteSetCookie()
+    {
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Framework\App\RequestInterface'
+        )->setPathInfo(
+            'fancy/url.html'
+        );
+
+        $_SERVER['QUERY_STRING'] = 'foo=bar';
+
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            '\Magento\Framework\Model\Context'
+        );
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            '\Magento\Framework\Registry'
+        );
+        $scopeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            '\Magento\Framework\App\Config\ScopeConfigInterface'
+        );
+        $cookieMetadataFactory =
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            '\Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
+        );
+        $cookieManager =
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            '\Magento\Framework\Stdlib\CookieManager'
+        );
+        $storeManager =
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            '\Magento\Store\Model\StoreManagerInterface'
+        );
+        $httpContext =
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            '\Magento\Framework\App\Http\Context'
+        );
+
+        $constructorArgs = [
+            'context' => $context,
+            'registry' => $registry,
+            'scopeConfig' => $scopeConfig,
+            'cookieMetadataFactory' => $cookieMetadataFactory,
+            'cookieManager' => $cookieManager,
+            'storeManager' => $storeManager,
+            'httpContext' => $httpContext,
+        ];
+
+        //SUT must be mocked out for this test to prevent headers from being sent,
+        //causing errors.
+        $modelMock = $this->getMock('\Magento\UrlRewrite\Model\UrlRewrite',
+            ['_sendRedirectHeaders'],
+            $constructorArgs
+        );
+
+        $modelMock->setRequestPath(
+            'fancy/url.html'
+        )->setTargetPath(
+            'http:/url.html'
+        )->save();
+
+        try {
+            $this->assertTrue($modelMock->rewrite($request));
+            $this->assertEquals($_COOKIE[\Magento\Store\Model\Store::COOKIE_NAME], 'admin');
+            $modelMock->delete();
+        } catch (\Exception $e) {
+            $modelMock->delete();
+            throw $e;
+        }
+    }
+
     public function testRewriteNonExistingRecord()
     {
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

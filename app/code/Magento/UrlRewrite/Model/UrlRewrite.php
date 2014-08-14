@@ -278,7 +278,11 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 
         $queryString = $this->_getQueryString();
         if ($queryString) {
-            $targetUrl .= '?' . $queryString;
+            if (!isset($targetUrl)) {
+                $targetUrl = '?' . $queryString;
+            } else {
+                $targetUrl .= '?' . $queryString;
+            }
         }
 
         $request->setRequestUri($targetUrl);
