@@ -12,7 +12,7 @@ namespace Magento\Checkout\Service\V1\PaymentMethod;
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ReadService
+     * @var WriteService
      */
     protected $service;
 
@@ -41,6 +41,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $methodListMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $validatorMock;
+
     protected function setUp()
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -50,6 +55,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Builder', [], [], '', false
         );
         $this->methodListMock = $this->getMock('\Magento\Payment\Model\MethodList', [], [], '', false);
+        $this->validatorMock = $this->getMock('\Magento\Payment\Model\Checks\ZeroTotal', [], [], '', false);
 
         $this->service = $this->objectManager->getObject(
             '\Magento\Checkout\Service\V1\PaymentMethod\WriteService',
@@ -58,6 +64,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->storeManagerMock,
                 'paymentMethodBuilder' => $this->paymentMethodBuilderMock,
                 'methodList' => $this->methodListMock,
+                'zeroTotalValidator' => $this->validatorMock,
             ]
         );
     }
@@ -133,6 +140,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $paymentMock = $this->getMock('Magento\Sales\Model\Quote\Payment', [], [], '', false);
         $paymentMock->expects($this->once())->method('getId')->will($this->returnValue($paymentId));
 
+        $methodMock = $this->getMockForAbstractClass(
+            '\Magento\Payment\Model\Method\AbstractMethod', [], '', false, false
+        );
+
+        $paymentMock->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodMock));
+
         $quoteMock->expects($this->once())->method('getPayment')->will($this->returnValue($paymentMock));
 
         $this->quoteLoaderMock->expects($this->once())
@@ -141,6 +154,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($quoteMock));
 
         $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod', [], [], '', false);
+        $this->validatorMock->expects($this->once())->method('isApplicable')
+            ->with($methodMock, $quoteMock)->will($this->returnValue(true));
 
         $this->paymentMethodBuilderMock->expects($this->once())
             ->method('build')
@@ -148,6 +163,71 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($paymentMock));
 
         $this->assertEquals($paymentId, $this->service->set($paymentMethodMock, $cartId));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\State\InvalidTransitionException
+     * @expectedExceptionMessage The requested Payment Method is not available.
+     */
+    public function testSetVirtualQuotePaymentFail()
+    {
+        $cartId = 11;
+        $storeId = 12;
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
+        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+
+        $paymentsCollectionMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Collection\AbstractCollection', [], [], '', false
+        );
+
+        $quoteMock = $this->getMock(
+            '\Magento\Sales\Model\Quote',
+            [
+                'setTotalsCollectedFlag', '__wakeup', 'getPaymentsCollection', 'getPayment',
+                'getItemsCollection', 'isVirtual', 'getBillingAddress', 'collectTotals'
+            ], [], '', false
+        );
+        $quoteMock->expects($this->any())
+            ->method('getPaymentsCollection')
+            ->will($this->returnValue($paymentsCollectionMock));
+        $quoteMock->expects($this->any())->method('isVirtual')->will($this->returnValue(true));
+
+        $billingAddressMock =
+            $this->getMock('\Magento\Sales\Model\Quote\Address', ['getCountryId', '__wakeup'], [], '', false);
+        $billingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue(1));
+        $quoteMock->expects($this->any())->method('getBillingAddress')->will($this->returnValue($billingAddressMock));
+
+        $quoteMock->expects($this->never())->method('setTotalsCollectedFlag');
+        $quoteMock->expects($this->never())->method('collectTotals');
+
+        $paymentMock = $this->getMock('Magento\Sales\Model\Quote\Payment', [], [], '', false);
+        $paymentMock->expects($this->never())->method('getId');
+
+        $methodMock = $this->getMockForAbstractClass(
+            '\Magento\Payment\Model\Method\AbstractMethod', [], '', false, false
+        );
+
+
+        $paymentMock->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodMock));
+
+        $quoteMock->expects($this->never())->method('getPayment');
+
+        $this->quoteLoaderMock->expects($this->once())
+            ->method('load')
+            ->with($cartId, $storeId)
+            ->will($this->returnValue($quoteMock));
+
+        $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod', [], [], '', false);
+        $this->validatorMock->expects($this->once())->method('isApplicable')
+            ->with($methodMock, $quoteMock)->will($this->returnValue(false));
+
+        $this->paymentMethodBuilderMock->expects($this->once())
+            ->method('build')
+            ->with($paymentMethodMock, $quoteMock)
+            ->will($this->returnValue($paymentMock));
+
+        $this->service->set($paymentMethodMock, $cartId);
     }
 
     /**
@@ -231,6 +311,13 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $paymentMock = $this->getMock('Magento\Sales\Model\Quote\Payment', [], [], '', false);
         $paymentMock->expects($this->once())->method('getId')->will($this->returnValue($paymentId));
 
+        $methodMock = $this->getMockForAbstractClass(
+            '\Magento\Payment\Model\Method\AbstractMethod', [], '', false, false
+        );
+        $paymentMock->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodMock));
+        $this->validatorMock->expects($this->once())->method('isApplicable')
+            ->with($methodMock, $quoteMock)->will($this->returnValue(true));
+
         $quoteMock->expects($this->once())->method('getPayment')->will($this->returnValue($paymentMock));
 
         $this->quoteLoaderMock->expects($this->once())
@@ -248,4 +335,3 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($paymentId, $this->service->set($paymentMethodMock, $cartId));
     }
 }
- 
