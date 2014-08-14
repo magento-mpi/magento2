@@ -9,7 +9,6 @@
 namespace Magento\Framework\View\Result;
 
 use Magento\Framework\View;
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 
 /**
@@ -45,17 +44,11 @@ class Page extends Layout
     protected $pageConfig;
 
     /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    private $request;
-
-    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
-     * @param \Magento\Framework\App\RequestInterface $request
      * @param View\Page\Config $pageConfig
      * @param string $pageType
      * @param array $data
@@ -64,12 +57,10 @@ class Page extends Layout
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
         \Magento\Framework\Translate\InlineInterface $translateInline,
-        RequestInterface $request,
         View\Page\Config $pageConfig,
         $pageType,
         array $data = array()
     ) {
-        $this->request = $request;
         $this->pageConfig = $pageConfig;
         $this->pageType = $pageType;
         parent::__construct($context, $layoutFactory, $translateInline, $data);
@@ -139,7 +130,7 @@ class Page extends Layout
      */
     public function getDefaultLayoutHandle()
     {
-        return strtolower($this->request->getFullActionName());
+        return strtolower($this->_request->getFullActionName());
     }
 
     /**
@@ -176,7 +167,7 @@ class Page extends Layout
     protected function addDefaultBodyClasses()
     {
         $config = $this->getConfig();
-        $config->addBodyClass($this->request->getFullActionName('-'));
+        $config->addBodyClass($this->_request->getFullActionName('-'));
         $pageLayout = $this->getPageLayout();
         if ($pageLayout) {
             $config->addBodyClass('page-layout-' . $pageLayout);
