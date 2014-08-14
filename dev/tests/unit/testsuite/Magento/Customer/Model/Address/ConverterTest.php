@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,7 +33,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\AddressMetadataServiceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $metadataServiceMock;
 
@@ -64,8 +64,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->metadataServiceMock = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerMetadataService',
-            array('getAllAddressAttributeMetadata'),
+            'Magento\Customer\Service\V1\AddressMetadataService',
+            array('getAllAttributesMetadata'),
             array(),
             '',
             false
@@ -174,7 +174,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', array(), array(), '', false);
         $this->metadataServiceMock->expects($this->once())
-            ->method('getAllAddressAttributeMetadata')
+            ->method('getAllAttributesMetadata')
             ->will($this->returnValue(array()));
         $this->addressBuilderMock->expects($this->once())
             ->method('create')
@@ -238,7 +238,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', array(), array(), '', false);
         $this->metadataServiceMock->expects($this->once())
-            ->method('getAllAddressAttributeMetadata')
+            ->method('getAllAttributesMetadata')
             ->will($this->returnValue(array($attributeMock)));
         $this->addressBuilderMock->expects($this->once())
             ->method('create')
