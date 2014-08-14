@@ -164,7 +164,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
         $cookieDataHash = base64_encode($cookieData);
         $this->orderFactoryMock->expects($this->once())->method('create')->will($this->returnValue($orderMock));
 
-        $this->cookieManagerMock->expects($this->exactly(4))->method('getCookie')->with(Guest::COOKIE_NAME)->will(
+        $this->cookieManagerMock->expects($this->once())->method('getCookie')->with(Guest::COOKIE_NAME)->will(
             $this->returnValue($cookieDataHash)
         );
         $orderMock->expects($this->once())->method('loadByIncrementId')->with($incrementId);

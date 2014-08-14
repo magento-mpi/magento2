@@ -134,7 +134,8 @@ class Guest extends \Magento\Core\Helper\Data
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->orderFactory->create();
 
-        if (empty($post) && !$this->cookieManager->getCookie(self::COOKIE_NAME)) {
+        $fromCookie = $this->cookieManager->getCookie(self::COOKIE_NAME);
+        if (empty($post) && !$fromCookie) {
             $response->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
             return false;
         } elseif (!empty($post) && isset($post['oar_order_id']) && isset($post['oar_type'])) {
@@ -174,8 +175,7 @@ class Guest extends \Magento\Core\Helper\Data
                 $metadata->setDuration(self::COOKIE_LIFETIME);
                 $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $toCookie, $metadata);
             }
-        } elseif ($this->cookieManager->getCookie(self::COOKIE_NAME)) {
-            $fromCookie = $this->cookieManager->getCookie(self::COOKIE_NAME);
+        } elseif ($fromCookie) {
             $cookieData = explode(':', base64_decode($fromCookie));
             $protectCode = isset($cookieData[0]) ? $cookieData[0] : null;
             $incrementId = isset($cookieData[1]) ? $cookieData[1] : null;
@@ -184,14 +184,11 @@ class Guest extends \Magento\Core\Helper\Data
             if (!empty($protectCode) && !empty($incrementId)) {
                 $order->loadByIncrementId($incrementId);
                 if ($order->getProtectCode() == $protectCode) {
-                    // renew cookie if it exists
-                    $value = $this->cookieManager->getCookie(self::COOKIE_NAME);
-                    if ($value !== false) {
-                        $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
-                        $metadata->setPath(self::COOKIE_PATH);
-                        $metadata->setDuration(self::COOKIE_LIFETIME);
-                        $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $value, $metadata);
-                    }
+                    // renew cookie
+                    $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata();
+                    $metadata->setPath(self::COOKIE_PATH);
+                    $metadata->setDuration(self::COOKIE_LIFETIME);
+                    $this->cookieManager->setPublicCookie(self::COOKIE_NAME, $fromCookie, $metadata);
                     $errors = false;
                 }
             }
