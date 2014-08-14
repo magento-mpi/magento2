@@ -11,14 +11,15 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
 /**
- * Class InvoiceCreateTest
+ * Class CreditmemoCreateTest
+ *
  * @package Magento\Sales\Service\V1
  */
-class InvoiceCreateTest extends WebapiAbstract
+class CreditmemoCreateTest extends WebapiAbstract
 {
-    const RESOURCE_PATH = '/V1/invoice';
+    const RESOURCE_PATH = '/V1/creditmemo';
 
-    const SERVICE_READ_NAME = 'salesInvoiceCreateV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoCreateV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -33,12 +34,17 @@ class InvoiceCreateTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Sales/_files/order.php
+     * @magentoApiDataFixture Magento/Sales/_files/invoice.php
      */
     public function testInvoke()
     {
-        /** @var \Magento\Sales\Model\Order\Invoice $order */
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $this->objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
+        /** @var \Magento\Sales\Model\Order\Item $orderItem */
+        $orderItem = current($order->getAllItems());
+        $items = [
+            $orderItem->getId() => ['qty' => $orderItem->getQtyInvoiced(), 'order_item_id' => $orderItem->getId()]
+        ];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
@@ -51,7 +57,12 @@ class InvoiceCreateTest extends WebapiAbstract
             ]
         ];
         $data = [
-            'order_id' => $order->getId(),
+            'adjustment' => null,
+            'adjustment_negative' => null,
+            'adjustment_positive' => null,
+            'base_adjustment' => null,
+            'base_adjustment_negative' => null,
+            'base_adjustment_positive' => null,
             'base_currency_code' => null,
             'base_discount_amount' => null,
             'base_grand_total' => null,
@@ -63,12 +74,11 @@ class InvoiceCreateTest extends WebapiAbstract
             'base_subtotal' => null,
             'base_subtotal_incl_tax' => null,
             'base_tax_amount' => null,
-            'base_total_refunded' => null,
             'base_to_global_rate' => null,
             'base_to_order_rate' => null,
             'billing_address_id' => null,
-            'can_void_flag' => null,
             'created_at' => null,
+            'creditmemo_status' => null,
             'discount_amount' => null,
             'discount_description' => null,
             'email_sent' => null,
@@ -77,8 +87,9 @@ class InvoiceCreateTest extends WebapiAbstract
             'grand_total' => null,
             'hidden_tax_amount' => null,
             'increment_id' => null,
-            'is_used_for_refund' => null,
+            'invoice_id' => null,
             'order_currency_code' => null,
+            'order_id' => $order->getId(),
             'shipping_address_id' => null,
             'shipping_amount' => null,
             'shipping_hidden_tax_amount' => null,
@@ -92,12 +103,11 @@ class InvoiceCreateTest extends WebapiAbstract
             'subtotal' => null,
             'subtotal_incl_tax' => null,
             'tax_amount' => null,
-            'total_qty' => null,
             'transaction_id' => null,
             'updated_at' => null,
-            'items' => [],
+            'items' => $items,
         ];
-        $result = $this->_webApiCall($serviceInfo, ['invoiceDataObject' => $data]);
+        $result = $this->_webApiCall($serviceInfo, ['creditmemoDataObject' => $data]);
         $this->assertTrue($result);
     }
 }

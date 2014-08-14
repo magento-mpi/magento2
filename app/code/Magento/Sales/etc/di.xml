@@ -32,6 +32,7 @@
     <preference for="Magento\Sales\Service\V1\CreditmemoCancelInterface" type="Magento\Sales\Service\V1\CreditmemoCancel"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoAddCommentInterface" type="Magento\Sales\Service\V1\CreditmemoAddComment"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoEmailInterface" type="Magento\Sales\Service\V1\CreditmemoEmail"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoCreateInterface" type="Magento\Sales\Service\V1\CreditmemoCreate"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>
