@@ -24,10 +24,11 @@
 <script type="text/javascript">
 require([
     "jquery",
+    "mage/registry",
     "jquery/jquery.hashchange",
     "mage/mage",
     "prototype"
-], function(jQuery){
+], function(jQuery, registry){
 
     jQuery(function() {
         window.configForm = jQuery('#config-edit-form').mage('form').mage('validation', {
@@ -212,6 +213,7 @@ require([
             }
         };
 
+
         $$('.shared').each(function(element){
             Event.observe(element, 'change', adminSystemConfig.onchangeSharedElement);
 
@@ -345,6 +347,7 @@ require([
 
         jQuery(window).hashchange(handleHash);
         handleHash();
+        registry.set('adminSystemConfig', adminSystemConfig);
     });
 
 });
