@@ -10,17 +10,12 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_virtual.php';
 
 /** @var \Magento\Sales\Model\Quote $quote */
 $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-$quote->setStoreId(
-    1
-    )->setIsActive(
-        false
-    )->setIsMultiShipping(
-        false
-    )->setReservedOrderId(
-        'test_order_with_virtual_product_without_address'
-    )->setEmail(
-        'store@example.com'
-    )->addProduct(
+$quote->setStoreId(1)
+    ->setIsActive(true)
+    ->setIsMultiShipping(false)
+    ->setReservedOrderId('test_order_with_virtual_product_without_address')
+    ->setEmail('store@example.com')
+    ->addProduct(
         $product->load($product->getId()),
         1
     );

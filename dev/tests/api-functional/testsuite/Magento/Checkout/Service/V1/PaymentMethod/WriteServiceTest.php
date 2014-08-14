@@ -28,10 +28,8 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Checkout/_files/quote_with_payment_saved.php
-     * @expectedException \Exception
-     * @expectedExceptionMessage Payment method already set
      */
-    public function testSetPaymentWithErrorIfPaymentAlreadySet()
+    public function testReSetPayment()
     {
         /** @var \Magento\Sales\Model\Quote  $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
@@ -54,12 +52,11 @@ class WriteServiceTest extends WebapiAbstract
             "cartId" => $cartId,
             "method" => [
                 'method' => 'checkmo',
-                'po_number' => '200',
-                'cc_cid' => '100',
-                'cc_owner' => 'tester',
-                'cc_type' => 'test',
-                'cc_exp_year' => '2014',
-                'cc_exp_month' => '1',
+                'po_number' => null,
+                'cc_owner' => 'John',
+                'cc_type' => null,
+                'cc_exp_year' => null,
+                'cc_exp_month' => null,
             ]
         ];
 
@@ -93,7 +90,6 @@ class WriteServiceTest extends WebapiAbstract
             "method" => [
                 'method' => 'checkmo',
                 'po_number' => '200',
-                'cc_cid' => '100',
                 'cc_owner' => 'tester',
                 'cc_type' => 'test',
                 'cc_exp_year' => '2014',
@@ -130,7 +126,6 @@ class WriteServiceTest extends WebapiAbstract
             "method" => [
                 'method' => 'checkmo',
                 'po_number' => '200',
-                'cc_cid' => '100',
                 'cc_owner' => 'tester',
                 'cc_type' => 'test',
                 'cc_exp_year' => '2014',
@@ -170,7 +165,6 @@ class WriteServiceTest extends WebapiAbstract
             "method" => [
                 'method' => 'checkmo',
                 'po_number' => '200',
-                'cc_cid' => '100',
                 'cc_owner' => 'tester',
                 'cc_type' => 'test',
                 'cc_exp_year' => '2014',
@@ -209,7 +203,6 @@ class WriteServiceTest extends WebapiAbstract
             "method" => [
                 'method' => 'checkmo',
                 'po_number' => '200',
-                'cc_cid' => '100',
                 'cc_owner' => 'tester',
                 'cc_type' => 'test',
                 'cc_exp_year' => '2014',

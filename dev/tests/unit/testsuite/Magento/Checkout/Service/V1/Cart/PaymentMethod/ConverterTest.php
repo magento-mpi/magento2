@@ -46,7 +46,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMock = $this->getMock('\Magento\Sales\Model\Quote\Payment',
             [
-                'getMethod', 'getPoNumber', 'getCcCid', 'getCcOwner', 'getCcNumber',
+                'getMethod', 'getPoNumber', 'getCcOwner', 'getCcNumber',
                 'getCcType', 'getCcExpYear', 'getCcExpMonth', 'getAdditionalData', '__wakeup'
             ],
             [],
