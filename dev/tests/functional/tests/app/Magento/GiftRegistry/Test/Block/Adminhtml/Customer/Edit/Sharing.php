@@ -25,26 +25,6 @@ class Sharing extends Form
     protected $shareGiftRegistry = '[type="submit"]';
 
     /**
-     * Sharing Information fields
-     *
-     * @var array
-     */
-    protected $shareInfoFields = [
-        'emails' => [
-            'selector' => '[name="emails"]',
-            'input' => null
-        ],
-        'store_id' => [
-            'selector' => '[name="store_id"]',
-            'input' => 'select'
-        ],
-        'message' => [
-            'selector' => '[name="message"]',
-            'input' => 'textarea'
-        ]
-    ];
-
-    /**
      * Click share gift registry
      *
      * @return void
@@ -62,12 +42,7 @@ class Sharing extends Form
      */
     public function fillForm(array $sharingInfo)
     {
-        foreach ($sharingInfo as $field => $value) {
-            $this->_rootElement->find(
-                $this->shareInfoFields[$field]['selector'],
-                Locator::SELECTOR_CSS,
-                $this->shareInfoFields[$field]['input']
-            )->setValue($value);
-        }
+        $mapping = $this->dataMapping($sharingInfo);
+        $this->_fill($mapping);
     }
 }
