@@ -62,7 +62,7 @@ class WriteService implements WriteServiceInterface
             );
         }
         $address = $quote->getShippingAddress();
-        if (!$address->getId()) {
+        if (!$address->getCountryId()) {
             throw new StateException('Shipping address is not set');
         }
 
