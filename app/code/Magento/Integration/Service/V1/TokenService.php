@@ -84,6 +84,27 @@ class TokenService implements TokenServiceInterface
     }
 
     /**
+     * Revoke token by admin id.
+     *
+     * @param int $adminId
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function revokeAdminAccessToken($adminId)
+    {
+        $token = $this->tokenModelFactory->create()->loadByAdminId($adminId);
+        if (!$token->getToken()) {
+            throw new LocalizedException("This user has no tokens to invalidate.");
+        }
+        try {
+            $token->setRevoked(1)->save();
+        } catch (\Exception $e) {
+            throw new LocalizedException("Token %token could not be revoked.", ['token' => $token->getToken()]);
+        }
+        return true;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function createCustomerAccessToken($username, $password)

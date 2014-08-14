@@ -58,7 +58,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             $this->addButton(
                 'invalidate',
                 array(
-                    'label' => __('Invalidate User (non-functional)'),
+                    'label' => __('Invalidate Access Tokens'),
                     'class' => 'reset',
                     'onclick' => 'deleteConfirm(\'' . __(
                             json_encode(utf8_encode('Are you sure you want to invalidate this user\'s tokens?'), JSON_HEX_APOS)
