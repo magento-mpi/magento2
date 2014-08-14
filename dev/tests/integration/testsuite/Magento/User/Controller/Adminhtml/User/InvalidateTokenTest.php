@@ -53,7 +53,7 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('user_id', $adminUserId);
         $this->dispatch('backend/admin/user/invalidateToken');
         $this->assertSessionMessages(
-            $this->equalTo(['This user has no tokens to invalidate.']),
+            $this->equalTo(['Token does not exist.']),
             MessageInterface::TYPE_ERROR
         );
     }
@@ -74,7 +74,7 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('user_id', $adminUserId);
         $this->dispatch('backend/admin/user/invalidateToken');
         $this->assertSessionMessages(
-            $this->equalTo(['This user has no tokens to invalidate.']),
+            $this->equalTo(['Token does not exist.']),
             MessageInterface::TYPE_ERROR
         );
     }
