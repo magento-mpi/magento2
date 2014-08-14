@@ -12,13 +12,11 @@
         <action method="setTemplate">
             <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getReviewButtonTemplate">
                 <param name="name">Magento_Pbridge::checkout/review/button.phtml</param>
-                <param name="block">checkout.onepage.review.button</param>
             </argument>
         </action>
         <action method="setTemplate">
             <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getContinueButtonTemplate">
                 <param name="name">Magento_Pbridge::checkout/review/button.continue.phtml</param>
-                <param name="block">checkout.onepage.review.button</param>
             </argument>
         </action>
     </referenceBlock>
