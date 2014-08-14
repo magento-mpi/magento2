@@ -14,7 +14,6 @@ use Magento\Framework\Module\Declaration\Converter\Dom;
 use Magento\Framework\Module\Declaration\SchemaLocator;
 use Magento\Framework\Module\DependencyManagerInterface;
 use Magento\Framework\Config\ValidationStateInterface;
-use Magento\Framework\App\State;
 
 class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
 {
