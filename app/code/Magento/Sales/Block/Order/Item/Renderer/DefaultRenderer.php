@@ -212,24 +212,32 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
     /**
      * Return item unit price html
      *
+     * @param OrderItem|InvoiceItem|CreditmemoItem $item child item in case of bundle product
      * @return string
      */
-    public function getItemPriceHtml()
+    public function getItemPriceHtml($item = null)
     {
         $block = $this->getLayout()->getBlock('item_unit_price');
-        $block->setItem($this->getItem());
+        if (!$item) {
+            $item = $this->getItem();
+        }
+        $block->setItem($item);
         return $block->toHtml();
     }
 
     /**
      * Return item row total html
      *
+     * @param OrderItem|InvoiceItem|CreditmemoItem $item child item in case of bundle product
      * @return string
      */
-    public function getItemRowTotalHtml()
+    public function getItemRowTotalHtml($item = null)
     {
         $block = $this->getLayout()->getBlock('item_row_total');
-        $block->setItem($this->getItem());
+        if (!$item) {
+            $item = $this->getItem();
+        }
+        $block->setItem($item);
         return $block->toHtml();
     }
 
@@ -253,12 +261,16 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
     /**
      * Return HTML for item total after discount
      *
+     * @param OrderItem|InvoiceItem|CreditmemoItem $item child item in case of bundle product
      * @return string
      */
-    public function getItemRowTotalAfterDiscountHtml()
+    public function getItemRowTotalAfterDiscountHtml($item = null)
     {
         $block = $this->getLayout()->getBlock('item_row_total_after_discount');
-        $block->setItem($this->getItem());
+        if (!$item) {
+            $item = $this->getItem();
+        }
+        $block->setItem($item);
         return $block->toHtml();
     }
 }
