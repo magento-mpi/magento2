@@ -11,8 +11,4 @@
 $item = $this->getItem();
 ?>
 
-<textarea placeholder="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->defaultCommentString() ?>" name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" title="<?php echo __('Comment') ?>"><?php echo($this->escapeHtml($item->getDescription())) ?></textarea>
-
-<?php foreach ($this->getChildNames() as $childName): ?>
-    <?php echo $this->getLayout()->renderElement($childName, false); ?>
-<?php endforeach;?>
+<textarea placeholder="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->defaultCommentString() ?>" name="description[<?php echo $item->getWishlistItemId() ?>]" title="<?php echo __('Comment') ?>" class="product-item-comment"><?php echo($this->escapeHtml($item->getDescription())) ?></textarea>

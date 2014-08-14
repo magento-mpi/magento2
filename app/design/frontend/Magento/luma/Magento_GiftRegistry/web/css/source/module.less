@@ -21,7 +21,10 @@
 }
 
 .giftregisty-dropdown {
-    &:extend(.dropdown-simple all);
+    &:extend(.abstract-dropdown-simple all);
+    .action.toggle {
+        color: @link-color;
+    }
 }
 
 .table-giftregistry-items {

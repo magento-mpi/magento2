@@ -507,7 +507,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function defaultCommentString()
     {
-        return __('Please enter your comments.');
+        return __('Comment');
     }
 
     /**

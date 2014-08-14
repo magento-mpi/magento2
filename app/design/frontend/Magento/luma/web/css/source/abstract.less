@@ -158,12 +158,13 @@
 //
 //    Simple Dropdown
 //--------------------------------------
-.dropdown-simple {
-    line-height: normal;
-    .dropdown();
-    ul.items.dropdown {
-        min-width: 155px;
-    }
+.abstract-dropdown-simple {
+    .dropdown(
+        @_dropdown-list-item-padding: 5px 5px 5px 23px,
+        @_dropdown-list-min-width: 200px,
+        @_icon-font-margin: 0 0 0 5px,
+        @_icon-font-vertical-align: middle
+    );
 }
 
 //
@@ -566,7 +567,6 @@
         .icon-font(
             @icon-down,
             @_icon-font-size: 12px,
-            @_icon-font-line-height: 12px,
             @_icon-font-text-hide: false,
             @_icon-font-margin: 3px 0 0 0,
             @_icon-font-position: after,
@@ -810,5 +810,32 @@
 .abstract-colon {
     &:after {
         content: ": ";
+    }
+}
+
+//
+//    Dropdown items - create new
+//--------------------------------------
+.abstract-dropdown-items-new {
+    .items {
+        text-align: left;
+    }
+    .items .item:last-child {
+        background: #e2e2e2;
+        &:hover {
+            background: @dropdown-list-item-hover;
+        }
+    }
+    .action.new {
+        .icon-font(
+            @_icon-font-content: @icon-expand,
+            @_icon-font-size: 10px,
+            @_icon-font-line-height: 10px,
+            @_icon-font-vertical-align: middle
+        );
+         &:before {
+            margin-left: -17px;
+            margin-right: 5px;
+        }
     }
 }

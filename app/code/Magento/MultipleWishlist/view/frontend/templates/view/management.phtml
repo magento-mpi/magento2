@@ -30,7 +30,7 @@
                 <?php endforeach;?>
                 <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
                     <li class="item wishlist-add">
-                        <button type="button" id="wishlist-create-button" data-wishlist-create='{"url":"<?php echo $this->getCreateUrl();?>"}' title="<?php echo __('Create New Wish List') ?>" class="action add wishlist"><span><?php echo __('Create New Wish List') ?></span></button>
+                        <a href="#" id="wishlist-create-button" data-wishlist-create='{"url":"<?php echo $this->getCreateUrl();?>"}' title="<?php echo __('Create New Wish List') ?>" class="action add wishlist"><span><?php echo __('Create New Wish List') ?></span></a>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -57,13 +57,12 @@
         <?php if($this->getCurrentWishlist()->getItemsCount()): ?>
         <div class="wishlist-toolbar">
             <div class="wishlist-toolbar-select">
-                <input type="checkbox" name="" id="wishlist-select-all" />
+                <input type="checkbox" name="" id="wishlist-select-all" data-role="select-all" />
                 <label class="label" for="wishlist-select-all"><?php echo __('Select all');?></label>
             </div>
             <div class="wishlist-toolbar-actions">
-                <span class="label"><?php echo __('With Selected');?></span>
                 <div id="wishlists-move" class="wishlist-dropdown move" data-wishlist-move='{"moveSelectedUrl":"<?php echo $this->getMoveSelectedUrl();?>", "moveItemUrl":"<?php echo $this->getMoveItemUrl();?>"}'>
-                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move to Wish List');?></span></span>
+                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move Selected to Wish List');?></span></span>
                     <ul class="items dropdown" data-target="dropdown">
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>
@@ -76,7 +75,7 @@
                     </ul>
                 </div>
                 <div id="wishlists-copy" class="wishlist-dropdown copy" data-wishlist-copy='{"copySelectedUrl":"<?php echo $this->getCopySelectedUrl();?>", "copyItemUrl":"<?php echo $this->getCopyItemUrl();?>"}'>
-                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-copy-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo __('Copy to Wish List');?></span></span>
+                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-copy-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo __('Copy Selected to Wish List');?></span></span>
                     <ul class="items dropdown" data-target="dropdown">
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>
@@ -93,3 +92,15 @@
         <?php endif;?>
     </div>
 <?php endif; ?>
+
+<script type="text/javascript">
+require([
+    "jquery"
+], function($){
+   $('[data-role="select-all"]').change(function(e){
+        var selectAll = $(this);
+        $('[data-role="select-product"]','.products-grid.wishlist').filter(':enabled')
+            .prop('checked', selectAll.prop('checked'));
+   });
+});
+</script>

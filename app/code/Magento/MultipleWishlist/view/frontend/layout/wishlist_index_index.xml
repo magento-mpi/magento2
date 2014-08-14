@@ -25,7 +25,7 @@
             <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector" name="customer.wishlist.item.selector" after="customer.wishlist.item.image" template="item/column/selector.phtml" cacheable="false" />
         </referenceBlock>
         <referenceBlock name="customer.wishlist.item.actions">
-            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management" name="customer.wishlist.item.mananagement" template="item/column/management.phtml" cacheable="false" after="-" />
+            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management" name="customer.wishlist.item.mananagement" template="item/column/management.phtml" cacheable="false" before="customer.wishlist.item.remove" />
         </referenceBlock>
         <referenceContainer name="customer.wishlist.buttons">
             <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Button\Delete" name="customer.wishlist.button.delete" template="button/delete.phtml" cacheable="false"/>

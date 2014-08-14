@@ -15,17 +15,3 @@ $product = $item->getProduct();
         <?php echo $this->escapeHtml($product->getName()) ?>
     </a>
 </strong>
-
-<?php $description = $product->getShortDescription(); ?>
-<?php if ($description): ?>
-<div class="product-item-description">
-    <?php echo $this->escapeHtml($this->stripTags($description));?>
-</div>
-<?php endif; ?>
-
-<?php $children = $this->getChildNames(); ?>
-<?php if ($children): ?>
-    <?php foreach($children as $childName):?>
-        <?php echo $this->getLayout()->renderElement($childName, false);?>
-    <?php endforeach;?>
-<?php endif; ?>
