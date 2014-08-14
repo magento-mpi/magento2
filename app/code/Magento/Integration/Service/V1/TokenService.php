@@ -125,12 +125,12 @@ class TokenService implements TokenServiceInterface
     {
         $token = $this->tokenModelFactory->create()->loadByCustomerId($customerId);
         if (!$token->getToken()) {
-            throw new LocalizedException("Token %token does not exist.", ['token' => $token->getToken()]);
+            throw new LocalizedException("Token does not exist.");
         }
         try {
             $token->setRevoked(1)->save();
         } catch (\Exception $e) {
-            throw new LocalizedException("Token %token could not be revoked.", ['token' => $token->getToken()]);
+            throw new LocalizedException("Token could not be revoked.");
         }
         return true;
     }
