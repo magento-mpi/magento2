@@ -48,6 +48,9 @@
                     ], function(jQuery){
                         jQuery('#login-form').form().validation();
                     });
+                    jQuery(window).load(function(){
+                        jQuery('#username').focus();
+                    });
                 </script>
             </div>
         </div>
