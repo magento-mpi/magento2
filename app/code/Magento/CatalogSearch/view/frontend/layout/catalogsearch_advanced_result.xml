@@ -13,7 +13,7 @@
             <argument translate="true" name="title" xsi:type="string">Catalog Advanced Search</argument>
         </action>
     </referenceBlock>
-    <referenceBlock name="root">
+    <referenceBlock name="body.class">
         <action method="addBodyClass">
             <argument name="class" xsi:type="string">page-products</argument>
         </action>

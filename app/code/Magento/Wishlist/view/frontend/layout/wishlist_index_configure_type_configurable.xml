@@ -12,7 +12,7 @@
         <block class="Magento\Framework\View\Element\Js\Components" name="wishlist_product_view_head_components" template="Magento_Wishlist::js/components.phtml"/>
         <block class="Magento\Framework\View\Element\Js\Components" name="configurableproduct_product_view_head_components" template="Magento_ConfigurableProduct::js/components.phtml"/>
     </referenceBlock>
-    <referenceBlock name="root">
+    <referenceBlock name="body.class">
         <action method="addBodyClass">
             <argument name="value" xsi:type="string">type-configurable</argument>
         </action>

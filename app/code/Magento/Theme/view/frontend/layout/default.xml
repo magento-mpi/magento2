@@ -12,6 +12,7 @@
     <block class="Magento\Theme\Block\Html\Head" name="head" as="head" before="-">
         <block class="Magento\Framework\View\Element\Js\Cookie" name="js_cookies" template="Magento_Theme::js/cookie.phtml"/>
     </block>
+    <block class="Magento\Theme\Block\Html\Body" name="body.class"/>
     <referenceBlock name="top.links">
         <block class="Magento\Theme\Block\Html\Header" name="header" as="header" before="-">
             <arguments>
