@@ -20,4 +20,16 @@
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>revisionsGrid</name>
+        <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit\RevisionsGrid</class>
+        <locator>#revisionsGrid</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages .messages</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

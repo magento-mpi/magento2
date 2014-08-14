@@ -65,4 +65,34 @@
             <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
         </require>
     </assertCmsPageVersionErrorDeleteMessage>
+    <assertCmsPageRevisionSuccessMassDeleteMessage module="Magento_VersionsCms">
+        <severeness>medium</severeness>
+        <require>
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+        </require>
+    </assertCmsPageRevisionSuccessMassDeleteMessage>
+    <assertCmsPageRevisionNotInGrid module="Magento_VersionsCms">
+        <severeness>low</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+        </require>
+    </assertCmsPageRevisionNotInGrid>
+    <assertCmsPageRevisionErrorDeleteMessage module="Magento_VersionsCms">
+        <severeness>low</severeness>
+        <require>
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+        </require>
+    </assertCmsPageRevisionErrorDeleteMessage>
+    <assertCmsPageRevisionInGrid module="Magento_VersionsCms">
+        <severeness>low</severeness>
+        <require>
+            <cms class="Magento\Cms\Test\Fixture\CmsPage"/>
+            <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+            <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
+        </require>
+    </assertCmsPageRevisionInGrid>
 </constraint>
