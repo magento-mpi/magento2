@@ -36,6 +36,13 @@ class Builder
                     $data = array_merge($data, $additionalData);
                 }
             }
+            $data['checks'] = array(
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
+            );
             $payment->importData($data);
         } catch (\Exception $e) {
             throw new LocalizedException('The requested Payment Method is not available.');
