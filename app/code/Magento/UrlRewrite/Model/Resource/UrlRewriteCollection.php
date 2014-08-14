@@ -9,7 +9,7 @@
  */
 namespace Magento\UrlRewrite\Model\Resource;
 
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite as UrlRewriteService;
 
 class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -96,7 +96,11 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
      */
     protected function prepareParams($params)
     {
-        $filteredFields = [UrlRewrite::METADATA, UrlRewrite::DESCRIPTION, UrlRewrite::REDIRECT_TYPE];
+        $filteredFields = [
+            UrlRewriteService::METADATA,
+            UrlRewriteService::DESCRIPTION,
+            UrlRewriteService::REDIRECT_TYPE,
+        ];
         $conditions = [];
         $select = clone $this->getSelect();
         $select->reset();
