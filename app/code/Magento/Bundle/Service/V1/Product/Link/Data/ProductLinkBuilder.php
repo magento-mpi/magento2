@@ -25,17 +25,17 @@ class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
     /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
-     * @param \Magento\Framework\Service\Config\MetadataConfig $metadataConfig
+     * @param \Magento\Framework\Service\Config\MetadataConfig $metadataService
      * @param array $customAttributesCodes
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
-        \Magento\Framework\Service\Config\MetadataConfig $metadataConfig,
+        \Magento\Framework\Service\Config\MetadataConfig $metadataService,
         array $customAttributesCodes = array()
     ) {
         $this->customAttributes = $customAttributesCodes;
-        parent::__construct($objectFactory, $valueBuilder, $metadataConfig);
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
     }
 
     /**

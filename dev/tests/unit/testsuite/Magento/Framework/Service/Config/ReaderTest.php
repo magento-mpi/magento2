@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service;
+namespace Magento\Framework\Service\Config;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {

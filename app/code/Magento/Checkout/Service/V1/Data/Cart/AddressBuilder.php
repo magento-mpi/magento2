@@ -29,16 +29,16 @@ class AddressBuilder extends AbstractObjectBuilder
     /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
      * @param RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $addressMetadataService
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
-        RegionBuilder $regionBuilder,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $addressMetadataService
+        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService,
+        RegionBuilder $regionBuilder
     ) {
-        parent::__construct($objectFactory, $valueBuilder, $addressMetadataService);
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->_regionBuilder = $regionBuilder;
         $this->_data[Address::KEY_REGION] = $regionBuilder->create();
     }
