@@ -9,6 +9,9 @@ namespace Magento\Catalog\Model;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class LayerTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -82,14 +82,6 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $data = array(
-            'attribute_id' => 1,
-            'attribute_code' => 'description',
-            'frontend_label' => 'English',
-            'store_labels' => array(1 => 'France'),
-            'frontend_input' => 'textarea',
-        );
-
         // eavConfigMock
         $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array('getAttribute'), array(), '', false);
         $eavConfigMock->expects($this->any())->method('getAttribute')->will($this->returnValue(null));
