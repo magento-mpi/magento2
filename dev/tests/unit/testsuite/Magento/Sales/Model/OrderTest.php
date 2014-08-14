@@ -6,11 +6,13 @@
  * @license     {license_link}
  */
 
-/**
- * Test class for \Magento\Sales\Model\Order
- */
 namespace Magento\Sales\Model;
 
+/**
+ * Test class for \Magento\Sales\Model\Order
+ *
+ * @package Magento\Sales\Model
+ */
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
     /**

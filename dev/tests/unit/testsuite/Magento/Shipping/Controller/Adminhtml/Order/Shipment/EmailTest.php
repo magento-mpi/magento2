@@ -11,6 +11,11 @@ namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\App\Action\Context;
 
+/**
+ * Class EmailTest
+ *
+ * @package Magento\Shipping\Controller\Adminhtml\Order\Shipment
+ */
 class EmailTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -68,7 +73,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->shipmentLoader = $this->getMock(
             'Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader',
-            ['load'],
+            ['setOrderId', 'setShipmentId', 'setShipment', 'setTracking', 'load'],
             [],
             '',
             false
@@ -155,19 +160,47 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     public function testEmail()
     {
         $shipmentId = 1000012;
-        $shipment = $this->getMock('Magento\Sales\Model\Order\Shipment', ['load', 'save', '__wakeup'], [], '', false);
+        $orderId = 10003;
+        $tracking = [];
+        $shipment = ['items' => []];
+        $orderShipment = $this->getMock(
+            'Magento\Sales\Model\Order\Shipment',
+            ['load', 'save', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $shipmentNotifierClassName = 'Magento\Shipping\Model\ShipmentNotifier';
         $shipmentNotifier = $this->getMock($shipmentNotifierClassName, ['notify', '__wakeup'], [], '', false);
 
-        $this->request->expects($this->once())
+        $this->request->expects($this->any())
             ->method('getParam')
-            ->with('shipment_id')
-            ->will($this->returnValue($shipmentId));
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['order_id', null, $orderId],
+                        ['shipment_id', null, $shipmentId],
+                        ['shipment', null, $shipment],
+                        ['tracking', null, $tracking]
+                    ]
+                )
+            );
+        $this->shipmentLoader->expects($this->once())
+            ->method('setShipmentId')
+            ->with($shipmentId);
+        $this->shipmentLoader->expects($this->once())
+            ->method('setOrderId')
+            ->with($orderId);
+        $this->shipmentLoader->expects($this->once())
+            ->method('setShipment')
+            ->with($shipment);
+        $this->shipmentLoader->expects($this->once())
+            ->method('setTracking')
+            ->with($tracking);
         $this->shipmentLoader->expects($this->once())
             ->method('load')
-            ->with($this->request)
-            ->will($this->returnValue($shipment));
-        $shipment->expects($this->once())
+            ->will($this->returnValue($orderShipment));
+        $orderShipment->expects($this->once())
             ->method('save')
             ->will($this->returnSelf());
         $this->objectManager->expects($this->once())
@@ -176,7 +209,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($shipmentNotifier));
         $shipmentNotifier->expects($this->once())
             ->method('notify')
-            ->with($shipment)
+            ->with($orderShipment)
             ->will($this->returnValue(true));
         $this->messageManager->expects($this->once())
             ->method('addSuccess')
@@ -186,6 +219,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->prepareRedirect($path, $arguments, 0);
 
         $this->shipmentEmail->execute();
+        $this->assertEquals($this->response, $this->shipmentEmail->getResponse());
     }
 
     /**

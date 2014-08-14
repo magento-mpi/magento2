@@ -20,7 +20,7 @@ class CreditmemoEmail implements CreditmemoEmailInterface
     protected $creditmemoRepository;
 
     /**
-     * @var \Magento\Sales\Model\CreditmemoNotifier
+     * @var \Magento\Sales\Model\Order\CreditmemoNotifier
      */
     protected $creditmemoNotifier;
 
@@ -44,7 +44,7 @@ class CreditmemoEmail implements CreditmemoEmailInterface
      */
     public function invoke($id)
     {
-        /** @var \Magento\Sales\Model\Order $creditmemo */
+        /** @var \Magento\Sales\Model\Order\Creditmemo $creditmemo */
         $creditmemo = $this->creditmemoRepository->get($id);
         return $this->creditmemoNotifier->notify($creditmemo);
     }

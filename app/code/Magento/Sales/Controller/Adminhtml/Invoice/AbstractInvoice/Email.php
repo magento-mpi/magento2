@@ -8,10 +8,17 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice;
 
+/**
+ * Class Email
+ *
+ * @package Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice
+ */
 abstract class Email extends \Magento\Backend\App\Action
 {
     /**
-     * {@inheritdoc}
+     * Check if email sending is allowed for the current user
+     *
+     * @return bool
      */
     protected function _isAllowed()
     {

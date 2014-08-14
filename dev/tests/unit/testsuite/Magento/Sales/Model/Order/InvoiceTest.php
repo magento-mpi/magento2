@@ -9,6 +9,11 @@ namespace Magento\Sales\Model\Order;
 
 use Magento\Sales\Model\Resource\OrderFactory;
 
+/**
+ * Class InvoiceTest
+ *
+ * @package Magento\Sales\Model\Order
+ */
 class InvoiceTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,8 +9,12 @@
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
 use \Magento\Backend\App\Action;
-use \Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 
+/**
+ * Class Email
+ *
+ * @package Magento\Shipping\Controller\Adminhtml\Order\Shipment
+ */
 class Email extends \Magento\Backend\App\Action
 {
     /**
@@ -31,6 +35,8 @@ class Email extends \Magento\Backend\App\Action
     }
 
     /**
+     * Check if email sending is allowed for the current user
+     *
      * @return bool
      */
     protected function _isAllowed()
@@ -46,7 +52,11 @@ class Email extends \Magento\Backend\App\Action
     public function execute()
     {
         try {
-            $shipment = $this->shipmentLoader->load($this->_request);
+            $this->shipmentLoader->setOrderId($this->getRequest()->getParam('order_id'));
+            $this->shipmentLoader->setShipmentId($this->getRequest()->getParam('shipment_id'));
+            $this->shipmentLoader->setShipment($this->getRequest()->getParam('shipment'));
+            $this->shipmentLoader->setTracking($this->getRequest()->getParam('tracking'));
+            $shipment = $this->shipmentLoader->load();
             if ($shipment) {
                 $this->_objectManager->create('Magento\Shipping\Model\ShipmentNotifier')
                     ->notify($shipment);
@@ -58,6 +68,6 @@ class Email extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Cannot send shipment information.'));
         }
-        $this->_redirect('*/*/view', array('shipment_id' => $this->getRequest()->getParam('shipment_id')));
+        $this->_redirect('*/*/view', ['shipment_id' => $this->getRequest()->getParam('shipment_id')]);
     }
 }

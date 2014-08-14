@@ -82,13 +82,16 @@ class Save extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $data = $this->getRequest()->getPost('shipment');
         if (!empty($data['comment_text'])) {
             $this->_objectManager->get('Magento\Backend\Model\Session')->setCommentText($data['comment_text']);
         }
 
         try {
-            $shipment = $this->shipmentLoader->load($this->_request);
+            $this->shipmentLoader->setOrderId($this->getRequest()->getParam('order_id'));
+            $this->shipmentLoader->setShipmentId($this->getRequest()->getParam('shipment_id'));
+            $this->shipmentLoader->setShipment($this->getRequest()->getParam('shipment'));
+            $this->shipmentLoader->setTracking($this->getRequest()->getParam('tracking'));
+            $shipment = $this->shipmentLoader->load();
             if (!$shipment) {
                 $this->_forward('noroute');
                 return;

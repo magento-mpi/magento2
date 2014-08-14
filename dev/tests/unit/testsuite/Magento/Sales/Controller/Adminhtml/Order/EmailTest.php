@@ -11,6 +11,11 @@ namespace Magento\Sales\Controller\Adminhtml\Order;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\App\Action\Context;
 
+/**
+ * Class EmailTest
+ *
+ * @package Magento\Sales\Controller\Adminhtml\Order
+ */
 class EmailTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -177,6 +182,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->prepareRedirect($path, $arguments, 0);
 
         $this->orderEmail->execute();
+        $this->assertEquals($this->response, $this->orderEmail->getResponse());
     }
 
     public function testEmailNoOrderId()
@@ -207,8 +213,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $path = 'sales/*/';
         $this->prepareRedirect($path, [], 0);
 
-        $this->orderEmail->execute();
-
+        $this->assertNull($this->orderEmail->execute());
     }
 
     /**

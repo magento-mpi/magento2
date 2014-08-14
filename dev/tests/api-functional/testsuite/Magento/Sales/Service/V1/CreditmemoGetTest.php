@@ -80,7 +80,7 @@ class CreditmemoGetTest extends WebapiAbstract
     /**
      * Test creditmemo get service
      *
-     * @magentoApiDataFixture Magento/Sales/_files/creditmemo_with_list.php
+     * @magentoApiDataFixture Magento/Sales/_files/creditmemo_for_get.php
      */
     public function testCreditmemoGet()
     {

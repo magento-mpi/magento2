@@ -33,6 +33,14 @@
     <preference for="Magento\Sales\Service\V1\CreditmemoAddCommentInterface" type="Magento\Sales\Service\V1\CreditmemoAddComment"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoEmailInterface" type="Magento\Sales\Service\V1\CreditmemoEmail"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoCreateInterface" type="Magento\Sales\Service\V1\CreditmemoCreate"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentCreateInterface" type="Magento\Sales\Service\V1\ShipmentCreate"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentListInterface" type="Magento\Sales\Service\V1\ShipmentList"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentAddCommentInterface" type="Magento\Sales\Service\V1\ShipmentAddComment"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentEmailInterface" type="Magento\Sales\Service\V1\ShipmentEmail"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentCommentsListInterface" type="Magento\Sales\Service\V1\ShipmentCommentsList"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentGetInterface" type="Magento\Sales\Service\V1\ShipmentGet"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentAddTrackInterface" type="Magento\Sales\Service\V1\ShipmentAddTrack"/>
+    <preference for="Magento\Sales\Service\V1\ShipmentRemoveTrackInterface" type="Magento\Sales\Service\V1\ShipmentRemoveTrack"/>
     <type name="Magento\Sales\Model\Resource\Report" shared="false"/>
     <type name="Magento\Sales\Model\Order\Pdf\Config\Reader">
         <arguments>
