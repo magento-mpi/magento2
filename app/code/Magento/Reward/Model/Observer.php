@@ -915,6 +915,44 @@ class Observer
             }
         }
 
+        // Refund reward points earned by salesRule
+        $totalItemsRefund = 0;
+        foreach ($order->getCreditmemosCollection() as $creditMemo) {
+            foreach ($creditMemo->getAllItems() as $item) {
+                $totalItemsRefund += (int)$item->getQty();
+            }
+        }
+
+        if ($allowRewardPointsRefund
+            && $order->getRewardSalesrulePoints() > 0
+            && (int)$order->getTotalQtyOrdered() - $totalItemsRefund == 0
+        ) {
+            $rewardModel = $this->_getRewardModel();
+            $rewardModel->setWebsiteId(
+                $this->_storeManager->getStore($order->getStoreId())->getWebsiteId()
+            )->setCustomerId(
+                $order->getCustomerId()
+            )->loadByCustomer();
+
+            if ($rewardModel->getPointsBalance() >= $order->getRewardSalesrulePoints()) {
+                $rewardPointsToVoid = (int)$order->getRewardSalesrulePoints();
+            } else {
+                $rewardPointsToVoid = (int)$rewardModel->getPointsBalance();
+            }
+
+            $this->_getRewardModel()->setCustomerId(
+                $order->getCustomerId()
+            )->setWebsiteId(
+                $this->_storeManager->getStore($order->getStoreId())->getWebsiteId()
+            )->setPointsDelta(
+                (-$rewardPointsToVoid)
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_CREDITMEMO_VOID
+            )->setActionEntity(
+                $order
+            )->save();
+        }
+
         return $this;
     }
 
