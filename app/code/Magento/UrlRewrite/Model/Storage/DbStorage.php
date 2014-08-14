@@ -88,7 +88,9 @@ class DbStorage extends AbstractStorage
         try {
             $this->connection->insertMultiple($this->resource->getTableName(self::TABLE_NAME), $data);
         } catch (\Exception $e) {
-            if ($e->getCode() === self::ERROR_CODE_DUPLICATE_ENTRY) {
+            if ($e->getCode() === self::ERROR_CODE_DUPLICATE_ENTRY
+                && preg_match('#SQLSTATE\[23000\]: [^:]+: 1062[^\d]#', $e->getMessage())
+            ) {
                 throw new DuplicateEntryException();
             }
             throw $e;

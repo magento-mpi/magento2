@@ -39,6 +39,5 @@ class Page
         if ($urlKey === '' || $urlKey === null) {
             $object->setData('identifier', $this->cmsPageUrlPathGenerator->generateUrlKey($object));
         }
-
     }
 }

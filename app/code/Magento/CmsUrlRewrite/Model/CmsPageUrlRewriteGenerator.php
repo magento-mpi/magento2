@@ -98,10 +98,10 @@ class CmsPageUrlRewriteGenerator
      * Create url rewrite object
      *
      * @param int $storeId
-     * @param string|null $redirectType Null or one of OptionProvider const
+     * @param int $redirectType
      * @return UrlRewrite
      */
-    protected function createUrlRewrite($storeId, $redirectType = null)
+    protected function createUrlRewrite($storeId, $redirectType = 0)
     {
         return $this->converter->convertArrayToObject([
             UrlRewrite::ENTITY_TYPE => self::ENTITY_TYPE,
