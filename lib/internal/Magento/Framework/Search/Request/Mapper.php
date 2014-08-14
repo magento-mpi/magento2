@@ -8,7 +8,7 @@
 namespace Magento\Framework\Search\Request;
 
 use Magento\Framework\Search\Request\Query\Filter;
-use MAgento\Framework\Exception\StateException;
+use Magento\Framework\Exception\StateException;
 
 class Mapper
 {
