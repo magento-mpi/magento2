@@ -32,5 +32,7 @@
             <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute  type="xs:string" name="layout" />
+        <xs:attribute  type="xs:string" name="label" />
+        <xs:attribute  type="xs:string" name="design_abstraction" />
     </xs:complexType>
 </xs:schema>
