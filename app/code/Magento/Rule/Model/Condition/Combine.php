@@ -14,7 +14,7 @@ class Combine extends AbstractCondition
      *
      * @var array
      */
-    protected static $_conditionModels = array();
+    protected $_conditionModels = array();
 
     /**
      * @var \Magento\Rule\Model\ConditionFactory
@@ -74,11 +74,11 @@ class Combine extends AbstractCondition
             return false;
         }
 
-        if (!array_key_exists($modelClass, self::$_conditionModels)) {
+        if (!array_key_exists($modelClass, $this->_conditionModels)) {
             $model = $this->_conditionFactory->create($modelClass);
-            self::$_conditionModels[$modelClass] = $model;
+            $this->_conditionModels[$modelClass] = $model;
         } else {
-            $model = self::$_conditionModels[$modelClass];
+            $model = $this->_conditionModels[$modelClass];
         }
 
         if (!$model) {
