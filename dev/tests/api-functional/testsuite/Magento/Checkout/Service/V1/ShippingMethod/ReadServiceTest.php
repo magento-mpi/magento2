@@ -99,7 +99,7 @@ class ReadServiceTest extends WebapiAbstract
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
-        $quote->load(72);
+        $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
         if (!$cartId) {
             $this->fail('quote fixture failed');
