@@ -7,8 +7,6 @@
  */
 namespace Magento\GiftWrapping\Service\V1\Data;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
-
 class WrappingConverter
 {
     /**
@@ -25,35 +23,23 @@ class WrappingConverter
     }
 
     /**
-     * Create new model based on data object
+     * Create model based on data object. Load model if data object has ID specified.
      *
-     * @param \Magento\Framework\Service\Data\AbstractObject $dataObject
+     * @param Wrapping $dataObject
      * @return \Magento\GiftWrapping\Model\Wrapping
      */
-    public function getModel(\Magento\Framework\Service\Data\AbstractObject $dataObject)
+    public function getModel(Wrapping $dataObject)
     {
-        return $this->wrappingFactory->create()->setData($dataObject->__toArray());
-    }
-
-    /**
-     * Load model and assign data object
-     *
-     * @param Wrapping $data
-     * @return \Magento\GiftWrapping\Model\Wrapping
-     * @throws NoSuchEntityException
-     */
-    public function loadModel(Wrapping $data)
-    {
-        /** @var \Magento\GiftWrapping\Model\Wrapping $wrapping */
-        $wrapping = $this->wrappingFactory->create();
-        $wrapping->load($data->getWrappingId());
-        if (!$wrapping->getId()) {
-            throw new NoSuchEntityException(
-                'Gift Wrapping with specified ID "%1" not found',
-                [$data->getWrappingId()]
-            );
+        $model = $this->wrappingFactory->create();
+        if ($dataObject->getWrappingId()) {
+            $model->load($dataObject->getWrappingId());
         }
-        $wrapping->addData($data->__toArray());
-        return $wrapping;
+        $model->addData($dataObject->__toArray());
+
+        $imageDataObject = $dataObject->getImage();
+        $imageContent = base64_decode($imageDataObject->getBase64Content(), true);
+        $model->attachBinaryImage($imageDataObject->getFileName(), $imageContent);
+
+        return $model;
     }
 }

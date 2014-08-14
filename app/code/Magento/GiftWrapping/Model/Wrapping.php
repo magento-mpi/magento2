@@ -255,10 +255,11 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
             return false;
         }
         $filePath = $this->_mediaDirectory->getAbsolutePath(self::IMAGE_PATH . $fileName);
+        // avoid file names conflicts
         $newFileName = \Magento\Core\Model\File\Uploader::getNewFileName($filePath);
-        $result = $this->_mediaDirectory->writeFile(self::IMAGE_PATH . $newFileName, $imageContent);
+        $result = $this->_mediaDirectory->writeFile(self::IMAGE_TMP_PATH . $newFileName, $imageContent);
         if ($result) {
-            $this->setImage($fileName);
+            $this->setTmpImage($fileName);
             return $newFileName;
         }
         return false;

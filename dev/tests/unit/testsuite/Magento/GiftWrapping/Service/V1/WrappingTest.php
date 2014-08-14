@@ -101,13 +101,6 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
 
         $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto)
             ->will($this->returnValue($wrappingModel));
-        $wrappingDto->expects($this->once())->method('getImage')->will($this->returnValue($imageDto));
-        $imageDto->expects($this->once())->method('getBase64Content')->will($this->returnValue($baseEncodedContent));
-        $imageDto->expects($this->once())->method('getFileName')->will($this->returnValue($filename));
-        $wrappingModel->expects($this->once())->method('attachBinaryImage')->with(
-            $filename,
-            base64_decode($baseEncodedContent)
-        );
         $wrappingModel->expects($this->once())->method('save');
         $wrappingModel->expects($this->once())->method('getId')->will($this->returnValue($id));
 
@@ -116,6 +109,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdate()
     {
+        $id = 1;
         $baseEncodedContent = base64_encode(1);
         $filename = 'filename';
 
@@ -129,18 +123,12 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $imageDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping\Image')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
-        $this->wrappingConverterMock->expects($this->once())->method('loadModel')->with($wrappingDto)
+        $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto)
             ->will($this->returnValue($wrappingModel));
-        $wrappingDto->expects($this->once())->method('getImage')->will($this->returnValue($imageDto));
-        $imageDto->expects($this->once())->method('getBase64Content')->will($this->returnValue($baseEncodedContent));
-        $imageDto->expects($this->once())->method('getFileName')->will($this->returnValue($filename));
-        $wrappingModel->expects($this->once())->method('attachBinaryImage')->with(
-            $filename,
-            base64_decode($baseEncodedContent)
-        );
         $wrappingModel->expects($this->once())->method('save');
+        $wrappingModel->expects($this->any())->method('getId')->will($this->returnValue($id));
 
-        $this->service->update($wrappingDto);
+        $this->assertEquals($id, $this->service->update($wrappingDto));
     }
 
     public function testSearch()

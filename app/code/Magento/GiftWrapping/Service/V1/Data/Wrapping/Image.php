@@ -7,6 +7,9 @@
  */
 namespace Magento\GiftWrapping\Service\V1\Data\Wrapping;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Image extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+

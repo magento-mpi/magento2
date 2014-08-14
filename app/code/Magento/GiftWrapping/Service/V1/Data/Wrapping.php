@@ -7,6 +7,9 @@
  */
 namespace Magento\GiftWrapping\Service\V1\Data;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+

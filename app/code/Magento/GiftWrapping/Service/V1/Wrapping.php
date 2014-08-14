@@ -11,6 +11,7 @@ use Magento\GiftWrapping\Model\WrappingRepository;
 use Magento\GiftWrapping\Service\V1\Data\WrappingMapper;
 use Magento\GiftWrapping\Service\V1\Data\WrappingConverter;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Wrapping implements WrappingInterface
 {
@@ -53,10 +54,7 @@ class Wrapping implements WrappingInterface
     }
 
     /**
-     * @param int $id
-     * @param int $storeId
-     * @return \Magento\GiftWrapping\Service\V1\Data\Wrapping
-     * @throws InputException
+     * {@inheritdoc}
      */
     public function get($id, $storeId = null)
     {
@@ -65,43 +63,33 @@ class Wrapping implements WrappingInterface
     }
 
     /**
-     * @param Data\Wrapping $data
-     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
-     * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int
+     * {@inheritdoc}
      */
     public function create(Data\Wrapping $data)
     {
+        if ($data->getWrappingId()) {
+            throw new InputException('Parameter Wrapping ID not supported in create operation');
+        }
         $model = $this->wrappingConverter->getModel($data);
-
-        $imageData = $data->getImage();
-        $imageContent = base64_decode($imageData->getBase64Content(), true);
-        $model->attachBinaryImage($imageData->getFileName(), $imageContent);
-
         $model->save();
         return $model->getId();
     }
 
     /**
-     * @param Data\Wrapping $data
-     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
-     * @throws \Magento\Framework\Model\Exception If something goes wrong during save
+     * {@inheritdoc}
      */
     public function update(Data\Wrapping $data)
     {
-        $model = $this->wrappingConverter->loadModel($data);
-        $imageData = $data->getImage();
-        $imageContent = base64_decode($imageData->getBase64Content(), true);
-        $model->attachBinaryImage($imageData->getFileName(), $imageContent);
-
+        $model = $this->wrappingConverter->getModel($data);
+        if (!$model->getId()) {
+            throw new NoSuchEntityException('Gift Wrapping with ID "%1" not found', [$data->getWrappingId()]);
+        }
         $model->save();
+        return $model->getId();
     }
 
     /**
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Framework\Service\V1\Data\SearchResults
+     * {@inheritdoc}
      */
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
@@ -116,10 +104,7 @@ class Wrapping implements WrappingInterface
     }
 
     /**
-     * @param int $id
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
-     * @throws \Exception If something goes wrong during delete
-     * @return bool
+     * {@inheritdoc}
      */
     public function delete($id)
     {

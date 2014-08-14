@@ -9,6 +9,9 @@ namespace Magento\GiftWrapping\Service\V1\Data;
 
 use Magento\GiftWrapping\Service\V1\Data\Wrapping as WrappingData;
 
+/**
+ * @codeCoverageIgnore
+ */
 class WrappingBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**

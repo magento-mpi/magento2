@@ -12,6 +12,9 @@ use Magento\Framework\Service\Data\ObjectFactory;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
 
+/**
+ * @codeCoverageIgnore
+ */
 class WrappingSearchResultsBuilder extends AbstractSearchResultsBuilder
 {
     /**

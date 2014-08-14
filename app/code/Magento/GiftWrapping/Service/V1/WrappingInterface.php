@@ -10,41 +10,46 @@ namespace Magento\GiftWrapping\Service\V1;
 interface WrappingInterface
 {
     /**
+     * Return data object for specified wrapping ID and store.
+     *
      * @param int $id
      * @param int $storeId
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
-     * @return \Magento\GiftWrapping\Service\V1\Data\Wrapping
+     * @return Data\Wrapping
      */
     public function get($id, $storeId = null);
 
     /**
-     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping $data
-     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
-     * @throws \Magento\Framework\Model\Exception If something goes wrong during save
+     * Create new gift wrapping with data object values
+     *
+     * @param Data\Wrapping $data
      * @return int
+     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      */
-    public function create(\Magento\GiftWrapping\Service\V1\Data\Wrapping $data);
+    public function create(Data\Wrapping $data);
 
     /**
+     * Update existing gift wrapping with data object values
+     *
      * @param Data\Wrapping $data
-     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
+     * @return int
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
-     * @throws \Magento\Framework\Model\Exception If something goes wrong during save
      */
     public function update(Data\Wrapping $data);
 
     /**
+     * Return list of gift wrapping data objects based on search criteria
+     *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Framework\Service\V1\Data\SearchResults
      */
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
+     * Delete gift wrapping
+     *
      * @param int $id
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
-     * @throws \Exception If something goes wrong during delete
      * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      */
     public function delete($id);
 }

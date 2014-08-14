@@ -9,6 +9,9 @@ namespace Magento\GiftWrapping\Service\V1\Data\Wrapping;
 
 use Magento\GiftWrapping\Service\V1\Data\Wrapping\Image as WrappingImage;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ImageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
