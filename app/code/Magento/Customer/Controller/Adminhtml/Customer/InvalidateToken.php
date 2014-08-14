@@ -15,19 +15,29 @@ namespace Magento\Customer\Controller\Adminhtml\Customer;
 class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
 {
     /**
+     * @var \Magento\Framework\ObjectManager
+     */
+    protected $_tokenService;
+
+    /**
+     * @param \Magento\Integration\Service\V1\TokenService $tokenService
+     */
+    public function __construct(\Magento\Integration\Service\V1\TokenService $tokenService)
+    {
+        $this->_tokenService = $tokenService;
+    }
+
+    /**
      * Reset customer's tokens handler
      *
      * @return void
      */
     public function execute()
     {
-        /** @var \Magento\Integration\Service\V1\TokenService $currentToken */
-        $currentToken = $this->_objectManager->get('\Magento\Integration\Service\V1\TokenService');
-
         if ($customerId = $this->getRequest()->getParam('customer_id')) {
             try {
-                $currentToken->revokeCustomerAccessToken($customerId);
-                $this->messageManager->addSuccess(__('You have invalidated the customer.'));
+                $this->_tokenService->revokeCustomerAccessToken($customerId);
+                $this->messageManager->addSuccess(__('You have invalidated customer token.'));
                 $this->_redirect('customer/*/edit', array('customer_id' => $customerId, '_current' => true));
                 return;
             } catch (\Exception $e) {
@@ -36,7 +46,7 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
                 return;
             }
         }
-        $this->messageManager->addError(__('We can\'t find a customer to invalidate.'));
+        $this->messageManager->addError(__('We can\'t find a customer to invalidate token.'));
         $this->_redirect('adminhtml/*/');
     }
 }

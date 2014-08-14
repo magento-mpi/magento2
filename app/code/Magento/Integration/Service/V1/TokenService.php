@@ -103,7 +103,7 @@ class TokenService implements TokenServiceInterface
     public function revokeCustomerAccessToken($customerId)
     {
         $token = $this->tokenModelFactory->create()->loadByCustomerId($customerId);
-        if(!$token->getToken()) {
+        if (!$token->getToken()) {
             throw new LocalizedException("Token %token does not exist.", ['token' => $token->getToken()]);
         }
         try {
