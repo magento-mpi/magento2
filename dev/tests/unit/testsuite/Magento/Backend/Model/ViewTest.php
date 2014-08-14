@@ -22,17 +22,22 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $aclFilter = $this->getMock('Magento\Backend\Model\Layout\Filter\Acl', array(), array(), '', false);
-        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
-        $layoutProcessor = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
+        $aclFilter = $this->getMock('Magento\Backend\Model\Layout\Filter\Acl', [], [], '', false);
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
+        $layoutProcessor = $this->getMock('Magento\Core\Model\Layout\Merge', [], [], '', false);
+        $configMock = $this->getMock('Magento\Framework\View\Page\Config', [], [], '', false);
+
         $node = new \Magento\Framework\Simplexml\Element('<node/>');
         $this->_layoutMock->expects($this->once())->method('getNode')->will($this->returnValue($node));
         $this->_layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutProcessor));
 
         $resultPage = $this->getMockBuilder('Magento\Framework\View\Result\Page')
             ->disableOriginalConstructor()
-            ->setMethods(['getLayout', 'getDefaultLayoutHandle'])
+            ->setMethods(['getLayout', 'getDefaultLayoutHandle', 'getConfig'])
             ->getMock();
+        $resultPage->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValue($configMock));
         $resultPage->expects($this->atLeastOnce())
             ->method('getLayout')
             ->will($this->returnValue($this->_layoutMock));

@@ -113,8 +113,18 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->update = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
         $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->layout->expects($this->any())->method('getUpdate')->will($this->returnValue($this->update));
+
+        $this->pageConfig = $this->getMockBuilder('Magento\Framework\View\Page\Config')
+            ->disableOriginalConstructor()->getMock();
+        $this->pageConfig->expects($this->any())->method('addBodyClass')->will($this->returnSelf());
+
+        $this->page = $this->getMockBuilder('Magento\Framework\View\Page')
+            ->setMethods(['getConfig', 'initLayout'])->disableOriginalConstructor()->getMock();
+        $this->page->expects($this->any())->method('getConfig')->will($this->returnValue($this->pageConfig));
+
         $this->view = $this->getMock('Magento\Framework\App\ViewInterface');
         $this->view->expects($this->any())->method('getLayout')->will($this->returnValue($this->layout));
+        $this->view->expects($this->any())->method('getPage')->will($this->returnValue($this->page));
 
         $this->context = $this->getMock('Magento\Backend\App\Action\Context', [], [], '', false);
         $this->context->expects($this->any())->method('getRequest')->will($this->returnValue($this->request));
@@ -133,16 +143,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->catalogDesign = $this->getMock('Magento\Catalog\Model\Design', [], [], '', false);
         $this->layoutHelper = $this->getMock('Magento\Theme\Helper\Layout', [], [], '', false);
-        $this->pageConfig = $this->getMockBuilder('Magento\Framework\View\Page\Config')
-            ->disableOriginalConstructor()->getMock();
-        $this->pageConfig->expects($this->any())->method('addBodyClass')->will($this->returnSelf());
 
         $this->action = (new ObjectManager($this))->getObject('Magento\Catalog\Controller\Category\View', [
             'context' => $this->context,
             'catalogDesign' => $this->catalogDesign,
             'categoryFactory' => $this->categoryFactory,
             'storeManager' => $this->storeManager,
-            'pageConfig' => $this->pageConfig
         ]);
     }
 
