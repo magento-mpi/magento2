@@ -70,7 +70,7 @@ class Url extends \Magento\Framework\Object
         \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
-        \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher,
+        \Magento\CatalogUrlRewrite\Service\V1\UrlManager $urlMatcher,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -182,11 +182,15 @@ class Url extends \Magento\Framework\Object
             $requestPath = $product->getRequestPath();
             if (empty($requestPath) && $requestPath !== false) {
                 /** @TODO: UrlRewrite: Build product URL inside particular category */
-                $rewrite = $this->urlMatcher->findByEntity(
-                    $product->getId(),
-                    \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE,
-                    $storeId
-                );
+                $filterData = [
+                    'entity_id'   => $product->getId(),
+                    'entity_type' => \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE,
+                    'store_id'    => $storeId,
+                ];
+                if ($categoryId) {
+                    $filterData['category_id'] = $categoryId;
+                }
+                $rewrite = $this->urlMatcher->findByFilter($filterData);
                 if ($rewrite) {
                     $requestPath = $rewrite->getRequestPath();
                     $product->setRequestPath($requestPath);
