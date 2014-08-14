@@ -60,13 +60,17 @@ class WriteService implements WriteServiceInterface
                 'Cart contains virtual product(s) only. Shipping method is not applicable.'
             );
         }
-        $address = $quote->getShippingAddress();
-        if (!$address->getCountryId()) {
+        $shippingAddress = $quote->getShippingAddress();
+        if (!$shippingAddress->getCountryId()) {
             throw new StateException('Shipping address is not set');
         }
+        $billingAddress = $quote->getBillingAddress();
+        if (!$billingAddress->getCountryId()) {
+            throw new StateException('Billing address is not set');
+        }
 
-        $address->setShippingMethod($carrierCode . '_' . $methodCode);
-        if (!$address->requestShippingRates()) {
+        $shippingAddress->setShippingMethod($carrierCode . '_' . $methodCode);
+        if (!$shippingAddress->requestShippingRates()) {
             throw new NoSuchEntityException('Carrier with such method not found: ' . $carrierCode . ', ' . $methodCode);
         }
         try {
