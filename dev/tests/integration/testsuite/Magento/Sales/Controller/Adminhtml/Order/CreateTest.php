@@ -86,8 +86,6 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testIndexAction()
     {
-        $this->markTestSkipped('Should be fixed in MAGETWO-26813');
-
         /** @var $order \Magento\Sales\Model\AdminOrder\Create */
         $order = $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create');
         $order->addProducts(array(1 => array('qty' => 1)));
