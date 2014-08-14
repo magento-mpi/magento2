@@ -39,7 +39,7 @@ class Share extends Form
     protected $addRecipient = '#add-recipient-button';
 
     /**
-     * Recipient first name selector
+     * Recipient block selector
      *
      * @var string
      */

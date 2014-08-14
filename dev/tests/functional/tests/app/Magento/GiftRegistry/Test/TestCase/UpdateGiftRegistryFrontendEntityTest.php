@@ -15,6 +15,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\GiftRegistry\Test\Page\GiftRegistryEdit;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 
@@ -55,6 +56,13 @@ class UpdateGiftRegistryFrontendEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
+     * Page CustomerAccountLogout
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Customer account index page
      *
      * @var CustomerAccountIndex
@@ -80,6 +88,7 @@ class UpdateGiftRegistryFrontendEntityTest extends Injectable
      *
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
+     * @param CustomerAccountLogout $customerAccountLogout
      * @param CustomerAccountIndex $customerAccountIndex
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryEdit $giftRegistryEdit
@@ -88,12 +97,14 @@ class UpdateGiftRegistryFrontendEntityTest extends Injectable
     public function __inject(
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
+        CustomerAccountLogout $customerAccountLogout,
         CustomerAccountIndex $customerAccountIndex,
         GiftRegistryIndex $giftRegistryIndex,
         GiftRegistryEdit $giftRegistryEdit
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
+        $this->customerAccountLogout = $customerAccountLogout;
         $this->customerAccountIndex = $customerAccountIndex;
         $this->giftRegistryIndex = $giftRegistryIndex;
         $this->giftRegistryEdit = $giftRegistryEdit;
@@ -130,10 +141,7 @@ class UpdateGiftRegistryFrontendEntityTest extends Injectable
     public function test(GiftRegistry $giftRegistryOrigin, GiftRegistry $giftRegistry, CustomerInjectable $customer)
     {
         // Preconditions
-        if (!$this->cmsIndex->open()->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->open()->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $this->customerAccountLogin->open()->getLoginBlock()->login($customer);
         $giftRegistryOrigin->persist();
 
         // Steps
@@ -143,5 +151,15 @@ class UpdateGiftRegistryFrontendEntityTest extends Injectable
         $this->giftRegistryIndex->getGiftRegistryGrid()->eventAction($giftRegistryOrigin->getTitle(), 'Edit');
         $this->giftRegistryEdit->getCustomerEditForm()->fill($giftRegistry);
         $this->giftRegistryEdit->getActionsToolbarBlock()->save();
+    }
+
+    /**
+     * Log out after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->customerAccountLogout->open();
     }
 }

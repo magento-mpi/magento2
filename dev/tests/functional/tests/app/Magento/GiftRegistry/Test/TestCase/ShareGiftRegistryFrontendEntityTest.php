@@ -166,11 +166,7 @@ class ShareGiftRegistryFrontendEntityTest extends Injectable
     ) {
         // Steps
         // Login as registered customer1 to frontend
-        $this->cmsIndex->open();
-        if (!$this->cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
-            $this->cmsIndex->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer1);
-        }
+        $this->customerAccountLogin->open()->getLoginBlock()->login($customer1);
         // Create Gift Registry
         $giftRegistry->persist();
         // Share Gift Registry with customer2
@@ -182,5 +178,15 @@ class ShareGiftRegistryFrontendEntityTest extends Injectable
         return [
             'recipients' => $recipients
         ];
+    }
+
+    /**
+     * Log out after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->customerAccountLogout->open();
     }
 }

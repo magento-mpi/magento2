@@ -14,6 +14,7 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 
@@ -77,6 +78,13 @@ class ShareGiftRegistryBackendEntityTest extends Injectable
     protected $customerAccountLogin;
 
     /**
+     * Page CustomerAccountLogout
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Create customer
      *
      * @param CustomerInjectable $customer
@@ -99,6 +107,7 @@ class ShareGiftRegistryBackendEntityTest extends Injectable
      * @param CustomerIndexEdit $customerIndexEdit
      * @param GiftRegistryCustomerEdit $giftRegistryCustomerEdit
      * @param CustomerAccountLogin $customerAccountLogin
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
     public function __inject(
@@ -106,13 +115,15 @@ class ShareGiftRegistryBackendEntityTest extends Injectable
         CustomerIndex $customerIndex,
         CustomerIndexEdit $customerIndexEdit,
         GiftRegistryCustomerEdit $giftRegistryCustomerEdit,
-        CustomerAccountLogin $customerAccountLogin
+        CustomerAccountLogin $customerAccountLogin,
+        CustomerAccountLogout $customerAccountLogout
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerIndex = $customerIndex;
         $this->customerIndexEdit = $customerIndexEdit;
         $this->giftRegistryCustomerEdit = $giftRegistryCustomerEdit;
         $this->customerAccountLogin = $customerAccountLogin;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -126,27 +137,27 @@ class ShareGiftRegistryBackendEntityTest extends Injectable
     public function test(GiftRegistry $giftRegistry, CustomerInjectable $customer, $sharingInfo)
     {
         // Preconditions
-        if (!$this->cmsIndex->open()->getLinksBlock()->isLinkVisible('Log Out')) {
-            $this->cmsIndex->open()->getLinksBlock()->openLink("Log In");
-            $this->customerAccountLogin->getLoginBlock()->login($customer);
-        }
+        $this->customerAccountLogin->open()->getLoginBlock()->login($customer);
         $giftRegistry->persist();
 
         // Steps
-        // Open Customers->All Customers
         $this->customerIndex->open();
-        // Search and open created in preconditions customer
-        $filter = ['email' => $customer->getEmail()];
-        $this->customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
-        // Open Gift Registry tab
+        $this->customerIndex->getCustomerGridBlock()->searchAndOpen(['email' => $customer->getEmail()]);
         $customerForm = $this->customerIndexEdit->getCustomerForm();
         $customerForm->openTab('gift_registry');
-        // Open created in preconditions gift registry
         $filter = ['title' => $giftRegistry->getTitle()];
         $customerForm->getTabElement('gift_registry')->getSearchGridBlock()->searchAndOpen($filter);
-        // Fill "Sharing info" sections according to dataSet
         $this->giftRegistryCustomerEdit->getSharingInfoBlock()->fillForm($sharingInfo);
-        // Click Share Gift Registry
         $this->giftRegistryCustomerEdit->getSharingInfoBlock()->shareGiftRegistry();
+    }
+
+    /**
+     * Log out after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->customerAccountLogout->open();
     }
 }

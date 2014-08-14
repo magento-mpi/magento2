@@ -43,8 +43,7 @@ class GiftRegistry extends AbstractRepository
             ],
             'address' => [
                 'dataSet' => 'US_address_without_email'
-            ],
-            'customer_id' => ['preset' => 'default']
+            ]
         ];
 
         $this->_data['baby_registry'] = [
@@ -91,8 +90,7 @@ class GiftRegistry extends AbstractRepository
             ],
             'address' => [
                 'dataSet' => 'US_address_without_email'
-            ],
-            'customer_id' => ['preset' => 'default']
+            ]
         ];
 
         $this->_data['birthday_private'] = [

@@ -8,14 +8,14 @@
 
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class Sharing
- * Backend sharing gift registry block
+ * Backend sharing gift registry form
  */
-class Sharing extends Block
+class Sharing extends Form
 {
     /**
      * Share Gift Registry button selector
