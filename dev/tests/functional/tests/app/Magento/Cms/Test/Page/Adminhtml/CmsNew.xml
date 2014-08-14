@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/cms_page/new"  module="Magento_Cms">
+<page mca="admin/cms_page/new" module="Magento_Cms">
     <blocks>
         <pageForm>
             <class>Magento\Cms\Test\Block\Adminhtml\Page\Edit\PageForm</class>

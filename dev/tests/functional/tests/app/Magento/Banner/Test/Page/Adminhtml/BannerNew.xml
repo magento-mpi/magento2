@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/banner/new"  module="Magento_Banner">
+<page mca="admin/banner/new" module="Magento_Banner">
     <blocks>
         <bannerForm>
             <class>Magento\Banner\Test\Block\Adminhtml\Banner\BannerForm</class>

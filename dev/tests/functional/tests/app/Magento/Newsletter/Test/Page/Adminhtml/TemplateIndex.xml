@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="newsletter/template/index"  module="Magento_Newsletter">
+<page mca="newsletter/template/index" module="Magento_Newsletter">
     <blocks>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>

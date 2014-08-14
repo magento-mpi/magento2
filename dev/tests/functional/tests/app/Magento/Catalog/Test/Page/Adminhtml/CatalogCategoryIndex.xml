@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog/category/index"  module="Magento_Catalog">
+<page mca="catalog/category/index" module="Magento_Catalog">
     <blocks>
         <treeCategories>
             <class>Magento\Catalog\Test\Block\Adminhtml\Category\Tree</class>

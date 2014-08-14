@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/widget_instance/index"  module="Magento_Widget">
+<page mca="admin/widget_instance/index" module="Magento_Widget">
     <blocks>
         <pageActionsBlock>
             <class>Magento\Backend\Test\Block\GridPageActions</class>

@@ -11,7 +11,7 @@
     <blocks>
         <giftCardBlock>
             <class>Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard</class>
-            <locator>[data-container-for=giftcard_info]</locator>
+            <locator>.product-info-main</locator>
             <strategy>css selector</strategy>
         </giftCardBlock>
     </blocks>

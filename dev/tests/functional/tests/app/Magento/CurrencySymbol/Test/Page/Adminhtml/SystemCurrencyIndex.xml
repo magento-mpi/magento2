@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/system_currency/index"  module="Magento_CurrencySymbol">
+<page mca="admin/system_currency/index" module="Magento_CurrencySymbol">
     <blocks>
         <gridPageActions>
             <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\Currency\GridPageActions</class>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/giftwrapping/index"  module="Magento_GiftWrapping">
+<page mca="admin/giftwrapping/index" module="Magento_GiftWrapping">
     <blocks>
         <gridPageActions>
             <class>Magento\Backend\Test\Block\GridPageActions</class>

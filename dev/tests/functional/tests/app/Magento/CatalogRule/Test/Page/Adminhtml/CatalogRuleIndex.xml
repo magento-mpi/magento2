@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog_rule/promo_catalog/index"  module="Magento_CatalogRule">
+<page mca="catalog_rule/promo_catalog/index" module="Magento_CatalogRule">
     <blocks>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>

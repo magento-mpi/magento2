@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/integration/new"  module="Magento_Integration">
+<page mca="admin/integration/new" module="Magento_Integration">
     <blocks>
         <formPageActions>
             <class>Magento\Integration\Test\Block\Adminhtml\Integration\Edit\IntegrationFormPageActions</class>

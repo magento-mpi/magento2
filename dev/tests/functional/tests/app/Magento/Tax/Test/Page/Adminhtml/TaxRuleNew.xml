@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="tax/rule/new"  module="Magento_Tax">
+<page mca="tax/rule/new" module="Magento_Tax">
     <blocks>
         <formPageActions>
             <class>Magento\Backend\Test\Block\FormPageActions</class>

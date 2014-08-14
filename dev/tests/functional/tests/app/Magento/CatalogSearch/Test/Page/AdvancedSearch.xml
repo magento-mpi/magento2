@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalogsearch/advanced"  module="Magento_CatalogSearch">
+<page mca="catalogsearch/advanced" module="Magento_CatalogSearch">
     <blocks>
         <form>
             <class>Magento\CatalogSearch\Test\Block\Advanced\Form</class>

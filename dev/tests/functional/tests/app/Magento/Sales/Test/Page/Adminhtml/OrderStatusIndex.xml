@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales/order_status/index"  module="Magento_Sales">
+<page mca="sales/order_status/index" module="Magento_Sales">
     <blocks>
         <orderStatusGrid>
             <class>Magento\Sales\Test\Block\Adminhtml\Order\StatusGrid</class>

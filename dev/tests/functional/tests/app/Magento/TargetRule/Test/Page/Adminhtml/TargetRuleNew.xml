@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/targetrule/new"  module="Magento_TargetRule">
+<page mca="admin/targetrule/new" module="Magento_TargetRule">
     <blocks>
         <pageActions>
             <class>Magento\Backend\Test\Block\FormPageActions</class>

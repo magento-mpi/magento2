@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/cms_page_version/edit"  module="Magento_VersionsCms">
+<page mca="admin/cms_page_version/edit" module="Magento_VersionsCms">
     <blocks>
         <formPageActions>
             <class>Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\FormPageActions</class>

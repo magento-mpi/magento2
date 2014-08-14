@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales_rule/promo_quote/new"  module="Magento_SalesRule">
+<page mca="sales_rule/promo_quote/new" module="Magento_SalesRule">
     <blocks>
         <salesRuleForm>
             <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm</class>

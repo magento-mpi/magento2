@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/export/index"  module="Magento_ImportExport">
+<page mca="admin/export/index" module="Magento_ImportExport">
     <blocks>
         <filterExport>
             <class>Magento\ImportExport\Test\Block\Adminhtml\Export\Filter</class>

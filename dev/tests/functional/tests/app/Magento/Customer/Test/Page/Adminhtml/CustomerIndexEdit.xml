@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="customer/index/edit"  module="Magento_Customer">
+<page mca="customer/index/edit" module="Magento_Customer">
     <blocks>
         <titleBlock>
             <class>Magento\Theme\Test\Block\Html\Title</class>

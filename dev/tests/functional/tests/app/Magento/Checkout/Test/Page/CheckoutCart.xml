@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="checkout/cart"  module="Magento_Checkout">
+<page mca="checkout/cart" module="Magento_Checkout">
     <blocks>
         <cartBlock>
             <class>Magento\Checkout\Test\Block\Cart</class>

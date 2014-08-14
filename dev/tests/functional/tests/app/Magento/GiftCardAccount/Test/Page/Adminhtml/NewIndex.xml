@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/giftcardaccount/new/index"  module="Magento_GiftCardAccount">
+<page mca="admin/giftcardaccount/new/index" module="Magento_GiftCardAccount">
     <blocks>
         <pageMainForm>
             <class>Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit\GiftCardAccountForm</class>

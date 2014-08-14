@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="reward/customer/info"  module="Magento_Reward">
+<page mca="reward/customer/info" module="Magento_Reward">
     <blocks>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>

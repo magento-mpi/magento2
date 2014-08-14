@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales_rule/promo_quote/index"  module="Magento_SalesRule">
+<page mca="sales_rule/promo_quote/index" module="Magento_SalesRule">
     <blocks>
         <promoQuoteGrid>
             <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid</class>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/reward_rate/new"  module="Magento_Reward">
+<page mca="admin/reward_rate/new" module="Magento_Reward">
     <blocks>
         <rewardRateForm>
             <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Edit\RewardRateForm</class>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/system_variable/new"  module="Magento_Core">
+<page mca="admin/system_variable/new" module="Magento_Core">
     <blocks>
         <formPageActions>
             <class>Magento\Core\Test\Block\Adminhtml\System\Variable\FormPageActions</class>

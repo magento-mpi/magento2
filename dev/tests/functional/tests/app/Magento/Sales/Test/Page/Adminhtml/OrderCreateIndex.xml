@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="sales/order_status/new"  module="Magento_Sales">
+<page mca="sales/order_create/index" module="Magento_Sales">
     <blocks>
         <customerBlock>
             <class>Magento\Sales\Test\Block\Adminhtml\Order\Create\Customer</class>

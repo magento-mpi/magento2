@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/wishlist/index"  module="Magento_GiftRegistry">
+<page mca="giftregistry/wishlist/index" module="Magento_GiftRegistry">
     <blocks>
         <wishlistBlock>
             <class>Magento\GiftRegistry\Test\Block\Customer\Wishlist</class>

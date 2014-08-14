@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="checkout/onepage/index"  module="Magento_CustomerCustomAttributes">
+<page mca="checkout/onepage/index" module="Magento_CustomerCustomAttributes">
     <blocks>
         <billingBlock>
             <class>Magento\CustomerCustomAttributes\Test\Block\Onepage\Billing</class>

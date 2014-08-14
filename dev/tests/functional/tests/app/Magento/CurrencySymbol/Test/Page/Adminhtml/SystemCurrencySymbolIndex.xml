@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/system_currencysymbol/index"  module="Magento_CurrencySymbol">
+<page mca="admin/system_currencysymbol/index" module="Magento_CurrencySymbol">
     <blocks>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>

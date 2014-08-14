@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/system_store/deleteStore"  module="Magento_Backend">
+<page mca="admin/system_store/deleteStore" module="Magento_Backend">
     <blocks>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>

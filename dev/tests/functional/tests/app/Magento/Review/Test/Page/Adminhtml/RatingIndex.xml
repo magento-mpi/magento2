@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="review/rating"  module="Magento_Review">
+<page mca="review/rating" module="Magento_Review">
     <blocks>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>

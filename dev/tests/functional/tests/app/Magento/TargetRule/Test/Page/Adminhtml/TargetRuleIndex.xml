@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/targetrule/index"  module="Magento_TargetRule">
+<page mca="admin/targetrule/index" module="Magento_TargetRule">
     <blocks>
         <messagesBlock>
             <class>Magento\Core\Test\Block\Messages</class>

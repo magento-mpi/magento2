@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="customersegment/index/new"  module="Magento_CustomerSegment">
+<page mca="customersegment/index/new" module="Magento_CustomerSegment">
     <blocks>
         <customerSegmentForm>
             <class>Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\CustomerSegmentForm</class>

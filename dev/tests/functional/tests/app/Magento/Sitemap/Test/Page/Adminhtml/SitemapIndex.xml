@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/sitemap/index"  module="Magento_Sitemap">
+<page mca="admin/sitemap/index" module="Magento_Sitemap">
     <blocks>
         <gridPageActions>
             <class>Magento\Backend\Test\Block\GridPageActions</class>

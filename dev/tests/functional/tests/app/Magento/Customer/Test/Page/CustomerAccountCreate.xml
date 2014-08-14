@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="customer/account/create"  module="Magento_Customer">
+<page mca="customer/account/create" module="Magento_Customer">
     <blocks>
         <registerForm>
             <class>Magento\Customer\Test\Block\Form\Register</class>

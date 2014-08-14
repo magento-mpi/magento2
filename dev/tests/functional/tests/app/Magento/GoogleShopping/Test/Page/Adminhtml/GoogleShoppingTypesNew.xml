@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/googleshopping_types/new"  module="Magento_GoogleShopping">
+<page mca="admin/googleshopping_types/new" module="Magento_GoogleShopping">
     <blocks>
         <pageActions>
             <class>Magento\GoogleShopping\Test\Block\Adminhtml\Types\FormPageActions</class>

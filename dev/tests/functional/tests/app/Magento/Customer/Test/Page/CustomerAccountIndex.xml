@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="customer/account/index"  module="Magento_Customer">
+<page mca="customer/account/index" module="Magento_Customer">
     <blocks>
         <messages>
             <class>Magento\Core\Test\Block\Messages</class>

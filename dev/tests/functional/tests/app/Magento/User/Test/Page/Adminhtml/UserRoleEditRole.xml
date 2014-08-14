@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/user_role/editrole"  module="Magento_User">
+<page mca="admin/user_role/editrole" module="Magento_User">
     <blocks>
         <pageActions>
             <class>Magento\User\Test\Block\Adminhtml\Role\PageActions</class>

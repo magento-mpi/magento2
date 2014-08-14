@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/index/share"  module="Magento_GiftRegistry">
+<page mca="giftregistry/index/share" module="Magento_GiftRegistry">
     <blocks>
         <giftRegistryShareForm>
             <class>Magento\GiftRegistry\Test\Block\Customer\Share</class>

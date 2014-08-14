@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/dashboard"  module="Magento_Backend">
+<page mca="admin/dashboard" module="Magento_Backend">
     <blocks>
         <adminPanelHeader>
             <class>Magento\Backend\Test\Block\Page\Header</class>

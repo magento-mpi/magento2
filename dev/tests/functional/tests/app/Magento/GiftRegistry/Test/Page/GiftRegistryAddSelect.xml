@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/index/addselect"  module="Magento_GiftRegistry">
+<page mca="giftregistry/index/addselect" module="Magento_GiftRegistry">
     <blocks>
         <giftRegistryTypeBlock>
             <class>Magento\GiftRegistry\Test\Block\Customer\Edit</class>

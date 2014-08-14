@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="newsletter/subscriber/index"  module="Magento_Newsletter">
+<page mca="newsletter/subscriber/index" module="Magento_Newsletter">
     <blocks>
         <subscriberGrid>
             <class>Magento\Newsletter\Test\Block\Adminhtml\Subscriber\Grid</class>

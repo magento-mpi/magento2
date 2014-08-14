@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/user_role/index"  module="Magento_User">
+<page mca="admin/user_role/index" module="Magento_User">
     <blocks>
         <roleActions>
             <class>Magento\Backend\Test\Block\GridPageActions</class>

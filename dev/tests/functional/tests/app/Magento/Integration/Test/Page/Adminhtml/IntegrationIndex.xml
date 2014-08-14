@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/integration/index"  module="Magento_Integration">
+<page mca="admin/integration/index" module="Magento_Integration">
     <blocks>
         <gridPageActions>
             <class>Magento\Backend\Test\Block\GridPageActions</class>

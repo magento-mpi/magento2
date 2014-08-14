@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/reward_rate/index"  module="Magento_Reward">
+<page mca="admin/reward_rate/index" module="Magento_Reward">
     <blocks>
         <rewardRateGrid>
             <class>Magento\Reward\Test\Block\Adminhtml\Reward\Rate\Grid</class>

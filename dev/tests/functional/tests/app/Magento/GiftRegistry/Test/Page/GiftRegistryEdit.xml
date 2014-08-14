@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="giftregistry/index/edit"  module="Magento_GiftRegistry">
+<page mca="giftregistry/index/edit" module="Magento_GiftRegistry">
     <blocks>
         <actionsToolbarBlock>
             <class>Magento\GiftRegistry\Test\Block\Customer\Edit\ActionsToolbar</class>

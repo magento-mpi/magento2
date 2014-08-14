@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="review/rating/new"  module="Magento_Review">
+<page mca="review/rating/new" module="Magento_Review">
     <blocks>
         <pageActions>
             <class>Magento\Backend\Test\Block\FormPageActions</class>

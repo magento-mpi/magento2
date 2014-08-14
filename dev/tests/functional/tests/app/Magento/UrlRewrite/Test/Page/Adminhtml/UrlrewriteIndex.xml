@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/urlrewrite/index"  module="Magento_UrlRewrite">
+<page mca="admin/urlrewrite/index" module="Magento_UrlRewrite">
     <blocks>
         <pageActionsBlock>
             <class>Magento\Backend\Test\Block\GridPageActions</class>

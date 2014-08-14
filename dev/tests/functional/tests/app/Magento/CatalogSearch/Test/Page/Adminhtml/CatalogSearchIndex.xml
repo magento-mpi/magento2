@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog/search/index"  module="Magento_CatalogSearch">
+<page mca="catalog/search/index" module="Magento_CatalogSearch">
     <blocks>
         <grid>
             <class>Magento\CatalogSearch\Test\Block\Adminhtml\Grid</class>

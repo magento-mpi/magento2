@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="customer/account/edit"  module="Magento_Customer">
+<page mca="customer/account/edit" module="Magento_Customer">
     <blocks>
         <accountInfoForm>
             <class>Magento\Customer\Test\Block\Form\CustomerForm</class>
