@@ -10,8 +10,6 @@ namespace Magento\Sales\Service\V1\Action;
 
 /**
  * Test Class InvoiceEmailTest for Order Service
- *
- * @package Magento\Sales\Service\V1
  */
 class InvoiceEmailTest extends \PHPUnit_Framework_TestCase
 {

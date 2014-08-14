@@ -5,17 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Service\V1;
+namespace Magento\Sales\Service\V1\Action;
 
 /**
  * Class ShipmentCreateTest
- *
- * @package Magento\Sales\Service\V1
  */
 class ShipmentCreateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Service\V1\ShipmentCreate
+     * @var \Magento\Sales\Service\V1\Action\ShipmentCreate
      */
     protected $shipmentCreate;
 
@@ -40,7 +38,7 @@ class ShipmentCreateTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
-        $this->shipmentCreate = new \Magento\Sales\Service\V1\ShipmentCreate(
+        $this->shipmentCreate = new ShipmentCreate(
             $this->shipmentConverterMock,
             $this->loggerMock
         );

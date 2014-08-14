@@ -10,8 +10,6 @@ namespace Magento\Sales\Service\V1\Action;
 
 /**
  * Test Class OrderEmailTest for Order Service
- *
- * @package Magento\Sales\Service\V1
  */
 class OrderEmailTest extends \PHPUnit_Framework_TestCase
 {

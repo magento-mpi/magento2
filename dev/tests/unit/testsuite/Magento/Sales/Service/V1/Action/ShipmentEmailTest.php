@@ -10,8 +10,6 @@ namespace Magento\Sales\Service\V1\Action;
 
 /**
  * Test Class ShipmentEmailTest for Shipment Service
- *
- * @package Magento\Sales\Service\V1
  */
 class ShipmentEmailTest extends \PHPUnit_Framework_TestCase
 {
