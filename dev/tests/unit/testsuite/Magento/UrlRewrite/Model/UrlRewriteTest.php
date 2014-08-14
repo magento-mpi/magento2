@@ -29,7 +29,13 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
+
     private $collectionMock;
+
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    private $objectManager;
 
     public function setUp()
     {
@@ -40,16 +46,11 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
 
         );
 
-        $collectionMethods = ['load', 'addTagsFilter', 'getSize'];
-        $this->collectionMock = $this->getMockForAbstractClass(
-            '\Magento\Framework\Model\Resource\Db\Collection\AbstractCollection',
-            [], '', false, true, true, $collectionMethods
-        );
+        $this->objectManager= new ObjectManager($this);
 
-        $this->model = (new ObjectManager($this))->getObject('\Magento\UrlRewrite\Model\UrlRewrite',
+        $this->model = $this->objectManager->getObject('\Magento\UrlRewrite\Model\UrlRewrite',
         [
             'resource' => $this->resourceMock,
-            'resourceCollection' => $this->collectionMock,
         ]
         );
     }
@@ -84,15 +85,9 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->model->setOptions($options)->hasOption('option2'));
     }
 
-    public function testRewrite()
-    {
-
-    }
-
     public function testGetStoreId()
     {
         $id = 42;
         $this->assertEquals($id, $this->model->setStoreId($id)->getStoreId());
     }
-
 } 
