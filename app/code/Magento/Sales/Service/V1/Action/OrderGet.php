@@ -46,7 +46,6 @@ class OrderGet
      */
     public function invoke($id)
     {
-        $order = $this->orderRepository->get($id);
-        return $this->orderMapper->extractDto($order);
+        return $this->orderMapper->extractDto($this->orderRepository->get($id));
     }
 }
