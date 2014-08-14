@@ -52,6 +52,11 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
      */
     protected $view;
 
+    /**
+     * @var \Magento\Framework\App\Action\Title|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $title;
+
     public function setUp()
     {
         $objectManagerHelper = new ObjectManagerHelper($this);
@@ -66,6 +71,8 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
                 'getResponse',
                 'getRedirect',
                 'getObjectManager',
+                'getTitle',
+                'getView'
             ],
             [],
             '',
@@ -73,14 +80,14 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
         );
         $this->response = $this->getMock(
             'Magento\Framework\App\ResponseInterface',
-            ['setRedirect', 'sendResponse'],
+            ['setRedirect', 'sendResponse', 'setBody'],
             [],
             '',
             false
         );
         $this->request = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            ['isPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam'],
+            ['isPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getPost'],
             [],
             '',
             false
@@ -88,6 +95,14 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
             ['create', 'get'],
+            [],
+            '',
+            false
+        );
+        $this->title = $this->getMock('Magento\Framework\App\Action\Title', [], [], '', false);
+        $this->view = $this->getMock(
+            'Magento\Framework\App\ViewInterface',
+            [],
             [],
             '',
             false
@@ -101,16 +116,148 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
         $this->context->expects($this->once())
             ->method('getObjectManager')
             ->will($this->returnValue($this->objectManager));
-        $this->saveAction = $objectManagerHelper->getObject(
-            'Magento\Shipping\Controller\Adminhtml\Order\Shipment\Save',
+        $this->context->expects($this->once())
+            ->method('getTitle')
+            ->will($this->returnValue($this->title));
+        $this->context->expects($this->once())
+            ->method('getView')
+            ->will($this->returnValue($this->view));
+        $this->controller = $objectManagerHelper->getObject(
+            'Magento\Shipping\Controller\Adminhtml\Order\Shipment\AddTrack',
             [
                 'context' => $this->context,
                 'shipmentLoader' => $this->shipmentLoader,
                 'request' => $this->request,
-                'response' => $this->response
+                'response' => $this->response,
+                'title' => $this->title,
+                'view' => $this->view
             ]
         );
     }
 
+    public function testExecute()
+    {
+        $carrier = 'carrier';
+        $number = 'number';
+        $title = 'title';
+
+        $shipmentId = 1000012;
+        $orderId = 10003;
+        $tracking = [];
+        $shipmentData = ['items' => [], 'send_email' => ''];
+
+        $shipment = $this->getMock(
+            'Magento\Sales\Model\Order\Shipment',
+            ['addTrack', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+        $this->request->expects($this->any())
+            ->method('getParam')
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['order_id', null, $orderId],
+                        ['shipment_id', null, $shipmentId],
+                        ['shipment', null, $shipmentData],
+                        ['tracking', null, $tracking]
+                    ]
+                )
+            );
+        $this->request->expects($this->any())
+            ->method('getPost')
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['carrier', $carrier],
+                        ['number', $number],
+                        ['title', $title]
+                    ]
+                )
+            );
+        $this->shipmentLoader->expects($this->any())
+            ->method('setShipmentId')
+            ->with($shipmentId);
+        $this->shipmentLoader->expects($this->any())
+            ->method('setOrderId')
+            ->with($orderId);
+        $this->shipmentLoader->expects($this->any())
+            ->method('setShipment')
+            ->with($shipmentData);
+        $this->shipmentLoader->expects($this->any())
+            ->method('setTracking')
+            ->with($tracking);
+        $this->shipmentLoader->expects($this->once())
+            ->method('load')
+            ->will($this->returnValue($shipment));
+        $this->title->expects($this->any())
+            ->method('add')
+            ->with('Shipments')
+            ->will($this->returnSelf());
+        $track = $this->getMockBuilder('Magento\Sales\Model\Order\Shipment\Track')
+            ->disableOriginalConstructor()
+            ->setMethods(['__wakeup', 'setNumber', 'setCarrierCode', 'setTitle'])
+            ->getMock();
+        $this->objectManager->expects($this->atLeastOnce())
+            ->method('create')
+            ->with('Magento\Sales\Model\Order\Shipment\Track')
+            ->will($this->returnValue($track));
+        $track->expects($this->once())
+            ->method('setNumber')
+            ->with($number)
+            ->will($this->returnSelf());
+        $track->expects($this->once())
+            ->method('setCarrierCode')
+            ->with($carrier)
+            ->will($this->returnSelf());
+        $track->expects($this->once())
+            ->method('setTitle')
+            ->with($title)
+            ->will($this->returnSelf());
+        $this->view->expects($this->once())
+            ->method('loadLayout')
+            ->will($this->returnSelf());
+        $layout = $this->getMock(
+            'Magento\Framework\View\Layout\Element\Layout',
+            ['getBlock'],
+            [],
+            '',
+            false
+        );
+        $menuBlock = $this->getMock(
+            'Magento\Framework\View\Element\BlockInterface',
+            ['toHtml'],
+            [],
+            '',
+            false
+        );
+        $html = 'html string';
+        $this->view->expects($this->once())
+            ->method('getLayout')
+            ->will($this->returnValue($layout));
+        $layout->expects($this->once())
+            ->method('getBlock')
+            ->with('shipment_tracking')
+            ->will($this->returnValue($menuBlock));
+        $menuBlock->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue($html));
+
+        $shipment->expects($this->once())
+            ->method('addTrack')
+            ->with($this->equalTo($track))
+            ->will($this->returnSelf());
+        $shipment->expects($this->any())
+            ->method('save')
+            ->will($this->returnSelf());
+
+        $this->response->expects($this->once())
+            ->method('setBody')
+            ->with($html);
+
+        $this->assertNull($this->controller->execute());
+    }
 }
  

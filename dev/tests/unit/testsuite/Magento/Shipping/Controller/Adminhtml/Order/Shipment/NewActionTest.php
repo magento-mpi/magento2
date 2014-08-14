@@ -192,7 +192,8 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
                 'shipmentLoader' => $this->shipmentLoader,
                 'request' => $this->request,
                 'response' => $this->response,
-                'title' => $this->title
+                'title' => $this->title,
+                'view' => $this->view
             ]
         );
     }
