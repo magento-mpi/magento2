@@ -74,33 +74,10 @@ class Console implements \Magento\Framework\AppInterface
         $this->_loader = $loader;
         $this->_state = $state;
         $this->_installerFactory = $installerFactory;
-        $this->_arguments = $this->_buildInitArguments($arguments);
+        $this->_arguments = $arguments;
         $this->_output = $output;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
-    }
-
-    /**
-     * Customize application init arguments
-     *
-     * @param array $args
-     * @return array
-     */
-    protected function _buildInitArguments(array $args)
-    {
-        if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_URIS])) {
-            $uris = unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
-            foreach ($uris as $code => $uri) {
-                $args[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS][$code]['uri'] = $uri;
-            }
-        }
-        if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS])) {
-            $dirs = unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS]));
-            foreach ($dirs as $code => $dir) {
-                $args[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS][$code]['path'] = $dir;
-            }
-        }
-        return $args;
     }
 
     /**

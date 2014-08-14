@@ -14,24 +14,39 @@ namespace Magento\TestFramework\Performance;
 class Bootstrap
 {
     /**
+     * The real application bootstrap
+     *
+     * @var \Magento\Framework\App\Bootstrap
+     */
+    private $appBootstrap;
+
+    /**
+     * Tests base directory
+     *
+     * @var string
+     */
+    private $testsBaseDir;
+
+    /**
      * Tests configuration holder
      *
      * @var \Magento\TestFramework\Performance\Config
      */
-    protected $_config;
+    private $config;
 
     /**
      * Constructor
      *
+     * @param \Magento\Framework\App\Bootstrap $appBootstrap
      * @param string $testsBaseDir
      * @param string $appBaseDir
      */
-    public function __construct($testsBaseDir, $appBaseDir)
+    public function __construct(\Magento\Framework\App\Bootstrap $appBootstrap, $testsBaseDir, $appBaseDir)
     {
+        $this->appBootstrap = $appBootstrap;
+        $this->testsBaseDir = $testsBaseDir;
         $configFile = "{$testsBaseDir}/config.php";
-        $configFile = file_exists($configFile) ? $configFile : "{$configFile}.dist";
-        $configData = require $configFile;
-        $this->_config = new \Magento\TestFramework\Performance\Config($configData, $testsBaseDir, $appBaseDir);
+        $this->configFile = file_exists($configFile) ? $configFile : "{$configFile}.dist";
     }
 
     /**
@@ -41,7 +56,7 @@ class Bootstrap
      */
     public function cleanupReports()
     {
-        $reportDir = $this->_config->getReportDir();
+        $reportDir = $this->getConfig()->getReportDir();
         try {
             $filesystemAdapter = new \Magento\Framework\Filesystem\Driver\File();
             if ($filesystemAdapter->isExists($reportDir)) {
@@ -56,12 +71,45 @@ class Bootstrap
     }
 
     /**
+     * Test framework application factory method
+     *
+     * @param \Magento\Framework\Shell $shell
+     * @return \Magento\TestFramework\Application
+     */
+    public function createApplication(\Magento\Framework\Shell $shell)
+    {
+        return new \Magento\TestFramework\Application(
+            $this->getConfig(),
+            $this->appBootstrap->getObjectManager(),
+            $shell
+        );
+    }
+
+    /**
+     * Test suite factory method
+     *
+     * @param \Magento\TestFramework\Application $application
+     * @param \Magento\TestFramework\Performance\Scenario\HandlerInterface $scenarioHandler
+     * @return Testsuite
+     */
+    public function createTestSuite(
+        \Magento\TestFramework\Application $application,
+        \Magento\TestFramework\Performance\Scenario\HandlerInterface $scenarioHandler
+    ) {
+        return new Testsuite($this->getConfig(), $application, $scenarioHandler);
+    }
+
+    /**
      * Return configuration for the tests
      *
      * @return \Magento\TestFramework\Performance\Config
      */
     public function getConfig()
     {
-        return $this->_config;
+        if (null === $this->config) {
+            $configData = require $this->configFile;
+            $this->config = new Config($configData, $this->testsBaseDir, $this->appBootstrap->getDirList()->getRoot());
+        }
+        return $this->config;
     }
 }

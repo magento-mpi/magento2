@@ -65,13 +65,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->_fixtureDir . '/app_base_dir'
         );
         $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
+        $objectManager = $this->getMockForAbstractClass('\Magento\Framework\ObjectManager');
 
         $this->_object = $this->getMock(
             'Magento\TestFramework\Application',
-            array('_bootstrap', '_cleanupMage', '_reindex', '_updateFilesystemPermissions'),
-            array($this->_config, $this->_shell)
+            array('_cleanupMage', '_reindex', '_updateFilesystemPermissions', 'getObjectManager'),
+            array($this->_config, $objectManager, $this->_shell)
         );
         $this->_object->expects($this->any())->method('_reindex')->will($this->returnValue($this->_object));
+        $this->_object->expects($this->any())->method('getObjectManager')->will($this->returnValue($objectManager));
 
         // For fixture testing
         $this->_object->applied = array();
@@ -85,24 +87,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         unset($this->_config);
         unset($this->_shell);
         unset($this->_object);
-    }
-
-    /**
-     * Constructor test
-     *
-     * @expectedException \Magento\Framework\Exception
-     */
-    public function testConstructorException()
-    {
-        $invalidAppDir = __DIR__;
-        new \Magento\TestFramework\Application(
-            new \Magento\TestFramework\Performance\Config(
-                $this->_fixtureConfigData,
-                $this->_fixtureDir,
-                $invalidAppDir
-            ),
-            $this->_shell
-        );
     }
 
     /**

@@ -31,13 +31,17 @@ try {
     /** @var \Magento\Framework\App\MaintenanceMode $maintenance */
     $maintenance = $bootstrap->getObjectManager()->get('Magento\Framework\App\MaintenanceMode');
     if (isset($opt['set'])) {
+        if (isset($opt['addresses'])) {
+            $addresses = empty($opt['addresses']) ? [] : explode(',', $opt['addresses']);
+        } else {
+            $addresses = null;
+        }
         if (1 === (int)$opt['set']) {
-            $data = isset($opt['addresses']) ? $opt['addresses'] : '';
             echo "Enabling maintenance mode...\n";
-            $maintenance->turnOn($data);
+            $maintenance->turnOn($addresses);
         } else {
             echo "Disabling maintenance mode...\n";
-            $maintenance->turnOff();
+            $maintenance->turnOff($addresses);
         }
 
     } else {
@@ -48,11 +52,11 @@ try {
         echo "Status: maintenance mode is not active.\n";
     } else {
         $addresses = implode(', ', $info);
-        $except = '';
+        $except = '.';
         if ($addresses) {
             $except = ", except for the HTTP clients from the following IP addresses:\n{$addresses}";
         }
-        echo "Status: maintenance mode is active for all entry points{$except}.\n";
+        echo "Status: maintenance mode is active for all entry points{$except}\n";
     }
     exit(0);
 } catch (Exception $e) {

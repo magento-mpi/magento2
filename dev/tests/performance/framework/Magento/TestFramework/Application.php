@@ -14,11 +14,6 @@ namespace Magento\TestFramework;
 class Application
 {
     /**
-     * Area code
-     */
-    const AREA_CODE = 'install';
-
-    /**
      * Configuration object
      *
      * @var \Magento\TestFramework\Performance\Config
@@ -67,12 +62,16 @@ class Application
      * Constructor
      *
      * @param \Magento\TestFramework\Performance\Config $config
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Shell $shell
-     * @throws \Magento\Framework\Exception
      */
-    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Framework\Shell $shell)
-    {
+    public function __construct(
+        \Magento\TestFramework\Performance\Config $config,
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\Shell $shell
+    ) {
         $shellDir = $config->getApplicationBaseDir() . '/dev/shell';
+        $this->_objectManager = $objectManager;
         $this->_installScript = $this->_assertPath($shellDir . '/install.php');
         $this->_uninstallScript = $this->_assertPath($shellDir . '/uninstall.php');
         $this->_config = $config;
@@ -200,30 +199,6 @@ class Application
     }
 
     /**
-     * Bootstrap application, so it is possible to use its resources
-     *
-     * @return \Magento\TestFramework\Application
-     */
-    protected function _bootstrap()
-    {
-        $this->getObjectManager()->configure(
-            $this->getObjectManager()->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
-        );
-        $this->getObjectManager()->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
-        return $this;
-    }
-
-    /**
-     * Bootstrap
-     *
-     * @return Application
-     */
-    public function bootstrap()
-    {
-        return $this->_bootstrap();
-    }
-
-    /**
      * Work on application, so that it has all and only $fixtures applied. May require reinstall, if
      * excessive fixtures has been applied before.
      *
@@ -241,7 +216,6 @@ class Application
             return;
         }
 
-        $this->_bootstrap();
         foreach ($fixturesToApply as $fixtureFile) {
             $this->applyFixture($fixtureFile);
         }
@@ -278,24 +252,8 @@ class Application
      *
      * @return \Magento\Framework\ObjectManager
      */
-    public function getObjectManager()
+    protected function getObjectManager()
     {
-        if (!$this->_objectManager) {
-            $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
-            $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
-            $this->_objectManager->get('Magento\Framework\App\State')->setAreaCode(self::AREA_CODE);
-        }
         return $this->_objectManager;
-    }
-
-    /**
-     * Reset object manager
-     *
-     * @return \Magento\Framework\ObjectManager
-     */
-    public function resetObjectManager()
-    {
-        $this->_objectManager = null;
-        return $this;
     }
 }

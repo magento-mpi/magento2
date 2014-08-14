@@ -13,15 +13,6 @@ namespace Magento\Install\Model\Installer;
 
 class Console
 {
-    /**#@+
-     * Installation options for application initialization
-     */
-    const OPTION_URIS = 'install_option_uris';
-
-    const OPTION_DIRS = 'install_option_dirs';
-
-    /**#@- */
-
     /**
      * Available installation options
      *

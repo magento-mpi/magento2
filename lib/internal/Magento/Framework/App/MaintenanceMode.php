@@ -15,9 +15,14 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class MaintenanceMode
 {
     /**
-     * Maintenance flag name
+     * Maintenance flag file name
      */
-    const FLAG_FILENAME = '.maintenance';
+    const FLAG_FILENAME = '.maintenance.flag';
+
+    /**
+     * IP-addresses file name
+     */
+    const IP_FILENAME = '.maintenance.ip';
 
     /**
      * Maintenance flag dir
@@ -38,17 +43,42 @@ class MaintenanceMode
     }
 
     /**
+     * Gets detailed information about whether it is enabled and for which IP-addresses (if any)
+     *
      * @return array|bool
      */
     public function getStatusInfo()
     {
-        $file = $this->getFile();
+        $file = $this->getFile(self::FLAG_FILENAME);
         if (file_exists($file)) {
-            return explode(",", file_get_contents($file));
+            return $this->getAddressInfo();
         }
         return false;
     }
 
+    /**
+     * Get list of IP addresses effective for maintenance mode
+     *
+     * @return string[]
+     */
+    public function getAddressInfo()
+    {
+        $file = $this->getFile(self::IP_FILENAME);
+        if (file_exists($file)) {
+            return explode(',', trim(file_get_contents($file)));
+        } else {
+            return [];
+        }
+    }
+
+    /**
+     * Checks whether mode is on
+     *
+     * Optionally specify an IP-address to compare against the white list
+     *
+     * @param string $remoteAddr
+     * @return bool
+     */
     public function isOn($remoteAddr = '')
     {
         $info = $this->getStatusInfo();
@@ -61,31 +91,60 @@ class MaintenanceMode
     /**
      * Turn on store maintenance mode
      *
-     * @param string $data
-     * @return int|bool
+     * @param array $addresses
+     * @return void
      */
-    public function turnOn($data = 'maintenance')
+    public function turnOn(array $addresses = null)
     {
-        $file = $this->getFile();
-        return file_put_contents($file, $data);
+        $this->set(1, $addresses);
     }
 
     /**
      * Turn off store maintenance mode
      *
-     * @return bool
+     * @param array $addresses
+     * @return void
      */
-    public function turnOff()
+    public function turnOff(array $addresses = null)
     {
-        $file = $this->getFile();
-        if (!file_exists($file)) {
-            return true;
-        }
-        return unlink($file);
+        $this->set(0, $addresses);
     }
 
-    private function getFile()
+    /**
+     * Subroutine to set the maintenance mode to the specified values
+     *
+     * @param bool|int $isSet
+     * @param array|null $addresses
+     */
+    private function set($isSet, $addresses)
     {
-        return $this->dirList->getDir(self::FLAG_DIR) . '/' . self::FLAG_FILENAME;
+        if (null === $addresses) {
+            $addresses = $this->getAddressInfo();
+        }
+        $flagFile = $this->getFile(self::FLAG_FILENAME);
+        if ($isSet) {
+            touch($flagFile);
+        } elseif (file_exists($flagFile)) {
+            unlink($flagFile);
+        }
+        $addressesFile = $this->getFile(self::IP_FILENAME);
+        if (empty($addresses)) {
+            if (file_exists($addressesFile)) {
+                unlink($addressesFile);
+            }
+        } else {
+            file_put_contents($addressesFile, implode(',', $addresses));
+        }
+    }
+
+    /**
+     * Gets the absolute file name from the configured directory
+     *
+     * @param string $basename
+     * @return string
+     */
+    private function getFile($basename)
+    {
+        return $this->dirList->getDir(self::FLAG_DIR) . '/' . $basename;
     }
 }

@@ -2106,7 +2106,7 @@ return array(
     array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),
     array('Magento\Catalog\Helper\Flat\AbstractFlat'),
-    array('Magento\Core\App\Action\Plugin\Install', 'Magento\Install\App\Action\Plugin\Install'),
+    array('Magento\Core\App\Action\Plugin\Install', 'Magento\Framework\App\Bootstrap'),
     array('Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'),
     array(
         'Magento\Core\Model\LocaleInterface',
@@ -2741,4 +2741,8 @@ return array(
     ['\Magento\Framework\App\EntryPointInterface', '\Magento\Framework\App\Bootstrap'],
     ['Magento\Framework\Module\FrontController\Plugin\Install', '\Magento\Framework\Module\Plugin\DbStatusValidator'],
     ['Magento\Framework\Module\UpdaterInterface'],
+    ['Magento\Framework\App\EntryPoint\EntryPoint', 'Magento\Framework\App\Bootstrap'],
+    ['Magento\Framework\App\EntryPointInterface', 'Magento\Framework\App\Bootstrap'],
+    ['Magento\Install\Model\Installer\AbstractInstaller', 'Magento\Install\Model\Installer\Console'],
+    ['Magento\Install\App\Action\Plugin\Install', 'Magento\Framework\App\Bootstrap'],
 );

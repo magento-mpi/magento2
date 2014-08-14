@@ -104,6 +104,7 @@ class Bootstrap
      * Injects additional initialization parameters
      *
      * @param array $params
+     * @return void
      */
     public function addParams(array $params)
     {
@@ -125,6 +126,7 @@ class Bootstrap
      * Sets whether maintenance is required to run the application
      *
      * @param bool $value
+     * @return void
      */
     public function setIsMaintenanceRequirement($value)
     {
@@ -136,6 +138,7 @@ class Bootstrap
      * Sets whether "installed" is required to run the application
      *
      * @param bool $value
+     * @return void
      */
     public function setIsInstalledRequirement($value)
     {
@@ -169,6 +172,7 @@ class Bootstrap
      * Runs an application
      *
      * @param \Magento\Framework\AppInterface $application
+     * @return void
      */
     public function run(AppInterface $application)
     {
@@ -196,6 +200,7 @@ class Bootstrap
      * Asserts maintenance mode
      *
      * @param bool $isExpected
+     * @return void
      * @throws \Exception
      */
     private function assertMaintenance($isExpected)
@@ -216,6 +221,7 @@ class Bootstrap
      * Asserts whether application is installed
      *
      * @param bool $isExpected
+     * @return void
      * @throws \Exception
      */
     private function assertInstalled($isExpected)
@@ -252,6 +258,17 @@ class Bootstrap
     {
         $this->init();
         return $this->objectManager;
+    }
+
+    /**
+     * Gets the directory list instance
+     *
+     * @return Filesystem\DirectoryList
+     */
+    public function getDirList()
+    {
+        $this->init();
+        return $this->dirList;
     }
 
     /**
@@ -306,6 +323,7 @@ class Bootstrap
      * Display an exception and terminate program execution
      *
      * @param \Exception $e
+     * @return void
      */
     public function terminate(\Exception $e)
     {
