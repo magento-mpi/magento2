@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scheme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../scheme.xsd">
+    <content>
+        <item name="CatalogManagement" type="article" module="Magento_Doc">
+            <label>Catalog Management</label>
+        </item>
+        <item name="WebsiteManagement" type="article" module="Magento_Doc">
+            <label>Website Management</label>
+        </item>
+        <item name="SalesManagement" type="article" module="Magento_Doc">
+            <label>Sales Management</label>
+            <content>
+                <item name="AcceptingMoney" type="article" module="Magento_Doc">
+                    <label>Accepting Money</label>
+                </item>
+                <item name="CheckoutProcess" type="article" module="Magento_Doc">
+                    <label>Checkout Process</label>
+                </item>
+                <item name="LocalizationSettings" type="article" module="Magento_Doc">
+                    <label>Localization Settings</label>
+                </item>
+                <item name="Shipping" type="article" module="Magento_Doc">
+                    <label>Shipping</label>
+                </item>
+                <item name="Taxes" type="article" module="Magento_Doc">
+                    <label>Taxes</label>
+                </item>
+            </content>
+        </item>
+        <item name="CMSManagement" type="article" module="Magento_Doc">
+            <label>CMS Management</label>
+        </item>
+    </content>
+</scheme>
