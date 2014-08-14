@@ -11,36 +11,36 @@ namespace Magento\GiftRegistry\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 
 /**
- * Test Creation for DeleteGiftRegistryEntity from Customer Account(Backend)
+ * Test Creation for Share Backend GiftRegistryEntity
  *
  * Test Flow:
  *
  * Preconditions:
- * 1. Create customer
- * 2. Create Gift Registry
+ * 1. Customer is created on the frontend
+ * 2. Gift registry is created
  *
  * Steps:
  * 1. Login to backend
- * 2. Go to Customers->All Customers
- * 3. Search and open created customer
- * 4. Navigate to Gift Registry tab
- * 5. Search and open gift registry created in preconditions
- * 6. Click button "Delete Registry"
- * 7. Perform all asserts
+ * 2. Open Customers->All Customers
+ * 3. Search and open created in preconditions customer
+ * 4. Open Gift Registry tab
+ * 5. Open created in preconditions gift registry
+ * 6. Fill "Sharing info" sections according to dataSet
+ * 7. Click Share Gift Registry
+ * 8. Perform all assertions
  *
  * @group Gift_Registry_(CS)
- * @ZephyrId MAGETWO-27034
+ * @ZephyrId MAGETWO-27225
  */
-class DeleteGiftRegistryBackendEntityTest extends Injectable
+class ShareGiftRegistryBackendEntityTest extends Injectable
 {
     /**
      * Customer index page
@@ -85,19 +85,16 @@ class DeleteGiftRegistryBackendEntityTest extends Injectable
     protected $customerAccountLogout;
 
     /**
-     * Create product
+     * Create customer
      *
-     * @param CatalogProductSimple $product
      * @param CustomerInjectable $customer
      * @return array
      */
-    public function __prepare(CatalogProductSimple $product, CustomerInjectable $customer)
+    public function __prepare(CustomerInjectable $customer)
     {
-        $product->persist();
         $customer->persist();
 
         return [
-            'product' => $product,
             'customer' => $customer,
         ];
     }
@@ -130,13 +127,14 @@ class DeleteGiftRegistryBackendEntityTest extends Injectable
     }
 
     /**
-     * Delete gift registry from customer account(backend)
+     * Share Gift Registry from Customer Account(Backend)
      *
      * @param GiftRegistry $giftRegistry
      * @param CustomerInjectable $customer
+     * @param array $sharingInfo
      * @return void
      */
-    public function test(GiftRegistry $giftRegistry, CustomerInjectable $customer)
+    public function test(GiftRegistry $giftRegistry, CustomerInjectable $customer, $sharingInfo)
     {
         // Preconditions
         $this->customerAccountLogin->open()->getLoginBlock()->login($customer);
@@ -149,7 +147,8 @@ class DeleteGiftRegistryBackendEntityTest extends Injectable
         $customerForm->openTab('gift_registry');
         $filter = ['title' => $giftRegistry->getTitle()];
         $customerForm->getTabElement('gift_registry')->getSearchGridBlock()->searchAndOpen($filter);
-        $this->giftRegistryCustomerEdit->getActionsToolbarBlock()->delete();
+        $this->giftRegistryCustomerEdit->getSharingInfoBlock()->fillForm($sharingInfo);
+        $this->giftRegistryCustomerEdit->getSharingInfoBlock()->shareGiftRegistry();
     }
 
     /**

@@ -67,12 +67,10 @@ class GiftRegistry extends InjectableFixture
 
     protected $customer_id = [
         'attribute_code' => 'customer_id',
-        'backend_type' => 'virtual',
+        'backend_type' => 'int',
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
-        'source' => 'Magento\GiftRegistry\Test\Fixture\GiftRegistry\CustomerId',
-        'group' => null
     ];
 
     protected $website_id = [

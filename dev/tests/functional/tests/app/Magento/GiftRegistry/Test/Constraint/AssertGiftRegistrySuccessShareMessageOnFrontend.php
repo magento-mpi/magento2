@@ -12,13 +12,13 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 
 /**
- * Class AssertGiftRegistrySuccessShareMessage
- * Assert that after share Gift Registry successful message appears
+ * Class AssertGiftRegistrySuccessShareMessageOnFrontend
+ * Assert that after share Gift Registry on frontend successful message appears
  */
-class AssertGiftRegistrySuccessShareMessage extends AbstractConstraint
+class AssertGiftRegistrySuccessShareMessageOnFrontend extends AbstractConstraint
 {
     /**
-     * Success gift registry share message
+     * Success gift registry share message on frontend
      */
     const SUCCESS_MESSAGE = 'You shared the gift registry for %d emails.';
 
@@ -30,7 +30,7 @@ class AssertGiftRegistrySuccessShareMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after gift registry has been shared
+     * Assert that success message is displayed after gift registry has been shared on frontend
      *
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param array $recipients
