@@ -27,7 +27,7 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     /**#@-*/
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getWrappingId()
     {
@@ -59,7 +59,7 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getImage()
     {
@@ -75,7 +75,7 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getImageUrl()
     {

@@ -36,7 +36,7 @@ class WrappingConverter
         }
         $model->addData($dataObject->__toArray());
 
-        $imageDataObject = $dataObject->getImage();
+        $imageDataObject = $dataObject->getImageBinary();
         $imageContent = base64_decode($imageDataObject->getBase64Content(), true);
         $model->attachBinaryImage($imageDataObject->getFileName(), $imageContent);
 
