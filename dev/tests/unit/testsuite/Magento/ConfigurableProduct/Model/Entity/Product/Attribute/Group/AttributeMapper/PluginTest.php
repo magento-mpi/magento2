@@ -23,12 +23,12 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     private $registry;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\AttributeFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $attributeFactory;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $attribute;
 
@@ -76,7 +76,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $attrSetId = 333;
         $expected = ['is_configurable' => 1];
 
-        /** @var \Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface|\PHPUnit_Framework_MockObject_MockObject $attributeMapper */
+        /** @var \PHPUnit_Framework_MockObject_MockObject $attributeMapper */
         $attributeMapper = $this->getMockBuilder(
             'Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface'
         )
