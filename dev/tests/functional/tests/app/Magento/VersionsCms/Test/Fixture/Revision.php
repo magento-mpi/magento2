@@ -18,7 +18,7 @@ class Revision extends InjectableFixture
 {
     protected $defaultDataSet = [
         'content' => 'Default Content',
-        'user_id' => '1',
+        'user_id' => 'admin',
     ];
 
     protected $revision_id = [
