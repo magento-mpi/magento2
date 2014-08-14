@@ -25,13 +25,7 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $resourceMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-
-    private $collectionMock;
-
+    
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
