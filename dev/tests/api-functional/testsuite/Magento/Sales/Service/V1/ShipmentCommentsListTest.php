@@ -15,7 +15,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
  */
 class ShipmentCommentsListTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'salesShipmentWriteV1';
+    const SERVICE_NAME = 'salesShipmentReadV1';
 
     const SERVICE_VERSION = 'V1';
 

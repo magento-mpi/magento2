@@ -15,7 +15,7 @@ use Magento\Sales\Service\V1\Data\Comment;
 /**
  * Class CreditmemoWrite
  */
-class CreditmemoWrite  implements CreditmemoWriteInterface
+class CreditmemoWrite implements CreditmemoWriteInterface
 {
     /**
      * @var CreditmemoAddComment
@@ -41,8 +41,7 @@ class CreditmemoWrite  implements CreditmemoWriteInterface
         CreditmemoAddComment $creditmemoAddComment,
         CreditmemoCancel $creditmemoCancel,
         CreditmemoEmail $creditmemoEmail
-    )
-    {
+    ) {
         $this->creditmemoAddComment = $creditmemoAddComment;
         $this->creditmemoCancel = $creditmemoCancel;
         $this->creditmemoEmail = $creditmemoEmail;

@@ -46,8 +46,7 @@ class InvoiceRead implements InvoiceReadInterface
         InvoiceGet $invoiceGet,
         InvoiceList $invoiceList,
         InvoiceCommentsList $invoiceCommentsList
-    )
-    {
+    ) {
         $this->invoiceGet = $invoiceGet;
         $this->invoiceList = $invoiceList;
         $this->invoiceCommentsList = $invoiceCommentsList;

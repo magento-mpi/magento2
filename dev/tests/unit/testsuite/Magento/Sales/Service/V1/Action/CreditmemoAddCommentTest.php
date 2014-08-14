@@ -58,7 +58,7 @@ class CreditmemoAddCommentTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->creditmemoAddComment = new \Magento\Sales\Service\V1\Action\CreditmemoAddComment($this->commentConverterMock);
+        $this->creditmemoAddComment = new CreditmemoAddComment($this->commentConverterMock);
     }
 
     /**

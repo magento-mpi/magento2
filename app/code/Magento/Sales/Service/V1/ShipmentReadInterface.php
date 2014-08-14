@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Service\V1;
+
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 interface ShipmentReadInterface

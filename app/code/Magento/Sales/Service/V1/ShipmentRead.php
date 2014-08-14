@@ -41,8 +41,7 @@ class ShipmentRead implements ShipmentReadInterface
         ShipmentGet $shipmentGet,
         ShipmentList $shipmentList,
         ShipmentCommentsList $shipmentCommentsList
-    )
-    {
+    ) {
         $this->shipmentGet = $shipmentGet;
         $this->shipmentList = $shipmentList;
         $this->shipmentCommentsList = $shipmentCommentsList;
