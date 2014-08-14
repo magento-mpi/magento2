@@ -179,7 +179,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
             }
             $this->pageConfig->setPageLayout($handle);
         }
-
+        $this->_view->getPage()->initLayout();
         $this->_view->getLayout()->getUpdate()->addHandle('cms_page_view');
         $this->_view->addPageLayoutHandles(array('id' => $this->_page->getIdentifier()));
 

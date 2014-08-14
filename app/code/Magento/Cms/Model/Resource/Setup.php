@@ -27,16 +27,10 @@ class Setup extends \Magento\Framework\Module\Setup
     protected $_pageFactory;
 
     /**
-     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
-     */
-    protected $pageCollectionFactory;
-
-    /**
      * @param \Magento\Framework\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -45,13 +39,11 @@ class Setup extends \Magento\Framework\Module\Setup
         $resourceName,
         \Magento\Cms\Model\BlockFactory $blockFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory,
         $moduleName = 'Magento_Cms',
         $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_blockFactory = $blockFactory;
         $this->_pageFactory = $pageFactory;
-        $this->pageCollectionFactory = $pageCollectionFactory;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
@@ -73,13 +65,5 @@ class Setup extends \Magento\Framework\Module\Setup
     public function createPage()
     {
         return $this->_pageFactory->create();
-    }
-
-    /**
-     * @return \Magento\Cms\Model\Resource\Page\Collection
-     */
-    public function getPageCollection()
-    {
-        return $this->pageCollectionFactory->create();
     }
 }
