@@ -70,7 +70,7 @@ class WriteService implements WriteServiceInterface
             throw new NoSuchEntityException('Carrier with such method not found: ' . $carrierCode . ', ' . $methodCode);
         }
         try {
-            $address->save();
+            $quote->collectTotals()->save();
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Cannot set shipping method. ' . $e->getMessage());
         }

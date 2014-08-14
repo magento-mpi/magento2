@@ -58,6 +58,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'getItemsCount',
                 'isVirtual',
                 'getShippingAddress',
+                'collectTotals',
+                'save',
                 '__wakeup'
             ],
             [],
@@ -186,7 +188,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('setShippingMethod')->with($carrierCode . '_' . $methodCode);
         $this->quoteAddressMock->expects($this->once())->method('requestShippingRates')->will($this->returnValue(true));
         $exception = new \Exception('Custom Error');
-        $this->quoteAddressMock->expects($this->once())->method('save')->will($this->throwException($exception));
+        $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnSelf());
+        $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
 
         $this->service->setMethod($cartId, $carrierCode, $methodCode);
     }
@@ -236,7 +239,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('setShippingMethod')->with($carrierCode . '_' . $methodCode);
         $this->quoteAddressMock->expects($this->once())
             ->method('requestShippingRates')->will($this->returnValue(true));
-        $this->quoteAddressMock->expects($this->once())->method('save');
+        $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnSelf());
+        $this->quoteMock->expects($this->once())->method('save');
 
         $this->assertTrue($this->service->setMethod($cartId, $carrierCode, $methodCode));
     }
