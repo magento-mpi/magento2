@@ -36,7 +36,7 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
  * 8. Perform appropriate assertions
  *
  * @group CMS_Versioning_(PS)
- * @ZephyrId
+ * @ZephyrId MAGETWO-27290
  */
 class DeleteCmsPageVersionsEntityTest extends Injectable
 {

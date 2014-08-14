@@ -30,7 +30,7 @@ class AssertCmsPageVersionSuccessDeleteMessage extends AbstractConstraint
     protected $severeness = 'medium';
 
     /**
-     * Assert that success save message is displayed on the page
+     * Assert that message "You have deleted the version." is displayed on the page
      *
      * @param CmsNew $cmsNew
      * @return void

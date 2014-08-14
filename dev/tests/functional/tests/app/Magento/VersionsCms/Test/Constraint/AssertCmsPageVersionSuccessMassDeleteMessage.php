@@ -30,7 +30,7 @@ class AssertCmsPageVersionSuccessMassDeleteMessage extends AbstractConstraint
     protected $severeness = 'medium';
 
     /**
-     * Assert that success save message is displayed on the page
+     * Assert that message "A total of %n% record(s) have been deleted." is displayed on the page
      *
      * @param CmsNew $cmsNew
      * @param array $results
