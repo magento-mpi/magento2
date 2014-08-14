@@ -58,11 +58,13 @@ class CategoriesUrlRewriteGenerator
         foreach ($this->categoryRegistry->getList() as $category) {
             if ($this->isCategoryProperForGenerating($category, $storeId)) {
                 $urls[] = $this->urlRewriteBuilder->setStoreId($storeId)
-                    ->setEntityType(ProductUrlRewriteGenerator::ENTITY_TYPE)->setEntityId($product->getId())
+                    ->setEntityType(ProductUrlRewriteGenerator::ENTITY_TYPE)
+                    ->setEntityId($product->getId())
                     ->setRequestPath(
                         $this->productUrlPathGenerator->getUrlPathWithSuffix($product, $storeId, $category)
                     )->setTargetPath($this->productUrlPathGenerator->getCanonicalUrlPath($product, $category))
-                    ->setMetadata(['category_id' => $category->getId()])->create();
+                    ->setMetadata(['category_id' => $category->getId()])
+                    ->create();
             }
         }
         return $urls;

@@ -42,10 +42,12 @@ class CanonicalUrlRewriteGenerator
     public function generate($storeId, Product $product)
     {
         return [
-            $this->urlRewriteBuilder->setEntityType(ProductUrlRewriteGenerator::ENTITY_TYPE)
-                ->setEntityId($product->getId())->setStoreId($storeId)
+            $this->urlRewriteBuilder->setStoreId($storeId)
+                ->setEntityType(ProductUrlRewriteGenerator::ENTITY_TYPE)
+                ->setEntityId($product->getId())
                 ->setRequestPath($this->productUrlPathGenerator->getUrlPathWithSuffix($product, $storeId))
-                ->setTargetPath($this->productUrlPathGenerator->getCanonicalUrlPath($product))->create()
+                ->setTargetPath($this->productUrlPathGenerator->getCanonicalUrlPath($product))
+                ->create()
         ];
     }
 }
