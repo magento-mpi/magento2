@@ -18,4 +18,9 @@
         <area>adminhtml</area>
         <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit</class>
     </cmsVersionEdit>
+    <cmsRevisionEdit>
+        <mca>admin/cms_page_revision/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit</class>
+    </cmsRevisionEdit>
 </page>
