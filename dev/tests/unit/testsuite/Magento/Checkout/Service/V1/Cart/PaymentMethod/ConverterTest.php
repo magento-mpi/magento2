@@ -55,7 +55,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
         $paymentMock->expects($this->once())->method('getMethod')->will($this->returnValue('checkmo'));
         $paymentMock->expects($this->once())->method('getPoNumber')->will($this->returnValue(100));
-        $paymentMock->expects($this->once())->method('getCcCid')->will($this->returnValue(666));
         $paymentMock->expects($this->once())->method('getCcOwner')->will($this->returnValue('tester'));
         $paymentMock->expects($this->once())->method('getCcNumber')->will($this->returnValue(100200300));
         $paymentMock->expects($this->once())->method('getCcType')->will($this->returnValue('visa'));

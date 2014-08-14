@@ -61,6 +61,7 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
                 'getCarrier',
                 'getMethod',
                 'getCarrierTitle',
+                'getMethodTitle',
                 '__wakeup',
             ],
             [],
@@ -86,18 +87,22 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
         $data = [
             ShippingMethod::CARRIER_CODE => 'CARRIER_CODE',
             ShippingMethod::METHOD_CODE => 'METHOD_CODE',
-            ShippingMethod::BASE_SHIPPING_AMOUNT => '90.12',
+            ShippingMethod::CARRIER_TITLE => 'CARRIER_TITLE',
+            ShippingMethod::METHOD_TITLE => 'METHOD_TITLE',
             ShippingMethod::SHIPPING_AMOUNT => '100.12',
-            ShippingMethod::DESCRIPTION => 'DESCRIPTION',
+            ShippingMethod::BASE_SHIPPING_AMOUNT => '90.12',
+            ShippingMethod::AVAILABLE => true,
         ];
 
         $this->rateModelMock->expects($this->once())->method('getCarrier')->will($this->returnValue('CARRIER_CODE'));
         $this->rateModelMock->expects($this->once())->method('getMethod')->will($this->returnValue('METHOD_CODE'));
         $this->rateModelMock->expects($this->any())->method('getPrice')->will($this->returnValue(90.12));
         $this->currencyMock->expects($this->once())
-            ->method('convert')->with(90.12, $this->currencyMock)->will($this->returnValue(100.12));
+            ->method('convert')->with(90.12, 'USD')->will($this->returnValue(100.12));
         $this->rateModelMock->expects($this->once())
-            ->method('getCarrierTitle')->will($this->returnValue('DESCRIPTION'));
+            ->method('getCarrierTitle')->will($this->returnValue('CARRIER_TITLE'));
+        $this->rateModelMock->expects($this->once())
+            ->method('getMethodTitle')->will($this->returnValue('METHOD_TITLE'));
         $this->builderMock->expects($this->once())
             ->method('populateWithArray')->with($data)->will($this->returnValue($this->builderMock));
         $this->builderMock->expects($this->once())

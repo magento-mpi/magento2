@@ -71,7 +71,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'setShippingMethod',
                 'requestShippingRates',
                 'save',
-                'getId',
+                'getCountryId',
                 '__wakeup'
             ],
             [],
@@ -141,7 +141,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $carrierCode = 34;
         $methodCode = 56;
         $storeId = 78;
-        $methodId = 90;
+        $countryId = 1;
 
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
@@ -151,7 +151,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
-        $this->quoteAddressMock->expects($this->once())->method('getId')->will($this->returnValue($methodId));
+        $this->quoteAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue($countryId));
         $this->quoteAddressMock->expects($this->once())
             ->method('setShippingMethod')->with($carrierCode . '_' . $methodCode);
         $this->quoteAddressMock->expects($this->once())
@@ -171,7 +171,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $carrierCode = 34;
         $methodCode = 56;
         $storeId = 78;
-        $methodId = 90;
+        $countryId = 1;
 
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
@@ -181,7 +181,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
-        $this->quoteAddressMock->expects($this->once())->method('getId')->will($this->returnValue($methodId));
+        $this->quoteAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue($countryId));
         $this->quoteAddressMock->expects($this->once())
             ->method('setShippingMethod')->with($carrierCode . '_' . $methodCode);
         $this->quoteAddressMock->expects($this->once())->method('requestShippingRates')->will($this->returnValue(true));
@@ -201,7 +201,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $carrierCode = 34;
         $methodCode = 56;
         $storeId = 78;
-        $methodId = null;
 
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
@@ -211,7 +210,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
-        $this->quoteAddressMock->expects($this->once())->method('getId')->will($this->returnValue($methodId));
+        $this->quoteAddressMock->expects($this->once())->method('getCountryId');
 
         $this->service->setMethod($cartId, $carrierCode, $methodCode);
     }
@@ -222,7 +221,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $carrierCode = 34;
         $methodCode = 56;
         $storeId = 78;
-        $methodId = 90;
+        $countryId = 1;
 
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
@@ -232,7 +231,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
-        $this->quoteAddressMock->expects($this->once())->method('getId')->will($this->returnValue($methodId));
+        $this->quoteAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue($countryId));
         $this->quoteAddressMock->expects($this->once())
             ->method('setShippingMethod')->with($carrierCode . '_' . $methodCode);
         $this->quoteAddressMock->expects($this->once())
