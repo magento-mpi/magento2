@@ -165,8 +165,6 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             'httpContext' => $this->_httpContext,
             'scopeConfig' => $this->_scopeConfig,
             'request' => $this->request,
-            'defaultStorageClassName' => $this->_defaultStorage,
-            'installedStorageClassName' => $this->_dbStorage,
             'cookieMetadataFactory' => $this->cookieMetadataFactoryMock
         ));
 
