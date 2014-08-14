@@ -46,7 +46,7 @@
         </resources>
     </route>
     <route url="/V1/order/:id/unhold" method="POST">
-        <service class="Magento\Sales\Service\V1\OrderWriteInterface" method="unhold"/>
+        <service class="Magento\Sales\Service\V1\OrderWriteInterface" method="unHold"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>
