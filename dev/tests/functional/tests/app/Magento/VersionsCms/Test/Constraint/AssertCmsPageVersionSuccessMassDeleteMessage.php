@@ -12,15 +12,15 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsNew;
 
 /**
- * Class AssertCmsPageVersionSuccessDeleteMessage
+ * Class AssertCmsPageVersionSuccessMassDeleteMessage
  * Assert that success delete message is displayed on the page
  */
-class AssertCmsPageVersionSuccessDeleteMessage extends AbstractConstraint
+class AssertCmsPageVersionSuccessMassDeleteMessage extends AbstractConstraint
 {
     /**
      * Text value to be checked
      */
-    const SUCCESS_DELETE_MESSAGE = 'You have deleted the version.';
+    const SUCCESS_DELETE_MESSAGE = 'A total of %d record(s) have been deleted.';
 
     /**
      * Constraint severeness
@@ -33,12 +33,13 @@ class AssertCmsPageVersionSuccessDeleteMessage extends AbstractConstraint
      * Assert that success delete message is displayed on the page
      *
      * @param CmsNew $cmsNew
+     * @param array $results
      * @return void
      */
-    public function processAssert(CmsNew $cmsNew)
+    public function processAssert(CmsNew $cmsNew, array $results)
     {
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_DELETE_MESSAGE,
+            sprintf(self::SUCCESS_DELETE_MESSAGE, $results['quantity']),
             $cmsNew->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
         );
