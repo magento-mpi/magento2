@@ -112,4 +112,18 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('No such entity with entityType = customer, attributeCode = 20', $e->getMessage());
         }
     }
+
+    public function testGetAttributes()
+    {
+        $formAttributesMetadata = $this->_service->getAttributes('adminhtml_customer');
+        $this->assertCount(14, $formAttributesMetadata, "Invalid number of attributes for the specified form.");
+
+        /** Check some fields of one attribute metadata */
+        $attributeMetadata = $formAttributesMetadata['firstname'];
+        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', $attributeMetadata);
+        $this->assertEquals('firstname', $attributeMetadata->getAttributeCode(), 'Attribute code is invalid');
+        $this->assertNotEmpty($attributeMetadata->getValidationRules(), 'Validation rules are not set');
+        $this->assertEquals('1', $attributeMetadata->isSystem(), '"Is system" field value is invalid');
+        $this->assertEquals('40', $attributeMetadata->getSortOrder(), 'Sort order is invalid');
+    }
 }

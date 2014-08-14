@@ -74,4 +74,18 @@ class AddressMetadataServiceTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
+
+    public function testGetAttributes()
+    {
+        $formAttributesMetadata = $this->_service->getAttributes('customer_address_edit');
+        $this->assertCount(15, $formAttributesMetadata, "Invalid number of attributes for the specified form.");
+
+        /** Check some fields of one attribute metadata */
+        $attributeMetadata = $formAttributesMetadata['company'];
+        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', $attributeMetadata);
+        $this->assertEquals('company', $attributeMetadata->getAttributeCode(), 'Attribute code is invalid');
+        $this->assertNotEmpty($attributeMetadata->getValidationRules(), 'Validation rules are not set');
+        $this->assertEquals('varchar', $attributeMetadata->getBackendType(), 'Backend type is invalid');
+        $this->assertEquals('Company', $attributeMetadata->getFrontendLabel(), 'Frontend label is invalid');
+    }
 }
