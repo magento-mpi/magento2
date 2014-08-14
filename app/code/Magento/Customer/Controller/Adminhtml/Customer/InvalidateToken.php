@@ -6,11 +6,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Controller\Adminhtml\Customer;
 
+/**
+ *  Class to invalidate tokens for customers
+ */
 class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
 {
     /**
+     * Reset customer's tokens handler
+     *
      * @return void
      */
     public function execute()
@@ -22,7 +28,7 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
             try {
                 $currentToken->revokeCustomerAccessToken($customerId);
                 $this->messageManager->addSuccess(__('You have invalidated the customer.'));
-                $this->_redirect('adminhtml/*/');
+                $this->_redirect('customer/*/edit', array('customer_id' => $customerId, '_current' => true));
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

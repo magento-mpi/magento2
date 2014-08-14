@@ -109,7 +109,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             $this->buttonList->add(
                 'invalidate_token',
                 array(
-                    'label' => __('Invalidate Token'),
+                    'label' => __('Invalidate Access Tokens'),
                     'onclick' => 'setLocation(\'' . $url . '\')',
                     'class' => 'invalidate-token'
                 ),
