@@ -82,7 +82,7 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())
-            ->method('getCurrentCurrency')
+            ->method('getBaseCurrency')
             ->will($this->returnValue($this->currencyMock));
         $data = [
             ShippingMethod::CARRIER_CODE => 'CARRIER_CODE',
