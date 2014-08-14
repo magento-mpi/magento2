@@ -81,7 +81,6 @@ class AddressMetadataServiceCachedTest extends \PHPUnit_Framework_TestCase
     public function testGetAttributeMetadataWithException()
     {
         $attributeCode = 'a';
-        $value = 'v';
 
         $this->customerMetadataServiceMock->expects($this->exactly(10))
             ->method('getAttributeMetadata')
