@@ -19,11 +19,20 @@ class QueryResponse implements ResponseInterface, \IteratorAggregate, \Countable
     protected $documents;
 
     /**
-     * @param Document[] $documents
+     * Aggregation Collection
+     *
+     * @var Aggregation[]
      */
-    public function __construct(array $documents)
+    protected $aggregations;
+
+    /**
+     * @param Document[] $documents
+     * @param Aggregation[] $aggregations
+     */
+    public function __construct(array $documents, array $aggregations)
     {
         $this->documents = $documents;
+        $this->aggregations = $aggregations;
     }
 
     /**
@@ -43,5 +52,15 @@ class QueryResponse implements ResponseInterface, \IteratorAggregate, \Countable
     public function getIterator()
     {
         return new \ArrayIterator($this->documents);
+    }
+
+    /**
+     * Return Aggregation Collection
+     *
+     * @return Aggregation[]
+     */
+    public function getAggregations()
+    {
+        return $this->aggregations;
     }
 }

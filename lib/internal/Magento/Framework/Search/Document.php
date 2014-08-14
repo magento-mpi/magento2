@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Search;
 
-class Document implements \ArrayAccess, \IteratorAggregate, \Countable
+class Document implements \IteratorAggregate
 {
     /**
      * Document fields array
@@ -17,13 +17,6 @@ class Document implements \ArrayAccess, \IteratorAggregate, \Countable
      * @var DocumentField[]
      */
     protected $documentFields;
-
-    /**
-     * Document Boost
-     *
-     * @var float
-     */
-    protected $documentBoost;
 
     /**
      * Document Id
@@ -34,66 +27,14 @@ class Document implements \ArrayAccess, \IteratorAggregate, \Countable
 
     /**
      * @param int $documentId
-     * @param float $documentBoost
      * @param DocumentField[] $documentFields
      */
     public function __construct(
         $documentId,
-        $documentBoost,
         array $documentFields
     ) {
         $this->documentId = $documentId;
-        $this->documentBoost = $documentBoost;
         $this->documentFields = $documentFields;
-    }
-
-    /**
-     *
-     * @param string $fieldName
-     * @return array
-     */
-    public function offsetExists($fieldName)
-    {
-        return isset($this->documentFields[$fieldName]);
-    }
-
-    /**
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @param string $fieldName
-     * @param DocumentField $field
-     * @throws \BadMethodCallException
-     */
-    public function offsetSet($fieldName, $field)
-    {
-        throw new \BadMethodCallException('Search document is read-only.');
-    }
-
-    /**
-     * @param string $fieldName
-     * @return DocumentField
-     */
-    public function offsetGet($fieldName)
-    {
-        return $this->documentFields[$fieldName];
-    }
-
-    /**
-     * @param string $fieldName
-     * @throws \BadMethodCallException
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function offsetUnset($fieldName)
-    {
-        throw new \BadMethodCallException('Search document is read-only.');
-    }
-
-    /**
-     * Countable: return count of fields in document
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->documentFields);
     }
 
     /**

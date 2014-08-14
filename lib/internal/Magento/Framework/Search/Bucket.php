@@ -1,6 +1,6 @@
 <?php
 /**
- * Search Document Field
+ * Facet Bucket
  *
  * {license_notice}
  *
@@ -9,34 +9,34 @@
  */
 namespace Magento\Framework\Search;
 
-class DocumentField
+class Bucket
 {
     /**
-     * Document field name
+     * Bucket name
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Document field values
+     * Bucket value
      *
-     * @var array
+     * @var mixed
      */
-    protected $values;
+    protected $value;
 
     /**
      * @param string $name
-     * @param array $values
+     * @param mixed $value
      */
-    public function __construct($name, array $values)
+    public function __construct($name, $value)
     {
         $this->name = $name;
-        $this->values = $values;
+        $this->value = $value;
     }
 
     /**
-     * Get field name
+     * Get bucket name
      *
      * @return string
      */
@@ -46,12 +46,12 @@ class DocumentField
     }
 
     /**
-     * Get field values
+     * Get bucket values
      *
-     * @return array
+     * @return mixed
      */
-    public function getValues()
+    public function getValue()
     {
-        return $this->values;
+        return $this->value;
     }
 }

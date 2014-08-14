@@ -23,20 +23,30 @@ class ResponseFactory
     /**
      * Document Factory
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var DocumentFactory
      */
     protected $documentFactory;
 
     /**
+     * Aggregation Factory
+     *
+     * @var AggregationFactory
+     */
+    protected $aggregationFactory;
+
+    /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param DocumentFactory $documentFactory
+     * @param AggregationFactory $aggregationFactory
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        DocumentFactory $documentFactory
+        DocumentFactory $documentFactory,
+        AggregationFactory $aggregationFactory
     ) {
         $this->objectManager = $objectManager;
         $this->documentFactory = $documentFactory;
+        $this->aggregationFactory = $aggregationFactory;
     }
 
     /**
@@ -48,10 +58,18 @@ class ResponseFactory
     public function create($rawResponse)
     {
         $documents = array();
-        foreach($rawResponse as $rawDocument) {
+        foreach($rawResponse['documents'] as $rawDocument) {
             /** @var \Magento\Framework\Search\Document[] $documents */
             $documents[] = $this->documentFactory->create($rawDocument);
         }
-        return $this->objectManager->create('\Magento\Framework\Search\QueryResponse', $documents);
+        /** @var \Magento\Framework\Search\Aggregation $aggregations */
+        $aggregations = $this->documentFactory->create($rawResponse['aggregation']);
+        return $this->objectManager->create(
+            '\Magento\Framework\Search\QueryResponse',
+            [
+                'documents' => $documents,
+                'aggregations' => $aggregations
+            ]
+        );
     }
 }

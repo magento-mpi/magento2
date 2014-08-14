@@ -19,22 +19,12 @@ class DocumentFactory
     protected $objectManager;
 
     /**
-     * Field Factory
-     *
-     * @param \Magento\Framework\Search\DocumentFieldFactory $fieldFactory
-     */
-    protected $fieldFactory;
-
-    /**
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\Search\DocumentFieldFactory $fieldFactory
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\Search\DocumentFieldFactory $fieldFactory
+        \Magento\Framework\ObjectManager $objectManager
     ) {
         $this->objectManager = $objectManager;
-        $this->fieldFactory = $fieldFactory;
     }
 
     /**
@@ -52,8 +42,7 @@ class DocumentFactory
                 '\Magento\Framework\Search\DocumentField',
                 [
                     $rawField['name'],
-                    $rawField['values'],
-                    $rawField['boost'],
+                    $rawField['values']
                 ]
             );
         }
