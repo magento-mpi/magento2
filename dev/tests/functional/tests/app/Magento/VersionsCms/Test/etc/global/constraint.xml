@@ -45,6 +45,12 @@
             <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
         </require>
     </assertCmsPageVersionSuccessDeleteMessage>
+    <assertCmsPageVersionSuccessMassDeleteMessage module="Magento_VersionsCms">
+        <severeness>medium</severeness>
+        <require>
+            <cmsNew class="Magento\VersionsCms\Test\Page\Adminhtml\CmsNew" />
+        </require>
+    </assertCmsPageVersionSuccessMassDeleteMessage>
     <assertCmsPageVersionNotInGrid module="Magento_VersionsCms">
         <severeness>low</severeness>
         <require>
