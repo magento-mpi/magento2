@@ -29,7 +29,7 @@ class WrappingMapper
     public function extractDto(\Magento\GiftWrapping\Model\Wrapping $object)
     {
         $this->wrappingBuilder->populateWithArray($object->getData());
-        $this->wrappingBuilder->setWebsiteIds($object->getWebsiteIds($object));
+        $this->wrappingBuilder->setWebsiteIds($object->getWebsiteIds());
         $this->wrappingBuilder->setImageUrl($object->getImageUrl());
         return $this->wrappingBuilder->create();
     }

@@ -14,12 +14,12 @@ class WrappingRepository
     /**
      * @var \Magento\GiftWrapping\Model\WrappingFactory
      */
-    protected $wrappingFactory = null;
+    protected $wrappingFactory;
 
     /**
      * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
      */
-    protected $wrappingCollectionFactory = null;
+    protected $wrappingCollectionFactory;
 
     /**
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
@@ -64,12 +64,12 @@ class WrappingRepository
         $collection->addWebsitesToResult();
         foreach($criteria->getFilterGroups() as $filterGroup) {
             foreach ($filterGroup->getFilters() as $filter) {
-                $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
                 if ($filter->getField() == 'status' && $filter->getValue()) {
                     $collection->applyStatusFilter();
                 } elseif ($filter->getField() == 'store_id') {
                     $collection->addStoreAttributesToResult((int)$filter->getValue());
                 } else {
+                    $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
                     $collection->addFieldToFilter($filter->getField(), [$condition => $filter->getValue()]);
                 }
             }

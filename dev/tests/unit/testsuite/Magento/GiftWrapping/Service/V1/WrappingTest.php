@@ -86,17 +86,12 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $id = 1;
-        $baseEncodedContent = base64_encode(1);
-        $filename = 'filename';
 
         /** @var \Magento\GiftWrapping\Model\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingModel */
         $wrappingModel = $this->getMockBuilder('Magento\GiftWrapping\Model\Wrapping')->disableOriginalConstructor()
             ->setMethods([])->getMock();
         /** @var Data\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingDto */
         $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
-            ->disableOriginalConstructor()->setMethods([])->getMock();
-        /** @var Data\Wrapping\Image|\PHPUnit_Framework_MockObject_MockObject $imageDto */
-        $imageDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping\Image')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
         $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto)
@@ -107,20 +102,29 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($id, $this->service->create($wrappingDto));
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testCreateException()
+    {
+        /** @var Data\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingDto */
+        $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
+            ->disableOriginalConstructor()->setMethods([])->getMock();
+
+        $wrappingDto->expects($this->once())->method('getWrappingId')->will($this->returnValue(1));
+
+        $this->service->create($wrappingDto);
+    }
+
     public function testUpdate()
     {
         $id = 1;
-        $baseEncodedContent = base64_encode(1);
-        $filename = 'filename';
 
         /** @var \Magento\GiftWrapping\Model\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingModel */
         $wrappingModel = $this->getMockBuilder('Magento\GiftWrapping\Model\Wrapping')->disableOriginalConstructor()
             ->setMethods([])->getMock();
         /** @var Data\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingDto */
         $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
-            ->disableOriginalConstructor()->setMethods([])->getMock();
-        /** @var Data\Wrapping\Image|\PHPUnit_Framework_MockObject_MockObject $imageDto */
-        $imageDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping\Image')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
         $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto)
@@ -129,6 +133,25 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $wrappingModel->expects($this->any())->method('getId')->will($this->returnValue($id));
 
         $this->assertEquals($id, $this->service->update($wrappingDto));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testUpdateException()
+    {
+        /** @var \Magento\GiftWrapping\Model\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingModel */
+        $wrappingModel = $this->getMockBuilder('Magento\GiftWrapping\Model\Wrapping')->disableOriginalConstructor()
+            ->setMethods([])->getMock();
+        /** @var Data\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingDto */
+        $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
+            ->disableOriginalConstructor()->setMethods([])->getMock();
+
+        $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto)
+            ->will($this->returnValue($wrappingModel));
+        $wrappingModel->expects($this->once())->method('getId')->will($this->returnValue(null));
+
+        $this->service->update($wrappingDto);
     }
 
     public function testSearch()
