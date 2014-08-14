@@ -8,29 +8,31 @@
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\TestCase\Injectable;
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryNew;
-use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for CreateGiftRegistryTypeEntity
+ * Test Creation for UpdateGiftRegistryTypeEntity
  *
  * Test Flow:
+ * Preconditions:
+ * 1. Create gift registry type
+ *
  * Steps:
  * 1. Log in to Backend
  * 2. Navigate to Stores > Gift Registry
- * 3. Click "Add Gift Registry Type"
- * 4. Fill data according to dataSet
- * 5. Save gift registry
- * 6. Perform all assertions
+ * 3. Open created gift registry
+ * 4. Update data according to dataSet
+ * 5. Perform all assertions
  *
  * @group Gift_Registry_(CS)
- * @ZephyrId MAGETWO-27146
+ * @ZephyrId MAGETWO-27333
  */
-class CreateGiftRegistryTypeEntityTest extends Injectable
+class UpdateGiftRegistryTypeEntityTest extends Injectable
 {
     /**
      * GiftRegistryIndex page
@@ -81,15 +83,18 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
     }
 
     /**
-     * Run CreateGiftRegistryTypeEntityTest
+     * Run Test Creation for UpdateGiftRegistryTypeEntity
      *
      * @param GiftRegistryType $giftRegistryType
+     * @param GiftRegistryType $giftRegistryTypeInitial
      * @return void
      */
-    public function test(GiftRegistryType $giftRegistryType)
+    public function test(GiftRegistryType $giftRegistryType, GiftRegistryType $giftRegistryTypeInitial)
     {
+        $giftRegistryTypeInitial->persist();
+        $filter = ['label' => $giftRegistryTypeInitial->getLabel()];
         $this->giftRegistryIndex->open();
-        $this->giftRegistryIndex->getPageActions()->addNew();
+        $this->giftRegistryIndex->getGiftRegistryGrid()->searchAndOpen($filter);
         $this->giftRegistryNew->getGiftRegistryForm()->fill($giftRegistryType);
         $this->giftRegistryNew->getPageActions()->save();
     }

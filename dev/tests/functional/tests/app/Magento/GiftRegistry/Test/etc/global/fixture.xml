@@ -19,4 +19,12 @@
         </entities>
         <collection>Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection</collection>
     </giftRegistry>
+    <giftRegistryType module="Magento_GiftRegistry">
+        <type>composite</type>
+        <entities>
+            <magento_giftregistry_type>magento_giftregistry_type</magento_giftregistry_type>
+            <magento_giftregistry_type_info>magento_giftregistry_type_info</magento_giftregistry_type_info>
+        </entities>
+        <collection>Magento\GiftRegistry\Model\Resource\Type\Collection</collection>
+    </giftRegistryType>
 </fixture>
