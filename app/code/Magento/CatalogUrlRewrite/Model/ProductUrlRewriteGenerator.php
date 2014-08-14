@@ -10,12 +10,10 @@ namespace Magento\CatalogUrlRewrite\Model;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
+use Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewriteGenerator;
 use Magento\Store\Model\Store;
-use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
-use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
-use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
 class ProductUrlRewriteGenerator
 {
@@ -24,55 +22,43 @@ class ProductUrlRewriteGenerator
      */
     const ENTITY_TYPE = 'product';
 
-    /**
-     * @var FilterFactory
-     */
-    protected $filterFactory;
-
-    /**
-     * @var UrlMatcherInterface
-     */
-    protected $urlMatcher;
-
-    /**
-     * @var StoreViewService
-     */
+    /** @var \Magento\CatalogUrlRewrite\Service\V1\StoreViewService */
     protected $storeViewService;
 
-    /**
-     * @var Converter
-     */
+    /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter */
     protected $converter;
 
-    /**
-     * @var Product
-     */
+    /** @var \Magento\Catalog\Model\Product */
     protected $product;
-
-    /**
-     * @var \Magento\Catalog\Model\Resource\Category\Collection
-     */
-    protected $categories;
 
     /** @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator */
     protected $productUrlPathGenerator;
 
+    /** @var \Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewriteGenerator */
+    protected $currentRewritesGenerator;
+
+    /** @var \Magento\CatalogUrlRewrite\Model\CategoryRegistryFactory */
+    protected $categoryRegistryFactory;
+
+    /** @var \Magento\CatalogUrlRewrite\Model\CategoryRegistry */
+    protected $categoryRegistry;
+
     /**
-     * @param FilterFactory $filterFactory
-     * @param UrlMatcherInterface $urlMatcher
+     * @param \Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewriteGenerator $currentUrlRewriteGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\CategoryRegistryFactory $categoryRegistryFactory
      * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
-     * @param StoreViewService $storeViewService
-     * @param Converter $converter
+     * @param \Magento\CatalogUrlRewrite\Service\V1\StoreViewService $storeViewService
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter $converter
      */
     public function __construct(
-        FilterFactory $filterFactory,
-        UrlMatcherInterface $urlMatcher,
-        \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
+        CurrentUrlRewriteGenerator $currentUrlRewriteGenerator,
+        CategoryRegistryFactory $categoryRegistryFactory,
+        ProductUrlPathGenerator $productUrlPathGenerator,
         StoreViewService $storeViewService,
         Converter $converter
     ) {
-        $this->filterFactory = $filterFactory;
-        $this->urlMatcher = $urlMatcher;
+        $this->currentRewritesGenerator = $currentUrlRewriteGenerator;
+        $this->categoryRegistryFactory = $categoryRegistryFactory;
         $this->productUrlPathGenerator = $productUrlPathGenerator;
         $this->storeViewService = $storeViewService;
         $this->converter = $converter;
@@ -87,16 +73,13 @@ class ProductUrlRewriteGenerator
     public function generate(Product $product)
     {
         $this->product = $product;
-        $this->categories = $product->getCategoryCollection()
-            ->addAttributeToSelect('url_key')
-            ->addAttributeToSelect('url_path');
+        $this->categoryRegistry = $this->categoryRegistryFactory->create($product);
         $storeId = $this->product->getStoreId();
 
         $urls = $this->isGlobalScope($storeId)
             ? $this->generateForGlobalScope() : $this->generateForSpecificStoreView($storeId);
 
         $this->product = null;
-        $this->categories = null;
         return $urls;
     }
 
@@ -141,7 +124,7 @@ class ProductUrlRewriteGenerator
         return array_merge(
             $this->generateRewritesBasedOnStoreView($storeId),
             $this->generateRewritesBasedOnCategories($storeId),
-            $this->generateRewritesBasedOnCurrentRewrites($storeId)
+            $this->currentRewritesGenerator->generate($storeId, $this->product, $this->categoryRegistry)
         );
     }
 
@@ -171,7 +154,7 @@ class ProductUrlRewriteGenerator
     protected function generateRewritesBasedOnCategories($storeId)
     {
         $urls = [];
-        foreach ($this->categories as $category) {
+        foreach ($this->categoryRegistry->getList() as $category) {
             if ($this->isCategoryProperForGenerating($category, $storeId)) {
                 $urls[] = $this->createUrlRewrite(
                     $storeId,
@@ -199,94 +182,6 @@ class ProductUrlRewriteGenerator
     }
 
     /**
-     * Generate list based on current rewrites
-     *
-     * @param int $storeId
-     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
-     */
-    protected function generateRewritesBasedOnCurrentRewrites($storeId)
-    {
-        /** @var \Magento\UrlRewrite\Service\V1\Data\Filter $filter */
-        $filter = $this->filterFactory->create();
-        $filter->setStoreId($storeId)
-            ->setEntityId($this->product->getId())
-            ->setEntityType(self::ENTITY_TYPE);
-
-        $urls = [];
-        foreach ($this->urlMatcher->findAllByFilter($filter) as $url) {
-            $urls = array_merge(
-                $urls,
-                $url->getIsAutogenerated()
-                    ? $this->generateForAutogenerated($url, $storeId)
-                    : $this->generateForCustom($url, $storeId)
-            );
-        }
-        return $urls;
-    }
-
-    /**
-     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
-     * @param int $storeId
-     * @return array
-     */
-    protected function generateForAutogenerated($url, $storeId)
-    {
-        $urls = [];
-        if ($this->product->getData('save_rewrites_history')) {
-            $category = $this->retrieveCategoryFromMetadata($url);
-            $targetPath = $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId, $category);
-            if ($url->getRequestPath() !== $targetPath) {
-                $urls[] = $this->createUrlRewrite(
-                    $url->getStoreId(),
-                    $url->getRequestPath(),
-                    $targetPath,
-                    OptionProvider::PERMANENT,
-                    false,
-                    $this->buildMetadataForCategory($category, $url)
-                );
-            }
-        }
-        return $urls;
-    }
-
-    /**
-     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
-     * @param int $storeId
-     * @return array
-     */
-    protected function generateForCustom($url, $storeId)
-    {
-        $urls = [];
-        $category = $this->retrieveCategoryFromMetadata($url);
-        $targetPath = $this->isGeneratedByUser($url) || !$url->getRedirectType()
-            ? $url->getTargetPath()
-            : $this->productUrlPathGenerator->getUrlPathWithSuffix($this->product, $storeId, $category);
-
-        if ($url->getRequestPath() !== $targetPath) {
-            $urls[] = $this->createUrlRewrite($storeId, $url->getRequestPath(), $targetPath, $url->getRedirectType(),
-                false, $this->buildMetadataForCategory($category, $url));
-        }
-        return $urls;
-    }
-
-    /**
-     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
-     * @return \Magento\Catalog\Model\Category|null
-     */
-    protected function retrieveCategoryFromMetadata($url)
-    {
-        $metadata = $url->getMetadata();
-        if (isset($metadata['category_id'])) {
-            foreach ($this->categories as $category) {
-                if ($category->getId() == $metadata['category_id']) {
-                    return $category;
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * @param Category $category
      * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
      * @return string|null
@@ -298,16 +193,6 @@ class ProductUrlRewriteGenerator
             $metadata['category_id'] = $category->getId();
         }
         return $metadata ? serialize($metadata) : null;
-    }
-
-    /**
-     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite $url
-     * @return bool
-     */
-    protected function isGeneratedByUser($url)
-    {
-        $metadata = $url->getMetadata();
-        return !empty($metadata['is_user_generated']);
     }
 
     /**
