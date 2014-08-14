@@ -69,9 +69,8 @@ class Page extends Layout
     /**
      * {@inheritdoc}
      */
-    protected function initLayout()
+    public function initLayout()
     {
-        parent::initLayout();
         $update = $this->getLayout()->getUpdate();
         $update->addHandle('default');
         $update->addHandle($this->getDefaultLayoutHandle());

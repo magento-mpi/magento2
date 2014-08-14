@@ -53,16 +53,12 @@ class Layout extends View\Element\Template
     /**
      * Get layout instance for current page
      *
-     * TODO: This layout model must be isolated, now are used shared instance of layout
+     * TODO: This layout model must be isolated, now are used shared instance of layout (MAGETWO-26282)
      *
      * @return \Magento\Framework\View\Layout
      */
     public function getLayout()
     {
-        if ($this->layout === null) {
-            // TODO: This section will be removed in MAGETWO-26282
-            $this->initLayout();
-        }
         return $this->_layout;
     }
 
@@ -71,7 +67,7 @@ class Layout extends View\Element\Template
      *
      * @return $this
      */
-    protected function initLayout()
+    public function initLayout()
     {
         $this->layout = $this->layoutFactory->create();
         return $this;

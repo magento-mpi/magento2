@@ -77,6 +77,16 @@ class View implements ViewInterface
     }
 
     /**
+     * Retrieve current page object
+     *
+     * @return \Magento\Framework\View\Result\Page
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
      * Retrieve current layout object
      *
      * @return \Magento\Framework\View\LayoutInterface
@@ -94,14 +104,13 @@ class View implements ViewInterface
         if ($this->_isLayoutLoaded) {
             throw new \RuntimeException('Layout must be loaded only once.');
         }
-        // if handles were specified in arguments load them first
-        if (false !== $handles && '' !== $handles) {
-            $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
-        }
-
         if ($addActionHandles) {
             // add default layout handles for this action
-            $this->addActionLayoutHandles();
+            $this->page->initLayout();
+        }
+        // if handles were specified in arguments load them first
+        if (!empty($handles)) {
+            $this->getLayout()->getUpdate()->addHandle($handles);
         }
         $this->loadLayoutUpdates();
 
@@ -162,7 +171,6 @@ class View implements ViewInterface
     public function loadLayoutUpdates()
     {
         \Magento\Framework\Profiler::start('LAYOUT');
-
         // dispatch event for adding handles to layout update
         $this->_eventManager->dispatch(
             'controller_action_layout_load_before',

@@ -59,11 +59,6 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_view;
 
     /**
-     * @var \Magento\Framework\View\Page\Config
-     */
-    protected $pageConfig;
-
-    /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
@@ -75,7 +70,6 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\ViewInterface $view
-     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $messageGroups
      */
@@ -86,7 +80,6 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\ViewInterface $view,
-        \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         array $messageGroups = array()
     ) {
@@ -96,7 +89,6 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_coreRegistry = $coreRegistry;
         $this->_view = $view;
         $this->messageGroups = $messageGroups;
-        $this->pageConfig = $pageConfig;
         $this->messageManager = $messageManager;
         parent::__construct($context);
     }
@@ -113,6 +105,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
     public function initProductLayout($product, $controller, $params = null)
     {
         $settings = $this->_catalogDesign->getDesignSettings($product);
+        $pageConfig = $this->_view->getPage()->getConfig();
 
         if ($settings->getCustomDesign()) {
             $this->_catalogDesign->applyCustomDesign($settings->getCustomDesign());
@@ -120,9 +113,11 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
 
         // Apply custom page layout
         if ($settings->getPageLayout()) {
-            $this->pageConfig->setPageLayout($settings->getPageLayout());
+            $pageConfig->setPageLayout($settings->getPageLayout());
         }
 
+        // Load default page handles and page configurations
+        $this->_view->getPage()->initLayout();
         $update = $this->_view->getLayout()->getUpdate();
 
         if ($params && $params->getBeforeHandles()) {
@@ -146,7 +141,6 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
                 );
             }
         }
-
         $this->_view->loadLayoutUpdates();
         // Apply custom layout update once layout is loaded
         $layoutUpdates = $settings->getLayoutUpdates();
@@ -165,11 +159,11 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
 
         $controllerClass = $this->_request->getFullActionName();
         if ($controllerClass != 'catalog-product-view') {
-            $this->pageConfig->addBodyClass('catalog-product-view');
+            $pageConfig->addBodyClass('catalog-product-view');
         }
-        $this->pageConfig->addBodyClass('product-' . $product->getUrlKey());
+        $pageConfig->addBodyClass('product-' . $product->getUrlKey());
         if ($currentCategory instanceof \Magento\Catalog\Model\Category) {
-            $this->pageConfig->addBodyClass('categorypath-' . $currentCategory->getUrlPath())
+            $pageConfig->addBodyClass('categorypath-' . $currentCategory->getUrlPath())
                 ->addBodyClass('category-' . $currentCategory->getUrlKey());
         }
 
