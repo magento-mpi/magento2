@@ -38,6 +38,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $layoutUpdateXml = $actualUpdate->getFileLayoutUpdatesXml();
         $this->assertInstanceOf('Magento\Framework\View\Layout\Element', $layoutUpdateXml);
+        $s = $layoutUpdateXml->asNiceXml();
         $this->assertXmlStringEqualsXmlFile($expectedUpdateFile, $layoutUpdateXml->asNiceXml());
     }
 

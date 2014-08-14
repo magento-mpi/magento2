@@ -21,6 +21,7 @@ class ListAction extends \Magento\Review\Controller\Product
      */
     protected function _initProductLayout($product)
     {
+        $this->_view->getPage()->initLayout();
         if ($product->getPageLayout()) {
             /** @var \Magento\Framework\View\Page\Config $pageConfig */
             $pageConfig = $this->_objectManager->get('Magento\Framework\View\Page\Config');
