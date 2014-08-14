@@ -9,7 +9,6 @@
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Sharing

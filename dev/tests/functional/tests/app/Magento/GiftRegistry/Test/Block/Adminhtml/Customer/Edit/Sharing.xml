@@ -9,7 +9,7 @@
 -->
 <mapping strict="0">
     <fields>
-        <emails/>
+        <emails />
         <message>
             <input>textarea</input>
         </message>
