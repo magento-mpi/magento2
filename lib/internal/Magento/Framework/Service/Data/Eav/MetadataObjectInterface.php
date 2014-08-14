@@ -17,4 +17,4 @@ interface MetadataObjectInterface
      * @return string
      */
     public function getAttributeCode();
-} 
+}

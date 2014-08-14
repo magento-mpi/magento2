@@ -61,7 +61,9 @@ class MetadataService implements MetadataServiceInterface
     public function getCustomAttributesMetadata()
     {
         $customAttributes = [];
-        foreach ($this->getCategoryAttributesMetadata(MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID) as $attributeMetadata) {
+        foreach ($this->getCategoryAttributesMetadata(
+            MetadataServiceInterface::DEFAULT_ATTRIBUTE_SET_ID
+        ) as $attributeMetadata) {
             $customAttributes[] = $attributeMetadata;
         }
         return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata());

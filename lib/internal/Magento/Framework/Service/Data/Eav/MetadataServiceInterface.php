@@ -16,4 +16,4 @@ interface MetadataServiceInterface
      * @return \Magento\Framework\Service\Data\Eav\MetadataObjectInterface[]
      */
     public function getCustomAttributesMetadata();
-} 
+}

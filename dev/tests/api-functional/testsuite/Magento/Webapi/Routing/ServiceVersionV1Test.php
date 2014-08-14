@@ -69,7 +69,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $requestData = ['itemId' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('testProduct1', $item['name'], 'Item was retrieved unsuccessfully');
-}
+    }
 
     /**
      *  Test get item with any type
@@ -117,12 +117,24 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         ];
         $requestData = $item->__toArray();
         $item = $this->_webApiCall($serviceInfo, ['item' => $requestData]);
-        $this->assertSame($attributeValue1->getValue(), $item['custom_attributes'][0]['value'],
-            'Serialized attribute value type does\'t match pre-defined type.'); // string '12345' is expected
-        $this->assertSame($attributeValue2->getValue(), $item['custom_attributes'][1]['value'],
-            'Serialized attribute value type does\'t match pre-defined type.'); // integer 12345 is expected
-        $this->assertSame($attributeValue3->getValue(), $item['custom_attributes'][2]['value'],
-            'Serialized attribute value type does\'t match pre-defined type.'); // boolean true is expected
+
+        $this->assertSame(
+            $attributeValue1->getValue(),
+            $item['custom_attributes'][0]['value'],
+            'Serialized attribute value type does\'t match pre-defined type.'
+        ); // string '12345' is expected
+
+        $this->assertSame(
+            $attributeValue2->getValue(),
+            $item['custom_attributes'][1]['value'],
+            'Serialized attribute value type does\'t match pre-defined type.'
+        ); // integer 12345 is expected
+
+        $this->assertSame(
+            $attributeValue3->getValue(),
+            $item['custom_attributes'][2]['value'],
+            'Serialized attribute value type does\'t match pre-defined type.'
+        ); // boolean true is expected
     }
 
     /**
