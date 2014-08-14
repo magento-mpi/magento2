@@ -9,7 +9,6 @@ namespace Magento\CatalogUrlRewrite\Service\V1;
 
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
-use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Store view service
@@ -27,37 +26,15 @@ class StoreViewService
     protected $connection;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param Config $eavConfig
      * @param \Magento\Framework\App\Resource $resource
-     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         Config $eavConfig,
-        Resource $resource,
-        StoreManagerInterface $storeManager
+        Resource $resource
     ) {
         $this->eavConfig = $eavConfig;
         $this->connection = $resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
-        $this->storeManager = $storeManager;
-    }
-
-    /**
-     * Check is root category for store view
-     *
-     * @param int $categoryId
-     * @param int $storeId
-     * @return bool
-     */
-    public function isRootCategoryForStore($categoryId, $storeId)
-    {
-        return $categoryId == $this->storeManager->getStore($storeId)->getRootCategoryId();
     }
 
     /**

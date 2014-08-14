@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogUrlRewrite\Service\V1;
 
 use Magento\TestFramework\Helper\ObjectManager;
@@ -29,9 +28,6 @@ class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Framework\Db\Select|\PHPUnit_Framework_MockObject_MockObject */
     protected $select;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $storeManager;
-
     protected function setUp()
     {
         $this->config = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
@@ -39,14 +35,12 @@ class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
         $this->connection = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', [], [], '', false);
         $this->resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->resource->expects($this->any())->method('getConnection')->will($this->returnValue($this->connection));
-        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $this->storeViewService = (new ObjectManager($this))->getObject(
             'Magento\CatalogUrlRewrite\Service\V1\StoreViewService',
             [
                 'eavConfig' => $this->config,
                 'resource' => $this->resource,
-                'storeManager' => $this->storeManager
             ]
         );
     }
@@ -61,23 +55,6 @@ class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
             [1, 2, 1, false],
             [2, 0, 1, false],
         ];
-    }
-
-    /**
-     * @dataProvider isRootCategoryForStoreDataProvider
-     * @param int $categoryId
-     * @param int $rootCategoryId
-     * @param int $storeId
-     * @param bool $result
-     */
-    public function testIsRootCategoryForStore($categoryId, $rootCategoryId, $storeId, $result)
-    {
-        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $store->expects($this->once())->method('getRootCategoryId')->will($this->returnValue($rootCategoryId));
-        $this->storeManager->expects($this->once())->method('getStore')->with($storeId)
-            ->will($this->returnValue($store));
-
-        $this->assertEquals($result, $this->storeViewService->isRootCategoryForStore($categoryId, $storeId));
     }
 
     /**
