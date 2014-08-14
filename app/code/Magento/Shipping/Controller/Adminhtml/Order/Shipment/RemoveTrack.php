@@ -45,6 +45,7 @@ class RemoveTrack extends \Magento\Backend\App\Action
     public function execute()
     {
         $trackId = $this->getRequest()->getParam('track_id');
+        /** @var \Magento\Sales\Model\Order\Shipment\Track $track */
         $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
@@ -60,16 +61,16 @@ class RemoveTrack extends \Magento\Backend\App\Action
                     $this->_view->loadLayout();
                     $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
                 } else {
-                    $response = array(
+                    $response = [
                         'error' => true,
                         'message' => __('Cannot initialize shipment for delete tracking number.')
-                    );
+                    ];
                 }
             } catch (\Exception $e) {
-                $response = array('error' => true, 'message' => __('Cannot delete tracking number.'));
+                $response = ['error' => true, 'message' => __('Cannot delete tracking number.')];
             }
         } else {
-            $response = array('error' => true, 'message' => __('Cannot load track with retrieving identifier.'));
+            $response = ['error' => true, 'message' => __('Cannot load track with retrieving identifier.')];
         }
         if (is_array($response)) {
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);

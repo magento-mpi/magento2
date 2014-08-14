@@ -102,7 +102,7 @@ class PrintLabel extends \Magento\Backend\App\Action
         }
         $this->_redirect(
             'adminhtml/order_shipment/view',
-            array('shipment_id' => $this->getRequest()->getParam('shipment_id'))
+            ['shipment_id' => $this->getRequest()->getParam('shipment_id')]
         );
     }
 }
