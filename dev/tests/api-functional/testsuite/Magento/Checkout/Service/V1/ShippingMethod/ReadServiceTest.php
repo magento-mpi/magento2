@@ -105,7 +105,8 @@ class ReadServiceTest extends WebapiAbstract
             $this->fail('quote fixture failed');
         }
         $quote->getShippingAddress()->requestShippingRates();
-        $expectedRates = $quote->getShippingAddress()->getAllShippingRates();
+        $expectedRates = $quote->getShippingAddress()->getGroupedAllShippingRates();
+
         $expectedData = $this->convertRates($expectedRates, $quote->getQuoteCurrencyCode());
 
         $requestData = ["cartId" => $cartId];
@@ -159,16 +160,18 @@ class ReadServiceTest extends WebapiAbstract
      * Convert rate models array to data array
      *
      * @param string $currencyCode
-     * @param \Magento\Sales\Model\Quote\Address\Rate[] $rates
+     * @param \Magento\Sales\Model\Quote\Address\Rate[] $groupedRates
      * @return array
      */
-    protected function convertRates($rates, $currencyCode)
+    protected function convertRates($groupedRates, $currencyCode)
     {
         $result = [];
         /** @var \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter $converter */
         $converter = $this->objectManager->create('\Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter');
-        foreach ($rates as $rate) {
-            $result[] = $converter->modelToDataObject($rate, $currencyCode)->__toArray();
+        foreach ($groupedRates as $carrierRates) {
+            foreach ($carrierRates as $rate) {
+                $result[] = $converter->modelToDataObject($rate, $currencyCode)->__toArray();
+            }
         }
         return $result;
     }

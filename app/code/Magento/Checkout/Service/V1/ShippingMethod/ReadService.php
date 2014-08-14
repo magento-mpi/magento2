@@ -111,9 +111,11 @@ class ReadService implements ReadServiceInterface
             throw new StateException('Shipping address not set.');
         }
         $shippingAddress->requestShippingRates();
-        $shippingRates = $quote->getShippingAddress()->getAllShippingRates();
-        foreach ($shippingRates as $rate) {
-            $output[] = $this->converter->modelToDataObject($rate, $quote->getQuoteCurrencyCode());
+        $shippingRates = $shippingAddress->getGroupedAllShippingRates();
+        foreach ($shippingRates as $carrierRates) {
+            foreach ($carrierRates as $rate) {
+                $output[] = $this->converter->modelToDataObject($rate, $quote->getQuoteCurrencyCode());
+            }
         }
         return $output;
     }

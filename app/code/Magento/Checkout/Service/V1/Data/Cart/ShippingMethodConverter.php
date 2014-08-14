@@ -49,8 +49,8 @@ class ShippingMethodConverter
             ShippingMethod::METHOD_CODE => $rateModel->getMethod(),
             ShippingMethod::CARRIER_TITLE => $rateModel->getCarrierTitle(),
             ShippingMethod::METHOD_TITLE => $rateModel->getMethodTitle(),
-            ShippingMethod::SHIPPING_AMOUNT => $currency->convert($rateModel->getPrice(), $quoteCurrencyCode),
-            ShippingMethod::BASE_SHIPPING_AMOUNT => $rateModel->getPrice(),
+            ShippingMethod::SHIPPING_AMOUNT => round($currency->convert($rateModel->getPrice(), $quoteCurrencyCode), 2),
+            ShippingMethod::BASE_SHIPPING_AMOUNT => round($rateModel->getPrice(), 2),
             ShippingMethod::AVAILABLE => empty($errorMessage),
         ];
         $this->builder->populateWithArray($data);
