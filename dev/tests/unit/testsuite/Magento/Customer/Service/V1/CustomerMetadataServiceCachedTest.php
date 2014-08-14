@@ -46,7 +46,8 @@ class CustomerMetadataServiceCachedTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetAttributes() {
+    public function testGetAttributes()
+    {
         $formCode = 'f';
         $value = 'v';
 
@@ -61,7 +62,8 @@ class CustomerMetadataServiceCachedTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetAttributeMetadata() {
+    public function testGetAttributeMetadata()
+    {
         $attributeCode = 'a';
         $value = 'v';
 
@@ -76,7 +78,8 @@ class CustomerMetadataServiceCachedTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetAttributeMetadataWithException() {
+    public function testGetAttributeMetadataWithException()
+    {
         $attributeCode = 'a';
         $value = 'v';
 
@@ -96,7 +99,8 @@ class CustomerMetadataServiceCachedTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetAllAttributesMetadata() {
+    public function testGetAllAttributesMetadata()
+    {
         $value = 'v';
 
         $this->customerMetadataServiceMock->expects($this->once())
@@ -109,7 +113,8 @@ class CustomerMetadataServiceCachedTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetCustomAttributesMetadata() {
+    public function testGetCustomAttributesMetadata()
+    {
         $value = 'v';
 
         $this->customerMetadataServiceMock->expects($this->once())
