@@ -38,9 +38,6 @@ class MetadataConfig implements MetadataServiceInterface
         AttributeMetadataBuilderInterface $attributeMetadataBuilder = null
     ) {
         $this->serviceConfigReader = $serviceConfigReader;
-        /*
-         * Default preference set in app/etc/di as Magento\Framework\Service\Data\AttributeMetadataBuilder
-         */
         $this->attributeMetadataBuilder = $attributeMetadataBuilder;
     }
 
