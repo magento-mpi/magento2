@@ -100,15 +100,4 @@ abstract class AbstractStorage implements StorageInterface
     {
         return $this->urlRewriteBuilder->populateWithArray($data)->create();
     }
-
-    /**
-     * Find row by specific data
-     *
-     * @param array $data
-     * @return array
-     */
-    public function findByData(array $data)
-    {
-        return [];
-    }
 }

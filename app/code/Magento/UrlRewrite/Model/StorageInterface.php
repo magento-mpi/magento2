@@ -47,12 +47,4 @@ interface StorageInterface
      * @return void
      */
     public function deleteByFilter(Filter $filter);
-
-    /**
-     * Find row by specific data
-     *
-     * @param array $data
-     * @return mixed
-     */
-    public function findByData(array $data);
 }

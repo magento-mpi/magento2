@@ -8,38 +8,17 @@
 namespace Magento\CatalogUrlRewrite\Model\Storage;
 
 use Magento\UrlRewrite\Model\Storage\DbStorage as UrlRewriteDbStorage;
-use Magento\UrlRewrite\Model\Storage\DuplicateEntryException;
-use Magento\UrlRewrite\Service\V1\Data\Filter;
 use Magento\CatalogUrlRewrite\Model\Resource\Category\Product;
 
 class DbStorage extends UrlRewriteDbStorage
 {
     /**
-     * {@inheritdoc}
-     */
-    protected function doFindAllByFilter($filter)
-    {
-        $select = $this->prepareSelectByData($filter->getFilter());
-
-        return $this->connection->fetchAll($select);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function doFindByFilter($filter)
-    {
-        $select = $this->prepareSelectByData($filter->getFilter());
-
-        return $this->connection->fetchRow($select);
-    }
-
-    /**
-     * {@inheritdoc}
+     * @param array $data
+     * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite|null
      */
     public function findByData(array $data)
     {
-        $select = $this->prepareSelectByData($data);
+        $select = $this->prepareSelect($data);
         $row = $this->connection->fetchRow($select);
 
         return $row ? $this->createUrlRewrite($row) : null;
@@ -49,11 +28,10 @@ class DbStorage extends UrlRewriteDbStorage
      * @param array $data
      * @return \Magento\Framework\DB\Select
      */
-    protected function prepareSelectByData(array $data)
+    protected function prepareSelect($data)
     {
-        $select = clone $this->connection->select();
-        $select->reset()
-            ->from(array('url_rewrite' => $this->resource->getTableName('url_rewrite')))
+        $select = $this->connection->select();
+        $select->from(array('url_rewrite' => $this->resource->getTableName('url_rewrite')))
             ->joinLeft(
                 array('relation' => $this->resource->getTableName(Product::TABLE_NAME)),
                 'url_rewrite.url_rewrite_id = relation.url_rewrite_id'
@@ -69,4 +47,3 @@ class DbStorage extends UrlRewriteDbStorage
         return $select;
     }
 }
- 
