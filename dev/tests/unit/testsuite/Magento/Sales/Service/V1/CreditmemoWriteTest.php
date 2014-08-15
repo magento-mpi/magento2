@@ -28,6 +28,11 @@ class CreditmemoWriteTest extends \PHPUnit_Framework_TestCase
     protected $creditmemoEmailMock;
 
     /**
+     * @var \Magento\Sales\Service\V1\Action\CreditmemoCreate|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $creditmemoCreateMock;
+
+    /**
      * @var \Magento\Sales\Service\V1\CreditmemoWrite
      */
     protected $creditmemoWrite;
@@ -59,10 +64,19 @@ class CreditmemoWriteTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->creditmemoCreateMock = $this->getMock(
+            'Magento\Sales\Service\V1\Action\CreditmemoCreate',
+            ['invoke'],
+            [],
+            '',
+            false
+        );
+
         $this->creditmemoWrite = new CreditmemoWrite(
             $this->creditmemoAddCommentMock,
             $this->creditmemoCancelMock,
-            $this->creditmemoEmailMock
+            $this->creditmemoEmailMock,
+            $this->creditmemoCreateMock
         );
     }
 
@@ -101,5 +115,18 @@ class CreditmemoWriteTest extends \PHPUnit_Framework_TestCase
             ->with(1)
             ->will($this->returnValue(true));
         $this->assertTrue($this->creditmemoWrite->email(1));
+    }
+
+    /**
+     * test creditmemo create
+     */
+    public function testCreate()
+    {
+        $creditmemo = $this->getMock('\Magento\Sales\Service\V1\Data\Creditmemo', [], [], '', false);
+        $this->creditmemoCreateMock->expects($this->once())
+            ->method('invoke')
+            ->with($creditmemo)
+            ->will($this->returnValue(true));
+        $this->assertTrue($this->creditmemoWrite->create($creditmemo));
     }
 }
