@@ -1759,7 +1759,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $productIdsToReindex[] = $row['product_id'];
                 $row['stock_id'] = \Magento\CatalogInventory\Model\Stock\Item::DEFAULT_STOCK_ID;
 
-
                 $stockItemDo = $this->stockItemService->getStockItem($row['product_id']);
                 $existStockData = $stockItemDo->__toArray();
 
