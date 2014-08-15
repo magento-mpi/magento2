@@ -84,6 +84,60 @@ return [
                 "type" => "termFilter"
             ]
         ],
+        "aggregation" => [
+            "category_bucket" => [
+                "name" => "category_bucket",
+                "field" => "category",
+                "metric" => [
+                    [
+                        "type" => "sum",
+                    ],
+                    [
+                        "type" => "count",
+                    ],
+                    [
+                        "type" => "min",
+                    ],
+                    [
+                        "type" => "max",
+                    ]
+                ],
+                "type" => "termBucket",
+            ],
+            "price_bucket" => [
+                "name" => "price_bucket",
+                "field" => "price",
+                "metric" => [
+                    [
+                        "type" => "sum",
+                    ],
+                    [
+                        "type" => "count",
+                    ],
+                    [
+                        "type" => "min",
+                    ],
+                    [
+                        "type" => "max",
+                    ]
+                ],
+                "range" => [
+                    [
+                        "from" => "",
+                        "to" => "50",
+                    ],
+                    [
+                        "from" => "50",
+                        "to" => "100",
+                    ],
+                    [
+                        "from" => "100",
+                        "to" => "",
+                    ],
+                ],
+                "type" => "rangeBucket",
+            ]
+        ],
         "from" => "10",
         "size" => "10",
         "query" => "suggested_search_container",

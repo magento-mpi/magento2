@@ -56,6 +56,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             'queries' => ':str',
             'filters' => 'f',
             'query' => 'q',
+            'aggregation' => 'a',
             'index' => 'i',
             'from' => '1',
             'size' => '15',
@@ -69,7 +70,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Search\Request\Mapper|\PHPUnit_Framework_MockObject_MockObject $mapper */
         $mapper = $this->getMockBuilder('Magento\Framework\Search\Request\Mapper')
-            ->setMethods(['getRootQuery'])
+            ->setMethods(['getRootQuery', 'getBuckets'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -86,6 +87,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
                         'objectManager' => $this->objectManager,
                         'queries' => $bindValues[':str'],
                         'rootQueryName' => $configData['query'],
+                        'aggregation' => $configData['aggregation'],
                         'filters' => $configData['filters']
                     ]
                 )
@@ -130,6 +132,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 
         $mapper->expects($this->once())->method('getRootQuery')
             ->will($this->returnValue($mappedQuery));
+        $mapper->expects($this->once())->method('getBuckets')->will($this->returnValue([]));
 
         $this->assertEquals($request, $this->factory->create($requestName, $bindValues));
     }
