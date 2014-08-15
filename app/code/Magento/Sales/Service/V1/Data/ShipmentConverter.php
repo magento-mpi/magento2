@@ -37,8 +37,13 @@ class ShipmentConverter
     {
         $this->shipmentLoader->setOrderId($dataObject->getOrderId());
         $this->shipmentLoader->setShipmentId($dataObject->getEntityId());
-        $shipment = ['items' => $dataObject->getItems()];
-        $this->shipmentLoader->setShipment($shipment);
+
+        $items = [];
+        foreach ($dataObject->getItems() as $item) {
+            $items[$item->getEntityId()] = $item->getQty();
+        }
+        $shipmentItems = ['items' => $items];
+        $this->shipmentLoader->setShipment($shipmentItems);
         $this->shipmentLoader->setTracking($dataObject->getTracks());
         return $this->shipmentLoader->load();
     }
