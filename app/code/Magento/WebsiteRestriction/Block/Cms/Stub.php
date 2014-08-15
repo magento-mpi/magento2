@@ -39,8 +39,8 @@ class Stub extends \Magento\Cms\Block\Page
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Framework\Registry $registry,
         \Magento\Framework\View\Page\Config $pageConfig,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $page, $filterProvider, $storeManager, $pageFactory, $pageConfig, $data);
