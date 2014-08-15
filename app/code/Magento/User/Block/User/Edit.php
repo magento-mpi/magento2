@@ -58,11 +58,11 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             $this->addButton(
                 'invalidate',
                 array(
-                    'label' => __('Invalidate Access Tokens'),
-                    'class' => 'reset',
-                    'onclick' => 'deleteConfirm(\'' . __(
-                        json_encode(utf8_encode('Are you sure you want to invalidate this user\'s tokens?'), JSON_HEX_APOS)
-                    ) . '\', \'' . $this->getInvalidateUrl() . '\')'
+                    'label' => __('Force Sign-In'),
+                    'class' => 'invalidate-token',
+                    'onclick' => 'deleteConfirm(\'' .
+                        json_encode(utf8_encode(__('Are you sure you want to revoke the user\'s tokens?')), JSON_HEX_APOS) .
+                        '\', \'' . $this->getInvalidateUrl() . '\')'
                 )
             );
         }

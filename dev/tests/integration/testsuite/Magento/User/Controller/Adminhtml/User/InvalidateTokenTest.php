@@ -20,9 +20,12 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
      */
     public function testInvalidateToken()
     {
-        $tokenService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\TokenService');
-        $tokenModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Integration\Model\Oauth\Token');
-        $userModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\User\Model\User');
+        $tokenService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Integration\Service\V1\TokenService');
+        $tokenModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Integration\Model\Oauth\Token');
+        $userModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\User\Model\User');
 
         $adminUserNameFromFixture = 'adminUser';
         $accessToken = $tokenService->createAdminAccessToken(
@@ -53,7 +56,7 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('user_id', $adminUserId);
         $this->dispatch('backend/admin/user/invalidateToken');
         $this->assertSessionMessages(
-            $this->equalTo(['Token does not exist.']),
+            $this->equalTo(['This user has no tokens.']),
             MessageInterface::TYPE_ERROR
         );
     }
@@ -62,7 +65,7 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
     {
         $this->dispatch('backend/admin/user/invalidateToken');
         $this->assertSessionMessages(
-            $this->equalTo(['We can\'t find a user to invalidate.']),
+            $this->equalTo(['We can\'t find a user to revoke.']),
             MessageInterface::TYPE_ERROR
         );
     }
@@ -74,7 +77,7 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('user_id', $adminUserId);
         $this->dispatch('backend/admin/user/invalidateToken');
         $this->assertSessionMessages(
-            $this->equalTo(['Token does not exist.']),
+            $this->equalTo(['This user has no tokens.']),
             MessageInterface::TYPE_ERROR
         );
     }
