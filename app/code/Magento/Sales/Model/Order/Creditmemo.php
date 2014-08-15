@@ -848,4 +848,12 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     {
         return $this->getResourceCollection()->getFiltered($filter);
     }
+
+    /**
+     * @return bool
+     */
+    public function isValidGrandTotal()
+    {
+        return !($this->getGrandTotal() <= 0 && !$this->getAllowZeroGrandTotal());
+    }
 }

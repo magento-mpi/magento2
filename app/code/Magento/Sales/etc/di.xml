@@ -32,6 +32,7 @@
     <preference for="Magento\Sales\Service\V1\CreditmemoCancelInterface" type="Magento\Sales\Service\V1\CreditmemoCancel"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoAddCommentInterface" type="Magento\Sales\Service\V1\CreditmemoAddComment"/>
     <preference for="Magento\Sales\Service\V1\CreditmemoEmailInterface" type="Magento\Sales\Service\V1\CreditmemoEmail"/>
+    <preference for="Magento\Sales\Service\V1\CreditmemoCreateInterface" type="Magento\Sales\Service\V1\CreditmemoCreate"/>
     <preference for="Magento\Sales\Service\V1\ShipmentCreateInterface" type="Magento\Sales\Service\V1\ShipmentCreate"/>
     <preference for="Magento\Sales\Service\V1\ShipmentListInterface" type="Magento\Sales\Service\V1\ShipmentList"/>
     <preference for="Magento\Sales\Service\V1\ShipmentAddCommentInterface" type="Magento\Sales\Service\V1\ShipmentAddComment"/>
