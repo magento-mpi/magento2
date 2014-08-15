@@ -19,6 +19,9 @@ class AttributeMetadataConverterTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testCreateMetadataAttribute()
     {
         $attribute = $this->getMockBuilder('Magento\Customer\Model\Attribute')
