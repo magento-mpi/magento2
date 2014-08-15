@@ -51,7 +51,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
         try {
             $this->storage->addMultiple($urls);
         } catch (DuplicateEntryException $e) {
-            throw new \RuntimeException(__('URL key for specified store already exists.'));
+            throw new DuplicateEntryException(__('URL key for specified store already exists.'));
         }
     }
 
