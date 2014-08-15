@@ -50,6 +50,7 @@ class InvoiceCreateTest extends WebapiAbstract
                 'operation' => self::SERVICE_READ_NAME . 'create'
             ]
         ];
+        $orderItems = $order->getAllItems();
         $data = [
             'order_id' => $order->getId(),
             'base_currency_code' => null,
@@ -97,7 +98,7 @@ class InvoiceCreateTest extends WebapiAbstract
             'updated_at' => null,
             'items' => [
                 [
-                    'entity_id' => $order->getAllItems()[0]->getId(),
+                    'orderItemId' => $orderItems[0]->getId(),
                     'qty' => 2,
                     'additionalData' => null,
                     'baseCost' => null,
@@ -112,7 +113,7 @@ class InvoiceCreateTest extends WebapiAbstract
                     'discountAmount' => null,
                     'hiddenTaxAmount' => null,
                     'name' => null,
-                    'orderItemId' => null,
+                    'entity_id' => null,
                     'parentId' => null,
                     'price' => null,
                     'priceInclTax' => null,
