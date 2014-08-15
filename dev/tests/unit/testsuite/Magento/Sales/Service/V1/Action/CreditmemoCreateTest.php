@@ -5,17 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Service\V1;
+namespace Magento\Sales\Service\V1\Action;
 
 /**
  * Class CreditmemoCreateTest
  *
- * @package Magento\Sales\Service\V1
+ * @package Magento\Sales\Service\V1\Action
  */
 class CreditmemoCreateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Service\V1\CreditmemoCreate
+     * @var \Magento\Sales\Service\V1\Action\CreditmemoCreate
      */
     protected $creditmemoCreate;
 
@@ -40,7 +40,7 @@ class CreditmemoCreateTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
-        $this->creditmemoCreate = new \Magento\Sales\Service\V1\CreditmemoCreate(
+        $this->creditmemoCreate = new CreditmemoCreate(
             $this->creditmemoConverterMock,
             $this->loggerMock
         );
