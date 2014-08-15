@@ -1,0 +1,44 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.table-wrapper {
+    > table {
+        .table-caption(@_table-caption-hide: true);
+    }
+    margin-bottom: @indent-base;
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-m) {
+    .table-wrapper {
+        .table-overflow();
+        position: relative; // to hide unnecessary horizontal scrollbar in Safari
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .table-wrapper {
+        > table {
+            > thead,
+            > tbody,
+            > tfoot {
+                > tr {
+                    > th,
+                    > td {
+                        //white-space: normal;
+                    }
+                }
+            }
+        }
+    }
+}

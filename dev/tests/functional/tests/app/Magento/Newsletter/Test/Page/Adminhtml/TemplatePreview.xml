@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="newsletter/template/preview" >
+    <block>
+        <name>content</name>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\Template\Preview</class>
+        <locator>body</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
