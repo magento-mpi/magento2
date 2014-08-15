@@ -117,15 +117,17 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTotalAmount()
     {
+        $totalAmount = 10;
         $itemMock = $this->getMockBuilder('\Magento\Sales\Model\Order\Item')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->itemPriceRenderer->expects($this->once())
             ->method('getTotalAmount')
-            ->with($itemMock);
+            ->with($itemMock)
+            ->will($this->returnValue($totalAmount));
 
-        $this->renderer->getTotalAmount($itemMock);
+        $this->assertEquals($totalAmount, $this->renderer->getTotalAmount($itemMock));
     }
 
 }

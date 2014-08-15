@@ -808,7 +808,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $baseDiscountAmount = 20;
         $baseWeeeAmount = 5;
 
-        $expectedValue = 97;
+        $expectedValue = $baseRowTotal + $baseTaxAmount + $baseHiddenTaxAmount - $baseDiscountAmount + $baseWeeeAmount;
 
         $itemMock = $this->getMockBuilder('\Magento\Sales\Model\Order\Item')
             ->disableOriginalConstructor()
