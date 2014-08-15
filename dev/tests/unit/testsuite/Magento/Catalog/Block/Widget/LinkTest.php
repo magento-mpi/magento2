@@ -17,10 +17,14 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected $storeManager;
 
     /**
-     * @TODO: UrlRewrite: Build product URL inside particular category
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlRewrite\Service\V1\UrlMatcherInterface
      */
-    protected $urlMatcher;
+    protected $urlMatcherCategory;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\UrlRewrite\Service\V1\UrlMatcherInterface
+     */
+    protected $urlMatcherProduct;
 
     /**
      * @var \Magento\Catalog\Block\Widget\Link
@@ -30,7 +34,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->urlMatcher = $this->getMock('Magento\CatalogUrlRewrite\Service\V1\UrlManager', [], [], '', false);
+        $this->urlMatcherCategory = $this->getMock('Magento\UrlRewrite\Service\V1\UrlManager', [], [], '', false);
+        $this->urlMatcherProduct = $this->getMock('Magento\UrlRewrite\Service\V1\UrlManager', [], [], '', false);
 
         $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
@@ -39,7 +44,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $this->block = (new ObjectManager($this))->getObject('Magento\Catalog\Block\Widget\Link', [
             'context' => $context,
-            'urlMatcher' => $this->urlMatcher,
+            'urlCategoryMatcher' => $this->urlMatcherCategory,
+            'urlProductMatcher' => $this->urlMatcherProduct,
         ]);
     }
 
@@ -90,8 +96,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $this->urlMatcher->expects($this->once())->method('findByFilter')
+        $this->urlMatcherCategory->expects($this->once())->method('findByData')
             ->will($this->returnValue(false));
+        $this->urlMatcherProduct->expects($this->never())->method('findByData');
 
         $this->assertFalse($this->block->getHref());
     }
@@ -129,13 +136,14 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $this->urlMatcher->expects($this->once())->method('findByFilter')
+        $this->urlMatcherCategory->expects($this->once())->method('findByData')
             ->with([
                     'entity_id' => 'entity_id',
                     'entity_type' => 'entity_type',
                     'store_id' => $storeId,
                 ])
             ->will($this->returnValue($rewrite));
+        $this->urlMatcherProduct->expects($this->never())->method('findByData');
 
         $this->assertEquals($url . $separator . '___store=' . $storeCode, $this->block->getHref());
     }
