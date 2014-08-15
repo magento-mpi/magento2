@@ -65,7 +65,7 @@ class Copier
             } catch (DuplicateEntryException $e) {
                 $urlKey = $duplicate->getUrlKey();
                 $urlKey = preg_match('/(.*)-(\d+)$/', $urlKey, $matches)
-                    ? $urlKey = $matches[1] . '-' . ($matches[2] + 1)
+                    ? $matches[1] . '-' . ($matches[2] + 1)
                     : $urlKey . '-1';
                 $duplicate->setUrlKey($urlKey);
             }
