@@ -82,7 +82,7 @@ class ReviewTest extends Functional
 
         $this->flushCacheStorageWithAssert();
 
-        $browser->open($_ENV['app_frontend_url'] . $productFixture->getUrlKey() . '.html');
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $productFixture->getUrlKey() . '.html');
         $reviewsSummaryBlock = $productPage->getReviewSummary();
         $this->assertTrue($reviewsSummaryBlock->getAddReviewLink()->isVisible(), 'Add review link is not visible');
         $this->assertTrue($reviewsSummaryBlock->getViewReviewLink()->isVisible(), 'View review link is not visible');

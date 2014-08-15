@@ -36,7 +36,7 @@
         </linksBlock>
         <storeSwitcherBlock>
             <class>Magento\Store\Test\Block\Switcher</class>
-            <locator>//*[@data-ui-id="language-switcher"]</locator>
+            <locator>[data-ui-id="language-switcher"]</locator>
             <strategy>css selector</strategy>
         </storeSwitcherBlock>
         <cartSidebarBlock>
