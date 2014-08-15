@@ -14,6 +14,7 @@
 namespace Magento\Catalog\Block\Widget;
 
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 
 class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
@@ -94,7 +95,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
             if (!empty($rewriteData[2])) {
                 $filterData['category_id'] = $rewriteData[2];
             }
-            if ($rewriteData[0] == 'product') {
+            if ($rewriteData[0] == ProductUrlRewriteGenerator::ENTITY_TYPE) {
                 $rewrite = $this->urlProductMatcher->findByData($filterData);
             } else {
                 $rewrite = $this->urlCategoryMatcher->findByData($filterData);

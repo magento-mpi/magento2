@@ -133,6 +133,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     public function findByData(array $data)
     {
-        return $this->storage->findByData($data);
+        $filter = $this->filterFactory->create(['filterData' => $data]);
+        return $this->storage->findByFilter($filter);
     }
 }

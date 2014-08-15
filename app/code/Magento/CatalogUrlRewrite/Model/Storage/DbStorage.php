@@ -42,7 +42,7 @@ class DbStorage extends UrlRewriteDbStorage
         if (!empty($data['category_id'])) {
             $select->where('relation.category_id IN (?)', $data['category_id']);
         } else {
-            $select->where('relation.category_id is null');
+            $select->where('relation.category_id IS NULL');
         }
         return $select;
     }

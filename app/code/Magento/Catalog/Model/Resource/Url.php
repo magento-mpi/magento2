@@ -12,6 +12,8 @@ namespace Magento\Catalog\Model\Resource;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+
 class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
@@ -634,7 +636,8 @@ class Url extends \Magento\Framework\Model\Resource\Db\AbstractDb
             array('product_id', 'store_id', 'visibility')
         )->joinLeft(
             array('u' => $this->getMainTable()),
-            'i.product_id = u.entity_id AND i.store_id = u.store_id AND u.entity_type = "product"',
+            'i.product_id = u.entity_id AND i.store_id = u.store_id'
+            . ' AND u.entity_type = "' . ProductUrlRewriteGenerator::ENTITY_TYPE . '"',
             array('request_path')
         )->joinLeft(
             array('r' => $this->getTable('url_rewrite_relation')),
