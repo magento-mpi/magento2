@@ -92,10 +92,39 @@ class InvoiceCreateTest extends WebapiAbstract
             'subtotal' => null,
             'subtotal_incl_tax' => null,
             'tax_amount' => null,
-            'total_qty' => null,
+            'total_qty' => '1',
             'transaction_id' => null,
             'updated_at' => null,
-            'items' => [],
+            'items' => [
+                [
+                    'entity_id' => $order->getAllItems()[0]->getId(),
+                    'qty' => 2,
+                    'additionalData' => null,
+                    'baseCost' => null,
+                    'baseDiscountAmount' => null,
+                    'baseHiddenTaxAmount' => null,
+                    'basePrice' => null,
+                    'basePriceInclTax' => null,
+                    'baseRowTotal' => null,
+                    'baseRowTotalInclTax' => null,
+                    'baseTaxAmount' => null,
+                    'description' => null,
+                    'discountAmount' => null,
+                    'hiddenTaxAmount' => null,
+                    'name' => null,
+                    'orderItemId' => null,
+                    'parentId' => null,
+                    'price' => null,
+                    'priceInclTax' => null,
+                    'productId' => null,
+                    'rowTotal' => null,
+                    'rowTotalInclTax' => null,
+                    'sku' => 'sku' . uniqid(),
+                    'taxAmount' => null
+
+
+                ]
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['invoiceDataObject' => $data]);
         $this->assertTrue($result);

@@ -9,8 +9,6 @@ namespace Magento\Sales\Service\V1\Data;
 
 /**
  * Class CreditmemoConverterTest
- *
- * @package Magento\Sales\Service\V1\Data
  */
 class CreditmemoConverterTest extends \PHPUnit_Framework_TestCase
 {

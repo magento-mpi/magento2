@@ -9,6 +9,8 @@ namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
 /**
  * Class PrintLabelTest
+ *
+ *  @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class PrintLabelTest extends \PHPUnit_Framework_TestCase
 {

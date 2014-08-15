@@ -14,7 +14,7 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 /**
  * Class SaveTest
  *
- * @package Magento\Shipping\Controller\Adminhtml\Order\Shipment
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class SaveTest extends \PHPUnit_Framework_TestCase
 {
@@ -100,14 +100,8 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->context = $this->getMock(
             'Magento\Backend\App\Action\Context',
             [
-                'getRequest',
-                'getResponse',
-                'getMessageManager',
-                'getRedirect',
-                'getObjectManager',
-                'getSession',
-                'getActionFlag',
-                'getHelper'
+                'getRequest', 'getResponse', 'getMessageManager', 'getRedirect',
+                'getObjectManager', 'getSession', 'getActionFlag', 'getHelper'
             ],
             [],
             '',
@@ -141,7 +135,13 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->session = $this->getMock('Magento\Backend\Model\Session', ['setIsUrlNotice' , 'getCommentText'], [], '', false);
+        $this->session = $this->getMock(
+            'Magento\Backend\Model\Session',
+            ['setIsUrlNotice', 'getCommentText'],
+            [],
+            '',
+            false
+        );
         $this->actionFlag = $this->getMock('Magento\Framework\App\ActionFlag', ['get'], [], '', false);
         $this->helper = $this->getMock('\Magento\Backend\Helper\Data', ['getUrl'], [], '', false);
         $this->context->expects($this->once())
@@ -168,12 +168,9 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->saveAction = $objectManagerHelper->getObject(
             'Magento\Shipping\Controller\Adminhtml\Order\Shipment\Save',
             [
-                'labelGenerator' => $this->labelGenerator,
-                'shipmentSender' => $this->shipmentSender,
-                'context' => $this->context,
-                'shipmentLoader' => $this->shipmentLoader,
-                'request' => $this->request,
-                'response' => $this->response
+                'labelGenerator' => $this->labelGenerator, 'shipmentSender' => $this->shipmentSender,
+                'context' => $this->context, 'shipmentLoader' => $this->shipmentLoader,
+                'request' => $this->request, 'response' => $this->response
             ]
         );
     }

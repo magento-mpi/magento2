@@ -11,8 +11,6 @@ use Magento\Backend\App\Action;
 
 /**
  * Class CreditmemoLoaderTest
- *
- * @package Magento\Sales\Controller\Adminhtml\Order
  */
 class CreditmemoLoaderTest extends \PHPUnit_Framework_TestCase
 {

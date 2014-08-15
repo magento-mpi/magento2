@@ -14,7 +14,7 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 /**
  * Class NewActionTest
  *
- * @package Magento\Shipping\Controller\Adminhtml\Order\Shipment
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class NewActionTest extends \PHPUnit_Framework_TestCase
 {
@@ -104,16 +104,8 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $this->context = $this->getMock(
             'Magento\Backend\App\Action\Context',
             [
-                'getRequest',
-                'getResponse',
-                'getMessageManager',
-                'getRedirect',
-                'getObjectManager',
-                'getSession',
-                'getActionFlag',
-                'getHelper',
-                'getTitle',
-                'getView'
+                'getRequest', 'getResponse', 'getMessageManager', 'getRedirect', 'getObjectManager',
+                'getSession', 'getActionFlag', 'getHelper', 'getTitle', 'getView'
             ],
             [],
             '',
@@ -133,7 +125,6 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
         $this->messageManager = $this->getMock(
             'Magento\Framework\Message\Manager',
             ['addSuccess', 'addError'],
@@ -151,13 +142,7 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $this->actionFlag = $this->getMock('Magento\Framework\App\ActionFlag', ['get'], [], '', false);
         $this->helper = $this->getMock('Magento\Backend\Helper\Data', ['getUrl'], [], '', false);
         $this->title = $this->getMock('Magento\Framework\App\Action\Title', [], [], '', false);
-        $this->view = $this->getMock(
-            'Magento\Framework\App\ViewInterface',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->view = $this->getMock('Magento\Framework\App\ViewInterface', [], [], '', false);
         $this->context->expects($this->once())
             ->method('getMessageManager')
             ->will($this->returnValue($this->messageManager));
@@ -188,12 +173,8 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $this->newAction = $objectManagerHelper->getObject(
             'Magento\Shipping\Controller\Adminhtml\Order\Shipment\NewAction',
             [
-                'context' => $this->context,
-                'shipmentLoader' => $this->shipmentLoader,
-                'request' => $this->request,
-                'response' => $this->response,
-                'title' => $this->title,
-                'view' => $this->view
+                'context' => $this->context, 'shipmentLoader' => $this->shipmentLoader, 'request' => $this->request,
+                'response' => $this->response, 'title' => $this->title, 'view' => $this->view
             ]
         );
     }
@@ -204,7 +185,6 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $orderId = 10003;
         $tracking = [];
         $shipmentData = ['items' => [], 'send_email' => ''];
-
         $shipment = $this->getMock(
             'Magento\Sales\Model\Order\Shipment',
             ['load', 'save', 'register', 'getOrder', 'getOrderId', '__wakeup'],
@@ -212,7 +192,6 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
         $this->request->expects($this->any())
             ->method('getParam')
             ->will(
@@ -254,14 +233,7 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $this->view->expects($this->once())
             ->method('renderLayout')
             ->will($this->returnSelf());
-
-        $layout = $this->getMock(
-            'Magento\Framework\View\Layout\Element\Layout',
-            ['getBlock'],
-            [],
-            '',
-            false
-        );
+        $layout = $this->getMock('Magento\Framework\View\Layout\Element\Layout', ['getBlock'], [], '', false);
         $menuBlock = $this->getMock(
             'Magento\Framework\View\Element\BlockInterface',
             ['toHtml', 'setActive', 'getMenuModel'],
@@ -269,13 +241,7 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $menuModel = $this->getMock(
-            'Magento\Backend\Model\Menu',
-            ['getParentItems'],
-            [],
-            '',
-            false
-        );
+        $menuModel = $this->getMock('Magento\Backend\Model\Menu', ['getParentItems'], [], '', false);
         $itemId = 'Magento_Sales::sales_order';
         $parents = [
             new \Magento\Framework\Object(['title' => 'title1']),
