@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order;
 
 use Magento\Sales\Model\Resource\OrderFactory;
