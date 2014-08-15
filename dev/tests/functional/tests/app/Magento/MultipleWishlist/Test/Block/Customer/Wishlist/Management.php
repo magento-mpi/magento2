@@ -43,7 +43,7 @@ class Management extends Block
      *
      * @var string
      */
-    protected $wishlistItem = '//a[.="%s"]';
+    protected $wishlistItem = './/a[.="%s"]';
 
     /**
      * Notice message selector
@@ -51,6 +51,13 @@ class Management extends Block
      * @var string
      */
     protected $noticeMessage = '.message.notice';
+
+    /**
+     * Button 'Delete Wishlist' css selector
+     *
+     * @var string
+     */
+    protected $removeButton = 'button.remove';
 
     /**
      * Create new wish list
@@ -106,7 +113,7 @@ class Management extends Block
      * @param string $wishlistName
      * @return bool
      */
-    public function isWishlistVisible($wishlistName)
+    public function wishlistIsVisible($wishlistName)
     {
         return in_array($wishlistName, $this->getWishlists());
     }
@@ -119,5 +126,26 @@ class Management extends Block
     public function getNoticeMessage()
     {
         return trim($this->_rootElement->find($this->noticeMessage)->getText());
+    }
+
+    /**
+     * Delete wish list
+     *
+     * @return void
+     */
+    public function removeWishlist()
+    {
+        $this->_rootElement->find($this->removeButton)->click();
+        $this->_rootElement->acceptAlert();
+    }
+
+    /**
+     * Remove button is visible
+     *
+     * @return bool
+     */
+    public function removeButtonIsVisible()
+    {
+        return $this->_rootElement->find($this->removeButton)->isVisible();
     }
 }

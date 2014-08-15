@@ -58,11 +58,11 @@ class BackendDecorator implements CurlInterface
     {
         $credentials = $this->_configuration->getConfigParam('application/backend_user_credentials');
         $url = $_ENV['app_backend_url'] . $this->_configuration->getConfigParam('application/backend_login_url');
-        $data = array(
+        $data = [
             'login[username]' => $credentials['login'],
             'login[password]' => $credentials['password']
-        );
-        $this->_transport->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        ];
+        $this->_transport->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $this->read();
         if (strpos($response, 'page-login')) {
             throw new \Exception('Admin user cannot be logged in by curl handler!');
@@ -88,15 +88,15 @@ class BackendDecorator implements CurlInterface
      * @param string $httpVer
      * @param array $headers
      * @param array $params
-     *
+     * @return void
      * @throws \Exception
      */
-    public function write($method, $url, $httpVer = '1.1', $headers = array(), $params = array())
+    public function write($method, $url, $httpVer = '1.1', $headers = [], $params = [])
     {
         if ($this->_formKey) {
             $params['form_key'] = $this->_formKey;
         } else {
-            throw new \Exception('Form key is absent! Response: '. $this->_response);
+            throw new \Exception('Form key is absent! Response: ' . $this->_response);
         }
         $this->_transport->write($method, $url, $httpVer, $headers, http_build_query($params));
     }
