@@ -140,9 +140,6 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
         $this->_afterLoad();
         $this->setOrigData();
         $this->_hasDataChanges = false;
-
-        $this->_afterSave();
-
         return $this;
     }
 
