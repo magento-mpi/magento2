@@ -9,7 +9,6 @@ namespace Magento\Sales\Service\V1\Action;
 
 /**
  * Class InvoiceCreateTest
- * @package Magento\Sales\Service\V1
  */
 class InvoiceCreateTest extends \PHPUnit_Framework_TestCase
 {

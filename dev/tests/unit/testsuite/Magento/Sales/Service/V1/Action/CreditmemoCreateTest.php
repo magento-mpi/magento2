@@ -9,8 +9,6 @@ namespace Magento\Sales\Service\V1\Action;
 
 /**
  * Class CreditmemoCreateTest
- *
- * @package Magento\Sales\Service\V1\Action
  */
 class CreditmemoCreateTest extends \PHPUnit_Framework_TestCase
 {

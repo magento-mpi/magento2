@@ -9,8 +9,6 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
 /**
  * Class VoidTest
- *
- * @package Magento\Sales\Controller\Adminhtml\Order\Creditmemo
  */
 class VoidTest extends \PHPUnit_Framework_TestCase
 {

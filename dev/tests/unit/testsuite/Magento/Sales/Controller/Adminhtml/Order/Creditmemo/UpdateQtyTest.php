@@ -9,8 +9,6 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
 /**
  * Class UpdateQtyTest
- *
- * @package Magento\Sales\Controller\Adminhtml\Order\Creditmemo
  */
 class UpdateQtyTest extends \PHPUnit_Framework_TestCase
 {

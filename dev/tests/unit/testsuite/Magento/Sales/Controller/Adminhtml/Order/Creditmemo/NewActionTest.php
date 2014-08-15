@@ -5,67 +5,83 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
+/**
+ * Class NewActionTest
+ */
 class NewActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Controller\Adminhtml\Order\Creditmemo\NewAction
      */
     protected $controller;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\App\Action\Context
      */
     protected $contextMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader
      */
     protected $creditmemoLoaderMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\RequestInterface
      */
     protected $requestMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\ResponseInterface
      */
     protected $responseMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order\Creditmemo
      */
     protected $creditmemoMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order\Invoice
      */
     protected $invoiceMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Action\Title
      */
     protected $titleMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\ObjectManager
      */
     protected $objectManagerMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Session
      */
     protected $backendSessionMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\ViewInterface
      */
     protected $viewMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\LayoutInterface
      */
     protected $layoutMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Element\BlockInterface
      */
     protected $blockMenuMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Menu
      */
     protected $modelMenuMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Menu\Item
      */

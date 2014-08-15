@@ -13,6 +13,8 @@ use Magento\Sales\Service\V1\Action\OrderEmail;
 use Magento\Sales\Service\V1\Action\OrderHold;
 use Magento\Sales\Service\V1\Action\OrderUnHold;
 use Magento\Sales\Service\V1\Action\OrderStatusHistoryAdd;
+use Magento\Sales\Service\V1\Action\OrderCreate;
+use Magento\Sales\Service\V1\Data\Order;
 use Magento\Sales\Service\V1\Data\OrderAddress;
 use Magento\Sales\Service\V1\Data\OrderStatusHistory;
 
@@ -52,20 +54,19 @@ class OrderWrite implements OrderWriteInterface
     protected $orderStatusHistoryAdd;
 
     /**
-     * @param OrderAddressUpdate $orderAddressUpdate
-     * @param OrderCancel $orderCancel
-     * @param OrderEmail $orderEmail
-     * @param OrderHold $orderHold
-     * @param OrderUnHold $orderUnHold
-     * @param OrderStatusHistoryAdd $orderStatusHistoryAdd
+     * @var OrderCreate
      */
+    protected $orderCreate;
+
     public function __construct(
         OrderAddressUpdate $orderAddressUpdate,
         OrderCancel $orderCancel,
         OrderEmail $orderEmail,
         OrderHold $orderHold,
         OrderUnHold $orderUnHold,
-        OrderStatusHistoryAdd $orderStatusHistoryAdd
+        OrderStatusHistoryAdd $orderStatusHistoryAdd,
+        OrderCreate $orderCreate
+
     ) {
         $this->orderAddressUpdate = $orderAddressUpdate;
         $this->orderCancel = $orderCancel;
@@ -73,6 +74,7 @@ class OrderWrite implements OrderWriteInterface
         $this->orderHold = $orderHold;
         $this->orderUnHold = $orderUnHold;
         $this->orderStatusHistoryAdd = $orderStatusHistoryAdd;
+        $this->orderCreate = $orderCreate;
     }
 
     /**
@@ -131,5 +133,17 @@ class OrderWrite implements OrderWriteInterface
     public function statusHistoryAdd($id, OrderStatusHistory $statusHistory)
     {
         return $this->orderStatusHistoryAdd->invoke($id, $statusHistory);
+    }
+
+    /**
+     * Create an order
+     *
+     * @param Order $order
+     * @return bool
+     * @throws \Exception
+     */
+    public function create(Order $order)
+    {
+        return $this->orderCreate->invoke($order);
     }
 }

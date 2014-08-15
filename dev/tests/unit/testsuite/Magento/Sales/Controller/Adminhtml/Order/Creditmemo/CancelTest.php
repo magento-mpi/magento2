@@ -9,8 +9,6 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
 /**
  * Class CancelTest
- *
- * @package Magento\Sales\Controller\Adminhtml\Order\Creditmemo
  */
 class CancelTest extends \PHPUnit_Framework_TestCase
 {
