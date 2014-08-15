@@ -60,9 +60,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     public function toOptionArray($withEmpty = false)
     {
-        $options = $this->getPageLayouts();
-
-        foreach ($options as $value => $label) {
+        foreach ($this->getPageLayouts() as $value => $label) {
             $options[] = array('label' => $label, 'value' => $value);
         }
 
