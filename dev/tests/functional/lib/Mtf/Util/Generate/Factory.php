@@ -62,12 +62,4 @@ class Factory extends AbstractGenerate
 
         return $this->objectManager->get('Magento\Framework\App\ResponseInterface');
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
-    {
-        return false;
-    }
 }
