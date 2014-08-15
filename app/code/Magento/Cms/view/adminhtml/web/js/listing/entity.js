@@ -1,4 +1,7 @@
-define(['m2/listing'], function (Listing) {
+define(['m2/listing', 'jquery', 'mage/translate'], function (Listing, $) {
+
+  var t = $.mage.__;
+
   return Listing.extend({
 
     getSortableClassFor: function (heading) {
@@ -13,6 +16,6 @@ define(['m2/listing'], function (Listing) {
     updateAttributes: function () {
       alert('You want to update items with ids: ' + this.checkedIds());
     }
-    
+
   });
 });
