@@ -29,6 +29,7 @@ $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'is_returnable',
     array(
+        'group' => 'Autosettings',
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
