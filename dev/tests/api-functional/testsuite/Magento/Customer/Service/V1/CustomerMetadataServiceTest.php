@@ -122,16 +122,11 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAllCustomerAttributeMetadata'
+                'operation' => 'customerCustomerMetadataServiceV1GetAllAttributesMetadata'
             ]
         ];
 
-        $attributeMetadata = array_map(
-            function ($array) {
-                return $array;
-            },
-            $this->_webApiCall($serviceInfo)
-        );
+        $attributeMetadata = $this->_webApiCall($serviceInfo);
 
         $this->assertCount(23, $attributeMetadata);
 
@@ -156,12 +151,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             ]
         ];
 
-        $attributeMetadata = array_map(
-            function ($array) {
-                return $array;
-            },
-            $this->_webApiCall($serviceInfo)
-        );
+        $attributeMetadata = $this->_webApiCall($serviceInfo);
 
         //Default custom attribute code 'disable_auto_group_change'
         $this->assertCount(1, $attributeMetadata);

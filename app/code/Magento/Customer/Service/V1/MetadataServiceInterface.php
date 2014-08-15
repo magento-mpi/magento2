@@ -40,7 +40,10 @@ interface MetadataServiceInterface extends EavMetadataServiceInterface
     public function getAllAttributesMetadata();
 
     /**
-     * {@inheritdoc}
+     *  Get custom attribute metadata for the given Data object's attribute set
+     *
+     * @param string $dataObjectClassName Data object class name
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getCustomAttributesMetadata($dataObjectClassName = '');
 }
