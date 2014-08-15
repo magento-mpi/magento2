@@ -39,11 +39,8 @@ class ShipmentCreateTest extends WebapiAbstract
     {
         /** @var \Magento\Sales\Model\Order $order */
         $order = $this->objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
-        $items = [];
-        /** @var \Magento\Sales\Model\Order\Item $item */
-        foreach ($order->getAllItems() as $item) {
-            $items[] = ['entity_id' => $item->getEntityId(), 'qty' => $item->getQtyOrdered()];
-        }
+        $orderItem = current($order->getAllItems());
+        $items[] = ['order_item_id' => $orderItem->getId(), 'qty' => $orderItem->getQtyOrdered()];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
