@@ -1491,8 +1491,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Formats URL key
      *
-     * @TODO: UrlRewrite Move outta Catalog module
-     *
      * @param string $str URL
      * @return string
      */

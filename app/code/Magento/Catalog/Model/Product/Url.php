@@ -147,8 +147,6 @@ class Url extends \Magento\Framework\Object
     /**
      * Format Key for URL
      *
-     * @TODO: UrlRewrite Move outta Catalog module
-     *
      * @param string $str
      * @return string
      */

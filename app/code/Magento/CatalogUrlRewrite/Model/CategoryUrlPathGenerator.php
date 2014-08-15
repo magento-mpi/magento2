@@ -9,9 +9,6 @@ namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\Catalog\Model\Category;
 
-/**
- * @TODO: UrlRewrite: split this class by different responsibilities
- */
 class CategoryUrlPathGenerator
 {
     /**

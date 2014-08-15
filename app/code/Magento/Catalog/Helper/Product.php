@@ -15,9 +15,6 @@ use Magento\Store\Model\Store;
  */
 class Product extends \Magento\Core\Helper\Url
 {
-    /**
-     * @TODO: UrlRewrite: Move outta Catalog module
-     */
     const XML_PATH_PRODUCT_URL_USE_CATEGORY = 'catalog/seo/product_use_categories';
 
     const XML_PATH_USE_PRODUCT_CANONICAL_TAG = 'catalog/seo/product_canonical_tag';

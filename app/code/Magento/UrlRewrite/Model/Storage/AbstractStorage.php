@@ -9,7 +9,6 @@ namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Model\StorageInterface;
-// TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 use Magento\UrlRewrite\Service\V1\Data\Filter;
 

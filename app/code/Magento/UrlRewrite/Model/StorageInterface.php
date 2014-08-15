@@ -7,12 +7,8 @@
  */
 namespace Magento\UrlRewrite\Model;
 
-// TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRewrite\Service\V1\Data\Filter;
 
-/**
- * Url Storage Interface
- */
 interface StorageInterface
 {
     /**

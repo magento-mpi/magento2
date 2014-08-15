@@ -34,7 +34,6 @@ class ChildrenUrlRewriteGenerator
     public function generate($storeId, Category $category)
     {
         $urls = [];
-        //@TODO BUG getChildrenCategories() returns only categories with 'is_active' == 1
         foreach ($category->getChildrenCategories() as $childCategory) {
             $childCategory->setStoreId($storeId);
             $childCategory->setData('save_rewrites_history', $category->getData('save_rewrites_history'));

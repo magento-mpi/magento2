@@ -8,7 +8,6 @@
 namespace Magento\CatalogUrlRewrite\Model\Category\Plugin;
 
 use Magento\UrlRewrite\Model\StorageInterface;
-// TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRewrite\Model\UrlRewrite;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\Category\ProductFactory;

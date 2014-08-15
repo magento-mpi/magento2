@@ -7,9 +7,6 @@
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
-/**
- * @TODO: UrlRewrite: split this class by different responsibilities
- */
 class ProductUrlPathGenerator
 {
     const XML_PATH_PRODUCT_URL_SUFFIX = 'catalog/seo/product_url_suffix';

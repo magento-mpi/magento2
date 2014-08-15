@@ -574,8 +574,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Format URL key from name or defined key
      *
-     * @TODO: UrlRewrite Move outta Catalog module
-     *
      * @param string $str
      * @return string
      */
