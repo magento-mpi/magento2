@@ -47,8 +47,7 @@ class ReviewTest extends Functional
         //Steps & verifying
         $homePage->open();
 
-        $browser = $this->objectManager->create('Mtf\Client\Driver\Selenium\Browser');
-        $browser->open($_ENV['app_frontend_url'] . $productFixture->getUrlKey() . '.html');
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $productFixture->getUrlKey() . '.html');
         $this->verifyNoReviewOnPage($reviewsSummaryBlock);
         $reviewsSummaryBlock->getAddReviewLink()->click();
         $this->assertFalse($reviewsBlock->isVisibleReviewItem(), 'No reviews below the form required');

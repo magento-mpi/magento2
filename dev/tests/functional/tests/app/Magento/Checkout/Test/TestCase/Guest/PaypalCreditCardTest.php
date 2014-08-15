@@ -62,7 +62,7 @@ class PaypalCreditCardTest extends Functional
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
-        $formBlock = call_user_func_array(array($this, $formBlockFunction), array($checkoutOnePage));
+        $formBlock = call_user_func_array([$this, $formBlockFunction], [$checkoutOnePage]);
         $formBlock->fill($fixture->getCreditCard());
         $formBlock->pressContinue();
 
@@ -83,7 +83,7 @@ class PaypalCreditCardTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $this->assertContains(
             $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
@@ -109,12 +109,12 @@ class PaypalCreditCardTest extends Functional
      */
     public function dataProviderCheckout()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalAdvanced(),
-                  'getPayflowAdvancedCcBlock'),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalPayflowLink(),
-                  'getPayflowLinkCcBlock')
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalAdvanced(),
+                  'getPayflowAdvancedCcBlock'],
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalPayflowLink(),
+                  'getPayflowLinkCcBlock']
+        ];
     }
 
     /**

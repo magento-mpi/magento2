@@ -112,8 +112,7 @@ class EditSimpleProductTest extends Functional
      */
     protected function assertOnProductPage(SimpleProduct $productOld, SimpleProduct $productEdited)
     {
-        $browser = $this->objectManager->create('Mtf\Client\Driver\Selenium\Browser');
-        $browser->open($_ENV['app_frontend_url'] . $productOld->getUrlKey() . '.html');
+        Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $productOld->getUrlKey() . '.html');
         $productPage = Factory::getPageFactory()->getCatalogProductView();
 
         $productViewBlock = $productPage->getViewBlock();

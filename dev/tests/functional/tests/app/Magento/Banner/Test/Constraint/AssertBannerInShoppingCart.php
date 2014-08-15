@@ -65,7 +65,7 @@ class AssertBannerInShoppingCart extends AbstractConstraint
         $catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
         $pageCatalogProductView->getViewBlock()->clickAddToCartButton();
         \PHPUnit_Framework_Assert::assertTrue(
-            $pageCheckoutCart->getCartBlock()->checkWidgetBanners($banner),
+            $pageCheckoutCart->getBannerCartBlock()->checkWidgetBanners($banner),
             'Banner is absent on Shopping Cart'
         );
     }
