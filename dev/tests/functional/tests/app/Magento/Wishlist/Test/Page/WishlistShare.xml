@@ -10,7 +10,7 @@
 <page mca="wishlist/index/share" >
     <block>
         <name>sharingInfoForm</name>
-        <class>Magento\MultipleWishlist\Test\Block\Customer\Sharing</class>
+        <class>Magento\Wishlist\Test\Block\Customer\Sharing</class>
         <locator>.wishlist.share</locator>
         <strategy>css selector</strategy>
     </block>
