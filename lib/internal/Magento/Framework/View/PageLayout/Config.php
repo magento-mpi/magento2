@@ -45,12 +45,27 @@ class Config extends \Magento\Framework\Config\AbstractXml
     }
 
     /**
+     * Retrieve page layout options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->getPageLayouts();
+    }
+
+    /**
      * @param bool $withEmpty
      * @return array
      */
     public function toOptionArray($withEmpty = false)
     {
         $options = $this->getPageLayouts();
+
+        foreach ($options as $value => $label) {
+            $options[] = array('label' => $label, 'value' => $value);
+        }
+
         if ($withEmpty) {
             array_unshift($options, array('value' => '', 'label' => __('-- Please Select --')));
         }
@@ -69,7 +84,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
 
         /** @var \DOMElement $layout */
         foreach ($dom->getElementsByTagName('layout') as $layout) {
-            $result[] = ['value' => $layout->getAttribute('id'), 'label' => trim($layout->nodeValue)];
+            $result[$layout->getAttribute('id')] = trim($layout->nodeValue);
         }
         return $result;
     }

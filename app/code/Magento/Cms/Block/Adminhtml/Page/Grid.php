@@ -92,7 +92,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'header' => __('Layout'),
                 'index' => 'page_layout',
                 'type' => 'options',
-                'options' => $this->pageLayoutBuilder->getPageLayoutsConfig()->toOptionArray()
+                'options' => $this->pageLayoutBuilder->getPageLayoutsConfig()->getOptions()
             )
         );
 
