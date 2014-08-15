@@ -23,7 +23,7 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     /** @var \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator */
     protected $cmsPageUrlPathGenerator;
 
-    /** @var \Magento\CatalogUrlRewrite\Service\V1\UrlManager */
+    /** @var \Magento\UrlRewrite\Service\V1\UrlMatcherInterface */
     protected $urlMatcher;
 
     /**
@@ -31,14 +31,14 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
      * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator
-     * @param \Magento\CatalogUrlRewrite\Service\V1\UrlManager $urlMatcher
+     * @param \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator,
-        \Magento\CatalogUrlRewrite\Service\V1\UrlManager $urlMatcher
+        \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher
     ) {
         parent::__construct($context);
         $this->productUrlPathGenerator = $productUrlPathGenerator;
@@ -76,11 +76,11 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
             $model->setEntityId($isProduct ? $product->getId() : $category->getId());
             if ($model->isObjectNew()) {
                 if ($model->getRedirectType()) {
-                    $rewrite = $this->urlMatcher->findByFilter([
-                        'entity_id' => $model->getEntityId(),
-                        'entity_type' => $model->getEntityType(),
-                        'store_id'    => $model->getStoreId(),
-                    ]);
+                    $rewrite = $this->urlMatcher->findByEntity(
+                        $model->getEntityId(),
+                        $model->getEntityType(),
+                        $model->getStoreId()
+                    );
                     if (!$rewrite) {
                         if ($product) {
                             throw new Exception(
