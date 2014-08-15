@@ -7,299 +7,96 @@
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
+use Magento\Catalog\Model\Category;
 use Magento\Store\Model\Store;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class CategoryUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator */
-    protected $categoryUrlRewriteGenerator;
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $canonicalUrlRewriteGenerator;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $filter;
+    protected $currentUrlRewritesRegenerator;
 
-    /** @var \Magento\UrlRewrite\Service\V1\UrlMatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $urlMatcher;
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $childrenUrlRewriteGenerator;
+
+    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator */
+    protected $categoryUrlRewriteGenerator;
 
     /** @var \Magento\CatalogUrlRewrite\Service\V1\StoreViewService|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeViewService;
 
-    /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter|\PHPUnit_Framework_MockObject_MockObject */
-    protected $converter;
-
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator|\PHPUnit_Framework_MockObject_MockObject */
-    protected $categoryUrlPathGenerator;
-
     /** @var \Magento\Catalog\Model\Category|\PHPUnit_Framework_MockObject_MockObject */
     protected $category;
 
-    /** @var \Magento\Catalog\Model\Resource\Category\Collection|\PHPUnit_Framework_MockObject_MockObject */
-    protected $categoriesCollection;
-
     protected function setUp()
     {
-        $this->category = $this->getMockBuilder('Magento\Catalog\Model\Category')
-            ->disableOriginalConstructor()->getMock();
-        $this->categoriesCollection = $this->getMockBuilder('Magento\Catalog\Model\Resource\Category\Collection')
-            ->disableOriginalConstructor()->getMock();
-        $this->filter = $this->getMock('Magento\UrlRewrite\Service\V1\Data\Filter');
-        $this->filter->expects($this->any())->method('setStoreId')->will($this->returnSelf());
-        $this->filter->expects($this->any())->method('setEntityId')->will($this->returnSelf());
-        $filterFactory = $this->getMock('Magento\UrlRewrite\Service\V1\Data\FilterFactory', ['create']);
-        $filterFactory->expects($this->any())->method('create')->will($this->returnValue($this->filter));
-        $this->urlMatcher = $this->getMock('Magento\UrlRewrite\Service\V1\UrlMatcherInterface');
+        $this->currentUrlRewritesRegenerator = $this->getMockBuilder(
+            'Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewritesRegenerator'
+        )->disableOriginalConstructor()->getMock();
+        $this->canonicalUrlRewriteGenerator = $this->getMockBuilder(
+            'Magento\CatalogUrlRewrite\Model\Category\CanonicalUrlRewriteGenerator'
+        )->disableOriginalConstructor()->getMock();
+        $this->childrenUrlRewriteGenerator = $this->getMockBuilder(
+            'Magento\CatalogUrlRewrite\Model\Category\ChildrenUrlRewriteGenerator'
+        )->disableOriginalConstructor()->getMock();
         $this->storeViewService = $this->getMockBuilder('Magento\CatalogUrlRewrite\Service\V1\StoreViewService')
             ->disableOriginalConstructor()->getMock();
-        $this->converter = $this->getMockBuilder('Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter')
-            ->disableOriginalConstructor()->getMock();
-        $this->converter->expects($this->any())->method('convertArrayToObject')->will($this->returnArgument(0));
-        $this->categoryUrlPathGenerator = $this->getMockBuilder(
-            'Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator'
-        )->disableOriginalConstructor()->getMock();
+        $this->category = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
 
         $this->categoryUrlRewriteGenerator = (new ObjectManager($this))->getObject(
             'Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator',
             [
-                'filterFactory' => $filterFactory,
-                'urlMatcher' => $this->urlMatcher,
+                'canonicalUrlRewriteGenerator' => $this->canonicalUrlRewriteGenerator,
+                'childrenUrlRewriteGenerator' => $this->childrenUrlRewriteGenerator,
+                'currentUrlRewritesRegenerator' => $this->currentUrlRewritesRegenerator,
                 'storeViewService' => $this->storeViewService,
-                'converter' => $this->converter,
-                'categoryUrlPathGenerator' => $this->categoryUrlPathGenerator
             ]
         );
     }
 
-    /**
-     * @return array
-     */
-    public function globalScopeDataProvider()
+    public function testGenerationForGlobalScope()
     {
-        return [
-            [1, 'category.html', [
-                [
-                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                    'entity_id' => 1,
-                    'store_id' => 1,
-                    'request_path' => 'category.html',
-                    'target_path' => 'catalog/category/view/id/1',
-                    'redirect_type' => 0,
-                    'is_autogenerated' => true,
-                    'metadata' => null
-                ],
-                [
-                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                    'entity_id' => 1,
-                    'store_id' => 2,
-                    'request_path' => 'category.html',
-                    'target_path' => 'catalog/category/view/id/1',
-                    'redirect_type' => 0,
-                    'is_autogenerated' => true,
-                    'metadata' => null
-                ],
-            ]],
-        ];
-    }
-
-    /**
-     * @dataProvider globalScopeDataProvider
-     */
-    public function testGorGlobalScope($categoryId, $urlPath, $results)
-    {
-        $this->category->expects($this->once())->method('getStoreIds')->will($this->returnValue([0, 1, 2]));
-        $this->storeViewService->expects($this->exactly(2))->method('doesEntityHaveOverriddenUrlKeyForStore')
-            ->will($this->returnValue(false));
-        $canonicalUrlPath = 'catalog/category/view/id/' . $categoryId;
-        $this->category->expects($this->any())->method('getId')->will($this->returnValue($categoryId));
         $this->category->expects($this->any())->method('getStoreId')->will($this->returnValue(null));
-        $this->categoryUrlPathGenerator->expects($this->any())->method('getUrlPathWithSuffix')
-            ->will($this->returnValue($urlPath));
-        $this->categoryUrlPathGenerator->expects($this->any())->method('getCanonicalUrlPath')
-            ->with($this->category)->will($this->returnValue($canonicalUrlPath));
-        $this->urlMatcher->expects($this->any())->method('findAllByFilter')
-            ->will($this->returnValue([]));
-        $this->category->expects($this->any())->method('getData')->with('save_rewrites_history')
-            ->will($this->returnValue(true));
-        $this->category->expects($this->any())->method('getChildrenCategories')
-            ->will($this->returnValue($this->categoriesCollection));
-        $this->categoriesCollection->expects($this->any())->method('getIterator')
-            ->will($this->returnValue(new \ArrayIterator([])));
-
-        $this->assertEquals($results, $this->categoryUrlRewriteGenerator->generate($this->category));
-    }
-
-    /**
-     * @return array
-     */
-    public function urlRewritesDataProvider()
-    {
-        return require __DIR__ . '/_files/categoryUrlRewritesDataProvider.php';
-    }
-
-    /**
-     * @dataProvider urlRewritesDataProvider
-     */
-    public function testGeneratePerStoreView($storeId, $categoryId, $urlPath, $currentRewrites, $results)
-    {
-        $canonicalUrlPath = 'catalog/category/view/id/' . $categoryId;
-        $this->category->expects($this->any())->method('getId')->will($this->returnValue($categoryId));
-        $this->category->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
-        $this->categoryUrlPathGenerator->expects($this->any())->method('getUrlPathWithSuffix')
-            ->will($this->returnValue($urlPath));
-        $this->categoryUrlPathGenerator->expects($this->any())->method('getCanonicalUrlPath')
-            ->with($this->category)->will($this->returnValue($canonicalUrlPath));
-        $this->urlMatcher->expects($this->any())->method('findAllByFilter')
-            ->will($this->returnValue($this->buildCurrentRewrites($currentRewrites)));
-        $this->category->expects($this->any())->method('getData')->with('save_rewrites_history')
-            ->will($this->returnValue(true));
-        $this->category->expects($this->any())->method('getChildrenCategories')
-            ->will($this->returnValue($this->categoriesCollection));
-        $this->categoriesCollection->expects($this->any())->method('getIterator')
-            ->will($this->returnValue(new \ArrayIterator([])));
-
-        $this->assertEquals($results, $this->categoryUrlRewriteGenerator->generate($this->category));
-    }
-
-    public function testWithoutSaveRewriteHistory()
-    {
-        $categoryId = 123;
-        $storeId = 10;
-        $urlPath = 'category-path';
-        $canonicalUrlPath = 'catalog/category/view/id/' . $categoryId;
-        $results = [
-            [
-                'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                'entity_id' => $categoryId,
-                'store_id' => $storeId,
-                'request_path' => $urlPath,
-                'target_path' => $canonicalUrlPath,
-                'redirect_type' => 0,
-                'is_autogenerated' => true,
-                'metadata' => null
-            ],
-        ];
-        $this->category->expects($this->any())->method('getId')->will($this->returnValue($categoryId));
-        $this->category->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
-        $this->categoryUrlPathGenerator->expects($this->any())->method('getUrlPathWithSuffix')
-            ->will($this->returnValue($urlPath));
-        $this->categoryUrlPathGenerator->expects($this->any())->method('getCanonicalUrlPath')
-            ->with($this->category)->will($this->returnValue($canonicalUrlPath));
-        $this->urlMatcher->expects($this->any())->method('findAllByFilter')
-            ->will($this->returnValue([]));
-        $this->category->expects($this->any())->method('getData')->with('save_rewrites_history')
+        $this->category->expects($this->any())->method('getStoreIds')->will($this->returnValue([1]));
+        $this->storeViewService->expects($this->once())->method('doesEntityHaveOverriddenUrlKeyForStore')
             ->will($this->returnValue(false));
-        $this->category->expects($this->any())->method('getChildrenCategories')
-            ->will($this->returnValue($this->categoriesCollection));
-        $this->categoriesCollection->expects($this->any())->method('getIterator')
-            ->will($this->returnValue(new \ArrayIterator([])));
+        $this->canonicalUrlRewriteGenerator->expects($this->any())->method('generate')
+            ->will($this->returnValue(['canonical']));
+        $this->childrenUrlRewriteGenerator->expects($this->any())->method('generate')
+            ->will($this->returnValue(['children']));
+        $this->currentUrlRewritesRegenerator->expects($this->any())->method('generate')
+            ->will($this->returnValue(['current']));
 
-        $this->assertEquals($results, $this->categoryUrlRewriteGenerator->generate($this->category));
+        $this->assertEquals(
+            ['canonical', 'children', 'current'],
+            $this->categoryUrlRewriteGenerator->generate($this->category)
+        );
     }
 
-    /**
-     * @return array
-     */
-    public function generationWithChildrenDataProvider()
+    public function testGenerationForSpecificStore()
     {
-        return [
-            [1, 1, 2, 'category.html', 'category/category-2.html', [
-                [
-                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                    'entity_id' => 1,
-                    'store_id' => 1,
-                    'request_path' => 'category.html',
-                    'target_path' => 'catalog/category/view/id/1',
-                    'redirect_type' => 0,
-                    'is_autogenerated' => true,
-                    'metadata' => null
-                ],
-                [
-                    'entity_type' => CategoryUrlRewriteGenerator::ENTITY_TYPE,
-                    'entity_id' => 2,
-                    'store_id' => 1,
-                    'request_path' => 'category/category-2.html',
-                    'target_path' => 'catalog/category/view/id/2',
-                    'redirect_type' => 0,
-                    'is_autogenerated' => true,
-                    'metadata' => null
-                ],
-            ]],
-        ];
-    }
-
-    /**
-     * @dataProvider generationWithChildrenDataProvider
-     * @param int $storeId
-     * @param int $categoryId
-     * @param int $childCategoryId
-     * @param string $urlPath
-     * @param string $childUrlPath
-     * @param array $results
-     */
-    public function testGeneratePerStoreViewWithChildrenCategories(
-        $storeId,
-        $categoryId,
-        $childCategoryId,
-        $urlPath,
-        $childUrlPath,
-        $results
-    ) {
-        $this->category->expects($this->any())->method('getId')->will($this->returnValue($categoryId));
-        $this->category->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
-        $this->categoryUrlPathGenerator->expects($this->any())->method('getUrlPathWithSuffix')
-            ->will($this->returnCallback(
-                function ($category) use ($categoryId, $childCategoryId, $urlPath, $childUrlPath) {
-                    return $category->getId() == $categoryId
-                        ? $urlPath : ($category->getId() == $childCategoryId ? $childUrlPath : '');
-                }));
-        $this->categoryUrlPathGenerator->expects($this->any())->method('getCanonicalUrlPath')
-            ->will($this->returnCallback(
-                function ($category) use ($categoryId, $childCategoryId) {
-                    $path = 'catalog/category/view/id/';
-                    return $category->getId() == $categoryId
-                        ? $path . $categoryId
-                        : ($category->getId() == $childCategoryId ? $path . $childCategoryId : '');
-                }));
-        $this->urlMatcher->expects($this->any())->method('findAllByFilter')
+        $this->category->expects($this->any())->method('getStoreId')->will($this->returnValue(1));
+        $this->category->expects($this->never())->method('getStoreIds');
+        $this->canonicalUrlRewriteGenerator->expects($this->any())->method('generate')
+            ->will($this->returnValue(['canonical']));
+        $this->childrenUrlRewriteGenerator->expects($this->any())->method('generate')
             ->will($this->returnValue([]));
-        $this->category->expects($this->any())->method('getData')->with('save_rewrites_history')
-            ->will($this->returnValue(true));
-        $this->category->expects($this->any())->method('getChildrenCategories')
-            ->will($this->returnValue($this->categoriesCollection));
-        $childCategory = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
-        $childCategory->expects($this->any())->method('getId')->will($this->returnValue($childCategoryId));
-        $childCategory->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
-        $childCategoriesCollection = $this->getMockBuilder('Magento\Catalog\Model\Resource\Category\Collection')
-            ->disableOriginalConstructor()->getMock();
-        $childCategory->expects($this->any())->method('getChildrenCategories')
-            ->will($this->returnValue($childCategoriesCollection));
-        $childCategoriesCollection->expects($this->any())->method('getIterator')
-            ->will($this->returnValue(new \ArrayIterator([])));
-        $categoriesIterator = new \ArrayIterator([$childCategory]);
-        $this->categoriesCollection->expects($this->any())->method('getIterator')
-            ->will($this->returnValue($categoriesIterator));
+        $this->currentUrlRewritesRegenerator->expects($this->any())->method('generate')
+            ->will($this->returnValue([]));
 
-        $this->assertEquals($results, $this->categoryUrlRewriteGenerator->generate($this->category));
+        $this->assertEquals(['canonical'], $this->categoryUrlRewriteGenerator->generate($this->category));
     }
 
-    /**
-     * @param array $currentRewrites
-     * @return array
-     */
-    protected function buildCurrentRewrites($currentRewrites)
+    public function testSkipGenerationForGlobalScope()
     {
-        $rewrites = [];
-        if ($currentRewrites) {
-            foreach ($currentRewrites as $urlRewrite) {
-                /** @var \PHPUnit_Framework_MockObject_MockObject */
-                $url = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
-                foreach ($urlRewrite as $key => $value) {
-                    $url->expects($this->any())
-                        ->method('get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key))))
-                        ->will($this->returnValue($value));
-                }
-                $rewrites[] = $url;
-            }
-        }
-        return $rewrites;
+        $this->category->expects($this->any())->method('getStoreIds')->will($this->returnValue([1, 2]));
+        $this->storeViewService->expects($this->exactly(2))->method('doesEntityHaveOverriddenUrlKeyForStore')
+            ->will($this->returnValue(true));
+
+        $this->assertEquals([], $this->categoryUrlRewriteGenerator->generate($this->category));
     }
 }

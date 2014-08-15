@@ -15,7 +15,7 @@ use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
-class CurrentUrlRewriteGenerator
+class CurrentUrlRewritesRegenerator
 {
     /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
     protected $categoryUrlPathGenerator;
@@ -51,7 +51,7 @@ class CurrentUrlRewriteGenerator
     }
 
     /**
-     * Generate list based on current url rewrites view
+     * Generate list based on current url rewrites
      *
      * @param int $storeId
      * @param \Magento\Catalog\Model\Category $category

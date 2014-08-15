@@ -5,24 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogUrlRewrite\Model\Product;
+namespace Magento\CatalogUrlRewrite\Model\Category;
 
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 
 class CanonicalUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator */
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\CanonicalUrlRewriteGenerator */
     protected $canonicalUrlRewriteGenerator;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator|\PHPUnit_Framework_MockObject_MockObject */
-    protected $productUrlPathGenerator;
+    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator|\PHPUnit_Framework_MockObject_MockObject */
+    protected $categoryUrlPathGenerator;
 
-    /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject */
-    protected $product;
-
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryRegistry|\PHPUnit_Framework_MockObject_MockObject */
-    protected $categoryRegistry;
+    /** @var \Magento\Catalog\Model\Category|\PHPUnit_Framework_MockObject_MockObject */
+    protected $category;
 
     /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $urlRewriteBuilder;
@@ -36,17 +33,15 @@ class CanonicalUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $this->urlRewrite = $this->getMockBuilder('Magento\UrlRewrite\Service\V1\Data\UrlRewrite')
             ->disableOriginalConstructor()->getMock();
-        $this->product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+        $this->category = $this->getMockBuilder('Magento\Catalog\Model\Category')
             ->disableOriginalConstructor()->getMock();
-        $this->categoryRegistry = $this->getMockBuilder('\Magento\CatalogUrlRewrite\Model\CategoryRegistry')
-            ->disableOriginalConstructor()->getMock();
-        $this->productUrlPathGenerator = $this->getMockBuilder(
-            'Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator'
+        $this->categoryUrlPathGenerator = $this->getMockBuilder(
+            'Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator'
         )->disableOriginalConstructor()->getMock();
         $this->canonicalUrlRewriteGenerator = (new ObjectManager($this))->getObject(
-            'Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator',
+            'Magento\CatalogUrlRewrite\Model\Category\CanonicalUrlRewriteGenerator',
             [
-                'productUrlPathGenerator' => $this->productUrlPathGenerator,
+                'categoryUrlPathGenerator' => $this->categoryUrlPathGenerator,
                 'urlRewriteBuilder' => $this->urlRewriteBuilder
             ]
         );
@@ -54,34 +49,30 @@ class CanonicalUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerate()
     {
-        $requestPath = 'simple-product.html';
-        $storeId = 10;
-        $productId = 'product_id';
-        $targetPath = 'catalog/product/view/id/' . $productId;
+        $requestPath = 'category.html';
+        $targetPath = 'target-path';
+        $storeId = 'store_id';
+        $categoryId = 'category_id';
 
-        $this->product->expects($this->any())->method('getId')->will($this->returnValue($productId));
-        $this->productUrlPathGenerator->expects($this->any())->method('getUrlPathWithSuffix')
+        $this->category->expects($this->any())->method('getId')->will($this->returnValue($categoryId));
+        $this->categoryUrlPathGenerator->expects($this->any())->method('getUrlPathWithSuffix')
             ->will($this->returnValue($requestPath));
-        $this->productUrlPathGenerator->expects($this->any())->method('getCanonicalUrlPath')
+        $this->categoryUrlPathGenerator->expects($this->any())->method('getCanonicalUrlPath')
             ->will($this->returnValue($targetPath));
-        $this->categoryRegistry->expects($this->any())->method('getList')->will($this->returnValue([]));
-
         $this->urlRewriteBuilder->expects($this->any())->method('setStoreId')->with($storeId)
             ->will($this->returnSelf());
-        $this->urlRewriteBuilder->expects($this->any())->method('setEntityId')->with($productId)
+        $this->urlRewriteBuilder->expects($this->any())->method('setEntityId')->with($categoryId)
             ->will($this->returnSelf());
         $this->urlRewriteBuilder->expects($this->any())->method('setEntityType')
-            ->with(ProductUrlRewriteGenerator::ENTITY_TYPE)->will($this->returnSelf());
+            ->with(CategoryUrlRewriteGenerator::ENTITY_TYPE)->will($this->returnSelf());
         $this->urlRewriteBuilder->expects($this->any())->method('setRequestPath')->with($requestPath)
             ->will($this->returnSelf());
         $this->urlRewriteBuilder->expects($this->any())->method('setTargetPath')->with($targetPath)
             ->will($this->returnSelf());
         $this->urlRewriteBuilder->expects($this->any())->method('create')->will($this->returnValue($this->urlRewrite));
         $this->assertEquals(
-            [
-                $this->urlRewrite,
-            ],
-            $this->canonicalUrlRewriteGenerator->generate($storeId, $this->product)
+            [$this->urlRewrite],
+            $this->canonicalUrlRewriteGenerator->generate($storeId, $this->category)
         );
     }
 }

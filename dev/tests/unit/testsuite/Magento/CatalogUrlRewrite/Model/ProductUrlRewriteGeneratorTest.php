@@ -18,7 +18,7 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
     protected $canonicalUrlRewriteGenerator;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $currentUrlRewriteGenerator;
+    protected $currentUrlRewritesRegenerator;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $categoriesUrlRewriteGenerator;
@@ -37,8 +37,8 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->currentUrlRewriteGenerator = $this->getMockBuilder(
-            'Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewriteGenerator'
+        $this->currentUrlRewritesRegenerator = $this->getMockBuilder(
+            'Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator'
         )->disableOriginalConstructor()->getMock();
         $this->canonicalUrlRewriteGenerator = $this->getMockBuilder(
             'Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator'
@@ -61,7 +61,7 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
             [
                 'canonicalUrlRewriteGenerator' => $this->canonicalUrlRewriteGenerator,
                 'categoriesUrlRewriteGenerator' => $this->categoriesUrlRewriteGenerator,
-                'currentUrlRewriteGenerator' => $this->currentUrlRewriteGenerator,
+                'currentUrlRewritesRegenerator' => $this->currentUrlRewritesRegenerator,
                 'categoryRegistryFactory' => $categoryRegistryFactory,
                 'storeViewService' => $this->storeViewService,
             ]
@@ -78,7 +78,7 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(['canonical']));
         $this->categoriesUrlRewriteGenerator->expects($this->any())->method('generate')
             ->will($this->returnValue(['categories']));
-        $this->currentUrlRewriteGenerator->expects($this->any())->method('generate')
+        $this->currentUrlRewritesRegenerator->expects($this->any())->method('generate')
             ->will($this->returnValue(['current']));
 
         $this->assertEquals(
@@ -95,7 +95,7 @@ class ProductUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(['canonical']));
         $this->categoriesUrlRewriteGenerator->expects($this->any())->method('generate')
             ->will($this->returnValue([]));
-        $this->currentUrlRewriteGenerator->expects($this->any())->method('generate')
+        $this->currentUrlRewritesRegenerator->expects($this->any())->method('generate')
             ->will($this->returnValue([]));
 
         $this->assertEquals(['canonical'], $this->productUrlRewriteGenerator->generate($this->product));

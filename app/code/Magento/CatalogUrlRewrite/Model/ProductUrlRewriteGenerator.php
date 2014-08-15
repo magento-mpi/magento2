@@ -9,7 +9,7 @@ namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\Catalog\Model\Product;
 use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
-use Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator;
 use Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator;
 use Magento\Store\Model\Store;
@@ -27,8 +27,8 @@ class ProductUrlRewriteGenerator
     /** @var \Magento\Catalog\Model\Product */
     protected $product;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewriteGenerator */
-    protected $currentUrlRewriteGenerator;
+    /** @var \Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator */
+    protected $currentUrlRewritesRegenerator;
 
     /** @var \Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator */
     protected $categoriesUrlRewriteGenerator;
@@ -44,20 +44,20 @@ class ProductUrlRewriteGenerator
 
     /**
      * @param \Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator
-     * @param \Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewriteGenerator $currentUrlRewriteGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator $currentUrlRewritesRegenerator
      * @param \Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator $categoriesUrlRewriteGenerator
      * @param \Magento\CatalogUrlRewrite\Model\CategoryRegistryFactory $categoryRegistryFactory
      * @param \Magento\CatalogUrlRewrite\Service\V1\StoreViewService $storeViewService
      */
     public function __construct(
         CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator,
-        CurrentUrlRewriteGenerator $currentUrlRewriteGenerator,
+        CurrentUrlRewritesRegenerator $currentUrlRewritesRegenerator,
         CategoriesUrlRewriteGenerator $categoriesUrlRewriteGenerator,
         CategoryRegistryFactory $categoryRegistryFactory,
         StoreViewService $storeViewService
     ) {
         $this->canonicalUrlRewriteGenerator = $canonicalUrlRewriteGenerator;
-        $this->currentUrlRewriteGenerator = $currentUrlRewriteGenerator;
+        $this->currentUrlRewritesRegenerator = $currentUrlRewritesRegenerator;
         $this->categoriesUrlRewriteGenerator = $categoriesUrlRewriteGenerator;
         $this->categoryRegistryFactory = $categoryRegistryFactory;
         $this->storeViewService = $storeViewService;
@@ -123,7 +123,7 @@ class ProductUrlRewriteGenerator
         return array_merge(
             $this->canonicalUrlRewriteGenerator->generate($storeId, $this->product),
             $this->categoriesUrlRewriteGenerator->generate($storeId, $this->product, $this->categoryRegistry),
-            $this->currentUrlRewriteGenerator->generate($storeId, $this->product, $this->categoryRegistry)
+            $this->currentUrlRewritesRegenerator->generate($storeId, $this->product, $this->categoryRegistry)
         );
     }
 }

@@ -19,7 +19,7 @@ class ProductUrlPathGenerator
      *
      * @var array
      */
-    protected $productUrlSuffix = array();
+    protected $productUrlSuffix = [];
 
     /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $storeManager;

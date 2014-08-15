@@ -29,7 +29,7 @@ class CategoryUrlPathGenerator
      *
      * @var array
      */
-    protected $categoryUrlSuffix = array();
+    protected $categoryUrlSuffix = [];
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $scopeConfig;

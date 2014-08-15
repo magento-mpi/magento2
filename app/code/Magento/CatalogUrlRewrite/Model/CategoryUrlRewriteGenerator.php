@@ -11,7 +11,7 @@ use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 use Magento\Store\Model\Store;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogUrlRewrite\Model\Category\CanonicalUrlRewriteGenerator;
-use Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewritesRegenerator;
 use Magento\CatalogUrlRewrite\Model\Category\ChildrenUrlRewriteGenerator;
 
 class CategoryUrlRewriteGenerator
@@ -28,28 +28,28 @@ class CategoryUrlRewriteGenerator
     /** @var \Magento\CatalogUrlRewrite\Model\Category\CanonicalUrlRewriteGenerator */
     protected $canonicalUrlRewriteGenerator;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewriteGenerator */
-    protected $currentUrlRewriteGenerator;
+    /** @var \Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewritesRegenerator */
+    protected $currentUrlRewritesRegenerator;
 
     /** @var \Magento\CatalogUrlRewrite\Model\Category\ChildrenUrlRewriteGenerator */
     protected $childrenUrlRewriteGenerator;
 
     /**
      * @param \Magento\CatalogUrlRewrite\Model\Category\CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator
-     * @param \Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewriteGenerator $currentUrlRewriteGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\Category\CurrentUrlRewritesRegenerator $currentUrlRewritesRegenerator
      * @param \Magento\CatalogUrlRewrite\Model\Category\ChildrenUrlRewriteGenerator $childrenUrlRewriteGenerator
      * @param \Magento\CatalogUrlRewrite\Service\V1\StoreViewService $storeViewService
      */
     public function __construct(
         CanonicalUrlRewriteGenerator $canonicalUrlRewriteGenerator,
-        CurrentUrlRewriteGenerator $currentUrlRewriteGenerator,
+        CurrentUrlRewritesRegenerator $currentUrlRewritesRegenerator,
         ChildrenUrlRewriteGenerator $childrenUrlRewriteGenerator,
         StoreViewService $storeViewService
     ) {
         $this->storeViewService = $storeViewService;
         $this->canonicalUrlRewriteGenerator = $canonicalUrlRewriteGenerator;
         $this->childrenUrlRewriteGenerator = $childrenUrlRewriteGenerator;
-        $this->currentUrlRewriteGenerator = $currentUrlRewriteGenerator;
+        $this->currentUrlRewritesRegenerator = $currentUrlRewritesRegenerator;
     }
 
     /**
@@ -109,7 +109,7 @@ class CategoryUrlRewriteGenerator
         $urls = array_merge(
             $this->canonicalUrlRewriteGenerator->generate($storeId, $this->category),
             $this->childrenUrlRewriteGenerator->generate($storeId, $this->category),
-            $this->currentUrlRewriteGenerator->generate($storeId, $this->category)
+            $this->currentUrlRewritesRegenerator->generate($storeId, $this->category)
         );
         return $urls;
     }
