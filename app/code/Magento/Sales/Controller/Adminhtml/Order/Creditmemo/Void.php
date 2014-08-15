@@ -52,13 +52,10 @@ class Void extends \Magento\Backend\App\Action
         if ($creditmemo) {
             try {
                 $creditmemo->void();
-                $transactionSave = $this->_objectManager->create(
-                    'Magento\Framework\DB\Transaction'
-                )->addObject(
-                    $creditmemo
-                )->addObject(
-                    $creditmemo->getOrder()
-                );
+                $transactionSave = $this->_objectManager->create('Magento\Framework\DB\Transaction');
+                $transactionSave->addObject($creditmemo);
+                $transactionSave->addObject($creditmemo->getOrder());
+
                 if ($creditmemo->getInvoice()) {
                     $transactionSave->addObject($creditmemo->getInvoice());
                 }
