@@ -42,7 +42,7 @@ class ReadServiceTest extends WebapiAbstract
 
         $data = [
             Address::KEY_COUNTRY_ID => $address->getCountryId(),
-            Address::KEY_ID => (string)$address->getId(),
+            Address::KEY_ID => $address->getId(),
             Address::KEY_CUSTOMER_ID => $address->getCustomerId(),
             Address::KEY_REGION => array(
                 Region::KEY_REGION => $address->getRegion(),
