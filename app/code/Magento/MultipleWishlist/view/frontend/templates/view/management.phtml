@@ -14,7 +14,7 @@
 
         <div class="wishlist-select">
             <span class="wishlist-name" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#wishlists-select", "selectorsToggleClass": "active"}}' >
-                <span class="wishlist-name-label"><?php echo __('Wish List'); ?></span>
+                <span class="wishlist-name-label"><?php echo __('Wish List');?></span>
                 <span class="wishlist-name-current">
                     <?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?>
                 </span>
@@ -45,12 +45,12 @@
 
         <div class="wishlist-info">
             <?php if ($this->getCurrentWishlist()->getVisibility()): ?>
-                <div class="wishlist-notice public"><?php echo __('Public Wish List'); ?></div>
+                <div class="wishlist-notice public"><?php echo __('Public Wish List');?></div>
             <?php else: ?>
                 <div class="wishlist-notice private"><?php echo __('Private Wish List');?></div>
             <?php endif; ?>
             <span class="counter qty">
-                <?php echo $this->getItemCount($this->getCurrentWishlist()); ?>
+                <?php echo $this->getItemCount($this->getCurrentWishlist());?>
             </span>
         </div>
 
@@ -70,7 +70,7 @@
                             <?php endif; ?>
                         <?php endforeach;?>
                         <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
-                            <li class="item"><span class="action new" data-wishlist-move-selected='{"new":true}' title="<?php echo __('Create New Wish List')?>" ><span><?php echo __('Create New Wish List')?></span></span></li>
+                            <li class="item"><span class="action new" data-wishlist-move-selected='{"new":true}' title="<?php echo __('Create New Wish List');?>" ><span><?php echo __('Create New Wish List');?></span></span></li>
                         <?php endif;?>
                     </ul>
                 </div>

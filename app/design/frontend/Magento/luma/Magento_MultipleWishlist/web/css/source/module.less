@@ -162,7 +162,6 @@
         }
         &-add.item {
             .action {
-                //&:extend(.abstract-action-button-as-link all);
             }
         }
         // Wish list name
@@ -254,7 +253,7 @@
                         a {
                             display: block;
                             padding: 5px 18px 5px 18px;
-                           .css(color, @text-color);
+                            .css(color, @text-color);
                             text-decoration: none;
                             &:hover {
                                 .css(background, @account-nav-background);
@@ -284,7 +283,6 @@
             }
             // Wish list toolbar
             &-toolbar {
-
                 &-select,
                 &-actions {
                     margin-bottom: 15px;
@@ -357,9 +355,6 @@
                         display: inline-block;
                         margin-right: 10px;
                         padding: 5px 10px 10px;
-                        a,
-                        .action {
-                        }
                     }
                     .current {
                         font-weight: @font-weight-semibold;
@@ -406,6 +401,18 @@
             }
             // Wish list toolbar actions
             &-dropdown.move {
+            }
+        }
+    }
+    .products-grid.wishlist {
+        .product {
+            &-item {
+                &-checkbox {
+                    float: left;
+                    + .product-item-name {
+                        margin-left: 25px;
+                    }
+                }
             }
         }
     }

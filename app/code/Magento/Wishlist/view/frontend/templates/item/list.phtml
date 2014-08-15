@@ -12,22 +12,22 @@ $columns = $this->getColumns();
 ?>
 
 <div class="products-grid wishlist">
+    <?php $iterator = 1; ?>
+    <?php if (count($this->getItems())): ?>
     <ol class="product-items">
-        <?php $iterator = 1; ?>
-        <?php if (count($this->getItems())): ?>
-            <?php foreach ($this->getItems() as $item): ?>
-            <?php echo ($iterator++==1) ? '<li class="product-item" id="item_<?php echo $item->getId();?>">' : '</li><li class="product-item" id="item_<?php echo $item->getId();?>">' ?>
-                <div class="product-item-info">
-                    <?php foreach ($columns as $column): ?>
-                        <?php $column->setItem($item); echo $column->toHtml($item);?>
-                    <?php endforeach; ?>
-                </div>
-            <?php echo ($iterator==count($this->getItems())+1) ? '</li>' : '' ?>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <?php echo __('This Wish List has no Items');?>
-        <?php endif; ?>
+        <?php foreach ($this->getItems() as $item): ?>
+        <?php echo ($iterator++==1) ? '<li class="product-item" id="item_<?php echo $item->getId();?>">' : '</li><li class="product-item" id="item_<?php echo $item->getId();?>">' ?>
+            <div class="product-item-info">
+                <?php foreach ($columns as $column): ?>
+                    <?php $column->setItem($item); echo $column->toHtml($item);?>
+                <?php endforeach; ?>
+            </div>
+        <?php echo ($iterator==count($this->getItems())+1) ? '</li>' : '' ?>
+        <?php endforeach; ?>
     </ol>
+    <?php else: ?>
+        <div class="message info empty"><span><?php echo __('This Wish List has no Items');?></span></div>
+    <?php endif; ?>
 </div>
 
 <?php foreach ($columns as $column): ?>
