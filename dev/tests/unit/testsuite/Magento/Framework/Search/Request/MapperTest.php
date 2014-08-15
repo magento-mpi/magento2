@@ -116,6 +116,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => []
             ]
         );
@@ -164,6 +165,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => []
             ]
         );
@@ -194,6 +196,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => []
             ]
         );
@@ -242,6 +245,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => []
             ]
         );
@@ -266,6 +270,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => []
             ]
         );
@@ -313,6 +318,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => []
             ]
         );
@@ -336,6 +342,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => []
             ]
         );
@@ -419,6 +426,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => $filters
             ]
         );
@@ -485,6 +493,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => $filters
             ]
         );
@@ -571,6 +580,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => $filters
             ]
         );
@@ -644,6 +654,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => $filters
             ]
         );
@@ -684,7 +695,8 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                             ]
                         ]
                     ]
-                ]
+                ],
+                'aggregation' => [],
             ]
         );
 
@@ -721,6 +733,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'objectManager' => $this->objectManager,
                 'queries' => $queries,
                 'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [],
                 'filters' => $filters
             ]
         );
@@ -874,5 +887,143 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ];
+    }
+
+    public function testGetBucketsTermBucket()
+    {
+        $queries = [
+            self::ROOT_QUERY => [
+                'type' => QueryInterface::TYPE_MATCH,
+                'name' => 'someName',
+                'match' => 'someMatches'
+            ]
+        ];
+
+        $bucket = [
+            "name" => "category_bucket",
+            "field" => "category",
+            "metric" => [
+                ["type" => "sum"],
+                ["type" => "count"],
+                ["type" => "min"],
+                ["type" => "max"]
+            ],
+            "type" => "termBucket",
+        ];
+        $metricClass = 'Magento\Framework\Search\Request\Aggregation\Metric';
+        $bucketClass = 'Magento\Framework\Search\Request\Aggregation\TermBucket';
+        $queryClass = 'Magento\Framework\Search\Request\Query\Match';
+        $queryArguments = [
+            'name' => $queries[self::ROOT_QUERY]['name'],
+            'boost' => 1,
+            'matches' => $queries[self::ROOT_QUERY]['match']
+        ];
+        $arguments = [
+            'name' => $bucket['name'],
+            'field' => $bucket['field'],
+            'metrics' => [null, null, null, null],
+        ];
+        $this->objectManager->expects($this->any())->method('create')
+            ->withConsecutive(
+                [$this->equalTo($queryClass), $this->equalTo($queryArguments)],
+                [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][0]['type']])],
+                [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][1]['type']])],
+                [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][2]['type']])],
+                [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][3]['type']])],
+                [$this->equalTo($bucketClass), $this->equalTo($arguments)]
+            )
+            ->will($this->returnValue(null));
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [$bucket]
+            ]
+        );
+        $mapper->getBuckets();
+    }
+
+    public function testGetBucketsRangeBucket()
+    {
+        $queries = [
+            self::ROOT_QUERY => [
+                'type' => QueryInterface::TYPE_MATCH,
+                'name' => 'someName',
+                'match' => 'someMatches'
+            ]
+        ];
+
+        $bucket = [
+            "name" => "price_bucket",
+            "field" => "price",
+            "metric" => [
+                ["type" => "sum"],
+                ["type" => "count"],
+                ["type" => "min"],
+                ["type" => "max"]
+            ],
+            "range" => [
+                ["from" => "", "to" => "50"],
+                ["from" => "50", "to" => "100"],
+                ["from" => "100", "to" => ""],
+            ],
+            "type" => "rangeBucket",
+        ];
+        $metricClass = 'Magento\Framework\Search\Request\Aggregation\Metric';
+        $bucketClass = 'Magento\Framework\Search\Request\Aggregation\RangeBucket';
+        $rangeClass = 'Magento\Framework\Search\Request\Aggregation\Range';
+        $queryClass = 'Magento\Framework\Search\Request\Query\Match';
+        $queryArguments = [
+            'name' => $queries[self::ROOT_QUERY]['name'],
+            'boost' => 1,
+            'matches' => $queries[self::ROOT_QUERY]['match']
+        ];
+        $arguments = [
+            'name' => $bucket['name'],
+            'field' => $bucket['field'],
+            'metrics' => [null, null, null, null],
+            'ranges' => [null, null, null],
+        ];
+        $this->objectManager->expects($this->any())->method('create')
+            ->withConsecutive(
+                [$this->equalTo($queryClass), $this->equalTo($queryArguments)],
+                [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][0]['type']])],
+                [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][1]['type']])],
+                [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][2]['type']])],
+                [$this->equalTo($metricClass), $this->equalTo(['type' => $bucket['metric'][3]['type']])],
+                [
+                    $this->equalTo($rangeClass),
+                    $this->equalTo(['from' => $bucket['range'][0]['from'], 'to' => $bucket['range'][0]['to']])
+                ],
+                [
+                    $this->equalTo($rangeClass),
+                    $this->equalTo(['from' => $bucket['range'][1]['from'], 'to' => $bucket['range'][1]['to']])
+                ],
+                [
+                    $this->equalTo($rangeClass),
+                    $this->equalTo(['from' => $bucket['range'][2]['from'], 'to' => $bucket['range'][2]['to']])
+                ],
+                [
+                    $this->equalTo($bucketClass),
+                    $this->equalTo($arguments)
+                ]
+            )
+            ->will($this->returnValue(null));
+
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = $this->helper->getObject(
+            'Magento\Framework\Search\Request\Mapper',
+            [
+                'objectManager' => $this->objectManager,
+                'queries' => $queries,
+                'rootQueryName' => self::ROOT_QUERY,
+                'aggregation' => [$bucket]
+            ]
+        );
+        $mapper->getBuckets();
     }
 }

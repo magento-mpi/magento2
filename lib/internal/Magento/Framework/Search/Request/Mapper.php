@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\Search\Request;
 
-use Magento\Framework\Exception\StateException;
 use Magento\Framework\Search\Request\Query\Filter;
+use Magento\Framework\Exception\StateException;
 
 class Mapper
 {
@@ -33,6 +33,11 @@ class Mapper
     private $mappedFilters;
 
     /**
+     * @var array
+     */
+    private $aggregation;
+
+    /**
      * @var \Magento\Framework\ObjectManager
      */
     private $objectManager;
@@ -46,6 +51,7 @@ class Mapper
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param array $queries
      * @param string $rootQueryName
+     * @param array $aggregation
      * @param array $filters
      * @throws \Exception
      * @throws \InvalidArgumentException
@@ -55,10 +61,12 @@ class Mapper
         \Magento\Framework\ObjectManager $objectManager,
         array $queries,
         $rootQueryName,
+        array $aggregation,
         array $filters = []
     ) {
         $this->objectManager = $objectManager;
         $this->queries = $queries;
+        $this->aggregation = $aggregation;
         $this->filters = $filters;
 
         $this->rootQuery = $this->get($rootQueryName);
@@ -189,6 +197,7 @@ class Mapper
      * Convert array to Filter instance
      *
      * @param string $filterName
+     * @throws \Exception
      * @return FilterInterface
      * @throws \Exception
      * @throws \InvalidArgumentException
@@ -284,5 +293,86 @@ class Mapper
         if (!empty($notUsedElements)) {
             throw new StateException($errorMessage, [$notUsedElements]);
         }
+    }
+
+    /**
+     * Build BucketInterface[] from array
+     *
+     * @return array
+     * @throws StateException
+     */
+    public function getBuckets()
+    {
+        $buckets = array();
+        foreach ($this->aggregation as $bucketData) {
+            $arguments =
+            [
+                'name' => $bucketData['name'],
+                'field' => $bucketData['field'],
+                'metrics' => $this->mapMetrics($bucketData['metric'])
+            ];
+            switch ($bucketData['type']) {
+                case BucketInterface::TYPE_TERM:
+                    $bucket = $this->objectManager->create(
+                        'Magento\Framework\Search\Request\Aggregation\TermBucket',
+                        $arguments
+                    );
+                    break;
+                case BucketInterface::TYPE_RANGE:
+                    $bucket = $this->objectManager->create(
+                        'Magento\Framework\Search\Request\Aggregation\RangeBucket',
+                        array_merge(
+                            $arguments,
+                            ['ranges' => $this->mapRanges($bucketData['range'])]
+                        )
+                    );
+                    break;
+                default:
+                    throw new StateException('Invalid bucket type');
+            }
+            $buckets[] = $bucket;
+        }
+        return $buckets;
+    }
+
+    /**
+     * Build Metric[] from array
+     *
+     * @param array $metrics
+     * @return array
+     */
+    private function mapMetrics(array $metrics)
+    {
+        $metricObjects = array();
+        foreach ($metrics as $metric) {
+            $metricObjects[] = $this->objectManager->create(
+                'Magento\Framework\Search\Request\Aggregation\Metric',
+                [
+                    'type' => $metric['type']
+                ]
+            );
+        }
+        return $metricObjects;
+    }
+
+    /**
+     * Build Range[] from array
+     *
+     * @param array $ranges
+     * @return array
+     */
+    private function mapRanges(array $ranges)
+    {
+        $rangeObjects = array();
+        foreach ($ranges as $range) {
+            $rangeObjects[] = $this->objectManager->create(
+                'Magento\Framework\Search\Request\Aggregation\Range',
+                [
+                    'from' => $range['from'],
+                    'to' => $range['to']
+                ]
+            );
+        }
+        return $rangeObjects;
     }
 }

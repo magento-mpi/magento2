@@ -7,6 +7,12 @@
  */
 return [
     "suggested_search_container" => [
+        "dimensions" => [
+            "scope" => [
+                "name" => "scope",
+                "value" => "default"
+            ]
+        ],
         "queries" => [
             "suggested_search_container" => [
                 "name" => "suggested_search_container",
@@ -76,6 +82,60 @@ return [
                 "field" => "price_name",
                 "value" => "\$name",
                 "type" => "termFilter"
+            ]
+        ],
+        "aggregation" => [
+            "category_bucket" => [
+                "name" => "category_bucket",
+                "field" => "category",
+                "metric" => [
+                    [
+                        "type" => "sum",
+                    ],
+                    [
+                        "type" => "count",
+                    ],
+                    [
+                        "type" => "min",
+                    ],
+                    [
+                        "type" => "max",
+                    ]
+                ],
+                "type" => "termBucket",
+            ],
+            "price_bucket" => [
+                "name" => "price_bucket",
+                "field" => "price",
+                "metric" => [
+                    [
+                        "type" => "sum",
+                    ],
+                    [
+                        "type" => "count",
+                    ],
+                    [
+                        "type" => "min",
+                    ],
+                    [
+                        "type" => "max",
+                    ]
+                ],
+                "range" => [
+                    [
+                        "from" => "",
+                        "to" => "50",
+                    ],
+                    [
+                        "from" => "50",
+                        "to" => "100",
+                    ],
+                    [
+                        "from" => "100",
+                        "to" => "",
+                    ],
+                ],
+                "type" => "rangeBucket",
             ]
         ],
         "from" => "10",

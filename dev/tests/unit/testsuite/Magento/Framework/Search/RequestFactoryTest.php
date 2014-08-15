@@ -56,9 +56,13 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             'queries' => ':str',
             'filters' => 'f',
             'query' => 'q',
+            'aggregation' => 'a',
             'index' => 'i',
-            'from' => 1,
-            'size' => 15
+            'from' => '1',
+            'size' => '15',
+            'demensions' => [
+                'name' => ['name' =>'', 'value' => '']
+            ]
         ];
         $mappedQuery = $configData['query'] . 'Mapped';
         $this->config->expects($this->once())->method('get')->with($this->equalTo($requestName))
@@ -66,7 +70,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Search\Request\Mapper|\PHPUnit_Framework_MockObject_MockObject $mapper */
         $mapper = $this->getMockBuilder('Magento\Framework\Search\Request\Mapper')
-            ->setMethods(['getRootQuery'])
+            ->setMethods(['getRootQuery', 'getBuckets'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -83,12 +87,31 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
                         'objectManager' => $this->objectManager,
                         'queries' => $bindValues[':str'],
                         'rootQueryName' => $configData['query'],
+                        'aggregation' => $configData['aggregation'],
                         'filters' => $configData['filters']
                     ]
                 )
             )
             ->will($this->returnValue($mapper));
+
+        /** @var \Magento\Framework\Search\Request\Dimension|\PHPUnit_Framework_MockObject_MockObject $dimension */
+        $dimension = $this->getMockBuilder('Magento\Framework\Search\Request\Dimension')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->objectManager->expects($this->at(1))->method('create')
+            ->with(
+                $this->equalTo('Magento\Framework\Search\Request\Dimension'),
+                $this->equalTo(
+                    [
+                        'name' => '',
+                        'value' => '',
+                    ]
+                )
+            )
+            ->will($this->returnValue($dimension));
+
+        $this->objectManager->expects($this->at(2))->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\Search\Request'),
                 $this->equalTo(
@@ -98,6 +121,9 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
                         'from' => $configData['from'],
                         'size' => $configData['size'],
                         'query' => $mappedQuery,
+                        'demensions' => [
+                            'name' => $dimension
+                        ],
                         'buckets' => [],
                     ]
                 )
@@ -106,6 +132,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 
         $mapper->expects($this->once())->method('getRootQuery')
             ->will($this->returnValue($mappedQuery));
+        $mapper->expects($this->once())->method('getBuckets')->will($this->returnValue([]));
 
         $this->assertEquals($request, $this->factory->create($requestName, $bindValues));
     }

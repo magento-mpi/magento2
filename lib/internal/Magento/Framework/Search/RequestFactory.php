@@ -87,6 +87,7 @@ class RequestFactory
                 'objectManager' => $this->objectManager,
                 'rootQueryName' => $data['query'],
                 'queries' => $data['queries'],
+                'aggregation' => $data['aggregation'],
                 'filters' => $data['filters']
             ]
         );
@@ -98,7 +99,16 @@ class RequestFactory
                 'from' => $data['from'],
                 'size' => $data['size'],
                 'query' => $mapper->getRootQuery(),
-                'buckets' => [],
+                'demensions' => array_map(
+                    function ($data) {
+                        return $this->objectManager->create(
+                            'Magento\Framework\Search\Request\Dimension',
+                            $data
+                        );
+                    },
+                    isset($data['demensions']) ? $data['demensions'] : []
+                ),
+                'buckets' => $mapper->getBuckets()
             ]
         );
     }
