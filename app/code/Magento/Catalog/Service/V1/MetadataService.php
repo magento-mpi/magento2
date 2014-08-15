@@ -127,11 +127,6 @@ class MetadataService implements MetadataServiceInterface
         );
         $attributeCollection->addFieldToFilter('entity_type_code', ['eq' => $entityType]);
         $attributeCollection->join(
-            ['eav_entity_attribute' => $attributeCollection->getTable('eav_entity_attribute')],
-            'main_table.attribute_id = eav_entity_attribute.attribute_id',
-            ['attribute_set_id']
-        );
-        $attributeCollection->join(
             array('additional_table' => $attributeCollection->getTable('catalog_eav_attribute')),
             'main_table.attribute_id = additional_table.attribute_id',
             []
@@ -146,8 +141,6 @@ class MetadataService implements MetadataServiceInterface
                 $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
             );
         }
-        // Group attributes by id to prevent duplicates with different attribute sets
-        $attributeCollection->addAttributeGrouping();
 
         $totalCount = $attributeCollection->getSize();
 
