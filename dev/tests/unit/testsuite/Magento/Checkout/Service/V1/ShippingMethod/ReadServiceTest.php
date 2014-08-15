@@ -74,6 +74,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 'isVirtual',
                 'getItemsCount',
                 'getQuoteCurrencyCode',
+                '__wakeup',
             ],
             [],
             '',
