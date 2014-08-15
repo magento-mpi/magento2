@@ -180,7 +180,7 @@ class Renderer extends \Magento\Framework\View\Element\Template
     {
         $item = $this->getItem();
         if ($item instanceof QuoteItem) {
-            return $item->getQuote()->getStore()->formatPrice($price);
+            return $item->getStore()->formatPrice($price);
         } elseif ($item instanceof OrderItem) {
             return $item->getOrder()->formatPrice($price);
         } else {

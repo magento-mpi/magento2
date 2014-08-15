@@ -143,14 +143,7 @@ class Renderer extends \Magento\Backend\Block\Template
      */
     public function formatPrice($price)
     {
-        $item = $this->getItem();
-        if ($item instanceof QuoteItem) {
-            return $item->getStore()->formatPrice($price);
-        } elseif ($item instanceof Item) {
-            return $item->getOrder()->formatPrice($price);
-        } else {
-            return $item->getOrderItem()->getOrder()->formatPrice($price);
-        }
+        return $this->itemPriceRenderer->formatPrice($price);
     }
 
     /**
