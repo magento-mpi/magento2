@@ -23,11 +23,11 @@
         <area>adminhtml</area>
         <class>Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit</class>
     </catalogProductEdit>
-    <catalogProductViewPage>
+    <catalogProductView>
         <mca>catalog/product/view</mca>
         <area>product</area>
         <class>Magento\Catalog\Test\Page\Product\CatalogProductView</class>
-    </catalogProductViewPage>
+    </catalogProductView>
     <catalogCategoryView>
         <mca>catalog/category/view</mca>
         <area>category</area>

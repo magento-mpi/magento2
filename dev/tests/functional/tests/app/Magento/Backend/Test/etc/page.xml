@@ -13,19 +13,19 @@
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\SystemConfig</class>
     </systemConfig>
-    <systemStoreIndex>
+    <storeIndex>
         <mca>admin/system_store</mca>
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\StoreIndex</class>
-    </systemStoreIndex>
-    <systemStoreNew>
+    </storeIndex>
+    <storeNew>
         <mca>admin/system_store/newStore</mca>
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\StoreNew</class>
-    </systemStoreNew>
-    <systemStoreDelete>
+    </storeNew>
+    <storeDelete>
         <mca>admin/system_store/deleteStore</mca>
         <area>adminhtml</area>
         <class>Magento\Backend\Test\Page\Adminhtml\StoreDelete</class>
-    </systemStoreDelete>
+    </storeDelete>
 </page>

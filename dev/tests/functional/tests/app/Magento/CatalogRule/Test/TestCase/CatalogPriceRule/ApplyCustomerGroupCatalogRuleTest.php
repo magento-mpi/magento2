@@ -203,7 +203,6 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // Verify category detail page price
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         Factory::getClientBrowser()->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
-        $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
         $productPriceBlock = $productViewBlock->getProductPriceBlock();
         $this->assertContains(
