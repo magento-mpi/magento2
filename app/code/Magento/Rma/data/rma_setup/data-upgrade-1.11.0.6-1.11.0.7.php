@@ -18,7 +18,6 @@ $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'is_returnable',
     array(
-        'group' => 'General',
         'frontend' => '',
         'label' => 'Enable RMA',
         'input' => 'select',
