@@ -13,17 +13,19 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     {
         $config = include __DIR__ . '/../_files/search_request_config.php';
         $request = reset($config);
-        $mapper = $this->object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
+        $mapper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create(
-                '\Magento\Framework\Search\Request\Mapper',
+                'Magento\Framework\Search\Request\Mapper',
                 [
                     'queries' => $request['queries'],
+                    'rootQueryName' => 'suggested_search_container',
                     'filters' => $request['filters'],
                 ]
             );
         $this->assertInstanceOf(
             '\Magento\Framework\Search\Request\QueryInterface',
-            $mapper->get('suggested_search_container')
+            $mapper->getRootQuery()
         );
     }
 }

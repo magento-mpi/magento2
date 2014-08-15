@@ -23,15 +23,6 @@ return [
                 ],
                 "type" => "boolQuery"
             ],
-            "fulltext_search_query1" => [
-                "name" => "fulltext_search_query1",
-                "queryReference" => [
-                    [
-                        "ref" => "fulltext_search_query"
-                    ]
-                ],
-                "type" => "filteredQuery"
-            ],
             "fulltext_search_query" => [
                 "name" => "fulltext_search_query",
                 "boost" => "5",

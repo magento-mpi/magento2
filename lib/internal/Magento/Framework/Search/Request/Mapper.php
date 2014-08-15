@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Search\Request;
 
+use Magento\Framework\Exception\StateException;
 use Magento\Framework\Search\Request\Query\Filter;
 
 class Mapper
@@ -22,23 +23,53 @@ class Mapper
     private $filters;
 
     /**
+     * @var string[]
+     */
+    private $mappedQueries;
+
+    /**
+     * @var string[]
+     */
+    private $mappedFilters;
+
+    /**
      * @var \Magento\Framework\ObjectManager
      */
     private $objectManager;
 
     /**
+     * @var QueryInterface
+     */
+    private $rootQuery = null;
+
+    /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param array $queries
+     * @param string $rootQueryName
      * @param array $filters
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @throws StateException
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
         array $queries,
-        array $filters = null
+        $rootQueryName,
+        array $filters = []
     ) {
         $this->objectManager = $objectManager;
         $this->queries = $queries;
         $this->filters = $filters;
+
+        $this->rootQuery = $this->get($rootQueryName);
+    }
+
+    /**
+     * @return QueryInterface
+     */
+    public function getRootQuery()
+    {
+        return $this->rootQuery;
     }
 
     /**
@@ -46,24 +77,36 @@ class Mapper
      *
      * @param string $queryName
      * @return QueryInterface
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @throws StateException
      */
-    public function get($queryName)
+    private function get($queryName)
     {
-        return $this->mapQuery($queryName);
+        $this->mappedQueries = [];
+        $this->mappedFilters = [];
+        $query = $this->mapQuery($queryName);
+        $this->validate();
+        return $query;
     }
 
     /**
      * Convert array to Query instance
      *
      * @param string $queryName
-     * @throws \Exception
      * @return QueryInterface
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @throws StateException
      */
     private function mapQuery($queryName)
     {
         if (!isset($this->queries[$queryName])) {
             throw new \Exception('Query ' . $queryName . ' does not exist');
+        } elseif (in_array($queryName, $this->mappedQueries)) {
+            throw new StateException('Cycle found. Query %1 already used in request hierarchy', [$queryName]);
         }
+        $this->mappedQueries[] = $queryName;
         $query = $this->queries[$queryName];
         switch ($query['type']) {
             case QueryInterface::TYPE_MATCH:
@@ -146,14 +189,19 @@ class Mapper
      * Convert array to Filter instance
      *
      * @param string $filterName
-     * @throws \Exception
      * @return FilterInterface
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     * @throws StateException
      */
     private function mapFilter($filterName)
     {
         if (!isset($this->filters[$filterName])) {
             throw new \Exception('Filter ' . $filterName . ' does not exist');
+        } elseif (in_array($filterName, $this->mappedFilters)) {
+            throw new StateException('Cycle found. Filter %1 already used in request hierarchy', [$filterName]);
         }
+        $this->mappedFilters[] = $filterName;
         $filter = $this->filters[$filterName];
         switch ($filter['type']) {
             case FilterInterface::TYPE_TERM:
@@ -192,5 +240,49 @@ class Mapper
                 throw new \InvalidArgumentException('Invalid filter type');
         }
         return $filter;
+    }
+
+    /**
+     * @return void
+     * @throws StateException
+     */
+    private function validate()
+    {
+        $this->validateQueries();
+        $this->validateFilters();
+    }
+
+    /**
+     * @return void
+     * @throws StateException
+     */
+    private function validateQueries()
+    {
+        $this->validateNotUsed($this->queries, $this->mappedQueries, 'Query %1 not used in request hierarchy');
+    }
+
+    /**
+     * @return void
+     * @throws StateException
+     */
+    private function validateFilters()
+    {
+        $this->validateNotUsed($this->filters, $this->mappedFilters, 'Filter %1 not used in request hierarchy');
+    }
+
+    /**
+     * @param array $elements
+     * @param string[] $mappedElements
+     * @param string $errorMessage
+     * @return void
+     * @throws \Magento\Framework\Exception\StateException
+     */
+    private function validateNotUsed($elements, $mappedElements, $errorMessage)
+    {
+        $allElements = array_keys($elements);
+        $notUsedElements = implode(', ', array_diff($allElements, $mappedElements));
+        if (!empty($notUsedElements)) {
+            throw new StateException($errorMessage, [$notUsedElements]);
+        }
     }
 }

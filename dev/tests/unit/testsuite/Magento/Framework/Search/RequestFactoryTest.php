@@ -40,7 +40,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->factory = $helper->getObject(
-            '\Magento\Framework\Search\RequestFactory',
+            'Magento\Framework\Search\RequestFactory',
             [
                 'objectManager' => $this->objectManager,
                 'config' => $this->config
@@ -66,6 +66,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Search\Request\Mapper|\PHPUnit_Framework_MockObject_MockObject $mapper */
         $mapper = $this->getMockBuilder('Magento\Framework\Search\Request\Mapper')
+            ->setMethods(['getRootQuery'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -81,6 +82,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
                     [
                         'objectManager' => $this->objectManager,
                         'queries' => $bindValues[':str'],
+                        'rootQueryName' => $configData['query'],
                         'filters' => $configData['filters']
                     ]
                 )
@@ -102,7 +104,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($request));
 
-        $mapper->expects($this->once())->method('get')->with($this->equalTo($configData['query']))
+        $mapper->expects($this->once())->method('getRootQuery')
             ->will($this->returnValue($mappedQuery));
 
         $this->assertEquals($request, $this->factory->create($requestName, $bindValues));

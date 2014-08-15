@@ -80,10 +80,12 @@ class RequestFactory
      */
     private function convert($data)
     {
+        /** @var \Magento\Framework\Search\Request\Mapper $mapper */
         $mapper = $this->objectManager->create(
             'Magento\Framework\Search\Request\Mapper',
             [
                 'objectManager' => $this->objectManager,
+                'rootQueryName' => $data['query'],
                 'queries' => $data['queries'],
                 'filters' => $data['filters']
             ]
@@ -95,7 +97,7 @@ class RequestFactory
                 'indexName' => $data['index'],
                 'from' => $data['from'],
                 'size' => $data['size'],
-                'query' => $mapper->get($data['query']),
+                'query' => $mapper->getRootQuery(),
                 'buckets' => [],
             ]
         );
