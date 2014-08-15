@@ -34,6 +34,7 @@ class Logging
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event|false
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchCmsHierachyView($config, $eventModel)
     {
@@ -46,6 +47,7 @@ class Logging
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event|false
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchCmsRevisionPreview($config, $eventModel)
     {
@@ -58,6 +60,7 @@ class Logging
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event|false
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchCmsRevisionPublish($config, $eventModel)
     {

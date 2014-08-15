@@ -152,6 +152,7 @@ class Processor
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
      */
     public function __construct(
         \Magento\Logging\Model\Config $config,

@@ -22,7 +22,8 @@ class Logging
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      */
-    public function __construct(\Magento\Framework\App\RequestInterface $request) {
+    public function __construct(\Magento\Framework\App\RequestInterface $request)
+    {
         $this->request = $request;
     }
 
@@ -33,6 +34,7 @@ class Logging
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {
@@ -48,6 +50,7 @@ class Logging
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchShare($config, $eventModel, $processor)
     {

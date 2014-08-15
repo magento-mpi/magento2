@@ -72,6 +72,7 @@ class Logging
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
