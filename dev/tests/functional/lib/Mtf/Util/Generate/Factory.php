@@ -17,7 +17,7 @@ use Magento\Framework\App;
  *
  * @deprecated
  */
-class Factory extends AbstractGenerate
+class Factory extends AbstractGenerate implements \Magento\Framework\AppInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager
