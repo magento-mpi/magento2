@@ -38,7 +38,7 @@ class Body extends AbstractBlock
     /**
      * Add body class to page configuration api
      *
-     * @param $bodyClass
+     * @param string $bodyClass
      * @return $this
      */
     public function addBodyClass($bodyClass)
