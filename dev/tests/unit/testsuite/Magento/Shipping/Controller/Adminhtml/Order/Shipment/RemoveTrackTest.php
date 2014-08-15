@@ -226,7 +226,7 @@ class RemoveTrackTest extends \PHPUnit_Framework_TestCase
 
         $layoutMock = $this->getMock('Magento\Framework\View\Layout', ['getBlock'], [], '', false);
         $trackingBlockMock = $this->getMock(
-            'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Tracking',
+            'Magento\Shipping\Block\Adminhtml\Order\Tracking',
             ['toHtml'],
             [],
             '',
