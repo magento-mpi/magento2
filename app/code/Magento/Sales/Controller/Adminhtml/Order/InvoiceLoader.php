@@ -16,16 +16,27 @@ class InvoiceLoader
      * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
-
     /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
-
     /**
      * @var \Magento\Framework\Registry
      */
     protected $registry;
+
+    /**
+     * @var int
+     */
+    protected $orderId;
+    /**
+     * @var int
+     */
+    protected $invoiceId;
+    /**
+     * @var array
+     */
+    protected $invoiceItems;
 
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
@@ -43,8 +54,57 @@ class InvoiceLoader
     }
 
     /**
-     * Load invoice
+     * Set corresponding order Id
      *
+     * @param $orderId
+     * @return $this
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+        return $this;
+    }
+
+    /**
+     * Set corresponding invoice Id
+     *
+     * @param $invoiceId
+     * @return $this
+     */
+    public function setInvoiceId($invoiceId)
+    {
+        $this->invoiceId = $invoiceId;
+        return $this;
+    }
+
+    /**
+     * Linear array of order items for invoice:
+     *      [
+     *          orderItemId => qtyInvoicedItems
+     *      ]
+     * @param $invoiceItems
+     * @return $this
+     */
+    public function setInvoiceItems($invoiceItems)
+    {
+        $this->invoiceItems = $invoiceItems;
+        return $this;
+    }
+
+    /**
+     * Create invoice
+     *
+     * @return bool|\Magento\Sales\Model\Order\Invoice
+     * @throws \Exception
+     */
+    public function create()
+    {
+        return $this->load($this->orderId, $this->invoiceId, $this->invoiceItems);
+    }
+
+    /**
+     * Load invoice
+     * @deprecated
      * @param int $orderId
      * @param null|int $invoiceId
      * @param array $invoiceItems

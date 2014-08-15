@@ -33,10 +33,15 @@ class InvoiceConverter
      */
     public function getModel(Invoice $dataObject)
     {
-        return $this->invoiceLoader->load(
-            $dataObject->getOrderId(),
-            $dataObject->getEntityId(),
-            $dataObject->getItems()
-        );
+        $items = [];
+        /** @var InvoiceItem $item */
+        foreach ($dataObject->getItems() as $item) {
+            $items[$item->getEntityId()] = $item->getQty();
+        }
+        return $this->invoiceLoader
+            ->setOrderId($dataObject->getOrderId())
+            ->setInvoiceId($dataObject->getEntityId())
+            ->setInvoiceItems($items)
+            ->create();
     }
 }
