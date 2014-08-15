@@ -15,6 +15,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
 use Magento\Integration\Model\Oauth\Token as Token;
 use Magento\User\Model\User as UserModel;
+use Magento\Integration\Model\Resource\Oauth\Token\Collection as TokenCollection;
 
 /**
  * Class to handle token generation for Admins and Customers
@@ -43,20 +44,30 @@ class TokenService implements TokenServiceInterface
     private $customerAccountService;
 
     /**
+     * Token Collection
+     *
+     * @var $tokenModelCollection
+     */
+    public $tokenModelCollection;
+
+    /**
      * Initialize service
      *
      * @param TokenModelFactory $tokenModelFactory
      * @param UserModel $userModel
      * @param CustomerAccountService $customerAccountService
+     * @param TokenCollection $tokenModelCollection
      */
     public function __construct(
         TokenModelFactory $tokenModelFactory,
         UserModel $userModel,
-        CustomerAccountService $customerAccountService
+        CustomerAccountService $customerAccountService,
+        TokenCollection $tokenModelCollection
     ) {
         $this->tokenModelFactory = $tokenModelFactory;
         $this->userModel = $userModel;
         $this->customerAccountService = $customerAccountService;
+        $this->tokenModelCollection = $tokenModelCollection;
     }
 
     /**
@@ -92,12 +103,14 @@ class TokenService implements TokenServiceInterface
      */
     public function revokeAdminAccessToken($adminId)
     {
-        $token = $this->tokenModelFactory->create()->loadByAdminId($adminId);
-        if (!$token->getToken()) {
+        $tokenCollection = $this->tokenModelCollection->addFilterByAdminId($adminId);
+        if ($tokenCollection->getSize() == 0) {
             throw new LocalizedException("This user has no tokens.");
         }
         try {
-            $token->setRevoked(1)->save();
+            foreach ($tokenCollection as $token) {
+                $token->setRevoked(1)->save();
+            }
         } catch (\Exception $e) {
             throw new LocalizedException("The tokens could not be revoked.");
         }
@@ -123,12 +136,14 @@ class TokenService implements TokenServiceInterface
      */
     public function revokeCustomerAccessToken($customerId)
     {
-        $token = $this->tokenModelFactory->create()->loadByCustomerId($customerId);
-        if (!$token->getToken()) {
+        $tokenCollection = $this->tokenModelCollection->addFilterByCustomerId($customerId);
+        if ($tokenCollection->getSize() == 0) {
             throw new LocalizedException("This customer has no tokens.");
         }
         try {
-            $token->setRevoked(1)->save();
+            foreach ($tokenCollection as $token) {
+                $token->setRevoked(1)->save();
+            }
         } catch (\Exception $e) {
             throw new LocalizedException("The tokens could not be revoked.");
         }
