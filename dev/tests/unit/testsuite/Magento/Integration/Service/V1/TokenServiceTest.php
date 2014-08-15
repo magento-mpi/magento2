@@ -72,11 +72,11 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Token  does not exist.
+     * @expectedExceptionMessage Token does not exist.
      */
     public function testRevokeCustomerAccessTokenWithoutCustomerId()
     {
-        $this->_tokenMock->expects($this->exactly(2))->method('getToken')->will($this->returnValue(''));
+        $this->_tokenMock->expects($this->any())->method('getToken')->will($this->returnValue(''));
         $this->_tokenMock->expects($this->once())->method('loadByCustomerId')->will($this->returnValue($this->_tokenMock));
         $this->_tokenMock->expects($this->never())->method('save');
         $this->_tokenMock->expects($this->never())->method('setRevoked')->will($this->returnValue($this->_tokenMock));
@@ -85,7 +85,7 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Token test could not be revoked.
+     * @expectedExceptionMessage Token could not be revoked.
      */
     public function testRevokeCustomerAccessTokenCannotRevoked()
     {
