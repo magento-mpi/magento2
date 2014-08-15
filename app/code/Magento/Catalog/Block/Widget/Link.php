@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Block\Widget;
 
-use Magento\CatalogUrlRewrite\Service\V1\UrlManager;
+use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 
 class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
@@ -38,25 +38,34 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
     protected $_anchorText;
 
     /**
-     * Url matcher
+     * Url matcher for category
      *
-     * @var UrlManager
+     * @var UrlMatcherInterface
      */
-    protected $urlMatcher;
+    protected $urlCategoryMatcher;
+
+    /**
+     * Url matcher for product
+     *
+     * @var UrlMatcherInterface
+     */
+    protected $urlProductMatcher;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param UrlManager $urlMatcher
+     * @param UrlMatcherInterface $urlMatcher
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         /** @TODO: UrlRewrite: Build product URL inside particular category */
-        UrlManager $urlMatcher,
+        UrlMatcherInterface $urlCategoryMatcher,
+        UrlMatcherInterface $urlProductMatcher,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->urlMatcher = $urlMatcher;
+        $this->urlCategoryMatcher = $urlCategoryMatcher;
+        $this->urlProductMatcher = $urlProductMatcher;
     }
 
     /**
@@ -85,9 +94,12 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
             if (!empty($rewriteData[2])) {
                 $filterData['category_id'] = $rewriteData[2];
             }
+            if ($rewriteData[0] == 'product') {
+                $rewrite = $this->urlProductMatcher->findByData($filterData);
+            } else {
+                $rewrite = $this->urlCategoryMatcher->findByData($filterData);
+            }
 
-            /** @TODO: UrlRewrite: Build product URL inside particular category */
-            $rewrite = $this->urlMatcher->findByFilter($filterData);
 
             if ($rewrite) {
                 $href = $store->getUrl('', ['_direct' => $rewrite->getRequestPath()]);

@@ -8,7 +8,7 @@
 namespace Magento\UrlRewrite\Model;
 
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
-use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
+use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 /**
  * Url Storage Interface
@@ -18,18 +18,18 @@ interface StorageInterface
     /**
      * Find all rows by specific filter
      *
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
-    public function findAllByFilter(FilterInterface $filter);
+    public function findAllByFilter(Filter $filter);
 
     /**
      * Find row by specific filter
      *
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite
      */
-    public function findByFilter(FilterInterface $filter);
+    public function findByFilter(Filter $filter);
 
     /**
      * Add multiple urls to storage
@@ -43,8 +43,16 @@ interface StorageInterface
     /**
      * Delete data from storage by specific filter
      *
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @return void
      */
-    public function deleteByFilter(FilterInterface $filter);
+    public function deleteByFilter(Filter $filter);
+
+    /**
+     * Find row by specific data
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function findByData(array $data);
 }

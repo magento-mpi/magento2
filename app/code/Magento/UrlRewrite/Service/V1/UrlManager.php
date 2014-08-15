@@ -7,8 +7,7 @@
  */
 namespace Magento\UrlRewrite\Service\V1;
 
-use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
-use Magento\UrlRewrite\Service\V1\Data\FilterDataInterface;
+use Magento\UrlRewrite\Service\V1\Data\Filter;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\StorageInterface;
@@ -69,7 +68,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     public function match($requestPath, $storeId)
     {
-        /** @var FilterDataInterface $filter */
+        /** @var Filter $filter */
         $filter = $this->filterFactory->create();
         $filter->setRequestPath($requestPath)->setStoreId($storeId);
 
@@ -81,7 +80,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     public function findByEntity($entityId, $entityType, $storeId = 0)
     {
-        /** @var FilterDataInterface $filter */
+        /** @var Filter $filter */
         $filter = $this->filterFactory->create();
         $filter->setEntityId($entityId)->setEntityType($entityType)->setStoreId($storeId);
 
@@ -91,7 +90,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     /**
      * {@inheritdoc}
      */
-    public function findByFilter(FilterInterface $filter)
+    public function findByFilter(Filter $filter)
     {
         return $this->storage->findByFilter($filter);
     }
@@ -99,7 +98,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     /**
      * {@inheritdoc}
      */
-    public function findAllByFilter(FilterInterface $filter)
+    public function findAllByFilter(Filter $filter)
     {
         return $this->storage->findAllByFilter($filter);
     }
@@ -108,7 +107,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      * Get filter for url rows deletion due to provided urls
      *
      * @param UrlRewrite[] $urls
-     * @return FilterInterface
+     * @return Filter
      */
     protected function createFilterBasedOnUrls($urls)
     {
@@ -124,5 +123,16 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
             }
         }
         return $this->filterFactory->create(['filterData' => $filterData]);
+    }
+
+    /**
+     * Find row by specific data
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function findByData(array $data)
+    {
+        return $this->storage->findByData($data);
     }
 }

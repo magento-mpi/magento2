@@ -7,7 +7,7 @@
  */
 namespace Magento\UrlRewrite\Service\V1;
 
-use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
+use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 /**
  * Url Matcher Interface
@@ -36,16 +36,24 @@ interface UrlMatcherInterface
     /**
      * Find row by specific filter
      *
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite|null
      */
-    public function findByFilter(FilterInterface $filter);
+    public function findByFilter(Filter $filter);
 
     /**
      * Find rows by specific filter
      *
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @return \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[]
      */
-    public function findAllByFilter(FilterInterface $filter);
+    public function findAllByFilter(Filter $filter);
+
+    /**
+     * Find row by specific data
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function findByData(array $data);
 }

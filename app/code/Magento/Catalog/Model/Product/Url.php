@@ -70,7 +70,7 @@ class Url extends \Magento\Framework\Object
         \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
-        \Magento\CatalogUrlRewrite\Service\V1\UrlManager $urlMatcher,
+        \Magento\UrlRewrite\Service\V1\UrlMatcherInterface $urlMatcher,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -190,7 +190,7 @@ class Url extends \Magento\Framework\Object
                 if ($categoryId) {
                     $filterData['category_id'] = $categoryId;
                 }
-                $rewrite = $this->urlMatcher->findByFilter($filterData);
+                $rewrite = $this->urlMatcher->findByData($filterData);
                 if ($rewrite) {
                     $requestPath = $rewrite->getRequestPath();
                     $product->setRequestPath($requestPath);

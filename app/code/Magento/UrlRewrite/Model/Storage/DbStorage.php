@@ -10,8 +10,7 @@ namespace Magento\UrlRewrite\Model\Storage;
 use Magento\Framework\App\Resource;
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
-use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
-use Magento\UrlRewrite\Model\Resource\Storage\DbStorage as DbStorageResource;
+use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 class DbStorage extends AbstractStorage
 {
@@ -50,7 +49,7 @@ class DbStorage extends AbstractStorage
     /**
      * Prepare select statement for specific filter
      *
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @return \Magento\Framework\DB\Select
      */
     protected function prepareSelect($filter)
@@ -100,7 +99,7 @@ class DbStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function deleteByFilter(FilterInterface $filter)
+    public function deleteByFilter(Filter $filter)
     {
         $this->connection->query(
             $this->prepareSelect($filter)->deleteFromSelect($this->resource->getTableName(self::TABLE_NAME))

@@ -8,39 +8,19 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <virtualType name="catalogUrlRewriteFilter" type="Magento\CatalogUrlRewrite\Service\V1\Data\Filter\DefaultFilter">
+    <type name="Magento\Catalog\Block\Widget\Link">
         <arguments>
-            <argument name="possibleFields" xsi:type="array">
-                <item name="entity_id" xsi:type="string">entity_id</item>
-                <item name="entity_type" xsi:type="string">entity_type</item>
-                <item name="store_id" xsi:type="string">store_id</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="productUrlRewriteFilter" type="Magento\CatalogUrlRewrite\Service\V1\Data\Filter\DefaultFilter">
-        <arguments>
-            <argument name="possibleFields" xsi:type="array">
-                <item name="entity_id" xsi:type="string">entity_id</item>
-                <item name="entity_type" xsi:type="string">entity_type</item>
-                <item name="store_id" xsi:type="string">store_id</item>
-                <item name="category_id" xsi:type="string">category_id</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <type name="Magento\CatalogUrlRewrite\Service\V1\Data\FilterFactory">
-        <arguments>
-            <argument name="filterClasses" xsi:type="array">
-                <item name="category" xsi:type="string">catalogUrlRewriteFilter</item>
-                <item name="product" xsi:type="string">productUrlRewriteFilter</item>
-            </argument>
+            <argument name="urlProductMatcher" xsi:type="object">Magento\CatalogUrlRewrite\Service\V1\ProductUrlManager</argument>
         </arguments>
     </type>
-    <type name="Magento\CatalogUrlRewrite\Service\V1\UrlManager\ResolverUrlManager">
+    <type name="Magento\Catalog\Model\Product\Url">
         <arguments>
-            <argument name="managerClasses" xsi:type="array">
-                <item name="product" xsi:type="string">Magento\CatalogUrlRewrite\Service\V1\UrlManager\ProductUrlManager</item>
-                <item name="category" xsi:type="string">Magento\UrlRewrite\Service\V1\UrlManager</item>
-            </argument>
+            <argument name="urlMatcher" xsi:type="object">Magento\CatalogUrlRewrite\Service\V1\ProductUrlManager</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogUrlRewrite\Service\V1\ProductUrlManager">
+        <arguments>
+            <argument name="storage" xsi:type="object">Magento\CatalogUrlRewrite\Model\Storage\DbStorage</argument>
         </arguments>
     </type>
 </config>

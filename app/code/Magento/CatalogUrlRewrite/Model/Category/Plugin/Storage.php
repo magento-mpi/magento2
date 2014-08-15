@@ -10,11 +10,10 @@ namespace Magento\CatalogUrlRewrite\Model\Category\Plugin;
 use Magento\UrlRewrite\Model\StorageInterface;
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
-use Magento\UrlRewrite\Service\V1\UrlManager as UrlManagerService;
 use Magento\UrlRewrite\Model\UrlRewrite;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\Category\ProductFactory;
-use Magento\UrlRewrite\Service\V1\Data\FilterInterface;
+use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 class Storage
 {
@@ -60,9 +59,7 @@ class Storage
         $proceed($urls);
         $params = $this->extractParameters($urls);
         if ($params) {
-            /** @var \Magento\UrlRewrite\Model\Resource\UrlRewrite $collection */
-            $collection = $this->urlRewrite->getResourceCollection();
-            $records = $collection->searchByParams($params);
+            $records = $this->urlRewrite->getResourceCollection()->searchByParams($params);
             $data = [];
             foreach ($records as $record) {
                 $record['metadata'] = $record['metadata'] ? unserialize($record['metadata']) : '';
@@ -83,11 +80,11 @@ class Storage
 
     /**
      * @param StorageInterface $object
-     * @param FilterInterface $filter
+     * @param Filter $filter
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeDeleteByFilter(StorageInterface $object, FilterInterface $filter)
+    public function beforeDeleteByFilter(StorageInterface $object, Filter $filter)
     {
         $params = [];
         foreach ($filter->getFilter() as $column => $value) {

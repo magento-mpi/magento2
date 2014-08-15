@@ -10,7 +10,7 @@ namespace Magento\UrlRewrite\Service\V1\Data;
 /**
  * Url rewrite search filter
  */
-class Filter implements FilterInterface, FilterDataInterface
+class Filter
 {
     /**
      * Data with filter values
