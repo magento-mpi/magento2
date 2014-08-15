@@ -49,8 +49,7 @@ class OrderRead implements OrderReadInterface
         OrderList $orderList,
         OrderCommentsList $orderCommentsList,
         OrderGetStatus $orderGetStatus
-    )
-    {
+    ) {
         $this->orderGet = $orderGet;
         $this->orderList = $orderList;
         $this->orderCommentsList = $orderCommentsList;

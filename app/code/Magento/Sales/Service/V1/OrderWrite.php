@@ -66,8 +66,7 @@ class OrderWrite implements OrderWriteInterface
         OrderHold $orderHold,
         OrderUnHold $orderUnHold,
         OrderStatusHistoryAdd $orderStatusHistoryAdd
-    )
-    {
+    ) {
         $this->orderAddressUpdate = $orderAddressUpdate;
         $this->orderCancel = $orderCancel;
         $this->orderEmail = $orderEmail;

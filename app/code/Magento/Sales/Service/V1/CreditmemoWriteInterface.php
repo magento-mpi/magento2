@@ -8,6 +8,7 @@
 namespace Magento\Sales\Service\V1;
 
 use Magento\Sales\Service\V1\Data\Comment;
+use Magento\Sales\Service\V1\Data\Creditmemo;
 
 interface CreditmemoWriteInterface
 {
@@ -30,4 +31,11 @@ interface CreditmemoWriteInterface
      * @return bool
      */
     public function email($id);
+
+    /**
+     * @param \Magento\Sales\Service\V1\Data\Creditmemo $creditmemoDataObject
+     * @throws \Exception
+     * @return bool
+     */
+    public function create(Creditmemo $creditmemoDataObject);
 }

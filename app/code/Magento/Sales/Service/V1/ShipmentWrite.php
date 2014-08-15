@@ -58,8 +58,7 @@ class ShipmentWrite implements ShipmentWriteInterface
         ShipmentEmail $shipmentEmail,
         ShipmentAddComment $shipmentAddComment,
         ShipmentCreate $shipmentCreate
-    )
-    {
+    ) {
         $this->shipmentAddTrack = $shipmentAddTrack;
         $this->shipmentRemoveTrack = $shipmentRemoveTrack;
         $this->shipmentEmail = $shipmentEmail;

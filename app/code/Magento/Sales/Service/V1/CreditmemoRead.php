@@ -41,8 +41,7 @@ class CreditmemoRead implements CreditmemoReadInterface
         CreditmemoGet $creditmemoGet,
         CreditmemoList $creditmemoList,
         CreditmemoCommentsList $creditmemoCommentsList
-    )
-    {
+    ) {
         $this->creditmemoGet = $creditmemoGet;
         $this->creditmemoList = $creditmemoList;
         $this->creditmemoCommentsList = $creditmemoCommentsList;

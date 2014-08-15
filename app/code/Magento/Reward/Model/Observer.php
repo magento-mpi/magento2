@@ -731,7 +731,7 @@ class Observer
      */
     public function setRewardPointsBalanceToRefund(\Magento\Framework\Event\Observer $observer)
     {
-        $input = $observer->getEvent()->getRequest()->getParam('creditmemo');
+        $input = $observer->getEvent()->getInput();
         $creditmemo = $observer->getEvent()->getCreditmemo();
         if (isset($input['refund_reward_points']) && isset($input['refund_reward_points_enable'])) {
             $enable = $input['refund_reward_points_enable'];

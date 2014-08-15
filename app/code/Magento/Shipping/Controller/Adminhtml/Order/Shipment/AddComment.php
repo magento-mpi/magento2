@@ -77,9 +77,9 @@ class AddComment extends \Magento\Backend\App\Action
             $this->_view->loadLayout(false);
             $response = $this->_view->getLayout()->getBlock('shipment_comments')->toHtml();
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('Cannot add new comment.'));
+            $response = ['error' => true, 'message' => __('Cannot add new comment.')];
         }
         if (is_array($response)) {
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);

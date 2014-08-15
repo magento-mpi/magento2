@@ -10,12 +10,14 @@ namespace Magento\Sales\Service\V1;
 use Magento\Sales\Service\V1\Action\CreditmemoAddComment;
 use Magento\Sales\Service\V1\Action\CreditmemoCancel;
 use Magento\Sales\Service\V1\Action\CreditmemoEmail;
+use Magento\Sales\Service\V1\Action\CreditmemoCreate;
 use Magento\Sales\Service\V1\Data\Comment;
+use Magento\Sales\Service\V1\Data\Creditmemo;
 
 /**
  * Class CreditmemoWrite
  */
-class CreditmemoWrite  implements CreditmemoWriteInterface
+class CreditmemoWrite implements CreditmemoWriteInterface
 {
     /**
      * @var CreditmemoAddComment
@@ -33,19 +35,26 @@ class CreditmemoWrite  implements CreditmemoWriteInterface
     protected $creditmemoEmail;
 
     /**
+     * @var CreditmemoCreate
+     */
+    protected $creditmemoCreate;
+
+    /**
      * @param CreditmemoAddComment $creditmemoAddComment
      * @param CreditmemoCancel $creditmemoCancel
      * @param CreditmemoEmail $creditmemoEmail
+     * @param CreditmemoCreate $creditmemoCreate
      */
     public function __construct(
         CreditmemoAddComment $creditmemoAddComment,
         CreditmemoCancel $creditmemoCancel,
-        CreditmemoEmail $creditmemoEmail
-    )
-    {
+        CreditmemoEmail $creditmemoEmail,
+        CreditmemoCreate $creditmemoCreate
+    ) {
         $this->creditmemoAddComment = $creditmemoAddComment;
         $this->creditmemoCancel = $creditmemoCancel;
         $this->creditmemoEmail = $creditmemoEmail;
+        $this->creditmemoCreate = $creditmemoCreate;
     }
 
     /**
@@ -75,5 +84,15 @@ class CreditmemoWrite  implements CreditmemoWriteInterface
     public function email($id)
     {
         return $this->creditmemoEmail->invoke($id);
+    }
+
+    /**
+     * @param \Magento\Sales\Service\V1\Data\Creditmemo $creditmemoDataObject
+     * @throws \Exception
+     * @return bool
+     */
+    public function create(Creditmemo $creditmemoDataObject)
+    {
+        return $this->creditmemoCreate->invoke($creditmemoDataObject);
     }
 }

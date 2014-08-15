@@ -361,10 +361,9 @@ class Observer
      */
     public function creditmemoDataImport(\Magento\Framework\Event\Observer $observer)
     {
-        $request = $observer->getEvent()->getRequest();
         $creditmemo = $observer->getEvent()->getCreditmemo();
 
-        $input = $request->getParam('creditmemo');
+        $input = $observer->getEvent()->getInput();
 
         if (isset($input['refund_giftcardaccount']) && $input['refund_giftcardaccount']) {
             $creditmemo->setRefundGiftCards(true);

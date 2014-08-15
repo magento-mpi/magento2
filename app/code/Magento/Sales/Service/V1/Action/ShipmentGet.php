@@ -46,7 +46,6 @@ class ShipmentGet
      */
     public function invoke($id)
     {
-        $order = $this->shipmentRepository->get($id);
-        return $this->shipmentMapper->extractDto($order);
+        return $this->shipmentMapper->extractDto($this->shipmentRepository->get($id));
     }
 }

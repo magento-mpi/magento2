@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Sales\Service\V1;
+
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 interface ShipmentReadInterface
@@ -28,4 +29,11 @@ interface ShipmentReadInterface
      * @return \Magento\Sales\Service\V1\Data\CommentSearchResults
      */
     public function commentsList($id);
+
+    /**
+     * @param int $id
+     * @return string|null
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getLabel($id);
 }

@@ -46,7 +46,7 @@
         </resources>
     </route>
     <route url="/V1/order/:id/unhold" method="POST">
-        <service class="Magento\Sales\Service\V1\OrderWriteInterface" method="unhold"/>
+        <service class="Magento\Sales\Service\V1\OrderWriteInterface" method="unHold"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>
@@ -153,6 +153,12 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/creditmemo" method="POST">
+        <service class="Magento\Sales\Service\V1\CreditmemoWriteInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
     <route url="/V1/shipment/:id" method="GET">
         <service class="Magento\Sales\Service\V1\ShipmentReadInterface" method="get"/>
         <resources>
@@ -197,6 +203,12 @@
     </route>
     <route url="/V1/shipment/" method="POST">
         <service class="Magento\Sales\Service\V1\ShipmentWriteInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/shipment/:id/label" method="GET">
+        <service class="Magento\Sales\Service\V1\ShipmentReadInterface" method="getLabel"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>

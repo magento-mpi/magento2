@@ -17,7 +17,7 @@ use Magento\Sales\Service\V1\Data\Comment;
 /**
  * Class InvoiceWrite
  */
-class InvoiceWrite  implements InvoiceWriteInterface
+class InvoiceWrite implements InvoiceWriteInterface
 {
     /**
      * @var InvoiceAddComment
@@ -57,8 +57,7 @@ class InvoiceWrite  implements InvoiceWriteInterface
         InvoiceEmail $invoiceEmail,
         InvoiceCapture $invoiceCapture,
         InvoiceCreate $invoiceCreate
-    )
-    {
+    ) {
         $this->invoiceAddComment = $invoiceAddComment;
         $this->invoiceVoid = $invoiceVoid;
         $this->invoiceEmail = $invoiceEmail;

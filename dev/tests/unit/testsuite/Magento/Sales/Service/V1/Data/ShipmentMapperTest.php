@@ -112,10 +112,10 @@ class ShipmentMapperTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->shipmentMock->expects($this->once())
             ->method('getPackages')
-            ->will($this->returnValue([[],[]]));
+            ->will($this->returnValue([[], []]));
         $this->shipmentBuilderMock->expects($this->once())
             ->method('setPackages')
-            ->with($this->equalTo(serialize([[],[]])))
+            ->with($this->equalTo(serialize([[], []])))
             ->will($this->returnSelf());
 
         $this->shipmentMock->expects($this->once())
