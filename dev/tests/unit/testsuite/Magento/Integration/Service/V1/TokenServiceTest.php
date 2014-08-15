@@ -72,7 +72,7 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Token does not exist.
+     * @expectedExceptionMessage This customer has no tokens.
      */
     public function testRevokeCustomerAccessTokenWithoutCustomerId()
     {
@@ -85,7 +85,7 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Token could not be revoked.
+     * @expectedExceptionMessage The tokens could not be revoked.
      */
     public function testRevokeCustomerAccessTokenCannotRevoked()
     {
