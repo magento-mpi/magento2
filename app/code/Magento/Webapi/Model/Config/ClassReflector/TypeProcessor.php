@@ -31,7 +31,7 @@ class TypeProcessor
     const NORMALIZED_FLOAT_TYPE = 'float';
     const NORMALIZED_DOUBLE_TYPE = 'double';
     const NORMALIZED_BOOLEAN_TYPE = 'boolean';
-    const NORMALIZED_ANY_TYPE = 'any';
+    const NORMALIZED_ANY_TYPE = 'anyType';
     /**#@-*/
 
     /**
