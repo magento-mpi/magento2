@@ -9,10 +9,22 @@ namespace Magento\Catalog\Service\V1\Data;
 
 use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
-use Magento\Catalog\Service\V1\Category\MetadataServiceInterface;
 
 class CategoryBuilder extends AbstractObjectBuilder
 {
+    /**
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param \Magento\Catalog\Service\V1\Category\MetadataServiceInterface $metadataService
+     */
+    public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        \Magento\Catalog\Service\V1\Category\MetadataServiceInterface $metadataService
+    ) {
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
+    }
+
     /**
      * Set category id
      *

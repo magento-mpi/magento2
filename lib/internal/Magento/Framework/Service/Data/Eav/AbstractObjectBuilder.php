@@ -85,7 +85,7 @@ abstract class AbstractObjectBuilder extends \Magento\Framework\Service\Data\Abs
      *
      * @return string[]
      */
-    public function getCustomAttributesCodes()
+    protected function getCustomAttributesCodes()
     {
         $attributeCodes = [];
         foreach ($this->metadataService->getCustomAttributesMetadata() as $attribute) {

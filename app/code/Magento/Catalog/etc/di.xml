@@ -466,21 +466,6 @@
             <argument name="metadataConfig" xsi:type="object">Magento\Catalog\Service\Config\CategoryMetadataConfig</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Data\ProductBuilder">
-        <arguments>
-            <argument name="metadataService" xsi:type="object">Magento\Catalog\Service\V1\Product\MetadataServiceInterface</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder">
-        <arguments>
-            <argument name="metadataService" xsi:type="object">Magento\Catalog\Service\V1\Category\MetadataServiceInterface</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Service\V1\Data\CategoryBuilder">
-        <arguments>
-            <argument name="metadataService" xsi:type="object">Magento\Catalog\Service\V1\Category\MetadataServiceInterface</argument>
-        </arguments>
-    </type>
     <type name="Magento\Catalog\Service\V1\ProductService">
         <arguments>
             <argument name="searchResultsBuilder" xsi:type="object" shared="false">Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder</argument>

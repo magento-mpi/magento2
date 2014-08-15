@@ -10,6 +10,8 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Framework\Service\Data\Eav\AbstractObject;
 use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * Builder for the Customer Service Data Object
@@ -20,6 +22,19 @@ use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
  */
 class CustomerBuilder extends AbstractObjectBuilder
 {
+    /**
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param CustomerMetadataServiceInterface $metadataService
+     */
+    public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        CustomerMetadataServiceInterface $metadataService
+    ) {
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
+    }
+
     /**
      * Sets the default billing
      *

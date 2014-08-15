@@ -51,6 +51,8 @@
     <type name="Magento\Customer\Service\V1\Data\CustomerGroupBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\Eav\OptionBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\CustomerBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\AddressBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\RegionBuilder" shared="false" />
     <!--<type name="Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponseBuilder" shared="false" />-->
     <type name="Magento\Customer\Service\V1\Data\SearchResultsBuilder" shared="false" />
@@ -64,11 +66,6 @@
     <type name="Magento\Customer\Service\V1\CustomerAccountService">
         <arguments>
             <argument name="url" xsi:type="object">Magento\Framework\Url</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Customer\Service\V1\Data\CustomerBuilder" shared="false">
-        <arguments>
-            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\CustomerMetadataService</argument>
         </arguments>
     </type>
     <virtualType name="Magento\Customer\Service\Config\CustomerMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
@@ -91,11 +88,6 @@
     <type name="Magento\Customer\Service\V1\AddressMetadataService">
         <arguments>
             <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\AddressMetadataConfig</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Customer\Service\V1\Data\AddressBuilder" shared="false">
-        <arguments>
-            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\AddressMetadataService</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Model\ActionValidator\RemoveAction">

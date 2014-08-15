@@ -8,10 +8,10 @@
 
 namespace Magento\Customer\Service\V1\Data;
 
+use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Framework\Service\Data\Eav\AbstractObject;
 use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
-use Magento\Framework\Service\Data\Eav\MetadataServiceInterface;
 
 /**
  * Builder for the Address Service Data Object
@@ -32,13 +32,13 @@ class AddressBuilder extends AbstractObjectBuilder
     /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
-     * @param MetadataServiceInterface $metadataService
+     * @param AddressMetadataServiceInterface $metadataService
      * @param RegionBuilder $regionBuilder
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
-        MetadataServiceInterface $metadataService,
+        AddressMetadataServiceInterface $metadataService,
         RegionBuilder $regionBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);

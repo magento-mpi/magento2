@@ -5,19 +5,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
-use Magento\Catalog\Service\V1\Category\MetadataServiceInterface;
 use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
-use Magento\Framework\Service\Data\ObjectFactory;
 
 /**
  * Class MetadataBuilder
+ *
  * @codeCoverageIgnore
  */
 class MetadataBuilder extends AbstractObjectBuilder
 {
+    /**
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param \Magento\Catalog\Service\V1\Category\MetadataServiceInterface $metadataService
+     */
+    public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        \Magento\Catalog\Service\V1\Category\MetadataServiceInterface $metadataService
+    ) {
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
+    }
+
     /**
      * @param int $value
      * @return $this

@@ -23,6 +23,9 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\CustomerMetadataService */
     private $_customerMetadataService;
 
+    /** @var \Magento\Customer\Service\V1\AddressMetadataService */
+    private $_addressMetadataService;
+
     /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder */
     private $_valueBuilder;
 
@@ -47,6 +50,23 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
+        $this->_addressMetadataService = $this->getMockBuilder(
+            'Magento\Customer\Service\V1\AddressMetadataService'
+        )->setMethods(
+                array('getCustomAttributesMetadata')
+            )->disableOriginalConstructor()->getMock();
+        $this->_addressMetadataService->expects(
+            $this->any()
+        )->method(
+                'getCustomAttributesMetadata'
+            )->will(
+                $this->returnValue(
+                    array(
+                        new \Magento\Framework\Object(array('attribute_code' => 'warehouse_zip')),
+                        new \Magento\Framework\Object(array('attribute_code' => 'warehouse_alternate'))
+                    )
+                )
+            );
         $this->_valueBuilder = $this->_objectManager->getObject(
             'Magento\Framework\Service\Data\Eav\AttributeValueBuilder'
         );
@@ -151,7 +171,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             [
                 'valueBuilder' => $this->_valueBuilder,
                 'regionBuilder' => $this->_objectManager->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder'),
-                'metadataService' => $this->_customerMetadataService
+                'metadataService' => $this->_addressMetadataService
             ]
         )->create();
         $this->_customerBuilder->populate($addressData);
