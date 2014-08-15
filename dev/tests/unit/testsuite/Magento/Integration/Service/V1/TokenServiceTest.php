@@ -43,13 +43,17 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
         $this->_userModelMock = $this->getMockBuilder('Magento\User\Model\User')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_customerAccountServiceMock = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerAccountServiceInterface')
+        $this->_customerAccountServiceMock = $this
+            ->getMockBuilder('Magento\Customer\Service\V1\CustomerAccountServiceInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_tokenMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token')
-            ->disableOriginalConstructor()->setMethods(['getToken', 'loadByCustomerId', 'setRevoked', 'save', '__wakeup'])->getMock();
+            ->disableOriginalConstructor()
+            ->setMethods(['getToken', 'loadByCustomerId', 'setRevoked', 'save', '__wakeup'])->getMock();
 
-        $this->_tokenModelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->_tokenMock));
+        $this->_tokenModelFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->_tokenMock));
 
         $this->_tokenService = new \Magento\Integration\Service\V1\TokenService(
             $this->_tokenModelFactoryMock,
@@ -62,11 +66,21 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
     {
         $customerId = 1;
 
-        $this->_tokenMock->expects($this->once())->method('getToken')->will($this->returnValue('test'));
-        $this->_tokenMock->expects($this->once())->method('loadByCustomerId')->will($this->returnValue($this->_tokenMock));
-        $this->_tokenMock->expects($this->once())->method('save');
-        $this->_tokenMock->expects($this->once())->method('setRevoked')->will($this->returnValue($this->_tokenMock));
-        $this->_tokenMock->expects($this->once())->method('loadByCustomerId')->with($customerId)->will($this->returnValue($this->_tokenService));
+        $this->_tokenMock->expects($this->once())
+            ->method('getToken')
+            ->will($this->returnValue('test'));
+        $this->_tokenMock->expects($this->once())
+            ->method('loadByCustomerId')
+            ->will($this->returnValue($this->_tokenMock));
+        $this->_tokenMock->expects($this->once())
+            ->method('save');
+        $this->_tokenMock->expects($this->once())
+            ->method('setRevoked')
+            ->will($this->returnValue($this->_tokenMock));
+        $this->_tokenMock->expects($this->once())
+            ->method('loadByCustomerId')
+            ->with($customerId)
+            ->will($this->returnValue($this->_tokenService));
         $this->assertTrue($this->_tokenService->revokeCustomerAccessToken($customerId));
     }
 
@@ -76,10 +90,17 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testRevokeCustomerAccessTokenWithoutCustomerId()
     {
-        $this->_tokenMock->expects($this->any())->method('getToken')->will($this->returnValue(''));
-        $this->_tokenMock->expects($this->once())->method('loadByCustomerId')->will($this->returnValue($this->_tokenMock));
-        $this->_tokenMock->expects($this->never())->method('save');
-        $this->_tokenMock->expects($this->never())->method('setRevoked')->will($this->returnValue($this->_tokenMock));
+        $this->_tokenMock->expects($this->any())
+            ->method('getToken')
+            ->will($this->returnValue(''));
+        $this->_tokenMock->expects($this->once())
+            ->method('loadByCustomerId')
+            ->will($this->returnValue($this->_tokenMock));
+        $this->_tokenMock->expects($this->never())
+            ->method('save');
+        $this->_tokenMock->expects($this->never())
+            ->method('setRevoked')
+            ->will($this->returnValue($this->_tokenMock));
         $this->_tokenService->revokeCustomerAccessToken(null);
     }
 
@@ -91,10 +112,17 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
     {
         $exception = new \Exception();
         $customerId = 1;
-        $this->_tokenMock->expects($this->any())->method('getToken')->will($this->returnValue('test'));
-        $this->_tokenMock->expects($this->once())->method('loadByCustomerId')->will($this->returnValue($this->_tokenMock));
-        $this->_tokenMock->expects($this->never())->method('save');
-        $this->_tokenMock->expects($this->once())->method('setRevoked')->will($this->throwException($exception));
+        $this->_tokenMock->expects($this->any())
+            ->method('getToken')
+            ->will($this->returnValue('test'));
+        $this->_tokenMock->expects($this->once())
+            ->method('loadByCustomerId')
+            ->will($this->returnValue($this->_tokenMock));
+        $this->_tokenMock->expects($this->never())
+            ->method('save');
+        $this->_tokenMock->expects($this->once())
+            ->method('setRevoked')
+            ->will($this->throwException($exception));
         $this->_tokenService->revokeCustomerAccessToken($customerId);
     }
 }

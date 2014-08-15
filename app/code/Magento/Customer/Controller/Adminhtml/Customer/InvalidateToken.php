@@ -8,6 +8,7 @@
  */
 
 namespace Magento\Customer\Controller\Adminhtml\Customer;
+
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -24,6 +25,24 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
      */
     protected $_tokenService;
 
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerBuilder $customerBuilder
+     * @param CustomerDetailsBuilder $customerDetailsBuilder
+     * @param AddressBuilder $addressBuilder
+     * @param CustomerAddressServiceInterface $addressService
+     * @param CustomerAccountServiceInterface $accountService
+     * @param \Magento\Customer\Helper\View $viewHelper
+     * @param \Magento\Customer\Helper\Data $helper
+     * @param \Magento\Framework\Math\Random $random
+     * @param \Magento\Integration\Service\V1\TokenService $tokenService
+     */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
