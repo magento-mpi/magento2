@@ -9,8 +9,6 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
 /**
  * Class NewActionTest
- *
- * @package Magento\Sales\Controller\Adminhtml\Order\Creditmemo
  */
 class NewActionTest extends \PHPUnit_Framework_TestCase
 {
