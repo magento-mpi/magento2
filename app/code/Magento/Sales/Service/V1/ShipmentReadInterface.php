@@ -29,4 +29,11 @@ interface ShipmentReadInterface
      * @return \Magento\Sales\Service\V1\Data\CommentSearchResults
      */
     public function commentsList($id);
+
+    /**
+     * @param int $id
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getLabel($id);
 }

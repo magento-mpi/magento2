@@ -28,6 +28,11 @@ class ShipmentReadTest extends \PHPUnit_Framework_TestCase
     protected $shipmentCommentsListMock;
 
     /**
+     * @var \Magento\Sales\Service\V1\Action\ShipmentLabelGet|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $shipmentLabelGetMock;
+
+    /**
      * @var \Magento\Sales\Service\V1\ShipmentRead
      */
     protected $shipmentRead;
@@ -58,11 +63,19 @@ class ShipmentReadTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->shipmentLabelGetMock = $this->getMock(
+            'Magento\Sales\Service\V1\Action\ShipmentLabelGet',
+            ['invoke'],
+            [],
+            '',
+            false
+        );
 
         $this->shipmentRead = new ShipmentRead(
             $this->shipmentGetMock,
             $this->shipmentListMock,
-            $this->shipmentCommentsListMock
+            $this->shipmentCommentsListMock,
+            $this->shipmentLabelGetMock
         );
     }
 
@@ -101,5 +114,17 @@ class ShipmentReadTest extends \PHPUnit_Framework_TestCase
             ->with(1)
             ->will($this->returnValue('search_result'));
         $this->assertEquals('search_result', $this->shipmentRead->commentsList(1));
+    }
+
+    /**
+     * test shipment label get
+     */
+    public function testGetLabel()
+    {
+        $this->shipmentLabelGetMock->expects($this->once())
+            ->method('invoke')
+            ->with(1)
+            ->will($this->returnValue('shipment-do'));
+        $this->assertEquals('shipment-do', $this->shipmentRead->getLabel(1));
     }
 }
