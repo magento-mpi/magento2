@@ -40,7 +40,7 @@
             <strategy>css selector</strategy>
         </urlRewriteTypeSelectorBlock>
         <cmsGridBlock>
-            <class>Magento\UrlRewrite\Test\Block\Cms\Page\Grid</class>
+            <class>Magento\UrlRewrite\Test\Block\Adminhtml\Cms\Page\Grid</class>
             <locator>#cmsPageGrid</locator>
             <strategy>css selector</strategy>
         </cmsGridBlock>

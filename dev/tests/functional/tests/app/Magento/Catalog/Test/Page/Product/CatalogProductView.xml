@@ -35,7 +35,7 @@
             <strategy>css selector</strategy>
         </crosssellBlock>
         <downloadableLinksBlock>
-            <class>Magento\Downloadable\Test\Block\Catalog\Product\Links</class>
+            <class>Magento\Downloadable\Test\Block\Catalog\Product\View\Links</class>
             <locator>[data-container-for=downloadable-links]</locator>
             <strategy>css selector</strategy>
         </downloadableLinksBlock>

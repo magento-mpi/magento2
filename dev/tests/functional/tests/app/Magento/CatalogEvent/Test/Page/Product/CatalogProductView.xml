@@ -40,7 +40,7 @@
             <strategy>css selector</strategy>
         </crosssellSelector>
         <downloadableLinksSelector>
-            <class>Magento\Downloadable\Test\Block\Catalog\Product\Links</class>
+            <class>Magento\Downloadable\Test\Block\Catalog\Product\View\Links</class>
             <locator>[data-container-for=downloadable-links]</locator>
             <strategy>css selector</strategy>
         </downloadableLinksSelector>
