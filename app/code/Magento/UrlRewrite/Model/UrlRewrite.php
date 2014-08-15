@@ -127,6 +127,25 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
+     * Clean cache for front-end menu
+     *
+     * @return  $this
+     */
+    protected function _afterSave()
+    {
+        if ($this->hasCategoryId()) {
+            $this->_cacheTag = array(
+                \Magento\Catalog\Model\Category::CACHE_TAG,
+                \Magento\Store\Model\Group::CACHE_TAG
+            );
+        }
+
+        parent::_afterSave();
+
+        return $this;
+    }
+    
+    /**
      * Load rewrite information for request
      * If $path is array - we must load possible records and choose one matching earlier record in array
      *
