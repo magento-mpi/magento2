@@ -319,14 +319,16 @@
             <input>multiselectgrouplist</input>
             <group>properties</group>
         </used_in_forms>
-        <options>
-            <attribute_code>options</attribute_code>
+        <option>
+            <attribute_code>option</attribute_code>
             <backend_type>virtual</backend_type>
             <is_required />
             <default_value />
             <input />
             <group>manage_options</group>
-            <source>Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Options</source>
-        </options>
+            <source>Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute\Option</source>
+        </option>
     </fields>
+    <repository_class>Magento\CustomerCustomAttributes\Test\Repository\CustomerCustomAttribute</repository_class>
+    <handler_interface>Magento\CustomerCustomAttributes\Test\Handler\CustomerCustomAttribute\CustomerCustomAttributeInterface</handler_interface>
 </fixture>

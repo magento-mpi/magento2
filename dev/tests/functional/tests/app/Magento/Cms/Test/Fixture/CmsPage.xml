@@ -95,6 +95,7 @@
             <is_required></is_required>
             <default_value>1</default_value>
             <input></input>
+            <group>page_information</group>
         </is_active>
         <sort_order>
             <attribute_code>sort_order</attribute_code>

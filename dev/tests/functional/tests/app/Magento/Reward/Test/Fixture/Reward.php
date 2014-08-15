@@ -13,14 +13,27 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class Reward
  * Reward point fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Reward extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\Reward\Test\Repository\Reward';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\Reward\Test\Handler\Reward\RewardInterface';
+
     protected $defaultDataSet = [
-        'website_id' => 'Main Website',
-        'customer_group_id' => 'All Customer Groups',
+        'website_id' => 'Main Website/Main Website Store/Default Store View',
+        'customer_group_id' => ['dataSet' => 'All Customer Groups'],
         'direction' => 'Points to Currency',
-        'value' => 10,
+        'points_delta' => 10,
         'equal_value' => 1
     ];
 
@@ -46,6 +59,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'group' => 'reward_points'
     ];
 
     protected $points_balance = [
@@ -78,6 +92,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+        'source' => 'Magento\Reward\Test\Fixture\Reward\CustomerGroup'
     ];
 
     protected $direction = [
@@ -112,6 +127,28 @@ class Reward extends InjectableFixture
     protected $reward_warning_notification = [
         'attribute_code' => 'reward_warning_notification',
         'backend_type' => 'virtual',
+    ];
+
+    protected $points_delta = [
+        'attribute_code' => 'points_delta',
+        'backend_type' => 'virtual',
+        'group' => 'reward_points'
+    ];
+
+    protected $value = [
+        'attribute_code' => 'value',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $equal_value = [
+        'attribute_code' => 'equal_value',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $comment = [
+        'attribute_code' => 'comment',
+        'backend_type' => 'virtual',
+        'group' => 'reward_points'
     ];
 
     public function getRewardId()
@@ -172,5 +209,25 @@ class Reward extends InjectableFixture
     public function getSubscribeWarnings()
     {
         return $this->getData('subscribe_warnings');
+    }
+
+    public function getPointsDelta()
+    {
+        return $this->getData('points_delta');
+    }
+
+    public function getValue()
+    {
+        return $this->getData('value');
+    }
+
+    public function getEqualValue()
+    {
+        return $this->getData('equal_value');
+    }
+
+    public function getComment()
+    {
+        return $this->getData('comment');
     }
 }

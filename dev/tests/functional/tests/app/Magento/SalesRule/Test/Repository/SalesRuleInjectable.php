@@ -41,6 +41,18 @@ class SalesRuleInjectable extends AbstractRepository
             ],
         ];
 
+        $this->_data['active_sales_rule_for_retailer'] = [
+            'name' => 'Shopping Cart Price Rule %isolation%',
+            'description' => 'Description for Cart Price Rule',
+            'is_active' => 'Active',
+            'website_ids' => [1 => 'Main Website'],
+            'customer_group_ids' => [0 => 'Retailer'],
+            'coupon_type' => 'No Coupon',
+            'simple_action' => 'Percent of product price discount',
+            'discount_amount' => '50',
+            'stop_rules_processing' => 'Yes',
+        ];
+
         $this->_data['active_sales_rule_with_complex_conditions'] = [
             'name' => 'Shopping Cart Price Rule with with complex conditions %isolation%',
             'description' => 'Shopping Cart Price Rule with with complex conditions',

@@ -132,6 +132,7 @@ class CmsPage extends InjectableFixture
         'is_required' => '',
         'default_value' => '1',
         'input' => '',
+        'group' => 'page_information',
     ];
 
     protected $sort_order = [

@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\Tax\Block\Checkout\Shipping\Price */ ?>
+
+<?php $_excl = $this->getShippingPriceExclTax(); ?>
+<?php $_incl = $this->getShippingPriceInclTax(); ?>
+<?php if ($this->displayShippingPriceInclTax()): ?>
+    <?php echo $_incl; ?>
+<?php else: ?>
+    <?php echo $_excl; ?>
+<?php endif; ?>
+<?php if ($this->displayShippingBothPrices() && $_incl != $_excl): ?>
+    (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
+<?php endif; ?>

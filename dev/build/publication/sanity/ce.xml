@@ -82,8 +82,10 @@
     </words>
     <whitelist>
         <item>
-            <word>CHANGELOG</word>
             <path>CHANGELOG.md</path>
+        </item>
+        <item>
+            <path>dev/build/publication/extra_files/ce/CHANGELOG.md</path>
         </item>
         <item>
             <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
@@ -526,6 +528,18 @@
         <item>
             <word>Enterprise</word>
             <path>dev/tools/Magento/Tools/Composer</path>
+        </item>
+        <item>
+            <word>saas</word>
+            <path>setup/pub/angular/angular.min.js.map</path>
+        </item>
+        <item>
+            <word>saas</word>
+            <path>setup/pub/bootstrap/css/bootstrap.css.map</path>
+        </item>
+        <item>
+            <word>Enterprise</word>
+            <path>setup/module/Magento/Framework/src/DB/ExpressionConverter.php</path>
         </item>
     </whitelist>
 </config>
