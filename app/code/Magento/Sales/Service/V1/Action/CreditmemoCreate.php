@@ -5,16 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Service\V1;
+namespace Magento\Sales\Service\V1\Action;
 
 use Magento\Sales\Service\V1\Data\CreditmemoConverter;
 
 /**
  * Class CreditmemoCreate
- *
- * @package Magento\Sales\Service\V1
  */
-class CreditmemoCreate implements CreditmemoCreateInterface
+class CreditmemoCreate
 {
     /**
      * @var CreditmemoConverter

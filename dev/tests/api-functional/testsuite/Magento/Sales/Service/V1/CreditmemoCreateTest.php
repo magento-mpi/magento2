@@ -19,7 +19,7 @@ class CreditmemoCreateTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/creditmemo';
 
-    const SERVICE_READ_NAME = 'salesCreditmemoCreateV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoWriteV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -53,7 +53,7 @@ class CreditmemoCreateTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'invoke'
+                'operation' => self::SERVICE_READ_NAME . 'create'
             ]
         ];
         $data = [

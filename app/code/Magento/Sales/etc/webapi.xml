@@ -154,7 +154,7 @@
         </resources>
     </route>
     <route url="/V1/creditmemo" method="POST">
-        <service class="Magento\Sales\Service\V1\CreditmemoCreateInterface" method="invoke"/>
+        <service class="Magento\Sales\Service\V1\CreditmemoWriteInterface" method="create"/>
         <resources>
             <resource ref="Magento_Sales::sales" />
         </resources>
