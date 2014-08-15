@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\MultipleWishlist\Test\Constraint;
+namespace Magento\Wishlist\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
- * Class AssertWishListShareMessage
+ * Class AssertWishlistShareMessage
  * Assert that after share wishlist successful message appears
  */
-class AssertWishListShareMessage extends AbstractConstraint
+class AssertWishlistShareMessage extends AbstractConstraint
 {
     /**
      * Success wishlist share message

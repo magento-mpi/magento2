@@ -12,7 +12,7 @@ use Mtf\Block\Block;
 
 /**
  * Class Wishlist
- * Wish list block
+ * Wish list details block in "My account"
  */
 class Wishlist extends Block
 {

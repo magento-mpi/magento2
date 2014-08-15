@@ -20,14 +20,14 @@ class WishlistShare extends FrontendPage
     protected $_blocks = [
         'sharingInfoForm' => [
             'name' => 'sharingInfoForm',
-            'class' => 'Magento\MultipleWishlist\Test\Block\Customer\Sharing',
+            'class' => 'Magento\Wishlist\Test\Block\Customer\Sharing',
             'locator' => '.wishlist.share',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\MultipleWishlist\Test\Block\Customer\Sharing
+     * @return \Magento\Wishlist\Test\Block\Customer\Sharing
      */
     public function getSharingInfoForm()
     {

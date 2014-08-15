@@ -6,10 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\MultipleWishlist\Test\TestCase;
+namespace Magento\Wishlist\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
@@ -24,9 +23,8 @@ use Magento\Wishlist\Test\Page\WishlistShare;
  * Test Creation for ShareWishlistEntity
  *
  * Preconditions:
- * 1. Enable Multiple Wishlist functionality
- * 2. Create Customer Account
- * 3. Create product
+ * 1. Create Customer Account
+ * 2. Create product
  *
  * Test Flow:
  * 1. Login to frontend as a Customer
@@ -93,17 +91,14 @@ class ShareWishlistEntityTest extends Injectable
     /**
      * Prepare data
      *
-     * @param FixtureFactory $fixtureFactory
      * @param CustomerInjectable $customer
      * @param CatalogProductSimple $product
      * @return array
      */
     public function __prepare(
-        FixtureFactory $fixtureFactory,
         CustomerInjectable $customer,
         CatalogProductSimple $product
     ) {
-        $fixtureFactory->createByCode('configData', ['dataSet' => 'multiple_wishlist_default'])->persist();
         $customer->persist();
         $product->persist();
 

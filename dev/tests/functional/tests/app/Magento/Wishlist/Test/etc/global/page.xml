@@ -9,7 +9,7 @@
 -->
 <page>
     <wishlistIndex>
-        <mca>wishlist/index/index</mca>
+        <mca>wishlist/index</mca>
         <class>Magento\Wishlist\Test\Page\WishlistIndex</class>
     </wishlistIndex>
     <wishlistShare>

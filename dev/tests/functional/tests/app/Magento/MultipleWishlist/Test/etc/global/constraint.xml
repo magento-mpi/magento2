@@ -26,7 +26,4 @@
     <assertMultipleWishlistIsNoticePrivateMessage module="Magento_MultipleWishlist">
         <severeness>Medium</severeness>
     </assertMultipleWishlistIsNoticePrivateMessage>
-    <assertWishListShareMessage module="Magento_MultipleWishlist">
-        <severeness>low</severeness>
-    </assertWishListShareMessage>
 </constraint>

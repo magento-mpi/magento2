@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\MultipleWishlist\Test\Block\Customer;
+namespace Magento\Wishlist\Test\Block\Customer;
 
 use Mtf\Block\Form;
 

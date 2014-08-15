@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="wishlist/index/index" >
+<page mca="wishlist/index" >
     <block>
         <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
