@@ -2291,8 +2291,8 @@ return array(
     ['Magento\Framework\App\Locale\ScopeConfigInterface', 'Magento\Framework\App\Config\ScopeConfigInterface'],
     ['Magento\Core\App\Action\Plugin\StoreCheck', 'Magento\Store\App\Action\Plugin\StoreCheck'],
     [
-        'Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler',
-        'Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler'
+        'Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler',
+        'Magento\Framework\App\Bootstrap'
     ],
     [
         'Magento\Core\App\FrontController\Plugin\RequestPreprocessor',
@@ -2317,7 +2317,7 @@ return array(
     ['Magento\Core\Model\Resource\Website\Grid\Collection', 'Magento\Store\Model\Resource\Website\Grid\Collection'],
     ['Magento\Core\Model\ScopeInterface', 'Magento\Store\Model\ScopeInterface'],
     ['Magento\Core\Model\Store', 'Magento\Store\Model\Store'],
-    ['Magento\Core\Model\Store\Exception', 'Magento\Store\Model\Exception'],
+    ['Magento\Store\Model\Exception', 'Magento\Framework\Model\Exception, Magento\Framework\App\InitException'],
     ['Magento\Core\Model\Store\Group', 'Magento\Store\Model\Group'],
     ['Magento\Core\Model\Store\Group\Factory', 'Magento\Store\Model\GroupFactory'],
     ['Magento\Core\Model\Store\Storage\Db', 'Magento\Store\Model\Storage\Db'],
@@ -2745,4 +2745,6 @@ return array(
     ['Magento\Framework\App\EntryPointInterface', 'Magento\Framework\App\Bootstrap'],
     ['Magento\Install\Model\Installer\AbstractInstaller', 'Magento\Install\Model\Installer\Console'],
     ['Magento\Install\App\Action\Plugin\Install', 'Magento\Framework\App\Bootstrap'],
+    ['\Magento\Cron\App\Cron\Plugin\ApplicationInitializer', 'Magento\Framework\App\Bootstrap'],
+    ['Magento\Framework\App\Error\Handler', 'Magento\Framework\App\Http'],
 );

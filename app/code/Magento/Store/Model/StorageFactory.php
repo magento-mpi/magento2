@@ -192,7 +192,7 @@ class StorageFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storage
      * @param array $arguments
      * @return void
-     * @throws \Magento\Store\Model\Exception
+     * @throws \Magento\Framework\App\InitException
      */
     protected function _reinitStores(\Magento\Store\Model\StoreManagerInterface $storage, $arguments)
     {
@@ -217,8 +217,8 @@ class StorageFactory
                 $storage->setCurrentStore($this->_getStoreByWebsite($storage, $scopeCode));
                 break;
             default:
-                throw new \Magento\Store\Model\Exception(
-                    'Store Manager has been initialized not properly'
+                throw new \Magento\Framework\App\InitException(
+                    'Store Manager has not been initialized properly'
                 );
         }
 

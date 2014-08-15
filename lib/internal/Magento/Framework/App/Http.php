@@ -19,6 +19,14 @@ use Magento\Framework\Event;
  */
 class Http implements \Magento\Framework\AppInterface
 {
+    /**#@+
+     * Parameters for redirecting if the application is not installed
+     */
+    const NOT_INSTALLED_URL_PATH_PARAM = 'MAGE_NOT_INSTALLED_URL_PATH';
+    const NOT_INSTALLED_URL_PARAM = 'MAGE_NOT_INSTALLED_URL';
+    const NOT_INSTALLED_URL_PATH = 'setup/';
+    /**#@-*/
+
     /**
      * @var \Magento\Framework\ObjectManager
      */
@@ -112,39 +120,146 @@ class Http implements \Magento\Framework\AppInterface
      */
     public function catchException(Bootstrap $bootstrap, \Exception $exception)
     {
-        switch ($bootstrap->getErrorCode()) {
-            case Bootstrap::ERR_MAINTENANCE:
-                require $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/503.php';
-                return true;
-            case Bootstrap::ERR_IS_INSTALLED:
-                $this->_response->setRedirect('/setup/'); // TODO: remove hardcode
-                $this->_response->sendHeaders();
-                return true;
-            default:
-                if ($bootstrap->isDeveloperMode()) {
-                    return false;
-                }
-        }
-        $message = $exception->getMessage() . "\n";
-        try {
-            $reportData = array($exception->getMessage(), $exception->getTraceAsString());
-            $params = $bootstrap->getParams();
-            if (isset($params['REQUEST_URI'])) {
-                $reportData['url'] = $params['REQUEST_URI'];
-            }
-            if (isset($params['SCRIPT_NAME'])) {
-                $reportData['script_name'] = $params['SCRIPT_NAME'];
-            }
-            require_once $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/report.php';
-            $processor = new \Magento\Framework\Error\Processor($this->_response);
-            $processor->saveReport($reportData);
-            $this->_response = $processor->processReport();
+        $result = $this->handleDeveloperMode($bootstrap, $exception)
+            || $this->handleBootstrapErrors($bootstrap)
+            || $this->handleSessionException($bootstrap, $exception)
+            || $this->handleInitException($exception)
+            || $this->handleGenericReport($bootstrap, $exception);
+        return $result;
+    }
+
+    /**
+     * Error handler for developer mode
+     *
+     * @param Bootstrap $bootstrap
+     * @param \Exception $exception
+     * @return bool
+     */
+    private function handleDeveloperMode(Bootstrap $bootstrap, \Exception $exception)
+    {
+        if ($bootstrap->isDeveloperMode()) {
+            $this->_response->setHttpResponseCode(500);
+            $this->_response->setHeader('Content-Type', 'text/plain');
+            $this->_response->setBody($exception->getMessage() . "\n" . $exception->getTraceAsString());
+            $this->_response->sendResponse();
             return true;
-        } catch (\Exception $exception) {
-            $message .= "Unknown error happened.";
         }
-        $this->_response->setHttpResponseCode(500);
-        $this->_response->setBody($message);
+        return false;
+    }
+
+    /**
+     * Handler for bootstrap errors
+     *
+     * @param Bootstrap $bootstrap
+     * @return bool
+     */
+    private function handleBootstrapErrors(Bootstrap $bootstrap)
+    {
+        $bootstrapCode = $bootstrap->getErrorCode();
+        if (Bootstrap::ERR_MAINTENANCE == $bootstrapCode) {
+            require $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/503.php';
+            return true;
+        }
+        if (Bootstrap::ERR_IS_INSTALLED == $bootstrapCode) {
+            $path = $this->getInstallerRedirectPath($bootstrap->getParams());
+            $this->_response->setRedirect($path);
+            $this->_response->sendHeaders();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handler for session errors
+     *
+     * @param Bootstrap $bootstrap
+     * @param \Exception $exception
+     * @return bool
+     */
+    private function handleSessionException(Bootstrap $bootstrap, \Exception $exception)
+    {
+        if ($exception instanceof \Magento\Framework\Session\Exception) {
+            $path = $this->getBaseUrlPath($bootstrap->getParams());
+            $this->_response->setRedirect($path);
+            $this->_response->sendHeaders();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handler for application initialization errors
+     *
+     * @param \Exception $exception
+     * @return bool
+     */
+    private function handleInitException(\Exception $exception)
+    {
+        if ($exception instanceof \Magento\Framework\App\InitException) {
+            require $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/404.php';
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handle for any other errors
+     *
+     * @param Bootstrap $bootstrap
+     * @param \Exception $exception
+     * @return bool
+     */
+    private function handleGenericReport(Bootstrap $bootstrap, \Exception $exception)
+    {
+        $reportData = array($exception->getMessage(), $exception->getTraceAsString());
+        $params = $bootstrap->getParams();
+        if (isset($params['REQUEST_URI'])) {
+            $reportData['url'] = $params['REQUEST_URI'];
+        }
+        if (isset($params['SCRIPT_NAME'])) {
+            $reportData['script_name'] = $params['SCRIPT_NAME'];
+        }
+        require $this->_filesystem->getPath(Filesystem::PUB_DIR) . '/errors/report.php';
         return true;
+    }
+
+    /**
+     * Determines redirect URL when application is not installed
+     *
+     * @param array $server
+     * @return string
+     */
+    public function getInstallerRedirectPath($server)
+    {
+        if (isset($server[self::NOT_INSTALLED_URL_PARAM])) {
+            return $server[self::NOT_INSTALLED_URL_PARAM];
+        }
+        if (isset($server[self::NOT_INSTALLED_URL_PATH_PARAM])) {
+            $urlPath = $server[self::NOT_INSTALLED_URL_PATH_PARAM];
+        } else {
+            $urlPath = self::NOT_INSTALLED_URL_PATH;
+        }
+        return $this->getBaseUrlPath($server) . $urlPath;
+    }
+
+    /**
+     * Determines a base URL path from the environment
+     *
+     * @param string $server
+     * @return string
+     */
+    private function getBaseUrlPath($server)
+    {
+        $result = '';
+        if (isset($server['SCRIPT_NAME'])) {
+            $envPath = str_replace('\\', '/', dirname($server['SCRIPT_NAME']));
+            if ($envPath != '.' && $envPath != '/') {
+                $result = $envPath;
+            }
+        }
+        if (!preg_match('/\/$/', $result)) {
+            $result .= '/';
+        }
+        return $result;
     }
 }

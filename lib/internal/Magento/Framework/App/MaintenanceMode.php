@@ -115,6 +115,7 @@ class MaintenanceMode
      *
      * @param bool|int $isSet
      * @param array|null $addresses
+     * @return void
      */
     private function set($isSet, $addresses)
     {

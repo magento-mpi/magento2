@@ -39,9 +39,8 @@ class Bootstrap
      *
      * @param \Magento\Framework\App\Bootstrap $appBootstrap
      * @param string $testsBaseDir
-     * @param string $appBaseDir
      */
-    public function __construct(\Magento\Framework\App\Bootstrap $appBootstrap, $testsBaseDir, $appBaseDir)
+    public function __construct(\Magento\Framework\App\Bootstrap $appBootstrap, $testsBaseDir)
     {
         $this->appBootstrap = $appBootstrap;
         $this->testsBaseDir = $testsBaseDir;

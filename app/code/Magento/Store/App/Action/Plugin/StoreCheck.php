@@ -31,7 +31,7 @@ class StoreCheck
      *
      * @return \Magento\Framework\App\ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @throws \Magento\Store\Model\Exception
+     * @throws \Magento\Framework\App\InitException
      */
     public function aroundDispatch(
         \Magento\Framework\App\Action\Action $subject,
@@ -39,7 +39,7 @@ class StoreCheck
         \Magento\Framework\App\RequestInterface $request
     ) {
         if (!$this->_storeManager->getStore()->getIsActive()) {
-            throw new \Magento\Store\Model\Exception(
+            throw new \Magento\Framework\App\InitException(
                 'Current store is not active.'
             );
         }

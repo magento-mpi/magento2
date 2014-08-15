@@ -36,7 +36,6 @@ interface StoreManagerInterface
      *
      * @param null|string|bool|int|\Magento\Store\Model\Store $storeId
      * @return \Magento\Store\Model\Store
-     * @throws \Magento\Store\Model\Exception
      */
     public function getStore($storeId = null);
 
@@ -86,8 +85,6 @@ interface StoreManagerInterface
      *
      * @param null|\Magento\Store\Model\Group|string $groupId
      * @return \Magento\Store\Model\Group
-     * @throws \Magento\Store\Model\Exception
-     * @throws \Magento\Framework\Model\Exception
      */
     public function getGroup($groupId = null);
 

@@ -324,6 +324,7 @@ class Bootstrap
      *
      * @param \Exception $e
      * @return void
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function terminate(\Exception $e)
     {

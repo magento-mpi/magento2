@@ -45,8 +45,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     {
         $bootstrap = new \Magento\TestFramework\Performance\Bootstrap(
             $this->appBootstrap,
-            $fixtureDir,
-            $this->_getBaseFixtureDir() . '/app_base_dir'
+            $fixtureDir
         );
         $config = $bootstrap->getConfig();
         $this->assertInstanceOf('Magento\TestFramework\Performance\Config', $config);
@@ -78,7 +77,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     public function testCleanupReportsCreatesDirectory()
     {
         $fixtureDir = $this->_getBaseFixtureDir() . '/config_dist';
-        $bootstrap = new \Magento\TestFramework\Performance\Bootstrap($this->appBootstrap, $fixtureDir, $fixtureDir);
+        $bootstrap = new \Magento\TestFramework\Performance\Bootstrap($this->appBootstrap, $fixtureDir);
 
         $reportDir = $fixtureDir . '/tmp/subdirectory/report';
 
@@ -90,7 +89,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     public function testCleanupReportsRemovesFiles()
     {
         $fixtureDir = $this->_getBaseFixtureDir() . '/config_dist';
-        $bootstrap = new \Magento\TestFramework\Performance\Bootstrap($this->appBootstrap, $fixtureDir, $fixtureDir);
+        $bootstrap = new \Magento\TestFramework\Performance\Bootstrap($this->appBootstrap, $fixtureDir);
 
         $reportDir = $fixtureDir . '/tmp/subdirectory/report';
         mkdir($reportDir, 0777, true);
