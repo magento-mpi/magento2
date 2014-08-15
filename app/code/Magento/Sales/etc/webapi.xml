@@ -153,6 +153,12 @@
             <resource ref="Magento_Sales::sales" />
         </resources>
     </route>
+    <route url="/V1/creditmemo" method="POST">
+        <service class="Magento\Sales\Service\V1\CreditmemoCreateInterface" method="invoke"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
     <route url="/V1/shipment/:id" method="GET">
         <service class="Magento\Sales\Service\V1\ShipmentReadInterface" method="get"/>
         <resources>
