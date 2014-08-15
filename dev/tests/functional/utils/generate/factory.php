@@ -23,8 +23,8 @@ $path .= PATH_SEPARATOR . MTF_BP . '/vendor/magento/mtf';
 $path .= PATH_SEPARATOR . MTF_BP . '/vendor/phpunit/phpunit';
 set_include_path($path);
 
-
-/** @var \Mtf\Util\Generate\Factory $app */
-$app = $bootstrap->createApplication('Mtf\Util\Generate\Factory');
-$bootstrap->run($app);
+$om = $bootstrap->getObjectManager();
+/** @var \Mtf\Util\Generate\Factory $generator */
+$generator = $om->create('Mtf\Util\Generate\Factory');
+$generator->launch();
 \Mtf\Util\Generate\GenerateResult::displayResults();

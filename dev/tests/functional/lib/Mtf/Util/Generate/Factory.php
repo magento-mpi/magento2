@@ -17,7 +17,7 @@ use Magento\Framework\App;
  *
  * @deprecated
  */
-class Factory extends AbstractGenerate implements \Magento\Framework\AppInterface
+class Factory extends AbstractGenerate
 {
     /**
      * @var \Magento\Framework\ObjectManager
@@ -61,13 +61,5 @@ class Factory extends AbstractGenerate implements \Magento\Framework\AppInterfac
         $this->repository->launch();
 
         return $this->objectManager->get('Magento\Framework\App\ResponseInterface');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
-    {
-        return false;
     }
 }
