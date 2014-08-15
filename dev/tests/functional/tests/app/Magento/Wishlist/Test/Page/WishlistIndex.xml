@@ -14,4 +14,10 @@
         <locator>.messages</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>wishlistBlock</name>
+        <class>Magento\Wishlist\Test\Block\Customer\Wishlist</class>
+        <locator>#wishlist-view-form</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

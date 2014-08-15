@@ -24,6 +24,12 @@ class WishlistIndex extends FrontendPage
             'locator' => '.messages',
             'strategy' => 'css selector',
         ],
+        'wishlistBlock' => [
+            'name' => 'wishlistBlock',
+            'class' => 'Magento\Wishlist\Test\Block\Customer\Wishlist',
+            'locator' => '#wishlist-view-form',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -32,5 +38,13 @@ class WishlistIndex extends FrontendPage
     public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\Wishlist\Test\Block\Customer\Wishlist
+     */
+    public function getWishlistBlock()
+    {
+        return $this->getBlockInstance('wishlistBlock');
     }
 }
