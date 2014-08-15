@@ -111,7 +111,6 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
      */
     protected function prepareAttributes(array $attribute)
     {
-        $attribute = $this->replaceMappingData($attribute);
         $attribute['frontend']['is_required'] = $attribute['is_required'];
         unset ($attribute['is_required']);
         return $attribute;
