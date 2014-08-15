@@ -8,6 +8,11 @@
  */
 
 namespace Magento\Customer\Controller\Adminhtml\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 
 /**
  *  Class to invalidate tokens for customers
@@ -15,15 +20,45 @@ namespace Magento\Customer\Controller\Adminhtml\Customer;
 class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Integration\Service\V1\TokenService
      */
     protected $_tokenService;
 
-    /**
-     * @param \Magento\Integration\Service\V1\TokenService $tokenService
-     */
-    public function __construct(\Magento\Integration\Service\V1\TokenService $tokenService)
-    {
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerBuilder $customerBuilder,
+        CustomerDetailsBuilder $customerDetailsBuilder,
+        AddressBuilder $addressBuilder,
+        CustomerAddressServiceInterface $addressService,
+        CustomerAccountServiceInterface $accountService,
+        \Magento\Customer\Helper\View $viewHelper,
+        \Magento\Customer\Helper\Data $helper,
+        \Magento\Framework\Math\Random $random,
+        \Magento\Integration\Service\V1\TokenService $tokenService
+    ) {
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $fileFactory,
+            $customerFactory,
+            $addressFactory,
+            $formFactory,
+            $subscriberFactory,
+            $customerBuilder,
+            $customerDetailsBuilder,
+            $addressBuilder,
+            $addressService,
+            $accountService,
+            $viewHelper,
+            $helper,
+            $random
+        );
         $this->_tokenService = $tokenService;
     }
 
@@ -42,7 +77,7 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('customer_id' => $this->getRequest()->getParam('customer_id')));
+                $this->_redirect('*/*/');
                 return;
             }
         }
