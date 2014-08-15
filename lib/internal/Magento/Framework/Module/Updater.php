@@ -109,9 +109,6 @@ class Updater
      */
     public function updateData()
     {
-        if (!$this->_isUpdatedSchema) {
-            return;
-        }
         foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
                 if (!$this->_moduleManager->isDbDataUpToDate($moduleName, $resourceName)) {

@@ -13,6 +13,7 @@ use Magento\Module\Setup\Config;
 use Magento\Module\SetupFactory;
 use Magento\Setup\Model\AdminAccountFactory;
 use Magento\Setup\Model\Logger;
+use Magento\Config\ConfigFactory;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -40,6 +41,11 @@ class StartController extends AbstractActionController
     protected $config;
 
     /**
+     * @var ConfigFactory
+     */
+    protected $systemConfig;
+
+    /**
      * @var AdminAccountFactory
      */
     protected $adminAccountFactory;
@@ -65,13 +71,15 @@ class StartController extends AbstractActionController
         AdminAccountFactory $adminAccountFactory,
         Logger $logger,
         Random $random,
-        Config $config
+        Config $config,
+        ConfigFactory $systemConfig
     ) {
         $this->logger = $logger;
         $this->json = $view;
         $this->moduleList = $moduleList->getModules();
         $this->setupFactory = $setupFactory;
         $this->config = $config;
+        $this->systemConfig = $systemConfig;
         $this->adminAccountFactory = $adminAccountFactory;
         $this->random = $random;
     }
@@ -147,12 +155,38 @@ class StartController extends AbstractActionController
         } else {
             $key = $data['config']['encrypt']['key'];
         }
+
         $this->config->replaceTmpEncryptKey($key);
-
         $this->config->replaceTmpInstallDate(date('r'));
+        exec('php -f '. $this->systemConfig->create()->getMagentoBasePath() . '/dev/shell/run_data_fixtures.php', $output, $exitCode);
 
-        $this->json->setVariable('success', true);
+        if($exitCode != 0) {
+            $outputMsg = implode(PHP_EOL , $output);
+            $this->logger->logError(new \Exception('Data Update Failed with Exit Code: ' . $exitCode . PHP_EOL . $outputMsg));
+            $this->json->setVariable('success', false);
+        } else {
+            $this->logger->logSuccess('Data Updates');
+            $this->json->setVariable('success', true);
+        }
+
         $this->json->setVariable('key', $key);
         return $this->json;
+    }
+
+    private function execVerbose($command)
+    {
+        $args = func_get_args();
+        $args = array_map('escapeshellarg', $args);
+        $args[0] = $command;
+        $command = call_user_func_array('sprintf', $args);
+        echo $command . PHP_EOL;
+        exec($command, $output, $exitCode);
+        foreach ($output as $line) {
+            echo $line . PHP_EOL;
+        }
+        if (0 !== $exitCode) {
+            throw new Exception("Command has failed with exit code: $exitCode.");
+        }
+        return $output;
     }
 }
