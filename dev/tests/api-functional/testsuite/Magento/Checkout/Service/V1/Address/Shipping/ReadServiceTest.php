@@ -79,8 +79,7 @@ class ReadServiceTest extends WebapiAbstract
         }
 
         $requestData = ["cartId" => $cartId];
-        $result = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($data, $result);
+        $this->assertEquals($data, $this->_webApiCall($serviceInfo, $requestData));
     }
 
     /**
