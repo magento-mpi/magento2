@@ -32,7 +32,7 @@ interface ShipmentReadInterface
 
     /**
      * @param int $id
-     * @return string
+     * @return string|null
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getLabel($id);

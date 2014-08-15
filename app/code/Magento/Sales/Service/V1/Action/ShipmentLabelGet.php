@@ -22,9 +22,8 @@ class ShipmentLabelGet
     /**
      * @param ShipmentRepository $shipmentRepository
      */
-    public function __construct(
-        ShipmentRepository $shipmentRepository
-    ) {
+    public function __construct(ShipmentRepository $shipmentRepository)
+    {
         $this->shipmentRepository = $shipmentRepository;
     }
 
