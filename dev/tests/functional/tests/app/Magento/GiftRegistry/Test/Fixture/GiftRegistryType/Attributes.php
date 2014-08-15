@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+namespace Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
 
 use Mtf\Fixture\FixtureInterface;
 
