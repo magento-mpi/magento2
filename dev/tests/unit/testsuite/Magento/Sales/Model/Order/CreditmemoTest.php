@@ -108,4 +108,22 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('creditmemo', $this->creditmemo->getEntityType());
     }
 
+    public function testIsValidGrandTotalGrandTotalEmpty()
+    {
+        $this->creditmemo->setGrandTotal(0);
+        $this->assertFalse($this->creditmemo->isValidGrandTotal());
+    }
+
+    public function testIsValidGrandTotalGrandTotal()
+    {
+        $this->creditmemo->setGrandTotal(0);
+        $this->creditmemo->getAllowZeroGrandTotal(true);
+        $this->assertFalse($this->creditmemo->isValidGrandTotal());
+    }
+
+    public function testIsValidGrandTotal()
+    {
+        $this->creditmemo->setGrandTotal(1);
+        $this->assertTrue($this->creditmemo->isValidGrandTotal());
+    }
 }
