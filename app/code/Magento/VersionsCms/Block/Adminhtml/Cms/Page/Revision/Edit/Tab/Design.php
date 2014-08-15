@@ -37,8 +37,8 @@ class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
         \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
-        \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Core\Model\PageLayout\Config\Builder $pageLayoutBuilder,
+        \Magento\VersionsCms\Helper\Data $cmsData,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
