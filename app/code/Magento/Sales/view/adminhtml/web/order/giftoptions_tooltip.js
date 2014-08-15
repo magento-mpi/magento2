@@ -4,13 +4,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /**
  * Gift Options Tooltip Model
  * 
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-GiftOptionsTooltip = Class.create();
+define(["prototype"], function(){
+
+
+window.GiftOptionsTooltip = Class.create();
 GiftOptionsTooltip.prototype = {
     _tooltipLines: [],
     _tooltipWindow: null,
@@ -189,4 +191,6 @@ GiftOptionsTooltip.prototype = {
     }
 };
 
-giftOptionsTooltip = new GiftOptionsTooltip();
+window.giftOptionsTooltip = new GiftOptionsTooltip();
+
+});

@@ -12,6 +12,10 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Reward
+ * Reward point fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Reward extends InjectableFixture
 {
@@ -51,8 +55,9 @@ class Reward extends InjectableFixture
         'attribute_code' => 'website_id',
         'backend_type' => 'smallint',
         'is_required' => '',
-        'default_value' => '',
+        'default_value' => '0',
         'input' => '',
+        'group' => 'reward_points'
     ];
 
     protected $points_balance = [

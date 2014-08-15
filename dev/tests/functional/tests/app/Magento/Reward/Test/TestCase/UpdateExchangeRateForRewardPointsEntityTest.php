@@ -92,7 +92,7 @@ class UpdateExchangeRateForRewardPointsEntityTest extends Injectable
      * Run update exchange rate reward points entity test
      *
      * @param RewardRate $originalRate
-     * @param RewardRate $rate
+     * @param RewardRate $updateRate
      * @param CustomerInjectable $customer
      * @param ConfigData $config
      * @param ConfigData $configRollback
@@ -104,7 +104,7 @@ class UpdateExchangeRateForRewardPointsEntityTest extends Injectable
      */
     public function test(
         RewardRate $originalRate,
-        RewardRate $rate,
+        RewardRate $updateRate,
         CustomerInjectable $customer,
         ConfigData $config,
         ConfigData $configRollback,
@@ -120,7 +120,7 @@ class UpdateExchangeRateForRewardPointsEntityTest extends Injectable
         // Steps
         $this->rewardRateIndexPage->open();
         $this->rewardRateIndexPage->getRewardRateGrid()->searchAndOpen(['rate_id' => $originalRate->getRateId()]);
-        $this->rewardRateNewPage->getRewardRateForm()->fill($rate);
+        $this->rewardRateNewPage->getRewardRateForm()->fill($updateRate);
         $this->rewardRateNewPage->getFormPageActions()->save();
     }
 

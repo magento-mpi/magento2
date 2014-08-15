@@ -87,7 +87,7 @@ class CalculatorFactory
             $calculator->setCustomerTaxClassId($customerTaxClassId);
         }
         if (null != $customerId) {
-            $calculator->setCustomerId($customerTaxClassId);
+            $calculator->setCustomerId($customerId);
         }
         return $calculator;
     }

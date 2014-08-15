@@ -11,6 +11,7 @@ namespace Magento\Review\Test\Constraint;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductReviewInGrid
@@ -29,7 +30,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
      *
      * @var array
      */
-    protected $filter = [
+    public $filter = [
         'review_id',
         'status' => 'status_id',
         'title',
@@ -46,10 +47,39 @@ class AssertProductReviewInGrid extends AbstractConstraint
      *
      * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review
-     * @param string $status [optional]
+     * @param string $gridStatus
+     * @param ReviewInjectable $reviewInitial
      * @return void
      */
-    public function processAssert(ReviewIndex $reviewIndex, ReviewInjectable $review, $gridStatus = '')
+    public function processAssert(
+        ReviewIndex $reviewIndex,
+        ReviewInjectable $review,
+        $gridStatus = '',
+        ReviewInjectable $reviewInitial = null
+    ) {
+        $product = $reviewInitial === null
+            ? $review->getDataFieldConfig('entity_id')['source']->getEntity()
+            : $reviewInitial->getDataFieldConfig('entity_id')['source']->getEntity();
+        $filter = $this->prepareFilter($product, $review, $gridStatus);
+
+        $reviewIndex->open();
+        $reviewIndex->getReviewGrid()->search($filter);
+        unset($filter['visible_in']);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $reviewIndex->getReviewGrid()->isRowVisible($filter, false),
+            'Review with is absent in Review grid.'
+        );
+    }
+
+    /**
+     * Prepare filter for assert
+     *
+     * @param FixtureInterface $product
+     * @param ReviewInjectable $review
+     * @param string $gridStatus
+     * @return array
+     */
+    public function prepareFilter(FixtureInterface $product, ReviewInjectable $review, $gridStatus)
     {
         $filter = [];
         foreach ($this->filter as $key => $item) {
@@ -60,7 +90,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
             switch ($param) {
                 case 'name':
                 case 'sku':
-                    $value = $review->getDataFieldConfig('entity_id')['source']->getEntity()->getData($param);
+                    $value = $product->getData($param);
                     break;
                 case 'select_stores':
                     $value = $review->getData($param)[0];
@@ -76,14 +106,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
                 $filter += [$type => $value];
             }
         }
-
-        $reviewIndex->open();
-        $reviewIndex->getReviewGrid()->search($filter);
-        unset($filter['visible_in']);
-        \PHPUnit_Framework_Assert::assertTrue(
-            $reviewIndex->getReviewGrid()->isRowVisible($filter, false),
-            'Review with is absent in Review grid.'
-        );
+        return $filter;
     }
 
     /**

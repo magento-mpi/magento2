@@ -39,6 +39,7 @@
     <?php echo $this->getHintHtml() ?>
 </div>
 <script type="text/javascript">
+require(['prototype'], function(){
 //<![CDATA[
 
 document.observe("dom:loaded", function() {
@@ -50,6 +51,8 @@ Event.observe($('store_switcher'), 'change', function(event) {
     $('preview_selected_store').value = element.value;
 });
 //]]>
+
+});
 </script>
 <?php endif; ?>
 

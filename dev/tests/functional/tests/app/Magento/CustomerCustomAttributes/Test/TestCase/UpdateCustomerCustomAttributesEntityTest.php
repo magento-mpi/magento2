@@ -46,7 +46,7 @@ class UpdateCustomerCustomAttributesEntityTest extends AbstractCustomerCustomAtt
         $initialCustomerAttribute->persist();
 
         // Steps
-        $filter = ['frontend_label' => $initialCustomerAttribute->getFrontendLabel()];
+        $filter = ['attribute_code' => $initialCustomerAttribute->getAttributeCode()];
         $this->customerAttributeIndex->open();
         $this->customerAttributeIndex->getCustomerCustomAttributesGrid()->searchAndOpen($filter);
         $this->customerAttributeNew->getCustomerCustomAttributesForm()->fill($customerAttribute);

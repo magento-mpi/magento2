@@ -20,6 +20,13 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 class AssertCustomerSegmentForm extends AbstractAssertForm
 {
     /**
+     * Skipped fields for verify data
+     *
+     * @var array
+     */
+    protected $skippedFields = ['conditions_serialized', 'segment_id'];
+
+    /**
      * Constraint severeness
      *
      * @var string
@@ -45,7 +52,7 @@ class AssertCustomerSegmentForm extends AbstractAssertForm
         ];
         $customerSegmentIndex->getGrid()->searchAndOpen($filter);
 
-        $formData = $customerSegmentNew->getFormTabs()->getData();
+        $formData = $customerSegmentNew->getCustomerSegmentForm()->getData();
         $dataDiff = $this->verifyData($customerSegment->getData(), $formData, false, false);
         \PHPUnit_Framework_Assert::assertEmpty(
             $dataDiff,

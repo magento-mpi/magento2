@@ -36,6 +36,12 @@ class CustomerInjectable extends InjectableFixture
         'password_confirmation' => '123123q',
     ];
 
+    protected $address = [
+        'attribute_code' => 'address',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address'
+    ];
+
     protected $confirmation = [
         'attribute_code' => 'confirmation',
         'backend_type' => 'varchar',
@@ -135,6 +141,7 @@ class CustomerInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'select',
         'group' => 'account_information',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\GroupId'
     ];
 
     protected $lastname = [
@@ -250,15 +257,15 @@ class CustomerInjectable extends InjectableFixture
         'group' => null,
     ];
 
-    protected $reward_points_delta = [
-        'attribute_code' => 'reward_points_delta',
-        'backend_type' => 'virtual',
-    ];
+    public function getId()
+    {
+        return $this->getData('id');
+    }
 
-    protected $store_credit = [
-        'attribute_code' => 'store_credit',
-        'backend_type' => 'virtual',
-    ];
+    public function getAddress()
+    {
+        return $this->getData('address');
+    }
 
     public function getConfirmation()
     {
@@ -383,20 +390,5 @@ class CustomerInjectable extends InjectableFixture
     public function getPasswordConfirmation()
     {
         return $this->getData('password_confirmation');
-    }
-
-    public function getRewardPointsDelta()
-    {
-        return $this->getData('reward_points_delta');
-    }
-
-    public function getStoreCredit()
-    {
-        return $this->getData('store_credit');
-    }
-
-    public function getId()
-    {
-        return $this->getData('id');
     }
 }

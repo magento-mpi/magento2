@@ -24,19 +24,19 @@ class Switcher extends Block
      *
      * @var string
      */
-    protected $currencySwitch = '#currency-switcher';
+    protected $currencySwitch = '#switcher-currency-trigger';
 
     /**
      * Currency link locator
      *
      * @var string
      */
-    protected $currencyLinkLocator = '//li[@class="currency-%s"]//a';
+    protected $currencyLinkLocator = '//li[@class="currency-%s switcher-option"]//a';
 
     /**
      * Switch currency to specified one
      *
-     * @param string CurrencySymbolEntity $currencySymbol
+     * @param CurrencySymbolEntity $currencySymbol
      * @return void
      */
     public function switchCurrency(CurrencySymbolEntity $currencySymbol)

@@ -5,8 +5,9 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-(function($) {
+define(["jquery"], function($){
     "use strict";
+    
     $(function() {
         $('body').on('click', '[data-tax-toggle]', function() {
             var currElem = $(this),
@@ -16,4 +17,5 @@
             $(args.itemTaxId).toggle();
         });
     });
-})(jQuery);
+
+});

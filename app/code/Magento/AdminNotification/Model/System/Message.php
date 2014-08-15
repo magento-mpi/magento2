@@ -1,13 +1,13 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
 namespace Magento\AdminNotification\Model\System;
 
-class Message extends \Magento\Framework\Model\AbstractModel implements \Magento\AdminNotification\Model\System\MessageInterface
+class Message extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Notification\MessageInterface
 {
     /**
      * @return void

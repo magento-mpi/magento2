@@ -37,7 +37,7 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountIndex $customerAccountIndex
      * @param RewardCustomerInfo $rewardCustomerInfo
-     * @param RewardRate $reward
+     * @param RewardRate $rate
      * @return void
      */
     public function processAssert(
@@ -46,7 +46,7 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         RewardCustomerInfo $rewardCustomerInfo,
-        RewardRate $reward
+        RewardRate $rate
     ) {
         $cmsIndex->open();
         if ($cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
@@ -62,8 +62,8 @@ class AssertRewardNoExchangeMessageForPointsToCurrency extends AbstractConstrain
 
         $expectedMessage = sprintf(
             'Each %d Reward points can be redeemed for $%s.',
-            $reward->getValue(),
-            $reward->getEqualValue()
+            $rate->getValue(),
+            $rate->getEqualValue()
         );
 
         \PHPUnit_Framework_Assert::assertFalse(

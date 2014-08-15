@@ -67,6 +67,6 @@ class AssertCustomerCustomAttributeOnCustomerEditPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer Attribute is present during edit customer account on frontend.';
+        return 'Customer Attribute is present during editing customer account on frontend.';
     }
 }

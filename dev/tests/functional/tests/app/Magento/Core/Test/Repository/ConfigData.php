@@ -23,6 +23,7 @@ class ConfigData extends AbstractRepository
      * @param array $defaultConfig [optional]
      * @param array $defaultData [optional]
      *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
@@ -436,6 +437,35 @@ class ConfigData extends AbstractRepository
                 [
                     'path' => 'payment/purchaseorder/allowspecific',
                     'scope' => 'payment',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ],
+            ]
+        ];
+        
+        //Multiple wishlist
+        $this->_data['multiple_wishlist_default'] = [
+            'section' => [
+                [
+                    'path' => 'wishlist/general/multiple_enabled',
+                    'scope' => 'wishlist',
+                    'scope_id' => 1,
+                    'value' => 1,
+                ],
+                [
+                    'path' => 'wishlist/general/multiple_wishlist_number',
+                    'scope' => 'wishlist',
+                    'scope_id' => 1,
+                    'value' => 3,
+                ],
+            ]
+        ];
+
+        $this->_data['disabled_multiple_wishlist_default'] = [
+            'section' => [
+                [
+                    'path' => 'wishlist/general/multiple_enabled',
+                    'scope' => 'wishlist',
                     'scope_id' => 1,
                     'value' => 0,
                 ],

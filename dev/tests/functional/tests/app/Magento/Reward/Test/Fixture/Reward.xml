@@ -17,36 +17,37 @@
             <attribute_code>reward_id</attribute_code>
             <backend_type>int</backend_type>
             <is_required>1</is_required>
-            <default_value></default_value>
-            <input></input>
+            <default_value />
+            <input />
         </reward_id>
         <customer_id>
             <attribute_code>customer_id</attribute_code>
             <backend_type>int</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
-            <input></input>
+            <input />
         </customer_id>
         <website_id>
             <attribute_code>website_id</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value>0</default_value>
+            <input />
+            <group>reward_points</group>
         </website_id>
         <points_balance>
             <attribute_code>points_balance</attribute_code>
             <backend_type>int</backend_type>
-            <is_required></is_required>
+            <is_required />
             <default_value>0</default_value>
-            <input></input>
+            <input />
         </points_balance>
         <website_currency_code>
             <attribute_code>website_currency_code</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
+            <is_required />
+            <default_value />
+            <input />
         </website_currency_code>
         <reward_update_notification>
             <attribute_code>reward_update_notification</attribute_code>

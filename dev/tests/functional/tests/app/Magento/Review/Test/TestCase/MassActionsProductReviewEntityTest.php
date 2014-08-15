@@ -8,6 +8,8 @@
 
 namespace Magento\Review\Test\TestCase;
 
+use Magento\Review\Test\Page\Adminhtml\RatingIndex;
+use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Mtf\TestCase\Injectable;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
@@ -37,6 +39,20 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class MassActionsProductReviewEntityTest extends Injectable
 {
     /**
+     * Backend rating grid page
+     *
+     * @var RatingIndex
+     */
+    protected $ratingIndex;
+
+    /**
+     * Backend rating edit page
+     *
+     * @var RatingEdit
+     */
+    protected $ratingEdit;
+
+    /**
      * Review index page
      *
      * @var ReviewIndex
@@ -44,29 +60,34 @@ class MassActionsProductReviewEntityTest extends Injectable
     protected $reviewIndex;
 
     /**
-     * Prepare data
+     * Fixture review
      *
-     * @param CatalogProductSimple $product
-     * @param ReviewInjectable $review
-     * @return array
+     * @var ReviewInjectable
      */
-    public function __prepare(CatalogProductSimple $product, ReviewInjectable $review)
-    {
-        $product->persist();
-        $review->persist();
-
-        return ['product' => $product, 'review' => $review];
-    }
+    protected $review;
 
     /**
      * Injection data
      *
      * @param ReviewIndex $reviewIndex
-     * @return void
+     * @param RatingIndex $ratingIndex
+     * @param RatingEdit $ratingEdit
+     * @param ReviewInjectable $review
+     * @return array
      */
-    public function __inject(ReviewIndex $reviewIndex)
-    {
+    public function __inject(
+        ReviewIndex $reviewIndex,
+        RatingIndex $ratingIndex,
+        RatingEdit $ratingEdit,
+        ReviewInjectable $review
+    ) {
         $this->reviewIndex = $reviewIndex;
+        $this->ratingIndex = $ratingIndex;
+        $this->ratingEdit = $ratingEdit;
+        $this->review = $review;
+        $this->review->persist();
+
+        return ['review' => $this->review];
     }
 
     /**
@@ -74,17 +95,32 @@ class MassActionsProductReviewEntityTest extends Injectable
      *
      * @param string $gridActions
      * @param string $gridStatus
-     * @param ReviewInjectable $review
      * @return void
      */
-    public function test($gridActions, $gridStatus, ReviewInjectable $review)
+    public function test($gridActions, $gridStatus)
     {
         // Steps
         $this->reviewIndex->open();
         $this->reviewIndex->getReviewGrid()->massaction(
-            [['title' => $review->getTitle()]],
+            [['title' => $this->review->getTitle()]],
             [$gridActions => $gridStatus],
             ($gridActions == 'Delete' ? true : false)
         );
+    }
+
+    /**
+     * Clear data after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $this->ratingIndex->open();
+        $ratingGrid = $this->ratingIndex->getRatingGrid();
+        $pageActions = $this->ratingEdit->getPageActions();
+        foreach ($this->review->getRatings() as $rating) {
+            $ratingGrid->searchAndOpen(['rating_code' => $rating['title']]);
+            $pageActions->delete();
+        }
     }
 }

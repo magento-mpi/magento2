@@ -4,8 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+define([
+    "jquery",
+    "jquery/ui",
+    "prototype"
+], function(jQuery){
 
-var Product = {};
+window.Product = {};
 
 (function ($) {
     $.widget("mage.productAttributes", {
@@ -61,8 +66,6 @@ var Product = {};
     });
 })(jQuery);
 
-var onInitDisableFieldsList = [];
-
 function toogleFieldEditMode(toogleIdentifier, fieldContainer) {
     if ($(toogleIdentifier).checked) {
         enableFieldEditMode(fieldContainer);
@@ -85,12 +88,9 @@ function enableFieldEditMode(fieldContainer) {
     }
 }
 
-function initDisableFields(fieldContainer) {
-    onInitDisableFieldsList.push(fieldContainer);
-}
-
 function onCompleteDisableInited() {
-    onInitDisableFieldsList.each( function(item) {
+    jQuery.each(jQuery('[data-disable]'), function() {
+        var item = jQuery(this).data('disable');
         disableFieldEditMode(item);
     });
 }
@@ -120,4 +120,13 @@ function onCustomUseParentChanged(element) {
     });
 }
 
+window.onCustomUseParentChanged = onCustomUseParentChanged;
+window.onUrlkeyChanged = onUrlkeyChanged;
+window.onCompleteDisableInited = onCompleteDisableInited;
+window.enableFieldEditMode = enableFieldEditMode;
+window.disableFieldEditMode = disableFieldEditMode;
+window.toogleFieldEditMode = toogleFieldEditMode;
+
 Event.observe(window, 'load', onCompleteDisableInited);
+
+});

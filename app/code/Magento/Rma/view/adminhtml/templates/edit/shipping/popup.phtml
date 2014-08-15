@@ -11,6 +11,8 @@
 $sizeSource = $this->getSourceSizeModel();
 ?>
 <script type="text/javascript">
+require(['prototype', "Magento_Shipping/order/packaging"], function(){
+
 //<![CDATA[
 document.observe("dom:loaded", function() {
     packaging.changeContainerType($$('select[name=package_container]')[0]);
@@ -20,6 +22,8 @@ document.observe("dom:loaded", function() {
     );
 });
 //]]>
+
+});
 </script>
 <div id="packaging_window" class="packaging-window" style="display:none;">
     <div class="popup-window-wrapper">

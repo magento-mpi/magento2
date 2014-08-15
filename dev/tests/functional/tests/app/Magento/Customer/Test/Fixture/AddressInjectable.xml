@@ -146,6 +146,20 @@
             <default_value></default_value>
             <input>text</input>
         </vat_request_success>
+        <default_billing>
+            <attribute_code>default_billing</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>checkbox</input>
+        </default_billing>
+        <default_shipping>
+            <attribute_code>default_shipping</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>checkbox</input>
+        </default_shipping>
         <email>
             <attribute_code>email</attribute_code>
             <backend_type>virtual</backend_type>

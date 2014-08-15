@@ -47,6 +47,22 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_code = self::CODE;
 
     /**
+     * Types of rates, order is important
+     *
+     * @var array
+     */
+    protected $_ratesOrder = [
+        'RATED_ACCOUNT_PACKAGE',
+        'PAYOR_ACCOUNT_PACKAGE',
+        'RATED_ACCOUNT_SHIPMENT',
+        'PAYOR_ACCOUNT_SHIPMENT',
+        'RATED_LIST_PACKAGE',
+        'PAYOR_LIST_PACKAGE',
+        'RATED_LIST_SHIPMENT',
+        'PAYOR_LIST_SHIPMENT'
+    ];
+
+    /**
      * Rate request data
      *
      * @var RateRequest|null
@@ -569,8 +585,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                 $rateTypeAmounts[$rateType] = $netAmount;
             }
 
-            // Order is important
-            foreach (array('RATED_ACCOUNT_SHIPMENT', 'RATED_LIST_SHIPMENT', 'RATED_LIST_PACKAGE') as $rateType) {
+            foreach ($this->_ratesOrder as $rateType) {
                 if (!empty($rateTypeAmounts[$rateType])) {
                     $amount = $rateTypeAmounts[$rateType];
                     break;

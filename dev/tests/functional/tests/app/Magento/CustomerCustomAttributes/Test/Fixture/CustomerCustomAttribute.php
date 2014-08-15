@@ -31,8 +31,8 @@ class CustomerCustomAttribute extends InjectableFixture
     // @codingStandardsIgnoreEnd
 
     protected $defaultDataSet = [
-        'frontend_label' => 'attribute_label%isolation%',
-        'attribute_code' => 'attribute_code%isolation%',
+        'frontend_label' => 'attribute_%isolation%',
+        'attribute_code' => 'attribute_%isolation%',
         'frontend_input' => 'Text Field',
         'sort_order' => '10'
     ];

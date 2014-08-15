@@ -48,6 +48,22 @@ class AddressInjectable extends InjectableFixture
         'input' => 'text',
     ];
 
+    protected $default_billing = [
+        'attribute_code' => 'default_billing',
+        'backend_type' => 'varchar',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'checkbox',
+    ];
+
+    protected $default_shipping = [
+        'attribute_code' => 'default_shipping',
+        'backend_type' => 'varchar',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'checkbox',
+    ];
+
     protected $company = [
         'attribute_code' => 'company',
         'backend_type' => 'varchar',
@@ -82,6 +98,14 @@ class AddressInjectable extends InjectableFixture
 
     protected $lastname = [
         'attribute_code' => 'lastname',
+        'backend_type' => 'varchar',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'text',
+    ];
+
+    protected $email = [
+        'attribute_code' => 'email',
         'backend_type' => 'varchar',
         'is_required' => '1',
         'default_value' => '',
@@ -192,14 +216,24 @@ class AddressInjectable extends InjectableFixture
         'input' => 'text',
     ];
 
-    protected $email = [
-        'attribute_code' => 'email',
-        'backend_type' => 'virtual',
-    ];
-
     public function getCity()
     {
         return $this->getData('city');
+    }
+
+    public function getDefaultShipping()
+    {
+        return $this->getData('default_shipping');
+    }
+
+    public function getDefaultBilling()
+    {
+        return $this->getData('default_billing');
+    }
+
+    public function getEmail()
+    {
+        return $this->getData('email');
     }
 
     public function getCompany()
@@ -290,10 +324,5 @@ class AddressInjectable extends InjectableFixture
     public function getVatRequestSuccess()
     {
         return $this->getData('vat_request_success');
-    }
-
-    public function getEmail()
-    {
-        return $this->getData('email');
     }
 }

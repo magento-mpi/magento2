@@ -86,18 +86,18 @@ class DeleteExchangeRateForRewardPointsEntityTest extends Injectable
     }
 
     /**
-     * Run Test Creation for Exchange Rate Deletion for RewardPointsEntity
+     * Run Test Creation for Exchange Rate Deletion for RewardRateEntity
      *
-     * @param RewardRate $reward
+     * @param RewardRate $rate
      * @return void
      */
-    public function test(RewardRate $reward)
+    public function test(RewardRate $rate)
     {
         // Preconditions
-        $reward->persist();
+        $rate->persist();
 
         // Steps
-        $filter = ['rate_id' => $reward->getRateId()];
+        $filter = ['rate_id' => $rate->getRateId()];
         $this->rewardRateIndex->open();
         $this->rewardRateIndex->getRewardRateGrid()->searchAndOpen($filter);
         $this->rewardRateNew->getFormPageActions()->delete();

@@ -18,6 +18,7 @@ use Mtf\Client\Element\Locator;
  * Basic grid actions
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 abstract class Grid extends Block
 {
@@ -83,6 +84,13 @@ abstract class Grid extends Block
      * @var string
      */
     protected $massactionSelect = '[id*=massaction-select]';
+
+    /**
+     * Massaction dropdown
+     *
+     * @var string
+     */
+    protected $massactionAction = '#massaction-select';
 
     /**
      * Massaction 'Submit' button
@@ -239,17 +247,22 @@ abstract class Grid extends Block
      * Perform selected massaction over checked items
      *
      * @param array $items
-     * @param array|string $action
+     * @param array|string $action [array -> key = value from first select; value => value from subselect]
      * @param bool $acceptAlert [optional]
+     * @param string $massActionSelection [optional]
      * @return void
      */
-    public function massaction(array $items, $action, $acceptAlert = false)
+    public function massaction(array $items, $action, $acceptAlert = false, $massActionSelection = '')
     {
         if (!is_array($action)) {
             $action = [$action => '-'];
         }
         foreach ($items as $item) {
             $this->searchAndSelect($item);
+        }
+        if ($massActionSelection) {
+            $this->_rootElement->find($this->massactionAction, Locator::SELECTOR_CSS, 'select')
+                ->setValue($massActionSelection);
         }
         $actionType = key($action);
         $this->_rootElement->find($this->massactionSelect, Locator::SELECTOR_CSS, 'select')->setValue($actionType);
