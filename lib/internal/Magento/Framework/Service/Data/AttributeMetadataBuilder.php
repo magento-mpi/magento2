@@ -13,6 +13,8 @@ namespace Magento\Framework\Service\Data;
  */
 class AttributeMetadataBuilder extends AbstractObjectBuilder implements AttributeMetadataBuilderInterface
 {
+    const ATTRIBUTE_CODE = 'attribute_code';
+
     /**
      * Set attribute code
      *
@@ -21,6 +23,6 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder implements Attribut
      */
     public function setAttributeCode($attributeCode)
     {
-        return $this->_set('attribute_code', $attributeCode);
+        return $this->_set(self::ATTRIBUTE_CODE, $attributeCode);
     }
 }
