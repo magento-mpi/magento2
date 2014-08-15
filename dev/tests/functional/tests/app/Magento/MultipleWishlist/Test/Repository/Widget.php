@@ -43,7 +43,7 @@ class Widget extends \Magento\Widget\Test\Repository\Widget
             'parameters' => [
                 'types' => ['email']
             ],
-            'theme_id' => '2',
+            'theme_id' => 'Magento Blank',
             'code' => 'wishlist_search',
             'sort_order' => 0
         ];
