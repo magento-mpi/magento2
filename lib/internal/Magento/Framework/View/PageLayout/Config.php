@@ -69,7 +69,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
 
         /** @var \DOMElement $layout */
         foreach ($dom->getElementsByTagName('layout') as $layout) {
-            $result[$layout->getAttribute('id')] = trim($layout->nodeValue);
+            $result[] = ['value' => $layout->getAttribute('id'), 'label' => trim($layout->nodeValue)];
         }
         return $result;
     }
