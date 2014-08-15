@@ -178,7 +178,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->shippingAddressMock));
-        $this->shippingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue($countryId));
+        $this->shippingAddressMock->expects($this->once())
+            ->method('getCountryId')->will($this->returnValue($countryId));
         $billingAddressMock = $this->getMock(
             '\Magento\Sales\Model\Quote\Address',
             ['getCountryId', '__wakeup'],
@@ -223,7 +224,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())
             ->method('getBillingAddress')->will($this->returnValue($billingAddressMock));
         $billingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue(23));
-        $this->shippingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue($countryId));
+        $this->shippingAddressMock->expects($this->once())
+            ->method('getCountryId')->will($this->returnValue($countryId));
         $this->shippingAddressMock->expects($this->once())
             ->method('setShippingMethod')->with($carrierCode . '_' . $methodCode);
         $this->shippingAddressMock->expects($this->once())
@@ -253,7 +255,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->shippingAddressMock));
-        $this->shippingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue($countryId));
+        $this->shippingAddressMock->expects($this->once())
+            ->method('getCountryId')->will($this->returnValue($countryId));
         $billingAddressMock = $this->getMock(
             '\Magento\Sales\Model\Quote\Address',
             [
@@ -269,7 +272,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $billingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue(23));
         $this->shippingAddressMock->expects($this->once())
             ->method('setShippingMethod')->with($carrierCode . '_' . $methodCode);
-        $this->shippingAddressMock->expects($this->once())->method('requestShippingRates')->will($this->returnValue(true));
+        $this->shippingAddressMock->expects($this->once())
+            ->method('requestShippingRates')->will($this->returnValue(true));
         $exception = new \Exception('Custom Error');
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnSelf());
         $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
@@ -330,7 +334,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())
             ->method('getBillingAddress')->will($this->returnValue($billingAddressMock));
         $billingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue(23));
-        $this->shippingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue($countryId));
+        $this->shippingAddressMock->expects($this->once())
+            ->method('getCountryId')->will($this->returnValue($countryId));
         $this->shippingAddressMock->expects($this->once())
             ->method('setShippingMethod')->with($carrierCode . '_' . $methodCode);
         $this->shippingAddressMock->expects($this->once())
@@ -341,4 +346,3 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->service->setMethod($cartId, $carrierCode, $methodCode));
     }
 }
- 

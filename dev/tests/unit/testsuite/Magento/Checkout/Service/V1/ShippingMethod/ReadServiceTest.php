@@ -176,7 +176,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getShippingMethod')->will($this->returnValue('one_two'));
         $this->shippingAddressMock->expects($this->once())
             ->method('getShippingDescription')->will($this->returnValue('carrier - method'));
-        $this->shippingAddressMock->expects($this->once())->method('getShippingAmount')->will($this->returnValue(123.56));
+        $this->shippingAddressMock->expects($this->once())
+            ->method('getShippingAmount')->will($this->returnValue(123.56));
         $this->shippingAddressMock->expects($this->once())
             ->method('getBaseShippingAmount')->will($this->returnValue(100.06));
         $output = [
