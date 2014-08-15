@@ -9,8 +9,6 @@ namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
 /**
  * Class ViewTest
- *
- * @package Magento\Sales\Controller\Adminhtml\Order\Creditmemo
  */
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
