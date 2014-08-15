@@ -12,7 +12,7 @@
         "magento/framework": "0.1.0-alpha90"
     },
     "type": "magento2-module",
-    "version": "0.1.0-alpha90",
+    "version": "0.1.0-alpha91",
     "extra": {
         "map": [
             [

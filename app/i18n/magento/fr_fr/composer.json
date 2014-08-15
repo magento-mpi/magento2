@@ -1,7 +1,7 @@
 {
     "name": "magento/language-fr_fr",
     "description": "French (France) language",
-    "version": "0.1.0-alpha90",
+    "version": "0.1.0-alpha91",
     "require": {
         "magento/framework": "0.1.0-alpha90",
         "magento/magento-composer-installer": "*"
