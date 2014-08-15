@@ -23,16 +23,28 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     /** @var \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator */
     protected $cmsPageUrlPathGenerator;
 
+    /** @var \Magento\CatalogUrlRewrite\Service\V1\UrlManager */
+    protected $urlMatcher;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
+     * @param \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator
+     * @param \Magento\CatalogUrlRewrite\Service\V1\UrlManager $urlMatcher
+     */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
-        \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator
+        \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator,
+        \Magento\CatalogUrlRewrite\Service\V1\UrlManager $urlMatcher
     ) {
         parent::__construct($context);
         $this->productUrlPathGenerator = $productUrlPathGenerator;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->cmsPageUrlPathGenerator = $cmsPageUrlPathGenerator;
+        $this->urlMatcher = $urlMatcher;
     }
 
     /**
@@ -63,10 +75,29 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
             $model->setEntityType($isProduct ? self::ENTITY_TYPE_PRODUCT : self::ENTITY_TYPE_CATEGORY);
             $model->setEntityId($isProduct ? $product->getId() : $category->getId());
             if ($model->isObjectNew()) {
-                $model->setTargetPath($isProduct
-                    ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
-                    : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
-                );
+                if ($model->getRedirectType()) {
+                    $rewrite = $this->urlMatcher->findByFilter([
+                        'entity_id' => $model->getEntityId(),
+                        'entity_type' => $model->getEntityType(),
+                        'store_id'    => $model->getStoreId(),
+                    ]);
+                    if (!$rewrite) {
+                        if ($product) {
+                            throw new Exception(
+                                __('Chosen product does not associated with the chosen store or category.')
+                            );
+                        } else {
+                            throw new Exception(__('Chosen category does not associated with the chosen store.'));
+                        }
+                    } else {
+                        $model->setTargetPath($rewrite->getRequestPath());
+                    }
+                } else {
+                    $model->setTargetPath($isProduct
+                        ? $this->productUrlPathGenerator->getCanonicalUrlPath($product, $category)
+                        : $this->categoryUrlPathGenerator->getCanonicalUrlPath($category)
+                    );
+                }
             }
         }
     }
@@ -105,9 +136,13 @@ class Save extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
             return;
         }
 
-        $model->setTargetPath($this->cmsPageUrlPathGenerator->getCanonicalUrlPath($cmsPage));
         $model->setEntityType(self::ENTITY_TYPE_CMS_PAGE);
         $model->setEntityId($cmsPage->getId());
+        if ($model->isObjectNew()) {
+            $model->setTargetPath($model->getRedirectType() ? $this->cmsPageUrlPathGenerator->getUrlPath($cmsPage)
+                : $this->cmsPageUrlPathGenerator->getCanonicalUrlPath($cmsPage)
+            );
+        }
     }
 
     /**
