@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Adminhtml\Block\Item\Price;
+namespace Magento\Tax\Block\Adminhtml\Items\Price;
 
 use Magento\Framework\Object;
 

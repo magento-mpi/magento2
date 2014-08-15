@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Block\Adminhtml\Items;
+namespace Magento\Sales\Block\Adminhtml\Items\Column;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
