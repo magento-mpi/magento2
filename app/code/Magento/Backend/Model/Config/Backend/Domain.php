@@ -24,6 +24,7 @@ class Domain extends \Magento\Framework\App\Config\Value
 
         $validator = new \Zend\Validator\Hostname(\Zend\Validator\Hostname::ALLOW_ALL);
 
+        // Empty value is treated valid and will be handled when read the value out
         if (!empty($value) && !$validator->isValid($value)) {
             throw new \Magento\Framework\Model\Exception(
                 'Invalid domain name: ' . join('; ', $validator->getMessages())

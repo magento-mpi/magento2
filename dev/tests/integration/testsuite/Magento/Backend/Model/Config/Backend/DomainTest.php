@@ -56,6 +56,7 @@ class DomainTest extends \PHPUnit_Framework_TestCase
                 . 'The input does not appear to be a valid local network name'
             ],
             'valid hostname' => ['hostname.com'],
+            'empty string' => [''],
         ];
     }
 }
