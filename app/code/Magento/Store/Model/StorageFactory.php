@@ -102,11 +102,11 @@ class StorageFactory
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\State $appState,
-        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Framework\Stdlib\CookieManager $cookieManager,
         $defaultStorageClassName = 'Magento\Store\Model\Storage\DefaultStorage',
         $installedStorageClassName = 'Magento\Store\Model\Storage\Db',
         $writerModel = ''
@@ -119,9 +119,9 @@ class StorageFactory
         $this->_appState = $appState;
         $this->_sidResolver = $sidResolver;
         $this->_writerModel = $writerModel;
-        $this->_cookieManager = $cookieManager;
         $this->_httpContext = $httpContext;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
+        $this->_cookieManager = $cookieManager;
         $this->_scopeConfig = $scopeConfig;
         $this->request = $request;
     }

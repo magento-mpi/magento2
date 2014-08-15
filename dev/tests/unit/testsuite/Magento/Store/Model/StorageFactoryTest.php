@@ -123,7 +123,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_arguments = array('test' => 'argument', 'scopeCode' => '', 'scopeType' => '');
+        $this->_arguments = ['test' => 'argument', 'scopeCode' => '', 'scopeType' => ''];
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $this->_eventManagerMock = $this->getMock(
             'Magento\Framework\Event\ManagerInterface',
@@ -155,7 +155,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_model = $this->helper->getObject('\Magento\Store\Model\StorageFactory', array(
+        $this->_model = $this->helper->getObject('\Magento\Store\Model\StorageFactory', [
             'objectManager' => $this->_objectManagerMock,
             'eventManager' => $this->_eventManagerMock,
             'logger' => $this->_logMock,
@@ -166,7 +166,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             'scopeConfig' => $this->_scopeConfig,
             'request' => $this->request,
             'cookieMetadataFactory' => $this->cookieMetadataFactoryMock
-        ));
+        ]);
 
         $this->store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->store->expects($this->any())->method('getCode')->will($this->returnValue('store1'));
@@ -176,7 +176,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->group = $this->getMock(
             'Magento\Store\Model\Group',
-            array('getDefaultStoreId', '__sleep', '__wakeup'),
+            ['getDefaultStoreId', '__sleep', '__wakeup'],
             [],
             '',
             false
@@ -185,18 +185,18 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->storage = $this->getMock('Magento\Store\Model\Storage\Db', [], [], '', false);
         $this->storage->expects($this->any())->method('getWebsite')->will($this->returnValue($this->website));
         $this->storage->expects($this->any())->method('getWebsites')->will($this->returnValue(
-            array('website1' => $this->website)
+            ['website1' => $this->website]
         ));
-        $this->storage->expects($this->any())->method('getGroups')->will($this->returnValue(array(11 => $this->group)));
+        $this->storage->expects($this->any())->method('getGroups')->will($this->returnValue([11 => $this->group]));
         $this->storage->expects($this->any())->method('getStore')->will($this->returnValue($this->store));
 
         $this->storage->expects($this->any())
             ->method('getStores')
             ->will($this->returnCallback(function ($withDefault, $codeKey) {
                 if ($codeKey) {
-                    return array('store1' => $this->store);
+                    return ['store1' => $this->store];
                 } else {
-                    return array(21 => $this->store);
+                    return [21 => $this->store];
                 }
             }));
     }
@@ -355,15 +355,15 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getWithStoresReinitDataProvider()
     {
-        return array(
-            array('', '', 21, 11, 'store1'),
-            array('11', \Magento\Store\Model\ScopeInterface::SCOPE_GROUP, 21, null, 'store1'),
-            array('12', \Magento\Store\Model\ScopeInterface::SCOPE_GROUP, 22, null, null),
-            array('11', \Magento\Store\Model\ScopeInterface::SCOPE_GROUP, null, null, null),
-            array('website1', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, 21, 11, 'store1'),
-            array('31', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, 22, null, null),
-            array('website1', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, null, 0, null),
-        );
+        return [
+            ['', '', 21, 11, 'store1'],
+            ['11', \Magento\Store\Model\ScopeInterface::SCOPE_GROUP, 21, null, 'store1'],
+            ['12', \Magento\Store\Model\ScopeInterface::SCOPE_GROUP, 22, null, null],
+            ['11', \Magento\Store\Model\ScopeInterface::SCOPE_GROUP, null, null, null],
+            ['website1', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, 21, 11, 'store1'],
+            ['31', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, 22, null, null],
+            ['website1', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, null, 0, null],
+        ];
     }
 
     /**
@@ -418,11 +418,11 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getFromCookieDataProvider()
     {
-        return array(
-            array('website1', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE),
-            array('11', \Magento\Store\Model\ScopeInterface::SCOPE_GROUP),
-            array('store1', \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
-        );
+        return [
+            ['website1', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE],
+            ['11', \Magento\Store\Model\ScopeInterface::SCOPE_GROUP],
+            ['store1', \Magento\Store\Model\ScopeInterface::SCOPE_STORE],
+        ];
     }
 
     /**
@@ -462,9 +462,10 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->storage->expects($this->any())->method('setCurrentStore')->with('store1');
 
+        $numCreateCookieCalls = $isDefault ? 0 : 1;
         $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($this->storage));
         $cookieMetadata = $this->helper->getObject('Magento\Framework\Stdlib\Cookie\PublicCookieMetadata', []);
-        $this->cookieMetadataFactoryMock->expects($this->any())
+        $this->cookieMetadataFactoryMock->expects($this->exactly($numCreateCookieCalls))
             ->method('createPublicCookieMetadata')
             ->will($this->returnValue($cookieMetadata));
 
@@ -481,10 +482,10 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getFromRequestDataProvider()
     {
-        return array(
-            array(false, true),
-            array(true, true),
-            array(true, false),
-        );
+        return [
+            [false, true],
+            [true, true],
+            [true, false],
+        ];
     }
 }
