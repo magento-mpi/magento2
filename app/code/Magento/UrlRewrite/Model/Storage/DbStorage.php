@@ -49,15 +49,15 @@ class DbStorage extends AbstractStorage
     /**
      * Prepare select statement for specific filter
      *
-     * @param array $data
+     * @param Filter $filter
      * @return \Magento\Framework\DB\Select
      */
-    protected function prepareSelect($data)
+    protected function prepareSelect($filter)
     {
         $select = $this->connection->select();
         $select->from($this->resource->getTableName(self::TABLE_NAME));
 
-        foreach ($data as $column => $value) {
+        foreach ($filter->getData() as $column => $value) {
             $select->where($this->connection->quoteIdentifier($column) . ' IN (?)', $value);
         }
         return $select;
@@ -68,7 +68,7 @@ class DbStorage extends AbstractStorage
      */
     protected function doFindAllByFilter($filter)
     {
-        return $this->connection->fetchAll($this->prepareSelect($filter->getFilter()));
+        return $this->connection->fetchAll($this->prepareSelect($filter));
     }
 
     /**
@@ -76,7 +76,7 @@ class DbStorage extends AbstractStorage
      */
     protected function doFindByFilter($filter)
     {
-        return $this->connection->fetchRow($this->prepareSelect($filter->getFilter()));
+        return $this->connection->fetchRow($this->prepareSelect($filter));
     }
 
     /**
@@ -102,8 +102,7 @@ class DbStorage extends AbstractStorage
     public function deleteByFilter(Filter $filter)
     {
         $this->connection->query(
-            $this->prepareSelect($filter->getFilter())
-                ->deleteFromSelect($this->resource->getTableName(self::TABLE_NAME))
+            $this->prepareSelect($filter)->deleteFromSelect($this->resource->getTableName(self::TABLE_NAME))
         );
     }
 }

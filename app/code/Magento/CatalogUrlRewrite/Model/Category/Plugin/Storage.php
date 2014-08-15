@@ -79,7 +79,7 @@ class Storage
     public function beforeDeleteByFilter(StorageInterface $object, Filter $filter)
     {
         $params = [];
-        foreach ($filter->getFilter() as $column => $value) {
+        foreach ($filter->getData() as $column => $value) {
             $params[$column] = is_array($value) ? array_shift($value) : $value;
         }
         if ($params) {

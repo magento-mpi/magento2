@@ -57,9 +57,9 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteByEntityData(array $dataForFilter)
+    public function deleteByEntityData(array $filterData)
     {
-        $filter = $this->filterFactory->create(['filterData' => $dataForFilter]);
+        $filter = $this->filterFactory->create(['filterData' => $filterData]);
         $this->storage->deleteByFilter($filter);
     }
 
@@ -68,11 +68,10 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     public function match($requestPath, $storeId)
     {
-        /** @var Filter $filter */
-        $filter = $this->filterFactory->create();
-        $filter->setRequestPath($requestPath)->setStoreId($storeId);
-
-        return $this->findByFilter($filter);
+        return $this->findByData([
+            UrlRewrite::REQUEST_PATH => $requestPath,
+            UrlRewrite::STORE_ID => $storeId,
+        ]);
     }
 
     /**
@@ -80,11 +79,11 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     public function findByEntity($entityId, $entityType, $storeId = 0)
     {
-        /** @var Filter $filter */
-        $filter = $this->filterFactory->create();
-        $filter->setEntityId($entityId)->setEntityType($entityType)->setStoreId($storeId);
-
-        return $this->findByFilter($filter);
+        return $this->findByData([
+            UrlRewrite::ENTITY_ID => $entityId,
+            UrlRewrite::ENTITY_TYPE => $entityType,
+            UrlRewrite::STORE_ID => $storeId,
+        ]);
     }
 
     /**
@@ -126,14 +125,10 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
     }
 
     /**
-     * Find row by specific data
-     *
-     * @param array $data
-     * @return mixed
+     * {@inheritdoc}
      */
     public function findByData(array $data)
     {
-        $filter = $this->filterFactory->create(['filterData' => $data]);
-        return $this->storage->findByFilter($filter);
+        return $this->storage->findByFilter($this->filterFactory->create(['filterData' => $data]));
     }
 }

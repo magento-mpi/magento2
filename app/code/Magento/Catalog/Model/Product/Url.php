@@ -14,6 +14,9 @@
  */
 namespace Magento\Catalog\Model\Product;
 
+use Magento\UrlRewrite\Service\V1\Data\Filter;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+
 class Url extends \Magento\Framework\Object
 {
     /**
@@ -183,12 +186,13 @@ class Url extends \Magento\Framework\Object
             if (empty($requestPath) && $requestPath !== false) {
                 /** @TODO: UrlRewrite: Build product URL inside particular category */
                 $filterData = [
-                    'entity_id'   => $product->getId(),
-                    'entity_type' => \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE,
-                    'store_id'    => $storeId,
+                    UrlRewrite::ENTITY_ID => $product->getId(),
+                    UrlRewrite::ENTITY_TYPE => \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE,
+                    UrlRewrite::STORE_ID => $storeId,
                 ];
+                // @TODO: UrlRewrite think about const
                 if ($categoryId) {
-                    $filterData['category_id'] = $categoryId;
+                    $filterData[Filter::FIELD_DATA]['category_id'] = $categoryId;
                 }
                 $rewrite = $this->urlMatcher->findByData($filterData);
                 if ($rewrite) {

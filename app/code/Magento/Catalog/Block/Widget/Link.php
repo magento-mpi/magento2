@@ -15,6 +15,8 @@ namespace Magento\Catalog\Block\Widget;
 
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+use Magento\UrlRewrite\Service\V1\Data\Filter;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
@@ -88,12 +90,13 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
             $store = $this->hasStoreId() ? $this->_storeManager->getStore($this->getStoreId())
                 : $this->_storeManager->getStore();
             $filterData = [
-                'entity_id'   => $rewriteData[1],
-                'entity_type' => $rewriteData[0],
-                'store_id'    => $store->getId(),
+                UrlRewrite::ENTITY_ID => $rewriteData[1],
+                UrlRewrite::ENTITY_TYPE => $rewriteData[0],
+                UrlRewrite::STORE_ID => $store->getId(),
             ];
+            // @TODO: UrlRewrite think about const
             if (!empty($rewriteData[2])) {
-                $filterData['category_id'] = $rewriteData[2];
+                $filterData[Filter::FIELD_DATA]['category_id'] = $rewriteData[2];
             }
             if ($rewriteData[0] == ProductUrlRewriteGenerator::ENTITY_TYPE) {
                 $rewrite = $this->urlProductMatcher->findByData($filterData);
