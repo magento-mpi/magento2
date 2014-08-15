@@ -182,7 +182,6 @@ class Url extends \Magento\Framework\Object
         } else {
             $requestPath = $product->getRequestPath();
             if (empty($requestPath) && $requestPath !== false) {
-                /** @TODO: UrlRewrite: Build product URL inside particular category */
                 $filterData = [
                     UrlRewrite::ENTITY_ID => $product->getId(),
                     UrlRewrite::ENTITY_TYPE => \Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator::ENTITY_TYPE,

@@ -61,7 +61,6 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        /** @TODO: UrlRewrite: Build product URL inside particular category */
         UrlMatcherInterface $urlCategoryMatcher,
         UrlMatcherInterface $urlProductMatcher,
         array $data = array()
