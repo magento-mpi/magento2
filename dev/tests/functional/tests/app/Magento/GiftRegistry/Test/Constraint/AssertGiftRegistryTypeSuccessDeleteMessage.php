@@ -51,6 +51,6 @@ class AssertGiftRegistryTypeSuccessDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry success delete save message is present.';
+        return 'Gift registry type success delete message is present.';
     }
 }

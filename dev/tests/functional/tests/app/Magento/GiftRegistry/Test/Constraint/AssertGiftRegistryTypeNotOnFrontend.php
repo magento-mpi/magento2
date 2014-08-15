@@ -52,10 +52,13 @@ class AssertGiftRegistryTypeNotOnFrontend extends AbstractConstraint
         GiftRegistryAddSelect $giftRegistryAddSelect
     ) {
         $cmsIndex->open();
-        $cmsIndex->getLinksBlock()->openLink('Log In');
-        $customerAccountLogin->getLoginBlock()->fill($customer);
-        $customerAccountLogin->getLoginBlock()->submit();
-
+        if ($cmsIndex->getLinksBlock()->isLinkVisible('Log In')) {
+            $cmsIndex->getLinksBlock()->openLink('Log In');
+            $customerAccountLogin->getLoginBlock()->fill($customer);
+            $customerAccountLogin->getLoginBlock()->submit();
+        } else {
+            $customerAccountIndex->open();
+        }
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Registry');
         $giftRegistryIndex->getActionsToolbar()->addNew();
 
