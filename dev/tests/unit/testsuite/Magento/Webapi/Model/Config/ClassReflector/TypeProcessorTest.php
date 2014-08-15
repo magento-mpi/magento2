@@ -75,7 +75,7 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('string', $this->_typeProcessor->normalizeType('str'));
         $this->assertEquals('int', $this->_typeProcessor->normalizeType('integer'));
         $this->assertEquals('boolean', $this->_typeProcessor->normalizeType('bool'));
-        $this->assertEquals('any', $this->_typeProcessor->normalizeType('mixed'));
+        $this->assertEquals('anyType', $this->_typeProcessor->normalizeType('mixed'));
     }
 
     public function testIsTypeSimple()
