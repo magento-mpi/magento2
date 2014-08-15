@@ -10,7 +10,7 @@ namespace Magento\Reward\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Reward\Test\Fixture\Reward;
+use Magento\Reward\Test\Fixture\RewardRate;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
@@ -88,10 +88,10 @@ class DeleteExchangeRateForRewardPointsEntityTest extends Injectable
     /**
      * Run Test Creation for Exchange Rate Deletion for RewardPointsEntity
      *
-     * @param Reward $reward
+     * @param RewardRate $reward
      * @return void
      */
-    public function test(Reward $reward)
+    public function test(RewardRate $reward)
     {
         // Preconditions
         $reward->persist();

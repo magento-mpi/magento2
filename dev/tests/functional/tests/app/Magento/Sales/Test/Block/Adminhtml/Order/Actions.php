@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Actions
  * Order actions block
- *
  */
 class Actions extends Block
 {
@@ -229,11 +228,10 @@ class Actions extends Block
         $this->_rootElement->find($this->refundOffline, Locator::SELECTOR_CSS)->click();
     }
 
-
     /**
      * Check if action button is visible
      *
-     * @param $buttonTitle
+     * @param string $buttonTitle
      * @return bool
      */
     public function isActionButtonVisible($buttonTitle)

@@ -41,78 +41,34 @@ class Methods extends Form
     protected $waitElement = '.loading-mask';
 
     /**
-     * Array with store credit and reward points selectors
-     *
-     * @var array
-     */
-    protected $pointsSelectors = [
-        'storeCredit' => '#customerbalance-available-amount',
-        'rewardPoints' => '[name="payment[use_reward_points]"]',
-    ];
-
-    /**
      * Select payment method
      *
-     * @param Checkout $fixture
+     * @param array $payment
+     * @return void
      */
-    public function selectPaymentMethod(Checkout $fixture)
+    public function selectPaymentMethod(array $payment)
     {
-        $payment = $fixture->getPaymentMethod();
-        $paymentCode = $payment->getPaymentCode();
-        $this->_rootElement->find(sprintf($this->paymentMethod, $paymentCode), Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find(sprintf($this->paymentMethod, $payment['method']))->click();
 
-        $dataConfig = $payment->getDataConfig();
-        if (isset($dataConfig['payment_form_class'])) {
-            $paymentFormClass = $dataConfig['payment_form_class'];
-            /** @var $formBlock \Magento\Payment\Test\Block\Form\Cc */
-            $formBlock = new $paymentFormClass(
-                $this->_rootElement->find('#payment_form_' . $paymentCode),
-                $this->blockFactory,
-                $this->mapper,
-                $this->browser
+        if (isset($payment['dataConfig']['payment_form_class'])) {
+            $paymentFormClass = $payment['dataConfig']['payment_form_class'];
+            /** @var \Magento\Payment\Test\Block\Form\Cc $formBlock */
+            $formBlock = $this->blockFactory->create(
+                $paymentFormClass,
+                ['element' => $this->_rootElement->find('#payment_form_' . $payment['method'])]
             );
-            $formBlock->fill($fixture);
-        }
-
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible($this->waitElement);
-    }
-
-    /**
-     * Select payment method
-     *
-     * @param $paymentCode
-     */
-    public function clickOnPaymentMethod($paymentCode)
-    {
-        $this->applyCustomerPoints();
-        $this->_rootElement->find(sprintf($this->paymentMethod, $paymentCode), Locator::SELECTOR_CSS)->click();
-        if ($paymentCode == 'purchaseorder' && $this->_rootElement->find('#po_number')->isVisible()) {
-            $this->_rootElement->find('#po_number')->setValue(rand(1000000, 9999999));
+            $formBlock->fill($payment['cc']);
         }
     }
 
     /**
      * Press "Continue" button
-     */
-    public function pressContinue()
-    {
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible($this->waitElement);
-    }
-
-    /**
-     * Apply reward points or store credit
      *
      * @return void
      */
-    protected function applyCustomerPoints()
+    public function pressContinue()
     {
-        foreach ($this->pointsSelectors as $selector) {
-            $checkBox = $this->_rootElement->find($selector);
-            if ($checkBox->isVisible()) {
-                $checkBox->click();
-            }
-        }
+        $this->_rootElement->find($this->continue)->click();
+        $this->waitForElementNotVisible($this->waitElement);
     }
 }

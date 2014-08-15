@@ -43,39 +43,14 @@ class Method extends Block
     /**
      * Select shipping method
      *
-     * @param Checkout|\Magento\Shipping\Test\Fixture\Method[] $fixture
-     */
-    public function selectShippingMethod($fixture)
-    {
-        if ($fixture instanceof \Magento\Shipping\Test\Fixture\Method) {
-            $shippingMethod = $fixture->getData('fields');
-        } else {
-            $shippingMethod = $fixture->getShippingMethods()->getData('fields');
-        }
-        $selector = sprintf(
-            $this->shippingMethod,
-            $shippingMethod['shipping_service'],
-            $shippingMethod['shipping_method']
-        );
-        $this->waitForElementVisible($selector, Locator::SELECTOR_XPATH);
-        $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible($this->waitElement);
-    }
-
-    /**
-     * Select shipping
-     *
-     * @param array $shipping
+     * @param array $method
      * @return void
      */
-    public function selectShipping(array $shipping)
+    public function selectShippingMethod(array $method)
     {
-        $carrierSelector = str_replace(' ', '', 'dd.' . strtolower($shipping['carrier']));
-        if ($this->_rootElement->find($carrierSelector)->find('[name="shipping_method"]')->isVisible()) {
-            $this->_rootElement->find($carrierSelector)->find('[name="shipping_method"]')->click();
-        }
-        $this->submit();
+        $selector = sprintf($this->shippingMethod, $method['shipping_service'], $method['shipping_method']);
+        $this->waitForElementVisible($selector, Locator::SELECTOR_XPATH);
+        $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
     }
 
     /**
@@ -83,9 +58,9 @@ class Method extends Block
      *
      * @return void
      */
-    public function submit()
+    public function clickContinue()
     {
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->continue)->click();
         $this->waitForElementNotVisible($this->waitElement);
     }
 }

@@ -53,18 +53,23 @@ class OnepageTest extends Functional
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'cc' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->pressContinue();
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         //Verify order in Backend
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
-        $this->assertContains(
-            'Thank you for your purchase!',
-            $successPage->getSuccessBlock()->getSuccessMessage(),
-            'Order success page was not opened.'
-        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
@@ -74,11 +79,11 @@ class OnepageTest extends Functional
      */
     public function dataProviderOnepageCheckout()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowPro()),
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()],
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect()],
+            [Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowPro()],
+        ];
     }
 
     /**
@@ -92,7 +97,7 @@ class OnepageTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $this->assertContains(
             $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),

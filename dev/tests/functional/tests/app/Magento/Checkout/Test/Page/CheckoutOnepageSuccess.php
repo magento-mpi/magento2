@@ -28,6 +28,12 @@ class CheckoutOnepageSuccess extends FrontendPage
             'locator' => '#maincontent',
             'strategy' => 'css selector',
         ],
+        'titleBlock' => [
+            'name' => 'titleBlock',
+            'class' => 'Magento\Checkout\Test\Block\Onepage\Title',
+            'locator' => '[data-ui-id="page-title"]',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -36,5 +42,13 @@ class CheckoutOnepageSuccess extends FrontendPage
     public function getSuccessBlock()
     {
         return $this->getBlockInstance('successBlock');
+    }
+
+    /**
+     * @return \Magento\Checkout\Test\Block\Onepage\Title
+     */
+    public function getTitleBlock()
+    {
+        return $this->getBlockInstance('titleBlock');
     }
 }

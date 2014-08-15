@@ -78,9 +78,23 @@ class CheckMoneyOrderTest extends Functional
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
+        if ($fixture instanceof \Magento\Shipping\Test\Fixture\Method) {
+            $shippingMethod = $fixture->getData('fields');
+        } else {
+            $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        }
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $checkoutOnePage->getShippingMethodBlock()->clickContinue();
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'cc' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
+        $checkoutOnePage->getPaymentMethodsBlock()->pressContinue();
         $reviewBlock = $checkoutOnePage->getReviewBlock();
         $this->verifyOrderOnReview($reviewBlock, $fixture);
         $reviewBlock->placeOrder();
@@ -127,7 +141,7 @@ class CheckMoneyOrderTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $orderTotalsBlock = Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock();
         $this->assertContains(

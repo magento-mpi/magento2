@@ -74,7 +74,6 @@ class ProductForm extends ParentForm
      */
     protected $variationsWrapper = '#product_info_tabs_super_config_content';
 
-
     /**
      * Get choose affected attribute set dialog popup window
      *

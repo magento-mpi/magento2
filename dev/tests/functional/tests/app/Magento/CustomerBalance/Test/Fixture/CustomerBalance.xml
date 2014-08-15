@@ -74,5 +74,9 @@
             <group>store_credit</group>
             <input></input>
         </is_customer_notified>
+        <repository_class>Magento\CustomerBalance\Test\Repository\CustomerBalance</repository_class>
+        <handler_interface>
+            Magento\CustomerBalance\Test\Handler\CustomerBalance\CustomerBalanceInterface
+        </handler_interface>
     </fields>
 </fixture>

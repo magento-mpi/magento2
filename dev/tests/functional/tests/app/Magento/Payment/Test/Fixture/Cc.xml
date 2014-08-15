@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\Payment\Test\Fixture\Cc">
+    <module>Magento_Payment</module>
+    <fields>
+        <credit_card_type>
+            <attribute_code>credit_card_type</attribute_code>
+            <backend_type>virtual</backend_type>
+        </credit_card_type>
+        <credit_card_number>
+            <attribute_code>credit_card_number</attribute_code>
+            <backend_type>virtual</backend_type>
+        </credit_card_number>
+        <expiration_month>
+            <attribute_code>expiration_month</attribute_code>
+            <backend_type>virtual</backend_type>
+        </expiration_month>
+        <expiration_year>
+            <attribute_code>expiration_year</attribute_code>
+            <backend_type>virtual</backend_type>
+        </expiration_year>
+        <credit_card_cvv>
+            <attribute_code>credit_card_cvv</attribute_code>
+            <backend_type>virtual</backend_type>
+        </credit_card_cvv>
+    </fields>
+    <repository_class>Magento\Payment\Test\Repository\Cc</repository_class>
+    <handler_interface>Magento\Payment\Test\Handler\Cc\CcInterface</handler_interface>
+</fixture>

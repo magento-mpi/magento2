@@ -15,7 +15,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
 /**
  * Class Success
  * One page checkout success block
- *
  */
 class Success extends Block
 {
@@ -39,13 +38,6 @@ class Success extends Block
      * @var string
      */
     protected $continueShopping = '.action.continue';
-
-    /**
-     * Success message selector
-     *
-     * @var string
-     */
-    protected $successMessage = '[data-ui-id="page-title"]';
 
     /**
      * Get id for placed order
@@ -78,15 +70,5 @@ class Success extends Block
         $orderString = $this->_rootElement->find($this->orderIdGuest, Locator::SELECTOR_XPATH)->getText();
         preg_match('/[\d]+/', $orderString, $orderId);
         return end($orderId);
-    }
-
-    /**
-     * Get success message
-     *
-     * @return array|string
-     */
-    public function getSuccessMessage()
-    {
-        return $this->_rootElement->find($this->successMessage)->getText();
     }
 }

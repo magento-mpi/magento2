@@ -44,20 +44,20 @@ class Grid extends GridInterface
      *
      * @var string
      */
-    protected $editLink = 'td[data-column="action"] a';
+    protected $editLink = 'td[class*=col-action] a';
 
     /**
      * {@inheritdoc}
      */
-    protected $filters = array(
-        'id' => array(
+    protected $filters = [
+        'id' => [
             'selector' => '#sales_order_grid_filter_real_order_id'
-        ),
-        'status' => array(
+        ],
+        'status' => [
             'selector' => '#sales_order_grid_filter_status',
             'input' => 'select'
-        ),
-    );
+        ],
+    ];
 
     /**
      * Start to create new order

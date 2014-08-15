@@ -17,8 +17,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class CcAdvanced
- * Card Verification frame on OnePageCheckout order review step
- *
+ * Card Verification frame block
  */
 class CcAdvanced extends Form
 {
@@ -32,23 +31,27 @@ class CcAdvanced extends Form
     /**
      * Payflow Advanced iFrame locator
      *
-     * @var $Locator
+     * @var string
      */
     protected $payflowAdvancedFrame = "#payflow-advanced-iframe";
 
     /**
+     * @constructor
      * @param Element $element
      * @param BlockFactory $blockFactory
-     * @param \Mtf\Block\Mapper $mapper
+     * @param Mapper $mapper
      * @param Browser $browser
      */
-    public function __construct(Element $element, BlockFactory $blockFactory, Mapper $mapper, Browser $browser){
+    public function __construct(Element $element, BlockFactory $blockFactory, Mapper $mapper, Browser $browser)
+    {
         parent::__construct($element, $blockFactory, $mapper, $browser);
         $this->browser->switchToFrame(new Locator($this->payflowAdvancedFrame));
     }
 
     /**
      * Press "Continue" button
+     *
+     * @return void
      */
     public function pressContinue()
     {

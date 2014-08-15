@@ -59,6 +59,7 @@ class FormTabs extends Form
         XmlConverter $xmlConverter
     ) {
         $this->xmlConverter = $xmlConverter;
+        $this->browser = $browser;
         parent::__construct($element, $blockFactory, $mapper, $browser);
     }
 
@@ -246,7 +247,7 @@ class FormTabs extends Form
      */
     private function getFixtureFieldsByTabs(InjectableFixture $fixture)
     {
-        $tabs = array();
+        $tabs = [];
 
         $data = $fixture->getData();
         foreach ($data as $field => $value) {
@@ -270,7 +271,7 @@ class FormTabs extends Form
      */
     private function getFixtureFieldsByTabsDeprecated(FixtureInterface $fixture)
     {
-        $tabs = array();
+        $tabs = [];
 
         $dataSet = $fixture->getData();
         $fields = isset($dataSet['fields']) ? $dataSet['fields'] : [];
@@ -296,7 +297,7 @@ class FormTabs extends Form
     {
         $tabClass = $this->tabs[$tabName]['class'];
         /** @var Tab $tabElement */
-        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
+        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper, $this->browser);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }

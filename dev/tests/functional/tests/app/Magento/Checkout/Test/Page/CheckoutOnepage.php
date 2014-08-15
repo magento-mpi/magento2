@@ -12,6 +12,7 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CheckoutOnepage
+ * Checkoutonepage page
  */
 class CheckoutOnepage extends FrontendPage
 {

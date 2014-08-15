@@ -41,7 +41,7 @@ class Review extends Block
      * @var string
      */
     protected $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
-    
+
     /**
      * Subtotal search mask
      *
@@ -69,8 +69,10 @@ class Review extends Block
      * @param BlockFactory $blockFactory
      * @param Browser $browser
      */
-    public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser){
+    public function __construct(Element $element, BlockFactory $blockFactory, Browser $browser)
+    {
         parent::__construct($element, $blockFactory, $browser);
+        $this->browser = $browser;
         $this->browser->switchToFrame();
     }
 

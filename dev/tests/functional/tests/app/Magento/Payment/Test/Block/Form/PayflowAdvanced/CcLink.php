@@ -17,8 +17,7 @@ use Mtf\Block\Mapper;
 
 /**
  * Class CcLink
- * Card Verification frame on OnePageCheckout order review step
- *
+ * Card Verification frame block
  */
 class CcLink extends Form
 {
@@ -36,19 +35,22 @@ class CcLink extends Form
      */
     protected $payflowLinkFrame = "#payflow-link-iframe";
 
-
     /**
      * @param Element $element
      * @param BlockFactory $blockFactory
      * @param Mapper $mapper
      * @param Browser $browser
      */
-    public function __construct(Element $element, BlockFactory $blockFactory, Mapper $mapper, Browser $browser){
+    public function __construct(Element $element, BlockFactory $blockFactory, Mapper $mapper, Browser $browser)
+    {
         parent::__construct($element, $blockFactory, $mapper, $browser);
         $this->browser->switchToFrame(new Locator($this->payflowLinkFrame));
     }
+
     /**
      * Press "Continue" button
+     *
+     * @return void
      */
     public function pressContinue()
     {

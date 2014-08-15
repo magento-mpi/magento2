@@ -20,7 +20,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class ApplyCatalogPriceRule
- *
  */
 class ApplyCatalogPriceRuleTest extends Functional
 {
@@ -52,12 +51,12 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Create Configurable Product with same category
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct(
-            array('categories' => $simple->getCategories())
+            ['categories' => $simple->getCategories()]
         );
         $configurable->switchData(Repository::CONFIGURABLE);
         $configurable->persist();
 
-        $products = array($simple, $configurable);
+        $products = [$simple, $configurable];
 
         // Create Customer
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
@@ -117,7 +116,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getEditForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
-            array('category_id' => $categoryId)
+            ['category_id' => $categoryId]
         );
         $catalogRuleFixture->switchData(CatalogPriceRule::CATALOG_PRICE_RULE_ALL_GROUPS);
         $newCatalogRuleForm->fill($catalogRuleFixture);
@@ -218,9 +217,16 @@ class ApplyCatalogPriceRuleTest extends Functional
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
-        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        $billingAddress = $fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $payment = [
+            'method' => $fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $fixture->getPaymentMethod()->getDataConfig(),
+            'cc' => $fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $reviewBlock = $checkoutOnePage->getReviewBlock();
 
         $this->assertContains($fixture->getGrandTotal(), $reviewBlock->getGrandTotal(), 'Incorrect Grand Total');
@@ -251,7 +257,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         $this->verifyAddProducts($products);
 
         // Verify one page checkout prices
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(array('products' => $products));
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(['products' => $products]);
         $fixture->persist();
         $this->checkoutProcess($fixture);
 

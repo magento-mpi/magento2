@@ -31,7 +31,6 @@ class AssertOrderTotalOnReviewPage extends AbstractConstraint
      * @param string $grandTotal
      * @return void
      */
-
     public function processAssert(CheckoutOnepage $checkoutOnepage, $grandTotal)
     {
         $checkoutReviewGrandTotal = $checkoutOnepage->getReviewBlock()->getGrandTotal();
@@ -51,6 +50,6 @@ class AssertOrderTotalOnReviewPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Grand Total price equals with price from data set.';
+        return 'Grand Total price equals to price from data set.';
     }
 }

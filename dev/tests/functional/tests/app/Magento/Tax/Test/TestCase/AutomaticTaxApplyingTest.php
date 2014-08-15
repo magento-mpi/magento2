@@ -68,9 +68,16 @@ class AutomaticTaxApplyingTest extends Functional
 
         // Proceed Checkout
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
-        $checkoutOnePage->getBillingBlock()->fillBilling($this->fixture);
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($this->fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($this->fixture);
+        $billingAddress = $this->fixture->getBillingAddress();
+        $checkoutOnePage->getBillingBlock()->fillBilling($billingAddress);
+        $shippingMethod = $this->fixture->getShippingMethods()->getData('fields');
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethod);
+        $payment = [
+            'method' => $this->fixture->getPaymentMethod()->getPaymentCode(),
+            'dataConfig' => $this->fixture->getPaymentMethod()->getDataConfig(),
+            'cc' => $this->fixture->getCreditCard(),
+        ];
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($payment);
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         // Verify order in Backend
@@ -112,7 +119,7 @@ class AutomaticTaxApplyingTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $orderViewPage = Factory::getPageFactory()->getSalesOrderView();
 
         $this->assertContains(

@@ -50,6 +50,29 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['config_currency_symbols_usd_and_uah'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'currency',
+                    'scope_id' => '1',
+                    'value' => ['USD', 'UAH'],
+                ],
+            ]
+        ];
+
+        $this->_data['config_currency_symbols_usd'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'currency',
+                    'scope_id' => '1',
+                    'value' => ['USD'],
+                ],
+            ]
+        ];
+
+        // Reward settings
         $this->_data['reward_points_with_registration_reward'] = [
             'section' => [
                 [
@@ -106,28 +129,7 @@ class ConfigData extends AbstractRepository
             ],
         ];
 
-        $this->_data['config_currency_symbols_usd_and_uah'] = [
-            'section' => [
-                [
-                    'path' => 'currency/options/allow',
-                    'scope' => 'currency',
-                    'scope_id' => '1',
-                    'value' => ['USD', 'UAH'],
-                ],
-            ]
-        ];
-
-        $this->_data['config_currency_symbols_usd'] = [
-            'section' => [
-                [
-                    'path' => 'currency/options/allow',
-                    'scope' => 'currency',
-                    'scope_id' => '1',
-                    'value' => ['USD'],
-                ],
-            ]
-        ];
-
+        // Shipping settings
         $this->_data['freeshipping'] = [
             'section' => [
                 [
@@ -190,6 +192,7 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        // Payments settings
         $this->_data['cashondelivery'] = [
             'section' =>
                 [

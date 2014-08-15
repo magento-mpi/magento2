@@ -8,45 +8,71 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\ObjectManager;
-use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Scenario;
 
-class OnePageCheckoutTest extends Injectable
+/**
+ * Class OnePageCheckoutTest
+ * OnePageCheckout Test
+ */
+class OnePageCheckoutTest extends Scenario
 {
     /**
      * Steps for scenario
      *
      * @var array
      */
-    protected $config = [
+    protected $scenario = [
         'OnePageCheckoutTest' => [
             'methods' => [
                 'test' => [
                     'scenario' => [
-                        'createRewardExchangeRate' => [
+                        'createRewardExchangeRates' => [
                             'module' => 'Magento_Reward',
+                            'arguments' => [
+                                'rewardRates' => ['rate_points_to_currency', 'rate_currency_to_points'],
+                            ],
                             'next' => 'createProducts'
                         ],
                         'createProducts' => [
-                            'module' => 'Magento_Checkout',
+                            'module' => 'Magento_Catalog',
                             'next' => 'createCustomer'
                         ],
                         'createCustomer' => [
-                            'module' => 'Magento_Checkout',
+                            'module' => 'Magento_Customer',
+                            'next' => 'applyRewardPointsToCustomer'
+                        ],
+                        'applyRewardPointsToCustomer' => [
+                            'module' => 'Magento_Reward',
+                            'next' => 'applyCustomerBalanceToCustomer'
+                        ],
+                        'applyCustomerBalanceToCustomer' => [
+                            'module' => 'Magento_CustomerBalance',
                             'next' => 'createGiftCardAccount'
                         ],
                         'createGiftCardAccount' => [
                             'module' => 'Magento_GiftCardAccount',
+                            'next' => 'createSalesRule'
+                        ],
+                        'createSalesRule' => [
+                            'module' => 'Magento_SalesRule',
                             'next' => 'goToFrontEnd'
                         ],
                         'goToFrontEnd' => [
-                            'module' => 'Magento_Checkout',
+                            'module' => 'Magento_Cms',
                             'next' => 'addProductsToTheCart'
                         ],
                         'addProductsToTheCart' => [
                             'module' => 'Magento_Checkout',
+                            'next' => 'applyGiftCard',
+                        ],
+                        'applyGiftCard' => [
+                            'module' => 'Magento_GiftCardAccount',
+                            'next' => 'applySalesRule',
+                        ],
+                        'applySalesRule' => [
+                            'module' => 'Magento_SalesRule',
                             'next' => 'proceedToCheckout',
                         ],
                         'proceedToCheckout' => [
@@ -63,6 +89,14 @@ class OnePageCheckoutTest extends Injectable
                         ],
                         'fillShippingMethod' => [
                             'module' => 'Magento_Checkout',
+                            'next' => 'selectRewardPoints',
+                        ],
+                        'selectRewardPoints' => [
+                            'module' => 'Magento_Reward',
+                            'next' => 'selectStoreCredit',
+                        ],
+                        'selectStoreCredit' => [
+                            'module' => 'Magento_CustomerBalance',
                             'next' => 'selectPaymentMethod',
                         ],
                         'selectPaymentMethod' => [
@@ -106,37 +140,14 @@ class OnePageCheckoutTest extends Injectable
     /**
      * Runs one page checkout test
      *
-     * @param ObjectManager $objectManager
-     * @param CustomerInjectable $customer
-     * @param array $shipping
-     * @param $products
-     * @param $checkoutMethod
-     * @param $giftCardAccount
-     * @param $salesRule
-     * @param $grandTotal
-     * @param $paymentMethod
-     * @param $orderStatus
-     * @param $orderButtonsAvailable
-     * @param $config
+     * @param string $config
      * @return void
      */
-    public function test(
-        ObjectManager $objectManager,
-        CustomerInjectable $customer,
-        array $shipping,
-        $products,
-        $checkoutMethod,
-        $giftCardAccount,
-        $salesRule,
-        $grandTotal,
-        $paymentMethod,
-        $orderStatus,
-        $orderButtonsAvailable,
-        $config
-    ) {
+    public function test($config)
+    {
         $this->configuration = $config;
         $this->setupConfiguration();
-        $this->executeScenario('OnePageCheckoutTest', 'test', $this->config);
+        $this->executeScenario($this->scenario);
     }
 
     /**
@@ -159,8 +170,8 @@ class OnePageCheckoutTest extends Injectable
     {
         $prefix = ($rollback == false) ? '' : '_rollback';
         $dataSets = explode(',', $this->configuration);
-        foreach ($dataSets as $chunk) {
-            $dataSet = trim($chunk) . $prefix;
+        foreach ($dataSets as $dataSet) {
+            $dataSet = trim($dataSet) . $prefix;
             $configuration = $this->fixtureFactory->createByCode('configData', ['dataSet' => $dataSet]);
             $configuration->persist();
         }

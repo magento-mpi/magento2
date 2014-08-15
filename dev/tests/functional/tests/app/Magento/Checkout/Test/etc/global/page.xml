@@ -8,24 +8,19 @@
  */
 -->
 <page>
-    <checkout>
+    <checkoutCart>
         <mca>tax/rule/index</mca>
         <area>adminhtml</area>
-        <class>Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex</class>
-    </taxRuleIndex>
-    <taxRuleNew>
+        <class>Magento\Tax\Test\Page\CheckoutCart</class>
+    </checkoutCart>
+    <checkoutOnepage>
         <mca>tax/rule/new</mca>
         <area>adminhtml</area>
-        <class>Magento\Tax\Test\Page\Adminhtml\TaxRuleNew</class>
-    </taxRuleNew>
-    <taxRateIndex>
+        <class>Magento\Tax\Test\Page\CheckoutOnepage</class>
+    </checkoutOnepage>
+    <checkoutOnepageSuccess>
         <mca>tax/rate/index</mca>
         <area>adminhtml</area>
-        <class>Magento\Tax\Test\Page\Adminhtml\TaxRateIndex</class>
-    </taxRateIndex>
-    <taxRateNew>
-        <mca>tax/rate/add</mca>
-        <area>adminhtml</area>
-        <class>Magento\Tax\Test\Page\Adminhtml\TaxRateNew</class>
-    </taxRateNew>
+        <class>Magento\Tax\Test\Page\CheckoutOnepageSuccess</class>
+    </checkoutOnepageSuccess>
 </page>
