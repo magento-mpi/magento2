@@ -34,13 +34,7 @@ if (empty($args)) {
     foreach ($detailedOptions as $option) {
         echo '  php -f ' . $_SERVER['argv'][0] . ' -- --' . $option . PHP_EOL;
     }
-    echo <<<INSTALLSCHEME
-Installation scheme:
-  php -f {$_SERVER['argv'][0]}  -- [--<install_option_name> "<option_value>" ...]
-Uninstallation:
-  php -f  {$_SERVER['argv'][0]} -- --uninstall
-
-INSTALLSCHEME;
+    echo "php -f {$_SERVER['argv'][0]} -- [--<install_option_name> \"<option_value>\" ...]\n";
 
     $exampleOptions = array(
         'license_agreement_accepted' => 'yes',
