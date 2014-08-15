@@ -95,14 +95,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Customer\Service\V1\CustomerMetadataServiceCached">
-        <arguments>
-            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\CustomerMetadataService</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Customer\Service\V1\AddressMetadataServiceCached">
-        <arguments>
-            <argument name="metadataService" xsi:type="object">Magento\Customer\Service\V1\AddressMetadataService</argument>
-        </arguments>
-    </type>
 </config>
