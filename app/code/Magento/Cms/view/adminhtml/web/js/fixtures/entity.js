@@ -109,6 +109,14 @@ define(['m2/lib/scope', 'storage', 'm2/provider'], function (Scope, lo, Provider
       Provider.get('cms.pages.listing').done(this.listing.bind(this));
     },
 
+    toggleListingView: function () {
+      var listing = this.listing();
+
+      if (listing) {
+        listing.toggleView();
+      }
+    },
+
     reloadListing: function () {
       var listing = this.listing();
 

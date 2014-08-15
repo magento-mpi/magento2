@@ -5,6 +5,7 @@
       <button data-bind="click: populate">Populate</button>
       <button data-bind="click: addFewMore">Add few more</button>
       <button data-bind="click: empty">Clean</button>
+      <button class="primary" data-bind="click: toggleListingView">Toggle view</button>
       <button class="primary" data-bind="click: reloadListing">Reload listing</button>
     </div>
   </div>
@@ -62,6 +63,7 @@
   <div data-m2-init='{"Magento_Cms/js/listing/component": { "resource": "cms.pages" }}' class="grid">
     <div class="hor-scroll">
       <table class="data">
+        <!-- ko ifnot: isHorizontal -->
         <thead>
           <tr class="headings">
             <th class="col-select col-massaction"></th>
@@ -93,6 +95,30 @@
             </td>
           </tr>
         </tbody>
+        <!-- /ko -->
+        <!-- ko if: isHorizontal -->
+        <tbody data-bind="foreach: { data: fields, as: 'field' }">
+          <tr>
+            <th>
+              <span>
+                <a href="" data-bind="css: $parent.getSortableClassFor(field)">
+                  <label for="" data-bind="text: title"></label>
+                </a>
+              </span>
+            </th>
+            <!-- ko foreach: { data: $parent.rows, as: 'row' } -->
+            <!-- ko if: field.id !== 'action' -->
+            <td data-bind="text: row[field.id]"></td>
+            <!-- /ko -->
+            <!-- ko if: field.id === 'action' -->
+            <td>
+              <a href="#" data-bind="attr: { href: row.action.href }, text: row.action.title" target="_blank"></a>
+            </td>
+            <!-- /ko -->
+            <!-- /ko -->
+          </tr>
+        </tbody>
+        <!-- /ko -->
       </table>
     </div>
     <!-- added loader for demo -->
