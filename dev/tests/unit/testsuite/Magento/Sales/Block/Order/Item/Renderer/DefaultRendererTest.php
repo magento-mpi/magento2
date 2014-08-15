@@ -93,6 +93,7 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($html, $this->block->getItemPriceHtml($this->itemMock));
     }
+
     public function testGetItemRowTotalHtml()
     {
         $html = '$34.28';
@@ -143,7 +144,7 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
         $discountAmount = 20;
         $weeeTaxAppliedRowAmount = 10;
 
-        $expectedResult = 102;
+        $expectedResult = $rowTotal + $taxAmount + $hiddenTaxAmount - $discountAmount + $weeeTaxAppliedRowAmount;
         $this->itemMock->expects($this->once())
             ->method('getRowTotal')
             ->will($this->returnValue($rowTotal));

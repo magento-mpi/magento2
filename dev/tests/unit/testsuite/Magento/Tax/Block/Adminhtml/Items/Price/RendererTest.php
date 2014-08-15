@@ -60,26 +60,32 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     public function testDisplayPriceInclTax()
     {
+        $flag = false;
         $this->itemPriceRenderer->expects($this->once())
-            ->method('displayPriceInclTax');
+            ->method('displayPriceInclTax')
+            ->will($this->returnValue($flag));
 
-        $this->renderer->displayPriceInclTax();
+        $this->assertEquals($flag, $this->renderer->displayPriceInclTax());
     }
 
     public function testDisplayPriceExclTax()
     {
+        $flag = true;
         $this->itemPriceRenderer->expects($this->once())
-            ->method('displayPriceExclTax');
+            ->method('displayPriceExclTax')
+            ->will($this->returnValue($flag));
 
-        $this->renderer->displayPriceExclTax();
+        $this->assertEquals($flag, $this->renderer->displayPriceExclTax());
     }
 
     public function testDisplayBothPrices()
     {
+        $flag = true;
         $this->itemPriceRenderer->expects($this->once())
-            ->method('displayBothPrices');
+            ->method('displayBothPrices')
+            ->will($this->returnValue($flag));
 
-        $this->renderer->displayBothPrices();
+        $this->assertEquals($flag, $this->renderer->displayBothPrices());
     }
 
     public function testDisplayPrices()
