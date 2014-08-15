@@ -446,7 +446,6 @@
     <virtualType name="Magento\Catalog\Service\Config\ProductMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
-            <argument name="dataObjectClassName" xsi:type="string">Magento\Catalog\Service\V1\Data\Product</argument>
         </arguments>
     </virtualType>
     <type name="Magento\Catalog\Service\V1\Product\MetadataService">
@@ -458,7 +457,6 @@
     <virtualType name="Magento\Catalog\Service\Config\CategoryMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
-            <argument name="dataObjectClassName" xsi:type="string">Magento\Catalog\Service\V1\Data\Category</argument>
         </arguments>
     </virtualType>
     <type name="Magento\Catalog\Service\V1\Category\MetadataService">

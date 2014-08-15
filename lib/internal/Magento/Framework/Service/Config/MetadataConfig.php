@@ -28,43 +28,38 @@ class MetadataConfig implements MetadataServiceInterface
     private $attributeMetadataBuilder;
 
     /**
-     * @var string
-     */
-    private $dataObjectClassName;
-
-    /**
      * Initialize dependencies.
      *
      * @param ServiceConfigReader $serviceConfigReader
      * @param AttributeMetadataBuilderInterface|null $attributeMetadataBuilder
-     * @param string|null $dataObjectClassName
      */
     public function __construct(
         ServiceConfigReader $serviceConfigReader,
-        AttributeMetadataBuilderInterface $attributeMetadataBuilder = null,
-        $dataObjectClassName = null
+        AttributeMetadataBuilderInterface $attributeMetadataBuilder = null
     ) {
         $this->serviceConfigReader = $serviceConfigReader;
+        /*
+         * Default preference set in app/etc/di as Magento\Framework\Service\Data\AttributeMetadataBuilder
+         */
         $this->attributeMetadataBuilder = $attributeMetadataBuilder;
-        $this->dataObjectClassName = $dataObjectClassName;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCustomAttributesMetadata()
+    public function getCustomAttributesMetadata($dataObjectClassName = null)
     {
         $attributes = [];
-        if (!is_null($this->attributeMetadataBuilder) && !is_null($this->dataObjectClassName)) {
+        if (!is_null($this->attributeMetadataBuilder) && !is_null($dataObjectClassName)) {
             /**
              * Attribute metadata builder and data object class name are expected to be configured
              * via DI using virtual types. If configuration is missing, empty array should be returned.
              */
             $allAttributes = $this->serviceConfigReader->read();
-            if (isset($allAttributes[$this->dataObjectClassName])
-                && is_array($allAttributes[$this->dataObjectClassName])
+            if (isset($allAttributes[$dataObjectClassName])
+                && is_array($allAttributes[$dataObjectClassName])
             ) {
-                $attributeCodes = array_keys($allAttributes[$this->dataObjectClassName]);
+                $attributeCodes = array_keys($allAttributes[$dataObjectClassName]);
                 foreach ($attributeCodes as $attributeCode) {
                     $this->attributeMetadataBuilder->setAttributeCode($attributeCode);
                     $attributes[$attributeCode] = $this->attributeMetadataBuilder->create();

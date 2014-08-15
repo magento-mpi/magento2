@@ -19,6 +19,8 @@ interface AddressMetadataServiceInterface extends MetadataServiceInterface
 
     const ENTITY_TYPE_ADDRESS = 'customer_address';
 
+    const DATA_OBJECT_CLASS_NAME = 'Magento\Customer\Service\V1\Data\Address';
+
     /**
      * Retrieve all attributes for entityType filtered by form code
      *
@@ -42,4 +44,9 @@ interface AddressMetadataServiceInterface extends MetadataServiceInterface
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getAllAttributesMetadata();
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomAttributesMetadata($dataObjectClassName = self::DATA_OBJECT_CLASS_NAME);
 }

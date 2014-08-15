@@ -122,12 +122,11 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomAttributesMetadata()
+    public function getCustomAttributesMetadata($dataObjectClassName = self::DATA_OBJECT_CLASS_NAME)
     {
         $customAttributes = [];
-        $dataObjectClass = 'Magento\Customer\Service\V1\Data\Customer';
         if (!$this->customerDataObjectMethods) {
-            $this->customerDataObjectMethods = array_flip(get_class_methods($dataObjectClass));
+            $this->customerDataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
         }
         foreach ($this->getAllAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
@@ -142,6 +141,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
                 $customAttributes[] = $attributeMetadata;
             }
         }
-        return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata());
+        return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata($dataObjectClassName));
     }
 }

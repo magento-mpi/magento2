@@ -54,11 +54,9 @@ class MetadataService implements MetadataServiceInterface
     }
 
     /**
-     * Retrieve custom EAV attribute metadata of category
-     *
-     * @return AttributeMetadata[]
+     * {@inheritdoc}
      */
-    public function getCustomAttributesMetadata()
+    public function getCustomAttributesMetadata($dataObjectClassName = self::DATA_OBJECT_CLASS_NAME)
     {
         $customAttributes = [];
         foreach ($this->getCategoryAttributesMetadata(
@@ -66,7 +64,7 @@ class MetadataService implements MetadataServiceInterface
         ) as $attributeMetadata) {
             $customAttributes[] = $attributeMetadata;
         }
-        return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata());
+        return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata($dataObjectClassName));
     }
 
     /**

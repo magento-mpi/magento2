@@ -20,6 +20,8 @@ interface MetadataServiceInterface extends \Magento\Framework\Service\Data\Eav\M
     const ENTITY_TYPE = 'catalog_category';
 
     const DEFAULT_ATTRIBUTE_SET_ID = 3;
+
+    const DATA_OBJECT_CLASS_NAME = 'Magento\Catalog\Service\V1\Data\Category';
     /**#@-*/
 
     /**
@@ -29,4 +31,9 @@ interface MetadataServiceInterface extends \Magento\Framework\Service\Data\Eav\M
      * @return AttributeMetadata[]
      */
     public function getCategoryAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID);
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomAttributesMetadata($dataObjectClassName = self::DATA_OBJECT_CLASS_NAME);
 }

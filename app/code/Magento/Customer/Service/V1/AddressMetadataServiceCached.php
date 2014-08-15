@@ -97,7 +97,7 @@ class AddressMetadataServiceCached implements AddressMetadataServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomAttributesMetadata()
+    public function getCustomAttributesMetadata($dataObjectClassName = null)
     {
         if (!is_null($this->customAttributesMetadataCache)) {
             return $this->customAttributesMetadataCache;

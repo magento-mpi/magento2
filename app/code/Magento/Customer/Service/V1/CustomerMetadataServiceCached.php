@@ -96,7 +96,7 @@ class CustomerMetadataServiceCached implements CustomerMetadataServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomAttributesMetadata()
+    public function getCustomAttributesMetadata($dataObjectClassName = null)
     {
         if (!is_null($this->customAttributesMetadataCache)) {
             return $this->customAttributesMetadataCache;

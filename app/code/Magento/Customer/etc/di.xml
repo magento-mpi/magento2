@@ -71,7 +71,6 @@
     <virtualType name="Magento\Customer\Service\Config\CustomerMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
-            <argument name="dataObjectClassName" xsi:type="string">Magento\Customer\Service\V1\Data\Customer</argument>
         </arguments>
     </virtualType>
     <type name="Magento\Customer\Service\V1\CustomerMetadataService">
@@ -82,7 +81,6 @@
     <virtualType name="Magento\Customer\Service\Config\AddressMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
-            <argument name="dataObjectClassName" xsi:type="string">Magento\Customer\Service\V1\Data\Address</argument>
         </arguments>
     </virtualType>
     <type name="Magento\Customer\Service\V1\AddressMetadataService">
