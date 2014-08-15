@@ -42,6 +42,8 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
      * @param \Magento\Customer\Helper\Data $helper
      * @param \Magento\Framework\Math\Random $random
      * @param \Magento\Integration\Service\V1\TokenService $tokenService
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
