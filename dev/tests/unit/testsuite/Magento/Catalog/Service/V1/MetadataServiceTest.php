@@ -147,9 +147,6 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getFilterGroups')
             ->will($this->returnValue(array()));
         $this->attributeCollection->expects($this->once())
-            ->method('addAttributeGrouping')
-            ->will($this->returnSelf());
-        $this->attributeCollection->expects($this->once())
             ->method('getSize')
             ->will($this->returnValue(1));
         $this->attributeCollection->expects($this->once())
