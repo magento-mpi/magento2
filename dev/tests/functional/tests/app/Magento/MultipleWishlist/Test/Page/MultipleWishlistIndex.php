@@ -15,7 +15,7 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
  */
 class MultipleWishlistIndex extends WishlistIndex
 {
-    const MCA = 'wishlist/index';
+    const MCA = 'multiplewishlist/index';
 
     /**
      * Init page

@@ -13,8 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class GiftRegistryType
  * Fixture for gift registry type
- *
- * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class GiftRegistryType extends InjectableFixture
 {

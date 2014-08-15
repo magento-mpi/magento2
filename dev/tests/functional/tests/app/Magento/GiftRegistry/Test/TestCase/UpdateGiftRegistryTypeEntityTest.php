@@ -8,6 +8,7 @@
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\TestCase\Injectable;
@@ -56,6 +57,13 @@ class UpdateGiftRegistryTypeEntityTest extends Injectable
     protected $cmsIndex;
 
     /**
+     * CustomerAccountLogout page
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
      * Preparing customer for constraints
      *
      * @param CustomerInjectable $customer
@@ -72,14 +80,17 @@ class UpdateGiftRegistryTypeEntityTest extends Injectable
      *
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryNew $giftRegistryNew
-     * @param CmsIndex $cmsIndex
+     * @param CustomerAccountLogout $customerAccountLogout
      * @return void
      */
-    public function __inject(GiftRegistryIndex $giftRegistryIndex, GiftRegistryNew $giftRegistryNew, CmsIndex $cmsIndex)
-    {
+    public function __inject(
+        GiftRegistryIndex $giftRegistryIndex,
+        GiftRegistryNew $giftRegistryNew,
+        CustomerAccountLogout $customerAccountLogout
+    ) {
         $this->giftRegistryIndex = $giftRegistryIndex;
         $this->giftRegistryNew = $giftRegistryNew;
-        $this->cmsIndex = $cmsIndex;
+        $this->customerAccountLogout = $customerAccountLogout;
     }
 
     /**
@@ -106,7 +117,6 @@ class UpdateGiftRegistryTypeEntityTest extends Injectable
      */
     public function tearDown()
     {
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink('Log Out');
+        $this->customerAccountLogout->open();
     }
 }

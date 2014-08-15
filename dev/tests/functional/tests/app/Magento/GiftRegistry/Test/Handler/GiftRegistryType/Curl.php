@@ -12,7 +12,6 @@ use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Magento\Backend\Test\Handler\Extractor;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\Handler\Curl as AbstractCurl;
 
@@ -39,6 +38,23 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
             'Yes' => 1,
             'No' => 0,
         ],
+        'group' => [
+            'Event Information' => 'event_information',
+            'Gift Registry Properties' => 'registry',
+            'Privacy Settings' => 'privacy',
+            'Recipients Information' => 'registrant',
+            'Shipping Address' => 'shipping',
+        ],
+        'type' => [
+            'Custom Types/Text' => 'text',
+            'Custom Types/Select' => 'select',
+            'Custom Types/Date' => 'date',
+            'Custom Types/Country' => 'country',
+            'Static Types/Event Date' => 'event_date',
+            'Static Types/Event Country' => 'event_country',
+            'Static Types/Event Location' => 'event_location',
+            'Static Types/Role' => 'role',
+        ],
     ];
 
     /**
@@ -60,10 +76,8 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
             throw new \Exception("Gift registry type creating by curl handler was not successful! Response: $response");
         }
 
-        $url = 'admin/giftregistry/index/sort/type_id/dir/desc';
-        $regExpPattern = '@^.*id\/(\d+)\/.*' . $fixture->getCode() . '@ms';
-        $extractor = new Extractor($url, $regExpPattern);
-        return ['type_id' => $extractor->getData()[1]];
+        preg_match('@/delete/id/(\d+)/.*Delete@ms', $response, $matches);
+        return ['type_id' => $matches[1]];
     }
 
     /**
@@ -75,12 +89,31 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
     protected function prepareData($fixture)
     {
         $data = $this->replaceMappingData($fixture->getData());
+        $preparedData = [];
         foreach ($data as $key => $value) {
-            unset ($data[$key]);
             if ($key != 'attributes') {
-                $data['type['. $key .']'] = $value;
+                $preparedData['type'][$key] = $value;
+            } else {
+                $preparedData['attributes']['registry'] = $data[$key];
+                foreach ($preparedData['attributes']['registry'] as &$attribute) {
+                    $attribute = $this->prepareAttributes($attribute);
+                }
             }
         }
-        return $data;
+        return $preparedData;
+    }
+
+    /**
+     * Preparing attributes array for curl response
+     *
+     * @param array $attribute
+     * @return array
+     */
+    protected function prepareAttributes(array $attribute)
+    {
+        $attribute = $this->replaceMappingData($attribute);
+        $attribute['frontend']['is_required'] = $attribute['is_required'];
+        unset ($attribute['is_required']);
+        return $attribute;
     }
 }

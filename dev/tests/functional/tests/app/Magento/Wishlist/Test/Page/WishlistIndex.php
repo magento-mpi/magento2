@@ -15,7 +15,7 @@ use Mtf\Page\FrontendPage;
  */
 class WishlistIndex extends FrontendPage
 {
-    const MCA = 'wishlist/index/index';
+    const MCA = 'wishlist/index';
 
     protected $_blocks = [
         'messagesBlock' => [
