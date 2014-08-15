@@ -140,20 +140,11 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
         $carrier = 'carrier';
         $number = 'number';
         $title = 'title';
-
         $shipmentId = 1000012;
         $orderId = 10003;
         $tracking = [];
         $shipmentData = ['items' => [], 'send_email' => ''];
-
-        $shipment = $this->getMock(
-            'Magento\Sales\Model\Order\Shipment',
-            ['addTrack', '__wakeup'],
-            [],
-            '',
-            false
-        );
-
+        $shipment = $this->getMock('Magento\Sales\Model\Order\Shipment', ['addTrack', '__wakeup'], [], '', false);
         $this->request->expects($this->any())
             ->method('getParam')
             ->will(
@@ -219,20 +210,8 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
         $this->view->expects($this->once())
             ->method('loadLayout')
             ->will($this->returnSelf());
-        $layout = $this->getMock(
-            'Magento\Framework\View\Layout\Element\Layout',
-            ['getBlock'],
-            [],
-            '',
-            false
-        );
-        $menuBlock = $this->getMock(
-            'Magento\Framework\View\Element\BlockInterface',
-            ['toHtml'],
-            [],
-            '',
-            false
-        );
+        $layout = $this->getMock('Magento\Framework\View\Layout\Element\Layout', ['getBlock'], [], '', false);
+        $menuBlock = $this->getMock('Magento\Framework\View\Element\BlockInterface', ['toHtml'], [], '', false);
         $html = 'html string';
         $this->view->expects($this->once())
             ->method('getLayout')
@@ -244,7 +223,6 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
         $menuBlock->expects($this->once())
             ->method('toHtml')
             ->will($this->returnValue($html));
-
         $shipment->expects($this->once())
             ->method('addTrack')
             ->with($this->equalTo($track))
@@ -252,11 +230,9 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
         $shipment->expects($this->any())
             ->method('save')
             ->will($this->returnSelf());
-
         $this->response->expects($this->once())
             ->method('setBody')
             ->with($html);
-
         $this->assertNull($this->controller->execute());
     }
 }
