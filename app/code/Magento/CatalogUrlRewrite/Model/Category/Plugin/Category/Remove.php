@@ -8,7 +8,6 @@
 namespace Magento\CatalogUrlRewrite\Model\Category\Plugin\Category;
 
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\UrlPersistInterface;
 use Magento\Catalog\Model\Category;
@@ -22,9 +21,6 @@ class Remove
     /** @var UrlPersistInterface */
     protected $urlPersist;
 
-    /** @var FilterFactory */
-    protected $filterFactory;
-
     /** @var  CategoryFactory */
     protected $categoryFactory;
 
@@ -33,18 +29,15 @@ class Remove
 
     /**
      * @param UrlPersistInterface $urlPersist
-     * @param FilterFactory $filterFactory
      * @param CategoryFactory $categoryFactory
      * @param ProductUrlRewriteGenerator $productUrlRewriteGenerator
      */
     public function __construct(
         UrlPersistInterface $urlPersist,
-        FilterFactory $filterFactory,
         CategoryFactory $categoryFactory,
         ProductUrlRewriteGenerator $productUrlRewriteGenerator
     ) {
         $this->urlPersist = $urlPersist;
-        $this->filterFactory = $filterFactory;
         $this->categoryFactory = $categoryFactory;
         $this->productUrlRewriteGenerator = $productUrlRewriteGenerator;
     }

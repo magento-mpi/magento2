@@ -59,7 +59,7 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     public function deleteByEntityData(array $filterData)
     {
-        $filter = $this->filterFactory->create(['filterData' => $filterData]);
+        $filter = $this->filterFactory->create(['data' => $filterData]);
         $this->storage->deleteByFilter($filter);
     }
 
@@ -110,18 +110,18 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     protected function createFilterBasedOnUrls($urls)
     {
-        $filterData = [];
-        $uniqueKeys = [UrlRewrite::ENTITY_ID, UrlRewrite::ENTITY_TYPE, UrlRewrite::STORE_ID];
+        $data = [];
+        $uniqueKeys = [UrlRewrite::REQUEST_PATH, UrlRewrite::STORE_ID];
         foreach ($urls as $url) {
             foreach ($uniqueKeys as $key) {
                 $fieldValue = $url->getByKey($key);
 
-                if (!isset($filterData[$key]) || !in_array($fieldValue, $filterData[$key])) {
-                    $filterData[$key][] = $fieldValue;
+                if (!isset($data[$key]) || !in_array($fieldValue, $data[$key])) {
+                    $data[$key][] = $fieldValue;
                 }
             }
         }
-        return $this->filterFactory->create(['filterData' => $filterData]);
+        return $this->filterFactory->create(['data' => $data]);
     }
 
     /**
@@ -129,6 +129,6 @@ class UrlManager implements UrlMatcherInterface, UrlPersistInterface
      */
     public function findByData(array $data)
     {
-        return $this->storage->findByFilter($this->filterFactory->create(['filterData' => $data]));
+        return $this->storage->findByFilter($this->filterFactory->create(['data' => $data]));
     }
 }

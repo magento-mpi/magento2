@@ -70,11 +70,12 @@ class CurrentUrlRewritesRegenerator
         $this->product = $product;
         $this->categoryRegistry = $categoryRegistry;
         /** @var \Magento\UrlRewrite\Service\V1\Data\Filter $filter */
-        $filter = $this->filterFactory->create();
-        $filter->setStoreId($storeId)
-            ->setEntityId($this->product->getId())
-            ->setEntityType(ProductUrlRewriteGenerator::ENTITY_TYPE);
-
+        $filter = $this->filterFactory->create(['data' => [
+                UrlRewrite::STORE_ID => $storeId,
+                UrlRewrite::ENTITY_ID => $this->product->getId(),
+                UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
+            ]]
+        );
         $urls = [];
         foreach ($this->urlMatcher->findAllByFilter($filter) as $url) {
             $urls = array_merge(

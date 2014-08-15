@@ -88,8 +88,7 @@ class UrlManagerTest extends \PHPUnit_Framework_TestCase
         $urlRewriteOne->expects($this->any())
             ->method('getByKey')
             ->will($this->returnValueMap([
-                [UrlRewrite::ENTITY_ID, 'id_1'],
-                [UrlRewrite::ENTITY_TYPE, 'type_1'],
+                [UrlRewrite::REQUEST_PATH, 'path_1'],
                 [UrlRewrite::STORE_ID, 'store_id_1'],
                 [UrlRewrite::STORE_ID, 'store_id_1'],
             ]));
@@ -97,8 +96,7 @@ class UrlManagerTest extends \PHPUnit_Framework_TestCase
         $urlRewriteSecond->expects($this->any())
             ->method('getByKey')
             ->will($this->returnValueMap([
-                [UrlRewrite::ENTITY_ID, 'id_2'],
-                [UrlRewrite::ENTITY_TYPE, 'type_2'],
+                [UrlRewrite::REQUEST_PATH, 'path_2'],
                 [UrlRewrite::STORE_ID, 'store_id_2'],
             ]));
 
@@ -106,9 +104,8 @@ class UrlManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('create')
             ->with([
-                'filterData' => [
-                    'entity_id' => ['id_1', 'id_2'],
-                    'entity_type' => ['type_1', 'type_2'],
+                'data' => [
+                    'request_path' => ['path_1', 'path_2'],
                     'store_id' => ['store_id_1', 'store_id_2'],
                 ],
             ])
@@ -134,7 +131,7 @@ class UrlManagerTest extends \PHPUnit_Framework_TestCase
         $this->filterFactory
             ->expects($this->once())
             ->method('create')
-            ->with(['filterData' => $filterData])
+            ->with(['data' => $filterData])
             ->will($this->returnValue($this->filter));
 
         $this->storage

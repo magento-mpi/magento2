@@ -11,6 +11,7 @@ use Magento\Catalog\Model\Category;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\Data\FilterFactory;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Service\V1\UrlMatcherInterface;
@@ -43,7 +44,8 @@ class CurrentUrlRewritesRegenerator
         UrlRewriteBuilder $urlRewriteBuilder,
         FilterFactory $filterFactory,
         UrlMatcherInterface $urlMatcher
-    ) {
+    )
+    {
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->urlRewriteBuilder = $urlRewriteBuilder;
         $this->filterFactory = $filterFactory;
@@ -61,11 +63,12 @@ class CurrentUrlRewritesRegenerator
     {
         $this->category = $category;
         /** @var \Magento\UrlRewrite\Service\V1\Data\Filter $filter */
-        $filter = $this->filterFactory->create();
-        $filter->setStoreId($storeId)
-            ->setEntityId($category->getId())
-            ->setEntityType(CategoryUrlRewriteGenerator::ENTITY_TYPE);
-
+        $filter = $this->filterFactory->create(['data' => [
+                UrlRewrite::STORE_ID => $storeId,
+                UrlRewrite::ENTITY_ID => $category->getId(),
+                UrlRewrite::ENTITY_TYPE => CategoryUrlRewriteGenerator::ENTITY_TYPE,
+            ]]
+        );
         $urls = [];
         foreach ($this->urlMatcher->findAllByFilter($filter) as $url) {
             $urls = array_merge(
