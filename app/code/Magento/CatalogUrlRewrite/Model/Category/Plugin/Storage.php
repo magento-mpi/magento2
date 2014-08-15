@@ -9,7 +9,6 @@ namespace Magento\CatalogUrlRewrite\Model\Category\Plugin;
 
 use Magento\UrlRewrite\Model\StorageInterface;
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
 use Magento\UrlRewrite\Model\UrlRewrite;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\Category\ProductFactory;
@@ -17,11 +16,6 @@ use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 class Storage
 {
-    /**
-     * @var Converter
-     */
-    protected $converter;
-
     /**
      * @var UrlRewrite
      */
@@ -33,19 +27,17 @@ class Storage
     protected $productFactory;
 
     /**
-     * @param Converter $converter
      * @param UrlRewrite $urlRewrite
      * @param ProductFactory $productFactory
      */
-    public function __construct(Converter $converter, UrlRewrite $urlRewrite, ProductFactory $productFactory)
+    public function __construct(UrlRewrite $urlRewrite, ProductFactory $productFactory)
     {
-        $this->converter = $converter;
         $this->urlRewrite = $urlRewrite;
         $this->productFactory = $productFactory;
     }
 
     /**
-     * @param StorageInterface $object
+     * @param \Magento\UrlRewrite\Model\StorageInterface $object
      * @param callable $proceed
      * @param array $urls
      * @return void
@@ -79,8 +71,8 @@ class Storage
     }
 
     /**
-     * @param StorageInterface $object
-     * @param Filter $filter
+     * @param \Magento\UrlRewrite\Model\StorageInterface $object
+     * @param \Magento\UrlRewrite\Service\V1\Data\Filter $filter
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -103,7 +95,7 @@ class Storage
     }
 
     /**
-     * @param UrlRewrite[] $urls
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[] $urls
      * @return array
      */
     protected function extractParameters(array $urls)
@@ -112,7 +104,7 @@ class Storage
         /** @var UrlRewrite $url */
         foreach ($urls as $url) {
             if ($url->getEntityType() == ProductUrlRewriteGenerator::ENTITY_TYPE) {
-                $data = $this->converter->convertObjectToArray($url);
+                $data = $url->toArray();
                 if (!$data['metadata']) {
                     unset($data['metadata']);
                 }

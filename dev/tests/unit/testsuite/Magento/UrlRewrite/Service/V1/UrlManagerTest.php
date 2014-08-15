@@ -24,7 +24,7 @@ class UrlManagerTest extends \PHPUnit_Framework_TestCase
     protected $filterFactory;
 
     /**
-     * @var \Magento\UrlRewrite\Service\V1\Data\FilterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\UrlRewrite\Service\V1\Data\Filter|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filter;
 
@@ -38,7 +38,7 @@ class UrlManagerTest extends \PHPUnit_Framework_TestCase
         $this->storage = $this->getMock('Magento\UrlRewrite\Model\StorageInterface');
         $this->filterFactory = $this->getMock('Magento\UrlRewrite\Service\V1\Data\FilterFactory', ['create'], [], '',
             false);
-        $this->filter = $this->getMock('Magento\UrlRewrite\Service\V1\Data\FilterInterface');
+        $this->filter = $this->getMock('Magento\UrlRewrite\Service\V1\Data\Filter');
 
         $this->manager = (new ObjectManager($this))->getObject(
             'Magento\UrlRewrite\Service\V1\UrlManager',

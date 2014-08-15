@@ -9,7 +9,7 @@ namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 class DbStorage extends AbstractStorage
@@ -35,15 +35,15 @@ class DbStorage extends AbstractStorage
     protected $resource;
 
     /**
-     * @param Converter $converter
-     * @param Resource $resource
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder $urlRewriteBuilder
+     * @param \Magento\Framework\App\Resource $resource
      */
-    public function __construct(Converter $converter, Resource $resource)
+    public function __construct(UrlRewriteBuilder $urlRewriteBuilder, Resource $resource)
     {
         $this->connection = $resource->getConnection(Resource::DEFAULT_WRITE_RESOURCE);
         $this->resource = $resource;
 
-        parent::__construct($converter);
+        parent::__construct($urlRewriteBuilder);
     }
 
     /**

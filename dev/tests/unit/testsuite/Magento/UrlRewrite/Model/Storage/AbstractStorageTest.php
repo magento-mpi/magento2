@@ -10,12 +10,12 @@ namespace Magento\UrlRewrite\Model\Resource;
 class AbstractStorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $converter;
+    protected $urlRewriteBuilder;
 
     /**
-     * @var \Magento\UrlRewrite\Service\V1\Data\FilterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\UrlRewrite\Service\V1\Data\Filter|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filter;
 
@@ -26,12 +26,13 @@ class AbstractStorageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->converter = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter', [], [], '', false);
-        $this->filter = $this->getMock('Magento\UrlRewrite\Service\V1\Data\FilterInterface');
+        $this->urlRewriteBuilder = $this->getMockBuilder('Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder')
+            ->disableOriginalConstructor()->getMock();
+        $this->filter = $this->getMock('Magento\UrlRewrite\Service\V1\Data\Filter');
 
         $this->storage = $this->getMockForAbstractClass(
             'Magento\UrlRewrite\Model\Storage\AbstractStorage',
-            [$this->converter],
+            [$this->urlRewriteBuilder],
             '',
             true,
             true,
@@ -44,16 +45,16 @@ class AbstractStorageTest extends \PHPUnit_Framework_TestCase
         $this->storage->expects($this->any())
             ->method('doFindAllByFilter')
             ->with($this->filter)
-            ->will($this->returnValue([['row1'], ['row2']]));
+            ->will($this->returnValue([['row1']]));
 
-        $this->converter->expects($this->any())
-            ->method('convertArrayToObject')
-            ->will($this->returnValueMap([
-                [['row1'], ['urlRewrite1']],
-                [['row2'], ['urlRewrite2']],
-            ]));
+        $this->urlRewriteBuilder->expects($this->any())
+            ->method('populateWithArray')
+            ->will($this->returnSelf());
+        $this->urlRewriteBuilder->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue(['urlRewrite1']));
 
-        $this->assertEquals([['urlRewrite1'], ['urlRewrite2']], $this->storage->findAllByFilter($this->filter));
+        $this->assertEquals([['urlRewrite1']], $this->storage->findAllByFilter($this->filter));
     }
 
     public function testFindByFilterIfNotFound()
@@ -73,9 +74,11 @@ class AbstractStorageTest extends \PHPUnit_Framework_TestCase
             ->with($this->filter)
             ->will($this->returnValue(['row1']));
 
-        $this->converter->expects($this->any())
-            ->method('convertArrayToObject')
-            ->with(['row1'])
+        $this->urlRewriteBuilder->expects($this->any())
+            ->method('populateWithArray')
+            ->will($this->returnSelf());
+        $this->urlRewriteBuilder->expects($this->any())
+            ->method('create')
             ->will($this->returnValue(['urlRewrite1']));
 
         $this->assertEquals(['urlRewrite1'], $this->storage->findByFilter($this->filter));
@@ -83,17 +86,12 @@ class AbstractStorageTest extends \PHPUnit_Framework_TestCase
 
     public function testAddMultiple()
     {
-        $urlRewrites = [
-            $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false),
-            $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false),
-        ];
+        $url1 = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
+        $url2 = $this->getMock('Magento\UrlRewrite\Service\V1\Data\UrlRewrite', [], [], '', false);
+        $urlRewrites = [$url1, $url2];
 
-        $this->converter->expects($this->any())
-            ->method('convertObjectToArray')
-            ->will($this->returnValueMap([
-                [$urlRewrites[0], ['row1']],
-                [$urlRewrites[1], ['row2']],
-            ]));
+        $url1->expects($this->any())->method('toArray')->will($this->returnValue(['row1']));
+        $url2->expects($this->any())->method('toArray')->will($this->returnValue(['row2']));
 
         $this->storage->expects($this->any())
             ->method('doAddMultiple')

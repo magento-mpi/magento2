@@ -77,8 +77,10 @@ class CategoriesUrlRewriteGenerator
      */
     protected function isCategoryProperForGenerating($category, $storeId)
     {
-        list(, $rootCategoryId) = $category->getParentIds();
-        return $category->getParentId() != Category::TREE_ROOT_ID
-            && $rootCategoryId == $this->storeManager->getStore($storeId)->getRootCategoryId();
+        if ($category->getParentId() != Category::TREE_ROOT_ID) {
+            list(, $rootCategoryId) = $category->getParentIds();
+            return $rootCategoryId == $this->storeManager->getStore($storeId)->getRootCategoryId();
+        }
+        return false;
     }
 }

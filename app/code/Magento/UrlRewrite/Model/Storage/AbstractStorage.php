@@ -10,7 +10,7 @@ namespace Magento\UrlRewrite\Model\Storage;
 use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Model\StorageInterface;
 // TODO: structure layer knows about service layer(and version) (@TODO: UrlRewrite)
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite\Converter;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 use Magento\UrlRewrite\Service\V1\Data\Filter;
 
 /**
@@ -18,17 +18,15 @@ use Magento\UrlRewrite\Service\V1\Data\Filter;
  */
 abstract class AbstractStorage implements StorageInterface
 {
-    /**
-     * @var Converter
-     */
-    protected $converter;
+    /** @var \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder */
+    protected $urlRewriteBuilder;
 
     /**
-     * @param Converter $converter
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder $urlRewriteBuilder
      */
-    public function __construct(Converter $converter)
+    public function __construct(UrlRewriteBuilder $urlRewriteBuilder)
     {
-        $this->converter = $converter;
+        $this->urlRewriteBuilder = $urlRewriteBuilder;
     }
 
     /**
@@ -78,7 +76,7 @@ abstract class AbstractStorage implements StorageInterface
     {
         $flatData = [];
         foreach ($urls as $url) {
-            $flatData[] = $this->converter->convertObjectToArray($url);
+            $flatData[] = $url->toArray();
         }
         $this->doAddMultiple($flatData);
     }
@@ -100,7 +98,7 @@ abstract class AbstractStorage implements StorageInterface
      */
     protected function createUrlRewrite($data)
     {
-        return $this->converter->convertArrayToObject($data);
+        return $this->urlRewriteBuilder->populateWithArray($data)->create();
     }
 
     /**

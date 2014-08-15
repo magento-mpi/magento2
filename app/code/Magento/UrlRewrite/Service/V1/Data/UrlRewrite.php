@@ -111,4 +111,15 @@ class UrlRewrite extends AbstractObject
         $metadata = $this->_get(self::METADATA);
         return !empty($metadata) ? unserialize($metadata) : [];
     }
+
+    /**
+     * Convert UrlRewrite to array
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->_data;
+
+    }
 }

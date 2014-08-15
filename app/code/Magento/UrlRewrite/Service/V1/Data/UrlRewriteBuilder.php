@@ -97,7 +97,7 @@ class UrlRewriteBuilder extends AbstractObjectBuilder
      *
      * @return $this
      */
-    public function setRedirectCode($redirectCode)
+    public function setRedirectType($redirectCode)
     {
         return $this->_set(UrlRewrite::REDIRECT_TYPE, $redirectCode);
     }

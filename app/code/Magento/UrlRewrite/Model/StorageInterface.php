@@ -34,7 +34,7 @@ interface StorageInterface
     /**
      * Add multiple urls to storage
      *
-     * @param array $urls
+     * @param \Magento\UrlRewrite\Service\V1\Data\UrlRewrite[] $urls
      * @return void
      * @throws Storage\DuplicateEntryException
      */
