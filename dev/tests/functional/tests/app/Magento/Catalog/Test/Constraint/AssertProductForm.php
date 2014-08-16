@@ -64,7 +64,7 @@ class AssertProductForm extends AbstractAssertForm
             $productData['custom_options'] = $customOptionsSource->getCustomOptions();
         }
         $fixtureData = $this->prepareFixtureData($productData, $this->sortFields);
-        $formData = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
+        $formData = $this->prepareFormData($productPage->getProductForm()->getData($product), $this->sortFields);
         $error = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }

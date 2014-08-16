@@ -587,6 +587,13 @@ class CatalogProductSimple extends InjectableFixture
         'group' => 'advanced-inventory'
     ];
 
+    protected $checkout_data = [
+        'attribute_code' => 'checkout_data',
+        'backend_type' => 'virtual',
+        'group' => null,
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData'
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -882,8 +889,13 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('news_to_date');
     }
 
-    public function getStockDate()
+    public function getStockData()
     {
         return $this->getData('stock_data');
+    }
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
     }
 }

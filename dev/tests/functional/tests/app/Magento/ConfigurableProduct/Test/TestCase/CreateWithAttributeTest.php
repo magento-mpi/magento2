@@ -61,7 +61,7 @@ class CreateWithAttributeTest extends Functional
         //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $productForm = $createProductPage->getForm();
+        $productForm = $createProductPage->getProductForm();
 
         //Steps
         $manageProductsGrid->open();
@@ -87,7 +87,7 @@ class CreateWithAttributeTest extends Functional
         $attributeFields['options'] = $attributeData['options']['value'];
 
         $createProductPage = Factory::getPageFactory()->getConfigurableCatalogProductNew();
-        $productForm = $createProductPage->getForm();
+        $productForm = $createProductPage->getProductForm();
         $productForm->openTab('variations');
 
         /** @var \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config $variations */
@@ -115,7 +115,7 @@ class CreateWithAttributeTest extends Functional
         }
 
         $createProductPage = Factory::getPageFactory()->getConfigurableCatalogProductNew();
-        $productForm = $createProductPage->getForm();
+        $productForm = $createProductPage->getProductForm();
         $productForm->openTab('variations');
 
         /** @var \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config $variationsTab */

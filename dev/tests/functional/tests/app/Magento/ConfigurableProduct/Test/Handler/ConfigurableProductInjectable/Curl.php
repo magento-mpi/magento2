@@ -70,6 +70,9 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
 
     /**
      * Preparing attribute data
+     *
+     * @param ConfigurableAttributesData $configurableAttributesData
+     * @return array
      */
     protected function prepareAttributesData(ConfigurableAttributesData $configurableAttributesData)
     {
@@ -106,6 +109,9 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
 
     /**
      * Preparing matrix data
+     *
+     * @param ConfigurableAttributesData $configurableAttributesData
+     * @return array
      */
     protected function prepareVariationsMatrix(ConfigurableAttributesData $configurableAttributesData)
     {
@@ -137,6 +143,12 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
         return $result;
     }
 
+    /**
+     * Prepare attributes
+     *
+     * @param ConfigurableAttributesData $configurableAttributesData
+     * @return array
+     */
     protected function prepareAttributes(ConfigurableAttributesData $configurableAttributesData)
     {
         $ids = [];

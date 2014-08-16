@@ -12,12 +12,14 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class SubscriberIndex
- *
  */
 class SubscriberIndex extends BackendPage
 {
     const MCA = 'newsletter/subscriber/index';
 
+    /**
+     * @var array
+     */
     protected $_blocks = [
         'subscriberGrid' => [
             'name' => 'subscriberGrid',

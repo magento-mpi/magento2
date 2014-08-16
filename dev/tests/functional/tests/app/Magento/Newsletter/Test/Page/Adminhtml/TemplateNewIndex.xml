@@ -7,23 +7,23 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog/product/new" >
+<page mca="newsletter/template/new/index">
     <block>
-        <name>productForm</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm</class>
-        <locator>[id="page:main-container"]</locator>
+        <name>formPageActions</name>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\Template\FormPageActions</class>
+        <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>formPageActions</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions</class>
-        <locator>.page-main-actions</locator>
+        <name>editForm</name>
+        <class>Magento\Backend\Test\Block\Widget\Form</class>
+        <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages .messages</locator>
+        <locator>#messages</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

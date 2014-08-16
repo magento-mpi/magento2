@@ -10,7 +10,6 @@ namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm as ParentForm;
 use Mtf\Fixture\DataFixture;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
@@ -19,7 +18,7 @@ use Mtf\Fixture\InjectableFixture;
  * Class ProductForm
  * Product creation form
  */
-class ProductForm extends ParentForm
+class ProductForm extends \Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm
 {
     /**
      * Fill the product form

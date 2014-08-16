@@ -536,6 +536,12 @@ class ConfigurableProductInjectable extends InjectableFixture
         'group' => 'product-details',
     ];
 
+    protected $is_virtual = [
+        'attribute_code' => 'is_virtual',
+        'backend_type' => 'virtual',
+        'group' => 'product-details',
+    ];
+
     protected $id = [
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
@@ -859,6 +865,11 @@ class ConfigurableProductInjectable extends InjectableFixture
     public function getWeight()
     {
         return $this->getData('weight');
+    }
+
+    public function getIsVirtual()
+    {
+        return $this->getData('is_virtual');
     }
 
     public function getId()

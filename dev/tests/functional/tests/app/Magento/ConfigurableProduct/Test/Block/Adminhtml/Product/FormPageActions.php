@@ -10,13 +10,12 @@ namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product;
 
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions as CatalogFromPageActions;
 
 /**
  * Class FormPageActions
  * Page actions block on page
  */
-class FormPageActions extends CatalogFromPageActions
+class FormPageActions extends \Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions
 {
     /**
      * Selector for "Affected Attribute Set" popup form
@@ -41,11 +40,11 @@ class FormPageActions extends CatalogFromPageActions
     }
 
     /**
-     * Get block of variations
+     * Get "Choose Affected Attribute Set" form
      *
      * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\AffectedAttributeSet
      */
-    public function getAffectedAttributeSetForm()
+    protected function getAffectedAttributeSetForm()
     {
         return $this->blockFactory->create(
             '\Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\AffectedAttributeSet',

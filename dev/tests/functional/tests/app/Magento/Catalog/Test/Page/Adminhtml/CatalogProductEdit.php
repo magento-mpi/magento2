@@ -18,14 +18,14 @@ class CatalogProductEdit extends BackendPage
     const MCA = 'catalog/product/edit';
 
     protected $_blocks = [
-        'form' => [
-            'name' => 'form',
+        'productForm' => [
+            'name' => 'productForm',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
-        'formAction' => [
-            'name' => 'formAction',
+        'formPageActions' => [
+            'name' => 'formPageActions',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
@@ -41,17 +41,17 @@ class CatalogProductEdit extends BackendPage
     /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm
      */
-    public function getForm()
+    public function getProductForm()
     {
-        return $this->getBlockInstance('form');
+        return $this->getBlockInstance('productForm');
     }
 
     /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions
      */
-    public function getFormAction()
+    public function getFormPageActions()
     {
-        return $this->getBlockInstance('formAction');
+        return $this->getBlockInstance('formPageActions');
     }
 
     /**

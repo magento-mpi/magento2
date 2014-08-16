@@ -35,7 +35,6 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
-        $catalogProductView->getViewBlock()->clickCustomize();
         $result = $this->displayedBundleBlock($catalogProductView, $product);
         \PHPUnit_Framework_Assert::assertTrue(empty($result), $result);
     }
@@ -56,20 +55,21 @@ class AssertBundleItemsOnProductPage extends AbstractConstraint
         }
 
         $catalogProductView->getViewBlock()->clickCustomize();
+        $errors = [];
         foreach ($bundleOptions as $index => $item) {
-            foreach ($item['assigned_products'] as &$selection) {
-                $selection = $selection['search_data'];
+            foreach ($item['assigned_products'] as $key => $selection) {
+                $item['assigned_products'][$key] = $selection['search_data'];
             }
-            $result = $catalogProductView->getBundleViewBlock()->getBundleBlock()->displayedBundleItemOption(
+            $error = $catalogProductView->getViewBlock()->getBundleBlock()->displayedBundleItemOption(
                 $item,
                 ++$index
             );
 
-            if ($result !== true) {
-                return $result;
+            if ($error !== true) {
+                $errors[] = $error;
             }
         }
-        return null;
+        return empty($errors) ? null : implode(' ', $errors);
     }
 
     /**

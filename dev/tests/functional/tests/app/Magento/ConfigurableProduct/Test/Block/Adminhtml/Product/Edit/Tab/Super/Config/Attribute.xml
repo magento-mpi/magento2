@@ -16,7 +16,7 @@
             <selector>[name$="[pricing_value]"]</selector>
         </pricing_value>
         <is_percent>
-            <selector>button[data-toggle="dropdown"]</selector>
+            <selector>.field-pricing-measure</selector>
             <input>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\ToggleDropdown</input>
         </is_percent>
         <include>
@@ -25,4 +25,3 @@
         </include>
     </fields>
 </mapping>
-

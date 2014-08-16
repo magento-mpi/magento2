@@ -41,7 +41,7 @@ class AssertConfigurableProductDuplicateForm extends AbstractAssertForm
         $filter = ['sku' => $product->getSku() . '-1'];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $form = $productPage->getForm();
+        $form = $productPage->getProductForm();
         $formData = $form->getData($product);
         foreach (array_keys($formData['configurable_attributes_data']['matrix']) as $key) {
             unset($formData['configurable_attributes_data']['matrix'][$key]['price']);

@@ -63,7 +63,7 @@ class AssertProductDuplicateForm extends AssertProductForm
         $filter = ['sku' => $product->getSku() . '-1'];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $formData = $productPage->getForm()->getData($product);
+        $formData = $productPage->getProductForm()->getData($product);
         $fixtureData = $this->prepareFixtureData($product->getData(), $product);
 
         $errors = $this->verifyData($fixtureData, $formData);
@@ -74,11 +74,10 @@ class AssertProductDuplicateForm extends AssertProductForm
      * Prepares fixture data for comparison
      *
      * @param array $data
-     * @param FixtureInterface $product
      * @param array $sortFields [optional]
      * @return array
      */
-    protected function prepareFixtureData(array $data, FixtureInterface $product, array $sortFields = [])
+    protected function prepareFixtureData(array $data, array $sortFields = [])
     {
         $compareData = array_filter($data);
 

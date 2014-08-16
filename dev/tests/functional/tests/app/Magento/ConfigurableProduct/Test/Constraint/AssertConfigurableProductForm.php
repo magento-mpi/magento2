@@ -12,6 +12,7 @@ use Magento\Catalog\Test\Constraint\AssertProductForm;
 
 /**
  * Class AssertConfigurableProductForm
+ * Assert form data equals fixture data
  */
 class AssertConfigurableProductForm extends AssertProductForm
 {
@@ -21,7 +22,8 @@ class AssertConfigurableProductForm extends AssertProductForm
      * @var array
      */
     protected $skippedFixtureFields = [
-        'affected_attribute_set'
+        'affected_attribute_set',
+        'checkout_data'
     ];
 
     /**
@@ -110,15 +112,5 @@ class AssertConfigurableProductForm extends AssertProductForm
             $data = $this->sortDataByPath($data, $path);
         }
         return $data;
-    }
-
-    /**
-     * Returns a string representation of the object
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Form data equal the fixture data.';
     }
 }

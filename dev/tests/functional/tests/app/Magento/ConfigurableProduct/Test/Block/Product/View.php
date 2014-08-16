@@ -8,27 +8,17 @@
 
 namespace Magento\ConfigurableProduct\Test\Block\Product;
 
-use \Magento\Catalog\Test\Block\Product\View as AbstractView;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
  * Class View
  * Product view block on frontend page
  */
-class View extends AbstractView
+class View extends \Magento\Catalog\Test\Block\Product\View
 {
-    /**
-     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
-     */
-    protected function getOptionsBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Product\View\CustomOptions',
-            ['element' => $this->_rootElement->find('.product-options-wrapper')]
-        );
-    }
-
     /**
      * Fill in the option specified for the product
      *
@@ -37,24 +27,55 @@ class View extends AbstractView
      */
     public function fillOptions(FixtureInterface $product)
     {
-        /** @var ConfigurableProductInjectable $product */
-        $attributesData = $product->getConfigurableAttributesData()['attributes_data'];
-        $checkoutData = $product->getDataFieldConfig('checkout_data')['source']->getPreset();
+        $attributesData = [];
+        $checkoutData = [];
+
+        if ($product instanceof InjectableFixture) {
+            /** @var ConfigurableProductInjectable $product */
+            $attributesData = $product->getConfigurableAttributesData()['attributes_data'];
+            $checkoutData = $product->getCheckoutData();
+
+            // Prepare attribute data
+            foreach ($attributesData as $attributeKey => $attribute) {
+                $attributesData[$attributeKey] = [
+                    'type' => $attribute['frontend_input'],
+                    'title' => $attribute['label'],
+                    'options' => [],
+                ];
+
+                foreach ($attribute['options'] as $optionKey => $option) {
+                    $attributesData[$attributeKey]['options'][$optionKey] = [
+                        'title' => $option['label']
+                    ];
+                }
+            }
+        } else {
+            /** @var ConfigurableProduct $product */
+            $attributesData = $product->getConfigurableAttributes();
+            $checkoutData = $product->getCheckoutData();
+
+            // Prepare attributes data
+            foreach ($attributesData as $attributeKey => $attribute) {
+                $attributesData[$attributeKey] = [
+                    'type' => 'dropdown',
+                    'title' => $attribute['label']['value']
+                ];
+
+                unset($attribute['label']);
+                foreach ($attribute as $optionKey => $option) {
+                    $attributesData[$attributeKey]['options'][$optionKey] = [
+                        'title' => $option['option_label']['value']
+                    ];
+                }
+            }
+        }
+
         $configurableCheckoutData = isset($checkoutData['configurable_options'])
             ? $checkoutData['configurable_options']
             : [];
-        $checkoutOptionsData = [];
+        $checkoutOptionsData = $this->prepareCheckoutData($attributesData, $configurableCheckoutData);
+        $this->getCustomOptionsBlock()->fillCustomOptions($checkoutOptionsData);
 
-        foreach ($configurableCheckoutData as $checkoutOption) {
-            $attributeKey = $checkoutOption['title'];
-            $optionKey = $checkoutOption['value'];
-            $attributeLabel = $attributesData[$attributeKey]['frontend_label'];
-            $checkoutOptionsData[$attributeLabel] = [
-                'type' => 'dropdown',
-                'value' => $attributesData[$attributeKey]['options'][$optionKey]['label']
-            ];
-        }
-
-        $this->getOptionsBlock()->fillOptions($checkoutOptionsData);
+        parent::fillOptions($product);
     }
 }

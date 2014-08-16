@@ -35,7 +35,7 @@ class EditConfigurableTest extends CreateConfigurableTest
 
         //Steps
         $createProductPage = Factory::getPageFactory()->getConfigurableCatalogProductNew();
-        $productForm = $createProductPage->getForm();
+        $productForm = $createProductPage->getProductForm();
         //Login
         Factory::getApp()->magentoBackendLoginUser();
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();

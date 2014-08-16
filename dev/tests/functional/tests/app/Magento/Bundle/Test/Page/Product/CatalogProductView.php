@@ -8,13 +8,11 @@
 
 namespace Magento\Bundle\Test\Page\Product;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductView as ParentCatalogProductView;
-
 /**
  * Class CatalogProductView
  * Frontend bundle product view page
  */
-class CatalogProductView extends ParentCatalogProductView
+class CatalogProductView extends \Magento\Catalog\Test\Page\Product\CatalogProductView
 {
     const MCA = 'bundle/catalog/product/view';
 
@@ -25,22 +23,12 @@ class CatalogProductView extends ParentCatalogProductView
      */
     protected function _init()
     {
-        $this->_blocks['bundleViewBlock'] = [
+        $this->_blocks['viewBlock'] = [
             'name' => 'bundleViewBlock',
             'class' => 'Magento\Bundle\Test\Block\Catalog\Product\View',
-            'locator' => '.bundle-options-container',
+            'locator' => '#maincontent',
             'strategy' => 'css selector',
         ];
         parent::_init();
-    }
-
-    /**
-     * Bundle block on frontend
-     *
-     * @return \Magento\Bundle\Test\Block\Catalog\Product\View
-     */
-    public function getBundleViewBlock()
-    {
-        return $this->getBlockInstance('bundleViewBlock');
     }
 }

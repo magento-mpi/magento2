@@ -15,6 +15,7 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
  * Class AssertChildProductIsNotDisplayedSeparately
+ * Assert that products generated during configurable product creation - are not visible on frontend(by default).
  */
 class AssertChildProductIsNotDisplayedSeparately extends AbstractConstraint
 {
@@ -28,7 +29,7 @@ class AssertChildProductIsNotDisplayedSeparately extends AbstractConstraint
     /**
      * Assert that products generated during configurable product creation - are not visible on frontend(by default).
      *
-     * @param CatalogsearchResult $catalogSearchResult
+     * @param CatalogSearchResult $catalogSearchResult
      * @param CmsIndex $cmsIndex
      * @param ConfigurableProductInjectable $product
      * @return void
@@ -45,12 +46,19 @@ class AssertChildProductIsNotDisplayedSeparately extends AbstractConstraint
         foreach ($configurableAttributesData['matrix'] as $variation) {
             $cmsIndex->getSearchBlock()->search($variation['sku']);
 
-            if ($catalogSearchResult->getListProductBlock()->isProductVisible($product->getName())) {
-                $errors[] = 'Child product with sku: "' . $variation['sku'] . '" is visible on frontend(by default).';
+            $isVisibleProduct = $catalogSearchResult->getListProductBlock()->isProductVisible($variation['name']);
+            while (!$isVisibleProduct && $catalogSearchResult->getBottomToolbar()->nextPage()) {
+                $isVisibleProduct = $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName());
+            }
+            if ($isVisibleProduct) {
+                $errors[] = sprintf(
+                    "\nChild product with sku: \"%s\" is visible on frontend(by default).",
+                    $variation['sku']
+                );
             }
         }
 
-        \PHPUnit_Framework_Assert::assertEmpty($errors, implode($errors, ' '));
+        \PHPUnit_Framework_Assert::assertEmpty($errors, implode(' ', $errors));
     }
 
     /**

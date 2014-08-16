@@ -59,11 +59,11 @@ class Grid extends GridInterface
     /**
      * {@inheritdoc}
      */
-    protected $filters = array(
-        'sku' => array(
+    protected $filters = [
+        'sku' => [
             'selector' => '#sales_order_create_search_grid_filter_sku'
-        )
-    );
+        ]
+    ];
 
     /**
      * Get catalog product composite configure block
@@ -84,15 +84,32 @@ class Grid extends GridInterface
      */
     protected function addProduct($product)
     {
-        $this->search(array(
-            'sku' => $product->getProductSku()
-        ));
+        $this->search(['sku' => $product->getProductSku()]);
+
         $productOptions = $product->getProductOptions();
         if (!empty($productOptions)) {
             $this->_rootElement->find($this->configure)->click();
             $this->getTemplateBlock()->waitLoader();
-            $this->getConfigureBlock()->fillOptions($productOptions);
+
+            $configurableOptions = [];
+            $checkoutData = [];
+            foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
+                $configurableOptions[] = [
+                    'type' => 'dropdown',
+                    'title' => $attributeLabel,
+                    'value' => $options
+                ];
+            }
+            foreach ($productOptions as $checkoutOption) {
+                $checkoutData[] = [
+                    'type' => $configurableOptions[$checkoutOption['title']]['type'],
+                    'title' => $configurableOptions[$checkoutOption['title']]['title'],
+                    'value' => $configurableOptions[$checkoutOption['title']]['value'][$checkoutOption['value']],
+                ];
+            }
+            $this->getConfigureBlock()->fillOptions($checkoutData);
         }
+
         $this->_rootElement
             ->find($this->rowItem)
             ->find($this->selectProduct, Locator::SELECTOR_CSS, 'checkbox')

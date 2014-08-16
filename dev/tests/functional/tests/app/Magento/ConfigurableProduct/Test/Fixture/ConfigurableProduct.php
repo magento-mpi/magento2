@@ -202,135 +202,135 @@ class ConfigurableProduct extends Product
     protected function _initData()
     {
         parent::_initData();
-        $this->_dataConfig = array(
+        $this->_dataConfig = [
             'constraint' => 'Success',
 
-            'create_url_params' => array(
+            'create_url_params' => [
                 'type' => Repository::CONFIGURABLE,
                 'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
-            ),
-        );
-        $data = array(
-            'fields' => array(
-                'price' => array(
+            ],
+        ];
+        $data = [
+            'fields' => [
+                'price' => [
                     'value' => '10',
                     'group' => static::GROUP_PRODUCT_DETAILS
-                ),
-                'tax_class_id' => array(
+                ],
+                'tax_class_id' => [
                     'value' => 'Taxable Goods',
                     'group' => static::GROUP_PRODUCT_DETAILS,
                     'input' => 'select',
                     'input_value' => '2',
-                ),
-                'weight' => array(
+                ],
+                'weight' => [
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
-                ),
-                'product_website_1' => array(
+                ],
+                'product_website_1' => [
                     'value' => 'Yes',
-                    'input_value' => array(1),
+                    'input_value' => [1],
                     'group' => static::GROUP_PRODUCT_WEBSITE,
                     'input' => 'checkbox',
                     'input_name' => 'website_ids'
-                ),
-                'configurable_attributes_data' => array(
-                    'value' => array(
-                        '0' => array(
-                            'label' => array(
+                ],
+                'configurable_attributes_data' => [
+                    'value' => [
+                        '0' => [
+                            'label' => [
                                 'value' => '%attribute_label_1%'
-                            ),
-                            '0' => array(
-                                'option_label' => array(
+                            ],
+                            '0' => [
+                                'option_label' => [
                                     'value' => '%attribute_1_option_label_1%'
-                                ),
-                                'pricing_value' => array(
+                                ],
+                                'pricing_value' => [
                                     'value' => '1'
-                                ),
-                                'is_percent' => array(
+                                ],
+                                'is_percent' => [
                                     'value' => 'No'
-                                ),
-                                'include' => array(
+                                ],
+                                'include' => [
                                     'value' => 'Yes'
-                                ),
-                            ),
-                            '1' => array(
-                                'option_label' => array(
+                                ],
+                            ],
+                            '1' => [
+                                'option_label' => [
                                     'value' => '%attribute_1_option_label_2%'
-                                ),
-                                'pricing_value' => array(
+                                ],
+                                'pricing_value' => [
                                     'value' => '2'
-                                ),
-                                'is_percent' => array(
+                                ],
+                                'is_percent' => [
                                     'value' => 'No'
-                                ),
-                                'include' => array(
+                                ],
+                                'include' => [
                                     'value' => 'Yes'
-                                ),
-                            )
-                        )
-                    ),
+                                ],
+                            ]
+                        ]
+                    ],
                     'group' => static::GROUP
-                ),
-                'variations-matrix' => array(
-                    'value' => array(
-                        '0' => array(
-                            'configurable_attribute' => array(
-                                '0' => array(
+                ],
+                'variations-matrix' => [
+                    'value' => [
+                        '0' => [
+                            'configurable_attribute' => [
+                                '0' => [
                                     'attribute_option' => '%attribute_1_option_label_1%'
-                                )
-                            ),
-                            'value' => array(
-                                'display' => array(
+                                ]
+                            ],
+                            'value' => [
+                                'display' => [
                                     'value' => 'Yes',
                                     'input' => 'checkbox'
-                                ),
-                                'name' => array(
+                                ],
+                                'name' => [
                                     'value' => 'Variation 0-%isolation%'
-                                ),
-                                'sku' => array(
+                                ],
+                                'sku' => [
                                     'value' => 'Variation 0-%isolation%'
-                                ),
-                                'qty' => array(
+                                ],
+                                'qty' => [
                                     'value' => '100'
-                                )
-                            )
-                        ),
-                        '1' => array(
-                            'configurable_attribute' => array(
-                                '0' => array(
+                                ]
+                            ]
+                        ],
+                        '1' => [
+                            'configurable_attribute' => [
+                                '0' => [
                                     'attribute_option' => '%attribute_1_option_label_2%'
-                                )
-                            ),
-                            'value' => array(
-                                'display' => array(
+                                ]
+                            ],
+                            'value' => [
+                                'display' => [
                                     'value' => 'Yes',
                                     'input' => 'checkbox'
-                                ),
-                                'name' => array(
+                                ],
+                                'name' => [
                                     'value' => 'Variation 1-%isolation%'
-                                ),
-                                'sku' => array(
+                                ],
+                                'sku' => [
                                     'value' => 'Variation 1-%isolation%'
-                                ),
-                                'qty' => array(
+                                ],
+                                'qty' => [
                                     'value' => '200'
-                                )
-                            )
-                        )
-                    ),
+                                ]
+                            ]
+                        ]
+                    ],
                     'group' => static::GROUP
-                ),
-            ),
-            'checkout' => array(
-                'selections' => array(
-                    '0' => array(
+                ],
+            ],
+            'checkout_data' => [
+                'configurable_options' => [
+                    [
                         'title' => '0',
                         'value' => '0'
-                    )
-                ),
+                    ]
+                ],
                 'special_price' => '10'
-            )
-        );
+            ]
+        ];
 
         $this->_data = array_merge_recursive($this->_data, $data);
 
@@ -339,13 +339,13 @@ class ConfigurableProduct extends Product
     }
 
     /**
-     * Get configurable options
+     * Get checkout data configurable product
      *
      * @return array
      */
-    public function getProductOptions()
+    public function getCheckoutData()
     {
-        return $this->getData('checkout/selections');
+        return $this->getData('checkout_data');
     }
 
     /**
@@ -356,7 +356,7 @@ class ConfigurableProduct extends Product
      */
     public function getProductSpecialPrice()
     {
-        return $this->getData('checkout/special_price');
+        return $this->getData('checkout_data/special_price');
     }
 
     /**
@@ -367,11 +367,11 @@ class ConfigurableProduct extends Product
     public function getProductOptionsPrice()
     {
         $price = 0;
-        $selections = $this->getData('checkout/selections');
+        $configurableOptions = $this->getData('checkout_data/configurable_options');
         $attributes = $this->getData('fields/configurable_attributes_data/value');
 
-        foreach ($selections as $selection) {
-            $price += $attributes[$selection['title']][$selection['value']]['pricing_value']['value'];
+        foreach ($configurableOptions as $option) {
+            $price += $attributes[$option['title']][$option['value']]['pricing_value']['value'];
         }
         return $price;
     }

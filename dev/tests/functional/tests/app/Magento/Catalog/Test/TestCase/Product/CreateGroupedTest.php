@@ -43,12 +43,12 @@ class CreateGroupedTest extends Functional
         //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productForm = $createProductPage->getForm();
+        $productForm = $createProductPage->getProductForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getGridPageActionBlock()->addProduct('grouped');
         $productForm->fill($product);
-        $createProductPage->getFormAction()->save();
+        $createProductPage->getFormPageActions()->save();
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
@@ -69,10 +69,10 @@ class CreateGroupedTest extends Functional
     protected function assertOnGrid($product)
     {
         //Search data
-        $search = array(
+        $search = [
             'sku' => $product->getProductSku(),
             'type' => 'Grouped Product'
-        );
+        ];
         //Page & Block
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();

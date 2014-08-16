@@ -8,32 +8,24 @@
 
 namespace Magento\Catalog\Test\Page\Product;
 
-use Mtf\Page\FrontendPage;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogProductView
- *
- * Frontend product view page
  */
 class CatalogProductView extends FrontendPage
 {
-    /**
-     * URL for catalog product grid
-     */
     const MCA = 'catalog/product/view';
 
+    /**
+     * @var array
+     */
     protected $_blocks = [
         'viewBlock' => [
             'name' => 'viewBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\View',
             'locator' => '#maincontent',
-            'strategy' => 'css selector',
-        ],
-        'customOptionsBlock' => [
-            'name' => 'customOptionsBlock',
-            'class' => 'Magento\Catalog\Test\Block\Product\View\CustomOptions',
-            'locator' => '#product-options-wrapper',
             'strategy' => 'css selector',
         ],
         'relatedProductBlock' => [
@@ -54,6 +46,18 @@ class CatalogProductView extends FrontendPage
             'locator' => '.block.crosssell',
             'strategy' => 'css selector',
         ],
+        'downloadableLinksBlock' => [
+            'name' => 'downloadableLinksBlock',
+            'class' => 'Magento\Downloadable\Test\Block\Catalog\Product\View\Links',
+            'locator' => '[data-container-for=downloadable-links]',
+            'strategy' => 'css selector',
+        ],
+        'mapBlock' => [
+            'name' => 'mapBlock',
+            'class' => 'Magento\Catalog\Test\Block\Product\Price',
+            'locator' => '#map-popup-content',
+            'strategy' => 'css selector',
+        ],
         'messagesBlock' => [
             'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
@@ -66,22 +70,16 @@ class CatalogProductView extends FrontendPage
             'locator' => '.product-reviews-summary',
             'strategy' => 'css selector',
         ],
-        'reviewFormBlock' => [
-            'name' => 'reviewFormBlock',
-            'class' => 'Magento\Review\Test\Block\Form',
-            'locator' => '#review-form',
-            'strategy' => 'css selector',
-        ],
         'customerReviewBlock' => [
             'name' => 'customerReviewBlock',
             'class' => 'Magento\Review\Test\Block\Product\View',
             'locator' => '#customer-reviews',
             'strategy' => 'css selector',
         ],
-        'mapBlock' => [
-            'name' => 'mapBlock',
-            'class' => 'Magento\Catalog\Test\Block\Product\Price',
-            'locator' => '#map-popup-click-for-price',
+        'reviewFormBlock' => [
+            'name' => 'reviewFormBlock',
+            'class' => 'Magento\Review\Test\Block\Form',
+            'locator' => '#review-form',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
@@ -89,7 +87,7 @@ class CatalogProductView extends FrontendPage
             'class' => 'Magento\Theme\Test\Block\Html\Title',
             'locator' => '.page-title h1.title .base',
             'strategy' => 'css selector',
-        ]
+        ],
     ];
 
     /**
@@ -112,8 +110,6 @@ class CatalogProductView extends FrontendPage
     }
 
     /**
-     * Get product view block
-     *
      * @return \Magento\Catalog\Test\Block\Product\View
      */
     public function getViewBlock()
@@ -122,53 +118,11 @@ class CatalogProductView extends FrontendPage
     }
 
     /**
-     * Get product options block
-     *
-     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
-     */
-    public function getCustomOptionsBlock()
-    {
-        return $this->getBlockInstance('customOptionsBlock');
-    }
-
-    /**
      * @return \Magento\Catalog\Test\Block\Product\ProductList\Related
      */
     public function getRelatedProductBlock()
     {
         return $this->getBlockInstance('relatedProductBlock');
-    }
-
-    /**
-     * @return \Magento\Review\Test\Block\Form
-     */
-    public function getReviewFormBlock()
-    {
-        return $this->getBlockInstance('reviewFormBlock');
-    }
-
-    /**
-     * @return \Magento\Review\Test\Block\Product\View
-     */
-    public function getCustomerReviewBlock()
-    {
-        return $this->getBlockInstance('customerReviewBlock');
-    }
-
-    /**
-     * @return \Magento\Core\Test\Block\Messages
-     */
-    public function getMessagesBlock()
-    {
-        return $this->getBlockInstance('messagesBlock');
-    }
-
-    /**
-     * @return \Magento\Review\Test\Block\Product\View\Summary
-     */
-    public function getReviewSummaryBlock()
-    {
-        return $this->getBlockInstance('reviewSummary');
     }
 
     /**
@@ -188,11 +142,51 @@ class CatalogProductView extends FrontendPage
     }
 
     /**
+     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\Links
+     */
+    public function getDownloadableLinksBlock()
+    {
+        return $this->getBlockInstance('downloadableLinksBlock');
+    }
+
+    /**
      * @return \Magento\Catalog\Test\Block\Product\Price
      */
     public function getMapBlock()
     {
         return $this->getBlockInstance('mapBlock');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\Review\Test\Block\Product\View\Summary
+     */
+    public function getReviewSummary()
+    {
+        return $this->getBlockInstance('reviewSummary');
+    }
+
+    /**
+     * @return \Magento\Review\Test\Block\Product\View
+     */
+    public function getCustomerReviewBlock()
+    {
+        return $this->getBlockInstance('customerReviewBlock');
+    }
+
+    /**
+     * @return \Magento\Review\Test\Block\Form
+     */
+    public function getReviewFormBlock()
+    {
+        return $this->getBlockInstance('reviewFormBlock');
     }
 
     /**

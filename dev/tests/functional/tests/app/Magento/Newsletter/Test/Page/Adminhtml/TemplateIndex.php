@@ -12,13 +12,14 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TemplateIndex
- *
- * @package Magento\Newsletter\Test\Page\Adminhtml
  */
 class TemplateIndex extends BackendPage
 {
     const MCA = 'newsletter/template/index';
 
+    /**
+     * @var array
+     */
     protected $_blocks = [
         'messagesBlock' => [
             'name' => 'messagesBlock',

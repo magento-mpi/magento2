@@ -41,14 +41,19 @@ class Attribute extends Form
         ]
     ];
 
-    // @codingStandardsIgnoreStart
+    /**
+     * Variation search block
+     *
+     * @var string
+     */
+    protected $variationSearchBlock = '#variations-search-field';
+
     /**
      * Selector for "Create New Variations Set"
      *
      * @var string
      */
-    protected $createNewVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
-    // @codingStandardsIgnoreEnd
+    protected $createNewVariationSet = '[data-ui-id$="add-attribute"]';
 
     /**
      * New attribute frame selector
@@ -71,14 +76,12 @@ class Attribute extends Form
      */
     protected $saveAttribute = '[data-ui-id="attribute-edit-content-save-button"]';
 
-    // @codingStandardsIgnoreStart
     /**
      * Selector attribute block by label
      *
      * @var string
      */
-    protected $attributeBlockByName = './/div[@id="configurable-attributes-container"]//div[contains(@id,"-wrapper") and (.//strong[@class="title"]/span[.="%s"])]';
-    // @codingStandardsIgnoreEnd
+    protected $attributeBlockByName = './/*[*/strong[@class="title" and contains(.,"%s")]]';
 
     /**
      * Selector for attribute block
@@ -284,7 +287,7 @@ class Attribute extends Form
     public function getAttributeSelector()
     {
         return $this->_rootElement->find(
-            '#variations-search-field',
+            $this->variationSearchBlock,
             Locator::SELECTOR_CSS,
             'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute\AttributeSelector'
         );

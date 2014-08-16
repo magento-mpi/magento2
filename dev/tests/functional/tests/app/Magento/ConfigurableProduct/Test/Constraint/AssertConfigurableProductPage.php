@@ -8,32 +8,46 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
+use Magento\Catalog\Test\Constraint\AssertProductPage;
 
 /**
  * Class AssertConfigurableProductPage
+ * Assert that displayed product data on product page(front-end) equals passed from fixture:
+ * 1. Product Name
+ * 2. Price
+ * 3. SKU
+ * 4. Description
+ * 5. Short Description
+ * 6. Attributes
  */
-class AssertConfigurableProductPage extends AbstractConstraint
+class AssertConfigurableProductPage extends AssertProductPage
 {
     /**
-     * Constraint severeness
+     * Product view page class on frontend
      *
      * @var string
      */
-    protected $severeness = 'middle';
+    protected $productViewClass = 'Magento\ConfigurableProduct\Test\Page\Product\CatalogProductView';
 
     /**
-     * @return void
+     * Verify displayed product data on product page(front-end) equals passed from fixture
+     *
+     * @return array
      */
-    public function processAssert()
+    protected function verify()
     {
-        //
+        $errors = parent::verify();
+        $errors[] = $this->verifyAttributes();
+
+        return array_filter($errors);
     }
 
     /**
-     * @return string
+     * Verify displayed product attributes on product page(front-end) equals passed from fixture
+     *
+     * @return string|null
      */
-    public function toString()
+    protected function verifyAttributes()
     {
         //
     }

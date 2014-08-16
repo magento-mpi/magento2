@@ -605,6 +605,7 @@ class CatalogProductBundle extends InjectableFixture
         'attribute_code' => 'checkout_data',
         'backend_type' => 'virtual',
         'is_required' => '1',
+        'group' => null,
         'source' => 'Magento\Bundle\Test\Fixture\CatalogProductBundle\CheckoutData',
     ];
 
@@ -929,6 +930,11 @@ class CatalogProductBundle extends InjectableFixture
     public function getBundleSelections()
     {
         return $this->getData('bundle_selections');
+    }
+
+    public function getCheckoutData()
+    {
+        return $this->getData('checkout_data');
     }
 
     public function getCustomOptions()

@@ -11,40 +11,17 @@ namespace Magento\Catalog\Test\Block\Product\ProductList;
 use Mtf\Block\Block;
 
 /**
- * Class Toolbar
- * Toolbar the product list page
+ * Class TopToolbar
+ * Top toolbar the product list page
  */
-class Toolbar extends Block
+class TopToolbar extends Block
 {
-    /**
-     * Selector next active element
-     *
-     * @var string
-     */
-    protected $nextPageSelector = '.item.current + .item a';
-
     /**
      * Selector for "sort by" element
      *
      * @var string
      */
     protected $sorter = '#sorter';
-
-    /**
-     * Go to the next page
-     *
-     * @return bool
-     */
-    public function nextPage()
-    {
-        $nextPageItem = $this->_rootElement->find($this->nextPageSelector);
-        if ($nextPageItem->isVisible()) {
-            $nextPageItem->click();
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * Get method of sorting product

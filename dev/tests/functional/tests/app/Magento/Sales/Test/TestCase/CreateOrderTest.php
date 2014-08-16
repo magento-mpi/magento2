@@ -72,9 +72,7 @@ class CreateOrderTest extends Functional
         $grandTotal = $orderViewPage->getOrderTotalsBlock()->getGrandTotal();
         //Test flow - order grand total check
         $orderGridPage->open();
-        $orderGrid->searchAndOpen(array(
-            'id' => $orderId
-        ));
+        $orderGrid->searchAndOpen(['id' => $orderId]);
         $this->assertEquals($fixture->getGrandTotal(), $grandTotal);
         $this->_checkCustomer($fixture, $email);
     }
@@ -95,9 +93,7 @@ class CreateOrderTest extends Functional
 
         //Test flow - customer saved check
         $customerGridPage->open();
-        $customerGrid->searchAndOpen(array(
-            'email' => $email
-        ));
+        $customerGrid->searchAndOpen(['email' => $email]);
         $customerPageTitle = $customerViewPage->getTitleBlock()->getTitle();
 
         $customer = $fixture->getCustomer();
@@ -117,9 +113,9 @@ class CreateOrderTest extends Functional
      */
     public function dataProviderOrderFixtures()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoSalesOrderWithCustomer()),
-            array(Factory::getFixtureFactory()->getMagentoSalesOrder())
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoSalesOrderWithCustomer()],
+            [Factory::getFixtureFactory()->getMagentoSalesOrder()]
+        ];
     }
 }

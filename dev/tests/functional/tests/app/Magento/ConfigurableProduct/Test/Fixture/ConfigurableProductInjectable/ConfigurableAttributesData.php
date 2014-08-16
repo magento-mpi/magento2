@@ -12,6 +12,7 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
 /**
  * Class ConfigurableAttributesData
@@ -62,7 +63,7 @@ class ConfigurableAttributesData implements FixtureInterface
     protected $attributes = [];
 
     /**
-     * Preapred products
+     * Prepared products
      *
      * @var array
      */
@@ -81,17 +82,17 @@ class ConfigurableAttributesData implements FixtureInterface
                         'option_0' => [
                             'pricing_value' => 12.00,
                             'include' => 'Yes',
-                            'is_percent' => '$'
+                            'is_percent' => 'No'
                         ],
                         'option_1' => [
                             'pricing_value' => 20.00,
                             'include' => 'Yes',
-                            'is_percent' => '$'
+                            'is_percent' => 'No'
                         ],
                         'option_2' => [
                             'pricing_value' => 18.00,
                             'include' => 'Yes',
-                            'is_percent' => '$'
+                            'is_percent' => 'No'
                         ],
                     ]
                 ],
@@ -100,17 +101,17 @@ class ConfigurableAttributesData implements FixtureInterface
                         'option_0' => [
                             'pricing_value' => 42.00,
                             'include' => 'Yes',
-                            'is_percent' => '$'
+                            'is_percent' => 'No'
                         ],
                         'option_1' => [
                             'pricing_value' => 40.00,
                             'include' => 'Yes',
-                            'is_percent' => '$'
+                            'is_percent' => 'No'
                         ],
                         'option_2' => [
                             'pricing_value' => 48.00,
                             'include' => 'Yes',
-                            'is_percent' => '$'
+                            'is_percent' => 'No'
                         ],
                     ]
                 ]
@@ -223,13 +224,13 @@ class ConfigurableAttributesData implements FixtureInterface
                         'option_0' => [
                             'label' => 'option_1_%isolation%',
                             'pricing_value' => 1,
-                            'is_percent' => '%',
+                            'is_percent' => 'Yes',
                             'include' => 'Yes'
                         ],
                         'option_1' => [
                             'label' => 'option_2_%isolation%',
                             'pricing_value' => 2,
-                            'is_percent' => '%',
+                            'is_percent' => 'Yes',
                             'include' => 'Yes',
                         ]
                     ]
@@ -267,13 +268,13 @@ class ConfigurableAttributesData implements FixtureInterface
                         'option_0' => [
                             'label' => 'option_1_%isolation%',
                             'pricing_value' => 1,
-                            'is_percent' => '$',
+                            'is_percent' => 'No',
                             'include' => 'Yes'
                         ],
                         'option_1' => [
                             'label' => 'option_2_%isolation%',
                             'pricing_value' => 2,
-                            'is_percent' => '$',
+                            'is_percent' => 'No',
                             'include' => 'Yes',
                         ]
                     ]
@@ -305,13 +306,13 @@ class ConfigurableAttributesData implements FixtureInterface
                         'option_0' => [
                             'label' => 'option_1_%isolation%',
                             'pricing_value' => 1,
-                            'is_percent' => '%',
+                            'is_percent' => 'Yes',
                             'include' => 'Yes'
                         ],
                         'option_1' => [
                             'label' => 'option_2_%isolation%',
                             'pricing_value' => 2,
-                            'is_percent' => '%',
+                            'is_percent' => 'Yes',
                             'include' => 'Yes',
                         ]
                     ]
@@ -350,8 +351,6 @@ class ConfigurableAttributesData implements FixtureInterface
      * @param FixtureFactory $fixtureFactory
      * @param array $data
      * @param array $params [optional]
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
     {
@@ -359,7 +358,6 @@ class ConfigurableAttributesData implements FixtureInterface
         $this->params = $params;
 
         $preset = isset($data['preset']) ? $this->getPreset($data['preset']) : [];
-        unset($data['preset']);
 
         $this->prepareAttributes($preset);
         $this->prepareAttributesData($preset);
@@ -476,7 +474,7 @@ class ConfigurableAttributesData implements FixtureInterface
                 'dataSet' => 'custom_attribute_set',
                 'data' => [
                     'assigned_attributes' => [
-                        'presets' => array_values($this->attributes)
+                        'attributes' => array_values($this->attributes)
                     ]
                 ]
             ]
@@ -689,7 +687,7 @@ class ConfigurableAttributesData implements FixtureInterface
     }
 
     /**
-     * Get preapared attributes
+     * Get prepared attributes
      *
      * @return array
      */
@@ -713,14 +711,9 @@ class ConfigurableAttributesData implements FixtureInterface
      *
      * @param string $name
      * @return mixed|null
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function getPreset($name)
     {
-        if (!isset($this->presets[$name])) {
-            return null;
-        }
-        return $this->presets[$name];
+        return isset($this->presets[$name]) ? $this->presets[$name] : null;
     }
 }

@@ -26,4 +26,7 @@
     <assertConfigurableProductPage module="Magento_ConfigurableProduct">
         <severeness>high</severeness>
     </assertConfigurableProductPage>
+    <assertProductAttributeAbsenceInVariationsSearch module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+    </assertProductAttributeAbsenceInVariationsSearch>
 </constraint>

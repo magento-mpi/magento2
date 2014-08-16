@@ -43,7 +43,7 @@ class ConfigurableProductInjectable extends AbstractRepository
             'attribute_set_id' => ['dataSet' => 'default'],
         ];
 
-        $this->_data['default_one_variation'] = [
+        $this->_data['one_variation'] = [
             'name' => 'Test configurable product %isolation%',
             'sku' => 'sku_test_configurable_product_%isolation%',
             'price' => ['value' => 120.00],

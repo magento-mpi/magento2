@@ -29,4 +29,3 @@ class AttributeSelector extends SuggestElement
         return $this->isExistValueInSearchResult($productAttribute->getFrontendLabel());
     }
 }
-

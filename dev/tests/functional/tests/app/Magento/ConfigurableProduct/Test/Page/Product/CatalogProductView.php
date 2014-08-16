@@ -8,12 +8,17 @@
 
 namespace Magento\ConfigurableProduct\Test\Page\Product;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductView as AbstractCatalogProductView;
-
-class CatalogProductView extends AbstractCatalogProductView
+/**
+ * Class CatalogProductView
+ * Product view page on frontend
+ */
+class CatalogProductView extends \Magento\Catalog\Test\Page\Product\CatalogProductView
 {
+    const MCA = 'configurable/product/view';
+    
     /**
-     * Init page. Set page url
+     * Init page
+     *
      * @return void
      */
     protected function _init()
@@ -24,15 +29,5 @@ class CatalogProductView extends AbstractCatalogProductView
             'locator' => '#maincontent',
             'strategy' => 'css selector',
         ];
-    }
-
-    /**
-     * Get product view block
-     *
-     * @return \Magento\ConfigurableProduct\Test\Block\Product\View
-     */
-    public function getViewBlock()
-    {
-        return $this->getBlockInstance('viewBlock');
     }
 }

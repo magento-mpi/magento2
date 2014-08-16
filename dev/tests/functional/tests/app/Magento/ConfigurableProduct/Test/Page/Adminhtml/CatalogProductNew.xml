@@ -9,19 +9,13 @@
 -->
 <page mca="configurable/catalog/product/new">
     <block>
-        <name>messagesBlock</name>
-        <class>Magento\Core\Test\Block\Messages</class>
-        <locator>#messages .messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
         <name>formPageActions</name>
-        <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\FormPAgeActions</class>
+        <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\FormPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>form</name>
+        <name>productForm</name>
         <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>

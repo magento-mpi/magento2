@@ -32,9 +32,8 @@ class Ui extends AbstractUi implements CatalogProductSimpleInterface
         $createProductPage->init($fixture);
         $createProductPage->open();
 
-        $productForm = $createProductPage->getForm();
-        $productForm->fill($fixture);
-        $createProductPage->getFormAction()->save();
+        $createProductPage->getProductForm()->fill($fixture);
+        $createProductPage->getFormPageActions()->save();
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
     }
 }

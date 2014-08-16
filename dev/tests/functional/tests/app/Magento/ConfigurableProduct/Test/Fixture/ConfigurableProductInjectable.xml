@@ -410,6 +410,10 @@
             <input>weight</input>
             <group>product_info_tabs_product-details</group>
         </weight>
+        <is_virtual>
+            <attribute_code>is_virtual</attribute_code>
+            <backend_type>virtual</backend_type>
+        </is_virtual>
         <id>
             <attribute_code>id</attribute_code>
             <backend_type>virtual</backend_type>
@@ -449,6 +453,7 @@
         <checkout_data>
             <attribute_code>checkout_data</attribute_code>
             <backend_type>virtual</backend_type>
+            <group />
             <source>Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable\CheckoutData</source>
         </checkout_data>
     </fields>

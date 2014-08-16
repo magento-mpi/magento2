@@ -28,11 +28,11 @@ class AdvancedResult extends CatalogsearchResult
             'locator' => '.column.main',
             'strategy' => 'css selector',
         ];
-        $this->_blocks['toolbar'] = [
-            'name' => 'toolbar',
-            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
-            'locator' => '.column.main',
-            'strategy' => 'css selector',
+        $this->_blocks['bottomToolbar'] = [
+            'name' => 'bottomToolbar',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\BottomToolbar',
+            'locator' => './/*[contains(@class,"toolbar-products")][2]',
+            'strategy' => 'xpath',
         ];
         parent::_init();
     }
@@ -46,10 +46,10 @@ class AdvancedResult extends CatalogsearchResult
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\Toolbar
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\BottomToolbar
      */
-    public function getToolbar()
+    public function getBottomToolbar()
     {
-        return $this->getBlockInstance('toolbar');
+        return $this->getBlockInstance('bottomToolbar');
     }
 }

@@ -9,6 +9,4 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\ConfigurableProduct\Test\Handler\ConfigurableProductInjectable\ConfigurableProductInjectableInterface" type="\Magento\ConfigurableProduct\Test\Handler\ConfigurableProductInjectable\Curl" />
-    <preference for="Magento\ConfigurableProduct\Test\Handler\ConfigurableProduct\ConfigurableProduct" type="\Magento\ConfigurableProduct\Test\Handler\Curl\CreateConfigurable" />
 </config>
-

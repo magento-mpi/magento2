@@ -8,12 +8,13 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
  * Class AssertChildProductsInGrid
+ * Assert that child products generated during configurable product are present in products grid
  */
 class AssertChildProductsInGrid extends AbstractConstraint
 {
@@ -39,12 +40,14 @@ class AssertChildProductsInGrid extends AbstractConstraint
     public function processAssert(CatalogProductIndex $productGrid, ConfigurableProductInjectable $product)
     {
         $configurableAttributesData = $product->getConfigurableAttributesData();
+        $productType = $product->getIsVirtual() ? 'Virtual Product' : 'Simple Product';
         $errors = [];
 
         $productGrid->open();
         foreach ($configurableAttributesData['matrix'] as $variation) {
             $filter = [
                 'name' => $variation['name'],
+                'type' => $productType,
                 'sku' => $variation['sku'],
                 'visibility' => self::NOT_VISIBLE_INDIVIDUALLY,
             ];

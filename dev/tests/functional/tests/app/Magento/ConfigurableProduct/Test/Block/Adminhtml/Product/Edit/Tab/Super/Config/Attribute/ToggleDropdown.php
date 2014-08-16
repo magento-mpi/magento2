@@ -13,23 +13,30 @@ use Mtf\Client\Driver\Selenium\Element;
 
 /**
  * Class ToggleDropdown
- * General class for toggle dropdown elements.
+ * Class for toggle dropdown elements.
  */
 class ToggleDropdown extends Element
 {
+    /**
+     * Selector for field value
+     *
+     * @var string
+     */
+    protected $field = './/button/span';
+
     /**
      * Selector for list options
      *
      * @var string
      */
-    protected $listOptions = './../ul[@data-role="dropdown-menu"]';
+    protected $listOptions = './/ul[@data-role="dropdown-menu"]';
 
     /**
      * Selector for search option by text
      *
      * @var string
      */
-    protected $optionByText = './../ul[@data-role="dropdown-menu"]/li/a[.="%s"]';
+    protected $optionByText = './/ul[@data-role="dropdown-menu"]/li/a[.="%s"]';
 
     /**
      * Set value
@@ -41,8 +48,10 @@ class ToggleDropdown extends Element
     {
         $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
 
-        if ($value != $this->getValue()) {
-            $this->click();
+        $value = ('Yes' == $value) ? '%' : '$';
+        $field = $this->find($this->field, Locator::SELECTOR_XPATH);
+        if ($value != $field->getValue()) {
+            $field->click();
             $this->waitListOptionsVisible();
             $this->find(sprintf($this->optionByText, $value), Locator::SELECTOR_XPATH)->click();
         }
@@ -51,13 +60,14 @@ class ToggleDropdown extends Element
     /**
      * Get value
      *
-     * @return array
+     * @return string
      */
     public function getValue()
     {
         $this->_eventManager->dispatchEvent(['get_value'], [(string)$this->_locator]);
 
-        return $this->find('span')->getText();
+        $value = $this->find($this->field, Locator::SELECTOR_XPATH)->getText();
+        return ('%' == $value) ? 'Yes' : 'No';
     }
 
     /**
@@ -76,4 +86,3 @@ class ToggleDropdown extends Element
         );
     }
 }
-

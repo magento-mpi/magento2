@@ -92,13 +92,7 @@ class Bundle extends Block
      */
     public function addToCart(CatalogProductBundle $product, CatalogProductView $catalogProductView)
     {
-        $fillData = $product->getDataFieldConfig('checkout_data')['source']->getPreset();
-        if (isset($fillData['bundle_options'])) {
-            $this->fillBundleOptions($fillData['bundle_options']);
-        }
-        if (isset($fillData['custom_options'])) {
-            $catalogProductView->getCustomOptionsBlock()->fillCustomOptions($product, $fillData['custom_options']);
-        }
+        $catalogProductView->getViewBlock()->fillOptions($product);
         $catalogProductView->getViewBlock()->clickAddToCart();
     }
 

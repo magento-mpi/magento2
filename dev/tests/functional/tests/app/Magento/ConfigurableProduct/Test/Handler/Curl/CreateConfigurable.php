@@ -30,7 +30,7 @@ class CreateConfigurable extends Curl
      */
     protected function _prepareData(ConfigurableProduct $fixture)
     {
-        $curlData = array();
+        $curlData = [];
 
         $curlData['product'] = $this->_getProductData($fixture);
         $curlData['product']['configurable_attributes_data'] = $this->_getConfigurableData($fixture);
@@ -55,7 +55,7 @@ class CreateConfigurable extends Curl
      */
     protected function _getProductData(ConfigurableProduct $fixture)
     {
-        $curlData = array();
+        $curlData = [];
         $baseData = $fixture->getData('fields');
         unset($baseData['configurable_attributes_data']);
         unset($baseData['variations-matrix']);
@@ -69,10 +69,10 @@ class CreateConfigurable extends Curl
         }
 
         $curlData['quantity_and_stock_status']['is_in_stock'] = 1;
-        $curlData['stock_data'] = array(
+        $curlData['stock_data'] = [
             'use_config_manage_stock' => 1,
             'is_in_stock' => 1
-        );
+        ];
 
         return $curlData;
     }
@@ -87,7 +87,7 @@ class CreateConfigurable extends Curl
     {
         $configurableAttribute = $fixture->getData('fields/configurable_attributes_data/value');
         $config = $fixture->getDataConfig();
-        $curlData = array();
+        $curlData = [];
 
         foreach ($configurableAttribute as $attributeNumber => $attribute) {
             $attributeId = $config['attributes']['id'][$attributeNumber];
@@ -121,7 +121,7 @@ class CreateConfigurable extends Curl
     {
         $config = $fixture->getDataConfig();
         $variationData = $fixture->getData('fields/variations-matrix/value');
-        $curlData = array();
+        $curlData = [];
         $variationNumber = 0;
         foreach ($config['options'] as $attributeId => $options) {
             foreach ($options['id'] as $option) {
@@ -158,7 +158,7 @@ class CreateConfigurable extends Curl
         $params = $this->_prepareData($fixture);
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $params);
         $response = $curl->read();
         $curl->close();
 
@@ -169,4 +169,3 @@ class CreateConfigurable extends Curl
         return isset($matches[1]) ? $matches[1] : null;
     }
 }
-

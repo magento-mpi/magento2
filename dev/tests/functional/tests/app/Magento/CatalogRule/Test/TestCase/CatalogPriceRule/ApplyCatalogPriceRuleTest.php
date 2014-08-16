@@ -179,7 +179,7 @@ class ApplyCatalogPriceRuleTest extends Functional
             $appliedRulePrice = $product->getProductPrice() * $this->discountRate;
             if ($product instanceof ConfigurableProduct) {
                 // Select option
-                $optionsBlock = $productPage->getCustomOptionsBlock();
+                $optionsBlock = $productPage->getViewBlock()->getCustomOptionsBlock();
                 $configurableOptions = [];
                 $checkoutData = [];
 
@@ -198,7 +198,7 @@ class ApplyCatalogPriceRuleTest extends Functional
                     ];
                 }
 
-                $optionsBlock->fillOptions($checkoutData);
+                $optionsBlock->fillCustomOptions($checkoutData);
                 $appliedRulePrice += $product->getProductOptionsPrice();
             }
             $productPriceBlock = $productViewBlock->getPriceBlock();

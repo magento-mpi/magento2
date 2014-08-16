@@ -8,9 +8,8 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertProductCustomOptionsOnProductPage;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductCustomOptionsOnBundleProductPage
@@ -26,16 +25,22 @@ class AssertProductCustomOptionsOnBundleProductPage extends AssertProductCustomO
     protected $isPrice = false;
 
     /**
+     * Class name of catalog product view page
+     *
+     * @var string
+     */
+    protected $catalogProductViewClass = 'Magento\Bundle\Test\Page\Product\CatalogProductView';
+
+    /**
      * Open product view page
      *
-     * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
      * @return void
      */
-    protected function openProductPage(CatalogProductView $catalogProductView, FixtureInterface $product)
+    protected function openProductPage(FixtureInterface $product)
     {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
-        $catalogProductView->getViewBlock()->clickCustomize();
+        $this->catalogProductView->init($product);
+        $this->catalogProductView->open();
+        $this->catalogProductView->getViewBlock()->clickCustomize();
     }
 }

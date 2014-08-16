@@ -405,49 +405,13 @@ class CustomOptions extends Form
     /**
      * Fill custom options
      *
-     * @param FixtureInterface $product
      * @param array $checkoutData
      * @return void
      */
-    public function fillCustomOptions(FixtureInterface $product, array $checkoutData)
+    public function fillCustomOptions(array $checkoutData)
     {
-        $customOptions = $product->hasData('custom_options')
-            ? $product->getDataFieldConfig('custom_options')['source']->getCustomOptions()
-            : null;
-        $checkoutOptions = $this->prepareCheckoutData($customOptions, $checkoutData);
-        $checkoutOptions = $this->prepareCheckoutOptions($checkoutOptions);
+        $checkoutOptions = $this->prepareOptions($checkoutData);
         $this->fillOptions($checkoutOptions);
-    }
-
-    /**
-     * Replace index fields to name fields in checkout data
-     *
-     * @param array $options
-     * @param array $checkoutData
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function prepareCheckoutData(array $options, array $checkoutData)
-    {
-        $result = [];
-
-        foreach ($checkoutData as $checkoutOption) {
-            $attributeKey = $checkoutOption['option'] - 1;
-            $optionKey = $checkoutOption['value'] - 1;
-
-            if (isset($options[$attributeKey])) {
-                $title = $options[$attributeKey]['title'];
-                $result[$title] = [
-                    'type' => strtolower(preg_replace('/[^a-z]/i', '', $options[$attributeKey]['type'])),
-                    'value' => isset($options[$attributeKey]['options'][$optionKey]['title'])
-                        ? $options[$attributeKey]['options'][$optionKey]['title']
-                        : $checkoutOption['value']
-                ];
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -456,11 +420,11 @@ class CustomOptions extends Form
      * @param array $options
      * @return array
      */
-    protected function prepareCheckoutOptions(array $options)
+    protected function prepareOptions(array $options)
     {
         $result = [];
 
-        foreach ($options as $title => $option) {
+        foreach ($options as $key => $option) {
             switch ($option['type']) {
                 case 'datetime':
                     list($day, $month, $year, $hour, $minute, $dayPart) = explode('/', $option['value']);
@@ -491,7 +455,7 @@ class CustomOptions extends Form
                     break;
             }
 
-            $result[$title] = $option;
+            $result[$key] = $option;
         }
 
         return $result;
@@ -500,14 +464,14 @@ class CustomOptions extends Form
     /**
      * Fill product options
      *
-     * @param array $data
+     * @param array $options
      * @return void
      */
-    public function fillOptions(array $data)
+    protected function fillOptions(array $options)
     {
-        foreach ($data as $title => $option) {
+        foreach ($options as $option) {
             $optionBlock = $this->_rootElement->find(
-                sprintf($this->optionByName, $title),
+                sprintf($this->optionByName, $option['title']),
                 Locator::SELECTOR_XPATH
             );
             $type = $option['type'];

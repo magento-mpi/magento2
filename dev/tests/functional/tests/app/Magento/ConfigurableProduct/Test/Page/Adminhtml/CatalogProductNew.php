@@ -8,58 +8,30 @@
 
 namespace Magento\ConfigurableProduct\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage;
-
 /**
  * Class CatalogProductNew
  * Product new page(backend)
  */
-class CatalogProductNew extends BackendPage
+class CatalogProductNew extends \Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew
 {
     const MCA = 'configurable/catalog/product/new';
 
-    protected $_blocks = [
-        'messagesBlock' => [
-            'name' => 'messagesBlock',
-            'class' => 'Magento\Core\Test\Block\Messages',
-            'locator' => '#messages .messages',
-            'strategy' => 'css selector',
-        ],
-        'formPageActions' => [
-            'name' => 'formPageactions',
+    /**
+     * Custom constructor
+     */
+    protected function _init()
+    {
+        $this->_blocks['formPageActions'] = [
+            'name' => 'formPageActions',
             'class' => 'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
-        ],
-        'form' => [
-            'name' => 'form',
+        ];
+        $this->_blocks['productForm'] = [
+            'name' => 'productForm',
             'class' => 'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
-        ],
-    ];
-
-    /**
-     * @return \Magento\Core\Test\Block\Messages
-     */
-    public function getMessagesBlock()
-    {
-        return $this->getBlockInstance('messagesBlock');
-    }
-
-    /**
-     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\FormPAgeActions
-     */
-    public function getFormPageActions()
-    {
-        return $this->getBlockInstance('formPageActions');
-    }
-
-    /**
-     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm
-     */
-    public function getForm()
-    {
-        return $this->getBlockInstance('form');
+        ];
     }
 }

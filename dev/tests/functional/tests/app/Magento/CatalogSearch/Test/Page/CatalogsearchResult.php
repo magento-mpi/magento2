@@ -24,11 +24,11 @@ class CatalogsearchResult extends FrontendPage
             'locator' => '.search.results',
             'strategy' => 'css selector',
         ],
-        'toolbar' => [
-            'name' => 'toolbar',
-            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
-            'locator' => '.toolbar.products',
-            'strategy' => 'css selector',
+        'bottomToolbar' => [
+            'name' => 'bottomToolbar',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\BottomToolbar',
+            'locator' => './/*[contains(@class,"toolbar-products")][2]',
+            'strategy' => 'xpath',
         ],
     ];
 
@@ -41,10 +41,10 @@ class CatalogsearchResult extends FrontendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\Toolbar
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\BottomToolbar
      */
-    public function getToolbar()
+    public function getBottomToolbar()
     {
-        return $this->getBlockInstance('toolbar');
+        return $this->getBlockInstance('bottomToolbar');
     }
 }

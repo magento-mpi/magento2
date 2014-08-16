@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\ObjectManager;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
@@ -80,18 +81,33 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
     protected $isPrice = true;
 
     /**
+     * Class name of catalog product view page
+     *
+     * @var string
+     */
+    protected $catalogProductViewClass = 'Magento\Catalog\Test\Page\Product\CatalogProductView';
+
+    /**
+     * Catalog product view page
+     *
+     * @var CatalogProductView
+     */
+    protected $catalogProductView;
+
+    /**
      * Assertion that commodity options are displayed correctly
      *
-     * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
+    public function processAssert(FixtureInterface $product)
     {
-        $this->openProductPage($catalogProductView, $product);
+        $this->catalogProductView = ObjectManager::getInstance()->create($this->catalogProductViewClass);
+        $this->openProductPage($product);
+
         // Prepare data
-        $formCustomOptions = $catalogProductView->getCustomOptionsBlock()->getOptions($product);
-        $actualPrice = $this->isPrice ? $this->getProductPrice($catalogProductView) : null;
+        $formCustomOptions = $this->catalogProductView->getViewBlock()->getCustomOptionsBlock()->getOptions($product);
+        $actualPrice = $this->isPrice ? $this->getProductPrice() : null;
         $fixtureCustomOptions = $this->prepareOptions($product, $actualPrice);
 
         $error = $this->verifyData($fixtureCustomOptions, $formCustomOptions);
@@ -101,12 +117,11 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
     /**
      * Get price from product page
      *
-     * @param CatalogProductView $catalogProductView
      * @return string
      */
-    protected function getProductPrice(CatalogProductView $catalogProductView)
+    protected function getProductPrice()
     {
-        $prices = $catalogProductView->getViewBlock()->getPriceBlock()->getPrice();
+        $prices = $this->catalogProductView->getViewBlock()->getPriceBlock()->getPrice();
         $actualPrice = isset($prices['price_special_price'])
             ? $prices['price_special_price']
             : $prices['price_regular_price'];
@@ -117,14 +132,13 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
     /**
      * Open product view page
      *
-     * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
      * @return void
      */
-    protected function openProductPage(CatalogProductView $catalogProductView, FixtureInterface $product)
+    protected function openProductPage(FixtureInterface $product)
     {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
+        $this->catalogProductView->init($product);
+        $this->catalogProductView->open();
     }
 
     /**

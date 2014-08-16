@@ -8,30 +8,28 @@
 
 namespace Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData as AbstractCheckoutData;
-
 /**
  * Class CheckoutData
+ * Data for fill product form on frontend
+ *
  * Data keys:
  *  - preset (Checkout data verification preset name)
- *
- * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  */
-class CheckoutData extends AbstractCheckoutData
+class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData
 {
     /**
      * Get preset array
      *
+     * @param $name
      * @return array|null
      */
-    public function getPreset()
+    public function getPreset($name)
     {
         $presets = [
             'two_options' => [
                 'configurable_options' => [
                     [
                         'title' => 'attribute_0',
-                        'type' => 'dropdown',
                         'value' => 'option_0',
                     ]
                 ],
@@ -43,7 +41,6 @@ class CheckoutData extends AbstractCheckoutData
                 'configurable_options' => [
                     [
                         'title' => 'attribute_0',
-                        'type' => 'dropdown',
                         'value' => 'option_1',
                     ]
                 ],
@@ -55,7 +52,6 @@ class CheckoutData extends AbstractCheckoutData
                 'configurable_options' => [
                     [
                         'title' => 'attribute_0',
-                        'type' => 'dropdown',
                         'value' => 'option_1',
                     ]
                 ],
@@ -67,7 +63,6 @@ class CheckoutData extends AbstractCheckoutData
                 'configurable_options' => [
                     [
                         'title' => 'attribute_0',
-                        'type' => 'dropdown',
                         'value' => 'option_0',
                     ]
                 ],
@@ -76,10 +71,6 @@ class CheckoutData extends AbstractCheckoutData
                 ]
             ],
         ];
-
-        if (!isset($presets[$this->currentPreset])) {
-            return null;
-        }
-        return $presets[$this->currentPreset];
+        return isset($presets[$name]) ? $presets[$name] : null;
     }
 }

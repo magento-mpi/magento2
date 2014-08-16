@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint;
+namespace Magento\ConfigurableProduct\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
@@ -51,7 +51,7 @@ class AssertProductAttributeAbsenceInVariationsSearch extends AbstractConstraint
         $productGrid->getGridPageActionBlock()->addProduct('simple');
 
         /** @var VariationsTab $variationsTab */
-        $variationsTab = $newProductPage->getForm()->getTabElement(self::TAB_VARIATIONS);
+        $variationsTab = $newProductPage->getProductForm()->getTabElement(self::TAB_VARIATIONS);
         $variationsTab->showContent();
         /** @var AttributeBlock $attributesBlock */
         $attributesBlock = $variationsTab->getAttributeBlock();

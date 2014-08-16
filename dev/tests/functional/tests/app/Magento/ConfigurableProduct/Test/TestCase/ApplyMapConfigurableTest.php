@@ -10,7 +10,7 @@ namespace Magento\ConfigurableProduct\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use \Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 use Magento\ConfigurableProduct\Test\Repository\ConfigurableProduct as Repository;
 
 /**
@@ -102,7 +102,7 @@ class ApplyMapConfigurableTest extends Functional
      */
     protected function verifyMapOnProductView(ConfigurableProduct $product)
     {
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        $productPage = Factory::getPageFactory()->getConfigurableProductView();
         $productPage->getMessagesBlock()->assertNoticeMessage();
         $productViewBlock = $productPage->getViewBlock();
         $productPriceBlock = $productViewBlock->getPriceBlock();
@@ -121,18 +121,7 @@ class ApplyMapConfigurableTest extends Functional
         );
         $mapBlock->closeMapBlock();
 
-        $productOptions = $product->getProductOptions();
-        if (!empty($productOptions)) {
-            $configurableOptions = [];
-            foreach ($product->getConfigurableOptions() as $attributeLabel => $options) {
-                $configurableOptions[] = [
-                    'type' => 'dropdown',
-                    'title' => $attributeLabel,
-                    'value' => $options[0]
-                ];
-            }
-            $productPage->getCustomOptionsBlock()->fillOptions($configurableOptions);
-        }
+        $productViewBlock->fillOptions($product);
         $productViewBlock->clickAddToCart();
     }
 

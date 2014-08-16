@@ -38,6 +38,7 @@ class CatalogProductAttribute extends AbstractRepository
             'attribute_code' => 'attribute_dropdown%isolation%',
             'frontend_input' => 'Dropdown',
             'is_required' => 'No',
+            'is_configurable' => 'Yes',
             'options' => [
                 [
                     'is_default' => 'Yes',

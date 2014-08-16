@@ -16,6 +16,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertConfigurableProductInCart
+ * Assertion that the product is correctly displayed in cart
  */
 class AssertConfigurableProductInCart extends AbstractConstraint
 {
@@ -36,14 +37,13 @@ class AssertConfigurableProductInCart extends AbstractConstraint
         $catalogProductView->open();
         $catalogProductView->getViewBlock()->addToCart($product);
 
-        $checkoutData = $product->getDataFieldConfig('checkout_data')['source']->getPreset();
+        $checkoutData = $product->getCheckoutData();
         $price = $checkoutCart->getCartBlock()->getCartItem($product)->getPrice();
         \PHPUnit_Framework_Assert::assertEquals(
             $checkoutData['checkoutItemForm']['price'],
             $price,
             'Product price in shopping cart is not correct.'
         );
-
     }
 
     /**

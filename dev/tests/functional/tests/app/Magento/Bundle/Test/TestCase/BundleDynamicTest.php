@@ -42,13 +42,13 @@ class BundleDynamicTest extends Functional
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productForm = $createProductPage->getForm();
+        $productForm = $createProductPage->getProductForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getGridPageActionBlock()->addProduct('bundle');
         $category = $bundle->getCategories()['category'];
         $productForm->fill($bundle, null, $category);
-        $createProductPage->getFormAction()->save();
+        $createProductPage->getFormPageActions()->save();
         //Verification
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
@@ -72,7 +72,7 @@ class BundleDynamicTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $product->getProductSku()]));
     }
 
     /**
@@ -103,7 +103,7 @@ class BundleDynamicTest extends Functional
         $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         // @TODO: add click on "Customize and Add To Cart" button and assert options count
-        $productOptionsBlock = $productPage->getCustomOptionsBlock();
+        $productOptionsBlock = $productPage->getViewBlock()->getCustomOptionsBlock();
         $actualOptions = $productOptionsBlock->getOptions();
         $expectedOptions = $product->getBundleOptions();
         foreach ($actualOptions as $optionType => $actualOption) {

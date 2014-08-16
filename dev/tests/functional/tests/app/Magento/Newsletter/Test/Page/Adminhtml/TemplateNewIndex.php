@@ -12,13 +12,14 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TemplateNewIndex
- *
- * @package Magento\Newsletter\Test\Page\Adminhtml
  */
 class TemplateNewIndex extends BackendPage
 {
     const MCA = 'newsletter/template/new/index';
 
+    /**
+     * @var array
+     */
     protected $_blocks = [
         'formPageActions' => [
             'name' => 'formPageActions',

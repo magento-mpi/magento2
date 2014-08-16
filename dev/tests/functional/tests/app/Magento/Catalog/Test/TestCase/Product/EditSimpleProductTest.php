@@ -45,18 +45,13 @@ class EditSimpleProductTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $gridBlock = $productGridPage->getProductGrid();
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $productForm = $editProductPage->getForm();
+        $productForm = $editProductPage->getProductForm();
         $cachePage = Factory::getPageFactory()->getAdminCache();
 
         $productGridPage->open();
-        $gridBlock->searchAndOpen(
-            array(
-                'sku' => $product->getProductSku(),
-                'type' => 'Simple Product'
-            )
-        );
+        $gridBlock->searchAndOpen(['sku' => $product->getProductSku(), 'type' => 'Simple Product']);
         $productForm->fill($editProduct);
-        $editProductPage->getFormAction()->save();
+        $editProductPage->getFormPageActions()->save();
         //Verifying
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
@@ -79,7 +74,7 @@ class EditSimpleProductTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        $this->assertTrue($gridBlock->isRowVisible(['sku' => $product->getProductSku()]));
     }
 
     /**
