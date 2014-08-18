@@ -60,7 +60,7 @@ class Create extends \Magento\Customer\Controller\Account
     public function execute()
     {
         try {
-            $this->invitationProvider->get();
+            $this->invitationProvider->get($this->getRequest());
             $this->_view->loadLayout();
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
