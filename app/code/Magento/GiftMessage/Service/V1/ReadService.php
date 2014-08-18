@@ -33,22 +33,21 @@ class ReadService implements ReadServiceInterface
     protected $builder;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\ProductLoader
+     * @param \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
+     * @param Data\MessageBuilder $builder
      */
-    protected $productLoader;
-
     public function __construct(
         \Magento\Checkout\Service\V1\QuoteLoader $quoteLoader,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\GiftMessage\Model\MessageFactory $messageFactory,
-        \Magento\GiftMessage\Service\V1\Data\MessageBuilder $builder,
-        \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
+        \Magento\GiftMessage\Service\V1\Data\MessageBuilder $builder
     ) {
         $this->quoteLoader = $quoteLoader;
         $this->storeManager = $storeManager;
         $this->messageFactory = $messageFactory;
         $this->builder = $builder;
-        $this->productLoader = $productLoader;
     }
 
     /**
@@ -81,16 +80,14 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getItemMessage($cartId, $itemSku)
+    public function getItemMessage($cartId, $itemId)
     {
         $storeId = $this->storeManager->getStore()->getId();
 
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->quoteLoader->load($cartId, $storeId);
-        $product = $this->productLoader->load($itemSku);
-
-        if (!$item = $quote->getItemByProduct($product)) {
-            throw new NoSuchEntityException('There is no product with provided SKU in the cart');
+        if (!$item = $quote->getItemById($itemId)) {
+            throw new NoSuchEntityException('There is no item with provided id in the cart');
         };
         $messageId = $item->getGiftMessageId();
         if (!$messageId) {

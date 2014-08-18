@@ -19,9 +19,9 @@ interface ReadServiceInterface
 
     /**
      * @param int $cartId
-     * @param string $itemSku
+     * @param int $itemId
      * @return \Magento\GiftMessage\Service\V1\Data\Message
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getItemMessage($cartId, $itemSku);
+    public function getItemMessage($cartId, $itemId);
 }

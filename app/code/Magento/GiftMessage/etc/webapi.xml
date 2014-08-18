@@ -15,7 +15,7 @@
             <resource ref="Magento_Sales::create" />
         </resources>
     </route>
-    <route url="/V1/carts/:cartId/gift-message/:itemSku" method="GET">
+    <route url="/V1/carts/:cartId/gift-message/:itemId" method="GET">
         <service class="Magento\GiftMessage\Service\V1\ReadServiceInterface" method="getItemMessage"/>
         <resources>
             <resource ref="Magento_Sales::create" />

@@ -70,12 +70,12 @@ class ReadServiceTest extends WebapiAbstract
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test_order_item_with_message', 'reserved_order_id');
-        $sku = $quote->getAllItems()[0]->getSku();
+        $itemId = $quote->getAllItems()[0]->getId();
         /** @var  \Magento\Catalog\Model\Product $product */
         $cartId = $quote->getId();
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . $cartId . '/gift-message/' . $sku,
+                'resourcePath' => self::RESOURCE_PATH . $cartId . '/gift-message/' . $itemId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
@@ -91,7 +91,7 @@ class ReadServiceTest extends WebapiAbstract
             'message' => 'Gift Message Text',
         );
 
-        $requestData = ["cartId" => $cartId, "itemSku" => $sku];
+        $requestData = ["cartId" => $cartId, "itemId" => $itemId];
         $resultMessage = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertCount(4, $resultMessage);
         unset($resultMessage['id']);
