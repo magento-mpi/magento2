@@ -123,6 +123,10 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateDataNotApplied()
     {
+        $this->moduleManager->expects($this->once())
+            ->method('isDbDataUpToDate')
+            ->with('Test_Module', 'catalog_setup')
+            ->will($this->returnValue(true));
         $this->_factoryMock->expects($this->never())
             ->method('create');
         $this->_model->updateData();
