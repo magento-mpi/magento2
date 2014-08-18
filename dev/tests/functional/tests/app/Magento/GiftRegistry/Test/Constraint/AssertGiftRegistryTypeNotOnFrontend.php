@@ -18,10 +18,10 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertGiftRegistryTypeOnFrontend
- * Assert that created Gift Registry type can be found at Customer Account > Gift Registry
+ * Class AssertGiftRegistryTypeNotOnFrontend
+ * Assert that deleted Gift Registry type is absent on creation new gift registry form on my account on frontend
  */
-class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
+class AssertGiftRegistryTypeNotOnFrontend extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -31,7 +31,7 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created Gift Registry type can be found at Customer Account > Gift Registry
+     * Assert that deleted Gift Registry type is absent on creation new gift registry form on my account on frontend
      *
      * @param CustomerInjectable $customer
      * @param GiftRegistryType $giftRegistryType
@@ -52,16 +52,19 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
         GiftRegistryAddSelect $giftRegistryAddSelect
     ) {
         $cmsIndex->open();
-        $cmsIndex->getLinksBlock()->openLink('Log In');
-        $customerAccountLogin->getLoginBlock()->fill($customer);
-        $customerAccountLogin->getLoginBlock()->submit();
-
+        if ($cmsIndex->getLinksBlock()->isLinkVisible('Log In')) {
+            $cmsIndex->getLinksBlock()->openLink('Log In');
+            $customerAccountLogin->getLoginBlock()->fill($customer);
+            $customerAccountLogin->getLoginBlock()->submit();
+        } else {
+            $customerAccountIndex->open();
+        }
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Registry');
         $giftRegistryIndex->getActionsToolbar()->addNew();
 
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $giftRegistryAddSelect->getGiftRegistryTypeBlock()->isGiftRegistryVisible($giftRegistryType->getLabel()),
-            'Gift registry \'' . $giftRegistryType->getLabel() . '\' is not present in dropdown.'
+            'Gift registry \'' . $giftRegistryType->getLabel() . '\' is present in dropdown.'
         );
 
     }
@@ -73,6 +76,6 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift Registry type was found at Customer Account > Gift Registry.';
+        return 'Gift Registry type was not found at Customer Account > Gift Registry.';
     }
 }

@@ -73,10 +73,10 @@ class CreateCustomerFrontendEntityTest extends Injectable
     }
 
     /**
- * Logout customer from frontend account
- *
- * return void
- */
+     * Logout customer from frontend account
+     *
+     * return void
+     */
     public function tearDown()
     {
         $this->customerAccountLogout->open();

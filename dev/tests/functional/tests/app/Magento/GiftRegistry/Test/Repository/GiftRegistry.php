@@ -22,6 +22,7 @@ class GiftRegistry extends AbstractRepository
      * @param array $defaultData
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
