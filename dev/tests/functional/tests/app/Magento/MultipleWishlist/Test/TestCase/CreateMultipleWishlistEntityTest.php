@@ -38,6 +38,8 @@ use Magento\MultipleWishlist\Test\Page\MultipleWishlistIndex;
  *
  * @group Multiple_Wishlists_(CS)
  * @ZephyrId MAGETWO-27157
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CreateMultipleWishlistEntityTest extends Injectable
 {

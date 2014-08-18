@@ -13,10 +13,10 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex;
 use Magento\GiftRegistry\TEst\Fixture\GiftRegistryType;
 
 /**
- * Class AssertGiftRegistryTypeInGrid
- * Assert that created Gift Registry type can be found at Stores > Gift Registry grid in backend
+ * Class AssertGiftRegistryTypeNotInGrid
+ * Assert that deleted Gift Registry type is absent in Stores > Gift Registry grid in backend
  */
-class AssertGiftRegistryTypeInGrid extends AbstractConstraint
+class AssertGiftRegistryTypeNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,7 +26,7 @@ class AssertGiftRegistryTypeInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created Gift Registry type can be found at Stores > Gift Registry grid in backend
+     * Assert that deleted Gift Registry type is absent in Stores > Gift Registry grid in backend
      *
      * @param GiftRegistryIndex $giftRegistryIndex
      * @param GiftRegistryType $giftRegistryType
@@ -36,9 +36,9 @@ class AssertGiftRegistryTypeInGrid extends AbstractConstraint
     {
         $giftRegistryIndex->open();
         $filter = ['label' => $giftRegistryType->getLabel()];
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $giftRegistryIndex->getGiftRegistryGrid()->isRowVisible($filter),
-            'Gift registry \'' . $giftRegistryType->getLabel() . '\' is not present in grid.'
+            'Gift registry \'' . $giftRegistryType->getLabel() . '\' is present in grid.'
         );
     }
 
@@ -49,6 +49,6 @@ class AssertGiftRegistryTypeInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift registry type is present in GiftRegistryType grid.';
+        return 'Gift registry type absent in GiftRegistryType grid.';
     }
 }

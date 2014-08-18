@@ -1,4 +1,4 @@
-"giftRegistry/data/code";"giftRegistry/data/label";"giftRegistry/data/is_listed";"giftRegistry/data/attributes/preset";"constraint"
+"giftRegistryType/data/code";"giftRegistryType/data/label";"giftRegistryType/data/is_listed";"giftRegistryType/data/attributes/preset";"constraint"
 "code_%isolation%";"gift_registry_text_label%isolation%";"Yes";"text";"assertGiftRegistryTypeSuccessSaveMessage, assertGiftRegistryTypeInGrid, assertGiftRegistryTypeForm, assertGiftRegistryTypeOnFrontend"
 "code_%isolation%";"gift_registry_select_label%isolation%";"Yes";"select";"assertGiftRegistryTypeSuccessSaveMessage, assertGiftRegistryTypeInGrid, assertGiftRegistryTypeForm, assertGiftRegistryTypeOnFrontend"
 "code_%isolation%";"gift_registry_date_label%isolation%";"Yes";"date";"assertGiftRegistryTypeSuccessSaveMessage, assertGiftRegistryTypeInGrid, assertGiftRegistryTypeForm, assertGiftRegistryTypeOnFrontend"
