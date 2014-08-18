@@ -75,19 +75,19 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     public function testUseRelatedLinks()
     {
         $this->model->useRelatedLinks();
-        $this->assertEquals(1, $this->model->getData('link_type_id'));
+        $this->assertEquals(Link::LINK_TYPE_RELATED, $this->model->getData('link_type_id'));
     }
 
     public function testUseUpSellLinks()
     {
         $this->model->useUpSellLinks();
-        $this->assertEquals(4, $this->model->getData('link_type_id'));
+        $this->assertEquals(Link::LINK_TYPE_UPSELL, $this->model->getData('link_type_id'));
     }
 
     public function testUseCrossSellLinks()
     {
         $this->model->useCrossSellLinks();
-        $this->assertEquals(5, $this->model->getData('link_type_id'));
+        $this->assertEquals(Link::LINK_TYPE_CROSSSELL, $this->model->getData('link_type_id'));
     }
 
     public function testGetAttributeTypeTable()
@@ -150,9 +150,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $product->expects($this->any())->method('getUpSellLinkData')->will($this->returnValue($data));
         $product->expects($this->any())->method('getCrossSellLinkData')->will($this->returnValue($data));
         $map = [
-            [$product, $data, 1, $this->resource],
-            [$product, $data, 4, $this->resource],
-            [$product, $data, 5, $this->resource],
+            [$product, $data, Link::LINK_TYPE_RELATED, $this->resource],
+            [$product, $data, Link::LINK_TYPE_UPSELL, $this->resource],
+            [$product, $data, Link::LINK_TYPE_CROSSSELL, $this->resource],
         ];
         $this->resource->expects($this->any())->method('saveProductLinks')->will($this->returnValueMap($map));
         $this->model->saveProductRelations($product);
