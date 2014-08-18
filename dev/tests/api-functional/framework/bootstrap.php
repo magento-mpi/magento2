@@ -39,31 +39,4 @@ $bootstrap->runBootstrap();
 \Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
 \Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files($magentoBaseDir));
 
-/** Magento installation */
-if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
-    $installCmd = sprintf('php -f %s --', escapeshellarg(realpath($testsBaseDir . '/../../shell/install.php')));
-    if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
-        passthru("{$installCmd} --uninstall", $exitCode);
-        if ($exitCode) {
-            exit($exitCode);
-        }
-    }
-    $installConfigFile = $testsBaseDir . '/config/install.php';
-    $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "{$installConfigFile}.dist";
-    $installConfig = require $installConfigFile;
-    $installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
-
-    /* Install application */
-    if ($installOptions) {
-        foreach ($installOptions as $optionName => $optionValue) {
-            $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
-        }
-        passthru($installCmd, $exitCode);
-        if ($exitCode) {
-            exit($exitCode);
-        }
-    }
-}
-
-/* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($bootstrap, $installCmd, $installConfigFile, $installConfig, $installExitCode);
+unset($bootstrap);
