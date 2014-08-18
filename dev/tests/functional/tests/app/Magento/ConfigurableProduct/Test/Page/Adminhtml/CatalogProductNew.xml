@@ -9,14 +9,10 @@
 -->
 <page mca="catalog/product/new">
     <blocks>
-        <form>
-            <renders>
-                <configurable>
+        <configurableForm>
                     <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm</class>
                     <locator>[id="page:main-container"]</locator>
                     <strategy>css selector</strategy>
-                </configurable>
-            </renders>
-        </form>
+        </configurableForm>
     </blocks>
 </page>

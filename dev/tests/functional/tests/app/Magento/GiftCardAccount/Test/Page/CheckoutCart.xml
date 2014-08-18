@@ -14,10 +14,5 @@
             <locator>.giftcard</locator>
             <strategy>css selector</strategy>
         </giftCardAccountBlock>
-        <messagesBlock>
-            <class>Magento\Core\Test\Block\Messages</class>
-            <locator>.page.messages</locator>
-            <strategy>css selector</strategy>
-        </messagesBlock>
     </blocks>
 </page>
