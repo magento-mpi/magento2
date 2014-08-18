@@ -24,6 +24,7 @@ class MessageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
     {
         return $this->_set(Message::ID, $value);
     }
+
     /**
      * Sender name
      *
@@ -34,6 +35,7 @@ class MessageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
     {
         return $this->_set(Message::SENDER, $value);
     }
+
     /**
      * Recipient name
      *
@@ -44,6 +46,7 @@ class MessageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
     {
         return $this->_set(Message::RECIPIENT, $value);
     }
+
     /**
      * Message text
      *
