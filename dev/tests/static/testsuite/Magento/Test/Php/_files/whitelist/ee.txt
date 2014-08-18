@@ -19,7 +19,7 @@ app/code/Magento/Invitation/Block/Adminhtml/Grid/Column/Renderer/Percent.php
 app/code/Magento/Invitation/Block/Adminhtml/Report
 app/code/Magento/Invitation/Model/Resource/Report
 app/code/Magento/Invitation/Model/Plugin
-app/code/Magento/Invitation/Model/Logging
+app/code/Magento/Invitation/Model/Logging.php
 app/code/Magento/Invitation/Controller/Adminhtml/Report
 app/code/Magento/MultipleWishlist/Block/Link.php
 app/code/Magento/Reward/Block/Customer/AccountLink.php
