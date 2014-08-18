@@ -30,6 +30,7 @@ class Adapter implements AdapterInterface
 
     /**
      * @param Mapper $mapper
+     * @param ResponseFactory $responseFactory
      */
     public function __construct(
         Mapper $mapper,

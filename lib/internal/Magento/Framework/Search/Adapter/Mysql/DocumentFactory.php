@@ -36,7 +36,7 @@ class DocumentFactory
     public function create($rawDocument)
     {
         $fields = array();
-        foreach($rawDocument as $rawField) {
+        foreach ($rawDocument as $rawField) {
             /** @var \Magento\Framework\Search\DocumentField[] $fields */
             $fields[] = $this->objectManager->create(
                 '\Magento\Framework\Search\DocumentField',

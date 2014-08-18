@@ -16,10 +16,11 @@ class Mapper
     /**
      * Build adapter dependent query
      *
+     * @param RequestInterface $request
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @return mixed
      */
     public function buildQuery(RequestInterface $request)
     {
-
     }
 }
