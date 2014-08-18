@@ -44,6 +44,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'Yes' => 1,
             'No' => 0
         ],
+        'use_config_manage_stock' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
         'is_virtual' => [
             'Yes' => 1
         ],
@@ -109,6 +113,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $config = $fixture->getDataConfig();
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->prepareData($fixture, $prefix);
+
         return ['id' => $this->createProduct($data, $config)];
     }
 
@@ -127,14 +132,12 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $fields = $this->replaceMappingData($fixture->getData());
         // Getting Tax class id
         if ($fixture->hasData('tax_class_id')) {
-            $fields['tax_class_id'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
+            $fields['tax_class_id'] = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClassId();
         }
 
         if (!empty($fields['category_ids'])) {
             $categoryIds = [];
-            /** @var InjectableFixture $fixture */
             foreach ($fixture->getDataFieldConfig('category_ids')['source']->getCategories() as $category) {
-                /** @var CatalogCategory $category */
                 $categoryIds[] = $category->getId();
             }
             $fields['category_ids'] = $categoryIds;
@@ -164,7 +167,46 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             $fields['attribute_set_id'] = $attributeSetId;
         }
 
+        $fields = $this->prepareStockData($fields);
+
         return $prefix ? [$prefix => $fields] : $fields;
+    }
+
+    /**
+     * Preparation of stock data
+     *
+     * @param array $fields
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
+    protected function prepareStockData(array $fields)
+    {
+        if (isset($fields['quantity_and_stock_status']) && !is_array($fields['quantity_and_stock_status'])) {
+            $fields['quantity_and_stock_status'] = [
+                'qty' => $fields['qty'],
+                'is_in_stock' => $fields['quantity_and_stock_status']
+            ];
+        }
+
+        if (!isset($fields['stock_data']['is_in_stock'])) {
+            $fields['stock_data']['is_in_stock'] = isset($fields['quantity_and_stock_status']['is_in_stock'])
+                ? $fields['quantity_and_stock_status']['is_in_stock']
+                : (isset($fields['inventory_manage_stock']) ? $fields['inventory_manage_stock'] : null);
+        }
+        if (!isset($fields['stock_data']['qty'])) {
+            $fields['stock_data']['qty'] = isset($fields['quantity_and_stock_status']['qty'])
+                ? $fields['quantity_and_stock_status']['qty']
+                : null;
+        }
+
+        if (!isset($fields['stock_data']['manage_stock'])) {
+            $fields['stock_data']['manage_stock'] = (int)(!empty($fields['stock_data']['qty'])
+                || !empty($fields['stock_data']['is_in_stock']));
+        }
+
+        return $this->filter($fields);
     }
 
     /**
@@ -219,7 +261,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $url = $this->getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -239,7 +281,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      */
     protected function getUrl(array $config)
     {
-        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
+        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : [];
         $params = '';
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';

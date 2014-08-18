@@ -56,7 +56,7 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         $gwsWebsites
     ) {
         $adminRole = $this->objectManagerHelper->getObject(
-            'Magento\User\Model\Role',
+            'Magento\Authorization\Model\Role',
             [
                 'data' => [
                     'gws_relevant_websites' => $gwsRelevantWebsites,

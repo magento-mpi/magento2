@@ -12,7 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CmsNew
- * Page for create CMS Page
+ * CMS New page on backend
  */
 class CmsNew extends BackendPage
 {

@@ -1,0 +1,2 @@
+"currencySymbol/data/code";"currencySymbolDefault";"currencySymbol/data/inherit_custom_currency_symbol";"currencySymbol/data/custom_currency_symbol";"constraint"
+"UAH";"₴";"Yes";"-";"assertCurrencySymbolSuccessSaveMessage, assertCurrencySymbolOnProductPage,assertCurrencySymbolOnCatalogPage"

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="customer/account/create" >
+    <block>
+        <name>tooltipBlock</name>
+        <class>Magento\Reward\Test\Block\Tooltip</class>
+        <locator>.customer-form-before</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

@@ -69,6 +69,6 @@ class CreateIntegrationEntityTest extends Injectable
         $this->integrationIndexPage->open();
         $this->integrationIndexPage->getGridPageActions()->addNew();
         $this->integrationNewPage->getIntegrationForm()->fill($integration);
-        $this->integrationNewPage->getFormPageActions()->save();
+        $this->integrationNewPage->getFormPageActions()->saveNew();
     }
 }

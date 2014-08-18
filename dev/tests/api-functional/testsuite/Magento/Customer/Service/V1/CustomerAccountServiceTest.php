@@ -139,8 +139,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 $exceptionData = $e->getMessage();
                 $expectedExceptionData = "SOAP-ERROR: Encoding: object has no 'email' property";
             } else {
-                $this->assertEquals(400, $e->getCode());
-                $exceptionData = $this->customerHelper->processRestExceptionResult($e);
+                $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
+                $exceptionData = $this->processRestExceptionResult($e);
                 $expectedExceptionData = [
                         'message' => InputException::DEFAULT_MESSAGE,
                         'errors' => [
@@ -362,7 +362,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 $this->_webApiCall($serviceInfo);
             }
         } catch (\Exception $e) {
-            $errorObj = $this->customerHelper->processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals("Reset password token mismatch.", $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
         }
@@ -415,7 +415,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
-            $errorObj = $this->customerHelper->processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals(
                 NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 $errorObj['message']
@@ -499,7 +499,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
-            $errorObj = $this->customerHelper->processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals(
                 'No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
                 $errorObj['message']
@@ -646,7 +646,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
-            $errorObj = $this->customerHelper->processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => $invalidId], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
@@ -773,7 +773,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
-            $errorObj = $this->customerHelper->processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => -1], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
@@ -1072,7 +1072,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 "SoapFault does not contain expected message."
             );
         } catch (\Exception $e) {
-            $errorObj = $this->customerHelper->processRestExceptionResult($e);
+            $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
