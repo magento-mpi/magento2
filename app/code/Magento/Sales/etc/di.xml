@@ -76,7 +76,4 @@
     <type name="Magento\Sales\Controller\OrderInterface">
         <plugin name="authentication" type="\Magento\Sales\Controller\Order\Plugin\Authentication"/>
     </type>
-    <type name="Magento\Sales\Model\Resource\Order\Creditmemo">
-        <plugin name="refundRewardPoints" type="\Magento\Reward\Model\Plugin\RefundRewardPoints"/>
-    </type>
 </config>
