@@ -71,8 +71,8 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $formBlock,
         \Magento\Framework\UrlInterface $url,
+        $formBlock = '',
         array $data = array()
     ) {
         $this->_url = $url;
