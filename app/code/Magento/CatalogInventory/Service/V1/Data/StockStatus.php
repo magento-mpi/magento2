@@ -11,6 +11,8 @@ use Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * Stock status data object
+ *
+ * @codeCoverageIgnore
  */
 class StockStatus extends AbstractObject
 {

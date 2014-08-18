@@ -9,6 +9,9 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
 use \Magento\Framework\Service\Data\Eav\AbstractObject;
 
+/**
+ * @codeCoverageIgnore
+ */
 class AttributeMetadata extends AbstractObject
 {
     const ATTRIBUTE_ID = 'attribute_id';

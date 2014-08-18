@@ -11,6 +11,9 @@ use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 use Magento\Catalog\Service\V1\Category\MetadataServiceInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CategoryBuilder extends AbstractObjectBuilder
 {
     /**
