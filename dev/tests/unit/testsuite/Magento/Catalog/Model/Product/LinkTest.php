@@ -52,8 +52,16 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $this->resource = $this->getMock(
             'Magento\Framework\Model\Resource\AbstractResource',
-            ['saveProductLinks', 'getAttributeTypeTable', 'getAttributesByType', 'getTable', '_getWriteAdapter',
-                '_getReadAdapter', '_construct', 'getIdFieldName']
+            [
+                'saveProductLinks',
+                'getAttributeTypeTable',
+                'getAttributesByType',
+                'getTable',
+                '_getWriteAdapter',
+                '_getReadAdapter',
+                '_construct',
+                'getIdFieldName'
+            ]
         );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
