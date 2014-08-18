@@ -112,7 +112,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                     'label' => __('Force Sign-In'),
                     'onclick' => 'deleteConfirm(\'' .
                         json_encode(
-                            utf8_encode(__('Are you sure you want to revoke the customer\'s tokens?')),
+                            __('Are you sure you want to revoke the customer\'s tokens?'),
                             JSON_HEX_APOS
                         ) .
                         '\', \'' . $url . '\')',
