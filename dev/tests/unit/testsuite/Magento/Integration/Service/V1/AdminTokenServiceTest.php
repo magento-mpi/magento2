@@ -76,7 +76,7 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testRevokeCustomerAccessToken()
+    public function testRevokeAdminAccessToken()
     {
         $adminId = 1;
 
@@ -107,7 +107,7 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage This user has no tokens.
      */
-    public function testRevokeCustomerAccessTokenWithoutCustomerId()
+    public function testRevokeAdminAccessTokenWithoutAdminId()
     {
         $this->_tokenModelCollectionMock->expects($this->once())
             ->method('addFilterByAdminId')
@@ -125,7 +125,7 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage The tokens could not be revoked.
      */
-    public function testRevokeCustomerAccessTokenCannotRevoked()
+    public function testRevokeAdminAccessTokenCannotRevoked()
     {
         $exception = new \Exception();
         $adminId = 1;
