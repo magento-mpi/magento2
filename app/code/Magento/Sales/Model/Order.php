@@ -733,7 +733,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
             return false;
         }
 
-        if (!$this->getPayment()->canReviewPayment() && $this->getPayment()->canFetchTransactionInfo()) {
+        if (!$this->canReviewPayment() && !$this->getPayment()->canFetchTransactionInfo()) {
             return false;
         }
 
