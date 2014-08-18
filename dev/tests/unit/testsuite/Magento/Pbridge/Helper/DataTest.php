@@ -118,7 +118,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getContinueButtonDataProvider
      */
-    public function testGetContinueButtonTemplate($quote, $blockObject, $expected)
+    public function testGetContinueButtonTemplate($quote, $expected)
     {
         $name = 'template name';
         $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quote));
@@ -140,8 +140,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['getPayment', '__wakeup'], [], '', false);
         $quoteMock->expects($this->any())->method('getPayment')->will($this->returnValue($paymentMock));
         return [
-            [$quoteMock, null, 'template name'],
-            [null, false, '']
+            [$quoteMock, 'template name'],
+            [null, '']
         ];
     }
 
