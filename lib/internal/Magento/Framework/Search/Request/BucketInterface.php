@@ -14,9 +14,9 @@ interface BucketInterface
     /**
      * #@+ Bucket Types
      */
-    const TYPE_TERM = 'term';
+    const TYPE_TERM = 'termBucket';
 
-    const TYPE_RANGE = 'range';
+    const TYPE_RANGE = 'rangeBucket';
 
     /**#@-*/
 
