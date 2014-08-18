@@ -58,6 +58,7 @@ class RewardPointsRefund
      * @param \Magento\Framework\Event\ManagerInterface
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Reward\Model\Reward\RewardRefund $rewardRefund
      */
     public function __construct(
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
