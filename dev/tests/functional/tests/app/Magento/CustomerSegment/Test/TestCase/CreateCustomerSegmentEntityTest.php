@@ -166,6 +166,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
         array $salesRule,
         AssertCustomerSegmentSuccessSaveMessage $assertCustomerSegmentSuccessSaveMessage
     ) {
+        $this->markTestIncomplete('MAGETWO-26846');
         //Preconditions
         $customer->persist();
         $filter = ['email' => $customer->getEmail()];
