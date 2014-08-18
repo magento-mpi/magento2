@@ -20,7 +20,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $filter;
 
     /**
-     * @var \Magento\UrlRewrite\Model\UrlRewrite\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\UrlRewrite\Model\UrlRewrite|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $urlRewrite;
 
