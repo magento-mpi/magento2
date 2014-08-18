@@ -9,7 +9,6 @@
 namespace Magento\Reward\Test\TestStep;
 
 use Mtf\Fixture\FixtureFactory;
-use Mtf\TestStep\TestStepFactory;
 use Mtf\TestStep\TestStepInterface;
 
 /**
@@ -25,13 +24,6 @@ class CreateRewardExchangeRatesStep implements TestStepInterface
     protected $fixtureFactory;
 
     /**
-     * Factory for Step
-     *
-     * @var TestStepFactory
-     */
-    protected $testStepFactory;
-
-    /**
      * Array with reward rates dataSet names
      *
      * @var array
@@ -43,13 +35,11 @@ class CreateRewardExchangeRatesStep implements TestStepInterface
      *
      * @constructor
      * @param FixtureFactory $fixtureFactory
-     * @param TestStepFactory $testStepFactory
      * @param array $rewardRates
      */
-    public function __construct(FixtureFactory $fixtureFactory, TestStepFactory $testStepFactory, array $rewardRates)
+    public function __construct(FixtureFactory $fixtureFactory, array $rewardRates)
     {
         $this->fixtureFactory = $fixtureFactory;
-        $this->testStepFactory = $testStepFactory;
         $this->rewardRates = $rewardRates;
     }
 
@@ -60,12 +50,6 @@ class CreateRewardExchangeRatesStep implements TestStepInterface
      */
     public function run()
     {
-        // Ensure that "Reward exchange rates" hadn't been created before
-        $deleteExchangeRates = $this->testStepFactory->create(
-            'Magento\Reward\Test\TestStep\DeleteRewardExchangeRatesStep'
-        );
-        $deleteExchangeRates->run();
-
         foreach ($this->rewardRates as $rewardRate) {
             $exchangeRate = $this->fixtureFactory->createByCode('rewardRate', ['dataSet' => $rewardRate]);
             $exchangeRate->persist();

@@ -53,12 +53,12 @@ class CreateSalesRuleStep implements TestStepInterface
     {
         $result['salesRule'] = null;
         if ($this->salesRule != '-') {
-            $giftCardAccount = $this->fixtureFactory->createByCode(
+            $salesRule = $this->fixtureFactory->createByCode(
                 'salesRuleInjectable',
                 ['dataSet' => $this->salesRule]
             );
-            $giftCardAccount->persist();
-            $result['salesRule'] = $giftCardAccount;
+            $salesRule->persist();
+            $result['salesRule'] = $salesRule;
         }
 
         return $result;

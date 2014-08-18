@@ -8,9 +8,12 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Mtf\ObjectManager;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Scenario;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 
 /**
  * Class OnePageCheckoutTest
@@ -57,10 +60,6 @@ class OnePageCheckoutTest extends Scenario
                         ],
                         'createSalesRule' => [
                             'module' => 'Magento_SalesRule',
-                            'next' => 'goToFrontEnd'
-                        ],
-                        'goToFrontEnd' => [
-                            'module' => 'Magento_Cms',
                             'next' => 'addProductsToTheCart'
                         ],
                         'addProductsToTheCart' => [
@@ -127,14 +126,45 @@ class OnePageCheckoutTest extends Scenario
     protected $configuration;
 
     /**
+     * Customer logout page
+     *
+     * @var CustomerAccountLogout
+     */
+    protected $customerAccountLogout;
+
+    /**
+     * Reward rate index page
+     *
+     * @var RewardRateIndex
+     */
+    protected $rewardRateIndexPage;
+
+    /**
+     * Reward rate new page
+     *
+     * @var RewardRateNew
+     */
+    protected $rewardRateNewPage;
+
+    /**
      * Preparing configuration for test
      *
      * @param FixtureFactory $fixtureFactory
+     * @param CustomerAccountLogout $customerAccountLogout
+     * @param RewardRateIndex $rewardRateIndexPage
+     * @param RewardRateNew $rewardRateNewPage
      * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
+    public function __prepare(
+        FixtureFactory $fixtureFactory,
+        CustomerAccountLogout $customerAccountLogout,
+        RewardRateIndex $rewardRateIndexPage,
+        RewardRateNew $rewardRateNewPage
+    ) {
         $this->fixtureFactory = $fixtureFactory;
+        $this->customerAccountLogout = $customerAccountLogout;
+        $this->rewardRateIndexPage = $rewardRateIndexPage;
+        $this->rewardRateNewPage = $rewardRateNewPage;
     }
 
     /**
@@ -157,7 +187,15 @@ class OnePageCheckoutTest extends Scenario
      */
     public function tearDown()
     {
+        $this->customerAccountLogout->open();
         $this->setupConfiguration(true);
+
+        // Deleting exchange rates
+        $this->rewardRateIndexPage->open();
+        while ($this->rewardRateIndexPage->getRewardRateGrid()->isFirstRowVisible()) {
+            $this->rewardRateIndexPage->getRewardRateGrid()->openFirstRow();
+            $this->rewardRateNewPage->getFormPageActions()->delete();
+        }
     }
 
     /**
