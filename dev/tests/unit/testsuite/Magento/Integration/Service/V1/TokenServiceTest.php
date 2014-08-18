@@ -58,14 +58,16 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getToken', 'loadByCustomerId', 'setRevoked', 'save', '__wakeup'])->getMock();
 
-        $this->_tokenModelCollectionMock = $this->getMockBuilder('Magento\Integration\Model\Resource\Oauth\Token\Collection')
-            ->disableOriginalConstructor()
-            ->setMethods(['addFilterByCustomerId', 'getSize', '__wakeup', '_beforeLoad', '_afterLoad', 'getIterator'])->getMock();
+        $this->_tokenModelCollectionMock = $this->getMockBuilder(
+            'Magento\Integration\Model\Resource\Oauth\Token\Collection'
+        )->disableOriginalConstructor()->setMethods(
+            ['addFilterByCustomerId', 'getSize', '__wakeup', '_beforeLoad', '_afterLoad', 'getIterator']
+        )->getMock();
 
-        $this->_tokenModelCollectionFactoryMock = $this->getMockBuilder('Magento\Integration\Model\Resource\Oauth\Token\CollectionFactory')
-            ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_tokenModelCollectionFactoryMock = $this->getMockBuilder(
+            'Magento\Integration\Model\Resource\Oauth\Token\CollectionFactory'
+        )->setMethods(['create'])->disableOriginalConstructor()->getMock();
+
         $this->_tokenModelCollectionFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->_tokenModelCollectionMock));
