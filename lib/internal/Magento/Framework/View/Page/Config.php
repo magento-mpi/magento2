@@ -20,14 +20,16 @@ namespace Magento\Framework\View\Page;
  */
 class Config
 {
-    /**
+    /**#@+
      * Constants of available types
      */
     const ELEMENT_TYPE_BODY = 'body';
     const ELEMENT_TYPE_HTML = 'html';
-    /**  */
+    /**#@-*/
 
     /**
+     * Allowed group of types
+     *
      * @var array
      */
     private $allowedTypes = [
@@ -58,11 +60,14 @@ class Config
     /**
      * Constructor
      *
+     * @param \Magento\Framework\View\Asset\GroupedCollection $groupCollection
      * @param \Magento\Framework\View\Asset\Collection $assetCollection
      */
     public function __construct(
+        \Magento\Framework\View\Asset\GroupedCollection $groupCollection,
         \Magento\Framework\View\Asset\Collection $assetCollection
     ) {
+
         $this->assetCollection = $assetCollection;
     }
 
@@ -129,6 +134,8 @@ class Config
     }
 
     /**
+     * Retrieve additional element attribute
+     *
      * @param string $elementType
      * @param string $attribute
      * @return null
@@ -152,6 +159,8 @@ class Config
     }
 
     /**
+     * Return current page layout
+     *
      * @return string
      */
     public function getPageLayout()
