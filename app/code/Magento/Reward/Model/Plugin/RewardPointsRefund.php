@@ -48,9 +48,9 @@ class RewardPointsRefund
     /**
      * Event manager
      *
-     * @var \Magento\Reward\Model\Reward\RewardRefund
+     * @var \Magento\Reward\Model\Reward\Refund\SalesRuleRefund
      */
-    protected $rewardRefund;
+    protected $salesRuleRefund;
 
     /**
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
@@ -58,7 +58,7 @@ class RewardPointsRefund
      * @param \Magento\Framework\Event\ManagerInterface
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Reward\Model\Reward\RewardRefund $rewardRefund
+     * @param \Magento\Reward\Model\Reward\Refund\SalesRuleRefund $salesRuleRefund
      */
     public function __construct(
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
@@ -66,14 +66,14 @@ class RewardPointsRefund
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Reward\Model\Reward\RewardRefund $rewardRefund
+        \Magento\Reward\Model\Reward\Refund\SalesRuleRefund $salesRuleRefund
     ) {
         $this->historyCollectionFactory = $historyCollectionFactory;
         $this->storeManager = $storeManager;
         $this->eventManager = $eventManager;
         $this->rewardFactory = $rewardFactory;
         $this->rewardData = $rewardData;
-        $this->rewardRefund = $rewardRefund;
+        $this->salesRuleRefund = $salesRuleRefund;
     }
 
     /**
@@ -97,7 +97,17 @@ class RewardPointsRefund
         /* @var $order \Magento\Sales\Model\Order */
         $order = $creditmemo->getOrder();
 
-        if ($creditmemo->getBaseRewardCurrencyAmount() && $this->isRewardPointsRefundAllowed($creditmemo)) {
+        $isRefundAllowed = false;
+        if ($creditmemo->getAutomaticallyCreated()) {
+            if ($this->rewardData->isAutoRefundEnabled()) {
+                $isRefundAllowed = true;
+            }
+            $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
+        } else {
+            $isRefundAllowed = true;
+        }
+
+        if ($creditmemo->getBaseRewardCurrencyAmount() && $isRefundAllowed) {
             $order->setRewardPointsBalanceRefunded(
                 $order->getRewardPointsBalanceRefunded() + $creditmemo->getRewardPointsBalance()
             );
@@ -127,7 +137,7 @@ class RewardPointsRefund
         }
 
         $this->updateHistoryRow($creditmemo);
-        $this->rewardRefund->refundRewardPointsEarnedBySalesRule($creditmemo);
+        $this->salesRuleRefund->refundRewardPointsEarnedBySalesRule($creditmemo);
 
         return $result;
     }
@@ -221,22 +231,6 @@ class RewardPointsRefund
         $rewardHistoryRecord->getResource()->updateHistoryRow($rewardHistoryRecord, array(
             'points_voided' => $rewardPointsVoided + $rewardPointsAmountToVoid
         ));
-    }
-
-    /**
-     * Get is allow reward points refund for this order
-     *
-     * @return bool
-     */
-    protected function isRewardPointsRefundAllowed(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
-    {
-        if ($creditmemo->getAutomaticallyCreated()) {
-            if (!$this->rewardData->isAutoRefundEnabled()) {
-                return false;
-            }
-            $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
-        }
-        return true;
     }
 
     /**

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reward\Model\Reward;
+namespace Magento\Reward\Model\Reward\Refund;
 
-class RewardRefund
+class SalesRuleRefund
 {
     /**
      * Reward factory
@@ -62,7 +62,17 @@ class RewardRefund
             }
         }
 
-        if ($this->isRewardPointsRefundAllowed($creditmemo)
+        $isRefundAllowed = false;
+        if ($creditmemo->getAutomaticallyCreated()) {
+            if ($this->rewardData->isAutoRefundEnabled()) {
+                $isRefundAllowed = true;
+            }
+            $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
+        } else {
+            $isRefundAllowed = true;
+        }
+
+        if ($isRefundAllowed
             && $order->getRewardSalesrulePoints() > 0
             && $order->getTotalQtyOrdered() - $totalItemsRefund == 0
         ) {
@@ -91,21 +101,5 @@ class RewardRefund
                 $order
             )->save();
         }
-    }
-
-    /**
-     * Get is allow reward points refund for this order
-     *
-     * @return bool
-     */
-    protected function isRewardPointsRefundAllowed(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
-    {
-        if ($creditmemo->getAutomaticallyCreated()) {
-            if (!$this->rewardData->isAutoRefundEnabled()) {
-                return false;
-            }
-            $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
-        }
-        return true;
     }
 } 
