@@ -37,11 +37,11 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('*/*/');
+                $this->_redirect('customer/index/edit', array('id' => $customerId, '_current' => true));
                 return;
             }
         }
         $this->messageManager->addError(__('We can\'t find a customer to revoke.'));
-        $this->_redirect('customer/index/edit', array('id' => $customerId, '_current' => true));
+        $this->_redirect('customer/index/index');
     }
 }
