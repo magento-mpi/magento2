@@ -16,7 +16,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Test form existence
-     * @covers \Magento\User\Controller\Adminhtml\Auth::forgotpasswordAction
+     * @covers \Magento\User\Controller\Adminhtml\Auth\Forgotpassword::execute
      */
     public function testFormForgotpasswordAction()
     {
@@ -28,7 +28,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     /**
      * Test redirection to startup page after success password recovering posting
      *
-     * @covers \Magento\User\Controller\Adminhtml\Auth::forgotpasswordAction
+     * @covers \Magento\User\Controller\Adminhtml\Auth\Forgotpassword::execute
      */
     public function testForgotpasswordAction()
     {
@@ -46,8 +46,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     /**
      * Test reset password action
      *
-     * @covers \Magento\User\Controller\Adminhtml\Auth::resetPasswordAction
-     * @covers \Magento\User\Controller\Adminhtml\Auth::_validateResetPasswordLinkToken
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPassword::execute
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPassword::_validateResetPasswordLinkToken
      * @magentoDataFixture Magento/User/_files/dummy_user.php
      */
     public function testResetPasswordAction()
@@ -75,8 +75,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @covers \Magento\User\Controller\Adminhtml\Auth::resetPasswordAction
-     * @covers \Magento\User\Controller\Adminhtml\Auth::_validateResetPasswordLinkToken
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPassword::execute
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPassword::_validateResetPasswordLinkToken
      */
     public function testResetPasswordActionWithDummyToken()
     {
@@ -91,8 +91,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
 
     /**
      * @dataProvider resetPasswordDataProvider
-     * @covers \Magento\User\Controller\Adminhtml\Auth::resetPasswordPostAction
-     * @covers \Magento\User\Controller\Adminhtml\Auth::_validateResetPasswordLinkToken
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPasswordPost::execute
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPasswordPost::_validateResetPasswordLinkToken
      * @magentoDataFixture Magento/User/_files/dummy_user.php
      */
     public function testResetPasswordPostAction($password, $passwordConfirmation, $isPasswordChanged)
@@ -164,8 +164,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @covers \Magento\User\Controller\Adminhtml\Auth::resetPasswordPostAction
-     * @covers \Magento\User\Controller\Adminhtml\Auth::_validateResetPasswordLinkToken
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPasswordPost::execute
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPasswordPost::_validateResetPasswordLinkToken
      * @magentoDataFixture Magento/User/_files/dummy_user.php
      */
     public function testResetPasswordPostActionWithDummyToken()
@@ -186,8 +186,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @covers \Magento\User\Controller\Adminhtml\Auth::resetPasswordPostAction
-     * @covers \Magento\User\Controller\Adminhtml\Auth::_validateResetPasswordLinkToken
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPasswordPost::execute
+     * @covers \Magento\User\Controller\Adminhtml\Auth\ResetPasswordPost::_validateResetPasswordLinkToken
      * @magentoDataFixture Magento/User/_files/dummy_user.php
      */
     public function testResetPasswordPostActionWithInvalidPassword()

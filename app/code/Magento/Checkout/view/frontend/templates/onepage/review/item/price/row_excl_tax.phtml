@@ -1,0 +1,15 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this \Magento\Checkout\Block\Item\Price\Renderer */
+
+$_item = $this->getItem();
+?>
+<span class="cart price">
+    <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getRowTotal()) ?>
+</span>
