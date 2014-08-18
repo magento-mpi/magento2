@@ -19,11 +19,6 @@ use Magento\Core\Model\File\Storage\Response;
 class Media implements AppInterface
 {
     /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $_applicationState;
-
-    /**
      * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;

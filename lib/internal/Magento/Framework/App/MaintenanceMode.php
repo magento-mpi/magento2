@@ -16,6 +16,9 @@ class MaintenanceMode
 {
     /**
      * Maintenance flag file name
+     *
+     * DO NOT consolidate this file and the IP white list into one.
+     * It is going to work much faster in 99% of cases: the isOn() will return false whenever file doesn't exist.
      */
     const FLAG_FILENAME = '.maintenance.flag';
 

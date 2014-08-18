@@ -109,8 +109,8 @@ class Uninstaller
         $configDir = $this->filesystem->getDirectoryWrite(Filesystem::CONFIG_DIR);
         $localXml = "{$configDir->getAbsolutePath()}local.xml";
         try {
-            $configDir->delete('local.xml');
             echo "{$localXml}\n";
+            $configDir->delete('local.xml');
         } catch (FilesystemException $e) {
             echo "{$localXml}\n\t{$e->getMessage()}\n";
         }
