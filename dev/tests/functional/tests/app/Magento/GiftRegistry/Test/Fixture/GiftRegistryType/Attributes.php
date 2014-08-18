@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+namespace Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
 
 use Mtf\Fixture\FixtureInterface;
 
@@ -84,6 +84,8 @@ class Attributes implements FixtureInterface
      *
      * @param string $name
      * @return array|null
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function getPreset($name)
     {

@@ -10,7 +10,7 @@ namespace Magento\GiftRegistry\Test\TestCase;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistryType;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryNew;
 use Mtf\TestCase\Injectable;
@@ -83,14 +83,14 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
     /**
      * Run CreateGiftRegistryTypeEntityTest
      *
-     * @param GiftRegistry $giftRegistry
+     * @param GiftRegistryType $giftRegistryType
      * @return void
      */
-    public function test(GiftRegistry $giftRegistry)
+    public function test(GiftRegistryType $giftRegistryType)
     {
         $this->giftRegistryIndex->open();
         $this->giftRegistryIndex->getPageActions()->addNew();
-        $this->giftRegistryNew->getGiftRegistryForm()->fill($giftRegistry);
+        $this->giftRegistryNew->getGiftRegistryForm()->fill($giftRegistryType);
         $this->giftRegistryNew->getPageActions()->save();
     }
 
