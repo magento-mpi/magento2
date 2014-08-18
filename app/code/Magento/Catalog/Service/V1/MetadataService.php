@@ -147,10 +147,11 @@ class MetadataService implements MetadataServiceInterface
             );
         }
 
+        $totalCount = $attributeCollection->getSize();
+
         // Group attributes by id to prevent duplicates with different attribute sets
         $attributeCollection->addAttributeGrouping();
 
-        $totalCount = $attributeCollection->getSize();
 
         $attributeCollection->addGroupConcatColumn('attribute_set_id', 'eav_entity_attribute.attribute_set_id');
 
