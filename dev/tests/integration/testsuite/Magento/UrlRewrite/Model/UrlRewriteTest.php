@@ -147,12 +147,6 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
 
     public function testRewriteSetCookie()
     {
-        $request = $this->objectManager->create(
-            'Magento\Framework\App\RequestInterface'
-        )->setPathInfo(
-            'fancy/url.html'
-        );
-
         $_SERVER['QUERY_STRING'] = 'foo=bar';
 
         $context = $this->objectManager->create(
@@ -189,25 +183,31 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
 
         //SUT must be mocked out for this test to prevent headers from being sent,
         //causing errors.
+
+        /** @var \PHPUnit_Framework_MockObject_MockObject /\Magento\UrlRewrite\Model\UrlRewrite $modelMock */
         $modelMock = $this->getMock('\Magento\UrlRewrite\Model\UrlRewrite',
             ['_sendRedirectHeaders'],
             $constructorArgs
         );
 
-        $modelMock->setRequestPath(
-            'fancy/url.html'
-        )->setTargetPath(
-            'http:/url.html'
-        )->save();
+        $modelMock->setRequestPath('http://fancy/url.html')
+            ->setTargetPath('http://another/fancy/url.html')
+            ->setIsSystem(1)
+            ->setOptions('R')
+            ->save();
 
-        try {
-            $this->assertTrue($modelMock->rewrite($request));
-            $this->assertEquals($_COOKIE[\Magento\Store\Model\Store::COOKIE_NAME], 'admin');
-            $modelMock->delete();
-        } catch (\Exception $e) {
-            $modelMock->delete();
-            throw $e;
-        }
+        $modelMock->expects($this->exactly(2))
+            ->method('_sendRedirectHeaders');
+
+        $request = $this->objectManager
+            ->create('Magento\Framework\App\RequestInterface')
+            ->setPathInfo('http://fancy/url.html');
+
+        $this->assertTrue($modelMock->rewrite($request));
+        $this->assertEquals($_COOKIE[\Magento\Store\Model\Store::COOKIE_NAME], 'admin');
+
+        $modelMock->delete();
+
     }
 
     public function testRewriteNonExistingRecord()

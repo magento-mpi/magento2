@@ -144,7 +144,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 
         return $this;
     }
-    
+
     /**
      * Load rewrite information for request
      * If $path is array - we must load possible records and choose one matching earlier record in array
@@ -223,6 +223,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 
         $this->loadByRequestPath($requestCases);
 
+        $targetUrl = $request->getBaseUrl();
         /**
          * Try to find rewrite by request path at first, if no luck - try to find by id_path
          */
@@ -247,7 +248,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
                 $currentStore->getCode(),
                 $cookieMetadata
             );
-            $targetUrl = $request->getBaseUrl() . '/' . $this->getRequestPath();
+            $targetUrl .= '/' . $this->getRequestPath();
 
             $this->_sendRedirectHeaders($targetUrl, true);
         }
@@ -273,7 +274,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 
             $this->_sendRedirectHeaders($this->getTargetPath(), $isPermanentRedirectOption);
         } else {
-            $targetUrl = $request->getBaseUrl() . '/' . $this->getTargetPath();
+            $targetUrl .= '/' . $this->getTargetPath();
         }
         $isRedirectOption = $this->hasOption('R');
         $isStoreInUrl = $this->_scopeConfig->getValue(
@@ -282,24 +283,23 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
         );
         if ($isRedirectOption || $isPermanentRedirectOption) {
             if ($isStoreInUrl && ($storeCode = $this->_storeManager->getStore()->getCode())) {
-                $targetUrl = $request->getBaseUrl() . '/' . $storeCode . '/' . $this->getTargetPath();
+                $targetUrl .= '/' . $storeCode . '/' . $this->getTargetPath();
             }
 
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
         if ($isStoreInUrl && ($storeCode = $this->_storeManager->getStore()->getCode())) {
-            $targetUrl = $request->getBaseUrl() . '/' . $storeCode . '/' . $this->getTargetPath();
+            $targetUrl .= '/' . $storeCode . '/' . $this->getTargetPath();
         }
 
         $queryString = $this->_getQueryString();
         if ($queryString) {
-            if (!isset($targetUrl)) {
-                $targetUrl = '?' . $queryString;
-            } else {
-                $targetUrl .= '?' . $queryString;
-            }
+
+
+            $targetUrl .= '?' . $queryString;
         }
+
 
         $request->setRequestUri($targetUrl);
         $request->setPathInfo($this->getTargetPath());
