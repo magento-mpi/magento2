@@ -17,7 +17,7 @@
 
     <move element="catalog.topnav" destination="store.menu" before="-" />
 
-    <referenceContainer name="page_top">
+    <referenceContainer name="page.top">
         <block class="Magento\Framework\View\Element\Template" name="navigation.sections" before="-" template="Magento_Theme::html/sections.phtml">
             <arguments>
                 <argument name="group_name" xsi:type="string">navigation-sections</argument>
