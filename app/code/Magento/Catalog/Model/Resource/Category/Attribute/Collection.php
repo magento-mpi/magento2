@@ -26,8 +26,8 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\DB\Helper $dbHelper
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Framework\DB\Helper $dbHelper
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
