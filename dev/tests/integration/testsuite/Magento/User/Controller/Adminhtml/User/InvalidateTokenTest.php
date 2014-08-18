@@ -9,6 +9,7 @@
 namespace Magento\User\Controller\Adminhtml\User;
 
 use Magento\Framework\Message\MessageInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Test class for Magento\User\Controller\Adminhtml\User\InvalidateToken.
@@ -20,15 +21,15 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
      */
     public function testInvalidateSingleToken()
     {
-        $tokenService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Integration\Service\V1\TokenService');
-        $tokenModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Integration\Model\Oauth\Token');
-        $userModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\User\Model\User');
+        /** @var \Magento\Integration\Service\V1\TokenService $tokenService */
+        $tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\TokenService');
+        /** @var \Magento\Integration\Model\Oauth\Token $tokenModel */
+        $tokenModel = Bootstrap::getObjectManager()->get('Magento\Integration\Model\Oauth\Token');
+        /** @var \Magento\User\Model\User $userModel */
+        $userModel = Bootstrap::getObjectManager()->get('Magento\User\Model\User');
 
         $adminUserNameFromFixture = 'adminUser';
-        $accessToken = $tokenService->createAdminAccessToken(
+        $tokenService->createAdminAccessToken(
             $adminUserNameFromFixture,
             \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         );
@@ -46,20 +47,18 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
      */
     public function testInvalidateMultipleTokens()
     {
-        $tokenService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Integration\Service\V1\TokenService');
-        $tokenModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Integration\Model\Oauth\Token');
-        $userModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\User\Model\User');
+        /** @var \Magento\Integration\Service\V1\TokenService $tokenService */
+        $tokenService = Bootstrap::getObjectManager()->get('Magento\Integration\Service\V1\TokenService');
+        /** @var \Magento\User\Model\User $userModel */
+        $userModel = Bootstrap::getObjectManager()->get('Magento\User\Model\User');
 
         $adminUserNameFromFixture = 'adminUser';
-        $accessToken1 = $tokenService->createAdminAccessToken(
+        $tokenService->createAdminAccessToken(
             $adminUserNameFromFixture,
             \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         );
 
-        $accessToken2 = $tokenService->createAdminAccessToken(
+        $tokenService->createAdminAccessToken(
             $adminUserNameFromFixture,
             \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         );
@@ -69,8 +68,8 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
         // invalidate tokens
         $this->getRequest()->setParam('user_id', $adminUserId);
         $this->dispatch('backend/admin/user/invalidateToken');
-        foreach ($tokenService->tokenModelCollection->addFilterByAdminId($adminUserId) as $t) {
-            $this->assertEquals(1, $t->getRevoked());
+        foreach ($tokenService->tokenModelCollection->addFilterByAdminId($adminUserId) as $token) {
+            $this->assertEquals(1, $token->getRevoked());
         }
     }
 
@@ -79,7 +78,8 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
      */
     public function testInvalidateToken_NoTokens()
     {
-        $userModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\User\Model\User');
+        /** @var \Magento\User\Model\User $userModel */
+        $userModel = Bootstrap::getObjectManager()->get('Magento\User\Model\User');
         $adminUserNameFromFixture = 'adminUser';
         $adminUserId = $userModel->loadByUsername($adminUserNameFromFixture)->getId();
         // invalidate token

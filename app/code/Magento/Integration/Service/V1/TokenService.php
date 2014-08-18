@@ -19,6 +19,8 @@ use Magento\Integration\Model\Resource\Oauth\Token\Collection as TokenCollection
 
 /**
  * Class to handle token generation for Admins and Customers
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class TokenService implements TokenServiceInterface
 {

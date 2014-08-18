@@ -21,69 +21,6 @@ use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
 {
     /**
-     * @var \Magento\Integration\Service\V1\TokenService
-     */
-    protected $_tokenService;
-
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerBuilder $customerBuilder
-     * @param CustomerDetailsBuilder $customerDetailsBuilder
-     * @param AddressBuilder $addressBuilder
-     * @param CustomerAddressServiceInterface $addressService
-     * @param CustomerAccountServiceInterface $accountService
-     * @param \Magento\Customer\Helper\View $viewHelper
-     * @param \Magento\Customer\Helper\Data $helper
-     * @param \Magento\Framework\Math\Random $random
-     * @param \Magento\Integration\Service\V1\TokenService $tokenService
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
-        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerBuilder $customerBuilder,
-        CustomerDetailsBuilder $customerDetailsBuilder,
-        AddressBuilder $addressBuilder,
-        CustomerAddressServiceInterface $addressService,
-        CustomerAccountServiceInterface $accountService,
-        \Magento\Customer\Helper\View $viewHelper,
-        \Magento\Customer\Helper\Data $helper,
-        \Magento\Framework\Math\Random $random,
-        \Magento\Integration\Service\V1\TokenService $tokenService
-    ) {
-        parent::__construct(
-            $context,
-            $coreRegistry,
-            $fileFactory,
-            $customerFactory,
-            $addressFactory,
-            $formFactory,
-            $subscriberFactory,
-            $customerBuilder,
-            $customerDetailsBuilder,
-            $addressBuilder,
-            $addressService,
-            $accountService,
-            $viewHelper,
-            $helper,
-            $random
-        );
-        $this->_tokenService = $tokenService;
-    }
-
-    /**
      * Reset customer's tokens handler
      *
      * @return void
@@ -92,7 +29,9 @@ class InvalidateToken extends \Magento\Customer\Controller\Adminhtml\Index
     {
         if ($customerId = $this->getRequest()->getParam('customer_id')) {
             try {
-                $this->_tokenService->revokeCustomerAccessToken($customerId);
+                /** @var \Magento\Integration\Service\V1\TokenService $tokenService */
+                $tokenService = $this->_objectManager->get('Magento\Integration\Service\V1\TokenService');
+                $tokenService->revokeCustomerAccessToken($customerId);
                 $this->messageManager->addSuccess(__('You have revoked the customer\'s token.'));
                 $this->_redirect('customer/index/edit', array('id' => $customerId, '_current' => true));
                 return;
