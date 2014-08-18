@@ -11,6 +11,7 @@ namespace Magento\Checkout\Service\V1\ShippingMethod;
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
 use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder;
 use \Magento\Framework\Exception\StateException;
+use \Magento\Framework\Exception\InputException;
 
 class ReadService implements ReadServiceInterface
 {
@@ -73,8 +74,8 @@ class ReadService implements ReadServiceInterface
             return null;
         }
 
-        list($carrierCode, $methodCode) = explode('_', $shippingAddress->getShippingMethod());
-        list($carrierTitle, $methodTitle) = explode(' - ', $shippingAddress->getShippingDescription());
+        list($carrierCode, $methodCode) = $this->divideNames('_', $shippingAddress->getShippingMethod());
+        list($carrierTitle, $methodTitle) = $this->divideNames(' - ', $shippingAddress->getShippingDescription());
 
         $output = [
             ShippingMethod::CARRIER_CODE => $carrierCode,
@@ -87,6 +88,20 @@ class ReadService implements ReadServiceInterface
         ];
 
         return $this->methodBuilder->populateWithArray($output)->create();
+    }
+
+    /**
+     * @param string $delimiter
+     * @param string $line
+     * @return array
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    protected function divideNames($delimiter, $line)
+    {
+        if (strpos($line, $delimiter) === false) {
+            throw new InputException('Line "' .  $line . '" doesn\'t contain delimiter ' . $delimiter);
+        }
+        return explode($delimiter, $line);
     }
 
     /**
@@ -110,7 +125,7 @@ class ReadService implements ReadServiceInterface
         if (!$shippingAddress->getCountryId()) {
             throw new StateException('Shipping address not set.');
         }
-        $shippingAddress->requestShippingRates();
+        $shippingAddress->collectShippingRates();
         $shippingRates = $shippingAddress->getGroupedAllShippingRates();
         foreach ($shippingRates as $carrierRates) {
             foreach ($carrierRates as $rate) {

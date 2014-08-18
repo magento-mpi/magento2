@@ -32,18 +32,26 @@ class WriteService implements WriteServiceInterface
     protected $paymentMethodBuilder;
 
     /**
+     * @var \Magento\Payment\Model\Checks\ZeroTotal
+     */
+    protected $zeroTotalValidator;
+
+    /**
      * @param QuoteLoader $quoteLoader
      * @param StoreManagerInterface $storeManager
      * @param Builder $paymentMethodBuilder
+     * @param \Magento\Payment\Model\Checks\ZeroTotal $zeroTotalValidator
      */
     public function __construct(
         QuoteLoader $quoteLoader,
         StoreManagerInterface $storeManager,
-        Builder $paymentMethodBuilder
+        Builder $paymentMethodBuilder,
+        \Magento\Payment\Model\Checks\ZeroTotal $zeroTotalValidator
     ) {
         $this->storeManager = $storeManager;
         $this->quoteLoader = $quoteLoader;
         $this->paymentMethodBuilder = $paymentMethodBuilder;
+        $this->zeroTotalValidator = $zeroTotalValidator;
     }
 
     /**
@@ -69,6 +77,10 @@ class WriteService implements WriteServiceInterface
         }
         if (!$quote->isVirtual() && $quote->getShippingAddress()) {
             $quote->getShippingAddress()->setCollectShippingRates(true);
+        }
+
+        if (!$this->zeroTotalValidator->isApplicable($payment->getMethodInstance(), $quote)) {
+            throw new InvalidTransitionException('The requested Payment Method is not available.');
         }
 
         $quote->setTotalsCollectedFlag(false)

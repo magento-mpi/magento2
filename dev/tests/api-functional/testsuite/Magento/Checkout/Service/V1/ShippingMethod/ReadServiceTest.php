@@ -104,7 +104,7 @@ class ReadServiceTest extends WebapiAbstract
         if (!$cartId) {
             $this->fail('quote fixture failed');
         }
-        $quote->getShippingAddress()->requestShippingRates();
+        $quote->getShippingAddress()->collectShippingRates();
         $expectedRates = $quote->getShippingAddress()->getGroupedAllShippingRates();
 
         $expectedData = $this->convertRates($expectedRates, $quote->getQuoteCurrencyCode());

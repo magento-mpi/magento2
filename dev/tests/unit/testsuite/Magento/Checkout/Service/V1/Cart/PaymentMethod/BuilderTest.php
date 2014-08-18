@@ -44,7 +44,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $paymentMock = $this->getMock('\Magento\Sales\Model\Quote\Payment', [], [], '', false);
         $paymentMock->expects($this->once())
             ->method('importData')
-            ->with(['method' => 'checkmo'])
+            ->with($this->contains('checkmo'))
             ->will($this->returnSelf());
 
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
@@ -73,7 +73,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $paymentMock = $this->getMock('\Magento\Sales\Model\Quote\Payment', [], [], '', false);
         $paymentMock->expects($this->once())
             ->method('importData')
-            ->with(['method' => 'notAvailableMethod'])
+            ->with($this->contains('notAvailableMethod'))
             ->will($this->throwException(
                 new \Magento\Framework\Exception\LocalizedException('The requested Payment Method is not available.'))
             );
@@ -84,4 +84,3 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($paymentMock, $this->builder->build($paymentMethodMock, $quoteMock));
     }
 }
- 
