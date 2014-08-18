@@ -565,24 +565,4 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
             return (bool)$result;
         }
     }
-
-    /**
-     * Correct '==' and '!=' operators
-     * Categories can't be equal because product is included categories selected by administrator and in their parents
-     *
-     * @return string
-     */
-    public function getOperatorForValidate()
-    {
-        $operator = $this->getOperator();
-        if ($this->getInputType() == 'category') {
-            if ($operator == '==') {
-                $operator = '{}';
-            } elseif ($operator == '!=') {
-                $operator = '!{}';
-            }
-        }
-
-        return $operator;
-    }
 }
