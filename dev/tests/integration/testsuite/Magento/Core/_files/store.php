@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
 $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
 $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
     'Magento\Store\Model\StoreManagerInterface'

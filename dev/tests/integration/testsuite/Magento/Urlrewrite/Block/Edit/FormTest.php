@@ -5,9 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Urlrewrite\Edit;
+namespace Magento\UrlRewrite\Block\Edit;
 
 /**
+ * Test for \Magento\UrlRewrite\Block\Edit\FormTest
  * @magentoAppArea adminhtml
  */
 class FormTest extends \PHPUnit_Framework_TestCase

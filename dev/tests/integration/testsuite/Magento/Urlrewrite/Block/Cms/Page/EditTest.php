@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
+namespace Magento\UrlRewrite\Block\Cms\Page;
 
 /**
- * Test for \Magento\UrlRewrite\Block\Catalog\Category\Edit
+ * Test for \Magento\UrlRewrite\Block\Cms\Page\Edit
  * @magentoAppArea adminhtml
  */
 class EditTest extends \PHPUnit_Framework_TestCase
@@ -30,9 +30,9 @@ class EditTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\LayoutInterface'
         );
 
-        /** @var $block \Magento\UrlRewrite\Block\Catalog\Category\Edit */
+        /** @var $block \Magento\UrlRewrite\Block\Cms\Page\Edit */
         $block = $layout->createBlock(
-            'Magento\UrlRewrite\Block\Catalog\Category\Edit',
+            'Magento\UrlRewrite\Block\Cms\Page\Edit',
             '',
             array('data' => $blockAttributes)
         );
@@ -41,13 +41,13 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_checkLinks($block, $expected);
         $this->_checkButtons($block, $expected);
         $this->_checkForm($block, $expected);
-        $this->_checkCategoriesTree($block, $expected);
+        $this->_checkGrid($block, $expected);
     }
 
     /**
      * Check selector
      *
-     * @param \Magento\UrlRewrite\Block\Catalog\Category\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkSelector($block, $expected)
@@ -72,7 +72,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check links
      *
-     * @param \Magento\UrlRewrite\Block\Catalog\Category\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkLinks($block, $expected)
@@ -80,42 +80,42 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $categoryBlock \Magento\UrlRewrite\Block\Link|bool */
-        $categoryBlock = $layout->getChildBlock($blockName, 'category_link');
+        /** @var $cmsPageLinkBlock \Magento\UrlRewrite\Block\Link|bool */
+        $cmsPageLinkBlock = $layout->getChildBlock($blockName, 'cms_page_link');
 
-        if ($expected['category_link']) {
+        if ($expected['cms_page_link']) {
             $this->assertInstanceOf(
                 'Magento\UrlRewrite\Block\Link',
-                $categoryBlock,
-                'Child block with category link is invalid'
+                $cmsPageLinkBlock,
+                'Child block with CMS page link is invalid'
             );
 
             $this->assertEquals(
-                'Category:',
-                $categoryBlock->getLabel(),
-                'Child block with category has invalid item label'
+                'CMS page:',
+                $cmsPageLinkBlock->getLabel(),
+                'Child block with CMS page has invalid item label'
             );
 
             $this->assertEquals(
-                $expected['category_link']['name'],
-                $categoryBlock->getItemName(),
-                'Child block with category has invalid item name'
+                $expected['cms_page_link']['name'],
+                $cmsPageLinkBlock->getItemName(),
+                'Child block with CMS page has invalid item name'
             );
 
             $this->assertRegExp(
-                '/http:\/\/localhost\/index.php\/.*\/category/',
-                $categoryBlock->getItemUrl(),
-                'Child block with category contains invalid URL'
+                '/http:\/\/localhost\/index.php\/.*\/cms_page/',
+                $cmsPageLinkBlock->getItemUrl(),
+                'Child block with CMS page contains invalid URL'
             );
         } else {
-            $this->assertFalse($categoryBlock, 'Child block with category link should not present in block');
+            $this->assertFalse($cmsPageLinkBlock, 'Child block with CMS page link should not present in block');
         }
     }
 
     /**
      * Check buttons
      *
-     * @param \Magento\UrlRewrite\Block\Catalog\Category\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkButtons($block, $expected)
@@ -124,19 +124,19 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
         if (isset($expected['back_button'])) {
             if ($expected['back_button']) {
-                if ($block->getCategory()->getId()) {
+                if ($block->getCmsPage()->getId()) {
                     $this->assertSelectCount(
-                        'button.back[onclick~="\/category"]',
+                        'button.back[onclick~="\/cms_page"]',
                         1,
                         $buttonsHtml,
-                        'Back button is not present in category URL rewrite edit block'
+                        'Back button is not present in CMS page URL rewrite edit block'
                     );
                 } else {
                     $this->assertSelectCount(
                         'button.back',
                         1,
                         $buttonsHtml,
-                        'Back button is not present in category URL rewrite edit block'
+                        'Back button is not present in CMS page URL rewrite edit block'
                     );
                 }
             } else {
@@ -144,7 +144,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'button.back',
                     0,
                     $buttonsHtml,
-                    'Back button should not present in category URL rewrite edit block'
+                    'Back button should not present in CMS page URL rewrite edit block'
                 );
             }
         }
@@ -154,14 +154,14 @@ class EditTest extends \PHPUnit_Framework_TestCase
                 'button.save',
                 1,
                 $buttonsHtml,
-                'Save button is not present in category URL rewrite edit block'
+                'Save button is not present in CMS page URL rewrite edit block'
             );
         } else {
             $this->assertSelectCount(
                 'button.save',
                 0,
                 $buttonsHtml,
-                'Save button should not present in category URL rewrite edit block'
+                'Save button should not present in CMS page URL rewrite edit block'
             );
         }
 
@@ -170,14 +170,14 @@ class EditTest extends \PHPUnit_Framework_TestCase
                 'button[title="Reset"]',
                 1,
                 $buttonsHtml,
-                'Reset button is not present in category URL rewrite edit block'
+                'Reset button is not present in CMS page URL rewrite edit block'
             );
         } else {
             $this->assertSelectCount(
                 'button[title="Reset"]',
                 0,
                 $buttonsHtml,
-                'Reset button should not present in category URL rewrite edit block'
+                'Reset button should not present in CMS page URL rewrite edit block'
             );
         }
 
@@ -186,14 +186,14 @@ class EditTest extends \PHPUnit_Framework_TestCase
                 'button.delete',
                 1,
                 $buttonsHtml,
-                'Delete button is not present in category URL rewrite edit block'
+                'Delete button is not present in CMS page URL rewrite edit block'
             );
         } else {
             $this->assertSelectCount(
                 'button.delete',
                 0,
                 $buttonsHtml,
-                'Delete button should not present in category URL rewrite edit block'
+                'Delete button should not present in CMS page URL rewrite edit block'
             );
         }
     }
@@ -201,7 +201,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Check form
      *
-     * @param \Magento\UrlRewrite\Block\Catalog\Category\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkForm($block, $expected)
@@ -209,20 +209,20 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $formBlock \Magento\UrlRewrite\Block\Catalog\Edit\Form|bool */
+        /** @var $formBlock \Magento\UrlRewrite\Block\Cms\Page\Edit\Form|bool */
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
             $this->assertInstanceOf(
-                'Magento\UrlRewrite\Block\Catalog\Edit\Form',
+                'Magento\UrlRewrite\Block\Cms\Page\Edit\Form',
                 $formBlock,
                 'Child block with form is invalid'
             );
 
             $this->assertSame(
-                $expected['form']['category'],
-                $formBlock->getCategory(),
-                'Form block should have same category attribute'
+                $expected['form']['cms_page'],
+                $formBlock->getCmsPage(),
+                'Form block should have same CMS page attribute'
             );
 
             $this->assertSame(
@@ -236,27 +236,27 @@ class EditTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check categories tree
+     * Check grid
      *
-     * @param \Magento\UrlRewrite\Block\Catalog\Category\Edit $block
+     * @param \Magento\UrlRewrite\Block\Cms\Page\Edit $block
      * @param array $expected
      */
-    private function _checkCategoriesTree($block, $expected)
+    private function _checkGrid($block, $expected)
     {
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $categoriesTreeBlock \Magento\UrlRewrite\Block\Catalog\Category\Tree|bool */
-        $categoriesTreeBlock = $layout->getChildBlock($blockName, 'categories_tree');
+        /** @var $gridBlock \Magento\UrlRewrite\Block\Cms\Page\Grid|bool */
+        $gridBlock = $layout->getChildBlock($blockName, 'cms_pages_grid');
 
-        if ($expected['categories_tree']) {
+        if ($expected['cms_pages_grid']) {
             $this->assertInstanceOf(
-                'Magento\UrlRewrite\Block\Catalog\Category\Tree',
-                $categoriesTreeBlock,
-                'Child block with categories tree is invalid'
+                'Magento\UrlRewrite\Block\Cms\Page\Grid',
+                $gridBlock,
+                'Child block with CMS pages grid is invalid'
             );
         } else {
-            $this->assertFalse($categoriesTreeBlock, 'Child block with category_tree should not present in block');
+            $this->assertFalse($gridBlock, 'Child block with CMS pages grid should not present in block');
         }
     }
 
@@ -271,10 +271,10 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $urlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\UrlRewrite\Model\UrlRewrite'
         );
-        /** @var $category \Magento\Catalog\Model\Category */
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Category',
-            array('data' => array('entity_id' => 1, 'name' => 'Test category'))
+        /** @var $cmsPage \Magento\Cms\Model\Page */
+        $cmsPage = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Cms\Model\Page',
+            array('data' => array('page_id' => 1, 'title' => 'Test CMS Page'))
         );
         /** @var $existingUrlRewrite \Magento\UrlRewrite\Model\UrlRewrite */
         $existingUrlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -283,45 +283,45 @@ class EditTest extends \PHPUnit_Framework_TestCase
         );
 
         return array(
-            // Creating URL rewrite when category selected
+            // Creating URL rewrite when CMS page selected
             array(
-                array('category' => $category, 'url_rewrite' => $urlRewrite),
+                array('cms_page' => $cmsPage, 'url_rewrite' => $urlRewrite),
                 array(
                     'selector' => false,
-                    'category_link' => array('name' => $category->getName()),
+                    'cms_page_link' => array('name' => $cmsPage->getTitle()),
                     'back_button' => true,
                     'save_button' => true,
                     'reset_button' => false,
                     'delete_button' => false,
-                    'form' => array('category' => $category, 'url_rewrite' => $urlRewrite),
-                    'categories_tree' => false
+                    'form' => array('cms_page' => $cmsPage, 'url_rewrite' => $urlRewrite),
+                    'cms_pages_grid' => false
                 )
             ),
-            // Creating URL rewrite when category not selected
+            // Creating URL rewrite when CMS page not selected
             array(
                 array('url_rewrite' => $urlRewrite),
                 array(
                     'selector' => true,
-                    'category_link' => false,
+                    'cms_page_link' => false,
                     'back_button' => true,
                     'save_button' => false,
                     'reset_button' => false,
                     'delete_button' => false,
                     'form' => false,
-                    'categories_tree' => true
+                    'cms_pages_grid' => true
                 )
             ),
-            // Editing URL rewrite with category
+            // Editing existing URL rewrite with CMS page
             array(
-                array('url_rewrite' => $existingUrlRewrite, 'category' => $category),
+                array('url_rewrite' => $existingUrlRewrite, 'cms_page' => $cmsPage),
                 array(
                     'selector' => false,
-                    'category_link' => array('name' => $category->getName()),
+                    'cms_page_link' => array('name' => $cmsPage->getTitle()),
                     'save_button' => true,
                     'reset_button' => true,
                     'delete_button' => true,
-                    'form' => array('category' => $category, 'url_rewrite' => $existingUrlRewrite),
-                    'categories_tree' => false
+                    'form' => array('cms_page' => $cmsPage, 'url_rewrite' => $existingUrlRewrite),
+                    'cms_pages_grid' => false
                 )
             )
         );

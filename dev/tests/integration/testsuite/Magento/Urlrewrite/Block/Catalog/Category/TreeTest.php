@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
+namespace Magento\UrlRewrite\Block\Catalog\Category;
 
 /**
  * Test for \Magento\UrlRewrite\Block\Catalog\Category\Tree

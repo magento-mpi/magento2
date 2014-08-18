@@ -11,6 +11,7 @@ namespace Magento\Catalog\Controller;
  * Test class for \Magento\Catalog\Controller\Category.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
+ * @magentoAppArea frontend
  */
 class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
 {

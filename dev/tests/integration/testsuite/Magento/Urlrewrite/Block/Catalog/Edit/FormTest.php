@@ -5,15 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Urlrewrite\Catalog\Edit;
+namespace Magento\UrlRewrite\Block\Catalog\Edit;
 
-use Magento\TestFramework\Helper\Bootstrap;
 /**
  * Test for \Magento\UrlRewrite\Block\Catalog\Edit\FormTest
  * @magentoAppArea adminhtml
  */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\Framework\ObjectManager
+     */
+    protected $objectManager;
+
+    protected function setUp()
+    {
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+    }
+
     /**
      * Get form instance
      *
@@ -23,7 +32,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function _getFormInstance($args = array())
     {
         /** @var $layout \Magento\Framework\View\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        $layout = $this->objectManager->get(
             'Magento\Framework\View\LayoutInterface'
         );
         /** @var $block \Magento\UrlRewrite\Block\Catalog\Edit\Form */
@@ -56,12 +65,16 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $args = array();
         if ($productData) {
-            $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-            $args['product'] = $product->setData($productData);
+            $args['product'] = $this->objectManager->create(
+                'Magento\Catalog\Model\Product',
+                array('data' => $productData)
+            );
         }
         if ($categoryData) {
-            $category = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category');
-            $args['category'] = $category->setData($categoryData);
+            $args['category'] = $this->objectManager->create(
+                'Magento\Catalog\Model\Category',
+                array('data' => $categoryData)
+            );
         }
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());
@@ -87,12 +100,16 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $args = array();
         if ($productData) {
-            $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-            $args['product'] = $product->setData($productData);
+            $args['product'] = $this->objectManager->create(
+                'Magento\Catalog\Model\Product',
+                array('data' => $productData)
+            );
         }
         if ($categoryData) {
-            $category = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category');
-            $args['category'] = $category->setData($categoryData);
+            $args['category'] = $this->objectManager->create(
+                'Magento\Catalog\Model\Category',
+                array('data' => $categoryData)
+            );
         }
         $form = $this->_getFormInstance($args);
         $this->assertEquals($expectedStores, $form->getElement('store_id')->getValues());

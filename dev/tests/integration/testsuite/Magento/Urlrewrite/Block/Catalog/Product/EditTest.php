@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Urlrewrite\Catalog\Product;
+namespace Magento\UrlRewrite\Block\Catalog\Product;
 
 /**
  * Test for \Magento\UrlRewrite\Block\Catalog\Product\Edit

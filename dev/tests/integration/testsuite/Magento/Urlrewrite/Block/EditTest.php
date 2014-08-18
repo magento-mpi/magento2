@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Urlrewrite;
+namespace Magento\UrlRewrite\Block;
 
 /**
  * Test for \Magento\UrlRewrite\Block\Edit
@@ -48,7 +48,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $layout = $block->getLayout();
 
-        /** @var $selectorBlock \Magento\Backend\Block\Urlrewrite\Selector|bool */
+        /** @var $selectorBlock \Magento\UrlRewrite\Block\Selector|bool */
         $selectorBlock = $layout->getChildBlock($block->getNameInLayout(), 'selector');
 
         if ($expected['selector']) {

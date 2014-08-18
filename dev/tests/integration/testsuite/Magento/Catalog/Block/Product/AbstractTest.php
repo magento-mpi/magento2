@@ -11,6 +11,7 @@ namespace Magento\Catalog\Block\Product;
  * Test class for \Magento\Catalog\Block\Product\Abstract.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
+ * @magentoAppArea frontend
  */
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {

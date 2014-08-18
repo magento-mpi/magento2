@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Block\Urlrewrite\Cms\Page\Edit;
+namespace Magento\UrlRewrite\Block\Cms\Page\Edit;
 
 /**
  * Test for \Magento\UrlRewrite\Block\Cms\Page\Edit\FormTest
