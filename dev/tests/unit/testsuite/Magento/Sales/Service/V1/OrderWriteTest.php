@@ -43,6 +43,11 @@ class OrderWriteTest extends \PHPUnit_Framework_TestCase
     protected $orderStatusHistoryAddMock;
 
     /**
+     * @var \Magento\Sales\Service\V1\Action\OrderCreate|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $orderCreateMock;
+
+    /**
      * @var \Magento\Sales\Service\V1\OrderWrite
      */
     protected $orderWrite;
@@ -94,13 +99,23 @@ class OrderWriteTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+
+        $this->orderCreateMock = $this->getMock(
+            'Magento\Sales\Service\V1\Action\OrderCreate',
+            ['invoke'],
+            [],
+            '',
+            false
+        );
+
         $this->orderWrite = new OrderWrite(
             $this->orderAddressUpdateMock,
             $this->orderCancelMock,
             $this->orderEmailMock,
             $this->orderHoldMock,
             $this->orderUnHoldMock,
-            $this->orderStatusHistoryAddMock
+            $this->orderStatusHistoryAddMock,
+            $this->orderCreateMock
         );
     }
 
@@ -176,5 +191,18 @@ class OrderWriteTest extends \PHPUnit_Framework_TestCase
             ->with(1, $statusHistory)
             ->will($this->returnValue(true));
         $this->assertTrue($this->orderWrite->statusHistoryAdd(1, $statusHistory));
+    }
+
+    /**
+     * test order create
+     */
+    public function testCreate()
+    {
+        $invoiceDataObject = $this->getMock('Magento\Sales\Service\V1\Data\Order', [], [], '', false);
+        $this->orderCreateMock->expects($this->once())
+            ->method('invoke')
+            ->with($invoiceDataObject)
+            ->will($this->returnValue(true));
+        $this->assertTrue($this->orderWrite->create($invoiceDataObject));
     }
 }

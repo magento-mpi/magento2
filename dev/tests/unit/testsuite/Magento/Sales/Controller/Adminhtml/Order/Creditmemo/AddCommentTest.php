@@ -161,7 +161,6 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
     public function testExecuteNoComment()
     {
         $message = 'The Comment Text field cannot be empty.';
-        $e = new \Exception($message);
         $response = ['error' => true, 'message' => $message];
         $data = [];
 

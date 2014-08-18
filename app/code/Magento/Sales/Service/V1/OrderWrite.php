@@ -58,6 +58,15 @@ class OrderWrite implements OrderWriteInterface
      */
     protected $orderCreate;
 
+    /**
+     * @param OrderAddressUpdate $orderAddressUpdate
+     * @param OrderCancel $orderCancel
+     * @param OrderEmail $orderEmail
+     * @param OrderHold $orderHold
+     * @param OrderUnHold $orderUnHold
+     * @param OrderStatusHistoryAdd $orderStatusHistoryAdd
+     * @param OrderCreate $orderCreate
+     */
     public function __construct(
         OrderAddressUpdate $orderAddressUpdate,
         OrderCancel $orderCancel,
@@ -66,7 +75,6 @@ class OrderWrite implements OrderWriteInterface
         OrderUnHold $orderUnHold,
         OrderStatusHistoryAdd $orderStatusHistoryAdd,
         OrderCreate $orderCreate
-
     ) {
         $this->orderAddressUpdate = $orderAddressUpdate;
         $this->orderCancel = $orderCancel;

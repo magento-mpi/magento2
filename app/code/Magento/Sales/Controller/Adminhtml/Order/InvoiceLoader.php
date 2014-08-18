@@ -16,10 +16,12 @@ class InvoiceLoader
      * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
+
     /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
+
     /**
      * @var \Magento\Framework\Registry
      */
@@ -29,10 +31,12 @@ class InvoiceLoader
      * @var int
      */
     protected $orderId;
+
     /**
      * @var int
      */
     protected $invoiceId;
+
     /**
      * @var array
      */
@@ -56,7 +60,7 @@ class InvoiceLoader
     /**
      * Set corresponding order Id
      *
-     * @param $orderId
+     * @param int $orderId
      * @return $this
      */
     public function setOrderId($orderId)
@@ -68,7 +72,7 @@ class InvoiceLoader
     /**
      * Set corresponding invoice Id
      *
-     * @param $invoiceId
+     * @param int $invoiceId
      * @return $this
      */
     public function setInvoiceId($invoiceId)
@@ -82,7 +86,8 @@ class InvoiceLoader
      *      [
      *          orderItemId => qtyInvoicedItems
      *      ]
-     * @param $invoiceItems
+     *
+     * @param array $invoiceItems
      * @return $this
      */
     public function setInvoiceItems($invoiceItems)

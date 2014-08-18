@@ -39,7 +39,7 @@ class OrderCreate
      * Create order
      *
      * @param \Magento\Sales\Service\V1\Data\Order $invoiceDataObject
-     * @returns bool
+     * @return bool
      * @throws \Exception
      */
     public function invoke(\Magento\Sales\Service\V1\Data\Order $invoiceDataObject)
