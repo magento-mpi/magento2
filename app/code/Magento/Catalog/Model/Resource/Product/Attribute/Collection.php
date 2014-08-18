@@ -27,7 +27,6 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
-     * @param \Magento\Framework\DB\Helper $dbHelper
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
@@ -37,12 +36,11 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
-        \Magento\Framework\DB\Helper $dbHelper,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_eavEntityFactory = $eavEntityFactory;
-        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $dbHelper, $connection, $resource);
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     /**

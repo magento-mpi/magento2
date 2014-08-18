@@ -24,34 +24,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected $_addSetInfoFlag = false;
 
     /**
-     * @var \Magento\Framework\DB\Helper
-     */
-    private $dbHelper;
-
-    /**
-     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
-     * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\DB\Helper $dbHelper
-     * @param \Zend_Db_Adapter_Abstract|null $connection
-     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
-     */
-    public function __construct(
-        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
-        \Magento\Framework\Logger $logger,
-        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\DB\Helper $dbHelper,
-        $connection = null,
-        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
-    ) {
-        $this->dbHelper = $dbHelper;
-
-        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
-    }
-
-    /**
      * Resource model initialization
      *
      * @return void
@@ -435,44 +407,4 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         return $this;
     }
-
-    /**
-     * @param $fieldAlias
-     * @param $fields
-     * @param string $groupConcatDelimiter
-     * @param string $fieldsDelimiter
-     * @param string $additionalWhere
-     * @return $this
-     */
-    public function addGroupConcatColumn(
-        $fieldAlias,
-        $fields,
-        $groupConcatDelimiter = ',',
-        $fieldsDelimiter = '',
-        $additionalWhere = ''
-    ) {
-        $this->dbHelper->addGroupConcatColumn(
-            $this->getSelect(),
-            $fieldAlias,
-            $fields,
-            $groupConcatDelimiter,
-            $fieldsDelimiter,
-            $additionalWhere
-        );
-        return $this;
-    }
-
-    public function getSelectCountSql()
-    {
-        $this->_renderFilters();
-
-        $countSelect = clone $this->getSelect();
-        $countSelect->reset(\Zend_Db_Select::ORDER);
-        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(\Zend_Db_Select::COLUMNS);
-        $countSelect->columns('COUNT(DISTINCT main_table.attribute_id)');
-        return $countSelect;
-    }
-
 }

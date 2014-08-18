@@ -152,9 +152,6 @@ class MetadataService implements MetadataServiceInterface
         // Group attributes by id to prevent duplicates with different attribute sets
         $attributeCollection->addAttributeGrouping();
 
-
-        $attributeCollection->addGroupConcatColumn('attribute_set_id', 'eav_entity_attribute.attribute_set_id');
-
         $attributeCollection->setCurPage($searchCriteria->getCurrentPage());
         $attributeCollection->setPageSize($searchCriteria->getPageSize());
 

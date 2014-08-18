@@ -37,12 +37,11 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
-        \Magento\Framework\DB\Helper $dbHelper,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_eavEntityFactory = $eavEntityFactory;
-        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $dbHelper, $connection, $resource);
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     /**
