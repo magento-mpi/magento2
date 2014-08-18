@@ -586,7 +586,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
          */
         $searchCriteriaBuilder->addFilter([$filter1, $filter2]);
         $searchCriteriaBuilder->addFilter([$filter3, $filter4]);
-        /**@var \Magento\Framework\Service\V1\Data\SortOrderBuilder $sortOrderBuilder*/
+        /**@var \Magento\Framework\Service\V1\Data\SortOrderBuilder $sortOrderBuilder */
         $sortOrderBuilder = $this->objectManager->getObject(
             'Magento\Framework\Service\V1\Data\SortOrderBuilder'
         );

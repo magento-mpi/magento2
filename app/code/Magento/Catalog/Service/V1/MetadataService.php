@@ -141,7 +141,7 @@ class MetadataService implements MetadataServiceInterface
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $attributeCollection);
         }
-        /** @var SortOrder $sortOrder*/
+        /** @var SortOrder $sortOrder */
         foreach ((array)$searchCriteria->getSortOrders() as $sortOrder) {
             $attributeCollection->addOrder(
                 $this->translateField($sortOrder->getField()),
