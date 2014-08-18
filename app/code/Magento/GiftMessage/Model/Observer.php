@@ -27,15 +27,22 @@ class Observer extends \Magento\Framework\Object
     protected $_messageFactory;
 
     /**
+     * @var \Magento\GiftMessage\Model\GiftMessage messageFactory
+     */
+    protected $messageInitializer;
+
+    /**
      * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
         \Magento\GiftMessage\Model\MessageFactory $messageFactory,
-        \Magento\GiftMessage\Helper\Message $giftMessageMessage
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage,
+        \Magento\GiftMessage\Model\GiftMessage $initializer
     ) {
         $this->_messageFactory = $messageFactory;
         $this->_giftMessageMessage = $giftMessageMessage;
+        $this->messageInitializer = $initializer;
     }
 
     /**
@@ -76,62 +83,7 @@ class Observer extends \Magento\Framework\Object
     {
         $giftMessages = $observer->getEvent()->getRequest()->getParam('giftmessage');
         $quote = $observer->getEvent()->getQuote();
-        /* @var $quote \Magento\Sales\Model\Quote */
-        if (!is_array($giftMessages)) {
-            return $this;
-        }
-        // types are 'quote', 'quote_item', etc
-        foreach ($giftMessages as $type => $giftMessageEntities) {
-            foreach ($giftMessageEntities as $entityId => $message) {
-                $giftMessage = $this->_messageFactory->create();
-                switch ($type) {
-                    case 'quote':
-                        $entity = $quote;
-                        break;
-                    case 'quote_item':
-                        $entity = $quote->getItemById($entityId);
-                        break;
-                    case 'quote_address':
-                        $entity = $quote->getAddressById($entityId);
-                        break;
-                    case 'quote_address_item':
-                        $entity = $quote->getAddressById($message['address'])->getItemById($entityId);
-                        break;
-                    default:
-                        $entity = $quote;
-                        break;
-                }
-
-                if ($entity->getGiftMessageId()) {
-                    $giftMessage->load($entity->getGiftMessageId());
-                }
-
-                if (trim($message['message']) == '') {
-                    if ($giftMessage->getId()) {
-                        try {
-                            $giftMessage->delete();
-                            $entity->setGiftMessageId(0)->save();
-                        } catch (\Exception $e) {
-                        }
-                    }
-                    continue;
-                }
-
-                try {
-                    $giftMessage->setSender(
-                        $message['from']
-                    )->setRecipient(
-                        $message['to']
-                    )->setMessage(
-                        $message['message']
-                    )->save();
-
-                    $entity->setGiftMessageId($giftMessage->getId())->save();
-                } catch (\Exception $e) {
-                }
-            }
-        }
-        return $this;
+        return $this->messageInitializer->create($giftMessages, $quote);
     }
 
     /**

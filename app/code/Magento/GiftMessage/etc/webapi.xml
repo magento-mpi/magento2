@@ -21,4 +21,16 @@
             <resource ref="Magento_Sales::create" />
         </resources>
     </route>
+    <route url="/V1/carts/:cartId/gift-message" method="PUT">
+        <service class="Magento\GiftMessage\Service\V1\WriteServiceInterface" method="setForQuote"/>
+        <resources>
+            <resource ref="Magento_Sales::create" />
+        </resources>
+    </route>
+    <route url="/V1/carts/:cartId/gift-message/:itemId" method="PUT">
+        <service class="Magento\GiftMessage\Service\V1\WriteServiceInterface" method="setForItem"/>
+        <resources>
+            <resource ref="Magento_Sales::create" />
+        </resources>
+    </route>
 </routes>

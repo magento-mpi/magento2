@@ -25,7 +25,7 @@ class Message extends \Magento\Framework\Service\Data\AbstractObject
     /**
      *
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
