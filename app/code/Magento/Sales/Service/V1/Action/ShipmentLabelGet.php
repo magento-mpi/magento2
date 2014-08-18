@@ -31,11 +31,11 @@ class ShipmentLabelGet
      * Invoke ShipmentLabelGet service
      *
      * @param int $id
-     * @return string|null
+     * @return string
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function invoke($id)
     {
-        return $this->shipmentRepository->get($id)->getShippingLabel();
+        return (string)$this->shipmentRepository->get($id)->getShippingLabel();
     }
 }
