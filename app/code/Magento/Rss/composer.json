@@ -8,7 +8,6 @@
         "magento/module-catalog-inventory": "0.1.0-alpha89",
         "magento/module-sales": "0.1.0-alpha89",
         "magento/module-sales-rule": "0.1.0-alpha89",
-        "magento/module-core": "0.1.0-alpha89",
         "magento/module-review": "0.1.0-alpha89",
         "magento/module-customer": "0.1.0-alpha89",
         "magento/module-backend": "0.1.0-alpha89",

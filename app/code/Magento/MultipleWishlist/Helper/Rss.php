@@ -59,8 +59,7 @@ class Rss extends \Magento\Wishlist\Helper\Rss
             $postDataHelper,
             $customerViewHelper,
             $wishlistProvider,
-            $customerBuilder,
-            $moduleManager
+            $customerBuilder
         );
     }
 
