@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Service\Data\Eav;
+namespace Magento\Framework\Service\Data;
 
 /**
  * Custom Attribute Data object builder
  */
-class AttributeValueBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class AttributeValueBuilder extends SimpleAbstractObjectBuilder
 {
     /**
      * Set attribute code

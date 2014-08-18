@@ -12,7 +12,7 @@ use \Magento\Checkout\Service\V1\Data\Cart\Address;
 use \Magento\Checkout\Service\V1\Data\Cart\AddressBuilder;
 use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use \Magento\Framework\Service\Data\Eav\AttributeValue;
+use \Magento\Framework\Service\Data\AttributeValue;
 
 class Converter
 {
@@ -89,7 +89,7 @@ class Converter
 
         //set custom attributes
         $customAttributes = $dataObject->getCustomAttributes();
-        /** @var \Magento\Framework\Service\Data\Eav\AttributeValue $attributeData */
+        /** @var \Magento\Framework\Service\Data\AttributeValue $attributeData */
         foreach ($customAttributes as $attributeData) {
             $address->setData($attributeData->getAttributeCode(), $attributeData->getValue());
         }

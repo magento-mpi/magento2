@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class ItemBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**#@+
      * Custom attribute code constants

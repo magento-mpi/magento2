@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
-use Magento\Framework\Service\Data\Eav\MetadataObjectInterface;
+use Magento\Framework\Service\Data\MetadataObjectInterface;
 
 /**
  * Class AttributeMetadata

@@ -9,6 +9,8 @@
 namespace Magento\Framework\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\Data\ObjectFactory;
 
 /**
@@ -36,15 +38,19 @@ abstract class AbstractSearchResultsBuilder extends AbstractObjectBuilder
      * Constructor
      *
      * @param ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param MetadataServiceInterface $metadataService
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param AbstractObjectBuilder $itemObjectBuilder
      */
     public function __construct(
         ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        MetadataServiceInterface $metadataService,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         AbstractObjectBuilder $itemObjectBuilder
     ) {
-        parent::__construct($objectFactory);
+        parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->itemObjectBuilder = $itemObjectBuilder;
     }

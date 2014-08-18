@@ -11,7 +11,7 @@ use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\Data\Eav\AbstractObject as EavAbstractObject;
+use Magento\Framework\Service\Data\AbstractObject as EavAbstractObject;
 use Magento\Framework\Service\EavDataObjectConverter;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;

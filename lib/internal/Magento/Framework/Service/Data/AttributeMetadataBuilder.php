@@ -11,7 +11,7 @@ namespace Magento\Framework\Service\Data;
 /**
  * Default implementation of the AttributeMetadataBuilderInterface
  */
-class AttributeMetadataBuilder extends AbstractObjectBuilder implements AttributeMetadataBuilderInterface
+class AttributeMetadataBuilder extends SimpleAbstractObjectBuilder implements AttributeMetadataBuilderInterface
 {
     const ATTRIBUTE_CODE = 'attribute_code';
 

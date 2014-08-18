@@ -8,7 +8,7 @@
 namespace Magento\Framework\Service;
 
 use Magento\Framework\Service\Data\AbstractObject;
-use Magento\Framework\Service\Data\Eav\AbstractObject as EavAbstractObject;
+use Magento\Framework\Service\Data\AbstractObject as EavAbstractObject;
 use Magento\Framework\Convert\ConvertArray;
 
 class DataObjectConverter

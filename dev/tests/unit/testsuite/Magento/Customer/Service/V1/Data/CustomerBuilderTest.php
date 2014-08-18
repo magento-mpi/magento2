@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\AttributeValue;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Framework\Service\Data\AbstractObject;
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
@@ -26,7 +26,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\AddressMetadataService */
     private $_addressMetadataService;
 
-    /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder */
+    /** @var \Magento\Framework\Service\Data\AttributeValueBuilder */
     private $_valueBuilder;
 
     protected function setUp()
@@ -68,7 +68,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
                 )
             );
         $this->_valueBuilder = $this->_objectManager->getObject(
-            'Magento\Framework\Service\Data\Eav\AttributeValueBuilder'
+            'Magento\Framework\Service\Data\AttributeValueBuilder'
         );
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',

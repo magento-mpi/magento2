@@ -7,8 +7,8 @@
  */
 namespace Magento\TestModule1\Service\V1\Entity\Eav;
 
-use \Magento\Framework\Service\Data\Eav\AbstractObject;
-use \Magento\Framework\Service\Data\Eav\MetadataObjectInterface;
+use \Magento\Framework\Service\Data\AbstractObject;
+use \Magento\Framework\Service\Data\MetadataObjectInterface;
 
 /**
  * Class AttributeMetadata

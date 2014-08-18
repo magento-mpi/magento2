@@ -24,7 +24,7 @@ interface AttributeMetadataBuilderInterface
     /**
      * Build the attribute data object.
      *
-     * @return AbstractObject
+     * @return SimpleAbstractObject
      */
     public function create();
 }

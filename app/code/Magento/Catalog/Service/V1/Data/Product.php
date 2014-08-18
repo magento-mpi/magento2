@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Data;
  * Class Product
  * @package Magento\Catalog\Service\V1\Data
  */
-class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
+class Product extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
      * Constants defined for keys of array

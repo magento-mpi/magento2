@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Service\Data\Eav;
+namespace Magento\Framework\Service\Data;
 
 
 interface MetadataObjectInterface

@@ -14,7 +14,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Mail\Exception as MailException;
 

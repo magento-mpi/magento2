@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Service\Config;
 
-use Magento\Framework\Service\Data\Eav\MetadataServiceInterface;
+use Magento\Framework\Service\Data\MetadataServiceInterface;
 use Magento\Framework\Service\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;
 

@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
-use Magento\Framework\Service\Data\Eav\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * Class Metadata
@@ -44,7 +44,7 @@ class Metadata extends AbstractObject
     const ACTIVE = 'active';
 
     /**
-     * @return \Magento\Framework\Service\Data\Eav\AttributeValue[]|null
+     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
      */
     public function getCustomAttributes()
     {

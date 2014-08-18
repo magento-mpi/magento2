@@ -8,60 +8,36 @@
 namespace Magento\Framework\Service\Data;
 
 /**
- * Class AbstractObject
- * @SuppressWarnings(PHPMD.NumberOfChildren)
+ * Class EAV AbstractObject
  */
-abstract class AbstractObject
+abstract class AbstractObject extends SimpleAbstractObject
 {
     /**
-     * @var array
+     * Array key for custom attributes
      */
-    protected $_data;
+    const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
     /**
-     * Initialize internal storage
+     * Get an attribute value.
      *
-     * @param AbstractObjectBuilder $builder
+     * @param string $attributeCode
+     * @return \Magento\Framework\Service\Data\AttributeValue|null The value. Null if the attribute has not been set
      */
-    public function __construct(AbstractObjectBuilder $builder)
+    public function getCustomAttribute($attributeCode)
     {
-        $this->_data = $builder->getData();
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+            && isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode])
+                ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode]
+                : null;
     }
 
     /**
-     * Retrieves a value from the data array if set, or null otherwise.
+     * Retrieve custom attributes values as an associative array.
      *
-     * @param string $key
-     * @return mixed|null
+     * @return \Magento\Framework\Service\Data\AttributeValue[]|null
      */
-    protected function _get($key)
+    public function getCustomAttributes()
     {
-        return isset($this->_data[$key]) ? $this->_data[$key] : null;
-    }
-
-    /**
-     * Return Data Object data in array format.
-     *
-     * @return array
-     */
-    public function __toArray()
-    {
-        $data = $this->_data;
-        $hasToArray = function ($model) {
-            return is_object($model) && method_exists($model, '__toArray') && is_callable([$model, '__toArray']);
-        };
-        foreach ($data as $key => $value) {
-            if ($hasToArray($value)) {
-                $data[$key] = $value->__toArray();
-            } elseif (is_array($value)) {
-                foreach ($value as $nestedKey => $nestedValue) {
-                    if ($hasToArray($nestedValue)) {
-                        $value[$nestedKey] = $nestedValue->__toArray();
-                    }
-                }
-                $data[$key] = $value;
-            }
-        }
-        return $data;
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY]) ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY] : array();
     }
 }

@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Service\V1\Data;
 
-use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Framework\Service\Data\AttributeValueBuilder;
 
-class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
+class ProductBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory

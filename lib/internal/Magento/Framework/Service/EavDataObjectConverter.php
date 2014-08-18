@@ -8,9 +8,9 @@
 
 namespace Magento\Framework\Service;
 
-use Magento\Framework\Service\Data\Eav\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 use Magento\Framework\Convert\ConvertArray;
-use Magento\Framework\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\AttributeValue;
 
 /**
  * Class to convert Eav Data Object array to flat array
