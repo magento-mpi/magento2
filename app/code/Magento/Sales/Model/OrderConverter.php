@@ -17,6 +17,8 @@ use Magento\Sales\Service\V1\Data\Order as OrderData;
 
 /**
  * Converter class for \Magento\Sales\Model\Order
+ *
+ * @package Magento\Sales\Model
  */
 class OrderConverter
 {
@@ -67,6 +69,8 @@ class OrderConverter
     }
 
     /**
+     * Get Order Customer
+     *
      * @param OrderData $dataObject
      * @return Order\Customer
      */
@@ -90,6 +94,8 @@ class OrderConverter
     }
 
     /**
+     * Get Order Items
+     * 
      * @param OrderData $dataObject
      * @return array
      */
@@ -103,6 +109,8 @@ class OrderConverter
     }
 
     /**
+     * Get Order Payments
+     *
      * @param OrderData $dataObject
      * @return array
      */
@@ -110,12 +118,14 @@ class OrderConverter
     {
         $payments = [];
         foreach ($dataObject->getPayments() as $payment) {
-            $items[] = $this->itemConverter->getModel($payment);
+            $payments[] = $this->itemConverter->getModel($payment);
         }
         return $payments;
     }
 
     /**
+     * Get Order Model
+     *
      * @param OrderData $dataObject
      * @return Order
      * @throws \Exception
