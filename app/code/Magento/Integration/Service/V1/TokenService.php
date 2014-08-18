@@ -15,7 +15,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenModelFactory;
 use Magento\Integration\Model\Oauth\Token as Token;
 use Magento\User\Model\User as UserModel;
-use Magento\Integration\Model\Resource\Oauth\Token\Collection as TokenCollection;
+use Magento\Integration\Model\Resource\Oauth\Token\CollectionFactory as TokenCollectionFactory;
 
 /**
  * Class to handle token generation for Admins and Customers
@@ -46,11 +46,11 @@ class TokenService implements TokenServiceInterface
     private $customerAccountService;
 
     /**
-     * Token Collection
+     * Token Collection Factory
      *
-     * @var $tokenModelCollection
+     * @var TokenCollectionFactory
      */
-    public $tokenModelCollection;
+    public $tokenModelCollectionFactory;
 
     /**
      * Initialize service
@@ -58,18 +58,18 @@ class TokenService implements TokenServiceInterface
      * @param TokenModelFactory $tokenModelFactory
      * @param UserModel $userModel
      * @param CustomerAccountService $customerAccountService
-     * @param TokenCollection $tokenModelCollection
+     * @param TokenCollectionFactory $tokenModelCollectionFactory
      */
     public function __construct(
         TokenModelFactory $tokenModelFactory,
         UserModel $userModel,
         CustomerAccountService $customerAccountService,
-        TokenCollection $tokenModelCollection
+        TokenCollectionFactory $tokenModelCollectionFactory
     ) {
         $this->tokenModelFactory = $tokenModelFactory;
         $this->userModel = $userModel;
         $this->customerAccountService = $customerAccountService;
-        $this->tokenModelCollection = $tokenModelCollection;
+        $this->tokenModelCollectionFactory = $tokenModelCollectionFactory;
     }
 
     /**
@@ -105,7 +105,7 @@ class TokenService implements TokenServiceInterface
      */
     public function revokeAdminAccessToken($adminId)
     {
-        $tokenCollection = $this->tokenModelCollection->addFilterByAdminId($adminId);
+        $tokenCollection = $this->tokenModelCollectionFactory->create()->addFilterByAdminId($adminId);
         if ($tokenCollection->getSize() == 0) {
             throw new LocalizedException("This user has no tokens.");
         }
@@ -138,7 +138,7 @@ class TokenService implements TokenServiceInterface
      */
     public function revokeCustomerAccessToken($customerId)
     {
-        $tokenCollection = $this->tokenModelCollection->addFilterByCustomerId($customerId);
+        $tokenCollection = $this->tokenModelCollectionFactory->create()->addFilterByCustomerId($customerId);
         if ($tokenCollection->getSize() == 0) {
             throw new LocalizedException("This customer has no tokens.");
         }
