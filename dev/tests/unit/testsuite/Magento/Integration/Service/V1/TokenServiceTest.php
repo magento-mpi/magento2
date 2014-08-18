@@ -95,7 +95,6 @@ class TokenServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(new \ArrayIterator([$this->_tokenMock])));
         $this->_tokenModelCollectionMock->expects($this->any())
             ->method('_fetchAll')
-            ->with(null)
             ->will($this->returnValue(1));
         $this->_tokenMock->expects($this->once())
             ->method('setRevoked')
