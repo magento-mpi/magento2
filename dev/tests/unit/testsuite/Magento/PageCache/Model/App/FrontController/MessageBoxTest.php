@@ -24,7 +24,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
     /**
      * Cookie manager mock
      *
-     * @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\CookieManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $cookieManagerMock;
 
