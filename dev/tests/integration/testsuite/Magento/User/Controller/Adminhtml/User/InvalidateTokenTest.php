@@ -68,7 +68,7 @@ class InvalidateTokenTest extends \Magento\Backend\Utility\Controller
         // invalidate tokens
         $this->getRequest()->setParam('user_id', $adminUserId);
         $this->dispatch('backend/admin/user/invalidateToken');
-        foreach ($tokenService->tokenModelCollection->addFilterByAdminId($adminUserId) as $token) {
+        foreach ($tokenService->tokenModelCollectionFactory->create()->addFilterByAdminId($adminUserId) as $token) {
             $this->assertEquals(1, $token->getRevoked());
         }
     }
