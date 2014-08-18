@@ -72,6 +72,7 @@ class Document implements \IteratorAggregate
      * Get Document Id
      *
      * @return int
+     * @codeCoverageIgnore
      */
     public function getId()
     {

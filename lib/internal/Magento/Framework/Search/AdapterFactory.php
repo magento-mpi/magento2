@@ -64,6 +64,12 @@ class AdapterFactory
     public function create(array $data = array())
     {
         $adapterClass = $this->scopeConfig->getValue($this->path, $this->scope);
-        return $this->objectManager->create($adapterClass, $data);
+        $adapter = $this->objectManager->create($adapterClass, $data);
+        if (!($adapter instanceof \Magento\Framework\Search\AdapterInterface)) {
+            throw new \InvalidArgumentException(
+                'Adapter must implement \Magento\Framework\Search\AdapterInterface'
+            );
+        }
+        return $adapter;
     }
 }
