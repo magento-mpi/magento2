@@ -29,6 +29,11 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     *
+     * @throws \Exception
+     */
     public function testLoadByRequestPath()
     {
         $this->model->setStoreId(
@@ -69,6 +74,10 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     * @throws \Exception
+     */
     public function testLoadByIdPath()
     {
         $this->model->setStoreId(
@@ -111,12 +120,20 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testHasOption()
     {
         $this->model->setOptions('RP');
         $this->assertTrue($this->model->hasOption('RP'));
     }
 
+    /**
+     *
+     * @magentoDbIsolation enabled
+     * @throws \Exception
+     */
     public function testRewrite()
     {
         $request = $this->objectManager->create(
@@ -145,6 +162,9 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testRewriteSetCookie()
     {
         $_SERVER['QUERY_STRING'] = 'foo=bar';
@@ -204,12 +224,15 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
             ->setPathInfo('http://fancy/url.html');
 
         $this->assertTrue($modelMock->rewrite($request));
-        $this->assertEquals($_COOKIE[\Magento\Store\Model\Store::COOKIE_NAME], 'admin');
+        $this->assertEquals('admin', $_COOKIE[\Magento\Store\Model\Store::COOKIE_NAME]);
 
         $modelMock->delete();
 
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testRewriteNonExistingRecord()
     {
         $request = $this->objectManager
@@ -217,6 +240,9 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->rewrite($request));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testRewriteWrongStore()
     {
         $request = $this->objectManager
@@ -225,6 +251,9 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->rewrite($request));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testRewriteNonExistingRecordCorrectStore()
     {
         $request = $this->objectManager
@@ -235,12 +264,20 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->rewrite($request));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetStoreId()
     {
         $this->model->setStoreId(10);
         $this->assertEquals(10, $this->model->getStoreId());
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     *
+     * @throws \Exception
+     */
     public function testCRUD()
     {
         $this->model->setStoreId(
