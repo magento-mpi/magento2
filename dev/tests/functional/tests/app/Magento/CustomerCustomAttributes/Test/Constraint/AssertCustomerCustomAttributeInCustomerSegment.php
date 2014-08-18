@@ -47,11 +47,11 @@ class AssertCustomerCustomAttributeInCustomerSegment extends AbstractConstraint
         $customerAttribute = $initialCustomerAttribute === null ? $customerAttribute : $initialCustomerAttribute;
         $customerSegmentIndex->open();
         $customerSegmentIndex->getPageActionsBlock()->addNew();
-        $customerSegmentNew->getFormTabs()->fill($customerSegment);
+        $customerSegmentNew->getCustomerSegmentForm()->fill($customerSegment);
         $customerSegmentNew->getPageMainActions()->saveAndContinue();
-        $customerSegmentNew->getFormTabs()->openTab('conditions');
+        $customerSegmentNew->getCustomerSegmentForm()->openTab('conditions');
         \PHPUnit_Framework_Assert::assertTrue(
-            $customerSegmentNew->getFormTabs()->isAttributeInConditions($customerAttribute),
+            $customerSegmentNew->getCustomerSegmentForm()->isAttributeInConditions($customerAttribute),
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is absent during creation of customer segments.'
         );
