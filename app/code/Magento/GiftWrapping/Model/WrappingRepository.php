@@ -47,7 +47,7 @@ class WrappingRepository
         $wrapping->setStoreId($storeId);
         $wrapping->load($id);
         if (!$wrapping->getId()) {
-            throw new NoSuchEntityException('Gift Wrapping with specified ID "%1" not found', [$id]);
+            throw new NoSuchEntityException('Gift Wrapping with specified ID "%1" not found.', [$id]);
         }
         return $wrapping;
     }

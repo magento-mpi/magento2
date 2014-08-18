@@ -12,9 +12,10 @@ use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\GiftWrapping\Service\V1\Wrapping as WrappingService;
 use Magento\GiftWrapping\Service\V1\Data\WrappingBuilder;
-use Magento\GiftWrapping\Service\V1\Data\Wrapping\ImageBuilder;
+use Magento\GiftWrapping\Service\V1\Data\WrappingMapper;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Framework\Exception\NoSuchEntityException;
+use PHPUnit_Framework_TestCase;
 
 class GiftWrappingTest extends WebapiAbstract
 {
@@ -34,11 +35,11 @@ class GiftWrappingTest extends WebapiAbstract
     /** @var WrappingBuilder */
     private $wrappingBuilder;
 
+    /** @var WrappingMapper */
+    private $wrappingMapper;
+
     /** @var WrappingService */
     private $wrappingService;
-
-    /** @var ImageBuilder */
-    private $wrappingImageBuilder;
 
     /**
      * Execute per test initialization.
@@ -49,9 +50,7 @@ class GiftWrappingTest extends WebapiAbstract
 
         $this->wrappingService = $this->objectManager->create('Magento\GiftWrapping\Service\V1\Wrapping');
         $this->wrappingBuilder = $this->objectManager->create('Magento\GiftWrapping\Service\V1\Data\WrappingBuilder');
-        $this->wrappingImageBuilder = $this->objectManager->create(
-            'Magento\GiftWrapping\Service\V1\Data\Wrapping\ImageBuilder'
-        );
+        $this->wrappingMapper = $this->objectManager->create('Magento\GiftWrapping\Service\V1\Data\WrappingMapper');
         $this->searchCriteriaBuilder = $this->objectManager->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
@@ -81,11 +80,11 @@ class GiftWrappingTest extends WebapiAbstract
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $wrapping->getId()]);
         $expectedData = [
-            'wrapping_id' => $data->getWrappingId(),
+            'wrapping_id' => $data->getId(),
             'design' => $data->getDesign(),
             'status' => $data->getStatus(),
             'base_price' => $data->getBasePrice(),
-            'image' => $data->getImage(),
+            'image' => $data->getImageName(),
             'website_ids' => $data->getWebsiteIds()
         ];
         foreach ($expectedData as $key => $value) {
@@ -97,15 +96,12 @@ class GiftWrappingTest extends WebapiAbstract
 
     public function testCreate()
     {
-        $this->wrappingImageBuilder->setFileName('image.jpg');
-        $this->wrappingImageBuilder->setBase64Content(base64_encode('image binary content'));
-        $imageObject = $this->wrappingImageBuilder->create();
-
         $this->wrappingBuilder->setWebsiteIds([1]);
         $this->wrappingBuilder->setStatus(1);
         $this->wrappingBuilder->setDesign('New Wrapping');
         $this->wrappingBuilder->setBasePrice(10.0);
-        $this->wrappingBuilder->setImageBinary($imageObject);
+        $this->wrappingBuilder->setImageName('image.jpg');
+        $this->wrappingBuilder->setImageBase64Content(base64_encode('image binary content'));
         /** @var \Magento\GiftWrapping\Service\V1\Data\Wrapping $dataObject */
         $dataObject = $this->wrappingBuilder->create();
 
@@ -126,11 +122,11 @@ class GiftWrappingTest extends WebapiAbstract
         $this->assertNotNull($wrappingId);
 
         $actualDataObject = $this->wrappingService->get($wrappingId);
-
-        $this->assertEquals($wrappingId, $actualDataObject->getWrappingId());
+//print_r($actualDataObject);
+        $this->assertEquals($wrappingId, $actualDataObject->getId());
         $this->assertEquals($dataObject->getStatus(), $actualDataObject->getStatus());
         $this->assertEquals($dataObject->getBasePrice(), $actualDataObject->getBasePrice());
-        $this->assertEquals('image.jpg', $actualDataObject->getImage());
+        $this->assertEquals('image.jpg', $actualDataObject->getImageName());
         $this->assertEquals($dataObject->getDesign(), $actualDataObject->getDesign());
         $this->assertEquals($dataObject->getWebsiteIds(), $actualDataObject->getWebsiteIds());
         $this->assertStringStartsWith('http', $actualDataObject->getImageUrl(), 'Image URL property is incorrect');
@@ -143,22 +139,19 @@ class GiftWrappingTest extends WebapiAbstract
     {
         $wrapping = $this->getWrappingFixture();
 
-        $this->wrappingImageBuilder->setFileName('image_updated.jpg');
-        $this->wrappingImageBuilder->setBase64Content(base64_encode('image binary content changed'));
-        $imageObject = $this->wrappingImageBuilder->create();
-
-        $this->wrappingBuilder->setWrappingId($wrapping->getId());
+        $this->wrappingBuilder->setId($wrapping->getId());
         $this->wrappingBuilder->setWebsiteIds([]);
         $this->wrappingBuilder->setStatus(0);
         $this->wrappingBuilder->setDesign('Changed Wrapping');
         $this->wrappingBuilder->setBasePrice(50.0);
-        $this->wrappingBuilder->setImageBinary($imageObject);
+        $this->wrappingBuilder->setImageName('image_updated.jpg');
+        $this->wrappingBuilder->setImageBase64Content(base64_encode('image binary content changed'));
         /** @var \Magento\GiftWrapping\Service\V1\Data\Wrapping $dataObject */
         $dataObject = $this->wrappingBuilder->create();
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $wrapping->getId(),
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -168,17 +161,17 @@ class GiftWrappingTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['data' => $dataObject->__toArray()];
+        $requestData = ['data' => $dataObject->__toArray(), 'id' => $wrapping->getId()];
         $wrappingId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($wrappingId);
         $this->assertEquals($wrapping->getId(), $wrappingId);
 
         $actualDataObject = $this->wrappingService->get($wrappingId);
-
-        $this->assertEquals($wrappingId, $actualDataObject->getWrappingId());
+//print_r($actualDataObject);
+        $this->assertEquals($wrappingId, $actualDataObject->getId());
         $this->assertEquals($dataObject->getStatus(), $actualDataObject->getStatus());
         $this->assertEquals($dataObject->getBasePrice(), $actualDataObject->getBasePrice());
-        $this->assertEquals('image_updated.jpg', $actualDataObject->getImage());
+        $this->assertEquals('image_updated.jpg', $actualDataObject->getImageName());
         $this->assertEquals($dataObject->getDesign(), $actualDataObject->getDesign());
         //$this->assertEquals($dataObject->getWebsiteIds(), $actualDataObject->getWebsiteIds());
         $this->assertStringStartsWith('http', $actualDataObject->getImageUrl(), 'Image URL property is incorrect');
@@ -275,5 +268,11 @@ class GiftWrappingTest extends WebapiAbstract
         $collection->setPageSize(1);
         $collection->load();
         return $collection->fetchItem();
+    }
+
+    public static function tearDownAfterClass()
+    {
+
+        parent::tearDownAfterClass(); // TODO: Change the autogenerated stub
     }
 }

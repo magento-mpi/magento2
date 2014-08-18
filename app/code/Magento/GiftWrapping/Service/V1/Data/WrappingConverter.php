@@ -26,19 +26,19 @@ class WrappingConverter
      * Create model based on data object. Load model if data object has ID specified.
      *
      * @param Wrapping $dataObject
+     * @param int|null $modelId Model ID to load
      * @return \Magento\GiftWrapping\Model\Wrapping
      */
-    public function getModel(Wrapping $dataObject)
+    public function getModel(Wrapping $dataObject, $modelId = null)
     {
         $model = $this->wrappingFactory->create();
-        if ($dataObject->getWrappingId()) {
-            $model->load($dataObject->getWrappingId());
+        if ($modelId) {
+            $model->load($modelId);
         }
         $model->addData($dataObject->__toArray());
 
-        $imageDataObject = $dataObject->getImageBinary();
-        $imageContent = base64_decode($imageDataObject->getBase64Content(), true);
-        $model->attachBinaryImage($imageDataObject->getFileName(), $imageContent);
+        $imageContent = base64_decode($dataObject->getImageBase64Content(), true);
+        $model->attachBinaryImage($dataObject->getImageName(), $imageContent);
 
         return $model;
     }

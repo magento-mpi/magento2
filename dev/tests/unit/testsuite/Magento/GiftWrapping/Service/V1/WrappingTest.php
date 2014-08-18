@@ -67,7 +67,6 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $id = 1;
-        $store = 1;
 
         /** @var \Magento\GiftWrapping\Model\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingModel */
         $wrappingModel = $this->getMockBuilder('Magento\GiftWrapping\Model\Wrapping')->disableOriginalConstructor()
@@ -76,11 +75,11 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
-        $this->wrappingRepositoryMock->expects($this->once())->method('get')->with($id, $store)
+        $this->wrappingRepositoryMock->expects($this->once())->method('get')->with($id)
             ->will($this->returnValue($wrappingModel));
         $this->wrappingMapperMock->expects($this->once())->method('extractDto')->with($wrappingModel)
             ->will($this->returnValue($wrappingDto));
-        $this->assertSame($wrappingDto, $this->service->get($id, $store));
+        $this->assertSame($wrappingDto, $this->service->get($id));
     }
 
     public function testCreate()
@@ -96,8 +95,9 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
 
         $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto)
             ->will($this->returnValue($wrappingModel));
+        $wrappingModel->expects($this->at(0))->method('getId')->will($this->returnValue(null));
         $wrappingModel->expects($this->once())->method('save');
-        $wrappingModel->expects($this->once())->method('getId')->will($this->returnValue($id));
+        $wrappingModel->expects($this->at(1))->method('getId')->will($this->returnValue($id));
 
         $this->assertEquals($id, $this->service->create($wrappingDto));
     }
@@ -111,7 +111,7 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
-        $wrappingDto->expects($this->once())->method('getWrappingId')->will($this->returnValue(1));
+        $wrappingDto->expects($this->once())->method('getId')->will($this->returnValue(1));
 
         $this->service->create($wrappingDto);
     }
@@ -127,12 +127,12 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
-        $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto)
+        $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto, $id)
             ->will($this->returnValue($wrappingModel));
         $wrappingModel->expects($this->once())->method('save');
         $wrappingModel->expects($this->any())->method('getId')->will($this->returnValue($id));
 
-        $this->assertEquals($id, $this->service->update($wrappingDto));
+        $this->assertEquals($id, $this->service->update($id, $wrappingDto));
     }
 
     /**
@@ -140,6 +140,8 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateException()
     {
+        $id = 1;
+
         /** @var \Magento\GiftWrapping\Model\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingModel */
         $wrappingModel = $this->getMockBuilder('Magento\GiftWrapping\Model\Wrapping')->disableOriginalConstructor()
             ->setMethods([])->getMock();
@@ -147,11 +149,10 @@ class WrappingTest extends \PHPUnit_Framework_TestCase
         $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
             ->disableOriginalConstructor()->setMethods([])->getMock();
 
-        $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto)
+        $this->wrappingConverterMock->expects($this->once())->method('getModel')->with($wrappingDto, $id)
             ->will($this->returnValue($wrappingModel));
-        $wrappingModel->expects($this->once())->method('getId')->will($this->returnValue(null));
-
-        $this->service->update($wrappingDto);
+        $wrappingModel->expects($this->any())->method('getId')->will($this->returnValue(null));
+        $this->service->update($id, $wrappingDto);
     }
 
     public function testSearch()

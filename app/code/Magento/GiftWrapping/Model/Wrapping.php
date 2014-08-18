@@ -8,6 +8,7 @@
 namespace Magento\GiftWrapping\Model;
 
 use Magento\Framework\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Exception\InputException;
 
 /**
  * Gift Wrapping model
@@ -248,12 +249,32 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      * @param string $fileName
      * @param string $imageContent
      * @return bool|string
+     * @throws InputException
      */
     public function attachBinaryImage($fileName, $imageContent)
     {
         if (empty($fileName) || empty($imageContent)) {
             return false;
         }
+        $fileNameExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+        if (!in_array($fileNameExtension, $this->_imageAllowedExtensions)) {
+            throw new InputException(
+                'The image extension "%1" not allowed.', [$$fileNameExtension]
+            );
+        }
+        if (!preg_match('/^[^\\/?*:";<>()|{}\\\\]+$/', $fileName)) {
+            throw new InputException('Provided image name contains forbidden characters.');
+        }
+
+        $imageProperties = @getimagesizefromstring($imageContent);
+        if (empty($imageProperties)) {
+            throw new InputException('The image content must be valid data.');
+        }
+        $sourceMimeType = $imageProperties['mime'];
+        if (strpos($sourceMimeType, 'image/') !== 0) {
+            throw new InputException('The image MIME type is not valid or not supported.');
+        }
+
         $filePath = $this->_mediaDirectory->getAbsolutePath(self::IMAGE_PATH . $fileName);
         // avoid file names conflicts
         $newFileName = \Magento\Core\Model\File\Uploader::getNewFileName($filePath);

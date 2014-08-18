@@ -20,16 +20,16 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     const DESIGN = 'design';
     const STATUS = 'status';
     const BASE_PRICE = 'base_price';
-    const IMAGE = 'image';
+    const IMAGE_NAME = 'image_name';
+    const IMAGE_BASE64_CONTENT = 'image_base64_content';
     const IMAGE_URL = 'image_url';
-    const IMAGE_BINARY = 'image_binary';
     const WEBSITE_IDS = 'website_ids';
     /**#@-*/
 
     /**
      * @return int|null
      */
-    public function getWrappingId()
+    public function getId()
     {
         return $this->_get(self::WRAPPING_ID);
     }
@@ -61,17 +61,17 @@ class Wrapping extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * @return string|null
      */
-    public function getImage()
+    public function getImageName()
     {
-        return $this->_get(self::IMAGE);
+        return $this->_get(self::IMAGE_NAME);
     }
 
     /**
-     * @return \Magento\GiftWrapping\Service\V1\Data\Wrapping\Image|null
+     * @return string|null
      */
-    public function getImageBinary()
+    public function getImageBase64Content()
     {
-        return $this->_get(self::IMAGE_BINARY);
+        return $this->_get(self::IMAGE_BASE64_CONTENT);
     }
 
     /**

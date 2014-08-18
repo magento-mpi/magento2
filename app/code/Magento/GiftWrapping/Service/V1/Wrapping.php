@@ -56,9 +56,9 @@ class Wrapping implements WrappingInterface
     /**
      * {@inheritdoc}
      */
-    public function get($id, $storeId = null)
+    public function get($id)
     {
-        $wrapping = $this->wrappingRepository->get($id, $storeId);
+        $wrapping = $this->wrappingRepository->get($id);
         return $this->wrappingMapper->extractDto($wrapping);
     }
 
@@ -67,8 +67,8 @@ class Wrapping implements WrappingInterface
      */
     public function create(Data\Wrapping $data)
     {
-        if ($data->getWrappingId()) {
-            throw new InputException('Parameter Wrapping ID not supported in create operation');
+        if ($data->getId()) {
+            throw new InputException('Parameter id is not expected for this request.');
         }
         $model = $this->wrappingConverter->getModel($data);
         $model->save();
@@ -78,11 +78,14 @@ class Wrapping implements WrappingInterface
     /**
      * {@inheritdoc}
      */
-    public function update(Data\Wrapping $data)
+    public function update($id, Data\Wrapping $data)
     {
-        $model = $this->wrappingConverter->getModel($data);
+        if ($data->getId()) {
+            throw new InputException('Parameter id is not expected for this request.');
+        }
+        $model = $this->wrappingConverter->getModel($data, $id);
         if (!$model->getId()) {
-            throw new NoSuchEntityException('Gift Wrapping with ID "%1" not found', [$data->getWrappingId()]);
+            throw new NoSuchEntityException('Gift Wrapping with ID "%1" not found.', [$id]);
         }
         $model->save();
         return $model->getId();
@@ -108,8 +111,8 @@ class Wrapping implements WrappingInterface
      */
     public function delete($id)
     {
-        $wrapping = $this->wrappingRepository->get($id);
-        $wrapping->delete();
+        $model = $this->wrappingRepository->get($id);
+        $model->delete();
         return true;
     }
 }

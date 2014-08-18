@@ -50,19 +50,20 @@ class WrappingConverterTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\GiftWrapping\Service\V1\Data\Wrapping|\PHPUnit_Framework_MockObject_MockObject $wrappingDto */
         $wrappingDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping')
             ->disableOriginalConstructor()->setMethods([])->getMock();
-        /** @var Wrapping\Image|\PHPUnit_Framework_MockObject_MockObject $imageDto */
-        $imageDto = $this->getMockBuilder('Magento\GiftWrapping\Service\V1\Data\Wrapping\Image')
-            ->disableOriginalConstructor()->setMethods([])->getMock();
+
+        $imageContent = base64_encode('image content');
+        $imageName = 'image.jpg';
+        $wrappingDto->expects($this->once())->method('__toArray')->will($this->returnValue($data));
+        $wrappingDto->expects($this->once())->method('getImageBase64Content')->will($this->returnValue($imageContent));
+        $wrappingDto->expects($this->once())->method('getImageName')->will($this->returnValue($imageName));
 
         $this->wrappingFactoryMock->expects($this->once())->method('create')->will($this->returnValue($wrappingModel));
-        $wrappingDto->expects($this->exactly(2))->method('getWrappingId')->will($this->returnValue($id));
         $wrappingModel->expects($this->once())->method('load')->with($id);
-        $wrappingDto->expects($this->once())->method('__toArray')->will($this->returnValue($data));
         $wrappingModel->expects($this->once())->method('addData')->with($data);
-
-        $wrappingDto->expects($this->once())->method('getImage')->will($this->returnValue($imageDto));
-        /** @todo add image expectations */
-
-        $this->assertSame($wrappingModel, $this->wrappingConverter->getModel($wrappingDto));
+        $wrappingModel->expects($this->once())->method('attachBinaryImage')->with(
+            $imageName,
+            base64_decode($imageContent)
+        );
+        $this->assertSame($wrappingModel, $this->wrappingConverter->getModel($wrappingDto, $id));
     }
 }

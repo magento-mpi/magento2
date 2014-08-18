@@ -17,7 +17,7 @@ class WrappingBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     /**
      * @param int
      */
-    public function setWrappingId($id)
+    public function setId($id)
     {
         $this->_set(WrappingData::WRAPPING_ID, $id);
     }
@@ -47,19 +47,19 @@ class WrappingBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
     }
 
     /**
-     * @param string $image
+     * @param string $name
      */
-    public function setImage($image)
+    public function setImageName($name)
     {
-        $this->_set(WrappingData::IMAGE, $image);
+        $this->_set(WrappingData::IMAGE_NAME, $name);
     }
 
     /**
-     * @param \Magento\GiftWrapping\Service\V1\Data\Wrapping\Image $image
+     * @param string $content
      */
-    public function setImageBinary(Wrapping\Image $image)
+    public function setImageBase64Content($content)
     {
-        $this->_set(WrappingData::IMAGE_BINARY, $image);
+        $this->_set(WrappingData::IMAGE_BASE64_CONTENT, $content);
     }
 
     /**
