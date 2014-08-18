@@ -233,8 +233,7 @@ class CreateLabelTest extends \PHPUnit_Framework_TestCase
         $this->labelGenerator->expects($this->once())
             ->method('create')
             ->with($this->shipmentMock, $this->requestMock)
-            ->will($this->returnValue(false));
-        $this->messageManagerMock->expects($this->once())->method('addError');
+            ->will($this->throwException(new \Magento\Framework\Model\Exception()));
         $this->responseMock->expects($this->once())->method('representJson');
 
         $this->assertNull($this->controller->execute());

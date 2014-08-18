@@ -121,7 +121,8 @@ class Save extends \Magento\Backend\App\Action
             $responseAjax = new \Magento\Framework\Object();
             $isNeedCreateLabel = isset($data['create_shipping_label']) && $data['create_shipping_label'];
 
-            if ($isNeedCreateLabel && $this->labelGenerator->create($shipment, $this->_request)) {
+            if ($isNeedCreateLabel) {
+                $this->labelGenerator->create($shipment, $this->_request);
                 $responseAjax->setOk(true);
             }
 
