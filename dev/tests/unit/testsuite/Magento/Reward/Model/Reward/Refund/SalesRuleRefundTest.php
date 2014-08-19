@@ -59,6 +59,9 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
 
     public function testRefund()
     {
+        $websiteId = 2;
+        $customerId = 10;
+
         $creditmemoTotalQty = 5;
         $orderMock = $this->getMock('\Magento\Sales\Model\Order',
             [
@@ -149,19 +152,19 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
 
         $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->storeManagerMock->expects($this->exactly(2))->method('getStore')->will($this->returnValue($storeMock));
-        $storeMock->expects($this->exactly(2))->method('getWebsiteId')->will($this->returnValue(2));
+        $storeMock->expects($this->exactly(2))->method('getWebsiteId')->will($this->returnValue($websiteId));
 
         $rewardMock->expects($this->exactly(2))
             ->method('setWebsiteId')
-            ->with(2)
+            ->with($websiteId)
             ->will($this->returnSelf());
 
         $rewardMock->expects($this->exactly(2))
             ->method('setCustomerId')
-            ->with(10)
+            ->with($customerId)
             ->will($this->returnSelf());
 
-        $orderMock->expects($this->exactly(2))->method('getCustomerId')->will($this->returnValue(10));
+        $orderMock->expects($this->exactly(2))->method('getCustomerId')->will($this->returnValue($customerId));
 
         $rewardMock->expects($this->once())->method('loadByCustomer')->will($this->returnSelf());
         $rewardMock->expects($this->once())->method('getPointsBalance')->will($this->returnValue(500));
