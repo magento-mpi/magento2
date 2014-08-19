@@ -73,6 +73,7 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
         $this->attributeMetadataBuilder = $objectManager->getObject(
             'Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder',
             [
+                'metadataService' => $objectManager->getObject('Magento\Framework\Service\Config\MetadataConfig'),
                 'optionBuilder' => $this->optionBuilderMock,
                 'validationRuleBuilder' => $this->validationRuleBuilderMock,
                 'frontendLabelBuilder' => $this->frontendLabelBuilderMock,

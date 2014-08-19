@@ -48,6 +48,7 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
         $attrMetadataBuilder = $objectManager->getObject(
             'Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder',
             [
+                'metadataService' => $objectManager->getObject('Magento\Framework\Service\Config\MetadataConfig'),
                 'optionBuilder' => $optionBuilder,
                 'validationRuleBuilder' => $validationRuleBuilder,
                 'frontendLabelBuilder' => $frontendLabelBuilder,
@@ -56,11 +57,11 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         // create service
         /** @var \Magento\Catalog\Service\V1\MetadataService $service */
-        $service = $objectManager->getObject('Magento\Catalog\Service\V1\MetadataService',
+        $service = $objectManager->getObject(
+            'Magento\Catalog\Service\V1\MetadataService',
             array(
                 'eavConfig' => $eavConfigMock,
-                'attributeMetadataBuilder'
-                    => $attrMetadataBuilder
+                'attributeMetadataBuilder' => $attrMetadataBuilder
             )
         );
 

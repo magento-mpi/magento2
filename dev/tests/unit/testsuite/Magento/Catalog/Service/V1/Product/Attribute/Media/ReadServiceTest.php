@@ -148,7 +148,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $builder = $this->objectHelper->getObject(
-            '\Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder'
+            '\Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder',
+            [
+                'metadataService' => $this->objectHelper
+                        ->getObject('Magento\Framework\Service\Config\MetadataConfig'),
+            ]
         );
 
         $this->service = $this->objectHelper->getObject(

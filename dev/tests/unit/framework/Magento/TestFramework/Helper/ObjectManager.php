@@ -154,7 +154,7 @@ class ObjectManager
      */
     public function getObject($className, array $arguments = array())
     {
-        if (is_subclass_of($className, '\Magento\Framework\Service\Data\AbstractObjectBuilder')) {
+        if (is_subclass_of($className, '\Magento\Framework\Service\Data\SimpleAbstractObjectBuilder')) {
             return $this->getBuilder($className, $arguments);
         }
         $constructArguments = $this->getConstructArguments($className, $arguments);
