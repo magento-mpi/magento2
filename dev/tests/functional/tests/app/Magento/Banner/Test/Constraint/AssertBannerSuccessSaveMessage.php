@@ -8,6 +8,7 @@
 
 namespace Magento\Banner\Test\Constraint;
 
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 
@@ -30,9 +31,10 @@ class AssertBannerSuccessSaveMessage extends AbstractConstraint
      * Assert that after banner save "You saved the banner." successful message appears
      *
      * @param BannerIndex $bannerIndex
+     * @param AdminCache $adminCache
      * @return void
      */
-    public function processAssert(BannerIndex $bannerIndex)
+    public function processAssert(BannerIndex $bannerIndex, AdminCache $adminCache)
     {
         $actualMessage = $bannerIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
@@ -42,6 +44,9 @@ class AssertBannerSuccessSaveMessage extends AbstractConstraint
             . "\nExpected: " . self::SUCCESS_SAVE_MESSAGE
             . "\nActual: " . $actualMessage
         );
+
+        $adminCache->open();
+        $adminCache->getActionsBlock()->flushCacheStorage();
     }
 
     /**
