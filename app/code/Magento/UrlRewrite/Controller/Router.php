@@ -55,7 +55,7 @@ class Router implements \Magento\Framework\App\RouterInterface
     }
 
     /**
-     * Validate and Match Cms Page and modify request
+     * Match corresponding URL Rewrite and modify request
      *
      * @param \Magento\Framework\App\RequestInterface $request
      * @return \Magento\Framework\App\ActionInterface|null
