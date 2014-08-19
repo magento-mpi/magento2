@@ -10,7 +10,7 @@ namespace Magento\MultipleWishlist\Test\Constraint;
 
 /**
  * Class AssertMultipleWishlistAbsentInMyAccount
- * Assert Multiple wish list doesn\'t exist on "My Account" page
+ * Assert Multiple wish list doesn't exist on "My Account" page
  */
 class AssertMultipleWishlistAbsentInMyAccount extends AbstractAssertMultipleWishlistExist
 {
@@ -39,6 +39,6 @@ class AssertMultipleWishlistAbsentInMyAccount extends AbstractAssertMultipleWish
      */
     public function toString()
     {
-        return 'Multiple wish list doesn\'t exist on "My Account" page.';
+        return 'Multiple wish list is absent on "My Account" page.';
     }
 }

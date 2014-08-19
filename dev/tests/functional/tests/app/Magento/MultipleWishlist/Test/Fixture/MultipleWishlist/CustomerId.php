@@ -37,18 +37,18 @@ class CustomerId implements FixtureInterface
      *
      * @param FixtureFactory $fixtureFactory
      * @param array $params
-     * @param array|CustomerInjectable $data [optional]
+     * @param array $data
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if ($data instanceof CustomerInjectable) {
-            $this->data = $data;
+        if ($data['customer'] instanceof CustomerInjectable) {
+            $this->data = $data['customer'];
             return;
         }
         if (isset($data['preset'])) {
             $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => $data['preset']]);
-            if ($customer->hasData('id') !== null) {
+            if ($customer->hasData('id') !== false) {
                 $customer->persist();
             }
             $this->data = $customer;

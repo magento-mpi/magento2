@@ -45,9 +45,6 @@ class Curl extends AbstractCurl implements MultipleWishlistInterface
      *
      * @param FixtureInterface|null $fixture [optional]
      * @return array
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function persist(FixtureInterface $fixture = null)
     {

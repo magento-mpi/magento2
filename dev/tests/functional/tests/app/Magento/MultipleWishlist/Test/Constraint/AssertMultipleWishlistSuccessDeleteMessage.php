@@ -31,4 +31,3 @@ class AssertMultipleWishlistSuccessDeleteMessage extends AbstractAssertMultipleW
         return 'Multiple wish list delete message is present.';
     }
 }
-

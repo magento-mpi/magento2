@@ -32,8 +32,9 @@ class AssertDeleteMultipleWishlistButtonIsAbsent extends AbstractConstraint
      */
     public function processAssert(MultipleWishlistIndex $multipleWishlistIndex)
     {
+        $multipleWishlistIndex->open();
         \PHPUnit_Framework_Assert::assertFalse(
-            $multipleWishlistIndex->getManagementBlock()->removeButtonIsVisible(),
+            $multipleWishlistIndex->getManagementBlock()->isRemoveButtonVisible(),
             '"Delete Wishlist" button is visible for Customer.'
         );
     }

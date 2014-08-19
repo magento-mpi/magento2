@@ -113,7 +113,7 @@ class Management extends Block
      * @param string $wishlistName
      * @return bool
      */
-    public function wishlistIsVisible($wishlistName)
+    public function isWishlistVisible($wishlistName)
     {
         return in_array($wishlistName, $this->getWishlists());
     }
@@ -144,7 +144,7 @@ class Management extends Block
      *
      * @return bool
      */
-    public function removeButtonIsVisible()
+    public function isRemoveButtonVisible()
     {
         return $this->_rootElement->find($this->removeButton)->isVisible();
     }

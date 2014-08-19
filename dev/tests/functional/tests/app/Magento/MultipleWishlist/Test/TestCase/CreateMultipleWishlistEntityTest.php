@@ -63,7 +63,6 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      * @param CustomerAccountIndex $customerAccountIndex
      * @param MultipleWishlistIndex $multipleWishlistIndex
      * @param AdminCache $cachePage
-     * @param bool $isWidget [optional]
      * @return void
      */
     public function __inject(
@@ -71,17 +70,16 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         MultipleWishlistIndex $multipleWishlistIndex,
-        AdminCache $cachePage,
-        $isWidget = true
+        AdminCache $cachePage
     ) {
         parent::__inject(
             $cmsIndex,
             $customerAccountLogin,
             $customerAccountIndex,
             $multipleWishlistIndex,
-            $cachePage,
-            $isWidget
+            $cachePage
         );
+        $this->createWishlistSearchWidget();
     }
 
     /**

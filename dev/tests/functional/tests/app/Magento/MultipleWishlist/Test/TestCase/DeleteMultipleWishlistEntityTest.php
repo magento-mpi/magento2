@@ -16,15 +16,13 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
  * Test Creation for DeleteMultipleWishlistEntity
  *
  * Preconditions:
- * 1. Enable Multiple Wishlist functionality(see attachment "MultipleWishListSystemConfig.php").
+ * 1. Enable Multiple Wishlist functionality(see attachment file "MultipleWishListSystemConfig.php").
  * 2. Create Customer Account.
- * 3. Preset for creation MultipleWishlist
  *
  * Test Flow:
  * 1. Login to frontend as a Customer.
  * 2. Navigate to: My Account > My Wishlist.
- * 3. Start creating Wishlist.
- * 4. Fill in data according to attached data set.
+ * 3. Creating Wishlist.
  * 5. Delete wishlist.
  * 6. Perform appropriate assertions.
  *
@@ -38,14 +36,14 @@ class DeleteMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      *
      * @param MultipleWishlist $multipleWishlist
      * @param CustomerInjectable $customer
-     * @param $isCreate
-     * return void
+     * @param string $isCreateMultipleWishlist
+     * @return void
      */
-    public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer, $isCreate)
+    public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer, $isCreateMultipleWishlist)
     {
         // Steps
         $this->openWishlistPage($customer);
-        if ($isCreate == 'No') {
+        if ($isCreateMultipleWishlist == 'No') {
             return;
         }
         $multipleWishlist = $this->createMultipleWishlist($multipleWishlist, $customer);
@@ -55,7 +53,7 @@ class DeleteMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
     }
 
     /**
-     * Inactive multiple wish list in config and delete wish list search widget
+     * Inactive multiple wish list in config
      *
      * @return void
      */

@@ -118,23 +118,19 @@ class CurlTransport implements CurlInterface
      * @param string $httpVer
      * @param array $headers
      * @param array $params
-     * @param string $cookie [optional]
      * @return void
      */
-    public function write($method, $url, $httpVer = '1.1', $headers = [], $params = [], $cookie = '')
+    public function write($method, $url, $httpVer = '1.1', $headers = [], $params = [])
     {
         $this->_applyConfig();
         $options = [
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_COOKIEFILE => '',
+            CURLOPT_HTTPHEADER => $headers,
             CURLOPT_HEADER => true,
         ];
-        if ($cookie) {
-            $options[CURLOPT_COOKIE] = $cookie;
-        } else {
-            $options[CURLOPT_COOKIEFILE] = '';
-        }
         if ($method == CurlInterface::POST) {
             $options[CURLOPT_POST] = true;
             $options[CURLOPT_POSTFIELDS] = $params;

@@ -37,7 +37,7 @@ abstract class AbstractAssertMultipleWishlistExist extends AbstractConstraint
     ) {
         $cmsIndex->open()->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
-        $isPresent = $multipleWishlistIndex->getManagementBlock()->wishlistIsVisible($multipleWishlist->getName());
+        $isPresent = $multipleWishlistIndex->getManagementBlock()->isWishlistVisible($multipleWishlist->getName());
         $this->assert($isPresent);
     }
 

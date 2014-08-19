@@ -105,7 +105,6 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
      * @param CustomerAccountIndex $customerAccountIndex
      * @param MultipleWishlistIndex $multipleWishlistIndex
      * @param AdminCache $cachePage
-     * @param bool $isWidget [optional]
      * @return void
      */
     public function __inject(
@@ -113,17 +112,13 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountIndex $customerAccountIndex,
         MultipleWishlistIndex $multipleWishlistIndex,
-        AdminCache $cachePage,
-        $isWidget = false
+        AdminCache $cachePage
     ) {
+        self::$cachePage = $cachePage;
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
         $this->multipleWishlistIndex = $multipleWishlistIndex;
         $this->customerAccountIndex = $customerAccountIndex;
-        if ($isWidget) {
-            self::$cachePage = $cachePage;
-            $this->createWishlistSearchWidget();
-        }
     }
 
     /**
@@ -136,7 +131,7 @@ abstract class AbstractMultipleWishlistEntityTest extends Injectable
     protected function createMultipleWishlist(MultipleWishlist $multipleWishlist, CustomerInjectable $customer)
     {
         $data = $multipleWishlist->getData();
-        $data['customer_id'] = $customer;
+        $data['customer_id'] = ['customer' => $customer];
         $multipleWishlist = $this->fixtureFactory->createByCode('multipleWishlist', ['data' => $data]);
         $multipleWishlist->persist();
 
