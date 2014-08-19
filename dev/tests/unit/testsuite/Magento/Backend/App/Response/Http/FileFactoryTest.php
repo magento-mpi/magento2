@@ -7,8 +7,6 @@
  */
 namespace Magento\Backend\App\Response\Http;
 
-use Magento\Framework\App\ObjectManager;
-
 class FileFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -38,14 +36,11 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
-        ObjectManager::setInstance($objectManagerMock);
-
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_responseMock = $this->getMock(
             'Magento\Framework\App\Response\Http',
-            array('setRedirect'),
-            array(),
+            ['setRedirect', '__wakeup'],
+            [],
             '',
             false
         );
@@ -63,16 +58,16 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_backendUrl = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
-        $this->_authMock = $this->getMock('Magento\Backend\Model\Auth', array(), array(), '', false);
+        $this->_backendUrl = $this->getMock('Magento\Backend\Model\Url', [], [], '', false);
+        $this->_authMock = $this->getMock('Magento\Backend\Model\Auth', [], [], '', false);
         $this->_model = $helper->getObject(
             'Magento\Backend\App\Response\Http\FileFactory',
-            array(
+            [
                 'response' => $this->_responseMock,
                 'auth' => $this->_authMock,
                 'backendUrl' => $this->_backendUrl,
                 'session' => $this->_sessionMock
-            )
+            ]
         );
     }
 

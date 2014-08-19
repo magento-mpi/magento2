@@ -8,8 +8,6 @@
 
 namespace Magento\Framework\App;
 
-use Magento\Framework\App\ObjectManager;
-
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -54,9 +52,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
-        ObjectManager::setInstance($objectManagerMock);
-
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_requestMock = $this->getMockBuilder(
             'Magento\Framework\App\Request\Http'
@@ -88,11 +83,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['configure', 'get', 'create'])
             ->getMock();
         $objectManagerMock->expects($this->once())->method('configure')->with($areaConfig);
-        $this->_responseMock = $this->getMockBuilder(
-            'Magento\Framework\App\Response\Http'
-        )->disableOriginalConstructor()->setMethods(
-            ['setHttpResponseCode', 'setBody']
-        )->getMock();
+        $this->_responseMock = $this->getMockBuilder('Magento\Framework\App\Response\Http')
+            ->disableOriginalConstructor()
+            ->setMethods(['setHttpResponseCode', 'setBody', '__wakeup'])
+            ->getMock();
         $this->_frontControllerMock = $this->getMockBuilder(
             'Magento\Framework\App\FrontControllerInterface'
         )->disableOriginalConstructor()->setMethods(['dispatch'])->getMock();
