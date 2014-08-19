@@ -184,6 +184,9 @@ define([
 
                 this.element.find( checkout.registerCustomerPasswordSelector )[action]();
             }
+            else if( json.registrationUrl ){
+                window.location = json.registrationUrl;
+            }
 
             this.element.trigger('login');
         },
